@@ -67,6 +67,12 @@ function init_plugins() {
             $(".nav-toggler i").addClass("ti-close");
         });
 
+        $(".sidebarmenu").click(function() {
+            $("body").toggleClass("show-sidebar");
+            $(".nav-toggler i").toggleClass("ti-menu");
+            $(".nav-toggler i").addClass("ti-close");
+        });
+
         $(".search-box a, .search-box .app-search .srh-btn").on('click', function() {
             $(".app-search").toggle(200);
         });

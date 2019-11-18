@@ -10,6 +10,11 @@ import { IngrementadorComponent } from '../components/ingrementador/ingrementado
 import { ChartsModule } from 'ng2-charts';
 import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { PromesasComponent } from './promesas/promesas.component';
+import { DbcalidadComponent } from './calidad/dbcalidad/dbcalidad.component';
+import { ReportesComponent } from './calidad/reportes/reportes.component';
+import { GraficosComponent } from './calidad/graficos/graficos.component';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -21,7 +26,11 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
         Graficas1Component,
         IngrementadorComponent,
         GraficoDonaComponent,
-        AccountSettingsComponent
+        AccountSettingsComponent,
+        PromesasComponent,
+        DbcalidadComponent,
+        ReportesComponent,
+        GraficosComponent
     ],
     exports:[
         DashboardComponent,
@@ -32,7 +41,8 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
         PAGES_ROUTES,
         SharedModule,
         FormsModule,
-        ChartsModule
+        ChartsModule,
+        CommonModule
     ]
 })
 export class PagesModule { }
