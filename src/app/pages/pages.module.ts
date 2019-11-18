@@ -80,15 +80,12 @@ import { StockComponent } from '../components/stock/stock.component';
         SubirArchivosImportacionComponent,
         ReportesVentasComponent,
         ReporteTraficoComponent,
-<<<<<<< HEAD
-=======
         LecheHistorialComponent,
         StockComponent,
         TipoCambioComponent,
         GaleriaComponent,
         TrackingPedidoComponent,
         DireccionComponent,
->>>>>>> 4344d2a286a838efc99564646a155d58eaa72d78
         IncidenciasComponent
     ],
     exports:[
