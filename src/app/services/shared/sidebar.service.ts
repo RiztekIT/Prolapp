@@ -25,9 +25,9 @@ export class SidebarService {
       icono: 'fa fa-money',
       submenu: [
         // { titulo: 'Dashboard', url: '/dashboard' },
-        { titulo: 'Pedidos', url: '/dashboard' },
+        { titulo: 'Pedidos', url: '/pedidosVentas' },
         { titulo: 'Calendario', url: '/dashboard' },
-        { titulo: 'Reportes', url: '/dashboard' },
+        { titulo: 'Reportes', url: '/reportesVentas' },
         { titulo: 'Graficos', url: '/dashboard' },
       ],
        url: '/dashboard',

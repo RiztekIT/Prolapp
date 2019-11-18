@@ -11,6 +11,8 @@ import { GraficosComponent } from './calidad/graficos/graficos.component';
 import { CalendarioCalidadComponent } from './calidad/calendario-calidad/calendario-calidad.component';
 import { DireccionComponent } from './direccion/direccion.component';
 import { IncidenciasComponent } from './calidad/incidencias/incidencias.component';
+import { ReportesVentasComponent } from './ventas/reportes-ventas/reportes-ventas.component';
+import { PedidoVentasComponent } from './ventas/pedido-ventas/pedido-ventas.component';
 
 
 
@@ -32,7 +34,9 @@ const pagesRoutes: Routes = [
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },
                 { path: '', redirectTo: '/login', pathMatch: 'full' },
-            ] 
+                { path: 'reportesVentas', component: ReportesVentasComponent },
+                { path: 'pedidosVentas', component: PedidoVentasComponent },
+            ]
         },
 
 ];
