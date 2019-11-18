@@ -9,6 +9,7 @@ import { DbcalidadComponent } from './calidad/dbcalidad/dbcalidad.component';
 import { ReportesComponent } from './calidad/reportes/reportes.component';
 import { GraficosComponent } from './calidad/graficos/graficos.component';
 import { CalendarioCalidadComponent } from './calidad/calendario-calidad/calendario-calidad.component';
+import { DireccionComponent } from './direccion/direccion.component';
 
 
 
@@ -25,6 +26,7 @@ const pagesRoutes: Routes = [
                 { path: 'reportescalidad', component: ReportesComponent  },
                 { path: 'graficoscalidad', component: GraficosComponent  },
                 { path: 'calendario_calidad', component: CalendarioCalidadComponent  },
+                { path: 'direccion', component: DireccionComponent  },
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },
                 { path: '', redirectTo: '/login', pathMatch: 'full' },
