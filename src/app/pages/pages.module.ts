@@ -15,6 +15,7 @@ import { DbcalidadComponent } from './calidad/dbcalidad/dbcalidad.component';
 import { ReportesComponent } from './calidad/reportes/reportes.component';
 import { GraficosComponent } from './calidad/graficos/graficos.component';
 import { CommonModule } from '@angular/common';
+import { CalendarioComponent } from '../components/calendario/calendario.component';
 
 
 
@@ -30,7 +31,8 @@ import { CommonModule } from '@angular/common';
         PromesasComponent,
         DbcalidadComponent,
         ReportesComponent,
-        GraficosComponent
+        GraficosComponent,
+        CalendarioComponent
     ],
     exports:[
         DashboardComponent,
