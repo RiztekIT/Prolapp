@@ -4,8 +4,8 @@
             <div class="card-body">
 
                 <div class="card-body wizard-content">
-                    <h4 class="card-title">Step wizard</h4>
-                    <h6 class="card-subtitle">You can find the <a href="http://www.jquery-steps.com" target="_blank">offical website</a></h6>
+                    <h4 class="card-title">Crear Incidencia</h4>
+                    <!-- <h6 class="card-subtitle">You can find the <a href="http://www.jquery-steps.com" target="_blank">offical website</a></h6> -->
                     <form action="#" class="tab-wizard wizard-circle">
                         <!-- Step 1 -->
                         <h6>Personal Info</h6>
@@ -120,6 +120,51 @@
                             </div>
                         </section>
                         <!-- Step 4 -->
+                        <h6>Remark</h6>
+                        <section>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="behName1">Behaviour :</label>
+                                        <input type="text" class="form-control" id="behName1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="participants1">Confidance</label>
+                                        <input type="text" class="form-control" id="participants1">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="participants1">Result</label>
+                                        <select class="custom-select form-control" id="participants1" name="location">
+                                            <option value="">Select Result</option>
+                                            <option value="Selected">Selected</option>
+                                            <option value="Rejected">Rejected</option>
+                                            <option value="Call Second-time">Call Second-time</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="decisions1">Comments</label>
+                                        <textarea name="decisions" id="decisions1" rows="4" class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Rate Interviwer :</label>
+                                        <div class="c-inputs-stacked">
+                                            <label class="inline custom-control custom-checkbox block">
+                                                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">1 star</span> </label>
+                                            <label class="inline custom-control custom-checkbox block">
+                                                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">2 star</span> </label>
+                                            <label class="inline custom-control custom-checkbox block">
+                                                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">3 star</span> </label>
+                                            <label class="inline custom-control custom-checkbox block">
+                                                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">4 star</span> </label>
+                                            <label class="inline custom-control custom-checkbox block">
+                                                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">5 star</span> </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                         <h6>Remark</h6>
                         <section>
                             <div class="row">
