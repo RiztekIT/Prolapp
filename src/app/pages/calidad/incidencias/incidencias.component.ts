@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 declare function steps();
 
@@ -9,10 +10,14 @@ declare function steps();
 })
 export class IncidenciasComponent implements OnInit {
 
-  constructor() { }
+  constructor(public router: Router) { }
 
   ngOnInit() {
     steps()
+  }
+
+  recargar(){
+    this.router.navigate(['/incidencias']);
   }
 
 }
