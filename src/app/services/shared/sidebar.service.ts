@@ -75,7 +75,7 @@ export class SidebarService {
       icono: 'fa fa-star-o',
       submenu: [
         // { titulo: 'Dashboard', url: '/dashboard' },
-        { titulo: 'Incidencias', url: '/dashboard' },
+        { titulo: 'Incidencias', url: '/incidencias' },
         { titulo: 'Evidencias', url: '/dashboard' },
         { titulo: 'Calendario', url: '/calendario_calidad' },
         { titulo: 'Reportes', url: '/reportescalidad' },

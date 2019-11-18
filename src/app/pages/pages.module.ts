@@ -23,6 +23,7 @@ import { TipoCambioComponent } from '../components/tipo-cambio/tipo-cambio.compo
 import { GaleriaComponent } from '../components/galeria/galeria.component';
 import { TrackingPedidoComponent } from '../components/tracking-pedido/tracking-pedido.component';
 import { DireccionComponent } from './direccion/direccion.component';
+import { IncidenciasComponent } from './calidad/incidencias/incidencias.component';
 
 
 
@@ -46,7 +47,9 @@ import { DireccionComponent } from './direccion/direccion.component';
         TipoCambioComponent,
         GaleriaComponent,
         TrackingPedidoComponent,
-        DireccionComponent
+        DireccionComponent,
+        IncidenciasComponent
+
     ],
     exports:[
         DashboardComponent,
