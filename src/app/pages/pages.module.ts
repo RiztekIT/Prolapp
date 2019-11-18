@@ -17,7 +17,6 @@ import { GraficosComponent } from './calidad/graficos/graficos.component';
 import { CommonModule } from '@angular/common';
 import { CalendarioComponent } from '../components/calendario/calendario.component';
 import { CalendarioCalidadComponent } from './calidad/calendario-calidad/calendario-calidad.component';
-<<<<<<< HEAD
 import { GraficasVentasComponent } from './ventas/graficas-ventas/graficas-ventas.component';
 import { DashboardVentasComponent } from './ventas/dashboard-ventas/dashboard-ventas.component';
 import { PedidoVentasComponent } from './ventas/pedido-ventas/pedido-ventas.component';
@@ -29,18 +28,12 @@ import { DashboardComprasComponent } from './compras/dashboard-compras/dashboard
 import { GraficasComprasComponent } from './compras/graficas-compras/graficas-compras.component';
 import { FormatoComprasComprasComponent } from './compras/formato-compras-compras/formato-compras-compras.component';
 import { DashboardImportacionComponent } from './importacion/dashboard-importacion/dashboard-importacion.component';
+// tslint:disable-next-line: max-line-length
 import { FormatoImportacionImportacionComponent } from './importacion/formato-importacion-importacion/formato-importacion-importacion.component';
 import { SubirArchivosImportacionComponent } from './importacion/subir-archivos-importacion/subir-archivos-importacion.component';
 import { ReportesVentasComponent } from './ventas/reportes-ventas/reportes-ventas.component';
 import { ReporteTraficoComponent } from './trafico/reporte-trafico/reporte-trafico.component';
-=======
-import { LecheHistorialComponent } from '../components/leche-historial/leche-historial.component';
-import { StockComponent } from '../components/stock/stock.component';
-import { TipoCambioComponent } from '../components/tipo-cambio/tipo-cambio.component';
-import { GaleriaComponent } from '../components/galeria/galeria.component';
-import { TrackingPedidoComponent } from '../components/tracking-pedido/tracking-pedido.component';
 import { IncidenciasComponent } from './calidad/incidencias/incidencias.component';
->>>>>>> 9efad6bf1a140b71da3b497972094b2db956242a
 
 
 
@@ -59,7 +52,6 @@ import { IncidenciasComponent } from './calidad/incidencias/incidencias.componen
         GraficosComponent,
         CalendarioComponent,
         CalendarioCalidadComponent,
-<<<<<<< HEAD
         GraficasVentasComponent,
         DashboardVentasComponent,
         PedidoVentasComponent,
@@ -74,15 +66,8 @@ import { IncidenciasComponent } from './calidad/incidencias/incidencias.componen
         FormatoImportacionImportacionComponent,
         SubirArchivosImportacionComponent,
         ReportesVentasComponent,
-        ReporteTraficoComponent
-=======
-        LecheHistorialComponent,
-        StockComponent,
-        TipoCambioComponent,
-        GaleriaComponent,
-        TrackingPedidoComponent,
+        ReporteTraficoComponent,
         IncidenciasComponent
->>>>>>> 9efad6bf1a140b71da3b497972094b2db956242a
     ],
     exports:[
         DashboardComponent,
