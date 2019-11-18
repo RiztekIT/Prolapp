@@ -33,13 +33,13 @@ import { FormatoImportacionImportacionComponent } from './importacion/formato-im
 import { SubirArchivosImportacionComponent } from './importacion/subir-archivos-importacion/subir-archivos-importacion.component';
 import { ReportesVentasComponent } from './ventas/reportes-ventas/reportes-ventas.component';
 import { ReporteTraficoComponent } from './trafico/reporte-trafico/reporte-trafico.component';
+import { LecheHistorialComponent } from '../components/leche-historial/leche-historial.component';
+import { StockComponent } from '../components/stock/stock.component';
 import { TipoCambioComponent } from '../components/tipo-cambio/tipo-cambio.component';
 import { GaleriaComponent } from '../components/galeria/galeria.component';
 import { TrackingPedidoComponent } from '../components/tracking-pedido/tracking-pedido.component';
 import { DireccionComponent } from './direccion/direccion.component';
 import { IncidenciasComponent } from './calidad/incidencias/incidencias.component';
-import { LecheHistorialComponent } from '../components/leche-historial/leche-historial.component';
-import { StockComponent } from '../components/stock/stock.component';
 
 
 @NgModule({
