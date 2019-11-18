@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 declare function init_plugins();
-declare function init_cal();
+
 
 
 
@@ -17,7 +17,6 @@ export class PagesComponent implements OnInit {
   ngOnInit() {
 
     init_plugins();
-    init_cal();
   }
 
 }

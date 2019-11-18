@@ -16,6 +16,7 @@ import { ReportesComponent } from './calidad/reportes/reportes.component';
 import { GraficosComponent } from './calidad/graficos/graficos.component';
 import { CommonModule } from '@angular/common';
 import { CalendarioComponent } from '../components/calendario/calendario.component';
+import { CalendarioCalidadComponent } from './calidad/calendario-calidad/calendario-calidad.component';
 
 
 
@@ -32,7 +33,8 @@ import { CalendarioComponent } from '../components/calendario/calendario.compone
         DbcalidadComponent,
         ReportesComponent,
         GraficosComponent,
-        CalendarioComponent
+        CalendarioComponent,
+        CalendarioCalidadComponent
     ],
     exports:[
         DashboardComponent,
