@@ -28,6 +28,7 @@ import { DashboardComprasComponent } from './compras/dashboard-compras/dashboard
 import { GraficasComprasComponent } from './compras/graficas-compras/graficas-compras.component';
 import { FormatoComprasComprasComponent } from './compras/formato-compras-compras/formato-compras-compras.component';
 import { DashboardImportacionComponent } from './importacion/dashboard-importacion/dashboard-importacion.component';
+// tslint:disable-next-line: max-line-length
 import { FormatoImportacionImportacionComponent } from './importacion/formato-importacion-importacion/formato-importacion-importacion.component';
 import { SubirArchivosImportacionComponent } from './importacion/subir-archivos-importacion/subir-archivos-importacion.component';
 import { ReportesVentasComponent } from './ventas/reportes-ventas/reportes-ventas.component';
