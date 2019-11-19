@@ -9,11 +9,14 @@ import { DbcalidadComponent } from './calidad/dbcalidad/dbcalidad.component';
 import { ReportesComponent } from './calidad/reportes/reportes.component';
 import { GraficosComponent } from './calidad/graficos/graficos.component';
 import { CalendarioCalidadComponent } from './calidad/calendario-calidad/calendario-calidad.component';
-import { DireccionComponent } from './direccion/direccion.component';
+import { DireccionComponent } from './direccion/direccion-dashboard/direccion.component';
+import { DireccionReportesComponent } from './direccion/direccion-reportes/direccion-reportes.component';
+import { DireccionCalendarioComponent } from './direccion/direccion-calendario/direccion-calendario.component';
 import { IncidenciasComponent } from './calidad/incidencias/incidencias.component';
 import { ReportesVentasComponent } from './ventas/reportes-ventas/reportes-ventas.component';
 import { PedidoVentasComponent } from './ventas/pedido-ventas/pedido-ventas.component';
 import { EvidenciasComponent } from './calidad/evidencias/evidencias.component';
+import { ProfileComponent } from '../components/profile/profile.component';
 
 
 
@@ -31,8 +34,11 @@ const pagesRoutes: Routes = [
                 { path: 'graficoscalidad', component: GraficosComponent  },
                 { path: 'calendario_calidad', component: CalendarioCalidadComponent  },
                 { path: 'direccion', component: DireccionComponent  },
+                { path: 'direccion-reportes', component: DireccionReportesComponent  },
+                { path: 'direccion-calendario', component: DireccionCalendarioComponent  },
                 { path: 'incidencias', component: IncidenciasComponent  },
                 { path: 'evidencias', component: EvidenciasComponent  },
+                { path: 'profile', component: ProfileComponent  },
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },
                 { path: '', redirectTo: '/login', pathMatch: 'full' },
