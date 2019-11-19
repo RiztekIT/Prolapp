@@ -55,8 +55,9 @@ export class PedidoVentasComponent implements OnInit {
     datepicker();
   }
 
-  recargar(){
-    this.router.navigate(['/pedidoVentas']);
+  recargar() {
+    // this.router.navigate(['/pedidoVentas']);
+    this.ngOnInit();
   }
 }
 

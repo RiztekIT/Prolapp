@@ -35,7 +35,11 @@ export class IncidenciasComponent implements OnInit {
   }
 
   recargar(){
-    this.router.navigate(['/incidencias']);
+    // this.router.navigate(['/incidencias']);
+    // this.ngOnInit();
+    
+    // location.reload();
+    
   }
 
 }
