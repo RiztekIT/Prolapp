@@ -38,9 +38,12 @@ import { StockComponent } from '../components/stock/stock.component';
 import { TipoCambioComponent } from '../components/tipo-cambio/tipo-cambio.component';
 import { GaleriaComponent } from '../components/galeria/galeria.component';
 import { TrackingPedidoComponent } from '../components/tracking-pedido/tracking-pedido.component';
-import { DireccionComponent } from './direccion/direccion.component';
+import { DireccionComponent } from './direccion/direccion-dashboard/direccion.component';
 import { IncidenciasComponent } from './calidad/incidencias/incidencias.component';
 import { EvidenciasComponent } from './calidad/evidencias/evidencias.component';
+import { ProfileComponent } from '../components/profile/profile.component';
+import { DireccionCalendarioComponent } from './direccion/direccion-calendario/direccion-calendario.component';
+import { DireccionReportesComponent } from './direccion/direccion-reportes/direccion-reportes.component';
 
 
 @NgModule({
@@ -80,7 +83,10 @@ import { EvidenciasComponent } from './calidad/evidencias/evidencias.component';
         TrackingPedidoComponent,
         DireccionComponent,
         IncidenciasComponent,
-        EvidenciasComponent
+        EvidenciasComponent,
+        ProfileComponent,
+        DireccionCalendarioComponent,
+        DireccionReportesComponent
     ],
     exports: [
         DashboardComponent,
