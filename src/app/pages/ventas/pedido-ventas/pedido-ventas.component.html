@@ -4,7 +4,7 @@
             <div class="card-body">
 
                 <div class="card-body wizard-content">
-                    <form action="#" class="tab-wizard wizard-circle">
+                    <form routerLink="/pedidosVentas" class="tab-ventas wizard-circle">
                         <!-- Step 1 -->
                         <h6>Informacion del cliente</h6>
                         <section>
@@ -50,68 +50,55 @@
                             </div>
                         </section>
                         <!-- Step 2 -->
-                        <h6>Job Status</h6>
+                        <h6>Informacion del Producto</h6>
                         <section>
                             <div class=" row ">
                                 <div class="col-md-6 ">
                                     <div class="form-group ">
-                                        <label for="jobTitle1 ">Job Title :</label>
+                                        <label for="jobTitle1 ">Producto :</label>
                                         <input type="text " class="form-control " id="jobTitle1 "> </div>
                                 </div>
                                 <div class="col-md-6 ">
                                     <div class="form-group ">
-                                        <label for="videoUrl1 ">Company Name :</label>
+                                        <label for="videoUrl1 ">Cantidad de Producto :</label>
                                         <input type="text " class="form-control " id="videoUrl1 ">
                                     </div>
                                 </div>
-                                <div class="col-md-12 ">
+                                <div class="col-md-6 ">
                                     <div class="form-group ">
-                                        <label for="shortDescription1 ">Job Description :</label>
+                                        <label for="shortDescription1 ">Descripcion del Pedido :</label>
                                         <textarea name="shortDescription " id="shortDescription1 " rows="6 " class="form-control "></textarea>
                                     </div>
                                 </div>
                             </div>
                         </section>
                         <!-- Step 3 -->
-                        <h6>Interview</h6>
+                        <h6>Datos del Vendedor</h6>
                         <section>
                             <div class="row ">
                                 <div class="col-md-6 ">
                                     <div class="form-group ">
-                                        <label for="int1 ">Interview For :</label>
+                                        <label for="int1 "> Nombre :</label>
                                         <input type="text " class="form-control " id="int1 "> </div>
                                     <div class="form-group ">
-                                        <label for="intType1 ">Interview Type :</label>
-                                        <select class="custom-select form-control " id="intType1 " data-placeholder="Type to search cities " name="intType1 ">
-                                            <option value="Banquet ">Normal</option>
-                                            <option value="Fund Raiser ">Difficult</option>
-                                            <option value="Dinner Party ">Hard</option>
+                                        <label for="intType1 ">Tipo de venta :</label>
+                                        <select class="custom-select form-control " id="intType1 " name="intType1 ">
+                                            <option value="Banquet ">Urgente</option>
+                                            <option value="Fund Raiser ">Normal</option>
+                                            <option value="Dinner Party ">Sencilla</option>
                                         </select>
                                     </div>
                                     <div class="form-group ">
-                                        <label for="Location1 ">Location :</label>
+                                        <label for="Location1 ">Ciudad :</label>
                                         <select class="custom-select form-control " id="Location1 " name="location ">
-                                            <option value=" ">Select City</option>
-                                            <option value="India ">India</option>
-                                            <option value="USA ">USA</option>
-                                            <option value="Dubai ">Dubai</option>
+                                            <option *ngFor="let ciudad of ciudades; let i = index" value="">{{ i }} - {{ ciudad }}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6 ">
-                                    <div class="form-group ">
-                                        <label for="jobTitle2 ">Interview Date :</label>
-                                        <input type="date " class="form-control " id="jobTitle2 ">
-                                    </div>
-                                    <div class="form-group ">
-                                        <label>Requirements :</label>
-                                        <div class="c-inputs-stacked ">
-                                            <label class="inline custom-control custom-checkbox block ">
-                                                <input type="checkbox " class="custom-control-input "> <span class="custom-control-indicator "></span> <span class="custom-control-description ml-0 ">Employee</span> </label>
-                                            <label class="inline custom-control custom-checkbox block ">
-                                                <input type="checkbox " class="custom-control-input "> <span class="custom-control-indicator "></span> <span class="custom-control-description ml-0 ">Contract</span> </label>
-                                        </div>
-                                    </div>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control mydatepicker" placeholder="mm/dd/yyyy">
+                                        <span class="input-group-addon"><i class="icon-calender"></i></span> </div>
                                 </div>
                             </div>
                         </section>
