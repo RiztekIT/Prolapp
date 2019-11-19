@@ -85,13 +85,10 @@ import { DireccionReportesComponent } from './direccion/direccion-reportes/direc
         DireccionComponent,
         IncidenciasComponent,
         EvidenciasComponent,
-<<<<<<< HEAD
-        CalendarioVentasComponent
-=======
+        CalendarioVentasComponent,
         ProfileComponent,
         DireccionCalendarioComponent,
         DireccionReportesComponent
->>>>>>> 28991268ba73504fe2f6d85273152f11428a9b88
     ],
     exports: [
         DashboardComponent,
