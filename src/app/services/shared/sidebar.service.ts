@@ -133,11 +133,11 @@ export class SidebarService {
       icono: 'fa fa-institution',
       submenu: [
         // { titulo: 'Dashboard', url: '/dashboard' },
-        { titulo: 'Calendario', url: '/dashboard' },
-        { titulo: 'Reportes', url: '/dashboard' },
+        { titulo: 'Calendario', url: '/direccion-calendario' },
+        { titulo: 'Reportes', url: '/direccion-reportes' },
         // { titulo: 'Graficos', url: '/dashboard' },
       ],
-       url: '/dashboard',
+       url: '/direccion',
     }
   ];
 

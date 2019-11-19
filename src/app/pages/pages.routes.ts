@@ -9,13 +9,19 @@ import { DbcalidadComponent } from './calidad/dbcalidad/dbcalidad.component';
 import { ReportesComponent } from './calidad/reportes/reportes.component';
 import { GraficosComponent } from './calidad/graficos/graficos.component';
 import { CalendarioCalidadComponent } from './calidad/calendario-calidad/calendario-calidad.component';
-import { DireccionComponent } from './direccion/direccion.component';
+import { DireccionComponent } from './direccion/direccion-dashboard/direccion.component';
+import { DireccionReportesComponent } from './direccion/direccion-reportes/direccion-reportes.component';
+import { DireccionCalendarioComponent } from './direccion/direccion-calendario/direccion-calendario.component';
 import { IncidenciasComponent } from './calidad/incidencias/incidencias.component';
 import { ReportesVentasComponent } from './ventas/reportes-ventas/reportes-ventas.component';
 import { PedidoVentasComponent } from './ventas/pedido-ventas/pedido-ventas.component';
 import { EvidenciasComponent } from './calidad/evidencias/evidencias.component';
+<<<<<<< HEAD
 import { DashboardVentasComponent } from './ventas/dashboard-ventas/dashboard-ventas.component';
 import { CalendarioVentasComponent } from './ventas/calendario-ventas/calendario-ventas.component';
+=======
+import { ProfileComponent } from '../components/profile/profile.component';
+>>>>>>> 28991268ba73504fe2f6d85273152f11428a9b88
 
 
 
@@ -33,12 +39,18 @@ const pagesRoutes: Routes = [
                 { path: 'graficoscalidad', component: GraficosComponent  },
                 { path: 'calendario_calidad', component: CalendarioCalidadComponent  },
                 { path: 'direccion', component: DireccionComponent  },
+                { path: 'direccion-reportes', component: DireccionReportesComponent  },
+                { path: 'direccion-calendario', component: DireccionCalendarioComponent  },
                 { path: 'incidencias', component: IncidenciasComponent  },
                 { path: 'evidencias', component: EvidenciasComponent  },
+<<<<<<< HEAD
                 { path: 'reportesVentas', component: ReportesVentasComponent },
                 { path: 'pedidosVentas', component: PedidoVentasComponent },
                 { path: 'dashboardVentas', component: DashboardVentasComponent },
                 { path: 'calendarioVentas', component: CalendarioVentasComponent },
+=======
+                { path: 'profile', component: ProfileComponent  },
+>>>>>>> 28991268ba73504fe2f6d85273152f11428a9b88
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },
                 { path: '', redirectTo: '/login', pathMatch: 'full' },
