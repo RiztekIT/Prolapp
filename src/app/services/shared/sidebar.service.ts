@@ -24,13 +24,12 @@ export class SidebarService {
       titulo: 'Ventas',
       icono: 'fa fa-money',
       submenu: [
-        // { titulo: 'Dashboard', url: '/dashboard' },
         { titulo: 'Pedidos', url: '/pedidosVentas' },
-        { titulo: 'Calendario', url: '/dashboard' },
+        { titulo: 'Calendario', url: '/calendarioVentas' },
         { titulo: 'Reportes', url: '/reportesVentas' },
         // { titulo: 'Graficos', url: '/dashboard' },
       ],
-       url: '/dashboard',
+       url: '/dashboardVentas',
     },
     {
       titulo: 'Compras',

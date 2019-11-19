@@ -14,6 +14,8 @@ import { IncidenciasComponent } from './calidad/incidencias/incidencias.componen
 import { ReportesVentasComponent } from './ventas/reportes-ventas/reportes-ventas.component';
 import { PedidoVentasComponent } from './ventas/pedido-ventas/pedido-ventas.component';
 import { EvidenciasComponent } from './calidad/evidencias/evidencias.component';
+import { DashboardVentasComponent } from './ventas/dashboard-ventas/dashboard-ventas.component';
+import { CalendarioVentasComponent } from './ventas/calendario-ventas/calendario-ventas.component';
 
 
 
@@ -33,11 +35,13 @@ const pagesRoutes: Routes = [
                 { path: 'direccion', component: DireccionComponent  },
                 { path: 'incidencias', component: IncidenciasComponent  },
                 { path: 'evidencias', component: EvidenciasComponent  },
+                { path: 'reportesVentas', component: ReportesVentasComponent },
+                { path: 'pedidosVentas', component: PedidoVentasComponent },
+                { path: 'dashboardVentas', component: DashboardVentasComponent },
+                { path: 'calendarioVentas', component: CalendarioVentasComponent },
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },
                 { path: '', redirectTo: '/login', pathMatch: 'full' },
-                { path: 'reportesVentas', component: ReportesVentasComponent },
-                { path: 'pedidosVentas', component: PedidoVentasComponent },
             ]
         },
 

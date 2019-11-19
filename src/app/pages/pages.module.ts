@@ -41,6 +41,7 @@ import { TrackingPedidoComponent } from '../components/tracking-pedido/tracking-
 import { DireccionComponent } from './direccion/direccion.component';
 import { IncidenciasComponent } from './calidad/incidencias/incidencias.component';
 import { EvidenciasComponent } from './calidad/evidencias/evidencias.component';
+import { CalendarioVentasComponent } from './ventas/calendario-ventas/calendario-ventas.component';
 
 
 @NgModule({
@@ -80,7 +81,8 @@ import { EvidenciasComponent } from './calidad/evidencias/evidencias.component';
         TrackingPedidoComponent,
         DireccionComponent,
         IncidenciasComponent,
-        EvidenciasComponent
+        EvidenciasComponent,
+        CalendarioVentasComponent
     ],
     exports: [
         DashboardComponent,
