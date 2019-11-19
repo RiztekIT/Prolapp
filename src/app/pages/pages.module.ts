@@ -41,13 +41,10 @@ import { TrackingPedidoComponent } from '../components/tracking-pedido/tracking-
 import { DireccionComponent } from './direccion/direccion-dashboard/direccion.component';
 import { IncidenciasComponent } from './calidad/incidencias/incidencias.component';
 import { EvidenciasComponent } from './calidad/evidencias/evidencias.component';
-<<<<<<< HEAD
 import { CalendarioVentasComponent } from './ventas/calendario-ventas/calendario-ventas.component';
-=======
 import { ProfileComponent } from '../components/profile/profile.component';
 import { DireccionCalendarioComponent } from './direccion/direccion-calendario/direccion-calendario.component';
 import { DireccionReportesComponent } from './direccion/direccion-reportes/direccion-reportes.component';
->>>>>>> 28991268ba73504fe2f6d85273152f11428a9b88
 
 
 @NgModule({
