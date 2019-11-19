@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+declare function btn_table();
+
+
 @Component({
   selector: 'app-reportes-ventas',
   templateUrl: './reportes-ventas.component.html',
@@ -28,6 +31,8 @@ export class ReportesVentasComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    btn_table();
+
   }
 
 }
