@@ -97,19 +97,71 @@
                                             <option value="Dubai">Llegando con Cliente</option>
                                         </select>
                                     </div>
-                                    <!-- <div class="form-group">
-                                        <label>Requirements :</label>
-                                        <div class="c-inputs-stacked">
-                                            <label class="inline custom-control custom-checkbox block">
-                                                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">Employee</span> </label>
-                                            <label class="inline custom-control custom-checkbox block">
-                                                <input type="checkbox" class="custom-control-input"> <span class="custom-control-indicator"></span> <span class="custom-control-description ml-0">Contract</span> </label>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- step 4 -->
+                        <h6>Evidencias</h6>
+                        <section>
+                            <div class="row">
+                                <div class="col-md-12">
+
+
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Evidencias</h4>
+                                            <!-- <h6 class="card-subtitle">For multiple file upload put class <code>.dropzone</code> to form.</h6> -->
+                                            <form action="#" class="dropzone">
+                                                <div class="fallback">
+                                                    <input name="file" type="file" multiple />
+                                                </div>
+                                            </form>
                                         </div>
-                                    </div> -->
+                                    </div>
+
+
+
                                 </div>
                             </div>
                         </section>
                     </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">Incidencias por Cliente</h4>
+                <!-- <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6> -->
+                <div class="table-responsive m-t-40">
+                    <table id="example" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Tipo</th>
+                                <th>Fecha</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let incidencia of incidenciasCliente">
+                                <td>{{ incidencia.id }}</td>
+                                <td>{{ incidencia.cliente }}</td>
+                                <td>{{ incidencia.tipo }}</td>
+                                <td>{{ incidencia.fecha }}</td>
+                                <td>{{ incidencia.status }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
                 </div>
 
             </div>

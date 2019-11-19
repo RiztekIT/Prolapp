@@ -26,6 +26,32 @@ function steps() {
         }
     });
 
+    $(".tab-ventas").steps({
+        headerTag: "h6",
+        bodyTag: "section",
+        transitionEffect: "fade",
+        titleTemplate: '<span class="step">#index#</span> #title#',
+        labels: {
+            finish: "Submit"
+        },
+        onFinished: function(event, currentIndex) {
+
+            swal({
+                    title: "Venta Completada",
+
+                    type: "success",
+                    closeOnConfirm: false
+                },
+
+                function() {
+                    $(".tab-ventas").submit();
+                });
+
+
+
+
+        }
+    });
 
     var form = $(".validation-wizard").show();
 

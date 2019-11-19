@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+declare function steps();
+declare function datepicker();
 
 @Component({
   selector: 'app-pedido-ventas',
@@ -44,11 +48,16 @@ export class PedidoVentasComponent implements OnInit {
       'Zacatecas'
   ];
 
-  constructor() { }
+  constructor(public router: Router) { }
 
   ngOnInit() {
+    steps();
+    datepicker();
   }
 
+  recargar(){
+    this.router.navigate(['/pedidoVentas']);
+  }
 }
 
 
