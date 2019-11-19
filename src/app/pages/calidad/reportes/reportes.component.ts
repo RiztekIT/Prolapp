@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 declare function btn_table();
+declare function datepicker();
+declare function graficas_barra();
+declare function chart();
 
 
 @Component({
@@ -30,6 +33,9 @@ export class ReportesComponent implements OnInit {
 
   ngOnInit() {
     btn_table();
+    datepicker();
+    graficas_barra();
+    chart();
   }
 
 }
