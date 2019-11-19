@@ -40,6 +40,7 @@ import { GaleriaComponent } from '../components/galeria/galeria.component';
 import { TrackingPedidoComponent } from '../components/tracking-pedido/tracking-pedido.component';
 import { DireccionComponent } from './direccion/direccion.component';
 import { IncidenciasComponent } from './calidad/incidencias/incidencias.component';
+import { EvidenciasComponent } from './calidad/evidencias/evidencias.component';
 
 
 @NgModule({
@@ -78,7 +79,8 @@ import { IncidenciasComponent } from './calidad/incidencias/incidencias.componen
         GaleriaComponent,
         TrackingPedidoComponent,
         DireccionComponent,
-        IncidenciasComponent
+        IncidenciasComponent,
+        EvidenciasComponent
     ],
     exports: [
         DashboardComponent,

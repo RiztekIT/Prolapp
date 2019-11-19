@@ -76,7 +76,7 @@ export class SidebarService {
       submenu: [
         // { titulo: 'Dashboard', url: '/dashboard' },
         { titulo: 'Incidencias', url: '/incidencias' },
-        { titulo: 'Evidencias', url: '/dashboard' },
+        { titulo: 'Evidencias', url: '/evidencias' },
         { titulo: 'Calendario', url: '/calendario_calidad' },
         { titulo: 'Reportes', url: '/reportescalidad' },
         { titulo: 'Graficos', url: '/graficoscalidad' },
