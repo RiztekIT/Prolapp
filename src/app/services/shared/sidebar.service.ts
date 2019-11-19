@@ -10,15 +10,10 @@ export class SidebarService {
       titulo: 'Administracion',
       icono: 'fa fa-gear',
       submenu: [
-        // { titulo: 'Dashboard', url: '/dashboard' },
-        { titulo: 'Clientes', url: '/dashboard' },
-        { titulo: 'Proveedores', url: '/dashboard' },
-        { titulo: 'Productos', url: '/dashboard' },
-        { titulo: 'Usuarios', url: '/dashboard' },
-        // { titulo: 'Promesas', url: '/promesas' },
-        // { titulo: 'Graficas', url: '/graficas1' }
+        { titulo: 'Catalogos', url: '/catalogos' },
+        { titulo: 'Permisos', url: '/permisos' },
       ],
-      url: '/dashboard',
+      url: '/catalogos',
     },
     {
       titulo: 'Ventas',
