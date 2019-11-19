@@ -19,6 +19,8 @@ import { EvidenciasComponent } from './calidad/evidencias/evidencias.component';
 import { DashboardVentasComponent } from './ventas/dashboard-ventas/dashboard-ventas.component';
 import { CalendarioVentasComponent } from './ventas/calendario-ventas/calendario-ventas.component';
 import { ProfileComponent } from '../components/profile/profile.component';
+import { CatalogosComponent } from './administracion/catalogos/catalogos.component';
+import { PermisosComponent } from './administracion/permisos/permisos.component';
 
 
 
@@ -45,6 +47,8 @@ const pagesRoutes: Routes = [
                 { path: 'dashboardVentas', component: DashboardVentasComponent },
                 { path: 'calendarioVentas', component: CalendarioVentasComponent },
                 { path: 'profile', component: ProfileComponent  },
+                { path: 'catalogos', component: CatalogosComponent  },
+                { path: 'permisos', component: PermisosComponent  },
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },
                 { path: '', redirectTo: '/login', pathMatch: 'full' },
