@@ -17,14 +17,16 @@ export class ReportesVentasComponent implements OnInit {
       cantidad: '3',
       producto: 'Premium',
       fecha: '2019/11/15',
-      estatus: 'Resuelta'
+      estatus: 'Resuelta',
+      precio: '$ 36500'
     }, {
       id: '2',
       cliente: 'Lex Impulse',
       cantidad: '25',
       producto: 'Dairy Quenn',
       fecha: '2019/11/20',
-      estatus: 'Resuelta'
+      estatus: 'Resuelta',
+      precio: '$ 48751'
     }
   ];
 
