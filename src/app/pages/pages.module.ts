@@ -45,6 +45,8 @@ import { CalendarioVentasComponent } from './ventas/calendario-ventas/calendario
 import { ProfileComponent } from '../components/profile/profile.component';
 import { DireccionCalendarioComponent } from './direccion/direccion-calendario/direccion-calendario.component';
 import { DireccionReportesComponent } from './direccion/direccion-reportes/direccion-reportes.component';
+import { CatalogosComponent } from './administracion/catalogos/catalogos.component';
+import { PermisosComponent } from './administracion/permisos/permisos.component';
 
 
 @NgModule({
@@ -88,7 +90,9 @@ import { DireccionReportesComponent } from './direccion/direccion-reportes/direc
         CalendarioVentasComponent,
         ProfileComponent,
         DireccionCalendarioComponent,
-        DireccionReportesComponent
+        DireccionReportesComponent,
+        CatalogosComponent,
+        PermisosComponent
     ],
     exports: [
         DashboardComponent,
