@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+declare function GraficaVentasChart();
+
 @Component({
   selector: 'app-dashboard-ventas',
   templateUrl: './dashboard-ventas.component.html',
@@ -10,6 +12,9 @@ export class DashboardVentasComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
+    GraficaVentasChart();
+
   }
 
 }
