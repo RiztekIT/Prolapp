@@ -57,7 +57,7 @@ export class SidebarService {
       submenu: [
         // { titulo: 'Dashboard', url: '/dashboard' },
         { titulo: 'Pedidos', url: '/pedidosTrafico' },
-        { titulo: 'Facturacion Fletes', url: '/formatoFacturaTrafico' },
+        // { titulo: 'Facturacion Fletes', url: '/formatoFacturaTrafico' },
         { titulo: 'Calendario', url: '/calendarioTrafico' },
         { titulo: 'Reportes', url: '/reportesTrafico' },
         // { titulo: 'Graficos', url: '/dashboard' },
