@@ -29,8 +29,6 @@ import { GraficasComprasComponent } from './compras/graficas-compras/graficas-co
 import { FormatoComprasComprasComponent } from './compras/formato-compras-compras/formato-compras-compras.component';
 import { DashboardImportacionComponent } from './importacion/dashboard-importacion/dashboard-importacion.component';
 // tslint:disable-next-line: max-line-length
-import { FormatoImportacionImportacionComponent } from './importacion/formato-importacion-importacion/formato-importacion-importacion.component';
-import { SubirArchivosImportacionComponent } from './importacion/subir-archivos-importacion/subir-archivos-importacion.component';
 import { ReportesVentasComponent } from './ventas/reportes-ventas/reportes-ventas.component';
 import { ReporteTraficoComponent } from './trafico/reporte-trafico/reporte-trafico.component';
 import { LecheHistorialComponent } from '../components/leche-historial/leche-historial.component';
@@ -49,6 +47,10 @@ import { CalendarioTraficoComponent } from './trafico/calendario-trafico/calenda
 import { CatalogosComponent } from './administracion/catalogos/catalogos.component';
 import { PermisosComponent } from './administracion/permisos/permisos.component';
 import { AgendaComponent } from './calidad/agenda/agenda.component';
+import { CalendarioImportacionComponent } from './importacion/calendario-importacion/calendario-importacion.component';
+import { ReportesImportacionComponent } from './importacion/reportes-importacion/reportes-importacion.component';
+import { EmbarqueImportacionComponent } from './importacion/embarque-importacion/embarque-importacion.component';
+import { DocumentacionImportacionComponent } from './importacion/documentacion-importacion/documentacion-importacion.component';
 
 
 @NgModule({
@@ -77,8 +79,6 @@ import { AgendaComponent } from './calidad/agenda/agenda.component';
         GraficasComprasComponent,
         FormatoComprasComprasComponent,
         DashboardImportacionComponent,
-        FormatoImportacionImportacionComponent,
-        SubirArchivosImportacionComponent,
         ReportesVentasComponent,
         ReporteTraficoComponent,
         LecheHistorialComponent,
@@ -96,7 +96,11 @@ import { AgendaComponent } from './calidad/agenda/agenda.component';
         CalendarioTraficoComponent,
         CatalogosComponent,
         PermisosComponent,
-        AgendaComponent
+        AgendaComponent,
+        CalendarioImportacionComponent,
+        ReportesImportacionComponent,
+        EmbarqueImportacionComponent,
+        DocumentacionImportacionComponent
     ],
     exports: [
         DashboardComponent,

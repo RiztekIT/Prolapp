@@ -26,6 +26,11 @@ import { DashboardTraficoComponent } from './trafico/dashboard-trafico/dashboard
 import { CalendarioTraficoComponent } from './trafico/calendario-trafico/calendario-trafico.component';
 import { CatalogosComponent } from './administracion/catalogos/catalogos.component';
 import { PermisosComponent } from './administracion/permisos/permisos.component';
+import { DashboardImportacionComponent } from './importacion/dashboard-importacion/dashboard-importacion.component';
+import { DocumentacionImportacionComponent } from './importacion/documentacion-importacion/documentacion-importacion.component';
+import { EmbarqueImportacionComponent } from './importacion/embarque-importacion/embarque-importacion.component';
+import { ReportesImportacionComponent } from './importacion/reportes-importacion/reportes-importacion.component';
+import { CalendarioImportacionComponent } from './importacion/calendario-importacion/calendario-importacion.component';
 
 
 
@@ -58,6 +63,11 @@ const pagesRoutes: Routes = [
                 { path: 'calendarioTrafico', component: CalendarioTraficoComponent },
                 { path: 'profile', component: ProfileComponent  },
                 { path: 'catalogos', component: CatalogosComponent  },
+                { path: 'dashboardImportacion', component: DashboardImportacionComponent  },
+                { path: 'documentacionImportacion', component: DocumentacionImportacionComponent  },
+                { path: 'embarqueImportacion', component: EmbarqueImportacionComponent  },
+                { path: 'reportesImportacion', component: ReportesImportacionComponent  },
+                { path: 'calendarioImportacion', component: CalendarioImportacionComponent  },
                 { path: 'permisos', component: PermisosComponent  },
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },
