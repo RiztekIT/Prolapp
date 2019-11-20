@@ -55,6 +55,35 @@ function steps() {
         }
     });
 
+    $(".tab-documentacionImportacion").steps({
+        headerTag: "h6",
+        bodyTag: "section",
+        transitionEffect: "fade",
+        titleTemplate: '<span class="step">#index#</span> #title#',
+        labels: {
+            finish: "Finalizar",
+            next: "Siguiente",
+            previous: "Anterior"
+        },
+        onFinished: function(event, currentIndex) {
+
+            swal({
+                    title: "Documentacion Guardada",
+
+                    type: "success",
+                    closeOnConfirm: false
+                },
+
+                function() {
+                    $(".tab-documentacionImportacion").submit();
+                });
+
+
+
+
+        }
+    });
+
     var form = $(".validation-wizard").show();
 
     $(".validation-wizard").steps({
