@@ -10,7 +10,7 @@ declare function btn_table();
 })
 export class ReportesVentasComponent implements OnInit {
 
-  ReporteCompras: any = [
+  ReporteVentas: any = [
     {
       id: '1',
       cliente: 'Riztek',

@@ -26,6 +26,11 @@ import { DashboardTraficoComponent } from './trafico/dashboard-trafico/dashboard
 import { CalendarioTraficoComponent } from './trafico/calendario-trafico/calendario-trafico.component';
 import { CatalogosComponent } from './administracion/catalogos/catalogos.component';
 import { PermisosComponent } from './administracion/permisos/permisos.component';
+import { DashboardComprasComponent } from './compras/dashboard-compras/dashboard-compras.component';
+import { ReporteComprasComponent } from './compras/reporte-compras/reporte-compras.component';
+import { GraficasComprasComponent } from './compras/graficas-compras/graficas-compras.component';
+import { FormatoComprasComprasComponent } from './compras/formato-compras-compras/formato-compras-compras.component';
+import { CalendarioComprasComponent } from './compras/calendario-compras/calendario-compras.component';
 
 
 
@@ -56,6 +61,11 @@ const pagesRoutes: Routes = [
                 { path: 'formatoFacturaTrafico', component: FormatofacturaTraficoComponent },
                 { path: 'dashboardTrafico', component: DashboardTraficoComponent },
                 { path: 'calendarioTrafico', component: CalendarioTraficoComponent },
+                { path: 'dashboardCompras', component: DashboardComprasComponent },
+                { path: 'reportesCompras', component: ReporteComprasComponent },
+                { path: 'graficosCompras', component:  GraficasComprasComponent},
+                { path: 'formatoCompras', component:  FormatoComprasComprasComponent},
+                { path: 'calendarioCompras', component:  CalendarioComprasComponent},
                 { path: 'profile', component: ProfileComponent  },
                 { path: 'catalogos', component: CatalogosComponent  },
                 { path: 'permisos', component: PermisosComponent  },

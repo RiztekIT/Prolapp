@@ -31,12 +31,12 @@ export class SidebarService {
       icono: 'fa fa-shopping-cart',
       submenu: [
         // { titulo: 'Dashboard', url: '/dashboard' },
-        { titulo: 'Compras', url: '/dashboard' },
-        { titulo: 'Calendario', url: '/dashboard' },
-        { titulo: 'Reportes', url: '/dashboard' },
-        // { titulo: 'Graficos', url: '/dashboard' },
+        { titulo: 'Compras', url: '/formatoCompras' },
+        { titulo: 'Calendario', url: '/calendarioCompras' },
+        { titulo: 'Reportes', url: '/reportesCompras' },
+        // { titulo: 'Graficos', url: '/graficosCompras' },
       ],
-       url: '/dashboard',
+       url: '/dashboardCompras',
     },
     {
       titulo: 'Importacion',
