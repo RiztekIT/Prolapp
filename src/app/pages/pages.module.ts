@@ -29,8 +29,6 @@ import { GraficasComprasComponent } from './compras/graficas-compras/graficas-co
 import { FormatoComprasComprasComponent } from './compras/formato-compras-compras/formato-compras-compras.component';
 import { DashboardImportacionComponent } from './importacion/dashboard-importacion/dashboard-importacion.component';
 // tslint:disable-next-line: max-line-length
-import { FormatoImportacionImportacionComponent } from './importacion/formato-importacion-importacion/formato-importacion-importacion.component';
-import { SubirArchivosImportacionComponent } from './importacion/subir-archivos-importacion/subir-archivos-importacion.component';
 import { ReportesVentasComponent } from './ventas/reportes-ventas/reportes-ventas.component';
 import { ReporteTraficoComponent } from './trafico/reporte-trafico/reporte-trafico.component';
 import { LecheHistorialComponent } from '../components/leche-historial/leche-historial.component';
@@ -49,7 +47,15 @@ import { CalendarioTraficoComponent } from './trafico/calendario-trafico/calenda
 import { CatalogosComponent } from './administracion/catalogos/catalogos.component';
 import { PermisosComponent } from './administracion/permisos/permisos.component';
 import { AgendaComponent } from './calidad/agenda/agenda.component';
+<<<<<<< HEAD
 import { CalendarioComprasComponent } from './compras/calendario-compras/calendario-compras.component';
+=======
+import { CalendarioImportacionComponent } from './importacion/calendario-importacion/calendario-importacion.component';
+import { ReportesImportacionComponent } from './importacion/reportes-importacion/reportes-importacion.component';
+import { EmbarqueImportacionComponent } from './importacion/embarque-importacion/embarque-importacion.component';
+import { DocumentacionImportacionComponent } from './importacion/documentacion-importacion/documentacion-importacion.component';
+import { QuejasComponent } from './calidad/quejas/quejas.component';
+>>>>>>> 8fb84e4966078923dcc9a1b7930a9337db0d38ec
 
 
 @NgModule({
@@ -78,8 +84,6 @@ import { CalendarioComprasComponent } from './compras/calendario-compras/calenda
         GraficasComprasComponent,
         FormatoComprasComprasComponent,
         DashboardImportacionComponent,
-        FormatoImportacionImportacionComponent,
-        SubirArchivosImportacionComponent,
         ReportesVentasComponent,
         ReporteTraficoComponent,
         LecheHistorialComponent,
@@ -98,7 +102,15 @@ import { CalendarioComprasComponent } from './compras/calendario-compras/calenda
         CatalogosComponent,
         PermisosComponent,
         AgendaComponent,
+<<<<<<< HEAD
         CalendarioComprasComponent
+=======
+        CalendarioImportacionComponent,
+        ReportesImportacionComponent,
+        EmbarqueImportacionComponent,
+        DocumentacionImportacionComponent,
+        QuejasComponent
+>>>>>>> 8fb84e4966078923dcc9a1b7930a9337db0d38ec
     ],
     exports: [
         DashboardComponent,

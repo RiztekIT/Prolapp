@@ -1,0 +1,167 @@
+<h3 class="text-muted m-t-10 m-b-0">Documentacion Importacion</h3>
+<br>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="card-body wizard-content">
+                    <h4 class="card-title">Documentacion</h4>
+                    <!-- <h6 class="card-subtitle">You can find the <a href="http://www.jquery-steps.com" target="_blank">offical website</a></h6> -->
+                    <form [routerLink]="['/documentacionImportacion']" class="tab-documentacionImportacion wizard-circle">
+                        <!-- Step 1 -->
+                        <h6>Incidencia</h6>
+                        <section>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="firstName1">Cliente</label>
+                                        <input type="text" class="form-control" id="firstName1"> </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="emailAddress1">Numero de PO</label>
+                                        <input type="email" class="form-control" id="emailAddress1"> </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="location1">Tipo de Incidencia</label>
+                                        <select class="custom-select form-control" id="location1" name="location">
+                                            <option value="">Merma</option>
+                                            <option value="Amsterdam">Reparacion</option>
+                                            <option value="Berlin">Devolucion</option>
+                                            <!-- <option value="Frankfurt">Dubai</option> -->
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="date1">Fecha:</label>
+                                        <input type="date" class="form-control" id="date1"> </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- Step 2 -->
+                        <h6>Producto</h6>
+                        <section>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="jobTitle1">Producto:</label>
+                                        <input type="text" class="form-control" id="jobTitle1"> </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="videoUrl1">Lote:</label>
+                                        <input type="text" class="form-control" id="videoUrl1">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="shortDescription1">Descripcion de la incidencia</label>
+                                        <textarea name="shortDescription" id="shortDescription1" rows="6" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- Step 3 -->
+                        <h6>Informacion</h6>
+                        <section>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="int1"> Lugar: </label>
+                                        <input type="text" class="form-control" id="int1"> </div>
+                                    <div class="form-group">
+                                        <label for="intType1">Tipo de Seguimiento</label>
+                                        <select class="custom-select form-control" id="intType1" placeholder="Type to search cities" name="intType1">
+                                            <option value="Banquet">Proveedor</option>
+                                            <option value="Fund Raiser">Venta</option>
+                                            <option value="Dinner Party">Cliente</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="jobTitle2">Usuario:</label>
+                                        <input type="date" class="form-control" id="jobTitle2">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Location1">Tracking:</label>
+                                        <select class="custom-select form-control" id="Location1" name="location">
+                                            <option value="">Llegando a Almacen</option>
+                                            <option value="India">Saliendo de almacen</option>
+                                            <option value="USA">Transito</option>
+                                            <option value="Dubai">Llegando con Cliente</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- step 4 -->
+                        <h6>Evidencias</h6>
+                        <section>
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Evidencias</h4>
+                                            <!-- <h6 class="card-subtitle">For multiple file upload put class <code>.dropzone</code> to form.</h6> -->
+                                            <form action="#" class="dropzone">
+                                                <div class="fallback">
+                                                    <input name="file" type="file" multiple />
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="card-title">Documentacion</h4>
+                <!-- <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6> -->
+                <div class="table-responsive m-t-40">
+                    <table id="example" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente</th>
+                                <th>Tipo</th>
+                                <th>Fecha</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let incidencia of incidenciasCliente">
+                                <td>{{ incidencia.id }}</td>
+                                <td>{{ incidencia.cliente }}</td>
+                                <td>{{ incidencia.tipo }}</td>
+                                <td>{{ incidencia.fecha }}</td>
+                                <td>{{ incidencia.status }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
