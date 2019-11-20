@@ -51,6 +51,7 @@ import { CalendarioImportacionComponent } from './importacion/calendario-importa
 import { ReportesImportacionComponent } from './importacion/reportes-importacion/reportes-importacion.component';
 import { EmbarqueImportacionComponent } from './importacion/embarque-importacion/embarque-importacion.component';
 import { DocumentacionImportacionComponent } from './importacion/documentacion-importacion/documentacion-importacion.component';
+import { QuejasComponent } from './calidad/quejas/quejas.component';
 
 
 @NgModule({
@@ -100,7 +101,8 @@ import { DocumentacionImportacionComponent } from './importacion/documentacion-i
         CalendarioImportacionComponent,
         ReportesImportacionComponent,
         EmbarqueImportacionComponent,
-        DocumentacionImportacionComponent
+        DocumentacionImportacionComponent,
+        QuejasComponent
     ],
     exports: [
         DashboardComponent,
