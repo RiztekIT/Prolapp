@@ -32,7 +32,9 @@ function steps() {
         transitionEffect: "fade",
         titleTemplate: '<span class="step">#index#</span> #title#',
         labels: {
-            finish: "Submit"
+            finish: "Finalizar",
+            next: "Siguiente",
+            previous: "Anterior"
         },
         onFinished: function(event, currentIndex) {
 
