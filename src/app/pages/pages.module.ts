@@ -48,6 +48,7 @@ import { DireccionReportesComponent } from './direccion/direccion-reportes/direc
 import { CalendarioTraficoComponent } from './trafico/calendario-trafico/calendario-trafico.component';
 import { CatalogosComponent } from './administracion/catalogos/catalogos.component';
 import { PermisosComponent } from './administracion/permisos/permisos.component';
+import { AgendaComponent } from './calidad/agenda/agenda.component';
 
 
 @NgModule({
@@ -94,7 +95,8 @@ import { PermisosComponent } from './administracion/permisos/permisos.component'
         DireccionReportesComponent,
         CalendarioTraficoComponent,
         CatalogosComponent,
-        PermisosComponent
+        PermisosComponent,
+        AgendaComponent
     ],
     exports: [
         DashboardComponent,
