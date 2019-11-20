@@ -24,7 +24,7 @@ export class CatalogosComponent implements OnInit {
   iniciarFunciones() {
 
     EditableTableCatalogosComponent();
-    EditableTableCatalogosComponent2();
+    // EditableTableCatalogosComponent2();
     EditableTableCatalogosComponent3();
     EditableTableCatalogosComponent4();
     editTableJS();
