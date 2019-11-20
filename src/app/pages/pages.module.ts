@@ -49,6 +49,7 @@ import { CalendarioTraficoComponent } from './trafico/calendario-trafico/calenda
 import { CatalogosComponent } from './administracion/catalogos/catalogos.component';
 import { PermisosComponent } from './administracion/permisos/permisos.component';
 import { AgendaComponent } from './calidad/agenda/agenda.component';
+import { QuejasComponent } from './calidad/quejas/quejas.component';
 
 
 @NgModule({
@@ -96,7 +97,8 @@ import { AgendaComponent } from './calidad/agenda/agenda.component';
         CalendarioTraficoComponent,
         CatalogosComponent,
         PermisosComponent,
-        AgendaComponent
+        AgendaComponent,
+        QuejasComponent
     ],
     exports: [
         DashboardComponent,
