@@ -19,13 +19,18 @@ import { EvidenciasComponent } from './calidad/evidencias/evidencias.component';
 import { DashboardVentasComponent } from './ventas/dashboard-ventas/dashboard-ventas.component';
 import { CalendarioVentasComponent } from './ventas/calendario-ventas/calendario-ventas.component';
 import { ProfileComponent } from '../components/profile/profile.component';
+import { PedidoTraficoComponent } from './trafico/pedido-trafico/pedido-trafico.component';
+import { ReporteTraficoComponent } from './trafico/reporte-trafico/reporte-trafico.component';
+import { FormatofacturaTraficoComponent } from './trafico/formatofactura-trafico/formatofactura-trafico.component';
+import { DashboardTraficoComponent } from './trafico/dashboard-trafico/dashboard-trafico.component';
+import { CalendarioTraficoComponent } from './trafico/calendario-trafico/calendario-trafico.component';
 import { CatalogosComponent } from './administracion/catalogos/catalogos.component';
 import { PermisosComponent } from './administracion/permisos/permisos.component';
 
 
 
 const pagesRoutes: Routes = [
-    { 
+    {
             path: '', component: PagesComponent,
             children: [
                 { path: 'dashboard', component: DashboardComponent },
@@ -46,6 +51,11 @@ const pagesRoutes: Routes = [
                 { path: 'pedidosVentas', component: PedidoVentasComponent },
                 { path: 'dashboardVentas', component: DashboardVentasComponent },
                 { path: 'calendarioVentas', component: CalendarioVentasComponent },
+                { path: 'pedidosTrafico', component: PedidoTraficoComponent },
+                { path: 'reportesTrafico', component: ReporteTraficoComponent },
+                { path: 'formatoFacturaTrafico', component: FormatofacturaTraficoComponent },
+                { path: 'dashboardTrafico', component: DashboardTraficoComponent },
+                { path: 'calendarioTrafico', component: CalendarioTraficoComponent },
                 { path: 'profile', component: ProfileComponent  },
                 { path: 'catalogos', component: CatalogosComponent  },
                 { path: 'permisos', component: PermisosComponent  },

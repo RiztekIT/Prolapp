@@ -45,6 +45,7 @@ import { CalendarioVentasComponent } from './ventas/calendario-ventas/calendario
 import { ProfileComponent } from '../components/profile/profile.component';
 import { DireccionCalendarioComponent } from './direccion/direccion-calendario/direccion-calendario.component';
 import { DireccionReportesComponent } from './direccion/direccion-reportes/direccion-reportes.component';
+import { CalendarioTraficoComponent } from './trafico/calendario-trafico/calendario-trafico.component';
 import { CatalogosComponent } from './administracion/catalogos/catalogos.component';
 import { PermisosComponent } from './administracion/permisos/permisos.component';
 
@@ -91,6 +92,7 @@ import { PermisosComponent } from './administracion/permisos/permisos.component'
         ProfileComponent,
         DireccionCalendarioComponent,
         DireccionReportesComponent,
+        CalendarioTraficoComponent,
         CatalogosComponent,
         PermisosComponent
     ],

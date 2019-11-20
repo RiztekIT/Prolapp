@@ -56,13 +56,13 @@ export class SidebarService {
       icono: 'fa fa-truck',
       submenu: [
         // { titulo: 'Dashboard', url: '/dashboard' },
-        { titulo: 'Pedidos', url: '/dashboard' },
-        { titulo: 'Facturacion Fletes', url: '/dashboard' },
-        { titulo: 'Calendario', url: '/dashboard' },
-        { titulo: 'Reportes', url: '/dashboard' },
+        { titulo: 'Pedidos', url: '/pedidosTrafico' },
+        { titulo: 'Facturacion Fletes', url: '/formatoFacturaTrafico' },
+        { titulo: 'Calendario', url: '/calendarioTrafico' },
+        { titulo: 'Reportes', url: '/reportesTrafico' },
         // { titulo: 'Graficos', url: '/dashboard' },
       ],
-       url: '/dashboard',
+       url: '/dashboardTrafico',
     },
     {
       titulo: 'Calidad',
