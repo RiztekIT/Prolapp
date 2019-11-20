@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 declare function graficas_dbcalidad();
-declare function todo();
+// declare function todo();
 
 @Component({
   selector: 'app-dbcalidad',
@@ -14,7 +14,7 @@ export class DbcalidadComponent implements OnInit {
 
   ngOnInit() {
     graficas_dbcalidad();
-    todo();
+    // todo();
   }
 
 }
