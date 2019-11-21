@@ -26,19 +26,17 @@ import { DashboardTraficoComponent } from './trafico/dashboard-trafico/dashboard
 import { CalendarioTraficoComponent } from './trafico/calendario-trafico/calendario-trafico.component';
 import { CatalogosComponent } from './administracion/catalogos/catalogos.component';
 import { PermisosComponent } from './administracion/permisos/permisos.component';
-<<<<<<< HEAD
 import { DashboardComprasComponent } from './compras/dashboard-compras/dashboard-compras.component';
 import { ReporteComprasComponent } from './compras/reporte-compras/reporte-compras.component';
 import { GraficasComprasComponent } from './compras/graficas-compras/graficas-compras.component';
 import { FormatoComprasComprasComponent } from './compras/formato-compras-compras/formato-compras-compras.component';
 import { CalendarioComprasComponent } from './compras/calendario-compras/calendario-compras.component';
-=======
 import { DashboardImportacionComponent } from './importacion/dashboard-importacion/dashboard-importacion.component';
 import { DocumentacionImportacionComponent } from './importacion/documentacion-importacion/documentacion-importacion.component';
 import { EmbarqueImportacionComponent } from './importacion/embarque-importacion/embarque-importacion.component';
 import { ReportesImportacionComponent } from './importacion/reportes-importacion/reportes-importacion.component';
 import { CalendarioImportacionComponent } from './importacion/calendario-importacion/calendario-importacion.component';
->>>>>>> 8fb84e4966078923dcc9a1b7930a9337db0d38ec
+
 
 
 

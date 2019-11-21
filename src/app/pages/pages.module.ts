@@ -47,15 +47,12 @@ import { CalendarioTraficoComponent } from './trafico/calendario-trafico/calenda
 import { CatalogosComponent } from './administracion/catalogos/catalogos.component';
 import { PermisosComponent } from './administracion/permisos/permisos.component';
 import { AgendaComponent } from './calidad/agenda/agenda.component';
-<<<<<<< HEAD
-import { CalendarioComprasComponent } from './compras/calendario-compras/calendario-compras.component';
-=======
 import { CalendarioImportacionComponent } from './importacion/calendario-importacion/calendario-importacion.component';
 import { ReportesImportacionComponent } from './importacion/reportes-importacion/reportes-importacion.component';
 import { EmbarqueImportacionComponent } from './importacion/embarque-importacion/embarque-importacion.component';
 import { DocumentacionImportacionComponent } from './importacion/documentacion-importacion/documentacion-importacion.component';
 import { QuejasComponent } from './calidad/quejas/quejas.component';
->>>>>>> 8fb84e4966078923dcc9a1b7930a9337db0d38ec
+import { CalendarioComprasComponent } from './compras/calendario-compras/calendario-compras.component';
 
 
 @NgModule({
@@ -102,15 +99,12 @@ import { QuejasComponent } from './calidad/quejas/quejas.component';
         CatalogosComponent,
         PermisosComponent,
         AgendaComponent,
-<<<<<<< HEAD
-        CalendarioComprasComponent
-=======
+        CalendarioComprasComponent,
         CalendarioImportacionComponent,
         ReportesImportacionComponent,
         EmbarqueImportacionComponent,
         DocumentacionImportacionComponent,
         QuejasComponent
->>>>>>> 8fb84e4966078923dcc9a1b7930a9337db0d38ec
     ],
     exports: [
         DashboardComponent,
