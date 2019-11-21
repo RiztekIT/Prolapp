@@ -1,10 +1,129 @@
 <div class="row">
-    <div class="col-lg-6 col-md-6">
+    <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Subir Archivo de reporte</h4>
 
-                <input type="file" id="input-file-now" class="dropify" />
+                <h2>Importacion</h2>
+
+                <h4 class="card-title">Historial de importacion</h4>
+                <div class="table-responsive m-t-40">
+                    <table class="table stylish-table">
+                        <thead>
+                            <tr>
+                                <th colspan="2">ID Pedido</th>
+                                <th>Origen</th>
+                                <th>Destino</th>
+                                <th>Estado</th>
+                                <th>Hora Llegada</th>
+                                <th>Documentacion</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td style="width:50px;"><span class="round">ELP</span></td>
+                                <td>
+                                    <h6>EL PASO</h6><small class="text-muted">TEXAS</small></td>
+                                <td>
+                                    <h6>CHIHUAHUA</h6><small class="text-muted">CHIHUAHUA</small></td>
+                                <td><span class="label label-light-success">Aduana</span></td>
+                                <td>8:30 am</td>
+                                <td>
+                                    <a href="#" data-toggle="modal" data-target="#add-new-event" class="btn m-t-10 btn-info btn-block waves-effect waves-light">
+                                        <i class="ti-book"></i> Ver Documentacion
+                                    </a>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td style="width:50px;"><span class="round">ELP</span></td>
+                                <td>
+                                    <h6>EL PASO</h6><small class="text-muted">TEXAS</small></td>
+                                <td>
+                                    <h6>CHIHUAHUA</h6><small class="text-muted">CHIHUAHUA</small></td>
+                                <td><span class="label label-light-info">Carga</span></td>
+                                <td>2:00 pm</td>
+                                <td>
+                                    <a href="#" data-toggle="modal" data-target="#add-new-event" class="btn m-t-10 btn-info btn-block waves-effect waves-light">
+                                        <i class="ti-book"></i> Ver Documentacion
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td><span class="round round-success">LA</span></td>
+                                <td>
+                                    <h6>Los Angeles</h6><small class="text-muted">California</small></td>
+                                <td>
+                                    <h6>El Paso</h6><small class="text-muted">Texas</small></td>
+                                <td><span class="label label-light-danger">Almacen</span></td>
+                                <td>5:00 pm</td>
+                                <td>
+                                    <a href="#" data-toggle="modal" data-target="#add-new-event" class="btn m-t-10 btn-info btn-block waves-effect waves-light">
+                                        <i class="ti-book"></i> Ver Documentacion
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td><span class="round round-primary">CUU</span></td>
+                                <td>
+                                    <h6>Chihuahua</h6><small class="text-muted">Chihuahua</small></td>
+                                <td>
+                                    <h6>Monterrey</h6><small class="text-muted">Nuevo Leon</small></td>
+                                <td><span class="label label-light-primary">Descarga</span></td>
+                                <td>8:00 pm</td>
+                                <td>
+                                    <a href="#" data-toggle="modal" data-target="#responsive-modal" class="btn m-t-10 btn-info btn-block waves-effect waves-light">
+                                        <i class="ti-book"></i> Ver Documentacion
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-6 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h2>Documentacion</h2>
+
+                <h4 class="card-title">Subir Documentos de Reportes</h4>
+                <form action="#" class="dropzone">
+                    <div class="fallback">
+                        <input name="file" type="file" multiple />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- sample modal content -->
+    <div id="responsive-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myLargeModalLabel">Documentos de Impotacion</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->

@@ -55,7 +55,7 @@ function steps() {
         }
     });
 
-    $(".tab-documentacionImportacion").steps({
+    $(".tab-embarqueImportacion").steps({
         headerTag: "h6",
         bodyTag: "section",
         transitionEffect: "fade",
@@ -68,14 +68,14 @@ function steps() {
         onFinished: function(event, currentIndex) {
 
             swal({
-                    title: "Documentacion Guardada",
+                    title: "Embarque Generado",
 
                     type: "success",
                     closeOnConfirm: false
                 },
 
                 function() {
-                    $(".tab-documentacionImportacion").submit();
+                    $(".tab-embarqueImportacion").submit();
                 });
 
 
