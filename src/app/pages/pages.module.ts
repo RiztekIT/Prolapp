@@ -53,6 +53,29 @@ import { EmbarqueImportacionComponent } from './importacion/embarque-importacion
 import { DocumentacionImportacionComponent } from './importacion/documentacion-importacion/documentacion-importacion.component';
 import { QuejasComponent } from './calidad/quejas/quejas.component';
 import { CalendarioComprasComponent } from './compras/calendario-compras/calendario-compras.component';
+import { PedidoscxcComponent } from './cxc/pedidoscxc/pedidoscxc.component';
+import { FacturacioncxcComponent } from './cxc/facturacioncxc/facturacioncxc.component';
+import { PolizascxcComponent } from './cxc/polizascxc/polizascxc.component';
+import { SaldoscxcComponent } from './cxc/saldoscxc/saldoscxc.component';
+import { CalendariocxcComponent } from './cxc/calendariocxc/calendariocxc.component';
+import { ReportescxcComponent } from './cxc/reportescxc/reportescxc.component';
+import { DbcxcComponent } from './cxc/dbcxc/dbcxc.component';
+import { PagoscxpComponent } from './cxp/pagoscxp/pagoscxp.component';
+import { PolizascxpComponent } from './cxp/polizascxp/polizascxp.component';
+import { ForwardscxpComponent } from './cxp/forwardscxp/forwardscxp.component';
+import { CalendariocxpComponent } from './cxp/calendariocxp/calendariocxp.component';
+import { ReportescxpComponent } from './cxp/reportescxp/reportescxp.component';
+import { SaldoscxpComponent } from './cxp/saldoscxp/saldoscxp.component';
+import { DashboardcxpComponent } from './cxp/dashboardcxp/dashboardcxp.component';
+import { DbalmacenComponent } from './almacen/dbalmacen/dbalmacen.component';
+import { PedidosalmacenComponent } from './almacen/pedidosalmacen/pedidosalmacen.component';
+import { ImportacionesalmacenComponent } from './almacen/importacionesalmacen/importacionesalmacen.component';
+import { InventariosalmacenComponent } from './almacen/inventariosalmacen/inventariosalmacen.component';
+import { DocumentosalmacenComponent } from './almacen/documentosalmacen/documentosalmacen.component';
+import { IncidenciasalmacenComponent } from './almacen/incidenciasalmacen/incidenciasalmacen.component';
+import { CalendarioalmacenComponent } from './almacen/calendarioalmacen/calendarioalmacen.component';
+import { ReportesalmacenComponent } from './almacen/reportesalmacen/reportesalmacen.component';
+
 
 
 @NgModule({
@@ -104,7 +127,29 @@ import { CalendarioComprasComponent } from './compras/calendario-compras/calenda
         ReportesImportacionComponent,
         EmbarqueImportacionComponent,
         DocumentacionImportacionComponent,
-        QuejasComponent
+        QuejasComponent,
+        PedidoscxcComponent,
+        FacturacioncxcComponent,
+        PolizascxcComponent,
+        SaldoscxcComponent,
+        CalendariocxcComponent,
+        ReportescxcComponent,
+        DbcxcComponent,
+        PagoscxpComponent,
+        PolizascxpComponent,
+        ForwardscxpComponent,
+        CalendariocxpComponent,
+        ReportescxpComponent,
+        SaldoscxpComponent,
+        DashboardcxpComponent,
+        DbalmacenComponent,
+        PedidosalmacenComponent,
+        ImportacionesalmacenComponent,
+        InventariosalmacenComponent,
+        DocumentosalmacenComponent,
+        IncidenciasalmacenComponent,
+        CalendarioalmacenComponent,
+        ReportesalmacenComponent
     ],
     exports: [
         DashboardComponent,
