@@ -36,6 +36,30 @@ import { DocumentacionImportacionComponent } from './importacion/documentacion-i
 import { EmbarqueImportacionComponent } from './importacion/embarque-importacion/embarque-importacion.component';
 import { ReportesImportacionComponent } from './importacion/reportes-importacion/reportes-importacion.component';
 import { CalendarioImportacionComponent } from './importacion/calendario-importacion/calendario-importacion.component';
+import { QuejasComponent } from './calidad/quejas/quejas.component';
+import { CalendariocxcComponent } from './cxc/calendariocxc/calendariocxc.component';
+import { FacturacioncxcComponent } from './cxc/facturacioncxc/facturacioncxc.component';
+import { PedidoscxcComponent } from './cxc/pedidoscxc/pedidoscxc.component';
+import { PolizascxcComponent } from './cxc/polizascxc/polizascxc.component';
+import { ReportescxcComponent } from './cxc/reportescxc/reportescxc.component';
+import { SaldoscxcComponent } from './cxc/saldoscxc/saldoscxc.component';
+import { DbcxcComponent } from './cxc/dbcxc/dbcxc.component';
+import { DashboardcxpComponent } from './cxp/dashboardcxp/dashboardcxp.component';
+import { PagoscxpComponent } from './cxp/pagoscxp/pagoscxp.component';
+import { PolizascxpComponent } from './cxp/polizascxp/polizascxp.component';
+import { SaldoscxpComponent } from './cxp/saldoscxp/saldoscxp.component';
+import { ForwardscxpComponent } from './cxp/forwardscxp/forwardscxp.component';
+import { CalendariocxpComponent } from './cxp/calendariocxp/calendariocxp.component';
+import { ReportescxpComponent } from './cxp/reportescxp/reportescxp.component';
+import { DbalmacenComponent } from './almacen/dbalmacen/dbalmacen.component';
+import { PedidosalmacenComponent } from './almacen/pedidosalmacen/pedidosalmacen.component';
+import { ImportacionesalmacenComponent } from './almacen/importacionesalmacen/importacionesalmacen.component';
+import { InventariosalmacenComponent } from './almacen/inventariosalmacen/inventariosalmacen.component';
+import { DocumentosalmacenComponent } from './almacen/documentosalmacen/documentosalmacen.component';
+import { IncidenciasalmacenComponent } from './almacen/incidenciasalmacen/incidenciasalmacen.component';
+import { CalendarioalmacenComponent } from './almacen/calendarioalmacen/calendarioalmacen.component';
+import { ReportesalmacenComponent } from './almacen/reportesalmacen/reportesalmacen.component';
+
 
 
 
@@ -79,6 +103,29 @@ const pagesRoutes: Routes = [
                 { path: 'embarqueImportacion', component: EmbarqueImportacionComponent  },
                 { path: 'reportesImportacion', component: ReportesImportacionComponent  },
                 { path: 'calendarioImportacion', component: CalendarioImportacionComponent  },
+                { path: 'calendarioCxc', component: CalendariocxcComponent  },
+                { path: 'facturacionCxc', component: FacturacioncxcComponent  },
+                { path: 'pedidosCxc', component: PedidoscxcComponent  },
+                { path: 'polizasCxc', component: PolizascxcComponent  },
+                { path: 'reportesCxc', component: ReportescxcComponent  },
+                { path: 'saldosCxc', component: SaldoscxcComponent  },
+                { path: 'dashboardCxc', component: DbcxcComponent  },
+                { path: 'dashboardCxp', component: DashboardcxpComponent  },
+                { path: 'pagosCxp', component: PagoscxpComponent  },
+                { path: 'polizasCxp', component: PolizascxpComponent  },
+                { path: 'saldosCxp', component: SaldoscxpComponent  },
+                { path: 'forwardsCxp', component: ForwardscxpComponent  },
+                { path: 'calendarioCxp', component: CalendariocxpComponent  },
+                { path: 'reportesCxp', component: ReportescxpComponent  },
+                { path: 'dashboardalmacen', component: DbalmacenComponent  },
+                { path: 'pedidosalmacen', component: PedidosalmacenComponent  },
+                { path: 'importacionesalmacen', component: ImportacionesalmacenComponent  },
+                { path: 'inventariosalmacen', component: InventariosalmacenComponent  },
+                { path: 'documentosalmacen', component: DocumentosalmacenComponent  },
+                { path: 'Incidenciasalmacen', component: IncidenciasalmacenComponent  },
+                { path: 'calendarioalmacen', component: CalendarioalmacenComponent  },
+                { path: 'reportesalmacen', component: ReportesalmacenComponent  },
+                { path: 'quejas', component: QuejasComponent  },
                 { path: 'permisos', component: PermisosComponent  },
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },

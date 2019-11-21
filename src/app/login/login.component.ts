@@ -20,7 +20,8 @@ export class LoginComponent implements OnInit {
 
   ingresar(){
     // this.router.navigateByUrl('progress');    
-    this.router.navigate(['/dashboard']);
+    // this.router.navigate(['/dashboard']);
+    this.router.navigate(['/direccion']);
     // this.http.post('#');
 
   }

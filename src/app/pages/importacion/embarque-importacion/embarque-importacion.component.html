@@ -1,1 +1,114 @@
-<p>embarque-importacion works!</p>
+<h3 class="text-muted m-t-10 m-b-0">Embarque</h3>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="card-body wizard-content">
+                    <form routerLink="/embarqueImportacion" class="tab-embarqueImportacion wizard-circle">
+                        <!-- Step 1 -->
+                        <h6>Informacion del cliente</h6>
+                        <section>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="firstName1">Nombre :</label>
+                                        <input type="text" class="form-control" id="firstName1"> </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="lastName1">Apellido :</label>
+                                        <input type="text" class="form-control" id="lastName1"> </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="emailAddress1">Correo :</label>
+                                        <input type="email" class="form-control" id="emailAddress1"> </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="phoneNumber1">Numero  :</label>
+                                        <input type="tel" class="form-control" id="phoneNumber1"> </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="location1">Selecciona la ciudad :</label>
+                                        <select class="custom-select form-control" id="location1" name="location">
+                                            <option *ngFor="let ciudad of ciudades; let i = index" value="">{{ i }} - {{ ciudad }}</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label for="date1">Codigo postal :</label>
+                                        <input class="form-control" id="date1" type="text" inputmode="numeric" pattern="[0-9]*"> </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- Step 2 -->
+                        <h6>Informacion del Producto</h6>
+                        <section>
+                            <div class=" row ">
+                                <div class="col-lg-6 ">
+                                    <div class="form-group ">
+                                        <label for="jobTitle1 ">Producto :</label>
+                                        <input type="text " class="form-control " id="jobTitle1 "> </div>
+                                </div>
+                                <div class="col-lg-6 ">
+                                    <div class="form-group ">
+                                        <label for="videoUrl1 ">Cantidad de Producto :</label>
+                                        <input type="text " class="form-control " id="videoUrl1 ">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 ">
+                                    <div class="form-group ">
+                                        <label for="shortDescription1 ">Descripcion del Pedido :</label>
+                                        <textarea name="shortDescription " id="shortDescription1 " rows="6 " class="form-control "></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <!-- Step 3 -->
+                        <h6>Datos del Vendedor</h6>
+                        <section>
+                            <div class="row ">
+                                <div class="col-lg-6 ">
+                                    <div class="form-group ">
+                                        <label for="int1 "> Nombre :</label>
+                                        <input type="text " class="form-control " id="int1 "> </div>
+                                    <div class="form-group ">
+                                        <label for="intType1 ">Tipo de venta :</label>
+                                        <select class="custom-select form-control " id="intType1 " name="intType1 ">
+                                            <option value="Banquet ">Urgente</option>
+                                            <option value="Fund Raiser ">Normal</option>
+                                            <option value="Dinner Party ">Sencilla</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label for="Location1 ">Ciudad :</label>
+                                        <select class="custom-select form-control " id="Location1 " name="location ">
+                                            <option *ngFor="let ciudad of ciudades; let i = index" value="">{{ i }} - {{ ciudad }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 ">
+                                    <label for="Location1 ">Fecha del pedido:</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control mydatepicker" placeholder="mm/dd/yyyy">
+                                        <span class="input-group-addon"><i class="icon-calender"></i></span> </div>
+                                </div>
+                            </div>
+                        </section>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

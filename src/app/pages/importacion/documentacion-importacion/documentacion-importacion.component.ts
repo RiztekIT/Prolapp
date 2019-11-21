@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
 
-declare function steps();
 declare function upload();
 
 @Component({
@@ -12,26 +10,10 @@ declare function upload();
 })
 export class DocumentacionImportacionComponent implements OnInit {
 
-  incidenciasCliente: any = [
-    {
-      id: '1',
-      cliente: 'Riztek',
-      fecha: '2019/11/15',
-      tipo: 'Importacion',
-      status: 'Pendiente'
-    },{
-      id: '2',
-      cliente: 'Lex Impulse',
-      fecha: '2019/11/20',
-      tipo: 'Importacion',
-      status: 'Guardado'
-    }
-  ];
 
-  constructor(public router: Router) { }
+  constructor() { }
 
   ngOnInit() {
-    steps();
     upload();
   }
 
