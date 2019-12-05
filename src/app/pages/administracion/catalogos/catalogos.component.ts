@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { UsuariosServieService } from '../../../services/catalogos/usuarios/usuarios-servie.service';
+import {Usuario} from '../../../Models/catalogos/usuarios-model/usuarios-model';
+
 
 declare function EditableTableCatalogosComponent();
 declare function EditableTableCatalogosComponent2();
@@ -13,12 +16,14 @@ declare function editTableJS();
 })
 export class CatalogosComponent implements OnInit {
 
-  constructor() { }
+  constructor( private service:UsuariosServieService) { }
+
+  listData: any[];
 
   ngOnInit() {
 
     this.iniciarFunciones();
-    
+    this.refreshUsuariosList();
   }
 
   iniciarFunciones() {
@@ -28,7 +33,20 @@ export class CatalogosComponent implements OnInit {
     EditableTableCatalogosComponent3();
     EditableTableCatalogosComponent4();
     editTableJS();
+  }
+
+  refreshUsuariosList() {
+
+    this.service.getUsuariosList().subscribe(data => {
+    this.listData = (data);
+    console.log(this.listData);
+    });
 
   }
+
+
+
+
+
 
 }

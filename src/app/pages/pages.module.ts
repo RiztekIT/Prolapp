@@ -1,5 +1,10 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
+import {HttpClientModule} from '@angular/common/http';
+
+
+
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
 import { Graficas1Component } from './graficas1/graficas1.component';
@@ -75,6 +80,7 @@ import { DocumentosalmacenComponent } from './almacen/documentosalmacen/document
 import { IncidenciasalmacenComponent } from './almacen/incidenciasalmacen/incidenciasalmacen.component';
 import { CalendarioalmacenComponent } from './almacen/calendarioalmacen/calendarioalmacen.component';
 import { ReportesalmacenComponent } from './almacen/reportesalmacen/reportesalmacen.component';
+import { UsuariosServieService } from '../services/catalogos/usuarios/usuarios-servie.service';
 
 
 
@@ -162,6 +168,12 @@ import { ReportesalmacenComponent } from './almacen/reportesalmacen/reportesalma
         FormsModule,
         ChartsModule,
         CommonModule
+    ],
+    providers: [
+        UsuariosServieService
+    ],
+    entryComponents: [
+
     ]
 })
 export class PagesModule { }
