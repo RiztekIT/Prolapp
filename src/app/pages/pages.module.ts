@@ -81,6 +81,10 @@ import { IncidenciasalmacenComponent } from './almacen/incidenciasalmacen/incide
 import { CalendarioalmacenComponent } from './almacen/calendarioalmacen/calendarioalmacen.component';
 import { ReportesalmacenComponent } from './almacen/reportesalmacen/reportesalmacen.component';
 import { UsuariosServieService } from '../services/catalogos/usuarios/usuarios-servie.service';
+import { UsuariosComponent } from './administracion/catalogos/usuarios/usuarios.component';
+import { ProductosComponent } from './administracion/catalogos/productos/productos.component';
+import { ProveedoresComponent } from './administracion/catalogos/proveedores/proveedores.component';
+import { ClientesComponent } from './administracion/catalogos/clientes/clientes.component';
 
 
 
@@ -155,7 +159,11 @@ import { UsuariosServieService } from '../services/catalogos/usuarios/usuarios-s
         DocumentosalmacenComponent,
         IncidenciasalmacenComponent,
         CalendarioalmacenComponent,
-        ReportesalmacenComponent
+        ReportesalmacenComponent,
+        UsuariosComponent,
+        ProductosComponent,
+        ProveedoresComponent,
+        ClientesComponent
     ],
     exports: [
         DashboardComponent,

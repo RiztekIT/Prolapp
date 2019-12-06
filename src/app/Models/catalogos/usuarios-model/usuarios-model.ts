@@ -6,6 +6,6 @@ export class Usuario {
     ApellidoMaterno: string;
     Correo: string;
     Telefono: string;
-    Contraseña: string;
+    Contra: string;
 
 }
