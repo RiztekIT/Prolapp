@@ -1,0 +1,75 @@
+<mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+</mat-form-field>
+
+
+<div style="overflow:auto;">
+    <div class="mat-elevaton-z8">
+
+
+        <mat-table [dataSource]="listData" matSort>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+
+
+            <ng-container matColumnDef="IdUsuario">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>IdUsuario</mat-header-cell>
+                <mat-header-cell *matCellDef="let element">{{element.IdUsuario}}</mat-header-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Nombre">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
+                <mat-header-cell *matCellDef="let element">{{element.Nombre}}</mat-header-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Usuario">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Usuario</mat-header-cell>
+                <mat-header-cell *matCellDef="let element">{{element.NombreUsuario}}</mat-header-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="ApellidoPaterno">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Apellido Paterno</mat-header-cell>
+                <mat-header-cell *matCellDef="let element">{{element.ApellidoPaterno}}</mat-header-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="ApellidoMaterno">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Apellido Materno</mat-header-cell>
+                <mat-header-cell *matCellDef="let element">{{element.ApellidoMaterno}}</mat-header-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Correo">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Correo</mat-header-cell>
+                <mat-header-cell *matCellDef="let element">{{element.Correo}}</mat-header-cell>
+            </ng-container>
+            <ng-container matColumnDef="Telefono">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Telefono</mat-header-cell>
+                <mat-header-cell *matCellDef="let element">{{element.Telefono}}</mat-header-cell>
+            </ng-container>
+            <ng-container matColumnDef="Contraseña">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Contraseña</mat-header-cell>
+                <mat-header-cell *matCellDef="let element">{{element.Contra}}</mat-header-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Options">
+                <mat-header-cell *matHeaderCellDef>Options</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <!--  -->
+                    <button mat-icon-button (click)="onEdit(row)">
+                                        <mat-icon>launch</mat-icon>
+                                    </button>
+                    <!--  -->
+                    <button mat-icon-button color="warn" (click)="onDelete(row.IdUsuario)">
+                                            <mat-icon>delete_outline</mat-icon>
+                                        </button>
+                </mat-cell>
+            </ng-container>
+
+
+        </mat-table>
+    </div>
+
+</div>
+
+<button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Add Department</button>

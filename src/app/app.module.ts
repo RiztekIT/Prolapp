@@ -16,6 +16,7 @@ import { RegisterComponent } from './login/register.component';
 import { FormsModule } from '@angular/forms';
 import { SaldosComponent } from './components/saldos/saldos.component';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { CalendarioComponent } from './components/calendario/calendario.component';
 
 
@@ -35,7 +36,8 @@ import { HttpClientModule } from '@angular/common/http';
     PagesModule,
     FormsModule,
     ServiceModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule
   ],
   bootstrap: [AppComponent]
 })

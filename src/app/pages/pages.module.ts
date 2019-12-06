@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -86,7 +86,17 @@ import { ProductosComponent } from './administracion/catalogos/productos/product
 import { ProveedoresComponent } from './administracion/catalogos/proveedores/proveedores.component';
 import { ClientesComponent } from './administracion/catalogos/clientes/clientes.component';
 
-
+// Importacion Angular Material
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSortModule, MatDialogModule, MatSnackBarModule } from '@angular/material';
+import { MatNativeDateModule } from '@angular/material';
+import { MatDatepickerModule } from '@angular/material';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule, MatButtonModule } from '@angular/material';
+import { MatInputModule } from '@angular/material/input';
+import { AddUsuarioComponent } from './administracion/catalogos/usuarios/add-usuario/add-usuario.component';
+import { EditUsuarioComponent } from './administracion/catalogos/usuarios/edit-usuario/edit-usuario.component';
+import { ShowUsuarioComponent } from './administracion/catalogos/usuarios/show-usuario/show-usuario.component';
 
 @NgModule({
     declarations: [
@@ -163,7 +173,10 @@ import { ClientesComponent } from './administracion/catalogos/clientes/clientes.
         UsuariosComponent,
         ProductosComponent,
         ProveedoresComponent,
-        ClientesComponent
+        ClientesComponent,
+        AddUsuarioComponent,
+        EditUsuarioComponent,
+        ShowUsuarioComponent
     ],
     exports: [
         DashboardComponent,
@@ -175,12 +188,23 @@ import { ClientesComponent } from './administracion/catalogos/clientes/clientes.
         SharedModule,
         FormsModule,
         ChartsModule,
-        CommonModule
+        CommonModule,
+        MatSliderModule,
+        MatInputModule,
+        MatTableModule,
+        MatIconModule,
+        MatButtonModule,
+        MatSortModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        MatDatepickerModule,
+        MatNativeDateModule
     ],
     providers: [
         UsuariosServieService
     ],
     entryComponents: [
+        AddUsuarioComponent
 
     ]
 })
