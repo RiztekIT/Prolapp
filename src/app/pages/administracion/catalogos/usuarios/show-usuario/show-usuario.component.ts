@@ -67,7 +67,13 @@ export class ShowUsuarioComponent implements OnInit {
   }
 
   onEdit(usuario: Usuario){
-console.log(usuario);
+// console.log(usuario);
+this.service.formData = usuario;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(EditUsuarioComponent, dialogConfig);
   }
 
   applyFilter(filtervalue: string){  

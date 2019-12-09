@@ -85,6 +85,8 @@ import { UsuariosComponent } from './administracion/catalogos/usuarios/usuarios.
 import { ProductosComponent } from './administracion/catalogos/productos/productos.component';
 import { ProveedoresComponent } from './administracion/catalogos/proveedores/proveedores.component';
 import { ClientesComponent } from './administracion/catalogos/clientes/clientes.component';
+import { EditUsuarioComponent } from './administracion/catalogos/usuarios/edit-usuario/edit-usuario.component';
+import { ShowUsuarioComponent } from './administracion/catalogos/usuarios/show-usuario/show-usuario.component';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
@@ -95,8 +97,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule, MatButtonModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import { AddUsuarioComponent } from './administracion/catalogos/usuarios/add-usuario/add-usuario.component';
-import { EditUsuarioComponent } from './administracion/catalogos/usuarios/edit-usuario/edit-usuario.component';
-import { ShowUsuarioComponent } from './administracion/catalogos/usuarios/show-usuario/show-usuario.component';
+
+
+
 
 @NgModule({
     declarations: [
@@ -204,7 +207,8 @@ import { ShowUsuarioComponent } from './administracion/catalogos/usuarios/show-u
         UsuariosServieService
     ],
     entryComponents: [
-        AddUsuarioComponent
+        AddUsuarioComponent,
+        EditUsuarioComponent
 
     ]
 })
