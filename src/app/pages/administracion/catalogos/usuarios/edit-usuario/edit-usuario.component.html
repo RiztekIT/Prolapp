@@ -1,1 +1,101 @@
-<p>edit-usuario works!</p>
+<div class="d-flex justify-content-between m-2">
+    <h4>Editar Usuarios</h4>
+
+    <button mat-button (click)="onClose()">
+    <mat-icon>close</mat-icon>
+</button>
+
+
+</div>
+
+
+<div style="overflow: auto; height: 450px;">
+
+
+    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Usuario ID</span>
+            </div>
+            <input readonly="readonly" type="text" class="form-control" name="IdUsuario" #IdUsuario="ngModel" [(ngModel)]="service.formData.IdUsuario">
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Nombre</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre">
+        </div>
+        <div class="text-left text-danger" *ngIf="Nombre.invalid && Nombre.touched">
+            Favor de Ingresar un Nombre.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Nombre Usuario</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="NombreUsuario" #NombreUsuario="ngModel" [(ngModel)]="service.formData.NombreUsuario">
+        </div>
+        <div class="text-left text-danger" *ngIf="NombreUsuario.invalid && NombreUsuario.touched">
+            Favor de Ingresar Nombre.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Apellido Paterno</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="ApellidoPaterno" #ApellidoPaterno="ngModel" [(ngModel)]="service.formData.ApellidoPaterno">
+        </div>
+        <div class="text-left text-danger" *ngIf="ApellidoPaterno.invalid && ApellidoPaterno.touched">
+            Favor de Ingresar Apellido.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Apellido Materno</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="ApellidoMaterno" #ApellidoMaterno="ngModel" [(ngModel)]="service.formData.ApellidoMaterno">
+        </div>
+        <div class="text-left text-danger" *ngIf="ApellidoMaterno.invalid && ApellidoMaterno.touched">
+            Favor de Ingresar Apellido.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Correo</span>
+            </div>
+            <input required minlength="2" type="email" class="form-control" name="Correo" #Correo="ngModel" [(ngModel)]="service.formData.Correo">
+        </div>
+        <div class="text-left text-danger" *ngIf="Correo.invalid && Correo.touched">
+            Favor de Ingresar Correo Valido.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Telefono</span>
+            </div>
+            <input required minlength="2" type="number" class="form-control" name="Telefono" #Telefono="ngModel" [(ngModel)]="service.formData.Telefono">
+        </div>
+        <div class="text-left text-danger" *ngIf="Telefono.invalid && Telefono.touched">
+            Favor de Ingresar Telefono.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Contraseña</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="Contra" #Contra="ngModel" [(ngModel)]="service.formData.Contra">
+        </div>
+        <div class="text-left text-danger" *ngIf="Contra.invalid && Contra.touched">
+            Favor de Ingresar Contraseña.
+        </div>
+
+
+
+        <button class="m-3" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Actualizar Usuario</button>
+
+    </form>
+
+</div>
