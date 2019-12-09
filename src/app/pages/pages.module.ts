@@ -80,7 +80,7 @@ import { DocumentosalmacenComponent } from './almacen/documentosalmacen/document
 import { IncidenciasalmacenComponent } from './almacen/incidenciasalmacen/incidenciasalmacen.component';
 import { CalendarioalmacenComponent } from './almacen/calendarioalmacen/calendarioalmacen.component';
 import { ReportesalmacenComponent } from './almacen/reportesalmacen/reportesalmacen.component';
-import { UsuariosServieService } from '../services/catalogos/usuarios/usuarios-servie.service';
+import { UsuariosServieService } from '../services/catalogos/usuarios-servie.service';
 import { UsuariosComponent } from './administracion/catalogos/usuarios/usuarios.component';
 import { ProductosComponent } from './administracion/catalogos/productos/productos.component';
 import { ProveedoresComponent } from './administracion/catalogos/proveedores/proveedores.component';
@@ -97,6 +97,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule, MatButtonModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import { AddUsuarioComponent } from './administracion/catalogos/usuarios/add-usuario/add-usuario.component';
+import { ShowProveedorComponent } from './administracion/catalogos/proveedores/show-proveedor/show-proveedor.component';
+import { EditProveedorComponent } from './administracion/catalogos/proveedores/edit-proveedor/edit-proveedor.component';
+import { AddProveedorComponent } from './administracion/catalogos/proveedores/add-proveedor/add-proveedor.component';
+import { ShowProductoComponent } from './administracion/catalogos/productos/show-producto/show-producto.component';
+import { EditProductoComponent } from './administracion/catalogos/productos/edit-producto/edit-producto.component';
+import { AddProductoComponent } from './administracion/catalogos/productos/add-producto/add-producto.component';
 
 
 
@@ -179,7 +185,13 @@ import { AddUsuarioComponent } from './administracion/catalogos/usuarios/add-usu
         ClientesComponent,
         AddUsuarioComponent,
         EditUsuarioComponent,
-        ShowUsuarioComponent
+        ShowUsuarioComponent,
+        ShowProveedorComponent,
+        EditProveedorComponent,
+        AddProveedorComponent,
+        ShowProductoComponent,
+        EditProductoComponent,
+        AddProductoComponent
     ],
     exports: [
         DashboardComponent,
@@ -208,7 +220,11 @@ import { AddUsuarioComponent } from './administracion/catalogos/usuarios/add-usu
     ],
     entryComponents: [
         AddUsuarioComponent,
-        EditUsuarioComponent
+        EditUsuarioComponent,
+        AddProveedorComponent,
+        EditProveedorComponent,
+        AddProductoComponent,
+        EditProductoComponent
 
     ]
 })

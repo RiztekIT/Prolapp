@@ -1,40 +1,41 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import {MatTableDataSource, MatSort} from '@angular/material';
-import { Usuario } from '../../../../../Models/catalogos/usuarios-model';
-import { UsuariosServieService } from '../../../../../services/catalogos/usuarios-servie.service';
+import { Producto } from '../../../../../Models/catalogos/productos-model';
+import { ProductosService } from '../../../../../services/catalogos/productos.service';
 
 import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
-import { AddUsuarioComponent } from '../add-usuario/add-usuario.component';
-import { EditUsuarioComponent } from '../edit-usuario/edit-usuario.component';
+import { AddProductoComponent } from '../add-producto/add-producto.component';
+import { EditProductoComponent } from '../edit-producto/edit-producto.component';
 
 @Component({
-  selector: 'app-show-usuario',
-  templateUrl: './show-usuario.component.html',
+  selector: 'app-show-producto',
+  templateUrl: './show-producto.component.html',
   styles: []
 })
-export class ShowUsuarioComponent implements OnInit {
+export class ShowProductoComponent implements OnInit {
+
 
   listData: MatTableDataSource<any>;
-  displayedColumns : string [] = ['IdUsuario', 'Nombre', 'Usuario', 'ApellidoPaterno', 'ApellidoMaterno', 'Correo', 'Telefono', 'Contraseña', 'Options'];
+  displayedColumns : string [] = ['IdProducto', 'Nombre', 'PrecioVenta', 'PrecioCosto', 'Cantidad', 'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
 
-  constructor(private service:UsuariosServieService, private dialog: MatDialog, private snackBar: MatSnackBar) {
+  constructor(private service:ProductosService, private dialog: MatDialog, private snackBar: MatSnackBar) {
 
     this.service.listen().subscribe((m:any)=>{
       console.log(m);
-      this.refreshUsuariosList();
+      this.refreshProductosList();
       });
 
    }
 
   ngOnInit() {
-    this.refreshUsuariosList();
+    this.refreshProductosList();
   }
 
-  refreshUsuariosList() {
+  refreshProductosList() {
 
-    this.service.getUsuariosList().subscribe(data => {
+    this.service.getProductosList().subscribe(data => {
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
     //console.log(this.listData);
@@ -45,8 +46,8 @@ export class ShowUsuarioComponent implements OnInit {
   onDelete( id:number){
     //console.log(id);
     if ( confirm('Are you sure to delete?')) {
-      this.service.deleteUsuario(id).subscribe(res => {
-      this.refreshUsuariosList();
+      this.service.deleteProducto(id).subscribe(res => {
+      this.refreshProductosList();
       this.snackBar.open(res.toString(), '', {
         duration: 3000,
         verticalPosition: 'top'
@@ -63,18 +64,18 @@ export class ShowUsuarioComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
-    this.dialog.open(AddUsuarioComponent, dialogConfig);
+    this.dialog.open(AddProductoComponent, dialogConfig);
 
   }
 
-  onEdit(usuario: Usuario){
+  onEdit(usuario: Producto){
 // console.log(usuario);
 this.service.formData = usuario;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
-    this.dialog.open(EditUsuarioComponent, dialogConfig);
+    this.dialog.open(EditProductoComponent, dialogConfig);
   }
 
   applyFilter(filtervalue: string){  

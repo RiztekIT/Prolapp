@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { UsuariosServieService } from '../../../../../services/catalogos/usuarios/usuarios-servie.service';
+import { UsuariosServieService } from '../../../../../services/catalogos/usuarios-servie.service';
 import { NgForm } from '@angular/forms';
 
 @Component({
