@@ -1,0 +1,133 @@
+<div class="d-flex justify-content-between m-2">
+    <h4>Editar Cliente</h4>
+
+    <button mat-button (click)="onClose()">
+        <mat-icon>close</mat-icon>
+    </button>
+
+
+</div>
+
+<hr>
+
+
+<div style="overflow: auto; height: 450px;">
+
+
+    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Cliente ID</span>
+            </div>
+            <input readonly="readonly" type="text" class="form-control" name="IdClientes" #IdClientes="ngModel" [(ngModel)]="service.formData.IdClientes">
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Nombre</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre">
+        </div>
+        <div class="text-left text-danger" *ngIf="Nombre.invalid && Nombre.touched">
+            Favor de Ingresar un Nombre.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">RFC</span>
+            </div>
+            <input required minlength="1" type="text" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="service.formData.RFC">
+        </div>
+        <div class="text-left text-danger" *ngIf="RFC.invalid && RFC.touched">
+            Favor de Ingresar RFC.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Razon Social</span>
+            </div>
+            <input required minlength="1" type="text" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="service.formData.RazonSocial">
+        </div>
+        <div class="text-left text-danger" *ngIf="RazonSocial.invalid && RazonSocial.touched">
+            Favor de Ingresar Razon Social.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Calle</span>
+            </div>
+            <input required minlength="0" type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle">
+        </div>
+        <div class="text-left text-danger" *ngIf="Calle.invalid && Calle.touched">
+            Favor de Ingresar Calle.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Colonia</span>
+            </div>
+            <input required minlength="0" type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia">
+        </div>
+        <div class="text-left text-danger" *ngIf="Colonia.invalid && Colonia.touched">
+            Favor de Ingresar Colonia.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">CP</span>
+            </div>
+            <input required minlength="0" type="text" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP">
+        </div>
+        <div class="text-left text-danger" *ngIf="CP.invalid && CP.touched">
+            Favor de Ingresar Codigo Postal.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Ciudad</span>
+            </div>
+            <input required minlength="0" type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad">
+        </div>
+        <div class="text-left text-danger" *ngIf="Ciudad.invalid && Ciudad.touched">
+            Favor de Ingresar Ciudad.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Estado</span>
+            </div>
+            <input required minlength="0" type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado">
+        </div>
+        <div class="text-left text-danger" *ngIf="Estado.invalid && Estado.touched">
+            Favor de Ingresar Estado.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Numero Interior</span>
+            </div>
+            <input type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior">
+        </div>
+        <div class="text-left text-danger" *ngIf="NumeroInterior.invalid && NumeroInterior.touched">
+            Favor de Ingresar Numero Interior.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Numero Exterior</span>
+            </div>
+            <input required minlength="0" type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior">
+        </div>
+        <div class="text-left text-danger" *ngIf="NumeroExterior.invalid && NumeroExterior.touched">
+            Favor de Ingresar Numero Exterior.
+        </div>
+
+
+
+        <button class="m-3" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Actualizar Cliente</button>
+
+    </form>
+
+</div>

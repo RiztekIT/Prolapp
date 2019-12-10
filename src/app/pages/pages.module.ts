@@ -87,15 +87,6 @@ import { ProveedoresComponent } from './administracion/catalogos/proveedores/pro
 import { ClientesComponent } from './administracion/catalogos/clientes/clientes.component';
 import { EditUsuarioComponent } from './administracion/catalogos/usuarios/edit-usuario/edit-usuario.component';
 import { ShowUsuarioComponent } from './administracion/catalogos/usuarios/show-usuario/show-usuario.component';
-
-// Importacion Angular Material
-import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule } from '@angular/material';
-import { MatNativeDateModule } from '@angular/material';
-import { MatDatepickerModule } from '@angular/material';
-import { MatTableModule } from '@angular/material/table';
-import { MatIconModule, MatButtonModule } from '@angular/material';
-import { MatInputModule } from '@angular/material/input';
 import { AddUsuarioComponent } from './administracion/catalogos/usuarios/add-usuario/add-usuario.component';
 import { ShowProveedorComponent } from './administracion/catalogos/proveedores/show-proveedor/show-proveedor.component';
 import { EditProveedorComponent } from './administracion/catalogos/proveedores/edit-proveedor/edit-proveedor.component';
@@ -105,6 +96,19 @@ import { EditProductoComponent } from './administracion/catalogos/productos/edit
 import { AddProductoComponent } from './administracion/catalogos/productos/add-producto/add-producto.component';
 import { ProductosService } from '../services/catalogos/productos.service';
 import { ProveedoresService } from '../services/catalogos/proveedores.service';
+import { ShowClienteComponent } from './administracion/catalogos/clientes/show-cliente/show-cliente.component';
+import { EditClienteComponent } from './administracion/catalogos/clientes/edit-cliente/edit-cliente.component';
+import { AddClienteComponent } from './administracion/catalogos/clientes/add-cliente/add-cliente.component';
+import { ClientesService } from '../services/catalogos/clientes.service';
+
+// Importacion Angular Material
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSortModule, MatDialogModule, MatSnackBarModule } from '@angular/material';
+import { MatNativeDateModule } from '@angular/material';
+import { MatDatepickerModule } from '@angular/material';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule, MatButtonModule } from '@angular/material';
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -193,7 +197,10 @@ import { ProveedoresService } from '../services/catalogos/proveedores.service';
         AddProveedorComponent,
         ShowProductoComponent,
         EditProductoComponent,
-        AddProductoComponent
+        AddProductoComponent,
+        ShowClienteComponent,
+        EditClienteComponent,
+        AddClienteComponent
     ],
     exports: [
         DashboardComponent,
@@ -220,7 +227,8 @@ import { ProveedoresService } from '../services/catalogos/proveedores.service';
     providers: [
         UsuariosServieService,
         ProductosService,
-        ProveedoresService
+        ProveedoresService,
+        ClientesService
     ],
     entryComponents: [
         AddUsuarioComponent,
@@ -228,7 +236,9 @@ import { ProveedoresService } from '../services/catalogos/proveedores.service';
         AddProveedorComponent,
         EditProveedorComponent,
         AddProductoComponent,
-        EditProductoComponent
+        EditProductoComponent,
+        AddClienteComponent,
+        EditClienteComponent
 
     ]
 })
