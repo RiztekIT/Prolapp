@@ -31,7 +31,7 @@ export class ProductosService {
  }
 
  updateProducto(producto: Producto) {
- return this.http.put(this.APIUrl+ '/usuario', producto);
+ return this.http.put(this.APIUrl+ '/producto', producto);
  }
 
 

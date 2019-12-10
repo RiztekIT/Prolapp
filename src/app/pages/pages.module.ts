@@ -103,6 +103,8 @@ import { AddProveedorComponent } from './administracion/catalogos/proveedores/ad
 import { ShowProductoComponent } from './administracion/catalogos/productos/show-producto/show-producto.component';
 import { EditProductoComponent } from './administracion/catalogos/productos/edit-producto/edit-producto.component';
 import { AddProductoComponent } from './administracion/catalogos/productos/add-producto/add-producto.component';
+import { ProductosService } from '../services/catalogos/productos.service';
+import { ProveedoresService } from '../services/catalogos/proveedores.service';
 
 
 
@@ -216,7 +218,9 @@ import { AddProductoComponent } from './administracion/catalogos/productos/add-p
         MatNativeDateModule
     ],
     providers: [
-        UsuariosServieService
+        UsuariosServieService,
+        ProductosService,
+        ProveedoresService
     ],
     entryComponents: [
         AddUsuarioComponent,

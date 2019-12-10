@@ -1,1 +1,73 @@
-<p>edit-producto works!</p>
+<div class="d-flex justify-content-between m-2">
+    <h4>Editar Producto</h4>
+
+    <button mat-button (click)="onClose()">
+    <mat-icon>close</mat-icon>
+</button>
+
+
+</div>
+
+<hr>
+
+
+<div style="overflow: auto; height: 450px;">
+
+
+    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Producto ID</span>
+            </div>
+            <input readonly="readonly" type="text" class="form-control" name="IdProducto" #IdProducto="ngModel" [(ngModel)]="service.formData.IdProducto">
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Nombre</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre">
+        </div>
+        <div class="text-left text-danger" *ngIf="Nombre.invalid && Nombre.touched">
+            Favor de Ingresar un Nombre.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Precio Venta</span>
+            </div>
+            <input required minlength="1" type="number" class="form-control" name="PrecioVenta" #PrecioVenta="ngModel" [(ngModel)]="service.formData.PrecioVenta">
+        </div>
+        <div class="text-left text-danger" *ngIf="PrecioVenta.invalid && PrecioVenta.touched">
+            Favor de Ingresar Precio Venta.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Precio Costo</span>
+            </div>
+            <input required minlength="1" type="number" class="form-control" name="PrecioCosto" #PrecioCosto="ngModel" [(ngModel)]="service.formData.PrecioCosto">
+        </div>
+        <div class="text-left text-danger" *ngIf="PrecioCosto.invalid && PrecioCosto.touched">
+            Favor de Ingresar Precio Costo.
+        </div>
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Cantidad</span>
+            </div>
+            <input required minlength="0" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formData.Cantidad">
+        </div>
+        <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
+            Favor de Ingresar Cantidad.
+        </div>
+
+
+
+        <button class="m-3" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Actualizar Producto</button>
+
+    </form>
+
+</div>

@@ -1,1 +1,99 @@
-<p>show-proveedor works!</p>
+<div>
+    <div>
+        <div>
+            <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div style="overflow:auto;">
+        <div class="mat-elevaton-z8">
+
+
+            <mat-table [dataSource]="listData" matSort>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+
+
+                <ng-container matColumnDef="IdProveedor">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>IdProveedor</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.IdProveedor}}</mat-header-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Nombre">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.Nombre}}</mat-header-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="RFC">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>RFC</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.RFC}}</mat-header-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="RazonSocial">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Razon Social</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.RazonSocial}}</mat-header-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Calle">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Calle</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.Calle}}</mat-header-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Colonia">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Colonia</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.Colonia}}</mat-header-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="CP">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>CP</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.CP}}</mat-header-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Ciudad">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Ciudad</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.Ciudad}}</mat-header-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Estado">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.Estado}}</mat-header-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="NumeroInterior">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Numero Interior</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.NumeroInterior}}</mat-header-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="NumeroExterior">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Numero Exterior</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.NumeroExterior}}</mat-header-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Options">
+                    <mat-header-cell *matHeaderCellDef>Options</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <!--  -->
+                        <button mat-icon-button (click)="onEdit(row)">
+                                            <mat-icon>launch</mat-icon>
+                                        </button>
+                        <!--  -->
+                        <button mat-icon-button color="warn" (click)="onDelete(row.IdProveedor)">
+                                                <mat-icon>delete_outline</mat-icon>
+                                            </button>
+                    </mat-cell>
+                </ng-container>
+
+
+            </mat-table>
+        </div>
+
+    </div>
+
+</div>
+
+
+<button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Agregar Proveedor</button>
