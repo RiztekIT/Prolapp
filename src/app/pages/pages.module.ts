@@ -109,6 +109,7 @@ import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule, MatButtonModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
+import { FacturaComponent } from '../components/factura/factura.component';
 
 
 
@@ -200,7 +201,8 @@ import { MatInputModule } from '@angular/material/input';
         AddProductoComponent,
         ShowClienteComponent,
         EditClienteComponent,
-        AddClienteComponent
+        AddClienteComponent,
+        FacturaComponent
     ],
     exports: [
         DashboardComponent,
