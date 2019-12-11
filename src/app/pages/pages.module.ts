@@ -3,6 +3,15 @@ import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
 
+// Importacion Angular Material
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSortModule, MatDialogModule, MatSnackBarModule } from '@angular/material';
+import { MatNativeDateModule } from '@angular/material';
+import { MatDatepickerModule } from '@angular/material';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule, MatButtonModule } from '@angular/material';
+import { MatInputModule } from '@angular/material/input';
+
 
 
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -100,16 +109,12 @@ import { ShowClienteComponent } from './administracion/catalogos/clientes/show-c
 import { EditClienteComponent } from './administracion/catalogos/clientes/edit-cliente/edit-cliente.component';
 import { AddClienteComponent } from './administracion/catalogos/clientes/add-cliente/add-cliente.component';
 import { ClientesService } from '../services/catalogos/clientes.service';
-
-// Importacion Angular Material
-import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule } from '@angular/material';
-import { MatNativeDateModule } from '@angular/material';
-import { MatDatepickerModule } from '@angular/material';
-import { MatTableModule } from '@angular/material/table';
-import { MatIconModule, MatButtonModule } from '@angular/material';
-import { MatInputModule } from '@angular/material/input';
 import { FacturaComponent } from '../components/factura/factura.component';
+import { FacturacioncxcAddComponent } from './cxc/facturacioncxc/facturacioncxc-add/facturacioncxc-add.component';
+import { FacturacioncxcEditComponent } from './cxc/facturacioncxc/facturacioncxc-edit/facturacioncxc-edit.component';
+import { FacturaService } from '../services/facturacioncxc/factura.service';
+
+
 
 
 
@@ -202,7 +207,9 @@ import { FacturaComponent } from '../components/factura/factura.component';
         ShowClienteComponent,
         EditClienteComponent,
         AddClienteComponent,
-        FacturaComponent
+        FacturaComponent,
+        FacturacioncxcAddComponent,
+        FacturacioncxcEditComponent
     ],
     exports: [
         DashboardComponent,
@@ -230,7 +237,8 @@ import { FacturaComponent } from '../components/factura/factura.component';
         UsuariosServieService,
         ProductosService,
         ProveedoresService,
-        ClientesService
+        ClientesService,
+        FacturaService
     ],
     entryComponents: [
         AddUsuarioComponent,
@@ -240,7 +248,9 @@ import { FacturaComponent } from '../components/factura/factura.component';
         AddProductoComponent,
         EditProductoComponent,
         AddClienteComponent,
-        EditClienteComponent
+        EditClienteComponent,
+        FacturacioncxcAddComponent,
+        FacturacioncxcEditComponent
 
     ]
 })
