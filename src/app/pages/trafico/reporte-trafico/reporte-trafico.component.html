@@ -91,14 +91,18 @@
 
 
 
-<div class="modal fade none-border" id="add-new-event">
-    <div class="modal-dialog modal-xl">
+<div class="modal fade bs-example-modal-lg show" id="add-new-event">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title"><strong>Add</strong> a category</h4>
+            <!-- <div class="modal-header">
+                <h4 class="modal-title">Factura</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-            <div class="modal-body col-lg-12">
+            </div> -->
+            <app-factura></app-factura>
+
+
+            <!-- formato de prueba de factura -->
+            <!-- <div class="modal-body col-lg-12">
                 <form role="form">
                     <div class="row">
                         <div class="col-lg-12">
@@ -193,10 +197,10 @@
                     </div>
 
                 </form>
-            </div>
+            </div> -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger waves-effect waves-light save-category" data-dismiss="modal">Guardar</button>
                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+                <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Imprimir</button>
             </div>
         </div>
     </div>

@@ -101,6 +101,10 @@ import { EditClienteComponent } from './administracion/catalogos/clientes/edit-c
 import { AddClienteComponent } from './administracion/catalogos/clientes/add-cliente/add-cliente.component';
 import { ClientesService } from '../services/catalogos/clientes.service';
 
+
+  //qr code
+import { NgxQRCodeModule } from 'ngx-qrcode2'; 
+
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSortModule, MatDialogModule, MatSnackBarModule } from '@angular/material';
@@ -224,7 +228,8 @@ import { FacturaComponent } from '../components/factura/factura.component';
         MatDialogModule,
         MatSnackBarModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        NgxQRCodeModule
     ],
     providers: [
         UsuariosServieService,
