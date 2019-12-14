@@ -30,6 +30,7 @@ export class AddProductoComponent implements OnInit {
       PrecioCosto: '',
       Cantidad: ''
     }
+
   }
 
 onClose(){

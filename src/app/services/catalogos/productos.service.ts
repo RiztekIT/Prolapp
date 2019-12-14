@@ -4,6 +4,7 @@ import { Producto } from '../../Models/catalogos/productos-model';
 import {Observable } from 'rxjs';
 
 import {Subject} from 'rxjs';
+import { Factura } from '../../Models/facturacioncxc/factura-model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class ProductosService {
 
   constructor(private http:HttpClient) { }
   formData: Producto;
+  // formData1: Factura;
 
 
   readonly APIUrl = "https://localhost:44361/api";

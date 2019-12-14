@@ -1,6 +1,7 @@
 export class Factura {
     //Factura
     Id: number;
+    ClienteId: number;
     Serie: string;
     Folio: string;
     Tipo: string;
@@ -34,9 +35,9 @@ export class Factura {
     Estatus: string;
     Version: string;
 
-    //Factura Detalle
-    IdDetalle: string;
-    IdFactura: string;
+    // //Factura Detalle
+    IdDetalle: number;
+    IdFactura: number;
     ClaveProducto: string;
     Producto: string;
     Unidad: string;

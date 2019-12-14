@@ -59,6 +59,7 @@ import { DocumentosalmacenComponent } from './almacen/documentosalmacen/document
 import { IncidenciasalmacenComponent } from './almacen/incidenciasalmacen/incidenciasalmacen.component';
 import { CalendarioalmacenComponent } from './almacen/calendarioalmacen/calendarioalmacen.component';
 import { ReportesalmacenComponent } from './almacen/reportesalmacen/reportesalmacen.component';
+import { FacturacioncxcAddComponent } from './cxc/facturacioncxc/facturacioncxc-add/facturacioncxc-add.component';
 
 
 
@@ -105,6 +106,7 @@ const pagesRoutes: Routes = [
                 { path: 'calendarioImportacion', component: CalendarioImportacionComponent  },
                 { path: 'calendarioCxc', component: CalendariocxcComponent  },
                 { path: 'facturacionCxc', component: FacturacioncxcComponent  },
+                { path: 'facturacionCxcAdd', component: FacturacioncxcAddComponent  },
                 { path: 'pedidosCxc', component: PedidoscxcComponent  },
                 { path: 'polizasCxc', component: PolizascxcComponent  },
                 { path: 'reportesCxc', component: ReportescxcComponent  },

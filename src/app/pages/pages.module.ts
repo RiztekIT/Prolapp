@@ -249,7 +249,7 @@ import { FacturaService } from '../services/facturacioncxc/factura.service';
         EditProductoComponent,
         AddClienteComponent,
         EditClienteComponent,
-        FacturacioncxcAddComponent,
+        // FacturacioncxcAddComponent,
         FacturacioncxcEditComponent
 
     ]
