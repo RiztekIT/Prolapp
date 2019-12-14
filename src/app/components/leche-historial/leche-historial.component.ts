@@ -1,5 +1,4 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import * as html2pdf from 'html2pdf.js';
 
 
 declare function lecheData();
@@ -17,9 +16,7 @@ export class LecheHistorialComponent implements OnInit {
   constructor(  ) { }
 
   ngOnInit() {
-    lecheData();
-    historialLeche();
-    this.precioleche = window["preciolecheF"];
+
   }
 
 
