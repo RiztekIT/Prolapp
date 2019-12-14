@@ -2,31 +2,86 @@
     border-radius: 50px;
 }
 
-h4 {
-    line-height: 10px;
-}
-
-.col-md-6 {
-    margin-bottom: -40px;
-}
-
-.col-lg-6 {
-    margin-bottom: -40px;
-}
-
-.col-lg-12 {
-    margin-bottom: -20px;
-}
-
-.card {
-    margin-bottom: -20px;
+h6 {
+    line-height: 1px;
+    font-size: 10px;
 }
 
 .no-scroll::-webkit-scrollbar {
     display: none;
 }
 
-.table-responsive {
-    margin-bottom: -35px;
-    margin-top: -15px;
+th {
+    white-space: nowrap
 }
+
+.table th {
+    padding-right: .75rem;
+}
+
+.containerborder {
+    border: 1px solid black;
+}
+
+.table-responsive {
+    margin-top: -25px;
+    margin-bottom: -45px
+}
+
+.table {
+    padding-right: 0rem;
+    padding-left: 0.4rem;
+}
+
+.col-lg-12 {
+    padding-right: 1px;
+    padding-left: 1px;
+}
+
+.col-lg-6 {
+    padding-right: 1px;
+    padding-left: 1px;
+}
+
+.col-lg-7 {
+    padding-bottom: 0px;
+}
+
+th {
+    font-size: 10px;
+}
+
+.campofirma {
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+.bordeTopBottom {
+    width: 100%;
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
+}
+
+.card-body {
+    /* padding-bottom: -20px;
+    padding-top: 0rem; */
+    padding: 0rem;
+}
+
+.text-center {
+    margin-bottom: 0px;
+}
+
+.nomarginbottomP {
+    margin-bottom: 0px;
+}
+
+.wrapper {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 0 5%;
+    clear: both;
+}
+
+
+/* page-break-after:auto */
