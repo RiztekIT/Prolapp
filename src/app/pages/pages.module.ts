@@ -109,6 +109,12 @@ import { ShowClienteComponent } from './administracion/catalogos/clientes/show-c
 import { EditClienteComponent } from './administracion/catalogos/clientes/edit-cliente/edit-cliente.component';
 import { AddClienteComponent } from './administracion/catalogos/clientes/add-cliente/add-cliente.component';
 import { ClientesService } from '../services/catalogos/clientes.service';
+
+
+  //qr code
+import { NgxQRCodeModule } from 'ngx-qrcode2'; 
+
+// Importacion Angular Material
 import { FacturaComponent } from '../components/factura/factura.component';
 import { FacturacioncxcAddComponent } from './cxc/facturacioncxc/facturacioncxc-add/facturacioncxc-add.component';
 import { FacturacioncxcEditComponent } from './cxc/facturacioncxc/facturacioncxc-edit/facturacioncxc-edit.component';
@@ -231,7 +237,8 @@ import { FacturaService } from '../services/facturacioncxc/factura.service';
         MatDialogModule,
         MatSnackBarModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        NgxQRCodeModule
     ],
     providers: [
         UsuariosServieService,
