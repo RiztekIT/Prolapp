@@ -1,9 +1,9 @@
 <div class="d-flex justify-content-between m-2">
-    <h4>Editar Proveedor</h4>
+    <h4>Editar Cliente</h4>
 
     <button mat-button (click)="onClose()">
-    <mat-icon>close</mat-icon>
-</button>
+        <mat-icon>close</mat-icon>
+    </button>
 
 
 </div>
@@ -19,9 +19,9 @@
 
         <div class="m-3 input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text">Proveedor ID</span>
+                <span class="input-group-text">Cliente ID</span>
             </div>
-            <input readonly="readonly" type="text" class="form-control" name="IdProveedor" #IdProveedor="ngModel" [(ngModel)]="service.formData.IdProveedor">
+            <input readonly="readonly" type="text" class="form-control" name="IdClientes" #IdClientes="ngModel" [(ngModel)]="service.formData.IdClientes">
         </div>
 
         <div class="m-3 input-group">
@@ -126,7 +126,7 @@
 
 
 
-        <button class="m-3" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Actualizar Proveedor</button>
+        <button class="m-3" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Actualizar Cliente</button>
 
     </form>
 

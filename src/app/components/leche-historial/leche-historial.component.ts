@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+
 
 declare function lecheData();
+declare function historialLeche();
 
 @Component({
   selector: 'app-leche-historial',
@@ -9,10 +11,12 @@ declare function lecheData();
 })
 export class LecheHistorialComponent implements OnInit {
 
-  constructor() { }
+  precioleche:string;
+
+  constructor(  ) { }
 
   ngOnInit() {
-    lecheData();
+
   }
 
 

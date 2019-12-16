@@ -1,9 +1,9 @@
 <div class="d-flex justify-content-between">
-    <h4>Agregar Nuevo Proveedor</h4>
+    <h4>Agregar Nuevo Cliente</h4>
 
     <button mat-button (click)="onClose()">
-        <mat-icon>close</mat-icon>
-    </button>
+            <mat-icon>close</mat-icon>
+        </button>
 
 
 </div>
@@ -110,7 +110,6 @@
             </div>
             <input type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior">
         </div>
-
         <!--               -------------------------------------------------------                                       -->
         <div class="mt-4 input-group">
 
@@ -137,7 +136,7 @@
 
 
 
-        <button class="mt-4" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Agregar Proveedor</button>
+        <button class="mt-4" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Agregar Cliente</button>
 
     </form>
 

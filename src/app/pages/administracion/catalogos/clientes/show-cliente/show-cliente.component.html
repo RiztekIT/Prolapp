@@ -18,9 +18,9 @@
 
 
 
-                <ng-container matColumnDef="IdProveedor">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>IdProveedor</mat-header-cell>
-                    <mat-header-cell *matCellDef="let element">{{element.IdProveedor}}</mat-header-cell>
+                <ng-container matColumnDef="IdCliente">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>IdCliente</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.IdClientes}}</mat-header-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="Nombre">
@@ -78,12 +78,12 @@
                     <mat-cell *matCellDef="let row">
                         <!--  -->
                         <button mat-icon-button (click)="onEdit(row)">
-                                            <mat-icon>launch</mat-icon>
-                                        </button>
-                        <!--  -->
-                        <button mat-icon-button color="warn" (click)="onDelete(row.IdProveedor)">
-                                                <mat-icon>delete_outline</mat-icon>
+                                                <mat-icon>launch</mat-icon>
                                             </button>
+                        <!--  -->
+                        <button mat-icon-button color="warn" (click)="onDelete(row.IdClientes)">
+                                                    <mat-icon>delete_outline</mat-icon>
+                                                </button>
                     </mat-cell>
                 </ng-container>
 
@@ -96,4 +96,4 @@
 </div>
 
 
-<button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Agregar Proveedor</button>
+<button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Agregar Cliente</button>

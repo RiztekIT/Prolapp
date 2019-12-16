@@ -1,22 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { ProductosService } from '../../../../../services/catalogos/productos.service';
+import { ClientesService } from '../../../../../services/catalogos/clientes.service';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-add-producto',
-  templateUrl: './add-producto.component.html',
+  selector: 'app-add-cliente',
+  templateUrl: './add-cliente.component.html',
   styles: []
 })
-export class AddProductoComponent implements OnInit {
+export class AddClienteComponent implements OnInit {
 
-  constructor(  public dialogbox: MatDialogRef<AddProductoComponent>,
-    public service: ProductosService, private snackBar: MatSnackBar) { }
+  constructor(  public dialogbox: MatDialogRef<AddClienteComponent>,
+    public service: ClientesService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.resetForm();
   }
-
 
 
   resetForm(form?: NgForm) {
@@ -24,13 +23,18 @@ export class AddProductoComponent implements OnInit {
    form.resetForm();
 
     this.service.formData = {
-      IdProducto: 0,
+      IdClientes: 0,
       Nombre: '',
-      PrecioVenta: '',
-      PrecioCosto: '',
-      Cantidad: ''
+      RFC: '',
+      RazonSocial: '',
+      Calle: '',
+      Colonia:'',
+      CP: '',
+      Ciudad: '',
+      Estado: '',
+      NumeroInterior: '',
+      NumeroExterior: ''
     }
-
   }
 
 onClose(){
@@ -40,7 +44,7 @@ onClose(){
 
 onSubmit(form: NgForm) {
   // console.log(form.value);
-  this.service.addProducto(form.value).subscribe( res =>
+  this.service.addCliente(form.value).subscribe( res =>
     {
       this.resetForm(form);
       this.snackBar.open(res.toString(),'',{
@@ -50,6 +54,4 @@ onSubmit(form: NgForm) {
     }
     );
 }
-
-
 }

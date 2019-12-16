@@ -3,6 +3,15 @@ import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
 
+// Importacion Angular Material
+import { MatSliderModule } from '@angular/material/slider';
+import { MatSortModule, MatDialogModule, MatSnackBarModule } from '@angular/material';
+import { MatNativeDateModule } from '@angular/material';
+import { MatDatepickerModule } from '@angular/material';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule, MatButtonModule } from '@angular/material';
+import { MatInputModule } from '@angular/material/input';
+
 
 
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -87,15 +96,6 @@ import { ProveedoresComponent } from './administracion/catalogos/proveedores/pro
 import { ClientesComponent } from './administracion/catalogos/clientes/clientes.component';
 import { EditUsuarioComponent } from './administracion/catalogos/usuarios/edit-usuario/edit-usuario.component';
 import { ShowUsuarioComponent } from './administracion/catalogos/usuarios/show-usuario/show-usuario.component';
-
-// Importacion Angular Material
-import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule } from '@angular/material';
-import { MatNativeDateModule } from '@angular/material';
-import { MatDatepickerModule } from '@angular/material';
-import { MatTableModule } from '@angular/material/table';
-import { MatIconModule, MatButtonModule } from '@angular/material';
-import { MatInputModule } from '@angular/material/input';
 import { AddUsuarioComponent } from './administracion/catalogos/usuarios/add-usuario/add-usuario.component';
 import { ShowProveedorComponent } from './administracion/catalogos/proveedores/show-proveedor/show-proveedor.component';
 import { EditProveedorComponent } from './administracion/catalogos/proveedores/edit-proveedor/edit-proveedor.component';
@@ -103,6 +103,24 @@ import { AddProveedorComponent } from './administracion/catalogos/proveedores/ad
 import { ShowProductoComponent } from './administracion/catalogos/productos/show-producto/show-producto.component';
 import { EditProductoComponent } from './administracion/catalogos/productos/edit-producto/edit-producto.component';
 import { AddProductoComponent } from './administracion/catalogos/productos/add-producto/add-producto.component';
+import { ProductosService } from '../services/catalogos/productos.service';
+import { ProveedoresService } from '../services/catalogos/proveedores.service';
+import { ShowClienteComponent } from './administracion/catalogos/clientes/show-cliente/show-cliente.component';
+import { EditClienteComponent } from './administracion/catalogos/clientes/edit-cliente/edit-cliente.component';
+import { AddClienteComponent } from './administracion/catalogos/clientes/add-cliente/add-cliente.component';
+import { ClientesService } from '../services/catalogos/clientes.service';
+
+
+  //qr code
+import { NgxQRCodeModule } from 'ngx-qrcode2'; 
+
+// Importacion Angular Material
+import { FacturaComponent } from '../components/factura/factura.component';
+import { FacturacioncxcAddComponent } from './cxc/facturacioncxc/facturacioncxc-add/facturacioncxc-add.component';
+import { FacturacioncxcEditComponent } from './cxc/facturacioncxc/facturacioncxc-edit/facturacioncxc-edit.component';
+import { FacturaService } from '../services/facturacioncxc/factura.service';
+
+
 
 
 
@@ -191,7 +209,13 @@ import { AddProductoComponent } from './administracion/catalogos/productos/add-p
         AddProveedorComponent,
         ShowProductoComponent,
         EditProductoComponent,
-        AddProductoComponent
+        AddProductoComponent,
+        ShowClienteComponent,
+        EditClienteComponent,
+        AddClienteComponent,
+        FacturaComponent,
+        FacturacioncxcAddComponent,
+        FacturacioncxcEditComponent
     ],
     exports: [
         DashboardComponent,
@@ -213,10 +237,15 @@ import { AddProductoComponent } from './administracion/catalogos/productos/add-p
         MatDialogModule,
         MatSnackBarModule,
         MatDatepickerModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        NgxQRCodeModule
     ],
     providers: [
-        UsuariosServieService
+        UsuariosServieService,
+        ProductosService,
+        ProveedoresService,
+        ClientesService,
+        FacturaService
     ],
     entryComponents: [
         AddUsuarioComponent,
@@ -224,7 +253,11 @@ import { AddProductoComponent } from './administracion/catalogos/productos/add-p
         AddProveedorComponent,
         EditProveedorComponent,
         AddProductoComponent,
-        EditProductoComponent
+        EditProductoComponent,
+        AddClienteComponent,
+        EditClienteComponent,
+        // FacturacioncxcAddComponent,
+        FacturacioncxcEditComponent
 
     ]
 })

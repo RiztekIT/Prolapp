@@ -1,0 +1,162 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+
+                <div class="d-flex justify-content-between">
+                    <h4>Generar Factura</h4>
+
+                    <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button>
+                </div>
+                <hr>
+
+
+
+
+                <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+
+                    <div class="mt-4 input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Cliente a Facturar</span>
+                        </div>
+                        <select class="form-control" name="ClienteId" #ClienteId="ngModel" [(ngModel)]="service.formData.ClienteId" required>
+                                <option [ngValue]="null" disabled>Choose your profile</option>
+                                <option *ngFor="let dl of listClientes" [ngValue] = "dl.IdClientes">
+                                    {{dl.Nombre}}
+                                </option>
+                            </select>
+                    </div>
+                    <div class="text-left text-danger" *ngIf="ClienteId.invalid && ClienteId.touched ">
+                        Favor de Seleccionar un Cliente
+                    </div>
+                    <!--               -------------------------------------------------------                                       -->
+                    <!-- <div class="mt-4 input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Elegir Producto(s)</span>
+                        </div>
+                        <input required minlength="2" type="number" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="service.formData.ClaveProducto">
+                    </div>
+                    <div class="text-left text-danger" *ngIf="ClaveProducto.invalid && ClaveProducto.touched">
+                        Favor de Ingresar Precio Venta
+                    </div> -->
+                    <!--               -------------------------------------------------------                                       -->
+                    <div class="mt-4 input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Uso CFDI</span>
+                        </div>
+                        <select class="form-control" name="UsoDelCFDI" #UsoDelCFDI="ngModel" [(ngModel)]="service.formData.UsoDelCFDI" required>
+                            <option [ngValue] = "null" selected disabled >Seleccionar CFDI</option>
+                            <option [ngValue] = "1">
+                                Option 1
+                            </option>
+                            <option [ngValue] = "2">
+                                Option 2
+                            </option>
+                            <option [ngValue] = "3">
+                                Option 3
+                            </option>
+                        </select>
+                    </div>
+                    <div class="text-left text-danger" *ngIf="UsoDelCFDI.invalid && UsoDelCFDI.touched">
+                        Favor de Seleccionar CFDI
+                    </div>
+                    <!--               -------------------------------------------------------                                       -->
+                    <div class="mt-4 input-group">
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Metodo Pago</span>
+                        </div>
+                        <select class="form-control" name="MetodoDePago" #MetodoDePago="ngModel" [(ngModel)]="service.formData.MetodoDePago" required>
+                            <option [ngValue] = "null" selected disabled >Seleccionar Metodo Pago</option>
+                            <option [ngValue] = "1">
+                                Option 1
+                            </option>
+                            <option [ngValue] = "2">
+                                Option 2
+                            </option>
+                            <option [ngValue] = "3">
+                                Option 3
+                            </option>
+                        </select>
+                    </div>
+                    <div class="text-left text-danger" *ngIf="MetodoDePago.invalid && MetodoDePago.touched">
+                        Favor de Ingresar Metodo de Pago
+                    </div>
+                    <!--               -------------------------------------------------------                                       -->
+                    <div class="mt-4 input-group">
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Forma de Pago</span>
+                        </div>
+                        <select class="form-control" name="FormaDePago" #FormaDePago="ngModel" [(ngModel)]="service.formData.FormaDePago" required>
+                            <option [ngValue] = "null" selected disabled >Seleccionar Forma Pago</option>
+                            <option [ngValue] = "1">
+                                Option 1
+                            </option>
+                            <option [ngValue] = "2">
+                                Option 2
+                            </option>
+                            <option [ngValue] = "3">
+                                Option 3
+                            </option>
+                        </select>
+                    </div>
+                    <div class="text-left text-danger" *ngIf="FormaDePago.invalid && FormaDePago.touched">
+                        Favor de Ingresar Metodo de Pago
+                    </div>
+                    <!--               -------------------------------------------------------                                       -->
+                    <div class="mt-4 input-group">
+
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Folio</span>
+                        </div>
+                        <input required minlength="2" type="string" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="service.formData.Folio">
+                    </div>
+                    <div class="text-left text-danger" *ngIf="Folio.invalid && Folio.touched">
+                        Favor de Ingresar Folio
+                    </div>
+                    <!--               -------------------------------------------------------                                       -->
+                    <div class="mt-4 input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Fecha Expedicion</span>
+                        </div>
+                        <input required type="datetime" class="form-control" name="FechaDeExpedicion" #FechaDeExpedicion="ngModel" [(ngModel)]="service.formData.FechaDeExpedicion">
+                    </div>
+                    <div class="text-left text-danger" *ngIf="FechaDeExpedicion.invalid && FechaDeExpedicion.touched">
+                        Favor de Ingresar Fecha Expedicion
+                    </div>
+                    <!--               -------------------------------------------------------                                       -->
+                    <div class="mt-4 input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Fecha Vencimiento</span>
+                        </div>
+                        <input required type="datetime" class="form-control" name="FechaVencimiento" #FechaVencimiento="ngModel" [(ngModel)]="service.formData.FechaVencimiento">
+                    </div>
+                    <div class="text-left text-danger" *ngIf="FechaVencimiento.invalid && FechaVencimiento.touched">
+                        Favor de Ingresar Fecha Vencimiento
+                    </div>
+                    <!--               -------------------------------------------------------                                       -->
+                    <div class="mt-4 input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Fecha Entrega</span>
+                        </div>
+                        <input required type="datetime" class="form-control" name="FechaDeEntrega" #FechaDeEntrega="ngModel" [(ngModel)]="service.formData.FechaDeEntrega">
+                    </div>
+                    <div class="text-left text-danger" *ngIf="FechaDeEntrega.invalid && FechaDeEntrega.touched">
+                        Favor de Ingresar Fecha Entrega
+                    </div>
+                    <!--               -------------------------------------------------------                                       -->
+
+
+                    <button class="mt-4" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Crear Factura</button>
+
+                </form>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

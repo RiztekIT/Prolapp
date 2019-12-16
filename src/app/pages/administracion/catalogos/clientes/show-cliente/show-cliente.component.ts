@@ -1,41 +1,41 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import {MatTableDataSource, MatSort} from '@angular/material';
-import { Producto } from '../../../../../Models/catalogos/productos-model';
-import { ProductosService } from '../../../../../services/catalogos/productos.service';
+import { Cliente } from '../../../../../Models/catalogos/clientes-model';
+import { ClientesService } from '../../../../../services/catalogos/clientes.service';
 
 import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
-import { AddProductoComponent } from '../add-producto/add-producto.component';
-import { EditProductoComponent } from '../edit-producto/edit-producto.component';
+import { AddClienteComponent } from '../add-cliente/add-cliente.component';
+import { EditClienteComponent } from '../edit-cliente/edit-cliente.component';
+
 
 @Component({
-  selector: 'app-show-producto',
-  templateUrl: './show-producto.component.html',
+  selector: 'app-show-cliente',
+  templateUrl: './show-cliente.component.html',
   styles: []
 })
-export class ShowProductoComponent implements OnInit {
-
+export class ShowClienteComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
-  displayedColumns : string [] = ['IdProducto', 'Nombre', 'PrecioVenta', 'PrecioCosto', 'Cantidad', 'Options'];
+  displayedColumns : string [] = ['IdCliente', 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado', 'NumeroInterior', 'NumeroExterior','Options'];
   @ViewChild(MatSort, null) sort : MatSort;
 
-  constructor(private service:ProductosService, private dialog: MatDialog, private snackBar: MatSnackBar) {
+  constructor(private service:ClientesService, private dialog: MatDialog, private snackBar: MatSnackBar) {
 
     this.service.listen().subscribe((m:any)=>{
       console.log(m);
-      this.refreshProductosList();
+      this.refreshClientesList();
       });
 
    }
 
   ngOnInit() {
-    this.refreshProductosList();
+    this.refreshClientesList();
   }
 
-  refreshProductosList() {
+  refreshClientesList() {
 
-    this.service.getProductosList().subscribe(data => {
+    this.service.getClientesList().subscribe(data => {
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
     //console.log(this.listData);
@@ -46,8 +46,8 @@ export class ShowProductoComponent implements OnInit {
   onDelete( id:number){
     //console.log(id);
     if ( confirm('Are you sure to delete?')) {
-      this.service.deleteProducto(id).subscribe(res => {
-      this.refreshProductosList();
+      this.service.deleteCliente(id).subscribe(res => {
+      this.refreshClientesList();
       this.snackBar.open(res.toString(), '', {
         duration: 3000,
         verticalPosition: 'top'
@@ -64,23 +64,22 @@ export class ShowProductoComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
-    this.dialog.open(AddProductoComponent, dialogConfig);
+    this.dialog.open(AddClienteComponent, dialogConfig);
 
   }
 
-  onEdit(producto: Producto){
+  onEdit(cliente: Cliente){
 // console.log(usuario);
-this.service.formData = producto;
+this.service.formData = cliente;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
-    this.dialog.open(EditProductoComponent, dialogConfig);
+    this.dialog.open(EditClienteComponent, dialogConfig);
   }
 
   applyFilter(filtervalue: string){  
     this.listData.filter= filtervalue.trim().toLocaleLowerCase();
 
   }
-
 }

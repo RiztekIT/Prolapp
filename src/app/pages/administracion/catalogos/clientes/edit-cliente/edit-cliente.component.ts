@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { ProductosService } from '../../../../../services/catalogos/productos.service';
+import { ClientesService } from '../../../../../services/catalogos/clientes.service';
 import { NgForm } from '@angular/forms';
+
 @Component({
-  selector: 'app-edit-producto',
-  templateUrl: './edit-producto.component.html',
+  selector: 'app-edit-cliente',
+  templateUrl: './edit-cliente.component.html',
   styles: []
 })
-export class EditProductoComponent implements OnInit {
+export class EditClienteComponent implements OnInit {
 
-  constructor(public dialogbox: MatDialogRef<EditProductoComponent>,
-    public service: ProductosService, private snackBar: MatSnackBar) { }
+  constructor(public dialogbox: MatDialogRef<EditClienteComponent>,
+    public service: ClientesService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
   }
@@ -21,7 +22,7 @@ export class EditProductoComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    this.service.updateProducto(form.value).subscribe(res => {
+    this.service.updateCliente(form.value).subscribe(res => {
       this.snackBar.open(res.toString(), '', {
         duration: 5000,
         verticalPosition: 'top'

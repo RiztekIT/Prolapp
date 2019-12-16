@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as html2pdf from 'html2pdf.js';
 
 declare function printTrafico();
 @Component({
@@ -13,5 +14,20 @@ export class ReporteTraficoComponent implements OnInit {
   ngOnInit() {
     printTrafico();
   }
+
+  onExportClick() {
+    const option = {
+      filename: 'FacturaPDF.pdf',
+      image: {type: 'jpeg'},
+      html2canvas: {},
+      jsPDF: {orientation: 'portrait'}
+    };
+    const content: Element = document.getElementById('element-to-PDF');
+
+    html2pdf()
+   .from(content)
+   .set(option)
+   .save();
+}
 
 }
