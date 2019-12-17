@@ -5,7 +5,7 @@ declare function printTrafico();
 @Component({
   selector: 'app-reporte-trafico',
   templateUrl: './reporte-trafico.component.html',
-  styles: []
+  styleUrls: ['./reporte-trafico.component.css']
 })
 export class ReporteTraficoComponent implements OnInit {
 
@@ -17,10 +17,13 @@ export class ReporteTraficoComponent implements OnInit {
 
   onExportClick() {
     const option = {
+      margin: [0,0,0,0],
       filename: 'FacturaPDF.pdf',
-      image: {type: 'jpeg'},
-      html2canvas: {},
+      image: {type: 'jpeg', quality: 1},
+      html2canvas: {scale: 2, logging: true},
       jsPDF: {orientation: 'portrait'}
+
+
     };
     const content: Element = document.getElementById('element-to-PDF');
 
