@@ -94,6 +94,7 @@
             Favor de Ingresar Contraseña.
         </div>
 
+        <input type="hidden" class="form-control" name="FechaUltimoAcceso" #FechaUltimoAcceso="ngModel" value="2016-09-16T00:00:00" [(ngModel)]="service.formData.FechaUltimoAcceso">
 
 
         <button class="m-3" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Actualizar Usuario</button>

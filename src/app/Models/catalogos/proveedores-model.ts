@@ -10,5 +10,11 @@ export class Proveedor {
     Estado: string;
     NumeroInterior: string;
     NumeroExterior: string;
+    ClaveProveedor: string;
+    Estatus: string;
+    LimiteCredito: string;
+    DiasCredito: string;
+    MetodoPago: string;
+    UsoCFDI: string;
 
 }

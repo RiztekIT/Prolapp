@@ -10,7 +10,7 @@ import { NgForm } from '@angular/forms';
 })
 export class AddProductoComponent implements OnInit {
 
-  constructor(  public dialogbox: MatDialogRef<AddProductoComponent>,
+  constructor(public dialogbox: MatDialogRef<AddProductoComponent>,
     public service: ProductosService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
@@ -21,35 +21,41 @@ export class AddProductoComponent implements OnInit {
 
   resetForm(form?: NgForm) {
     if (form != null)
-   form.resetForm();
+      form.resetForm();
 
     this.service.formData = {
       IdProducto: 0,
       Nombre: '',
       PrecioVenta: '',
       PrecioCosto: '',
-      Cantidad: ''
+      Cantidad: '',
+      ClaveProducto: '',
+      Stock: '',
+      DescripcionProducto: '',
+      Estatus: '',
+      UnidadMedida: '',
+      IVA: '',
+      ClaveSAT: ''
     }
 
   }
 
-onClose(){
-  this.dialogbox.close();
-  this.service.filter('Register click');
-}
+  onClose() {
+    this.dialogbox.close();
+    this.service.filter('Register click');
+  }
 
-onSubmit(form: NgForm) {
-  // console.log(form.value);
-  this.service.addProducto(form.value).subscribe( res =>
-    {
+  onSubmit(form: NgForm) {
+    // console.log(form.value);
+    this.service.addProducto(form.value).subscribe(res => {
       this.resetForm(form);
-      this.snackBar.open(res.toString(),'',{
+      this.snackBar.open(res.toString(), '', {
         duration: 5000,
         verticalPosition: 'top'
       });
     }
     );
-}
+  }
 
 
 }

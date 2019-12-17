@@ -4,5 +4,12 @@ export class Producto {
     PrecioVenta: string;
     PrecioCosto: string;
     Cantidad: string;
+    ClaveProducto: string;
+    Stock: string;
+    DescripcionProducto: string;
+    Estatus: string;
+    UnidadMedida: string;
+    IVA: string;
+    ClaveSAT: string;
 
 }

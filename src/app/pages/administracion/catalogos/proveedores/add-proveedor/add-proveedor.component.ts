@@ -11,7 +11,7 @@ import { NgForm } from '@angular/forms';
 })
 export class AddProveedorComponent implements OnInit {
 
-  constructor(  public dialogbox: MatDialogRef<AddProveedorComponent>,
+  constructor(public dialogbox: MatDialogRef<AddProveedorComponent>,
     public service: ProveedoresService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
@@ -21,7 +21,7 @@ export class AddProveedorComponent implements OnInit {
 
   resetForm(form?: NgForm) {
     if (form != null)
-   form.resetForm();
+      form.resetForm();
 
     this.service.formData = {
       IdProveedor: 0,
@@ -29,32 +29,37 @@ export class AddProveedorComponent implements OnInit {
       RFC: '',
       RazonSocial: '',
       Calle: '',
-      Colonia:'',
+      Colonia: '',
       CP: '',
       Ciudad: '',
       Estado: '',
       NumeroInterior: '',
-      NumeroExterior: ''
+      NumeroExterior: '',
+      ClaveProveedor: '',
+      Estatus: '',
+      LimiteCredito: '',
+      DiasCredito: '',
+      MetodoPago: '',
+      UsoCFDI: ''
     }
   }
 
-onClose(){
-  this.dialogbox.close();
-  this.service.filter('Register click');
-}
+  onClose() {
+    this.dialogbox.close();
+    this.service.filter('Register click');
+  }
 
-onSubmit(form: NgForm) {
-  // console.log(form.value);
-  this.service.addProveedor(form.value).subscribe( res =>
-    {
+  onSubmit(form: NgForm) {
+    // console.log(form.value);
+    this.service.addProveedor(form.value).subscribe(res => {
       this.resetForm(form);
-      this.snackBar.open(res.toString(),'',{
+      this.snackBar.open(res.toString(), '', {
         duration: 5000,
         verticalPosition: 'top'
       });
     }
     );
-}
+  }
 
 
 
