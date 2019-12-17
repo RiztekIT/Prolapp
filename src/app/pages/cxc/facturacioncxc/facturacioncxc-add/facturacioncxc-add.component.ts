@@ -16,10 +16,12 @@ export class FacturacioncxcAddComponent implements OnInit {
     
     // public listClientes: Array<any> = [];
     listClientes: Cliente[]  = [];
+    // folio: number[] = [];
 
   ngOnInit() {
     this.resetForm();
     this.dropdownRefresh();
+    // this.Folio();
   }
 
 
@@ -49,6 +51,8 @@ export class FacturacioncxcAddComponent implements OnInit {
   Regresar(){
     this.router.navigateByUrl('/facturacionCxc');
   }
+
+  
 
 
 
