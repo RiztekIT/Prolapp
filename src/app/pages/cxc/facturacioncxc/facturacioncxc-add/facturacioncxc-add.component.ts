@@ -4,24 +4,26 @@ import { FacturaService } from '../../../../services/facturacioncxc/factura.serv
 import {  NgForm } from '@angular/forms';
 import { Cliente } from '../../../../Models/catalogos/clientes-model';
 import { Router } from '@angular/router';
+import { Usuario } from '../../../../Models/catalogos/usuarios-model';
 
 @Component({
   selector: 'app-facturacioncxc-add',
   templateUrl: './facturacioncxc-add.component.html'
 })
 export class FacturacioncxcAddComponent implements OnInit {
+  folio: string;
 
   constructor( 
     public service: FacturaService, private snackBar: MatSnackBar,  private router:Router) { }
     
-    // public listClientes: Array<any> = [];
+  
     listClientes: Cliente[]  = [];
-    // folio: number[] = [];
+  
 
   ngOnInit() {
     this.resetForm();
     this.dropdownRefresh();
-    // this.Folio();
+    this.Folio();
   }
 
 
@@ -50,6 +52,17 @@ export class FacturacioncxcAddComponent implements OnInit {
   }
   Regresar(){
     this.router.navigateByUrl('/facturacionCxc');
+  }
+  Folio(){
+    this.folio = "200"; 
+    // this.service.getFolio().subscribe(data => {
+      console.log(this.folio);
+      // console.log(this.folio);
+      this.service.formData.Folio = this.folio;
+      console.log(this.service.formData.Folio);
+      // this.service.formData.Folio = this.folio;
+      // console.log(this.service.formData.Folio);
+    // });
   }
 
   
@@ -95,6 +108,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     Vendedor: '',
     Estatus: '',
     Version: '',
+    Usuario: '',
     //Detalle Factura
     IdDetalle: 0,
     IdFactura: 0,
@@ -105,7 +119,8 @@ export class FacturacioncxcAddComponent implements OnInit {
     PrecioUnitario: '',
     Cantidad: '',
     Importe: '',
-    ObservacionesConcepto: ''
+    ObservacionesConcepto: '',
+    TextoExtra: ''
    }
 
   }
