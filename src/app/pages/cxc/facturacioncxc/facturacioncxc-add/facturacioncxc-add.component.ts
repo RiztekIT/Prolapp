@@ -4,7 +4,71 @@ import { FacturaService } from '../../../../services/facturacioncxc/factura.serv
 import {  NgForm } from '@angular/forms';
 import { Cliente } from '../../../../Models/catalogos/clientes-model';
 import { Router } from '@angular/router';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import { Usuario } from '../../../../Models/catalogos/usuarios-model';
+
+let datosfact = JSON.stringify( 
+  {
+    "Receptor": {
+      "UID": "5de771f1a1203"
+    },
+    "TipoDocumento":"factura",
+     "Conceptos": [
+      {
+        "ClaveProdServ": "43232408",
+        "NoIdentificacion": "WEBDEV10",
+        "Cantidad": "1.000000",
+        "ClaveUnidad": "E48",
+        "Unidad": "Unidad de servicio",
+        "Descripcion": "Desarrollo web a la medida",
+        "ValorUnitario": "15000.000000",
+        "Importe": "15000.000000",
+        "Descuento": "0",
+        "tipoDesc": "porcentaje",
+        "honorarioInverso": "",
+        "montoHonorario": "0",
+        "Impuestos": {
+          "Traslados": [
+            {
+              "Base": "15000.000000",
+              "Impuesto": "002",
+              "TipoFactor": "Tasa",
+              "TasaOCuota": "0.16",
+              "Importe": "2400.000000"
+            }
+          ],
+          "Retenidos": [],
+          "Locales": []
+        },
+        "NumeroPedimento": "",
+        "Predial": "",
+        "Partes": "0",
+        "Complemento": "0"
+      }
+    ],
+    "Impuestos": {
+    "Traslados": [
+      {
+        "Base": "15000.000000",
+        "Impuesto": "002",
+        "TipoFactor": "Tasa",
+        "TasaOCuota": "0.16",
+        "Importe": "2400.000000"
+      }
+    ],
+    "Retenidos": [],
+    "Locales": []
+   },
+  "UsoCFDI": "G03",
+        "Serie": 5352,
+        "FormaPago": "03",
+        "MetodoPago": "PUE",
+        "Moneda": "MXN",
+        "EnviarCorreo": false
+  });
+
+
+
 
 @Component({
   selector: 'app-facturacioncxc-add',
@@ -14,11 +78,15 @@ export class FacturacioncxcAddComponent implements OnInit {
   folio: string;
 
   constructor( 
-    public service: FacturaService, private snackBar: MatSnackBar,  private router:Router) { }
+    public service: FacturaService, private snackBar: MatSnackBar,  private router:Router, public enviarfact: EnviarfacturaService) { }
     
   
     listClientes: Cliente[]  = [];
   
+
+    estatusfact;
+    numfact;
+    xml;
 
   ngOnInit() {
     this.resetForm();
@@ -126,5 +194,56 @@ onSubmit(form: NgForm) {
   //   );
   console.log(form.value);
 }
+
+enviar(){
+  this.enviarfact.enviarFactura(datosfact).subscribe(data => {
+    console.log(data);
+    if (data.response === 'success'){
+      console.log('Factura Creada');
+      this.numfact=data.invoice_uid;
+      // this.xml = 'devfactura.in/admin/cfdi33/'+this.numfact+'xml';
+      
+      this.enviarfact.xml(this.xml);
+      this.estatusfact= 'Factura Creada '+ data.invoice_uid;
+      this.dxml(this.numfact);
+      this.dpdf(this.numfact);
+      
+    }
+    if (data.response === 'error') {
+      console.log('error');
+      this.estatusfact= data.response + ' ' + data.message;
+      
+    }
+
+
+    
+  })
+
+  
+// this.enviarfact.enviarFactura();
+  // console.log(this.enviarfact.enviarFactura());
+  
+}
+
+verfolios(){
+
+    //5df9887b8fa49
+}
+
+dxml(id:string){
+  // window.location.href="http://devfactura.in/admin/cfdi33/5df9887b8fa49/xml";
+  let xml = window.open('http://devfactura.in/admin/cfdi33/'+id+'/xml','XML');
+}
+
+dpdf(id:string){
+  // window.location.href="http://devfactura.in/admin/cfdi33/5df9887b8fa49/pdf";
+  let pdf = window.open('http://devfactura.in/admin/cfdi33/'+id+'/pdf','PDF');
+}
+
+dpdfxml(){
+  this.dxml('5df9887b8fa49');
+  this.dpdf('5df9887b8fa49');
+}
+
 
 }

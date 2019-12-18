@@ -13,7 +13,8 @@ export class UsuariosServieService {
   constructor(private http:HttpClient) { }
   formData: Usuario;
 
-  readonly APIUrl = "https://localhost:44361/api";
+  // readonly APIUrl = "https://localhost:44361/api";
+  readonly APIUrl = "http://192.168.1.67:7002/api";
 
 
   getUsuariosList(): Observable <Usuario[]> {
@@ -41,5 +42,9 @@ export class UsuariosServieService {
   filter(filterBy: string) {
     this._listeners.next(filterBy);
   }
+
+  getLogin(usuario: Usuario) {
+    return this.http.post(this.APIUrl+ '/usuario/login/',usuario);
+    }
 
 }
