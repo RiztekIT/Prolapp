@@ -34,22 +34,9 @@ export class FacturacioncxcAddComponent implements OnInit {
       let client=data[i];
       this.listClientes.push(client);
     }
-    // console.log(JSON.stringify(data));
-    // this.listClientes = data[0];
-    // this.listClientes = data.;
-    // console.log(this.listClientes + "LIST CLIENTEESSS");
-
-
-      // data.forEach(element =>{
-      //   let datos = JSON.stringify(element)
-      //   this.listClientes.push(JSON.stringify(datos));
-      //   console.log(this.listClientes + "LIST CLIENTEESSS");
-        
-       
-      // });
-
     });
   }
+  
   Regresar(){
     this.router.navigateByUrl('/facturacionCxc');
   }
