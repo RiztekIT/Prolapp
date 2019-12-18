@@ -34,6 +34,7 @@ export class Factura {
     Vendedor: string;
     Estatus: string;
     Version: string;
+    Usuario: string
 
     // //Factura Detalle
     IdDetalle: number;
@@ -46,6 +47,7 @@ export class Factura {
     Cantidad: string;
     Importe: string;
     ObservacionesConcepto: string;
+    TextoExtra: string;
 
 
 

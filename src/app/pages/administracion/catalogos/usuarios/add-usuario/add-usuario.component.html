@@ -92,6 +92,8 @@
         <div class="text-left text-danger" *ngIf="Contra.invalid && Contra.touched">
             Favor de Ingresar Contraseña Valida
         </div>
+        <!--Fecha Ultimo Acceso-->
+        <input type="hidden" class="form-control" name="FechaUltimoAcceso" #FechaUltimoAcceso="ngModel" value="2016-09-16T00:00:00" [(ngModel)]="service.formData.FechaUltimoAcceso">
 
 
 

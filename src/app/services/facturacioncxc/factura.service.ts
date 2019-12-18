@@ -25,6 +25,19 @@ export class FacturaService {
   getDepDropDownValues(): Observable<any>{
     return this.http.get<Cliente[]>(this.APIUrl+'/cliente');
   }
+  //Obtener lista de Facturas
+  getFacturasList(): Observable <Factura[]> {
+    return this.http.get<Factura[]>(this.APIUrl + '/Factura');
+  }
+  //Obtener el ultimo Folio
+  getFolio(): Observable<any>{
+    return this.http.get<Factura[]>(this.APIUrl+'/Factura/Folio');
+  }
+  //Eliminar Factura y sus Detalles de Factura
+  deleteFactura(id:number) {
+    return this.http.delete(this.APIUrl + '/Factura/' + id);
+ 
+  }
   
     private _listeners = new Subject<any>(); 
     listen(): Observable<any> {

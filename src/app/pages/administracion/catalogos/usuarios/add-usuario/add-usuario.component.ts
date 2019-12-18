@@ -29,7 +29,8 @@ export class AddUsuarioComponent implements OnInit {
       ApellidoMaterno: '',
       Correo: '',
       Telefono: '',
-      Contra: ''
+      Contra: '',
+      FechaUltimoAcceso: '2016/09/14'
     }
   }
 
@@ -42,7 +43,8 @@ onSubmit(form: NgForm) {
   // console.log(form.value);
   this.service.addUsuario(form.value).subscribe( res =>
     {
-      this.resetForm(form);
+      console.log(res);
+      // this.resetForm(form);
       this.snackBar.open(res.toString(),'',{
         duration: 5000,
         verticalPosition: 'top'

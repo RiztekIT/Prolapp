@@ -10,5 +10,11 @@ export class Cliente {
     Estado: string;
     NumeroInterior: string;
     NumeroExterior: string;
+    ClaveCliente: string;
+    Estatus: string;
+    LimiteCredito: string;
+    DiasCredito: string;
+    MetodoPago: string;
+    UsoCFDI: string;
 
 }
