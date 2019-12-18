@@ -14,7 +14,7 @@ export class UsuariosServieService {
   formData: Usuario;
 
   // readonly APIUrl = "https://localhost:44361/api";
-  readonly APIUrl = "http://192.168.1.67:7002/api";
+  readonly APIUrl = "http://192.168.1.67:32767/api";
 
 
   getUsuariosList(): Observable <Usuario[]> {
