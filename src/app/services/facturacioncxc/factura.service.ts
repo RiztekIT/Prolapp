@@ -19,7 +19,7 @@ export class FacturaService {
 
 
   // readonly APIUrl = "https://localhost:7002/api";
-  readonly APIUrl = "http://192.168.1.67:7002/api";
+  readonly APIUrl = "https://localhost:44361/api";
 
   //Obtener Clientes de la Base de Datos
   getDepDropDownValues(): Observable<any>{
