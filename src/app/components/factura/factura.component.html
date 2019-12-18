@@ -356,7 +356,7 @@
                     <!-- cambia -->
                     <p class="PSellosQR nomarginbottomP"><span class="bolder">Digital del SAT:</span><br> kTwsMYBYJylKo1yx3PqfttR19KBEf/HIBtd9GxP2Ig/ERtfa38pXitH+yIutWznhB0TPygAWgsKpZLvFuNXulasFd6txEdvO8G0R MAA2iV+iPmBEqA3w5db4pv+RQjhhiRt9jwir6Kq iELEqnhqzpfEyhl7nfm+p3IyRtCnqARw+tyl7kC4SmEbMt7SDgwg3kkB495Uw</p>
                     <!-- cambia -->
-                    <p class="PSellosQR nomarginbottomP"><span class="bolder">Cadena Original del Complemento de Certificacion del SAT:</span><br> {{ xmlItems.certificado }}
+                    <p class="PSellosQR nomarginbottomP"><span class="bolder">Cadena Original del Complemento de Certificacion del SAT:</span><br> {{xml}}
                     </p>
                     <!-- cambia -->
                 </div>
@@ -399,3 +399,7 @@
             </div>
         </div>
     </div>
+
+
+
+    <button (click)="leerxml()"> Leer XML </button>
