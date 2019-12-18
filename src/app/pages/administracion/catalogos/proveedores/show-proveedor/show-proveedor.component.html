@@ -18,10 +18,10 @@
 
 
 
-                <ng-container matColumnDef="IdProveedor">
+                <!-- <ng-container matColumnDef="IdProveedor">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>IdProveedor</mat-header-cell>
                     <mat-header-cell *matCellDef="let element">{{element.IdProveedor}}</mat-header-cell>
-                </ng-container>
+                </ng-container> -->
 
                 <ng-container matColumnDef="Nombre">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
@@ -63,14 +63,24 @@
                     <mat-header-cell *matCellDef="let element">{{element.Estado}}</mat-header-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="NumeroInterior">
+                <!-- <ng-container matColumnDef="NumeroInterior">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Numero Interior</mat-header-cell>
                     <mat-header-cell *matCellDef="let element">{{element.NumeroInterior}}</mat-header-cell>
-                </ng-container>
+                </ng-container> -->
 
                 <ng-container matColumnDef="NumeroExterior">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>Numero Exterior</mat-header-cell>
                     <mat-header-cell *matCellDef="let element">{{element.NumeroExterior}}</mat-header-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="ClaveProveedor">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Clave Proveedor</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.ClaveProveedor}}</mat-header-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Estatus">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</mat-header-cell>
+                    <mat-header-cell *matCellDef="let element">{{element.Estatus}}</mat-header-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="Options">

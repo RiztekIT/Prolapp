@@ -17,7 +17,7 @@ export class ShowProductoComponent implements OnInit {
 
 
   listData: MatTableDataSource<any>;
-  displayedColumns : string [] = ['IdProducto', 'Nombre', 'PrecioVenta', 'PrecioCosto', 'Cantidad', 'Options'];
+  displayedColumns : string [] = [ 'Nombre', 'PrecioVenta', 'PrecioCosto', 'Cantidad', 'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
 
   constructor(private service:ProductosService, private dialog: MatDialog, private snackBar: MatSnackBar) {
