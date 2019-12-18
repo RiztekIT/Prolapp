@@ -15,59 +15,51 @@ import { Router } from '@angular/router';
   styles: []
 })
 export class FacturacioncxcComponent implements OnInit {
-
   listData: MatTableDataSource<any>;
-  displayedColumns : string [] = ['Cliente', 'Productos', 'Cantidad', 'Precio', 'CFDI', 'MetodoPago','FormaPago', 'Folio', 
-  'Fecha', 'TipoComprobante', 'Options'];
+  displayedColumns : string [] = ['Id', 'Folio', 'Cliente', 'FechaExpedicion', 'Subtotal', 'IVA', 'Total', 'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
 
   constructor(private service:FacturaService, private dialog: MatDialog, private snackBar: MatSnackBar, private router:Router) {
 
-    // this.service.listen().subscribe((m:any)=>{
-    //   console.log(m);
-    //   this.refreshProductosList();
-    //   });
+    this.service.listen().subscribe((m:any)=>{
+      console.log(m);
+      this.refreshFacturaList();
+      });
 
    }
 
   ngOnInit() {
-    // this.refreshProductosList();
+    this.refreshFacturaList();
   }
 
-  // refreshProductosList() {
+  refreshFacturaList() {
 
-  //   this.service.getProductosList().subscribe(data => {
-  //     this.listData = new MatTableDataSource(data);
-  //     this.listData.sort = this.sort;
-  //   });
+    this.service.getFacturasList().subscribe(data => {
+      this.listData = new MatTableDataSource(data);
+      this.listData.sort = this.sort;
+    });
 
-  // }
+  }
 
   onDelete( id:number){
-    console.log(id);
-    // if ( confirm('Are you sure to delete?')) {
-    //   this.service.deleteProducto(id).subscribe(res => {
-    //   this.refreshProductosList();
-    //   this.snackBar.open(res.toString(), '', {
-    //     duration: 3000,
-    //     verticalPosition: 'top'
-    //   });
+    // console.log(id);
+    if ( confirm('Are you sure to delete?')) {
+      this.service.deleteFactura(id).subscribe(res => {
+      this.refreshFacturaList();
+      this.snackBar.open(res.toString(), '', {
+        duration: 3000,
+        verticalPosition: 'top'
+      });
 
-    //   });
-    // }
+      });
+    }
 
   }
 
   onAdd(){
     this.router.navigateByUrl('/facturacionCxcAdd');
-
-    // const dialogConfig = new MatDialogConfig();
-    // dialogConfig.disableClose = true;
-    // dialogConfig.autoFocus = true;
-    // dialogConfig.width="70%";
-    // this.dialog.open(FacturacioncxcAddComponent, dialogConfig);
-
   }
+ 
 
   onEdit(factura: Factura){
 // console.log(usuario);

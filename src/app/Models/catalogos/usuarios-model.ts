@@ -7,5 +7,6 @@ export class Usuario {
     Correo: string;
     Telefono: string;
     Contra: string;
+    FechaUltimoAcceso: string;
 
 }

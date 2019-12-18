@@ -18,11 +18,25 @@ export class FacturaService {
    formData: Factura;
 
 
-  readonly APIUrl = "https://localhost:44361/api";
+  // readonly APIUrl = "https://localhost:7002/api";
+  readonly APIUrl = "http://192.168.1.67:7002/api";
 
   //Obtener Clientes de la Base de Datos
   getDepDropDownValues(): Observable<any>{
     return this.http.get<Cliente[]>(this.APIUrl+'/cliente');
+  }
+  //Obtener lista de Facturas
+  getFacturasList(): Observable <Factura[]> {
+    return this.http.get<Factura[]>(this.APIUrl + '/Factura');
+  }
+  //Obtener el ultimo Folio
+  getFolio(): Observable<any>{
+    return this.http.get<Factura[]>(this.APIUrl+'/Factura/Folio');
+  }
+  //Eliminar Factura y sus Detalles de Factura
+  deleteFactura(id:number) {
+    return this.http.delete(this.APIUrl + '/Factura/' + id);
+ 
   }
   
     private _listeners = new Subject<any>(); 

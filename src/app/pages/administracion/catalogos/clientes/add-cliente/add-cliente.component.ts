@@ -10,7 +10,7 @@ import { NgForm } from '@angular/forms';
 })
 export class AddClienteComponent implements OnInit {
 
-  constructor(  public dialogbox: MatDialogRef<AddClienteComponent>,
+  constructor(public dialogbox: MatDialogRef<AddClienteComponent>,
     public service: ClientesService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
@@ -20,7 +20,7 @@ export class AddClienteComponent implements OnInit {
 
   resetForm(form?: NgForm) {
     if (form != null)
-   form.resetForm();
+      form.resetForm();
 
     this.service.formData = {
       IdClientes: 0,
@@ -28,30 +28,35 @@ export class AddClienteComponent implements OnInit {
       RFC: '',
       RazonSocial: '',
       Calle: '',
-      Colonia:'',
+      Colonia: '',
       CP: '',
       Ciudad: '',
       Estado: '',
       NumeroInterior: '',
-      NumeroExterior: ''
+      NumeroExterior: '',
+      ClaveCliente: '',
+      Estatus: '',
+      LimiteCredito: '',
+      DiasCredito: '',
+      MetodoPago: '',
+      UsoCFDI: ''
     }
   }
 
-onClose(){
-  this.dialogbox.close();
-  this.service.filter('Register click');
-}
+  onClose() {
+    this.dialogbox.close();
+    this.service.filter('Register click');
+  }
 
-onSubmit(form: NgForm) {
-  // console.log(form.value);
-  this.service.addCliente(form.value).subscribe( res =>
-    {
+  onSubmit(form: NgForm) {
+    // console.log(form.value);
+    this.service.addCliente(form.value).subscribe(res => {
       this.resetForm(form);
-      this.snackBar.open(res.toString(),'',{
+      this.snackBar.open(res.toString(), '', {
         duration: 5000,
         verticalPosition: 'top'
       });
     }
     );
-}
+  }
 }

@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
 
-
+                <h2 style="text-align: center;">Facturacion</h2>
 
                 <mat-form-field>
                     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
@@ -21,39 +21,9 @@
 
 
 
-                            <ng-container matColumnDef="Cliente">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</mat-header-cell>
-                                <mat-header-cell *matCellDef="let element"></mat-header-cell>
-                            </ng-container>
-
-                            <ng-container matColumnDef="Productos">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Producto(s)</mat-header-cell>
-                                <mat-header-cell *matCellDef="let element"></mat-header-cell>
-                            </ng-container>
-
-                            <ng-container matColumnDef="Cantidad">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</mat-header-cell>
-                                <mat-header-cell *matCellDef="let element"></mat-header-cell>
-                            </ng-container>
-
-                            <ng-container matColumnDef="Precio">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Precio</mat-header-cell>
-                                <mat-header-cell *matCellDef="let element"></mat-header-cell>
-                            </ng-container>
-
-                            <ng-container matColumnDef="CFDI">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>CFDI</mat-header-cell>
-                                <mat-header-cell *matCellDef="let element">{{element.CFDI}}</mat-header-cell>
-                            </ng-container>
-
-                            <ng-container matColumnDef="MetodoPago">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Metodo Pago</mat-header-cell>
-                                <mat-header-cell *matCellDef="let element">{{element.MetodoPago}}</mat-header-cell>
-                            </ng-container>
-
-                            <ng-container matColumnDef="FormaPago">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Forma Pago</mat-header-cell>
-                                <mat-header-cell *matCellDef="let element">{{element.FormaPago}}</mat-header-cell>
+                            <ng-container matColumnDef="Id">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                                <mat-header-cell *matCellDef="let element">{{element.Id}}</mat-header-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="Folio">
@@ -61,14 +31,29 @@
                                 <mat-header-cell *matCellDef="let element">{{element.Folio}}</mat-header-cell>
                             </ng-container>
 
-                            <ng-container matColumnDef="Fecha">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</mat-header-cell>
-                                <mat-header-cell *matCellDef="let element">{{element.Fecha}}</mat-header-cell>
+                            <ng-container matColumnDef="Cliente">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</mat-header-cell>
+                                <mat-header-cell *matCellDef="let element">{{element.IdCliente}}</mat-header-cell>
                             </ng-container>
 
-                            <ng-container matColumnDef="TipoComprobante">
-                                <mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Comprobante</mat-header-cell>
-                                <mat-header-cell *matCellDef="let element">{{element.TipoComprobante}}</mat-header-cell>
+                            <ng-container matColumnDef="FechaExpedicion">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Expedicion</mat-header-cell>
+                                <mat-header-cell *matCellDef="let element">{{element.FechaDeExpedicion}}</mat-header-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Subtotal">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Subtotal</mat-header-cell>
+                                <mat-header-cell *matCellDef="let element">{{element.Subtotal}}</mat-header-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="IVA">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>IVA</mat-header-cell>
+                                <mat-header-cell *matCellDef="let element">{{element.ImpuestosTrasladados}}</mat-header-cell>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Total">
+                                <mat-header-cell *matHeaderCellDef mat-sort-header>Total</mat-header-cell>
+                                <mat-header-cell *matCellDef="let element">{{element.Total}}</mat-header-cell>
                             </ng-container>
 
                             <ng-container matColumnDef="Options">
@@ -85,6 +70,14 @@
                                     <!-- Ver -->
                                     <button mat-icon-button color="warn" (click)="onDelete(row.Id)">
                                         <mat-icon>pageview</mat-icon>
+                                    </button>
+                                    <!-- PDF -->
+                                    <button mat-icon-button color="warn" (click)="onDelete(row.Id)">
+                                        <mat-icon>picture_as_pdf</mat-icon>
+                                    </button>
+                                    <!-- XML -->
+                                    <button mat-icon-button color="warn" (click)="onDelete(row.Id)">
+                                        <mat-icon>list</mat-icon>
                                     </button>
                                 </mat-cell>
                             </ng-container>
