@@ -45,11 +45,10 @@ export class FacturaComponent implements OnInit {
           explicitArray: true
         }); 
         parser.parseString(data, function (err, result){
-          var obj = result.Comprobante;
-          for (k in obj.Comprobante) {
-            var item = obj.Comprobante[k];
+          var obj = result.Employee;
+          for (k in obj.emp) {
+            var item = obj.emp[k];
             arr.push({
-              certificado: item.Certificado[0],
             //   id: item.id[0],  
             // name: item.name[0],  
             // gender: item.gender[0],  
