@@ -63,6 +63,84 @@
         <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
             Favor de Ingresar Cantidad.
         </div>
+        <!--               -------------------------------------------------------                                       -->
+        <div class="mt-4 input-group">
+
+            <div class="input-group-prepend">
+                <span class="input-group-text">Clave Producto</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="service.formData.ClaveProducto">
+        </div>
+        <div class="text-left text-danger" *ngIf="ClaveProducto.invalid && ClaveProducto.touched">
+            Favor de Ingresar Clave Producto
+        </div>
+        <!--               -------------------------------------------------------                                       -->
+        <div class="mt-4 input-group">
+
+            <div class="input-group-prepend">
+                <span class="input-group-text">Stock</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="Stock" #Stock="ngModel" [(ngModel)]="service.formData.Stock">
+        </div>
+        <div class="text-left text-danger" *ngIf="Stock.invalid && Stock.touched">
+            Favor de Ingresar Stock
+        </div>
+        <!--               -------------------------------------------------------                                       -->
+        <div class="mt-4 input-group">
+
+            <div class="input-group-prepend">
+                <span class="input-group-text">Descripcion Producto</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="service.formData.DescripcionProducto">
+        </div>
+        <div class="text-left text-danger" *ngIf="DescripcionProducto.invalid && DescripcionProducto.touched">
+            Favor de Ingresar Clave Producto
+        </div>
+        <!--               -------------------------------------------------------                                       -->
+        <div class="mt-4 input-group">
+
+            <div class="input-group-prepend">
+                <span class="input-group-text">Estatus</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formData.Estatus">
+        </div>
+        <div class="text-left text-danger" *ngIf="Estatus.invalid && Estatus.touched">
+            Favor de Ingresar Estatus
+        </div>
+        <!--               -------------------------------------------------------                                       -->
+        <div class="mt-4 input-group">
+
+            <div class="input-group-prepend">
+                <span class="input-group-text">Unidad Medida</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="UnidadMedida" #UnidadMedida="ngModel" [(ngModel)]="service.formData.UnidadMedida">
+        </div>
+        <div class="text-left text-danger" *ngIf="UnidadMedida.invalid && UnidadMedida.touched">
+            Favor de Ingresar Unidad Medida
+        </div>
+        <!--               -------------------------------------------------------                                       -->
+        <div class="mt-4 input-group">
+
+            <div class="input-group-prepend">
+                <span class="input-group-text">IVA</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="service.formData.IVA">
+        </div>
+        <div class="text-left text-danger" *ngIf="IVA.invalid && IVA.touched">
+            Favor de Ingresar IVA
+        </div>
+        <!--               -------------------------------------------------------                                       -->
+        <div class="mt-4 input-group">
+
+            <div class="input-group-prepend">
+                <span class="input-group-text">Clave SAT</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="service.formData.ClaveSAT">
+        </div>
+        <div class="text-left text-danger" *ngIf="ClaveSAT.invalid && ClaveSAT.touched">
+            Favor de Ingresar Clave SAT
+        </div>
+
 
 
 

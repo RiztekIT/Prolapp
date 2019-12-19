@@ -108,7 +108,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Numero Interior</span>
             </div>
-            <input type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior">
+            <input type="number" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior">
         </div>
         <div class="text-left text-danger" *ngIf="NumeroInterior.invalid && NumeroInterior.touched">
             Favor de Ingresar Numero Interior.
@@ -118,10 +118,76 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Numero Exterior</span>
             </div>
-            <input required minlength="0" type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior">
+            <input required minlength="0" type="number" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior">
         </div>
         <div class="text-left text-danger" *ngIf="NumeroExterior.invalid && NumeroExterior.touched">
             Favor de Ingresar Numero Exterior.
+        </div>
+        <!--               -------------------------------------------------------                                       -->
+        <div class="mt-4 input-group">
+
+            <div class="input-group-prepend">
+                <span class="input-group-text">Clave Proveedor</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="ClaveProveedor" #ClaveProveedor="ngModel" [(ngModel)]="service.formData.ClaveProveedor">
+        </div>
+        <div class="text-left text-danger" *ngIf="ClaveProveedor.invalid && ClaveProveedor.touched">
+            Favor de Ingresar Clave Proveedor
+        </div>
+        <!--               -------------------------------------------------------                                       -->
+        <div class="mt-4 input-group">
+
+            <div class="input-group-prepend">
+                <span class="input-group-text">Estado</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formData.Estatus">
+        </div>
+        <div class="text-left text-danger" *ngIf="Estatus.invalid && Estatus.touched">
+            Favor de Ingresar Estatus
+        </div>
+        <!--               -------------------------------------------------------                                       -->
+        <div class="mt-4 input-group">
+
+            <div class="input-group-prepend">
+                <span class="input-group-text">Limite Credito</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="LimiteCredito" #LimiteCredito="ngModel" [(ngModel)]="service.formData.LimiteCredito">
+        </div>
+        <div class="text-left text-danger" *ngIf="LimiteCredito.invalid && LimiteCredito.touched">
+            Favor de Ingresar Limite Credito
+        </div>
+        <!--               -------------------------------------------------------                                       -->
+        <div class="mt-4 input-group">
+
+            <div class="input-group-prepend">
+                <span class="input-group-text">Dias Credito</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="DiasCredito" #DiasCredito="ngModel" [(ngModel)]="service.formData.DiasCredito">
+        </div>
+        <div class="text-left text-danger" *ngIf="DiasCredito.invalid && DiasCredito.touched">
+            Favor de Ingresar Dias Credito
+        </div>
+        <!--               -------------------------------------------------------                                       -->
+        <div class="mt-4 input-group">
+
+            <div class="input-group-prepend">
+                <span class="input-group-text">Metodo Pago</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="MetodoPago" #MetodoPago="ngModel" [(ngModel)]="service.formData.MetodoPago">
+        </div>
+        <div class="text-left text-danger" *ngIf="MetodoPago.invalid && MetodoPago.touched">
+            Favor de Ingresar Metodo Pago
+        </div>
+        <!--               -------------------------------------------------------                                       -->
+        <div class="mt-4 input-group">
+
+            <div class="input-group-prepend">
+                <span class="input-group-text">Uso CFDI</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="UsoCFDI" #UsoCFDI="ngModel" [(ngModel)]="service.formData.UsoCFDI">
+        </div>
+        <div class="text-left text-danger" *ngIf="UsoCFDI.invalid && UsoCFDI.touched">
+            Favor de Ingresar Uso CFDI
         </div>
 
 
