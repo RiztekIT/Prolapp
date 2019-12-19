@@ -16,7 +16,7 @@ import { EditProveedorComponent } from '../edit-proveedor/edit-proveedor.compone
 export class ShowProveedorComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
-  displayedColumns : string [] = ['IdProveedor', 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado', 'NumeroInterior', 'NumeroExterior','Options'];
+  displayedColumns : string [] = [ 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado', 'NumeroExterior', 'ClaveProveedor', 'Estatus', 'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
 
   constructor(private service:ProveedoresService, private dialog: MatDialog, private snackBar: MatSnackBar) {

@@ -17,7 +17,7 @@ import { EditClienteComponent } from '../edit-cliente/edit-cliente.component';
 export class ShowClienteComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
-  displayedColumns : string [] = ['IdCliente', 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado', 'NumeroInterior', 'NumeroExterior','Options'];
+  displayedColumns : string [] = [ 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado',  'NumeroExterior','ClaveProveedor', 'Estatus', 'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
 
   constructor(private service:ClientesService, private dialog: MatDialog, private snackBar: MatSnackBar) {
