@@ -6,6 +6,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Parser } from '@angular/compiler/src/ml_parser/parser';
 
 
+declare function cantidad(n);
+
 @Component({
   selector: 'app-factura',
   templateUrl: './factura.component.html',
@@ -114,13 +116,10 @@ export class FacturaComponent implements OnInit {
     
 
   }
-  leerxml2(){
-    const parser = new xml2js.Parser({strict: false, trim: true});
-    parser.parseString(this.leerxml2(), (err, result) => {
-      this.xml = result;
-    })
+  
 
-    console.log(this.xml);
+  cantidadLetra(){
+    console.log(cantidad(6765));
     
   }
 
