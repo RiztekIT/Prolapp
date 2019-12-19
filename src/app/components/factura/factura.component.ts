@@ -243,7 +243,6 @@ export class FacturaComponent implements OnInit {
     
 
   }
-<<<<<<< HEAD
   
 
   cantidadLetra(){
@@ -252,9 +251,7 @@ export class FacturaComponent implements OnInit {
   }
 
     
-=======
   ngOnInit() {
->>>>>>> 820105b97d259a321985d441e67c444bf1344f79
 
     
 
