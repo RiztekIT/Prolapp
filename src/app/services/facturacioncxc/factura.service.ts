@@ -21,6 +21,7 @@ export class FacturaService {
    formData: Factura;
    formDataDF: DetalleFactura;
    formDataP: Producto;
+   IdFactura: number;
 
 
   // readonly APIUrl = "https://localhost:7002/api";
@@ -51,8 +52,8 @@ export class FacturaService {
     return this.http.post(this.APIUrl + '/Factura', factura);
   }
  //Insertar Detalle Factura
- addDetalleFactura(factura: Factura) {
-   return this.http.post(this.APIUrl + '/Factura/InsertDetalleFactura', factura);
+ addDetalleFactura(detalleFactura: DetalleFactura) {
+   return this.http.post(this.APIUrl + '/Factura/InsertDetalleFactura', detalleFactura);
   }
   //Editar Factura
   updateFactura(factura: Factura) {

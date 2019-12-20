@@ -16,5 +16,6 @@ export class Cliente {
     DiasCredito: string;
     MetodoPago: string;
     UsoCFDI: string;
+    IdApi: string;
 
 }

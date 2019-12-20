@@ -90,6 +90,7 @@ export class FacturacioncxcAddComponent implements OnInit {
         this.IdFactura = params['id'];
         console.log("El ID de la Factura es: "+this.IdFactura);
         // console.log(params['id']); 
+        this.service.IdFactura = +this.IdFactura;
         
       });
 

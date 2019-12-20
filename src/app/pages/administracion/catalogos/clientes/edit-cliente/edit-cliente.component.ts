@@ -22,12 +22,14 @@ export class EditClienteComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    this.service.updateCliente(form.value).subscribe(res => {
+    // this.service.formData.IdApi = '5de771f1a1203';
+    this.service.updateCliente(this.service.formData).subscribe(res => {
       this.snackBar.open(res.toString(), '', {
         duration: 5000,
         verticalPosition: 'top'
       });
     });
+    // console.log(this.service.formData);
   }
 
 }
