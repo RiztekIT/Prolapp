@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between">
     <h4 class="text-inverse">Agregar Nuevo Usuario</h4>
 
-    <button mat-button (click)="onClose()">
+    <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
         <mat-icon>close</mat-icon>
     </button>
 
@@ -81,7 +81,7 @@
             </div>
         </div>
         <br>
-        <button class="btn btn-success" mat-raised-button type="submit" color="success" [disabled]="form.invalid">Agregar Usuario</button>
+        <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Agregar Usuario</button>
 
     </form>
 

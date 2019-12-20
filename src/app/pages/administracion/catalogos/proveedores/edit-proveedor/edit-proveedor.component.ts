@@ -6,7 +6,7 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-edit-proveedor',
   templateUrl: './edit-proveedor.component.html',
-  styles: []
+  styleUrls: ['./edit-proveedor.component.css']
 })
 export class EditProveedorComponent implements OnInit {
 

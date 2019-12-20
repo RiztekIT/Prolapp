@@ -11,7 +11,7 @@ import { EditProveedorComponent } from '../edit-proveedor/edit-proveedor.compone
 @Component({
   selector: 'app-show-proveedor',
   templateUrl: './show-proveedor.component.html',
-  styles: []
+  styleUrls: ['./show-proveedor.component.css']
 })
 export class ShowProveedorComponent implements OnInit {
 

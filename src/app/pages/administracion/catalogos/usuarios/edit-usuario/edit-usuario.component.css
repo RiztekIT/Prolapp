@@ -1,3 +1,8 @@
 .btn-danger:hover {
     color: white;
 }
+
+.btn-danger {
+    background: red;
+    color: white;
+}
