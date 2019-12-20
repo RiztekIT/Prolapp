@@ -48,6 +48,7 @@ export class FacturaComponent implements OnInit {
   uuid: string; 
   noCertificadoSAT: string;
   selloSAT: string;
+  iva: string;
 
 
 
@@ -147,6 +148,8 @@ export class FacturaComponent implements OnInit {
             this.importeConcepto = result.Comprobante.Conceptos[0].Concepto[0].$.Importe;
             this.uuid = result.Comprobante.Complemento[0].TimbreFiscalDigital[0].$.UUID; 
             this.noCertificadoSAT = result.Comprobante.Complemento[0].TimbreFiscalDigital[0].$.NoCertificadoSAT;
+            this.iva = result.Comprobante.Impuestos[0].Traslados[0].Traslado[0].$.Importe;
+            this.selloSAT = result.Comprobante.Complemento[0].TimbreFiscalDigital[0].$.SelloSAT;
             //  console.log(this.uuid);
              
             switch (this.usoCFDI){
