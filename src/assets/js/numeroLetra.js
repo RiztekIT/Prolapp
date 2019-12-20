@@ -1,11 +1,13 @@
-var o = new Array("diez", "once", "doce", "trece", "catorce", "quince", "dieciséis", "diecisiete", "dieciocho", "diecinueve", "veinte", "veintiuno", "veintidós", "veintitrés", "veinticuatro", "veinticinco", "veintiséis", "veintisiete", "veintiocho", "veintinueve");
-var u = new Array("cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve");
-var d = new Array("", "", "", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa");
-var c = new Array("", "ciento", "doscientos", "trescientos", "cuatrocientos", "quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos");
+function cantidad(n) {
+
+    var o = new Array("diez", "once", "doce", "trece", "catorce", "quince", "dieciséis", "diecisiete", "dieciocho", "diecinueve", "veinte", "veintiuno", "veintidós", "veintitrés", "veinticuatro", "veinticinco", "veintiséis", "veintisiete", "veintiocho", "veintinueve");
+    var u = new Array("cero", "uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho", "nueve");
+    var d = new Array("", "", "", "treinta", "cuarenta", "cincuenta", "sesenta", "setenta", "ochenta", "noventa");
+    var c = new Array("", "ciento", "doscientos", "trescientos", "cuatrocientos", "quinientos", "seiscientos", "setecientos", "ochocientos", "novecientos");
 
 
-function nn() {
-    var n = parseFloat(n).toFixed(2); /*se limita a dos decimales, no sabía que existía toFixed() :)*/
+
+    n = parseFloat(n).toFixed(2); /*se limita a dos decimales, no sabía que existía toFixed() :)*/
     var p = n.toString().substring(n.toString().indexOf(".") + 1); /*decimales*/
     var m = n.toString().substring(0, n.toString().indexOf(".")); /*número sin decimales*/
     var m = parseFloat(m).toString().split("").reverse(); /*tampoco que reverse() existía :D*/
@@ -36,16 +38,17 @@ function nn() {
     //alert("Numero: "+n+"\nNº Dígitos: "+m.length+"\nDígitos: "+m+"\nDecimales: "+p+"\nt: "+t);
     //document.getElementById("esc").value=t;
     return t;
+
+
+
+
+
+    // function st()
+    // {
+    //   var t="<table><tr><th>número</th><th>escrito</th></tr>";
+    //   for (var i=2; i<1000000; i+=892.45)
+    //     t+="<tr><td>"+i.toFixed(2)+"</td><td>"+nn(i)+"</td></tr>";
+    //   t+="</table>";
+    //   document.getElementById('out').innerHTML=t;
+    // }
 }
-nn(1234);
-console.log(nn);
-
-
-// function st()
-// {
-//   var t="<table><tr><th>número</th><th>escrito</th></tr>";
-//   for (var i=2; i<1000000; i+=892.45)
-//     t+="<tr><td>"+i.toFixed(2)+"</td><td>"+nn(i)+"</td></tr>";
-//   t+="</table>";
-//   document.getElementById('out').innerHTML=t;
-// }

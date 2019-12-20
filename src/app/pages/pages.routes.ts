@@ -60,6 +60,8 @@ import { IncidenciasalmacenComponent } from './almacen/incidenciasalmacen/incide
 import { CalendarioalmacenComponent } from './almacen/calendarioalmacen/calendarioalmacen.component';
 import { ReportesalmacenComponent } from './almacen/reportesalmacen/reportesalmacen.component';
 import { FacturacioncxcAddComponent } from './cxc/facturacioncxc/facturacioncxc-add/facturacioncxc-add.component';
+import { AuthorizatedGuard } from './auth'
+import { LoginguardGuard } from '../services/shared/loginguard.guard';
 
 
 
@@ -68,6 +70,7 @@ import { FacturacioncxcAddComponent } from './cxc/facturacioncxc/facturacioncxc-
 const pagesRoutes: Routes = [
     {
             path: '', component: PagesComponent,
+            canActivate: [LoginguardGuard],
             children: [
                 { path: 'dashboard', component: DashboardComponent },
                 { path: 'progress', component: ProgressComponent },
@@ -78,7 +81,7 @@ const pagesRoutes: Routes = [
                 { path: 'reportescalidad', component: ReportesComponent  },
                 { path: 'graficoscalidad', component: GraficosComponent  },
                 { path: 'calendario_calidad', component: CalendarioCalidadComponent  },
-                { path: 'direccion', component: DireccionComponent  },
+                { path: 'direccion', component: DireccionComponent },
                 { path: 'direccion-reportes', component: DireccionReportesComponent  },
                 { path: 'direccion-calendario', component: DireccionCalendarioComponent  },
                 { path: 'incidencias', component: IncidenciasComponent  },

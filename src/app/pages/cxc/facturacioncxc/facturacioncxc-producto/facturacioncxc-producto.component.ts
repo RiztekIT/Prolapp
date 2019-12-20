@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef, MatSnackBar } from '@angular/material';
+import { MatDialogRef, MatSnackBar, MatAutocompleteSelectedEvent } from '@angular/material';
 import { FacturaService } from '../../../../services/facturacioncxc/factura.service';
 import { NgForm, FormControl } from '@angular/forms';
 import { Factura } from 'src/app/Models/facturacioncxc/factura-model';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { Producto } from '../../../../Models/catalogos/productos-model';
-import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 @Component({
   selector: 'app-facturacioncxc-producto',
@@ -75,6 +74,8 @@ export class FacturacioncxcProductoComponent implements OnInit {
       this.listProductos.push(producto);
        this.options.push(producto)
       // console.log(this.options);
+      // this.service.formDataDF.Producto = producto.Nombre;
+
       
     this.filteredOptions = this.myControl.valueChanges
     .pipe(
@@ -82,6 +83,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
       map(value => this._filter(value))
     );
     }
+    
     // console.log(this.listProductos);
     // console.log(this.listProductos[0].Nombre);
     });
@@ -89,13 +91,19 @@ export class FacturacioncxcProductoComponent implements OnInit {
     // console.log(this.options);
   }
   onSelectionChange(event: MatAutocompleteSelectedEvent, options:Producto){
-    if(event.source.selected){
+    if(event.option.selected){
       this.service.formDataDF.Producto = options.Nombre;
       this.service.formDataDF.ClaveSat = options.ClaveSAT;
     }
   }
    
 
+  // onSelectionChanged(event: MatAutocompleteSelectedEvent,options: Producto) {
+  //   if (event.source.selected) {
+  //   console.log(options);
+  //    this.service.formDataDF.Producto = options.Nombre;
+  //   }
+  // }
 
   resetForm(form?: NgForm) {
     if (form != null)

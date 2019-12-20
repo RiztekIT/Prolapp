@@ -6,6 +6,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Parser } from '@angular/compiler/src/ml_parser/parser';
 
 
+declare function cantidad(n);
+
 @Component({
   selector: 'app-factura',
   templateUrl: './factura.component.html',
@@ -244,6 +246,14 @@ export class FacturaComponent implements OnInit {
     
 
   }
+  
+
+  cantidadLetra(){
+    console.log(cantidad(6765));
+    
+  }
+
+    
   ngOnInit() {
 
     
