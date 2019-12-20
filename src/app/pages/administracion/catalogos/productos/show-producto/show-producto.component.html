@@ -22,6 +22,11 @@
             <td mat-cell *matCellDef="let element">{{element.Nombre}}</td>
         </ng-container>
 
+        <!-- <ng-container matColumnDef="IdProducto">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>IdProducto</mat-header-cell>
+            <mat-header-cell *matCellDef="let element">{{element.IdProducto}}</mat-header-cell>
+        </ng-container> -->
+
         <ng-container matColumnDef="PrecioVenta">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Precio Venta</th>
             <td mat-cell *matCellDef="let element"><span>&#36;</span>{{element.PrecioVenta}}</td>

@@ -17,6 +17,7 @@ export class ProductosService {
 
 
   readonly APIUrl = "https://localhost:44361/api";
+  // readonly APIUrl = "http://192.168.1.67:7002/api";
 
 
   getProductosList(): Observable <Producto[]> {

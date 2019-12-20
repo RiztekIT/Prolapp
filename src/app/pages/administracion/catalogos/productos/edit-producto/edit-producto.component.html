@@ -13,13 +13,10 @@
         <div class="form-material">
             <div class="container">
                 <div class="row">
+
                     <div class="col-lg-6">
-
-
                         <label class="input-group-text text-info">Producto ID</label>
                         <input readonly="readonly" type="text" class="form-control" name="IdProducto" #IdProducto="ngModel" [(ngModel)]="service.formData.IdProducto">
-
-
 
                         <label class="input-group-text text-info">Nombre</label>
                         <input required minlength="2" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre">
@@ -27,20 +24,91 @@
                         <div class="text-left text-danger" *ngIf="Nombre.invalid && Nombre.touched">
                             Favor de Ingresar un Nombre.
                         </div>
-                    </div>
 
-                    <div class="col-lg-6">
+
                         <label class="input-group-text text-info">Precio Venta</label>
                         <input required minlength="1" type="number" class="form-control" name="PrecioVenta" #PrecioVenta="ngModel" [(ngModel)]="service.formData.PrecioVenta">
-
                         <div class="text-left text-danger" *ngIf="PrecioVenta.invalid && PrecioVenta.touched">
                             Favor de Ingresar Precio Venta.
                         </div>
 
 
+
+                        <label class="input-group-text text-info">Cantidad</label>
+                        <input required minlength="0" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formData.Cantidad">
+                        <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
+                            Favor de Ingresar Cantidad.
+                        </div>
+                        <!--               -------------------------------------------------------                                       -->
+
+
+
+                        <label class="input-group-text text-info">Clave Producto</label>
+                        <input required minlength="2" type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="service.formData.ClaveProducto">
+
+                        <div class="text-left text-danger" *ngIf="ClaveProducto.invalid && ClaveProducto.touched">
+                            Favor de Ingresar Clave Producto
+                        </div>
+                        <!--               -------------------------------------------------------                                       -->
+
+
+
+                        <label class="input-group-text text-info">Stock</label>
+                        <input required minlength="2" type="text" class="form-control" name="Stock" #Stock="ngModel" [(ngModel)]="service.formData.Stock">
+                        <div class="text-left text-danger" *ngIf="Stock.invalid && Stock.touched">
+                            Favor de Ingresar Stock
+                        </div>
+                        <!--               -------------------------------------------------------  -->
+
+                    </div>
+                    <div class="col-lg-6">
+
+                        <label class="input-group-text text-info">Descripcion Producto</label>
+                        <input required minlength="2" type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="service.formData.DescripcionProducto">
+                        <div class="text-left text-danger" *ngIf="DescripcionProducto.invalid && DescripcionProducto.touched">
+                            Favor de Ingresar Clave Producto
+                        </div>
+                        <!--               -------------------------------------------------------                                       -->
+
+
+
+                        <label class="input-group-text text-info">Estatus</label>
+                        <input required minlength="2" type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formData.Estatus">
+                        <div class="text-left text-danger" *ngIf="Estatus.invalid && Estatus.touched">
+                            Favor de Ingresar Estatus
+                        </div>
+                        <!--               -------------------------------------------------------                                       -->
+
+
+
+                        <label class="input-group-text text-info">Unidad Medida</label>
+                        <input required minlength="2" type="text" class="form-control" name="UnidadMedida" #UnidadMedida="ngModel" [(ngModel)]="service.formData.UnidadMedida">
+                        <div class="text-left text-danger" *ngIf="UnidadMedida.invalid && UnidadMedida.touched">
+                            Favor de Ingresar Unidad Medida
+                        </div>
+                        <!--               -------------------------------------------------------                                       -->
+
+
+
+                        <label class="input-group-text text-info">IVA</label>
+                        <input required minlength="2" type="text" class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="service.formData.IVA">
+                        <div class="text-left text-danger" *ngIf="IVA.invalid && IVA.touched">
+                            Favor de Ingresar IVA
+                        </div>
+                        <!--               -------------------------------------------------------                                       -->
+
+
+
+                        <label class="input-group-text text-info">Clave SAT</label>
+                        <input required minlength="2" type="text" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="service.formData.ClaveSAT">
+                        <div class="text-left text-danger" *ngIf="ClaveSAT.invalid && ClaveSAT.touched">
+                            Favor de Ingresar Clave SAT
+                        </div>
+
+
+
                         <label class="input-group-text text-info">Precio Costo</label>
                         <input required minlength="1" type="number" class="form-control" name="PrecioCosto" #PrecioCosto="ngModel" [(ngModel)]="service.formData.PrecioCosto">
-
                         <div class="text-left text-danger" *ngIf="PrecioCosto.invalid && PrecioCosto.touched">
                             Favor de Ingresar Precio Costo.
                         </div>
@@ -48,14 +116,12 @@
 
                         <label class="input-group-text text-info">Cantidad</label>
                         <input required minlength="0" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formData.Cantidad">
-
                         <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
                             Favor de Ingresar Cantidad.
                         </div>
-
-                        <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Actualizar Producto</button>
-
                     </div>
+                    <br>
+                    <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Actualizar Producto</button>
                 </div>
             </div>
         </div>

@@ -1,0 +1,14 @@
+{
+    "/SieAPIRest/*": {
+        "target": "https://www.banxico.org.mx",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+
+    "/api/*": {
+        "target": "http://devfactura.in",
+        "secure": false,
+        "changeOrigin": true
+    }
+}

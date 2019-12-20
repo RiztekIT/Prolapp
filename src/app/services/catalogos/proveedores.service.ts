@@ -15,6 +15,7 @@ export class ProveedoresService {
   formData: Proveedor;
 
   readonly APIUrl = "https://localhost:44361/api";
+  // readonly APIUrl = "http://192.168.1.67:7002/api";
 
 
   getProveedoresList(): Observable <Proveedor[]> {
