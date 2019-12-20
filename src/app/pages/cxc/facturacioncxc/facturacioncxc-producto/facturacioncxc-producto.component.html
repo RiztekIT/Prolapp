@@ -1,0 +1,60 @@
+<div class="d-flex justify-content-between m-2">
+    <h4>Agregar Producto</h4>
+
+    <button mat-button (click)="onClose()">
+    <mat-icon>close</mat-icon>
+</button>
+
+
+</div>
+
+<hr>
+
+
+<div style="overflow: auto; height: 450px;">
+
+
+    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+
+        <mat-form-field class="example-full-width">
+            <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClaveProducto" [(ngModel)]="service.formDataDF.ClaveProducto">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.ClaveProducto">
+                    {{ option.ClaveProducto }} {{option.Nombre}}
+                    <!-- <mat-option *ngFor="let option of filteredOptions | async" [value]="option.ClaveProducto">
+                    {{option.ClaveProducto}} | {{option.Nombre}} -->
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+
+
+        <!-- <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Producto ID</span>
+            </div>
+            <input readonly="readonly" type="text" class="form-control" name="IdProducto" #IdProducto="ngModel" [(ngModel)]="service.formDataDF.ClaveProducto">
+        </div> -->
+
+        <div class="m-3 input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Nombre</span>
+            </div>
+            <input required minlength="2" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formDataDF.Producto">
+        </div>
+        <div class="text-left text-danger" *ngIf="Nombre.invalid && Nombre.touched">
+            Favor de Ingresar un Nombre.
+        </div>
+
+
+
+
+
+
+
+        <button class="m-3" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Agregar Producto</button>
+        <button class="m-3" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Finalizar</button>
+
+    </form>
+
+</div>

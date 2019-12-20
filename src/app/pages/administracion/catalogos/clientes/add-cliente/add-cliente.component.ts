@@ -6,7 +6,7 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-add-cliente',
   templateUrl: './add-cliente.component.html',
-  styles: []
+  styleUrls: ['./add-cliente.component.css']
 })
 export class AddClienteComponent implements OnInit {
 

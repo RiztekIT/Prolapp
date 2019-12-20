@@ -109,7 +109,7 @@ const pagesRoutes: Routes = [
                 { path: 'calendarioImportacion', component: CalendarioImportacionComponent  },
                 { path: 'calendarioCxc', component: CalendariocxcComponent  },
                 { path: 'facturacionCxc', component: FacturacioncxcComponent  },
-                { path: 'facturacionCxcAdd', component: FacturacioncxcAddComponent  },
+                { path: 'facturacionCxcAdd/:id', component: FacturacioncxcAddComponent  },
                 { path: 'pedidosCxc', component: PedidoscxcComponent  },
                 { path: 'polizasCxc', component: PolizascxcComponent  },
                 { path: 'reportesCxc', component: ReportescxcComponent  },
