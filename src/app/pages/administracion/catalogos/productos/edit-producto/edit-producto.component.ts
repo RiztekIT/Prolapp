@@ -5,7 +5,7 @@ import { NgForm } from '@angular/forms';
 @Component({
   selector: 'app-edit-producto',
   templateUrl: './edit-producto.component.html',
-  styles: []
+  styleUrls: ['./edit-producto.component.css']
 })
 export class EditProductoComponent implements OnInit {
 

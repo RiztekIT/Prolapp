@@ -12,7 +12,7 @@ import { EditClienteComponent } from '../edit-cliente/edit-cliente.component';
 @Component({
   selector: 'app-show-cliente',
   templateUrl: './show-cliente.component.html',
-  styles: []
+  styleUrls: ['./show-cliente.component.css']
 })
 export class ShowClienteComponent implements OnInit {
 

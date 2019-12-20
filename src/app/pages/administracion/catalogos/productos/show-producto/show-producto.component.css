@@ -1,0 +1,12 @@
+td {
+    padding: 5px !important;
+}
+
+::ng-deep .mat-sort-header-container {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-danger:hover {
+    color: white;
+}

@@ -5,12 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule } from '@angular/material';
+import { MatSortModule, MatDialogModule, MatSnackBarModule} from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule, MatButtonModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
+import {MatCardModule} from '@angular/material/card';
 
 
 
@@ -244,7 +245,9 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
         MatNativeDateModule,
         NgxQRCodeModule,
         MatSelectModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        MatCardModule,
+
     ],
     providers: [
         UsuariosServieService,
