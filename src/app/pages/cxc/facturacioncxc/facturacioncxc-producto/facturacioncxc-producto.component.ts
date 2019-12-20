@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef, MatSnackBar } from '@angular/material';
+import { MatDialogRef, MatSnackBar, MatAutocompleteSelectedEvent } from '@angular/material';
 import { FacturaService } from '../../../../services/facturacioncxc/factura.service';
 import { NgForm, FormControl } from '@angular/forms';
 import { Factura } from 'src/app/Models/facturacioncxc/factura-model';
@@ -28,11 +28,11 @@ export class FacturacioncxcProductoComponent implements OnInit {
   ngOnInit() {
     this.resetForm();
     this.obtenerProductos();
-
+x
   }
    private _filter(value: any): any[] {
     const filterValue = value.toLowerCase();
-    console.log(filterValue + "FILTER  VALUE");
+    // console.log(filterValue + "FILTER  VALUE");
     // return this.options.filter(option => option.Nombre.toLowerCase().includes(filterValue));
     return this.options.filter(option => 
       option.Nombre.toLowerCase().includes(filterValue) || 
@@ -50,7 +50,9 @@ export class FacturacioncxcProductoComponent implements OnInit {
       let producto = data[i];
       this.listProductos.push(producto);
        this.options.push(producto)
-      console.log(this.options);
+      // console.log(this.options);
+      // this.service.formDataDF.Producto = producto.Nombre;
+
       
     this.filteredOptions = this.myControl.valueChanges
     .pipe(
@@ -58,6 +60,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
       map(value => this._filter(value))
     );
     }
+    
     // console.log(this.listProductos);
     // console.log(this.listProductos[0].Nombre);
     });
@@ -65,6 +68,12 @@ export class FacturacioncxcProductoComponent implements OnInit {
     // console.log(this.options);
   }
 
+  onSelectionChanged(event: MatAutocompleteSelectedEvent,options: Producto) {
+    if (event.source.selected) {
+    console.log(options);
+     this.service.formDataDF.Producto = options.Nombre;
+    }
+  }
 
   resetForm(form?: NgForm) {
     if (form != null)
