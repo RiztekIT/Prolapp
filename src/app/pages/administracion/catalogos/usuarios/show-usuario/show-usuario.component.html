@@ -10,13 +10,15 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
+
+
         <ng-container matColumnDef="IdUsuario">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>IdUsuario</th>
             <td mat-cell *matCellDef="let element">{{element.IdUsuario}}</td>
         </ng-container>
 
         <ng-container matColumnDef="Nombre">
-            <th mat-header-cell mat-sort-header *matHeaderCellDef>Nombre</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
             <td mat-cell *matCellDef="let element">{{element.Nombre}}</td>
         </ng-container>
 
@@ -36,9 +38,7 @@
         </ng-container>
 
         <ng-container matColumnDef="Correo">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                <div class="text-center">Correo</div>
-            </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Correo</th>
             <td mat-cell *matCellDef="let element">{{element.Correo}}</td>
         </ng-container>
 
@@ -63,7 +63,7 @@
                 <!--  -->
                 <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdUsuario)">
                                             <mat-icon>delete_outline</mat-icon>
-                                        </button>
+                </button>
             </td>
         </ng-container>
 
