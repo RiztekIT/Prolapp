@@ -11,7 +11,7 @@ import { EditProductoComponent } from '../edit-producto/edit-producto.component'
 @Component({
   selector: 'app-show-producto',
   templateUrl: './show-producto.component.html',
-  styles: []
+  styleUrls: ['./show-producto.component.css']
 })
 export class ShowProductoComponent implements OnInit {
 
