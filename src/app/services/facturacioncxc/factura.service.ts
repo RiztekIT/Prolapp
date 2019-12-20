@@ -24,7 +24,7 @@ export class FacturaService {
 
 
   // readonly APIUrl = "https://localhost:7002/api";
-  readonly APIUrl = "http://192.168.1.67:32767/api";
+  readonly APIUrl = "http://192.168.1.180:44361/api";
 
   //Obtener lista de Facturas
   getFacturasList(): Observable <Factura[]> {

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
     headers: new HttpHeaders({
       'F-Api-Key':'JDJ5JDEwJGZOWTRnNkdvSjBPTEdiRlRBNWZocE81d3dJRU52WUtNWU9SaU16MHcwbFV5MzIuVWVGTlBT',
       'F-Secret-Key':'JDJ5JDEwJGhVemxJbXUyTzhUREVTTEVvODkySk91aEI4a3Y0Rjhqd3ltWHo0a0QyTktTdkhldEp2c29X',
-      'Access-Control-Allow-Origin': 'http://192.168.1.67:4200',
+      'Access-Control-Allow-Origin': 'http://192.168.1.180:4200',
       'Content-Type': 'application/json;charset=UTF-8',
       'Access-Control-Allow-Headers': 'F-Secret-Key,Accept, Accept-Encoding, Content-Type',
       'Access-Control-Allow-Methods': 'GET, OPTIONS'
