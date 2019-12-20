@@ -1,11 +1,11 @@
 export class Factura {
     //Factura
     Id: number;
-    ClienteId: number;
+    IdCliente: number;
     Serie: string;
     Folio: string;
     Tipo: string;
-    FechaDeExpedicion: string;
+    FechaDeExpedicion: Date;
     LugarDeExpedicion: string;
     Certificado: string;
     NumeroDeCertificado: string;
@@ -26,28 +26,17 @@ export class Factura {
     NumeroDeSelloSAT: string;
     RFCdelPAC: string;
     Observaciones: string;
-    FechaVencimiento: string;
+    FechaVencimiento: Date;
     OrdenDeCompra: string;
     TipoDeCambio: string;
-    FechaDeEntrega: string;
+    FechaDeEntrega: Date;
     CondicionesDePago: string;
     Vendedor: string;
     Estatus: string;
     Version: string;
     Usuario: string
 
-    // //Factura Detalle
-    IdDetalle: number;
-    IdFactura: number;
-    ClaveProducto: string;
-    Producto: string;
-    Unidad: string;
-    ClaveSat: string;
-    PrecioUnitario: string;
-    Cantidad: string;
-    Importe: string;
-    ObservacionesConcepto: string;
-    TextoExtra: string;
+    
 
 
 

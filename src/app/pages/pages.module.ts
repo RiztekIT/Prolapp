@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
 
@@ -110,7 +110,6 @@ import { EditClienteComponent } from './administracion/catalogos/clientes/edit-c
 import { AddClienteComponent } from './administracion/catalogos/clientes/add-cliente/add-cliente.component';
 import { ClientesService } from '../services/catalogos/clientes.service';
 
-
   //qr code
 import { NgxQRCodeModule } from 'ngx-qrcode2'; 
 
@@ -119,6 +118,9 @@ import { FacturaComponent } from '../components/factura/factura.component';
 import { FacturacioncxcAddComponent } from './cxc/facturacioncxc/facturacioncxc-add/facturacioncxc-add.component';
 import { FacturacioncxcEditComponent } from './cxc/facturacioncxc/facturacioncxc-edit/facturacioncxc-edit.component';
 import { FacturaService } from '../services/facturacioncxc/factura.service';
+import {MatSelectModule} from '@angular/material/select';
+import { FacturacioncxcProductoComponent } from './cxc/facturacioncxc/facturacioncxc-producto/facturacioncxc-producto.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 
 
@@ -215,7 +217,8 @@ import { FacturaService } from '../services/facturacioncxc/factura.service';
         AddClienteComponent,
         FacturaComponent,
         FacturacioncxcAddComponent,
-        FacturacioncxcEditComponent
+        FacturacioncxcEditComponent,
+        FacturacioncxcProductoComponent
     ],
     exports: [
         DashboardComponent,
@@ -226,6 +229,7 @@ import { FacturaService } from '../services/facturacioncxc/factura.service';
         PAGES_ROUTES,
         SharedModule,
         FormsModule,
+        ReactiveFormsModule,
         ChartsModule,
         CommonModule,
         MatSliderModule,
@@ -238,7 +242,9 @@ import { FacturaService } from '../services/facturacioncxc/factura.service';
         MatSnackBarModule,
         MatDatepickerModule,
         MatNativeDateModule,
-        NgxQRCodeModule
+        NgxQRCodeModule,
+        MatSelectModule,
+        MatAutocompleteModule
     ],
     providers: [
         UsuariosServieService,
@@ -257,7 +263,8 @@ import { FacturaService } from '../services/facturacioncxc/factura.service';
         AddClienteComponent,
         EditClienteComponent,
         // FacturacioncxcAddComponent,
-        FacturacioncxcEditComponent
+        FacturacioncxcEditComponent,
+        FacturacioncxcProductoComponent
 
     ]
 })

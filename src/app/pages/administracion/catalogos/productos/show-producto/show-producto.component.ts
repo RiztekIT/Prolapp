@@ -70,7 +70,7 @@ export class ShowProductoComponent implements OnInit {
 
   onEdit(producto: Producto){
 // console.log(usuario);
-this.service.formData = producto;
+    this.service.formData = producto;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
