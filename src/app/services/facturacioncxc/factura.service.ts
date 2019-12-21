@@ -21,14 +21,20 @@ export class FacturaService {
    formData: Factura;
    formDataDF: DetalleFactura;
    formDataP: Producto;
+   IdFactura: number;
 
 
   // readonly APIUrl = "https://localhost:7002/api";
-  readonly APIUrl = "https://localhost:44361/api";
+  // readonly APIUrl = "http://192.168.1.67:32767/api";
+  readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
 
   //Obtener lista de Facturas
   getFacturasList(): Observable <Factura[]> {
     return this.http.get<Factura[]>(this.APIUrl + '/Factura');
+  }
+  //Obtener Lista de Detalles Factura
+  getDetallesFacturaList(id: number): Observable <DetalleFactura[]> {
+    return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura/DetalleFactura/'+ id);
   }
   //Obtener ultima factura Creada
   getUltimaFactura(): Observable<any> {
@@ -51,8 +57,8 @@ export class FacturaService {
     return this.http.post(this.APIUrl + '/Factura', factura);
   }
  //Insertar Detalle Factura
- addDetalleFactura(factura: Factura) {
-   return this.http.post(this.APIUrl + '/Factura/InsertDetalleFactura', factura);
+ addDetalleFactura(detalleFactura: DetalleFactura) {
+   return this.http.post(this.APIUrl + '/Factura/InsertDetalleFactura', detalleFactura);
   }
   //Editar Factura
   updateFactura(factura: Factura) {

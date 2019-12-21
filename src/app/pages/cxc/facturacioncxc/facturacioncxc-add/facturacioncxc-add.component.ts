@@ -11,65 +11,7 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 
 
 
-let datosfact = JSON.stringify(
-  {
-    "Receptor": {
-      "UID": "5de771f1a1203"
-    },
-    "TipoDocumento": "factura",
-    "Conceptos": [
-      {
-        "ClaveProdServ": "43232408",
-        "NoIdentificacion": "WEBDEV10",
-        "Cantidad": "1.000000",
-        "ClaveUnidad": "E48",
-        "Unidad": "Unidad de servicio",
-        "Descripcion": "Desarrollo web a la medida",
-        "ValorUnitario": "15000.000000",
-        "Importe": "15000.000000",
-        "Descuento": "0",
-        "tipoDesc": "porcentaje",
-        "honorarioInverso": "",
-        "montoHonorario": "0",
-        "Impuestos": {
-          "Traslados": [
-            {
-              "Base": "15000.000000",
-              "Impuesto": "002",
-              "TipoFactor": "Tasa",
-              "TasaOCuota": "0.16",
-              "Importe": "2400.000000"
-            }
-          ],
-          "Retenidos": [],
-          "Locales": []
-        },
-        "NumeroPedimento": "",
-        "Predial": "",
-        "Partes": "0",
-        "Complemento": "0"
-      }
-    ],
-    "Impuestos": {
-      "Traslados": [
-        {
-          "Base": "15000.000000",
-          "Impuesto": "002",
-          "TipoFactor": "Tasa",
-          "TasaOCuota": "0.16",
-          "Importe": "2400.000000"
-        }
-      ],
-      "Retenidos": [],
-      "Locales": []
-    },
-    "UsoCFDI": "G03",
-    "Serie": 5352,
-    "FormaPago": "03",
-    "MetodoPago": "PUE",
-    "Moneda": "MXN",
-    "EnviarCorreo": false
-  });
+
 
 
 
@@ -90,8 +32,15 @@ export class FacturacioncxcAddComponent implements OnInit {
         this.IdFactura = params['id'];
         console.log("El ID de la Factura es: "+this.IdFactura);
         // console.log(params['id']); 
+        this.service.IdFactura = +this.IdFactura;
         
       });
+  
+      //Observable para actualizar tabla de Detalles Factura
+      this.service.listen().subscribe((m:any)=>{
+        console.log(m);
+        this.refreshDetallesFacturaList();
+        });
 
     }
 
@@ -106,7 +55,29 @@ export class FacturacioncxcAddComponent implements OnInit {
   ngOnInit() {
     this.resetForm();
     this.dropdownRefresh();
+    this.refreshDetallesFacturaList();
     // this.Folio();
+  }
+   //Informacion para tabla de productos
+   listData: MatTableDataSource<any>;
+   displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Cantidad', 'Precio', 'Options'];
+   @ViewChild(MatSort, null) sort: MatSort;
+
+
+   //Funcion Refresh Tabla Detalles Factura
+  refreshDetallesFacturaList() {
+    this.service.getDetallesFacturaList(this.IdFactura).subscribe(data => {
+      this.listData = new MatTableDataSource(data);
+      this.listData.sort = this.sort;
+    //console.log(this.listData);
+    });
+
+  }
+
+  //Filtro de Detalles Factura
+  applyFilter(filtervalue: string){  
+    this.listData.filter= filtervalue.trim().toLocaleLowerCase();
+
   }
 
 
@@ -181,10 +152,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   }
   
 
-  //Informacion para tabla de productos
-  listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Cantidad', 'Precio', 'Options'];
-  @ViewChild(MatSort, null) sort: MatSort;
+ 
 
   onAddProducto() {
     
@@ -199,10 +167,10 @@ export class FacturacioncxcAddComponent implements OnInit {
   }
 
 
-  applyFilter(filtervalue: string) {
-    this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+  // applyFilter(filtervalue: string) {
+  //   this.listData.filter = filtervalue.trim().toLocaleLowerCase();
 
-  }
+  // }
 
   resetForm(form?: NgForm) {
     if (form != null)
@@ -248,6 +216,192 @@ export class FacturacioncxcAddComponent implements OnInit {
 
   }
 
+  crearjsonfactura(){
+    let json = {
+      "Receptor": {
+        "UID": ""
+      },
+      "TipoDocumento": "factura",
+      "Conceptos": [
+        {
+          "ClaveProdServ": '',
+          "NoIdentificacion": '',
+          "Cantidad": '',
+          "ClaveUnidad": '',
+          "Unidad": '',
+          "Descripcion": '',
+          "ValorUnitario": '',
+          "Importe": '',
+          "Descuento": '',
+          "tipoDesc": '',
+          "honorarioInverso": '',
+          "montoHonorario": '',
+          "Impuestos": {
+            "Traslados": [
+              {
+                "Base": "",
+                "Impuesto": "",
+                "TipoFactor": "Tasa",
+                "TasaOCuota": "0.16",
+                "Importe": ""
+              }
+            ],
+            "Retenidos": [],
+            "Locales": []
+          },
+          "NumeroPedimento": "",
+          "Predial": "",
+          "Partes": "",
+          "Complemento": ""
+        }
+      ],
+      "Impuestos": {
+        "Traslados": [
+          {
+            "Base": "",
+            "Impuesto": "",
+            "TipoFactor": "Tasa",
+            "TasaOCuota": "0.16",
+            "Importe": ""
+          }
+        ],
+        "Retenidos": [],
+        "Locales": []
+      },
+      "CfdiRelacionados": {
+              "TipoRelacion": "",
+              "UUID": []
+            },
+      "UsoCFDI": "",
+      "Serie": 0,
+      "FormaPago": "",
+      "MetodoPago": "",
+      "Moneda": "",
+      "EnviarCorreo": false
+      };
+
+    json.Receptor.UID = '5de771f1a1203';
+    json.Conceptos.pop();
+    json.Conceptos.push({
+      "ClaveProdServ": '43232408',
+      "NoIdentificacion": 'WEBDEV10',
+      "Cantidad": '1.000000',
+      "ClaveUnidad": 'E48',
+      "Unidad": 'Unidad de servicio',
+      "Descripcion": 'Desarrollo web a la medida',
+      "ValorUnitario": '15000.000000',
+      "Importe": '15000.000000',
+      "Descuento": '0',
+      "tipoDesc": 'porcentaje',
+      "honorarioInverso": '',
+      "montoHonorario": '0',
+      "Impuestos":{
+        "Traslados":[{
+            "Base": '15000.000000',
+            "Impuesto": '002',
+            "TipoFactor": 'Tasa',
+            "TasaOCuota": '0.16',
+            "Importe": '2400.000000'
+        }],
+        "Retenidos":[],
+        "Locales":[],
+      },
+      "NumeroPedimento": "",
+          "Predial": "",
+          "Partes": "0",
+          "Complemento": "0"
+    });
+    json.Impuestos.Traslados.pop();
+    json.Impuestos.Traslados.push({
+      "Base": "15000.000000",
+      "Impuesto": "002",
+      "TipoFactor": "Tasa",
+      "TasaOCuota": "0.16",
+      "Importe": "2400.000000"
+    });
+    json.Impuestos.Retenidos=[];
+    json.Impuestos.Locales=[];
+    json.CfdiRelacionados.TipoRelacion = '';
+    json.CfdiRelacionados.UUID.push();
+    json.UsoCFDI = 'G03';
+    json.Serie = 5352;
+    json.FormaPago = '03';
+    json.MetodoPago = 'PUE';
+    json.Moneda = 'MXN';
+    json.EnviarCorreo = false;
+
+
+      
+      
+
+
+    // let datosfact = JSON.stringify(
+    //   {
+    //     "Receptor": {
+    //       "UID": "5de771f1a1203"
+    //     },
+    //     "TipoDocumento": "factura",
+    //     "Conceptos": [
+    //       {
+    //         "ClaveProdServ": "43232408",
+    //         "NoIdentificacion": "WEBDEV10",
+    //         "Cantidad": "1.000000",
+    //         "ClaveUnidad": "E48",
+    //         "Unidad": "Unidad de servicio",
+    //         "Descripcion": "Desarrollo web a la medida",
+    //         "ValorUnitario": "15000.000000",
+    //         "Importe": "15000.000000",
+    //         "Descuento": "0",
+    //         "tipoDesc": "porcentaje",
+    //         "honorarioInverso": "",
+    //         "montoHonorario": "0",
+    //         "Impuestos": {
+    //           "Traslados": [
+    //             {
+    //               "Base": "15000.000000",
+    //               "Impuesto": "002",
+    //               "TipoFactor": "Tasa",
+    //               "TasaOCuota": "0.16",
+    //               "Importe": "2400.000000"
+    //             }
+    //           ],
+    //           "Retenidos": [],
+    //           "Locales": []
+    //         },
+    //         "NumeroPedimento": "",
+    //         "Predial": "",
+    //         "Partes": "0",
+    //         "Complemento": "0"
+    //       }
+    //     ],
+    //     "Impuestos": {
+    //       "Traslados": [
+    //         {
+    //           "Base": "15000.000000",
+    //           "Impuesto": "002",
+    //           "TipoFactor": "Tasa",
+    //           "TasaOCuota": "0.16",
+    //           "Importe": "2400.000000"
+    //         }
+    //       ],
+    //       "Retenidos": [],
+    //       "Locales": []
+    //     },
+    //     "CfdiRelacionados": {
+    //       "TipoRelacion": "",
+    //       "UUID": []
+    //     },
+    //     "UsoCFDI": "G03",
+    //     "Serie": 5352,
+    //     "FormaPago": "03",
+    //     "MetodoPago": "PUE",
+    //     "Moneda": "MXN",
+    //     "EnviarCorreo": false
+    //   });
+
+      return JSON.stringify(json);
+
+  }
 
 
 
@@ -270,6 +424,8 @@ export class FacturacioncxcAddComponent implements OnInit {
   }
 
   enviar() {
+    let datosfact = this.crearjsonfactura();
+    //Aqui manda la factura
     this.enviarfact.enviarFactura(datosfact).subscribe(data => {
       console.log(data);
       if (data.response === 'success') {
@@ -281,21 +437,15 @@ export class FacturacioncxcAddComponent implements OnInit {
         this.estatusfact = 'Factura Creada ' + data.invoice_uid;
         this.dxml(this.numfact);
         this.dpdf(this.numfact);
-
       }
       if (data.response === 'error') {
         console.log('error');
         this.estatusfact = data.response + ' ' + data.message;
-
       }
-
-
-
     })
 
-
-    // this.enviarfact.enviarFactura();
-    // console.log(this.enviarfact.enviarFactura());
+    console.log(datosfact);
+    
 
   }
 

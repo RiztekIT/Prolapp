@@ -141,3 +141,15 @@ th {
     padding-left: 0px;
     margin-left: 0px;
 }
+
+.tablaBodyAcomodo {
+    height: 10px;
+}
+
+.textoBodyAcomodo {
+    padding: 0;
+}
+
+.acomodoForzadoTh {
+    margin-left: 35px;
+}

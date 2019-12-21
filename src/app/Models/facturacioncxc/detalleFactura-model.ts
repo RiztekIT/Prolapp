@@ -9,6 +9,6 @@ export class DetalleFactura{
     PrecioUnitario: string;
     Cantidad: string;
     Importe: string;
-    ObservacionesConcepto: string;
+    Observaciones: string;
     TextoExtra: string;
 }
