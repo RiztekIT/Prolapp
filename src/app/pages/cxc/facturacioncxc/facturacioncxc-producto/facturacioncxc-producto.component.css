@@ -10,12 +10,3 @@ td {
 .btn-danger:hover {
     color: white;
 }
-
-::ng-deep .mat-cell {
-    overflow: auto;
-}
-
-::ng-deep .mat-header-cell {
-    color: #ffffff;
-    background: #000000;
-}

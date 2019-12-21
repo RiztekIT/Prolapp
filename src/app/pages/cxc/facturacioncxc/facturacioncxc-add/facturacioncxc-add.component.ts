@@ -32,8 +32,15 @@ export class FacturacioncxcAddComponent implements OnInit {
         this.IdFactura = params['id'];
         console.log("El ID de la Factura es: "+this.IdFactura);
         // console.log(params['id']); 
+        this.service.IdFactura = +this.IdFactura;
         
       });
+  
+      //Observable para actualizar tabla de Detalles Factura
+      this.service.listen().subscribe((m:any)=>{
+        console.log(m);
+        this.refreshDetallesFacturaList();
+        });
 
     }
 
@@ -48,7 +55,29 @@ export class FacturacioncxcAddComponent implements OnInit {
   ngOnInit() {
     this.resetForm();
     this.dropdownRefresh();
+    this.refreshDetallesFacturaList();
     // this.Folio();
+  }
+   //Informacion para tabla de productos
+   listData: MatTableDataSource<any>;
+   displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Cantidad', 'Precio', 'Options'];
+   @ViewChild(MatSort, null) sort: MatSort;
+
+
+   //Funcion Refresh Tabla Detalles Factura
+  refreshDetallesFacturaList() {
+    this.service.getDetallesFacturaList(this.IdFactura).subscribe(data => {
+      this.listData = new MatTableDataSource(data);
+      this.listData.sort = this.sort;
+    //console.log(this.listData);
+    });
+
+  }
+
+  //Filtro de Detalles Factura
+  applyFilter(filtervalue: string){  
+    this.listData.filter= filtervalue.trim().toLocaleLowerCase();
+
   }
 
 
@@ -123,10 +152,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   }
   
 
-  //Informacion para tabla de productos
-  listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Cantidad', 'Precio', 'Options'];
-  @ViewChild(MatSort, null) sort: MatSort;
+ 
 
   onAddProducto() {
     
@@ -141,10 +167,10 @@ export class FacturacioncxcAddComponent implements OnInit {
   }
 
 
-  applyFilter(filtervalue: string) {
-    this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+  // applyFilter(filtervalue: string) {
+  //   this.listData.filter = filtervalue.trim().toLocaleLowerCase();
 
-  }
+  // }
 
   resetForm(form?: NgForm) {
     if (form != null)

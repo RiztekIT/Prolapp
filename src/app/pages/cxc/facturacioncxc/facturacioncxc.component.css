@@ -1,14 +1,11 @@
-td {
-    padding: 5px !important;
-}
-
 ::ng-deep .mat-sort-header-container {
     display: flex;
     justify-content: center;
 }
 
 .btn-danger:hover {
-    color: white;
+    color: #ffffff;
+    background: #ff0000;
 }
 
 ::ng-deep .mat-cell {
