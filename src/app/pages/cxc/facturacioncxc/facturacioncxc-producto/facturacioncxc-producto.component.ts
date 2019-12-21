@@ -66,7 +66,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
     this.dialogbox.close();
     this.service.filter('Register click');
   }
-
+ 
   obtenerProductos(){
     this.service.getProductos().subscribe((data) => {
     for (let i = 0; i < data.length; i++) {
@@ -91,7 +91,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
     // console.log(this.options);
   }
   onSelectionChange(event: MatAutocompleteSelectedEvent, options:Producto){
-    if(event.option.selected){
+    if(event.source.selected){
       this.service.formDataDF.Producto = options.Nombre;
       this.service.formDataDF.ClaveSat = options.ClaveSAT;
     }
@@ -153,9 +153,12 @@ export class FacturacioncxcProductoComponent implements OnInit {
         verticalPosition: 'top'
       });
       console.log(this.service.formDataDF);
+      this.dialogbox.close();
+      this.service.filter('Register click');
     }
     );
-    this.dialogbox.close();
 
   }
+
+
 }
