@@ -93,7 +93,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
   onSelectionChange(event: MatAutocompleteSelectedEvent, options:Producto){
     if(event.option.selected){
       this.service.formDataDF.Producto = options.Nombre;
-      this.service.formDataDF.ClaveSat = options.ClaveSAT;
+      this.service.formDataDF.ClaveSAT = options.ClaveSAT;
     }
   }
 
