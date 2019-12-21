@@ -96,6 +96,18 @@ export class FacturacioncxcProductoComponent implements OnInit {
       this.service.formDataDF.ClaveSat = options.ClaveSAT;
     }
   }
+
+  sumar(){
+    let p1: number;
+    let p2: number;
+    let suma: number;
+
+    p1 = parseInt(this.service.formDataDF.PrecioUnitario,10);
+    p2 = parseInt(this.service.formDataDF.Cantidad,10);
+    suma = p1 * p2;
+
+    this.service.formDataDF.Importe=suma.toString(10);
+  }
    
 
   // onSelectionChanged(event: MatAutocompleteSelectedEvent,options: Producto) {
