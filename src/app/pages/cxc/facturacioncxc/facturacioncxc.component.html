@@ -13,8 +13,6 @@
                 </div>
 
                 <div class="mat-elevation-z8">
-
-
                     <mat-table [dataSource]="listData" matSort class="scrollable">
 
                         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -39,7 +37,7 @@
 
                         <ng-container matColumnDef="FechaExpedicion">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>FECHA EXPEDICION</mat-header-cell>
-                            <mat-cell *matCellDef="let element">{{element.FechaDeExpedicion}}</mat-cell>
+                            <mat-cell *matCellDef="let element">{{element.FechaDeExpedicion | date: 'dd/MM/yyyy'}}</mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="Subtotal">
@@ -88,8 +86,6 @@
                                             <mat-icon>delete_outline</mat-icon>
                                         </button>
                                 </mat-menu>
-
-
                             </mat-cell>
                         </ng-container>
 
@@ -98,11 +94,7 @@
                 </div>
 
             </div>
-
-            <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Factura</button>
-
-
-
+            <button class="btn btn-primary" (click)="onAdd()">Generar Factura</button>
         </div>
     </div>
 </div>
