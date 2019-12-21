@@ -8,6 +8,8 @@ import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfact
 import { FacturacioncxcProductoComponent } from '../facturacioncxc-producto/facturacioncxc-producto.component';
 import { Factura } from 'src/app/Models/facturacioncxc/factura-model';
 import { MatTableDataSource, MatSort } from '@angular/material';
+import { DetalleFactura } from '../../../../Models/facturacioncxc/detalleFactura-model';
+import { FacturacioncxcEditProductoComponent } from '../facturacioncxc-edit-producto/facturacioncxc-edit-producto.component';
 
 
 
@@ -27,7 +29,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     public service: FacturaService, private snackBar: MatSnackBar, private dialog: MatDialog, 
     private router: Router, public enviarfact: EnviarfacturaService,
     private activatedRoute: ActivatedRoute) { 
-   
+      
       this.activatedRoute.params.subscribe(  params =>{
         this.IdFactura = params['id'];
         console.log("El ID de la Factura es: "+this.IdFactura);
@@ -35,28 +37,27 @@ export class FacturacioncxcAddComponent implements OnInit {
         this.service.IdFactura = +this.IdFactura;
         
       });
-  
+      
       //Observable para actualizar tabla de Detalles Factura
       this.service.listen().subscribe((m:any)=>{
         console.log(m);
         this.refreshDetallesFacturaList();
         });
-
-    }
-
-  IdFactura: any;
+        
+      }
+      
+      IdFactura: any;
   listClientes: Cliente[] = [];
-
+  
 
   estatusfact;
   numfact;
   xml;
-
+  
   ngOnInit() {
     this.resetForm();
     this.dropdownRefresh();
     this.refreshDetallesFacturaList();
-    // this.Folio();
   }
    //Informacion para tabla de productos
    listData: MatTableDataSource<any>;
@@ -151,9 +152,32 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.router.navigateByUrl('/facturacionCxc');
   }
   
-
- 
-
+//Editar detalle factura
+onEdit(detalleFactura: DetalleFactura){
+  console.log(detalleFactura);
+      this.service.formDataDF = detalleFactura;
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width="70%";
+      this.dialog.open(FacturacioncxcEditProductoComponent, dialogConfig);
+    }
+//Eliminar Detalle Factura
+    onDelete( id:number){
+      console.log(id);
+      if ( confirm('Are you sure to delete?')) {
+        this.service.deleteDetalleFactura(id).subscribe(res => {
+        this.refreshDetallesFacturaList();
+        this.snackBar.open(res.toString(), '', {
+          duration: 3000,
+          verticalPosition: 'top'
+        });
+  
+        });
+      }
+  
+    }
+    //Agregar Detalle Factura
   onAddProducto() {
     
     // console.log(usuario);
@@ -173,46 +197,54 @@ export class FacturacioncxcAddComponent implements OnInit {
   // }
 
   resetForm(form?: NgForm) {
-    if (form != null)
-      form.resetForm();
-    this.service.formData = {
+    // if (form != null)
+    //   form.resetForm();
+ console.log(this.IdFactura + "ESTE ES EL ID FACTURA");
+      this.service.getFacturaId(this.IdFactura).subscribe(res => {
+        console.log(res);
+        this.refreshDetallesFacturaList();
+        this.service.formData = res[0];
+        console.log(this.service.formData);
+        });
+
+    //this.service.formData = {
       //Factura
-      Id: 0,
-      IdCliente: 0,
-      Serie: '',
-      Folio: '',
-      Tipo: '',
-      FechaDeExpedicion: new Date(),
-      LugarDeExpedicion: '',
-      Certificado: '',
-      NumeroDeCertificado: '',
-      UUID: '',
-      UsoDelCFDI: '',
-      Subtotal: '',
-      Descuento: '',
-      ImpuestosRetenidos: '',
-      ImpuestosTrasladados: '',
-      Total: '',
-      FormaDePago: '',
-      MetodoDePago: '',
-      Cuenta: '',
-      Moneda: '',
-      CadenaOriginal: '',
-      SelloDigitalSAT: '',
-      SelloDigitalCFDI: '',
-      NumeroDeSelloSAT: '',
-      RFCdelPAC: '',
-      Observaciones: '',
-      FechaVencimiento: new Date(),
-      OrdenDeCompra: '',
-      TipoDeCambio: '',
-      FechaDeEntrega: new Date(),
-      CondicionesDePago: '',
-      Vendedor: '',
-      Estatus: '',
-      Version: '',
-      Usuario: '',
-    }
+      // Id: 0,
+      // IdCliente: 0,
+      // Serie: '',
+      // Folio: '',
+      // Tipo: '',
+      // FechaDeExpedicion: new Date(),
+      // LugarDeExpedicion: '',
+      // Certificado: '',
+      // NumeroDeCertificado: '',
+      // UUID: '',
+      // UsoDelCFDI: '',
+      // Subtotal: '',
+      // Descuento: '',
+      // ImpuestosRetenidos: '',
+      // ImpuestosTrasladados: '',
+      // Total: '',
+      // FormaDePago: '',
+      // MetodoDePago: '',
+      // Cuenta: '',
+      // Moneda: '',
+      // CadenaOriginal: '',
+      // SelloDigitalSAT: '',
+      // SelloDigitalCFDI: '',
+      // NumeroDeSelloSAT: '',
+      // RFCdelPAC: '',
+      // Observaciones: '',
+      // FechaVencimiento: new Date(),
+      // OrdenDeCompra: '',
+      // TipoDeCambio: '',
+      // FechaDeEntrega: new Date(),
+      // CondicionesDePago: '',
+      // Vendedor: '',
+      // Estatus: '',
+      // Version: '',
+      // Usuario: '',
+    // }
 
   }
 

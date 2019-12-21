@@ -40,6 +40,10 @@ export class FacturaService {
   getUltimaFactura(): Observable<any> {
     return this.http.get<Factura[]>(this.APIUrl + '/Factura/UltimaFactura');
   }
+  //Obtener Factura por Id
+  getFacturaId(id:number): Observable<any> {
+    return this.http.get<Factura[]>(this.APIUrl + '/Factura/Id/' + id);
+  }
   //Obtener el ultimo Folio
   getFolio(): Observable<any>{
     return this.http.get<Factura[]>(this.APIUrl+'/Factura/Folio');
@@ -48,9 +52,9 @@ export class FacturaService {
   deleteFactura(id:number) {
     return this.http.delete(this.APIUrl + '/Factura/' + id);
   }
-  // Eliminar todos los detalles de una factura
-  deleteAllDetalleFactura(id:number) {
-    return this.http.delete(this.APIUrl + '/Factura/DeleteDetalleFactura' + id);
+  // Eliminar detalle factura
+  deleteDetalleFactura(id:number) {
+    return this.http.delete(this.APIUrl + '/Factura/DeleteDetalleFactura/' + id);
   }
   //Insertar nueva factura
   addFactura(factura: Factura) {
@@ -63,6 +67,10 @@ export class FacturaService {
   //Editar Factura
   updateFactura(factura: Factura) {
   return this.http.put(this.APIUrl+ '/Factura', factura);
+}
+  //Editar Detalle Factura
+  updateDetalleFactura(detalleFactura: DetalleFactura) {
+  return this.http.put(this.APIUrl+ '/Factura/UpdateDetalleFactura', detalleFactura);
 }
 //Obtener Productos
 getProductos(): Observable<any>{

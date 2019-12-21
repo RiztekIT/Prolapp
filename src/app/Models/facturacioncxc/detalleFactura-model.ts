@@ -5,7 +5,7 @@ export class DetalleFactura{
     ClaveProducto: string;
     Producto: string;
     Unidad: string;
-    ClaveSat: string;
+    ClaveSAT: string;
     PrecioUnitario: string;
     Cantidad: string;
     Importe: string;

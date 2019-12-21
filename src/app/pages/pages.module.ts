@@ -125,6 +125,7 @@ import { FacturaService } from '../services/facturacioncxc/factura.service';
 import {MatSelectModule} from '@angular/material/select';
 import { FacturacioncxcProductoComponent } from './cxc/facturacioncxc/facturacioncxc-producto/facturacioncxc-producto.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { FacturacioncxcEditProductoComponent } from './cxc/facturacioncxc/facturacioncxc-edit-producto/facturacioncxc-edit-producto.component';
 
 
 
@@ -222,7 +223,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
         FacturaComponent,
         FacturacioncxcAddComponent,
         FacturacioncxcEditComponent,
-        FacturacioncxcProductoComponent
+        FacturacioncxcProductoComponent,
+        FacturacioncxcEditProductoComponent
     ],
     exports: [
         DashboardComponent,
@@ -272,7 +274,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
         EditClienteComponent,
         // FacturacioncxcAddComponent,
         FacturacioncxcEditComponent,
-        FacturacioncxcProductoComponent
+        FacturacioncxcProductoComponent,
+        FacturacioncxcEditProductoComponent
 
     ]
 })

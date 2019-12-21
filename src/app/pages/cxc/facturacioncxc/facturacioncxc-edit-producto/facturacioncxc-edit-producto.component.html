@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-between m-2">
-    <h4>Agregar Producto</h4>
+    <h4>Actualizar Producto</h4>
 
     <button mat-button (click)="onClose()">
     <mat-icon>close</mat-icon>
@@ -20,7 +20,7 @@
             <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClaveProducto" [(ngModel)]="service.formDataDF.ClaveProducto">
             <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngFor="let option of filteredOptions | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChange($event, option)">
-                    <!-- <mat-option *ngFor="let option of filteredOptions | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChanged($event,option)"> -->
+
                     {{ option.ClaveProducto }} {{option.Nombre}}
                 </mat-option>
             </mat-autocomplete>
@@ -57,7 +57,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Precio Unitario: </span>
             </div>
-            <input required minlength="2" placeholder="Ingresar Precio" type="number" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitario">
+            <input required minlength="2" placeholder="Ingresar Precio" type="text" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitario">
         </div>
         <div class="text-left text-danger" *ngIf="PrecioUnitario.invalid && PrecioUnitario.touched">
             Favor de Ingresar Precio Unitario.
@@ -67,7 +67,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Cantidad: </span>
             </div>
-            <input required minlength="1" placeholder="Ingresar Cantidad" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad">
+            <input required minlength="1" placeholder="Ingresar Cantidad" type="text" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad">
         </div>
         <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
             Favor de Ingresar Cantidad.
@@ -77,7 +77,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Importe: </span>
             </div>
-            <input readonly="readonly" placeholder="0.00" type="number" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe">
+            <input readonly="readonly" placeholder="0.00" type="text" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe">
         </div>
 
         <div class="m-3 input-group">
@@ -99,13 +99,11 @@
 
 
         <div>
-            <button class="m-3" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Agregar Producto</button>
+            <button class="m-3" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Actualizar Producto</button>
 
         </div>
 
 
     </form>
-
-    <button class="m-3" mat-raised-button color="primary" (click)="Finalizar(form)" [disabled]="form.invalid">Finalizar</button>
 
 </div>

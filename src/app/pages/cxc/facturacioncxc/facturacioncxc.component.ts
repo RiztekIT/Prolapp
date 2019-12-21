@@ -117,15 +117,16 @@ export class FacturacioncxcComponent implements OnInit {
         duration: 5000,
         verticalPosition: 'top'
       });
+      let Id = this.IdFactura;
+      console.log(Id);
+      this.router.navigate(['/facturacionCxcAdd', Id]);
     }
     );
-    let Id = this.IdFactura;
-    console.log(Id);
-    this.router.navigate(['/facturacionCxcAdd', Id]);
   }
  
 ObtenerUltimaFactura(){
   this.service.getUltimaFactura().subscribe(data => {
+    console.log(data);
     this.IdFactura = data[0].Id;
     // console.log(this.IdFactura);
     return this.IdFactura;
@@ -134,13 +135,11 @@ ObtenerUltimaFactura(){
 
 }
   onEdit(factura: Factura){
-// console.log(usuario);
+// console.log(factura);
 this.service.formData = factura;
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width="70%";
-    this.dialog.open(FacturacioncxcEditComponent, dialogConfig);
+let Id = factura.Id;
+    console.log(Id);
+    this.router.navigate(['/facturacionCxcAdd', Id]);
   }
 
   applyFilter(filtervalue: string){  

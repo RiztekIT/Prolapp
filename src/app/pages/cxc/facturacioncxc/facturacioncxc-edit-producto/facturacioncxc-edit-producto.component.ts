@@ -2,36 +2,33 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar, MatAutocompleteSelectedEvent } from '@angular/material';
 import { FacturaService } from '../../../../services/facturacioncxc/factura.service';
 import { NgForm, FormControl } from '@angular/forms';
-import { Factura } from 'src/app/Models/facturacioncxc/factura-model';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { Producto } from '../../../../Models/catalogos/productos-model';
 
 @Component({
-  selector: 'app-facturacioncxc-producto',
-  templateUrl: './facturacioncxc-producto.component.html',
-  styleUrls: ['./facturacioncxc-producto.component.css']
+  selector: 'app-facturacioncxc-edit-producto',
+  templateUrl: './facturacioncxc-edit-producto.component.html',
+  styleUrls: ['./facturacioncxc-edit-producto.component.css']
 })
-export class FacturacioncxcProductoComponent implements OnInit {
-
+export class FacturacioncxcEditProductoComponent implements OnInit {
 
   IdFactura: any;
   myControl = new FormControl();
   options: Producto[] = [];
   filteredOptions: Observable<any[]>;
-  // options = [{city_name: "AnyTown", city_num: "4"}, {city_name: "YourTown", city_num: "15"}, {city_name: "SmallTown", city_num: "35"}];
-  //Objeto de ProductoslistClientes: Cliente[] = [];
   listProductos: Producto[] = [];
   
   myControlUnidad = new FormControl();
   optionsUnidad = ['Medida 1', 'Medida 2', 'Medida 3'];
   filteredOptionsUnidad: Observable<any[]>;
 
-  constructor(public dialogbox: MatDialogRef<FacturacioncxcProductoComponent>,
+  
+
+  constructor(public dialogbox: MatDialogRef<FacturacioncxcEditProductoComponent>,
     public service: FacturaService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.resetForm();
     this.obtenerProductos();
 
 
@@ -49,8 +46,6 @@ export class FacturacioncxcProductoComponent implements OnInit {
   //Filter Clave Producto
    private _filter(value: any): any[] {
     const filterValue = value.toLowerCase();
-    // console.log(filterValue + "FILTER  VALUE");
-    // return this.options.filter(option => option.Nombre.toLowerCase().includes(filterValue));
     return this.options.filter(option => 
       option.Nombre.toLowerCase().includes(filterValue) || 
       option.ClaveProducto.toLowerCase().includes(filterValue));
@@ -58,7 +53,6 @@ export class FacturacioncxcProductoComponent implements OnInit {
   //Filter Unidad
   private _filterUnidad(value: any): any[] {
     const filterValueUnidad = value.toLowerCase();
-    // console.log(this.optionsUnidad);
     return this.optionsUnidad.filter(optionUnidad => optionUnidad.toString().toLowerCase().includes(filterValueUnidad));
   }
 
@@ -73,8 +67,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
       let producto = data[i];
       this.listProductos.push(producto);
        this.options.push(producto)
-      // console.log(this.options);
-      // this.service.formDataDF.Producto = producto.Nombre;
+
 
       
     this.filteredOptions = this.myControl.valueChanges
@@ -83,12 +76,8 @@ export class FacturacioncxcProductoComponent implements OnInit {
       map(value => this._filter(value))
     );
     }
-    
-    // console.log(this.listProductos);
-    // console.log(this.listProductos[0].Nombre);
     });
-    // this.options = this.listProductos['ClaveProducto'];
-    // console.log(this.options);
+
   }
   onSelectionChange(event: MatAutocompleteSelectedEvent, options:Producto){
     if(event.source.selected){
@@ -98,70 +87,23 @@ export class FacturacioncxcProductoComponent implements OnInit {
   }
    
 
-  // onSelectionChanged(event: MatAutocompleteSelectedEvent,options: Producto) {
-  //   if (event.source.selected) {
-  //   console.log(options);
-  //    this.service.formDataDF.Producto = options.Nombre;
-  //   }
-  // }
-
-  resetForm(form?: NgForm) {
-    if (form != null)
-      form.resetForm();
-    this.service.formDataDF = {
-      // Detalle Factura
-    IdDetalle: 0,
-    IdFactura: 0,
-    ClaveProducto: '',
-    Producto: '',
-    Unidad: '',
-    ClaveSAT: '',
-    PrecioUnitario: '',
-    Cantidad: '',
-    Importe: '',
-    Observaciones: '',
-    TextoExtra: '',
-    }
-
-  }
-
-
-  
  
   onSubmit(form: NgForm) {
     this.service.formDataDF.IdFactura = this.IdFactura;
-    console.log(this.service.formDataDF);
-    this.service.addDetalleFactura(this.service.formDataDF).subscribe(res => {
-      this.resetForm(form);
+    // console.log(this.service.formDataDF);
+    this.service.updateDetalleFactura(this.service.formDataDF).subscribe(res => {
       console.log(res);
       this.snackBar.open(res.toString(), '', {
         duration: 5000,
         verticalPosition: 'top'
       });
-      console.log(this.service.formDataDF);
+      // console.log(this.service.formDataDF);
     }
     );
   
   }
 
-  Finalizar(form: NgForm){
 
-    this.service.formDataDF.IdFactura = this.IdFactura;
-    console.log(this.service.formDataDF);
-    this.service.addDetalleFactura(this.service.formDataDF).subscribe(res => {
-      this.resetForm(form);
-      console.log(res);
-      this.snackBar.open(res.toString(), '', {
-        duration: 5000,
-        verticalPosition: 'top'
-      });
-      console.log(this.service.formDataDF);
-      this.dialogbox.close();
-      this.service.filter('Register click');
-    }
-    );
-
-  }
 
 
 }
