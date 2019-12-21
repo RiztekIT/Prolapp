@@ -18,6 +18,7 @@ export class FacturaComponent implements OnInit {
   constructor(private _http: HttpClient, private sanitizer: DomSanitizer) {
     // this.loadXML();
   }
+  // XML
   cfdiNombre: string;
   xmlString: any;
   xml: string;
@@ -51,6 +52,10 @@ export class FacturaComponent implements OnInit {
   noCertificadoSAT: string;
   selloSAT: string;
   iva: string;
+  monedaT: string;
+  // xml
+  
+  textnum: string;
 
 
 
@@ -132,6 +137,7 @@ export class FacturaComponent implements OnInit {
             this.moneda= result.Comprobante.$.Moneda;
             this.subtotal = result.Comprobante.$.SubTotal; 
             this.total= result.Comprobante.$.Total;
+            this.textnum = cantidad(this.total);
             this.tipoDeComprobante= result.Comprobante.$.TipoDeComprobante;
             this.metodoPago= result.Comprobante.$.MetodoPago;
             this.lugarExpedicion = result.Comprobante.$.LugarExpedicion;
@@ -221,6 +227,14 @@ export class FacturaComponent implements OnInit {
                 this.cfdiNombre = "Por definir"
                 break;
                     }
+              
+            switch (this.moneda){
+              case "MXN":
+                this.monedaT = "MXN"
+                break;
+              case "USD":
+                this.monedaT ="USD"
+            }
                     
           })
           // const p = new xml2js.parseString(data, (err, result) => {

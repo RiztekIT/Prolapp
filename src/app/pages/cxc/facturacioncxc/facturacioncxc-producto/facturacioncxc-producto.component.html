@@ -57,7 +57,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Precio Unitario: </span>
             </div>
-            <input required minlength="2" placeholder="Ingresar Precio" type="number" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitario">
+            <input required minlength="2" placeholder="Ingresar Precio" type="number" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitario" (ngModelChange)="sumar()">
         </div>
         <div class="text-left text-danger" *ngIf="PrecioUnitario.invalid && PrecioUnitario.touched">
             Favor de Ingresar Precio Unitario.
@@ -67,7 +67,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text">Cantidad: </span>
             </div>
-            <input required minlength="1" placeholder="Ingresar Cantidad" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad">
+            <input required minlength="1" placeholder="Ingresar Cantidad" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad" (ngModelChange)="sumar()">
         </div>
         <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
             Favor de Ingresar Cantidad.
