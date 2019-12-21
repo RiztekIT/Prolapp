@@ -6,10 +6,10 @@
 
 <div style="overflow:auto;">
 
-    <mat-table [dataSource]="listData" matSort>
+    <table mat-table [dataSource]="listData" matSort>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
 
         <!-- 
@@ -19,44 +19,50 @@
                 </ng-container> -->
 
         <ng-container matColumnDef="Nombre">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.Nombre}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+            <td mat-cell *matCellDef="let element">{{element.Nombre}}
+                <td>
         </ng-container>
 
         <ng-container matColumnDef="RFC">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>RFC</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.RFC}}
-            </mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>RFC</th>
+            <td mat-cell *matCellDef="let element">{{element.RFC}}
+                <td>
         </ng-container>
 
         <ng-container matColumnDef="RazonSocial">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Razon Social</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.RazonSocial}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Razon Social</th>
+            <td mat-cell *matCellDef="let element">{{element.RazonSocial}}
+                <td>
         </ng-container>
 
         <ng-container matColumnDef="Calle">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Calle</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.Calle}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Calle</th>
+            <td mat-cell *matCellDef="let element">{{element.Calle}}</td>
         </ng-container>
 
         <ng-container matColumnDef="Colonia">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Colonia</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.Colonia}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Colonia</th>
+            <td mat-cell *matCellDef="let element">{{element.Colonia}}
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="CP">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>CP</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.CP}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>CP</th>
+            <td mat-cell *matCellDef="let element">{{element.CP}}
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="Ciudad">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Ciudad</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.Ciudad}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ciudad</th>
+            <td mat-cell *matCellDef="let element">{{element.Ciudad}}
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="Estado">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Estado</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.Estado}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+            <td mat-cell *matCellDef="let element">{{element.Estado}}
+            </td>
         </ng-container>
 
         <!-- <ng-container matColumnDef="NumeroInterior">
@@ -65,41 +71,38 @@
                 </ng-container> -->
 
         <ng-container matColumnDef="NumeroExterior">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Numero Exterior</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.NumeroExterior}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Numero Exterior</th>
+            <td mat-cell *matCellDef="let element">{{element.NumeroExterior}}
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="ClaveProveedor">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Clave Cliente</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.ClaveCliente}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Cliente</th>
+            <td mat-cell *matCellDef="let element">{{element.ClaveCliente}}
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="Estatus">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.Estatus}}</mat-cell>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+            <td mat-cell *matCellDef="let element">{{element.Estatus}}
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="Options">
-            <mat-header-cell *matHeaderCellDef>Options</mat-header-cell>
-            <mat-cell *matCellDef="let row">
-
-                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                    <mat-icon>keyboard_arrow_down</mat-icon>
-                  </button>
-                <mat-menu #menu="matMenu">
-                    <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
-                        <mat-icon>launch</mat-icon>
-                    </button>
-
-                    <!--  -->
-                    <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdClientes)">
+            <th mat-header-cell *matHeaderCellDef>Options</th>
+            <td mat-cell *matCellDef="let row">
+                <!--  -->
+                <button mat-icon-button class="btn btn-primary" (click)="onEdit(row)">
+                                                <mat-icon>launch</mat-icon>
+                                            </button>
+                <!--  -->
+                <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdClientes)">
                                                     <mat-icon>delete_outline</mat-icon>
                                                 </button>
-                </mat-menu>
-            </mat-cell>
+            </td>
         </ng-container>
 
-    </mat-table>
+    </table>
 </div>
 <br>
 
