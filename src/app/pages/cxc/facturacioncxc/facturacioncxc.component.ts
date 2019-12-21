@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import * as html2pdf from 'html2pdf.js';
 
 import {MatTableDataSource, MatSort} from '@angular/material';
 import { Factura } from '../../../Models/facturacioncxc/factura-model';
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-facturacioncxc',
   templateUrl: './facturacioncxc.component.html',
-  styles: []
+  styleUrls: ['./facturacioncxc.component.css'],
 })
 export class FacturacioncxcComponent implements OnInit {
   IdFactura: any;
@@ -146,6 +147,24 @@ this.service.formData = factura;
     this.listData.filter= filtervalue.trim().toLocaleLowerCase();
 
   }
+  
+  onExportClick() {
+    const option = {
+      margin: [0,0,0,0],
+      filename: 'FacturaPDF.pdf',
+      image: {type: 'jpeg', quality: 1},
+      html2canvas: {scale: 2, logging: true},
+      jsPDF: {orientation: 'portrait'}
+
+
+    };
+    const content: Element = document.getElementById('element-to-PDF');
+
+    html2pdf()
+   .from(content)
+   .set(option)
+   .save();
+}
 
 
 }

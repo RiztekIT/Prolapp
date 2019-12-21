@@ -10,7 +10,7 @@ import { Producto } from '../../../../Models/catalogos/productos-model';
 @Component({
   selector: 'app-facturacioncxc-producto',
   templateUrl: './facturacioncxc-producto.component.html',
-  styles: []
+  styleUrls: ['./facturacioncxc-producto.component.css']
 })
 export class FacturacioncxcProductoComponent implements OnInit {
 

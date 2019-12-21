@@ -11,7 +11,7 @@ import { EditUsuarioComponent } from '../edit-usuario/edit-usuario.component';
 @Component({
   selector: 'app-show-usuario',
   templateUrl: './show-usuario.component.html',
-  styleUrls: ['./show-usuario.component.css']
+  styleUrls: ['./show-usuario.component.css'],
 })
 export class ShowUsuarioComponent implements OnInit {
 
