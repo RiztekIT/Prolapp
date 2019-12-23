@@ -251,7 +251,11 @@ onEdit(detalleFactura: DetalleFactura){
 
   }
 
-  crearjsonfactura(){
+  crearjsonfactura(id:number){
+
+    this.service.getFacturasClienteID(id).subscribe{data =>{
+      this.json.Receptor.UID=
+    }}
     
 
     
@@ -259,33 +263,31 @@ onEdit(detalleFactura: DetalleFactura){
     this.json.TipoDocumento = 'factura';
     this.json.Conceptos.pop();
     this.json.Conceptos.push({
-      "ClaveProdServ": '43232408',
-      "NoIdentificacion": 'WEBDEV10',
-      "Cantidad": '1.000000',
-      "ClaveUnidad": 'E48',
-      "Unidad": 'Unidad de servicio',
-      "Descripcion": 'Desarrollo web a la medida',
-      "ValorUnitario": '15000.000000',
-      "Importe": '15000.000000',
-      "Descuento": '0',
-      "tipoDesc": 'porcentaje',
-      "honorarioInverso": '',
-      "montoHonorario": '0',
-      "Impuestos":{
-        "Traslados":[{
-            "Base": '15000.000000',
-            "Impuesto": '002',
-            "TipoFactor": 'Tasa',
-            "TasaOCuota": '0.16',
-            "Importe": '2400.000000'
-        }],
-        "Retenidos":[{}],
-        "Locales":[{}],
+      ClaveProdServ: '43232408',
+      NoIdentificacion: 'WEBDEV10',
+      Cantidad: '1.000000',
+      ClaveUnidad: 'E48',
+      Unidad: 'Unidad de servicio',
+      Descripcion: 'Desarrollo web a la medida',
+      ValorUnitario: '15000.000000',
+      Importe: '15000.000000',
+      Descuento: '0',
+      tipoDesc: 'porcentaje',
+      honorarioInverso: '',
+      montoHonorario: '0',
+      Impuestos:{
+        Traslados:[{
+            Base: '15000.000000',
+            Impuesto: '002',
+            TipoFactor: 'Tasa',
+            TasaOCuota: '0.16',
+            Importe: '2400.000000'
+        }]
       },
-      "NumeroPedimento": "",
-          "Predial": "",
-          "Partes": "0",
-          "Complemento": "0"
+      NumeroPedimento: "",
+          Predial: "",
+          Partes: "0",
+          Complemento: "0"
     });
     this.json.Impuestos.Traslados.pop();
     this.json.Impuestos.Traslados.push({
@@ -295,8 +297,8 @@ onEdit(detalleFactura: DetalleFactura){
       "TasaOCuota": "0.16",
       "Importe": "2400.000000"
     });
-    this.json.Impuestos.Retenidos=[{}];
-    this.json.Impuestos.Locales=[{}];
+    this.json.Impuestos.Retenidos.pop();
+    this.json.Impuestos.Locales.pop();
     this.json.CfdiRelacionados.TipoRelacion = '';
     this.json.CfdiRelacionados.UUID.push();
     this.json.UsoCFDI = 'G03';
@@ -393,26 +395,28 @@ onEdit(detalleFactura: DetalleFactura){
           duration: 5000,
           verticalPosition: 'top'
         });
+        this.enviar(this.IdFactura);
+
       }
       );
 
     console.log(this.service.formData);
   }
 
-  enviar() {
-    let datosfact = this.crearjsonfactura();
+  enviar(id:number) {
+    let datosfact = this.crearjsonfactura(id);
     //Aqui manda la factura
     this.enviarfact.enviarFactura(datosfact).subscribe(data => {
-      console.log(data);
+      console.log('JSON'+ data);
       if (data.response === 'success') {
         console.log('Factura Creada');
         this.numfact = data.invoice_uid;
-        // this.xml = 'devfactura.in/admin/cfdi33/'+this.numfact+'xml';
+        //* this.xml = 'devfactura.in/admin/cfdi33/'+this.numfact+'xml';
 
-        // this.enviarfact.xml(this.xml);
+        // *this.enviarfact.xml(this.xml);
         this.estatusfact = 'Factura Creada ' + data.invoice_uid;
-        this.dxml(this.numfact);
-        this.dpdf(this.numfact);
+        // this.dxml(this.numfact);
+        // this.dpdf(this.numfact);
       }
       if (data.response === 'error') {
         console.log('error');
@@ -482,11 +486,8 @@ onEdit(detalleFactura: DetalleFactura){
                 Importe: ''
               }],
             Locales: [{
-                Base: '',
                 Impuesto: '',
-                TipoFactor: '',
                 TasaOCuota: '',
-                Importe: ''
               }],
           },
           NumeroPedimento: '',
@@ -511,11 +512,8 @@ onEdit(detalleFactura: DetalleFactura){
             Importe: '',
         }],
         Locales: [{
-            Base: '',
             Impuesto: '',
-            TipoFactor: '',
-            TasaOCuota: '',
-            Importe: '',   
+            TasaOCuota: '',  
        }]
       },
       CfdiRelacionados: {
@@ -530,6 +528,8 @@ onEdit(detalleFactura: DetalleFactura){
       EnviarCorreo: false,
     }
   }
+
+  
 
 
 }
