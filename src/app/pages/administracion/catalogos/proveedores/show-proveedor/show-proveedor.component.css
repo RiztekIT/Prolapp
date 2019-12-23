@@ -10,3 +10,7 @@ td {
 .btn-danger:hover {
     color: white;
 }
+
+button {
+    margin-left: 10px;
+}
