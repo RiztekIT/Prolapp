@@ -16,94 +16,88 @@
 
     <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
 
-        <mat-form-field class="example-full-width">
-            <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClaveProducto" [(ngModel)]="service.formDataDF.ClaveProducto">
-            <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChange($event, option)">
 
-                    {{ option.ClaveProducto }} {{option.Nombre}}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
+        <div class="form-material">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
 
-        <div class="m-3 input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Nombre: </span>
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClaveProducto" [(ngModel)]="service.formDataDF.ClaveProducto">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChange($event, option)">
+
+                                    {{ option.ClaveProducto }} {{option.Nombre}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+
+                        <br>
+                        <label class="input-group-text text-info">Nombre: </label>
+
+                        <input matInput required minlength="2" placeholder="Nombre Producto" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formDataDF.Producto">
+
+                        <div class="text-left text-danger" *ngIf="Nombre.invalid && Nombre.touched">
+                            Favor de Ingresar un Nombre.
+                        </div>
+
+
+                        <label class="input-group-text text-info">Clave Sat: </label>
+
+                        <input matInput readonly="readonly" minlength="2" placeholder="Clave Sat" type="text" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="service.formDataDF.ClaveSAT">
+
+
+                    </div>
+                    <div class="col-lg-6">
+
+                        <mat-form-field class="example-full-width">
+                            <input type="text" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formDataDF.Unidad">
+                            <mat-autocomplete #autoUnidad="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option">
+                                    {{option}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+
+                        <br>
+
+                        <label class="input-group-text text-info">Precio Unitario: </label>
+
+                        <input required minlength="2" placeholder="Ingresar Precio" type="text" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitario">
+
+                        <div class="text-left text-danger" *ngIf="PrecioUnitario.invalid && PrecioUnitario.touched">
+                            Favor de Ingresar Precio Unitario.
+                        </div>
+
+
+                        <label class="input-group-text text-info">Cantidad: </label>
+
+                        <input required minlength="1" placeholder="Ingresar Cantidad" type="text" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad">
+
+                        <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
+                            Favor de Ingresar Cantidad.
+                        </div>
+
+
+                        <label class="input-group-text text-info">Importe: </label>
+
+                        <input readonly="readonly" placeholder="0.00" type="text" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe">
+
+
+
+                        <label class="input-group-text text-info">Observaciones: </label>
+
+                        <input required minlength="1" placeholder="Observaciones" type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="service.formDataDF.Observaciones">
+
+                        <div class="text-left text-danger" *ngIf="Observaciones.invalid && Observaciones.touched">
+                            Favor de Ingresar Observaciones.
+                        </div>
+                    </div>
+                </div>
+
+                <button class="m-3" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Actualizar Producto</button>
             </div>
-            <input matInput required minlength="2" placeholder="Nombre Producto" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formDataDF.Producto">
         </div>
-        <div class="text-left text-danger" *ngIf="Nombre.invalid && Nombre.touched">
-            Favor de Ingresar un Nombre.
-        </div>
-
-        <div class="m-3 input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Clave Sat: </span>
-            </div>
-            <input matInput readonly="readonly" minlength="2" placeholder="Clave Sat" type="text" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="service.formDataDF.ClaveSAT">
-        </div>
-
-        <mat-form-field class="example-full-width">
-            <input type="text" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formDataDF.Unidad">
-            <mat-autocomplete #autoUnidad="matAutocomplete">
-                <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option">
-                    {{option}}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-
-
-        <div class="m-3 input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Precio Unitario: </span>
-            </div>
-            <input required minlength="2" placeholder="Ingresar Precio" type="text" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitario">
-        </div>
-        <div class="text-left text-danger" *ngIf="PrecioUnitario.invalid && PrecioUnitario.touched">
-            Favor de Ingresar Precio Unitario.
-        </div>
-
-        <div class="m-3 input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Cantidad: </span>
-            </div>
-            <input required minlength="1" placeholder="Ingresar Cantidad" type="text" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad">
-        </div>
-        <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
-            Favor de Ingresar Cantidad.
-        </div>
-
-        <div class="m-3 input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Importe: </span>
-            </div>
-            <input readonly="readonly" placeholder="0.00" type="text" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe">
-        </div>
-
-        <div class="m-3 input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Observaciones: </span>
-            </div>
-            <input required minlength="1" placeholder="Observaciones" type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="service.formDataDF.Observaciones">
-        </div>
-        <div class="text-left text-danger" *ngIf="Observaciones.invalid && Observaciones.touched">
-            Favor de Ingresar Observaciones.
-        </div>
-
-
-
-
-
-
-
-
-
-        <div>
-            <button class="m-3" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Actualizar Producto</button>
-
-        </div>
-
-
     </form>
 
 </div>
