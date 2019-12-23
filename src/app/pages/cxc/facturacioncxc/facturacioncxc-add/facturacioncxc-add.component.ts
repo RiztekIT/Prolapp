@@ -35,6 +35,8 @@ export class FacturacioncxcAddComponent implements OnInit {
         console.log("El ID de la Factura es: "+this.IdFactura);
         // console.log(params['id']); 
         this.service.IdFactura = +this.IdFactura;
+
+        this.Estatus = this.service.formData.Estatus;
         
       });
       
@@ -53,6 +55,8 @@ export class FacturacioncxcAddComponent implements OnInit {
   estatusfact;
   numfact;
   xml;
+
+  Estatus: string;
   
   ngOnInit() {
     this.resetForm();

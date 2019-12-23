@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 export class FacturacioncxcComponent implements OnInit {
   IdFactura: any;
   listData: MatTableDataSource<any>;
-  displayedColumns : string [] = ['Folio', 'Cliente', 'FechaExpedicion', 'Subtotal', 'IVA', 'Total', 'Options'];
+  displayedColumns : string [] = ['Folio', 'Cliente', 'FechaExpedicion', 'Subtotal', 'IVA', 'Total', 'Estado', 'Options'];
   folio: string;
   @ViewChild(MatSort, null) sort : MatSort;
 
@@ -49,19 +49,29 @@ export class FacturacioncxcComponent implements OnInit {
     });
 
   }
-
-  onDelete( id:number){
-    // console.log(id);
-    if ( confirm('Are you sure to delete?')) {
-      this.service.deleteFactura(id).subscribe(res => {
-      this.refreshFacturaList();
-      this.snackBar.open(res.toString(), '', {
+//Eliminar Factura si no esta timbrada
+  onDelete( factura: Factura){
+    // console.log(factura.Estatus);
+    if (factura.Estatus == 'Timbrada' || factura.Estatus == 'Cancelada'){
+      // console.log('No se puede ELIMINAR BRO');
+      this.snackBar.open('No se puede eliminar Factura', '', {
         duration: 3000,
         verticalPosition: 'top'
       });
-
-      });
+    }else{
+      // console.log('Se puede eliminar');
+          if ( confirm('Are you sure to delete?')) {
+            this.service.deleteFactura(factura.Id).subscribe(res => {
+            this.refreshFacturaList();
+            this.snackBar.open(res.toString(), '', {
+              duration: 3000,
+              verticalPosition: 'top'
+            });
+      
+            });
+          }
     }
+    // console.log(id);
 
   }
   //Generar Factura en Blanco
@@ -99,7 +109,7 @@ export class FacturacioncxcComponent implements OnInit {
       FechaDeEntrega:  new Date(),
       CondicionesDePago: "",
       Vendedor: "",
-      Estatus: "",
+      Estatus: "Creada",
       Version: "",
       Usuario: ""
   }

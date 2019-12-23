@@ -5,7 +5,11 @@
 
 
                 <div class="d-flex justify-content-between">
-                    <h4>Generar Factura</h4>
+                    <h2>Generar Factura</h2>
+                    <div>
+                        Estatus:
+                        <p style="color: crimson;">{{Estatus}}</p>
+                    </div>
 
                     <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button>
                 </div>
@@ -21,6 +25,9 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label class="input-group-text text-info">Cliente a Facturar</label>
+
+
+
                                     <select class="form-control" name="ClienteId" #ClienteId="ngModel" [(ngModel)]="service.formData.IdCliente" required>
                                         <option [ngValue]="null" disabled>Choose your profile</option>
                                         <option *ngFor="let dl of listClientes" [ngValue] = "dl.IdClientes">
@@ -205,8 +212,12 @@
                                     </div>
 
                                 </div>
-                                <button class="mt-4" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Crear Factura</button>
-
+                                <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock">
+                                    <h1 style="color: red;">No se puede Editar la Factura :(</h1>
+                                </div>
+                                <ng-template #elseBlock>
+                                    <button class="mt-4" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Actualizar Datos</button>
+                                </ng-template>
                             </div>
                         </div>
                     </div>
@@ -250,14 +261,19 @@
                         <ng-container matColumnDef="Options">
                             <th mat-header-cell *matHeaderCellDef>Options</th>
                             <td mat-cell *matCellDef="let row">
-                                <!--  -->
-                                <button mat-icon-button (click)="onEdit(row)">
-                                        <mat-icon>edit</mat-icon>
+                                <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock1">
+                                    <h1 style="color: red;">No se puede Editar la Factura :(</h1>
+                                </div>
+                                <ng-template #elseBlock1>
+                                    <!--  -->
+                                    <button mat-icon-button (click)="onEdit(row)">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                    <!--  -->
+                                    <button mat-icon-button color="warn" (click)="onDelete(row.IdDetalle)">
+                                        <mat-icon>delete_outline</mat-icon>
                                     </button>
-                                <!--  -->
-                                <button mat-icon-button color="warn" (click)="onDelete(row.IdDetalle)">
-                                            <mat-icon>delete_outline</mat-icon>
-                                        </button>
+                                </ng-template>
                             </td>
                         </ng-container>
                     </table>
@@ -269,8 +285,12 @@
 
 
             <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------->
-
-            <button class="mt-2" mat-raised-button (click)="onAddProducto()" color="primary">Agregar Producto</button>
+            <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock2">
+                <h1 style="color: red;">No se puede Editar la Factura :(</h1>
+            </div>
+            <ng-template #elseBlock2>
+                <button class="mt-2" mat-raised-button (click)="onAddProducto()" color="primary">Agregar Producto</button>
+            </ng-template>
 
 
 
