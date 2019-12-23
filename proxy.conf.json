@@ -6,7 +6,7 @@
     },
 
 
-    "/api/v3/*": {
+    "/api/*": {
         "target": "http://devfactura.in",
         "secure": false,
         "changeOrigin": true
