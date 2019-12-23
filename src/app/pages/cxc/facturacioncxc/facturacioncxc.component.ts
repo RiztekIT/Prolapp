@@ -18,13 +18,14 @@ import { Router } from '@angular/router';
 export class FacturacioncxcComponent implements OnInit {
   IdFactura: any;
   listData: MatTableDataSource<any>;
-  displayedColumns : string [] = ['Id', 'Folio', 'Cliente', 'FechaExpedicion', 'Subtotal', 'IVA', 'Total', 'Options'];
+  displayedColumns : string [] = ['Folio', 'Cliente', 'FechaExpedicion', 'Subtotal', 'IVA', 'Total', 'Options'];
+  folio: string;
   @ViewChild(MatSort, null) sort : MatSort;
 
   constructor(private service:FacturaService, private dialog: MatDialog, private snackBar: MatSnackBar, private router:Router) {
 
     this.service.listen().subscribe((m:any)=>{
-      console.log(m);
+      // console.log(m);
       this.refreshFacturaList();
       });
 
@@ -34,12 +35,16 @@ export class FacturacioncxcComponent implements OnInit {
     this.refreshFacturaList();
     this.Folio();
     this.ObtenerUltimaFactura();
+
+
+    
   }
 
   refreshFacturaList() {
 
-    this.service.getFacturasList().subscribe(data => {
+    this.service.getFacturasListCLiente().subscribe(data => {
       this.listData = new MatTableDataSource(data);
+      // console.log(this.listData);
       this.listData.sort = this.sort;
     });
 
@@ -63,9 +68,9 @@ export class FacturacioncxcComponent implements OnInit {
   public FacturaBlanco: Factura = 
     {
       Id:0,
-      IdCliente:0,
+      IdCliente:1,
       Serie: "",
-      Folio: this.Folio(),
+      Folio: "",
       Tipo: "",
       FechaDeExpedicion: new Date(),
       LugarDeExpedicion: "",
@@ -100,25 +105,29 @@ export class FacturacioncxcComponent implements OnInit {
   }
 
   Folio() {
-    let folio = "200";
-    return folio;
-    // this.service.getFolio().subscribe(data => {
+    this.service.getFolio().subscribe(data => {
+      // console.log(data + "ESTE ES EL FOLIO");
+      // this.folio = data;
+      this.FacturaBlanco.Folio = data
+      console.log(this.FacturaBlanco.Folio);
+      // this.service.formData.Folio = this.folio;
+      // console.log(this.service.formData.Folio);
+    });
     // console.log(this.folio);
-    // this.service.formData.Folio = this.folio;
-    // console.log(this.service.formData.Folio);
-    // });
+    // return folio;
   }
 
 
 
   onAdd(){
+    // console.log(this.FacturaBlanco);
     this.service.addFactura(this.FacturaBlanco).subscribe(res => {
       this.snackBar.open(res.toString(), '', {
         duration: 5000,
         verticalPosition: 'top'
       });
       let Id = this.IdFactura;
-      console.log(Id);
+      // console.log(Id);
       this.router.navigate(['/facturacionCxcAdd', Id]);
     }
     );
@@ -126,7 +135,7 @@ export class FacturacioncxcComponent implements OnInit {
  
 ObtenerUltimaFactura(){
   this.service.getUltimaFactura().subscribe(data => {
-    console.log(data);
+    // console.log(data);
     this.IdFactura = data[0].Id;
     // console.log(this.IdFactura);
     return this.IdFactura;
@@ -138,13 +147,17 @@ ObtenerUltimaFactura(){
 // console.log(factura);
 this.service.formData = factura;
 let Id = factura.Id;
-    console.log(Id);
+    // console.log(Id);
     this.router.navigate(['/facturacionCxcAdd', Id]);
   }
 
   applyFilter(filtervalue: string){  
+    this.listData.filterPredicate = (data, filter: string) => {
+      return data.Folio.toString().toLowerCase().includes(filter) || data.Nombre.toLowerCase().includes(filter);
+      // console.log(data);
+      // return true;
+     };
     this.listData.filter= filtervalue.trim().toLocaleLowerCase();
-
   }
   
   onExportClick() {
