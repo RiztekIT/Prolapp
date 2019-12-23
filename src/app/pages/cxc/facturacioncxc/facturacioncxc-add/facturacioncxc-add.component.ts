@@ -10,6 +10,7 @@ import { Factura } from 'src/app/Models/facturacioncxc/factura-model';
 import { MatTableDataSource, MatSort } from '@angular/material';
 import { DetalleFactura } from '../../../../Models/facturacioncxc/detalleFactura-model';
 import { FacturacioncxcEditProductoComponent } from '../facturacioncxc-edit-producto/facturacioncxc-edit-producto.component';
+import { FacturaTimbre } from '../../../../Models/facturacioncxc/facturatimbre-model';
 
 
 
@@ -23,6 +24,7 @@ import { FacturacioncxcEditProductoComponent } from '../facturacioncxc-edit-prod
   templateUrl: './facturacioncxc-add.component.html'
 })
 export class FacturacioncxcAddComponent implements OnInit {
+  json: FacturaTimbre;
   folio: string;
 
   constructor(
@@ -56,6 +58,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   
   ngOnInit() {
     this.resetForm();
+    this.setfacturatimbre();
     this.dropdownRefresh();
     this.refreshDetallesFacturaList();
   }
@@ -249,72 +252,13 @@ onEdit(detalleFactura: DetalleFactura){
   }
 
   crearjsonfactura(){
-    let json = {
-      "Receptor": {
-        "UID": ""
-      },
-      "TipoDocumento": "factura",
-      "Conceptos": [
-        {
-          "ClaveProdServ": '',
-          "NoIdentificacion": '',
-          "Cantidad": '',
-          "ClaveUnidad": '',
-          "Unidad": '',
-          "Descripcion": '',
-          "ValorUnitario": '',
-          "Importe": '',
-          "Descuento": '',
-          "tipoDesc": '',
-          "honorarioInverso": '',
-          "montoHonorario": '',
-          "Impuestos": {
-            "Traslados": [
-              {
-                "Base": "",
-                "Impuesto": "",
-                "TipoFactor": "Tasa",
-                "TasaOCuota": "0.16",
-                "Importe": ""
-              }
-            ],
-            "Retenidos": [],
-            "Locales": []
-          },
-          "NumeroPedimento": "",
-          "Predial": "",
-          "Partes": "",
-          "Complemento": ""
-        }
-      ],
-      "Impuestos": {
-        "Traslados": [
-          {
-            "Base": "",
-            "Impuesto": "",
-            "TipoFactor": "Tasa",
-            "TasaOCuota": "0.16",
-            "Importe": ""
-          }
-        ],
-        "Retenidos": [],
-        "Locales": []
-      },
-      "CfdiRelacionados": {
-              "TipoRelacion": "",
-              "UUID": []
-            },
-      "UsoCFDI": "",
-      "Serie": 0,
-      "FormaPago": "",
-      "MetodoPago": "",
-      "Moneda": "",
-      "EnviarCorreo": false
-      };
+    
 
-    json.Receptor.UID = '5de771f1a1203';
-    json.Conceptos.pop();
-    json.Conceptos.push({
+    
+    this.json.Receptor.UID = '5de771f1a1203';
+    this.json.TipoDocumento = 'factura';
+    this.json.Conceptos.pop();
+    this.json.Conceptos.push({
       "ClaveProdServ": '43232408',
       "NoIdentificacion": 'WEBDEV10',
       "Cantidad": '1.000000',
@@ -335,32 +279,32 @@ onEdit(detalleFactura: DetalleFactura){
             "TasaOCuota": '0.16',
             "Importe": '2400.000000'
         }],
-        "Retenidos":[],
-        "Locales":[],
+        "Retenidos":[{}],
+        "Locales":[{}],
       },
       "NumeroPedimento": "",
           "Predial": "",
           "Partes": "0",
           "Complemento": "0"
     });
-    json.Impuestos.Traslados.pop();
-    json.Impuestos.Traslados.push({
+    this.json.Impuestos.Traslados.pop();
+    this.json.Impuestos.Traslados.push({
       "Base": "15000.000000",
       "Impuesto": "002",
       "TipoFactor": "Tasa",
       "TasaOCuota": "0.16",
       "Importe": "2400.000000"
     });
-    json.Impuestos.Retenidos=[];
-    json.Impuestos.Locales=[];
-    json.CfdiRelacionados.TipoRelacion = '';
-    json.CfdiRelacionados.UUID.push();
-    json.UsoCFDI = 'G03';
-    json.Serie = 5352;
-    json.FormaPago = '03';
-    json.MetodoPago = 'PUE';
-    json.Moneda = 'MXN';
-    json.EnviarCorreo = false;
+    this.json.Impuestos.Retenidos=[{}];
+    this.json.Impuestos.Locales=[{}];
+    this.json.CfdiRelacionados.TipoRelacion = '';
+    this.json.CfdiRelacionados.UUID.push();
+    this.json.UsoCFDI = 'G03';
+    this.json.Serie = 5352;
+    this.json.FormaPago = '03';
+    this.json.MetodoPago = 'PUE';
+    this.json.Moneda = 'MXN';
+    this.json.EnviarCorreo = false;
 
 
       
@@ -431,7 +375,7 @@ onEdit(detalleFactura: DetalleFactura){
     //     "EnviarCorreo": false
     //   });
 
-      return JSON.stringify(json);
+      return JSON.stringify(this.json);
 
   }
 
@@ -465,7 +409,7 @@ onEdit(detalleFactura: DetalleFactura){
         this.numfact = data.invoice_uid;
         // this.xml = 'devfactura.in/admin/cfdi33/'+this.numfact+'xml';
 
-        this.enviarfact.xml(this.xml);
+        // this.enviarfact.xml(this.xml);
         this.estatusfact = 'Factura Creada ' + data.invoice_uid;
         this.dxml(this.numfact);
         this.dpdf(this.numfact);
@@ -499,6 +443,92 @@ onEdit(detalleFactura: DetalleFactura){
   dpdfxml() {
     this.dxml('5df9887b8fa49');
     this.dpdf('5df9887b8fa49');
+  }
+
+
+  setfacturatimbre(){
+    this.json = {
+      Receptor: {
+        UID: ''
+    },
+    TipoDocumento: '',
+    Conceptos: [{
+        ClaveProdServ:'',
+          NoIdentificacion:'',
+          Cantidad:'',
+          ClaveUnidad:'',
+          Unidad:'',
+          Descripcion:'',
+          ValorUnitario:'',
+          Importe:'',
+          Descuento:'',
+          tipoDesc:'',
+          honorarioInverso:'',
+          montoHonorario:'',
+          Impuestos:{
+            Traslados: [
+              {
+                Base: '',
+                Impuesto: '',
+                TipoFactor: '',
+                TasaOCuota: '',
+                Importe: ''
+              }],
+            Retenidos: [{
+                Base: '',
+                Impuesto: '',
+                TipoFactor: '',
+                TasaOCuota: '',
+                Importe: ''
+              }],
+            Locales: [{
+                Base: '',
+                Impuesto: '',
+                TipoFactor: '',
+                TasaOCuota: '',
+                Importe: ''
+              }],
+          },
+          NumeroPedimento: '',
+          Predial: '',
+          Partes: '',
+          Complemento:''
+    }],
+      Impuestos: {
+          Traslados: 
+          [{
+            Base: '',
+            Impuesto: '',
+            TipoFactor: '',
+            TasaOCuota: '',
+            Importe: ''   
+       }],
+        Retenidos: [{
+            Base: '',
+            Impuesto: '',
+            TipoFactor: '',
+            TasaOCuota: '',
+            Importe: '',
+        }],
+        Locales: [{
+            Base: '',
+            Impuesto: '',
+            TipoFactor: '',
+            TasaOCuota: '',
+            Importe: '',   
+       }]
+      },
+      CfdiRelacionados: {
+              TipoRelacion: '',
+              UUID: []
+            },
+      UsoCFDI: '',
+      Serie: 0,
+      FormaPago: '',
+      MetodoPago: '',
+      Moneda: '',
+      EnviarCorreo: false,
+    }
   }
 
 

@@ -31,6 +31,7 @@ export class EnviarfacturaService {
   // parche: string = 'https://cors-anywhere.herokuapp.com/'
   // parche: string = ''
   // readonly rootURL = this.parche +  "http://devfactura.in/api/v3/cfdi33/create"
+  // readonly rootURL = "/api/v3/cfdi33/create"
   readonly rootURL = "/api/v3/cfdi33/create"
 
   constructor(private http: HttpClient) { }
