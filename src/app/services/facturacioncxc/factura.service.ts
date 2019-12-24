@@ -40,6 +40,10 @@ export class FacturaService {
     return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura/DetalleFactura/'+ id);
   }
 
+  getDetallesFacturaListProducto(id: number): Observable<any[]> {
+    return this.http.get<any[]>(this.APIUrl + '/Factura/DetalleFacturaProducto/'+ id);
+  }
+
   getFacturasClienteID(id:number): Observable<any[]>{
     return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaCliente/'+id)
   }

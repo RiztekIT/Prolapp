@@ -11,6 +11,7 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 import { DetalleFactura } from '../../../../Models/facturacioncxc/detalleFactura-model';
 import { FacturacioncxcEditProductoComponent } from '../facturacioncxc-edit-producto/facturacioncxc-edit-producto.component';
 import { FacturaTimbre } from '../../../../Models/facturacioncxc/facturatimbre-model';
+import { Observable } from 'rxjs';
 
 
 
@@ -24,7 +25,8 @@ import { FacturaTimbre } from '../../../../Models/facturacioncxc/facturatimbre-m
   templateUrl: './facturacioncxc-add.component.html'
 })
 export class FacturacioncxcAddComponent implements OnInit {
-  json: FacturaTimbre;
+  // json1: FacturaTimbre;
+  json1 =  new FacturaTimbre();
   folio: string;
 
   constructor(
@@ -34,7 +36,7 @@ export class FacturacioncxcAddComponent implements OnInit {
       
       this.activatedRoute.params.subscribe(  params =>{
         this.IdFactura = params['id'];
-        console.log("El ID de la Factura es: "+this.IdFactura);
+        // console.log("El ID de la Factura es: "+this.IdFactura);
         // console.log(params['id']); 
         this.service.IdFactura = +this.IdFactura;
 
@@ -44,7 +46,7 @@ export class FacturacioncxcAddComponent implements OnInit {
       
       //Observable para actualizar tabla de Detalles Factura
       this.service.listen().subscribe((m:any)=>{
-        console.log(m);
+        // console.log(m);
         this.refreshDetallesFacturaList();
         });
         
@@ -96,7 +98,7 @@ export class FacturacioncxcAddComponent implements OnInit {
         let client = data[i];
         this.listClientes.push(client);
       }
-      console.log(this.listClientes);
+      // console.log(this.listClientes);
     });
   }
   //list Metodo Pago
@@ -161,7 +163,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   
 //Editar detalle factura
 onEdit(detalleFactura: DetalleFactura){
-  console.log(detalleFactura);
+  // console.log(detalleFactura);
       this.service.formDataDF = detalleFactura;
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
@@ -171,7 +173,7 @@ onEdit(detalleFactura: DetalleFactura){
     }
 //Eliminar Detalle Factura
     onDelete( id:number){
-      console.log(id);
+      // console.log(id);
       if ( confirm('Are you sure to delete?')) {
         this.service.deleteDetalleFactura(id).subscribe(res => {
         this.refreshDetallesFacturaList();
@@ -206,12 +208,12 @@ onEdit(detalleFactura: DetalleFactura){
   resetForm(form?: NgForm) {
     // if (form != null)
     //   form.resetForm();
- console.log(this.IdFactura + "ESTE ES EL ID FACTURA");
+//  console.log(this.IdFactura + "ESTE ES EL ID FACTURA");
       this.service.getFacturaId(this.IdFactura).subscribe(res => {
-        console.log(res);
+        // console.log(res);
         this.refreshDetallesFacturaList();
         this.service.formData = res[0];
-        console.log(this.service.formData);
+        // console.log(this.service.formData);
         });
 
     //this.service.formData = {
@@ -255,62 +257,114 @@ onEdit(detalleFactura: DetalleFactura){
 
   }
 
-  crearjsonfactura(id:number){
+  crearjsonfactura(id:number): string{
 
-    this.service.getFacturasClienteID(id).subscribe{data =>{
-      this.json.Receptor.UID=
-    }}
+    let cadena:string;
+
+    this.service.getFacturasClienteID(id).subscribe(data =>{
+
+      // console.log(data[0]);
+      
+      this.json1.Receptor.UID=data[0].IdApi;
+      // console.log(this.json.Receptor.UID);
+      
+      this.json1.TipoDocumento = 'factura';
+      this.json1.Impuestos.Traslados.pop();
+      this.json1.Impuestos.Traslados.push({
+        "Base": data[0].Subtotal,
+        "Impuesto": "002",
+        "TipoFactor": "Tasa",
+        "TasaOCuota": "0.16",
+        "Importe": data[0].ImpuestosTrasladados
+      });
+      this.json1.Impuestos.Retenidos.pop();
+    this.json1.Impuestos.Locales.pop();
+    this.json1.CfdiRelacionados.TipoRelacion = '';
+    this.json1.CfdiRelacionados.UUID.push();
+    this.json1.UsoCFDI = data[0].UsoDelCFDI;
+    this.json1.Serie = data[0].Serie;
+    this.json1.FormaPago = data[0].FormaDePago;
+    this.json1.MetodoPago = data[0].MetodoDePago;
+    this.json1.Moneda = data[0].Moneda;
+    this.json1.EnviarCorreo = false;
+
+    // console.log(this.json);
+   
+    
+
+
+    this.service.getDetallesFacturaListProducto(id).subscribe(data => {
+      // console.log(data);
+      // console.log(data[0]);
+      
+      this.json1.Conceptos.pop();
+      // console.log(data.length);
+      
+      for (let i=0; i< data.length; i++){
+        this.json1.Conceptos.push({
+          ClaveProdServ: data[i].ClaveSAT,
+          NoIdentificacion: data[i].ClaveProducto,
+          Cantidad: data[i].Cantidad,
+          ClaveUnidad: data[i].Unidad,
+          Unidad: data[i].UnidadMedida,
+          Descripcion: data[i].DescripcionProducto,
+          ValorUnitario: data[i].PrecioUnitario,
+          Importe: data[i].Importe,
+          Descuento: '0',
+          tipoDesc: 'porcentaje',
+          honorarioInverso: '',
+          montoHonorario: '0',
+          Impuestos:{
+            Traslados:[{
+                Base: data[i].Importe,
+                Impuesto: '002',
+                TipoFactor: 'Tasa',
+                TasaOCuota: '0.16',
+                Importe: (parseInt(data[i].importe)*0.16).toString()
+            }]
+          },
+          NumeroPedimento: "",
+              Predial: "",
+              Partes: "0",
+              Complemento: "0"
+        });
+      }
+      
+    })
+    
+//  console.log(this.json);
+
+
+console.log(this.json1);
+console.log(JSON.stringify(this.json1));
+// this.json1 = JSON.stringify(this.json1);
+cadena = JSON.stringify(this.json1); 
+console.log(cadena);
+
+this.enviar(cadena);
+
+// return JSON.stringify(this.json1)
+
+});
+
+
+
+
+return cadena;
+
+
+
+  
+    
     
 
     
-    this.json.Receptor.UID = '5de771f1a1203';
-    this.json.TipoDocumento = 'factura';
-    this.json.Conceptos.pop();
-    this.json.Conceptos.push({
-      ClaveProdServ: '43232408',
-      NoIdentificacion: 'WEBDEV10',
-      Cantidad: '1.000000',
-      ClaveUnidad: 'E48',
-      Unidad: 'Unidad de servicio',
-      Descripcion: 'Desarrollo web a la medida',
-      ValorUnitario: '15000.000000',
-      Importe: '15000.000000',
-      Descuento: '0',
-      tipoDesc: 'porcentaje',
-      honorarioInverso: '',
-      montoHonorario: '0',
-      Impuestos:{
-        Traslados:[{
-            Base: '15000.000000',
-            Impuesto: '002',
-            TipoFactor: 'Tasa',
-            TasaOCuota: '0.16',
-            Importe: '2400.000000'
-        }]
-      },
-      NumeroPedimento: "",
-          Predial: "",
-          Partes: "0",
-          Complemento: "0"
-    });
-    this.json.Impuestos.Traslados.pop();
-    this.json.Impuestos.Traslados.push({
-      "Base": "15000.000000",
-      "Impuesto": "002",
-      "TipoFactor": "Tasa",
-      "TasaOCuota": "0.16",
-      "Importe": "2400.000000"
-    });
-    this.json.Impuestos.Retenidos.pop();
-    this.json.Impuestos.Locales.pop();
-    this.json.CfdiRelacionados.TipoRelacion = '';
-    this.json.CfdiRelacionados.UUID.push();
-    this.json.UsoCFDI = 'G03';
-    this.json.Serie = 5352;
-    this.json.FormaPago = '03';
-    this.json.MetodoPago = 'PUE';
-    this.json.Moneda = 'MXN';
-    this.json.EnviarCorreo = false;
+    
+    
+    
+   
+   
+    
 
 
       
@@ -381,7 +435,7 @@ onEdit(detalleFactura: DetalleFactura){
     //     "EnviarCorreo": false
     //   });
 
-      return JSON.stringify(this.json);
+      // return JSON.stringify(this.json);
 
   }
 
@@ -399,36 +453,53 @@ onEdit(detalleFactura: DetalleFactura){
           duration: 5000,
           verticalPosition: 'top'
         });
-        this.enviar(this.IdFactura);
+        // this.enviar(this.IdFactura);
+        this.crearjsonfactura(this.IdFactura); 
 
       }
       );
 
-    console.log(this.service.formData);
+    // console.log(this.service.formData);
   }
 
-  enviar(id:number) {
-    let datosfact = this.crearjsonfactura(id);
-    //Aqui manda la factura
-    this.enviarfact.enviarFactura(datosfact).subscribe(data => {
-      console.log('JSON'+ data);
-      if (data.response === 'success') {
-        console.log('Factura Creada');
-        this.numfact = data.invoice_uid;
-        //* this.xml = 'devfactura.in/admin/cfdi33/'+this.numfact+'xml';
+  enviar(cadena:string) {
+    // let datosfact = this.crearjsonfactura(id);
+    // let datosfact;
+    // console.log(JSON.stringify(this.crearjsonfactura(id)));
+    // console.log(this.json1);
+    // console.log(this.crearjsonfactura(id));
 
-        // *this.enviarfact.xml(this.xml);
+    // let datosfact = this.crearjsonfactura(id);   
+    // console.log(' DATOS FACTURA '+cadena);
+    
+    
+
+    
+    
+    
+    // let datosfact2 = JSON.stringify(datosfact)
+    //  console.log(datosfact2);
+    
+    
+    // Aqui manda la factura
+    this.enviarfact.enviarFactura(cadena).subscribe(data => {
+      // console.log('JSON'+ data);
+      if (data.response === 'success') {
+        // console.log('Factura Creada');
+        this.numfact = data.invoice_uid;
+        
+
+        
         this.estatusfact = 'Factura Creada ' + data.invoice_uid;
-        // this.dxml(this.numfact);
-        // this.dpdf(this.numfact);
+        
       }
       if (data.response === 'error') {
-        console.log('error');
+        // console.log('error');
         this.estatusfact = data.response + ' ' + data.message;
       }
     })
 
-    console.log(datosfact);
+    // console.log(datosfact);
     
 
   }
@@ -455,7 +526,7 @@ onEdit(detalleFactura: DetalleFactura){
 
 
   setfacturatimbre(){
-    this.json = {
+    this.json1 = {
       Receptor: {
         UID: ''
     },
