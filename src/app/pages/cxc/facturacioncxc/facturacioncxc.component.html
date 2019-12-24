@@ -59,7 +59,11 @@
 
                         <ng-container matColumnDef="Estado">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</mat-header-cell>
-                            <mat-cell *matCellDef="let element">{{element.Estatus}}</mat-cell>
+                            <mat-cell *matCellDef="let element" [ngSwitch]=element.Estatus>
+                                <span *ngSwitchCase="'Timbrada'" class="label label-light-success">TIMBRADA</span>
+                                <span *ngSwitchCase="'Creada'" class="label label-light-info">CREADA</span>
+                                <span *ngSwitchCase="'Cancelada'" class="label label-light-danger">CANCELADA</span>
+                            </mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="Options">
