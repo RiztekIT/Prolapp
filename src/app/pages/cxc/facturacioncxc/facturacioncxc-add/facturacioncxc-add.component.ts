@@ -320,7 +320,9 @@ onEdit(detalleFactura: DetalleFactura){
                 Impuesto: '002',
                 TipoFactor: 'Tasa',
                 TasaOCuota: '0.16',
-                Importe: (parseInt(data[i].importe)*0.16).toString()
+                Importe: (parseInt(data[i].Importe)*0.16).toString()
+                
+                
             }]
           },
           NumeroPedimento: "",
@@ -328,20 +330,23 @@ onEdit(detalleFactura: DetalleFactura){
               Partes: "0",
               Complemento: "0"
         });
+        
       }
       
+      // console.log(this.json1);
+      // console.log(JSON.stringify(this.json1));
+      // this.json1 = JSON.stringify(this.json1);
+      
+      
+      cadena = JSON.stringify(this.json1); 
+      // console.log(cadena);
+      
+      this.enviar(cadena);
     })
     
 //  console.log(this.json);
 
 
-console.log(this.json1);
-console.log(JSON.stringify(this.json1));
-// this.json1 = JSON.stringify(this.json1);
-cadena = JSON.stringify(this.json1); 
-console.log(cadena);
-
-this.enviar(cadena);
 
 // return JSON.stringify(this.json1)
 

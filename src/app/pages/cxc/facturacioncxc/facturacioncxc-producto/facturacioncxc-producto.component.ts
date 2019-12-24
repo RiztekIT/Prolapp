@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef, MatSnackBar, MatAutocompleteSelectedEvent } from '@angular/material';
+import { MatDialogRef, MatSnackBar, MatAutocompleteSelectedEvent, MatOptionSelectionChange } from '@angular/material';
 import { FacturaService } from '../../../../services/facturacioncxc/factura.service';
 import { NgForm, FormControl } from '@angular/forms';
 import { Factura } from 'src/app/Models/facturacioncxc/factura-model';
@@ -90,11 +90,16 @@ export class FacturacioncxcProductoComponent implements OnInit {
     // this.options = this.listProductos['ClaveProducto'];
     // console.log(this.options);
   }
-  onSelectionChange(event: MatAutocompleteSelectedEvent, options:Producto){
-    if(event.option.selected){
+  // onSelectionChange(event: MatAutocompleteSelectedEvent, options:Producto){
+  onSelectionChange(options:Producto){
+    // event.source.optionSelected
+    
+    // console.log(event.source);
+    
+
       this.service.formDataDF.Producto = options.Nombre;
       this.service.formDataDF.ClaveSAT = options.ClaveSAT;
-    }
+
   }
 
   sumar(){

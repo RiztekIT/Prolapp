@@ -22,7 +22,7 @@
                         <mat-form-field class="example-full-width">
                             <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClaveProducto" [(ngModel)]="service.formDataDF.ClaveProducto">
                             <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChange($event, option)">
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChange(option)">
                                     <!-- <mat-option *ngFor="let option of filteredOptions | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChanged($event,option)"> -->
                                     {{ option.ClaveProducto }} {{option.Nombre}}
                                 </mat-option>
@@ -38,10 +38,10 @@
 
 
                         <label class="input-group-text text-info">Clave Sat: </label>
-                        <input matInput readonly="readonly" minlength="2" placeholder="Clave Sat" type="text" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="service.formDataDF.ClaveSAT">
+                        <input matInput minlength="2" placeholder="Clave Sat" type="text" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="service.formDataDF.ClaveSAT">
 
-                    </div>
-                    <div class="col-lg-6">
+                        <!-- </div>
+                    <div class="col-lg-6"> -->
 
                         <mat-form-field class="example-full-width">
                             <input type="text" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formDataDF.Unidad">
