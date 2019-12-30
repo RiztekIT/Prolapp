@@ -24,7 +24,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
   listProductos: Producto[] = [];
   
   myControlUnidad = new FormControl();
-  optionsUnidad = ['Medida 1', 'Medida 2', 'Medida 3'];
+  optionsUnidad = ['Pieza'];
   filteredOptionsUnidad: Observable<any[]>;
 
   constructor(public dialogbox: MatDialogRef<FacturacioncxcProductoComponent>,

@@ -18,7 +18,8 @@ import {Subject} from 'rxjs';
 export class FacturaService {
 
   constructor(private http:HttpClient) { }
-   formData: Factura;
+  //  formData: Factura;
+   formData = new Factura();
    formDataDF: DetalleFactura;
    formDataP: Producto;
    IdFactura: number;
@@ -53,6 +54,8 @@ export class FacturaService {
   }
   //Obtener Factura por Id
   getFacturaId(id:number): Observable<any> {
+
+      
     return this.http.get<Factura[]>(this.APIUrl + '/Factura/Id/' + id);
   }
   //Obtener el ultimo Folio

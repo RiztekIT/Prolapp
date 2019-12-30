@@ -79,21 +79,28 @@
                                         <mat-icon>edit</mat-icon>
                                     </button>
 
-                                    <!-- PDF -->
-                                    <button mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event">
+                                    <!-- ver PDF -->
+                                    <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button>
+                                    <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" (click)="generar(row.UUID,row.Folio)" mat-icon-button class="btn btn-dark">
+                        <mat-icon>remove_red_eye</mat-icon>
+
+                    </button>
+                                    <!-- descargar PDF -->
+                                    <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button>
+                                    <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" (click)="pdf(row.UUID,row.Folio)" mat-icon-button class="btn btn-dark">
                         <mat-icon>picture_as_pdf</mat-icon>
 
                     </button>
                                     <!-- Enviar -->
-                                    <button mat-icon-button class="btn btn-dark" (click)="onDelete(row.Id)">
+                                    <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="xml(row.UUID,row.Folio)">
                         <mat-icon>code</mat-icon>
                     </button>
                                     <!-- XML -->
-                                    <button mat-icon-button class="btn btn-dark" (click)="onDelete(row.Id)">
+                                    <!-- <button mat-icon-button class="btn btn-dark" (click)="onDelete(row.Id)">
                         <mat-icon>email</mat-icon>
-                    </button>
+                    </button> -->
                                     <!-- Eliminar -->
-                                    <button mat-icon-button class="btn btn-danger" (click)="onDelete(row)">
+                                    <button *ngIf="row.Estatus=='Creada'" mat-icon-button class="btn btn-danger" (click)="onDelete(row)">
                                             <mat-icon>delete_outline</mat-icon>
                                         </button>
                                 </mat-menu>
@@ -104,6 +111,8 @@
 
 
                     </mat-table>
+                    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                    </mat-paginator>
                 </div>
 
             </div>
@@ -127,7 +136,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div> -->
 
-            <app-factura></app-factura>
+            <app-factura [xmlparametros]="xmlparam"></app-factura>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>

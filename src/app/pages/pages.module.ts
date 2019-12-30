@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule} from '@angular/material';
+import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule} from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
@@ -126,6 +126,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { FacturacioncxcProductoComponent } from './cxc/facturacioncxc/facturacioncxc-producto/facturacioncxc-producto.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FacturacioncxcEditProductoComponent } from './cxc/facturacioncxc/facturacioncxc-edit-producto/facturacioncxc-edit-producto.component';
+import { MatDividerModule } from '@angular/material/divider'
 
 
 
@@ -254,6 +255,8 @@ import { FacturacioncxcEditProductoComponent } from './cxc/facturacioncxc/factur
         MatCardModule,
         MatGridListModule,
         MatMenuModule,
+        MatDividerModule,
+        MatPaginatorModule
 
     ],
     providers: [

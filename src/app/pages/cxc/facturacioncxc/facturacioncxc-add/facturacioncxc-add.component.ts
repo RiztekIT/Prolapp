@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
+import { Component, OnInit, ViewChild, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { MatDialog, MatDialogConfig, MatSnackBar, MatDivider } from '@angular/material';
 import { FacturaService } from '../../../../services/facturacioncxc/factura.service';
 import { NgForm } from '@angular/forms';
 import { Cliente } from '../../../../Models/catalogos/clientes-model';
@@ -12,6 +12,10 @@ import { DetalleFactura } from '../../../../Models/facturacioncxc/detalleFactura
 import { FacturacioncxcEditProductoComponent } from '../facturacioncxc-edit-producto/facturacioncxc-edit-producto.component';
 import { FacturaTimbre } from '../../../../Models/facturacioncxc/facturatimbre-model';
 import { Observable } from 'rxjs';
+import * as html2pdf from 'html2pdf.js';
+import Swal from 'sweetalert2';
+import { MessageService } from '../../../../services/message.service';
+
 
 
 
@@ -22,25 +26,39 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-facturacioncxc-add',
-  templateUrl: './facturacioncxc-add.component.html'
+  templateUrl: './facturacioncxc-add.component.html',
+  
 })
 export class FacturacioncxcAddComponent implements OnInit {
   // json1: FacturaTimbre;
+
+  
   json1 =  new FacturaTimbre();
   folio: string;
+  xmlparam;
+  fileUrl;
+  a = document.createElement('a');
+  
 
   constructor(
     public service: FacturaService, private snackBar: MatSnackBar, private dialog: MatDialog, 
     private router: Router, public enviarfact: EnviarfacturaService,
-    private activatedRoute: ActivatedRoute) { 
+    private activatedRoute: ActivatedRoute, public _MessageService: MessageService ) { 
+
       
+
       this.activatedRoute.params.subscribe(  params =>{
         this.IdFactura = params['id'];
+        
+        
         // console.log("El ID de la Factura es: "+this.IdFactura);
         // console.log(params['id']); 
-        this.service.IdFactura = +this.IdFactura;
-
-        this.Estatus = this.service.formData.Estatus;
+        this.service.IdFactura = this.IdFactura;
+        this.proceso='';
+        
+        // this.resetForm();
+        
+        
         
       });
       
@@ -54,31 +72,63 @@ export class FacturacioncxcAddComponent implements OnInit {
       
       IdFactura: any;
   listClientes: Cliente[] = [];
-  
+  proceso: string;
 
   estatusfact;
   numfact;
   xml;
 
   Estatus: string;
+
+  // list Metodo Pago
+  public listMP: Array<Object> = [
+    { MetodoDePago: 'PUE', text: 'PUE-Pago en una sola exhibicion' },
+    { MetodoDePago: 'PPD', text: 'PPD-Pago en parcialidades o diferido' }
+  ];
+
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    this.refreshDetallesFacturaList();
+  }
   
   ngOnInit() {
     this.resetForm();
+    
     this.setfacturatimbre();
     this.dropdownRefresh();
     this.refreshDetallesFacturaList();
   }
    //Informacion para tabla de productos
    listData: MatTableDataSource<any>;
-   displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Cantidad', 'Precio', 'Options'];
+   displayedColumns: string[] = ['ClaveProducto', 'ClaveSAT' , 'Producto', 'Cantidad', 'Precio', 'Options'];
    @ViewChild(MatSort, null) sort: MatSort;
 
 
    //Funcion Refresh Tabla Detalles Factura
   refreshDetallesFacturaList() {
+    let subtotal;
+    let iva;
+    let total;
+    
     this.service.getDetallesFacturaList(this.IdFactura).subscribe(data => {
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
+      subtotal = 0;
+      iva = 0;
+      total = 0;
+      for (let i = 0; i < data.length; i++) {
+        subtotal = subtotal + parseInt(data[i].Importe);
+      }
+      iva = subtotal * 0.16;
+      total = iva + subtotal;
+      // console.log(subtotal);
+      // console.log(iva);
+      // console.log(total);
+      this.service.formData.Subtotal = subtotal;
+      this.service.formData.ImpuestosTrasladados = iva;
+      this.service.formData.Total = total;
+      
     //console.log(this.listData);
     });
 
@@ -92,6 +142,7 @@ export class FacturacioncxcAddComponent implements OnInit {
 
 
   dropdownRefresh() {
+
     this.service.getDepDropDownValues().subscribe((data) => {
       // console.log(data);
       for (let i = 0; i < data.length; i++) {
@@ -101,11 +152,7 @@ export class FacturacioncxcAddComponent implements OnInit {
       // console.log(this.listClientes);
     });
   }
-  //list Metodo Pago
-  public listMP: Array<Object> = [
-    { MetodoDePago: "PUE", text: "PUE-Pago en una sola exhibicion" },
-    { MetodoDePago: "PPD", text: "PPD-Pago en parcialidades o diferido" }
-  ];
+  
   //Forma Pago
   public listFP: Array<Object> = [
     { FormaDePago: "01", text: "01-Efectivo" },
@@ -208,11 +255,26 @@ onEdit(detalleFactura: DetalleFactura){
   resetForm(form?: NgForm) {
     // if (form != null)
     //   form.resetForm();
-//  console.log(this.IdFactura + "ESTE ES EL ID FACTURA");
-      this.service.getFacturaId(this.IdFactura).subscribe(res => {
+    
+    
+    this.service.getFacturaId(this.IdFactura).subscribe(res => {
+      // console.log(this.IdFactura + "ESTE ES EL ID FACTURA");
         // console.log(res);
-        this.refreshDetallesFacturaList();
+        // this.refreshDetallesFacturaList();
         this.service.formData = res[0];
+        // console.log(this.service.formData);
+        
+        this.Estatus = this.service.formData.Estatus;
+        // console.log(this.Estatus);
+        
+        if (this.Estatus==='Timbrada' || this.Estatus==='Cancelada'){
+          let nodes = document.getElementById('div1').getElementsByTagName('*');
+          for (let i = 0; i < nodes.length; i++){
+            nodes[i].setAttribute('disabled','true')
+          }
+          // console.log('1');
+          
+        }
         // console.log(this.service.formData);
         });
 
@@ -305,8 +367,8 @@ onEdit(detalleFactura: DetalleFactura){
           ClaveProdServ: data[i].ClaveSAT,
           NoIdentificacion: data[i].ClaveProducto,
           Cantidad: data[i].Cantidad,
-          ClaveUnidad: data[i].Unidad,
-          Unidad: data[i].UnidadMedida,
+          ClaveUnidad: data[i].UnidadMedida,
+          Unidad: data[i].Unidad,
           Descripcion: data[i].DescripcionProducto,
           ValorUnitario: data[i].PrecioUnitario,
           Importe: data[i].Importe,
@@ -459,7 +521,7 @@ return cadena;
           verticalPosition: 'top'
         });
         // this.enviar(this.IdFactura);
-        this.crearjsonfactura(this.IdFactura); 
+        // this.crearjsonfactura(this.IdFactura); 
 
       }
       );
@@ -467,32 +529,79 @@ return cadena;
     // console.log(this.service.formData);
   }
 
+  timbrar(form: NgForm){
+    this.proceso='Timbrando';
+    this.service.formData.Tipo = 'Ingreso';
+    this.service.formData.Estatus = 'Creada';
+    this.service.formData.Version = '3.3';
+    this.service.formData.Serie = '5628';
+    this.service.formData.Id= +this.IdFactura;
+    this.service.updateFactura(this.service.formData).subscribe( res =>
+      {
+        this.resetForm(form);
+        // this.snackBar.open(res.toString(),'',{
+        //   duration: 5000,
+        //   verticalPosition: 'top'
+        // });
+        // this.enviar(this.IdFactura);
+        this.crearjsonfactura(this.IdFactura); 
+
+      }
+      );
+
+  }
+
   enviar(cadena:string) {
-    // let datosfact = this.crearjsonfactura(id);
-    // let datosfact;
-    // console.log(JSON.stringify(this.crearjsonfactura(id)));
-    // console.log(this.json1);
-    // console.log(this.crearjsonfactura(id));
-
-    // let datosfact = this.crearjsonfactura(id);   
-    // console.log(' DATOS FACTURA '+cadena);
-    
-    
-
-    
-    
-    
-    // let datosfact2 = JSON.stringify(datosfact)
-    //  console.log(datosfact2);
+  
     
     
     // Aqui manda la factura
     this.enviarfact.enviarFactura(cadena).subscribe(data => {
-      // console.log('JSON'+ data);
+      // console.log(data);
       if (data.response === 'success') {
         // console.log('Factura Creada');
-        this.numfact = data.invoice_uid;
+        this.service.formData.LugarDeExpedicion='31203';
+        this.service.formData.NumeroDeCertificado='00001000000403628664';
+        // tslint:disable-next-line: max-line-length
+        this.service.formData.Certificado='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';
         
+        // console.log(this.service.formData);
+        
+        this.service.formData.UUID = data.UUID;
+        this.service.formData.CadenaOriginal='||'+data.SAT.Version+'|'+data.SAT.UUID+'|'+data.SAT.FechaTimbrado+'|LSO1306189R5|'+data.SAT.SelloCFD+'|'+data.SAT.NoCertificadoSAT+'||';
+        this.service.formData.SelloDigitalSAT=data.SAT.SelloSAT;
+        this.service.formData.SelloDigitalCFDI=data.SAT.SelloCFD;
+        this.service.formData.NumeroDeSelloSAT=data.SAT.NoCertificadoSAT;
+        this.service.formData.RFCdelPAC='LSO1306189R5';
+        this.service.formData.Estatus='Timbrada';
+    
+        
+        this.numfact = data.UUID;
+
+        // console.log(this.service.formData);
+        
+        this.service.updateFactura(this.service.formData).subscribe(data =>{
+          // console.log(this.service.formData);
+          // console.log('Factura Actualizada');
+          Swal.fire(
+            'Factura Creada',
+            ''+this.numfact+'',
+            'success'
+          )
+          
+          this.dxml2(this.numfact,this.service.formData.Folio);
+          // this.resetForm();
+
+
+
+
+
+          // this.onExportClick(this.service.formData.Folio);
+          
+          // console.log(data);
+          
+          
+        });
 
         
         this.estatusfact = 'Factura Creada ' + data.invoice_uid;
@@ -514,23 +623,128 @@ return cadena;
     //5df9887b8fa49
   }
 
-  dxml(id: string) {
+ 
+
+  dxml(id: string, folio:string) {
     // window.location.href="http://devfactura.in/admin/cfdi33/5df9887b8fa49/xml";
-    let xml = window.open('http://devfactura.in/admin/cfdi33/' + id + '/xml', 'XML');
+    this.proceso='xml';
+    let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
+    this.enviarfact.xml(id).subscribe(data => {
+      // localStorage.removeItem('xml')
+      localStorage.setItem('xml',data)
+      const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+      // this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+      this.fileUrl = window.URL.createObjectURL(blob);
+      
+      
+      this.a.href = this.fileUrl;
+      this.a.target = '_blank';
+      this.a.download = 'F-'+folio+'.xml';
+      
+      document.body.appendChild(this.a);
+//      console.log(this.fileUrl);
+      // console.log(this.a);
+      // console.log('blob:'+this.a.href);
+      
+      this.a.click();
+      do {
+        this.xmlparam = localStorage.getItem('xml');
+        console.log(this.xmlparam);
+        
+        if (localStorage.getItem('xml')!=null){
+          console.log('no nulo');
+          this.xmlparam = localStorage.getItem('xml');
+          this.onExportClick(this.service.formData.Folio);
+        }
+      }
+      while (localStorage.getItem('xml')==null);
+      this.resetForm();      
+      // console.log(this.xmlparam);
+      
+      
+      return this.fileUrl;
+
+      // console.log(this.fileUrl);
+      
+      
+    });
+
+    
+    
+    
+
+  }
+  dxml2(id: string, folio:string) {
+    // window.location.href="http://devfactura.in/admin/cfdi33/5df9887b8fa49/xml";
+    this.proceso='xml';
+    let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
+    this.enviarfact.xml(id).subscribe(data => {
+      localStorage.removeItem('xml')
+      localStorage.setItem('xml',data)
+      const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+      // this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+      this.fileUrl = window.URL.createObjectURL(blob);
+      
+      
+      this.a.href = this.fileUrl;
+      this.a.target = '_blank';
+      this.a.download = 'F-'+folio+'.xml';
+      
+      document.body.appendChild(this.a);
+//      console.log(this.fileUrl);
+      // console.log(this.a);
+      // console.log('blob:'+this.a.href);
+      
+      // this.a.click();
+      this.xmlparam = localStorage.getItem('xml');
+      this.resetForm();      
+      // console.log(this.xmlparam);
+      
+      return this.fileUrl;
+
+      // console.log(this.fileUrl);
+      
+      
+    });
+
+    
+    
+    
+
   }
 
-  dpdf(id: string) {
-    // window.location.href="http://devfactura.in/admin/cfdi33/5df9887b8fa49/pdf";
-    let pdf = window.open('http://devfactura.in/admin/cfdi33/' + id + '/pdf', 'PDF');
-  }
+  onExportClick(folio?:string) {
+    this.proceso='xml';
+    const content: Element = document.getElementById('element-to-PDF');
+
+    const option = {
+      
+      margin: [0,0,0,0],
+      filename: 'F-'+folio+'.pdf',
+      image: {type: 'jpeg', quality: 1},
+      html2canvas: {scale: 2, logging: true, scrollY: content.scrollHeight},
+      jsPDF: {format: 'letter', orientation: 'portrait'}
+    };
+
+    html2pdf()
+   .from(content)
+   .set(option)
+   .save();
+   this.proceso='';
+}
+
+myCallback(pdf){
+  localStorage.setItem('pdf',pdf);
+
+}
 
   dpdfxml() {
-    this.dxml('5df9887b8fa49');
-    this.dpdf('5df9887b8fa49');
-  }
+    this.enviarfact.xml('http://devfactura.in/api/v3/cfdi33/5e06601d92802/xml')
+      }
 
 
   setfacturatimbre(){
+  
     this.json1 = {
       Receptor: {
         UID: ''
@@ -609,7 +823,86 @@ return cadena;
     }
   }
 
-  
+  email(id: string, folio:string){
+
+    let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
+    this.enviarfact.xml(id).subscribe(data => {
+      const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+      // this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+      this.fileUrl = window.URL.createObjectURL(blob);
+      
+      
+      this.a.href = this.fileUrl;
+      this.a.target = '_blank';
+      this.a.download = 'F-'+folio+'.xml';
+      
+      document.body.appendChild(this.a);
+//      console.log(this.fileUrl);
+      // console.log(this.a);
+      // console.log('blob:'+this.a.href);
+      
+      //this.a.click();
+      localStorage.removeItem('xml')
+      localStorage.setItem('xml',data)
+      this.xmlparam = localStorage.getItem('xml');
+
+
+      const content: Element = document.getElementById('element-to-PDF');
+
+    const option = {
+      margin: [0,0,0,0],
+      filename: 'F-'+folio+'.pdf',
+      image: {type: 'jpeg', quality: 1},
+      html2canvas: {scale: 2, logging: true, scrollY: content.scrollHeight},
+      jsPDF: {format: 'letter', orientation: 'portrait'}
+
+
+    };
+    
+    html2pdf().from(content).set(option).toPdf().output('datauristring').then(function (res) {
+      // console.log(res);
+      
+      localStorage.setItem('pdf',res);
+    })
+  //  .save()
+
+
+
+
+
+
+      this.resetForm();      
+      // console.log(this.xmlparam);
+      
+      
+      return this.fileUrl;
+
+      // console.log(this.fileUrl);
+      
+      
+    });
+
+
+
+
+
+
+
+
+
+    // console.log('email');
+    
+    this._MessageService.sendMessage('form').subscribe(() => {
+      Swal.fire("Form Enviado", "Mensaje enviado correctamente", "success");
+    });
+  }
+
+
+
+  cancelar(id: string, folio:string) {
+    console.log('cancelar');
+    
+  }  
 
 
 }

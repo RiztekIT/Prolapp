@@ -20,7 +20,8 @@ export class FacturacioncxcEditProductoComponent implements OnInit {
   listProductos: Producto[] = [];
   
   myControlUnidad = new FormControl();
-  optionsUnidad = ['Medida 1', 'Medida 2', 'Medida 3'];
+  optionsUnidad = ['Pieza'];
+  
   filteredOptionsUnidad: Observable<any[]>;
 
   
@@ -81,7 +82,7 @@ export class FacturacioncxcEditProductoComponent implements OnInit {
   }
   onSelectionChange(event: MatAutocompleteSelectedEvent, options:Producto){
     
-    if(event.source.selected){
+    if(event.option.selected){
       this.service.formDataDF.Producto = options.Nombre;
       this.service.formDataDF.ClaveSAT = options.ClaveSAT;
     }

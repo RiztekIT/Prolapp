@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import xml2js  from 'xml2js';
 import {processors} from 'xml2js'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -8,12 +8,18 @@ import { Parser } from '@angular/compiler/src/ml_parser/parser';
 
 declare function cantidad(n);
 
+
+
 @Component({
   selector: 'app-factura',
   templateUrl: './factura.component.html',
-  styleUrls: ['./factura.component.css']
+  styleUrls: ['./factura.component.css'],
 })
 export class FacturaComponent implements OnInit {
+
+  
+  
+  @Input() xmlparametros;
 
   constructor(private _http: HttpClient, private sanitizer: DomSanitizer) {
     // this.loadXML();
@@ -111,22 +117,28 @@ export class FacturaComponent implements OnInit {
   // }
 
   leerxml(){
-    this._http.get('/assets/F-1.xml',
-    {
-      headers: new HttpHeaders()
-      .set('Content-Type', 'text/xml')
-      .append('Access-Control-Allow-Methods', 'GET')
-      .append('Access-Control-Allow-Origin', '*')
-      .append('Access-Control-Allow-Headers', "Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Request-Method"),
-    responseType: 'text'
-    })
-    .subscribe(data =>{
-        this.xmlString = data;
+    // this._http.get('/assets/F-1.xml',
+    // this._http.get(localStorage.getItem('xml'),
+    // {
+    //   headers: new HttpHeaders()
+    //   .set('Content-Type', 'text/xml')
+    //   .append('Access-Control-Allow-Methods', 'GET')
+    //   .append('Access-Control-Allow-Origin', '*')
+    //   .append('Access-Control-Allow-Headers', "Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Request-Method"),
+    // responseType: 'text'
+    // })
+    // .subscribe(data =>{
+        // this.xmlString = data;
+        // this.xmlString = this.xmlparametro;
+        // console.log(this.xmlString);
+        
+        // this.xmlString = localStorage.getItem('xml');
         // console.log('XMLSTRIng'+this.xmlString);
         // const parser = new xml2js.Parser({strict: false, trim: true});
         
-        const p = new xml2js.parseString(data, {tagNameProcessors: [processors.stripPrefix]},  (err, result) => {
-            console.log(result);
+        
+        const p = new xml2js.parseString(localStorage.getItem('xml'), {tagNameProcessors: [processors.stripPrefix]},  (err, result) => {
+            // console.log(result);
   
             this.certificado = result.Comprobante.$.Certificado;
             this.serie = result.Comprobante.$.Serie;
@@ -252,7 +264,7 @@ export class FacturaComponent implements OnInit {
             // console.log(this.xml);
         
         
-    });
+    // });
 
    
     
@@ -274,11 +286,20 @@ export class FacturaComponent implements OnInit {
 
     this.leerxml();
 
-    const blob = new Blob(['/assets/F-1.xml'], { type: 'application/octet-stream' });
+    const blob = new Blob(['/assets/js/F-1.xml'], { type: 'application/octet-stream' });
   
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
   }
 QRstring = ""; 
+
+ngOnChanges(changes: SimpleChanges): void {
+  //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+  //Add '${implements OnChanges}' to the class.
+  console.log(this.xmlparametros);
+  
+  
+  this.leerxml();
+}
 
 
 }

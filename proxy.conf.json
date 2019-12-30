@@ -10,5 +10,11 @@
         "target": "http://devfactura.in",
         "secure": false,
         "changeOrigin": true
+    },
+
+    "/api/v1/*": {
+        "target": "http://devfactura.in",
+        "secure": false,
+        "changeOrigin": true
     }
 }
