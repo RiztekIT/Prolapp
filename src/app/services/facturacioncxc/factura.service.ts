@@ -18,7 +18,8 @@ import {Subject} from 'rxjs';
 export class FacturaService {
 
   constructor(private http:HttpClient) { }
-   formData: Factura;
+  //  formData: Factura;
+   formData = new Factura();
    formDataDF: DetalleFactura;
    formDataP: Producto;
    IdFactura: number;
@@ -39,12 +40,22 @@ export class FacturaService {
   getDetallesFacturaList(id: number): Observable <DetalleFactura[]> {
     return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura/DetalleFactura/'+ id);
   }
+
+  getDetallesFacturaListProducto(id: number): Observable<any[]> {
+    return this.http.get<any[]>(this.APIUrl + '/Factura/DetalleFacturaProducto/'+ id);
+  }
+
+  getFacturasClienteID(id:number): Observable<any[]>{
+    return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaCliente/'+id)
+  }
   //Obtener ultima factura Creada
   getUltimaFactura(): Observable<any> {
     return this.http.get<Factura[]>(this.APIUrl + '/Factura/UltimaFactura');
   }
   //Obtener Factura por Id
   getFacturaId(id:number): Observable<any> {
+
+      
     return this.http.get<Factura[]>(this.APIUrl + '/Factura/Id/' + id);
   }
   //Obtener el ultimo Folio

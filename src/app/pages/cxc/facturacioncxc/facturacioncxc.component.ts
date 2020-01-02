@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import * as html2pdf from 'html2pdf.js';
 
-import {MatTableDataSource, MatSort} from '@angular/material';
+import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
 import { Factura } from '../../../Models/facturacioncxc/factura-model';
 import { FacturaService } from '../../../services/facturacioncxc/factura.service';
 
@@ -9,6 +9,7 @@ import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { FacturacioncxcAddComponent } from './facturacioncxc-add/facturacioncxc-add.component';
 import { FacturacioncxcEditComponent } from './facturacioncxc-edit/facturacioncxc-edit.component';
 import { Router } from '@angular/router';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 
 @Component({
   selector: 'app-facturacioncxc',
@@ -20,10 +21,15 @@ export class FacturacioncxcComponent implements OnInit {
   listData: MatTableDataSource<any>;
   displayedColumns : string [] = ['Folio', 'Cliente', 'FechaExpedicion', 'Subtotal', 'IVA', 'Total', 'Estado', 'Options'];
   folio: string;
+  fileUrl;
+  xmlparam;
+  
+  a = document.createElement('a');
   @ViewChild(MatSort, null) sort : MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private service:FacturaService, private dialog: MatDialog, private snackBar: MatSnackBar, private router:Router) {
-
+  constructor(private service:FacturaService, private dialog: MatDialog, private snackBar: MatSnackBar, private router:Router, public enviarfact: EnviarfacturaService) {
+  
     this.service.listen().subscribe((m:any)=>{
       // console.log(m);
       this.refreshFacturaList();
@@ -35,17 +41,23 @@ export class FacturacioncxcComponent implements OnInit {
     this.refreshFacturaList();
     this.Folio();
     this.ObtenerUltimaFactura();
+    localStorage.removeItem('pdf');
+    localStorage.removeItem('xml');
 
 
     
   }
 
   refreshFacturaList() {
+  
 
     this.service.getFacturasListCLiente().subscribe(data => {
       this.listData = new MatTableDataSource(data);
-      // console.log(this.listData);
+      console.log(this.listData);
       this.listData.sort = this.sort;
+
+    
+      this.listData.paginator = this.paginator;
     });
 
   }
@@ -116,10 +128,14 @@ export class FacturacioncxcComponent implements OnInit {
 
   Folio() {
     this.service.getFolio().subscribe(data => {
-      // console.log(data + "ESTE ES EL FOLIO");
+      console.log(data);
       // this.folio = data;
       this.FacturaBlanco.Folio = data
-      console.log(this.FacturaBlanco.Folio);
+      if (!this.FacturaBlanco.Folio){
+        this.FacturaBlanco.Folio='1';
+      }
+      // console.log(this.FacturaBlanco.Folio);
+      // console.log(data);
       // this.service.formData.Folio = this.folio;
       // console.log(this.service.formData.Folio);
     });
@@ -145,9 +161,12 @@ export class FacturacioncxcComponent implements OnInit {
  
 ObtenerUltimaFactura(){
   this.service.getUltimaFactura().subscribe(data => {
-    // console.log(data);
+    console.log(data);
     this.IdFactura = data[0].Id;
-    // console.log(this.IdFactura);
+    if (!this.IdFactura){
+      this.IdFactura='1';
+    }
+    console.log(this.IdFactura);
     return this.IdFactura;
     // console.log(this.IdFactura);
     });
@@ -158,6 +177,7 @@ ObtenerUltimaFactura(){
 this.service.formData = factura;
 let Id = factura.Id;
     // console.log(Id);
+    
     this.router.navigate(['/facturacionCxcAdd', Id]);
   }
 
@@ -170,22 +190,146 @@ let Id = factura.Id;
     this.listData.filter= filtervalue.trim().toLocaleLowerCase();
   }
   
-  onExportClick() {
-    const option = {
-      margin: [0,0,0,0],
-      filename: 'FacturaPDF.pdf',
-      image: {type: 'jpeg', quality: 1},
-      html2canvas: {scale: 2, logging: true},
-      jsPDF: {orientation: 'portrait'}
+//   onExportClick() {
+//     const option = {
+//       margin: [0,0,0,0],
+//       filename: 'FacturaPDF.pdf',
+//       image: {type: 'jpeg', quality: 1},
+//       html2canvas: {scale: 2, logging: true},
+//       jsPDF: {orientation: 'portrait'}
 
 
-    };
-    const content: Element = document.getElementById('element-to-PDF');
+//     };
+//     const content: Element = document.getElementById('element-to-PDF');
 
-    html2pdf()
-   .from(content)
-   .set(option)
-   .save();
+//     html2pdf()
+//    .from(content)
+//    .set(option)
+//    .save();
+// }
+
+onExportClick(folio?:string) {
+  // this.proceso='xml';
+  const content: Element = document.getElementById('element-to-PDF');
+
+  const option = {
+    
+    margin: [0,0,0,0],
+    filename: 'F-'+folio+'.pdf',
+    image: {type: 'jpeg', quality: 1},
+    html2canvas: {scale: 2, logging: true, scrollY: content.scrollHeight},
+    jsPDF: {format: 'letter', orientation: 'portrait'}
+  };
+
+  html2pdf()
+ .from(content)
+ .set(option)
+ .save();
+//  this.proceso='';
+}
+
+generar(id: string, folio:string) {
+  
+  // this.proceso='xml';
+  let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
+  this.enviarfact.xml(id).subscribe(data => {
+    const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+    // this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+    this.fileUrl = window.URL.createObjectURL(blob);
+    
+    
+    this.a.href = this.fileUrl;
+    this.a.target = '_blank';
+    // this.a.download = 'F-'+folio+'.xml';
+    
+    document.body.appendChild(this.a);
+//      console.log(this.fileUrl);
+    //console.log(this.a);
+    //console.log('blob:'+this.a.href);
+    
+    //this.a.click();
+    localStorage.removeItem('xml')
+    localStorage.setItem('xml',data)
+    this.xmlparam = localStorage.getItem('xml');
+    //this.onExportClick(folio);    
+    //console.log(this.xmlparam);
+    
+    
+    return this.fileUrl;
+    
+    // console.log(this.fileUrl);
+    
+    
+  });
+  document.getElementById('abrirpdf').click();
+}
+
+xml(id: string, folio:string){
+   // this.proceso='xml';
+   let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
+   this.enviarfact.xml(id).subscribe(data => {
+     const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+     // this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+     this.fileUrl = window.URL.createObjectURL(blob);
+     
+     
+     this.a.href = this.fileUrl;
+     this.a.target = '_blank';
+     this.a.download = 'F-'+folio+'.xml';
+     
+     document.body.appendChild(this.a);
+ //      console.log(this.fileUrl);
+     //console.log(this.a);
+     //console.log('blob:'+this.a.href);
+     
+     this.a.click();
+     localStorage.removeItem('xml')
+     localStorage.setItem('xml',data)
+     this.xmlparam = localStorage.getItem('xml');
+     //this.onExportClick(folio);    
+     //console.log(this.xmlparam);
+     
+     
+     return this.fileUrl;
+     
+     // console.log(this.fileUrl);
+     
+     
+   });
+}
+
+pdf(id: string, folio:string){
+   // this.proceso='xml';
+   let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
+   this.enviarfact.xml(id).subscribe(data => {
+     const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+     // this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+     this.fileUrl = window.URL.createObjectURL(blob);
+     
+     
+     this.a.href = this.fileUrl;
+     this.a.target = '_blank';
+    //  this.a.download = 'F-'+folio+'.xml';
+     
+     document.body.appendChild(this.a);
+ //      console.log(this.fileUrl);
+     //console.log(this.a);
+     //console.log('blob:'+this.a.href);
+     
+    //  this.a.click();
+     localStorage.removeItem('xml')
+     localStorage.setItem('xml',data)
+     this.xmlparam = localStorage.getItem('xml');
+     this.onExportClick(folio);    
+     //console.log(this.xmlparam);
+     
+     
+     return this.fileUrl;
+     
+     // console.log(this.fileUrl);
+     
+     
+   });
 }
 
 

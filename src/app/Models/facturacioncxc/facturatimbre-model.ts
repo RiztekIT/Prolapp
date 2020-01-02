@@ -34,11 +34,8 @@ export class FacturaTimbre{
                 Importe?: String
               }],
             Locales?: [{
-                Base?: String,
                 Impuesto?: String,
-                TipoFactor?: String,
                 TasaOCuota?: String,
-                Importe?: String
               }],
           },
           NumeroPedimento: String,
@@ -63,11 +60,8 @@ export class FacturaTimbre{
             Importe?: String,   
         }],
         Locales?: [{
-            Base?: String,
             Impuesto?: String,
-            TipoFactor?: String,
             TasaOCuota?: String,
-            Importe?: String,   
        }]
       };
       CfdiRelacionados: {

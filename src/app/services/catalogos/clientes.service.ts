@@ -33,6 +33,11 @@ export class ClientesService {
  updateCliente(cliente: Cliente) {
  return this.http.put(this.APIUrl+ '/cliente', cliente);
  }
+ updateUIDCliente(datos:string) {
+  console.log(datos);
+  
+ return this.http.put(this.APIUrl+ '/cliente/UID', datos);
+ }
 
 
   private _listeners = new Subject<any>(); 

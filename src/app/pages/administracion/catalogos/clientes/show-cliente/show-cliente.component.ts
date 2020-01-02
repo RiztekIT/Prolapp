@@ -7,6 +7,7 @@ import { ClientesService } from '../../../../../services/catalogos/clientes.serv
 import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { AddClienteComponent } from '../add-cliente/add-cliente.component';
 import { EditClienteComponent } from '../edit-cliente/edit-cliente.component';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -45,16 +46,45 @@ export class ShowClienteComponent implements OnInit {
 
   onDelete( id:number){
     //console.log(id);
-    if ( confirm('Are you sure to delete?')) {
-      this.service.deleteCliente(id).subscribe(res => {
-      this.refreshClientesList();
-      this.snackBar.open(res.toString(), '', {
-        duration: 3000,
-        verticalPosition: 'top'
-      });
+    Swal.fire({
+      title: '¿Seguro de Borrar el Cliente?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        this.service.deleteCliente(id).subscribe(res => {
+          this.refreshClientesList();
+          // this.snackBar.open(res.toString(), '', {
+          //   duration: 3000,
+          //   verticalPosition: 'top'
+          // });
+    
+          Swal.fire(
+            'Borrado',
+            'El Cliente ha sido borrado Correctamente',
+            'success'
+          )
+          });
+      }
+    })
 
-      });
-    }
+
+
+
+    // if ( confirm('Are you sure to delete?')) {
+    //   this.service.deleteCliente(id).subscribe(res => {
+    //   this.refreshClientesList();
+    //   this.snackBar.open(res.toString(), '', {
+    //     duration: 3000,
+    //     verticalPosition: 'top'
+    //   });
+
+    //   });
+    // }
 
   }
 
