@@ -307,7 +307,7 @@
                             <label class="input-group-text text-info">Subtotal</label>
                         </td>
                         <td>
-                            <input class="form-control" name="Subtotal" #Subtotal="ngModel" [ngModel]="service.formData.Subtotal | currency">
+                            <input class="form-control" readonly="readonly" name="Subtotal" #Subtotal="ngModel" [ngModel]="service.formData.Subtotal | currency">
                         </td>
                     </tr>
                     <tr>
@@ -315,7 +315,7 @@
                             <label class="input-group-text text-info">Impuestos Trasladados</label>
                         </td>
                         <td>
-                            <input class="form-control" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [ngModel]="service.formData.ImpuestosTrasladados | currency">
+                            <input class="form-control" readonly="readonly" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [ngModel]="service.formData.ImpuestosTrasladados | currency">
                         </td>
                     </tr>
                     <tr>
@@ -323,7 +323,7 @@
                             <label class="input-group-text text-info">Total</label>
                         </td>
                         <td>
-                            <input class="form-control" name="Total" #Total="ngModel" [ngModel]="service.formData.Total | currency">
+                            <input class="form-control" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="service.formData.Total | currency">
                         </td>
                     </tr>
                 </table>
