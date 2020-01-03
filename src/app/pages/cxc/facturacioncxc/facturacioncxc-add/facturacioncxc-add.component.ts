@@ -74,6 +74,8 @@ export class FacturacioncxcAddComponent implements OnInit {
   listClientes: Cliente[] = [];
   proceso: string;
 
+  Moneda: string;
+
   estatusfact;
   numfact;
   xml;
@@ -116,24 +118,40 @@ export class FacturacioncxcAddComponent implements OnInit {
     let subtotal;
     let iva;
     let total;
+    let tipoCambio;
+    let ivaDlls;
+    let subtotalDlls;
+    let totalDlls;
     
     this.service.getDetallesFacturaList(this.IdFactura).subscribe(data => {
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
+      tipoCambio = 20;
       subtotal = 0;
       iva = 0;
       total = 0;
+      subtotalDlls = 0;
+      totalDlls = 0;
+      ivaDlls = 0;
       for (let i = 0; i < data.length; i++) {
         subtotal = subtotal + parseInt(data[i].Importe);
       }
       iva = subtotal * 0.16;
       total = iva + subtotal;
+      for (let i = 0; i < data.length; i++) {
+        subtotalDlls = subtotalDlls + parseInt(data[i].ImporteDlls);
+      }
+      ivaDlls = subtotalDlls * 0.16;
+      totalDlls = ivaDlls + subtotalDlls;
       // console.log(subtotal);
       // console.log(iva);
       // console.log(total);
       this.service.formData.Subtotal = subtotal;
       this.service.formData.ImpuestosTrasladados = iva;
       this.service.formData.Total = total;
+      this.service.formData.SubtotalDlls = subtotalDlls;
+      this.service.formData.ImpuestosTrasladadosDlls = ivaDlls;
+      this.service.formData.TotalDlls = totalDlls;
       
     //console.log(this.listData);
     });
@@ -250,6 +268,14 @@ onEdit(detalleFactura: DetalleFactura){
     dialogConfig.autoFocus = true;
     dialogConfig.width = "70%";
     this.dialog.open(FacturacioncxcProductoComponent, dialogConfig);
+  }
+
+  MonedaSelected(event: any){
+    console.log(event);
+    // this.Moneda = event.target.value;
+    // console.log(this.Moneda);
+    // this.service.Moneda = this.Moneda;
+    // console.log(this.service.Moneda);
   }
 
 

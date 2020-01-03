@@ -115,7 +115,7 @@ export class FacturacioncxcComponent implements OnInit {
       FormaDePago: "",
       MetodoDePago: "",
       Cuenta: "",
-      Moneda: "",
+      Moneda: "MXN",
       CadenaOriginal: "",
       SelloDigitalSAT: "",
       SelloDigitalCFDI: "",

@@ -45,17 +45,17 @@
 
                         <ng-container matColumnDef="Subtotal">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>SUBTOTAL</mat-header-cell>
-                            <mat-cell *matCellDef="let element">{{element.Subtotal}}</mat-cell>
+                            <mat-cell *matCellDef="let element">${{element.Subtotal}}-MXN/${{element.SubtotalDlls}}-USD</mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="IVA">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>IVA</mat-header-cell>
-                            <mat-cell *matCellDef="let element">{{element.ImpuestosTrasladados}}</mat-cell>
+                            <mat-cell *matCellDef="let element">${{element.ImpuestosTrasladados}}-MXN/${{element.ImpuestosTrasladadosDlls}}-USD</mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="Total">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>TOTAL</mat-header-cell>
-                            <mat-cell *matCellDef="let element">{{element.Total}}</mat-cell>
+                            <mat-cell *matCellDef="let element">${{element.Total}}-MXN/${{element.TotalDlls}}-USD</mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="Estado">

@@ -23,6 +23,7 @@ export class FacturaService {
    formDataDF: DetalleFactura;
    formDataP: Producto;
    IdFactura: number;
+   Moneda: string;
 
 
   // readonly APIUrl = "https://localhost:7002/api";
