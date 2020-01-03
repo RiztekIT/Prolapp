@@ -134,8 +134,10 @@ export class FacturacioncxcProductoComponent implements OnInit {
     Unidad: '',
     ClaveSAT: '',
     PrecioUnitario: '',
+    PrecioUnitarioDlls: '',
     Cantidad: '',
     Importe: '',
+    ImporteDlls: '',
     Observaciones: '',
     TextoExtra: '',
     }
