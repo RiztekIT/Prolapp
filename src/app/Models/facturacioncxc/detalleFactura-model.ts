@@ -7,8 +7,10 @@ export class DetalleFactura{
     Unidad: string;
     ClaveSAT: string;
     PrecioUnitario: string;
+    PrecioUnitarioDlls: string;
     Cantidad: string;
     Importe: string;
+    ImporteDlls: string;
     Observaciones: string;
     TextoExtra: string;
 }

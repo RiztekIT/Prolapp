@@ -23,7 +23,9 @@ export class FacturacioncxcComponent implements OnInit {
   folio: string;
   fileUrl;
   xmlparam;
-  
+  //Collapse Informacion Detalle Facutura
+
+
   a = document.createElement('a');
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -47,6 +49,8 @@ export class FacturacioncxcComponent implements OnInit {
 
     
   }
+
+
 
   refreshFacturaList() {
   
@@ -101,10 +105,13 @@ export class FacturacioncxcComponent implements OnInit {
       UUID: "",
       UsoDelCFDI: "",
       Subtotal: "",
+      SubtotalDlls: "",
       Descuento: "",
       ImpuestosRetenidos: "",
       ImpuestosTrasladados: "",
+      ImpuestosTrasladadosDlls: "",
       Total: "",
+      TotalDlls: "",
       FormaDePago: "",
       MetodoDePago: "",
       Cuenta: "",

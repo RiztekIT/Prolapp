@@ -19,6 +19,11 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // import { CalendarioComponent } from './components/calendario/calendario.component';
 
+//Collapse 
+// import { BrowserModule } from '@angular/platform-browser';
+// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
+
 
 
 
@@ -38,7 +43,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     ServiceModule,
     HttpClientModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    // NgbModule
   ],
   bootstrap: [AppComponent],
  
