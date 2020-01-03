@@ -86,6 +86,12 @@ export class FacturacioncxcAddComponent implements OnInit {
     { MetodoDePago: 'PPD', text: 'PPD-Pago en parcialidades o diferido' }
   ];
 
+   // list Metodo Pago
+   public listMoneda: Array<Object> = [
+    { Moneda: 'MXN'},
+    { Moneda: 'USD' }
+  ];
+
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
