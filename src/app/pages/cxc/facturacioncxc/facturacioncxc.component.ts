@@ -215,7 +215,7 @@ let Id = factura.Id;
 onExportClick(folio?:string) {
   // this.proceso='xml';
   const content: Element = document.getElementById('element-to-PDF');
-
+  
   const option = {
     
     margin: [0,0,0,0],
