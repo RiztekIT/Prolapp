@@ -211,8 +211,6 @@ let Id = factura.Id;
 onExportClick(folio?:string) {
   // this.proceso='xml';
   const content: Element = document.getElementById('element-to-PDF');
-  document.getElementById('element-to-PDF').style.height = "1000px"
-  document.getElementById('element-to-PDF').style.width = "800px"
   
   const option = {
     
