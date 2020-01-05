@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import * as html2pdf from 'html2pdf.js';
 
-import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
+import {MatTableDataSource, MatSort, MatPaginator, MatTable} from '@angular/material';
 import { Factura } from '../../../Models/facturacioncxc/factura-model';
 import { FacturaService } from '../../../services/facturacioncxc/factura.service';
 
@@ -10,55 +10,156 @@ import { FacturacioncxcAddComponent } from './facturacioncxc-add/facturacioncxc-
 import { FacturacioncxcEditComponent } from './facturacioncxc-edit/facturacioncxc-edit.component';
 import { Router } from '@angular/router';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+import { trigger, state, transition, animate, style } from '@angular/animations';
+import { DetalleFactura } from '../../../Models/facturacioncxc/detalleFactura-model';
+import { Observable } from 'rxjs';
+import { facturaMasterDetalle } from 'src/app/Models/facturacioncxc/facturamasterdetalle';
+
 
 @Component({
   selector: 'app-facturacioncxc',
   templateUrl: './facturacioncxc.component.html',
   styleUrls: ['./facturacioncxc.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class FacturacioncxcComponent implements OnInit {
   IdFactura: any;
   listData: MatTableDataSource<any>;
+  MasterDetalle = new Array<facturaMasterDetalle>();
+  listDetalleData;
   displayedColumns : string [] = ['Folio', 'Cliente', 'FechaExpedicion', 'Subtotal', 'IVA', 'Total', 'Estado', 'Options'];
+  displayedColumnsVersion : string [] = ['ClaveProducto'];
   folio: string;
   fileUrl;
   xmlparam;
+  expandedElement: any;
+  detalle = new Array<DetalleFactura>();
+  isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
   
   a = document.createElement('a');
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  // @ViewChild('tabla', null) tabla: MatTable<any>;
 
   constructor(private service:FacturaService, private dialog: MatDialog, private snackBar: MatSnackBar, private router:Router, public enviarfact: EnviarfacturaService) {
   
     this.service.listen().subscribe((m:any)=>{
       // console.log(m);
       this.refreshFacturaList();
+      this.detallesFactura();
       });
 
    }
 
   ngOnInit() {
     this.refreshFacturaList();
+    this.detallesFactura();
     this.Folio();
     this.ObtenerUltimaFactura();
-    localStorage.removeItem('pdf');
-    localStorage.removeItem('xml');
+    this.listData.connect();
+    
+    // localStorage.removeItem('pdf');
+    // localStorage.removeItem('xml');
 
 
     
   }
 
-  refreshFacturaList() {
+
+
   
 
-    this.service.getFacturasListCLiente().subscribe(data => {
-      this.listData = new MatTableDataSource(data);
-      console.log(this.listData);
-      this.listData.sort = this.sort;
+  ref(){
+    // this.applyFilter('32534543343454353453');
+    // this.applyFilter('');
+    
+    
+    
+    console.log('ref');
+    // this.listData._updateChangeSubscription();
+    // this.listData.filteredData;
+  }
+
+ 
+
+  getDetalleFactura(id: number){
+    this.service.getDetallesFacturaList(id).subscribe(data =>{
+      data[0].Producto;
+
+      return data;
+      
+      
+      
+    })
+  }
+
+  detallesFactura(){
+    this.service.getDetallesFactura().subscribe(data =>{
+      this.listDetalleData = data;
+      // console.log(this.listDetalleData);
+      this.applyFilter('');
+      
+    })
+  }
+
+  refreshFacturaList() {
+  
+    // this.listData = new MatTableDataSource(this.MasterDetalle);
+    this.listData = new MatTableDataSource(this.service.master);
 
     
-      this.listData.paginator = this.paginator;
+
+    this.service.getFacturasListCLiente().subscribe(data => {
+      // this.MasterDetalle = data;
+      // console.log('longitud data '+data.length);
+       
+      
+      for (let i = 0; i <= data.length-2; i++){
+        this.service.master[i] = data[i]
+        this.service.master[i].detalle = [];
+        // console.log(this.MasterDetalle);
+        if (data[i].IdCliente != 1){
+          
+          this.service.getDetallesFacturaList(data[i].Id).subscribe(res => {
+            for (let l = 0; l <=res.length-1; l++){
+              // this.MasterDetalle[i].detalle.pop();
+            // console.log(this.MasterDetalle[0].detalle);
+            this.service.master[i].detalle.push(res[l]);
+          }
+          // this.detalle = res;
+          // console.log(this.d);
+        })
+      }}
+      
+      // let detalle = [];
+      // rows = data;
+      // data.forEach(factura => rows.push(factura, { detailRow: true, factura}))
+      
+      
+      
     });
+    // this.listData.filter = 'R';
+    
+      this.listData.sort = this.sort;    
+      this.listData.paginator = this.paginator;
+      this.listData.paginator._intl.itemsPerPageLabel = 'Facturas por Pagina';
+      // this.listData.data = this.MasterDetalle;
+
+      
+      
+      // this.expandedElement = this.listData
+
+      // this.tabla.renderRows();
+      // this.tabla.dataSource = this.listData;
+      console.log(this.listData);
+      
+      
 
   }
 //Eliminar Factura si no esta timbrada
@@ -128,7 +229,7 @@ export class FacturacioncxcComponent implements OnInit {
 
   Folio() {
     this.service.getFolio().subscribe(data => {
-      console.log(data);
+      // console.log(data);
       // this.folio = data;
       this.FacturaBlanco.Folio = data
       if (!this.FacturaBlanco.Folio){
@@ -161,12 +262,12 @@ export class FacturacioncxcComponent implements OnInit {
  
 ObtenerUltimaFactura(){
   this.service.getUltimaFactura().subscribe(data => {
-    console.log(data);
+    // console.log(data);
     this.IdFactura = data[0].Id;
     if (!this.IdFactura){
       this.IdFactura='1';
     }
-    console.log(this.IdFactura);
+    // console.log(this.IdFactura);
     return this.IdFactura;
     // console.log(this.IdFactura);
     });
@@ -188,6 +289,7 @@ let Id = factura.Id;
       // return true;
      };
     this.listData.filter= filtervalue.trim().toLocaleLowerCase();
+    console.log(this.listData);
   }
   
 //   onExportClick() {
@@ -332,5 +434,10 @@ pdf(id: string, folio:string){
    });
 }
 
+ngOnChanges(changes: SimpleChanges): void {
+  //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+  //Add '${implements OnChanges}' to the class.
+  this.ref();
+}
 
 }

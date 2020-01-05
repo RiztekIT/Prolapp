@@ -15,10 +15,12 @@
                 <div class="mat-elevation-z8">
 
 
-                    <mat-table [dataSource]="listData" matSort class="scrollable">
+                    <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
 
-                        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row" matRipple [class.example-expanded-row]="expandedElement == row"></tr>
+                        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row">
+                        </tr>
 
 
 
@@ -28,47 +30,47 @@
                         </ng-container> -->
 
                         <ng-container matColumnDef="Folio">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>FOLIO</mat-header-cell>
-                            <mat-cell *matCellDef="let element">{{element.Folio}}</mat-cell>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>FOLIO</th>
+                            <td mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Folio}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="Cliente">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>CLIENTE</mat-header-cell>
-                            <mat-cell *matCellDef="let element">{{element.Nombre}}</mat-cell>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>CLIENTE</th>
+                            <td mat-cell *matCellDef="let element">{{element.Nombre}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="FechaExpedicion">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>FECHA EXPEDICION</mat-header-cell>
-                            <mat-cell *matCellDef="let element">{{element.FechaDeExpedicion}}</mat-cell>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA EXPEDICION</th>
+                            <td mat-cell *matCellDef="let element">{{element.FechaDeExpedicion}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="Subtotal">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>SUBTOTAL</mat-header-cell>
-                            <mat-cell *matCellDef="let element">{{element.Subtotal}}</mat-cell>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>SUBTOTAL</th>
+                            <td mat-cell *matCellDef="let element">{{element.Subtotal}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="IVA">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>IVA</mat-header-cell>
-                            <mat-cell *matCellDef="let element">{{element.ImpuestosTrasladados}}</mat-cell>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>IVA</th>
+                            <td mat-cell *matCellDef="let element">{{element.ImpuestosTrasladados}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="Total">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>TOTAL</mat-header-cell>
-                            <mat-cell *matCellDef="let element">{{element.Total}}</mat-cell>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>TOTAL</th>
+                            <td mat-cell *matCellDef="let element">{{element.Total}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="Estado">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</mat-header-cell>
-                            <mat-cell *matCellDef="let element" [ngSwitch]=element.Estatus>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
+                            <td mat-cell *matCellDef="let element" [ngSwitch]=element.Estatus>
                                 <span *ngSwitchCase="'Timbrada'" class="label label-light-success">TIMBRADA</span>
                                 <span *ngSwitchCase="'Creada'" class="label label-light-info">CREADA</span>
                                 <span *ngSwitchCase="'Cancelada'" class="label label-light-danger">CANCELADA</span>
-                            </mat-cell>
+                            </td>
                         </ng-container>
 
                         <ng-container matColumnDef="Options">
-                            <mat-header-cell *matHeaderCellDef>OPCIONES</mat-header-cell>
-                            <mat-cell *matCellDef="let row">
+                            <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
+                            <td mat-cell *matCellDef="let row">
                                 <!-- EDITAR ELIMINAR ENVIAR PDF XML -->
 
                                 <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
@@ -106,11 +108,48 @@
                                 </mat-menu>
 
 
-                            </mat-cell>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="expandedDetail">
+                            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                                <!-- <mat-header-cell *matHeaderCellDef mat-sort-header>CONCEPTOS</mat-header-cell> -->
+                                <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="element.detalle.length > 0" (click)="expandedElement = 0">
+                                    <!-- <table mat-table [dataSource]="element.detalle"> -->
+                                    <table width="100%">
+                                        <tr>
+                                            <th> Clave Producto </th>
+                                            <th> Producto </th>
+                                            <th> Cantidad </th>
+                                            <th> Importe </th>
+                                        </tr>
+                                        <tr *ngFor="let detalle of element.detalle">
+                                            <td> {{detalle.ClaveSAT}} </td>
+                                            <td> {{detalle.Producto}} </td>
+                                            <td> {{detalle.Cantidad}} </td>
+                                            <td> {{detalle.Importe}} </td>
+                                        </tr>
+                                    </table>
+
+
+
+
+                                    <!-- <ng-container matColumnDef="ClaveProducto">
+                                        <th mat-header-cell *matHeaderCellDef> Clave Producto </th>
+                                        <td mat-cell *matCellDef="let element">{{element.detalle.Importe}} </td>
+
+                                    </ng-container> -->
+                                    <!-- <tr mat-header-row *matHeaderRowDef="displayedColumnsVersion"></tr> -->
+                                    <!-- <tr mat-row *matRowDef="let row; columns: displayedColumnsVersion;"></tr> -->
+
+                                    <!-- </table> -->
+
+                                </div>
+                            </td>
                         </ng-container>
 
 
-                    </mat-table>
+                    </table>
                     <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
                     </mat-paginator>
                 </div>

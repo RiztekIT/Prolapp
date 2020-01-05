@@ -122,11 +122,13 @@ export class FacturacioncxcAddComponent implements OnInit {
       }
       iva = subtotal * 0.16;
       total = iva + subtotal;
-      // console.log(subtotal);
-      // console.log(iva);
-      // console.log(total);
+      console.log(subtotal);
+      console.log(iva);
+      console.log('iva');
+      console.log(parseFloat(iva).toFixed(6));
+      console.log(total);
       this.service.formData.Subtotal = subtotal;
-      this.service.formData.ImpuestosTrasladados = iva;
+      this.service.formData.ImpuestosTrasladados = (parseFloat(iva).toFixed(6)).toString();
       this.service.formData.Total = total;
       
     //console.log(this.listData);
@@ -382,7 +384,9 @@ onEdit(detalleFactura: DetalleFactura){
                 Impuesto: '002',
                 TipoFactor: 'Tasa',
                 TasaOCuota: '0.16',
-                Importe: (parseInt(data[i].Importe)*0.16).toString()
+                Importe: ((parseInt(data[i].Importe)*0.16).toFixed(6)).toString()
+                
+                // Importe: (parseInt(data[i].Importe)*0.16).toString()
                 
                 
             }]
@@ -401,7 +405,7 @@ onEdit(detalleFactura: DetalleFactura){
       
       
       cadena = JSON.stringify(this.json1); 
-      // console.log(cadena);
+       console.log(cadena);
       
       this.enviar(cadena);
     })
@@ -557,7 +561,7 @@ return cadena;
     
     // Aqui manda la factura
     this.enviarfact.enviarFactura(cadena).subscribe(data => {
-      // console.log(data);
+      console.log(data);
       if (data.response === 'success') {
         // console.log('Factura Creada');
         this.service.formData.LugarDeExpedicion='31203';

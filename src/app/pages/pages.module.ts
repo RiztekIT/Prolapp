@@ -256,7 +256,7 @@ import { MatDividerModule } from '@angular/material/divider'
         MatGridListModule,
         MatMenuModule,
         MatDividerModule,
-        MatPaginatorModule
+        MatPaginatorModule,
 
     ],
     providers: [

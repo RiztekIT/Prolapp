@@ -9,6 +9,7 @@ import { Producto } from '../../Models/catalogos/productos-model';
 import {Observable } from 'rxjs';
 
 import {Subject} from 'rxjs';
+import { facturaMasterDetalle } from 'src/app/Models/facturacioncxc/facturamasterdetalle';
 
 
 
@@ -23,6 +24,7 @@ export class FacturaService {
    formDataDF: DetalleFactura;
    formDataP: Producto;
    IdFactura: number;
+   master = new Array<facturaMasterDetalle>();
 
 
   // readonly APIUrl = "https://localhost:7002/api";
@@ -39,6 +41,10 @@ export class FacturaService {
   //Obtener Lista de Detalles Factura
   getDetallesFacturaList(id: number): Observable <DetalleFactura[]> {
     return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura/DetalleFactura/'+ id);
+  }
+  
+  getDetallesFactura(): Observable <DetalleFactura[]> {
+    return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura/DetalleFactura/');
   }
 
   getDetallesFacturaListProducto(id: number): Observable<any[]> {

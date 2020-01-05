@@ -284,7 +284,7 @@ export class FacturaComponent implements OnInit {
 
     
 
-    this.leerxml();
+    // this.leerxml();
 
     const blob = new Blob(['/assets/js/F-1.xml'], { type: 'application/octet-stream' });
   
@@ -295,10 +295,10 @@ QRstring = "";
 ngOnChanges(changes: SimpleChanges): void {
   //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
   //Add '${implements OnChanges}' to the class.
-  console.log(this.xmlparametros);
+  // console.log(this.xmlparametros);
   
   
-  this.leerxml();
+  // this.leerxml();
 }
 
 
