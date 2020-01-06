@@ -102,7 +102,6 @@ export class FacturacioncxcAddComponent implements OnInit {
   
   ngOnInit() {
     this.resetForm();
-    
     this.setfacturatimbre();
     this.dropdownRefresh();
     this.refreshDetallesFacturaList();
@@ -276,10 +275,10 @@ onEdit(detalleFactura: DetalleFactura){
   }
 
   MonedaSelected(event: any){
-    console.log(event);
-    // this.Moneda = event.target.value;
+    // console.log(event);
+    this.Moneda = event.target.selectedOptions[0].text;
     // console.log(this.Moneda);
-    // this.service.Moneda = this.Moneda;
+    this.service.Moneda = this.Moneda;
     // console.log(this.service.Moneda);
   }
 

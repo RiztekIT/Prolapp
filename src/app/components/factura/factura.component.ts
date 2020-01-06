@@ -115,7 +115,8 @@ export class FacturaComponent implements OnInit {
 
   // }
 
-  leerxml() {
+  leerxml(folio:string) {
+    this.PdfPreliminar();
     // this._http.get('/assets/F-1.xml',
     // this._http.get(localStorage.getItem('xml'),
     // {
@@ -136,7 +137,7 @@ export class FacturaComponent implements OnInit {
     // const parser = new xml2js.Parser({strict: false, trim: true});
 
 
-    const p = new xml2js.parseString(localStorage.getItem('xml'), { tagNameProcessors: [processors.stripPrefix] }, (err, result) => {
+    const p = new xml2js.parseString(localStorage.getItem('xml'+folio), { tagNameProcessors: [processors.stripPrefix] }, (err, result) => {
       // console.log(result);
 
       this.certificado = result.Comprobante.$.Certificado;
@@ -247,7 +248,7 @@ export class FacturaComponent implements OnInit {
         case "USD":
           this.monedaT = "USD"
       }
-
+this.xmlparametros='';
     })
     // const p = new xml2js.parseString(data, (err, result) => {
     //   console.log(result);
@@ -328,9 +329,14 @@ export class FacturaComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    console.log(this.xmlparametros);
-    //  this.leerxml();
-     this.PdfPreliminar();
+    // console.log(this.xmlparametros);
+    if (this.xmlparametros!=''){
+      console.log('1');
+      console.log(this.xmlparametros);
+      this.leerxml(this.xmlparametros);
+      
+    }
+    // this.PdfPreliminar();
      
   }
 

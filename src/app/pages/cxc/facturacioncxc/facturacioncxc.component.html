@@ -32,7 +32,7 @@
 
                         <ng-container matColumnDef="Folio">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>FOLIO</th>
-                            <td mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Folio}}</td>
+                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Folio}} +</td>
                         </ng-container>
 
                         <ng-container matColumnDef="Cliente">
@@ -42,21 +42,21 @@
 
                         <ng-container matColumnDef="FechaExpedicion">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA EXPEDICION</th>
-                            <td mat-cell *matCellDef="let element">{{element.FechaDeExpedicion}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.FechaDeExpedicion | date: 'yyyy-MM-dd' }}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="Subtotal">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>SUBTOTAL</th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>SUBTOTAL MXN/USD</th>
                             <td mat-cell *matCellDef="let element">${{element.Subtotal}}-MXN/${{element.SubtotalDlls}}-USD</td>
                         </ng-container>
 
                         <ng-container matColumnDef="IVA">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>IVA</th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>IVA MXN/USD</th>
                             <td mat-cell *matCellDef="let element">${{element.ImpuestosTrasladados}}-MXN/${{element.ImpuestosTrasladadosDlls}}-USD</td>
                         </ng-container>
 
                         <ng-container matColumnDef="Total">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>TOTAL</th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>TOTAL MXN/USD</th>
                             <td mat-cell *matCellDef="let element">${{element.Total}}-MXN/${{element.TotalDlls}}-USD</td>
                         </ng-container>
 
@@ -137,7 +137,8 @@
 
                     </button>
                                     <!-- descargar PDF -->
-                                    <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button>
+                                    <!-- <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button> -->
+
                                     <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" (click)="pdf(row.UUID,row.Folio)" mat-icon-button class="btn btn-dark">
                         <mat-icon>picture_as_pdf</mat-icon>
 

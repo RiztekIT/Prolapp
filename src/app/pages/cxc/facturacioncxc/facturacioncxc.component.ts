@@ -358,20 +358,23 @@ generar(id: string, folio:string) {
     //console.log('blob:'+this.a.href);
     
     //this.a.click();
-    localStorage.removeItem('xml')
-    localStorage.setItem('xml',data)
-    this.xmlparam = localStorage.getItem('xml');
+    localStorage.removeItem('xml'+folio)
+    localStorage.setItem('xml'+folio,data)
+    this.xmlparam = folio;
     //this.onExportClick(folio);    
     //console.log(this.xmlparam);
     
     
+ 
     return this.fileUrl;
     
     // console.log(this.fileUrl);
     
-    
   });
-  document.getElementById('abrirpdf').click();
+  setTimeout(()=>{
+   },1000)
+  document.getElementById('abrirpdf').click();  
+  
 }
 
 xml(id: string, folio:string){
@@ -410,28 +413,32 @@ xml(id: string, folio:string){
 
 pdf(id: string, folio:string){
    // this.proceso='xml';
+   this.xmlparam = '';
    let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
    this.enviarfact.xml(id).subscribe(data => {
      const blob = new Blob([data as BlobPart], { type: 'application/xml' });
      // this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+     localStorage.removeItem('xml'+folio)
+     localStorage.setItem('xml'+folio,data)
+     this.xmlparam = folio;
      this.fileUrl = window.URL.createObjectURL(blob);
      
      
      this.a.href = this.fileUrl;
      this.a.target = '_blank';
-    //  this.a.download = 'F-'+folio+'.xml';
+     //  this.a.download = 'F-'+folio+'.xml';
      
      document.body.appendChild(this.a);
- //      console.log(this.fileUrl);
+     //      console.log(this.fileUrl);
      //console.log(this.a);
      //console.log('blob:'+this.a.href);
+     setTimeout(()=>{
+      this.onExportClick(folio);    
+     },1000)
      
-    //  this.a.click();
-     localStorage.removeItem('xml')
-     localStorage.setItem('xml',data)
-     this.xmlparam = localStorage.getItem('xml');
-     this.onExportClick(folio);    
-     //console.log(this.xmlparam);
+     //  this.a.click();
+    
+      //console.log(this.xmlparam);
      
      
      return this.fileUrl;
@@ -439,7 +446,7 @@ pdf(id: string, folio:string){
      // console.log(this.fileUrl);
      
      
-   });
+    });
 }
 
 ngOnChanges(changes: SimpleChanges): void {

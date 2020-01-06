@@ -54,22 +54,48 @@
 
                         <br>
 
-                        <label class="input-group-text text-info">Precio Unitario: </label>
-                        <input required minlength="2" placeholder="Ingresar Precio" type="number" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitario" (ngModelChange)="sumar()">
-                        <div class="text-left text-danger" *ngIf="PrecioUnitario.invalid && PrecioUnitario.touched">
-                            Favor de Ingresar Precio Unitario.
-                        </div>
+                        <ng-container *ngIf="service.Moneda=='MXN'">
+
+                            <label class="input-group-text text-info">Precio Unitario: </label>
+                            <input required minlength="2" placeholder="Ingresar Precio" type="number" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitario" (ngModelChange)="sumar()">
+                            <div class="text-left text-danger" *ngIf="PrecioUnitario.invalid && PrecioUnitario.touched">
+                                Favor de Ingresar Precio Unitario.
+                            </div>
 
 
-                        <label class="input-group-text text-info">Cantidad: </label>
-                        <input required minlength="1" placeholder="Ingresar Cantidad" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad" (ngModelChange)="sumar()">
+                            <label class="input-group-text text-info">Cantidad: </label>
+                            <input required minlength="1" placeholder="Ingresar Cantidad" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad" (ngModelChange)="sumar()">
 
-                        <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
-                            Favor de Ingresar Cantidad.
-                        </div>
+                            <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
+                                Favor de Ingresar Cantidad.
+                            </div>
 
-                        <label class="input-group-text text-info">Importe: </label>
-                        <input readonly="readonly" placeholder="0.00" type="number" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe">
+                            <label class="input-group-text text-info">Importe: </label>
+                            <input readonly="readonly" placeholder="0.00" type="number" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe">
+                        </ng-container>
+
+                        <ng-container *ngIf="service.Moneda=='USD'">
+
+                            <label class="input-group-text text-info">Precio Unitario DLLS: </label>
+                            <input required minlength="2" placeholder="Ingresar Precio" type="number" class="form-control" name="PrecioUnitarioDlls" #PrecioUnitarioDlls="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitarioDlls" (ngModelChange)="sumar()">
+                            <div class="text-left text-danger" *ngIf="PrecioUnitario.invalid && PrecioUnitario.touched">
+                                Favor de Ingresar Precio Unitario.
+                            </div>
+
+
+                            <label class="input-group-text text-info">Cantidad DLLS: </label>
+                            <input required minlength="1" placeholder="Ingresar Cantidad" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad" (ngModelChange)="sumar()">
+
+                            <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
+                                Favor de Ingresar Cantidad.
+                            </div>
+
+                            <label class="input-group-text text-info">Importe: </label>
+                            <input readonly="readonly" placeholder="0.00" type="number" class="form-control" name="ImporteDlls" #ImporteDlls="ngModel" [(ngModel)]="service.formDataDF.ImporteDlls">
+                        </ng-container>
+
+
+
 
 
                         <label class="input-group-text text-info">Observaciones: </label>

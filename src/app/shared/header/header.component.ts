@@ -24,7 +24,7 @@ const httpOptions = {
 export class HeaderComponent implements OnInit {
   // parche: string = 'https://cors-anywhere.herokuapp.com/'
   // readonly rootURL = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF63528/datos/oportuno"
-  readonly rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/oportuno"
+  rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
   Cdolar: String;
   public usuario: Usuario;
 
@@ -54,6 +54,57 @@ export class HeaderComponent implements OnInit {
   }
 
   traerApi(): Observable<any>{
+
+    
+   
+    
+    let hora = new Date().getHours();
+    let fechahoy = new Date();
+    let fechaayer = new Date();
+    
+
+    fechaayer.setDate(fechahoy.getDate() - 1)
+    let diaayer = new Date(fechaayer).getDate();
+    let mesayer = new Date(fechaayer).getMonth();
+    let añoayer = new Date(fechaayer).getFullYear();
+    let diasemana = new Date(fechahoy).getDay();
+    
+    
+    console.log(fechaayer.getDay());
+    console.log(hora);
+    console.log('dia semana '+ diasemana);
+    //2020-01-03/2020-01-03
+if (diasemana == 6 || diasemana == 0){
+  this.rootURL = this.rootURL+'oportuno'
+}else{
+  if (hora<11){
+    this.rootURL = this.rootURL+'oportuno'
+  }
+  else{
+    if (diasemana == 1 ){
+      fechaayer.setDate(fechahoy.getDate() - 3)
+    let diaayer = new Date(fechaayer).getDate();
+    let mesayer = new Date(fechaayer).getMonth();
+    let añoayer = new Date(fechaayer).getFullYear();
+    mesayer = mesayer+1;
+    let fecha = añoayer+'-'+mesayer+'-'+diaayer;
+    console.log(fecha);
+    this.rootURL = this.rootURL+fecha+'/'+fecha
+
+    }else{
+    mesayer = mesayer+1;
+    let fecha = añoayer+'-'+mesayer+'-'+diaayer;
+    console.log(fecha);
+    this.rootURL = this.rootURL+fecha+'/'+fecha
+    }
+  }
+}
+
+    
+    
+    
+    
+
     console.log(this.http.get(this.rootURL, httpOptions));
     
     return this.http.get(this.rootURL, httpOptions)

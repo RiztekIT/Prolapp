@@ -6,6 +6,19 @@ import { Factura } from 'src/app/Models/facturacioncxc/factura-model';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { Producto } from '../../../../Models/catalogos/productos-model';
+import { HttpHeaders,HttpClient } from '@angular/common/http';
+
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Bmx-Token': 'd83c7088f2823be9f29cc124cf95dc37056de37c340da5477a09ca1ee91a80a6',
+    'Access-Control-Allow-Origin': 'http://localhost:4200',
+    'Content-Type': 'application/json;charset=UTF-8',
+    'Access-Control-Allow-Headers': 'Bmx-Token, Accept, Accept-Encoding, Content-Type, Origin',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS'
+
+  })
+}
 
 @Component({
   selector: 'app-facturacioncxc-producto',
@@ -19,6 +32,8 @@ export class FacturacioncxcProductoComponent implements OnInit {
   myControl = new FormControl();
   options: Producto[] = [];
   filteredOptions: Observable<any[]>;
+  rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
+  Cdolar: string;
   // options = [{city_name: "AnyTown", city_num: "4"}, {city_name: "YourTown", city_num: "15"}, {city_name: "SmallTown", city_num: "35"}];
   //Objeto de ProductoslistClientes: Cliente[] = [];
   listProductos: Producto[] = [];
@@ -26,13 +41,15 @@ export class FacturacioncxcProductoComponent implements OnInit {
   myControlUnidad = new FormControl();
   optionsUnidad = ['Pieza'];
   filteredOptionsUnidad: Observable<any[]>;
+  
 
   constructor(public dialogbox: MatDialogRef<FacturacioncxcProductoComponent>,
-    public service: FacturaService, private snackBar: MatSnackBar) { }
+    public service: FacturaService, private snackBar: MatSnackBar, private http : HttpClient) { }
 
   ngOnInit() {
     this.resetForm();
     this.obtenerProductos();
+    this.tipoDeCambio();
 
 
     this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
@@ -106,12 +123,33 @@ export class FacturacioncxcProductoComponent implements OnInit {
     let p1: number;
     let p2: number;
     let suma: number;
-
-    p1 = parseInt(this.service.formDataDF.PrecioUnitario,10);
-    p2 = parseInt(this.service.formDataDF.Cantidad,10);
+    if (this.service.Moneda='MXN'){
+    p1 = parseFloat(this.service.formDataDF.PrecioUnitario);
+    p2 = parseFloat(this.service.formDataDF.Cantidad);
+    this.service.formDataDF.PrecioUnitarioDlls = (p1 / parseFloat(this.Cdolar)).toFixed(4)
     suma = p1 * p2;
+    this.service.formDataDF.Importe=suma.toFixed(4);
+    this.service.formDataDF.ImporteDlls= (suma / parseFloat(this.Cdolar)).toFixed(4);
 
-    this.service.formDataDF.Importe=suma.toString(10);
+    console.log(this.Cdolar);
+    console.log(this.service.formDataDF.PrecioUnitarioDlls);
+    console.log(this.service.formDataDF.ImporteDlls);
+    
+
+
+    }else if (this.service.Moneda='USD'){
+    p1 = parseFloat(this.service.formDataDF.PrecioUnitarioDlls);
+    p2 = parseFloat(this.service.formDataDF.Cantidad);
+
+    this.service.formDataDF.PrecioUnitario = (p1 * parseFloat(this.Cdolar)).toFixed(4);
+    this.service.formDataDF.Importe= (suma * parseFloat(this.Cdolar)).toFixed(4);
+    suma = p1 * p2;
+    this.service.formDataDF.ImporteDlls=suma.toFixed(4);
+    this.service.formDataDF.Importe= (suma / parseFloat(this.Cdolar)).toFixed(4);
+    console.log(this.service.formDataDF.PrecioUnitario);
+    console.log(this.service.formDataDF.Importe);
+    }
+    
   }
    
 
@@ -179,6 +217,72 @@ export class FacturacioncxcProductoComponent implements OnInit {
       this.service.filter('Register click');
     }
     );
+
+  }
+
+  tipoDeCambio(){
+    this.traerApi().subscribe(data => {
+      this.Cdolar = data.bmx.series[0].datos[0].dato;
+      
+    })
+
+  }
+
+  traerApi(): Observable<any>{
+
+    
+   
+    
+    let hora = new Date().getHours();
+    let fechahoy = new Date();
+    let fechaayer = new Date();
+    
+
+    fechaayer.setDate(fechahoy.getDate() - 1)
+    let diaayer = new Date(fechaayer).getDate();
+    let mesayer = new Date(fechaayer).getMonth();
+    let añoayer = new Date(fechaayer).getFullYear();
+    let diasemana = new Date(fechahoy).getDay();
+    
+    
+    console.log(fechaayer.getDay());
+    console.log(hora);
+    console.log('dia semana '+ diasemana);
+    //2020-01-03/2020-01-03
+if (diasemana == 6 || diasemana == 0){
+  this.rootURL = this.rootURL+'oportuno'
+}else{
+  if (hora<11){
+    this.rootURL = this.rootURL+'oportuno'
+  }
+  else{
+    if (diasemana == 1 ){
+      fechaayer.setDate(fechahoy.getDate() - 3)
+    let diaayer = new Date(fechaayer).getDate();
+    let mesayer = new Date(fechaayer).getMonth();
+    let añoayer = new Date(fechaayer).getFullYear();
+    mesayer = mesayer+1;
+    let fecha = añoayer+'-'+mesayer+'-'+diaayer;
+    console.log(fecha);
+    this.rootURL = this.rootURL+fecha+'/'+fecha
+
+    }else{
+    mesayer = mesayer+1;
+    let fecha = añoayer+'-'+mesayer+'-'+diaayer;
+    console.log(fecha);
+    this.rootURL = this.rootURL+fecha+'/'+fecha
+    }
+  }
+}
+
+    
+    
+    
+    
+
+    console.log(this.http.get(this.rootURL, httpOptions));
+    
+    return this.http.get(this.rootURL, httpOptions)
 
   }
 

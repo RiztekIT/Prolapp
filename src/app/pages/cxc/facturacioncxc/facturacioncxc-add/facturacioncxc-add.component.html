@@ -314,41 +314,50 @@
 
             <div class="container">
                 <div class="row">
-                    <div class="col-8 col-lg-8 col-md-8">
+                    <div class="col-8 col-lg-8 col-md-8" style="text-align: center">
 
-                        <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock2">
-                            <!-- <button type="button" class="btn btn-secondary">  </button> -->
+                        <!-- <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock2">
+                            
                         </div>
                         <ng-template #elseBlock2>
-                            <button class="btn btn-dark" (click)="onAddProducto()" color="primary"><i class="mdi mdi-plus"></i> Agregar Producto</button>
+                            <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button (click)="onAddProducto()"><i class="mdi mdi-plus btn-lg"></i>Agregar Producto</button>
                         </ng-template>
                         <br>
-                        <br>
+                        <br> -->
 
-                        <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock">
+                        <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock" style="display: grid">
                             <table style="border-spacing: 20px; border-collapse: separate;float: right">
                                 <tr>
                                     <td>
-                                        <button class="btn btn-dark" (click)='dxml(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid">XML / PDF</button>
+                                        <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button type="button" (click)='dxml(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i class="mdi mdi-code-tags btn-lg"></i>XML / PDF</button>
                                     </td>
+                                </tr>
+                                <tr>
                                     <td>
-                                        <button class="mt-4" mat-raised-button color="primary" type="button" [disabled]="form.invalid" data-toggle="modal" data-target="#add-new-event"> Ver PDF</button>
+                                        <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button type="button" (click)='dxml2(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver PDF</button>
                                     </td>
+                                </tr>
+                                <tr>
                                     <td>
-                                        <button class="mt-4" mat-raised-button color="primary" type="button" (click)='cancelar(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid">Cancelar</button>
+                                        <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button type="button" (click)='cancelar(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i class="mdi mdi-candle btn-lg"></i>Cancelar</button>
                                     </td>
+                                </tr>
+                                <tr>
                                     <td>
-                                        <button style="display: none" class="mt-4" mat-raised-button color="primary" type="button" (click)='email(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid">Enviar</button>
+                                        <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button style="display: none" mat-raised-button color="primary" type="button" (click)='email(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i class="mdi mdi-content-save btn-lg"></i>Enviar</button>
                                     </td>
                                 </tr>
                             </table>
                             <!-- <button type="button" class="btn btn-secondary">No Editable</button> -->
                         </div>
                         <ng-template #elseBlock>
-                            <button class="btn btn-info" mat-raised-button (click)="onSubmit(form)" [disabled]="form.invalid"><i class="mdi mdi-content-save"></i> Guardar</button>
+                            <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button (click)="onAddProducto()"><i class="mdi mdi-plus btn-lg"></i>Agregar Producto</button>
                             <br>
                             <br>
-                            <button class="btn btn-danger" mat-raised-button (click)='timbrar(form)' [disabled]="form.invalid"><i class="mdi mdi-send"></i> Guardar y Timbrar</button>
+                            <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button (click)="onSubmit(form)" [disabled]="form.invalid"><i class="mdi mdi-content-save btn-lg"></i>Guardar</button>
+                            <br>
+                            <br>
+                            <button class="btn btn-danger btn-lg" style="width: 250px" mat-raised-button (click)='timbrar(form)' [disabled]="form.invalid"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
                         </ng-template>
 
 
