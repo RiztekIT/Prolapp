@@ -9,7 +9,7 @@ export class Producto {
     DescripcionProducto: string;
     Estatus: string;
     UnidadMedida: string;
-    IVA: number;
+    IVA: string;
     ClaveSAT: string;
 
 }

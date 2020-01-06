@@ -14,6 +14,9 @@ export class EditProductoComponent implements OnInit {
     public service: ProductosService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
+    if (this.service.formData.IVA == '0'){
+      this.service.formData.IVA = 'False';
+    }
   }
 
   onClose() {
@@ -23,14 +26,11 @@ export class EditProductoComponent implements OnInit {
 
   onSubmit(form: NgForm) {
 
-    let iva;
-    iva = form.controls['IVA'].value;
-    if (iva == true) {
-    this.service.formData.IVA = 1;
-    }  else {
-      this.service.formData.IVA = 0;
-    }
-    // console.log(this.service.formData);
+    if (form.controls['IVA'].value == true) {
+      this.service.formData.IVA = '0.16';
+      }  else {
+        this.service.formData.IVA = '0';
+      }
 
     this.service.updateProducto(this.service.formData).subscribe(res => {
       // this.snackBar.open(res.toString(), '', {

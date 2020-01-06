@@ -34,7 +34,7 @@ export class AddProductoComponent implements OnInit {
       DescripcionProducto: '',
       Estatus: '',
       UnidadMedida: '',
-      IVA: 0,
+      IVA: '',
       ClaveSAT: ''
     }
 
@@ -46,23 +46,19 @@ export class AddProductoComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    let iva;
-    iva = form.controls['IVA'].value;
-    if (iva == true) {
-    this.service.formData.IVA = 1;
+    console.log(form.value);
+    if (form.controls['IVA'].value == true) {
+    this.service.formData.IVA = '0.16';
     }  else {
-      this.service.formData.IVA = 0;
+      this.service.formData.IVA = '0';
     }
-    // console.log(this.service.formData.IVA);
     this.service.addProducto(this.service.formData).subscribe(res => {
+      console.log(res);
+      console.log(this.service.formData);
       this.resetForm(form);
-      // this.snackBar.open(res.toString(), '', {
-      //   duration: 5000,
-      //   verticalPosition: 'top'
-      // });
       Swal.fire({
         icon: 'success',
-        title: 'Producto Agregado'
+        title: 'Producto Agregado',
       })
     }
     );

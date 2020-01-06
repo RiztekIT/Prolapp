@@ -88,11 +88,8 @@
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">IVA</label>
-                        <mat-checkbox class="example-margin" name="IVA" #IVA="ngModel" [(ngModel)]="service.formData.IVA"></mat-checkbox>
+                        <mat-checkbox class="example-margin" name="IVA" #IVA="ngModel" (ngModel)="service.formData.IVA"></mat-checkbox>
                         <!-- <input type="checkbox" class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="service.formData.IVA"> -->
-                        <div class="text-left text-danger" *ngIf="IVA.invalid && IVA.touched">
-                            Favor de Ingresar IVA
-                        </div>
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Clave SAT</label>

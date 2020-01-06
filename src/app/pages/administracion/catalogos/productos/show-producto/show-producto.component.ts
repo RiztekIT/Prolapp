@@ -63,7 +63,8 @@ export class ShowProductoComponent implements OnInit {
           Swal.fire(
             'Borrado',
             'El Producto ha sido borrado Correctamente',
-            'success'
+            'success',
+            
           )
           });
       }
