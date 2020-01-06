@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import {MatTableDataSource, MatSort} from '@angular/material';
+import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
 import { Producto } from '../../../../../Models/catalogos/productos-model';
 import { ProductosService } from '../../../../../services/catalogos/productos.service';
 
@@ -20,7 +20,8 @@ export class ShowProductoComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
   displayedColumns : string [] = [ 'Nombre', 'PrecioVenta', 'PrecioCosto', 'Cantidad', 'Options'];
-  @ViewChild(MatSort, null) sort : MatSort;
+  @ViewChild(MatSort, null) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private service:ProductosService, private dialog: MatDialog, private snackBar: MatSnackBar) {
 
@@ -39,8 +40,10 @@ export class ShowProductoComponent implements OnInit {
 
     this.service.getProductosList().subscribe(data => {
       this.listData = new MatTableDataSource(data);
+      //console.log(this.listData);
       this.listData.sort = this.sort;
-    //console.log(this.listData);
+      this.listData.paginator = this.paginator;
+      this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
     });
 
   }

@@ -73,5 +73,6 @@ export class FacturaTimbre{
       FormaPago: String;
       MetodoPago: String;
       Moneda: String;
+      TipoCambio: String;
       EnviarCorreo: boolean;
       }

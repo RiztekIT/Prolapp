@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 // import { UsuariosServieService } from '../../../services/catalogos/usuarios/usuarios-servie.service';
 // import {Usuario} from '../../../Models/catalogos/usuarios-model/usuarios-model';
 
@@ -15,6 +16,7 @@ declare function editTableJS();
   styles: []
 })
 export class CatalogosComponent implements OnInit {
+  
   // private service:UsuariosServieService
   constructor( ) { }
 

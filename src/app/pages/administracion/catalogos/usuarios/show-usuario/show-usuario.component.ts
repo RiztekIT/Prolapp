@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import {MatTableDataSource, MatSort} from '@angular/material';
+import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
 import { Usuario } from '../../../../../Models/catalogos/usuarios-model';
 import { UsuariosServieService } from '../../../../../services/catalogos/usuarios-servie.service';
 
@@ -20,6 +20,7 @@ export class ShowUsuarioComponent implements OnInit {
   listData: MatTableDataSource<any>;
   displayedColumns : string [] = [ 'Nombre', 'Usuario', 'ApellidoPaterno', 'ApellidoMaterno', 'Correo', 'Telefono', 'Contraseña', 'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private service:UsuariosServieService, private dialog: MatDialog, private snackBar: MatSnackBar) {
 
@@ -39,6 +40,8 @@ export class ShowUsuarioComponent implements OnInit {
     this.service.getUsuariosList().subscribe(data => {
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
+      this.listData.paginator = this.paginator;
+      this.listData.paginator._intl.itemsPerPageLabel = 'Usuarios por Pagina';
     //console.log(this.listData);
     });
 

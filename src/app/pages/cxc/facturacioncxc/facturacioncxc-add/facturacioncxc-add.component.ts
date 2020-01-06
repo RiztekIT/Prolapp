@@ -16,6 +16,18 @@ import * as html2pdf from 'html2pdf.js';
 import Swal from 'sweetalert2';
 import { MessageService } from '../../../../services/message.service';
 import { NativeDateAdapter, MAT_DATE_FORMATS, DateAdapter } from "@angular/material"
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Bmx-Token': 'd83c7088f2823be9f29cc124cf95dc37056de37c340da5477a09ca1ee91a80a6',
+    'Access-Control-Allow-Origin': 'http://localhost:4200',
+    'Content-Type': 'application/json;charset=UTF-8',
+    'Access-Control-Allow-Headers': 'Bmx-Token, Accept, Accept-Encoding, Content-Type, Origin',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS'
+
+  })
+}
 
 
 
@@ -79,7 +91,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   constructor(
     public service: FacturaService, private snackBar: MatSnackBar, private dialog: MatDialog, 
     private router: Router, public enviarfact: EnviarfacturaService,
-    private activatedRoute: ActivatedRoute, public _MessageService: MessageService ) { 
+    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http : HttpClient ) { 
 
       
 
@@ -115,6 +127,8 @@ export class FacturacioncxcAddComponent implements OnInit {
   estatusfact;
   numfact;
   xml;
+  rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
+  Cdolar: string;
 
   Estatus: string;
 
@@ -148,11 +162,78 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.setfacturatimbre();
     this.dropdownRefresh();
     this.refreshDetallesFacturaList();
+    this.tipoDeCambio();
   }
    //Informacion para tabla de productos
    listData: MatTableDataSource<any>;
    displayedColumns: string[] = ['ClaveProducto', 'ClaveSAT' , 'Producto', 'Cantidad', 'Precio', 'Options'];
    @ViewChild(MatSort, null) sort: MatSort;
+
+   tipoDeCambio(){
+    this.traerApi().subscribe(data => {
+      this.Cdolar = data.bmx.series[0].datos[0].dato;
+      
+    })
+
+  }
+
+  traerApi(): Observable<any>{
+
+    
+   
+    
+    let hora = new Date().getHours();
+    let fechahoy = new Date();
+    let fechaayer = new Date();
+    
+
+    fechaayer.setDate(fechahoy.getDate() - 1)
+    let diaayer = new Date(fechaayer).getDate();
+    let mesayer = new Date(fechaayer).getMonth();
+    let añoayer = new Date(fechaayer).getFullYear();
+    let diasemana = new Date(fechahoy).getDay();
+    
+    
+    console.log(fechaayer.getDay());
+    console.log(hora);
+    console.log('dia semana '+ diasemana);
+    //2020-01-03/2020-01-03
+if (diasemana == 6 || diasemana == 0){
+  this.rootURL = this.rootURL+'oportuno'
+}else{
+  if (hora<11){
+    this.rootURL = this.rootURL+'oportuno'
+  }
+  else{
+    if (diasemana == 1 ){
+      fechaayer.setDate(fechahoy.getDate() - 3)
+    let diaayer = new Date(fechaayer).getDate();
+    let mesayer = new Date(fechaayer).getMonth();
+    let añoayer = new Date(fechaayer).getFullYear();
+    mesayer = mesayer+1;
+    let fecha = añoayer+'-'+mesayer+'-'+diaayer;
+    console.log(fecha);
+    this.rootURL = this.rootURL+fecha+'/'+fecha
+
+    }else{
+    mesayer = mesayer+1;
+    let fecha = añoayer+'-'+mesayer+'-'+diaayer;
+    console.log(fecha);
+    this.rootURL = this.rootURL+fecha+'/'+fecha
+    }
+  }
+}
+
+    
+    
+    
+    
+
+    console.log(this.http.get(this.rootURL, httpOptions));
+    
+    return this.http.get(this.rootURL, httpOptions)
+
+  }
 
 
    //Funcion Refresh Tabla Detalles Factura
@@ -407,17 +488,32 @@ onEdit(detalleFactura: DetalleFactura){
       // console.log(data[0]);
       
       this.json1.Receptor.UID=data[0].IdApi;
+      this.json1.Moneda = data[0].Moneda;
+      if (data[0].Moneda=='MXN'){
+        this.json1.Impuestos.Traslados.pop();
+        this.json1.Impuestos.Traslados.push({
+          "Base": data[0].Subtotal,
+          "Impuesto": "002",
+          "TipoFactor": "Tasa",
+          "TasaOCuota": "0.16",
+          "Importe": data[0].ImpuestosTrasladados
+        });
+      }else if(data[0].Moneda=='USD'){
+        this.json1.TipoCambio= data[0].TipoDeCambio;
+        this.json1.Impuestos.Traslados.pop();
+        this.json1.Impuestos.Traslados.push({
+          "Base": data[0].SubtotalDlls,
+          "Impuesto": "002",
+          "TipoFactor": "Tasa",
+          "TasaOCuota": "0.16",
+          "Importe": data[0].ImpuestosTrasladadosDlls
+        });
+
+      }
       // console.log(this.json.Receptor.UID);
       
       this.json1.TipoDocumento = 'factura';
-      this.json1.Impuestos.Traslados.pop();
-      this.json1.Impuestos.Traslados.push({
-        "Base": data[0].Subtotal,
-        "Impuesto": "002",
-        "TipoFactor": "Tasa",
-        "TasaOCuota": "0.16",
-        "Importe": data[0].ImpuestosTrasladados
-      });
+      
       this.json1.Impuestos.Retenidos.pop();
     this.json1.Impuestos.Locales.pop();
     this.json1.CfdiRelacionados.TipoRelacion = '';
@@ -426,7 +522,7 @@ onEdit(detalleFactura: DetalleFactura){
     this.json1.Serie = data[0].Serie;
     this.json1.FormaPago = data[0].FormaDePago;
     this.json1.MetodoPago = data[0].MetodoDePago;
-    this.json1.Moneda = data[0].Moneda;
+    
     this.json1.EnviarCorreo = false;
 
     // console.log(this.json);
@@ -440,41 +536,83 @@ onEdit(detalleFactura: DetalleFactura){
       
       this.json1.Conceptos.pop();
       // console.log(data.length);
-      
-      for (let i=0; i< data.length; i++){
-        this.json1.Conceptos.push({
-          ClaveProdServ: data[i].ClaveSAT,
-          NoIdentificacion: data[i].ClaveProducto,
-          Cantidad: data[i].Cantidad,
-          ClaveUnidad: data[i].UnidadMedida,
-          Unidad: data[i].Unidad,
-          Descripcion: data[i].DescripcionProducto,
-          ValorUnitario: data[i].PrecioUnitario,
-          Importe: data[i].Importe,
-          Descuento: '0',
-          tipoDesc: 'porcentaje',
-          honorarioInverso: '',
-          montoHonorario: '0',
-          Impuestos:{
-            Traslados:[{
-                Base: data[i].Importe,
-                Impuesto: '002',
-                TipoFactor: 'Tasa',
-                TasaOCuota: '0.16',
-                Importe: ((parseFloat(data[i].Importe)*0.16).toFixed(6)).toString()
-                
-                // Importe: (parseInt(data[i].Importe)*0.16).toString()
-                
-                
-            }]
-          },
-          NumeroPedimento: "",
-              Predial: "",
-              Partes: "0",
-              Complemento: "0"
-        });
-        
+
+      if (this.json1.Moneda=='MXN'){
+        for (let i=0; i< data.length; i++){
+          this.json1.Conceptos.push({
+            ClaveProdServ: data[i].ClaveSAT,
+            NoIdentificacion: data[i].ClaveProducto,
+            Cantidad: data[i].Cantidad,
+            ClaveUnidad: data[i].UnidadMedida,
+            Unidad: data[i].Unidad,
+            Descripcion: data[i].DescripcionProducto,
+            ValorUnitario: data[i].PrecioUnitario,
+            Importe: data[i].Importe,
+            Descuento: '0',
+            tipoDesc: 'porcentaje',
+            honorarioInverso: '',
+            montoHonorario: '0',
+            Impuestos:{
+              Traslados:[{
+                  Base: data[i].Importe,
+                  Impuesto: '002',
+                  TipoFactor: 'Tasa',
+                  TasaOCuota: data[i].IVA,
+                  Importe: ((parseFloat(data[i].Importe)*parseFloat(data[i].IVA)).toFixed(6)).toString()
+                  
+                  // Importe: (parseInt(data[i].Importe)*0.16).toString()
+                  
+                  
+              }]
+            },
+            NumeroPedimento: "",
+                Predial: "",
+                Partes: "0",
+                Complemento: "0"
+          });
+          
+        }
+
       }
+      else if(this.json1.Moneda=='USD'){
+        for (let i=0; i< data.length; i++){
+          this.json1.Conceptos.push({
+            ClaveProdServ: data[i].ClaveSAT,
+            NoIdentificacion: data[i].ClaveProducto,
+            Cantidad: data[i].Cantidad,
+            ClaveUnidad: data[i].UnidadMedida,
+            Unidad: data[i].Unidad,
+            Descripcion: data[i].DescripcionProducto,
+            ValorUnitario: data[i].PrecioUnitarioDlls,
+            Importe: data[i].ImporteDlls,
+            Descuento: '0',
+            tipoDesc: 'porcentaje',
+            honorarioInverso: '',
+            montoHonorario: '0',
+            Impuestos:{
+              Traslados:[{
+                  Base: data[i].ImporteDlls,
+                  Impuesto: '002',
+                  TipoFactor: 'Tasa',
+                  TasaOCuota: data[i].IVA,
+                  Importe: ((parseFloat(data[i].ImporteDlls)*parseFloat(data[i].IVA)).toFixed(6)).toString()
+                  
+                  // Importe: (parseInt(data[i].Importe)*0.16).toString()
+                  
+                  
+              }]
+            },
+            NumeroPedimento: "",
+                Predial: "",
+                Partes: "0",
+                Complemento: "0"
+          });
+          
+        }
+
+      }
+      
+      
       
       // console.log(this.json1);
       // console.log(JSON.stringify(this.json1));
@@ -502,88 +640,6 @@ return cadena;
 
 
 
-  
-    
-    
-
-    
-    
-    
-    
-   
-   
-    
-
-
-      
-      
-
-
-    // let datosfact = JSON.stringify(
-    //   {
-    //     "Receptor": {
-    //       "UID": "5de771f1a1203"
-    //     },
-    //     "TipoDocumento": "factura",
-    //     "Conceptos": [
-    //       {
-    //         "ClaveProdServ": "43232408",
-    //         "NoIdentificacion": "WEBDEV10",
-    //         "Cantidad": "1.000000",
-    //         "ClaveUnidad": "E48",
-    //         "Unidad": "Unidad de servicio",
-    //         "Descripcion": "Desarrollo web a la medida",
-    //         "ValorUnitario": "15000.000000",
-    //         "Importe": "15000.000000",
-    //         "Descuento": "0",
-    //         "tipoDesc": "porcentaje",
-    //         "honorarioInverso": "",
-    //         "montoHonorario": "0",
-    //         "Impuestos": {
-    //           "Traslados": [
-    //             {
-    //               "Base": "15000.000000",
-    //               "Impuesto": "002",
-    //               "TipoFactor": "Tasa",
-    //               "TasaOCuota": "0.16",
-    //               "Importe": "2400.000000"
-    //             }
-    //           ],
-    //           "Retenidos": [],
-    //           "Locales": []
-    //         },
-    //         "NumeroPedimento": "",
-    //         "Predial": "",
-    //         "Partes": "0",
-    //         "Complemento": "0"
-    //       }
-    //     ],
-    //     "Impuestos": {
-    //       "Traslados": [
-    //         {
-    //           "Base": "15000.000000",
-    //           "Impuesto": "002",
-    //           "TipoFactor": "Tasa",
-    //           "TasaOCuota": "0.16",
-    //           "Importe": "2400.000000"
-    //         }
-    //       ],
-    //       "Retenidos": [],
-    //       "Locales": []
-    //     },
-    //     "CfdiRelacionados": {
-    //       "TipoRelacion": "",
-    //       "UUID": []
-    //     },
-    //     "UsoCFDI": "G03",
-    //     "Serie": 5352,
-    //     "FormaPago": "03",
-    //     "MetodoPago": "PUE",
-    //     "Moneda": "MXN",
-    //     "EnviarCorreo": false
-    //   });
-
-      // return JSON.stringify(this.json);
 
   }
 
@@ -593,7 +649,12 @@ return cadena;
     this.service.formData.Tipo = 'Ingreso';
     this.service.formData.Estatus = 'Creada';
     this.service.formData.Version = '3.3';
-    this.service.formData.Id= +this.IdFactura;
+    this.service.formData.Id= this.IdFactura;
+    if (this.service.formData.Moneda=='USD'){
+    this.service.formData.TipoDeCambio = this.Cdolar;
+    }else {
+      this.service.formData.TipoDeCambio = '0';
+    }
     this.service.updateFactura(this.service.formData).subscribe( res =>
       {
         this.resetForm(form);
@@ -616,6 +677,11 @@ return cadena;
     this.service.formData.Estatus = 'Creada';
     this.service.formData.Version = '3.3';
     this.service.formData.Serie = '5628';
+    if (this.service.formData.Moneda=='USD'){
+      this.service.formData.TipoDeCambio = this.Cdolar;
+      }else {
+        this.service.formData.TipoDeCambio = '0';
+      }
     this.service.formData.Id= +this.IdFactura;
     this.service.updateFactura(this.service.formData).subscribe( res =>
       {
@@ -900,6 +966,7 @@ myCallback(pdf){
       FormaPago: '',
       MetodoPago: '',
       Moneda: '',
+      TipoCambio: '',
       EnviarCorreo: false,
     }
   }

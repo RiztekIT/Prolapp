@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import {MatTableDataSource, MatSort} from '@angular/material';
+import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
 import { Cliente } from '../../../../../Models/catalogos/clientes-model';
 import { ClientesService } from '../../../../../services/catalogos/clientes.service';
 
@@ -20,6 +20,7 @@ export class ShowClienteComponent implements OnInit {
   listData: MatTableDataSource<any>;
   displayedColumns : string [] = [ 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado',  'NumeroExterior','ClaveProveedor', 'Estatus', 'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private service:ClientesService, private dialog: MatDialog, private snackBar: MatSnackBar) {
 
@@ -39,6 +40,8 @@ export class ShowClienteComponent implements OnInit {
     this.service.getClientesList().subscribe(data => {
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
+      this.listData.paginator = this.paginator;
+      this.listData.paginator._intl.itemsPerPageLabel = 'Clientes por Pagina';
     //console.log(this.listData);
     });
 
