@@ -15,22 +15,58 @@ import { Observable } from 'rxjs';
 import * as html2pdf from 'html2pdf.js';
 import Swal from 'sweetalert2';
 import { MessageService } from '../../../../services/message.service';
+import { NativeDateAdapter, MAT_DATE_FORMATS, DateAdapter } from "@angular/material"
 
 
 
 
 
+// const months =['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DIC'];
+const months =['01','02','03','04','05','06','07','08','09','10','11','12'];
+export class AppDateAdapter extends NativeDateAdapter{
+  format(date: Date, displayFormat: Object): string{
+    if (displayFormat === 'input'){
+      const day = date.getDate();
+      const month = date.getMonth();
+      const year = date.getFullYear();
+      return `${day}/${months[month]}/${year}`
+      // return `${months[month]} ${year}`;
+    }
+    return date.toDateString();
+  }
+}
 
-
+export const APP_DATE_FORMATS = 
+{
+  parse:{
+    dateInput: {month: 'short', year: 'numeric', day: 'numeric'},
+  },
+  display: {
+    dateInput: 'input',
+    monthYearLabel: {year:'numeric', month:'numeric'},
+    dateA11yLabel: {year: 'numeric', month: 'long', day: 'numeric'},
+    monthYearA11yLabel: {year: 'numeric', month: 'long'},
+  }
+};
 
 
 @Component({
   selector: 'app-facturacioncxc-add',
   templateUrl: './facturacioncxc-add.component.html',
+  providers: [
+    {
+      provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+      provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+  ]
   
 })
 export class FacturacioncxcAddComponent implements OnInit {
   // json1: FacturaTimbre;
+
+
 
   
   json1 =  new FacturaTimbre();
@@ -94,6 +130,13 @@ export class FacturacioncxcAddComponent implements OnInit {
     { Moneda: 'USD' }
   ];
 
+  onChange(val){
+    var d = new Date(val);
+    let date = [d.getFullYear(), ('0' + (d.getMonth()+1)).slice(-2), ('01').slice(-2)].join('-')
+    console.log(date);
+    
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
@@ -133,7 +176,7 @@ export class FacturacioncxcAddComponent implements OnInit {
       totalDlls = 0;
       ivaDlls = 0;
       for (let i = 0; i < data.length; i++) {
-        subtotal = subtotal + parseInt(data[i].Importe);
+        subtotal = subtotal + parseFloat(data[i].Importe);
       }
       iva = subtotal * 0.16;
       total = iva + subtotal;
@@ -143,7 +186,7 @@ export class FacturacioncxcAddComponent implements OnInit {
       console.log(parseFloat(iva).toFixed(6));
       console.log(total);
       for (let i = 0; i < data.length; i++) {
-        subtotalDlls = subtotalDlls + parseInt(data[i].ImporteDlls);
+        subtotalDlls = subtotalDlls + parseFloat(data[i].ImporteDlls);
       }
       ivaDlls = subtotalDlls * 0.16;
       totalDlls = ivaDlls + subtotalDlls;
@@ -418,7 +461,7 @@ onEdit(detalleFactura: DetalleFactura){
                 Impuesto: '002',
                 TipoFactor: 'Tasa',
                 TasaOCuota: '0.16',
-                Importe: ((parseInt(data[i].Importe)*0.16).toFixed(6)).toString()
+                Importe: ((parseFloat(data[i].Importe)*0.16).toFixed(6)).toString()
                 
                 // Importe: (parseInt(data[i].Importe)*0.16).toString()
                 
@@ -669,7 +712,7 @@ return cadena;
     let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
     this.enviarfact.xml(id).subscribe(data => {
       // localStorage.removeItem('xml')
-      localStorage.setItem('xml',data)
+      localStorage.setItem('xml'+folio,data)
       const blob = new Blob([data as BlobPart], { type: 'application/xml' });
       // this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
       this.fileUrl = window.URL.createObjectURL(blob);
@@ -686,10 +729,10 @@ return cadena;
       
       this.a.click();
       do {
-        this.xmlparam = localStorage.getItem('xml');
+        this.xmlparam = localStorage.getItem('xml'+folio);
         console.log(this.xmlparam);
         
-        if (localStorage.getItem('xml')!=null){
+        if (localStorage.getItem('xml'+folio)!=null){
           console.log('no nulo');
           this.xmlparam = localStorage.getItem('xml');
           this.onExportClick(this.service.formData.Folio);
@@ -717,8 +760,8 @@ return cadena;
     this.proceso='xml';
     let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
     this.enviarfact.xml(id).subscribe(data => {
-      localStorage.removeItem('xml')
-      localStorage.setItem('xml',data)
+      localStorage.removeItem('xml'+folio)
+      localStorage.setItem('xml'+folio,data)
       const blob = new Blob([data as BlobPart], { type: 'application/xml' });
       // this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
       this.fileUrl = window.URL.createObjectURL(blob);
@@ -734,7 +777,7 @@ return cadena;
       // console.log('blob:'+this.a.href);
       
       // this.a.click();
-      this.xmlparam = localStorage.getItem('xml');
+      this.xmlparam = folio
       this.resetForm();      
       // console.log(this.xmlparam);
       

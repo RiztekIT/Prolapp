@@ -362,11 +362,13 @@ onExportClick(folio?:string) {
   
   const option = {
     
-    margin: [0,0,0,0],
+    margin: [.5,0,0,0],
     filename: 'F-'+folio+'.pdf',
     image: {type: 'jpeg', quality: 1},
     html2canvas: {scale: 2, logging: true, scrollY: content.scrollHeight},
-    jsPDF: {format: 'letter', orientation: 'portrait'}
+    jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
+    pagebreak:{ avoid: '.pgbreak'}
+    // pagebreak:{ mode: ['', 'avoid']}
   };
 
   html2pdf()
