@@ -117,6 +117,7 @@ import { ClientesService } from '../services/catalogos/clientes.service';
   //qr code
 import { NgxQRCodeModule } from 'ngx-qrcode2'; 
 
+
 // Importacion Angular Material
 import { FacturaComponent } from '../components/factura/factura.component';
 import { FacturacioncxcAddComponent } from './cxc/facturacioncxc/facturacioncxc-add/facturacioncxc-add.component';
@@ -225,12 +226,12 @@ import { MatDividerModule } from '@angular/material/divider'
         FacturacioncxcAddComponent,
         FacturacioncxcEditComponent,
         FacturacioncxcProductoComponent,
-        FacturacioncxcEditProductoComponent
+        FacturacioncxcEditProductoComponent,
     ],
     exports: [
         DashboardComponent,
         ProgressComponent,
-        Graficas1Component
+        Graficas1Component,
     ],
     imports: [
         PAGES_ROUTES,

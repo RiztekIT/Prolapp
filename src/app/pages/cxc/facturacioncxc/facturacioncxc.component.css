@@ -1,15 +1,6 @@
-::ng-deep .mat-sort-header-container {
-    display: flex;
-    justify-content: center;
-}
-
 .btn-danger:hover {
     color: #ffffff;
     background: #ff0000;
-}
-
-::ng-deep .mat-cell {
-    overflow: auto;
 }
 
 ::ng-deep .mat-header-cell {

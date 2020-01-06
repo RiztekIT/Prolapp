@@ -25,6 +25,7 @@ export class FacturaService {
    formDataP: Producto;
    IdFactura: number;
    master = new Array<facturaMasterDetalle>();
+   Moneda: string;
 
 
   // readonly APIUrl = "https://localhost:7002/api";
@@ -36,7 +37,7 @@ export class FacturaService {
     return this.http.get<Factura[]>(this.APIUrl + '/Factura');
   }
   getFacturasListCLiente(): Observable <any[]> {
-    return this.http.get<any[]>(this.APIUrl + '/Factura/FacturaCliente');
+    return this.http.get< []>(this.APIUrl + '/Factura/FacturaCliente');
   }
   //Obtener Lista de Detalles Factura
   getDetallesFacturaList(id: number): Observable <DetalleFactura[]> {

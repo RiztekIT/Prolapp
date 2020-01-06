@@ -42,6 +42,9 @@ export class FacturacioncxcComponent implements OnInit {
   detalle = new Array<DetalleFactura>();
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
   
+  //Collapse Informacion Detalle Facutura
+
+
   a = document.createElement('a');
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -107,6 +110,8 @@ export class FacturacioncxcComponent implements OnInit {
       
     })
   }
+
+
 
   refreshFacturaList() {
   
@@ -202,14 +207,17 @@ export class FacturacioncxcComponent implements OnInit {
       UUID: "",
       UsoDelCFDI: "",
       Subtotal: "",
+      SubtotalDlls: "",
       Descuento: "",
       ImpuestosRetenidos: "",
       ImpuestosTrasladados: "",
+      ImpuestosTrasladadosDlls: "",
       Total: "",
+      TotalDlls: "",
       FormaDePago: "",
       MetodoDePago: "",
       Cuenta: "",
-      Moneda: "",
+      Moneda: "MXN",
       CadenaOriginal: "",
       SelloDigitalSAT: "",
       SelloDigitalCFDI: "",
@@ -313,7 +321,7 @@ let Id = factura.Id;
 onExportClick(folio?:string) {
   // this.proceso='xml';
   const content: Element = document.getElementById('element-to-PDF');
-
+  
   const option = {
     
     margin: [0,0,0,0],

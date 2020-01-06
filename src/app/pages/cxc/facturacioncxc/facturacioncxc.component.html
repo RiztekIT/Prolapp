@@ -12,8 +12,8 @@
                     </mat-card>
                 </div>
 
-                <div class="mat-elevation-z8">
 
+                <div class="mat-elevation-z8">
 
                     <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
 
@@ -25,9 +25,10 @@
 
 
                         <!-- <ng-container matColumnDef="Id">
-                            <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
-                            <mat-cell *matCellDef="let element">{{element.Id}}</mat-cell>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                            <td mat-cell *matCellDef="let element">{{element.Id}}</td>
                         </ng-container> -->
+
 
                         <ng-container matColumnDef="Folio">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>FOLIO</th>
@@ -46,17 +47,17 @@
 
                         <ng-container matColumnDef="Subtotal">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>SUBTOTAL</th>
-                            <td mat-cell *matCellDef="let element">{{element.Subtotal}}</td>
+                            <td mat-cell *matCellDef="let element">${{element.Subtotal}}-MXN/${{element.SubtotalDlls}}-USD</td>
                         </ng-container>
 
                         <ng-container matColumnDef="IVA">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>IVA</th>
-                            <td mat-cell *matCellDef="let element">{{element.ImpuestosTrasladados}}</td>
+                            <td mat-cell *matCellDef="let element">${{element.ImpuestosTrasladados}}-MXN/${{element.ImpuestosTrasladadosDlls}}-USD</td>
                         </ng-container>
 
                         <ng-container matColumnDef="Total">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>TOTAL</th>
-                            <td mat-cell *matCellDef="let element">{{element.Total}}</td>
+                            <td mat-cell *matCellDef="let element">${{element.Total}}-MXN/${{element.TotalDlls}}-USD</td>
                         </ng-container>
 
                         <ng-container matColumnDef="Estado">
@@ -68,12 +69,60 @@
                             </td>
                         </ng-container>
 
+                        <!-- <ng-container matColumnDef="Options">
+                            <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
+                            <td mat-cell *matCellDef="let row">
+                                
+
+                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+
+                            <ng-container matColumnDef="Folio">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>FOLIO</th>
+                                <td mat-cell *matCellDef="let element">{{element.Folio}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Cliente">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>CLIENTE</th>
+                                <td mat-cell *matCellDef="let element">{{element.Nombre}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="FechaExpedicion">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA EXPEDICION</th>
+                                <td mat-cell *matCellDef="let element">{{element.FechaDeExpedicion}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Subtotal">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>SUBTOTAL</th>
+                                <td mat-cell *matCellDef="let element">{{element.Subtotal}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="IVA">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>IVA</th>
+                                <td mat-cell *matCellDef="let element">{{element.ImpuestosTrasladados}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Total">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>TOTAL</th>
+                                <td mat-cell *matCellDef="let element">{{element.Total}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Estado">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
+                                <td mat-cell *matCellDef="let element" [ngSwitch]=element.Estatus>
+                                    <span *ngSwitchCase="'Timbrada'" class="label label-light-success">TIMBRADA</span>
+                                    <span *ngSwitchCase="'Creada'" class="label label-light-info">CREADA</span>
+                                    <span *ngSwitchCase="'Cancelada'" class="label label-light-danger">CANCELADA</span>
+                                </td>
+                            </ng-container> -->
+
+
                         <ng-container matColumnDef="Options">
                             <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
                             <td mat-cell *matCellDef="let row">
                                 <!-- EDITAR ELIMINAR ENVIAR PDF XML -->
 
                                 <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+
                                     <mat-icon>keyboard_arrow_down</mat-icon>
                                   </button>
                                 <mat-menu #menu="matMenu">
@@ -102,7 +151,7 @@
                         <mat-icon>email</mat-icon>
                     </button> -->
                                     <!-- Eliminar -->
-                                    <button *ngIf="row.Estatus=='Creada'" mat-icon-button class="btn btn-danger" (click)="onDelete(row)">
+                                    <button *ngIf="row.Estatus=='Creada'" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
                                             <mat-icon>delete_outline</mat-icon>
                                         </button>
                                 </mat-menu>
@@ -157,8 +206,6 @@
             </div>
 
             <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Factura</button>
-
-
 
         </div>
     </div>
