@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { ProductosService } from '../../../../../services/catalogos/productos.service';
 import { NgForm, FormGroup, FormArray, Validators, FormControl  } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-producto',
@@ -55,10 +56,14 @@ export class AddProductoComponent implements OnInit {
     // console.log(this.service.formData.IVA);
     this.service.addProducto(this.service.formData).subscribe(res => {
       this.resetForm(form);
-      this.snackBar.open(res.toString(), '', {
-        duration: 5000,
-        verticalPosition: 'top'
-      });
+      // this.snackBar.open(res.toString(), '', {
+      //   duration: 5000,
+      //   verticalPosition: 'top'
+      // });
+      Swal.fire({
+        icon: 'success',
+        title: 'Producto Agregado'
+      })
     }
     );
   }

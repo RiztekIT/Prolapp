@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { UsuariosServieService } from '../../../../../services/catalogos/usuarios-servie.service';
 import { NgForm } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-usuario',
@@ -23,10 +24,14 @@ export class EditUsuarioComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     this.service.updateUsuario(form.value).subscribe(res => {
-      this.snackBar.open(res.toString(), '', {
-        duration: 5000,
-        verticalPosition: 'top'
-      });
+      // this.snackBar.open(res.toString(), '', {
+      //   duration: 5000,
+      //   verticalPosition: 'top'
+      // });
+      Swal.fire({
+        icon: 'success',
+        title: 'Usuario Actualizado'
+      })
     });
   }
 
