@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { ProductosService } from '../../../../../services/catalogos/productos.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormArray, Validators, FormControl  } from '@angular/forms';
 
 @Component({
   selector: 'app-add-producto',
@@ -16,7 +16,6 @@ export class AddProductoComponent implements OnInit {
   ngOnInit() {
     this.resetForm();
   }
-
 
 
   resetForm(form?: NgForm) {
@@ -34,7 +33,7 @@ export class AddProductoComponent implements OnInit {
       DescripcionProducto: '',
       Estatus: '',
       UnidadMedida: '',
-      IVA: '',
+      IVA: 0,
       ClaveSAT: ''
     }
 
@@ -46,8 +45,15 @@ export class AddProductoComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    // console.log(form.value);
-    this.service.addProducto(form.value).subscribe(res => {
+    let iva;
+    iva = form.controls['IVA'].value;
+    if (iva == true) {
+    this.service.formData.IVA = 1;
+    }  else {
+      this.service.formData.IVA = 0;
+    }
+    // console.log(this.service.formData.IVA);
+    this.service.addProducto(this.service.formData).subscribe(res => {
       this.resetForm(form);
       this.snackBar.open(res.toString(), '', {
         duration: 5000,

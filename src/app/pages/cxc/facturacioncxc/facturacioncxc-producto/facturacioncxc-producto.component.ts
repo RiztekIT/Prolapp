@@ -178,6 +178,8 @@ export class FacturacioncxcProductoComponent implements OnInit {
     ImporteDlls: '',
     Observaciones: '',
     TextoExtra: '',
+    ImporteIVA: '',
+    ImporteIVADlls: ''
     }
 
   }
