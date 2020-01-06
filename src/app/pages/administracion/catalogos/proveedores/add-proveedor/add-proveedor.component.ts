@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { ProveedoresService } from '../../../../../services/catalogos/proveedores.service';
 import { NgForm } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -53,10 +54,14 @@ export class AddProveedorComponent implements OnInit {
     // console.log(form.value);
     this.service.addProveedor(form.value).subscribe(res => {
       this.resetForm(form);
-      this.snackBar.open(res.toString(), '', {
-        duration: 5000,
-        verticalPosition: 'top'
-      });
+      // this.snackBar.open(res.toString(), '', {
+      //   duration: 5000,
+      //   verticalPosition: 'top'
+      // });
+      Swal.fire({
+        icon: 'success',
+        title: 'Proveedor Agregado'
+      })
     }
     );
   }

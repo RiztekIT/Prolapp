@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { UsuariosServieService } from '../../../../../services/catalogos/usuarios-servie.service';
 import { NgForm } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-usuario',
@@ -45,10 +46,14 @@ onSubmit(form: NgForm) {
     {
       console.log(res);
       // this.resetForm(form);
-      this.snackBar.open(res.toString(),'',{
-        duration: 5000,
-        verticalPosition: 'top'
-      });
+      // this.snackBar.open(res.toString(),'',{
+      //   duration: 5000,
+      //   verticalPosition: 'top'
+      // });
+      Swal.fire({
+        icon: 'success',
+        title: 'Usuario Agregado'
+      })
     }
     );
 }

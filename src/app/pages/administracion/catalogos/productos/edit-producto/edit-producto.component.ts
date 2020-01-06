@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { ProductosService } from '../../../../../services/catalogos/productos.service';
 import { NgForm } from '@angular/forms';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-edit-producto',
   templateUrl: './edit-producto.component.html',
@@ -32,10 +33,14 @@ export class EditProductoComponent implements OnInit {
     // console.log(this.service.formData);
 
     this.service.updateProducto(this.service.formData).subscribe(res => {
-      this.snackBar.open(res.toString(), '', {
-        duration: 5000,
-        verticalPosition: 'top'
-      });
+      // this.snackBar.open(res.toString(), '', {
+      //   duration: 5000,
+      //   verticalPosition: 'top'
+      // });
+      Swal.fire({
+        icon: 'success',
+        title: 'Producto Actualizado'
+      })
     });
   }
 
