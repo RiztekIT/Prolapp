@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 
@@ -258,6 +259,7 @@ import { MatDividerModule } from '@angular/material/divider'
         MatMenuModule,
         MatDividerModule,
         MatPaginatorModule,
+        MatCheckboxModule
 
     ],
     providers: [

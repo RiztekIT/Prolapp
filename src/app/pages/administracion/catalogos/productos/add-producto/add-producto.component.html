@@ -88,7 +88,8 @@
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">IVA</label>
-                        <input required minlength="2" type="text" placeholder="Escribe el IVA" class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="service.formData.IVA">
+                        <mat-checkbox class="example-margin" name="IVA" #IVA="ngModel" [(ngModel)]="service.formData.IVA"></mat-checkbox>
+                        <!-- <input type="checkbox" class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="service.formData.IVA"> -->
                         <div class="text-left text-danger" *ngIf="IVA.invalid && IVA.touched">
                             Favor de Ingresar IVA
                         </div>
@@ -99,14 +100,6 @@
 
                         <div class="text-left text-danger" *ngIf="ClaveSAT.invalid && ClaveSAT.touched">
                             Favor de Ingresar Clave SAT
-                        </div>
-
-                        <!--               -------------------------------------------------------                                       -->
-
-                        <label class="input-group-text text-info">Cantidad</label>
-                        <input required minlength="2" type="number" class="form-control" placeholder="Escribe la cantidad" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formData.Cantidad">
-                        <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
-                            Favor de Ingresar Apellido Materno
                         </div>
                     </div>
                 </div>

@@ -34,7 +34,7 @@ export class AddProductoComponent implements OnInit {
       DescripcionProducto: '',
       Estatus: '',
       UnidadMedida: '',
-      IVA: '',
+      IVA: 0,
       ClaveSAT: ''
     }
 
@@ -46,15 +46,20 @@ export class AddProductoComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    // console.log(form.value);
-    this.service.addProducto(form.value).subscribe(res => {
-      this.resetForm(form);
-      this.snackBar.open(res.toString(), '', {
-        duration: 5000,
-        verticalPosition: 'top'
-      });
-    }
-    );
+    console.log(form.value);
+    // iva: 
+    // this.service.formData = 
+    // if (this.service.formData.IVA == 'false') {
+
+    // }
+    // this.service.addProducto(form.value).subscribe(res => {
+    //   this.resetForm(form);
+    //   this.snackBar.open(res.toString(), '', {
+    //     duration: 5000,
+    //     verticalPosition: 'top'
+    //   });
+    // }
+    // );
   }
 
 
