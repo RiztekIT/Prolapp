@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { ProveedoresService } from '../../../../../services/catalogos/proveedores.service';
 import { NgForm } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-proveedor',
@@ -23,10 +24,14 @@ export class EditProveedorComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     this.service.updateProveedor(form.value).subscribe(res => {
-      this.snackBar.open(res.toString(), '', {
-        duration: 5000,
-        verticalPosition: 'top'
-      });
+      // this.snackBar.open(res.toString(), '', {
+      //   duration: 5000,
+      //   verticalPosition: 'top'
+      // });
+      Swal.fire({
+        icon: 'success',
+        title: 'Proveedor Actualizado'
+      })
     });
   }
 

@@ -8,6 +8,8 @@ import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { AddProductoComponent } from '../add-producto/add-producto.component';
 import { EditProductoComponent } from '../edit-producto/edit-producto.component';
 
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-show-producto',
   templateUrl: './show-producto.component.html',
@@ -45,16 +47,37 @@ export class ShowProductoComponent implements OnInit {
 
   onDelete( id:number){
     //console.log(id);
-    if ( confirm('Are you sure to delete?')) {
-      this.service.deleteProducto(id).subscribe(res => {
-      this.refreshProductosList();
-      this.snackBar.open(res.toString(), '', {
-        duration: 3000,
-        verticalPosition: 'top'
-      });
+    Swal.fire({
+      title: '¿Seguro de Borrar Producto?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        this.service.deleteProducto(id).subscribe(res => {
+          this.refreshProductosList();
+    
+          Swal.fire(
+            'Borrado',
+            'El Producto ha sido borrado Correctamente',
+            'success'
+          )
+          });
+      }
+    })
+    // if ( confirm('Are you sure to delete?')) {
+    //   this.service.deleteProducto(id).subscribe(res => {
+    //   this.refreshProductosList();
+    //   this.snackBar.open(res.toString(), '', {
+    //     duration: 3000,
+    //     verticalPosition: 'top'
+    //   });
 
-      });
-    }
+    //   });
+    // }
 
   }
 

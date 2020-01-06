@@ -8,6 +8,8 @@ import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { AddUsuarioComponent } from '../add-usuario/add-usuario.component';
 import { EditUsuarioComponent } from '../edit-usuario/edit-usuario.component';
 
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-show-usuario',
   templateUrl: './show-usuario.component.html',
@@ -16,7 +18,7 @@ import { EditUsuarioComponent } from '../edit-usuario/edit-usuario.component';
 export class ShowUsuarioComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
-  displayedColumns : string [] = ['IdUsuario', 'Nombre', 'Usuario', 'ApellidoPaterno', 'ApellidoMaterno', 'Correo', 'Telefono', 'Contraseña', 'Options'];
+  displayedColumns : string [] = [ 'Nombre', 'Usuario', 'ApellidoPaterno', 'ApellidoMaterno', 'Correo', 'Telefono', 'Contraseña', 'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
 
   constructor(private service:UsuariosServieService, private dialog: MatDialog, private snackBar: MatSnackBar) {
@@ -44,16 +46,39 @@ export class ShowUsuarioComponent implements OnInit {
 
   onDelete( id:number){
     //console.log(id);
-    if ( confirm('Are you sure to delete?')) {
-      this.service.deleteUsuario(id).subscribe(res => {
-      this.refreshUsuariosList();
-      this.snackBar.open(res.toString(), '', {
-        duration: 3000,
-        verticalPosition: 'top'
-      });
+    Swal.fire({
+      title: '¿Seguro de Borrar Usuario?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        this.service.deleteUsuario(id).subscribe(res => {
+          this.refreshUsuariosList();
+    
+          Swal.fire(
+            'Borrado',
+            'El Usuario ha sido borrado Correctamente',
+            'success'
+          )
+          });
+      }
+    })
 
-      });
-    }
+
+    // if ( confirm('Are you sure to delete?')) {
+    //   this.service.deleteUsuario(id).subscribe(res => {
+    //   this.refreshUsuariosList();
+    //   this.snackBar.open(res.toString(), '', {
+    //     duration: 3000,
+    //     verticalPosition: 'top'
+    //   });
+
+    //   });
+    // }
 
   }
 

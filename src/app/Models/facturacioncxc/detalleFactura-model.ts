@@ -13,4 +13,6 @@ export class DetalleFactura{
     ImporteDlls: string;
     Observaciones: string;
     TextoExtra: string;
+    ImporteIVA: string;
+    ImporteIVADlls: string;
 }

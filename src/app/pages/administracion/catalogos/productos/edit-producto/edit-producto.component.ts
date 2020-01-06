@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { ProductosService } from '../../../../../services/catalogos/productos.service';
 import { NgForm } from '@angular/forms';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-edit-producto',
   templateUrl: './edit-producto.component.html',
@@ -21,11 +22,25 @@ export class EditProductoComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    this.service.updateProducto(form.value).subscribe(res => {
-      this.snackBar.open(res.toString(), '', {
-        duration: 5000,
-        verticalPosition: 'top'
-      });
+
+    let iva;
+    iva = form.controls['IVA'].value;
+    if (iva == true) {
+    this.service.formData.IVA = 1;
+    }  else {
+      this.service.formData.IVA = 0;
+    }
+    // console.log(this.service.formData);
+
+    this.service.updateProducto(this.service.formData).subscribe(res => {
+      // this.snackBar.open(res.toString(), '', {
+      //   duration: 5000,
+      //   verticalPosition: 'top'
+      // });
+      Swal.fire({
+        icon: 'success',
+        title: 'Producto Actualizado'
+      })
     });
   }
 
