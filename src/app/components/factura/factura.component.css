@@ -153,3 +153,7 @@ th {
 .acomodoForzadoTh {
     margin-left: 35px;
 }
+
+.pgbreak {
+    page-break-before: auto;
+}

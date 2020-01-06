@@ -15,6 +15,8 @@ import { DetalleFactura } from '../../../Models/facturacioncxc/detalleFactura-mo
 import { Observable } from 'rxjs';
 import { facturaMasterDetalle } from 'src/app/Models/facturacioncxc/facturamasterdetalle';
 
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-facturacioncxc',
@@ -172,22 +174,51 @@ export class FacturacioncxcComponent implements OnInit {
     // console.log(factura.Estatus);
     if (factura.Estatus == 'Timbrada' || factura.Estatus == 'Cancelada'){
       // console.log('No se puede ELIMINAR BRO');
-      this.snackBar.open('No se puede eliminar Factura', '', {
-        duration: 3000,
-        verticalPosition: 'top'
-      });
+      // this.snackBar.open('No se puede eliminar Factura', '', {
+      //   duration: 3000,
+      //   verticalPosition: 'top'
+      // });
+      Swal.fire({
+        icon: 'error',
+        title: 'No se puede Eliminar Factura',
+        timer: 1000,
+        showCancelButton: false,
+        showConfirmButton: false,
+      })
     }else{
       // console.log('Se puede eliminar');
-          if ( confirm('Are you sure to delete?')) {
-            this.service.deleteFactura(factura.Id).subscribe(res => {
+
+      Swal.fire({
+        title: '¿Segur@ de Borrar Factura?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Borrar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value) {
+          this.service.deleteFactura(factura.Id).subscribe(res => {
             this.refreshFacturaList();
-            this.snackBar.open(res.toString(), '', {
-              duration: 3000,
-              verticalPosition: 'top'
-            });
       
+            Swal.fire(
+              'Borrado',
+              'Factura Eliminada',
+              'success'
+            )
             });
-          }
+        }
+      })
+          // if ( confirm('Are you sure to delete?')) {
+          //   this.service.deleteFactura(factura.Id).subscribe(res => {
+          //   this.refreshFacturaList();
+          //   this.snackBar.open(res.toString(), '', {
+          //     duration: 3000,
+          //     verticalPosition: 'top'
+          //   });
+      
+          //   });
+          // }
     }
     // console.log(id);
 
@@ -257,10 +288,17 @@ export class FacturacioncxcComponent implements OnInit {
   onAdd(){
     // console.log(this.FacturaBlanco);
     this.service.addFactura(this.FacturaBlanco).subscribe(res => {
-      this.snackBar.open(res.toString(), '', {
-        duration: 5000,
-        verticalPosition: 'top'
-      });
+      Swal.fire({
+        icon: 'success',
+        title: 'Factura Creada',
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer: 1000
+      })
+      // this.snackBar.open(res.toString(), '', {
+      //   duration: 5000,
+      //   verticalPosition: 'top'
+      // });
       let Id = this.IdFactura;
       // console.log(Id);
       this.router.navigate(['/facturacionCxcAdd', Id]);
@@ -324,11 +362,13 @@ onExportClick(folio?:string) {
   
   const option = {
     
-    margin: [0,0,0,0],
+    margin: [.5,0,0,0],
     filename: 'F-'+folio+'.pdf',
     image: {type: 'jpeg', quality: 1},
     html2canvas: {scale: 2, logging: true, scrollY: content.scrollHeight},
-    jsPDF: {format: 'letter', orientation: 'portrait'}
+    jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
+    pagebreak:{ avoid: '.pgbreak'}
+    // pagebreak:{ mode: ['', 'avoid']}
   };
 
   html2pdf()

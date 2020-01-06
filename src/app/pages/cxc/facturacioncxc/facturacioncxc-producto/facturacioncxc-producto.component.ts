@@ -8,6 +8,8 @@ import {map, startWith} from 'rxjs/operators';
 import { Producto } from '../../../../Models/catalogos/productos-model';
 import { HttpHeaders,HttpClient } from '@angular/common/http';
 
+import Swal from 'sweetalert2';
+
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -189,15 +191,20 @@ export class FacturacioncxcProductoComponent implements OnInit {
  
   onSubmit(form: NgForm) {
     this.service.formDataDF.IdFactura = this.IdFactura;
-    console.log(this.service.formDataDF);
+    // console.log(this.service.formDataDF);
     this.service.addDetalleFactura(this.service.formDataDF).subscribe(res => {
       this.resetForm(form);
-      console.log(res);
-      this.snackBar.open(res.toString(), '', {
-        duration: 5000,
-        verticalPosition: 'top'
-      });
-      console.log(this.service.formDataDF);
+      // console.log(res);
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Producto Agregado'
+      })
+      // this.snackBar.open(res.toString(), '', {
+      //   duration: 5000,
+      //   verticalPosition: 'top'
+      // });
+      // console.log(this.service.formDataDF);
     }
     );
   
@@ -206,17 +213,22 @@ export class FacturacioncxcProductoComponent implements OnInit {
   Finalizar(form: NgForm){
 
     this.service.formDataDF.IdFactura = this.IdFactura;
-    console.log(this.service.formDataDF);
+    // console.log(this.service.formDataDF);
     this.service.addDetalleFactura(this.service.formDataDF).subscribe(res => {
       this.resetForm(form);
-      console.log(res);
-      this.snackBar.open(res.toString(), '', {
-        duration: 5000,
-        verticalPosition: 'top'
-      });
-      console.log(this.service.formDataDF);
+      Swal.fire({
+        icon: 'success',
+        title: 'Producto Agregado'
+      })
+      // console.log(res);
+      // this.snackBar.open(res.toString(), '', {
+      //   duration: 5000,
+      //   verticalPosition: 'top'
+      // });
+      // console.log(this.service.formDataDF);
       this.dialogbox.close();
       this.service.filter('Register click');
+      
     }
     );
 
