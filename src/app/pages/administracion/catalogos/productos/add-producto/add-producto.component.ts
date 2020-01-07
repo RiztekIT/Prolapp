@@ -52,9 +52,10 @@ export class AddProductoComponent implements OnInit {
     }  else {
       this.service.formData.IVA = '0';
     }
+    // console.log(this.service.formData.IVA);
     this.service.addProducto(this.service.formData).subscribe(res => {
-      console.log(res);
-      console.log(this.service.formData);
+      // console.log(res);
+      // console.log(this.service.formData);
       this.resetForm(form);
       Swal.fire({
         icon: 'success',
