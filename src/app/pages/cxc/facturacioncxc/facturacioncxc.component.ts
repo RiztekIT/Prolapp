@@ -127,7 +127,7 @@ export class FacturacioncxcComponent implements OnInit {
       // console.log('longitud data '+data.length);
        
       
-      for (let i = 0; i <= data.length-2; i++){
+      for (let i = 0; i <= data.length-1; i++){
         this.service.master[i] = data[i]
         this.service.master[i].detalle = [];
         // console.log(this.MasterDetalle);

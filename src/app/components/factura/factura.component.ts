@@ -116,7 +116,7 @@ export class FacturaComponent implements OnInit {
   // }
 
   leerxml(folio:string) {
-    this.PdfPreliminar();
+    // this.PdfPreliminar();
     // this._http.get('/assets/F-1.xml',
     // this._http.get(localStorage.getItem('xml'),
     // {
@@ -274,8 +274,10 @@ this.xmlparametros='';
 
   }
 
-  PdfPreliminar() {
-    this.certificado = "";
+  PdfPreliminar(datos:any) {
+    console.log(datos);
+    
+    this.certificado = "este sigue siendo una prueba 2";
     this.serie = " ";
     this.folio = "";
     this.fecha = "";
@@ -297,7 +299,7 @@ this.xmlparametros='';
     this.cantidad = "";
     this.claveUnidad = "";
     this.unidad = "";
-    this.descripcionConcepto = "";
+    this.descripcionConcepto = datos.Conceptos[0].Descripcion;
     this.valorUnitario = "";
     this.importeConcepto
     this.uuid

@@ -17,6 +17,7 @@ import Swal from 'sweetalert2';
 import { MessageService } from '../../../../services/message.service';
 import { NativeDateAdapter, MAT_DATE_FORMATS, DateAdapter } from "@angular/material"
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { ngxLoadingAnimationTypes } from 'ngx-loading';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -78,6 +79,8 @@ export const APP_DATE_FORMATS =
 export class FacturacioncxcAddComponent implements OnInit {
   // json1: FacturaTimbre;
 
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
+
 
 
   
@@ -86,6 +89,8 @@ export class FacturacioncxcAddComponent implements OnInit {
   xmlparam;
   fileUrl;
   a = document.createElement('a');
+  public loading = false;
+  public loading2 = false;
   
 
   constructor(
@@ -163,11 +168,21 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.dropdownRefresh();
     this.refreshDetallesFacturaList();
     this.tipoDeCambio();
+    this.onMoneda();
   }
    //Informacion para tabla de productos
    listData: MatTableDataSource<any>;
    displayedColumns: string[] = ['ClaveProducto', 'ClaveSAT' , 'Producto', 'Cantidad', 'Precio', 'Options'];
    @ViewChild(MatSort, null) sort: MatSort;
+
+
+   onMoneda(){
+    // console.log(event);
+    this.Moneda = this.service.formData.Moneda;
+    // console.log(this.Moneda);
+    this.service.Moneda = this.Moneda;
+    // console.log(this.service.Moneda);
+  }
 
    tipoDeCambio(){
     this.traerApi().subscribe(data => {
@@ -245,6 +260,7 @@ if (diasemana == 6 || diasemana == 0){
     let ivaDlls;
     let subtotalDlls;
     let totalDlls;
+    let tasa;
     
     this.service.getDetallesFacturaList(this.IdFactura).subscribe(data => {
       this.listData = new MatTableDataSource(data);
@@ -256,11 +272,13 @@ if (diasemana == 6 || diasemana == 0){
       subtotalDlls = 0;
       totalDlls = 0;
       ivaDlls = 0;
+      
+      
       for (let i = 0; i < data.length; i++) {
         subtotal = subtotal + parseFloat(data[i].Importe);
+        iva = iva + (subtotal * parseFloat(data[i].ImporteIVA));
+        total = iva + subtotal;
       }
-      iva = subtotal * 0.16;
-      total = iva + subtotal;
       console.log(subtotal);
       console.log(iva);
       console.log('iva');
@@ -268,9 +286,9 @@ if (diasemana == 6 || diasemana == 0){
       console.log(total);
       for (let i = 0; i < data.length; i++) {
         subtotalDlls = subtotalDlls + parseFloat(data[i].ImporteDlls);
+        ivaDlls = ivaDlls + (subtotalDlls * parseFloat(data[i].ImporteIVADlls));
+        totalDlls = ivaDlls + subtotalDlls;
       }
-      ivaDlls = subtotalDlls * 0.16;
-      totalDlls = ivaDlls + subtotalDlls;
       // console.log(subtotal);
       // console.log(iva);
       // console.log(total);
@@ -658,10 +676,15 @@ return cadena;
     this.service.updateFactura(this.service.formData).subscribe( res =>
       {
         this.resetForm(form);
-        this.snackBar.open(res.toString(),'',{
-          duration: 5000,
-          verticalPosition: 'top'
-        });
+        // this.snackBar.open(res.toString(),'',{
+        //   duration: 5000,
+        //   verticalPosition: 'top'
+        // });
+        Swal.fire(
+          'Factura Guardada',
+          '',
+          'success'
+        )
         // this.enviar(this.IdFactura);
         // this.crearjsonfactura(this.IdFactura); 
 
@@ -672,7 +695,7 @@ return cadena;
   }
 
   timbrar(form: NgForm){
-    this.proceso='Timbrando';
+    this.loading2 = true;
     this.service.formData.Tipo = 'Ingreso';
     this.service.formData.Estatus = 'Creada';
     this.service.formData.Version = '3.3';
@@ -730,6 +753,7 @@ return cadena;
         this.service.updateFactura(this.service.formData).subscribe(data =>{
           // console.log(this.service.formData);
           // console.log('Factura Actualizada');
+          this.loading2 = false;
           Swal.fire(
             'Factura Creada',
             ''+this.numfact+'',
@@ -753,10 +777,17 @@ return cadena;
         
         this.estatusfact = 'Factura Creada ' + data.invoice_uid;
         
-      }
+      }else 
       if (data.response === 'error') {
+        this.loading2 = false;
         // console.log('error');
-        this.estatusfact = data.response + ' ' + data.message;
+        Swal.fire(
+          'Error',
+          ''+data.message.message+'',
+          'error'
+        )
+
+        // this.estatusfact = data.response + ' ' + data.message;
       }
     })
 
@@ -774,7 +805,8 @@ return cadena;
 
   dxml(id: string, folio:string) {
     // window.location.href="http://devfactura.in/admin/cfdi33/5df9887b8fa49/xml";
-    this.proceso='xml';
+    // this.proceso='xml';
+    this.loading = true;
     let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
     this.enviarfact.xml(id).subscribe(data => {
       // localStorage.removeItem('xml')
@@ -816,6 +848,11 @@ return cadena;
       
     });
 
+    setTimeout(()=>{
+      this.loading = false;
+     },6000)
+
+    
     
     
     
@@ -1051,6 +1088,188 @@ myCallback(pdf){
     console.log('cancelar');
     
   }  
+
+  prefactura(folio:string){
+    this.crearjsonprefactura(this.IdFactura); 
+   
+
+
+  }
+
+
+
+  crearjsonprefactura(id:number): string{
+
+    let cadena:string;
+
+    this.service.getFacturasClienteID(id).subscribe(data =>{
+
+      // console.log(data[0]);
+      
+      this.json1.Receptor.UID=data[0].IdApi;
+      this.json1.Moneda = data[0].Moneda;
+      if (data[0].Moneda=='MXN'){
+        this.json1.Impuestos.Traslados.pop();
+        this.json1.Impuestos.Traslados.push({
+          "Base": data[0].Subtotal,
+          "Impuesto": "002",
+          "TipoFactor": "Tasa",
+          "TasaOCuota": "0.16",
+          "Importe": data[0].ImpuestosTrasladados
+        });
+      }else if(data[0].Moneda=='USD'){
+        this.json1.TipoCambio= data[0].TipoDeCambio;
+        this.json1.Impuestos.Traslados.pop();
+        this.json1.Impuestos.Traslados.push({
+          "Base": data[0].SubtotalDlls,
+          "Impuesto": "002",
+          "TipoFactor": "Tasa",
+          "TasaOCuota": "0.16",
+          "Importe": data[0].ImpuestosTrasladadosDlls
+        });
+
+      }
+      // console.log(this.json.Receptor.UID);
+      
+      this.json1.TipoDocumento = 'factura';
+      
+      this.json1.Impuestos.Retenidos.pop();
+    this.json1.Impuestos.Locales.pop();
+    this.json1.CfdiRelacionados.TipoRelacion = '';
+    this.json1.CfdiRelacionados.UUID.push();
+    this.json1.UsoCFDI = data[0].UsoDelCFDI;
+    this.json1.Serie = data[0].Serie;
+    this.json1.FormaPago = data[0].FormaDePago;
+    this.json1.MetodoPago = data[0].MetodoDePago;
+    
+    this.json1.EnviarCorreo = false;
+
+    // console.log(this.json);
+   
+    
+
+
+    this.service.getDetallesFacturaListProducto(id).subscribe(data => {
+      // console.log(data);
+      // console.log(data[0]);
+      
+      this.json1.Conceptos.pop();
+      // console.log(data.length);
+
+      if (this.json1.Moneda=='MXN'){
+        for (let i=0; i< data.length; i++){
+          this.json1.Conceptos.push({
+            ClaveProdServ: data[i].ClaveSAT,
+            NoIdentificacion: data[i].ClaveProducto,
+            Cantidad: data[i].Cantidad,
+            ClaveUnidad: data[i].UnidadMedida,
+            Unidad: data[i].Unidad,
+            Descripcion: data[i].DescripcionProducto,
+            ValorUnitario: data[i].PrecioUnitario,
+            Importe: data[i].Importe,
+            Descuento: '0',
+            tipoDesc: 'porcentaje',
+            honorarioInverso: '',
+            montoHonorario: '0',
+            Impuestos:{
+              Traslados:[{
+                  Base: data[i].Importe,
+                  Impuesto: '002',
+                  TipoFactor: 'Tasa',
+                  TasaOCuota: data[i].IVA,
+                  Importe: ((parseFloat(data[i].Importe)*parseFloat(data[i].IVA)).toFixed(6)).toString()
+                  
+                  // Importe: (parseInt(data[i].Importe)*0.16).toString()
+                  
+                  
+              }]
+            },
+            NumeroPedimento: "",
+                Predial: "",
+                Partes: "0",
+                Complemento: "0"
+          });
+          
+        }
+
+      }
+      else if(this.json1.Moneda=='USD'){
+        for (let i=0; i< data.length; i++){
+          this.json1.Conceptos.push({
+            ClaveProdServ: data[i].ClaveSAT,
+            NoIdentificacion: data[i].ClaveProducto,
+            Cantidad: data[i].Cantidad,
+            ClaveUnidad: data[i].UnidadMedida,
+            Unidad: data[i].Unidad,
+            Descripcion: data[i].DescripcionProducto,
+            ValorUnitario: data[i].PrecioUnitarioDlls,
+            Importe: data[i].ImporteDlls,
+            Descuento: '0',
+            tipoDesc: 'porcentaje',
+            honorarioInverso: '',
+            montoHonorario: '0',
+            Impuestos:{
+              Traslados:[{
+                  Base: data[i].ImporteDlls,
+                  Impuesto: '002',
+                  TipoFactor: 'Tasa',
+                  TasaOCuota: data[i].IVA,
+                  Importe: ((parseFloat(data[i].ImporteDlls)*parseFloat(data[i].IVA)).toFixed(6)).toString()
+                  
+                  // Importe: (parseInt(data[i].Importe)*0.16).toString()
+                  
+                  
+              }]
+            },
+            NumeroPedimento: "",
+                Predial: "",
+                Partes: "0",
+                Complemento: "0"
+          });
+          
+        }
+
+      }
+      
+      
+      
+      // console.log(this.json1);
+      // console.log(JSON.stringify(this.json1));
+      // this.json1 = JSON.stringify(this.json1);
+      
+      
+      cadena = JSON.stringify(this.json1); 
+       console.log(cadena);
+       document.getElementById('abrirpdf').click();
+    
+       setTimeout(()=>{
+         this.onExportClick();   
+         console.log(this.json1);
+          
+        },1000)
+      
+      // this.enviar(cadena);
+    })
+    
+//  console.log(this.json);
+
+
+
+// return JSON.stringify(this.json1)
+
+});
+
+
+
+
+return cadena;
+
+
+
+
+  }
+
+  
 
 
 }

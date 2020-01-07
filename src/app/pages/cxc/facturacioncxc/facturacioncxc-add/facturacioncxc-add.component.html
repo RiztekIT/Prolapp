@@ -349,15 +349,22 @@
                                 </tr>
                             </table>
                             <!-- <button type="button" class="btn btn-secondary">No Editable</button> -->
+                            <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}"></ngx-loading>
                         </div>
                         <ng-template #elseBlock>
                             <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button (click)="onAddProducto()"><i class="mdi mdi-plus btn-lg"></i>Agregar Producto</button>
                             <br>
                             <br>
-                            <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button (click)="onSubmit(form)" [disabled]="form.invalid"><i class="mdi mdi-content-save btn-lg"></i>Guardar</button>
+                            <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button (click)="onSubmit(form)"><i class="mdi mdi-content-save btn-lg"></i>Guardar</button>
                             <br>
                             <br>
                             <button class="btn btn-danger btn-lg" style="width: 250px" mat-raised-button (click)='timbrar(form)' [disabled]="form.invalid"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
+                            <br>
+                            <br>
+                            <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button>
+                            <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button type="button" (click)='prefactura(service.formData.Folio)'><i class="mdi mdi-code-tags btn-lg"></i>Prefactura</button>
+
+                            <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}"></ngx-loading>
                         </ng-template>
 
 
@@ -431,9 +438,12 @@
 
 
 
+
+
         </div>
     </div>
 </div>
+
 
 
 <!-- <div>
@@ -456,7 +466,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             </div> -->
 
-            <app-factura [xmlparametros]="xmlparam"></app-factura>
+            <app-factura #factura [xmlparametros]="xmlparam"></app-factura>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>

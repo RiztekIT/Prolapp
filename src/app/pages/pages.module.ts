@@ -117,6 +117,7 @@ import { ClientesService } from '../services/catalogos/clientes.service';
 
   //qr code
 import { NgxQRCodeModule } from 'ngx-qrcode2'; 
+import { NgxLoadingModule } from 'ngx-loading'
 
 
 // Importacion Angular Material
@@ -259,7 +260,8 @@ import { MatDividerModule } from '@angular/material/divider'
         MatMenuModule,
         MatDividerModule,
         MatPaginatorModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        NgxLoadingModule.forRoot({})
 
     ],
     providers: [
