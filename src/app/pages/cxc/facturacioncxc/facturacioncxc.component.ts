@@ -201,11 +201,13 @@ export class FacturacioncxcComponent implements OnInit {
           this.service.deleteFactura(factura.Id).subscribe(res => {
             this.refreshFacturaList();
       
-            Swal.fire(
-              'Borrado',
-              'Factura Eliminada',
-              'success'
-            )
+            Swal.fire({
+              title: 'Factura Eliminada',
+              icon: 'success',
+              timer: 1000,
+              showCancelButton: false,
+              showConfirmButton: false
+          });
             });
         }
       })

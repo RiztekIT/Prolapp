@@ -63,12 +63,13 @@ export class ShowProductoComponent implements OnInit {
         this.service.deleteProducto(id).subscribe(res => {
           this.refreshProductosList();
     
-          Swal.fire(
-            'Borrado',
-            'El Producto ha sido borrado Correctamente',
-            'success',
-            
-          )
+          Swal.fire({
+            title: 'Borrado',
+            icon: 'success',
+            timer: 1000,
+            showCancelButton: false,
+            showConfirmButton: false
+        });
           });
       }
     })

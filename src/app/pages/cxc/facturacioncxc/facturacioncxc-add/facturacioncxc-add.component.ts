@@ -66,6 +66,7 @@ export const APP_DATE_FORMATS =
 @Component({
   selector: 'app-facturacioncxc-add',
   templateUrl: './facturacioncxc-add.component.html',
+  styleUrls: ['./facturacioncxc-add.component.css'],
   providers: [
     {
       provide: DateAdapter, useClass: AppDateAdapter
@@ -395,16 +396,42 @@ onEdit(detalleFactura: DetalleFactura){
 //Eliminar Detalle Factura
     onDelete( id:number){
       // console.log(id);
-      if ( confirm('Are you sure to delete?')) {
-        this.service.deleteDetalleFactura(id).subscribe(res => {
-        this.refreshDetallesFacturaList();
-        this.snackBar.open(res.toString(), '', {
-          duration: 3000,
-          verticalPosition: 'top'
-        });
+
+      Swal.fire({
+        title: '¿Seguro de Borrar Concepto?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Borrar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value) {
+          this.service.deleteDetalleFactura(id).subscribe(res => {
+            this.refreshDetallesFacturaList();
+      
+            Swal.fire({
+              title: 'Borrado',
+              icon: 'success',
+              timer: 1000,
+              showCancelButton: false,
+              showConfirmButton: false
+          });
+            });
+        }
+      })
+
+
+      // if ( confirm('Are you sure to delete?')) {
+      //   this.service.deleteDetalleFactura(id).subscribe(res => {
+      //   this.refreshDetallesFacturaList();
+      //   this.snackBar.open(res.toString(), '', {
+      //     duration: 3000,
+      //     verticalPosition: 'top'
+      //   });
   
-        });
-      }
+      //   });
+      // }
   
     }
     //Agregar Detalle Factura

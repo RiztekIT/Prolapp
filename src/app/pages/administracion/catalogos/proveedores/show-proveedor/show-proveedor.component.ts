@@ -62,11 +62,13 @@ export class ShowProveedorComponent implements OnInit {
         this.service.deleteProveedor(id).subscribe(res => {
           this.refreshProveedoresList();
     
-          Swal.fire(
-            'Borrado',
-            'El Proveedor ha sido borrado Correctamente',
-            'success'
-          )
+          Swal.fire({
+            title: 'Borrado',
+            icon: 'success',
+            timer: 1000,
+            showCancelButton: false,
+            showConfirmButton: false
+        });
           });
       }
     })

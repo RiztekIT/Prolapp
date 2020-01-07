@@ -74,7 +74,7 @@
                                     <p><span class="blacktxt bolder"> {{nombreR}} </span></p>
                                     <!-- cambia -->
                                     <p class="nomarginbottomP blacktxt">
-                                        <span class=" bolder">R.F.C</span> {{rfcR}} <br> <span class="bolder">Calle:</span> CARRETERA PANAMERICANA No. KM6, Col. BENITO JUAREZ, CP: 33060, DELICIAS, DELICIAS, CHIHUAHUA
+                                        <span class=" bolder">R.F.C</span> {{rfcR}} <br> <span class="bolder">Calle:</span> {{ direccionCalle }}
                                     </p>
 
                                 </div>
@@ -98,7 +98,7 @@
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-12">
                                         <!-- cambia -->
-                                        <p class="nomarginbottomP blacktxt"><span class="bolder">Vendedor:</span> Jessica Aldaz </p>
+                                        <p class="nomarginbottomP blacktxt"><span class="bolder">Vendedor:</span> {{ vendedor }} </p>
                                     </div>
 
                                 </div>
@@ -165,9 +165,25 @@
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
-                                                            <th class="text-right textoBodyAcomodo">12</th>
-                                                            <th class="text-center textoBodyAcomodo">2019-12-06 </th>
-                                                            <th class="text-left textoBodyAcomodo"> {{formaDePago}} </th>
+                                                            <div class="container">
+                                                                <div class="row">
+                                                                    <div class="col-2"></div>
+                                                                    <div class="col-3">
+                                                                        <th class="text-right textoBodyAcomodo"> {{ ordenCompra }} </th>
+                                                                    </div>
+
+                                                                    <div class="col-3">
+                                                                        <th class="text-center textoBodyAcomodo"> {{ fechaVencimiento }} </th>
+                                                                    </div>
+                                                                    <div class="col-4">
+                                                                        <th class="text-right textoBodyAcomodo"> {{formaDePago}} </th>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+
+
                                                         </tr>
                                                     </thead>
                                                 </table>
@@ -195,9 +211,9 @@
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
-                                                            <th class="text-center textoBodyAcomodo">19.470700</th>
-                                                            <th class="text-center textoBodyAcomodo">05/12/2019</th>
-                                                            <th class="text-center textoBodyAcomodo">Credito 4 dias</th>
+                                                            <th class="text-center textoBodyAcomodo"> {{ tipoCambio }} </th>
+                                                            <th class="text-center textoBodyAcomodo"> {{ fechaEntrega }} </th>
+                                                            <th class="text-center textoBodyAcomodo"> {{ condicionesPago }} </th>
                                                         </tr>
                                                     </thead>
                                                 </table>
@@ -225,16 +241,29 @@
                                                     <table class="table">
                                                         <thead>
                                                             <tr>
+                                                                <div class="container">
+                                                                    <div class="row">
+
+                                                                        <div class="col-4">
+                                                                            <th class="text-left textoBodyAcomodo"> {{metodoPago}} </th>
+                                                                        </div>
+                                                                        <div class="col-4"></div>
+                                                                        <div class="col-3">
+                                                                            <th class="text-center textoBodyAcomodo"> {{regimen}} </th>
+                                                                        </div>
+                                                                        <div class="col-1"></div>
+                                                                    </div>
+                                                                </div>
                                                                 <!-- SEPARARLOS POFAVO-->
-                                                                <th class="text-center textoBodyAcomodo"> {{metodoPago}} Y CUENTA</th>
-                                                                <th class="text-left textoBodyAcomodo"> {{regimen}} </th>
+
+
                                                             </tr>
                                                         </thead>
                                                     </table>
 
                                                     <!-- al final de la tabla se pone el Uso de CFDI -->
                                                     <div class="col-lg-12 col-md-12 col-12">
-                                                        <p><span class="bolder">Uso de CFDI:</span> {{usoCFDI}} {{cfdiNombre}} </p>
+                                                        <p class=" bottomR"><span class="bolder">Uso de CFDI:</span> {{usoCFDI}} {{cfdiNombre}} </p>
                                                     </div>
 
                                                 </div>
@@ -258,7 +287,7 @@
                     <div class="col-lg-12 col-md-12 col-12">
                         <div class="card card-outline-inverse">
                             <div class="card-header">
-                                <h6 class="m-b-0 text-white text-center bolder">Cuentas PARA DEPOSITO</h6>
+                                <h6 class="m-b-0 text-white text-center bolder">CUENTAS PARA DEPOSITO</h6>
                             </div>
                             <div class="card-body">
                                 <!-- CUENTAS  -->
