@@ -1,18 +1,21 @@
 # Prolapp
 
-## NPM IMPORTANT COMMANDS:
+# NPM IMPORTANT COMMANDS:
 
-# ANGULAR MATERIAL
+## ANGULAR MATERIAL
 npm add @angular/material
 
-# HTML2PDF
+## HTML2PDF
 npm install --save html2pdf.js
 
-# QR CODE
+## QR CODE
 npm install angularx-qrcode --save
 
-# PARSER
+## PARSER
 npm install fast-xml-parser -g
 
-# XML2JSON
+## XML2JSON
 npm install xml2json
+
+## NGX-LOADING
+npm install --save ngx-loading

@@ -66,6 +66,7 @@ export const APP_DATE_FORMATS =
 @Component({
   selector: 'app-facturacioncxc-add',
   templateUrl: './facturacioncxc-add.component.html',
+  styleUrls: ['./facturacioncxc-add.component.css'],
   providers: [
     {
       provide: DateAdapter, useClass: AppDateAdapter
@@ -832,19 +833,19 @@ return cadena;
         
         if (localStorage.getItem('xml'+folio)!=null){
           console.log('no nulo');
-          this.xmlparam = localStorage.getItem('xml');
+          this.xmlparam = localStorage.getItem('xml'+folio);
           this.onExportClick(this.service.formData.Folio);
         }
       }
-      while (localStorage.getItem('xml')==null);
+      while (localStorage.getItem('xml'+folio)==null);
       this.resetForm();      
       // console.log(this.xmlparam);
       
       
       return this.fileUrl;
 
-      // console.log(this.fileUrl);
-      
+      console.log(this.fileUrl);
+    
       
     });
 

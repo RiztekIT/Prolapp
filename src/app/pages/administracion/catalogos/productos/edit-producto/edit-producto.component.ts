@@ -13,10 +13,16 @@ export class EditProductoComponent implements OnInit {
   constructor(public dialogbox: MatDialogRef<EditProductoComponent>,
     public service: ProductosService, private snackBar: MatSnackBar) { }
 
+iva: boolean;
+
   ngOnInit() {
-    if (this.service.formData.IVA == '0'){
-      this.service.formData.IVA = 'False';
+     if (this.service.formData.IVA == '0.16'){
+      this.iva = true;
+    }else{
+      this.iva = false;
     }
+    // console.log(this.service.formData.IVA);
+    // console.log(this.iva);
   }
 
   onClose() {
@@ -31,12 +37,8 @@ export class EditProductoComponent implements OnInit {
       }  else {
         this.service.formData.IVA = '0';
       }
-
+// console.log(this.service.formData.IVA);
     this.service.updateProducto(this.service.formData).subscribe(res => {
-      // this.snackBar.open(res.toString(), '', {
-      //   duration: 5000,
-      //   verticalPosition: 'top'
-      // });
       Swal.fire({
         icon: 'success',
         title: 'Producto Actualizado'
