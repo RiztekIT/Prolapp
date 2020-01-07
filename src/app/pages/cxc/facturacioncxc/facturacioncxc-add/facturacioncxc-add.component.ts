@@ -843,7 +843,7 @@ return cadena;
       
       return this.fileUrl;
 
-      // console.log(this.fileUrl);
+      console.log(this.fileUrl);
     
       
     });
