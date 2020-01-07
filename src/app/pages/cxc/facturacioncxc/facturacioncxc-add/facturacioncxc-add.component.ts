@@ -833,19 +833,19 @@ return cadena;
         
         if (localStorage.getItem('xml'+folio)!=null){
           console.log('no nulo');
-          this.xmlparam = localStorage.getItem('xml');
+          this.xmlparam = localStorage.getItem('xml'+folio);
           this.onExportClick(this.service.formData.Folio);
         }
       }
-      while (localStorage.getItem('xml')==null);
+      while (localStorage.getItem('xml'+folio)==null);
       this.resetForm();      
       // console.log(this.xmlparam);
       
       
       return this.fileUrl;
 
-      // console.log(this.fileUrl);
-      
+      console.log(this.fileUrl);
+    
       
     });
 
