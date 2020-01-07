@@ -351,22 +351,24 @@
                             </ngx-loading>
                         </div>
                         <ng-template #elseBlock>
-                            <button class="btn btn-info btn-lg" mat-raised-button (click)="onAddProducto()"><i
+                            <div style="display: grid">
+                                <button class="btn btn-info btn-lg" mat-raised-button (click)="onAddProducto()"><i
                   class="mdi mdi-plus btn-lg"></i>Agregar Producto</button>
-                            <br>
-                            <br>
-                            <button class="btn btn-info btn-lg" mat-raised-button (click)="onSubmit(form)"><i
-                  class="mdi mdi-content-save btn-lg"></i>Guardar</button>
-                            <br>
-                            <br>
-                            <button class="btn btn-danger btn-lg" mat-raised-button (click)='timbrar(form)' [disabled]="form.invalid"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
-                            <br>
-                            <br>
-                            <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button>
-                            <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='prefactura(service.formData.Folio)'><i class="mdi mdi-code-tags btn-lg"></i>Prefactura</button>
+                                <br>
 
-                            <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
-                            </ngx-loading>
+                                <button class="btn btn-info btn-lg" mat-raised-button (click)="onSubmit(form)"><i
+                  class="mdi mdi-content-save btn-lg"></i>Guardar</button>
+
+                                <br>
+                                <button class="btn btn-danger btn-lg" mat-raised-button (click)='timbrar(form)' [disabled]="form.invalid"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
+
+                                <br>
+                                <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button>
+                                <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='prefactura(service.formData.Folio)'><i class="mdi mdi-code-tags btn-lg"></i>Prefactura</button>
+
+                                <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+                                </ngx-loading>
+                            </div>
                         </ng-template>
                     </div>
 
