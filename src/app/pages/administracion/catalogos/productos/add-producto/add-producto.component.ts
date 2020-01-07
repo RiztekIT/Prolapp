@@ -46,7 +46,7 @@ export class AddProductoComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(form.value);
+    // console.log(form.value);
     if (form.controls['IVA'].value == true) {
     this.service.formData.IVA = '0.16';
     }  else {
