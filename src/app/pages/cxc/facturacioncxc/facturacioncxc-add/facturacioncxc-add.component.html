@@ -33,11 +33,11 @@
 
 
                                     <select id="div2" class="form-control" name="ClienteId" #ClienteId="ngModel" [(ngModel)]="service.formData.IdCliente" required>
-                                        <option [ngValue]="null" disabled>Choose your profile</option>
-                                        <option *ngFor="let dl of listClientes" [ngValue] = "dl.IdClientes">
-                                            {{dl.Nombre}}
-                                        </option>
-                                    </select>
+                    <option [ngValue]="null" disabled>Choose your profile</option>
+                    <option *ngFor="let dl of listClientes" [ngValue]="dl.IdClientes">
+                      {{dl.Nombre}}
+                    </option>
+                  </select>
 
                                     <div class="text-left text-danger" *ngIf="ClienteId.invalid && ClienteId.touched ">
                                         Favor de Seleccionar un Cliente
@@ -56,9 +56,9 @@
                                     <label class="input-group-text text-info">Uso CFDI</label>
 
                                     <select class="form-control" name="UsoDelCFDI" #UsoDelCFDI="ngModel" [(ngModel)]="service.formData.UsoDelCFDI" required>
-                            <option [ngValue] = "null" selected disabled >Seleccionar CFDI</option>
-                            <option *ngFor="let dl of listCFDI" [ngValue] = "dl.UsoDelCFDI"> {{dl.text}} </option>
-                        </select>
+                    <option [ngValue]="null" selected disabled>Seleccionar CFDI</option>
+                    <option *ngFor="let dl of listCFDI" [ngValue]="dl.UsoDelCFDI"> {{dl.text}} </option>
+                  </select>
 
                                     <div class="text-left text-danger" *ngIf="UsoDelCFDI.invalid && UsoDelCFDI.touched">
                                         Favor de Seleccionar CFDI
@@ -68,9 +68,9 @@
                                     <label class="input-group-text text-info">Metodo Pago</label>
 
                                     <select class="form-control" name="MetodoDePago" #MetodoDePago="ngModel" [(ngModel)]="service.formData.MetodoDePago" required>
-                            <option [ngValue] = "null" selected disabled >Seleccionar Metodo Pago</option>
-                            <option *ngFor="let dl of listMP" [ngValue] = "dl.MetodoDePago"> {{dl.text}} </option>
-                        </select>
+                    <option [ngValue]="null" selected disabled>Seleccionar Metodo Pago</option>
+                    <option *ngFor="let dl of listMP" [ngValue]="dl.MetodoDePago"> {{dl.text}} </option>
+                  </select>
 
                                     <div class="text-left text-danger" *ngIf="MetodoDePago.invalid && MetodoDePago.touched">
                                         Favor de Ingresar Metodo de Pago
@@ -80,9 +80,9 @@
                                     <label class="input-group-text text-info">Forma de Pago</label>
 
                                     <select class="form-control" name="FormaDePago" #FormaDePago="ngModel" [(ngModel)]="service.formData.FormaDePago" required>
-                            <option [ngValue] = "null" selected disabled >Seleccionar Forma Pago</option>
-                            <option *ngFor="let dl of listFP" [ngValue] = "dl.FormaDePago"> {{dl.text}} </option>
-                        </select>
+                    <option [ngValue]="null" selected disabled>Seleccionar Forma Pago</option>
+                    <option *ngFor="let dl of listFP" [ngValue]="dl.FormaDePago"> {{dl.text}} </option>
+                  </select>
 
                                     <div class="text-left text-danger" *ngIf="FormaDePago.invalid && FormaDePago.touched">
                                         Favor de Ingresar Forma de Pago
@@ -166,9 +166,9 @@
                                     <label class="input-group-text text-info">Moneda</label>
 
                                     <select class="form-control" name="Moneda" #Moneda="ngModel" (change)="MonedaSelected($event)" [(ngModel)]="service.formData.Moneda" required>
-                                        <option [ngValue] = "null" selected disabled >Seleccionar Moneda</option>
-                                        <option *ngFor="let dl of listMoneda" [ngValue] = "dl.Moneda"> {{dl.Moneda}} </option>
-                                    </select>
+                    <option [ngValue]="null" selected disabled>Seleccionar Moneda</option>
+                    <option *ngFor="let dl of listMoneda" [ngValue]="dl.Moneda"> {{dl.Moneda}} </option>
+                  </select>
 
                                     <!-- <input required minlength="2" type="string" class="form-control" name="Moneda" #Moneda="ngModel" [(ngModel)]="service.formData.Moneda"> -->
 
@@ -250,60 +250,63 @@
                 <h2>Productos</h2>
                 <br>
 
+                <div class="mat-elevation-z8">
+                    <div style="overflow:auto;">
 
-                <!-- <div style="overflow:auto;" > -->
-                <div>
-                    <table style="width: 100% " mat-table [dataSource]="listData" matSort>
+                        <div>
+                            <table style="width: 100% " mat-table [dataSource]="listData" matSort>
 
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-                        <ng-container matColumnDef="ClaveProducto">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
-                            <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}</td>
-                        </ng-container>
-                        <ng-container matColumnDef="ClaveSAT">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave SAT</th>
-                            <td mat-cell *matCellDef="let element">{{element.ClaveSAT}}</td>
-                        </ng-container>
-                        <ng-container matColumnDef="Producto">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
-                            <td mat-cell *matCellDef="let element">{{element.Producto}}</td>
-                        </ng-container>
-                        <ng-container matColumnDef="Cantidad">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
-                            <td mat-cell *matCellDef="let element">{{element.Cantidad}}</td>
-                        </ng-container>
-                        <ng-container matColumnDef="Precio">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
-                            <td mat-cell *matCellDef="let element">{{element.Importe}}</td>
-                        </ng-container>
+                                <ng-container matColumnDef="ClaveProducto">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
+                                    <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="ClaveSAT">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave SAT</th>
+                                    <td mat-cell *matCellDef="let element">{{element.ClaveSAT}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="Producto">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                                    <td mat-cell *matCellDef="let element">{{element.Producto}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="Cantidad">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
+                                    <td mat-cell *matCellDef="let element">{{element.Cantidad}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="Precio">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
+                                    <td mat-cell *matCellDef="let element">{{element.Importe}}</td>
+                                </ng-container>
 
-                        <ng-container matColumnDef="Options">
-                            <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
-                            <td mat-cell *matCellDef="let row">
-                                <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock1">
-                                    <button type="button" class="btn btn-secondary">No Editable</button>
-                                </div>
-                                <ng-template #elseBlock1>
+                                <ng-container matColumnDef="Options">
+                                    <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock1">
+                                            <button type="button" class="btn btn-secondary">No Editable</button>
+                                        </div>
+                                        <ng-template #elseBlock1>
 
-                                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                                        <mat-icon>keyboard_arrow_down</mat-icon>
-                                      </button>
-                                    <mat-menu #menu="matMenu">
-                                        <!--  -->
-                                        <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
-                                    <mat-icon>edit</mat-icon>
-                                </button>
-                                        <!--  -->
-                                        <button mat-icon-button class="btn btn-danger" (click)="onDelete(row.IdDetalle)">
-                                        <mat-icon>delete_outline</mat-icon>
-                                    </button>
-                                    </mat-menu>
-                                </ng-template>
-                            </td>
-                        </ng-container>
-                    </table>
+                                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>keyboard_arrow_down</mat-icon>
+                      </button>
+                                            <mat-menu #menu="matMenu">
+                                                <!--  -->
+                                                <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                                                <!--  -->
+                                                <button mat-icon-button class="btn btn-danger" (click)="onDelete(row.IdDetalle)">
+                          <mat-icon>delete_outline</mat-icon>
+                        </button>
+                                            </mat-menu>
+                                        </ng-template>
+                                    </td>
+                                </ng-container>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -314,7 +317,7 @@
 
             <div class="container">
                 <div class="row">
-                    <div class="col-8 col-lg-8 col-md-8" style="text-align: center">
+                    <div class="col-7 col-lg-7 col-md-7" style="text-align: center">
 
                         <!-- <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock2">
                             
@@ -329,33 +332,40 @@
                             <table style="border-spacing: 20px; border-collapse: separate;float: right">
                                 <tr>
                                     <td>
-                                        <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button type="button" (click)='dxml(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i class="mdi mdi-code-tags btn-lg"></i>XML / PDF</button>
+                                        <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button type="button" (click)='dxml(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
+                        class="mdi mdi-code-tags btn-lg"></i>XML / PDF</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button type="button" (click)='dxml2(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver PDF</button>
+                                        <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button type="button" (click)='dxml2(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
+                      PDF</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button type="button" (click)='cancelar(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i class="mdi mdi-candle btn-lg"></i>Cancelar</button>
+                                        <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button type="button" (click)='cancelar(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
+                        class="mdi mdi-candle btn-lg"></i>Cancelar</button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button style="display: none" mat-raised-button color="primary" type="button" (click)='email(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i class="mdi mdi-content-save btn-lg"></i>Enviar</button>
+                                        <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button style="display: none" mat-raised-button color="primary" type="button" (click)='email(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
+                        class="mdi mdi-content-save btn-lg"></i>Enviar</button>
                                     </td>
                                 </tr>
                             </table>
                             <!-- <button type="button" class="btn btn-secondary">No Editable</button> -->
-                            <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}"></ngx-loading>
+                            <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+                            </ngx-loading>
                         </div>
                         <ng-template #elseBlock>
-                            <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button (click)="onAddProducto()"><i class="mdi mdi-plus btn-lg"></i>Agregar Producto</button>
+                            <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button (click)="onAddProducto()"><i
+                  class="mdi mdi-plus btn-lg"></i>Agregar Producto</button>
                             <br>
                             <br>
-                            <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button (click)="onSubmit(form)"><i class="mdi mdi-content-save btn-lg"></i>Guardar</button>
+                            <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button (click)="onSubmit(form)"><i
+                  class="mdi mdi-content-save btn-lg"></i>Guardar</button>
                             <br>
                             <br>
                             <button class="btn btn-danger btn-lg" style="width: 250px" mat-raised-button (click)='timbrar(form)' [disabled]="form.invalid"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
@@ -364,43 +374,28 @@
                             <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button>
                             <button class="btn btn-info btn-lg" style="width: 250px" mat-raised-button type="button" (click)='prefactura(service.formData.Folio)'><i class="mdi mdi-code-tags btn-lg"></i>Prefactura</button>
 
-                            <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}"></ngx-loading>
+                            <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+                            </ngx-loading>
                         </ng-template>
-
-
                     </div>
-                    <div class="col-4 col-lg-4 col-md-4">
 
-                        <div class="form-material">
-                            <table style="border-spacing: 20px; border-collapse: separate; border: groove; float: right">
-                                <tr>
-                                    <td>
-                                        <label class="input-group-text text-info">Subtotal</label>
-                                    </td>
-                                    <td>
-                                        <input class="form-control" readonly="readonly" name="Subtotal" #Subtotal="ngModel" [ngModel]="service.formData.Subtotal | currency">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label class="input-group-text text-info">Impuestos Trasladados</label>
-                                    </td>
-                                    <td>
-                                        <input class="form-control" readonly="readonly" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [ngModel]="service.formData.ImpuestosTrasladados | currency">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label class="input-group-text text-info">Total</label>
-                                    </td>
-                                    <td>
-                                        <input class="form-control" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="service.formData.Total | currency">
-                                    </td>
-                                </tr>
-                            </table>
+                    <div class="col-5 col-lg-5 col-md-5">
+                        <div class="form-material borderbox">
+                            <div class="container">
+                                <div class="row">
 
+                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Subtotal</label>
+                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Subtotal" #Subtotal="ngModel" [ngModel]="service.formData.Subtotal | currency">
+
+                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Impuestos Trasladados</label>
+                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [ngModel]="service.formData.ImpuestosTrasladados | currency">
+
+                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
+                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="service.formData.Total | currency">
+
+                                </div>
+                            </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -434,11 +429,6 @@
                     </div>
                 </div>
             </div>
-
-
-
-
-
 
         </div>
     </div>
