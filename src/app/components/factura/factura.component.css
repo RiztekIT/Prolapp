@@ -9,7 +9,7 @@ body {
 .card-header {
     border-radius: 0px;
     padding-top: 10px;
-    padding-bottom: 6px;
+    padding-bottom: 4px;
     background: #000000;
     border-color: #000000;
 }
@@ -156,4 +156,9 @@ th {
 
 .pgbreak {
     page-break-before: auto;
+}
+
+.bottomR {
+    margin-top: 0px;
+    margin-bottom: 24px !important;
 }

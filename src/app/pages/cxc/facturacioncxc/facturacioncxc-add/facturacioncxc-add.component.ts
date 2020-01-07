@@ -66,6 +66,7 @@ export const APP_DATE_FORMATS =
 @Component({
   selector: 'app-facturacioncxc-add',
   templateUrl: './facturacioncxc-add.component.html',
+  styleUrls: ['./facturacioncxc-add.component.css'],
   providers: [
     {
       provide: DateAdapter, useClass: AppDateAdapter
@@ -869,8 +870,8 @@ return cadena;
       
       return this.fileUrl;
 
-      // console.log(this.fileUrl);
-      
+      console.log(this.fileUrl);
+    
       
     });
 
