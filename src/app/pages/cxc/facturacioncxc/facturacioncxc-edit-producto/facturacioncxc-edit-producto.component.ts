@@ -5,6 +5,7 @@ import { NgForm, FormControl } from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { Producto } from '../../../../Models/catalogos/productos-model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-facturacioncxc-edit-producto',
@@ -95,10 +96,14 @@ export class FacturacioncxcEditProductoComponent implements OnInit {
     // console.log(this.service.formDataDF);
     this.service.updateDetalleFactura(this.service.formDataDF).subscribe(res => {
       console.log(res);
-      this.snackBar.open(res.toString(), '', {
-        duration: 5000,
-        verticalPosition: 'top'
-      });
+      Swal.fire({
+        icon: 'success',
+        title: 'Concepto Actualizado'
+      })
+      // this.snackBar.open(res.toString(), '', {
+      //   duration: 5000,
+      //   verticalPosition: 'top'
+      // });
       // console.log(this.service.formDataDF);
     }
     );

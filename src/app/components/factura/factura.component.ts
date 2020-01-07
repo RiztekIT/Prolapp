@@ -59,6 +59,15 @@ export class FacturaComponent implements OnInit {
   selloSAT: string;
   iva: string;
   monedaT: string;
+
+  // Por Definir
+  vendedor: string;
+  ordenCompra: string;
+  fechaVencimiento: string;
+  fechaEntrega: string;
+  tipoCambio: string; 
+  condicionesPago: string;
+  direccionCalle: string;
   // xml
   textnum: string;
 
@@ -170,8 +179,29 @@ export class FacturaComponent implements OnInit {
       this.noCertificadoSAT = result.Comprobante.Complemento[0].TimbreFiscalDigital[0].$.NoCertificadoSAT;
       this.iva = result.Comprobante.Impuestos[0].Traslados[0].Traslado[0].$.Importe;
       this.selloSAT = result.Comprobante.Complemento[0].TimbreFiscalDigital[0].$.SelloSAT;
+
+      
+      // Por Definir
+
+      this.vendedor = ""
+      this.ordenCompra = ""
+      this.fechaVencimiento = ""
+      this.fechaEntrega = ""
+      this.tipoCambio = "" 
+      this.condicionesPago = ""
+      this.direccionCalle = ""
       
       //  console.log(this.uuid);
+
+      switch (this.metodoPago){
+
+        case "PUE":
+          this.metodoPago = "PUE (Pago de Unica Exhibición)"
+          break;
+
+        case "PPD":
+          this.metodoPago = "PPD (Pago Parcial o Diferido)"
+      }
 
       switch (this.usoCFDI) {
         case "G01":

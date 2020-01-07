@@ -62,11 +62,13 @@ export class ShowUsuarioComponent implements OnInit {
         this.service.deleteUsuario(id).subscribe(res => {
           this.refreshUsuariosList();
     
-          Swal.fire(
-            'Borrado',
-            'El Usuario ha sido borrado Correctamente',
-            'success'
-          )
+          Swal.fire({
+            title: 'Borrado',
+            icon: 'success',
+            timer: 1000,
+            showCancelButton: false,
+            showConfirmButton: false
+        });
           });
       }
     })

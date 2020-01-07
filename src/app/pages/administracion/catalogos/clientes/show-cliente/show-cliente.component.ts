@@ -61,16 +61,13 @@ export class ShowClienteComponent implements OnInit {
       if (result.value) {
         this.service.deleteCliente(id).subscribe(res => {
           this.refreshClientesList();
-          // this.snackBar.open(res.toString(), '', {
-          //   duration: 3000,
-          //   verticalPosition: 'top'
-          // });
-    
-          Swal.fire(
-            'Borrado',
-            'El Cliente ha sido borrado Correctamente',
-            'success'
-          )
+          Swal.fire({
+            title: 'Borrado',
+            icon: 'success',
+            timer: 1000,
+            showCancelButton: false,
+            showConfirmButton: false
+        });
           });
       }
     })
