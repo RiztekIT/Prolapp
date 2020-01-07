@@ -276,11 +276,14 @@ if (diasemana == 6 || diasemana == 0){
       
       for (let i = 0; i < data.length; i++) {
         subtotal = subtotal + parseFloat(data[i].Importe);
+        console.log(subtotal);
+        
         iva = iva + (subtotal * parseFloat(data[i].ImporteIVA));
+        console.log(iva);
+        
         total = iva + subtotal;
       }
       console.log(subtotal);
-      console.log(iva);
       console.log('iva');
       console.log(parseFloat(iva).toFixed(6));
       console.log(total);
@@ -292,9 +295,10 @@ if (diasemana == 6 || diasemana == 0){
       // console.log(subtotal);
       // console.log(iva);
       // console.log(total);
+      console.log(iva);
       this.service.formData.Subtotal = subtotal;
-      this.service.formData.ImpuestosTrasladados = (parseFloat(iva).toFixed(6)).toString();
-      this.service.formData.Total = total;
+      this.service.formData.ImpuestosTrasladados = (parseFloat(iva).toFixed(6));
+      this.service.formData.Total = (parseFloat(total).toFixed(6))
       this.service.formData.SubtotalDlls = subtotalDlls;
       this.service.formData.ImpuestosTrasladadosDlls = ivaDlls;
       this.service.formData.TotalDlls = totalDlls;

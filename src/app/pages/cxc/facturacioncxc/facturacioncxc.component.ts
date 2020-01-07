@@ -118,14 +118,13 @@ export class FacturacioncxcComponent implements OnInit {
   refreshFacturaList() {
   
     // this.listData = new MatTableDataSource(this.MasterDetalle);
-    this.listData = new MatTableDataSource(this.service.master);
-
     
-
+    
+    
     this.service.getFacturasListCLiente().subscribe(data => {
       // this.MasterDetalle = data;
       // console.log('longitud data '+data.length);
-       
+      
       
       for (let i = 0; i <= data.length-1; i++){
         this.service.master[i] = data[i]
@@ -136,26 +135,27 @@ export class FacturacioncxcComponent implements OnInit {
           this.service.getDetallesFacturaList(data[i].Id).subscribe(res => {
             for (let l = 0; l <=res.length-1; l++){
               // this.MasterDetalle[i].detalle.pop();
-            // console.log(this.MasterDetalle[0].detalle);
-            this.service.master[i].detalle.push(res[l]);
-          }
-          // this.detalle = res;
-          // console.log(this.d);
-        })
-      }}
+              // console.log(this.MasterDetalle[0].detalle);
+              this.service.master[i].detalle.push(res[l]);
+            }
+            // this.detalle = res;
+            // console.log(this.d);
+            this.listData = new MatTableDataSource(this.service.master);
+            this.listData.sort = this.sort;    
+            this.listData.paginator = this.paginator;
+            this.listData.paginator._intl.itemsPerPageLabel = 'Facturas por Pagina';
+          })
+        }}
+        
+        // let detalle = [];
+        // rows = data;
+        // data.forEach(factura => rows.push(factura, { detailRow: true, factura}))
+        
+        
+        
+      });
+      // this.listData.filter = 'R';
       
-      // let detalle = [];
-      // rows = data;
-      // data.forEach(factura => rows.push(factura, { detailRow: true, factura}))
-      
-      
-      
-    });
-    // this.listData.filter = 'R';
-    
-      this.listData.sort = this.sort;    
-      this.listData.paginator = this.paginator;
-      this.listData.paginator._intl.itemsPerPageLabel = 'Facturas por Pagina';
       // this.listData.data = this.MasterDetalle;
 
       
