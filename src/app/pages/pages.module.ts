@@ -129,7 +129,9 @@ import {MatSelectModule} from '@angular/material/select';
 import { FacturacioncxcProductoComponent } from './cxc/facturacioncxc/facturacioncxc-producto/facturacioncxc-producto.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FacturacioncxcEditProductoComponent } from './cxc/facturacioncxc/facturacioncxc-edit-producto/facturacioncxc-edit-producto.component';
-import { MatDividerModule } from '@angular/material/divider'
+import { MatDividerModule } from '@angular/material/divider';
+import { ComplementopagocxcComponent } from './cxc/complementopagocxc/complementopagocxc.component';
+import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo-pago.component'
 
 
 
@@ -229,6 +231,8 @@ import { MatDividerModule } from '@angular/material/divider'
         FacturacioncxcEditComponent,
         FacturacioncxcProductoComponent,
         FacturacioncxcEditProductoComponent,
+        ComplementopagocxcComponent,
+        ReciboPagoComponent,
     ],
     exports: [
         DashboardComponent,
