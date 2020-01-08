@@ -25,7 +25,7 @@ export class ShowProveedorComponent implements OnInit {
   constructor(private service:ProveedoresService, private dialog: MatDialog, private snackBar: MatSnackBar) {
 
     this.service.listen().subscribe((m:any)=>{
-      console.log(m);
+      // console.log(m);
       this.refreshProveedoresList();
       });
 
