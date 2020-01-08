@@ -25,7 +25,7 @@
                         <mat-form-field class="example-full-width">
                             <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClaveProducto" [(ngModel)]="service.formDataDF.ClaveProducto">
                             <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChange($event, option)">
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChange(option)">
 
                                     {{ option.ClaveProducto }} {{option.Nombre}}
                                 </mat-option>
@@ -61,28 +61,51 @@
 
                         <br>
 
-                        <label class="input-group-text text-info">Precio Unitario: </label>
-
-                        <input required minlength="2" placeholder="Ingresar Precio" type="text" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitario">
-
-                        <div class="text-left text-danger" *ngIf="PrecioUnitario.invalid && PrecioUnitario.touched">
-                            Favor de Ingresar Precio Unitario.
-                        </div>
+                        <ng-container *ngIf="service.Moneda=='MXN'">
 
 
-                        <label class="input-group-text text-info">Cantidad: </label>
-
-                        <input required minlength="1" placeholder="Ingresar Cantidad" type="text" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad">
-
-                        <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
-                            Favor de Ingresar Cantidad.
-                        </div>
+                            <label class="input-group-text text-info">Precio Unitario: </label>
+                            <input required minlength="2" placeholder="Ingresar Precio" type="number" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitario" (ngModelChange)="sumar()">
+                            <div class="text-left text-danger" *ngIf="PrecioUnitario.invalid && PrecioUnitario.touched">
+                                Favor de Ingresar Precio Unitario.
+                            </div>
 
 
-                        <label class="input-group-text text-info">Importe: </label>
+                            <label class="input-group-text text-info">Cantidad: </label>
+                            <input required minlength="1" placeholder="Ingresar Cantidad" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad" (ngModelChange)="sumar()">
 
-                        <input readonly="readonly" placeholder="0.00" type="text" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe">
+                            <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
+                                Favor de Ingresar Cantidad.
+                            </div>
 
+                            <label class="input-group-text text-info">Importe: </label>
+                            <input readonly="readonly" placeholder="0.00" type="number" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe">
+                            <label class="input-group-text text-info">IVA: </label>
+                            <input placeholder="0.00" type="number" class="form-control" name="ImporteIVA" #ImporteIVA="ngModel" [(ngModel)]="service.formDataDF.ImporteIVA">
+
+                        </ng-container>
+
+                        <ng-container *ngIf="service.Moneda=='USD'">
+
+                            <label class="input-group-text text-info">Precio Unitario DLLS: </label>
+                            <input required minlength="2" placeholder="Ingresar Precio" type="number" class="form-control" name="PrecioUnitarioDlls" #PrecioUnitarioDlls="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitarioDlls" (ngModelChange)="sumar()">
+                            <div class="text-left text-danger" *ngIf="PrecioUnitarioDlls.invalid && PrecioUnitarioDlls.touched">
+                                Favor de Ingresar Precio Unitario.
+                            </div>
+
+
+                            <label class="input-group-text text-info">Cantidad DLLS: </label>
+                            <input required minlength="1" placeholder="Ingresar Cantidad" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad" (ngModelChange)="sumar()">
+
+                            <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
+                                Favor de Ingresar Cantidad.
+                            </div>
+
+                            <label class="input-group-text text-info">Importe: </label>
+                            <input readonly="readonly" placeholder="0.00" type="number" class="form-control" name="ImporteDlls" #ImporteDlls="ngModel" [(ngModel)]="service.formDataDF.ImporteDlls">
+                            <label class="input-group-text text-info">IVA: </label>
+                            <input placeholder="0.00" type="number" class="form-control" name="ImporteIVADlls" #ImporteIVADlls="ngModel" [(ngModel)]="service.formDataDF.ImporteIVADlls">
+                        </ng-container>
 
 
                         <label class="input-group-text text-info">Observaciones: </label>

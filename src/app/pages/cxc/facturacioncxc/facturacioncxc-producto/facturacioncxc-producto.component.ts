@@ -119,6 +119,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
       this.service.formDataDF.Producto = options.Nombre;
       this.service.formDataDF.ClaveSAT = options.ClaveSAT;
       this.IVA = options.IVA;
+      this.sumar();
 
   }
 

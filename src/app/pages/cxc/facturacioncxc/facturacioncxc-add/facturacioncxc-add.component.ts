@@ -169,7 +169,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.dropdownRefresh();
     this.refreshDetallesFacturaList();
     this.tipoDeCambio();
-    this.onMoneda();
+    // this.onMoneda();
   }
    //Informacion para tabla de productos
    listData: MatTableDataSource<any>;
@@ -179,10 +179,12 @@ export class FacturacioncxcAddComponent implements OnInit {
 
    onMoneda(){
     // console.log(event);
+    console.log(this.service.formData);
+    
     this.Moneda = this.service.formData.Moneda;
     // console.log(this.Moneda);
     this.service.Moneda = this.Moneda;
-    // console.log(this.service.Moneda);
+    console.log(this.service.Moneda);
   }
 
    tipoDeCambio(){
@@ -279,7 +281,7 @@ if (diasemana == 6 || diasemana == 0){
         subtotal = subtotal + parseFloat(data[i].Importe);
         console.log(subtotal);
         
-        iva = iva + (subtotal * parseFloat(data[i].ImporteIVA));
+        iva = iva + parseFloat(data[i].ImporteIVA);
         console.log(iva);
         
         total = iva + subtotal;
@@ -471,7 +473,7 @@ onEdit(detalleFactura: DetalleFactura){
         // console.log(res);
         // this.refreshDetallesFacturaList();
         this.service.formData = res[0];
-        // console.log(this.service.formData);
+        console.log(this.service.formData);
         
         this.Estatus = this.service.formData.Estatus;
         // console.log(this.Estatus);
@@ -484,6 +486,8 @@ onEdit(detalleFactura: DetalleFactura){
           // console.log('1');
           
         }
+
+        this.onMoneda();
         // console.log(this.service.formData);
         });
 

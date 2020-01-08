@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./facturacioncxc-edit-producto.component.css']
 })
 export class FacturacioncxcEditProductoComponent implements OnInit {
-
+  IVA;
   IdFactura: any;
   myControl = new FormControl();
   options: Producto[] = [];
@@ -22,6 +22,7 @@ export class FacturacioncxcEditProductoComponent implements OnInit {
   
   myControlUnidad = new FormControl();
   optionsUnidad = ['Pieza'];
+  Cdolar: string;
   
   filteredOptionsUnidad: Observable<any[]>;
 
@@ -81,12 +82,51 @@ export class FacturacioncxcEditProductoComponent implements OnInit {
     });
 
   }
-  onSelectionChange(event: MatAutocompleteSelectedEvent, options:Producto){
+  onSelectionChange(options:Producto){
     
-    if(event.option.selected){
+    
       this.service.formDataDF.Producto = options.Nombre;
       this.service.formDataDF.ClaveSAT = options.ClaveSAT;
+      this.IVA = options.IVA;
+      this.sumar();
+  }
+
+  sumar(){
+    let p1: number;
+    let p2: number;
+    let suma: number;
+    if (this.service.Moneda='MXN'){
+    p1 = parseFloat(this.service.formDataDF.PrecioUnitario);
+    p2 = parseFloat(this.service.formDataDF.Cantidad);
+    this.service.formDataDF.PrecioUnitarioDlls = (p1 / parseFloat(this.Cdolar)).toFixed(4)
+    suma = p1 * p2;
+    this.service.formDataDF.Importe=suma.toFixed(4);
+    this.service.formDataDF.ImporteDlls= (suma / parseFloat(this.Cdolar)).toFixed(4);
+    this.service.formDataDF.ImporteIVA = (suma * parseFloat(this.IVA)).toFixed(4);
+    this.service.formDataDF.ImporteIVADlls = (parseFloat(this.service.formDataDF.ImporteDlls) * parseFloat(this.IVA)).toFixed(4);
+    
+    console.log(this.Cdolar);
+    console.log(this.service.formDataDF.PrecioUnitarioDlls);
+    console.log(this.service.formDataDF.ImporteDlls);
+    
+
+
+    }else if (this.service.Moneda='USD'){
+    p1 = parseFloat(this.service.formDataDF.PrecioUnitarioDlls);
+    p2 = parseFloat(this.service.formDataDF.Cantidad);
+
+    this.service.formDataDF.PrecioUnitario = (p1 * parseFloat(this.Cdolar)).toFixed(4);
+    this.service.formDataDF.Importe= (suma * parseFloat(this.Cdolar)).toFixed(4);
+    suma = p1 * p2;
+    this.service.formDataDF.ImporteDlls=suma.toFixed(4);
+    this.service.formDataDF.Importe= (suma / parseFloat(this.Cdolar)).toFixed(4);
+    this.service.formDataDF.ImporteIVADlls = (suma * parseFloat(this.IVA)).toFixed(4);
+    this.service.formDataDF.ImporteIVA = (parseFloat(this.service.formDataDF.Importe) * parseFloat(this.IVA)).toFixed(4);
+    
+    console.log(this.service.formDataDF.PrecioUnitario);
+    console.log(this.service.formDataDF.Importe);
     }
+    
   }
    
 
