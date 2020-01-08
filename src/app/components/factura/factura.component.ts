@@ -72,6 +72,11 @@ export class FacturaComponent implements OnInit {
   textnum: string;
 
 
+  con : string| number;
+  arrcon: Array<any> = [];
+
+  objconc: any; 
+
 
   title = 'xmljson';
   public xmlItems: any;
@@ -147,8 +152,11 @@ export class FacturaComponent implements OnInit {
 
 
     const p = new xml2js.parseString(localStorage.getItem('xml'+folio), { tagNameProcessors: [processors.stripPrefix] }, (err, result) => {
-      // console.log(result);
 
+     console.log(result);
+
+      
+      
       this.certificado = result.Comprobante.$.Certificado;
       this.serie = result.Comprobante.$.Serie;
       this.folio = result.Comprobante.$.Folio;
@@ -180,6 +188,23 @@ export class FacturaComponent implements OnInit {
       this.iva = result.Comprobante.Impuestos[0].Traslados[0].Traslado[0].$.Importe;
       this.selloSAT = result.Comprobante.Complemento[0].TimbreFiscalDigital[0].$.SelloSAT;
 
+
+      this.objconc = result.Comprobante.Conceptos[0].Concepto;
+
+
+      for (this.con in this.objconc){
+        var conceptos = this.objconc[this.con];  
+        this.arrcon.push({
+        cantidad: conceptos.$.Cantidad,
+        claveunidad: conceptos.$.ClaveUnidad,
+        unidad: conceptos.$.Unidad,
+        descripcion: conceptos.$.Descripcion,
+        valorunitario: conceptos.$.ValorUnitario,
+        importe: conceptos.$.Importe
+        });
+      }
+      console.log(this.objconc);
+      console.log(this.arrcon);
       
       // Por Definir
 

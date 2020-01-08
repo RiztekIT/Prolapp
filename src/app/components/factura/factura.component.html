@@ -355,7 +355,7 @@
                                             <tr>
                                                 <th class="m-b-0 text-white">Cantidad</th>
                                                 <th class="m-b-0 text-white">Unidad</th>
-                                                <th class="m-b-0 text-white">Clave</th>
+                                                <th class="m-b-0 text-white text-center">Clave</th>
                                                 <th class="m-b-0 text-white text-center">Descripción</th>
                                                 <th class="m-b-0 text-white text-center">P. Unitario</th>
                                                 <th class="m-b-0 text-white text-center">Importe</th>
@@ -366,18 +366,35 @@
                             </div>
                             <div class="card-body">
                                 <!-- MODIFICAR PARA QUE QUEPAN LOS CAMPOS -->
-                                <div>
+                                <div class="col-lg-12 col-md-12 col-12">
                                     <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th class="text-right textoBodyAcomodo acomodoForzadoTh"> {{cantidad | slice:0:1}} </th>
-                                                <th class="text-right textoBodyAcomodo"> {{unidad}} </th>
-                                                <th class="text-right textoBodyAcomodo"> {{claveUnidad}} </th>
-                                                <th class="text-center textoBodyAcomodo"> {{descripcionConcepto}} </th>
-                                                <th class="text-left textoBodyAcomodo "> {{ valorUnitario | currency}} </th>
-                                                <th class="text-left textoBodyAcomodo "> {{ importeConcepto | currency }} </th>
+                                        <tbody>
+                                            <tr *ngFor="let conceptos of arrcon">
+                                                <div class="containter">
+
+                                                    <div class="row">
+                                                        <div class="col-2">
+                                                            <th class="text-left textoBodyAcomodo acomodoForzadoTh"> {{conceptos.cantidad | slice:0:1}} </th>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <th class="text-right textoBodyAcomodo acomodoForzadoTh2"> {{conceptos.unidad}} </th>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <th class="text-right textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.claveunidad}} </th>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <th class="text-left textoBodyAcomodo"> {{conceptos.descripcion}} </th>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <th class="text-left textoBodyAcomodo "> {{ conceptos.valorunitario | currency}} </th>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <th class="text-left textoBodyAcomodo "> {{ conceptos.importe | currency }} </th>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </tr>
-                                        </thead>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>

@@ -151,7 +151,15 @@ th {
 }
 
 .acomodoForzadoTh {
-    margin-left: 35px;
+    padding-left: 35px !important;
+}
+
+.acomodoForzadoTh2 {
+    padding-left: 15px !important;
+}
+
+.acomodoForzadoTh3 {
+    padding-left: 5px !important;
 }
 
 .pgbreak {
