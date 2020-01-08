@@ -169,7 +169,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.dropdownRefresh();
     this.refreshDetallesFacturaList();
     this.tipoDeCambio();
-    this.onMoneda();
+    // this.onMoneda();
   }
    //Informacion para tabla de productos
    listData: MatTableDataSource<any>;
@@ -179,10 +179,12 @@ export class FacturacioncxcAddComponent implements OnInit {
 
    onMoneda(){
     // console.log(event);
+    console.log(this.service.formData);
+    
     this.Moneda = this.service.formData.Moneda;
     // console.log(this.Moneda);
     this.service.Moneda = this.Moneda;
-    // console.log(this.service.Moneda);
+    console.log(this.service.Moneda);
   }
 
    tipoDeCambio(){
@@ -277,11 +279,14 @@ if (diasemana == 6 || diasemana == 0){
       
       for (let i = 0; i < data.length; i++) {
         subtotal = subtotal + parseFloat(data[i].Importe);
-        iva = iva + (subtotal * parseFloat(data[i].ImporteIVA));
+        console.log(subtotal);
+        
+        iva = iva + parseFloat(data[i].ImporteIVA);
+        console.log(iva);
+        
         total = iva + subtotal;
       }
       console.log(subtotal);
-      console.log(iva);
       console.log('iva');
       console.log(parseFloat(iva).toFixed(6));
       console.log(total);
@@ -293,9 +298,10 @@ if (diasemana == 6 || diasemana == 0){
       // console.log(subtotal);
       // console.log(iva);
       // console.log(total);
+      console.log(iva);
       this.service.formData.Subtotal = subtotal;
-      this.service.formData.ImpuestosTrasladados = (parseFloat(iva).toFixed(6)).toString();
-      this.service.formData.Total = total;
+      this.service.formData.ImpuestosTrasladados = (parseFloat(iva).toFixed(6));
+      this.service.formData.Total = (parseFloat(total).toFixed(6))
       this.service.formData.SubtotalDlls = subtotalDlls;
       this.service.formData.ImpuestosTrasladadosDlls = ivaDlls;
       this.service.formData.TotalDlls = totalDlls;
@@ -467,7 +473,7 @@ onEdit(detalleFactura: DetalleFactura){
         // console.log(res);
         // this.refreshDetallesFacturaList();
         this.service.formData = res[0];
-        // console.log(this.service.formData);
+        console.log(this.service.formData);
         
         this.Estatus = this.service.formData.Estatus;
         // console.log(this.Estatus);
@@ -480,6 +486,8 @@ onEdit(detalleFactura: DetalleFactura){
           // console.log('1');
           
         }
+
+        this.onMoneda();
         // console.log(this.service.formData);
         });
 
@@ -1112,9 +1120,88 @@ myCallback(pdf){
 
 
   cancelar(id: string, folio:string) {
-    console.log('cancelar');
     
-  }  
+    
+    
+// console.log(data);
+Swal.fire({
+  title: '¿Segur@ de Cancelar la Factura?',
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Cancelar',
+  cancelButtonText: 'Deshacer'
+}).then((result) => {
+  if (result.value) {
+    console.log(id);
+    this.loading=true;
+    this.enviarfact.cancelar(id).subscribe(data => {
+      console.log(data.response);
+      let data2 = JSON.parse(data);
+      console.log(data2);
+      
+      
+      if (data2.response === 'success') {
+        // this.loading2 = false;
+        // console.log('error');
+        this.service.updateCancelarFactura(this.service.formData.Id).subscribe(data =>{
+          this.loading = false;
+        Swal.fire({
+          title: 'Factura Cancelada',
+          icon: 'success',
+          timer: 1000,
+          showCancelButton: false,
+          showConfirmButton: false
+      });
+    });
+    }
+        else if (data2.response === 'error') {
+          
+    
+        
+        
+
+         
+        // console.log(this.service.formData.Id);
+        
+        
+          // console.log(this.service.formData);
+          // console.log('Factura Actualizada');
+          // console.log(data);
+          
+          this.loading = false;
+          this.resetForm();
+          Swal.fire(
+            'Error en Cancelacion',
+            ''+data2.message+'',
+            'error'
+          )
+        
+
+      
+      
+  }
+})
+
+      
+
+        // this.estatusfact = data.response + ' ' + data.message;
+      
+      // localStorage.removeItem('xml')
+      
+      
+  
+
+    // setTimeout(()=>{
+    //   this.loading = false;
+    //  },6000)
+
+    
+}
+    
+})
+  }
 
   prefactura(folio:string){
     this.crearjsonprefactura(this.IdFactura); 

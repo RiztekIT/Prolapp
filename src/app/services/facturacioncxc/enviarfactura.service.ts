@@ -74,6 +74,14 @@ export class EnviarfacturaService {
     // const blob = new Blob([], { type: 'application/octet-stream' });    
   }
 
+  cancelar(url:string): Observable<any>{
+    let rootURLxml = "/api/v3/cfdi33/"+ url  +"/cancel";
+
+
+    return this.http.get(rootURLxml,httpOptions2);
+
+  }
+
   crearCliente(datos:string): Observable<any>{
     console.log(datos);
     
