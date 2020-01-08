@@ -90,7 +90,7 @@ export class FacturaService {
   return this.http.put(this.APIUrl+ '/Factura', factura);
 }
 updateCancelarFactura(id: number) {
-  return this.http.put(this.APIUrl+ '/Factura/Cancelar/' + id);
+  return this.http.put(this.APIUrl+ '/Factura/Cancelar/' + id, null);
 }
   //Editar Detalle Factura
   updateDetalleFactura(detalleFactura: DetalleFactura) {
