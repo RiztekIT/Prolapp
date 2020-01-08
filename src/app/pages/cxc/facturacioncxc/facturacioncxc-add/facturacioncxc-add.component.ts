@@ -1116,9 +1116,88 @@ myCallback(pdf){
 
 
   cancelar(id: string, folio:string) {
-    console.log('cancelar');
     
-  }  
+    
+    
+// console.log(data);
+Swal.fire({
+  title: '¿Segur@ de Cancelar la Factura?',
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Cancelar',
+  cancelButtonText: 'Deshacer'
+}).then((result) => {
+  if (result.value) {
+    console.log(id);
+    this.loading=true;
+    this.enviarfact.cancelar(id).subscribe(data => {
+      console.log(data.response);
+      let data2 = JSON.parse(data);
+      console.log(data2);
+      
+      
+      if (data2.response === 'success') {
+        // this.loading2 = false;
+        // console.log('error');
+        this.service.updateCancelarFactura(this.service.formData.Id).subscribe(data =>{
+          this.loading = false;
+        Swal.fire({
+          title: 'Factura Cancelada',
+          icon: 'success',
+          timer: 1000,
+          showCancelButton: false,
+          showConfirmButton: false
+      });
+    });
+    }
+        else if (data2.response === 'error') {
+          
+    
+        
+        
+
+         
+        // console.log(this.service.formData.Id);
+        
+        
+          // console.log(this.service.formData);
+          // console.log('Factura Actualizada');
+          // console.log(data);
+          
+          this.loading = false;
+          this.resetForm();
+          Swal.fire(
+            'Error en Cancelacion',
+            ''+data2.message+'',
+            'error'
+          )
+        
+
+      
+      
+  }
+})
+
+      
+
+        // this.estatusfact = data.response + ' ' + data.message;
+      
+      // localStorage.removeItem('xml')
+      
+      
+  
+
+    // setTimeout(()=>{
+    //   this.loading = false;
+    //  },6000)
+
+    
+}
+    
+})
+  }
 
   prefactura(folio:string){
     this.crearjsonprefactura(this.IdFactura); 

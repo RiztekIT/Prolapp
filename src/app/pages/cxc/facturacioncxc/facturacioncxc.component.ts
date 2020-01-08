@@ -290,13 +290,13 @@ export class FacturacioncxcComponent implements OnInit {
   onAdd(){
     // console.log(this.FacturaBlanco);
     this.service.addFactura(this.FacturaBlanco).subscribe(res => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Factura Creada',
-        showCancelButton: false,
-        showConfirmButton: false,
-        timer: 1000
-      })
+      // Swal.fire({
+      //   icon: 'success',
+      //   title: 'Factura Creada',
+      //   showCancelButton: false,
+      //   showConfirmButton: false,
+      //   timer: 1000
+      // })
       // this.snackBar.open(res.toString(), '', {
       //   duration: 5000,
       //   verticalPosition: 'top'
