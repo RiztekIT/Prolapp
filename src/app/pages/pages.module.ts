@@ -133,7 +133,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FacturacioncxcEditProductoComponent } from './cxc/facturacioncxc/facturacioncxc-edit-producto/facturacioncxc-edit-producto.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { ComplementopagocxcComponent } from './cxc/complementopagocxc/complementopagocxc.component';
-import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo-pago.component'
+import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo-pago.component';
+import { ShowUsuarioPermisoComponent } from './administracion/permisos/show-usuario-permiso/show-usuario-permiso.component'
 
 
 
@@ -235,6 +236,7 @@ import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo
         FacturacioncxcEditProductoComponent,
         ComplementopagocxcComponent,
         ReciboPagoComponent,
+        ShowUsuarioPermisoComponent,
     ],
     exports: [
         DashboardComponent,

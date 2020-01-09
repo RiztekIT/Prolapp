@@ -2,3 +2,7 @@
     border: 3px solid grey;
     padding: 10px;
 }
+
+::ng-deep .mat-form-field {
+    width: 100% !important;
+}

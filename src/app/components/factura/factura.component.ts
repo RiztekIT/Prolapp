@@ -191,7 +191,7 @@ export class FacturaComponent implements OnInit {
 
       this.objconc = result.Comprobante.Conceptos[0].Concepto;
 
-
+      this.arrcon = [];
       for (this.con in this.objconc){
         var conceptos = this.objconc[this.con];  
         this.arrcon.push({
