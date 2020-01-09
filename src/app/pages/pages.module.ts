@@ -114,6 +114,8 @@ import { ShowClienteComponent } from './administracion/catalogos/clientes/show-c
 import { EditClienteComponent } from './administracion/catalogos/clientes/edit-cliente/edit-cliente.component';
 import { AddClienteComponent } from './administracion/catalogos/clientes/add-cliente/add-cliente.component';
 import { ClientesService } from '../services/catalogos/clientes.service';
+import { ReciboPagoService } from '../services/complementoPago/recibo-pago.service';
+
 
   //qr code
 import { NgxQRCodeModule } from 'ngx-qrcode2'; 
@@ -273,7 +275,8 @@ import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo
         ProductosService,
         ProveedoresService,
         ClientesService,
-        FacturaService
+        FacturaService,
+        ReciboPagoService
     ],
     entryComponents: [
         AddUsuarioComponent,
@@ -284,7 +287,6 @@ import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo
         EditProductoComponent,
         AddClienteComponent,
         EditClienteComponent,
-        // FacturacioncxcAddComponent,
         FacturacioncxcEditComponent,
         FacturacioncxcProductoComponent,
         FacturacioncxcEditProductoComponent
