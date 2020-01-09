@@ -25,7 +25,7 @@ import { FormatofacturaTraficoComponent } from './trafico/formatofactura-trafico
 import { DashboardTraficoComponent } from './trafico/dashboard-trafico/dashboard-trafico.component';
 import { CalendarioTraficoComponent } from './trafico/calendario-trafico/calendario-trafico.component';
 import { CatalogosComponent } from './administracion/catalogos/catalogos.component';
-import { PermisosComponent } from './administracion/permisos/permisos.component';
+import { ShowUsuarioPermisoComponent } from './administracion/permisos/show-usuario-permiso/show-usuario-permiso.component';
 import { DashboardComprasComponent } from './compras/dashboard-compras/dashboard-compras.component';
 import { ReporteComprasComponent } from './compras/reporte-compras/reporte-compras.component';
 import { GraficasComprasComponent } from './compras/graficas-compras/graficas-compras.component';
@@ -131,7 +131,8 @@ const pagesRoutes: Routes = [
                 { path: 'calendarioalmacen', component: CalendarioalmacenComponent  },
                 { path: 'reportesalmacen', component: ReportesalmacenComponent  },
                 { path: 'quejas', component: QuejasComponent  },
-                { path: 'permisos', component: PermisosComponent  },
+                { path: 'permisos', component: ShowUsuarioPermisoComponent  },
+
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },
                 { path: '', redirectTo: '/login', pathMatch: 'full' },
