@@ -18,17 +18,19 @@
         <div class="form-material">
             <div class="container">
                 <div class="row">
+
+                    <mat-form-field class="example-full-width">
+                        <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClaveProducto" [(ngModel)]="service.formDataDF.ClaveProducto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChange(option)">
+                                <!-- <mat-option *ngFor="let option of filteredOptions | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChanged($event,option)"> -->
+                                {{ option.ClaveProducto }} {{option.Nombre}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+
                     <div class="col-lg-6">
-                        <mat-form-field class="example-full-width">
-                            <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClaveProducto" [(ngModel)]="service.formDataDF.ClaveProducto">
-                            <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChange(option)">
-                                    <!-- <mat-option *ngFor="let option of filteredOptions | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChanged($event,option)"> -->
-                                    {{ option.ClaveProducto }} {{option.Nombre}}
-                                </mat-option>
-                            </mat-autocomplete>
-                        </mat-form-field>
-                        <br>
+
                         <label class="input-group-text text-info">Nombre: </label>
                         <input matInput required minlength="2" placeholder="Nombre Producto" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formDataDF.Producto">
 
