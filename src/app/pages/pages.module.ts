@@ -115,6 +115,8 @@ import { ShowClienteComponent } from './administracion/catalogos/clientes/show-c
 import { EditClienteComponent } from './administracion/catalogos/clientes/edit-cliente/edit-cliente.component';
 import { AddClienteComponent } from './administracion/catalogos/clientes/add-cliente/add-cliente.component';
 import { ClientesService } from '../services/catalogos/clientes.service';
+import { ReciboPagoService } from '../services/complementoPago/recibo-pago.service';
+
 import { EmpresaService } from '../services/empresas/empresa.service';
 
   //qr code
@@ -283,6 +285,7 @@ import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit
         ProveedoresService,
         ClientesService,
         FacturaService,
+        ReciboPagoService,
         EmpresaService,
         
     ],
@@ -295,7 +298,6 @@ import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit
         EditProductoComponent,
         AddClienteComponent,
         EditClienteComponent,
-        // FacturacioncxcAddComponent,
         FacturacioncxcEditComponent,
         FacturacioncxcProductoComponent,
         FacturacioncxcEditProductoComponent,

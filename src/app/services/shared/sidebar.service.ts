@@ -83,6 +83,7 @@ export class SidebarService {
       submenu: [
         // { titulo: 'Dashboard', url: '/dashboard' },
         { titulo: 'Pedidos', url: '/pedidosCxc' },
+        { titulo: 'Complemento de Pago', url: '/complementopagoCxc' },
         { titulo: 'Facturacion', url: '/facturacionCxc' },
         { titulo: 'Polizas', url: '/polizasCxc' },
         { titulo: 'Saldos de Cuentas', url: '/saldosCxc' },

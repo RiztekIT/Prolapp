@@ -3,11 +3,19 @@ import { HttpClient} from '@angular/common/http';
 import {Observable, Subject } from 'rxjs';
 import { ReciboPago } from '../../Models/ComplementoPago/recibopago';
 import { PagoCFDI } from '../../Models/ComplementoPago/pagocfdi';
+import { ReciboPagoMasterPagoCFDI } from '../../Models/ComplementoPago/recibopagoMasterpagoCFDI';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReciboPagoService {
+
+  formData = new ReciboPago();
+  // formDataDF: DetalleFactura;
+  // formDataP: Producto;
+  IdReciboPago: number;
+  master = new Array<ReciboPagoMasterPagoCFDI>();
+  // Moneda: string;
 
   constructor(private http:HttpClient) { }
 
@@ -23,5 +31,13 @@ export class ReciboPagoService {
   //Crear PagoCFDI
   //Eliminar Recibo Pago
   //Eliminar PagoCFDI
+
+  private _listeners = new Subject<any>(); 
+listen(): Observable<any> {
+  return this._listeners.asObservable();
+}
+filter(filterBy: string) {
+  this._listeners.next(filterBy);
+}
 
 }
