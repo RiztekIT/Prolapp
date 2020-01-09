@@ -11,5 +11,4 @@ export class Empresa {
     Estado: string;
     Pais: string;
     Regimen: string;
-    
 }

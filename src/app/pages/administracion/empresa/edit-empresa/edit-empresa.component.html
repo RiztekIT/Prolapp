@@ -1,0 +1,126 @@
+<div class="form-material">
+    <div class="container ">
+        <div class="row">
+            <div class="col-lg-6">
+
+                <label class="input-group-text text-info">Razon Social</label>
+                <input readonly="readonly" type="text" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="service.formData.RazonSocial">
+
+                <label class="input-group-text text-info">RFC</label>
+                <input readonly="readonly" type="text" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="service.formData.RFC">
+
+                <label class="input-group-text text-info">Calle</label>
+                <input readonly="readonly" type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle">
+
+                <label class="input-group-text text-info">Numero Interior</label>
+                <input readonly="readonly" type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior">
+
+                <label class="input-group-text text-info">Numero Exterior</label>
+                <input readonly="readonly" type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior">
+
+                <label class="input-group-text text-info">Codigo Postal</label>
+                <input readonly="readonly" type="text" class="form-control" name="CodigoPostal" #CodigoPostal="ngModel" [(ngModel)]="service.formData.CP">
+
+                <label class="input-group-text text-info">Colonia</label>
+                <input readonly="readonly" type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia">
+
+                <label class="input-group-text text-info">Ciudad</label>
+                <input readonly="readonly" type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad">
+
+                <label class="input-group-text text-info">Estado</label>
+                <input readonly="readonly" type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado">
+
+                <label class="input-group-text text-info">Pais</label>
+                <input readonly="readonly" type="text" class="form-control" name="Pais" #Pais="ngModel" [(ngModel)]="service.formData.Pais">
+
+                <label class="input-group-text text-info">Regimen</label>
+                <input readonly="readonly" type="text" class="form-control" name="Regimen" #Regimen="ngModel" [(ngModel)]="service.formData.Regimen">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+<div style="overflow:auto;">
+    <table mat-table [dataSource]="listData" matSort>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <!-- <ng-container matColumnDef="Razon Social">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Razon Social</th>
+            <td mat-cell *matCellDef="let element">{{element.RazonSocial}}</td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="Razon Social">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Razon Social</th>
+            <td mat-cell *matCellDef="let element">{{element.RazonSocial}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="RFC">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>RFC</th>
+            <td mat-cell *matCellDef="let element">{{element.RFC}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Calle">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Calle</th>
+            <td mat-cell *matCellDef="let element">{{element.Calle}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Numero Interior">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Numero Interior</th>
+            <td mat-cell *matCellDef="let element">{{element.NumeroInterior}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Numero Exterior">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Numero Exterior</th>
+            <td mat-cell *matCellDef="let element">{{element.NumeroExterior}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Codigo Postal">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo Postal</th>
+            <td mat-cell *matCellDef="let element">{{element.CP}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Colonia">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Colonia</th>
+            <td mat-cell *matCellDef="let element">{{element.Colonia}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Ciudad">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ciudad</th>
+            <td mat-cell *matCellDef="let element">{{element.Ciudad}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+            <td mat-cell *matCellDef="let element">{{element.Estado}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Pais">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Pais</th>
+            <td mat-cell *matCellDef="let element">{{element.Pais}}</td>
+        </ng-container>
+        <ng-container matColumnDef="Regimen">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Regimen</th>
+            <td mat-cell *matCellDef="let element">{{element.Regimen}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Options">
+            <th mat-header-cell *matHeaderCellDef>Editar</th>
+            <td mat-cell *matCellDef="let row">
+                <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+
+    </table>
+    <!-- <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+    </mat-paginator> -->
+</div>
