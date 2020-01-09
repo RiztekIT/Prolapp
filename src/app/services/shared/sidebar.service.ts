@@ -13,6 +13,7 @@ export class SidebarService {
         { titulo: 'Catalogos', url: '/catalogos' },
         { titulo: 'Permisos', url: '/show-usuario-permiso.component' },
         { titulo: 'Permisos', url: '/permisos' },
+        { titulo: 'Empresa', url: '/empresa' },
       ],
       url: '/catalogos',
     },

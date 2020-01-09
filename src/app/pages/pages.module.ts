@@ -98,6 +98,7 @@ import { UsuariosServieService } from '../services/catalogos/usuarios-servie.ser
 import { UsuariosComponent } from './administracion/catalogos/usuarios/usuarios.component';
 import { ProductosComponent } from './administracion/catalogos/productos/productos.component';
 import { ProveedoresComponent } from './administracion/catalogos/proveedores/proveedores.component';
+import { EmpresaComponent } from './administracion/empresa/empresa.component';
 import { ClientesComponent } from './administracion/catalogos/clientes/clientes.component';
 import { EditUsuarioComponent } from './administracion/catalogos/usuarios/edit-usuario/edit-usuario.component';
 import { ShowUsuarioComponent } from './administracion/catalogos/usuarios/show-usuario/show-usuario.component';
@@ -116,6 +117,7 @@ import { AddClienteComponent } from './administracion/catalogos/clientes/add-cli
 import { ClientesService } from '../services/catalogos/clientes.service';
 import { ReciboPagoService } from '../services/complementoPago/recibo-pago.service';
 
+import { EmpresaService } from '../services/empresas/empresa.service';
 
   //qr code
 import { NgxQRCodeModule } from 'ngx-qrcode2'; 
@@ -134,6 +136,10 @@ import { FacturacioncxcEditProductoComponent } from './cxc/facturacioncxc/factur
 import { MatDividerModule } from '@angular/material/divider';
 import { ComplementopagocxcComponent } from './cxc/complementopagocxc/complementopagocxc.component';
 import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo-pago.component';
+import { ShowEmpresaComponent } from './administracion/empresa/show-empresa/show-empresa.component';
+import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit-empresa.component';
+
+
 import { ShowUsuarioPermisoComponent } from './administracion/permisos/show-usuario-permiso/show-usuario-permiso.component'
 
 
@@ -236,6 +242,9 @@ import { ShowUsuarioPermisoComponent } from './administracion/permisos/show-usua
         FacturacioncxcEditProductoComponent,
         ComplementopagocxcComponent,
         ReciboPagoComponent,
+        EmpresaComponent,
+        ShowEmpresaComponent,
+        EditEmpresaComponent,
         ShowUsuarioPermisoComponent,
     ],
     exports: [
@@ -278,7 +287,9 @@ import { ShowUsuarioPermisoComponent } from './administracion/permisos/show-usua
         ProveedoresService,
         ClientesService,
         FacturaService,
-        ReciboPagoService
+        ReciboPagoService,
+        EmpresaService,
+        
     ],
     entryComponents: [
         AddUsuarioComponent,
@@ -291,7 +302,8 @@ import { ShowUsuarioPermisoComponent } from './administracion/permisos/show-usua
         EditClienteComponent,
         FacturacioncxcEditComponent,
         FacturacioncxcProductoComponent,
-        FacturacioncxcEditProductoComponent
+        FacturacioncxcEditProductoComponent,
+        EditEmpresaComponent
 
     ]
 })

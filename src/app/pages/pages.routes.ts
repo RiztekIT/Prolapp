@@ -63,6 +63,7 @@ import { FacturacioncxcAddComponent } from './cxc/facturacioncxc/facturacioncxc-
 import { AuthorizatedGuard } from './auth'
 import { LoginguardGuard } from '../services/shared/loginguard.guard';
 import { ComplementopagocxcComponent } from './cxc/complementopagocxc/complementopagocxc.component';
+import { EmpresaComponent } from './administracion/empresa/empresa.component';
 
 
 
@@ -131,6 +132,7 @@ const pagesRoutes: Routes = [
                 { path: 'Incidenciasalmacen', component: IncidenciasalmacenComponent  },
                 { path: 'calendarioalmacen', component: CalendarioalmacenComponent  },
                 { path: 'reportesalmacen', component: ReportesalmacenComponent  },
+                { path: 'empresa', component: EmpresaComponent  },
                 { path: 'quejas', component: QuejasComponent  },
                 { path: 'complementopagoCxc', component: ComplementopagocxcComponent  },
                 { path: 'permisos', component: ShowUsuarioPermisoComponent  },
