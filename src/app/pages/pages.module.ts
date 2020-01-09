@@ -138,6 +138,7 @@ import { ShowEmpresaComponent } from './administracion/empresa/show-empresa/show
 import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit-empresa.component';
 
 
+import { ShowUsuarioPermisoComponent } from './administracion/permisos/show-usuario-permiso/show-usuario-permiso.component'
 
 
 
@@ -242,6 +243,7 @@ import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit
         EmpresaComponent,
         ShowEmpresaComponent,
         EditEmpresaComponent,
+        ShowUsuarioPermisoComponent,
     ],
     exports: [
         DashboardComponent,
