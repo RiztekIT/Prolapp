@@ -12,6 +12,7 @@ export class SidebarService {
       submenu: [
         { titulo: 'Catalogos', url: '/catalogos' },
         { titulo: 'Permisos', url: '/permisos' },
+        { titulo: 'Empresa', url: '/empresa' },
       ],
       url: '/catalogos',
     },

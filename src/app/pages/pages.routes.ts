@@ -62,6 +62,7 @@ import { ReportesalmacenComponent } from './almacen/reportesalmacen/reportesalma
 import { FacturacioncxcAddComponent } from './cxc/facturacioncxc/facturacioncxc-add/facturacioncxc-add.component';
 import { AuthorizatedGuard } from './auth'
 import { LoginguardGuard } from '../services/shared/loginguard.guard';
+import { EmpresaComponent } from './administracion/empresa/empresa.component';
 
 
 
@@ -130,6 +131,7 @@ const pagesRoutes: Routes = [
                 { path: 'Incidenciasalmacen', component: IncidenciasalmacenComponent  },
                 { path: 'calendarioalmacen', component: CalendarioalmacenComponent  },
                 { path: 'reportesalmacen', component: ReportesalmacenComponent  },
+                { path: 'empresa', component: EmpresaComponent  },
                 { path: 'quejas', component: QuejasComponent  },
                 { path: 'permisos', component: PermisosComponent  },
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
