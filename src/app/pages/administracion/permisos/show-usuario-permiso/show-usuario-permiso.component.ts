@@ -1,4 +1,3 @@
-
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
@@ -6,6 +5,9 @@ import { Usuario } from '../../../../Models/catalogos/usuarios-model';
 import { UsuariosServieService } from '../../../../services/catalogos/usuarios-servie.service';
 
 import { MatDialog, MatDialogConfig } from '@angular/material';
+import { ShowUsuarioPrivilegioComponent } from '../show-usuario-privilegio/show-usuario-privilegio.component';
+
+
 
 @Component({
   selector: 'app-show-usuario-permiso',
@@ -15,7 +17,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 export class ShowUsuarioPermisoComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
-  displayedColumns : string [] = [ 'IdUsuario', 'Nombre', 'NombreUsuario', 'Correo', 'Telefono'];
+  displayedColumns : string [] = [ 'IdUsuario', 'Nombre', 'Nombre Usuario', 'Correo', 'Telefono', 'Opciones'];
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -42,10 +44,18 @@ export class ShowUsuarioPermisoComponent implements OnInit {
     });
   }
 
+  showAreaPrivilegio(){
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(ShowUsuarioPrivilegioComponent, dialogConfig);
+
+  }
+
     applyFilter(filtervalue: string){  
       this.listData.filter= filtervalue.trim().toLocaleLowerCase();
-  
-
   }
 
 }

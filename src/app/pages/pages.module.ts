@@ -132,7 +132,8 @@ import { FacturacioncxcEditProductoComponent } from './cxc/facturacioncxc/factur
 import { MatDividerModule } from '@angular/material/divider';
 import { ComplementopagocxcComponent } from './cxc/complementopagocxc/complementopagocxc.component';
 import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo-pago.component';
-import { ShowUsuarioPermisoComponent } from './administracion/permisos/show-usuario-permiso/show-usuario-permiso.component'
+import { ShowUsuarioPermisoComponent } from './administracion/permisos/show-usuario-permiso/show-usuario-permiso.component';
+import { ShowUsuarioPrivilegioComponent } from './administracion/permisos/show-usuario-privilegio/show-usuario-privilegio.component'
 
 
 
@@ -235,6 +236,7 @@ import { ShowUsuarioPermisoComponent } from './administracion/permisos/show-usua
         ComplementopagocxcComponent,
         ReciboPagoComponent,
         ShowUsuarioPermisoComponent,
+        ShowUsuarioPrivilegioComponent,
     ],
     exports: [
         DashboardComponent,
@@ -289,7 +291,8 @@ import { ShowUsuarioPermisoComponent } from './administracion/permisos/show-usua
         // FacturacioncxcAddComponent,
         FacturacioncxcEditComponent,
         FacturacioncxcProductoComponent,
-        FacturacioncxcEditProductoComponent
+        FacturacioncxcEditProductoComponent,
+        ShowUsuarioPrivilegioComponent
 
     ]
 })
