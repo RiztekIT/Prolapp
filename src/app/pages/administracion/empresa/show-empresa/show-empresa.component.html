@@ -3,63 +3,69 @@
         <div class="card">
             <div class="card-body">
                 <h2>Empresa</h2>
-                <div style="overflow: auto; height: 450px;">
 
+                <div style="overflow: auto;">
 
+                    <h4>Logo de la empresa</h4>
+                    <form>
+
+                    </form>
+                    <h4>Detalles de la Empresa</h4>
                     <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
 
                         <div class="form-material">
                             <div class="container ">
                                 <div class="row">
                                     <div class="col-6 col-md-6 col-lg-6">
+                                        <label class="input-group-text text-info">IdEmpresa</label>
+                                        <input type="text" class="form-control" name="IdEmpresa" #IdEmpresa="ngModel" [(ngModel)]="service.formData.IdEmpresa">
 
                                         <label class="input-group-text text-info">Razon Social</label>
-                                        <input readonly="readonly" type="text" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="service.formData.RazonSocial">
+                                        <input type="text" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="service.formData.RazonSocial">
 
                                         <label class="input-group-text text-info">RFC</label>
-                                        <input readonly="readonly" type="text" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="service.formData.RFC">
+                                        <input type="text" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="service.formData.RFC">
 
                                         <label class="input-group-text text-info">Calle</label>
-                                        <input readonly="readonly" type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle">
+                                        <input type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle">
 
                                         <label class="input-group-text text-info">Numero Interior</label>
-                                        <input readonly="readonly" type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior">
+                                        <input type="number" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior">
 
 
                                         <label class="input-group-text text-info">Numero Exterior</label>
-                                        <input readonly="readonly" type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior">
-                                        <label class="input-group-text text-info">Codigo Postal</label>
-                                        <input readonly="readonly" type="text" class="form-control" name="CodigoPostal" #CodigoPostal="ngModel" [(ngModel)]="service.formData.CP">
+                                        <input type="number" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior">
                                     </div>
                                     <div class="col-6 col-md-6 col-lg-6">
+                                        <label class="input-group-text text-info">Codigo Postal</label>
+                                        <input type="number" class="form-control" name="CP" #CodigoPostal="ngModel" [(ngModel)]="service.formData.CP">
 
                                         <label class="input-group-text text-info">Colonia</label>
-                                        <input readonly="readonly" type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia">
+                                        <input type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia">
 
                                         <label class="input-group-text text-info">Ciudad</label>
-                                        <input readonly="readonly" type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad">
+                                        <input type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad">
 
                                         <label class="input-group-text text-info">Estado</label>
-                                        <input readonly="readonly" type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado">
+                                        <input type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado">
 
                                         <label class="input-group-text text-info">Pais</label>
-                                        <input readonly="readonly" type="text" class="form-control" name="Pais" #Pais="ngModel" [(ngModel)]="service.formData.Pais">
+                                        <input type="text" class="form-control" name="Pais" #Pais="ngModel" [(ngModel)]="service.formData.Pais">
 
                                         <label class="input-group-text text-info">Regimen</label>
-                                        <input readonly="readonly" type="text" class="form-control" name="Regimen" #Regimen="ngModel" [(ngModel)]="service.formData.Regimen">
+                                        <input type="text" class="form-control" name="Regimen" #Regimen="ngModel" [(ngModel)]="service.formData.Regimen">
 
-                                        <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Actualizar Empresa</button>
                                     </div>
                                 </div>
-
+                                <div class="modal-footer">
+                                    <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Actualizar Empresa</button>
+                                </div>
                             </div>
                         </div>
-
-
                     </form>
 
                 </div>
-
+                <br>
             </div>
         </div>
     </div>
