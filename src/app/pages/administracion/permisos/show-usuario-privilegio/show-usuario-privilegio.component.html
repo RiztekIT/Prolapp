@@ -1,9 +1,27 @@
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore quo dignissimos ut ipsum quas in voluptates. Error, voluptas provident! Earum dolorum facere quis. In quibusdam ex laboriosam similique aliquam dolor.</p>
+<!-- BOTON PARA CERRAR -->
+<hr>
+
+
+<div style="overflow: auto; height: 450px;">
+
+
+    <form #form="ngForm" autocomplete="off">
+
+        <div class="card-columns">
+            <div class="card" *ngFor="let area of arrayArea">
+                <div class="card card-outline-inverse">
+                    <div class="card-header">
+                        <h4 class="m-b-0 text-white">{{area}}</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-material">
+                            <label class="input-group-text text-info"></label>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+
+
+    </form>
 </div>

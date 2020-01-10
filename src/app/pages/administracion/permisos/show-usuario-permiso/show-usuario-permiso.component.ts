@@ -44,7 +44,7 @@ export class ShowUsuarioPermisoComponent implements OnInit {
     });
   }
 
-  showAreaPrivilegio(){
+  showAreaPrivilegio(usuario:Usuario){
 
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -57,5 +57,7 @@ export class ShowUsuarioPermisoComponent implements OnInit {
     applyFilter(filtervalue: string){  
       this.listData.filter= filtervalue.trim().toLocaleLowerCase();
   }
+
+
 
 }

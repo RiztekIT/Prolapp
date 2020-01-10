@@ -1,32 +1,26 @@
 import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
+import { Proceso } from '../../Models/proceso-model';
 import {Observable } from 'rxjs';
 
-
 import {Subject} from 'rxjs';
-import { Empresa } from '../../Models/Empresas/empresa-model';
-
-export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmpresaService {
-  
+export class ProcesoService {
 
   constructor(private http:HttpClient) { }
-  formData: Empresa;
+  formData: Proceso;
 
-  
+  // readonly APIUrl = "https://localhost:44361/api";
+  // readonly APIUrl = "http://192.168.1.67:32767/api";;
+  readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
 
-  getEmpresaList(): Observable <Empresa[]> {
-    return this.http.get<Empresa[]>(APIUrl + '/empresa');
+
+  getProcesoList(): Observable <Proceso[]> {
+    return this.http.get<Proceso[]>(this.APIUrl + '/Proceso');
   }
-
-  updateEmpresa(empresa: Empresa) {
-    return this.http.put(APIUrl+ '/empresa', empresa);
-    }
-
 
   private _listeners = new Subject<any>(); 
   listen(): Observable<any> {
@@ -36,8 +30,6 @@ export class EmpresaService {
     this._listeners.next(filterBy);
   }
 
-
   
-
 }
 
