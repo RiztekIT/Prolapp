@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialogRef} from '@angular/material';
 import { ProcesoService } from '../../../../services/permisos/procesos.service';
 import { Proceso } from '../../../../Models/proceso-model';
 import { NgForm } from '@angular/forms';
@@ -14,7 +15,7 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
 
 arrayArea: Array<any> = [];
 
-  constructor(public service: ProcesoService) {
+  constructor(public service: ProcesoService, public dialogbox: MatDialogRef<ShowUsuarioPrivilegioComponent>) {
 
     this.service.listen().subscribe((m: any) => {
       // console.log(m);
@@ -28,6 +29,11 @@ arrayArea: Array<any> = [];
 
   ngOnInit() {
     this.refreshProcesosList();
+  }
+
+  onClose() {
+    this.dialogbox.close();
+    this.service.filter('Register click');
   }
 
   refreshProcesosList() {
