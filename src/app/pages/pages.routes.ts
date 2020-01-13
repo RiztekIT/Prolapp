@@ -64,6 +64,8 @@ import { AuthorizatedGuard } from './auth'
 import { LoginguardGuard } from '../services/shared/loginguard.guard';
 import { ComplementopagocxcComponent } from './cxc/complementopagocxc/complementopagocxc.component';
 import { EmpresaComponent } from './administracion/empresa/empresa.component';
+import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo-pago.component';
+
 
 
 
@@ -136,6 +138,7 @@ const pagesRoutes: Routes = [
                 { path: 'quejas', component: QuejasComponent  },
                 { path: 'complementopagoCxc', component: ComplementopagocxcComponent  },
                 { path: 'permisos', component: ShowUsuarioPermisoComponent  },
+                { path: 'recibopago', component: ReciboPagoComponent },
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },

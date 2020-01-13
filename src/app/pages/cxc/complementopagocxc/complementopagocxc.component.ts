@@ -26,7 +26,7 @@ import { ReciboPagoMasterPagoCFDI } from '../../../Models/ComplementoPago/recibo
 })
 export class ComplementopagocxcComponent implements OnInit {
 
-  IdFactura: any;
+  IdReciboPago: any;
   listData: MatTableDataSource<any>;
   MasterDetalle = new Array<ReciboPagoMasterPagoCFDI>();
   listDetalleData;
@@ -63,35 +63,22 @@ export class ComplementopagocxcComponent implements OnInit {
 
   //Obtener lista de Recibo de pagos y pagos de CFDI 
   refreshReciboPagoList(){
-    
   this.service.getReciboPagoClienteList().subscribe(data => {
-    // console.log(data);
   for (let i = 0; i <= data.length-1; i++){
-    // console.log(data[i]);
     this.service.master[i] = data[i]
     this.service.master[i].pagoCFDI = [];
-  // console.log(this.service.master);
     if (data[i].IdCliente != 1){
-      // console.log(data[i].Id);
-      // this.service.getPagoCFDIFacturaList(data[i].Id).subscribe(res => {
       this.service.getPagoCFDIFacturaList(data[i].Id).subscribe(res => {
-        // console.log(res);
         for (let l = 0; l <=res.length-1; l++){
           this.service.master[i].pagoCFDI.push(res[l]);
-        //   // console.log(this.service.master[i].pagoCFDI);
         }
         this.listData = new MatTableDataSource(this.service.master);
         this.listData.sort = this.sort;    
         this.listData.paginator = this.paginator;
         this.listData.paginator._intl.itemsPerPageLabel = 'Recibos de Pago por Pagina';
-        // console.log("ListData");
-        // console.log(this.service.master);
-        // console.log(this.listData);
       })
     }}
-
-    console.log(this.service.master);
-    
+    // console.log(this.service.master);
   });
 
 
@@ -107,9 +94,51 @@ export class ComplementopagocxcComponent implements OnInit {
 
   }
 
+  //Generar Recibo Pago en Blanco
+  public ReciboPagoBlanco: ReciboPago = 
+    {
+      Id:0,
+      IdCliente: 1,
+      FechaExpedicion: new Date(),
+    FechaPago: new Date(),
+    FormaPago: "",
+    Moneda: "",
+    TipoCambio: "",
+    Cantidad: "",
+    Referencia: "",
+    UUID: "",
+    Tipo: "Pago",
+    Certificado: "",
+    NoCertificado: "",
+    Cuenta: "",
+    CadenaOriginal: "",
+    SelloDigitalSAT: "",
+    SelloDigitalCFDI: "",
+    NoSelloSAT: "",
+    RFCPAC: "",
+    Estatus: "Creada"
+  }
+
   //Agregar
   onAdd(){
+    this.service.addReciboPago(this.ReciboPagoBlanco).subscribe(res => { 
+      this.router.navigate(['/recibopago']);
+    }
+    );
 
+  }
+  ObtenerUltimaFactura(){
+    // this.service.getUltimaFactura().subscribe(data => {
+    //   // console.log(data);
+    //   this.IdFactura = data[0].Id;
+    //   if (!this.IdFactura){
+    //     this.IdFactura='1';
+    //   }
+    //   // console.log(this.IdFactura);
+    //   return this.IdFactura;
+    //   // console.log(this.IdFactura);
+    //   });
+  
   }
 
   //Editar

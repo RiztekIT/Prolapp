@@ -36,6 +36,13 @@ export class ReciboPagoService {
   }
   //Obtener Lista de PagoCFDI
   //Crear Recibo Pago
+  addReciboPago(reciboPago: ReciboPago) {
+    return this.http.post(this.APIUrl + '/ReciboPago', reciboPago);
+  }
+  //Obtener Id ultimo ReciboPago
+  getUltimoReciboPago(): Observable<any> {
+    return this.http.get<any>(this.APIUrl + '/ReciboPago/UltimoReciboPago');
+  }
   //Crear PagoCFDI
   //Eliminar Recibo Pago
   //Eliminar PagoCFDI

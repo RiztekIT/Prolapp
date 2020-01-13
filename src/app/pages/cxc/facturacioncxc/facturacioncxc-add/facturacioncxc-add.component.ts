@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { MatDialog, MatDialogConfig, MatSnackBar, MatDivider } from '@angular/material';
 import { FacturaService } from '../../../../services/facturacioncxc/factura.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormControl } from '@angular/forms';
 import { Cliente } from '../../../../Models/catalogos/clientes-model';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
@@ -18,6 +18,8 @@ import { MessageService } from '../../../../services/message.service';
 import { NativeDateAdapter, MAT_DATE_FORMATS, DateAdapter } from "@angular/material"
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+//Importacion para utilizar Pipe
+import {map, startWith} from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -92,6 +94,9 @@ export class FacturacioncxcAddComponent implements OnInit {
   a = document.createElement('a');
   public loading = false;
   public loading2 = false;
+
+
+
   
 
   constructor(
@@ -138,6 +143,9 @@ export class FacturacioncxcAddComponent implements OnInit {
 
   Estatus: string;
 
+
+  
+
   // list Metodo Pago
   public listMP: Array<Object> = [
     { MetodoDePago: 'PUE', text: 'PUE-Pago en una sola exhibicion' },
@@ -170,11 +178,56 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.refreshDetallesFacturaList();
     this.tipoDeCambio();
     // this.onMoneda();
+
+
   }
+
+    //Control para Search/Lista de Clientes 
+    myControl = new FormControl();
+    options: Cliente[] = [];
+    filteredOptions: Observable<any[]>;
+
+
    //Informacion para tabla de productos
    listData: MatTableDataSource<any>;
    displayedColumns: string[] = ['ClaveProducto', 'ClaveSAT' , 'Producto', 'Cantidad', 'Precio', 'Options'];
    @ViewChild(MatSort, null) sort: MatSort;
+
+
+   dropdownRefresh() {
+
+    this.service.getDepDropDownValues().subscribe((data) => {
+      // console.log(data);
+      for (let i = 0; i < data.length; i++) {
+        let client = data[i];
+        this.listClientes.push(client);
+        this.options.push(client)
+
+        this.filteredOptions = this.myControl.valueChanges
+        .pipe(
+          startWith(''),
+          map(value => this._filter(value))
+        );
+      }
+    });
+
+  }
+
+//Filter Clientes
+private _filter(value: any): any[] {
+  const filterValue = value.toLowerCase();
+  return this.options.filter(option => 
+    option.IdClientes || 
+    option.Nombre.toLowerCase().includes(filterValue));
+}
+
+onSelectionChange(cliente:Cliente){
+    // this.service.formDataDF.Producto = options.Nombre;
+    // this.service.formDataDF.ClaveSAT = options.ClaveSAT;
+    // this.IVA = options.IVA;
+    // this.sumar();
+
+}
 
 
    onMoneda(){
@@ -318,17 +371,7 @@ if (diasemana == 6 || diasemana == 0){
   }
 
 
-  dropdownRefresh() {
 
-    this.service.getDepDropDownValues().subscribe((data) => {
-      // console.log(data);
-      for (let i = 0; i < data.length; i++) {
-        let client = data[i];
-        this.listClientes.push(client);
-      }
-      // console.log(this.listClientes);
-    });
-  }
   
   //Forma Pago
   public listFP: Array<Object> = [
