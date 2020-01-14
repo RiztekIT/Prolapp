@@ -197,16 +197,14 @@ export class FacturacioncxcAddComponent implements OnInit {
    dropdownRefresh() {
 
     this.service.getDepDropDownValues().subscribe((data) => {
-      // console.log(data);
       for (let i = 0; i < data.length; i++) {
         let client = data[i];
         this.listClientes.push(client);
         this.options.push(client)
-
         this.filteredOptions = this.myControl.valueChanges
         .pipe(
           startWith(''),
-          map(value => this._filter(value))
+          map(value =>  this._filter(value))
         );
       }
     });
@@ -215,17 +213,22 @@ export class FacturacioncxcAddComponent implements OnInit {
 
 //Filter Clientes
 private _filter(value: any): any[] {
+  console.log(value);
   const filterValue = value.toLowerCase();
   return this.options.filter(option => 
-    option.IdClientes || 
-    option.Nombre.toLowerCase().includes(filterValue));
+  option.Nombre.toLowerCase().includes(filterValue) ||
+    option.IdClientes.toString().includes(filterValue));
 }
 
 onSelectionChange(cliente:Cliente){
-    // this.service.formDataDF.Producto = options.Nombre;
-    // this.service.formDataDF.ClaveSAT = options.ClaveSAT;
-    // this.IVA = options.IVA;
-    // this.sumar();
+    this.service.formData.UsoDelCFDI = cliente.UsoCFDI;
+    this.service.formData.FormaDePago = cliente.MetodoPago;
+
+    if(this.service.formData.FormaDePago == '99' || this.service.formData.FormaDePago == '' ) {
+      this.service.formData.MetodoDePago = 'PPD';
+    } else{
+        this.service.formData.MetodoDePago = 'PUE';
+    }
 
 }
 
