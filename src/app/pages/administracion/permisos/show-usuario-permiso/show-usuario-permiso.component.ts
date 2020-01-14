@@ -15,6 +15,7 @@ import { ShowUsuarioPrivilegioComponent } from '../show-usuario-privilegio/show-
   styleUrls: ['./show-usuario-permiso.component.css']
 })
 export class ShowUsuarioPermisoComponent implements OnInit {
+  arrayArea: Array<any> = [];
 
   listData: MatTableDataSource<any>;
   displayedColumns : string [] = [ 'IdUsuario', 'Nombre', 'Nombre Usuario', 'Correo', 'Telefono', 'Opciones'];
@@ -23,6 +24,7 @@ export class ShowUsuarioPermisoComponent implements OnInit {
 
 
   constructor(private service:UsuariosServieService, private dialog: MatDialog) { 
+    
 
   this.service.listen().subscribe((m:any)=>{
     console.log(m);
@@ -45,7 +47,7 @@ export class ShowUsuarioPermisoComponent implements OnInit {
   }
 
   showAreaPrivilegio(usuario:Usuario){
-
+    this.service.formData = usuario;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -54,10 +56,26 @@ export class ShowUsuarioPermisoComponent implements OnInit {
 
   }
 
+
+
     applyFilter(filtervalue: string){  
       this.listData.filter= filtervalue.trim().toLocaleLowerCase();
   }
 
+  // working
+  
+  AreaList(usuario:Usuario) {
+    this.service.showAreaPrivilegio(usuario.IdUsuario).subscribe(data => {
+this.service.formData=usuario;
+       const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    
 
+    
+    this.dialog.open(ShowUsuarioPrivilegioComponent, dialogConfig);
+    });
+  }
 
 }
