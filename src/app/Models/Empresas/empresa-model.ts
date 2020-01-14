@@ -3,9 +3,9 @@ export class Empresa {
     RFC: string;
     RazonSocial: string;
     Calle: string;
-    NumeroInterior: string;
-    NumeroExterior: string;
-    CP: string;
+    NumeroInterior: number;
+    NumeroExterior: number;
+    CP: number;
     Colonia: string;
     Ciudad: string;
     Estado: string;

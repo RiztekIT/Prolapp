@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
 import { ReciboPagoService } from '../../../services/complementoPago/recibo-pago.service';
 import { ReciboPago } from '../../../Models/ComplementoPago/recibopago';
+import { PagoCFDI } from '../../../Models/ComplementoPago/pagocfdi';
+import { ReciboPagoMasterPagoCFDI } from '../../../Models/ComplementoPago/recibopagoMasterpagoCFDI';
 
 
 @Component({
@@ -24,17 +26,17 @@ import { ReciboPago } from '../../../Models/ComplementoPago/recibopago';
 })
 export class ComplementopagocxcComponent implements OnInit {
 
-  IdFactura: any;
+  IdReciboPago: any;
   listData: MatTableDataSource<any>;
-  // MasterDetalle = new Array<facturaMasterDetalle>();
+  MasterDetalle = new Array<ReciboPagoMasterPagoCFDI>();
   listDetalleData;
   displayedColumns : string [] = ['Id', 'Cliente', 'FechaPago', 'Cantidad', 'Estado', 'Options'];
-  displayedColumnsVersion : string [] = ['ClaveProducto'];
+  displayedColumnsVersion : string [] = ['Cantidad'];
   folio: string;
   fileUrl;
   xmlparam;
   expandedElement: any;
-  // detalle = new Array<DetalleFactura>();
+  detalle = new Array<PagoCFDI>();
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
 
   a = document.createElement('a');
@@ -59,40 +61,25 @@ export class ComplementopagocxcComponent implements OnInit {
     // this.listData.connect();
   }
 
-  //Obtener lista de Recivo de pagos
+  //Obtener lista de Recibo de pagos y pagos de CFDI 
   refreshReciboPagoList(){
-    
-  this.service.getRecibosPagoList().subscribe(data => {
-    // console.log("ESTE EEESSSS" + data[0]);
-
-  
-  
-  // for (let i = 0; i <= data.length-1; i++){
-  //   this.service.master[i] = data[i]
-  //   this.service.master[i].detalle = [];
-  
-  //   if (data[i].IdCliente != 1){
-      
-  //     this.service.getDetallesFacturaList(data[i].Id).subscribe(res => {
-  //       for (let l = 0; l <=res.length-1; l++){
-
-  //         this.service.master[i].detalle.push(res[l]);
-  //       }
- 
-  this.listData = new MatTableDataSource(data)
-        // this.listData = new MatTableDataSource(this.service.master);
+  this.service.getReciboPagoClienteList().subscribe(data => {
+  for (let i = 0; i <= data.length-1; i++){
+    this.service.master[i] = data[i]
+    this.service.master[i].pagoCFDI = [];
+    if (data[i].IdCliente != 1){
+      this.service.getPagoCFDIFacturaList(data[i].Id).subscribe(res => {
+        for (let l = 0; l <=res.length-1; l++){
+          this.service.master[i].pagoCFDI.push(res[l]);
+        }
+        this.listData = new MatTableDataSource(this.service.master);
         this.listData.sort = this.sort;    
         this.listData.paginator = this.paginator;
-        this.listData.paginator._intl.itemsPerPageLabel = 'Facturas por Pagina';
-      // })
-    // }}
- 
-    
-    
-    
+        this.listData.paginator._intl.itemsPerPageLabel = 'Recibos de Pago por Pagina';
+      })
+    }}
+    // console.log(this.service.master);
   });
-
-  // console.log(this.listData);
 
 
   }
@@ -107,9 +94,51 @@ export class ComplementopagocxcComponent implements OnInit {
 
   }
 
+  //Generar Recibo Pago en Blanco
+  public ReciboPagoBlanco: ReciboPago = 
+    {
+      Id:0,
+      IdCliente: 1,
+      FechaExpedicion: new Date(),
+    FechaPago: new Date(),
+    FormaPago: "",
+    Moneda: "",
+    TipoCambio: "",
+    Cantidad: "",
+    Referencia: "",
+    UUID: "",
+    Tipo: "Pago",
+    Certificado: "",
+    NoCertificado: "",
+    Cuenta: "",
+    CadenaOriginal: "",
+    SelloDigitalSAT: "",
+    SelloDigitalCFDI: "",
+    NoSelloSAT: "",
+    RFCPAC: "",
+    Estatus: "Creada"
+  }
+
   //Agregar
   onAdd(){
+    this.service.addReciboPago(this.ReciboPagoBlanco).subscribe(res => { 
+      this.router.navigate(['/recibopago']);
+    }
+    );
 
+  }
+  ObtenerUltimaFactura(){
+    // this.service.getUltimaFactura().subscribe(data => {
+    //   // console.log(data);
+    //   this.IdFactura = data[0].Id;
+    //   if (!this.IdFactura){
+    //     this.IdFactura='1';
+    //   }
+    //   // console.log(this.IdFactura);
+    //   return this.IdFactura;
+    //   // console.log(this.IdFactura);
+    //   });
+  
   }
 
   //Editar

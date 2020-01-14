@@ -32,17 +32,22 @@
 
 
 
-                                    <select id="div2" class="form-control" name="ClienteId" #ClienteId="ngModel" [(ngModel)]="service.formData.IdCliente" required>
-                    <!-- <option [ng
-                        Value]="null" disabled>Choose your profile</option> -->
+                                    <!-- <select id="div2" class="form-control" name="ClienteId" #ClienteId="ngModel" [(ngModel)]="service.formData.IdCliente" required>
+                    <option [ngValue]="null" disabled>Choose your profile</option>
                     <option *ngFor="let dl of listClientes" [ngValue]="dl.IdClientes">
                       {{dl.Nombre}}
                     </option>
-                  </select>
+                  </select> -->
 
-                                    <div class="text-left text-danger" *ngIf="ClienteId.invalid && ClienteId.touched ">
-                                        Favor de Seleccionar un Cliente
-                                    </div>
+                                    <mat-form-field class="example-full-width">
+                                        <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClienteId" [(ngModel)]="service.formData.IdCliente">
+                                        <mat-autocomplete #auto="matAutocomplete">
+                                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.Nombre" (onSelectionChange)="onSelectionChange(option)">
+                                                {{option.IdClientes}} {{option.Nombre}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+
                                     <!------------------------------------------------------------------------------------------>
 
                                     <label style="display: none" class="input-group-text text-info">Serie</label>
