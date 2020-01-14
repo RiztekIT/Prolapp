@@ -48,6 +48,7 @@ export class FacturacioncxcEditProductoComponent implements OnInit {
   }
   //Filter Clave Producto
    private _filter(value: any): any[] {
+     console.log(value);
     const filterValue = value.toLowerCase();
     return this.options.filter(option => 
       option.Nombre.toLowerCase().includes(filterValue) || 
