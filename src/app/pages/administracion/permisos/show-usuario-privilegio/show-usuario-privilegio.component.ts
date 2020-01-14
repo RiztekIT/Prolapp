@@ -43,6 +43,8 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
          this.arrayArea.push(data[i].Area)
        }
      });
+
+     
    }
 
 

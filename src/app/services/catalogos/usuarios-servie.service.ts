@@ -45,6 +45,10 @@ export class UsuariosServieService {
   return this.http.get<any>(this.APIUrl + '/proceso/ProcesoArea/' + id);
  }
 
+ GetProcesoNombre(): Observable <Proceso[]>{
+  return this.http.get<any>(this.APIUrl + '/proceso/ProcesoNombre');
+ }
+
 
   private _listeners = new Subject<any>(); 
   listen(): Observable<any> {
