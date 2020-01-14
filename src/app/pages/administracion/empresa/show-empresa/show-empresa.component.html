@@ -7,9 +7,26 @@
                 <div style="overflow: auto;">
 
                     <h4>Logo de la empresa</h4>
-                    <form>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-3">
+                                <div>
+                                    <img [src]='empresaFoto' alt="Foto">
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <button type="button" class="btn btn-succes waves-effect waves-light m-r-10">
+                        <i class="fa fa-save"></i>
+                        Cambiar Imagen
+                    </button>
+                                <input type="file">
+                            </div>
+                        </div>
+                    </div>
 
-                    </form>
+
+
+
                     <h4>Detalles de la Empresa</h4>
                     <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
 

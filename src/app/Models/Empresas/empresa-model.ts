@@ -1,14 +1,15 @@
 export class Empresa {
-    IdEmpresa: number;
-    RFC: string;
-    RazonSocial: string;
-    Calle: string;
-    NumeroInterior: number;
-    NumeroExterior: number;
-    CP: number;
-    Colonia: string;
-    Ciudad: string;
-    Estado: string;
-    Pais: string;
-    Regimen: string;
+     public IdEmpresa: number;
+     public RFC: string;
+     public RazonSocial: string;
+     public Calle: string;
+     public NumeroInterior: number;
+     public NumeroExterior: number;
+     public CP: number;
+     public Colonia: string;
+     public Ciudad: string;
+     public Estado: string;
+     public Pais: string;
+     public Regimen: string;
+     public Foto?: string;
 }

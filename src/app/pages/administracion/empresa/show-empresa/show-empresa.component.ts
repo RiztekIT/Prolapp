@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import xml2js from 'xml2js';
+import { processors } from 'xml2js'
 
 import {MatTableDataSource, MatSort, MatPaginator, MatDialogRef} from '@angular/material';
 import { Empresa } from '../../../../Models/Empresas/empresa-model';
@@ -9,6 +11,7 @@ import { EditEmpresaComponent } from '../edit-empresa/edit-empresa.component';
 
 import Swal from 'sweetalert2';
 import { NgForm } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -17,6 +20,9 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./show-empresa.component.css']
 })
 export class ShowEmpresaComponent implements OnInit {
+  
+
+  empresaFoto: any;
 
   // listData: MatTableDataSource<any>;
   // displayedColumns: string [] = [ 'Razon Social', 'RFC', 'Calle', 'Numero Interior', 'Numero Exterior', 'Codigo Postal', 
@@ -24,18 +30,21 @@ export class ShowEmpresaComponent implements OnInit {
   // @ViewChild(MatSort, null) sort : MatSort;
   // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private service:EmpresaService, private dialog: MatDialog, private snackBar: MatSnackBar,  ) {
+  constructor(private service:EmpresaService, private dialog: MatDialog, private snackBar: MatSnackBar, private sanitizer: DomSanitizer ) {
     this.Iniciar();
 
     this.service.listen().subscribe((m:any) =>{
 
       this.refreshEmpresaList();
+      
+      this.refreshEmpresaFoto();
     });
 
    }
 
   ngOnInit() {
     this.refreshEmpresaList();
+    this.refreshEmpresaFoto();
   }
 
   Iniciar(){
@@ -58,13 +67,28 @@ export class ShowEmpresaComponent implements OnInit {
   refreshEmpresaList(){
 
     this.service.getEmpresaList().subscribe(data =>{
-      // console.log(data[0]);
+      //console.log(data[0]);
       this.service.formData = data[0];
       // this.listData = new MatTableDataSource(data);
       // this.listData.sort = this.sort;
       // this.listData.paginator = this.paginator;
       // this.listData.paginator._intl.itemsPerPageLabel = 'Empresas por Pagina';
     })
+  }
+
+  refreshEmpresaFoto(){
+    //console.log(this.service.getEmpresaFoto());
+    this.service.getEmpresaFoto().subscribe(data => {
+      console.log(data);
+      let objectURL = 'data:image/jpeg;base64,' + data[0].Foto;
+
+         this.empresaFoto = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+
+
+    })
+    
+
+   
   }
 
   onEdit(empresa: Empresa){
@@ -87,6 +111,7 @@ export class ShowEmpresaComponent implements OnInit {
       })
     });
   }
+
 
 
     
