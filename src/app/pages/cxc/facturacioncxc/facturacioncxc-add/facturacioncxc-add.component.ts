@@ -326,7 +326,7 @@ if (diasemana == 6 || diasemana == 0){
         let client = data[i];
         this.listClientes.push(client);
       }
-      // console.log(this.listClientes);
+       console.log(this.listClientes);
     });
   }
   

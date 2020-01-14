@@ -33,7 +33,8 @@
 
 
                                     <select id="div2" class="form-control" name="ClienteId" #ClienteId="ngModel" [(ngModel)]="service.formData.IdCliente" required>
-                    <option [ngValue]="null" disabled>Choose your profile</option>
+                    <!-- <option [ng
+                        Value]="null" disabled>Choose your profile</option> -->
                     <option *ngFor="let dl of listClientes" [ngValue]="dl.IdClientes">
                       {{dl.Nombre}}
                     </option>
