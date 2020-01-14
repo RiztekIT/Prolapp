@@ -4,6 +4,7 @@ import { Usuario } from '../../Models/catalogos/usuarios-model';
 import {Observable } from 'rxjs';
 
 import {Subject} from 'rxjs';
+import { Proceso } from '../../Models/proceso-model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class UsuariosServieService {
 
   constructor(private http:HttpClient) { }
   formData: Usuario;
+  areaData: Proceso;
 
   // readonly APIUrl = "https://localhost:44361/api";
   readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
@@ -37,6 +39,10 @@ export class UsuariosServieService {
 
  updateUsuario(usuario: Usuario) {
  return this.http.put(this.APIUrl+ '/usuario', usuario);
+ }
+
+ showAreaPrivilegio(id:number): Observable <Proceso[]>{
+  return this.http.get<any>(this.APIUrl + '/proceso/ProcesoArea/' + id);
  }
 
 

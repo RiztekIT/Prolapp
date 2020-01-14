@@ -19,15 +19,30 @@ export class ReciboPagoService {
 
   constructor(private http:HttpClient) { }
 
-  //URL donde mandaremos el request al servidor para obtener los Datos de la DB
+  // URL donde mandaremos el request al servidor para obtener los Datos de la DB
   readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
 
   //Obtener Lista de ReciboPago
   getRecibosPagoList(): Observable <ReciboPago[]> {
     return this.http.get<ReciboPago[]>(this.APIUrl + '/ReciboPago');
   }
+  //Obtener Join ReciboPago - Cliente
+  getReciboPagoClienteList(): Observable <any[]> {
+    return this.http.get<any[]>(this.APIUrl + '/ReciboPago/ReciboPagoCliente');
+  }
+  //Obtener Join PagoCFDI - Factura
+  getPagoCFDIFacturaList(id:number): Observable <any[]> {
+    return this.http.get<any[]>(this.APIUrl + '/ReciboPago/PagoCFDIFactura/'+ id);
+  }
   //Obtener Lista de PagoCFDI
   //Crear Recibo Pago
+  addReciboPago(reciboPago: ReciboPago) {
+    return this.http.post(this.APIUrl + '/ReciboPago', reciboPago);
+  }
+  //Obtener Id ultimo ReciboPago
+  getUltimoReciboPago(): Observable<any> {
+    return this.http.get<any>(this.APIUrl + '/ReciboPago/UltimoReciboPago');
+  }
   //Crear PagoCFDI
   //Eliminar Recibo Pago
   //Eliminar PagoCFDI
