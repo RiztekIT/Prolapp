@@ -7,26 +7,25 @@
 </div>
 
 
-<div style="overflow: auto; height: 450px;">
-
-
+<div style="overflow: auto; height: 450px;" class="container-fluid">
     <form #form="ngForm" autocomplete="off">
 
         <div class="card-columns">
-            <div class="card" *ngFor="let area of arrayArea">
+            <div *ngFor="let area of service.master">
                 <div class="card card-outline-inverse">
                     <div class="card-header">
-                        <h4 class="m-b-0 text-white">{{area}}</h4>
+                        <h4 class="m-b-0 text-white">{{area.Area}}</h4>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" *ngFor="let proceso of area.NombreProcesos">
                         <div class="form-material">
-                            <label class="input-group-text text-info">{{nombreProceso}}</label>
+                            <input type="checkbox" class="check">
+                            <label class="input-group-text text-info">
+                                {{proceso.NombreProceso}}
+                            </label>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
     </form>
 </div>

@@ -71,9 +71,6 @@ this.service.formData=usuario;
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
-    
-
-    
     this.dialog.open(ShowUsuarioPrivilegioComponent, dialogConfig);
     });
   }
