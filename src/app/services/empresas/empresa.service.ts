@@ -29,6 +29,10 @@ export class EmpresaService {
 
   updateEmpresa(empresa: Empresa) {
     return this.http.put(APIUrl+ '/empresa', empresa);
+    }  
+  
+    updateEmpresaFoto(foto: string) {
+      return this.http.post( APIUrl + '/Empresa/EditarEmpresaFoto' + '?Foto=' + foto, null)
     }
 
 
@@ -39,7 +43,51 @@ export class EmpresaService {
   filter(filterBy: string) {
     this._listeners.next(filterBy);
   }
+  
+  subirArchivo( archivo: File ) {
 
+
+
+    // return new Promise( (resolve, reject ) => {
+
+    //   let formData = new FormData();
+    //   let xhr = new XMLHttpRequest();
+
+    //   formData.append( 'imagen', archivo, archivo.name );
+
+    //   xhr.onreadystatechange = function() {
+
+    //     if ( xhr.readyState === 4 ) {
+
+    //       if ( xhr.status === 200 ) {
+    //         console.log( 'Imagen subida' );
+    //         resolve( JSON.parse( xhr.response ) );
+    //       } else {
+    //         console.log( 'Fallo la subida' );
+    //         reject( xhr.response );
+    //       }
+
+    //     }
+    //   };
+
+    //   let url = APIUrl + '/empresa/EmpresaFoto' + archivo
+
+    //   xhr.open('PUT', url, true );
+    //   xhr.send( formData );
+
+    // });
+
+  }
+
+  // cambiarImagen(archivo: File){
+  //   this.subirArchivo(archivo)
+  //   .then( resp => {
+  //    console.log(resp)
+  //   })
+  //   .catch( resp => {
+  //    console.log(resp)
+  //   })
+  // }
 
 
 

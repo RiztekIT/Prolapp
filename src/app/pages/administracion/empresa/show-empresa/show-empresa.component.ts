@@ -21,7 +21,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class ShowEmpresaComponent implements OnInit {
   
-
+  fotoSubir: string;
   empresaFoto: any;
 
   // listData: MatTableDataSource<any>;
@@ -87,8 +87,44 @@ export class ShowEmpresaComponent implements OnInit {
 
     })
     
-
+  
    
+  }
+
+  seleccionImagen(event: any){
+  
+    // if(!archivo){
+    //   this.fotoSubir = null;
+    //   return; 
+    // }
+    // console.log(event)
+    // console.log(event.target.value)
+    // console.log(encodeURI(event.target.value));
+    
+
+    this.fotoSubir = (event.target.value)
+    // .subscribe(data =>{
+    //   let objectUrl = 'data:image/jpeg;base64,' + data;
+    //   this.empresaFoto = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
+    // });
+
+  }
+
+
+  cambiarImagen(event: any){
+
+      // this.fotoSubir = event.target.value;
+     console.log(this.fotoSubir)
+
+    this.service.updateEmpresaFoto(encodeURI(this.fotoSubir)).subscribe(data =>{
+
+      console.log(data)
+      Swal.fire({
+        icon: 'success',
+        title: ' Foto de Empresa Actualizada'
+      })
+    })
+
   }
 
   onEdit(empresa: Empresa){
