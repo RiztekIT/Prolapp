@@ -18,10 +18,12 @@
                     </div>
                     <div class="card-body" *ngFor="let proceso of area.NombreProcesos">
                         <div class="form-material">
-                            <input type="checkbox" class="check">
-                            <label class="input-group-text text-info">
+                            <!-- <input type="checkbox" class="check" > -->
+                            <mat-checkbox name="pintado" [(ngModel)]="proceso.PermisoBool">
+                                <label class="input-group-text text-info">
                                 {{proceso.NombreProceso}}
-                            </label>
+                                </label>
+                            </mat-checkbox>
                         </div>
                     </div>
                 </div>

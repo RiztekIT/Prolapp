@@ -37,8 +37,8 @@ export class ProcesoService {
     return this.http.get<any>(this.APIUrl + '/proceso/ProcesoNombre/' + area);
    }
 
-   GetProcesoPrivilegio(id:number){
-    return this.http.get<any>(this.APIUrl + '/Proceso/ProcesoPrivilegio/' + id);
+   GetProcesoPrivilegio(id:number): Observable <Proceso[]>{
+    return this.http.get<any>(this.APIUrl + '/proceso/ProcesoPrivilegio/' + id);
   }
 
   private _listeners = new Subject<any>(); 
