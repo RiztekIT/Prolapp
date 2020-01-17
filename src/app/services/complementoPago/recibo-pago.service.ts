@@ -4,6 +4,7 @@ import {Observable, Subject } from 'rxjs';
 import { ReciboPago } from '../../Models/ComplementoPago/recibopago';
 import { PagoCFDI } from '../../Models/ComplementoPago/pagocfdi';
 import { ReciboPagoMasterPagoCFDI } from '../../Models/ComplementoPago/recibopagoMasterpagoCFDI';
+import { Cliente } from 'src/app/Models/catalogos/clientes-model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ import { ReciboPagoMasterPagoCFDI } from '../../Models/ComplementoPago/recibopag
 export class ReciboPagoService {
 
   formData = new ReciboPago();
+  formDataPagoCFDI = new PagoCFDI;
   // formDataDF: DetalleFactura;
   // formDataP: Producto;
   IdReciboPago: number;
@@ -43,6 +45,18 @@ export class ReciboPagoService {
   getUltimoReciboPago(): Observable<any> {
     return this.http.get<any>(this.APIUrl + '/ReciboPago/UltimoReciboPago');
   }
+  //Obtener Recibo por IdRecibo
+  getReciboId(id: number): Observable<any[]>{
+    return this.http.get<ReciboPago[]>(this.APIUrl + '/ReciboPago/ReciboPagoId/' + id);
+  }
+  //Obtener Clientes de la Base de Datos
+getDepDropDownValues(): Observable<any>{
+  return this.http.get<Cliente[]>(this.APIUrl+'/cliente');
+}
+//Obtener Folio de Facturas en base a IdCliente
+getClienteFacturaList(id: number): Observable<any[]>{
+  return this.http.get<any[]>(this.APIUrl + '/ReciboPago/FacturaIdCliente/' + id)
+}
   //Crear PagoCFDI
   //Eliminar Recibo Pago
   //Eliminar PagoCFDI

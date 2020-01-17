@@ -94,6 +94,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   a = document.createElement('a');
   public loading = false;
   public loading2 = false;
+  
 
 
 
@@ -143,6 +144,9 @@ export class FacturacioncxcAddComponent implements OnInit {
 
   Estatus: string;
 
+  //Nombre del Cliente a Facturar 
+  ClienteNombre: any;
+
 
   
 
@@ -161,7 +165,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   onChange(val){
     var d = new Date(val);
     let date = [d.getFullYear(), ('0' + (d.getMonth()+1)).slice(-2), ('01').slice(-2)].join('-')
-    console.log(date);
+    // console.log(date);
     
   }
 
@@ -213,34 +217,44 @@ export class FacturacioncxcAddComponent implements OnInit {
 
 //Filter Clientes
 private _filter(value: any): any[] {
-  console.log(value);
+  // console.log(value);
   const filterValue = value.toLowerCase();
   return this.options.filter(option => 
   option.Nombre.toLowerCase().includes(filterValue) ||
     option.IdClientes.toString().includes(filterValue));
 }
 
-onSelectionChange(cliente:Cliente){
-    this.service.formData.UsoDelCFDI = cliente.UsoCFDI;
-    this.service.formData.FormaDePago = cliente.MetodoPago;
+onSelectionChange(cliente:Cliente, event:any){
+  if(event.isUserInput){
 
-    if(this.service.formData.FormaDePago == '99' || this.service.formData.FormaDePago == '' ) {
-      this.service.formData.MetodoDePago = 'PPD';
-    } else{
-        this.service.formData.MetodoDePago = 'PUE';
-    }
+    console.log(cliente);
+    this.service.formData.IdCliente = cliente.IdClientes;
+    console.log(this.service.formData);
+    this.ClienteNombre = cliente.Nombre;
+      this.service.formData.UsoDelCFDI = cliente.UsoCFDI;
+      this.service.formData.FormaDePago = cliente.MetodoPago;
+  
+      if(this.service.formData.FormaDePago == '99' || this.service.formData.FormaDePago == '' ) {
+        this.service.formData.MetodoDePago = 'PPD';
+      } else{
+          this.service.formData.MetodoDePago = 'PUE';
+      }
+  }
+  // console.log(cliente.IdClientes);
+
+
 
 }
 
 
    onMoneda(){
     // console.log(event);
-    console.log(this.service.formData);
+    // console.log(this.service.formData);
     
     this.Moneda = this.service.formData.Moneda;
     // console.log(this.Moneda);
     this.service.Moneda = this.Moneda;
-    console.log(this.service.Moneda);
+    // console.log(this.service.Moneda);
   }
 
    tipoDeCambio(){
@@ -268,9 +282,9 @@ onSelectionChange(cliente:Cliente){
     let diasemana = new Date(fechahoy).getDay();
     
     
-    console.log(fechaayer.getDay());
-    console.log(hora);
-    console.log('dia semana '+ diasemana);
+    // console.log(fechaayer.getDay());
+    // console.log(hora);
+    // console.log('dia semana '+ diasemana);
     //2020-01-03/2020-01-03
 if (diasemana == 6 || diasemana == 0){
   this.rootURL = this.rootURL+'oportuno'
@@ -286,13 +300,13 @@ if (diasemana == 6 || diasemana == 0){
     let añoayer = new Date(fechaayer).getFullYear();
     mesayer = mesayer+1;
     let fecha = añoayer+'-'+mesayer+'-'+diaayer;
-    console.log(fecha);
+    // console.log(fecha);
     this.rootURL = this.rootURL+fecha+'/'+fecha
 
     }else{
     mesayer = mesayer+1;
     let fecha = añoayer+'-'+mesayer+'-'+diaayer;
-    console.log(fecha);
+    // console.log(fecha);
     this.rootURL = this.rootURL+fecha+'/'+fecha
     }
   }
@@ -303,7 +317,7 @@ if (diasemana == 6 || diasemana == 0){
     
     
 
-    console.log(this.http.get(this.rootURL, httpOptions));
+    // console.log(this.http.get(this.rootURL, httpOptions));
     
     return this.http.get(this.rootURL, httpOptions)
 
@@ -335,17 +349,17 @@ if (diasemana == 6 || diasemana == 0){
       
       for (let i = 0; i < data.length; i++) {
         subtotal = subtotal + parseFloat(data[i].Importe);
-        console.log(subtotal);
+        // console.log(subtotal);
         
         iva = iva + parseFloat(data[i].ImporteIVA);
-        console.log(iva);
+        // console.log(iva);
         
         total = iva + subtotal;
       }
-      console.log(subtotal);
-      console.log('iva');
-      console.log(parseFloat(iva).toFixed(6));
-      console.log(total);
+      // console.log(subtotal);
+      // console.log('iva');
+      // console.log(parseFloat(iva).toFixed(6));
+      // console.log(total);
       for (let i = 0; i < data.length; i++) {
         subtotalDlls = subtotalDlls + parseFloat(data[i].ImporteDlls);
         ivaDlls = ivaDlls + (subtotalDlls * parseFloat(data[i].ImporteIVADlls));
@@ -354,7 +368,7 @@ if (diasemana == 6 || diasemana == 0){
       // console.log(subtotal);
       // console.log(iva);
       // console.log(total);
-      console.log(iva);
+      // console.log(iva);
       this.service.formData.Subtotal = subtotal;
       this.service.formData.ImpuestosTrasladados = (parseFloat(iva).toFixed(6));
       this.service.formData.Total = (parseFloat(total).toFixed(6))
@@ -512,6 +526,7 @@ onEdit(detalleFactura: DetalleFactura){
   resetForm(form?: NgForm) {
     // if (form != null)
     //   form.resetForm();
+    // this.ClienteNombre = 'Juanito';
     
     
     this.service.getFacturaId(this.IdFactura).subscribe(res => {
@@ -519,7 +534,13 @@ onEdit(detalleFactura: DetalleFactura){
         // console.log(res);
         // this.refreshDetallesFacturaList();
         this.service.formData = res[0];
-        console.log(this.service.formData);
+        // console.log(this.service.formData);
+
+        //OBTENER LA INFORMACION DEL CLIENTE, EN ESPECIFICO EL NOMBRE DEL CLIENTE PARA PINTARLO EN EL FORMULARIO
+        this.service.getFacturaClienteID(this.service.formData.IdCliente).subscribe(res =>{
+          // console.log(res);
+          this.ClienteNombre = res[0].Nombre;
+        });
         
         this.Estatus = this.service.formData.Estatus;
         // console.log(this.Estatus);
@@ -719,7 +740,7 @@ onEdit(detalleFactura: DetalleFactura){
       
       
       cadena = JSON.stringify(this.json1); 
-       console.log(cadena);
+      //  console.log(cadena);
       
       this.enviar(cadena);
     })
@@ -909,10 +930,10 @@ return cadena;
       this.a.click();
       do {
         this.xmlparam = localStorage.getItem('xml'+folio);
-        console.log(this.xmlparam);
+        // console.log(this.xmlparam);
         
         if (localStorage.getItem('xml'+folio)!=null){
-          console.log('no nulo');
+          // console.log('no nulo');
           this.xmlparam = localStorage.getItem('xml'+folio);
           this.onExportClick(this.service.formData.Folio);
         }
@@ -924,7 +945,7 @@ return cadena;
       
       return this.fileUrl;
 
-      console.log(this.fileUrl);
+      // console.log(this.fileUrl);
     
       
     });
@@ -1180,12 +1201,12 @@ Swal.fire({
   cancelButtonText: 'Deshacer'
 }).then((result) => {
   if (result.value) {
-    console.log(id);
+    // console.log(id);
     this.loading=true;
     this.enviarfact.cancelar(id).subscribe(data => {
-      console.log(data.response);
+      // console.log(data.response);
       let data2 = JSON.parse(data);
-      console.log(data2);
+      // console.log(data2);
       
       
       if (data2.response === 'success') {
@@ -1399,12 +1420,12 @@ Swal.fire({
       
       
       cadena = JSON.stringify(this.json1); 
-       console.log(cadena);
+      //  console.log(cadena);
        document.getElementById('abrirpdf').click();
     
        setTimeout(()=>{
          this.onExportClick();   
-         console.log(this.json1);
+        //  console.log(this.json1);
           
         },1000)
       
