@@ -34,6 +34,7 @@
         "html2pdf.js": "^0.9.1",
         "js2xmlparser": "^4.0.0",
         "ng2-charts": "^2.3.0",
+        "ng2-file-upload": "^1.4.0",
         "ngx-loading": "^8.0.0",
         "ngx-qrcode2": "0.0.9",
         "request": "^2.88.0",
