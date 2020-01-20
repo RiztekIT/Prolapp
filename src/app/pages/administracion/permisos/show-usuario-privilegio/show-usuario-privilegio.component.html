@@ -11,19 +11,20 @@
     <form #form="ngForm" autocomplete="off">
 
         <div class="card-columns">
-            <div *ngFor="let area of service.master">
+            <div *ngFor="let area of service.master; let f = index">
                 <div class="card card-outline-inverse">
                     <div class="card-header">
                         <h4 class="m-b-0 text-white">{{area.Area}}</h4>
                     </div>
-                    <div class="card-body" *ngFor="let proceso of area.NombreProcesos">
+                    <div class="card-body" *ngFor="let proceso of area.NombreProcesos; let i = index">
                         <div class="form-material">
                             <!-- <input type="checkbox" class="check" > -->
-                            <mat-checkbox name="pintado" [(ngModel)]="proceso.PermisoBool">
-                                <label class="input-group-text text-info">
+                            <mat-checkbox name="proceso.PermisoBool" [(checked)]="proceso.PermisoBool" (change)="checkbox($event,f,i)">
+
+                            </mat-checkbox>
+                            <label class="input-group-text text-info">
                                 {{proceso.NombreProceso}}
                                 </label>
-                            </mat-checkbox>
                         </div>
                     </div>
                 </div>

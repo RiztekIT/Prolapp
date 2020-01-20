@@ -25,6 +25,7 @@
         "@ng-bootstrap/ng-bootstrap": "^5.1.4",
         "@syncfusion/ej2-angular-dropdowns": "^17.4.42",
         "@syncfusion/ej2-dropdowns": "^17.4.42",
+        "angular2-image-upload": "^1.0.0-rc.2",
         "angularx-qrcode": "^1.7.0-beta.5",
         "chart.js": "^2.9.3",
         "cheerio": "^1.0.0-rc.3",

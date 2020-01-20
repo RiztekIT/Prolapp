@@ -6,4 +6,5 @@ export class procesoMasterDetalle{
     Area: string;
     NombreProcesos?: Proceso[];
     Privilegiopermiso?: Privilegio[];
+    PermisoBool: Boolean;
 }
