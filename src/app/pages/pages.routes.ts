@@ -25,7 +25,7 @@ import { FormatofacturaTraficoComponent } from './trafico/formatofactura-trafico
 import { DashboardTraficoComponent } from './trafico/dashboard-trafico/dashboard-trafico.component';
 import { CalendarioTraficoComponent } from './trafico/calendario-trafico/calendario-trafico.component';
 import { CatalogosComponent } from './administracion/catalogos/catalogos.component';
-import { PermisosComponent } from './administracion/permisos/permisos.component';
+import { ShowUsuarioPermisoComponent } from './administracion/permisos/show-usuario-permiso/show-usuario-permiso.component';
 import { DashboardComprasComponent } from './compras/dashboard-compras/dashboard-compras.component';
 import { ReporteComprasComponent } from './compras/reporte-compras/reporte-compras.component';
 import { GraficasComprasComponent } from './compras/graficas-compras/graficas-compras.component';
@@ -62,6 +62,10 @@ import { ReportesalmacenComponent } from './almacen/reportesalmacen/reportesalma
 import { FacturacioncxcAddComponent } from './cxc/facturacioncxc/facturacioncxc-add/facturacioncxc-add.component';
 import { AuthorizatedGuard } from './auth'
 import { LoginguardGuard } from '../services/shared/loginguard.guard';
+import { ComplementopagocxcComponent } from './cxc/complementopagocxc/complementopagocxc.component';
+import { EmpresaComponent } from './administracion/empresa/empresa.component';
+import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo-pago.component';
+
 
 
 
@@ -130,8 +134,12 @@ const pagesRoutes: Routes = [
                 { path: 'Incidenciasalmacen', component: IncidenciasalmacenComponent  },
                 { path: 'calendarioalmacen', component: CalendarioalmacenComponent  },
                 { path: 'reportesalmacen', component: ReportesalmacenComponent  },
+                { path: 'empresa', component: EmpresaComponent  },
                 { path: 'quejas', component: QuejasComponent  },
-                { path: 'permisos', component: PermisosComponent  },
+                { path: 'complementopagoCxc', component: ComplementopagocxcComponent  },
+                { path: 'permisos', component: ShowUsuarioPermisoComponent  },
+                { path: 'recibopago', component: ReciboPagoComponent },
+
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },
                 { path: '', redirectTo: '/login', pathMatch: 'full' },

@@ -14,7 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatMenuModule} from '@angular/material/menu';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatCheckboxModule, MatCheckbox} from '@angular/material/checkbox';
 
 
 
@@ -98,6 +98,7 @@ import { UsuariosServieService } from '../services/catalogos/usuarios-servie.ser
 import { UsuariosComponent } from './administracion/catalogos/usuarios/usuarios.component';
 import { ProductosComponent } from './administracion/catalogos/productos/productos.component';
 import { ProveedoresComponent } from './administracion/catalogos/proveedores/proveedores.component';
+import { EmpresaComponent } from './administracion/empresa/empresa.component';
 import { ClientesComponent } from './administracion/catalogos/clientes/clientes.component';
 import { EditUsuarioComponent } from './administracion/catalogos/usuarios/edit-usuario/edit-usuario.component';
 import { ShowUsuarioComponent } from './administracion/catalogos/usuarios/show-usuario/show-usuario.component';
@@ -114,6 +115,11 @@ import { ShowClienteComponent } from './administracion/catalogos/clientes/show-c
 import { EditClienteComponent } from './administracion/catalogos/clientes/edit-cliente/edit-cliente.component';
 import { AddClienteComponent } from './administracion/catalogos/clientes/add-cliente/add-cliente.component';
 import { ClientesService } from '../services/catalogos/clientes.service';
+import { ReciboPagoService } from '../services/complementoPago/recibo-pago.service';
+
+import { EmpresaService } from '../services/empresas/empresa.service';
+
+import { ImageUploadModule } from 'angular2-image-upload';
 
   //qr code
 import { NgxQRCodeModule } from 'ngx-qrcode2'; 
@@ -131,9 +137,11 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FacturacioncxcEditProductoComponent } from './cxc/facturacioncxc/facturacioncxc-edit-producto/facturacioncxc-edit-producto.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { ComplementopagocxcComponent } from './cxc/complementopagocxc/complementopagocxc.component';
-import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo-pago.component'
-
-
+import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo-pago.component';
+import { ShowUsuarioPermisoComponent } from './administracion/permisos/show-usuario-permiso/show-usuario-permiso.component';
+import { ShowUsuarioPrivilegioComponent } from './administracion/permisos/show-usuario-privilegio/show-usuario-privilegio.component'
+import { ShowEmpresaComponent } from './administracion/empresa/show-empresa/show-empresa.component';
+import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit-empresa.component';
 
 
 
@@ -233,6 +241,11 @@ import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo
         FacturacioncxcEditProductoComponent,
         ComplementopagocxcComponent,
         ReciboPagoComponent,
+        EmpresaComponent,
+        ShowEmpresaComponent,
+        EditEmpresaComponent,
+        ShowUsuarioPermisoComponent,
+        ShowUsuarioPrivilegioComponent,
     ],
     exports: [
         DashboardComponent,
@@ -265,7 +278,14 @@ import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo
         MatDividerModule,
         MatPaginatorModule,
         MatCheckboxModule,
+<<<<<<< HEAD
+        ImageUploadModule.forRoot(),
+        HttpClientModule,
         NgxLoadingModule.forRoot({})
+=======
+        NgxLoadingModule.forRoot({}),
+ 
+>>>>>>> 4bbbb5de2f6097d62cc308b859ca6a3450b0c9c2
 
     ],
     providers: [
@@ -273,7 +293,10 @@ import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo
         ProductosService,
         ProveedoresService,
         ClientesService,
-        FacturaService
+        FacturaService,
+        ReciboPagoService,
+        EmpresaService,
+        
     ],
     entryComponents: [
         AddUsuarioComponent,
@@ -284,10 +307,11 @@ import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo
         EditProductoComponent,
         AddClienteComponent,
         EditClienteComponent,
-        // FacturacioncxcAddComponent,
         FacturacioncxcEditComponent,
         FacturacioncxcProductoComponent,
-        FacturacioncxcEditProductoComponent
+        FacturacioncxcEditProductoComponent,
+        ShowUsuarioPrivilegioComponent,
+        EditEmpresaComponent
 
     ]
 })

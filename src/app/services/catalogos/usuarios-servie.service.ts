@@ -4,6 +4,9 @@ import { Usuario } from '../../Models/catalogos/usuarios-model';
 import {Observable } from 'rxjs';
 
 import {Subject} from 'rxjs';
+import { Proceso } from '../../Models/proceso-model';
+import { procesoMasterDetalle } from '../../Models/procesomaster-model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +15,11 @@ export class UsuariosServieService {
 
   constructor(private http:HttpClient) { }
   formData: Usuario;
+  areaData: Proceso;
+  master = new Array<procesoMasterDetalle>();
 
   // readonly APIUrl = "https://localhost:44361/api";
   readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
-  // readonly APIUrl = "https://localhost:44361/api";
-  // readonly APIUrl = "https://localhost:44361/api";
-  // readonly APIUrl = "http://192.168.1.67:32767/api";
-  //  readonly APIUrl = "https://localhost:44361/api";
-  // readonly APIUrl = "http://192.168.1.67:7002/api";
 
 
   getUsuariosList(): Observable <Usuario[]> {
@@ -39,6 +39,13 @@ export class UsuariosServieService {
  return this.http.put(this.APIUrl+ '/usuario', usuario);
  }
 
+ showAreaPrivilegio(id:number): Observable <Proceso[]>{
+  return this.http.get<any>(this.APIUrl + '/proceso/ProcesoArea/' + id);
+ }
+
+ GetProcesoNombre(area: any): Observable <any[]>{
+  return this.http.get<procesoMasterDetalle[]>(this.APIUrl + '/proceso/ProcesoNombre/' + area);
+ }
 
   private _listeners = new Subject<any>(); 
   listen(): Observable<any> {

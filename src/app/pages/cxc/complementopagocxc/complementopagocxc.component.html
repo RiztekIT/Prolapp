@@ -3,11 +3,11 @@
         <div class="card">
             <div class="card-body">
 
-                <h2 style="text-align: center;">Facturacion</h2>
+                <h2 style="text-align: center;">Complemento de Pago</h2>
                 <div fxLayoutAlign="row">
                     <mat-card style="text-align: right;" class="mat-elevation-z0">
                         <mat-form-field>
-                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
                         </mat-form-field>
                     </mat-card>
                 </div>
@@ -23,10 +23,10 @@
                             </tr>
 
 
-                            <ng-container matColumnDef="Folio">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>FOLIO</th>
+                            <ng-container matColumnDef="Id">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
                                 <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">
-                                    {{element.Folio}} +</td>
+                                    {{element.Id}} +</td>
                             </ng-container>
 
                             <ng-container matColumnDef="Cliente">
@@ -34,25 +34,14 @@
                                 <td mat-cell *matCellDef="let element">{{element.Nombre}}</td>
                             </ng-container>
 
-                            <ng-container matColumnDef="FechaExpedicion">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA EXPEDICION</th>
-                                <td mat-cell *matCellDef="let element">{{element.FechaDeExpedicion | date: 'yyyy-MM-dd' }}</td>
+                            <ng-container matColumnDef="FechaPago">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA PAGO</th>
+                                <td mat-cell *matCellDef="let element">{{element.FechaPago | date: 'yyyy-MM-dd' }}</td>
                             </ng-container>
 
-                            <ng-container matColumnDef="Subtotal">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>SUBTOTAL MXN/USD</th>
-                                <td mat-cell *matCellDef="let element">{{element.Subtotal| currency:'MXN'}}/{{element.SubtotalDlls | currency:'USD':'code'}}</td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="IVA">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>IVA MXN/USD</th>
-                                <td mat-cell *matCellDef="let element">
-                                    {{element.ImpuestosTrasladados| currency: 'MXN'}}/{{element.ImpuestosTrasladadosDlls| currency: 'USD':'code'}}</td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="Total">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>TOTAL MXN/USD</th>
-                                <td mat-cell *matCellDef="let element">{{element.Total | currency: 'MXN'}}/{{element.TotalDlls| currency: 'USD':'code'}}</td>
+                            <ng-container matColumnDef="Cantidad">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
+                                <td mat-cell *matCellDef="let element">{{element.Cantidad}}</td>
                             </ng-container>
 
                             <ng-container matColumnDef="Estado">
@@ -76,27 +65,29 @@
                     <mat-icon>keyboard_arrow_down</mat-icon>
                   </button>
                                     <mat-menu #menu="matMenu">
+
+
                                         <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
                       <mat-icon>edit</mat-icon>
                     </button>
 
                                         <!-- ver PDF -->
-                                        <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button>
+                                        <!-- <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button>
                                         <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" (click)="generar(row.UUID,row.Folio)" mat-icon-button class="btn btn-dark">
                       <mat-icon>remove_red_eye</mat-icon>
 
-                    </button>
+                    </button> -->
                                         <!-- descargar PDF -->
                                         <!-- <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button> -->
 
-                                        <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" (click)="pdf(row.UUID,row.Folio)" mat-icon-button class="btn btn-dark">
+                                        <!-- <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" (click)="pdf(row.UUID,row.Folio)" mat-icon-button class="btn btn-dark">
                       <mat-icon>picture_as_pdf</mat-icon>
 
-                    </button>
+                    </button> -->
                                         <!-- Enviar -->
-                                        <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="xml(row.UUID,row.Folio)">
+                                        <!-- <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="xml(row.UUID,row.Folio)">
                       <mat-icon>code</mat-icon>
-                    </button>
+                    </button> -->
                                         <!-- XML -->
                                         <!-- <button mat-icon-button class="btn btn-dark" (click)="onDelete(row.Id)">
                         <mat-icon>email</mat-icon>
@@ -111,27 +102,27 @@
                                 </td>
                             </ng-container>
 
-                            <!-- <ng-container matColumnDef="expandedDetail">
+                            <ng-container matColumnDef="expandedDetail">
                                 <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-                                    <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="element.detalle.length > 0" (click)="expandedElement = 0">
-                                     
+                                    <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="element.pagoCFDI.length > 0" (click)="expandedElement = 0">
+
                                         <table width="100%">
                                             <tr>
                                                 <th> Clave Producto </th>
-                                                <th> Producto </th>
+                                                <!-- <th> Producto </th>
                                                 <th> Cantidad </th>
-                                                <th> Importe </th>
+                                                <th> Importe </th> -->
                                             </tr>
-                                            <tr *ngFor="let detalle of element.detalle">
-                                                <td> {{detalle.ClaveSAT}} </td>
-                                                <td> {{detalle.Producto}} </td>
+                                            <tr *ngFor="let detalle of element.pagoCFDI">
                                                 <td> {{detalle.Cantidad}} </td>
-                                                <td> {{detalle.Importe}} </td>
+                                                <!-- <td> {{detalle.Producto}} </td>
+                                                <td> {{ .Cantidad}} </td>
+                                                <td> {{detalle.Importe}} </td> -->
                                             </tr>
                                         </table>
                                     </div>
                                 </td>
-                            </ng-container> -->
+                            </ng-container>
 
 
                         </table>
@@ -141,7 +132,7 @@
                 </div>
             </div>
 
-            <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Factura</button>
+            <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Pago</button>
 
         </div>
     </div>

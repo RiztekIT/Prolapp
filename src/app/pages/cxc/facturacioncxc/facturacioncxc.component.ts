@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import * as html2pdf from 'html2pdf.js';
 
-import {MatTableDataSource, MatSort, MatPaginator, MatTable} from '@angular/material';
+import {MatTableDataSource, MatPaginator, MatTable} from '@angular/material';
+import {MatSort} from '@angular/material/sort';
 import { Factura } from '../../../Models/facturacioncxc/factura-model';
 import { FacturaService } from '../../../services/facturacioncxc/factura.service';
 
@@ -63,6 +64,7 @@ export class FacturacioncxcComponent implements OnInit {
    }
 
   ngOnInit() {
+
     this.refreshFacturaList();
     this.detallesFactura();
     this.Folio();
@@ -332,12 +334,15 @@ let Id = factura.Id;
 
   applyFilter(filtervalue: string){  
     this.listData.filterPredicate = (data, filter: string) => {
-      return data.Folio.toString().toLowerCase().includes(filter) || data.Nombre.toLowerCase().includes(filter);
-      // console.log(data);
-      // return true;
-     };
+      // console.log(data.Nombre);
+      if (data.Nombre){
+        return data.Folio.toString().toLowerCase().includes(filter) || data.Nombre.toLowerCase().includes(filter);
+      } else{
+        return data.Folio.toString().toLowerCase().includes(filter);
+      }
+    };
     this.listData.filter= filtervalue.trim().toLocaleLowerCase();
-    console.log(this.listData);
+    // console.log(this.listData);
   }
   
 //   onExportClick() {
