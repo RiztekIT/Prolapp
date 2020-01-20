@@ -5,6 +5,7 @@ import { Proceso } from '../../../../Models/proceso-model';
 import { NgForm } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { UsuariosServieService } from 'src/app/services/catalogos/usuarios-servie.service';
+import { procesoMasterDetalle } from '../../../../Models/procesomaster-model';
 
 
 
@@ -17,6 +18,7 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
 
   arrayArea: Array<any> = [];
   id:number;
+  PermisoBool :boolean;
 
   constructor(public service: ProcesoService, private service2:UsuariosServieService, public dialogbox: MatDialogRef<ShowUsuarioPrivilegioComponent>, private dialog: MatDialog) {
 
@@ -28,6 +30,11 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
 
   ngOnInit() {
     this.refreshProcesosList()
+    if (this.PermisoBool == null){
+      this.PermisoBool = false;
+    }else{
+      this.PermisoBool = true;
+    }
 
   }
 
@@ -37,10 +44,22 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
   }
 
    refreshProcesosList() {
+     this.service.master = [];
      this.service.showAreaPrivilegio(this.service2.formData.IdUsuario).subscribe(data => {
-
-       for (var i = 0; i < data.length; i++) {
+       for (let i = 0; i < data.length; i++) {
          this.arrayArea.push(data[i].Area)
+         this.service.master[i] = data[i]
+     
+         
+         this.service.master[i].NombreProcesos = [];
+           this.service.GetProcesoNombre(data[i].Area).subscribe(res =>{
+             for (let l = 0; l <=res.length-1; l++){
+               this.PermisoBool=true;
+             
+              this.service.master[i].NombreProcesos.push(res[l]);
+             }
+           })
+           console.log(this.service.master);
        }
      });
 

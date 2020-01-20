@@ -51,9 +51,14 @@ export class FacturaService {
   getDetallesFacturaListProducto(id: number): Observable<any[]> {
     return this.http.get<any[]>(this.APIUrl + '/Factura/DetalleFacturaProducto/'+ id);
   }
-
+//Join Tabla Factura con Cliente
   getFacturasClienteID(id:number): Observable<any[]>{
     return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaCliente/'+id)
+  }
+  //Obtener los datos del Cliente en base a una factura
+  
+  getFacturaClienteID(id:number): Observable<any[]>{
+    return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaClienteID/'+id)
   }
   //Obtener ultima factura Creada
   getUltimaFactura(): Observable<any> {
