@@ -30,11 +30,15 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
 
   ngOnInit() {
     this.refreshProcesosList()
-    if (this.PermisoBool == null){
-      this.PermisoBool = false;
-    }else{
-      this.PermisoBool = true;
-    }
+    console.log(this.service.master);
+
+
+
+    // if (this.service.formData.IVA == '0.16'){
+      // this.iva = true;
+    // }else{
+      // this.iva = false;
+    // }
 
   }
 
@@ -43,27 +47,53 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
     this.service.filter('Register click');
   }
 
+  checkbox(event,f,i){
+   console.log(event);
+   console.log(f);
+   console.log(i);
+   if (event.checked){
+     this.service.master[f].NombreProcesos[i].PermisoBool = true;
+   }else{
+    this.service.master[f].NombreProcesos[i].PermisoBool = false;
+   }
+console.log(this.service.master);
+
+
+  }
+
    refreshProcesosList() {
      this.service.master = [];
-     this.service.showAreaPrivilegio(this.service2.formData.IdUsuario).subscribe(data => {
+     this.service.showAreaPrivilegio().subscribe(data => {
        for (let i = 0; i < data.length; i++) {
          this.arrayArea.push(data[i].Area)
          this.service.master[i] = data[i]
-     
-         
+
+
          this.service.master[i].NombreProcesos = [];
            this.service.GetProcesoNombre(data[i].Area).subscribe(res =>{
              for (let l = 0; l <=res.length-1; l++){
-               this.PermisoBool=true;
-             
+              //  console.log(res[l].IdUsuario);
+              // this.checkbox(res[l].IdUsuario);
+              //  this.PermisoBool=true;
+
               this.service.master[i].NombreProcesos.push(res[l]);
+              this.service.master[i].NombreProcesos[l].PermisoBool = true
+              if(res[l].IdUsuario == null ){
+                    // this.service.master[i].PermisoBool = false;
+                    this.service.master[i].NombreProcesos[l].PermisoBool = false
+              }else{
+                // this.service.master[i].PermisoBool = true;
+                this.service.master[i].NombreProcesos[l].PermisoBool = true
+              }
+              // console.log(res);
              }
-           })
-           console.log(this.service.master);
-       }
+            })
+          }
+          
+         
      });
 
-     
+
    }
 
 
