@@ -8,6 +8,7 @@ import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { AddClienteComponent } from '../add-cliente/add-cliente.component';
 import { EditClienteComponent } from '../edit-cliente/edit-cliente.component';
 import Swal from 'sweetalert2';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class ShowClienteComponent implements OnInit {
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private service:ClientesService, private dialog: MatDialog, private snackBar: MatSnackBar) {
+  constructor(private service:ClientesService, private dialog: MatDialog, private snackBar: MatSnackBar, public apicliente: EnviarfacturaService) {
 
     this.service.listen().subscribe((m:any)=>{
       console.log(m);
@@ -96,6 +97,57 @@ export class ShowClienteComponent implements OnInit {
     dialogConfig.width="70%";
     this.dialog.open(AddClienteComponent, dialogConfig);
 
+  }
+
+  crearapi(){
+    let email;
+    let rfc;
+    let razon;
+    let codpos;
+    let datos;
+    this.service.getClientesList().subscribe(data => {
+
+      for (let i =0; i < data.length; i++){
+        email = 'riztekti@gmail.com';
+        rfc = data[i].RFC;
+        razon = data[i].RazonSocial;
+        codpos = data[i].CP;
+        datos = {
+          "email" : email,
+          "razons" : razon,
+          "rfc" : rfc,
+          "codpos" : codpos
+        }
+
+        datos = JSON.stringify(datos);
+    this.apicliente.crearCliente(datos).subscribe(data =>{
+        
+      if (data.status==='success'){
+        
+        console.log('success');
+        console.log(data);
+      }
+      else{
+        console.log('error');
+        console.log(data);
+        
+      }
+
+
+        
+      }
+
+      
+    //console.log(this.listData);
+    );
+
+
+
+
+    
+
+  }
+})
   }
 
   onEdit(cliente: Cliente){
