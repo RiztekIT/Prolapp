@@ -12,6 +12,7 @@ import { EditEmpresaComponent } from '../edit-empresa/edit-empresa.component';
 import Swal from 'sweetalert2';
 import { NgForm } from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -30,7 +31,7 @@ export class ShowEmpresaComponent implements OnInit {
   // @ViewChild(MatSort, null) sort : MatSort;
   // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private service:EmpresaService, private dialog: MatDialog, private snackBar: MatSnackBar, private sanitizer: DomSanitizer ) {
+  constructor(private service:EmpresaService, private dialog: MatDialog, private snackBar: MatSnackBar, private sanitizer: DomSanitizer, private http: HttpClient ) {
     this.Iniciar();
 
     this.service.listen().subscribe((m:any) =>{
@@ -76,11 +77,13 @@ export class ShowEmpresaComponent implements OnInit {
     })
   }
 
-  refreshEmpresaFoto(){
+  refreshEmpresaFoto(foto?: string){
     //console.log(this.service.getEmpresaFoto());
     this.service.getEmpresaFoto().subscribe(data => {
       console.log(data);
-      let objectURL = 'data:image/jpeg;base64,' + data[0].Foto;
+      
+     let objectURL = data[0].Foto;
+     // let objectURL = foto;
 
          this.empresaFoto = this.sanitizer.bypassSecurityTrustUrl(objectURL);
 
@@ -91,39 +94,61 @@ export class ShowEmpresaComponent implements OnInit {
    
   }
 
-  seleccionImagen(event: any){
+  seleccionImagen(event){
+
+    console.log(event.src)
+
   
-    // if(!archivo){
-    //   this.fotoSubir = null;
-    //   return; 
-    // }
+    if(!event){
+      this.fotoSubir = null;
+      return; 
+    }
     // console.log(event)
     // console.log(event.target.value)
     // console.log(encodeURI(event.target.value));
-    
 
-    this.fotoSubir = (event.target.value)
-    // .subscribe(data =>{
-    //   let objectUrl = 'data:image/jpeg;base64,' + data;
-    //   this.empresaFoto = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
-    // });
+    this.fotoSubir = event.src;
+
+    this.refreshEmpresaFoto(this.fotoSubir);
+
+
+
 
   }
 
 
-  cambiarImagen(event: any){
+  cambiarImagen(){
 
-      // this.fotoSubir = event.target.value;
-     console.log(this.fotoSubir)
+    // console.log(this.fotoSubir);
+    
+    
+    this.service.formData.Foto = this.fotoSubir
+    console.log(this.service.formData);
+    
 
-    this.service.updateEmpresaFoto(encodeURI(this.fotoSubir)).subscribe(data =>{
+    this.service.updateEmpresaFoto(this.service.formData).subscribe(resp =>{
 
-      console.log(data)
-      Swal.fire({
+      console.log(resp)
+        Swal.fire({
         icon: 'success',
         title: ' Foto de Empresa Actualizada'
       })
+      this.refreshEmpresaFoto();
+
     })
+
+      // this.fotoSubir = event.target.value;
+    //  console.log(this.fotoSubir)
+
+    // this.service.subirArchivo(this.fotoSubir)
+    // .subscribe(data =>{
+
+    //   console.log(data)
+    //   Swal.fire({
+    //     icon: 'success',
+    //     title: ' Foto de Empresa Actualizada'
+    //   })
+    // })
 
   }
 
@@ -140,6 +165,7 @@ export class ShowEmpresaComponent implements OnInit {
   onSubmit(form: NgForm) {
     
     this.service.updateEmpresa(form.value).subscribe(res => {
+      console.log(res);
       
       Swal.fire({
         icon: 'success',

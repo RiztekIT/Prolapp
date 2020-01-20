@@ -9,17 +9,23 @@
                     <h4>Logo de la empresa</h4>
                     <div class="container">
                         <div class="row">
-                            <div class="col-3">
+                            <div class="col-4">
                                 <div>
                                     <img [src]='empresaFoto' alt="Foto">
                                 </div>
                             </div>
-                            <div class="col-9">
+                            <div class="col-3">
+
+
                                 <button (click)="cambiarImagen()" [disabled]="!fotoSubir" type="button" class="btn btn-succes waves-effect waves-light m-r-10">
-                        <i class="fa fa-save"></i>
-                        Cambiar Imagen
-                    </button>
-                                <input (change)="seleccionImagen($event)" type="file">
+                                    <i class="fa fa-save"></i>
+                                    Cambiar Imagen
+                                </button>
+
+                            </div>
+                            <div class="col-5">
+
+                                <image-upload (uploadFinished)="seleccionImagen($event)" [clearButtonCaption]="'Limpiar'" [max]="1" buttonCaption=" Seleccionar nueva imagen" dropBoxMessage=""></image-upload>
 
                             </div>
                         </div>

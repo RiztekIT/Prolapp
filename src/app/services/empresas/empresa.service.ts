@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable } from 'rxjs';
 
 
@@ -8,6 +8,9 @@ import { Empresa } from '../../Models/Empresas/empresa-model';
 
 export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 
+
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,6 +18,7 @@ export class EmpresaService {
   
 
   constructor(private http:HttpClient) { }
+
   formData: Empresa;
 
   EmpresaFoto: Empresa;
@@ -29,10 +33,11 @@ export class EmpresaService {
 
   updateEmpresa(empresa: Empresa) {
     return this.http.put(APIUrl+ '/empresa', empresa);
-    }  
+    }    
   
-    updateEmpresaFoto(foto: string) {
-      return this.http.post( APIUrl + '/Empresa/EditarEmpresaFoto' + '?Foto=' + foto, null)
+    updateEmpresaFoto(empresa: Empresa) {
+   
+      return this.http.put( APIUrl + '/Empresa/EditarEmpresaFoto', empresa)
     }
 
 
@@ -44,42 +49,40 @@ export class EmpresaService {
     this._listeners.next(filterBy);
   }
   
-  subirArchivo( archivo: File ) {
+  // subirArchivo( archivo: string ) {
 
+  //   return new Promise( (resolve, reject ) => {
 
+  //     let formData = new FormData();
+  //     let xhr = new XMLHttpRequest();
 
-    // return new Promise( (resolve, reject ) => {
+  //     formData.append( 'imagen', archivo );
 
-    //   let formData = new FormData();
-    //   let xhr = new XMLHttpRequest();
+  //     xhr.onreadystatechange = function() {
 
-    //   formData.append( 'imagen', archivo, archivo.name );
+  //       if ( xhr.readyState === 4 ) {
 
-    //   xhr.onreadystatechange = function() {
+  //         if ( xhr.status === 200 ) {
+  //           console.log( 'Imagen subida' );
+  //           resolve( JSON.parse( xhr.response ) );
+  //         } else {
+  //           console.log( 'Fallo la subida' );
+  //           reject( xhr.response );
+  //         }
 
-    //     if ( xhr.readyState === 4 ) {
+  //       }
+  //     };
 
-    //       if ( xhr.status === 200 ) {
-    //         console.log( 'Imagen subida' );
-    //         resolve( JSON.parse( xhr.response ) );
-    //       } else {
-    //         console.log( 'Fallo la subida' );
-    //         reject( xhr.response );
-    //       }
+  //     let url = APIUrl + '/empresa/EmpresaFoto/' + archivo
 
-    //     }
-    //   };
+  //     xhr.open('POST', url, true );
+  //     xhr.send( formData );
 
-    //   let url = APIUrl + '/empresa/EmpresaFoto' + archivo
+  //   });
 
-    //   xhr.open('PUT', url, true );
-    //   xhr.send( formData );
+  // }
 
-    // });
-
-  }
-
-  // cambiarImagen(archivo: File){
+  // cambiarImagen(archivo: string){
   //   this.subirArchivo(archivo)
   //   .then( resp => {
   //    console.log(resp)

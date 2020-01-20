@@ -119,6 +119,8 @@ import { ReciboPagoService } from '../services/complementoPago/recibo-pago.servi
 
 import { EmpresaService } from '../services/empresas/empresa.service';
 
+import { ImageUploadModule } from 'angular2-image-upload';
+
   //qr code
 import { NgxQRCodeModule } from 'ngx-qrcode2'; 
 import { NgxLoadingModule } from 'ngx-loading'
@@ -276,6 +278,8 @@ import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit
         MatDividerModule,
         MatPaginatorModule,
         MatCheckboxModule,
+        ImageUploadModule.forRoot(),
+        HttpClientModule,
         NgxLoadingModule.forRoot({})
 
     ],
