@@ -42,13 +42,15 @@ export class ReciboPagoComponent implements OnInit {
   FacturaList: Factura[] = [];
   //Variables Saldo, Total, Cantidad
   //Cantidad Total ingresado al momento de hacer el pago
-  Cantidad: number;
+  Cantidad=0;
   //Cantidad a pagar de cierta Factura
   CantidadF = 0;
   //Total 
-  TotalF = 500;
+  TotalF = 0;
   //Saldo Restante de la Factura
   Saldo: number;
+  //Nombre del Cliente a Facturar 
+  ClienteNombre: any;
 
 
   //Iniciar Valores de los campos de Cierto Recibo Pago
@@ -61,6 +63,15 @@ export class ReciboPagoComponent implements OnInit {
       this.service.formData = res[0];
       // console.log(this.service.formData);
       this.Estatus = this.service.formData.Estatus;
+
+
+//OBTENER LA INFORMACION DEL CLIENTE, EN ESPECIFICO EL NOMBRE DEL CLIENTE PARA PINTARLO EN EL FORMULARIO
+this.service.getFacturaClienteID(this.service.formData.IdCliente).subscribe(res =>{
+  // console.log(res);
+  this.ClienteNombre = res[0].Nombre;
+});
+
+
       // if (this.Estatus==='Timbrada' || this.Estatus==='Cancelada'){
       // let nodes = document.getElementById('div1').getElementsByTagName('*');
       // for (let i = 0; i < nodes.length; i++){
@@ -86,6 +97,7 @@ export class ReciboPagoComponent implements OnInit {
     });
 
   }
+  
   //Lista Facturas por IdClient
   dropdownRefresh2(idCliente) {
     // console.log(idCliente+ 'Este es el IDCliente');
@@ -109,7 +121,7 @@ export class ReciboPagoComponent implements OnInit {
 //Filter Clientes
 private _filter(value: any): any[] {
   // console.log(value);
-  const filterValue = value.toLowerCase();
+  const filterValue = value.toString().toLowerCase();
   return this.options.filter(option => 
   option.Nombre.toLowerCase().includes(filterValue) ||
     option.IdClientes.toString().includes(filterValue));
@@ -122,31 +134,49 @@ private _filter2(value: any): any[] {
   option.Folio.toString().includes(filterValue2) );
 }
 
-onSelectionChange(reciboPago : any){
+onSelectionChange(reciboPago : any, event: any){
+
+  if(event.isUserInput){
   console.log('ON CHANGEEEEE');
   console.log(reciboPago);
+  //Limpiar arreglo de Facturas dependiendo del cliente
   this.options2 = [];
-  this.service.formData.IdCliente = reciboPago.IdClientes;
+  this.FacturaList = [];
   this.dropdownRefresh2(this.service.formData.IdCliente);
+  this.ClienteNombre = reciboPago.Nombre;
+  }
+  
 
 }
 
-onSelectionChange2(factura : Factura){
-
+onSelectionChange2(factura : Factura, event: any){
+if(event.isUserInput){
+  console.log(factura);
+  this.TotalF = +factura.Total;
 }
+}
+
+
 
 onChangeCantidad(Cantidad: Event){
   this.Cantidad = +Cantidad; 
   console.log(this.Cantidad);
 }
-onChangeCantidadF(Cantidad: Event){
-  if (+Cantidad > this.Cantidad){
-    this.CantidadF = this.Cantidad;
-  } else{
-    this.Cantidad = this.CantidadF
-  }
-  // this.CantidadF = +Cantidad;
+onChangeCantidadF(CantidadF: Event){
+  this.CantidadF = +CantidadF;
   console.log(this.CantidadF)
+  if(this.CantidadF > this.Cantidad){
+  console.log("La cantidad es mayor a la permitida");
+   this. CantidadF = this.Cantidad;
+  }else{
+console.log("Si se arma");
+  }
+
+  // if (+Cantidad > this.Cantidad){
+  //   this.CantidadF = this.Cantidad;
+  // } else{
+  //   this.Cantidad = this.CantidadF
+  // }
 }
 
  //Forma Pago

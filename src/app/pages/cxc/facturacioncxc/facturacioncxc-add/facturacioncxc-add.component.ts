@@ -218,7 +218,7 @@ export class FacturacioncxcAddComponent implements OnInit {
 //Filter Clientes
 private _filter(value: any): any[] {
   // console.log(value);
-  const filterValue = value.toLowerCase();
+  const filterValue = value.toString().toLowerCase();
   return this.options.filter(option => 
   option.Nombre.toLowerCase().includes(filterValue) ||
     option.IdClientes.toString().includes(filterValue));

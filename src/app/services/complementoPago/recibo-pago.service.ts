@@ -57,6 +57,11 @@ getDepDropDownValues(): Observable<any>{
 getClienteFacturaList(id: number): Observable<any[]>{
   return this.http.get<any[]>(this.APIUrl + '/ReciboPago/FacturaIdCliente/' + id)
 }
+//Obtener los datos del Cliente en base a una factura
+  
+getFacturaClienteID(id:number): Observable<any[]>{
+  return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaClienteID/'+id)
+}
   //Crear PagoCFDI
   //Eliminar Recibo Pago
   //Eliminar PagoCFDI
