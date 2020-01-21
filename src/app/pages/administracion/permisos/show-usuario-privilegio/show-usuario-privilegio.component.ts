@@ -53,12 +53,13 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
    console.log(i);
    if (event.checked){
      this.service.master[f].NombreProcesos[i].PermisoBool = true;
+    //  console.log('hola');
    }else{
     this.service.master[f].NombreProcesos[i].PermisoBool = false;
+    // console.log('no');
    }
 console.log(this.service.master);
-
-
+console.log(this.service2.formData.IdUsuario);
   }
 
    refreshProcesosList() {
@@ -79,18 +80,19 @@ console.log(this.service.master);
               //  this.PermisoBool=true;
 
               this.service.master[i].NombreProcesos.push(res[l]);
+              //por default el valor de permisobool sera true
               this.service.master[i].NombreProcesos[l].PermisoBool = true
               if(res[l].IdUsuario == null ){
-                    // this.service.master[i].PermisoBool = false;
                     this.service.master[i].NombreProcesos[l].PermisoBool = false
               }else{
-                // this.service.master[i].PermisoBool = true;
                 this.service.master[i].NombreProcesos[l].PermisoBool = true
               }
               // console.log(res);
              }
-            })
-          }
+            }) //fin del for anidado
+          } //fin del main for
+
+
           
          
      });

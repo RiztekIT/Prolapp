@@ -5,6 +5,7 @@ import {Observable } from 'rxjs';
 import { procesoMasterDetalle } from "../../Models/procesomaster-model";
 
 import {Subject} from 'rxjs';
+import { Privilegio } from '../../Models/privilegio-model';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,16 @@ export class ProcesoService {
    GetProcesoPrivilegio(id:number): Observable <Proceso[]>{
     return this.http.get<any>(this.APIUrl + '/proceso/ProcesoPrivilegio/' + id);
   }
+
+  PermisoDelete(id:number, id1:number){
+    return this.http.delete(this.APIUrl + '/proceso/PermisoDelete/' + id + '/' + id1 );
+  }
+
+  PermisoPost(privilegio: Privilegio) {
+    return this.http.post(this.APIUrl + '/PermisoPost', privilegio);
+ }
+
+
 
   private _listeners = new Subject<any>(); 
   listen(): Observable<any> {
