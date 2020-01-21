@@ -278,14 +278,9 @@ import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit
         MatDividerModule,
         MatPaginatorModule,
         MatCheckboxModule,
-<<<<<<< HEAD
         ImageUploadModule.forRoot(),
         HttpClientModule,
         NgxLoadingModule.forRoot({})
-=======
-        NgxLoadingModule.forRoot({}),
- 
->>>>>>> 4bbbb5de2f6097d62cc308b859ca6a3450b0c9c2
 
     ],
     providers: [

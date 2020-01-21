@@ -29,12 +29,12 @@ export class ProcesoService {
   //   return this.http.get<Proceso[]>(this.APIUrl + '/Proceso/ProcesoPrivilegio/' + id);
   // }
 
-  showAreaPrivilegio(id:number): Observable <Proceso[]>{
+  showAreaPrivilegio(): Observable <Proceso[]>{
      return this.http.get<any>(this.APIUrl + '/proceso/ProcesoArea/');
   }
 
-  GetProcesoNombre(area: any): Observable <any[]>{
-    return this.http.get<any>(this.APIUrl + '/proceso/ProcesoNombre/' + area);
+  GetProcesoNombre(area: any, id: number): Observable <any[]>{
+    return this.http.get<any>(this.APIUrl + '/proceso/ProcesoNombre/' + area + '/'+ id);
    }
 
    GetProcesoPrivilegio(id:number): Observable <Proceso[]>{

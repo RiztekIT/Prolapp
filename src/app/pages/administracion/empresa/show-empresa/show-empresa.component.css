@@ -1,22 +1,23 @@
-.customImgSel .img-ul-button {
-    background-color: #dd3;
+/deep/ .customImgSel .img-ul-button {
+    background-color: rgb(255, 255, 255);
     border-radius: 5px;
     margin: 5px;
-    width: 500px;
+    width: 100%;
+    font-size: 15px;
 }
 
-.customImgSel .img-ul-upload {
-    background-color: #000 !important;
+/deep/ .customImgSel .img-ul-upload {
+    background-color: #545454 !important;
 }
 
-.customImgSel .img-ul-clear {
-    background-color: #B819BB !important;
+/deep/ .customImgSel .img-ul-clear {
+    background-color: rgb(25, 55, 187) !important;
 }
 
-.customImgSel .img-ul-drag-box-msg {
-    color: purple !important;
+/deep/ .customImgSel .img-ul-drag-box-msg {
+    color: rgb(0, 140, 255) !important;
 }
 
-.customImgSel .img-ul-container {
-    background-color: #FF6CAD !important;
+/deep/ .customImgSel .img-ul-container {
+    background-color: rgb(255, 255, 255) !important;
 }

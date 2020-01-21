@@ -64,13 +64,15 @@ console.log(this.service.master);
    refreshProcesosList() {
      this.service.master = [];
      this.service.showAreaPrivilegio().subscribe(data => {
+       console.log(data);
+       
        for (let i = 0; i < data.length; i++) {
          this.arrayArea.push(data[i].Area)
          this.service.master[i] = data[i]
 
 
          this.service.master[i].NombreProcesos = [];
-           this.service.GetProcesoNombre(data[i].Area).subscribe(res =>{
+           this.service.GetProcesoNombre(data[i].Area, this.service2.formData.IdUsuario).subscribe(res =>{
              for (let l = 0; l <=res.length-1; l++){
               //  console.log(res[l].IdUsuario);
               // this.checkbox(res[l].IdUsuario);
