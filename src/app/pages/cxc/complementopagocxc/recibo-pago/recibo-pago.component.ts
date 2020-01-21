@@ -103,16 +103,21 @@ this.service.getFacturaClienteID(this.service.formData.IdCliente).subscribe(res 
     // console.log(idCliente+ 'Este es el IDCliente');
     this.service.getClienteFacturaList(idCliente).subscribe((data) => {
       console.log(data);
-      for (let i = 0; i < data.length; i++) {
-        let factura = data[i];
-        this.FacturaList.push(factura);
-        this.options2.push(factura)
-        // console.log(this.options2);
-        this.filteredOptions2 = this.myControl2.valueChanges
-        .pipe(
-          startWith(''),
-          map(value =>  this._filter2(value))
-        );
+      if (data){
+        for (let i = 0; i < data.length; i++) {
+          let factura = data[i];
+          this.FacturaList.push(factura);
+          this.options2.push(factura)
+          // console.log(this.options2);
+          this.filteredOptions2 = this.myControl2.valueChanges
+          .pipe(
+            startWith(''),
+            map(value =>  this._filter2(value))
+          );
+        }
+      }else{
+        this.options2 = [];
+        this.FacturaList = [];
       }
     });
 
@@ -163,20 +168,22 @@ onChangeCantidad(Cantidad: Event){
   console.log(this.Cantidad);
 }
 onChangeCantidadF(CantidadF: Event){
-  this.CantidadF = +CantidadF;
-  console.log(this.CantidadF)
-  if(this.CantidadF > this.Cantidad){
-  console.log("La cantidad es mayor a la permitida");
-   this. CantidadF = this.Cantidad;
-  }else{
-console.log("Si se arma");
-  }
 
-  // if (+Cantidad > this.Cantidad){
-  //   this.CantidadF = this.Cantidad;
-  // } else{
-  //   this.Cantidad = this.CantidadF
-  // }
+  let elemHTML: any = document.getElementsByName('Cantidad2')[0];
+
+
+  this.CantidadF = +CantidadF;
+  // console.log(this.CantidadF)
+  if(this.CantidadF >= this.Cantidad){
+    this. CantidadF = this.Cantidad;
+    // console.log("La cantidad es mayor a la permitida");
+  }else if(this.CantidadF <= 0){
+    this.CantidadF = 0;
+  }else{
+    // console.log("Si se arma");
+  }
+  elemHTML.value = this.CantidadF;
+  console.log(this.CantidadF);
 }
 
  //Forma Pago
