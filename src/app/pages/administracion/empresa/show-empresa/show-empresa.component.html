@@ -9,87 +9,89 @@
                     <h4>Logo de la empresa</h4>
                     <div class="container">
                         <div class="row">
-                            <div class="col-4">
+
+                            <div class="col-lg-5 col-md-5 col-5">
                                 <div>
                                     <img width="50%" height="50%" [src]='empresaFoto' alt="Foto">
                                 </div>
                             </div>
-                            <div class="col-3">
 
+                            <div class="col-lg-7 col-md-7 col-7">
 
-                                <button (click)="cambiarImagen()" [disabled]="!fotoSubir" type="button" class="btn btn-succes waves-effect waves-light m-r-10">
-                                    <i class="fa fa-save"></i>
-                                    Cambiar Imagen
-                                </button>
+                                <div style="padding-left: 32px; text-align: left;">
+                                    <button (click)="cambiarImagen()" [disabled]="!fotoSubir" type="button" class="btn btn-outline-secondary btn-block">
+                                        <i class="fa fa-save"></i>
+                                        Cambiar Imagen
+                                    </button>
 
-                            </div>
-                            <div class="col-5">
+                                </div>
 
                                 <image-upload [class]="'customImgSel'" (uploadFinished)="seleccionImagen($event)" [clearButtonCaption]="'Limpiar'" [max]="1" buttonCaption=" Seleccionar nueva imagen" dropBoxMessage=""></image-upload>
 
                             </div>
                         </div>
                     </div>
+                </div>
 
 
 
 
-                    <h4>Detalles de la Empresa</h4>
-                    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+                <h4>Detalles de la Empresa</h4>
+                <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
 
-                        <div class="form-material">
-                            <div class="container ">
-                                <div class="row">
-                                    <div class="col-6 col-md-6 col-lg-6">
-                                        <label class="input-group-text text-info">IdEmpresa</label>
-                                        <input type="text" class="form-control" name="IdEmpresa" #IdEmpresa="ngModel" [(ngModel)]="service.formData.IdEmpresa">
+                    <div class="form-material">
+                        <div class="container ">
+                            <div class="row">
+                                <div class="col-6 col-md-6 col-lg-6">
+                                    <label class="input-group-text text-info">IdEmpresa</label>
+                                    <input type="text" class="form-control" name="IdEmpresa" #IdEmpresa="ngModel" [(ngModel)]="service.formData.IdEmpresa">
 
-                                        <label class="input-group-text text-info">Razon Social</label>
-                                        <input type="text" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="service.formData.RazonSocial">
+                                    <label class="input-group-text text-info">Razon Social</label>
+                                    <input type="text" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="service.formData.RazonSocial">
 
-                                        <label class="input-group-text text-info">RFC</label>
-                                        <input type="text" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="service.formData.RFC">
+                                    <label class="input-group-text text-info">RFC</label>
+                                    <input type="text" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="service.formData.RFC">
 
-                                        <label class="input-group-text text-info">Calle</label>
-                                        <input type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle">
+                                    <label class="input-group-text text-info">Calle</label>
+                                    <input type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle">
 
-                                        <label class="input-group-text text-info">Numero Interior</label>
-                                        <input type="number" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior">
+                                    <label class="input-group-text text-info">Numero Interior</label>
+                                    <input type="number" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior">
 
 
-                                        <label class="input-group-text text-info">Numero Exterior</label>
-                                        <input type="number" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior">
-                                    </div>
-                                    <div class="col-6 col-md-6 col-lg-6">
-                                        <label class="input-group-text text-info">Codigo Postal</label>
-                                        <input type="number" class="form-control" name="CP" #CodigoPostal="ngModel" [(ngModel)]="service.formData.CP">
-
-                                        <label class="input-group-text text-info">Colonia</label>
-                                        <input type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia">
-
-                                        <label class="input-group-text text-info">Ciudad</label>
-                                        <input type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad">
-
-                                        <label class="input-group-text text-info">Estado</label>
-                                        <input type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado">
-
-                                        <label class="input-group-text text-info">Pais</label>
-                                        <input type="text" class="form-control" name="Pais" #Pais="ngModel" [(ngModel)]="service.formData.Pais">
-
-                                        <label class="input-group-text text-info">Regimen</label>
-                                        <input type="text" class="form-control" name="Regimen" #Regimen="ngModel" [(ngModel)]="service.formData.Regimen">
-
-                                    </div>
+                                    <label class="input-group-text text-info">Numero Exterior</label>
+                                    <input type="number" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior">
                                 </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Actualizar Empresa</button>
+                                <div class="col-6 col-md-6 col-lg-6">
+                                    <label class="input-group-text text-info">Codigo Postal</label>
+                                    <input type="number" class="form-control" name="CP" #CodigoPostal="ngModel" [(ngModel)]="service.formData.CP">
+
+                                    <label class="input-group-text text-info">Colonia</label>
+                                    <input type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia">
+
+                                    <label class="input-group-text text-info">Ciudad</label>
+                                    <input type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad">
+
+                                    <label class="input-group-text text-info">Estado</label>
+                                    <input type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado">
+
+                                    <label class="input-group-text text-info">Pais</label>
+                                    <input type="text" class="form-control" name="Pais" #Pais="ngModel" [(ngModel)]="service.formData.Pais">
+
+                                    <label class="input-group-text text-info">Regimen</label>
+                                    <input type="text" class="form-control" name="Regimen" #Regimen="ngModel" [(ngModel)]="service.formData.Regimen">
+
                                 </div>
                             </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Actualizar Empresa</button>
+                            </div>
                         </div>
-                    </form>
+                    </div>
+                </form>
 
-                </div>
-                <br>
             </div>
+            <br>
         </div>
     </div>
+</div>
