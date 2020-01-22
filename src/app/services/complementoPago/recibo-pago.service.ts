@@ -55,12 +55,19 @@ getDepDropDownValues(): Observable<any>{
 }
 //Obtener Folio de Facturas en base a IdCliente
 getClienteFacturaList(id: number): Observable<any[]>{
-  return this.http.get<any[]>(this.APIUrl + '/ReciboPago/FacturaIdCliente/' + id)
+  return this.http.get<any[]>(this.APIUrl + '/ReciboPago/FacturaIdCliente/' + id);
 }
 //Obtener los datos del Cliente en base a una factura
-  
 getFacturaClienteID(id:number): Observable<any[]>{
-  return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaClienteID/'+id)
+  return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaClienteID/'+id);
+}
+//Obtener Folio de las Facturas que Correspondan con el IdCliente, Esten Timbradas, Tengan saldo pendiente
+getFacturaPagoCFDI(id: number): Observable<any[]>{
+  return this.http.get<any[]>(this.APIUrl+ '/ReciboPago/FacturaPagoCFDI/'+ id);
+}
+//Obtener Lista de PagosCFDI en base a un ReciboPago
+getReciboPagosCFDI(id: number): Observable<PagoCFDI[]>{
+  return this.http.get<PagoCFDI[]>(this.APIUrl+ '/ReciboPago/ReciboPagoCFDI/' + id);
 }
   //Crear PagoCFDI
   //Eliminar Recibo Pago

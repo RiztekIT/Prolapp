@@ -104,7 +104,7 @@ export class ComplementopagocxcComponent implements OnInit {
     FormaPago: "",
     Moneda: "",
     TipoCambio: "",
-    Cantidad: "",
+    Cantidad: "0",
     Referencia: "",
     UUID: "",
     Tipo: "Pago",

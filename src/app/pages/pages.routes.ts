@@ -65,6 +65,7 @@ import { LoginguardGuard } from '../services/shared/loginguard.guard';
 import { ComplementopagocxcComponent } from './cxc/complementopagocxc/complementopagocxc.component';
 import { EmpresaComponent } from './administracion/empresa/empresa.component';
 import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo-pago.component';
+import { ExpedienteComponent } from './administracion/expediente/expediente.component';
 
 
 
@@ -135,6 +136,7 @@ const pagesRoutes: Routes = [
                 { path: 'calendarioalmacen', component: CalendarioalmacenComponent  },
                 { path: 'reportesalmacen', component: ReportesalmacenComponent  },
                 { path: 'empresa', component: EmpresaComponent  },
+                { path: 'expediente', component: ExpedienteComponent  },
                 { path: 'quejas', component: QuejasComponent  },
                 { path: 'complementopagoCxc', component: ComplementopagocxcComponent  },
                 { path: 'permisos', component: ShowUsuarioPermisoComponent  },
