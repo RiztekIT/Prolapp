@@ -1,13 +1,17 @@
 /deep/ .customImgSel .img-ul-button {
     background-color: rgb(255, 255, 255);
     border-radius: 5px;
-    margin: 5px;
+    margin: 15px;
     width: 100%;
-    font-size: 15px;
+    font-size: 8px;
+    text-align: center;
+    padding-right: 12px !important;
 }
 
 /deep/ .customImgSel .img-ul-upload {
-    background-color: #545454 !important;
+    background-color: #525151 !important;
+    font-size: 14px !important;
+    padding-right: 12px !important;
 }
 
 /deep/ .customImgSel .img-ul-clear {

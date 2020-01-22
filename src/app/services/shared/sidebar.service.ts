@@ -13,6 +13,7 @@ export class SidebarService {
         { titulo: 'Catalogos', url: '/catalogos' },
         { titulo: 'Permisos', url: '/permisos' },
         { titulo: 'Empresa', url: '/empresa' },
+        { titulo: 'Expediente', url: '/expediente' },
       ],
       url: '/catalogos',
     },

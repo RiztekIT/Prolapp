@@ -142,6 +142,7 @@ import { ShowUsuarioPermisoComponent } from './administracion/permisos/show-usua
 import { ShowUsuarioPrivilegioComponent } from './administracion/permisos/show-usuario-privilegio/show-usuario-privilegio.component'
 import { ShowEmpresaComponent } from './administracion/empresa/show-empresa/show-empresa.component';
 import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit-empresa.component';
+import { ExpedienteComponent } from './administracion/expediente/expediente.component';
 
 
 
@@ -246,6 +247,7 @@ import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit
         EditEmpresaComponent,
         ShowUsuarioPermisoComponent,
         ShowUsuarioPrivilegioComponent,
+        ExpedienteComponent,
     ],
     exports: [
         DashboardComponent,
