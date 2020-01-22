@@ -1,5 +1,5 @@
 export class Proceso {
-    IdProceso: number;
+    IdProcesos: number;
     NombreProceso: string;
     Area: string;
     PermisoBool: Boolean;

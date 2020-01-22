@@ -6,6 +6,7 @@ import { NgForm } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { UsuariosServieService } from 'src/app/services/catalogos/usuarios-servie.service';
 import { procesoMasterDetalle } from '../../../../Models/procesomaster-model';
+import { Privilegio } from '../../../../Models/privilegio-model';
 
 
 
@@ -30,7 +31,7 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
 
   ngOnInit() {
     this.refreshProcesosList()
-    console.log(this.service.master);
+    // console.log(this.service.master);
 
 
 
@@ -48,19 +49,33 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
   }
 
   checkbox(event,f,i){
-   console.log(event);
-   console.log(f);
-   console.log(i);
+  //  console.log(event);
+  //  console.log(f);
+  //  console.log(i);
    if (event.checked){
      this.service.master[f].NombreProcesos[i].PermisoBool = true;
-    //  console.log('hola');
+    //  console.log(this.service2.formData.IdUsuario, this.service.master[f].NombreProcesos[i].IdProcesos,'insert');
    }else{
     this.service.master[f].NombreProcesos[i].PermisoBool = false;
-    // console.log('no');
+    this.onDelete(this.service2.formData.IdUsuario, this.service.master[f].NombreProcesos[i].IdProcesos)
    }
-console.log(this.service.master);
-console.log(this.service2.formData.IdUsuario);
   }
+
+  onDelete(f,i){
+    console.log(this.service2.formData.IdUsuario);
+    //solo se pasa como parametro la posicion en la que esta ya que estas indican el usuario y el proceso
+  this.service.PermisoDelete(f, i).subscribe(res =>{
+  
+  this.refreshProcesosList();
+ })
+  }
+
+// onAdd(){
+//   this.service.PermisoPost(this.service.privilegioData).subscribe(res =>{
+//     this.refreshProcesosList
+//   })
+// }
+
 
    refreshProcesosList() {
      this.service.master = [];
@@ -74,6 +89,7 @@ console.log(this.service2.formData.IdUsuario);
 
          this.service.master[i].NombreProcesos = [];
            this.service.GetProcesoNombre(data[i].Area, this.service2.formData.IdUsuario).subscribe(res =>{
+        
              for (let l = 0; l <=res.length-1; l++){
               //  console.log(res[l].IdUsuario);
               // this.checkbox(res[l].IdUsuario);
