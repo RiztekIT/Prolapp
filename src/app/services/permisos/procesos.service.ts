@@ -47,8 +47,8 @@ export class ProcesoService {
     return this.http.delete(this.APIUrl + '/proceso/PermisoDelete/' + id + '/' + id1 );
   }
 
-  PermisoPost(privilegio: Privilegio) {
-    return this.http.post(this.APIUrl + '/proceso/PermisoPost', privilegio);
+  PermisoPost(id:number, id1:number) {
+    return this.http.post(this.APIUrl + '/proceso/PermisoPost/' + id + '/' + id1,null);
  }
 
 

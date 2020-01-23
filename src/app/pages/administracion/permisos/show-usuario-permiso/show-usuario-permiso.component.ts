@@ -68,7 +68,7 @@ export class ShowUsuarioPermisoComponent implements OnInit {
     this.service.showAreaPrivilegio(usuario.IdUsuario).subscribe(data => {
 this.service.formData=usuario;
        const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
+    dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
     this.dialog.open(ShowUsuarioPrivilegioComponent, dialogConfig);

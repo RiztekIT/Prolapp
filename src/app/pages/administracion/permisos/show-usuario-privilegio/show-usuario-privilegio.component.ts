@@ -10,6 +10,7 @@ import { Privilegio } from '../../../../Models/privilegio-model';
 
 
 
+
 @Component({
   selector: 'app-show-usuario-privilegio',
   templateUrl: './show-usuario-privilegio.component.html',
@@ -54,7 +55,7 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
   //  console.log(i);
    if (event.checked){
      this.service.master[f].NombreProcesos[i].PermisoBool = true;
-    //  console.log(this.service2.formData.IdUsuario, this.service.master[f].NombreProcesos[i].IdProcesos,'insert');
+     this.onAdd(this.service2.formData.IdUsuario, this.service.master[f].NombreProcesos[i].IdProcesos)
    }else{
     this.service.master[f].NombreProcesos[i].PermisoBool = false;
     this.onDelete(this.service2.formData.IdUsuario, this.service.master[f].NombreProcesos[i].IdProcesos)
@@ -62,25 +63,23 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
   }
 
   onDelete(f,i){
-    console.log(this.service2.formData.IdUsuario);
     //solo se pasa como parametro la posicion en la que esta ya que estas indican el usuario y el proceso
   this.service.PermisoDelete(f, i).subscribe(res =>{
-  
-  this.refreshProcesosList();
+    this.refreshProcesosList();
  })
   }
 
-// onAdd(){
-//   this.service.PermisoPost(this.service.privilegioData).subscribe(res =>{
-//     this.refreshProcesosList
-//   })
-// }
+onAdd(f,i){
+  this.service.PermisoPost(f,i).subscribe(res =>{
+    this.refreshProcesosList();
+  })
+}
 
 
    refreshProcesosList() {
      this.service.master = [];
      this.service.showAreaPrivilegio().subscribe(data => {
-       console.log(data);
+       
        
        for (let i = 0; i < data.length; i++) {
          this.arrayArea.push(data[i].Area)
