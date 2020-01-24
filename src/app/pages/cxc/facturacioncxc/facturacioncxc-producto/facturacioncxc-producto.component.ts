@@ -148,13 +148,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
     this.service.formDataDF.ImporteIVA = (suma * parseFloat(this.IVA)).toFixed(4);
     this.service.formDataDF.ImporteIVADlls = (parseFloat(this.service.formDataDF.ImporteDlls) * parseFloat(this.IVA)).toFixed(4);
     
-<<<<<<< HEAD
     
-=======
-    // console.log(this.Cdolar);
-    // console.log(this.service.formDataDF.PrecioUnitarioDlls);
-    // console.log(this.service.formDataDF.ImporteDlls);
->>>>>>> 5b8ddf87fddfc3458c121670f06c0ac83252b97b
     
 
 
