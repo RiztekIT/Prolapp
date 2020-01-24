@@ -41,6 +41,10 @@ export class ReciboPagoService {
   addReciboPago(reciboPago: ReciboPago) {
     return this.http.post(this.APIUrl + '/ReciboPago', reciboPago);
   }
+  //Update Recibo Pago
+  updateReciboPago(reciboPago: ReciboPago) {
+    return this.http.put(this.APIUrl + '/ReciboPago', reciboPago);
+  }
   //Obtener Id ultimo ReciboPago
   getUltimoReciboPago(): Observable<any> {
     return this.http.get<any>(this.APIUrl + '/ReciboPago/UltimoReciboPago');
@@ -69,7 +73,19 @@ getFacturaPagoCFDI(id: number): Observable<any[]>{
 getReciboPagosCFDI(id: number): Observable<PagoCFDI[]>{
   return this.http.get<PagoCFDI[]>(this.APIUrl+ '/ReciboPago/ReciboPagoCFDI/' + id);
 }
+//Obtener Folio de las Facturas que correspondan con el IdCliente, esten timbradas (Se ejecutara cundo no haya un pagoCFDI previo)
+getFacturaPrimerPagoCFDI(id: number): Observable<any[]>{
+  return this.http.get<any[]>(this.APIUrl + '/ReciboPago/FacturaPrimerPagoCFDI/' + id);
+}
+//Obtener el NoParcialidad de Cierta Factura
+getNoParcialidad(id: number): Observable<any[]>{
+  return this.http.get<any[]>(this.APIUrl + '/ReciboPago/UltimoNoParcialidad/' + id);
+}
   //Crear PagoCFDI
+   //Crear PagoCFDI
+  //  addPagoCFDI(reciboPago: ReciboPago) {
+  //   return this.http.post(this.APIUrl + '/ReciboPago', reciboPago);
+  // }
   //Eliminar Recibo Pago
   //Eliminar PagoCFDI
 

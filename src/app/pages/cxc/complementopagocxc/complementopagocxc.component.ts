@@ -64,10 +64,11 @@ export class ComplementopagocxcComponent implements OnInit {
   //Obtener lista de Recibo de pagos y pagos de CFDI 
   refreshReciboPagoList(){
   this.service.getReciboPagoClienteList().subscribe(data => {
+    // console.log(data);
   for (let i = 0; i <= data.length-1; i++){
     this.service.master[i] = data[i]
     this.service.master[i].pagoCFDI = [];
-    if (data[i].IdCliente != 1){
+    // if (data[i].IdCliente != 1){
       this.service.getPagoCFDIFacturaList(data[i].Id).subscribe(res => {
         for (let l = 0; l <=res.length-1; l++){
           this.service.master[i].pagoCFDI.push(res[l]);
@@ -76,8 +77,10 @@ export class ComplementopagocxcComponent implements OnInit {
         this.listData.sort = this.sort;    
         this.listData.paginator = this.paginator;
         this.listData.paginator._intl.itemsPerPageLabel = 'Recibos de Pago por Pagina';
+        // console.log(this.listData);
       })
-    }}
+    // }
+  }
     // console.log(this.service.master);
   });
 

@@ -28,6 +28,7 @@ export class ReciboPagoComponent implements OnInit {
     this.Valores0();
     this.dropdownRefresh2(this.service.formData.IdCliente);
     this.refreshPagoCFDITList();
+    
 
   }
   //Variable Estatus del Recibo Pago
@@ -59,6 +60,7 @@ export class ReciboPagoComponent implements OnInit {
   SaldoNuevo: number;
   //Nombre del Cliente a Facturar 
   ClienteNombre: any;
+
 
   //Iniciar Valores a 0
   Valores0() {
@@ -92,14 +94,20 @@ export class ReciboPagoComponent implements OnInit {
         this.ClienteNombre = res[0].Nombre;
       });
 
-
-      // if (this.Estatus==='Timbrada' || this.Estatus==='Cancelada'){
-      // let nodes = document.getElementById('div1').getElementsByTagName('*');
-      // for (let i = 0; i < nodes.length; i++){
-      // nodes[i].setAttribute('disabled','true')
-      // }
-      // }
+      
+      
+   
     });
+  }
+
+
+  //Limipiar PagoCFDI
+  CleanPagoCFDI(){
+    this.service.formDataPagoCFDI.IdFactura = 0;
+    this.CantidadF = 0;
+    this.TotalF = 0;
+    this.SaldoF = 0;
+    this.SaldoNuevo = 0;
   }
 
   //Lista Clientes
@@ -122,7 +130,7 @@ export class ReciboPagoComponent implements OnInit {
   //Lista Facturas por IdClient
   dropdownRefresh2(idCliente) {
     // console.log(idCliente+ 'Este es el IDCliente');
-    this.service.formDataPagoCFDI.IdFactura = 0;
+    // this.service.formDataPagoCFDI.IdFactura = 0;
     this.service.getFacturaPagoCFDI(idCliente).subscribe((data) => {
       console.log(data);
       if (data) {
@@ -137,18 +145,32 @@ export class ReciboPagoComponent implements OnInit {
               map(value => this._filter2(value))
             );
         }
-      } else {
+      }else{
+        console.log("No hay Facturas Correspondientes al Cliente");
         this.options2 = [];
       }
     });
 
   }
 
-  refreshPagoCFDITList(){
-    this.service.getReciboPagosCFDI(2).subscribe(data => {
+  refreshPagoCFDITList(Cantidad){
+    this.service.getReciboPagosCFDI(this.IdReciboPago).subscribe(data => {
       console.log(data);
-      this.listData = new MatTableDataSource(data);
-      this.listData.sort = this.sort;
+         if (data.length > 0){
+           this.Saldo = 0;
+           for (let i=0; i<data.length; i++){
+             this.Saldo = +this.service.formData.Cantidad - (this.Saldo + +data[i].Cantidad); 
+           }
+          //  console.log('SI HAY VALORES');
+          //  console.log(this.service.formData.IdCliente);
+           (<HTMLInputElement> document.getElementById("ClienteId")).disabled = true;
+          //  console.log(data);
+           this.listData = new MatTableDataSource(data);
+           this.listData.sort = this.sort;
+      }else{
+        console.log('No hay valores');
+        this.Saldo = +Cantidad;
+      }
     });
   }
 
@@ -173,6 +195,9 @@ export class ReciboPagoComponent implements OnInit {
     if (event.isUserInput) {
       console.log('ON CHANGEEEEE');
       console.log(reciboPago);
+      this.service.updateReciboPago(this.service.formData).subscribe(data =>{
+        console.log(data);
+      })
       //Limpiar arreglo de Facturas dependiendo del cliente
       this.options2 = [];
       this.dropdownRefresh2(this.service.formData.IdCliente);
@@ -180,6 +205,13 @@ export class ReciboPagoComponent implements OnInit {
     }
 
 
+  }
+
+  onBlur(){
+    // console.log("YA DEJO DE ESCRIBIR");
+    this.service.updateReciboPago(this.service.formData).subscribe(data =>{
+      console.log(data);
+    })
   }
 
   onSelectionChange2(factura: any, event: any) {
@@ -194,8 +226,7 @@ export class ReciboPagoComponent implements OnInit {
 
   onChangeCantidad(Cantidad: Event) {
     this.Cantidad = +Cantidad;
-    this.Saldo = +Cantidad;
-    console.log(this.Cantidad);
+   this.refreshPagoCFDITList(Cantidad);
   }
   onChangeCantidadF(CantidadF: Event) {
 
@@ -272,6 +303,7 @@ export class ReciboPagoComponent implements OnInit {
 
   onSubmitCFDI() {
     this.Saldo = this.Saldo - this.CantidadF;
+    this.CleanPagoCFDI();
 
   }
 
