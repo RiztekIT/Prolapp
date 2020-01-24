@@ -9,6 +9,9 @@ import { Producto } from '../../../../Models/catalogos/productos-model';
 import { HttpHeaders,HttpClient } from '@angular/common/http';
 
 import Swal from 'sweetalert2';
+import { CurrencyPipe } from '@angular/common';
+
+
 
 
 const httpOptions = {
@@ -36,6 +39,12 @@ export class FacturacioncxcProductoComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
   Cdolar: string;
+  precioUnitarioF;
+  importeF;
+  ivaF;
+  precioUnitarioDllsF;
+  importeDllsF;
+  ivaDllsF;
   // options = [{city_name: "AnyTown", city_num: "4"}, {city_name: "YourTown", city_num: "15"}, {city_name: "SmallTown", city_num: "35"}];
   //Objeto de ProductoslistClientes: Cliente[] = [];
   listProductos: Producto[] = [];
@@ -46,7 +55,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
   
 
   constructor(public dialogbox: MatDialogRef<FacturacioncxcProductoComponent>,
-    public service: FacturaService, private snackBar: MatSnackBar, private http : HttpClient) { }
+    public service: FacturaService, private snackBar: MatSnackBar, private http : HttpClient, private currencyPipe: CurrencyPipe) { }
 
   ngOnInit() {
     this.resetForm();
@@ -137,9 +146,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
     this.service.formDataDF.ImporteIVA = (suma * parseFloat(this.IVA)).toFixed(4);
     this.service.formDataDF.ImporteIVADlls = (parseFloat(this.service.formDataDF.ImporteDlls) * parseFloat(this.IVA)).toFixed(4);
     
-    console.log(this.Cdolar);
-    console.log(this.service.formDataDF.PrecioUnitarioDlls);
-    console.log(this.service.formDataDF.ImporteDlls);
+    
     
 
 
@@ -155,10 +162,68 @@ export class FacturacioncxcProductoComponent implements OnInit {
     this.service.formDataDF.ImporteIVADlls = (suma * parseFloat(this.IVA)).toFixed(4);
     this.service.formDataDF.ImporteIVA = (parseFloat(this.service.formDataDF.Importe) * parseFloat(this.IVA)).toFixed(4);
     
-    console.log(this.service.formDataDF.PrecioUnitario);
-    console.log(this.service.formDataDF.Importe);
+  
     }
     
+    
+  }
+
+  formato(){
+    const preciounitario = document.getElementById('precioUnitario');
+    const importe = document.getElementById('importe');
+    const iva = document.getElementById('iva');
+    console.log(this.service.formDataDF.Importe);
+    
+
+    if(this.service.formDataDF.PrecioUnitario!='NaN'){
+    this.precioUnitarioF = this.currencyPipe.transform(this.service.formDataDF.PrecioUnitario);
+    preciounitario.value = this.precioUnitarioF;
+    }else{
+      preciounitario.value = '$0.00';
+    }
+    if(this.service.formDataDF.Importe!='NaN'){
+    this.importeF = this.currencyPipe.transform(this.service.formDataDF.Importe);
+    importe.value = this.importeF;
+  }else{
+    importe.value = '$0.00';
+    }
+    if(this.service.formDataDF.ImporteIVA!='NaN'){
+    this.ivaF = this.currencyPipe.transform(this.service.formDataDF.ImporteIVA);
+    iva.value = this.ivaF;
+  }else{
+    iva.value = '$0.00';
+
+    }
+
+  }
+
+  formatoDlls(){
+    const preciounitarioDlls = document.getElementById('precioUnitarioDlls');
+    const importeDlls = document.getElementById('importeDlls');
+    const ivaDlls = document.getElementById('ivaDlls');
+    console.log(this.service.formDataDF.Importe);
+    
+
+    if(this.service.formDataDF.PrecioUnitarioDlls!='NaN'){
+    this.precioUnitarioDllsF = this.currencyPipe.transform(this.service.formDataDF.PrecioUnitarioDlls);
+    preciounitarioDlls.value = this.precioUnitarioDllsF;
+    }else{
+      preciounitarioDlls.value = '$0.00';
+    }
+    if(this.service.formDataDF.ImporteDlls!='NaN'){
+    this.importeDllsF = this.currencyPipe.transform(this.service.formDataDF.ImporteDlls);
+    importeDlls.value = this.importeDllsF;
+  }else{
+    importeDlls.value = '$0.00';
+    }
+    if(this.service.formDataDF.ImporteIVADlls!='NaN'){
+    this.ivaDllsF = this.currencyPipe.transform(this.service.formDataDF.ImporteIVADlls);
+    ivaDlls.value = this.ivaDllsF;
+  }else{
+    ivaDlls.value = '$0.00';
+
+    }
+
   }
    
 

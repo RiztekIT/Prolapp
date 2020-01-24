@@ -287,7 +287,7 @@
                                 </ng-container>
                                 <ng-container matColumnDef="Precio">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
-                                    <td mat-cell *matCellDef="let element">{{element.Importe}}</td>
+                                    <td mat-cell *matCellDef="let element">{{element.Importe | currency}}</td>
                                 </ng-container>
 
                                 <ng-container matColumnDef="Options">

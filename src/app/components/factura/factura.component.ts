@@ -4,6 +4,8 @@ import { processors } from 'xml2js'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Parser } from '@angular/compiler/src/ml_parser/parser';
+import { Prefactura } from 'src/app/Models/facturacioncxc/prefactura-model';
+import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
 
 
 declare function cantidad(n);
@@ -21,10 +23,11 @@ export class FacturaComponent implements OnInit {
 
   @Input() xmlparametros;
 
-  constructor(private _http: HttpClient, private sanitizer: DomSanitizer) {
+  constructor(private _http: HttpClient, private sanitizer: DomSanitizer, public service: FacturaService) {
     // this.loadXML();
   }
   // XML
+  factura = new Prefactura();
   cfdiNombre: string;
   xmlString: any;
   xml: string;
@@ -68,6 +71,7 @@ export class FacturaComponent implements OnInit {
   tipoCambio: string; 
   condicionesPago: string;
   direccionCalle: string;
+  observaciones: string;
   // xml
   textnum: string;
 
@@ -208,13 +212,19 @@ export class FacturaComponent implements OnInit {
       
       // Por Definir
 
-      this.vendedor = ""
-      this.ordenCompra = ""
-      this.fechaVencimiento = ""
-      this.fechaEntrega = ""
-      this.tipoCambio = "" 
-      this.condicionesPago = ""
-      this.direccionCalle = ""
+      this.service.getFacturasClienteID(36).subscribe(data=>{
+       console.log(data);
+       
+        this.vendedor = data[0].Vendedor;
+        this.ordenCompra = data[0].OrdenDeCompra
+        this.fechaVencimiento = data[0].FechaVencimiento
+        this.fechaEntrega = data[0].FechaDeEntrega
+        this.tipoCambio = data[0].TipoDeCambio
+        this.condicionesPago = data[0].CondicionesDePago
+        this.direccionCalle = data[0].Calle + ' ' + data[0].NumeroExterior + ' ' + data[0].NumeroInterior + ' ' + data[0].Colonia 
+        this.observaciones = data[0].Observaciones;
+        
+      })
       
       //  console.log(this.uuid);
 
