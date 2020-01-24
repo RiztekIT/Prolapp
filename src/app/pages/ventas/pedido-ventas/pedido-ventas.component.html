@@ -9,46 +9,131 @@
                         <!-- Step 1 -->
                         <h6>Informacion del cliente</h6>
                         <section>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="firstName1">Nombre :</label>
-                                        <input type="text" class="form-control" id="firstName1"> </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="lastName1">Apellido :</label>
-                                        <input type="text" class="form-control" id="lastName1"> </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="emailAddress1">Correo :</label>
-                                        <input type="email" class="form-control" id="emailAddress1"> </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="phoneNumber1">Numero  :</label>
-                                        <input type="tel" class="form-control" id="phoneNumber1"> </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="location1">Selecciona la ciudad :</label>
-                                        <select class="custom-select form-control" id="location1" name="location">
-                                            <option *ngFor="let ciudad of ciudades; let i = index" value="">{{ i }} - {{ ciudad }}</option>
-                                            
-                                        </select>
+                            <!-- va en el ngform -->
+                            <!--   updateReciboPago(reciboPago: ReciboPago) {
+    return this.http.put(this.APIUrl + '/ReciboPago', reciboPago);
+  } -->
+                            <form #form="ngForm" autocomplete="off">
+                                <div class="form-material">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <label class="input-group-text text-info">Cliente</label>
+                                            <br>
+                                            <mat-form-field class="example-full-width">
+                                                <!-- <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" id="ClienteId" name="ClienteId" [(ngModel)]="service.formData.IdCliente"> -->
+                                                <mat-autocomplete #auto="matAutocomplete">
+                                                    <!-- <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChange(option, $event)">
+                                                        {{option.IdClientes}} {{option.Nombre}}
+                                                    </mat-option> -->
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+
+
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="firstName1">Nombre :</label>
+                                                <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre"> </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="lastName1">RFC :</label>
+                                                <input type="text" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="service.formData.RFC"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="firstName1">Razon Social :</label>
+                                                <input type="text" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="service.formData.RazonSocial"> </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="lastName1">Calle :</label>
+                                                <input type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="firstName1">Colonia :</label>
+                                                <input type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia"> </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="lastName1">CP :</label>
+                                                <input type="text" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="firstName1">Ciudad :</label>
+                                                <input type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad"> </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="lastName1">Estado :</label>
+                                                <input type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="firstName1">NumeroInterior :</label>
+                                                <input type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior"> </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="lastName1">NumeroExterior :</label>
+                                                <input type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="firstName1">ClaveCliente :</label>
+                                                <input type="text" class="form-control" name="ClaveCliente" #ClaveCliente="ngModel" [(ngModel)]="service.formData.ClaveCliente"> </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="lastName1">Estatus :</label>
+                                                <input type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formData.Estatus"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="firstName1">LimiteCredito :</label>
+                                                <input type="text" class="form-control" name="LimiteCredito" #LimiteCredito="ngModel" [(ngModel)]="service.formData.LimiteCredito"> </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="lastName1">DiasCredito :</label>
+                                                <input type="text" class="form-control" name="DiasCredito" #DiasCredito="ngModel" [(ngModel)]="service.formData.DiasCredito"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="firstName1">MetodoPago :</label>
+                                                <input type="text" class="form-control" name="MetodoPago" #MetodoPago="ngModel" [(ngModel)]="service.formData.MetodoPago"> </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="lastName1">UsoCFDI :</label>
+                                                <input type="text" class="form-control" name="UsoCFDI" #UsoCFDI="ngModel" [(ngModel)]="service.formData.UsoCFDI"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="firstName1">IdApi :</label>
+                                                <input type="text" class="form-control" name="IdApi" #IdApi="ngModel" value="" [(ngModel)]="service.formData.IdApi"> </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label for="date1">Codigo postal :</label>
-                                        <input class="form-control" id="date1" type="text" inputmode="numeric" pattern="[0-9]*"> </div>
-                                </div>
-                            </div>
+                            </form>
                         </section>
                         <!-- Step 2 -->
                         <h6>Informacion del Producto</h6>
@@ -84,16 +169,16 @@
                                     <div class="form-group ">
                                         <label for="intType1 ">Tipo de venta :</label>
                                         <select class="custom-select form-control " id="intType1 " name="intType1 ">
-                                            <option value="Banquet ">Urgente</option>
-                                            <option value="Fund Raiser ">Normal</option>
-                                            <option value="Dinner Party ">Sencilla</option>
-                                        </select>
+                        <option value="Banquet ">Urgente</option>
+                        <option value="Fund Raiser ">Normal</option>
+                        <option value="Dinner Party ">Sencilla</option>
+                      </select>
                                     </div>
                                     <div class="form-group ">
                                         <label for="Location1 ">Ciudad :</label>
                                         <select class="custom-select form-control " id="Location1 " name="location ">
-                                            <option *ngFor="let ciudad of ciudades; let i = index" value="">{{ i }} - {{ ciudad }}</option>
-                                        </select>
+                        <!-- <option *ngFor="let ciudad of ciudades; let i = index" value="">{{ i }} - {{ ciudad }}</option> -->
+                      </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 ">
