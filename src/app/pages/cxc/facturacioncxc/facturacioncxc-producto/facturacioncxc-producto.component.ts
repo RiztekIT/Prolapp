@@ -60,9 +60,9 @@ export class FacturacioncxcProductoComponent implements OnInit {
         map(value => this._filterUnidad(value))
       );
 
-      console.log(this.service.IdFactura);
+      // console.log(this.service.IdFactura);
       this.IdFactura = this.service.IdFactura ;
-      console.log(this.IdFactura);
+      // console.log(this.IdFactura);
 
   }
   //Filter Clave Producto
@@ -110,16 +110,18 @@ export class FacturacioncxcProductoComponent implements OnInit {
     // console.log(this.options);
   }
   // onSelectionChange(event: MatAutocompleteSelectedEvent, options:Producto){
-  onSelectionChange(options:Producto){
-    // event.source.optionSelected
-    
-    // console.log(event.source);
-    
-
-      this.service.formDataDF.Producto = options.Nombre;
-      this.service.formDataDF.ClaveSAT = options.ClaveSAT;
-      this.IVA = options.IVA;
-      this.sumar();
+  onSelectionChange(options:Producto, event: any){
+    if(event.isUserInput){
+      // event.source.optionSelected
+      
+      // console.log(event.source);
+      console.log(options);
+  
+        this.service.formDataDF.Producto = options.Nombre;
+        this.service.formDataDF.ClaveSAT = options.ClaveSAT;
+        this.IVA = options.IVA;
+        this.sumar();
+    }
 
   }
 
@@ -137,9 +139,9 @@ export class FacturacioncxcProductoComponent implements OnInit {
     this.service.formDataDF.ImporteIVA = (suma * parseFloat(this.IVA)).toFixed(4);
     this.service.formDataDF.ImporteIVADlls = (parseFloat(this.service.formDataDF.ImporteDlls) * parseFloat(this.IVA)).toFixed(4);
     
-    console.log(this.Cdolar);
-    console.log(this.service.formDataDF.PrecioUnitarioDlls);
-    console.log(this.service.formDataDF.ImporteDlls);
+    // console.log(this.Cdolar);
+    // console.log(this.service.formDataDF.PrecioUnitarioDlls);
+    // console.log(this.service.formDataDF.ImporteDlls);
     
 
 
@@ -155,8 +157,8 @@ export class FacturacioncxcProductoComponent implements OnInit {
     this.service.formDataDF.ImporteIVADlls = (suma * parseFloat(this.IVA)).toFixed(4);
     this.service.formDataDF.ImporteIVA = (parseFloat(this.service.formDataDF.Importe) * parseFloat(this.IVA)).toFixed(4);
     
-    console.log(this.service.formDataDF.PrecioUnitario);
-    console.log(this.service.formDataDF.Importe);
+    // console.log(this.service.formDataDF.PrecioUnitario);
+    // console.log(this.service.formDataDF.Importe);
     }
     
   }
@@ -266,9 +268,9 @@ export class FacturacioncxcProductoComponent implements OnInit {
     let diasemana = new Date(fechahoy).getDay();
     
     
-    console.log(fechaayer.getDay());
-    console.log(hora);
-    console.log('dia semana '+ diasemana);
+    // console.log(fechaayer.getDay());
+    // console.log(hora);
+    // console.log('dia semana '+ diasemana);
     //2020-01-03/2020-01-03
 if (diasemana == 6 || diasemana == 0){
   this.rootURL = this.rootURL+'oportuno'
@@ -284,13 +286,13 @@ if (diasemana == 6 || diasemana == 0){
     let añoayer = new Date(fechaayer).getFullYear();
     mesayer = mesayer+1;
     let fecha = añoayer+'-'+mesayer+'-'+diaayer;
-    console.log(fecha);
+    // console.log(fecha);
     this.rootURL = this.rootURL+fecha+'/'+fecha
 
     }else{
     mesayer = mesayer+1;
     let fecha = añoayer+'-'+mesayer+'-'+diaayer;
-    console.log(fecha);
+    // console.log(fecha);
     this.rootURL = this.rootURL+fecha+'/'+fecha
     }
   }
@@ -301,7 +303,7 @@ if (diasemana == 6 || diasemana == 0){
     
     
 
-    console.log(this.http.get(this.rootURL, httpOptions));
+    // console.log(this.http.get(this.rootURL, httpOptions));
     
     return this.http.get(this.rootURL, httpOptions)
 

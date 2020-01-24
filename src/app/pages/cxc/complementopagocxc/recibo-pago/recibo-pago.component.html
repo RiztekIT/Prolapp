@@ -35,7 +35,7 @@
                                 <label class="input-group-text text-info">Cliente</label>
                                 <br>
                                 <mat-form-field class="example-full-width">
-                                    <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" id="ClienteId" name="ClienteId" [(ngModel)]="service.formData.IdCliente">
+                                    <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" id="ClienteId" (blur)="onBlurCliente()" name="ClienteId" [(ngModel)]="service.formData.IdCliente">
                                     <mat-autocomplete #auto="matAutocomplete">
                                         <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChange(option, $event)">
                                             {{option.IdClientes}} {{option.Nombre}}

@@ -36,7 +36,7 @@ export class FacturacioncxcComponent implements OnInit {
   listData: MatTableDataSource<any>;
   MasterDetalle = new Array<facturaMasterDetalle>();
   listDetalleData;
-  displayedColumns : string [] = ['Folio', 'Cliente', 'FechaExpedicion', 'Subtotal', 'IVA', 'Total', 'Estado', 'Options'];
+  displayedColumns : string [] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Subtotal', 'ImpuestosTrasladadosDlls', 'Total', 'Estado', 'Options'];
   displayedColumnsVersion : string [] = ['ClaveProducto'];
   folio: string;
   fileUrl;
@@ -241,14 +241,14 @@ export class FacturacioncxcComponent implements OnInit {
       NumeroDeCertificado: "",
       UUID: "",
       UsoDelCFDI: "",
-      Subtotal: "",
-      SubtotalDlls: "",
-      Descuento: "",
-      ImpuestosRetenidos: "",
-      ImpuestosTrasladados: "",
-      ImpuestosTrasladadosDlls: "",
-      Total: "",
-      TotalDlls: "",
+      Subtotal: "0",
+      SubtotalDlls: "0",
+      Descuento: "0",
+      ImpuestosRetenidos: "0",
+      ImpuestosTrasladados: "0",
+      ImpuestosTrasladadosDlls: "0",
+      Total: "0",
+      TotalDlls: "0",
       FormaDePago: "",
       MetodoDePago: "",
       Cuenta: "",
@@ -261,7 +261,7 @@ export class FacturacioncxcComponent implements OnInit {
       Observaciones: "",
       FechaVencimiento:  new Date(),
       OrdenDeCompra: "",
-      TipoDeCambio: "",
+      TipoDeCambio: "0",
       FechaDeEntrega:  new Date(),
       CondicionesDePago: "",
       Vendedor: "",
