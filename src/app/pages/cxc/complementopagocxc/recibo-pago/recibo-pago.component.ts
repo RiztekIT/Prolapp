@@ -153,7 +153,7 @@ export class ReciboPagoComponent implements OnInit {
 
   }
 
-  refreshPagoCFDITList(Cantidad){
+  refreshPagoCFDITList(Cantidad?){
     this.service.getReciboPagosCFDI(this.IdReciboPago).subscribe(data => {
       console.log(data);
          if (data.length > 0){
@@ -228,6 +228,7 @@ export class ReciboPagoComponent implements OnInit {
     this.Cantidad = +Cantidad;
    this.refreshPagoCFDITList(Cantidad);
   }
+  
   onChangeCantidadF(CantidadF: Event) {
 
     //Obtener el valor que se ingresa en cierto input en la posicion 0
