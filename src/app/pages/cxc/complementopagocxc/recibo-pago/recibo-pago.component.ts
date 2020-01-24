@@ -60,6 +60,10 @@ export class ReciboPagoComponent implements OnInit {
   SaldoNuevo: number;
   //Nombre del Cliente a Facturar 
   ClienteNombre: any;
+  //Id De la Factua
+  IdFactura: number;
+  //NoParcialidad 
+  NoParcialidad: string;
 
 
   //Iniciar Valores a 0
@@ -132,7 +136,7 @@ export class ReciboPagoComponent implements OnInit {
     // console.log(idCliente+ 'Este es el IDCliente');
     // this.service.formDataPagoCFDI.IdFactura = 0;
     this.service.getFacturaPagoCFDI(idCliente).subscribe((data) => {
-      console.log(data);
+      // console.log(data);
       if (data) {
         for (let i = 0; i < data.length; i++) {
           let facturaPagoCFDI = data[i];
@@ -153,14 +157,17 @@ export class ReciboPagoComponent implements OnInit {
 
   }
 
-  refreshPagoCFDITList(Cantidad?){
+  refreshPagoCFDITList(){
     this.service.getReciboPagosCFDI(this.IdReciboPago).subscribe(data => {
-      console.log(data);
+      // console.log(data);
          if (data.length > 0){
            this.Saldo = 0;
            for (let i=0; i<data.length; i++){
-             this.Saldo = +this.service.formData.Cantidad - (this.Saldo + +data[i].Cantidad); 
+            //  console.log(i);
+            //  console.log(data[i].Cantidad);
+             this.Saldo = ((this.Saldo) + (+data[i].Cantidad)); 
            }
+           this.Saldo = +this.service.formData.Cantidad - this.Saldo;
           //  console.log('SI HAY VALORES');
           //  console.log(this.service.formData.IdCliente);
            (<HTMLInputElement> document.getElementById("ClienteId")).disabled = true;
@@ -168,8 +175,8 @@ export class ReciboPagoComponent implements OnInit {
            this.listData = new MatTableDataSource(data);
            this.listData.sort = this.sort;
       }else{
-        console.log('No hay valores');
-        this.Saldo = +Cantidad;
+        // console.log('No hay valores');
+        this.Saldo = +this.service.formData.Cantidad;
       }
     });
   }
@@ -190,27 +197,32 @@ export class ReciboPagoComponent implements OnInit {
       option.Folio.toString().includes(filterValue2));
   }
 
-  onSelectionChange(reciboPago: any, event: any) {
+  onSelectionChange(cliente: any, event: any) {
 
     if (event.isUserInput) {
       console.log('ON CHANGEEEEE');
-      console.log(reciboPago);
-      this.service.updateReciboPago(this.service.formData).subscribe(data =>{
-        console.log(data);
-      })
+      console.log(cliente);
+      console.log('FORM DATA');
+      console.log(this.service.formData);
       //Limpiar arreglo de Facturas dependiendo del cliente
       this.options2 = [];
       this.dropdownRefresh2(this.service.formData.IdCliente);
-      this.ClienteNombre = reciboPago.Nombre;
+      this.ClienteNombre = cliente.Nombre;
     }
 
 
+  }
+  onBlurCliente(){
+    this.service.updateReciboPago(this.service.formData).subscribe(data =>{
+      console.log(data);
+    })
   }
 
   onBlur(){
     // console.log("YA DEJO DE ESCRIBIR");
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
       console.log(data);
+      this.refreshPagoCFDITList();
     })
   }
 
@@ -219,6 +231,8 @@ export class ReciboPagoComponent implements OnInit {
       console.log(factura);
       this.TotalF = +factura.Total;
       this.SaldoF = +factura.Saldo;
+      this.IdFactura = factura.Id;
+      this.ObtenerNoParcialidad();
     }
   }
 
@@ -226,9 +240,10 @@ export class ReciboPagoComponent implements OnInit {
 
   onChangeCantidad(Cantidad: Event) {
     this.Cantidad = +Cantidad;
-   this.refreshPagoCFDITList(Cantidad);
+    this.Saldo = this.Cantidad - this.Saldo;
   }
-  
+
+
   onChangeCantidadF(CantidadF: Event) {
 
     //Obtener el valor que se ingresa en cierto input en la posicion 0
@@ -287,6 +302,14 @@ export class ReciboPagoComponent implements OnInit {
 
   }
 
+  ObtenerNoParcialidad(){
+    this.service.getNoParcialidad(this.IdFactura).subscribe(data =>{
+      this.NoParcialidad = data[0].NoParcialidad;
+      console.log(this.NoParcialidad);
+      // console.log(data);
+    })
+  }
+
 
   //Regresar a la pagina anterior
   Regresar() {
@@ -304,11 +327,22 @@ export class ReciboPagoComponent implements OnInit {
 
   onSubmitCFDI() {
     this.Saldo = this.Saldo - this.CantidadF;
-    this.CleanPagoCFDI();
+    this.service.formDataPagoCFDI.IdReciboPago = this.IdReciboPago;
+    this.service.formDataPagoCFDI.IdFactura = this.IdFactura;
+    this.service.formDataPagoCFDI.UUID = "";
+    this.service.formDataPagoCFDI.Cantidad = this.CantidadF.toString();
+    this.service.formDataPagoCFDI.NoParcialidad = this.NoParcialidad.toString();
+    this.service.formDataPagoCFDI.Saldo = this.SaldoNuevo.toString();
 
+    this.service.addPagoCFDI(this.service.formDataPagoCFDI).subscribe(res =>{
+      console.log(res);
+      this.refreshPagoCFDITList();
+      this.CleanPagoCFDI();
+    })
+    // console.log(this.service.formDataPagoCFDI);
   }
-
   onAddPagoCFDI() {
+
 
   }
 
