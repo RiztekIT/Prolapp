@@ -135,7 +135,7 @@
                                                                 <th class="text-right textoBodyAcomodo">
                                                                     {{lugarExpedicion}}
                                                                 </th>
-                                                                <th class="text-center textoBodyAcomodo"> {{fecha | slice:1:10}} </th>
+                                                                <th class="text-center textoBodyAcomodo"> {{fecha | slice:0:10}} </th>
                                                             </tr>
 
                                                         </thead>
@@ -173,7 +173,7 @@
                                                                     </div>
 
                                                                     <div class="col-3">
-                                                                        <th class="text-center textoBodyAcomodo"> {{ fechaVencimiento | slice:1:10 }} </th>
+                                                                        <th class="text-center textoBodyAcomodo"> {{ fechaVencimiento | slice:0:10 }} </th>
                                                                     </div>
                                                                     <div class="col-4">
                                                                         <th class="text-right textoBodyAcomodo"> {{formaDePago}} </th>
@@ -212,7 +212,7 @@
                                                     <thead>
                                                         <tr>
                                                             <th class="text-center textoBodyAcomodo"> {{ tipoCambio }} </th>
-                                                            <th class="text-center textoBodyAcomodo"> {{ fechaEntrega | slice:1:10 }} </th>
+                                                            <th class="text-center textoBodyAcomodo"> {{ fechaEntrega | slice:0:10 }} </th>
                                                             <th class="text-center textoBodyAcomodo"> {{ condicionesPago }} </th>
                                                         </tr>
                                                     </thead>
