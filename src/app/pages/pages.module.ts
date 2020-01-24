@@ -116,6 +116,7 @@ import { EditClienteComponent } from './administracion/catalogos/clientes/edit-c
 import { AddClienteComponent } from './administracion/catalogos/clientes/add-cliente/add-cliente.component';
 import { ClientesService } from '../services/catalogos/clientes.service';
 import { ReciboPagoService } from '../services/complementoPago/recibo-pago.service';
+import { VentasPedidoService } from '../services/ventas/ventas-pedido.service';
 
 import { EmpresaService } from '../services/empresas/empresa.service';
 
@@ -143,6 +144,7 @@ import { ShowUsuarioPrivilegioComponent } from './administracion/permisos/show-u
 import { ShowEmpresaComponent } from './administracion/empresa/show-empresa/show-empresa.component';
 import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit-empresa.component';
 import { ExpedienteComponent } from './administracion/expediente/expediente.component';
+
 
 
 
@@ -293,7 +295,8 @@ import { ExpedienteComponent } from './administracion/expediente/expediente.comp
         FacturaService,
         ReciboPagoService,
         EmpresaService,
-        CurrencyPipe
+        CurrencyPipe,
+        VentasPedidoService
         
     ],
     entryComponents: [
