@@ -10,23 +10,31 @@
 <div style="overflow: auto; height: 450px;" class="container-fluid">
     <form #form="ngForm" autocomplete="off">
 
-        <div class="card-columns">
-            <div *ngFor="let area of service.master; let f = index">
-                <div class="card card-outline-inverse">
-                    <div class="card-header">
-                        <h4 class="m-b-0 text-white">{{area.Area}}</h4>
-                    </div>
-                    <div class="card-body" *ngFor="let proceso of area.NombreProcesos; let i = index">
-                        <div class="form-material">
-                            <!-- <input type="checkbox" class="check" > -->
-                            <mat-checkbox name="proceso.PermisoBool" [(checked)]="proceso.PermisoBool" (change)="checkbox($event,f,i)">
 
-                            </mat-checkbox>
-                            <label class="input-group-text text-info">
-                                {{proceso.NombreProceso}}
-                                </label>
+        <div *ngFor="let area of service.master; let f = index" class="animated fadeIn faster">
+            <div class="container">
+                <div class="row">
+                    <div class="card card-outline-inverse col-12">
+                        <div class="card-header">
+                            <h4 class="m-b-0 text-white" style="text-align: center;">{{area.Area}}</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-material">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-12 col-lg-4 col-md-6" *ngFor="let proceso of area.NombreProcesos; let i = index">
+                                            <mat-checkbox class="checkbx" name="proceso.PermisoBool" [(checked)]="proceso.PermisoBool" (change)="checkbox($event,f,i)">
+                                            </mat-checkbox>
+                                            <label class="input-group-text text-info">
+                                                {{ proceso.NombreProceso}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
