@@ -8,9 +8,6 @@ import { Empresa } from '../../Models/Empresas/empresa-model';
 
 export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 
-
-
-
 @Injectable({
   providedIn: 'root'
 })

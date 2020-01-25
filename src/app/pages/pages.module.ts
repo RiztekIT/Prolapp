@@ -143,6 +143,7 @@ import { ShowUsuarioPrivilegioComponent } from './administracion/permisos/show-u
 import { ShowEmpresaComponent } from './administracion/empresa/show-empresa/show-empresa.component';
 import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit-empresa.component';
 import { ExpedienteComponent } from './administracion/expediente/expediente.component';
+import { PedidoService } from '../services/pedidos/pedido.service';
 
 
 
@@ -293,6 +294,7 @@ import { ExpedienteComponent } from './administracion/expediente/expediente.comp
         FacturaService,
         ReciboPagoService,
         EmpresaService,
+        PedidoService
         
     ],
     entryComponents: [
