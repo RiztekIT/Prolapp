@@ -212,7 +212,7 @@ export class FacturaComponent implements OnInit {
       
       // Por Definir
 
-      this.service.getFacturasClienteID(36).subscribe(data=>{
+      this.service.getFacturasClienteFolio(folio).subscribe(data=>{
        console.log(data);
        
         this.vendedor = data[0].Vendedor;

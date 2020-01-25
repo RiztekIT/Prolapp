@@ -383,7 +383,7 @@
                                                             <th class="text-right textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.claveunidad}} </th>
                                                         </div>
                                                         <div class="col-3">
-                                                            <th class="text-left textoBodyAcomodo"> {{conceptos.descripcion}} </th>
+                                                            <th class="text-left textoBodyAcomodo"> {{conceptos.descripcion | slice:0:30}} <br> {{conceptos.descripcion | slice:30:70}} </th>
                                                         </div>
                                                         <div class="col-2">
                                                             <th class="text-left textoBodyAcomodo "> {{ conceptos.valorunitario | currency}} </th>
