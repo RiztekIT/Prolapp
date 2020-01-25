@@ -20,6 +20,7 @@ import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 //Importacion para utilizar Pipe
 import {map, startWith} from 'rxjs/operators';
+import { Prefactura } from '../../../../Models/facturacioncxc/prefactura-model';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -88,6 +89,7 @@ export class FacturacioncxcAddComponent implements OnInit {
 
   
   json1 =  new FacturaTimbre();
+  json2 =  new Prefactura();
   folio: string;
   xmlparam;
   fileUrl;
@@ -1287,11 +1289,11 @@ Swal.fire({
 
       // console.log(data[0]);
       
-      this.json1.Receptor.UID=data[0].IdApi;
-      this.json1.Moneda = data[0].Moneda;
+      this.json2.Receptor.UID=data[0].IdApi;
+      this.json2.Moneda = data[0].Moneda;
       if (data[0].Moneda=='MXN'){
-        this.json1.Impuestos.Traslados.pop();
-        this.json1.Impuestos.Traslados.push({
+        this.json2.Impuestos.Traslados.pop();
+        this.json2.Impuestos.Traslados.push({
           "Base": data[0].Subtotal,
           "Impuesto": "002",
           "TipoFactor": "Tasa",
@@ -1299,9 +1301,9 @@ Swal.fire({
           "Importe": data[0].ImpuestosTrasladados
         });
       }else if(data[0].Moneda=='USD'){
-        this.json1.TipoCambio= data[0].TipoDeCambio;
-        this.json1.Impuestos.Traslados.pop();
-        this.json1.Impuestos.Traslados.push({
+        this.json2.TipoCambio= data[0].TipoDeCambio;
+        this.json2.Impuestos.Traslados.pop();
+        this.json2.Impuestos.Traslados.push({
           "Base": data[0].SubtotalDlls,
           "Impuesto": "002",
           "TipoFactor": "Tasa",
@@ -1312,18 +1314,18 @@ Swal.fire({
       }
       // console.log(this.json.Receptor.UID);
       
-      this.json1.TipoDocumento = 'factura';
+      this.json2.TipoDocumento = 'factura';
       
-      this.json1.Impuestos.Retenidos.pop();
-    this.json1.Impuestos.Locales.pop();
-    this.json1.CfdiRelacionados.TipoRelacion = '';
-    this.json1.CfdiRelacionados.UUID.push();
-    this.json1.UsoCFDI = data[0].UsoDelCFDI;
-    this.json1.Serie = data[0].Serie;
-    this.json1.FormaPago = data[0].FormaDePago;
-    this.json1.MetodoPago = data[0].MetodoDePago;
+      this.json2.Impuestos.Retenidos.pop();
+    this.json2.Impuestos.Locales.pop();
+    this.json2.CfdiRelacionados.TipoRelacion = '';
+    this.json2.CfdiRelacionados.UUID.push();
+    this.json2.UsoCFDI = data[0].UsoDelCFDI;
+    this.json2.Serie = data[0].Serie;
+    this.json2.FormaPago = data[0].FormaDePago;
+    this.json2.MetodoPago = data[0].MetodoDePago;
     
-    this.json1.EnviarCorreo = false;
+    this.json2.EnviarCorreo = false;
 
     // console.log(this.json);
    
@@ -1334,12 +1336,12 @@ Swal.fire({
       // console.log(data);
       // console.log(data[0]);
       
-      this.json1.Conceptos.pop();
+      this.json2.Conceptos.pop();
       // console.log(data.length);
 
-      if (this.json1.Moneda=='MXN'){
+      if (this.json2.Moneda=='MXN'){
         for (let i=0; i< data.length; i++){
-          this.json1.Conceptos.push({
+          this.json2.Conceptos.push({
             ClaveProdServ: data[i].ClaveSAT,
             NoIdentificacion: data[i].ClaveProducto,
             Cantidad: data[i].Cantidad,
@@ -1374,9 +1376,9 @@ Swal.fire({
         }
 
       }
-      else if(this.json1.Moneda=='USD'){
+      else if(this.json2.Moneda=='USD'){
         for (let i=0; i< data.length; i++){
-          this.json1.Conceptos.push({
+          this.json2.Conceptos.push({
             ClaveProdServ: data[i].ClaveSAT,
             NoIdentificacion: data[i].ClaveProducto,
             Cantidad: data[i].Cantidad,
@@ -1419,7 +1421,7 @@ Swal.fire({
       // this.json1 = JSON.stringify(this.json1);
       
       
-      cadena = JSON.stringify(this.json1); 
+      cadena = JSON.stringify(this.json2); 
       //  console.log(cadena);
        document.getElementById('abrirpdf').click();
     

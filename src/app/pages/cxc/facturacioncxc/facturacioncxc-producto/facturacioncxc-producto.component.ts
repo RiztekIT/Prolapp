@@ -9,6 +9,9 @@ import { Producto } from '../../../../Models/catalogos/productos-model';
 import { HttpHeaders,HttpClient } from '@angular/common/http';
 
 import Swal from 'sweetalert2';
+import { CurrencyPipe } from '@angular/common';
+
+
 
 
 const httpOptions = {
@@ -36,6 +39,12 @@ export class FacturacioncxcProductoComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
   Cdolar: string;
+  precioUnitarioF;
+  importeF;
+  ivaF;
+  precioUnitarioDllsF;
+  importeDllsF;
+  ivaDllsF;
   // options = [{city_name: "AnyTown", city_num: "4"}, {city_name: "YourTown", city_num: "15"}, {city_name: "SmallTown", city_num: "35"}];
   //Objeto de ProductoslistClientes: Cliente[] = [];
   listProductos: Producto[] = [];
@@ -46,7 +55,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
   
 
   constructor(public dialogbox: MatDialogRef<FacturacioncxcProductoComponent>,
-    public service: FacturaService, private snackBar: MatSnackBar, private http : HttpClient) { }
+    public service: FacturaService, private snackBar: MatSnackBar, private http : HttpClient, private currencyPipe: CurrencyPipe) { }
 
   ngOnInit() {
     this.resetForm();
@@ -60,9 +69,9 @@ export class FacturacioncxcProductoComponent implements OnInit {
         map(value => this._filterUnidad(value))
       );
 
-      console.log(this.service.IdFactura);
+      // console.log(this.service.IdFactura);
       this.IdFactura = this.service.IdFactura ;
-      console.log(this.IdFactura);
+      // console.log(this.IdFactura);
 
   }
   //Filter Clave Producto
@@ -110,16 +119,18 @@ export class FacturacioncxcProductoComponent implements OnInit {
     // console.log(this.options);
   }
   // onSelectionChange(event: MatAutocompleteSelectedEvent, options:Producto){
-  onSelectionChange(options:Producto){
-    // event.source.optionSelected
-    
-    // console.log(event.source);
-    
-
-      this.service.formDataDF.Producto = options.Nombre;
-      this.service.formDataDF.ClaveSAT = options.ClaveSAT;
-      this.IVA = options.IVA;
-      this.sumar();
+  onSelectionChange(options:Producto, event: any){
+    if(event.isUserInput){
+      // event.source.optionSelected
+      
+      // console.log(event.source);
+      console.log(options);
+  
+        this.service.formDataDF.Producto = options.Nombre;
+        this.service.formDataDF.ClaveSAT = options.ClaveSAT;
+        this.IVA = options.IVA;
+        this.sumar();
+    }
 
   }
 
@@ -137,9 +148,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
     this.service.formDataDF.ImporteIVA = (suma * parseFloat(this.IVA)).toFixed(4);
     this.service.formDataDF.ImporteIVADlls = (parseFloat(this.service.formDataDF.ImporteDlls) * parseFloat(this.IVA)).toFixed(4);
     
-    console.log(this.Cdolar);
-    console.log(this.service.formDataDF.PrecioUnitarioDlls);
-    console.log(this.service.formDataDF.ImporteDlls);
+    
     
 
 
@@ -155,10 +164,68 @@ export class FacturacioncxcProductoComponent implements OnInit {
     this.service.formDataDF.ImporteIVADlls = (suma * parseFloat(this.IVA)).toFixed(4);
     this.service.formDataDF.ImporteIVA = (parseFloat(this.service.formDataDF.Importe) * parseFloat(this.IVA)).toFixed(4);
     
-    console.log(this.service.formDataDF.PrecioUnitario);
-    console.log(this.service.formDataDF.Importe);
+  
     }
     
+    
+  }
+
+  formato(){
+    const preciounitario = document.getElementById('precioUnitario');
+    const importe = document.getElementById('importe');
+    const iva = document.getElementById('iva');
+    console.log(this.service.formDataDF.Importe);
+    
+
+    if(this.service.formDataDF.PrecioUnitario!='NaN'){
+    this.precioUnitarioF = this.currencyPipe.transform(this.service.formDataDF.PrecioUnitario);
+    preciounitario.value = this.precioUnitarioF;
+    }else{
+      preciounitario.value = '$0.00';
+    }
+    if(this.service.formDataDF.Importe!='NaN'){
+    this.importeF = this.currencyPipe.transform(this.service.formDataDF.Importe);
+    importe.value = this.importeF;
+  }else{
+    importe.value = '$0.00';
+    }
+    if(this.service.formDataDF.ImporteIVA!='NaN'){
+    this.ivaF = this.currencyPipe.transform(this.service.formDataDF.ImporteIVA);
+    iva.value = this.ivaF;
+  }else{
+    iva.value = '$0.00';
+
+    }
+
+  }
+
+  formatoDlls(){
+    const preciounitarioDlls = document.getElementById('precioUnitarioDlls');
+    const importeDlls = document.getElementById('importeDlls');
+    const ivaDlls = document.getElementById('ivaDlls');
+    console.log(this.service.formDataDF.Importe);
+    
+
+    if(this.service.formDataDF.PrecioUnitarioDlls!='NaN'){
+    this.precioUnitarioDllsF = this.currencyPipe.transform(this.service.formDataDF.PrecioUnitarioDlls);
+    preciounitarioDlls.value = this.precioUnitarioDllsF;
+    }else{
+      preciounitarioDlls.value = '$0.00';
+    }
+    if(this.service.formDataDF.ImporteDlls!='NaN'){
+    this.importeDllsF = this.currencyPipe.transform(this.service.formDataDF.ImporteDlls);
+    importeDlls.value = this.importeDllsF;
+  }else{
+    importeDlls.value = '$0.00';
+    }
+    if(this.service.formDataDF.ImporteIVADlls!='NaN'){
+    this.ivaDllsF = this.currencyPipe.transform(this.service.formDataDF.ImporteIVADlls);
+    ivaDlls.value = this.ivaDllsF;
+  }else{
+    ivaDlls.value = '$0.00';
+
+    }
+
   }
    
 
@@ -266,9 +333,9 @@ export class FacturacioncxcProductoComponent implements OnInit {
     let diasemana = new Date(fechahoy).getDay();
     
     
-    console.log(fechaayer.getDay());
-    console.log(hora);
-    console.log('dia semana '+ diasemana);
+    // console.log(fechaayer.getDay());
+    // console.log(hora);
+    // console.log('dia semana '+ diasemana);
     //2020-01-03/2020-01-03
 if (diasemana == 6 || diasemana == 0){
   this.rootURL = this.rootURL+'oportuno'
@@ -284,13 +351,13 @@ if (diasemana == 6 || diasemana == 0){
     let añoayer = new Date(fechaayer).getFullYear();
     mesayer = mesayer+1;
     let fecha = añoayer+'-'+mesayer+'-'+diaayer;
-    console.log(fecha);
+    // console.log(fecha);
     this.rootURL = this.rootURL+fecha+'/'+fecha
 
     }else{
     mesayer = mesayer+1;
     let fecha = añoayer+'-'+mesayer+'-'+diaayer;
-    console.log(fecha);
+    // console.log(fecha);
     this.rootURL = this.rootURL+fecha+'/'+fecha
     }
   }
@@ -301,7 +368,7 @@ if (diasemana == 6 || diasemana == 0){
     
     
 
-    console.log(this.http.get(this.rootURL, httpOptions));
+    // console.log(this.http.get(this.rootURL, httpOptions));
     
     return this.http.get(this.rootURL, httpOptions)
 

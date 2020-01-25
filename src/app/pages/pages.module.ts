@@ -33,7 +33,7 @@ import { PromesasComponent } from './promesas/promesas.component';
 import { DbcalidadComponent } from './calidad/dbcalidad/dbcalidad.component';
 import { ReportesComponent } from './calidad/reportes/reportes.component';
 import { GraficosComponent } from './calidad/graficos/graficos.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { CalendarioComponent } from '../components/calendario/calendario.component';
 import { CalendarioCalidadComponent } from './calidad/calendario-calidad/calendario-calidad.component';
 import { GraficasVentasComponent } from './ventas/graficas-ventas/graficas-ventas.component';
@@ -116,6 +116,7 @@ import { EditClienteComponent } from './administracion/catalogos/clientes/edit-c
 import { AddClienteComponent } from './administracion/catalogos/clientes/add-cliente/add-cliente.component';
 import { ClientesService } from '../services/catalogos/clientes.service';
 import { ReciboPagoService } from '../services/complementoPago/recibo-pago.service';
+import { VentasPedidoService } from '../services/ventas/ventas-pedido.service';
 
 import { EmpresaService } from '../services/empresas/empresa.service';
 
@@ -144,6 +145,7 @@ import { ShowEmpresaComponent } from './administracion/empresa/show-empresa/show
 import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit-empresa.component';
 import { ExpedienteComponent } from './administracion/expediente/expediente.component';
 import { PedidoService } from '../services/pedidos/pedido.service';
+
 
 
 
@@ -294,7 +296,9 @@ import { PedidoService } from '../services/pedidos/pedido.service';
         FacturaService,
         ReciboPagoService,
         EmpresaService,
-        PedidoService
+        PedidoService,
+        CurrencyPipe,
+        VentasPedidoService
         
     ],
     entryComponents: [
