@@ -81,16 +81,29 @@
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Unidad Medida</label>
-                        <input required minlength="2" type="text" placeholder="Escribe la unidad de medida" class="form-control" name="UnidadMedida" #UnidadMedida="ngModel" [(ngModel)]="service.formData.UnidadMedida">
+                        <br>
+                        <!-- <input required minlength="2" type="text" placeholder="Escribe la unidad de medida" class="form-control" name="UnidadMedida" #UnidadMedida="ngModel" [(ngModel)]="service.formData.UnidadMedida">
                         <div class="text-left text-danger" *ngIf="UnidadMedida.invalid && UnidadMedida.touched">
                             Favor de Ingresar Unidad Medida
-                        </div>
+                        </div> -->
+
+                        <mat-form-field class="example-full-width">
+                            <!-- <mat-form-field class="input-group-text text-info"> -->
+                            <input type="text" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formData.UnidadMedida" (focus)="unidadMedida()">
+                            <mat-autocomplete #autoUnidad="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.key">
+                                    {{option.key}} {{option.name}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <br>
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">IVA</label>
                         <mat-checkbox class="example-margin" name="IVA" #IVA="ngModel" (ngModel)="service.formData.IVA"></mat-checkbox>
                         <!-- <input type="checkbox" class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="service.formData.IVA"> -->
                         <!--               -------------------------------------------------------                                       -->
+                        <br>
 
                         <label class="input-group-text text-info">Clave SAT</label>
                         <input required minlength="2" type="text" placeholder="Escribe la clave SAT" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="service.formData.ClaveSAT">

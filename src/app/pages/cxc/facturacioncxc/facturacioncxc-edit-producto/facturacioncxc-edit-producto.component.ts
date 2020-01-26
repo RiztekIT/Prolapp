@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import { Producto } from '../../../../Models/catalogos/productos-model';
 import Swal from 'sweetalert2';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 
 @Component({
   selector: 'app-facturacioncxc-edit-producto',
@@ -31,14 +32,17 @@ export class FacturacioncxcEditProductoComponent implements OnInit {
   ivaDllsF;
   
   filteredOptionsUnidad: Observable<any[]>;
+  //Clave Unidad
+public listUM: Array<any> = [];
 
   
 
   constructor(public dialogbox: MatDialogRef<FacturacioncxcEditProductoComponent>,
-    public service: FacturaService, private snackBar: MatSnackBar) { }
+    public service: FacturaService, private snackBar: MatSnackBar,public enviarfact: EnviarfacturaService) { }
 
   ngOnInit() {
     this.obtenerProductos();
+    // this.unidadMedida();
 
 
     this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
@@ -63,12 +67,27 @@ export class FacturacioncxcEditProductoComponent implements OnInit {
   //Filter Unidad
   private _filterUnidad(value: any): any[] {
     const filterValueUnidad = value.toLowerCase();
-    return this.optionsUnidad.filter(optionUnidad => optionUnidad.toString().toLowerCase().includes(filterValueUnidad));
+    //return this.optionsUnidad.filter(optionUnidad => optionUnidad.toString().toLowerCase().includes(filterValueUnidad));
+    return this.listUM.filter(optionUnidad => optionUnidad.key.toString().toLowerCase().includes(filterValueUnidad) || optionUnidad.name.toString().toLowerCase().includes(filterValueUnidad));
   }
 
   onClose() {
     this.dialogbox.close();
     this.service.filter('Register click');
+  }
+
+  unidadMedida(){
+    this.listUM = [];
+    this.enviarfact.unidadMedida().subscribe(data=>{
+      //console.log(JSON.parse(data).data);
+      for (let i=0; i<JSON.parse(data).data.length; i++){
+        this.listUM.push(JSON.parse(data).data[i])
+      }
+      console.log(this.listUM);
+      
+
+      
+    })
   }
  
   obtenerProductos(){
@@ -94,6 +113,7 @@ export class FacturacioncxcEditProductoComponent implements OnInit {
     
       this.service.formDataDF.Producto = options.Nombre;
       this.service.formDataDF.ClaveSAT = options.ClaveSAT;
+      this.service.formDataDF.Unidad = options.UnidadMedida;
       this.IVA = options.IVA;
       this.sumar();
   }
@@ -102,7 +122,7 @@ export class FacturacioncxcEditProductoComponent implements OnInit {
     let p1: number;
     let p2: number;
     let suma: number;
-    if (this.service.Moneda='MXN'){
+    if (this.service.Moneda=='MXN'){
     p1 = parseFloat(this.service.formDataDF.PrecioUnitario);
     p2 = parseFloat(this.service.formDataDF.Cantidad);
     this.service.formDataDF.PrecioUnitarioDlls = (p1 / parseFloat(this.Cdolar)).toFixed(4)
@@ -118,7 +138,7 @@ export class FacturacioncxcEditProductoComponent implements OnInit {
     
 
 
-    }else if (this.service.Moneda='USD'){
+    }else if (this.service.Moneda=='USD'){
     p1 = parseFloat(this.service.formDataDF.PrecioUnitarioDlls);
     p2 = parseFloat(this.service.formDataDF.Cantidad);
 

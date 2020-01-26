@@ -10,6 +10,7 @@ import { HttpHeaders,HttpClient } from '@angular/common/http';
 
 import Swal from 'sweetalert2';
 import { CurrencyPipe } from '@angular/common';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 
 
 
@@ -45,6 +46,8 @@ export class FacturacioncxcProductoComponent implements OnInit {
   precioUnitarioDllsF;
   importeDllsF;
   ivaDllsF;
+  Moneda: string;
+  um: boolean;
   // options = [{city_name: "AnyTown", city_num: "4"}, {city_name: "YourTown", city_num: "15"}, {city_name: "SmallTown", city_num: "35"}];
   //Objeto de ProductoslistClientes: Cliente[] = [];
   listProductos: Producto[] = [];
@@ -55,12 +58,16 @@ export class FacturacioncxcProductoComponent implements OnInit {
   
 
   constructor(public dialogbox: MatDialogRef<FacturacioncxcProductoComponent>,
-    public service: FacturaService, private snackBar: MatSnackBar, private http : HttpClient, private currencyPipe: CurrencyPipe) { }
+    public service: FacturaService, private snackBar: MatSnackBar, private http : HttpClient, private currencyPipe: CurrencyPipe, public enviarfact: EnviarfacturaService) { }
 
   ngOnInit() {
     this.resetForm();
     this.obtenerProductos();
     this.tipoDeCambio();
+    this.um = true;
+    
+    // this.unidadMedida();
+    console.log((this.service));
 
 
     this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
@@ -74,6 +81,11 @@ export class FacturacioncxcProductoComponent implements OnInit {
       // console.log(this.IdFactura);
 
   }
+//Clave Unidad
+public listUM: Array<any> = [];
+
+
+
   //Filter Clave Producto
    private _filter(value: any): any[] {
     const filterValue = value.toLowerCase();
@@ -85,9 +97,44 @@ export class FacturacioncxcProductoComponent implements OnInit {
   }
   //Filter Unidad
   private _filterUnidad(value: any): any[] {
+    if (typeof(value)=='string'){
     const filterValueUnidad = value.toLowerCase();
-    // console.log(this.optionsUnidad);
-    return this.optionsUnidad.filter(optionUnidad => optionUnidad.toString().toLowerCase().includes(filterValueUnidad));
+    return this.listUM.filter(optionUnidad => optionUnidad.key.toString().toLowerCase().includes(filterValueUnidad) || optionUnidad.name.toString().toLowerCase().includes(filterValueUnidad));
+    }else if (typeof(value)=='number'){
+      const filterValueUnidad = value;
+      return this.listUM.filter(optionUnidad => optionUnidad.key.toString().includes(filterValueUnidad) || optionUnidad.name.toString().includes(filterValueUnidad));
+    }
+  }
+  onMoneda(){
+    // console.log(event);
+    // console.log(this.service.formData);
+    
+    this.Moneda = this.service.formData.Moneda;
+    // console.log(this.Moneda);
+    this.service.Moneda = this.Moneda;
+    console.log(this.service.Moneda);
+  }
+
+  unidadMedida(){
+    if (this.um){
+    this.listUM = [];
+    this.enviarfact.unidadMedida().subscribe(data=>{
+      //console.log(JSON.parse(data).data);
+      for (let i=0; i<JSON.parse(data).data.length; i++){
+        this.listUM.push(JSON.parse(data).data[i])
+      }
+      this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterUnidad(value))
+      );
+      console.log(this.listUM);
+
+      this.um=false;
+      
+    })
+
+  }
   }
 
   onClose() {
@@ -125,12 +172,17 @@ export class FacturacioncxcProductoComponent implements OnInit {
       
       // console.log(event.source);
       console.log(options);
-  
-        this.service.formDataDF.Producto = options.Nombre;
-        this.service.formDataDF.ClaveSAT = options.ClaveSAT;
-        this.IVA = options.IVA;
-        this.sumar();
+      console.log((this.service));
+      
+      
+      this.service.formDataDF.Producto = options.Nombre;
+      this.service.formDataDF.ClaveSAT = options.ClaveSAT;
+      this.service.formDataDF.Unidad = options.UnidadMedida;
+      this.IVA = options.IVA;
+      this.sumar();
     }
+    // this.onMoneda();
+
 
   }
 
@@ -138,7 +190,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
     let p1: number;
     let p2: number;
     let suma: number;
-    if (this.service.Moneda='MXN'){
+    if (this.service.Moneda=='MXN'){
     p1 = parseFloat(this.service.formDataDF.PrecioUnitario);
     p2 = parseFloat(this.service.formDataDF.Cantidad);
     this.service.formDataDF.PrecioUnitarioDlls = (p1 / parseFloat(this.Cdolar)).toFixed(4)
@@ -152,7 +204,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
     
 
 
-    }else if (this.service.Moneda='USD'){
+    }else if (this.service.Moneda=='USD'){
     p1 = parseFloat(this.service.formDataDF.PrecioUnitarioDlls);
     p2 = parseFloat(this.service.formDataDF.Cantidad);
 

@@ -82,10 +82,21 @@
 
 
                         <label class="input-group-text text-info">Unidad Medida</label>
-                        <input required minlength="2" type="text" class="form-control" name="UnidadMedida" #UnidadMedida="ngModel" [(ngModel)]="service.formData.UnidadMedida">
+                        <br>
+                        <!-- <input required minlength="2" type="text" class="form-control" name="UnidadMedida" #UnidadMedida="ngModel" [(ngModel)]="service.formData.UnidadMedida">
                         <div class="text-left text-danger" *ngIf="UnidadMedida.invalid && UnidadMedida.touched">
                             Favor de Ingresar Unidad Medida
-                        </div>
+                        </div> -->
+                        <mat-form-field class="example-full-width">
+                            <!-- <mat-form-field class="input-group-text text-info"> -->
+                            <input type="text" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formData.UnidadMedida" (focus)="unidadMedida()">
+                            <mat-autocomplete #autoUnidad="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.key">
+                                    {{option.key}} {{option.name}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <br>
                         <!--               -------------------------------------------------------                                       -->
 
 

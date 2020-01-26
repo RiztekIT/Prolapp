@@ -46,10 +46,10 @@
                     <div class="col-lg-6">
 
                         <mat-form-field class="example-full-width">
-                            <input type="text" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formDataDF.Unidad">
+                            <input type="text" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formDataDF.Unidad" (focus)="unidadMedida()">
                             <mat-autocomplete #autoUnidad="matAutocomplete">
-                                <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option">
-                                    {{option}}
+                                <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.key">
+                                    {{option.key}} {{option.name}}
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>

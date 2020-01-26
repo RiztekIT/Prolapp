@@ -93,6 +93,10 @@ export class EnviarfacturaService {
     return this.http.post(rootURLcliente,datos,httpOptions)
   }
   
+  unidadMedida(): Observable<any>{
+    let rootURLUM = "/api/v3/catalogo/ClaveUnidad";
+    return this.http.get(rootURLUM,httpOptions2);
+  }
   
 
 
