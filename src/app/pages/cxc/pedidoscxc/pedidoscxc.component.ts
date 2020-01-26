@@ -1,44 +1,32 @@
 import { Component, OnInit } from '@angular/core';
+import * as html2pdf from 'html2pdf.js';
 
-declare function printTrafico();
-declare function footablePedidosTrafico();
+import {MatTableDataSource, MatPaginator, MatTable, MatDialog} from '@angular/material';
+import {MatSort} from '@angular/material/sort';
+import { Pedido } from '../../../Models/Pedidos/pedido-model';
+import { PedidoService } from 'src/app/services/pedidos/pedido.service';
+import { Router } from '@angular/router';
+import { trigger, state, transition, animate, style } from '@angular/animations';
+
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-pedidoscxc',
   templateUrl: './pedidoscxc.component.html',
-  styles: []
+  styleUrls: ['./pedidoscxc.component.css'],
+  animations: [
+
+  ]
 })
 export class PedidoscxcComponent implements OnInit {
 
-  ReporteCompras: any = [
-    {
-      id: '1',
-      cliente: 'Riztek',
-      cantidad: '3',
-      producto: 'Premium',
-      fecha: '2019/11/15',
-      estatus: 'Resuelta',
-      precio: '$ 36500',
-      factura: ''
-    }, {
-      id: '2',
-      cliente: 'Lex Impulse',
-      cantidad: '25',
-      producto: 'Dairy Quenn',
-      fecha: '2019/11/20',
-      estatus: 'Resuelta',
-      precio: '$ 48751',
-      factura: ''
-    }
-  ];
-
- 
+  listData: MatTableDataSource<any>;
+  displayedColumns: string [] = ['IdPedido', 'IdCliente', 'Folio', 'Subtotal', 'Descuento', 'Total', 'Observaciones', 'FechaVencimiento', 'OrdenDeCompra', 'FechaDeEntrega', 'CondicionesDePago', 'Vendedor', 'Estatus', 'Usuario', 'Factura', 'LugarDeEntrega']
 
   constructor() { }
 
   ngOnInit() {
-    printTrafico();
-    footablePedidosTrafico();
   }
 
 }
