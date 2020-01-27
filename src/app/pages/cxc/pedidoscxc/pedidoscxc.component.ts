@@ -1,14 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import * as html2pdf from 'html2pdf.js';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-import {MatTableDataSource, MatPaginator, MatTable, MatDialog} from '@angular/material';
+import {MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar} from '@angular/material';
 import {MatSort} from '@angular/material/sort';
-import { Pedido } from '../../../Models/Pedidos/pedido-model';
 import { PedidoService } from 'src/app/services/pedidos/pedido.service';
-import { Router } from '@angular/router';
-import { trigger, state, transition, animate, style } from '@angular/animations';
 
-import Swal from 'sweetalert2';
 
 
 @Component({
@@ -22,11 +17,36 @@ import Swal from 'sweetalert2';
 export class PedidoscxcComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string [] = ['IdPedido', 'IdCliente', 'Folio', 'Subtotal', 'Descuento', 'Total', 'Observaciones', 'FechaVencimiento', 'OrdenDeCompra', 'FechaDeEntrega', 'CondicionesDePago', 'Vendedor', 'Estatus', 'Usuario', 'Factura', 'LugarDeEntrega']
+  displayedColumns: string [] = ['IdPedido', 'IdCliente', 'Folio', 'Subtotal', 'Descuento', 'Total', 'Observaciones', 'FechaVencimiento', 'OrdenDeCompra', 'FechaDeEntrega', 'CondicionesDePago', 'Vendedor', 'Estatus', 'Usuario', 'Factura', 'LugarDeEntrega'];
+  @ViewChild(MatSort, null) sort : MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  constructor(private service:PedidoService, private dialog: MatDialog, private snackBar: MatSnackBar) {
 
-  constructor() { }
+    this.service.listen().subscribe((m:any)=>{
+      console.log(m);
+      this.refreshPedidoList();
+      });
+
+   }
+
+  
 
   ngOnInit() {
+    this.refreshPedidoList();
   }
 
+  refreshPedidoList(){
+    this.service.getPedidoList().subscribe(data => {
+      this.listData = new MatTableDataSource(data);
+      this.listData.sort = this.sort;
+      this.listData.paginator = this.paginator;
+      this.listData.paginator._intl.itemsPerPageLabel = 'Pedidos por Pagina';
+      console.log(data);
+    });
+  }
+
+  applyFilter(filtervalue: string){  
+    this.listData.filter= filtervalue.trim().toLocaleLowerCase();
+
+  }
 }
