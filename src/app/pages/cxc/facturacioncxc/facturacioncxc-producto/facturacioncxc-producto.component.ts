@@ -67,7 +67,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
     this.um = true;
     
     // this.unidadMedida();
-    console.log((this.service));
+    // console.log((this.service));
 
 
     this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
@@ -112,7 +112,7 @@ public listUM: Array<any> = [];
     this.Moneda = this.service.formData.Moneda;
     // console.log(this.Moneda);
     this.service.Moneda = this.Moneda;
-    console.log(this.service.Moneda);
+    // console.log(this.service.Moneda);
   }
 
   unidadMedida(){
@@ -128,7 +128,7 @@ public listUM: Array<any> = [];
         startWith(''),
         map(value => this._filterUnidad(value))
       );
-      console.log(this.listUM);
+      // console.log(this.listUM);
 
       this.um=false;
       
@@ -171,8 +171,8 @@ public listUM: Array<any> = [];
       // event.source.optionSelected
       
       // console.log(event.source);
-      console.log(options);
-      console.log((this.service));
+      // console.log(options);
+      // console.log((this.service));
       
       
       this.service.formDataDF.Producto = options.Nombre;
@@ -209,10 +209,10 @@ public listUM: Array<any> = [];
     p2 = parseFloat(this.service.formDataDF.Cantidad);
 
     this.service.formDataDF.PrecioUnitario = (p1 * parseFloat(this.Cdolar)).toFixed(4);
-    this.service.formDataDF.Importe= (suma * parseFloat(this.Cdolar)).toFixed(4);
     suma = p1 * p2;
+    this.service.formDataDF.Importe= (suma * parseFloat(this.Cdolar)).toFixed(4);
     this.service.formDataDF.ImporteDlls=suma.toFixed(4);
-    this.service.formDataDF.Importe= (suma / parseFloat(this.Cdolar)).toFixed(4);
+    // this.service.formDataDF.Importe= ( suma / parseFloat(this.Cdolar)).toFixed(4);
     this.service.formDataDF.ImporteIVADlls = (suma * parseFloat(this.IVA)).toFixed(4);
     this.service.formDataDF.ImporteIVA = (parseFloat(this.service.formDataDF.Importe) * parseFloat(this.IVA)).toFixed(4);
     
@@ -226,7 +226,7 @@ public listUM: Array<any> = [];
     const preciounitario = document.getElementById('precioUnitario');
     const importe = document.getElementById('importe');
     const iva = document.getElementById('iva');
-    console.log(this.service.formDataDF.Importe);
+    // console.log(this.service.formDataDF.Importe);
     
 
     if(this.service.formDataDF.PrecioUnitario!='NaN'){
@@ -255,7 +255,7 @@ public listUM: Array<any> = [];
     const preciounitarioDlls = document.getElementById('precioUnitarioDlls');
     const importeDlls = document.getElementById('importeDlls');
     const ivaDlls = document.getElementById('ivaDlls');
-    console.log(this.service.formDataDF.Importe);
+    // console.log(this.service.formDataDF.Importe);
     
 
     if(this.service.formDataDF.PrecioUnitarioDlls!='NaN'){
@@ -283,7 +283,7 @@ public listUM: Array<any> = [];
 
   // onSelectionChanged(event: MatAutocompleteSelectedEvent,options: Producto) {
   //   if (event.source.selected) {
-  //   console.log(options);
+    // console.log(options);
   //    this.service.formDataDF.Producto = options.Nombre;
   //   }
   // }
