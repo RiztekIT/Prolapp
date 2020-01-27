@@ -321,18 +321,13 @@ public listUM: Array<any> = [];
     this.service.addDetalleFactura(this.service.formDataDF).subscribe(res => {
       this.resetForm(form);
       // console.log(res);
-
       Swal.fire({
         icon: 'success',
         title: 'Producto Agregado'
       })
-      // this.snackBar.open(res.toString(), '', {
-      //   duration: 5000,
-      //   verticalPosition: 'top'
-      // });
-      // console.log(this.service.formDataDF);
     }
     );
+    // console.log(this.service.formDataDF);
   
   }
 
@@ -346,17 +341,11 @@ public listUM: Array<any> = [];
         icon: 'success',
         title: 'Producto Agregado'
       })
-      // console.log(res);
-      // this.snackBar.open(res.toString(), '', {
-      //   duration: 5000,
-      //   verticalPosition: 'top'
-      // });
-      // console.log(this.service.formDataDF);
       this.dialogbox.close();
       this.service.filter('Register click');
-      
     }
     );
+    // console.log(this.service.formDataDF);
 
   }
 

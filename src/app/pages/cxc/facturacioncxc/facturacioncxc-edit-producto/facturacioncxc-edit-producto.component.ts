@@ -7,6 +7,7 @@ import {map, startWith} from 'rxjs/operators';
 import { Producto } from '../../../../Models/catalogos/productos-model';
 import Swal from 'sweetalert2';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-facturacioncxc-edit-producto',
@@ -38,7 +39,7 @@ public listUM: Array<any> = [];
   
 
   constructor(public dialogbox: MatDialogRef<FacturacioncxcEditProductoComponent>,
-    public service: FacturaService, private snackBar: MatSnackBar,public enviarfact: EnviarfacturaService) { }
+    public service: FacturaService, private snackBar: MatSnackBar,public enviarfact: EnviarfacturaService, private currencyPipe: CurrencyPipe) { }
 
   ngOnInit() {
     this.obtenerProductos();
