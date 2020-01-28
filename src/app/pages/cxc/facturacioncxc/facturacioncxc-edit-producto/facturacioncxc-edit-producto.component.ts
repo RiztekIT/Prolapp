@@ -240,25 +240,25 @@ if (diasemana == 6 || diasemana == 0){
     console.log(this.service.formDataDF.Importe);
     
 
-  //   if(this.service.formDataDF.PrecioUnitario!='NaN'){
-  //   this.precioUnitarioF = this.currencyPipe.transform(this.service.formDataDF.PrecioUnitario);
-  //   preciounitario.value = this.precioUnitarioF;
-  //   }else{
-  //     preciounitario.value = '$0.00';
-  //   }
-  //   if(this.service.formDataDF.Importe!='NaN'){
-  //   this.importeF = this.currencyPipe.transform(this.service.formDataDF.Importe);
-  //   importe.value = this.importeF;
-  // }else{
-  //   importe.value = '$0.00';
-  //   }
-  //   if(this.service.formDataDF.ImporteIVA!='NaN'){
-  //   this.ivaF = this.currencyPipe.transform(this.service.formDataDF.ImporteIVA);
-  //   iva.value = this.ivaF;
-  // }else{
-  //   iva.value = '$0.00';
+    if(this.service.formDataDF.PrecioUnitario!='NaN'){
+    this.precioUnitarioF = this.currencyPipe.transform(this.service.formDataDF.PrecioUnitario);
+    preciounitario.value = this.precioUnitarioF;
+    }else{
+      preciounitario.value = '$0.00';
+    }
+    if(this.service.formDataDF.Importe!='NaN'){
+    this.importeF = this.currencyPipe.transform(this.service.formDataDF.Importe);
+    importe.value = this.importeF;
+  }else{
+    importe.value = '$0.00';
+    }
+    if(this.service.formDataDF.ImporteIVA!='NaN'){
+    this.ivaF = this.currencyPipe.transform(this.service.formDataDF.ImporteIVA);
+    iva.value = this.ivaF;
+  }else{
+    iva.value = '$0.00';
 
-  //   }
+    }
 
   }
 
@@ -269,26 +269,26 @@ if (diasemana == 6 || diasemana == 0){
     // console.log(this.service.formDataDF.Importe);
     
 
-  //   if(this.service.formDataDF.PrecioUnitarioDlls!='NaN'){
-  //   this.precioUnitarioDllsF = this.currencyPipe.transform(this.service.formDataDF.PrecioUnitarioDlls);
-  //   preciounitarioDlls.value = this.precioUnitarioDllsF;
-  //   }else{
-  //     preciounitarioDlls.value = '$0.00';
-  //   }
-  //   if(this.service.formDataDF.ImporteDlls!='NaN'){
-  //   this.importeDllsF = this.currencyPipe.transform(this.service.formDataDF.ImporteDlls);
-  //   importeDlls.value = this.importeDllsF;
-  //   // console.log(this.service.formDataDF.Importe);
-  // }else{
-  //   importeDlls.value = '$0.00';
-  //   }
-  //   if(this.service.formDataDF.ImporteIVADlls!='NaN'){
-  //   this.ivaDllsF = this.currencyPipe.transform(this.service.formDataDF.ImporteIVADlls);
-  //   ivaDlls.value = this.ivaDllsF;
-  // }else{
-  //   ivaDlls.value = '$0.00';
+    if(this.service.formDataDF.PrecioUnitarioDlls!='NaN'){
+    this.precioUnitarioDllsF = this.currencyPipe.transform(this.service.formDataDF.PrecioUnitarioDlls);
+    preciounitarioDlls.value = this.precioUnitarioDllsF;
+    }else{
+      preciounitarioDlls.value = '$0.00';
+    }
+    if(this.service.formDataDF.ImporteDlls!='NaN'){
+    this.importeDllsF = this.currencyPipe.transform(this.service.formDataDF.ImporteDlls);
+    importeDlls.value = this.importeDllsF;
+    // console.log(this.service.formDataDF.Importe);
+  }else{
+    importeDlls.value = '$0.00';
+    }
+    if(this.service.formDataDF.ImporteIVADlls!='NaN'){
+    this.ivaDllsF = this.currencyPipe.transform(this.service.formDataDF.ImporteIVADlls);
+    ivaDlls.value = this.ivaDllsF;
+  }else{
+    ivaDlls.value = '$0.00';
 
-  //   }
+    }
 
   }
    
