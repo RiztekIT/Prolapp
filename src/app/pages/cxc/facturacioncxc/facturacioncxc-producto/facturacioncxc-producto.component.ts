@@ -223,9 +223,9 @@ public listUM: Array<any> = [];
   }
 
   formato(){
-    const preciounitario = document.getElementById('precioUnitario');
-    const importe = document.getElementById('importe');
-    const iva = document.getElementById('iva');
+    const preciounitario = <HTMLInputElement>document.getElementById('precioUnitario');
+    const importe = <HTMLInputElement>document.getElementById('importe');
+    const iva = <HTMLInputElement>document.getElementById('iva');
     // console.log(this.service.formDataDF.Importe);
     
 
@@ -252,9 +252,9 @@ public listUM: Array<any> = [];
   }
 
   formatoDlls(){
-    const preciounitarioDlls = document.getElementById('precioUnitarioDlls');
-    const importeDlls = document.getElementById('importeDlls');
-    const ivaDlls = document.getElementById('ivaDlls');
+    const preciounitarioDlls = <HTMLInputElement>document.getElementById('precioUnitarioDlls');
+    const importeDlls = <HTMLInputElement>document.getElementById('importeDlls');
+    const ivaDlls = <HTMLInputElement>document.getElementById('ivaDlls');
     // console.log(this.service.formDataDF.Importe);
     
 
