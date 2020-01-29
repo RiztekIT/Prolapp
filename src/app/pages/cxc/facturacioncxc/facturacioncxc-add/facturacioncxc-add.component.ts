@@ -901,7 +901,7 @@ export class FacturacioncxcAddComponent implements OnInit {
           // console.log('error');
           Swal.fire(
             'Error',
-            '' + data.message.message + '',
+            '' + data.message + '',
             'error'
           )
 
