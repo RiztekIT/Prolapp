@@ -19,7 +19,7 @@ import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfact
 export class ShowClienteComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
-  displayedColumns : string [] = [ 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado',  'NumeroExterior','ClaveProveedor', 'Estatus', 'Options'];
+  displayedColumns : string [] = [ 'ClaveProveedor', 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado',  'NumeroExterior','Estatus', 'LimiteDeCredito', 'DiasDeCredito', 'Vendedor', 'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -39,6 +39,7 @@ export class ShowClienteComponent implements OnInit {
   refreshClientesList() {
 
     this.service.getClientesList().subscribe(data => {
+      console.log(data);
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;

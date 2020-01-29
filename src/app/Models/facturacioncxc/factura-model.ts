@@ -38,10 +38,4 @@ export class Factura {
     Estatus: string;
     Version: string;
     Usuario: string
-
-    
-
-
-
-
 }
