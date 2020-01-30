@@ -1,0 +1,53 @@
+<div class="d-flex justify-content-between m-2">
+    <h4>Actualizar Pago CFDI</h4>
+
+    <button mat-button (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+
+</div>
+
+<hr>
+
+
+<div style="overflow: auto; height: 450px;">
+
+
+    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+
+
+        <div class="form-material">
+            <div class="container">
+                <div class="row">
+
+                    <label class="input-group-text text-info">Folio: </label>
+
+                    <input matInput readonly type="text" class="form-control" name="IdFactura" #IdFactura="ngModel" [(ngModel)]="service.formDataPagoCFDI.IdFactura">
+
+                    <div class="col-lg-6">
+
+                        <label class="input-group-text text-info">Cantidad: </label>
+
+                        <input matInput required type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataPagoCFDI.Cantidad">
+
+                        <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
+                            Favor de Ingresar Cantidad.
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-lg-6">
+
+                        <label class="input-group-text text-info">No Parcialidad: </label>
+                        <input readonly placeholder="NoParcialidad" class="form-control" name="NoParcialidad" [ngModel]="service.formDataPagoCFDI.NoParcialidad">
+                    </div>
+                </div>
+
+                <button class="m-3" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Actualizar Pago</button>
+            </div>
+        </div>
+    </form>
+
+</div>

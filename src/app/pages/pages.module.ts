@@ -145,6 +145,7 @@ import { ShowEmpresaComponent } from './administracion/empresa/show-empresa/show
 import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit-empresa.component';
 import { ExpedienteComponent } from './administracion/expediente/expediente.component';
 import { PedidoService } from '../services/pedidos/pedido.service';
+import { PagoCFDIEditComponent } from './cxc/complementopagocxc/pago-cfdi-edit/pago-cfdi-edit.component';
 
 
 
@@ -251,6 +252,7 @@ import { PedidoService } from '../services/pedidos/pedido.service';
         ShowUsuarioPermisoComponent,
         ShowUsuarioPrivilegioComponent,
         ExpedienteComponent,
+        PagoCFDIEditComponent,
     ],
     exports: [
         DashboardComponent,
@@ -314,7 +316,8 @@ import { PedidoService } from '../services/pedidos/pedido.service';
         FacturacioncxcProductoComponent,
         FacturacioncxcEditProductoComponent,
         ShowUsuarioPrivilegioComponent,
-        EditEmpresaComponent
+        EditEmpresaComponent,
+        PagoCFDIEditComponent
 
     ]
 })

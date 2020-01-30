@@ -166,7 +166,11 @@ this.router.navigate(['/recibopago']);
   //Eliminar
   onDelete(reciboPago: ReciboPago){
 
-    console.log(reciboPago);
+    // console.log(reciboPago);
+    this.service.deleteReciboPago(reciboPago.Id).subscribe(data  => {
+      this.refreshReciboPagoList();
+    console.log(data);
+    });
 
   }
 

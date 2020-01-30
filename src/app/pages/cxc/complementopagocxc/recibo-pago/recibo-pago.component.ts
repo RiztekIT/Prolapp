@@ -10,6 +10,11 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 //Importacion para utilizar Pipe de DropDown Clientes
 import { map, startWith } from 'rxjs/operators';
 import { Factura } from 'src/app/Models/facturacioncxc/factura-model';
+import { PagoCFDI } from '../../../../Models/ComplementoPago/pagocfdi';
+//Importacion Modal
+import { MatDialog, MatDialogConfig } from '@angular/material';
+//Importacion Edit Pago CFDI
+import { PagoCFDIEditComponent } from '../pago-cfdi-edit/pago-cfdi-edit.component';
 
 @Component({
   selector: 'app-recibo-pago',
@@ -18,7 +23,7 @@ import { Factura } from 'src/app/Models/facturacioncxc/factura-model';
 })
 export class ReciboPagoComponent implements OnInit {
 
-  constructor(public service: ReciboPagoService, private router: Router) {
+  constructor(public service: ReciboPagoService, private router: Router, private dialog: MatDialog) {
 
   }
 
@@ -76,7 +81,7 @@ export class ReciboPagoComponent implements OnInit {
 
   //Informacion para tabla de productos
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['FolioFactura', 'Cantidad', 'SaldoPendiente', 'Options'];
+  displayedColumns: string[] = ['FolioFactura', 'Cantidad', 'SaldoPendiente', 'NoParcialidad', 'Options'];
   @ViewChild(MatSort, null) sort: MatSort;
 
 
@@ -232,7 +237,6 @@ export class ReciboPagoComponent implements OnInit {
       this.TotalF = +factura.Total;
       this.SaldoF = +factura.Saldo;
       this.IdFactura = factura.Id;
-      this.ObtenerNoParcialidad();
     }
   }
 
@@ -244,14 +248,21 @@ export class ReciboPagoComponent implements OnInit {
   }
 
 
-  onChangeCantidadF(CantidadF: Event) {
-
+  onChangeCantidadF(CantidadF: any) {
+    console.log(this.CantidadF);
     //Obtener el valor que se ingresa en cierto input en la posicion 0
     let elemHTML: any = document.getElementsByName('Cantidad2')[0];
     //Transformar la Cantidad en entero e igualarlo a la variable CantidadF
     this.CantidadF = +CantidadF;
 
+    this.CalcularCantidades();
 
+    elemHTML.value = this.CantidadF;
+    // console.log(this.CantidadF);
+  }
+
+  //
+  CalcularCantidades(){
     if (this.CantidadF > this.Saldo) {
       this.CantidadF = this.Saldo;
       if (this.CantidadF >= this.SaldoF) {
@@ -263,9 +274,8 @@ export class ReciboPagoComponent implements OnInit {
       this.CantidadF = 0;
     }
     this.SaldoNuevo = this.SaldoF - this.CantidadF;
-    elemHTML.value = this.CantidadF;
-    console.log(this.CantidadF);
   }
+
 
   //Forma Pago
   public listFP: Array<Object> = [
@@ -293,8 +303,29 @@ export class ReciboPagoComponent implements OnInit {
     { FormaDePago: "99", text: "99-Por definir" }
   ];
 
+  ObtenerTotalFactura(){
+
+  }
+
   //Editar PagoCFDI
-  onEditPagoCFDI() {
+  onEditCFDI(pagoCFDI: any) {
+    // console.log(pagoCFDI);
+    this.service.formDataPagoCFDI = pagoCFDI;
+    // console.log(this.service.formDataPagoCFDI);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(PagoCFDIEditComponent, dialogConfig);
+
+    // this.service.formDataPagoCFDI.IdFactura = pagoCFDI.Id;
+    // this.CantidadF = pagoCFDI.Cantidad;
+    // this.onChangeCantidadF(this.CantidadF);
+    // this.CalcularSP();
+
+  }
+  //Calcular Saldos Pendientes de los Pagos de CFDI
+  CalcularSP(){
 
   }
   //Eliminar PagoCFDI
@@ -309,8 +340,24 @@ export class ReciboPagoComponent implements OnInit {
       // console.log(data);
     })
   }
-
-
+  
+  onAddCFDI() {
+    this.ObtenerNoParcialidad();
+    this.Saldo = this.Saldo - this.CantidadF;
+    this.service.formDataPagoCFDI.IdReciboPago = this.IdReciboPago;
+    this.service.formDataPagoCFDI.IdFactura = this.IdFactura;
+    this.service.formDataPagoCFDI.UUID = "";
+    this.service.formDataPagoCFDI.Cantidad = this.CantidadF.toString();
+    this.service.formDataPagoCFDI.NoParcialidad = this.NoParcialidad.toString();
+    this.service.formDataPagoCFDI.Saldo = this.SaldoNuevo.toString();
+    console.log(this.service.formDataPagoCFDI);
+    this.service.addPagoCFDI(this.service.formDataPagoCFDI).subscribe(res =>{
+      console.log(res);
+      this.refreshPagoCFDITList();
+      this.CleanPagoCFDI();
+    })
+    // console.log(this.service.formDataPagoCFDI);
+  }
   //Regresar a la pagina anterior
   Regresar() {
     //Remover el IdRecibo el local storage
@@ -324,28 +371,6 @@ export class ReciboPagoComponent implements OnInit {
     // console.log(this.service.formData)
     console.log(this.service.formData.IdCliente);
   }
-
-  onSubmitCFDI() {
-    this.Saldo = this.Saldo - this.CantidadF;
-    this.service.formDataPagoCFDI.IdReciboPago = this.IdReciboPago;
-    this.service.formDataPagoCFDI.IdFactura = this.IdFactura;
-    this.service.formDataPagoCFDI.UUID = "";
-    this.service.formDataPagoCFDI.Cantidad = this.CantidadF.toString();
-    this.service.formDataPagoCFDI.NoParcialidad = this.NoParcialidad.toString();
-    this.service.formDataPagoCFDI.Saldo = this.SaldoNuevo.toString();
-
-    this.service.addPagoCFDI(this.service.formDataPagoCFDI).subscribe(res =>{
-      console.log(res);
-      this.refreshPagoCFDITList();
-      this.CleanPagoCFDI();
-    })
-    // console.log(this.service.formDataPagoCFDI);
-  }
-  onAddPagoCFDI() {
-
-
-  }
-
 
 
 }

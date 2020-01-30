@@ -164,8 +164,10 @@
 
                                 <!--               -------------------------------------------------------                                       -->
                                 <br>
-                                <button class="btn btn-info btn-lg" mat-raised-button (click)="onSubmitCFDI()"><i
-                                        class="mdi mdi-content-save btn-lg"></i>Guardar</button>
+                                <button class="btn btn-info btn-lg" mat-raised-button (click)="onAddCFDI()"><i
+                                            class="mdi mdi-content-save btn-lg"></i>Agregar</button>
+
+
                             </div>
                         </div>
                         <!-- Fin Contenedor de la Derecha -->
@@ -189,7 +191,7 @@
 
             <!-- Tabla PagosCDFI -->
             <br>
-            <h2>Productos</h2>
+            <h2>Pagos CFDI</h2>
             <br>
 
             <div class="mat-elevation-z8">
@@ -213,6 +215,10 @@
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo Pendiente</th>
                                 <td mat-cell *matCellDef="let element">{{element.Saldo}}</td>
                             </ng-container>
+                            <ng-container matColumnDef="NoParcialidad">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>No Parcialidad</th>
+                                <td mat-cell *matCellDef="let element">{{element.NoParcialidad}}</td>
+                            </ng-container>
 
                             <ng-container matColumnDef="Options">
                                 <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
@@ -227,7 +233,7 @@
                   </button>
                                         <mat-menu #menu="matMenu">
                                             <!--  -->
-                                            <button mat-icon-button class="btn btn-dark" (click)="onEditPagoCFDI(row)">
+                                            <button mat-icon-button class="btn btn-dark" (click)="onEditCFDI(row)">
                       <mat-icon>edit</mat-icon>
                     </button>
                                             <!--  -->
@@ -282,9 +288,9 @@
                             </div> -->
                         <!-- <ng-template #elseBlock> -->
                         <div style="display: grid">
-                            <button class="btn btn-info btn-lg" mat-raised-button (click)="onAddPagoCFDI()"><i
+                            <!-- <button class="btn btn-info btn-lg" mat-raised-button (click)="onAddPagoCFDI()"><i
                       class="mdi mdi-plus btn-lg"></i>Agregar Pago CFDI</button>
-                            <br>
+                            <br> -->
 
                             <button class="btn btn-info btn-lg" mat-raised-button (click)="onSubmit()"><i
                       class="mdi mdi-content-save btn-lg"></i>Guardar</button>

@@ -18,6 +18,8 @@ export class ReciboPagoService {
   IdReciboPago: number;
   master = new Array<ReciboPagoMasterPagoCFDI>();
   // Moneda: string;
+  //Total de Recibo de Pago
+  // Total: any;
 
   constructor(private http: HttpClient) { }
 
