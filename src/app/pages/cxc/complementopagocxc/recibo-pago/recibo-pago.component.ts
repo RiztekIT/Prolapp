@@ -28,13 +28,24 @@ export class ReciboPagoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dropdownRefresh();
+    this.CleanPagoCFDI();
     this.Inicializar();
-    this.Valores0();
-    this.dropdownRefresh2(this.service.formData.IdCliente);
+    this.RP();
+    this.dropdownRefresh();
     this.refreshPagoCFDITList();
+    // this.ClienteDefault();
     
 
+  }
+  //Checar si el Id es el Default
+  ClienteDefault(){
+    // console.log('CHECHANDO EL CLIENTE');
+    if(this.service.formData.IdCliente == 1){
+      console.log('CLIENTE DEFAULT');
+    }else{
+      console.log('ACTUALIZANDO DROPDOWN2');
+      this.dropdownRefresh2(this.service.formData.IdCliente);
+    }
   }
   //Variable Estatus del Recibo Pago
   Estatus: string;
@@ -69,15 +80,12 @@ export class ReciboPagoComponent implements OnInit {
   IdFactura: number;
   //NoParcialidad 
   NoParcialidad: string;
+  //TRUE = NUEVO RECIBO PAGO - FALSE = NO NUEVO RECIBO PAGO
+  Nuevo: boolean;
 
 
-  //Iniciar Valores a 0
-  Valores0() {
-    // this.Cantidad = 0;
-    this.CantidadF = 0;
-    // this.TotalF = 0;
-    // this.SaldoF = 0;
-  }
+
+
 
   //Informacion para tabla de productos
   listData: MatTableDataSource<any>;
@@ -104,7 +112,7 @@ export class ReciboPagoComponent implements OnInit {
       });
 
       
-      
+   
    
     });
   }
@@ -136,12 +144,54 @@ export class ReciboPagoComponent implements OnInit {
 
   }
 
+  //Verificar si ya existen o no PAGOS CFDI previos
+  RP(){
+    this.service.getReciboPagosCFDI(this.IdReciboPago).subscribe(data => {
+      if (data.length > 0){
+        console.log('CFDI EXISTENTES');
+this.Nuevo = false;
+      }else{
+        console.log('CFDI NUEVO');
+this.Nuevo  = true;
+      }
+    })
+  }
+
   //Lista Facturas por IdClient
   dropdownRefresh2(idCliente) {
-    // console.log(idCliente+ 'Este es el IDCliente');
-    // this.service.formDataPagoCFDI.IdFactura = 0;
+    //Checar si hay PAGOS CFDI
+    console.log(this.Nuevo + 'VARIABLE NUEVOOOOOOOOO');
+    // this.service.getReciboPagosCFDI(this.IdReciboPago).subscribe(data => {
+
+      //Si hay pagosCFDI, se hara un select con condiciones de los PAGOSCFDI existentes
+      if (this.Nuevo == false){
+console.log('YA HAYYYYY CFDIISISISISISIS');
+    console.log(idCliente+ 'Este es el IDCliente');
     this.service.getFacturaPagoCFDI(idCliente).subscribe((data) => {
-      // console.log(data);
+      console.log(data);
+      if (data) {
+        for (let i = 0; i < data.length; i++) {
+          let facturaPagoCFDI = data[i];
+          this.FacturaList.push(facturaPagoCFDI);
+          this.options2.push(facturaPagoCFDI)
+          // console.log(this.options2);
+          this.filteredOptions2 = this.myControl2.valueChanges
+            .pipe(
+              startWith(''),
+              map(value => this._filter2(value))
+            );
+        }
+      }else{
+        console.log("No hay Facturas Correspondientes al Cliente");
+        this.options2 = [];
+      }
+    });
+
+//Si no hay pagos CFDI, solo se verifica que la factura este Timbrada y con cuerde con el IdCliente
+  }else{
+console.log('NUEVO CFDIIIIIIIIIII');
+    this.service.getFacturaPrimerPagoCFDI(idCliente).subscribe((data) => {
+      console.log(data);
       if (data) {
         for (let i = 0; i < data.length; i++) {
           let facturaPagoCFDI = data[i];
@@ -162,6 +212,10 @@ export class ReciboPagoComponent implements OnInit {
 
   }
 
+  // });
+
+  }
+
   refreshPagoCFDITList(){
     this.service.getReciboPagosCFDI(this.IdReciboPago).subscribe(data => {
       // console.log(data);
@@ -179,10 +233,12 @@ export class ReciboPagoComponent implements OnInit {
           //  console.log(data);
            this.listData = new MatTableDataSource(data);
            this.listData.sort = this.sort;
+           this.dropdownRefresh2(this.service.formData.IdCliente);
       }else{
         // console.log('No hay valores');
         this.Saldo = +this.service.formData.Cantidad;
       }
+      console.log(this.Saldo);
     });
   }
 
@@ -233,10 +289,21 @@ export class ReciboPagoComponent implements OnInit {
 
   onSelectionChange2(factura: any, event: any) {
     if (event.isUserInput) {
+     
       console.log(factura);
-      this.TotalF = +factura.Total;
-      this.SaldoF = +factura.Saldo;
-      this.IdFactura = factura.Id;
+      if( this.Nuevo == false){
+        console.log('PAGOS CFDI EXISTENTES');
+        this.TotalF = +factura.Total;
+        this.SaldoF = +factura.Saldo;
+        this.IdFactura = factura.Id;
+      }else{
+        console.log('NUEVO PAGO CFDI');
+        this.TotalF = +factura.Total;
+        this.SaldoF = +factura.Total;
+        this.IdFactura = factura.Id;
+
+      }
+    
     }
   }
 
@@ -244,25 +311,29 @@ export class ReciboPagoComponent implements OnInit {
 
   onChangeCantidad(Cantidad: Event) {
     this.Cantidad = +Cantidad;
-    this.Saldo = this.Cantidad - this.Saldo;
+    this.refreshPagoCFDITList();
   }
 
 
   onChangeCantidadF(CantidadF: any) {
-    console.log(this.CantidadF);
+    // console.log(this.CantidadF);
     //Obtener el valor que se ingresa en cierto input en la posicion 0
     let elemHTML: any = document.getElementsByName('Cantidad2')[0];
     //Transformar la Cantidad en entero e igualarlo a la variable CantidadF
-    this.CantidadF = +CantidadF;
 
-    this.CalcularCantidades();
+    this.CalcularCantidades(CantidadF);
 
     elemHTML.value = this.CantidadF;
     // console.log(this.CantidadF);
   }
 
   //
-  CalcularCantidades(){
+  CalcularCantidades(CantidadF: any){
+    this.CantidadF = +CantidadF;
+    console.log('ESTE ES EL SALDO AL CAMBIAR LAS CANTIDADES');
+    console.log(this.Saldo);
+    // console.log(this.CantidadF);
+// this.Saldo = this.CantidadF;
     if (this.CantidadF > this.Saldo) {
       this.CantidadF = this.Saldo;
       if (this.CantidadF >= this.SaldoF) {
@@ -335,9 +406,13 @@ export class ReciboPagoComponent implements OnInit {
 
   ObtenerNoParcialidad(){
     this.service.getNoParcialidad(this.IdFactura).subscribe(data =>{
-      this.NoParcialidad = data[0].NoParcialidad;
-      console.log(this.NoParcialidad);
-      // console.log(data);
+      if(data[0].NoParcialidad == null){
+        console.log('PARCIALIDAD NULL');
+        this.service.formDataPagoCFDI.NoParcialidad = '1';
+      }else{
+        console.log('PACIALIDAD EXISTENTE');
+        this.service.formDataPagoCFDI.NoParcialidad = data[0].NoParcialidad;
+      }
     })
   }
   
@@ -348,15 +423,16 @@ export class ReciboPagoComponent implements OnInit {
     this.service.formDataPagoCFDI.IdFactura = this.IdFactura;
     this.service.formDataPagoCFDI.UUID = "";
     this.service.formDataPagoCFDI.Cantidad = this.CantidadF.toString();
-    this.service.formDataPagoCFDI.NoParcialidad = this.NoParcialidad.toString();
+    this.service.formDataPagoCFDI.NoParcialidad = this.NoParcialidad;
     this.service.formDataPagoCFDI.Saldo = this.SaldoNuevo.toString();
-    console.log(this.service.formDataPagoCFDI);
-    this.service.addPagoCFDI(this.service.formDataPagoCFDI).subscribe(res =>{
-      console.log(res);
-      this.refreshPagoCFDITList();
-      this.CleanPagoCFDI();
-    })
     // console.log(this.service.formDataPagoCFDI);
+      this.service.addPagoCFDI(this.service.formDataPagoCFDI).subscribe(res =>{
+        this.refreshPagoCFDITList();
+        this.CleanPagoCFDI();
+        // this.dropdownRefresh2(this.service.formData.IdCliente);
+        console.log(res);
+      })
+    
   }
   //Regresar a la pagina anterior
   Regresar() {
