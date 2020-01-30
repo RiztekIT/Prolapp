@@ -622,9 +622,11 @@ export class FacturacioncxcAddComponent implements OnInit {
 
     this.service.getFacturasClienteID(id).subscribe(data => {
 
-     console.log(data[0]);
 
-      this.json1.Receptor.UID = data[0].IdApi;
+    //  console.log(data[0]);
+    //  console.log(data[0].IdAPI);
+
+      this.json1.Receptor.UID = data[0].IdAPI;
       this.json1.Moneda = data[0].Moneda;
       if (data[0].Moneda == 'MXN') {
         this.json1.Impuestos.Traslados.pop();
@@ -647,7 +649,7 @@ export class FacturacioncxcAddComponent implements OnInit {
         });
 
       }
-      // console.log(this.json.Receptor.UID);
+      // console.log(this.json1.Receptor.UID);
 
       this.json1.TipoDocumento = 'factura';
 
