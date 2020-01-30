@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule} from '@angular/material';
+import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule} from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
@@ -253,6 +253,7 @@ import { PagoCFDIEditComponent } from './cxc/complementopagocxc/pago-cfdi-edit/p
         ShowUsuarioPrivilegioComponent,
         ExpedienteComponent,
         PagoCFDIEditComponent,
+    
     ],
     exports: [
         DashboardComponent,
@@ -287,7 +288,8 @@ import { PagoCFDIEditComponent } from './cxc/complementopagocxc/pago-cfdi-edit/p
         MatCheckboxModule,
         ImageUploadModule.forRoot(),
         HttpClientModule,
-        NgxLoadingModule.forRoot({})
+        NgxLoadingModule.forRoot({}),
+        MatStepperModule
 
     ],
     providers: [
