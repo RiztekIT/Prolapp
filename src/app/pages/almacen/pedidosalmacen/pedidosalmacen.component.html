@@ -1,1 +1,128 @@
-<p>pedidosalmacen works!</p>
+<div style="overflow:auto;">
+
+    <table mat-table [dataSource]="listData" matSort class="scrollable">
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
+        <!-- 
+                <ng-container matColumnDef="IdCliente">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>IdCliente</th mat-header-cell>
+                    <th mat-header-cell *matCellDef="let element">{{element.IdClientes}}</th mat-header-cell>
+                </ng-container> -->
+
+        <ng-container matColumnDef="IdPedido">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Pedido</th>
+            <td mat-cell *matCellDef="let element">{{element.IdPedido}}
+                <td>
+        </ng-container>
+
+        <ng-container matColumnDef="IdCliente">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Id Cliente</th>
+            <td mat-cell *matCellDef="let element">{{element.IdCliente}}
+                <td>
+        </ng-container>
+
+        <ng-container matColumnDef="Folio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio</th>
+            <td mat-cell *matCellDef="let element">{{element.Folio}}
+                <td>
+        </ng-container>
+
+        <ng-container matColumnDef="Subtotal">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Subtotal</th>
+            <td mat-cell *matCellDef="let element">{{element.Subtotal}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Descuento">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Descuento</th>
+            <td mat-cell *matCellDef="let element">{{element.Descuento}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Total">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
+            <td mat-cell *matCellDef="let element">{{element.Total}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Observaciones">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Observaciones</th>
+            <td mat-cell *matCellDef="let element">{{element.Observaciones}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="FechaVencimiento">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Vencimiento</th>
+            <td mat-cell *matCellDef="let element">{{element.FechaVencimiento}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="OrdenDeCompra">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Orden de Compra</th>
+            <td mat-cell *matCellDef="let element">{{element.OrdenDeCompra}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="FechaDeEntrega">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Entrega</th>
+            <td mat-cell *matCellDef="let element">{{element.FechaDeEntrega}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="CondicionesDePago">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Condiciones de Pago</th>
+            <td mat-cell *matCellDef="let element">{{element.CondicionesDePago}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Vendedor">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Vendedor</th>
+            <td mat-cell *matCellDef="let element">{{element.Vendedor}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Estatus">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+            <td mat-cell *matCellDef="let element">{{element.Estatus}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Usuario">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario</th>
+            <td mat-cell *matCellDef="let element">{{element.Usuario}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="Factura">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Factura</th>
+            <td mat-cell *matCellDef="let element">{{element.Factura}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="LugarDeEntrega">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Lugar de Entrega</th>
+            <td mat-cell *matCellDef="let element">{{element.LugarDeEntrega}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Options">
+            <th mat-header-cell *matHeaderCellDef>Opciones</th>
+            <td mat-cell *matCellDef="let row">
+
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                  </button>
+                <mat-menu #menu="matMenu">
+                    <!--  -->
+                    <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                                <mat-icon>edit</mat-icon>
+                                            </button> -->
+                    <!--  -->
+                    <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdClientes)">
+                                                    <mat-icon>delete_outline</mat-icon>
+                                                </button> -->
+                </mat-menu>
+            </td>
+        </ng-container>
+
+    </table>
+    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+    </mat-paginator>
+</div>

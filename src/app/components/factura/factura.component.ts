@@ -62,6 +62,7 @@ export class FacturaComponent implements OnInit {
   selloSAT: string;
   iva: string;
   monedaT: string;
+  claveCliente: number;
 
   // Por Definir
   vendedor: string;
@@ -215,18 +216,28 @@ export class FacturaComponent implements OnInit {
       this.service.getFacturasClienteFolio(folio).subscribe(data=>{
        console.log(data);
        
+       switch (data[0].Estado){
+         case "NO APLICA":
+           data[0].Estado = "NO APLICA ESTADO"
+       }
+       switch (data[0].CondicionesDePago){
+         case "":
+           data[0].CondicionesDePago = " N/A"
+       }
         this.vendedor = data[0].Vendedor;
         this.ordenCompra = data[0].OrdenDeCompra
         this.fechaVencimiento = data[0].FechaVencimiento
         this.fechaEntrega = data[0].FechaDeEntrega
         this.tipoCambio = data[0].TipoDeCambio
         this.condicionesPago = data[0].CondicionesDePago
-        this.direccionCalle = data[0].Calle + ' ' + data[0].NumeroExterior + ' ' + data[0].NumeroInterior + ' ' + data[0].Colonia 
+        this.direccionCalle = data[0].Calle + ' , ' + data[0].NumeroExterior + ' , ' + data[0].NumeroInterior + ' , ' + data[0].Colonia + ' , ' +  data[0].CP + ' , ' + data[0].Ciudad + ' , ' + data[0].Estado;
         this.observaciones = data[0].Observaciones;
+        this.claveCliente = data[0].IdCliente;
         
       })
       
       //  console.log(this.uuid);
+
 
       switch (this.metodoPago){
 

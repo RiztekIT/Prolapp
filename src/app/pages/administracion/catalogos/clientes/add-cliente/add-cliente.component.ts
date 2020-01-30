@@ -93,7 +93,9 @@ export class AddClienteComponent implements OnInit {
       DiasCredito: '',
       MetodoPago: '',
       UsoCFDI: '',
-      IdApi: ''
+      IdApi: '',
+      MetodoPagoCliente: '',
+      Vendedor: ''
     }
   }
 

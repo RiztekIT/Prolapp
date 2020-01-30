@@ -17,5 +17,7 @@ export class Cliente {
     MetodoPago: string;
     UsoCFDI: string;
     IdApi: string;
+    MetodoPagoCliente: string;
+    Vendedor: string;
 
 }

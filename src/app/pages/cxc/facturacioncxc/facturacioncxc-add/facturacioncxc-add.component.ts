@@ -160,7 +160,8 @@ export class FacturacioncxcAddComponent implements OnInit {
 
   //Nombre del Cliente a Facturar 
   ClienteNombre: any;
-
+  ClienteVendedor: any;
+  ClienteMetodoDePagoCliente: any;
 
 
 
@@ -621,7 +622,7 @@ export class FacturacioncxcAddComponent implements OnInit {
 
     this.service.getFacturasClienteID(id).subscribe(data => {
 
-      // console.log(data[0]);
+     console.log(data[0]);
 
       this.json1.Receptor.UID = data[0].IdApi;
       this.json1.Moneda = data[0].Moneda;
@@ -825,6 +826,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     }
     this.service.formData.Id = +this.IdFactura;
     this.service.updateFactura(this.service.formData).subscribe(res => {
+      console.log(this.service.formData);
       this.resetForm(form);
       this.IniciarTotales();
       // this.snackBar.open(res.toString(),'',{
@@ -840,7 +842,6 @@ export class FacturacioncxcAddComponent implements OnInit {
   }
 
   enviar(cadena: string) {
-
 
 
     // Aqui manda la factura
@@ -901,7 +902,7 @@ export class FacturacioncxcAddComponent implements OnInit {
           // console.log('error');
           Swal.fire(
             'Error',
-            '' + data.message.message + '',
+            '' + data.message + '',
             'error'
           )
 
