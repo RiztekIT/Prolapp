@@ -626,7 +626,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     //  console.log(data[0]);
     //  console.log(data[0].IdAPI);
 
-      this.json1.Receptor.UID = data[0].IdAPI;
+      this.json1.Receptor.UID = data[0].IdApi;
       this.json1.Moneda = data[0].Moneda;
       if (data[0].Moneda == 'MXN') {
         this.json1.Impuestos.Traslados.pop();
