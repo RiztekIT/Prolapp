@@ -70,6 +70,9 @@ export class AddClienteComponent implements OnInit {
     { UsoDelCFDI: "P01", text: "P01-Por definir" }
   ];
 
+  public listVendedor: Array<Object> = [
+
+  ]
 
   resetForm(form?: NgForm) {
     if (form != null)
@@ -85,7 +88,7 @@ export class AddClienteComponent implements OnInit {
       CP: '',
       Ciudad: '',
       Estado: '',
-      NumeroInterior: '',
+      NumeroInterior: ''  ,
       NumeroExterior: '',
       ClaveCliente: '',
       Estatus: '',
@@ -95,7 +98,7 @@ export class AddClienteComponent implements OnInit {
       UsoCFDI: '',
       IdApi: '',
       MetodoPagoCliente: '',
-      Vendedor: ''
+      Vendedor: 7
     }
   }
 

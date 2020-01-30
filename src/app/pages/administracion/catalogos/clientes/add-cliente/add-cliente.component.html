@@ -159,6 +159,20 @@
                             Favor de Ingresar Uso CFDI
                         </div>
 
+                        <label class="input-group-text text-info">Vendedor</label>
+                        <!-- <input required minlength="2" type="text" placeholder="Escribe el uso de CFDI" class="form-control" name="UsoCFDI" #UsoCFDI="ngModel" [(ngModel)]="service.formData.UsoCFDI"> -->
+                        <select class="form-control" name="Vendedor" #UsoCFDI="ngModel" [(ngModel)]="service.formData.Vendedor" required>
+
+                        <option [ngValue] = "null" selected disabled >Seleccionar Vendedor</option>
+                            <option *ngFor="let dl of listCFDI" [ngValue] = "dl.Vendedor"> {{dl.text}} </option>
+                        </select>
+
+                        <div class="text-left text-danger" *ngIf="UsoCFDI.invalid && UsoCFDI.touched">
+                            Favor de Ingresar Uso CFDI
+                        </div>
+
+
+
                         <input type="hidden" class="form-control" name="IdApi" #IdApi="ngModel" value="" [(ngModel)]="service.formData.IdApi">
 
 
