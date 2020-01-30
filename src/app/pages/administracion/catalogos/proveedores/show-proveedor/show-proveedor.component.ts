@@ -72,18 +72,6 @@ export class ShowProveedorComponent implements OnInit {
           });
       }
     })
-    //console.log(id);
-    // if ( confirm('Are you sure to delete?')) {
-    //   this.service.deleteProveedor(id).subscribe(res => {
-    //   this.refreshProveedoresList();
-    //   this.snackBar.open(res.toString(), '', {
-    //     duration: 3000,
-    //     verticalPosition: 'top'
-    //   });
-
-    //   });
-    // }
-
   }
 
   onAdd(){
