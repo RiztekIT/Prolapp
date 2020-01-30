@@ -16,4 +16,5 @@ public Estatus : string;
 public Usuario : string;
 public Factura : number;
 public LugarDeEntrega: string;
+public Moneda: string;
 }

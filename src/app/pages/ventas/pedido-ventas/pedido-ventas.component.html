@@ -114,19 +114,20 @@
                                             <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formProd.Nombre" readonly>
 
                                             <br>
-                                            <label class="input-group-text text-info">Precio Venta :</label>
-                                            <input type="text" class="form-control" name="PrecioVenta" #PrecioVenta="ngModel" [(ngModel)]="service.formProd.PrecioVenta" readonly>
-
                                             <label class="input-group-text text-info"> Precio Costo:</label>
-                                            <input type="text" class="form-control" name="" #PrecioVenta="ngModel" [(ngModel)]="service.formProd.PrecioVenta" readonly>
+                                            <input type="text" class="form-control" name="PrecioCosto" #PrecioVenta="ngModel" [(ngModel)]="service.formProd.PrecioVenta" readonly>
 
                                             <label class="input-group-text text-info"> Cantidad:</label>
-                                            <input type="text" class="form-control" name="" #Cantidad="ngModel" [(ngModel)]="service.formProd.Cantidad" readonly>
+                                            <input type="text" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formProd.Cantidad">
 
-                                            <select class="form-control" name="Moneda" #Moneda="ngModel" (change)="MonedaSelected($event)" [(ngModel)]="service.formData.Moneda" required>
+                                            <!-- <label class="input-group-text text-info">Importe: </label> -->
+                                            <!-- <input id='importe' readonly="readonly" placeholder="0.00" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDP.Importe" [(value)]="importeF" (blur)="formato()"> -->
+
+                                            <label class="input-group-text text-info">Moneda</label>
+                                            <select class="form-control" name="Moneda" #Moneda="ngModel" (change)="MonedaSelected($event)" [(ngModel)]="service.formDataP.Moneda" required>
                                                 <option [ngValue]="null" selected disabled>Seleccionar Moneda</option>
                                                 <option *ngFor="let dl of listMoneda" [ngValue]="dl.Moneda"> {{dl.Moneda}} </option>
-                                                </select>
+                                            </select>
 
                                             <label class="input-group-text text-info"> ClaveProducto:</label>
                                             <input type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="service.formProd.ClaveProducto" readonly>
@@ -165,7 +166,7 @@
                             <form>
                                 <ng-template matStepLabel>Vendedor</ng-template>
                                 <br>
-                                <label class="input-group-text text-info">Nombre Vendedor:</label>
+                                <label class="input-group-text text-info">Vendedor:</label>
                                 <input type="text" class="form-control" name="Nombre" #Vendedor="ngModel" [(ngModel)]="service.formData.Vendedor" readonly>
 
                                 <!-- <label class="input-group-text text-info">Lugar Entrega :</label>

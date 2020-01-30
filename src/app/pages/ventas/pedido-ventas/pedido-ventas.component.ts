@@ -7,6 +7,7 @@ import { map, startWith } from 'rxjs/operators';
 import { VentasPedidoService } from '../../../services/ventas/ventas-pedido.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Producto } from '../../../Models/catalogos/productos-model';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-pedido-ventas',
@@ -15,7 +16,7 @@ import { Producto } from '../../../Models/catalogos/productos-model';
 })
 export class PedidoVentasComponent implements OnInit {
 
-  constructor(public router: Router, public service: VentasPedidoService, private _formBuilder: FormBuilder) { }
+  constructor(public router: Router, private currencyPipe: CurrencyPipe , public service: VentasPedidoService, private _formBuilder: FormBuilder) { }
   isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -48,7 +49,8 @@ export class PedidoVentasComponent implements OnInit {
   listClientes: Cliente[] = [];
   listProducts: Producto[] = [];
   Moneda: string;
-
+  importeF;
+  precioUnitarioF;
 
   recargar() {
     // this.router.navigate(['/pedidoVentas']);
@@ -142,6 +144,7 @@ export class PedidoVentasComponent implements OnInit {
       this.service.formProd.Estatus = options2.Estatus;
       this.service.formProd.UnidadMedida = options2.UnidadMedida;
       this.service.formProd.IVA = options2.IVA;
+      this.service.formProd.ClaveSAT = options2.ClaveSAT;
     }
   }
 
@@ -181,6 +184,33 @@ export class PedidoVentasComponent implements OnInit {
     // console.log(this.Moneda);
     this.service.Moneda = this.Moneda;
     // console.log(this.service.Moneda);
+  }
+
+  public listMoneda: Array<Object> = [
+    { Moneda: 'MXN' },
+    { Moneda: 'USD' }
+  ];
+
+  formato(){
+    const preciounitario = <HTMLInputElement>document.getElementById('precioUnitario');
+    const importe = <HTMLInputElement>document.getElementById('importe');
+    const iva = <HTMLInputElement>document.getElementById('iva');
+    // console.log(this.service.formDataDP.Importe);
+    
+
+    if(this.service.formDataDP.PrecioUnitario!='NaN'){
+    this.precioUnitarioF = this.currencyPipe.transform(this.service.formDataDP.PrecioUnitario);
+    preciounitario.value = this.precioUnitarioF;
+    }else{
+      preciounitario.value = '$0.00';
+    }
+    if(this.service.formDataDP.Importe!='NaN'){
+    this.importeF = this.currencyPipe.transform(this.service.formDataDP.Importe);
+    importe.value = this.importeF;
+  }else{
+    importe.value = '$0.00';
+    }
+
   }
 
 

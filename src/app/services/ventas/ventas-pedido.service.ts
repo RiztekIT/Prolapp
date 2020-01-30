@@ -5,6 +5,7 @@ import { Producto } from "../../Models/catalogos/productos-model";
 import { DetallePedido } from "../../Models/Pedidos/detallePedido-model";
 import {Observable,Subject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Pedido } from '../../Models/Pedidos/pedido-model';
 
 
 
@@ -34,6 +35,7 @@ export class VentasPedidoService {
   formData= new Cliente();
   formProd= new Producto();
   formDataDP: DetallePedido;
+  formDataP = new Pedido();
   Moneda: string;
 
   // readonly APIUrl = "https://localhost:44361/api";
