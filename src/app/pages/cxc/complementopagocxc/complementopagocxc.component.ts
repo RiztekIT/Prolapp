@@ -48,7 +48,7 @@ export class ComplementopagocxcComponent implements OnInit {
   listData: MatTableDataSource<any>;
   MasterDetalle = new Array<ReciboPagoMasterPagoCFDI>();
   listDetalleData;
-  displayedColumns: string[] = ['Id', 'Cliente', 'FechaPago', 'Cantidad', 'Estado', 'Options'];
+  displayedColumns: string[] = ['Id', 'Nombre', 'FechaPago', 'Cantidad', 'Estado', 'Options'];
   displayedColumnsVersion: string[] = ['Cantidad'];
   folio: string;
   fileUrl;
