@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { Cliente } from '../../Models/catalogos/clientes-model';
+import { Vendedor } from '../../Models/catalogos/vendedores.model';
 import {Observable } from 'rxjs';
 
 import {Subject} from 'rxjs';
@@ -19,6 +20,10 @@ export class ClientesService {
 
   getClientesList(): Observable <Cliente[]> {
     return this.http.get<Cliente[]>(this.APIUrl + '/cliente');
+  }
+
+  getVendedoresList(): Observable <Vendedor[]> {
+    return this.http.get<Vendedor[]>(this.APIUrl + '/vendedor');
   }
 
   addCliente(cliente: Cliente) {
