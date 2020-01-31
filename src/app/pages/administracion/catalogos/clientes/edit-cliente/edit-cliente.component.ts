@@ -1,9 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { ClientesService } from '../../../../../services/catalogos/clientes.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormControl } from '@angular/forms';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import Swal from 'sweetalert2';
+
+import { map, startWith } from 'rxjs/operators';
+
+import { Vendedor } from '../../../../../Models/catalogos/vendedores.model';
+
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-edit-cliente',
@@ -13,9 +21,45 @@ import Swal from 'sweetalert2';
 export class EditClienteComponent implements OnInit {
 
   constructor(public dialogbox: MatDialogRef<EditClienteComponent>,
-    public service: ClientesService, private snackBar: MatSnackBar, public apicliente: EnviarfacturaService) { }
+    public service: ClientesService, private snackBar: MatSnackBar, public apicliente: EnviarfacturaService, private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.dropdownRefresh();
+  }
+
+  listVendedores: Vendedor[] = [];
+  options: Vendedor[] = [];
+  filteredOptions: Observable<any[]>;
+  myControl = new FormControl();
+
+  private _filter(value: any): any[] {
+    console.log(value);
+     const filterValue = value.toString().toLowerCase();
+     return this.options.filter(option =>
+       option.Nombre.toLowerCase().includes(filterValue) ||
+       option.IdVendedor.toString().includes(filterValue));
+  }
+
+  dropdownRefresh(){
+    this.service.getVendedoresList().subscribe(data =>{
+      for (let i = 0; i < data.length; i++){
+        let vendedor = data[i];
+        this.listVendedores.push(vendedor);
+        this.options.push(vendedor)
+        this.filteredOptions = this.myControl.valueChanges
+        .pipe(
+          startWith(''),
+          map(value => this._filter(value))
+        );
+      }
+    });
+  }
+
+  onSelectionChange(options:Vendedor, event: any){
+    if(event.isUserInput){
+      this.service.formDataV.IdVendedor = options.IdVendedor;
+      this.service.formDataV.Nombre = options.Nombre;
+    }
   }
 
   onClose() {
@@ -24,11 +68,15 @@ export class EditClienteComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+
+    
     let email;
     let rfc;
     let razon;
     let codpos;
     let datos;
+
+
       email = 'riztekti@gmail.com';
       rfc = this.service.formData.RFC;
       razon = this.service.formData.RazonSocial;

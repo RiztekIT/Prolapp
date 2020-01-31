@@ -13,6 +13,7 @@ export class ClientesService {
 
   constructor(private http:HttpClient) { }
   formData: Cliente;
+  formDataV: Vendedor;
 
   // readonly APIUrl = "https://localhost:44361/api";
   // readonly APIUrl = "http://192.168.1.67:32767/api";
@@ -32,11 +33,17 @@ export class ClientesService {
 
  deleteCliente(id:number) {
    return this.http.delete(this.APIUrl + '/cliente/' + id);
+ }
 
+ deleteVendedor(id:number) {
+   return this.http.delete(this.APIUrl + '/vendedor/' + id);
  }
 
  updateCliente(cliente: Cliente) {
  return this.http.put(this.APIUrl+ '/cliente', cliente);
+ }
+ updateVendedor(vendedor: Vendedor) {
+ return this.http.put(this.APIUrl+ '/vendedor', vendedor);
  }
  updateUIDCliente(datos:string) {
   console.log(datos);
