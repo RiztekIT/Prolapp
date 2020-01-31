@@ -117,6 +117,10 @@ import { AddClienteComponent } from './administracion/catalogos/clientes/add-cli
 import { ClientesService } from '../services/catalogos/clientes.service';
 import { ReciboPagoService } from '../services/complementoPago/recibo-pago.service';
 import { VentasPedidoService } from '../services/ventas/ventas-pedido.service';
+import { VendedoresComponent } from './administracion/catalogos/vendedores/vendedores.component';
+import { AddVendedorComponent } from './administracion/catalogos/vendedores/add-vendedor/add-vendedor.component';
+import { EditVendedorComponent } from './administracion/catalogos/vendedores/edit-vendedor/edit-vendedor.component';
+import { ShowVendedorComponent } from './administracion/catalogos/vendedores/show-vendedor/show-vendedor.component';
 
 import { EmpresaService } from '../services/empresas/empresa.service';
 
@@ -253,6 +257,10 @@ import { PagoCFDIEditComponent } from './cxc/complementopagocxc/pago-cfdi-edit/p
         ShowUsuarioPrivilegioComponent,
         ExpedienteComponent,
         PagoCFDIEditComponent,
+        VendedoresComponent,
+        AddVendedorComponent,
+        EditVendedorComponent,
+        ShowVendedorComponent,
     
     ],
     exports: [
@@ -319,7 +327,10 @@ import { PagoCFDIEditComponent } from './cxc/complementopagocxc/pago-cfdi-edit/p
         FacturacioncxcEditProductoComponent,
         ShowUsuarioPrivilegioComponent,
         EditEmpresaComponent,
-        PagoCFDIEditComponent
+        PagoCFDIEditComponent,
+        AddVendedorComponent,
+        EditVendedorComponent,
+        ShowVendedorComponent,
 
     ]
 })

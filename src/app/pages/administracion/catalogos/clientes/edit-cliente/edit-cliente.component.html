@@ -19,9 +19,9 @@
                 <div class="row">
                     <div class="col-lg-6">
 
-
+                        <!-- 
                         <label class="input-group-text text-info">Cliente ID</label>
-                        <input readonly="readonly" type="text" class="form-control" name="IdClientes" #IdClientes="ngModel" [(ngModel)]="service.formData.IdClientes">
+                        <input readonly="readonly" type="text" class="form-control" name="IdClientes" #IdClientes="ngModel" [(ngModel)]="service.formData.IdClientes"> -->
 
                         <label class="input-group-text text-info">Nombre</label>
                         <input required minlength="2" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre">
@@ -152,6 +152,18 @@
                         <div class="text-left text-danger" *ngIf="UsoCFDI.invalid && UsoCFDI.touched">
                             Favor de Ingresar Uso CFDI
                         </div>
+
+                        <label class="input-group-text text-info">Vendedor</label>
+                        <br>
+                        <mat-form-field>
+                            <input type="text" [(ngModel)]="service.formData.Vendedor" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="IdVendedor">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdVendedor" (onSelectionChange)="onSelectionChange(option, $event)">
+                                    {{option.IdVendedor}} {{option.Nombre}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+
                         <!-- <input type="hidden" class="form-control" name="IdApi" #IdApi="ngModel" value="5de771f1a1203" [(ngModel)]="service.formData.IdApi"> -->
                     </div>
                 </div>

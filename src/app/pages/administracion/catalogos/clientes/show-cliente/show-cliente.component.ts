@@ -75,19 +75,6 @@ export class ShowClienteComponent implements OnInit {
     })
 
 
-
-
-    // if ( confirm('Are you sure to delete?')) {
-    //   this.service.deleteCliente(id).subscribe(res => {
-    //   this.refreshClientesList();
-    //   this.snackBar.open(res.toString(), '', {
-    //     duration: 3000,
-    //     verticalPosition: 'top'
-    //   });
-
-    //   });
-    // }
-
   }
 
   onAdd(){

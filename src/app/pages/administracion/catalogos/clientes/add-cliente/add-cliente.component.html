@@ -160,16 +160,14 @@
                         </div>
 
                         <label class="input-group-text text-info">Vendedor</label>
-                        <!-- <input required minlength="2" type="text" placeholder="Escribe el uso de CFDI" class="form-control" name="UsoCFDI" #UsoCFDI="ngModel" [(ngModel)]="service.formData.UsoCFDI"> -->
-                        <select class="form-control" name="Vendedor" #UsoCFDI="ngModel" [(ngModel)]="service.formData.Vendedor" required>
-
-                        <option [ngValue] = "null" selected disabled >Seleccionar Vendedor</option>
-                            <option *ngFor="let dl of listCFDI" [ngValue] = "dl.Vendedor"> {{dl.text}} </option>
-                        </select>
-
-                        <div class="text-left text-danger" *ngIf="UsoCFDI.invalid && UsoCFDI.touched">
-                            Favor de Ingresar Uso CFDI
-                        </div>
+                        <mat-form-field>
+                            <input type="text" placeholder="Seleccionar Vendedor" [(ngModel)]="service.formData.Vendedor" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="IdVendedor">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdVendedor" (onSelectionChange)="onSelectionChange(option, $event)">
+                                    {{option.IdVendedor}} {{option.Nombre}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
 
 
 
