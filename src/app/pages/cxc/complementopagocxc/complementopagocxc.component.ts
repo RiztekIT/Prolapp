@@ -201,10 +201,12 @@ export class ComplementopagocxcComponent implements OnInit {
   }
 
   applyFilter(filtervalue: string) {
-    // this.listData.filterPredicate = (data, filter: string) => {
-    //   return data.Folio.toString().toLowerCase().includes(filter) || data.Nombre.toLowerCase().includes(filter);
-    //  };
-    // this.listData.filter= filtervalue.trim().toLocaleLowerCase();
+    // console.log(this.listData);
+    this.listData.filterPredicate = (data, filter: string) => {
+      return data.Nombre.toString().toLowerCase().includes(filter);
+      // return data.Folio.toString().toLowerCase().includes(filter) || data.Nombre.toLowerCase().includes(filter);
+     };
+    this.listData.filter= filtervalue.trim().toLocaleLowerCase();
     // console.log(this.listData);
   }
 

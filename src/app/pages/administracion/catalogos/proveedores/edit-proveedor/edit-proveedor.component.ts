@@ -24,10 +24,6 @@ export class EditProveedorComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     this.service.updateProveedor(form.value).subscribe(res => {
-      // this.snackBar.open(res.toString(), '', {
-      //   duration: 5000,
-      //   verticalPosition: 'top'
-      // });
       Swal.fire({
         icon: 'success',
         title: 'Proveedor Actualizado'
