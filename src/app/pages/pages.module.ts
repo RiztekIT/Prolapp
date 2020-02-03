@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule} from '@angular/material';
+import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltip, MatTooltipModule} from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
@@ -150,6 +150,7 @@ import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit
 import { ExpedienteComponent } from './administracion/expediente/expediente.component';
 import { PedidoService } from '../services/pedidos/pedido.service';
 import { PagoCFDIEditComponent } from './cxc/complementopagocxc/pago-cfdi-edit/pago-cfdi-edit.component';
+import { TooltipModule } from 'ng2-tooltip-directive';
 
 
 
@@ -297,7 +298,8 @@ import { PagoCFDIEditComponent } from './cxc/complementopagocxc/pago-cfdi-edit/p
         ImageUploadModule.forRoot(),
         HttpClientModule,
         NgxLoadingModule.forRoot({}),
-        MatStepperModule
+        MatStepperModule,
+        MatTooltipModule
 
     ],
     providers: [

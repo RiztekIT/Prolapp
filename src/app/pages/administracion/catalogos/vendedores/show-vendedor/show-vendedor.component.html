@@ -1,3 +1,19 @@
+<mat-card class="mat-elevation-z0">
+    <div class="row">
+        <div class="col-4">
+            <button class="btn btn-primary" (click)="onAdd()"><i class="mdi mdi-plus btn-lg"></i>Nuevo Vendedor</button>
+        </div>
+        <div class="col-4"></div>
+        <div class="col-4">
+            <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+            </mat-form-field>
+        </div>
+
+
+    </div>
+
+</mat-card>
 <div style="overflow:auto;">
 
     <table mat-table [dataSource]="listData" matSort>
