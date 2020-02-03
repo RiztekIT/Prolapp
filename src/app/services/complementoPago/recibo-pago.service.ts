@@ -87,7 +87,7 @@ export class ReciboPagoService {
   addPagoCFDI(pagoCFDI: PagoCFDI) {
     return this.http.post(this.APIUrl + '/ReciboPago/PagoCFDI', pagoCFDI);
   }
-  //Update Recibo Pago
+  //Update PagoCFDI
   updatePagoCFDI(pagoCFDI: PagoCFDI) {
     return this.http.put(this.APIUrl + '/ReciboPago/PagoCFDI', pagoCFDI);
   }
@@ -100,7 +100,14 @@ export class ReciboPagoService {
     return this.http.delete(this.APIUrl + '/ReciboPago/PagoCFDI/' + id);
 
   }
-
+  //Obtener el Total de cierta Factura
+  getTotalFactura(id: number): Observable<any[]> {
+    return this.http.get<any[]>(this.APIUrl + '/ReciboPago/TotalFactura/' + id);
+  }
+  //Obtener la lista CFDI dependiendo del IdFactura
+  getPagoCFDIFacturaID(id: number): Observable<any[]> {
+    return this.http.get<any[]>(this.APIUrl + '/ReciboPago/PagoCFDIFacturaID/' + id);
+  }
   private _listeners = new Subject<any>();
   listen(): Observable<any> {
     return this._listeners.asObservable();
