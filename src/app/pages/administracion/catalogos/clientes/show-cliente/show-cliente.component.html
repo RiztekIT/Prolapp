@@ -17,7 +17,7 @@
 </mat-card>
 
 
-<div style="overflow:auto;">
+<div id='dvi1' style="overflow:auto;">
 
     <table mat-table [dataSource]="listData" matSort>
 
@@ -25,9 +25,14 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
 
-        <ng-container matColumnDef="ClaveProveedor">
+        <ng-container matColumnDef="ClaveCliente">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Cliente</th>
-            <td mat-cell *matCellDef="let element">{{element.ClaveCliente}}
+
+            <ng-template #Campo>
+                <div> <b> Falta Vendedor </b> </div>
+            </ng-template>
+
+            <td mat-cell *matCellDef="let element" [ngClass]="{ 'color': element.Vendedor === 7 }" [matTooltip]="element.Vendedor == 7 ? 'Falta Vendedor': null" matTooltipPosition="before">{{element.ClaveCliente}}
             </td>
         </ng-container>
 

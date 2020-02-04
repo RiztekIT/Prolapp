@@ -120,7 +120,7 @@
                                 <br>
 
                                 <mat-form-field class="example-full-width">
-                                    <input type="text" placeholder="Seleccionar Folio" aria-label="Number" [formControl]="myControl2" matInput [matAutocomplete]="autoFolio" [(ngModel)]="service.formDataPagoCFDI.IdFactura">
+                                    <input type="text" placeholder="Seleccionar Folio" aria-label="Number" [formControl]="myControl2" matInput [matAutocomplete]="autoFolio" (blur)="onBlurFolio()" [(ngModel)]="service.formDataPagoCFDI.IdFactura">
                                     <mat-autocomplete #autoFolio="matAutocomplete">
                                         <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.Folio" (onSelectionChange)="onSelectionChange2(option, $event)">
                                             {{option.Folio}}
@@ -237,7 +237,7 @@
                       <mat-icon>edit</mat-icon>
                     </button>
                                             <!--  -->
-                                            <button mat-icon-button class="btn btn-danger" (click)="onDeletePagoCFDI(row.IdDetalle)">
+                                            <button mat-icon-button class="btn btn-danger" (click)="onDeletePagoCFDI(row)">
                       <mat-icon>delete_outline</mat-icon>
                     </button>
                                         </mat-menu>

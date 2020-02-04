@@ -1,9 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { ClientesService } from '../../../../../services/catalogos/clientes.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormControl } from '@angular/forms';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import Swal from 'sweetalert2';
+
+import { map, startWith } from 'rxjs/operators';
+
+import { Vendedor } from '../../../../../Models/catalogos/vendedores.model';
+
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-add-cliente',
@@ -12,11 +20,12 @@ import Swal from 'sweetalert2';
 })
 export class AddClienteComponent implements OnInit {
 
-  constructor(public dialogbox: MatDialogRef<AddClienteComponent>,
-    public service: ClientesService, private snackBar: MatSnackBar, public apicliente: EnviarfacturaService) { }
+  constructor(public dialogbox: MatDialogRef<AddClienteComponent>, public router: Router,
+    public service: ClientesService, private snackBar: MatSnackBar, public apicliente: EnviarfacturaService, private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.resetForm();
+    this.dropdownRefresh();
   }
 
   //Forma Pago
@@ -70,9 +79,40 @@ export class AddClienteComponent implements OnInit {
     { UsoDelCFDI: "P01", text: "P01-Por definir" }
   ];
 
-  public listVendedor: Array<Object> = [
+  listVendedores: Vendedor[] = [];
+  options: Vendedor[] = [];
+  filteredOptions: Observable<any[]>;
+  myControl = new FormControl();
 
-  ]
+  private _filter(value: any): any[] {
+    console.log(value);
+     const filterValue = value.toString().toLowerCase();
+     return this.options.filter(option =>
+       option.Nombre.toLowerCase().includes(filterValue) ||
+       option.IdVendedor.toString().includes(filterValue));
+  }
+
+  dropdownRefresh(){
+    this.service.getVendedoresList().subscribe(data =>{
+      for (let i = 0; i < data.length; i++){
+        let vendedor = data[i];
+        this.listVendedores.push(vendedor);
+        this.options.push(vendedor)
+        this.filteredOptions = this.myControl.valueChanges
+        .pipe(
+          startWith(''),
+          map(value => this._filter(value))
+        );
+      }
+    });
+  }
+
+  onSelectionChange(options:Vendedor, event: any){
+    if(event.isUserInput){
+      this.service.formDataV.IdVendedor = options.IdVendedor;
+      this.service.formDataV.Nombre = options.Nombre;
+    }
+  }
 
   resetForm(form?: NgForm) {
     if (form != null)
@@ -100,6 +140,11 @@ export class AddClienteComponent implements OnInit {
       MetodoPagoCliente: '',
       Vendedor: 7
     }
+
+    this.service.formDataV = {
+      IdVendedor: 7,
+      Nombre: ''
+    }
   }
 
   onClose() {
@@ -108,17 +153,19 @@ export class AddClienteComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    // console.log(form.value);
+    console.log(this.service.formData);
+
+   
     let email;
     let rfc;
     let razon;
     let codpos;
     let datos;
-    console.log(form.value);
+   
     email = 'riztekti@gmail.com';
-    rfc = form.value.RFC;
-    razon = form.value.RazonSocial;
-    codpos = form.value.CP;
+    rfc = this.service.formData.RFC;
+    razon = this.service.formData.RazonSocial;
+    codpos = this.service.formData.CP;
     datos = {
       "email" : email,
       "razons" : razon,
@@ -130,18 +177,17 @@ export class AddClienteComponent implements OnInit {
     this.apicliente.crearCliente(datos).subscribe(data =>{
         
       if (data.status==='success'){
-        form.value.IdApi=data.Data.UID
-        form.value.Estatus = 'Activo'
-        console.log(form.value);
-        this.service.addCliente(form.value).subscribe(res => {
-          // this.snackBar.open(res.toString(), '', {
-          //   duration: 5000,
-          //   verticalPosition: 'top'
-          // });
+        console.log(data);
+
+        this.service.formData.IdApi=data.Data.UID
+        this.service.formData.Estatus = 'Activo'
+        //
+        this.service.addCliente(this.service.formData).subscribe(res => {
+          console.log(res);
           Swal.fire({
             icon: 'success',
             title: 'Cliente Agregado',
-            text: ''+form.value.RazonSocial+'',
+            text: ''+this.service.formData.RazonSocial+'',
             timer: 1500
           })
           
@@ -149,27 +195,13 @@ export class AddClienteComponent implements OnInit {
         );
 
         
-        // console.log(data.Data.UID);
-        // console.log(data.Data.RFC);
-        // let act;
-        // act = {
-        //   "RFC": data.Data.RFC,
-        //   "IdApi": data.Data.UID
-        // }
-        // console.log(act);
-        
-        // this.service.updateCliente(act).subscribe(res => {
-        //   this.snackBar.open(res.toString(), '', {
-        //     duration: 5000,
-        //     verticalPosition: 'top'
-        //   });
-        // });
+    
       }
       else{
         console.log(data);
         
       }
-      this.resetForm(form);
+      // this.resetForm(form);
     })
 
 
@@ -178,17 +210,15 @@ export class AddClienteComponent implements OnInit {
     
   }
   // onSubmit(form: NgForm) {
-  //   // console.log(form.value);
+  //   //
   //   let email;
   //   let rfc;
   //   let razon;
   //   let codpos;
   //   let datos;
-  //   console.log(form.value);
+  //  
     
-  //   this.service.addCliente(form.value).subscribe(res => {
-  //     console.log(this.service.formData);
-  //     console.log(form.value.RFC);
+
       
   //     email = 'riztekti@gmail.com';
   //     // rfc = this.service.formData.RFC;

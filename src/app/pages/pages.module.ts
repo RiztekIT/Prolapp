@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule} from '@angular/material';
+import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltip, MatTooltipModule} from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
@@ -117,6 +117,10 @@ import { AddClienteComponent } from './administracion/catalogos/clientes/add-cli
 import { ClientesService } from '../services/catalogos/clientes.service';
 import { ReciboPagoService } from '../services/complementoPago/recibo-pago.service';
 import { VentasPedidoService } from '../services/ventas/ventas-pedido.service';
+import { VendedoresComponent } from './administracion/catalogos/vendedores/vendedores.component';
+import { AddVendedorComponent } from './administracion/catalogos/vendedores/add-vendedor/add-vendedor.component';
+import { EditVendedorComponent } from './administracion/catalogos/vendedores/edit-vendedor/edit-vendedor.component';
+import { ShowVendedorComponent } from './administracion/catalogos/vendedores/show-vendedor/show-vendedor.component';
 
 import { EmpresaService } from '../services/empresas/empresa.service';
 
@@ -253,6 +257,10 @@ import { PagoCFDIEditComponent } from './cxc/complementopagocxc/pago-cfdi-edit/p
         ShowUsuarioPrivilegioComponent,
         ExpedienteComponent,
         PagoCFDIEditComponent,
+        VendedoresComponent,
+        AddVendedorComponent,
+        EditVendedorComponent,
+        ShowVendedorComponent,
     
     ],
     exports: [
@@ -289,7 +297,8 @@ import { PagoCFDIEditComponent } from './cxc/complementopagocxc/pago-cfdi-edit/p
         ImageUploadModule.forRoot(),
         HttpClientModule,
         NgxLoadingModule.forRoot({}),
-        MatStepperModule
+        MatStepperModule,
+        MatTooltipModule
 
     ],
     providers: [
@@ -319,7 +328,10 @@ import { PagoCFDIEditComponent } from './cxc/complementopagocxc/pago-cfdi-edit/p
         FacturacioncxcEditProductoComponent,
         ShowUsuarioPrivilegioComponent,
         EditEmpresaComponent,
-        PagoCFDIEditComponent
+        PagoCFDIEditComponent,
+        AddVendedorComponent,
+        EditVendedorComponent,
+        ShowVendedorComponent,
 
     ]
 })

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatTooltip } from '@angular/material';
 import { Cliente } from '../../../../../Models/catalogos/clientes-model';
 import { ClientesService } from '../../../../../services/catalogos/clientes.service';
 
@@ -19,7 +19,9 @@ import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfact
 export class ShowClienteComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
-  displayedColumns : string [] = [ 'ClaveProveedor', 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado',  'NumeroExterior','Estatus', 'LimiteDeCredito', 'DiasDeCredito', 'Vendedor', 'Options'];
+  displaytt: any;
+  myOptions: any;
+  displayedColumns : string [] = [ 'ClaveCliente', 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado',  'NumeroExterior','Estatus', 'LimiteDeCredito', 'DiasDeCredito', 'Vendedor', 'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -31,6 +33,7 @@ export class ShowClienteComponent implements OnInit {
       });
 
    }
+   
 
   ngOnInit() {
     this.refreshClientesList();
@@ -39,13 +42,39 @@ export class ShowClienteComponent implements OnInit {
   refreshClientesList() {
 
     this.service.getClientesList().subscribe(data => {
-      console.log(data);
+      // console.log(data);
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
       this.listData.paginator._intl.itemsPerPageLabel = 'Clientes por Pagina';
-    //console.log(this.listData);
+    console.log(this.listData);
+
+// if(this.displaytt){
+
+//   this.myOptions={
+//     'placement': 'left',
+//     'theme': 'dark',
+//     'display':true,
+//   }
+
+// }else {
+
+
+  
     });
+
+ 
+ 
+ 
+//   for (let i = 0; i < nodes.length; i++) {
+//     console.log(nodes[i].classList[3]);
+   
+//       this.myOptions={
+//        'placement': 'left',
+//        'theme': 'dark',
+//        'display':true,
+//    }
+//  }
 
   }
 
@@ -74,19 +103,6 @@ export class ShowClienteComponent implements OnInit {
       }
     })
 
-
-
-
-    // if ( confirm('Are you sure to delete?')) {
-    //   this.service.deleteCliente(id).subscribe(res => {
-    //   this.refreshClientesList();
-    //   this.snackBar.open(res.toString(), '', {
-    //     duration: 3000,
-    //     verticalPosition: 'top'
-    //   });
-
-    //   });
-    // }
 
   }
 
@@ -165,4 +181,7 @@ this.service.formData = cliente;
     this.listData.filter= filtervalue.trim().toLocaleLowerCase();
 
   }
+
+
+  
 }
