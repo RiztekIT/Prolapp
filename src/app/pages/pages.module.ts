@@ -150,7 +150,7 @@ import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit
 import { ExpedienteComponent } from './administracion/expediente/expediente.component';
 import { PedidoService } from '../services/pedidos/pedido.service';
 import { PagoCFDIEditComponent } from './cxc/complementopagocxc/pago-cfdi-edit/pago-cfdi-edit.component';
-import { TooltipModule } from 'ng2-tooltip-directive';
+// import { TooltipModule } from 'ng2-tooltip-directive';
 
 
 
