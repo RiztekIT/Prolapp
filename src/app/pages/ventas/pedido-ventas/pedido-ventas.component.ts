@@ -36,6 +36,7 @@ export class PedidoVentasComponent implements OnInit {
   
   ngOnInit() {
     this.refreshPedidoList();
+    
   }
 
   refreshPedidoList(){
@@ -74,10 +75,20 @@ export class PedidoVentasComponent implements OnInit {
 onAdd(){
   // console.log(this.PedidoBlanco);
   this.service.addPedido(this.PedidoBlanco).subscribe(res => {
+    this.ObtenerUltimoPedido();
 
 console.log(res);
+let Id = this.IdPedido;
+localStorage.setItem('IdPedido', Id.toString());
     this.router.navigate(['/pedidoventasAdd']);
    });
+}
+
+ObtenerUltimoPedido(){
+  this.service.getUltimoPedido().subscribe(res =>{
+    // console.log(res);
+    this.IdPedido = res[0];
+  })
 }
 
 
@@ -85,6 +96,8 @@ onEdit(pedido : Pedido){
 
 this.service.formDataP = pedido;
 this.service.IdCliente = pedido.IdCliente;
+let Id = pedido.IdPedido;
+localStorage.setItem('IdPedido', Id.toString());
 this.router.navigate(['/pedidoventasAdd']);
 }
 

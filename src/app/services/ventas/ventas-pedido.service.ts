@@ -38,10 +38,10 @@ export class VentasPedidoService {
   formProd= new Producto();
   formDataDP: DetallePedido;
   formDataP = new Pedido();
+  formDataPedido = new Pedido();
   master = new Array<pedidoMaster>();
   Moneda: string;
   IdPedido: number;
-  formDataPedido: Pedido;
   IdCliente : number;
 
   // readonly APIUrl = "https://localhost:44361/api";
@@ -51,12 +51,22 @@ export class VentasPedidoService {
 
 
 
-  updateVentasPedido(reciboPago: any) {
-    return this.http.put(this.APIUrl + '/ReciboPago', reciboPago);
+  updateVentasPedido(pedido: any) {
+    return this.http.put(this.APIUrl + '/Pedido', pedido);
   }
 
   GetCliente(id:number): Observable <Cliente[]>{
     return this.http.get<any>(this.APIUrl + '/Cliente/id/' + id);
+  }
+
+  //Get Pedido por IdPedido
+  getPedidoId(id: number): Observable <Pedido[]>{
+    return this.http.get<Pedido []>(this.APIUrl + '/Pedido/PedidoId/' + id);
+  }
+
+  //Get Ultimo pedido
+  getUltimoPedido(): Observable <any>{
+    return this.http.get<any>(this.APIUrl + '/Pedido/UltimoPedido');
   }
 
   getDepDropDownValues(): Observable<any> {

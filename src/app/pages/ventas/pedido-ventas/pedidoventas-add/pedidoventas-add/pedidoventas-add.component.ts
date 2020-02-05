@@ -42,6 +42,7 @@ export class PedidoventasAddComponent implements OnInit {
 
 
   Regresar() {
+    localStorage.removeItem('IdPedido');
     this.router.navigateByUrl('/pedidosVentas');
   }
 
@@ -57,6 +58,8 @@ export class PedidoventasAddComponent implements OnInit {
   Moneda: string;
   importeF;
   precioUnitarioF;
+  //IdPedido
+  IdPedido: number;
 
   recargar() {
     // this.router.navigate(['/pedidoVentas']);
@@ -112,58 +115,56 @@ export class PedidoventasAddComponent implements OnInit {
 
   }
 
+  //Selection change de cliente
+
   onSelectionChange(options: Cliente, event: any) {
     if (event.isUserInput) {
 
-      this.service.formData.IdClientes = options.IdClientes
-      this.service.formData.Nombre = options.Nombre;
-      this.service.formData.RFC = options.RFC;
-      this.service.formData.RazonSocial = options.RazonSocial;
-      this.service.formData.Calle = options.Calle;
-      this.service.formData.Colonia = options.Colonia;
-      this.service.formData.CP = options.CP;
-      this.service.formData.Ciudad = options.Ciudad;
-      this.service.formData.Estado = options.Estado;
-      this.service.formData.NumeroInterior = options.NumeroInterior;
-      this.service.formData.NumeroExterior = options.NumeroExterior;
-      this.service.formData.ClaveCliente = options.ClaveCliente;
-      this.service.formData.Estatus = options.Estatus;
-      this.service.formData.LimiteCredito = options.LimiteCredito;
-      this.service.formData.DiasCredito = options.DiasCredito;
-      this.service.formData.MetodoPago = options.MetodoPago;
-      this.service.formData.UsoCFDI = options.UsoCFDI;
-      this.service.formData.IdApi = options.IdApi;
-      this.service.formData.Vendedor = options.Vendedor;
+      this.service.formData = options;
     }
+  }
+
+
+  //Blur del Cliente
+  onBlurCliente(){
+    // console.log(this.service.formDataPedido);
+    this.service.formDataPedido.IdCliente = this.service.formData.IdClientes;
+    console.log(this.service.formDataPedido);
+    this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res =>{
+      console.log(res);
+    });
   }
 
   onSelectionChange2(options2: Producto, event: any) {
     if (event.isUserInput) {
-      this.service.formProd.IdProducto = options2.IdProducto;
-      this.service.formProd.Nombre = options2.Nombre;
-      this.service.formProd.PrecioVenta = options2.PrecioVenta;
-      this.service.formProd.PrecioCosto = options2.PrecioCosto;
-      this.service.formProd.Cantidad = options2.Cantidad;
-      this.service.formProd.ClaveProducto = options2.ClaveProducto;
-      this.service.formProd.Stock = options2.Stock;
-      this.service.formProd.DescripcionProducto = options2.DescripcionProducto;
-      this.service.formProd.Estatus = options2.Estatus;
-      this.service.formProd.UnidadMedida = options2.UnidadMedida;
-      this.service.formProd.IVA = options2.IVA;
-      this.service.formProd.ClaveSAT = options2.ClaveSAT;
+      this.service.formProd = options2;
     }
   }
+
+
 
 
   Inicializar(form?: NgForm) {
 
   //Inicializar los valores del Cliente
   this.service.formData;
+  this.service.formDataPedido;
 
-    this.service.GetCliente(this.service.IdCliente).subscribe(data => {
+  //Obtener ID del local storage
+  this.IdPedido = +localStorage.getItem('IdPedido');
+
+  this.service.getPedidoId(this.IdPedido).subscribe( data =>{
+    console.log(data);
+    this.service.formDataPedido = data[0];
+    this.service.GetCliente(data[0].IdCliente).subscribe(data => {
       // console.log(data);
       this.service.formData = data[0];
     });
+  });
+
+
+    console.log(this.IdPedido);
+
 
 
 

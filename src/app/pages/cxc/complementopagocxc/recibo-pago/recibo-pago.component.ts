@@ -281,8 +281,10 @@ console.log('NUEVO CFDIIIIIIIIIII');
 
   }
   onBlurCliente(){
+    console.log(this.service.formData);
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
       console.log(data);
+      console.log(this.service.formData);
     })
   }
 

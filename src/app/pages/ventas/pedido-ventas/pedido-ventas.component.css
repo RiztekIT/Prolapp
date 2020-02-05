@@ -24,7 +24,7 @@ table {
 
 ::-webkit-scrollbar {
     width: 2px;
-    height: 3px;
+    height: 25px;
     background-color: #F5F5F5;
 }
 

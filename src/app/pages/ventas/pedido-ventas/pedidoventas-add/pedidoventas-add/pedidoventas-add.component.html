@@ -23,9 +23,9 @@
                                 <label class="input-group-text text-info">Cliente :</label> <br>
 
                                 <mat-form-field>
-                                    <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="IdClientes">
+                                    <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="service.formData.IdClientes" name="IdClientes">
                                     <mat-autocomplete #auto="matAutocomplete">
-                                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChange(option, $event)">
+                                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (blur)="onBlurCliente()" (onSelectionChange)="onSelectionChange(option, $event)">
                                             {{option.IdClientes}} {{option.Nombre}}
                                         </mat-option>
                                     </mat-autocomplete>
