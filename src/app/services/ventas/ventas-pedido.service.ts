@@ -64,6 +64,15 @@ export class VentasPedidoService {
     return this.http.get<Pedido []>(this.APIUrl + '/Pedido/PedidoId/' + id);
   }
 
+  //Get JOIN pedido-cliente
+  getPedidoCliente(): Observable <any>{
+    return this.http.get<any>(this.APIUrl + '/Pedido/PedidoCliente');
+  }
+  //Get Detalles Pedido en base a IdPedido
+  getDetallePedidoId(id: number): Observable <any>{
+    return this.http.get<any>(this.APIUrl + '/Pedido/DetallePedidoId/'+ id);
+  }
+
   //Get Ultimo pedido
   getUltimoPedido(): Observable <any>{
     return this.http.get<any>(this.APIUrl + '/Pedido/UltimoPedido');
@@ -99,5 +108,8 @@ export class VentasPedidoService {
   private _listeners = new Subject<any>(); 
   listen(): Observable<any> {
     return this._listeners.asObservable();
+  }
+  filter(filterBy: string) {
+    this._listeners.next(filterBy);
   }
 }
