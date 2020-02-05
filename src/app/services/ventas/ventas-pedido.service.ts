@@ -6,6 +6,7 @@ import { DetallePedido } from "../../Models/Pedidos/detallePedido-model";
 import {Observable,Subject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Pedido } from '../../Models/Pedidos/pedido-model';
+import { pedidoMaster } from 'src/app/Models/Pedidos/pedido-master';
 
 
 
@@ -32,11 +33,16 @@ export class VentasPedidoService {
   
 
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
+
   formData= new Cliente();
   formProd= new Producto();
   formDataDP: DetallePedido;
   formDataP = new Pedido();
+  master = new Array<pedidoMaster>();
   Moneda: string;
+  IdPedido: number;
+  formDataPedido: Pedido;
+  IdCliente : number;
 
   // readonly APIUrl = "https://localhost:44361/api";
   // readonly APIUrl = "http://192.168.1.67:32767/api";
@@ -65,6 +71,19 @@ export class VentasPedidoService {
   unidadMedida(): Observable<any>{
     let rootURLUM = "/api/v3/catalogo/ClaveUnidad";
     return this.http.get(rootURLUM,httpOptions2);
+  }
+
+  getPedidoList(): Observable <Pedido[]> {
+    return this.http.get<Pedido[]>(this.APIUrl + '/pedido');
+  }
+
+  //crear un pedido nuevo (insert)
+  addPedido(pedido: Pedido){
+    return this.http.post(this.APIUrl + '/Pedido', pedido);
+  }
+
+  onDelete(id:number){
+    return this.http.delete(this.APIUrl + '/Pedido/' + id);
   }
 
   private _listeners = new Subject<any>(); 

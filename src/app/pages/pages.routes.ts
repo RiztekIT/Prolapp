@@ -66,6 +66,8 @@ import { ComplementopagocxcComponent } from './cxc/complementopagocxc/complement
 import { EmpresaComponent } from './administracion/empresa/empresa.component';
 import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo-pago.component';
 import { ExpedienteComponent } from './administracion/expediente/expediente.component';
+import { PedidoventasAddComponent } from './ventas/pedido-ventas/pedidoventas-add/pedidoventas-add/pedidoventas-add.component';
+
 
 
 
@@ -141,6 +143,7 @@ const pagesRoutes: Routes = [
                 { path: 'complementopagoCxc', component: ComplementopagocxcComponent  },
                 { path: 'permisos', component: ShowUsuarioPermisoComponent  },
                 { path: 'recibopago', component: ReciboPagoComponent },
+                { path: 'pedidoventasAdd', component: PedidoventasAddComponent },
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },

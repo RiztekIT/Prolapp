@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm, FormControl } from "@angular/forms";
 import { Observable } from 'rxjs';
@@ -8,6 +8,10 @@ import { VentasPedidoService } from '../../../services/ventas/ventas-pedido.serv
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Producto } from '../../../Models/catalogos/productos-model';
 import { CurrencyPipe } from '@angular/common';
+import {MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar} from '@angular/material';
+import {MatSort} from '@angular/material/sort';
+import {Subject} from 'rxjs';
+import { Pedido } from '../../../Models/Pedidos/pedido-model';
 
 @Component({
   selector: 'app-pedido-ventas',
@@ -15,204 +19,93 @@ import { CurrencyPipe } from '@angular/common';
   styleUrls: ['./pedido-ventas.component.css']
 })
 export class PedidoVentasComponent implements OnInit {
+  IdPedido: any;
+  listData: MatTableDataSource<any>;
+  displayedColumns: string [] = ['IdPedido', 'IdCliente', 'Folio', 'Subtotal', 'Descuento', 'Total', 'Observaciones', 'FechaVencimiento', 'OrdenDeCompra', 'FechaDeEntrega', 'CondicionesDePago', 'Vendedor', 'Estatus', 'Usuario', 'Factura', 'LugarDeEntrega', 'Moneda', 'Prioridad', 'Options'];
+  @ViewChild(MatSort, null) sort : MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  constructor(public router: Router, private dialog: MatDialog, private currencyPipe: CurrencyPipe , public service: VentasPedidoService, private _formBuilder: FormBuilder) { 
 
-  constructor(public router: Router, private currencyPipe: CurrencyPipe , public service: VentasPedidoService, private _formBuilder: FormBuilder) { }
-  isLinear = false;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
-  thirdFormGroup: FormGroup;
-  ngOnInit() {
-
-    this.resetForm();
-    this.dropdownRefresh();
-    this.dropdownRefresh2()
-
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
-    });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });
-    this.thirdFormGroup = this._formBuilder.group({
-      thirdCtrl: ['', Validators.required]
-    });
+    this.service.listen().subscribe((m:any)=>{
+      console.log(m);
+      this.refreshPedidoList();
+      });
 
   }
+  
+  
+  ngOnInit() {
+    this.refreshPedidoList();
+  }
+
+  refreshPedidoList(){
+    this.service.getPedidoList().subscribe(data => {
+      this.listData = new MatTableDataSource(data);
+      this.listData.sort = this.sort;
+      this.listData.paginator = this.paginator;
+      this.listData.paginator._intl.itemsPerPageLabel = 'Pedidos por Pagina';
+      console.log(data);
+    });
+  }
+
+  public PedidoBlanco: Pedido = 
+  {
+    IdPedido: 0,
+    IdCliente : 1,
+    Folio : "",
+    Subtotal : "",
+    Descuento : "",
+    Total : "",
+    Observaciones :"",
+    FechaVencimiento : new Date(),
+    OrdenDeCompra : "",
+    FechaDeEntrega : new Date(),
+    CondicionesDePago : "",
+    Vendedor : "",
+    Estatus : "",
+    Usuario : "",
+    Factura : 0,
+    LugarDeEntrega: "",
+    Moneda: "MXN",
+    Prioridad: "Normal"
+}
+
+
+onAdd(){
+  // console.log(this.PedidoBlanco);
+  this.service.addPedido(this.PedidoBlanco).subscribe(res => {
+
+console.log(res);
+    this.router.navigate(['/pedidoventasAdd']);
+   });
+}
+
+
+onEdit(pedido : Pedido){
+
+this.service.formDataP = pedido;
+this.service.IdCliente = pedido.IdCliente;
+this.router.navigate(['/pedidoventasAdd']);
+}
+
+onDelete(pedido : Pedido){
+  this.service.onDelete(pedido.IdPedido).subscribe(res => {
+    this.refreshPedidoList();
+  });
+}
 
   
-  myControl = new FormControl();
-  myControl2 = new FormControl();
-  options: Cliente[] = [];
-  options2: Producto[] = [];
-  filteredOptions: Observable<any[]>;
-  filteredOptions2: Observable<any[]>;
-  listClientes: Cliente[] = [];
-  listProducts: Producto[] = [];
-  Moneda: string;
-  importeF;
-  precioUnitarioF;
-
-  recargar() {
-    // this.router.navigate(['/pedidoVentas']);
-    this.ngOnInit();
-
+  private _listeners = new Subject<any>(); 
+  listen(): Observable<any> {
+    return this._listeners.asObservable();
+  }
+  filter(filterBy: string) {
+    this._listeners.next(filterBy);
   }
 
-  private _filter(value: any): any[] {
-    console.log(value);
-     const filterValue = value.toString().toLowerCase();
-     return this.options.filter(option =>
-       option.Nombre.toLowerCase().includes(filterValue) ||
-       option.IdClientes.toString().includes(filterValue));
-  }
-
-
-  dropdownRefresh() {
-    this.service.getDepDropDownValues().subscribe(data => {
-      for (let i = 0; i < data.length; i++) {
-        let client = data[i];
-        this.listClientes.push(client);
-        this.options.push(client)
-        this.filteredOptions = this.myControl.valueChanges
-          .pipe(
-            startWith(''),
-            map(value => this._filter(value))
-          );
-      }
-    });
+  applyFilter(filtervalue: string){  
+    this.listData.filter= filtervalue.trim().toLocaleLowerCase();
 
   }
-
-  private _filter2(value: any): any[] {
-    // console.log(value);
-    const filterValue2 = value.toString();
-    return this.options2.filter(option =>
-      option.IdProducto.toString().includes(filterValue2));
-  }
-
-  dropdownRefresh2() {
-    this.service.getDepDropDownValues2().subscribe(dataP => {
-      for (let i = 0; i < dataP.length; i++) {
-        let product = dataP[i];
-        this.listProducts.push(product);
-        this.options2.push(product)
-        this.filteredOptions2 = this.myControl2.valueChanges
-          .pipe(
-            startWith(''),
-            map(value => this._filter2(value))
-          );
-      }
-    });
-
-  }
-
-  onSelectionChange(options:Cliente, event: any){
-    if(event.isUserInput){
-
-      this.service.formData.IdClientes = options.IdClientes
-      this.service.formData.Nombre = options.Nombre;
-      this.service.formData.RFC = options.RFC;
-      this.service.formData.RazonSocial = options.RazonSocial;
-      this.service.formData.Calle = options.Calle;
-      this.service.formData.Colonia = options.Colonia;
-      this.service.formData.CP = options.CP;
-      this.service.formData.Ciudad = options.Ciudad;
-      this.service.formData.Estado = options.Estado;
-      this.service.formData.NumeroInterior = options.NumeroInterior;
-      this.service.formData.NumeroExterior = options.NumeroExterior;
-      this.service.formData.ClaveCliente = options.ClaveCliente;
-      this.service.formData.Estatus = options.Estatus;
-      this.service.formData.LimiteCredito = options.LimiteCredito;
-      this.service.formData.DiasCredito = options.DiasCredito;
-      this.service.formData.MetodoPago = options.MetodoPago;
-      this.service.formData.UsoCFDI = options.UsoCFDI;
-      this.service.formData.IdApi = options.IdApi;
-      this.service.formData.Vendedor = options.Vendedor;
-    }
-  }
-
-  onSelectionChange2(options2: Producto, event: any) {
-    if (event.isUserInput) {
-      this.service.formProd.IdProducto = options2.IdProducto;
-      this.service.formProd.Nombre = options2.Nombre;
-      this.service.formProd.PrecioVenta = options2.PrecioVenta;
-      this.service.formProd.PrecioCosto = options2.PrecioCosto;
-      this.service.formProd.Cantidad = options2.Cantidad;
-      this.service.formProd.ClaveProducto = options2.ClaveProducto;
-      this.service.formProd.Stock = options2.Stock;
-      this.service.formProd.DescripcionProducto = options2.DescripcionProducto;
-      this.service.formProd.Estatus = options2.Estatus;
-      this.service.formProd.UnidadMedida = options2.UnidadMedida;
-      this.service.formProd.IVA = options2.IVA;
-      this.service.formProd.ClaveSAT = options2.ClaveSAT;
-    }
-  }
-
-
-  resetForm(form?: NgForm) {
-    if (form != null)
-      form.resetForm();
-    this.service.formData = {
-      IdClientes: 0,
-      Nombre: '',
-      RFC: '',
-      RazonSocial: '',
-      Calle: '',
-      Colonia: '',
-      CP: '',
-      Ciudad: '',
-      Estado: '',
-      NumeroInterior: '',
-      NumeroExterior: '',
-      ClaveCliente: '',
-      Estatus: '',
-      LimiteCredito: '',
-      DiasCredito: '',
-      MetodoPago: '',
-      UsoCFDI: '',
-      IdApi: '',
-      MetodoPagoCliente: '',
-      Vendedor: 7,
-
-    }
-
-  }
-
-  MonedaSelected(event: any) {
-    // console.log(event);
-    this.Moneda = event.target.selectedOptions[0].text;
-    // console.log(this.Moneda);
-    this.service.Moneda = this.Moneda;
-    // console.log(this.service.Moneda);
-  }
-
-  public listMoneda: Array<Object> = [
-    { Moneda: 'MXN' },
-    { Moneda: 'USD' }
-  ];
-
-  formato(){
-    const preciounitario = <HTMLInputElement>document.getElementById('precioUnitario');
-    const importe = <HTMLInputElement>document.getElementById('importe');
-    const iva = <HTMLInputElement>document.getElementById('iva');
-    // console.log(this.service.formDataDP.Importe);
-    
-
-    if(this.service.formDataDP.PrecioUnitario!='NaN'){
-    this.precioUnitarioF = this.currencyPipe.transform(this.service.formDataDP.PrecioUnitario);
-    preciounitario.value = this.precioUnitarioF;
-    }else{
-      preciounitario.value = '$0.00';
-    }
-    if(this.service.formDataDP.Importe!='NaN'){
-    this.importeF = this.currencyPipe.transform(this.service.formDataDP.Importe);
-    importe.value = this.importeF;
-  }else{
-    importe.value = '$0.00';
-    }
-
-  }
-
-
 
 }
