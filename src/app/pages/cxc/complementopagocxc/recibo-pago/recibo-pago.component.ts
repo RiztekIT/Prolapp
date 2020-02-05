@@ -163,6 +163,7 @@ this.Nuevo  = true;
 
   //Lista Facturas por IdClient
   dropdownRefresh2(idCliente) {
+    this.options2 = [];
     //Checar si hay PAGOS CFDI
     console.log(this.Nuevo + 'VARIABLE NUEVOOOOOOOOO');
     // this.service.getReciboPagosCFDI(this.IdReciboPago).subscribe(data => {
