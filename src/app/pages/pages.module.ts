@@ -150,6 +150,8 @@ import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit
 import { ExpedienteComponent } from './administracion/expediente/expediente.component';
 import { PedidoService } from '../services/pedidos/pedido.service';
 import { PagoCFDIEditComponent } from './cxc/complementopagocxc/pago-cfdi-edit/pago-cfdi-edit.component';
+import { FoliosComponent } from '../components/folios/folios.component';
+import { AddEmpresaComponent } from './administracion/empresa/add-empresa/add-empresa.component';
 
 
 
@@ -253,6 +255,7 @@ import { PagoCFDIEditComponent } from './cxc/complementopagocxc/pago-cfdi-edit/p
         EmpresaComponent,
         ShowEmpresaComponent,
         EditEmpresaComponent,
+        AddEmpresaComponent,
         ShowUsuarioPermisoComponent,
         ShowUsuarioPrivilegioComponent,
         ExpedienteComponent,
@@ -261,6 +264,7 @@ import { PagoCFDIEditComponent } from './cxc/complementopagocxc/pago-cfdi-edit/p
         AddVendedorComponent,
         EditVendedorComponent,
         ShowVendedorComponent,
+        FoliosComponent,
     
     ],
     exports: [
