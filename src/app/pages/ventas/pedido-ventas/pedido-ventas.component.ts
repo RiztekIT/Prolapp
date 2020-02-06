@@ -42,6 +42,7 @@ export class PedidoVentasComponent implements OnInit {
   
   ngOnInit() {
     this.refreshPedidoList();
+    this.ObtenerUltimoPedido();
     
   }
 
@@ -107,11 +108,11 @@ export class PedidoVentasComponent implements OnInit {
 onAdd(){
   // console.log(this.PedidoBlanco);
   this.service.addPedido(this.PedidoBlanco).subscribe(res => {
-    this.ObtenerUltimoPedido();
+    
 
-console.log(res);
-let Id = this.IdPedido;
-localStorage.setItem('IdPedido', Id.toString());
+// console.log(res);
+console.log(this.IdPedido);
+localStorage.setItem('IdPedido', this.IdPedido.toString());
     this.router.navigate(['/pedidoventasAdd']);
    });
 }
@@ -119,7 +120,8 @@ localStorage.setItem('IdPedido', Id.toString());
 ObtenerUltimoPedido(){
   this.service.getUltimoPedido().subscribe(res =>{
     // console.log(res);
-    this.IdPedido = res[0];
+    this.IdPedido = res[0].IdPedido + 1;
+    console.log(this.IdPedido);
   })
 }
 
@@ -139,14 +141,6 @@ onDelete(pedido : Pedido){
   });
 }
 
-  
-  private _listeners = new Subject<any>(); 
-  listen(): Observable<any> {
-    return this._listeners.asObservable();
-  }
-  filter(filterBy: string) {
-    this._listeners.next(filterBy);
-  }
 
   applyFilter(filtervalue: string){  
     // this.listData.filter= filtervalue.trim().toLocaleLowerCase();
