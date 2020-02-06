@@ -37,7 +37,6 @@ export class VentasPedidoService {
   formData= new Cliente();
   formProd= new Producto();
   formDataDP: DetallePedido;
-  formDataP = new Pedido();
   formDataPedido = new Pedido();
   master = new Array<pedidoMaster>();
   Moneda: string;
@@ -100,6 +99,12 @@ export class VentasPedidoService {
   addPedido(pedido: Pedido){
     return this.http.post(this.APIUrl + '/Pedido', pedido);
   }
+
+    //Get Detalle Pedido Por ID
+    GetDetallePedidoId(id:number): Observable<any>{
+      return this.http.get<DetallePedido[]>(this.APIUrl + '/pedido/DetallePedidoId/' + id)
+    }
+  
 
   onDelete(id:number){
     return this.http.delete(this.APIUrl + '/Pedido/' + id);

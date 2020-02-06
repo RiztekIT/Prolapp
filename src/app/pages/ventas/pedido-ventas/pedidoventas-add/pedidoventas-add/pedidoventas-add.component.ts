@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm, FormControl } from "@angular/forms";
 import { Observable } from 'rxjs';
@@ -8,6 +8,10 @@ import { VentasPedidoService } from '../../../../../services/ventas/ventas-pedid
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Producto } from '../../../../../Models/catalogos/productos-model';
 import { CurrencyPipe } from '@angular/common';
+import { MatTableDataSource, MatSort } from '@angular/material';
+import { DetallePedido } from '../../../../../Models/Pedidos/detallePedido-model';
+import Swal from 'sweetalert2';
+import { Usuario } from '../../../../../Models/catalogos/usuarios-model';
 
 @Component({
   selector: 'app-pedidoventas-add',
@@ -15,6 +19,7 @@ import { CurrencyPipe } from '@angular/common';
   styleUrls: ['./pedidoventas-add.component.css']
 })
 export class PedidoventasAddComponent implements OnInit {
+  dialogbox: any;
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder) { }
 
@@ -26,7 +31,9 @@ export class PedidoventasAddComponent implements OnInit {
 
     this.Inicializar();
     this.dropdownRefresh();
-    this.dropdownRefresh2()
+    this.dropdownRefresh2();
+    this.refreshDetallesPedidoList();
+    
 
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
@@ -60,12 +67,16 @@ export class PedidoventasAddComponent implements OnInit {
   precioUnitarioF;
   //IdPedido
   IdPedido: number;
+  //cantidad Producto
+  Cantidad: number;
 
-  recargar() {
-    // this.router.navigate(['/pedidoVentas']);
-    this.ngOnInit();
-
-  }
+  //Valores de Totales
+  subtotal: any;
+  iva: any;
+  total: any;
+  ivaDlls: any;
+  subtotalDlls: any;
+  totalDlls: any;
 
   private _filter(value: any): any[] {
     console.log(value);
@@ -156,6 +167,7 @@ export class PedidoventasAddComponent implements OnInit {
   this.service.getPedidoId(this.IdPedido).subscribe( data =>{
     console.log(data);
     this.service.formDataPedido = data[0];
+    console.log(this.service.formDataPedido);
     this.service.GetCliente(data[0].IdCliente).subscribe(data => {
       // console.log(data);
       this.service.formData = data[0];
@@ -207,5 +219,57 @@ export class PedidoventasAddComponent implements OnInit {
 
 
 
-}
+  //Tabla de Productos
+  listData: MatTableDataSource<any>;
+  displayedColumns: string[] = ['ClaveProducto', 'ClaveSAT', 'Producto', 'Cantidad', 'Precio', 'Options'];
+  @ViewChild(MatSort, null) sort: MatSort;
 
+
+
+  //Iniciar en 0 Valores de los Totales
+  IniciarTotales() {
+    this.subtotal = 0;
+    this.iva = 0;
+    this.total = 0;
+    this.subtotalDlls = 0;
+    this.totalDlls = 0;
+    this.ivaDlls = 0;
+  }
+
+  refreshDetallesPedidoList(){
+this.IniciarTotales();
+
+this.service.GetDetallePedidoId(this.IdPedido).subscribe(data =>{
+  this.listData = new MatTableDataSource(data);
+  this.listData.sort = this.sort; 
+})
+  }
+
+  onAddProducto(){
+    console.log(this.service.formProd);
+    console.log(this.IdPedido);
+    this.service.formDataDP.IdPedido = this.IdPedido;
+    this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto;
+    this.service.formDataDP.Producto = this.service.formProd.Nombre;
+    this.service.formDataDP.Unidad = this.service.formProd.UnidadMedida;
+    this.service.formDataDP.PrecioUnitario = this.service.formProd.PrecioVenta;
+    this.service.formDataDP.Cantidad = this.Cantidad.toString();
+    this.service.formDataDP.Importe = this.total;
+    this.service.formDataDP.Observaciones = "NA";
+    this.service.formDataDP.TextoExtra = "NA";
+    console.log(this.service.formDataDP);
+  }
+
+crearPedido(){
+  this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res =>{
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Pedido Agregado'
+    })
+    this.dialogbox.close();
+    this.service.filter('Register click');
+  }
+  )}
+  
+}
