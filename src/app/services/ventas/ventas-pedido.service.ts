@@ -5,6 +5,8 @@ import { Producto } from "../../Models/catalogos/productos-model";
 import { DetallePedido } from "../../Models/Pedidos/detallePedido-model";
 import {Observable,Subject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Pedido } from '../../Models/Pedidos/pedido-model';
+import { pedidoMaster } from 'src/app/Models/Pedidos/pedido-master';
 
 
 
@@ -31,10 +33,16 @@ export class VentasPedidoService {
   
 
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
+
   formData= new Cliente();
   formProd= new Producto();
   formDataDP: DetallePedido;
+  formDataP = new Pedido();
+  formDataPedido = new Pedido();
+  master = new Array<pedidoMaster>();
   Moneda: string;
+  IdPedido: number;
+  IdCliente : number;
 
   // readonly APIUrl = "https://localhost:44361/api";
   // readonly APIUrl = "http://192.168.1.67:32767/api";
@@ -43,12 +51,31 @@ export class VentasPedidoService {
 
 
 
-  updateVentasPedido(reciboPago: any) {
-    return this.http.put(this.APIUrl + '/ReciboPago', reciboPago);
+  updateVentasPedido(pedido: any) {
+    return this.http.put(this.APIUrl + '/Pedido', pedido);
   }
 
   GetCliente(id:number): Observable <Cliente[]>{
     return this.http.get<any>(this.APIUrl + '/Cliente/id/' + id);
+  }
+
+  //Get Pedido por IdPedido
+  getPedidoId(id: number): Observable <Pedido[]>{
+    return this.http.get<Pedido []>(this.APIUrl + '/Pedido/PedidoId/' + id);
+  }
+
+  //Get JOIN pedido-cliente
+  getPedidoCliente(): Observable <any>{
+    return this.http.get<any>(this.APIUrl + '/Pedido/PedidoCliente');
+  }
+  //Get Detalles Pedido en base a IdPedido
+  getDetallePedidoId(id: number): Observable <any>{
+    return this.http.get<any>(this.APIUrl + '/Pedido/DetallePedidoId/'+ id);
+  }
+
+  //Get Ultimo pedido
+  getUltimoPedido(): Observable <any>{
+    return this.http.get<any>(this.APIUrl + '/Pedido/UltimoPedido');
   }
 
   getDepDropDownValues(): Observable<any> {
@@ -65,8 +92,24 @@ export class VentasPedidoService {
     return this.http.get(rootURLUM,httpOptions2);
   }
 
+  getPedidoList(): Observable <Pedido[]> {
+    return this.http.get<Pedido[]>(this.APIUrl + '/pedido');
+  }
+
+  //crear un pedido nuevo (insert)
+  addPedido(pedido: Pedido){
+    return this.http.post(this.APIUrl + '/Pedido', pedido);
+  }
+
+  onDelete(id:number){
+    return this.http.delete(this.APIUrl + '/Pedido/' + id);
+  }
+
   private _listeners = new Subject<any>(); 
   listen(): Observable<any> {
     return this._listeners.asObservable();
+  }
+  filter(filterBy: string) {
+    this._listeners.next(filterBy);
   }
 }

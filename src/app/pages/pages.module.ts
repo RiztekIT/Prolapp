@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltip, MatTooltipModule} from '@angular/material';
+import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule } from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
@@ -117,10 +117,6 @@ import { AddClienteComponent } from './administracion/catalogos/clientes/add-cli
 import { ClientesService } from '../services/catalogos/clientes.service';
 import { ReciboPagoService } from '../services/complementoPago/recibo-pago.service';
 import { VentasPedidoService } from '../services/ventas/ventas-pedido.service';
-import { VendedoresComponent } from './administracion/catalogos/vendedores/vendedores.component';
-import { AddVendedorComponent } from './administracion/catalogos/vendedores/add-vendedor/add-vendedor.component';
-import { EditVendedorComponent } from './administracion/catalogos/vendedores/edit-vendedor/edit-vendedor.component';
-import { ShowVendedorComponent } from './administracion/catalogos/vendedores/show-vendedor/show-vendedor.component';
 
 import { EmpresaService } from '../services/empresas/empresa.service';
 
@@ -152,6 +148,11 @@ import { PedidoService } from '../services/pedidos/pedido.service';
 import { PagoCFDIEditComponent } from './cxc/complementopagocxc/pago-cfdi-edit/pago-cfdi-edit.component';
 import { FoliosComponent } from '../components/folios/folios.component';
 import { AddEmpresaComponent } from './administracion/empresa/add-empresa/add-empresa.component';
+import { PedidoventasAddComponent } from './ventas/pedido-ventas/pedidoventas-add/pedidoventas-add/pedidoventas-add.component';
+import { AddVendedorComponent } from './administracion/catalogos/vendedores/add-vendedor/add-vendedor.component';
+import { EditVendedorComponent } from './administracion/catalogos/vendedores/edit-vendedor/edit-vendedor.component';
+import { ShowVendedorComponent } from './administracion/catalogos/vendedores/show-vendedor/show-vendedor.component';
+
 
 
 
@@ -260,11 +261,12 @@ import { AddEmpresaComponent } from './administracion/empresa/add-empresa/add-em
         ShowUsuarioPrivilegioComponent,
         ExpedienteComponent,
         PagoCFDIEditComponent,
-        VendedoresComponent,
+        PedidoventasAddComponent,
         AddVendedorComponent,
         EditVendedorComponent,
         ShowVendedorComponent,
         FoliosComponent,
+        ShowVendedorComponent
     
     ],
     exports: [
@@ -302,7 +304,7 @@ import { AddEmpresaComponent } from './administracion/empresa/add-empresa/add-em
         HttpClientModule,
         NgxLoadingModule.forRoot({}),
         MatStepperModule,
-        MatTooltipModule
+        MatTooltipModule,
 
     ],
     providers: [
@@ -335,7 +337,7 @@ import { AddEmpresaComponent } from './administracion/empresa/add-empresa/add-em
         PagoCFDIEditComponent,
         AddVendedorComponent,
         EditVendedorComponent,
-        ShowVendedorComponent,
+        ShowVendedorComponent
 
     ]
 })

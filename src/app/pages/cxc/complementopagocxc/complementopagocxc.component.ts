@@ -68,15 +68,11 @@ export class ComplementopagocxcComponent implements OnInit {
       for (let i = 0; i <= data.length - 1; i++) {
         this.service.master[i] = data[i]
         this.service.master[i].pagoCFDI = [];
-        // if (data[i].IdCliente != 1){
         this.service.getPagoCFDIFacturaList(data[i].Id).subscribe(res => {
           for (let l = 0; l <= res.length - 1; l++) {
             this.service.master[i].pagoCFDI.push(res[l]);
           }
-    
-          // console.log(this.listData);
-        })
-        // }
+        });
       }
       this.listData = new MatTableDataSource(this.service.master);
       this.listData.sort = this.sort;

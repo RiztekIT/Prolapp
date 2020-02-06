@@ -35,29 +35,8 @@ export class HeaderComponent implements OnInit {
     this.usuario = this.storageService.getCurrentUser();
   }
 
-  // private setHeaders(): HttpHeaders {
-  //   const headersConfig = {
-  //     'Bmx-Token': 'd83c7088f2823be9f29cc124cf95dc37056de37c340da5477a09ca1ee91a80a6',
-  //     'Access-Control-Allow-Origin': '*',
-  //     'Access-Control-Allow-Headers': 'Content-type'
-
-  //   };
-  //   return new HttpHeaders(headersConfig);
-  // }
 
   tipoDeCambio(){
-    this.traerApi().subscribe(data => {
-      this.Cdolar = data.bmx.series[0].datos[0].dato;
-      
-    })
-
-  }
-
-  traerApi(): Observable<any>{
-
-    
-   
-    
     let hora = new Date().getHours();
     let fechahoy = new Date();
     let fechaayer = new Date();
@@ -68,46 +47,32 @@ export class HeaderComponent implements OnInit {
     let mesayer = new Date(fechaayer).getMonth();
     let añoayer = new Date(fechaayer).getFullYear();
     let diasemana = new Date(fechahoy).getDay();
-    
-    
-    console.log(fechaayer.getDay());
-    console.log(hora);
-    console.log('dia semana '+ diasemana);
-    //2020-01-03/2020-01-03
-if (diasemana == 6 || diasemana == 0){
-  this.rootURL = this.rootURL+'oportuno'
+
+    let i;
+if (hora>11){
+  i=2;
 }else{
-  if (hora<11){
-    this.rootURL = this.rootURL+'oportuno'
-  }
-  else{
-    if (diasemana == 1 ){
-      fechaayer.setDate(fechahoy.getDate() - 3)
-    let diaayer = new Date(fechaayer).getDate();
-    let mesayer = new Date(fechaayer).getMonth();
-    let añoayer = new Date(fechaayer).getFullYear();
-    mesayer = mesayer+1;
-    let fecha = añoayer+'-'+mesayer+'-'+diaayer;
-    console.log(fecha);
-    this.rootURL = this.rootURL+fecha+'/'+fecha
-
-    }else{
-    mesayer = mesayer+1;
-    let fecha = añoayer+'-'+mesayer+'-'+diaayer;
-    console.log(fecha);
-    this.rootURL = this.rootURL+fecha+'/'+fecha
-    }
-  }
+  i=1;
 }
+    this.traerApi().subscribe(data => {
+      let l;
+      
+      l = data.bmx.series[0].datos.length;
+      // console.log(i);
+      // console.log(l);
+      // console.log(data.bmx.series[0].datos.length);
+      // console.log(data.bmx.series[0].datos[l-i].dato);
+      
+      
+      this.Cdolar = data.bmx.series[0].datos[l-i].dato;
+      
+    })
 
-    
-    
-    
-    
+  }
 
-    console.log(this.http.get(this.rootURL, httpOptions));
-    
-    return this.http.get(this.rootURL, httpOptions)
+  traerApi(): Observable<any>{
+
+    return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
 
   }
 
