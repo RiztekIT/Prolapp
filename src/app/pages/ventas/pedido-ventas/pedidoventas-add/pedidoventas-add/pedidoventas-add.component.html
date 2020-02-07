@@ -132,6 +132,17 @@
 
                                         </div>
                                         <div class="col-6">
+
+                                            <mat-form-field class="example-full-width">
+                                                <input type="text" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formDataDP.Unidad" (focus)="unidadMedida()">
+                                                <mat-autocomplete #autoUnidad="matAutocomplete">
+                                                    <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.key">
+                                                        {{option.key}} {{option.name}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+
+
                                             <label class="input-group-text text-info"> Stock:</label>
                                             <input type="text" class="form-control" name="Stock" #Stock="ngModel" [(ngModel)]="service.formProd.Stock" readonly>
 
@@ -140,9 +151,6 @@
 
                                             <label class="input-group-text text-info"> Estatus:</label>
                                             <input type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formProd.Estatus" readonly>
-
-                                            <label class="input-group-text text-info"> UnidadMedida:</label>
-                                            <input type="text" class="form-control" name="UnidadMedida" #UnidadMedida="ngModel" [(ngModel)]="service.formProd.UnidadMedida" readonly>
 
                                             <label class="input-group-text text-info"> IVA:</label>
                                             <input type="text" class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="service.formProd.IVA" readonly>
@@ -198,7 +206,7 @@
                                               </button>
                                                                 <mat-menu #menu="matMenu">
                                                                     <!--  -->
-                                                                    <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                                                    <button mat-icon-button class="btn btn-dark" (click)="OnEditProducto()">
                                                   <mat-icon>edit</mat-icon>
                                                 </button>
                                                                     <!--  -->

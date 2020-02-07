@@ -36,7 +36,7 @@ export class VentasPedidoService {
 
   formData= new Cliente();
   formProd= new Producto();
-  formDataDP: DetallePedido;
+  formDataDP = new DetallePedido();
   formDataPedido = new Pedido();
   master = new Array<pedidoMaster>();
   Moneda: string;
