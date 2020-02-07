@@ -337,7 +337,8 @@ import { ShowVendedorComponent } from './administracion/catalogos/vendedores/sho
         PagoCFDIEditComponent,
         AddVendedorComponent,
         EditVendedorComponent,
-        ShowVendedorComponent
+        ShowVendedorComponent,
+        ShowEmpresaComponent
 
     ]
 })

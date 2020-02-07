@@ -14,6 +14,7 @@ import Swal from 'sweetalert2';
 import { Usuario } from '../../../../../Models/catalogos/usuarios-model';
 import { DataRowOutlet } from '@angular/cdk/table';
 import { TipoCambioService } from '../../../../../services/tipo-cambio.service';
+import { EnviarfacturaService } from '../../../../../services/facturacioncxc/enviarfactura.service';
 
 @Component({
   selector: 'app-pedidoventas-add',
@@ -24,12 +25,21 @@ export class PedidoventasAddComponent implements OnInit {
   dialogbox: any;
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
-    private serviceTipoCambio: TipoCambioService) { }
+    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService) { }
+  
 
   isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
+
+  //valores de unidad
+  filteredOptionsUnidad: Observable<any[]>;
+  myControlUnidad = new FormControl();
+  optionsUnidad = ['Pieza'];
+  um: boolean;
+
+
   ngOnInit() {
 
     this.Inicializar();
@@ -49,6 +59,56 @@ export class PedidoventasAddComponent implements OnInit {
       thirdCtrl: ['', Validators.required]
     });
 
+
+
+
+    this.um = true;
+
+    this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
+    .pipe(
+      startWith(''),
+      map(value => this._filterUnidad(value))
+    );
+  }
+
+
+  public listUM: Array<any> = [];
+
+
+//Filter Unidad
+  private _filterUnidad(value: any): any[] {
+    if (typeof(value)=='string'){
+    const filterValueUnidad = value.toLowerCase();
+    return this.listUM.filter(optionUnidad => optionUnidad.key.toString().toLowerCase().includes(filterValueUnidad) || optionUnidad.name.toString().toLowerCase().includes(filterValueUnidad));
+    }else if (typeof(value)=='number'){
+      const filterValueUnidad = value;
+      return this.listUM.filter(optionUnidad => optionUnidad.key.toString().includes(filterValueUnidad) || optionUnidad.name.toString().includes(filterValueUnidad));
+    }
+  }
+
+
+
+
+  unidadMedida(){
+    if (this.um){
+    this.listUM = [];
+    this.enviarfact.unidadMedida().subscribe(data=>{
+      //console.log(JSON.parse(data).data);
+      for (let i=0; i<JSON.parse(data).data.length; i++){
+        this.listUM.push(JSON.parse(data).data[i])
+      }
+      this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterUnidad(value))
+      );
+      // console.log(this.listUM);
+
+      this.um=false;
+      
+    })
+
+  }
   }
 
 
@@ -345,6 +405,10 @@ this.service.GetDetallePedidoId(this.IdPedido).subscribe(data =>{
     }
   }
 
+  OnEditProducto(){
+  console.log(this.service.formProd);
+  }
+
 crearPedido(){
   this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res =>{
 
@@ -356,5 +420,5 @@ crearPedido(){
     this.service.filter('Register click');
   }
   )}
-  
+
 }
