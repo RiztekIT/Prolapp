@@ -31,7 +31,7 @@ export class ShowEmpresaComponent implements OnInit {
   // @ViewChild(MatSort, null) sort : MatSort;
   // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private service:EmpresaService, private dialog: MatDialog, private snackBar: MatSnackBar, private sanitizer: DomSanitizer, private http: HttpClient ) {
+  constructor(public service:EmpresaService, private dialog: MatDialog, private snackBar: MatSnackBar, private sanitizer: DomSanitizer, private http: HttpClient ) {
     this.Iniciar();
 
     this.service.listen().subscribe((m:any) =>{

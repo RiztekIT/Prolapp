@@ -21,6 +21,7 @@ import { ngxLoadingAnimationTypes } from 'ngx-loading';
 //Importacion para utilizar Pipe
 import { map, startWith } from 'rxjs/operators';
 import { Prefactura } from '../../../../Models/facturacioncxc/prefactura-model';
+import { FoliosService } from '../../../../services/direccion/folios.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -105,7 +106,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   constructor(
     public service: FacturaService, private snackBar: MatSnackBar, private dialog: MatDialog,
     private router: Router, public enviarfact: EnviarfacturaService,
-    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient) {
+    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService) {
 
 
 
@@ -897,6 +898,12 @@ export class FacturacioncxcAddComponent implements OnInit {
 
 
         this.estatusfact = 'Factura Creada ' + data.invoice_uid;
+
+
+        this.servicefolios.updateFolios().subscribe(data =>{
+          console.log(data);
+          
+        });
 
       } else
         if (data.response === 'error') {

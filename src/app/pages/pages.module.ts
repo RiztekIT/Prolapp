@@ -146,6 +146,8 @@ import { EditEmpresaComponent } from './administracion/empresa/edit-empresa/edit
 import { ExpedienteComponent } from './administracion/expediente/expediente.component';
 import { PedidoService } from '../services/pedidos/pedido.service';
 import { PagoCFDIEditComponent } from './cxc/complementopagocxc/pago-cfdi-edit/pago-cfdi-edit.component';
+import { FoliosComponent } from '../components/folios/folios.component';
+import { AddEmpresaComponent } from './administracion/empresa/add-empresa/add-empresa.component';
 import { PedidoventasAddComponent } from './ventas/pedido-ventas/pedidoventas-add/pedidoventas-add/pedidoventas-add.component';
 import { AddVendedorComponent } from './administracion/catalogos/vendedores/add-vendedor/add-vendedor.component';
 import { EditVendedorComponent } from './administracion/catalogos/vendedores/edit-vendedor/edit-vendedor.component';
@@ -254,6 +256,7 @@ import { ShowVendedorComponent } from './administracion/catalogos/vendedores/sho
         EmpresaComponent,
         ShowEmpresaComponent,
         EditEmpresaComponent,
+        AddEmpresaComponent,
         ShowUsuarioPermisoComponent,
         ShowUsuarioPrivilegioComponent,
         ExpedienteComponent,
@@ -261,6 +264,8 @@ import { ShowVendedorComponent } from './administracion/catalogos/vendedores/sho
         PedidoventasAddComponent,
         AddVendedorComponent,
         EditVendedorComponent,
+        ShowVendedorComponent,
+        FoliosComponent,
         ShowVendedorComponent
     
     ],
