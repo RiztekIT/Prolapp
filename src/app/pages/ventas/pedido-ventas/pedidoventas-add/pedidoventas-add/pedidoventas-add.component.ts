@@ -12,6 +12,8 @@ import { MatTableDataSource, MatSort } from '@angular/material';
 import { DetallePedido } from '../../../../../Models/Pedidos/detallePedido-model';
 import Swal from 'sweetalert2';
 import { Usuario } from '../../../../../Models/catalogos/usuarios-model';
+import { DataRowOutlet } from '@angular/cdk/table';
+import { TipoCambioService } from '../../../../../services/tipo-cambio.service';
 
 @Component({
   selector: 'app-pedidoventas-add',
@@ -21,7 +23,8 @@ import { Usuario } from '../../../../../Models/catalogos/usuarios-model';
 export class PedidoventasAddComponent implements OnInit {
   dialogbox: any;
 
-  constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder) { }
+  constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
+    private serviceTipoCambio: TipoCambioService) { }
 
   isLinear = false;
   firstFormGroup: FormGroup;
@@ -33,6 +36,7 @@ export class PedidoventasAddComponent implements OnInit {
     this.dropdownRefresh();
     this.dropdownRefresh2();
     this.refreshDetallesPedidoList();
+    this.IniciarTotales();
     
 
     this.firstFormGroup = this._formBuilder.group({
@@ -63,12 +67,26 @@ export class PedidoventasAddComponent implements OnInit {
   listClientes: Cliente[] = [];
   listProducts: Producto[] = [];
   Moneda: string;
-  importeF;
+  
   precioUnitarioF;
   //IdPedido
   IdPedido: number;
   //cantidad Producto
   Cantidad: number;
+  //Stock de Producto
+  PStock: any;
+//Variable para verificar si hay valores en detalle pedido. En caso que
+//sea negativo se podra cambiar la moneda. Si es positivo la moneda no se prodra cambiar
+//hasta haber eliminado todos los detalles pedido
+valores: boolean;
+//Importe Producto
+importeP: number;
+importePDLLS: number;
+//Precio del Producto
+ProductoPrecio: number;
+ProductoPrecioDLLS: number;
+//TipoCambio
+TipoCambio: any;
 
   //Valores de Totales
   subtotal: any;
@@ -77,6 +95,8 @@ export class PedidoventasAddComponent implements OnInit {
   ivaDlls: any;
   subtotalDlls: any;
   totalDlls: any;
+
+  
 
   private _filter(value: any): any[] {
     console.log(value);
@@ -149,6 +169,9 @@ export class PedidoventasAddComponent implements OnInit {
   onSelectionChange2(options2: Producto, event: any) {
     if (event.isUserInput) {
       this.service.formProd = options2;
+     this.PStock = this.service.formProd.Stock;
+     this.ProductoPrecio = +this.service.formProd.PrecioVenta;
+     console.log(+this.PStock + " STOCKKKK");
     }
   }
 
@@ -160,6 +183,11 @@ export class PedidoventasAddComponent implements OnInit {
   //Inicializar los valores del Cliente
   this.service.formData;
   this.service.formDataPedido;
+  this.service.formDataDP;
+
+  //Obtener Tipo Cambio
+  this.TipoCambio = this.serviceTipoCambio.TipoCambio;
+  console.log('TIPO CAMBIO = ' + this.TipoCambio);
 
   //Obtener ID del local storage
   this.IdPedido = +localStorage.getItem('IdPedido');
@@ -167,6 +195,7 @@ export class PedidoventasAddComponent implements OnInit {
   this.service.getPedidoId(this.IdPedido).subscribe( data =>{
     console.log(data);
     this.service.formDataPedido = data[0];
+    this.Moneda = this.service.formDataPedido.Moneda
     console.log(this.service.formDataPedido);
     this.service.GetCliente(data[0].IdCliente).subscribe(data => {
       // console.log(data);
@@ -195,27 +224,27 @@ export class PedidoventasAddComponent implements OnInit {
     { Moneda: 'USD' }
   ];
 
-  formato() {
-    const preciounitario = <HTMLInputElement>document.getElementById('precioUnitario');
-    const importe = <HTMLInputElement>document.getElementById('importe');
-    const iva = <HTMLInputElement>document.getElementById('iva');
-    // console.log(this.service.formDataDP.Importe);
+  // formato() {
+  //   const preciounitario = <HTMLInputElement>document.getElementById('precioUnitario');
+  //   const importe = <HTMLInputElement>document.getElementById('importe');
+  //   const iva = <HTMLInputElement>document.getElementById('iva');
+  //   // console.log(this.service.formDataDP.Importe);
 
 
-    if (this.service.formDataDP.PrecioUnitario != 'NaN') {
-      this.precioUnitarioF = this.currencyPipe.transform(this.service.formDataDP.PrecioUnitario);
-      preciounitario.value = this.precioUnitarioF;
-    } else {
-      preciounitario.value = '$0.00';
-    }
-    if (this.service.formDataDP.Importe != 'NaN') {
-      this.importeF = this.currencyPipe.transform(this.service.formDataDP.Importe);
-      importe.value = this.importeF;
-    } else {
-      importe.value = '$0.00';
-    }
+  //   if (this.service.formDataDP.PrecioUnitario != 'NaN') {
+  //     this.precioUnitarioF = this.currencyPipe.transform(this.service.formDataDP.PrecioUnitario);
+  //     preciounitario.value = this.precioUnitarioF;
+  //   } else {
+  //     preciounitario.value = '$0.00';
+  //   }
+  //   if (this.service.formDataDP.Importe != 'NaN') {
+  //     this.importeF = this.currencyPipe.transform(this.service.formDataDP.Importe);
+  //     importe.value = this.importeF;
+  //   } else {
+  //     importe.value = '$0.00';
+  //   }
 
-  }
+  // }
 
 
 
@@ -228,6 +257,7 @@ export class PedidoventasAddComponent implements OnInit {
 
   //Iniciar en 0 Valores de los Totales
   IniciarTotales() {
+    this.Cantidad = 0;
     this.subtotal = 0;
     this.iva = 0;
     this.total = 0;
@@ -240,24 +270,79 @@ export class PedidoventasAddComponent implements OnInit {
 this.IniciarTotales();
 
 this.service.GetDetallePedidoId(this.IdPedido).subscribe(data =>{
-  this.listData = new MatTableDataSource(data);
-  this.listData.sort = this.sort; 
+  console.log('------------------------');
+  console.log(data);
+  //Verificar si hay datos en la tabla
+  if(data.length > 0){
+    this.valores = true;
+    (<HTMLInputElement> document.getElementById("Moneda")).disabled = true;
+    this.listData = new MatTableDataSource(data);
+    this.listData.sort = this.sort; 
+  }else{
+    this.valores = false;
+    console.log('No hay valores');
+  }
 })
   }
 
   onAddProducto(){
-    console.log(this.service.formProd);
-    console.log(this.IdPedido);
     this.service.formDataDP.IdPedido = this.IdPedido;
     this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto;
     this.service.formDataDP.Producto = this.service.formProd.Nombre;
     this.service.formDataDP.Unidad = this.service.formProd.UnidadMedida;
-    this.service.formDataDP.PrecioUnitario = this.service.formProd.PrecioVenta;
+    this.service.formDataDP.PrecioUnitario = this.ProductoPrecio.toString();
+    this.service.formDataDP.PrecioUnitarioDlls = this.ProductoPrecioDLLS.toString();
     this.service.formDataDP.Cantidad = this.Cantidad.toString();
-    this.service.formDataDP.Importe = this.total;
-    this.service.formDataDP.Observaciones = "NA";
-    this.service.formDataDP.TextoExtra = "NA";
+    this.service.formDataDP.Importe = this.importeP.toString();
+    this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
+
     console.log(this.service.formDataDP);
+    
+// this.service.addDetallePedido(this.service.formDataDP).subscribe(res =>{
+//   console.log(res);
+//   this.refreshDetallesPedidoList();
+//   this.IniciarTotales();
+// })
+
+
+  }
+//On change Cantidad 
+  onChangeCantidadP(cantidad: Event){
+    console.log(cantidad);
+    let elemHTML: any = document.getElementsByName('Cantidad')[0];
+    //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
+    this.calcularImportePedido(cantidad);
+    elemHTML.value = this.Cantidad;
+    console.log(this.Cantidad);
+    console.log(this.ProductoPrecio);
+    if(this.Moneda == 'MXN'){
+  console.log('LA MONEDA ES MXN');
+  this.importeP = this.Cantidad * +this.ProductoPrecio;
+}else{
+  console.log('LA MONEDA ES USD');
+  
+    }
+  }
+  //On change Precio
+  onChangePrecio(precio: Event){
+    console.log(precio);
+    let elemHTML: any = document.getElementsByName('PrecioCosto')[0];
+    // //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
+    elemHTML.value = +this.ProductoPrecio;
+    this.importeP = this.Cantidad * +this.ProductoPrecio;
+  }
+
+  calcularImportePedido(cantidad: any){
+   
+    if( +cantidad > +this.PStock ){
+      this.Cantidad = this.PStock.toString();
+    }
+    if(+cantidad < 0){
+      this.Cantidad = 0;
+    }
+    if(cantidad == null){
+      this.Cantidad = 0;
+    }
   }
 
 crearPedido(){
