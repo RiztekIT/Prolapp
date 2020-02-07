@@ -1138,62 +1138,62 @@ export class FacturacioncxcAddComponent implements OnInit {
 
   email(id: string, folio: string) {
 
-    let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
-    this.enviarfact.xml(id).subscribe(data => {
-      const blob = new Blob([data as BlobPart], { type: 'application/xml' });
-      // this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
-      this.fileUrl = window.URL.createObjectURL(blob);
+    // let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
+    // this.enviarfact.xml(id).subscribe(data => {
+    //   const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+    //   // this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+    //   this.fileUrl = window.URL.createObjectURL(blob);
 
 
-      this.a.href = this.fileUrl;
-      this.a.target = '_blank';
-      this.a.download = 'F-' + folio + '.xml';
+    //   this.a.href = this.fileUrl;
+    //   this.a.target = '_blank';
+    //   this.a.download = 'F-' + folio + '.xml';
 
-      document.body.appendChild(this.a);
-      //      console.log(this.fileUrl);
-      // console.log(this.a);
-      // console.log('blob:'+this.a.href);
+    //   document.body.appendChild(this.a);
+    //   //      console.log(this.fileUrl);
+    //   // console.log(this.a);
+    //   // console.log('blob:'+this.a.href);
 
-      //this.a.click();
-      localStorage.removeItem('xml')
-      localStorage.setItem('xml', data)
-      this.xmlparam = localStorage.getItem('xml');
-
-
-      const content: Element = document.getElementById('element-to-PDF');
-
-      const option = {
-        margin: [0, 0, 0, 0],
-        filename: 'F-' + folio + '.pdf',
-        image: { type: 'jpeg', quality: 1 },
-        html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
-        jsPDF: { format: 'letter', orientation: 'portrait' }
+    //   //this.a.click();
+    //   localStorage.removeItem('xml')
+    //   localStorage.setItem('xml', data)
+    //   this.xmlparam = localStorage.getItem('xml');
 
 
-      };
+    //   const content: Element = document.getElementById('element-to-PDF');
 
-      html2pdf().from(content).set(option).toPdf().output('datauristring').then(function (res) {
-        // console.log(res);
+    //   const option = {
+    //     margin: [0, 0, 0, 0],
+    //     filename: 'F-' + folio + '.pdf',
+    //     image: { type: 'jpeg', quality: 1 },
+    //     html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
+    //     jsPDF: { format: 'letter', orientation: 'portrait' }
 
-        localStorage.setItem('pdf', res);
-      })
-      //  .save()
 
+    //   };
 
+    //   html2pdf().from(content).set(option).toPdf().output('datauristring').then(function (res) {
+    //     // console.log(res);
 
+    //     localStorage.setItem('pdf', res);
+    //   })
+    //   //  .save()
 
 
 
-      this.resetForm();
-      // console.log(this.xmlparam);
 
 
-      return this.fileUrl;
 
-      // console.log(this.fileUrl);
+    //   this.resetForm();
+    //   // console.log(this.xmlparam);
 
 
-    });
+    //   return this.fileUrl;
+
+    //   // console.log(this.fileUrl);
+
+
+    // });
 
 
 
