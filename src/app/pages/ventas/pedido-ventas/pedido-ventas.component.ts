@@ -128,7 +128,7 @@ ObtenerUltimoPedido(){
 
 onEdit(pedido : Pedido){
 
-this.service.formDataP = pedido;
+this.service.formDataPedido = pedido;
 this.service.IdCliente = pedido.IdCliente;
 let Id = pedido.IdPedido;
 localStorage.setItem('IdPedido', Id.toString());
