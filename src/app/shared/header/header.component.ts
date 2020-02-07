@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from 'rxjs';
 import { StorageServiceService } from 'src/app/services/shared/storage-service.service';
 import { Usuario } from 'src/app/Models/catalogos/usuarios-model';
+import { TipoCambioService } from '../../services/tipo-cambio.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -28,7 +29,7 @@ export class HeaderComponent implements OnInit {
   Cdolar: String;
   public usuario: Usuario;
 
-  constructor(private http : HttpClient, private storageService: StorageServiceService) { }
+  constructor(private http : HttpClient, private storageService: StorageServiceService, private tipoCambio:TipoCambioService) { }
 
   ngOnInit() {
     this.tipoDeCambio();
@@ -65,6 +66,7 @@ if (hora>11){
       
       
       this.Cdolar = data.bmx.series[0].datos[l-i].dato;
+      this.tipoCambio.TipoCambio = this.Cdolar;
       
     })
 

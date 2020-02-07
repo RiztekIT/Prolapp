@@ -36,7 +36,7 @@ export class VentasPedidoService {
 
   formData= new Cliente();
   formProd= new Producto();
-  formDataDP = new DetallePedido();
+  formDataDP= new DetallePedido();
   formDataPedido = new Pedido();
   master = new Array<pedidoMaster>();
   Moneda: string;
@@ -98,6 +98,10 @@ export class VentasPedidoService {
   //crear un pedido nuevo (insert)
   addPedido(pedido: Pedido){
     return this.http.post(this.APIUrl + '/Pedido', pedido);
+  }
+
+  addDetallePedido(detalle: DetallePedido){
+    return this.http.post(this.APIUrl + '/Pedido/InsertDetallePedido', detalle );
   }
 
     //Get Detalle Pedido Por ID
