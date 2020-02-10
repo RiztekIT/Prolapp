@@ -19,7 +19,7 @@ import { NativeDateAdapter, MAT_DATE_FORMATS, DateAdapter } from "@angular/mater
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 //Importacion para utilizar Pipe
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, retry } from 'rxjs/operators';
 import { Prefactura } from '../../../../Models/facturacioncxc/prefactura-model';
 import { FoliosService } from '../../../../services/direccion/folios.service';
 
@@ -140,6 +140,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.refreshDetallesFacturaList();
     this.tipoDeCambio();
     // this.onMoneda();
+    // this.localstorage();
 
 
   }
@@ -344,6 +345,31 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.totalDlls = 0;
     this.ivaDlls = 0;
   }
+
+  localstorage(){
+    let id = this.service.formData.UUID
+    let folio = this.service.formData.Folio
+    this.enviarfact.xml(id).subscribe(data => {
+      // console.log(data);
+      localStorage.setItem('xml' + folio, data)
+      this.xmlparam = folio;
+      setTimeout(()=>{
+        const content: Element = document.getElementById('element-to-PDF');
+        const option = {
+          margin: [0, 0, 0, 0],
+          filename: 'F-' + folio + '.pdf',
+          image: { type: 'jpeg', quality: 1 },
+          html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
+          jsPDF: { format: 'letter', orientation: 'portrait' },
+        };
+    
+    
+        html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
+          localStorage.setItem('pdf'+folio, pdfAsString);
+        })
+      },1000)
+  });
+}
 
 
   //Funcion Refresh Tabla Detalles Factura
@@ -955,13 +981,17 @@ export class FacturacioncxcAddComponent implements OnInit {
 
       this.a.click();
       do {
-        this.xmlparam = localStorage.getItem('xml' + folio);
+        this.xmlparam = folio;
         // console.log(this.xmlparam);
 
         if (localStorage.getItem('xml' + folio) != null) {
           // console.log('no nulo');
-          this.xmlparam = localStorage.getItem('xml' + folio);
-          this.onExportClick(this.service.formData.Folio);
+          // this.xmlparam = localStorage.getItem('xml' + folio);
+          this.xmlparam =  folio;
+          setTimeout(()=>{
+            // this.onExportClick(folio);    
+            this.onExportClick(this.service.formData.Folio);
+           },1000)
         }
       }
       while (localStorage.getItem('xml' + folio) == null);
@@ -978,7 +1008,7 @@ export class FacturacioncxcAddComponent implements OnInit {
 
     setTimeout(() => {
       this.loading = false;
-    }, 6000)
+    }, 7000)
 
 
 
@@ -1035,20 +1065,36 @@ export class FacturacioncxcAddComponent implements OnInit {
       filename: 'F-' + folio + '.pdf',
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
-      jsPDF: { format: 'letter', orientation: 'portrait' }
+      jsPDF: { format: 'letter', orientation: 'portrait' },
+      
     };
 
-    html2pdf()
-      .from(content)
-      .set(option)
-      .save();
+    // html2pdf()
+    //   .from(content)
+    //   .set(option)
+    //   .save();
+
+    html2pdf().from(content).set(option).save(); 
+
+    // html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
+    //   console.log(pdfAsString);
+      
+    // })
+    // let pdf =  html2pdf().output(option,content)
+    //.from(content).set(option).save(); 
+    
+    
+   
+
+    
     this.proceso = '';
   }
 
-  myCallback(pdf) {
-    localStorage.setItem('pdf', pdf);
+  // myCallback(pdf) {
+  //   localStorage.setItem('pdf', pdf);
 
-  }
+  // }
+
 
   dpdfxml() {
     this.enviarfact.xml('http://devfactura.in/api/v3/cfdi33/5e06601d92802/xml')
@@ -1139,7 +1185,61 @@ export class FacturacioncxcAddComponent implements OnInit {
   email(id: string, folio: string) {
 
     // let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
-    // this.enviarfact.xml(id).subscribe(data => {
+
+    // localStorage.removeItem('xml'+folio);
+    // localStorage.removeItem('pdf'+folio);
+
+
+    
+    // let pdf =  html2pdf().output(option,content)
+    //.from(content).set(option).save(); 
+    
+    // .pipe(retry())
+    this.enviarfact.xml(id).subscribe(data => {
+        // console.log(data);
+        localStorage.setItem('xml' + folio, data)
+        this.xmlparam = folio;
+        setTimeout(()=>{
+          const content: Element = document.getElementById('element-to-PDF');
+          const option = {
+            margin: [0, 0, 0, 0],
+            filename: 'F-' + folio + '.pdf',
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
+            jsPDF: { format: 'letter', orientation: 'portrait' },
+          };
+      
+      
+          html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
+            localStorage.setItem('pdf'+folio, pdfAsString);
+          })
+        },1000)
+       
+  
+  setTimeout(()=>{
+        let datos;
+        datos={
+          'nombre': 'Ivan Talamantes',
+          'email': 'ivan.talamantes@live.com',
+          'mensaje':'Prueba del correo xml',
+          'asunto': 'Prueba',
+          "folio": folio,
+          "xml": localStorage.getItem('xml'+folio),
+          "pdf": localStorage.getItem('pdf'+folio)
+        }
+        this._MessageService.sendMessage(datos).subscribe(() => {
+          Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
+        });
+      },3000)
+       
+    })
+       
+
+     
+   
+    }
+    
+    
     //   const blob = new Blob([data as BlobPart], { type: 'application/xml' });
     //   // this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
     //   this.fileUrl = window.URL.createObjectURL(blob);
@@ -1204,11 +1304,8 @@ export class FacturacioncxcAddComponent implements OnInit {
 
 
     // console.log('email');
-
-    this._MessageService.sendMessage('form').subscribe(() => {
-      Swal.fire("Form Enviado", "Mensaje enviado correctamente", "success");
-    });
-  }
+   
+  
 
 
 
