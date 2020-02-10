@@ -338,8 +338,8 @@ import { ShowVendedorComponent } from './administracion/catalogos/vendedores/sho
         AddVendedorComponent,
         EditVendedorComponent,
         ShowVendedorComponent,
-        ShowEmpresaComponent
-
+        ShowEmpresaComponent,
+        AddEmpresaComponent
     ]
 })
 export class PagesModule { }

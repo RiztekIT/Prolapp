@@ -16,7 +16,7 @@ export class EmpresaService {
 
   constructor(private http:HttpClient) { }
 
-  formData: Empresa;
+  formData = new Empresa();
 
   EmpresaFoto: Empresa;
 
@@ -36,6 +36,11 @@ export class EmpresaService {
    
       return this.http.put( APIUrl + '/Empresa/EditarEmpresaFoto', empresa)
     }
+  
+  addEmpresa(empresa: Empresa){
+
+    return this.http.post(APIUrl + '/empresa', empresa )
+  }
 
 
   private _listeners = new Subject<any>(); 
