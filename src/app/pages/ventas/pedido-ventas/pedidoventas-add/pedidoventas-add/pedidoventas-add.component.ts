@@ -156,7 +156,7 @@ ProductoPrecioMXN: number;
 ProductoPrecioDLLS: number;
 //TipoCambio
 TipoCambio: any;
-//IdProducto
+//Clave Producto
 ClaveProducto: string;
 
   //Valores de Totales
