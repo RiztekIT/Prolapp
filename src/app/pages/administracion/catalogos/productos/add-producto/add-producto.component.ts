@@ -69,7 +69,8 @@ public listUM: Array<any> = [];
       Estatus: '',
       UnidadMedida: '',
       IVA: '',
-      ClaveSAT: ''
+      ClaveSAT: '',
+      Categoria: ''
     }
 
   }

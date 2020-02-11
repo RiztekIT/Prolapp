@@ -134,7 +134,7 @@
                                         <div class="col-6">
 
                                             <mat-form-field class="example-full-width">
-                                                <input type="text" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formDataDP.Unidad" (focus)="unidadMedida()">
+                                                <input type="text" autocomplete="off" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formDataDP.Unidad" (focus)="unidadMedida()">
                                                 <mat-autocomplete #autoUnidad="matAutocomplete">
                                                     <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.key">
                                                         {{option.key}} {{option.name}}
@@ -172,6 +172,7 @@
                                                     <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImporteP" [ngModel]=" MonedaBoolean ==  true ? importeP : importePDLLS | currency">
                                                 </div>
                                             </div>
+
                                         </div>
                                         <div *ngIf="Cantidad > 0">
                                             <button class="btn btn-dark" (click)="onAddProducto(DetallePedidoForm)">Agregar Producto</button>

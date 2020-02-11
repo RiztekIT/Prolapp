@@ -1,3 +1,13 @@
+<mat-card class="mat-elevation-z0">
+    <div class="row">
+        <div class="col-4">
+            <button class="btn btn-primary" (click)="onAdd()" color="primary"><i class="mdi mdi-plus btn-lg"></i>Nueva Empresa</button>
+            <!-- <button class="btn btn-primary" (click)="crearapi()" color="primary"><i class="mdi mdi-plus btn-lg"></i>Crear Clientes</button> -->
+        </div>
+    </div>
+
+</mat-card>
+
 <div style="overflow:auto;">
 
     <table mat-table [dataSource]="listData" matSort>
