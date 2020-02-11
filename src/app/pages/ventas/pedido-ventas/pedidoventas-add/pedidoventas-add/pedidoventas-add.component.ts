@@ -417,7 +417,16 @@ this.service.addDetallePedido(this.service.formDataDP).subscribe(res =>{
   SumarStock( Cantidad: string, ClaveProducto: string){
 
 
-  
+  this.service.GetProductoDetalleProducto(ClaveProducto).subscribe( data =>{
+    console.log(data[0]);
+    let stock = data[0].Stock;
+    console.log(stock);
+    stock = (+stock) + (+Cantidad);
+    console.log(stock);
+    this.service.updateStockProduto(ClaveProducto, stock.toString()).subscribe(res =>{
+console.log(res);
+    });
+  })
 
 
   }
