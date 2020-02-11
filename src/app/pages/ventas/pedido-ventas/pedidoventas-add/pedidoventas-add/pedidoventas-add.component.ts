@@ -156,6 +156,8 @@ ProductoPrecioMXN: number;
 ProductoPrecioDLLS: number;
 //TipoCambio
 TipoCambio: any;
+//IdProducto
+ClaveProducto: string;
 
   //Valores de Totales
   subtotal: any;
@@ -240,6 +242,7 @@ TipoCambio: any;
       this.service.formProd = options2;
      this.PStock = this.service.formProd.Stock;
      this.ProductoPrecio = +this.service.formProd.PrecioVenta;
+      this.ClaveProducto = this.service.formProd.ClaveProducto;
      console.log(+this.PStock + " STOCKKKK");
     }
   }
@@ -389,7 +392,7 @@ this.service.GetDetallePedidoId(this.IdPedido).subscribe(data =>{
 this.service.addDetallePedido(this.service.formDataDP).subscribe(res =>{
   console.log(res);
   //Restar el Stock
-  this.CalcularStock();
+  this.RestarStock();
   this.refreshDetallesPedidoList();
   this.IniciarTotales();
   form.resetForm();
@@ -398,11 +401,23 @@ this.service.addDetallePedido(this.service.formDataDP).subscribe(res =>{
 
   }
 
-  //Metodo para restar el Stock
-  CalcularStock(){
+  //Metodo para restar Stock Producto
+  RestarStock(){
+    let stock = this.PStock - +this.service.formDataDP.Cantidad;
+    let id = this.ClaveProducto;
+    console.log(stock + '-----' + id);
+    this.service.updateStockProduto(id, stock.toString()).subscribe(res =>{
+    console.log(res);
+    });
+  }
 
-   
-    
+
+  //Metodo para sumar Stock Producto
+  SumarStock( Cantidad: string, ClaveProducto: string){
+
+
+  
+
 
   }
 
@@ -462,8 +477,9 @@ this.service.addDetallePedido(this.service.formDataDP).subscribe(res =>{
   console.log(this.service.formProd);
   }
 
-  onDeleteDetalleProducto(id: number){
-    this.service.onDeleteDetallePedido(id).subscribe(res =>{
+  onDeleteDetalleProducto(dp: DetallePedido){
+    this.service.onDeleteDetallePedido(dp.IdDetallePedido).subscribe(res =>{
+      this.SumarStock(dp.Cantidad, dp.ClaveProducto);
       this.refreshDetallesPedidoList();
     })
   }

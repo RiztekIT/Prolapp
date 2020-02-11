@@ -115,7 +115,7 @@ export class VentasPedidoService {
   }
 
   //Actualizar stock tabla producto
-  updateStockProduto(id: number, stock: string){
+  updateStockProduto(id: string, stock: string){
     return this.http.put(this.APIUrl + '/Pedido/EditStockProducto/' + id +'/'+ stock, null);
   }
 
