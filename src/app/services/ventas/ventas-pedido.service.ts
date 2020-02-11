@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Cliente } from '../../Models/catalogos/clientes-model';
 import { Producto } from "../../Models/catalogos/productos-model";
-import { DetallePedido } from "../../Models/Pedidos/detallePedido-model";
+import { DetallePedido } from '../../Models/Pedidos/detallePedido-model';
 import {Observable,Subject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Pedido } from '../../Models/Pedidos/pedido-model';
@@ -104,10 +104,14 @@ export class VentasPedidoService {
     return this.http.post(this.APIUrl + '/Pedido/InsertDetallePedido', detalle );
   }
 
-    //Get Detalle Pedido Por ID
-    GetDetallePedidoId(id:number): Observable<any>{
-      return this.http.get<DetallePedido[]>(this.APIUrl + '/pedido/DetallePedidoId/' + id)
-    }
+  //Get Detalle Pedido Por ID
+  GetDetallePedidoId(id:number): Observable<any>{
+    return this.http.get<DetallePedido[]>(this.APIUrl + '/pedido/DetallePedidoId/' + id)
+  }
+  
+  GetProductoDetalleProducto(claveProducto:string): Observable<any>{
+    return this.http.get<any>(this.APIUrl + '/pedido/ProductoDetalleProducto/' + claveProducto)
+  }
   
 
   onDelete(id:number){

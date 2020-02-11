@@ -38,6 +38,7 @@ export class PedidoventasAddComponent implements OnInit {
   myControlUnidad = new FormControl();
   optionsUnidad = ['Pieza'];
   um: boolean;
+  ProductoSelect = 0;
 
 
   ngOnInit() {
@@ -405,8 +406,28 @@ this.service.GetDetallePedidoId(this.IdPedido).subscribe(data =>{
     }
   }
 
-  OnEditProducto(){
-  console.log(this.service.formProd);
+
+  //Al Click en Edit va a buscar el JN y traer DP y Pedido para llenar los campos a editar
+  OnEditProducto(dp: DetallePedido){
+    this.service.GetProductoDetalleProducto(dp.ClaveProducto).subscribe(data =>{
+      console.log(data[0]);
+      this.ProductoSelect = data[0].IdProducto;
+      console.log(this.ProductoSelect);
+      this.service.formProd.Nombre = data[0].Nombre;
+      this.service.formProd.PrecioCosto = data[0].PrecioCosto;
+      this.Cantidad = data[0].Cantidad;
+      this.service.formDataPedido.Moneda = data[0].Moneda;
+      this.service.formProd.ClaveProducto = data[0].ClaveProducto ;
+      this.service.formDataDP.Unidad = data[0].Unidad ;
+      this.service.formProd.Stock = data[0].Stock ;
+      this.service.formProd.DescripcionProducto = data[0].DescripcionProducto ;
+      this.service.formProd.Estatus = data[0].Estatus ;
+      this.service.formProd.IVA = data[0].IVA ;
+      this.service.formProd.ClaveSAT = data[0].ClaveSAT ;
+      this.service.formDataDP.Observaciones = data[0].Observaciones ;
+      this.service.formDataDP.TextoExtra = data[0].TextoExtra ;
+    })
+
   }
 
 crearPedido(){
