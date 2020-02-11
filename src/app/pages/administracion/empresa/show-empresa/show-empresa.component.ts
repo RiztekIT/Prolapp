@@ -122,16 +122,11 @@ export class ShowEmpresaComponent implements OnInit {
 
 
   cambiarImagen(){
-
     // console.log(this.fotoSubir);
-    
-    
     this.service.formData.Foto = this.fotoSubir
     console.log(this.service.formData);
-    
 
     this.service.updateEmpresaFoto(this.service.formData).subscribe(resp =>{
-
       console.log(resp)
         Swal.fire({
         icon: 'success',

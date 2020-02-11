@@ -111,6 +111,13 @@
                         <div class="text-left text-danger" *ngIf="ClaveSAT.invalid && ClaveSAT.touched">
                             Favor de Ingresar Clave SAT
                         </div>
+
+                        <label class="input-group-text text-info">Categoria</label>
+                        <input required minlength="2" type="text" placeholder="Escribe la Categoria" class="form-control" name="Categoria" #Categoria="ngModel" [(ngModel)]="service.formData.Categoria">
+
+                        <div class="text-left text-danger" *ngIf="Categoria.invalid && Categoria.touched">
+                            Favor de Ingresar Categoria
+                        </div>
                     </div>
                 </div>
             </div>
