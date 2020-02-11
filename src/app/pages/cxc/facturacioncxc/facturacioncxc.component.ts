@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 import { facturaMasterDetalle } from 'src/app/Models/facturacioncxc/facturamasterdetalle';
 
 import Swal from 'sweetalert2';
+import { MessageService } from 'src/app/services/message.service';
 
 
 @Component({
@@ -53,7 +54,7 @@ export class FacturacioncxcComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   // @ViewChild('tabla', null) tabla: MatTable<any>;
 
-  constructor(private service:FacturaService, private dialog: MatDialog, private snackBar: MatSnackBar, private router:Router, public enviarfact: EnviarfacturaService) {
+  constructor(private service:FacturaService, private dialog: MatDialog, private snackBar: MatSnackBar, private router:Router, public enviarfact: EnviarfacturaService, public _MessageService: MessageService) {
   
     this.service.listen().subscribe((m:any)=>{
       // console.log(m);
@@ -494,6 +495,59 @@ pdf(id: string, folio:string){
      
      
     });
+}
+
+email(id: string, folio:string){
+  // let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
+
+    // localStorage.removeItem('xml'+folio);
+    // localStorage.removeItem('pdf'+folio);
+
+
+    
+    // let pdf =  html2pdf().output(option,content)
+    //.from(content).set(option).save(); 
+    
+    // .pipe(retry())
+    this.enviarfact.xml(id).subscribe(data => {
+      // console.log(data);
+      localStorage.setItem('xml' + folio, data)
+      this.xmlparam = folio;
+      setTimeout(()=>{
+        const content: Element = document.getElementById('element-to-PDF');
+        const option = {
+          margin: [0, 0, 0, 0],
+          filename: 'F-' + folio + '.pdf',
+          image: { type: 'jpeg', quality: 1 },
+          html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
+          jsPDF: { format: 'letter', orientation: 'portrait' },
+        };
+    
+    
+        html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
+          localStorage.setItem('pdf'+folio, pdfAsString);
+        })
+      },1000)
+     
+
+setTimeout(()=>{
+      let datos;
+      datos={
+        'nombre': 'Ivan Talamantes',
+        'email': 'ivan.talamantes@live.com',
+        'mensaje':'Prueba del correo xml',
+        'asunto': 'Prueba',
+        "folio": folio,
+        "xml": localStorage.getItem('xml'+folio),
+        "pdf": localStorage.getItem('pdf'+folio)
+      }
+      this._MessageService.sendMessage(datos).subscribe(() => {
+        Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
+      });
+    },3000)
+     
+  })
+
 }
 
 ngOnChanges(changes: SimpleChanges): void {

@@ -11,5 +11,6 @@ export class Producto {
     UnidadMedida: string;
     IVA: string;
     ClaveSAT: string;
+    Categoria: string;
 
 }

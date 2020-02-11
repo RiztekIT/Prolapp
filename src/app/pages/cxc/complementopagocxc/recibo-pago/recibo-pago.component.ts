@@ -3,7 +3,7 @@ import { ReciboPagoService } from '../../../../services/complementoPago/recibo-p
 import { Router } from '@angular/router';
 import { NgForm, FormControl } from '@angular/forms';
 import { ReciboPago } from '../../../../Models/ComplementoPago/recibopago';
-import { Observable, empty } from 'rxjs';
+import { Observable, empty, timer } from 'rxjs';
 import { Cliente } from 'src/app/Models/catalogos/clientes-model';
 //Importacion Angular Material Tables and Sort
 import { MatTableDataSource, MatSort } from '@angular/material';
@@ -82,6 +82,10 @@ export class ReciboPagoComponent implements OnInit {
   NoParcialidad: string;
   //TRUE = NUEVO RECIBO PAGO - FALSE = NO NUEVO RECIBO PAGO
   Nuevo: boolean;
+   //Arreglo de los pagosCFDI
+   CFDI: any;
+   //Total de la Factura
+   Total: any;
 
 
 
@@ -159,6 +163,7 @@ this.Nuevo  = true;
 
   //Lista Facturas por IdClient
   dropdownRefresh2(idCliente) {
+    this.options2 = [];
     //Checar si hay PAGOS CFDI
     console.log(this.Nuevo + 'VARIABLE NUEVOOOOOOOOO');
     // this.service.getReciboPagosCFDI(this.IdReciboPago).subscribe(data => {
@@ -218,7 +223,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
 
   refreshPagoCFDITList(){
     this.service.getReciboPagosCFDI(this.IdReciboPago).subscribe(data => {
-      // console.log(data);
+      console.log(data);
          if (data.length > 0){
            this.Saldo = 0;
            for (let i=0; i<data.length; i++){
@@ -237,6 +242,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
       }else{
         // console.log('No hay valores');
         this.Saldo = +this.service.formData.Cantidad;
+
+        this.dropdownRefresh2(this.service.formData.IdCliente);
       }
       console.log(this.Saldo);
     });
@@ -274,8 +281,10 @@ console.log('NUEVO CFDIIIIIIIIIII');
 
   }
   onBlurCliente(){
+    console.log(this.service.formData);
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
       console.log(data);
+      console.log(this.service.formData);
     })
   }
 
@@ -311,7 +320,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
 
   onChangeCantidad(Cantidad: Event) {
     this.Cantidad = +Cantidad;
-    this.refreshPagoCFDITList();
+    // this.refreshPagoCFDITList();
   }
 
 
@@ -389,18 +398,42 @@ console.log('NUEVO CFDIIIIIIIIIII');
     dialogConfig.width="70%";
     this.dialog.open(PagoCFDIEditComponent, dialogConfig);
 
-    // this.service.formDataPagoCFDI.IdFactura = pagoCFDI.Id;
-    // this.CantidadF = pagoCFDI.Cantidad;
-    // this.onChangeCantidadF(this.CantidadF);
-    // this.CalcularSP();
-
   }
-  //Calcular Saldos Pendientes de los Pagos de CFDI
-  CalcularSP(){
+   //Obtener el total de la factura
+   getTotal(id){
+    //Obtener el total de la Factura
+    this.service.getTotalFactura(id).subscribe(data => {
+     this.Total = data[0].Total
+   });
+     }
 
-  }
   //Eliminar PagoCFDI
-  onDeletePagoCFDI() {
+  onDeletePagoCFDI(CFDI: any) {
+    this.getTotal(CFDI.IdFactura);
+    console.log(CFDI);
+    //Borrar pagoCFDI
+    this.service.deletePagoCFDI(CFDI.Id).subscribe(res =>{
+    console.log(res);
+
+    this.service.getPagoCFDIFacturaID(CFDI.IdFactura).subscribe(data => {
+      this.CFDI = data;
+      let SaldoP = this.Total
+      let NoP = 0
+      for (let i=0; i<data.length; i++){
+        this.CFDI[i].Saldo = SaldoP - +this.CFDI[i].Cantidad;
+        SaldoP = SaldoP - +this.CFDI[i].Cantidad;
+        NoP = NoP + 1
+        this.CFDI[i].NoParcialidad = NoP.toString();
+        this.service.updatePagoCFDI(this.CFDI[i]).subscribe(res =>{
+         console.log(res);
+        });
+       }
+       console.log(this.CFDI);
+      });
+
+    this.refreshPagoCFDITList();
+
+    });
 
   }
 
@@ -411,25 +444,31 @@ console.log('NUEVO CFDIIIIIIIIIII');
         this.service.formDataPagoCFDI.NoParcialidad = '1';
       }else{
         console.log('PACIALIDAD EXISTENTE');
-        this.service.formDataPagoCFDI.NoParcialidad = data[0].NoParcialidad;
+        this.service.formDataPagoCFDI.NoParcialidad = data[0].NoParcialidad.toString();
       }
     })
   }
+
+  //Metodo que se activara cuando se alla deja de manipular el campo Folio Factua
+  onBlurFolio(){
+    this.ObtenerNoParcialidad();
+   console.log(this.service.formDataPagoCFDI);
+  }
   
   onAddCFDI() {
-    this.ObtenerNoParcialidad();
+    // this.ObtenerNoParcialidad();
     this.Saldo = this.Saldo - this.CantidadF;
     this.service.formDataPagoCFDI.IdReciboPago = this.IdReciboPago;
     this.service.formDataPagoCFDI.IdFactura = this.IdFactura;
     this.service.formDataPagoCFDI.UUID = "";
     this.service.formDataPagoCFDI.Cantidad = this.CantidadF.toString();
-    this.service.formDataPagoCFDI.NoParcialidad = this.NoParcialidad;
+    // this.service.formDataPagoCFDI.NoParcialidad = this.NoParcialidad;
     this.service.formDataPagoCFDI.Saldo = this.SaldoNuevo.toString();
-    // console.log(this.service.formDataPagoCFDI);
+    console.log(this.service.formDataPagoCFDI);
       this.service.addPagoCFDI(this.service.formDataPagoCFDI).subscribe(res =>{
-        this.refreshPagoCFDITList();
+        this.options2 = [];
         this.CleanPagoCFDI();
-        // this.dropdownRefresh2(this.service.formData.IdCliente);
+        this.refreshPagoCFDITList();
         console.log(res);
       })
     

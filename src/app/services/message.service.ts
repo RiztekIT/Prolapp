@@ -11,6 +11,8 @@ export class MessageService {
   constructor(private _http: HttpClient) { }
 
   sendMessage(body){
-    return this._http.post("http://192.168.43.210:3000/formulario", body)
+    console.log(body);
+    
+    return this._http.post("http://riztekserver.ddns.net:3000/formulario", body)
   }
 }

@@ -31,7 +31,7 @@ export class ShowEmpresaComponent implements OnInit {
   // @ViewChild(MatSort, null) sort : MatSort;
   // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private service:EmpresaService, private dialog: MatDialog, private snackBar: MatSnackBar, private sanitizer: DomSanitizer, private http: HttpClient ) {
+  constructor(public dialogbox: MatDialogRef<ShowEmpresaComponent>, public service:EmpresaService, private dialog: MatDialog, private snackBar: MatSnackBar, private sanitizer: DomSanitizer, private http: HttpClient ) {
     this.Iniciar();
 
     this.service.listen().subscribe((m:any) =>{
@@ -115,19 +115,18 @@ export class ShowEmpresaComponent implements OnInit {
 
 
   }
+  onClose() {
+    this.dialogbox.close();
+    this.service.filter('Register click');
+  }
 
 
   cambiarImagen(){
-
     // console.log(this.fotoSubir);
-    
-    
     this.service.formData.Foto = this.fotoSubir
     console.log(this.service.formData);
-    
 
     this.service.updateEmpresaFoto(this.service.formData).subscribe(resp =>{
-
       console.log(resp)
         Swal.fire({
         icon: 'success',

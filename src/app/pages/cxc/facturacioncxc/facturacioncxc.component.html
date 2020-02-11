@@ -3,6 +3,8 @@
         <div class="card">
             <div class="card-body">
 
+                <app-folios></app-folios>
+
                 <h2 style="text-align: center;">Facturacion</h2>
                 <div fxLayoutAlign="row">
                     <mat-card style="text-align: right;" class="mat-elevation-z0">
@@ -145,9 +147,13 @@
                       <mat-icon>picture_as_pdf</mat-icon>
 
                     </button>
-                                        <!-- Enviar -->
+                                        <!-- XML -->
                                         <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="xml(row.UUID,row.Folio)">
                       <mat-icon>code</mat-icon>
+                    </button>
+                                        <!-- ENVIAR -->
+                                        <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="email(row.UUID,row.Folio)">
+                      <mat-icon>alternate_email</mat-icon>
                     </button>
                                         <!-- XML -->
                                         <!-- <button mat-icon-button class="btn btn-dark" (click)="onDelete(row.Id)">

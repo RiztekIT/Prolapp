@@ -30,6 +30,9 @@ export class ClientesService {
   addCliente(cliente: Cliente) {
     return this.http.post(this.APIUrl + '/cliente', cliente);
  }
+  addVendedor(vendedor: Vendedor) {
+    return this.http.post(this.APIUrl + '/vendedor', vendedor);
+ }
 
  deleteCliente(id:number) {
    return this.http.delete(this.APIUrl + '/cliente/' + id);

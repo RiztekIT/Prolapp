@@ -176,9 +176,9 @@
                                     <label class="input-group-text text-info">Moneda</label>
 
                                     <select class="form-control" name="Moneda" #Moneda="ngModel" (change)="MonedaSelected($event)" [(ngModel)]="service.formData.Moneda" required>
-                    <option [ngValue]="null" selected disabled>Seleccionar Moneda</option>
-                    <option *ngFor="let dl of listMoneda" [ngValue]="dl.Moneda"> {{dl.Moneda}} </option>
-                  </select>
+                                        <option [ngValue]="null" selected disabled>Seleccionar Moneda</option>
+                                        <option *ngFor="let dl of listMoneda" [ngValue]="dl.Moneda"> {{dl.Moneda}} </option>
+                                    </select>
 
                                     <!-- <input required minlength="2" type="string" class="form-control" name="Moneda" #Moneda="ngModel" [(ngModel)]="service.formData.Moneda"> -->
 
@@ -353,8 +353,8 @@
                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='cancelar(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
                         class="mdi mdi-candle btn-lg"></i>Cancelar</button>
                             <br>
-                            <button class="btn btn-info btn-lg" mat-raised-button style="display: none" mat-raised-button color="primary" type="button" (click)='email(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
-                        class="mdi mdi-content-save btn-lg"></i>Enviar</button>
+                            <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='email(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
+                        class="mdi mdi-email btn-lg"></i>Enviar</button>
 
                             <!-- <button type="button" class="btn btn-secondary">No Editable</button> -->
                             <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">

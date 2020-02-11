@@ -131,6 +131,12 @@
                         <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
                             Favor de Ingresar Cantidad.
                         </div>
+
+                        <label class="input-group-text text-info">Categoria</label>
+                        <input required minlength="0" type="number" class="form-control" name="Categoria" #Categoria="ngModel" [(ngModel)]="service.formData.Categoria">
+                        <div class="text-left text-danger" *ngIf="Categoria.invalid && Categoria.touched">
+                            Favor de Ingresar Cantidad.
+                        </div>
                     </div>
                     <br>
                     <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Actualizar Producto</button>

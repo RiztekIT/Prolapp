@@ -10,4 +10,6 @@ export class DetallePedido{
     Importe: string;
     Observaciones: string;
     TextoExtra: string;
+    PrecioUnitarioDlls: string;
+    ImporteDlls: string;
 }

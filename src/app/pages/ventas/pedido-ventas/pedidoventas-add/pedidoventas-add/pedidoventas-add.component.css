@@ -1,0 +1,13 @@
+::ng-deep .mat-form-field {
+    width: 100% !important;
+}
+
+::ng-deep .mat-header-cell {
+    color: #ffffff;
+    background: #000000;
+}
+
+.borderbox {
+    border: 3px solid grey;
+    padding: 10px;
+}

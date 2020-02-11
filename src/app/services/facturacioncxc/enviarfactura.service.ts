@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Factura } from '../../Models/facturacioncxc/factura-model';
-import { Observable } from 'rxjs';
+import { Observable, observable, throwError, Subscriber } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import xml2js from 'xml2js';
 
@@ -70,6 +70,29 @@ export class EnviarfacturaService {
 
 
     return this.http.get(rootURLxml,httpOptions2);
+    // let fileUrl:any;
+    // const blob = new Blob([], { type: 'application/octet-stream' });    
+  }
+  xmlemail(url:string,folio:string): Observable<any>{
+
+    let obs = new Observable((observer) =>{
+      // console.log('entrar al obs');
+      
+    console.log(localStorage.getItem('pdf'+folio));
+    
+      // let rootURLxml = "/api/v3/cfdi33/31ddcc3e-31cb-4dd0-bfdf-546ce903bd2b/xml"
+      if (localStorage.getItem('pdf'+folio)!=null){
+        let rootURLxml = "/api/v3/cfdi33/"+ url  +"/xml";
+        observer.next(this.http.get(rootURLxml,httpOptions2));
+        // return 
+      }else{
+        observer.error('error');
+        // return throwError('error'); 
+      }
+    })
+
+    return obs;
+    
     // let fileUrl:any;
     // const blob = new Blob([], { type: 'application/octet-stream' });    
   }

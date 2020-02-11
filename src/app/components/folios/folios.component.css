@@ -1,0 +1,42 @@
+.txtal {
+    text-align: center;
+}
+
+.colorfecha {
+    background-color: rgb(250, 131, 51);
+}
+
+.foliodang {
+    background-color: rgb(255, 13, 13);
+}
+
+.colorfolio {
+    background-color: rgb(23, 143, 53);
+}
+
+.txtinside {
+    text-align: center;
+    padding-top: 3%;
+}
+
+.col-md-2 {
+    padding-right: 10px;
+}
+
+.img-fluid {
+    max-width: 70px;
+    min-width: 70px;
+}
+
+html,
+body {
+    font-size: 14px !important;
+}
+
+h3 {
+    font-size: 1.266em;
+}
+
+h4 {
+    font-size: 1.125em;
+}

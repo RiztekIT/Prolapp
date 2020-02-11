@@ -73,6 +73,17 @@ export class ShowVendedorComponent implements OnInit {
 
   }
 
+  
+  onAdd(){
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(AddVendedorComponent, dialogConfig);
+
+  }
+
   onEdit(vendedor: Vendedor){
     // console.log(usuario);
     this.service.formDataV = vendedor;
