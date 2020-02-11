@@ -15,6 +15,8 @@ import { Usuario } from '../../../../../Models/catalogos/usuarios-model';
 import { DataRowOutlet } from '@angular/cdk/table';
 import { TipoCambioService } from '../../../../../services/tipo-cambio.service';
 import { EnviarfacturaService } from '../../../../../services/facturacioncxc/enviarfactura.service';
+import { ProductosService } from '../../../../../services/catalogos/productos.service';
+
 
 @Component({
   selector: 'app-pedidoventas-add',
@@ -25,8 +27,9 @@ export class PedidoventasAddComponent implements OnInit {
   dialogbox: any;
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
-    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService) { }
+    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService) { }
   
+
 
   isLinear = false;
   firstFormGroup: FormGroup;
@@ -48,6 +51,7 @@ export class PedidoventasAddComponent implements OnInit {
     this.dropdownRefresh2();
     this.refreshDetallesPedidoList();
     this.IniciarTotales();
+    this.service.formProd = new Producto();
     
 
     this.firstFormGroup = this._formBuilder.group({
@@ -127,7 +131,10 @@ export class PedidoventasAddComponent implements OnInit {
   filteredOptions2: Observable<any[]>;
   listClientes: Cliente[] = [];
   listProducts: Producto[] = [];
+  //Variable Moneda
   Moneda: string;
+  //Boolean Moneda
+  MonedaBoolean: boolean;
   
   precioUnitarioF;
   //IdPedido
@@ -143,11 +150,15 @@ valores: boolean;
 //Importe Producto
 importeP: number;
 importePDLLS: number;
-//Precio del Producto
+//Precio producto general
 ProductoPrecio: number;
+//Precio del Producto MXN y DLLS
+ProductoPrecioMXN: number;
 ProductoPrecioDLLS: number;
 //TipoCambio
 TipoCambio: any;
+//Clave Producto
+ClaveProducto: string;
 
   //Valores de Totales
   subtotal: any;
@@ -232,6 +243,7 @@ TipoCambio: any;
       this.service.formProd = options2;
      this.PStock = this.service.formProd.Stock;
      this.ProductoPrecio = +this.service.formProd.PrecioVenta;
+      this.ClaveProducto = this.service.formProd.ClaveProducto;
      console.log(+this.PStock + " STOCKKKK");
     }
   }
@@ -246,6 +258,8 @@ TipoCambio: any;
   this.service.formDataPedido;
   this.service.formDataDP;
 
+  // form.resetForm();
+
   //Obtener Tipo Cambio
   this.TipoCambio = this.serviceTipoCambio.TipoCambio;
   console.log('TIPO CAMBIO = ' + this.TipoCambio);
@@ -256,7 +270,13 @@ TipoCambio: any;
   this.service.getPedidoId(this.IdPedido).subscribe( data =>{
     console.log(data);
     this.service.formDataPedido = data[0];
-    this.Moneda = this.service.formDataPedido.Moneda
+    this.Moneda = this.service.formDataPedido.Moneda;
+    if(this.Moneda == 'MXN'){
+      this.MonedaBoolean = true;
+
+    }else{
+  this.MonedaBoolean = false;
+    }
     console.log(this.service.formDataPedido);
     this.service.GetCliente(data[0].IdCliente).subscribe(data => {
       // console.log(data);
@@ -275,8 +295,19 @@ TipoCambio: any;
   MonedaSelected(event: any) {
     // console.log(event);
     this.Moneda = event.target.selectedOptions[0].text;
+    if(this.Moneda == 'MXN'){
+      this.MonedaBoolean = true;
+
+    }else{
+  this.MonedaBoolean = false;
+    }
     // console.log(this.Moneda);
-    this.service.Moneda = this.Moneda;
+    this.service.formDataPedido.Moneda = this.Moneda;
+    // console.log(this.service.formDataPedido);
+this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res =>{
+  console.log(res);
+})
+    // this.service.Moneda = this.Moneda;
     // console.log(this.service.Moneda);
   }
 
@@ -346,12 +377,12 @@ this.service.GetDetallePedidoId(this.IdPedido).subscribe(data =>{
 })
   }
 
-  onAddProducto(){
+  onAddProducto(form : NgForm){
     this.service.formDataDP.IdPedido = this.IdPedido;
     this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto;
     this.service.formDataDP.Producto = this.service.formProd.Nombre;
     this.service.formDataDP.Unidad = this.service.formProd.UnidadMedida;
-    this.service.formDataDP.PrecioUnitario = this.ProductoPrecio.toString();
+    this.service.formDataDP.PrecioUnitario = this.ProductoPrecioMXN.toString();
     this.service.formDataDP.PrecioUnitarioDlls = this.ProductoPrecioDLLS.toString();
     this.service.formDataDP.Cantidad = this.Cantidad.toString();
     this.service.formDataDP.Importe = this.importeP.toString();
@@ -359,43 +390,62 @@ this.service.GetDetallePedidoId(this.IdPedido).subscribe(data =>{
 
     console.log(this.service.formDataDP);
     
-// this.service.addDetallePedido(this.service.formDataDP).subscribe(res =>{
-//   console.log(res);
-//   this.refreshDetallesPedidoList();
-//   this.IniciarTotales();
-// })
+this.service.addDetallePedido(this.service.formDataDP).subscribe(res =>{
+  console.log(res);
+  //Restar el Stock
+  this.RestarStock();
+  this.refreshDetallesPedidoList();
+  this.IniciarTotales();
+  form.resetForm();
+})
 
 
   }
+
+  //Metodo para restar Stock Producto
+  RestarStock(){
+    let stock = this.PStock - +this.service.formDataDP.Cantidad;
+    let id = this.ClaveProducto;
+    console.log(stock + '-----' + id);
+    this.service.updateStockProduto(id, stock.toString()).subscribe(res =>{
+    console.log(res);
+    });
+  }
+
+
+  //Metodo para sumar Stock Producto
+  SumarStock( Cantidad: string, ClaveProducto: string){
+
+
+  
+
+
+  }
+
 //On change Cantidad 
   onChangeCantidadP(cantidad: Event){
-    console.log(cantidad);
+    // console.log(cantidad);
     let elemHTML: any = document.getElementsByName('Cantidad')[0];
-    //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
-    this.calcularImportePedido(cantidad);
+    this.validarStock(cantidad);
     elemHTML.value = this.Cantidad;
-    console.log(this.Cantidad);
-    console.log(this.ProductoPrecio);
-    if(this.Moneda == 'MXN'){
-  console.log('LA MONEDA ES MXN');
-  this.importeP = this.Cantidad * +this.ProductoPrecio;
-}else{
-  console.log('LA MONEDA ES USD');
-  
-    }
+    //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
+    this.calcularImportePedido();
+    // console.log(this.Cantidad);
+    // console.log(this.ProductoPrecio);
+   
   }
   //On change Precio
   onChangePrecio(precio: Event){
-    console.log(precio);
+    // console.log(precio);
     let elemHTML: any = document.getElementsByName('PrecioCosto')[0];
     // //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
     elemHTML.value = +this.ProductoPrecio;
-    this.importeP = this.Cantidad * +this.ProductoPrecio;
+    this.calcularImportePedido();
   }
 
-  calcularImportePedido(cantidad: any){
-   
-    if( +cantidad > +this.PStock ){
+  validarStock( cantidad: any){
+    console.log(cantidad +' CANTIDAD');
+    if( +cantidad >= +this.PStock ){
       this.Cantidad = this.PStock.toString();
     }
     if(+cantidad < 0){
@@ -426,8 +476,33 @@ this.service.GetDetallePedidoId(this.IdPedido).subscribe(data =>{
       this.service.formProd.ClaveSAT = data[0].ClaveSAT ;
       this.service.formDataDP.Observaciones = data[0].Observaciones ;
       this.service.formDataDP.TextoExtra = data[0].TextoExtra ;
-    })
+    })}
 
+  calcularImportePedido(){
+   
+    if(this.Moneda == 'MXN'){
+      console.log('LA MONEDA ES MXN');
+      this.ProductoPrecioMXN = +this.ProductoPrecio;
+      this.ProductoPrecioDLLS = +this.ProductoPrecio / this.TipoCambio;
+      this.importeP = this.Cantidad * +this.ProductoPrecio;
+      this.importePDLLS = this.Cantidad * (+this.ProductoPrecio / this.TipoCambio);
+    }else{
+      console.log('LA MONEDA ES USD');
+      this.ProductoPrecioDLLS = +this.ProductoPrecio;
+      this.ProductoPrecioMXN = +this.ProductoPrecio * this.TipoCambio;
+      this.importePDLLS = this.Cantidad * +this.ProductoPrecio;
+      this.importeP = this.Cantidad * (+this.ProductoPrecio * this.TipoCambio); 
+        }
+
+  }
+
+
+
+  onDeleteDetalleProducto(dp: DetallePedido){
+    this.service.onDeleteDetallePedido(dp.IdDetallePedido).subscribe(res =>{
+      this.SumarStock(dp.Cantidad, dp.ClaveProducto);
+      this.refreshDetallesPedidoList();
+    })
   }
 
 crearPedido(){

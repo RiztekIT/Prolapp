@@ -118,6 +118,16 @@ export class VentasPedidoService {
     return this.http.delete(this.APIUrl + '/Pedido/' + id);
   }
 
+  //Actualizar stock tabla producto
+  updateStockProduto(id: string, stock: string){
+    return this.http.put(this.APIUrl + '/Pedido/EditStockProducto/' + id +'/'+ stock, null);
+  }
+
+  //Eliminar Detalle Pedido
+  onDeleteDetallePedido(id: number){
+    return this.http.delete(this.APIUrl + '/Pedido/DeleteDetallePedido/' + id);
+  }
+
   private _listeners = new Subject<any>(); 
   listen(): Observable<any> {
     return this._listeners.asObservable();

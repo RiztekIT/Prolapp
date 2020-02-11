@@ -208,7 +208,7 @@ export class FacturacioncxcAddComponent implements OnInit {
 
   //Informacion para tabla de productos
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['ClaveProducto', 'ClaveSAT', 'Producto', 'Cantidad', 'Precio', 'Options'];
+  displayedColumns: string[] = ['ClaveProducto', 'ClaveSAT', 'Producto', 'Cantidad', 'PrecioUnitario', 'Precio', 'Options'];
   @ViewChild(MatSort, null) sort: MatSort;
 
 
@@ -268,7 +268,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.Moneda = this.service.formData.Moneda;
     // console.log(this.Moneda);
     this.service.Moneda = this.Moneda;
-    // console.log(this.service.Moneda);
+    console.log(this.service.Moneda);
   }
 
   tipoDeCambio() {
@@ -378,6 +378,8 @@ export class FacturacioncxcAddComponent implements OnInit {
     let tasa;
 
     this.service.getDetallesFacturaList(this.IdFactura).subscribe(data => {
+      console.log(data);
+      
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
 
@@ -419,6 +421,8 @@ export class FacturacioncxcAddComponent implements OnInit {
       this.service.formData.ImpuestosTrasladadosDlls = this.ivaDlls;
       this.service.formData.TotalDlls = this.totalDlls;
 
+      console.log(this.service.formData);
+      
       //console.log(this.listData);
     });
 
@@ -558,6 +562,8 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.Moneda = event.target.selectedOptions[0].text;
     // console.log(this.Moneda);
     this.service.Moneda = this.Moneda;
+
+    this.refreshDetallesFacturaList();
     // console.log(this.service.Moneda);
   }
 
@@ -843,7 +849,8 @@ export class FacturacioncxcAddComponent implements OnInit {
   }
 
   timbrar(form: NgForm) {
-    this.loading2 = true;
+    this.loading = true;
+    document.getElementById('enviaremail').click();
     this.service.formData.Tipo = 'Ingreso';
     this.service.formData.Estatus = 'Creada';
     this.service.formData.Version = '3.3';
@@ -901,7 +908,8 @@ export class FacturacioncxcAddComponent implements OnInit {
         this.service.updateFactura(this.service.formData).subscribe(data => {
           // console.log(this.service.formData);
           // console.log('Factura Actualizada');
-          this.loading2 = false;
+          this.loading = false;
+          document.getElementById('cerrarmodal').click();
           Swal.fire(
             'Factura Creada',
             '' + this.numfact + '',
@@ -961,6 +969,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     // window.location.href="http://devfactura.in/admin/cfdi33/5df9887b8fa49/xml";
     // this.proceso='xml';
     this.loading = true;
+    document.getElementById('enviaremail').click();
     let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
     this.enviarfact.xml(id).subscribe(data => {
       // localStorage.removeItem('xml')
@@ -1008,6 +1017,7 @@ export class FacturacioncxcAddComponent implements OnInit {
 
     setTimeout(() => {
       this.loading = false;
+      document.getElementById('cerrarmodal').click();
     }, 7000)
 
 
@@ -1183,7 +1193,8 @@ export class FacturacioncxcAddComponent implements OnInit {
   }
 
   email(id: string, folio: string) {
-
+    this.loading = true;
+    document.getElementById('enviaremail').click();
     // let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
 
     // localStorage.removeItem('xml'+folio);
@@ -1221,13 +1232,15 @@ export class FacturacioncxcAddComponent implements OnInit {
         datos={
           'nombre': 'Ivan Talamantes',
           'email': 'ivan.talamantes@live.com',
-          'mensaje':'Prueba del correo xml',
-          'asunto': 'Prueba',
+          'mensaje':'Factura'+folio,
+          'asunto': 'Envio Factura '+folio,
           "folio": folio,
           "xml": localStorage.getItem('xml'+folio),
           "pdf": localStorage.getItem('pdf'+folio)
         }
         this._MessageService.sendMessage(datos).subscribe(() => {
+          this.loading = false;
+          document.getElementById('cerrarmodal').click();
           Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
         });
       },3000)
