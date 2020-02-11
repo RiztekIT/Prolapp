@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, SimpleChanges } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, SimpleChanges, TemplateRef } from '@angular/core';
 import * as html2pdf from 'html2pdf.js';
 
 import {MatTableDataSource, MatPaginator, MatTable} from '@angular/material';
@@ -15,7 +15,7 @@ import { trigger, state, transition, animate, style } from '@angular/animations'
 import { DetalleFactura } from '../../../Models/facturacioncxc/detalleFactura-model';
 import { Observable } from 'rxjs';
 import { facturaMasterDetalle } from 'src/app/Models/facturacioncxc/facturamasterdetalle';
-
+import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import Swal from 'sweetalert2';
 import { MessageService } from 'src/app/services/message.service';
 
@@ -33,6 +33,9 @@ import { MessageService } from 'src/app/services/message.service';
   ],
 })
 export class FacturacioncxcComponent implements OnInit {
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
+  // @ViewChild('custom',{static: false})
+  // custom: TemplateRef<any>;
   IdFactura: any;
   listData: MatTableDataSource<any>;
   MasterDetalle = new Array<facturaMasterDetalle>();
@@ -44,6 +47,7 @@ export class FacturacioncxcComponent implements OnInit {
   xmlparam;
   expandedElement: any;
   detalle = new Array<DetalleFactura>();
+  public loading2 = false;
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
   
   //Collapse Informacion Detalle Facutura
@@ -498,6 +502,8 @@ pdf(id: string, folio:string){
 }
 
 email(id: string, folio:string){
+  this.loading2 = true
+  document.getElementById('enviaremail').click();
   // let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
 
     // localStorage.removeItem('xml'+folio);
@@ -535,13 +541,15 @@ setTimeout(()=>{
       datos={
         'nombre': 'Ivan Talamantes',
         'email': 'ivan.talamantes@live.com',
-        'mensaje':'Prueba del correo xml',
-        'asunto': 'Prueba',
+        'mensaje':'Factura'+folio,
+          'asunto': 'Envio Factura '+folio,
         "folio": folio,
         "xml": localStorage.getItem('xml'+folio),
         "pdf": localStorage.getItem('pdf'+folio)
       }
       this._MessageService.sendMessage(datos).subscribe(() => {
+        this.loading2 = false;
+        document.getElementById('cerrarmodal').click();
         Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
       });
     },3000)
