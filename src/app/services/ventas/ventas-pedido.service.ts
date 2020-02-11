@@ -114,6 +114,11 @@ export class VentasPedidoService {
     return this.http.delete(this.APIUrl + '/Pedido/' + id);
   }
 
+  //Actualizar stock tabla producto
+  updateStockProduto(id: number, stock: string){
+    return this.http.put(this.APIUrl + '/Pedido/EditStockProducto/' + id +'/'+ stock, null);
+  }
+
   private _listeners = new Subject<any>(); 
   listen(): Observable<any> {
     return this._listeners.asObservable();

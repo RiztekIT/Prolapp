@@ -96,7 +96,7 @@
                         </mat-step>
 
                         <mat-step [stepControl]="secondFormGroup">
-                            <form>
+                            <form #DetallePedidoForm="ngForm">
                                 <ng-template matStepLabel>Producto</ng-template>
                                 <label class="input-group-text text-info">Producto :</label> <br>
                                 <mat-form-field>
@@ -169,12 +169,12 @@
                                             <div class="container">
                                                 <div class="row">
                                                     <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Importe</label>
-                                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImporteP" [ngModel]="importeP | currency">
+                                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImporteP" [ngModel]=" MonedaBoolean ==  true ? importeP : importePDLLS | currency">
                                                 </div>
                                             </div>
                                         </div>
                                         <div *ngIf="Cantidad > 0">
-                                            <button class="btn btn-dark" (click)="onAddProducto()">Agregar Producto</button>
+                                            <button class="btn btn-dark" (click)="onAddProducto(DetallePedidoForm)">Agregar Producto</button>
                                         </div>
                                         <br>
                                         <mat-divider></mat-divider>
