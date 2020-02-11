@@ -134,7 +134,7 @@
                                         <div class="col-6">
 
                                             <mat-form-field class="example-full-width">
-                                                <input type="text" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formDataDP.Unidad" (focus)="unidadMedida()">
+                                                <input type="text" autocomplete="off" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formDataDP.Unidad" (focus)="unidadMedida()">
                                                 <mat-autocomplete #autoUnidad="matAutocomplete">
                                                     <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.key">
                                                         {{option.key}} {{option.name}}
@@ -165,18 +165,28 @@
                                             <input type="text" class="form-control" name="TextoExtra" #TextoExtra="ngModel" [(ngModel)]="service.formDataDP.TextoExtra">
 
                                         </div>
-                                        <div class="form-material borderbox">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Importe</label>
-                                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImporteP" [ngModel]="importeP | currency">
+
+                                        <div class="container row">
+
+                                            <div class="col-8"></div>
+                                            <div class="col-4">
+                                                <div class="form-material borderbox">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Importe</label>
+                                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImporteP" [ngModel]="importeP | currency">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="Cantidad > 0">
+                                                    <button class="btn btn-dark" (click)="onAddProducto()">Agregar Producto</button>
                                                 </div>
                                             </div>
+
                                         </div>
-                                        <div *ngIf="Cantidad > 0">
-                                            <button class="btn btn-dark" (click)="onAddProducto()">Agregar Producto</button>
-                                        </div>
-                                        <br>
+
+
+
                                         <mat-divider></mat-divider>
                                         <!-- <mat-card style="text-align: right;" class="mat-elevation-z0">
                                             <mat-form-field>
