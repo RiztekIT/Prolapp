@@ -389,6 +389,7 @@ this.service.GetDetallePedidoId(this.IdPedido).subscribe(data =>{
 this.service.addDetallePedido(this.service.formDataDP).subscribe(res =>{
   console.log(res);
   //Restar el Stock
+  this.CalcularStock();
   this.refreshDetallesPedidoList();
   this.IniciarTotales();
   form.resetForm();
@@ -400,6 +401,7 @@ this.service.addDetallePedido(this.service.formDataDP).subscribe(res =>{
   //Metodo para restar el Stock
   CalcularStock(){
 
+   
     
 
   }
@@ -458,6 +460,12 @@ this.service.addDetallePedido(this.service.formDataDP).subscribe(res =>{
 
   OnEditProducto(){
   console.log(this.service.formProd);
+  }
+
+  onDeleteDetalleProducto(id: number){
+    this.service.onDeleteDetallePedido(id).subscribe(res =>{
+      this.refreshDetallesPedidoList();
+    })
   }
 
 crearPedido(){
