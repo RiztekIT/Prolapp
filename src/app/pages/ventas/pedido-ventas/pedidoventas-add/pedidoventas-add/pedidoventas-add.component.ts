@@ -375,6 +375,8 @@ this.service.GetDetallePedidoId(this.IdPedido).subscribe(data =>{
     this.listData.sort = this.sort; 
   }else{
     this.valores = false;
+    this.listData = new MatTableDataSource(data);
+    this.listData.sort = this.sort;
     console.log('No hay valores');
   }
 })
@@ -418,11 +420,11 @@ this.service.addDetallePedido(this.service.formDataDP).subscribe(res =>{
 
   //Metodo para sumar Stock Producto
   SumarStock( Cantidad: string, ClaveProducto: string,  Id:number){
-    console.log(ClaveProducto, 'claveproducto');
-console.log(Id,'IDDDDD');
-  this.service.GetProductoDetalleProducto(ClaveProducto,Id).subscribe( data =>{
-    console.log(data);
-    let stock = data.Stock;
+    console.log(ClaveProducto + 'claveproducto');
+console.log(Id +'IDDDDD');
+  this.service.GetProductoDetalleProducto(ClaveProducto, Id).subscribe( data =>{
+    console.log(data[0]);
+    let stock = data[0].Stock;
     console.log(stock);
     stock = (+stock) + (+Cantidad);
     console.log(stock);
@@ -512,8 +514,11 @@ console.log(res);
 
 
   onDeleteDetalleProducto(dp: DetallePedido){
+    this.SumarStock(dp.Cantidad, dp.ClaveProducto, dp.IdDetallePedido);
     this.service.onDeleteDetallePedido(dp.IdDetallePedido).subscribe(res =>{
-      this.SumarStock(dp.Cantidad, dp.ClaveProducto, dp.IdDetallePedido);
+      console.log('//////////////////////////////////////////////////////');
+      console.log(res);
+      console.log('//////////////////////////////////////////////////////');
       this.refreshDetallesPedidoList();
     })
   }
