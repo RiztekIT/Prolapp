@@ -109,8 +109,8 @@ export class VentasPedidoService {
     return this.http.get<DetallePedido[]>(this.APIUrl + '/pedido/DetallePedidoId/' + id)
   }
   
-  GetProductoDetalleProducto(claveProducto:string): Observable<any>{
-    return this.http.get<any>(this.APIUrl + '/pedido/ProductoDetalleProducto/' + claveProducto)
+  GetProductoDetalleProducto(claveProducto:string, Id:number): Observable<any>{
+    return this.http.get<any>(this.APIUrl + '/pedido/ProductoDetalleProducto/' + claveProducto + '/'+ Id)
   }
   
 
