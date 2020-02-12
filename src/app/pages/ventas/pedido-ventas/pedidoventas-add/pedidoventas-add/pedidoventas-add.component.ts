@@ -41,6 +41,8 @@ export class PedidoventasAddComponent implements OnInit {
   myControlUnidad = new FormControl();
   optionsUnidad = ['Pieza'];
   um: boolean;
+  ProductoSelect: number;
+  Id:number;
 
 
   ngOnInit() {
@@ -51,6 +53,7 @@ export class PedidoventasAddComponent implements OnInit {
     this.refreshDetallesPedidoList();
     this.IniciarTotales();
     this.service.formProd = new Producto();
+    
     
 
     this.firstFormGroup = this._formBuilder.group({
@@ -156,6 +159,8 @@ ProductoPrecioMXN: number;
 ProductoPrecioDLLS: number;
 //TipoCambio
 TipoCambio: any;
+//Clave Producto
+ClaveProducto: string;
 
   //Valores de Totales
   subtotal: any;
@@ -240,6 +245,7 @@ TipoCambio: any;
       this.service.formProd = options2;
      this.PStock = this.service.formProd.Stock;
      this.ProductoPrecio = +this.service.formProd.PrecioVenta;
+      this.ClaveProducto = this.service.formProd.ClaveProducto;
      console.log(+this.PStock + " STOCKKKK");
     }
   }
@@ -253,6 +259,7 @@ TipoCambio: any;
   this.service.formData;
   this.service.formDataPedido;
   this.service.formDataDP;
+  this.ProductoSelect = 0;
 
   // form.resetForm();
 
@@ -389,7 +396,7 @@ this.service.GetDetallePedidoId(this.IdPedido).subscribe(data =>{
 this.service.addDetallePedido(this.service.formDataDP).subscribe(res =>{
   console.log(res);
   //Restar el Stock
-  this.CalcularStock();
+  this.RestarStock();
   this.refreshDetallesPedidoList();
   this.IniciarTotales();
   form.resetForm();
@@ -398,11 +405,32 @@ this.service.addDetallePedido(this.service.formDataDP).subscribe(res =>{
 
   }
 
-  //Metodo para restar el Stock
-  CalcularStock(){
+  //Metodo para restar Stock Producto
+  RestarStock(){
+    let stock = this.PStock - +this.service.formDataDP.Cantidad;
+    let id = this.ClaveProducto;
+    console.log(stock + '-----' + id);
+    this.service.updateStockProduto(id, stock.toString()).subscribe(res =>{
+    console.log(res);
+    });
+  }
 
-   
-    
+
+  //Metodo para sumar Stock Producto
+  SumarStock( Cantidad: string, ClaveProducto: string,  Id:number){
+    console.log(ClaveProducto, 'claveproducto');
+console.log(Id,'IDDDDD');
+  this.service.GetProductoDetalleProducto(ClaveProducto,Id).subscribe( data =>{
+    console.log(data);
+    let stock = data.Stock;
+    console.log(stock);
+    stock = (+stock) + (+Cantidad);
+    console.log(stock);
+    this.service.updateStockProduto(ClaveProducto, stock.toString()).subscribe(res =>{
+console.log(res);
+    });
+  })
+
 
   }
 
@@ -440,6 +468,29 @@ this.service.addDetallePedido(this.service.formDataDP).subscribe(res =>{
     }
   }
 
+
+  //Al Click en Edit va a buscar el JN y traer DP y Pedido para llenar los campos a editar
+  OnEditProducto(dp: DetallePedido){
+    this.service.GetProductoDetalleProducto(dp.ClaveProducto,dp.IdDetallePedido).subscribe(data =>{
+      console.log(dp);
+      console.log(data);
+
+    this.ProductoSelect = data[0].IdProducto;
+     this.service.formProd.Nombre = data[0].Nombre;
+     this.service.formProd.PrecioCosto = data[0].PrecioCosto;
+     this.Cantidad = data[0].Cantidad;
+     this.service.formDataPedido.Moneda = data[0].Moneda;
+     this.service.formProd.ClaveProducto = data[0].ClaveProducto ;
+     this.service.formDataDP.Unidad = data[0].Unidad ;
+     this.service.formProd.Stock = data[0].Stock ;
+     this.service.formProd.DescripcionProducto = data[0].DescripcionProducto ;
+     this.service.formProd.Estatus = data[0].Estatus ;
+     this.service.formProd.IVA = data[0].IVA ;
+     this.service.formProd.ClaveSAT = data[0].ClaveSAT ;
+     this.service.formDataDP.Observaciones = data[0].Observaciones ;
+     this.service.formDataDP.TextoExtra = data[0].TextoExtra ;
+    })}
+
   calcularImportePedido(){
    
     if(this.Moneda == 'MXN'){
@@ -458,12 +509,11 @@ this.service.addDetallePedido(this.service.formDataDP).subscribe(res =>{
 
   }
 
-  OnEditProducto(){
-  console.log(this.service.formProd);
-  }
 
-  onDeleteDetalleProducto(id: number){
-    this.service.onDeleteDetallePedido(id).subscribe(res =>{
+
+  onDeleteDetalleProducto(dp: DetallePedido){
+    this.service.onDeleteDetallePedido(dp.IdDetallePedido).subscribe(res =>{
+      this.SumarStock(dp.Cantidad, dp.ClaveProducto, dp.IdDetallePedido);
       this.refreshDetallesPedidoList();
     })
   }

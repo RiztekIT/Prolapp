@@ -100,7 +100,7 @@
                                 <ng-template matStepLabel>Producto</ng-template>
                                 <label class="input-group-text text-info">Producto :</label> <br>
                                 <mat-form-field>
-                                    <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl2" matInput [matAutocomplete]="autoProducto">
+                                    <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl2" [(ngModel)]="ProductoSelect" matInput [matAutocomplete]="autoProducto">
                                     <mat-autocomplete #autoProducto="matAutocomplete">
                                         <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.IdProducto" (onSelectionChange)="onSelectionChange2(option, $event)">
                                             {{option.IdProducto}} {{option.Nombre}}
@@ -223,11 +223,11 @@
                                               </button>
                                                                 <mat-menu #menu="matMenu">
                                                                     <!--  -->
-                                                                    <button mat-icon-button class="btn btn-dark" (click)="OnEditProducto()">
+                                                                    <button mat-icon-button class="btn btn-dark" (click)="OnEditProducto(row)">
                                                   <mat-icon>edit</mat-icon>
                                                 </button>
                                                                     <!--  -->
-                                                                    <button mat-icon-button class="btn btn-danger" (click)="onDeleteDetalleProducto(row.IdDetallePedido)">
+                                                                    <button mat-icon-button class="btn btn-danger" (click)="onDeleteDetalleProducto(row)">
                                                   <mat-icon>delete_outline</mat-icon>
                                                 </button>
                                                                 </mat-menu>
