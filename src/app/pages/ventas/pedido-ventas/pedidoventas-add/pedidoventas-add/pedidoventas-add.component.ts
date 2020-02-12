@@ -42,6 +42,7 @@ export class PedidoventasAddComponent implements OnInit {
   optionsUnidad = ['Pieza'];
   um: boolean;
   ProductoSelect: number;
+  Id:number;
 
 
   ngOnInit() {
@@ -416,12 +417,12 @@ this.service.addDetallePedido(this.service.formDataDP).subscribe(res =>{
 
 
   //Metodo para sumar Stock Producto
-  SumarStock( Cantidad: string, ClaveProducto: string){
-
-
-  this.service.GetProductoDetalleProducto(ClaveProducto).subscribe( data =>{
-    console.log(data[0]);
-    let stock = data[0].Stock;
+  SumarStock( Cantidad: string, ClaveProducto: string,  Id:number){
+    console.log(ClaveProducto, 'claveproducto');
+console.log(Id,'IDDDDD');
+  this.service.GetProductoDetalleProducto(ClaveProducto,Id).subscribe( data =>{
+    console.log(data);
+    let stock = data.Stock;
     console.log(stock);
     stock = (+stock) + (+Cantidad);
     console.log(stock);
@@ -512,7 +513,7 @@ console.log(res);
 
   onDeleteDetalleProducto(dp: DetallePedido){
     this.service.onDeleteDetallePedido(dp.IdDetallePedido).subscribe(res =>{
-      this.SumarStock(dp.Cantidad, dp.ClaveProducto);
+      this.SumarStock(dp.Cantidad, dp.ClaveProducto, dp.IdDetallePedido);
       this.refreshDetallesPedidoList();
     })
   }
