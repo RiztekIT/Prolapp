@@ -439,6 +439,7 @@ this.service.GetDetallePedidoId(this.IdPedido).subscribe(data =>{
 
   }else{
     this.valores = false;
+    (<HTMLInputElement> document.getElementById("Moneda")).disabled = false;
     this.listData = new MatTableDataSource(data);
     this.listData.sort = this.sort;
     console.log('No hay valores');
