@@ -210,9 +210,13 @@
                                                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
                                                             <td mat-cell *matCellDef="let element">{{element.Cantidad}}</td>
                                                         </ng-container>
-                                                        <ng-container matColumnDef="Precio">
+                                                        <ng-container matColumnDef="Importe" *ngIf="MonedaBoolean == true">
                                                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
                                                             <td mat-cell *matCellDef="let element">{{element.Importe | currency}}</td>
+                                                        </ng-container>
+                                                        <ng-container matColumnDef="Importe" *ngIf="MonedaBoolean == false">
+                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
+                                                            <td mat-cell *matCellDef="let element">{{element.ImporteDlls | currency}}</td>
                                                         </ng-container>
 
                                                         <ng-container matColumnDef="Options">
@@ -245,7 +249,7 @@
                                                 <div class="container">
                                                     <div class="row">
                                                         <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
-                                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="service.formDataPedido.Total | currency">
+                                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="MonedaBoolean ==  true ? total : totalDlls | currency">
                                                     </div>
                                                 </div>
                                             </div>
