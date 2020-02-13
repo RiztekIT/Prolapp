@@ -127,6 +127,10 @@ export class VentasPedidoService {
   onDeleteDetallePedido(id: number){
     return this.http.delete(this.APIUrl + '/Pedido/DeleteDetallePedido/' + id);
   }
+//Editar el detalle pedido
+  OnEditDetallePedido(dp: DetallePedido){
+    return this.http.put(this.APIUrl + '/Pedido/EditDetallePedido', DetallePedido)
+  }
 
   private _listeners = new Subject<any>(); 
   listen(): Observable<any> {
