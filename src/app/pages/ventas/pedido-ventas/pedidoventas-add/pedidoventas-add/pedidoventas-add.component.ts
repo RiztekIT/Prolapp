@@ -334,7 +334,7 @@ private _filter(value: any): any[] {
     this.service.formData;
     this.service.formDataPedido;
     this.service.formDataDP;
-    this.ProductoSelect = 0;
+    
     this.ActualizarDetallePedidoBool = false;
 
     // form.resetForm();
@@ -397,39 +397,20 @@ private _filter(value: any): any[] {
     { Moneda: 'USD' }
   ];
 
-  // formato() {
-  //   const preciounitario = <HTMLInputElement>document.getElementById('precioUnitario');
-  //   const importe = <HTMLInputElement>document.getElementById('importe');
-  //   const iva = <HTMLInputElement>document.getElementById('iva');
-  //   // console.log(this.service.formDataDP.Importe);
-
-
-  //   if (this.service.formDataDP.PrecioUnitario != 'NaN') {
-  //     this.precioUnitarioF = this.currencyPipe.transform(this.service.formDataDP.PrecioUnitario);
-  //     preciounitario.value = this.precioUnitarioF;
-  //   } else {
-  //     preciounitario.value = '$0.00';
-  //   }
-  //   if (this.service.formDataDP.Importe != 'NaN') {
-  //     this.importeF = this.currencyPipe.transform(this.service.formDataDP.Importe);
-  //     importe.value = this.importeF;
-  //   } else {
-  //     importe.value = '$0.00';
-  //   }
-
-  // }
-
-
-
   //Tabla de Productos
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['ClaveProducto', 'ClaveSAT', 'Producto', 'Cantidad', 'Precio', 'Options'];
+  displayedColumns: string[] = ['ClaveProducto', 'ClaveSAT', 'Producto', 'Cantidad', 'Importe', 'Options'];
   @ViewChild(MatSort, null) sort: MatSort;
 
 
 
   //Iniciar en 0 Valores de los Totales
   IniciarTotales() {
+    //Inicializar en 0 el select del producto
+    this.ProductoSelect = +" ";
+    //Inicializar Vacio el Select De Unidad
+    this.service.formDataDP.Unidad = "";
+    //Inicializar totales
     this.Cantidad = 0;
     this.subtotal = 0;
     this.iva = 0;
@@ -450,9 +431,20 @@ this.service.GetDetallePedidoId(this.IdPedido).subscribe(data =>{
     this.valores = true;
     (<HTMLInputElement> document.getElementById("Moneda")).disabled = true;
     this.listData = new MatTableDataSource(data);
-    this.listData.sort = this.sort; 
+    this.listData.sort = this.sort;
+    //Suma Total de importes de detalle pedidos
+    
+    this.service.GetSumaImporte(this.IdPedido).subscribe(data => {
+      console.log(data);
+      this.total = data[0].importe;
+      this.totalDlls = data[0].importeDlls;
+      console.log(this.total);
+      console.log(this.totalDlls);
+    })
+
   }else{
     this.valores = false;
+    (<HTMLInputElement> document.getElementById("Moneda")).disabled = false;
     this.listData = new MatTableDataSource(data);
     this.listData.sort = this.sort;
     console.log('No hay valores');
