@@ -556,6 +556,7 @@ console.log(res);
       console.clear();
       console.log(data);
 
+      
 
       if (this.service.formDataPedido.Moneda == 'MXN') {
         this.importeP = data[0].Importe;
@@ -569,6 +570,7 @@ console.log(res);
         console.log(this.importeP);
         console.log('dlls');
       }
+
       this.ProductoSelect = data[0].IdProducto;
       this.service.formProd.Nombre = data[0].Nombre;
       this.service.formProd.PrecioCosto = data[0].PrecioCosto;
@@ -586,12 +588,9 @@ console.log(res);
     })
   }
 
-
   OnEditDetallePedidodp() {
-
     this.service.OnEditDetallePedido(this.service.formDataDP).subscribe(res => {
-      console.clear();
-      console.log(this.service.formDataDP);
+      
       // console.log(res);
       //Restar el Stock
       this.RestarStock();
@@ -601,7 +600,8 @@ console.log(res);
   }
 
   btnAgregarnuevodp(){
-    this.ActualizarDetallePedidoBool = false
+    this.ActualizarDetallePedidoBool = false;
+    // resetear form
   }
 
 
