@@ -17,6 +17,59 @@
                 <div class="form-material">
 
                     <mat-horizontal-stepper [linear]="isLinear" #stepper>
+                        <mat-step [stepControl]="thirdFormGroup">
+                            <form>
+                                <ng-template matStepLabel>Pedido</ng-template>
+                                <br>
+
+                                <div class="container">
+                                    <div class="row">
+
+                                        <div class="col-6">
+                                            <label class="input-group-text text-info">IdPedido:</label>
+                                            <input type="text" class="form-control" name="IdPedido" #IdPedido="ngModel" [(ngModel)]="service.formDataPedido.IdPedido" readonly>
+
+                                            <label class="input-group-text text-info">Folio:</label>
+                                            <input type="text" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="service.formDataPedido.Folio" readonly>
+
+                                            <label class="input-group-text text-info">Observaciones:</label>
+                                            <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="service.formDataPedido.Observaciones">
+
+                                            <label class="input-group-text text-info">Fecha Vencimiento:</label>
+                                            <input type="text" class="form-control" name="FechaVencimiento" #FechaVencimiento="ngModel" [(ngModel)]="service.formDataPedido.FechaVencimiento">
+
+                                            <label class="input-group-text text-info">Moneda</label>
+                                            <select class="form-control" name="Moneda" #Moneda="ngModel" id="Moneda" (change)="MonedaSelected($event)" [(ngModel)]="service.formDataPedido.Moneda">
+                                                <option [ngValue]="null" selected disabled>Seleccionar Moneda</option>
+                                                <option *ngFor="let dl of listMoneda" [ngValue]="dl.Moneda"> {{dl.Moneda}} </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="input-group-text text-info">Orden de Compra:</label>
+                                            <input type="text" class="form-control" name="OrdendeCompra" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataPedido.OrdenDeCompra">
+
+                                            <label class="input-group-text text-info">Fecha de Entrega:</label>
+                                            <input type="text" class="form-control" name="FechaDeEntrega" #FechaDeEntrega="ngModel" [(ngModel)]="service.formDataPedido.FechaDeEntrega">
+
+                                            <label class="input-group-text text-info">Condiciones De Pago:</label>
+                                            <input type="text" class="form-control" name="CondicionesDePago" #CondicionesDePago="ngModel" [(ngModel)]="service.formDataPedido.CondicionesDePago">
+
+                                            <label class="input-group-text text-info">Vendedor:</label>
+                                            <input type="text" class="form-control" name="Vendedor" #Vendedor="ngModel" [(ngModel)]="service.formDataPedido.Vendedor">
+
+                                            <label class="input-group-text text-info">Prioridad:</label>
+                                            <input type="text" class="form-control" name="Prioridad" #Prioridad="ngModel" [(ngModel)]="service.formDataPedido.Prioridad">
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </form>
+                            <button class="btn btn-info btn-md" style="float: right;" matStepperNext>Next</button>
+                        </mat-step>
                         <mat-step [stepControl]="firstFormGroup">
                             <form>
                                 <ng-template matStepLabel>Cliente</ng-template>
@@ -89,7 +142,11 @@
                                             <div>
                                             </div>
                                         </div>
-                                        <button class="btn btn-info btn-md" style="float: right;" matStepperNext>Next</button>
+                                        <div style="float: right;">
+                                            <button matStepperPrevious class="btn btn-primary btn-md" style="margin-right: 5px;">Back</button>
+                                            <button matStepperNext class="btn btn-info btn-md">Next</button>
+                                        </div>
+
                                     </div>
                                 </div>
                             </form>
@@ -121,11 +178,7 @@
                                             <label class="input-group-text text-info"> Cantidad:</label>
                                             <input type="number" class="form-control" name="Cantidad" [(ngModel)]="Cantidad" (ngModelChange)="onChangeCantidadP($event)">
 
-                                            <label class="input-group-text text-info">Moneda</label>
-                                            <select class="form-control" name="Moneda" #Moneda="ngModel" id="Moneda" (change)="MonedaSelected($event)" [(ngModel)]="service.formDataPedido.Moneda">
-                                                <option [ngValue]="null" selected disabled>Seleccionar Moneda</option>
-                                                <option *ngFor="let dl of listMoneda" [ngValue]="dl.Moneda"> {{dl.Moneda}} </option>
-                                            </select>
+
 
                                             <label class="input-group-text text-info"> ClaveProducto:</label>
                                             <input type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="service.formProd.ClaveProducto" readonly>
@@ -174,12 +227,8 @@
                                             </div>
 
                                         </div>
-                                        <div *ngIf="Cantidad > 0 && ActualizarDetallePedidoBool == false">
+                                        <div *ngIf="Cantidad > 0">
                                             <button class="btn btn-dark" (click)="onAddProducto(DetallePedidoForm)">Agregar Producto</button>
-                                        </div>
-                                        <div *ngIf="ActualizarDetallePedidoBool != false">
-                                            <button class="btn btn-dark" (click)="OnEditDetallePedidodp()">Actualizar Producto</button>
-                                            <button class="btn btn-dark" (click)="btnAgregarnuevodp()">Agregar Nuevo</button>
                                         </div>
                                         <br>
                                         <mat-divider></mat-divider>
@@ -260,64 +309,20 @@
                                         </div>
 
                                     </div>
+                                    <button matStepperPrevious class="btn btn-primary btn-md" style="margin-right: 5px;">Back</button>
 
-
-                                    <div style="float: right;">
-                                        <button matStepperPrevious class="btn btn-primary btn-md" style="margin-right: 5px;">Back</button>
-                                        <button matStepperNext class="btn btn-info btn-md">Next</button>
+                                    <div>
+                                        <button class="btn btn-info btn-md" style="float: right;" (click)="crearPedido()">Generar Pedido</button>
                                     </div>
+
+
+
                                 </div>
 
                             </form>
                         </mat-step>
 
-                        <mat-step [stepControl]="thirdFormGroup">
-                            <form>
-                                <ng-template matStepLabel>Pedido</ng-template>
-                                <br>
 
-                                <div class="container">
-                                    <div class="row">
-
-                                        <div class="col-6">
-                                            <label class="input-group-text text-info">IdPedido:</label>
-                                            <input type="text" class="form-control" name="IdPedido" #IdPedido="ngModel" [(ngModel)]="service.formDataPedido.IdPedido" readonly>
-
-                                            <label class="input-group-text text-info">Folio:</label>
-                                            <input type="text" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="service.formDataPedido.Folio" readonly>
-
-                                            <label class="input-group-text text-info">Observaciones:</label>
-                                            <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="service.formDataPedido.Observaciones">
-
-                                            <label class="input-group-text text-info">Fecha Vencimiento:</label>
-                                            <input type="text" class="form-control" name="FechaVencimiento" #FechaVencimiento="ngModel" [(ngModel)]="service.formDataPedido.FechaVencimiento">
-                                        </div>
-                                        <div class="col-6">
-                                            <label class="input-group-text text-info">Orden de Compra:</label>
-                                            <input type="text" class="form-control" name="OrdendeCompra" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataPedido.OrdenDeCompra">
-
-                                            <label class="input-group-text text-info">Fecha de Entrega:</label>
-                                            <input type="text" class="form-control" name="FechaDeEntrega" #FechaDeEntrega="ngModel" [(ngModel)]="service.formDataPedido.FechaDeEntrega">
-
-                                            <label class="input-group-text text-info">Condiciones De Pago:</label>
-                                            <input type="text" class="form-control" name="CondicionesDePago" #CondicionesDePago="ngModel" [(ngModel)]="service.formDataPedido.CondicionesDePago">
-
-                                            <label class="input-group-text text-info">Vendedor:</label>
-                                            <input type="text" class="form-control" name="Vendedor" #Vendedor="ngModel" [(ngModel)]="service.formDataPedido.Vendedor">
-
-                                            <label class="input-group-text text-info">Prioridad:</label>
-                                            <input type="text" class="form-control" name="Prioridad" #Prioridad="ngModel" [(ngModel)]="service.formDataPedido.Prioridad">
-
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <button class="btn btn-info btn-md" style="float: right;" (click)="crearPedido()">Generar Pedido</button>
-                                </div>
-                            </form>
-                        </mat-step>
                     </mat-horizontal-stepper>
 
 
