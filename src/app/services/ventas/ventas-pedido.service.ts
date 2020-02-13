@@ -113,6 +113,10 @@ export class VentasPedidoService {
     return this.http.get<any>(this.APIUrl + '/pedido/ProductoDetalleProducto/' + claveProducto + '/'+ Id)
   }
   
+  GetSumaImporte(Id:number): Observable<any>{
+    return this.http.get<any>(this.APIUrl + '/pedido/SumaImporte/' + Id)
+  }
+  
 
   onDelete(id:number){
     return this.http.delete(this.APIUrl + '/Pedido/' + id);

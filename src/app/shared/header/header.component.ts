@@ -67,6 +67,8 @@ if (hora>11){
       
       this.Cdolar = data.bmx.series[0].datos[l-i].dato;
       this.tipoCambio.TipoCambio = this.Cdolar;
+      // console.log('------CAMBIO------');
+      // console.log(this.tipoCambio.TipoCambio);
       
     })
 

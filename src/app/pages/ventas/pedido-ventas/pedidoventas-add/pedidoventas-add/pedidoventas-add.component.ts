@@ -16,6 +16,19 @@ import { DataRowOutlet } from '@angular/cdk/table';
 import { TipoCambioService } from '../../../../../services/tipo-cambio.service';
 import { EnviarfacturaService } from '../../../../../services/facturacioncxc/enviarfactura.service';
 import { ProductosService } from '../../../../../services/catalogos/productos.service';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+
+//Constantes para obtener tipo de cambio
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Bmx-Token': 'd83c7088f2823be9f29cc124cf95dc37056de37c340da5477a09ca1ee91a80a6',
+    'Access-Control-Allow-Origin': 'http://localhost:4200',
+    'Content-Type': 'application/json;charset=UTF-8',
+    'Access-Control-Allow-Headers': 'Bmx-Token, Accept, Accept-Encoding, Content-Type, Origin',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS'
+
+  })
+}
 
 
 @Component({
@@ -27,7 +40,7 @@ export class PedidoventasAddComponent implements OnInit {
   dialogbox: any;
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
-    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService) { }
+    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http : HttpClient) { }
   
 
 
@@ -52,6 +65,7 @@ export class PedidoventasAddComponent implements OnInit {
     this.dropdownRefresh2();
     this.refreshDetallesPedidoList();
     this.IniciarTotales();
+    this.tipoDeCambio();
     this.service.formProd = new Producto();
     
     
@@ -170,9 +184,69 @@ ClaveProducto: string;
   subtotalDlls: any;
   totalDlls: any;
 
-  
 
-  private _filter(value: any): any[] {
+// //////////////////////////// BEGIN OBTENER TIPO CAMBIO ////////////////////////////
+rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
+Cdolar: String;
+
+// ObtenerTipoCambio(){
+//   //Obtener Tipo Cambio
+//   console.log('TIPO CAMBIO----------------');
+//   console.log(this.serviceTipoCambio.TipoCambio);
+//   this.TipoCambio = this.serviceTipoCambio.TipoCambio;
+//   console.log('TIPO CAMBIO = ' + this.TipoCambio);
+//     }
+
+    tipoDeCambio(){
+      let hora = new Date().getHours();
+      let fechahoy = new Date();
+      let fechaayer = new Date();
+      
+  
+      fechaayer.setDate(fechahoy.getDate() - 1)
+      let diaayer = new Date(fechaayer).getDate();
+      let mesayer = new Date(fechaayer).getMonth();
+      let añoayer = new Date(fechaayer).getFullYear();
+      let diasemana = new Date(fechahoy).getDay();
+  
+      let i;
+  if (hora>11){
+    i=2;
+  }else{
+    i=1;
+  }
+      this.traerApi().subscribe(data => {
+        let l;
+        
+        l = data.bmx.series[0].datos.length;
+        // console.log(i);
+        // console.log(l);
+        // console.log(data.bmx.series[0].datos.length);
+        // console.log(data.bmx.series[0].datos[l-i].dato);
+        
+        
+        this.Cdolar = data.bmx.series[0].datos[l-i].dato;
+        console.log('------CAMBIO------');
+        console.log(this.Cdolar);
+        this.TipoCambio = this.Cdolar;
+        console.log('------CAMBIO------');
+      })
+  
+    }
+  
+    traerApi(): Observable<any>{
+  
+      return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
+  
+    }
+
+
+
+
+// //////////////////////////// END OBTENER TIPO CAMBIO ////////////////////////////
+
+
+private _filter(value: any): any[] {
     console.log(value);
     const filterValue = value.toString().toLowerCase();
     return this.options.filter(option =>
@@ -263,9 +337,7 @@ ClaveProducto: string;
 
   // form.resetForm();
 
-  //Obtener Tipo Cambio
-  this.TipoCambio = this.serviceTipoCambio.TipoCambio;
-  console.log('TIPO CAMBIO = ' + this.TipoCambio);
+  
 
   //Obtener ID del local storage
   this.IdPedido = +localStorage.getItem('IdPedido');
@@ -287,13 +359,14 @@ ClaveProducto: string;
     });
   });
 
-
     console.log(this.IdPedido);
 
 
 
 
   }
+
+  
 
   MonedaSelected(event: any) {
     // console.log(event);
@@ -503,6 +576,8 @@ console.log(res);
       this.importePDLLS = this.Cantidad * (+this.ProductoPrecio / this.TipoCambio);
     }else{
       console.log('LA MONEDA ES USD');
+      console.log(this.ProductoPrecio);
+      console.log(this.TipoCambio);
       this.ProductoPrecioDLLS = +this.ProductoPrecio;
       this.ProductoPrecioMXN = +this.ProductoPrecio * this.TipoCambio;
       this.importePDLLS = this.Cantidad * +this.ProductoPrecio;
