@@ -334,7 +334,7 @@ private _filter(value: any): any[] {
     this.service.formData;
     this.service.formDataPedido;
     this.service.formDataDP;
-    this.ProductoSelect = 0;
+    
     this.ActualizarDetallePedidoBool = false;
 
     // form.resetForm();
@@ -406,6 +406,11 @@ private _filter(value: any): any[] {
 
   //Iniciar en 0 Valores de los Totales
   IniciarTotales() {
+    //Inicializar en 0 el select del producto
+    this.ProductoSelect = +" ";
+    //Inicializar Vacio el Select De Unidad
+    this.service.formDataDP.Unidad = "";
+    //Inicializar totales
     this.Cantidad = 0;
     this.subtotal = 0;
     this.iva = 0;
