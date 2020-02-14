@@ -6,8 +6,11 @@ import { Injectable } from '@angular/core';
 
 export class TipoCambioService {
 
-  constructor() { }
-
+  constructor() {
+  }
+  
   TipoCambio: String;
+  
+  
   
 }

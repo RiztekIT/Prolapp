@@ -152,6 +152,8 @@ import { PedidoventasAddComponent } from './ventas/pedido-ventas/pedidoventas-ad
 import { AddVendedorComponent } from './administracion/catalogos/vendedores/add-vendedor/add-vendedor.component';
 import { EditVendedorComponent } from './administracion/catalogos/vendedores/edit-vendedor/edit-vendedor.component';
 import { ShowVendedorComponent } from './administracion/catalogos/vendedores/show-vendedor/show-vendedor.component';
+import { EmailComponent } from '../components/email/email/email.component';
+import { NgxDropzoneModule } from 'ngx-dropzone'
 
 
 
@@ -266,7 +268,8 @@ import { ShowVendedorComponent } from './administracion/catalogos/vendedores/sho
         EditVendedorComponent,
         ShowVendedorComponent,
         FoliosComponent,
-        ShowVendedorComponent
+        ShowVendedorComponent,
+        EmailComponent
     
     ],
     exports: [
@@ -305,6 +308,7 @@ import { ShowVendedorComponent } from './administracion/catalogos/vendedores/sho
         NgxLoadingModule.forRoot({}),
         MatStepperModule,
         MatTooltipModule,
+        NgxDropzoneModule
 
     ],
     providers: [

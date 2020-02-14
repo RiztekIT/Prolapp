@@ -243,23 +243,18 @@
 </div>
 
 <!-- Eliminar Barra -->
-<ng-template #customTemplate>
-    <div class="col-12">
-        <h3>
-            Enviando
-        </h3>
-    </div>
-</ng-template>
 
-<div class="modal fade bs-example-modal-lg show" id="cargando" style="overflow: hidden">
+
+<div class="modal fade bs-example-modal-lg show" id="cargando">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
             <button id="cerrarmodal" type="button" [hidden]="true" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+            <app-email [foliop]="folioparam" [idp]="idparam"></app-email>
 
 
         </div>
     </div>
-    <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}" [template]="customTemplate">
+    <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
     </ngx-loading>
 </div>
