@@ -113,6 +113,10 @@ export class VentasPedidoService {
     return this.http.get<any>(this.APIUrl + '/pedido/ProductoDetalleProducto/' + claveProducto + '/'+ Id)
   }
   
+  GetSumaImporte(Id:number): Observable<any>{
+    return this.http.get<any>(this.APIUrl + '/pedido/SumaImporte/' + Id)
+  }
+  
 
   onDelete(id:number){
     return this.http.delete(this.APIUrl + '/Pedido/' + id);
@@ -126,6 +130,10 @@ export class VentasPedidoService {
   //Eliminar Detalle Pedido
   onDeleteDetallePedido(id: number){
     return this.http.delete(this.APIUrl + '/Pedido/DeleteDetallePedido/' + id);
+  }
+//Editar el detalle pedido
+  OnEditDetallePedido(dp: DetallePedido){
+    return this.http.put(this.APIUrl + '/Pedido/EditDetallePedido', DetallePedido)
   }
 
   private _listeners = new Subject<any>(); 
