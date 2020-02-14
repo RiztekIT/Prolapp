@@ -544,11 +544,8 @@ console.log(res);
   //Al Click en Edit va a buscar el JN y traer DP y Pedido para llenar los campos a editar
   OnEditProducto(dp: DetallePedido) {
     this.ActualizarDetallePedidoBool = true;
+    this.service.formDataDP = dp;
     this.service.GetProductoDetalleProducto(dp.ClaveProducto, dp.IdDetallePedido).subscribe(data => {
-      console.clear();
-      console.log(data);
-
-      
 
       if (this.service.formDataPedido.Moneda == 'MXN') {
         this.importeP = data[0].Importe;
@@ -562,37 +559,51 @@ console.log(res);
         console.log(this.importeP);
         console.log('dlls');
       }
-
+      
       this.ProductoSelect = data[0].IdProducto;
       this.service.formProd.Nombre = data[0].Nombre;
-      this.service.formProd.PrecioCosto = data[0].PrecioCosto;
+      this.ProductoPrecio = data[0].PrecioUnitario;
+      this.ProductoPrecioDLLS = data[0].PrecioUnitarioDlls;
       this.Cantidad = data[0].Cantidad;
       this.service.formDataPedido.Moneda;
       this.service.formProd.ClaveProducto = data[0].ClaveProducto;
-      this.service.formDataDP.Unidad = data[0].Unidad;
+      // this.service.formDataDP.Unidad = data[0].Unidad;
       this.service.formProd.Stock = data[0].Stock;
       this.service.formProd.DescripcionProducto = data[0].DescripcionProducto;
       this.service.formProd.Estatus = data[0].Estatus;
       this.service.formProd.IVA = data[0].IVA;
       this.service.formProd.ClaveSAT = data[0].ClaveSAT;
-      this.service.formDataDP.Observaciones = data[0].Observaciones;
-      this.service.formDataDP.TextoExtra = data[0].TextoExtra;
+      // this.service.formDataDP.Observaciones = data[0].Observaciones;
+      // this.service.formDataDP.TextoExtra = data[0].TextoExtra;
+
+  //  let stock = (+this.Cantidad) + (+this.service.formProd.Stock);
+  //  console.log(stock);
     })
   }
 
-  OnEditDetallePedidodp() {
-    this.service.OnEditDetallePedido(this.service.formDataDP).subscribe(res => {
+  OnEditDetallePedidodp(form: NgForm) {
+    console.clear();
+
+    // this.service.formDataDP.PrecioUnitario = this.ProductoPrecioMXN.toString(); ++++++++
+    this.service.formDataDP.PrecioUnitarioDlls = this.ProductoPrecioDLLS.toString();
+    this.service.formDataDP.Cantidad = this.Cantidad.toString();
+    this.service.formDataDP.Importe = this.importeP.toString();
+    // this.service.formDataDP.ImporteDlls = this.importePDLLS.toString(); +++++++
+    console.log(this.service.formDataDP);
+    // this.service.OnEditDetallePedido(this.service.formDataDP).subscribe(res => {
       
-      // console.log(res);
-      //Restar el Stock
-      this.RestarStock();
-      this.refreshDetallesPedidoList();
-      this.IniciarTotales();
-    })
+    //   // this.ActualizarDetallePedidoBool = false;
+    //   // this.refreshDetallesPedidoList();
+    //   // this.IniciarTotales();
+    //   // form.resetForm();
+    // })
   }
 
-  btnAgregarnuevodp(){
+  btnAgregarnuevodp(form: NgForm){
     this.ActualizarDetallePedidoBool = false;
+    this.refreshDetallesPedidoList();
+      this.IniciarTotales();
+      form.resetForm();
     // resetear form
   }
 

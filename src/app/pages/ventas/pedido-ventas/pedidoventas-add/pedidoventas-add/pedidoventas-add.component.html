@@ -227,8 +227,13 @@
                                             </div>
 
                                         </div>
-                                        <div *ngIf="Cantidad > 0">
+                                        <div *ngIf="Cantidad > 0 && ActualizarDetallePedidoBool == false">
                                             <button class="btn btn-dark" (click)="onAddProducto(DetallePedidoForm)">Agregar Producto</button>
+                                        </div>
+                                        <div *ngIf="ActualizarDetallePedidoBool != false">
+                                            <button class="btn btn-dark" (click)="OnEditDetallePedidodp(DetallePedidoForm)">Actualizar Producto</button>
+                                            <button class="btn btn-dark" (click)="btnAgregarnuevodp(DetallePedidoForm)">Cancelar</button>
+
                                         </div>
                                         <br>
                                         <mat-divider></mat-divider>
