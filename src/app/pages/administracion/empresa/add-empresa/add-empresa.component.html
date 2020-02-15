@@ -27,9 +27,12 @@
                         <mat-step [stepControl]="firstFormGroup">
                             <form>
                                 <ng-template matStepLabel>Datos de la Empresa</ng-template>
+                                <br>
+
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col-6">
+
+                                        <div class="col-12 col-md-6">
                                             <br>
                                             <label class="input-group-text text-info">RFC :</label>
                                             <input type="text" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="service.formData.RFC">
@@ -51,7 +54,7 @@
 
 
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-12 col-md-6">
 
                                             <label class="input-group-text text-info">Colonia :</label>
                                             <input type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia">
@@ -69,7 +72,14 @@
                                             <input type="text" class="form-control" name="Regimen" #Estado="ngModel" [(ngModel)]="service.formData.Regimen">
 
                                         </div>
-                                        <button class="btn btn-info btn-md" style="float: right;" matStepperNext>Next</button>
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-10"></div>
+                                                <div class="col-2">
+                                                    <button class="btn btn-info btn-md" style="float: right;" matStepperNext>Next</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -77,7 +87,7 @@
 
                         <mat-step [stepControl]="secondFormGroup">
                             <form>
-                                <ng-template matStepLabel>Producto</ng-template>
+                                <ng-template matStepLabel>Seleccionar Foto de Empresa</ng-template>
                                 <label class="input-group-text text-info">Foto de la Empresa:</label> <br>
 
                                 <div class="container">
@@ -87,19 +97,19 @@
                                             <div style="padding-left: 32px; text-align: left;">
                                                 <button (click)="cambiarImagen()" [disabled]="!fotoSubir" type="button" class="btn btn-outline-secondary btn-block">
                                                     <i class="fa fa-save"></i>
-                                                    Cambiar Imagen
+                                                    Utilizar esta imagen
                                                 </button>
 
                                             </div>
 
-                                            <image-upload [class]="'customImgSel'" (uploadFinished)="seleccionImagen($event)" [clearButtonCaption]="'Limpiar'" [max]="1" buttonCaption=" Seleccionar nueva imagen" dropBoxMessage=""></image-upload>
+                                            <image-upload [class]="'customImgSel'" (uploadFinished)="seleccionImagen($event)" [clearButtonCaption]="'Limpiar'" [max]="1" buttonCaption=" Seleccionar nueva imagen de Empresa" dropBoxMessage=""></image-upload>
 
                                         </div>
 
                                     </div>
                                     <div style="float: right; ">
                                         <button matStepperPrevious class="btn btn-primary btn-md " style="margin-right: 5px; ">Back</button>
-                                        <button matStepperNext class="btn btn-info btn-md " (click)="onClose()">Finalizar</button>
+                                        <button matStepperNext class="btn btn-info btn-md " (click)="final()">Finalizar</button>
                                     </div>
                                 </div>
 

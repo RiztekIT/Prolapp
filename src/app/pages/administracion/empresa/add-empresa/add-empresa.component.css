@@ -1,0 +1,32 @@
+/deep/ .customImgSel .img-ul-upload {
+    background-color: #525151 !important;
+    font-size: 14px !important;
+    padding-right: 12px !important;
+}
+
+/deep/ .customImgSel .img-ul-clear {
+    background-color: rgb(25, 55, 187) !important;
+}
+
+/deep/ .customImgSel .img-ul-drag-box-msg {
+    color: rgb(0, 140, 255) !important;
+}
+
+/deep/ .customImgSel .img-ul-container {
+    background-color: rgb(255, 255, 255) !important;
+}
+
+/deep/ .customImgSel .img-ul-button {
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    margin: 15px;
+    width: 100%;
+    font-size: 8px;
+    text-align: center;
+    padding-right: 12px !important;
+}
+
+::ng-deep .mat-horizontal-stepper,
+.mat-step {
+    overflow: auto;
+}

@@ -29,22 +29,25 @@ export class EmpresaService {
     return this.http.get<any[]>(APIUrl + '/empresa/EmpresaFoto');
   }
 
-  getLastEmpresa(): Observable <any[]> {
-    return this.http.get<any[]>(APIUrl + '/empresa/LastEmpresa');
+  getLastEmpresa(): Observable <any> {
+    return this.http.get<any>(APIUrl + '/empresa/LastEmpresa');
   }
 
   updateEmpresa(empresa: Empresa) {
     return this.http.put(APIUrl+ '/empresa', empresa);
     }    
   
-    updateEmpresaFoto(fotofinal) {
+  updateEmpresaFoto(fotofinal) {
    
-      return this.http.put( APIUrl + '/Empresa/EditarEmpresaFoto/', fotofinal)
-    }
+   return this.http.put( APIUrl + '/Empresa/EditarEmpresaFoto/', fotofinal)
+  }
   
   addEmpresa(empresa: Empresa){
-
     return this.http.post(APIUrl + '/empresa', empresa )
+  }
+
+  deleteEmpresa(id: number){
+    return this.http.delete(APIUrl +'/empresa/BorrarEmpresa/'+ id)
   }
 
 
