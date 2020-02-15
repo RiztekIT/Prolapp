@@ -153,7 +153,9 @@ export class PedidoVentasComponent implements OnInit {
 
   onDelete(pedido: Pedido) {
     this.service.onDelete(pedido.IdPedido).subscribe(res => {
-      this.refreshPedidoList();
+      this.service.onDeleteAllDetallePedido(pedido.IdPedido).subscribe(res =>{
+        this.refreshPedidoList();
+      });
     });
   }
 
