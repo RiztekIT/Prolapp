@@ -21,6 +21,7 @@ import { ShowEmpresaComponent } from './show-empresa/show-empresa.component';
 export class EmpresaComponent implements OnInit {
 
   empresaFoto: any;
+  arrfoto: Array<any> = [];
 
   constructor(public router: Router, private dialog: MatDialog, public service: EmpresaService, private _formBuilder: FormBuilder, private sanitizer: DomSanitizer ) { 
 
@@ -56,15 +57,35 @@ export class EmpresaComponent implements OnInit {
 
   refreshEmpresaFoto(foto?: string){
     console.log(this.service.getEmpresaFoto());
+
+
+    // this.service.getEmpresaFoto().subscribe(data => {
+    //   console.log(data);
+      
+    //  let objectURL = data[0].Foto;
+    //  // let objectURL = foto;
+
+    //      this.empresaFoto = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+
+
+    // })
+
+
     this.service.getEmpresaFoto().subscribe(data => {
+
       console.log(data);
       
-     let objectURL = data[0].Foto;
-     // let objectURL = foto;
+      console.log(data.length);
+      for (let i = 0; i <= data.length -1 ; i++){
 
-         this.empresaFoto = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+        console.log(data[i].Foto);
 
+        
+        let objectURL = data[i].Foto;
 
+         this.arrfoto[i] = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+
+      }
     })
   }
 

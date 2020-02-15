@@ -29,7 +29,7 @@ export class AddEmpresaComponent implements OnInit {
 
 
   ngOnInit() {
-    this.resetForm();
+     this.resetForm();
     this.onCreate();
 
 
@@ -46,7 +46,7 @@ export class AddEmpresaComponent implements OnInit {
       form.resetForm();
 
     this.service.formData = {
-        IdEmpresa:0,
+        IdEmpresa:this.service.formData.IdEmpresa,
         RFC:'',
         RazonSocial:'',
         Calle:'',
@@ -61,17 +61,38 @@ export class AddEmpresaComponent implements OnInit {
         Foto: ''       
     }
   }
+  seleccionImagen(event){
+
+    console.log(event.src)
+
+  
+    if(!event){
+      this.fotoSubir = null;
+      return; 
+    }
+    // console.log(event)
+    // console.log(event.target.value)
+    // console.log(encodeURI(event.target.value));
+
+    this.fotoSubir = event.src;
+
+  }
   
   cambiarImagen(){
     // console.log(this.fotoSubir);
     this.service.formData.Foto = this.fotoSubir
     console.log(this.service.formData);
 
-    this.service.updateEmpresaFoto(this.service.formData).subscribe(resp =>{
+    let FotoFinal = {
+      "IdEmpresa": this.service.formData.IdEmpresa,
+      "Foto": this.fotoSubir
+    }
+
+    this.service.updateEmpresaFoto(FotoFinal).subscribe(resp =>{
       console.log(resp)
         Swal.fire({
         icon: 'success',
-        title: ' Foto de Empresa Actualizada'
+        title: ' Foto de Empresa Agregada'
       })
     })
   }
