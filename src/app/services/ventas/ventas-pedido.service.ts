@@ -131,6 +131,10 @@ export class VentasPedidoService {
   onDeleteDetallePedido(id: number){
     return this.http.delete(this.APIUrl + '/Pedido/DeleteDetallePedido/' + id);
   }
+  //Eliminar ALL Detalle Pedido
+  onDeleteAllDetallePedido(id: number){
+    return this.http.delete(this.APIUrl + '/Pedido/DeleteAllDetallePedido/' + id);
+  }
 //Editar el detalle pedido
   OnEditDetallePedido(dp: DetallePedido){
     return this.http.put(this.APIUrl + '/Pedido/EditDetallePedido', dp)
