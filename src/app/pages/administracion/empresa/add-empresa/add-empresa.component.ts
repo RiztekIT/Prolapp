@@ -18,6 +18,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class AddEmpresaComponent implements OnInit {
 
   fotoSubir: string;
+  idlast: number;
 
   isLinear = false;
   firstFormGroup: FormGroup;
@@ -32,7 +33,6 @@ export class AddEmpresaComponent implements OnInit {
      this.resetForm();
     this.onCreate();
 
-
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
     });
@@ -41,12 +41,24 @@ export class AddEmpresaComponent implements OnInit {
     });
   }
 
+
+
+
   resetForm(form?: NgForm) {
     if (form != null)
       form.resetForm();
 
+      // this.service.getLastEmpresa().subscribe(data =>{
+      
+      //   console.log(data[0].IdEmpresa);
+  
+      //   this.idlast = data[0].IdEmpresa;
+  
+      // })
+      
+
     this.service.formData = {
-        IdEmpresa:this.service.formData.IdEmpresa,
+        IdEmpresa:0,
         RFC:'',
         RazonSocial:'',
         Calle:'',
@@ -60,31 +72,40 @@ export class AddEmpresaComponent implements OnInit {
         Regimen:'',
         Foto: ''       
     }
+    console.log(this.idlast);
   }
+
+
   seleccionImagen(event){
 
     console.log(event.src)
 
-  
+    this.service.getLastEmpresa().subscribe(data =>{
+      
+      console.log(data);
+
+      this.idlast = data[0].IdEmpresa;
+
+    })
+
     if(!event){
       this.fotoSubir = null;
       return; 
     }
-    // console.log(event)
-    // console.log(event.target.value)
-    // console.log(encodeURI(event.target.value));
 
     this.fotoSubir = event.src;
 
   }
   
   cambiarImagen(){
+
+    console.log(this.idlast);
     // console.log(this.fotoSubir);
     this.service.formData.Foto = this.fotoSubir
-    console.log(this.service.formData);
+   
 
     let FotoFinal = {
-      "IdEmpresa": this.service.formData.IdEmpresa,
+      "IdEmpresa": this.idlast,
       "Foto": this.fotoSubir
     }
 
@@ -111,6 +132,22 @@ export class AddEmpresaComponent implements OnInit {
   }
 
   onClose() {
+    this.service.getLastEmpresa().subscribe(data =>{
+      
+      console.log(data);
+
+      this.idlast = data[0].IdEmpresa;
+
+      this.service.deleteEmpresa(this.idlast).subscribe(data=>{
+        this.dialogbox.close();
+        this.service.filter('Register click');
+      })
+      
+    })
+    
+  }
+
+  final(){
     this.dialogbox.close();
     this.service.filter('Register click');
   }
