@@ -4,7 +4,6 @@ export class DetallePedido{
     ClaveProducto: string;
     Producto: string;
     Unidad: string;
-    ClaveSat: string;
     PrecioUnitario: string;
     Cantidad: string;
     Importe: string;

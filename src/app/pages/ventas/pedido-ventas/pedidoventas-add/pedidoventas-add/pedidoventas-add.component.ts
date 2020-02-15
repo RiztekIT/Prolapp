@@ -40,8 +40,8 @@ export class PedidoventasAddComponent implements OnInit {
   dialogbox: any;
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
-    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http : HttpClient) { }
-  
+    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient) { }
+
 
 
   isLinear = false;
@@ -185,69 +185,77 @@ export class PedidoventasAddComponent implements OnInit {
   subtotalDlls: any;
   totalDlls: any;
 
+  //Stock Real al momento de editar
+  StockReal: number;
 
-// //////////////////////////// BEGIN OBTENER TIPO CAMBIO ////////////////////////////
-rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
-Cdolar: String;
+  //ClavePedido
+  ClaveP: string;
 
-// ObtenerTipoCambio(){
-//   //Obtener Tipo Cambio
-//   console.log('TIPO CAMBIO----------------');
-//   console.log(this.serviceTipoCambio.TipoCambio);
-//   this.TipoCambio = this.serviceTipoCambio.TipoCambio;
-//   console.log('TIPO CAMBIO = ' + this.TipoCambio);
-//     }
+  //Cantidad de Producto al momento de editar (en caso de que se cambie el producto por uno nuevo)
+  CantidadP: number;
 
-    tipoDeCambio(){
-      let hora = new Date().getHours();
-      let fechahoy = new Date();
-      let fechaayer = new Date();
-      
-  
-      fechaayer.setDate(fechahoy.getDate() - 1)
-      let diaayer = new Date(fechaayer).getDate();
-      let mesayer = new Date(fechaayer).getMonth();
-      let añoayer = new Date(fechaayer).getFullYear();
-      let diasemana = new Date(fechahoy).getDay();
-  
-      let i;
-  if (hora>11){
-    i=2;
-  }else{
-    i=1;
+  // //////////////////////////// BEGIN OBTENER TIPO CAMBIO ////////////////////////////
+  rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
+  Cdolar: String;
+
+  // ObtenerTipoCambio(){
+  //   //Obtener Tipo Cambio
+  //   console.log('TIPO CAMBIO----------------');
+  //   console.log(this.serviceTipoCambio.TipoCambio);
+  //   this.TipoCambio = this.serviceTipoCambio.TipoCambio;
+  //   console.log('TIPO CAMBIO = ' + this.TipoCambio);
+  //     }
+
+  tipoDeCambio() {
+    let hora = new Date().getHours();
+    let fechahoy = new Date();
+    let fechaayer = new Date();
+
+
+    fechaayer.setDate(fechahoy.getDate() - 1)
+    let diaayer = new Date(fechaayer).getDate();
+    let mesayer = new Date(fechaayer).getMonth();
+    let añoayer = new Date(fechaayer).getFullYear();
+    let diasemana = new Date(fechahoy).getDay();
+
+    let i;
+    if (hora > 11) {
+      i = 2;
+    } else {
+      i = 1;
+    }
+    this.traerApi().subscribe(data => {
+      let l;
+
+      l = data.bmx.series[0].datos.length;
+      // console.log(i);
+      // console.log(l);
+      // console.log(data.bmx.series[0].datos.length);
+      // console.log(data.bmx.series[0].datos[l-i].dato);
+
+
+      this.Cdolar = data.bmx.series[0].datos[l - i].dato;
+      console.log('------CAMBIO------');
+      console.log(this.Cdolar);
+      this.TipoCambio = this.Cdolar;
+      console.log('------CAMBIO------');
+    })
+
   }
-      this.traerApi().subscribe(data => {
-        let l;
-        
-        l = data.bmx.series[0].datos.length;
-        // console.log(i);
-        // console.log(l);
-        // console.log(data.bmx.series[0].datos.length);
-        // console.log(data.bmx.series[0].datos[l-i].dato);
-        
-        
-        this.Cdolar = data.bmx.series[0].datos[l-i].dato;
-        console.log('------CAMBIO------');
-        console.log(this.Cdolar);
-        this.TipoCambio = this.Cdolar;
-        console.log('------CAMBIO------');
-      })
-  
-    }
-  
-    traerApi(): Observable<any>{
-  
-      return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
-  
-    }
+
+  traerApi(): Observable<any> {
+
+    return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
+
+  }
 
 
 
 
-// //////////////////////////// END OBTENER TIPO CAMBIO ////////////////////////////
+  // //////////////////////////// END OBTENER TIPO CAMBIO ////////////////////////////
 
 
-private _filter(value: any): any[] {
+  private _filter(value: any): any[] {
     console.log(value);
     const filterValue = value.toString().toLowerCase();
     return this.options.filter(option =>
@@ -276,7 +284,7 @@ private _filter(value: any): any[] {
     // console.log(value);
     const filterValue2 = value.toString();
     return this.options2.filter(option =>
-      option.IdProducto.toString().includes(filterValue2));
+      option.IdProducto.toString().includes(filterValue2) || option.Nombre.toLowerCase().toString().includes(filterValue2) );
   }
 
   dropdownRefresh2() {
@@ -309,6 +317,7 @@ private _filter(value: any): any[] {
   onBlurCliente() {
     // console.log(this.service.formDataPedido);
     this.service.formDataPedido.IdCliente = this.service.formData.IdClientes;
+    this.service.formDataPedido.Estatus = 'Guardada';
     console.log(this.service.formDataPedido);
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
       console.log(res);
@@ -334,7 +343,7 @@ private _filter(value: any): any[] {
     this.service.formData;
     this.service.formDataPedido;
     this.service.formDataDP;
-    
+
     this.ActualizarDetallePedidoBool = false;
 
     // form.resetForm();
@@ -342,7 +351,7 @@ private _filter(value: any): any[] {
     //Obtener Tipo Cambio
     this.TipoCambio = this.serviceTipoCambio.TipoCambio;
     console.log('TIPO CAMBIO = ' + this.TipoCambio);
-  
+
 
     //Obtener ID del local storage
     this.IdPedido = +localStorage.getItem('IdPedido');
@@ -371,7 +380,7 @@ private _filter(value: any): any[] {
 
   }
 
-  
+
 
   MonedaSelected(event: any) {
     // console.log(event);
@@ -418,38 +427,40 @@ private _filter(value: any): any[] {
     this.subtotalDlls = 0;
     this.totalDlls = 0;
     this.ivaDlls = 0;
+    //Stock real al momento de editar
+    this.StockReal = 0;
   }
 
-  refreshDetallesPedidoList(){
-this.IniciarTotales();
+  refreshDetallesPedidoList() {
+    this.IniciarTotales();
 
-this.service.GetDetallePedidoId(this.IdPedido).subscribe(data =>{
-  console.log('------------------------');
-  console.log(data);
-  //Verificar si hay datos en la tabla
-  if(data.length > 0){
-    this.valores = true;
-    (<HTMLInputElement> document.getElementById("Moneda")).disabled = true;
-    this.listData = new MatTableDataSource(data);
-    this.listData.sort = this.sort;
-    //Suma Total de importes de detalle pedidos
-    
-    this.service.GetSumaImporte(this.IdPedido).subscribe(data => {
+    this.service.GetDetallePedidoId(this.IdPedido).subscribe(data => {
+      console.log('------------------------');
       console.log(data);
-      this.total = data[0].importe;
-      this.totalDlls = data[0].importeDlls;
-      console.log(this.total);
-      console.log(this.totalDlls);
-    })
+      //Verificar si hay datos en la tabla
+      if (data.length > 0) {
+        this.valores = true;
+        (<HTMLInputElement>document.getElementById("Moneda")).disabled = true;
+        this.listData = new MatTableDataSource(data);
+        this.listData.sort = this.sort;
+        //Suma Total de importes de detalle pedidos
 
-  }else{
-    this.valores = false;
-    (<HTMLInputElement> document.getElementById("Moneda")).disabled = false;
-    this.listData = new MatTableDataSource(data);
-    this.listData.sort = this.sort;
-    console.log('No hay valores');
-  }
-})
+        this.service.GetSumaImporte(this.IdPedido).subscribe(data => {
+          console.log(data);
+          this.total = data[0].importe;
+          this.totalDlls = data[0].importeDlls;
+          console.log(this.total);
+          console.log(this.totalDlls);
+        })
+
+      } else {
+        this.valores = false;
+        (<HTMLInputElement>document.getElementById("Moneda")).disabled = false;
+        this.listData = new MatTableDataSource(data);
+        this.listData.sort = this.sort;
+        console.log('No hay valores');
+      }
+    })
   }
 
   onAddProducto(form: NgForm) {
@@ -489,26 +500,26 @@ this.service.GetDetallePedidoId(this.IdPedido).subscribe(data =>{
 
 
   //Metodo para sumar Stock Producto
-  SumarStock( Cantidad: string, ClaveProducto: string,  Id:number){
+  SumarStock(Cantidad: string, ClaveProducto: string, Id: number) {
     console.log(ClaveProducto + 'claveproducto');
-console.log(Id +'IDDDDD');
-  this.service.GetProductoDetalleProducto(ClaveProducto, Id).subscribe( data =>{
-    console.log(data[0]);
-    let stock = data[0].Stock;
-    console.log(stock);
-    stock = (+stock) + (+Cantidad);
-    console.log(stock);
-    this.service.updateStockProduto(ClaveProducto, stock.toString()).subscribe(res =>{
-console.log(res);
-    });
-  })
+    console.log(Id + 'IDDDDD');
+    this.service.GetProductoDetalleProducto(ClaveProducto, Id).subscribe(data => {
+      console.log(data[0]);
+      let stock = data[0].Stock;
+      console.log(stock);
+      stock = (+stock) + (+Cantidad);
+      console.log(stock);
+      this.service.updateStockProduto(ClaveProducto, stock.toString()).subscribe(res => {
+        console.log(res);
+      });
+    })
 
 
   }
 
   //On change Cantidad 
-  onChangeCantidadP(cantidad: Event) {
-    // console.log(cantidad);
+  onChangeCantidadP(cantidad: any) {
+    console.log(cantidad);
     let elemHTML: any = document.getElementsByName('Cantidad')[0];
     this.validarStock(cantidad);
     elemHTML.value = this.Cantidad;
@@ -516,11 +527,11 @@ console.log(res);
     this.calcularImportePedido();
     // console.log(this.Cantidad);
     // console.log(this.ProductoPrecio);
-
   }
+
   //On change Precio
-  onChangePrecio(precio: Event) {
-    // console.log(precio);
+  onChangePrecio(precio: any) {
+    console.log(precio);
     let elemHTML: any = document.getElementsByName('PrecioCosto')[0];
     // //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
     elemHTML.value = +this.ProductoPrecio;
@@ -543,6 +554,9 @@ console.log(res);
 
   //Al Click en Edit va a buscar el JN y traer DP y Pedido para llenar los campos a editar
   OnEditProducto(dp: DetallePedido) {
+    //Iniciar en 0 las variables de totales, stock y
+    this.IniciarTotales();
+
     this.ActualizarDetallePedidoBool = true;
     this.service.formDataDP = dp;
     this.service.GetProductoDetalleProducto(dp.ClaveProducto, dp.IdDetallePedido).subscribe(data => {
@@ -559,7 +573,7 @@ console.log(res);
         console.log(this.importeP);
         console.log('dlls');
       }
-      
+
       this.ProductoSelect = data[0].IdProducto;
       this.service.formProd.Nombre = data[0].Nombre;
       this.ProductoPrecio = data[0].PrecioUnitario;
@@ -576,34 +590,76 @@ console.log(res);
       // this.service.formDataDP.Observaciones = data[0].Observaciones;
       // this.service.formDataDP.TextoExtra = data[0].TextoExtra;
 
-  //  let stock = (+this.Cantidad) + (+this.service.formProd.Stock);
-  //  console.log(stock);
+      //Asignar Clave producto a Editar, para ser validado despues
+      this.ClaveP = data[0].ClaveProducto;
+      this.CantidadP = this.Cantidad;
+
+      this.StockReal = (+this.Cantidad) + (+this.service.formProd.Stock);
+      console.log(this.StockReal);
+      this.service.formProd.Stock = this.StockReal.toString();
+      this.PStock = this.service.formProd.Stock;
+      this.onChangePrecio(this.ProductoPrecio);
+      this.onChangeCantidadP(this.Cantidad);
     })
   }
 
   OnEditDetallePedidodp(form: NgForm) {
     console.clear();
 
-    // this.service.formDataDP.PrecioUnitario = this.ProductoPrecioMXN.toString(); ++++++++
+
+    this.service.formDataDP.IdPedido = this.IdPedido;
+    this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto;
+    this.service.formDataDP.Producto = this.service.formProd.Nombre;
+    this.service.formDataDP.Unidad = this.service.formProd.UnidadMedida;
+    this.service.formDataDP.PrecioUnitario = this.ProductoPrecioMXN.toString();
     this.service.formDataDP.PrecioUnitarioDlls = this.ProductoPrecioDLLS.toString();
     this.service.formDataDP.Cantidad = this.Cantidad.toString();
     this.service.formDataDP.Importe = this.importeP.toString();
-    // this.service.formDataDP.ImporteDlls = this.importePDLLS.toString(); +++++++
+    this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
     console.log(this.service.formDataDP);
-    // this.service.OnEditDetallePedido(this.service.formDataDP).subscribe(res => {
-      
-    //   // this.ActualizarDetallePedidoBool = false;
-    //   // this.refreshDetallesPedidoList();
-    //   // this.IniciarTotales();
-    //   // form.resetForm();
-    // })
+
+    if (this.ClaveP == this.service.formDataDP.ClaveProducto) {
+      console.log('SIGUE SIENDO EL MISMO PRODUCTO');
+      this.service.OnEditDetallePedido(this.service.formDataDP).subscribe(res => {
+        this.ActualizarDetallePedidoBool = false;
+        this.RestarStock();
+        this.refreshDetallesPedidoList();
+        this.IniciarTotales();
+        form.resetForm();
+      })
+
+    } else {
+      console.log('NUEVO PRODUCTO');
+
+console.clear();
+console.log(this.CantidadP.toString());
+console.log(this.ClaveP.toString());
+console.log(this.service.formDataDP.IdDetallePedido);
+
+
+
+      this.SumarStock(this.CantidadP.toString(), this.ClaveP.toString(), this.service.formDataDP.IdDetallePedido);
+// console.log(this.service.formDataDP);
+
+      this.service.OnEditDetallePedido(this.service.formDataDP).subscribe(res => {
+        this.ActualizarDetallePedidoBool = false;
+        this.RestarStock();
+        this.refreshDetallesPedidoList();
+        this.IniciarTotales();
+        form.resetForm();
+      })
+
+
+    }
+
+
   }
 
-  btnAgregarnuevodp(form: NgForm){
+  Cancelar(form: NgForm) {
     this.ActualizarDetallePedidoBool = false;
     this.refreshDetallesPedidoList();
-      this.IniciarTotales();
-      form.resetForm();
+    this.IniciarTotales();
+    form.resetForm();
     // resetear form
   }
 
@@ -630,9 +686,9 @@ console.log(res);
 
 
 
-  onDeleteDetalleProducto(dp: DetallePedido){
+  onDeleteDetalleProducto(dp: DetallePedido) {
     this.SumarStock(dp.Cantidad, dp.ClaveProducto, dp.IdDetallePedido);
-    this.service.onDeleteDetallePedido(dp.IdDetallePedido).subscribe(res =>{
+    this.service.onDeleteDetallePedido(dp.IdDetallePedido).subscribe(res => {
       console.log('//////////////////////////////////////////////////////');
       console.log(res);
       console.log('//////////////////////////////////////////////////////');

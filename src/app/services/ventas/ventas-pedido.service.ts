@@ -133,7 +133,7 @@ export class VentasPedidoService {
   }
 //Editar el detalle pedido
   OnEditDetallePedido(dp: DetallePedido){
-    return this.http.put(this.APIUrl + '/Pedido/EditDetallePedido', DetallePedido)
+    return this.http.put(this.APIUrl + '/Pedido/EditDetallePedido', dp)
   }
 
   private _listeners = new Subject<any>(); 
