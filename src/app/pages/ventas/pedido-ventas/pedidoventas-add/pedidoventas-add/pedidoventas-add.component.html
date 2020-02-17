@@ -87,6 +87,10 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <br>
+
+                                            <label class="input-group-text text-info">Lugar de Entrega:</label>
+                                            <input type="text" class="form-control" name="LugarDeEntrega" #LugarDeEntrega="ngModel" [(ngModel)]="service.formDataPedido.LugarDeEntrega">
+
                                             <label class="input-group-text text-info">Nombre :</label>
                                             <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre" readonly>
 
