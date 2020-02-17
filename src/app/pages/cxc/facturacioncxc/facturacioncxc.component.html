@@ -181,13 +181,15 @@
                                                 <th> Clave Producto </th>
                                                 <th> Producto </th>
                                                 <th> Cantidad </th>
+                                                <th> Precio Unitario </th>
                                                 <th> Importe </th>
                                             </tr>
                                             <tr *ngFor="let detalle of element.detalle">
                                                 <td> {{detalle.ClaveSAT}} </td>
                                                 <td> {{detalle.Producto}} </td>
-                                                <td> {{detalle.Cantidad}} </td>
-                                                <td> {{detalle.Importe}} </td>
+                                                <td> {{detalle.Cantidad | number: '1.0-2' }} </td>
+                                                <td> {{detalle.PrecioUnitario | currency}} </td>
+                                                <td> {{detalle.Importe | currency}} </td>
                                             </tr>
                                         </table>
 
