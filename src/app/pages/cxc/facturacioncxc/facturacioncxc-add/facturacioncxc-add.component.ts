@@ -87,7 +87,8 @@ export class FacturacioncxcAddComponent implements OnInit {
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
 
-
+  folioparam;
+  idparam;
 
   json1 = new FacturaTimbre();
   json2 = new Prefactura();
@@ -1193,59 +1194,82 @@ export class FacturacioncxcAddComponent implements OnInit {
   }
 
   email(id: string, folio: string) {
-    this.loading = true;
-    document.getElementById('enviaremail').click();
-    // let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
+  //   this.loading = true;
+  //   document.getElementById('enviaremail').click();
+   
+  //   this.enviarfact.xml(id).subscribe(data => {
 
-    // localStorage.removeItem('xml'+folio);
-    // localStorage.removeItem('pdf'+folio);
-
-
-    
-    // let pdf =  html2pdf().output(option,content)
-    //.from(content).set(option).save(); 
-    
-    // .pipe(retry())
-    this.enviarfact.xml(id).subscribe(data => {
-        // console.log(data);
-        localStorage.setItem('xml' + folio, data)
-        this.xmlparam = folio;
-        setTimeout(()=>{
-          const content: Element = document.getElementById('element-to-PDF');
-          const option = {
-            margin: [0, 0, 0, 0],
-            filename: 'F-' + folio + '.pdf',
-            image: { type: 'jpeg', quality: 1 },
-            html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
-            jsPDF: { format: 'letter', orientation: 'portrait' },
-          };
+  //       localStorage.setItem('xml' + folio, data)
+  //       this.xmlparam = folio;
+  //       setTimeout(()=>{
+  //         const content: Element = document.getElementById('element-to-PDF');
+  //         const option = {
+  //           margin: [0, 0, 0, 0],
+  //           filename: 'F-' + folio + '.pdf',
+  //           image: { type: 'jpeg', quality: 1 },
+  //           html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
+  //           jsPDF: { format: 'letter', orientation: 'portrait' },
+  //         };
       
       
-          html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
-            localStorage.setItem('pdf'+folio, pdfAsString);
-          })
-        },1000)
+  //         html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
+  //           localStorage.setItem('pdf'+folio, pdfAsString);
+  //         })
+  //       },1000)
        
   
-  setTimeout(()=>{
-        let datos;
-        datos={
-          'nombre': 'Ivan Talamantes',
-          'email': 'ivan.talamantes@live.com',
-          'mensaje':'Factura'+folio,
-          'asunto': 'Envio Factura '+folio,
-          "folio": folio,
-          "xml": localStorage.getItem('xml'+folio),
-          "pdf": localStorage.getItem('pdf'+folio)
-        }
-        this._MessageService.sendMessage(datos).subscribe(() => {
-          this.loading = false;
-          document.getElementById('cerrarmodal').click();
-          Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
-        });
-      },3000)
+  // setTimeout(()=>{
+  //       let datos;
+  //       datos={
+  //         'nombre': 'Ivan Talamantes',
+  //         'email': 'ivan.talamantes@live.com',
+  //         'mensaje':'Factura'+folio,
+  //         'asunto': 'Envio Factura '+folio,
+  //         "folio": folio,
+  //         "xml": localStorage.getItem('xml'+folio),
+  //         "pdf": localStorage.getItem('pdf'+folio)
+  //       }
+  //       this._MessageService.sendMessage(datos).subscribe(() => {
+  //         this.loading = false;
+  //         document.getElementById('cerrarmodal').click();
+  //         Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
+  //       });
+  //     },3000)
        
-    })
+  //   })
+
+  localStorage.removeItem('xml'+folio);
+localStorage.removeItem('pdf'+folio);
+  document.getElementById('enviaremail2').click();
+  this.folioparam = folio;
+  this.idparam = id;
+  this._MessageService.correo='ivan.talamantes@live.com';
+  this._MessageService.cco='ivan.talamantes@riztek.com.mx';
+  this._MessageService.asunto='Envio Factura '+folio;
+  this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+folio;
+  this._MessageService.nombre='ProlactoIngredientes';
+ 
+    this.enviarfact.xml(id).subscribe(data => {
+      localStorage.setItem('xml' + folio, data)
+      this.xmlparam = folio;
+      setTimeout(()=>{
+        const content: Element = document.getElementById('element-to-PDF');
+        const option = {
+          margin: [0, 0, 0, 0],
+          filename: 'F-' + folio + '.pdf',
+          image: { type: 'jpeg', quality: 1 },
+          html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
+          jsPDF: { format: 'letter', orientation: 'portrait' },
+        };
+    
+    
+        html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
+          localStorage.setItem('pdf'+folio, pdfAsString);
+        })
+      },1000)
+
+     
+  })
        
 
      

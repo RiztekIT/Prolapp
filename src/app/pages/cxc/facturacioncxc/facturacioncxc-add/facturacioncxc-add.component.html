@@ -367,7 +367,7 @@
                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='cancelar(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
                         class="mdi mdi-candle btn-lg"></i>Cancelar</button>
                             <br>
-                            <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
+                            <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button>
                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='email(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
                         class="mdi mdi-email btn-lg"></i>Enviar</button>
 
@@ -533,5 +533,20 @@
         </div>
     </div>
     <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}" [template]="customTemplate">
+    </ngx-loading>
+</div>
+
+
+<div class="modal fade bs-example-modal-lg show" id="modalcorreo">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <button id="cerrarmodal" type="button" [hidden]="true" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+            <app-email [foliop]="folioparam" [idp]="idparam"></app-email>
+
+
+        </div>
+    </div>
+    <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
     </ngx-loading>
 </div>

@@ -21,10 +21,42 @@ export class EmailComponent implements OnInit {
   constructor(public _MessageService: MessageService) { }
 
   ngOnInit() {
+   
   }
+
+  leerArchivo(){
+    const formData = new FormData();
+    formData.append('folio', this.foliop)
+    console.log(this.foliop);
+
+    
+    
+    this._MessageService.readFile(formData).subscribe(res=>{
+      console.log(res);
+      const blob = new Blob([res as ArrayBuffer], { type: 'application/xml' });
+      // this.files.push(blob)
+      console.log(blob);
+      let file = new File([blob],'archivo.pdf');
+      this.files.push(file);
+      
+      
+    })
+  
+  }
+
+  
 
   onSelect(event){
     console.log(event);
+    const formData = new FormData();
+    formData.append('0',event.addedFiles[0])
+    formData.append('folio', this.foliop)
+    this._MessageService.saveFile(formData).subscribe(res=>{
+      console.log(res);
+      
+      
+      
+    })
     this.files.push(...event.addedFiles);
   }
 
@@ -63,6 +95,7 @@ export class EmailComponent implements OnInit {
         
         this._MessageService.sendMessage(formData).subscribe(() => {
           this.loading2 = false;
+          this.files = []
           document.getElementById('cerrarmodal').click();
           Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
         });

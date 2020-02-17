@@ -503,6 +503,8 @@ pdf(id: string, folio:string){
     });
 }
 
+
+
 email(id: string, folio:string){
 //s  this.loading2 = true
 localStorage.removeItem('xml'+folio);
@@ -515,6 +517,8 @@ localStorage.removeItem('pdf'+folio);
   this._MessageService.asunto='Envio Factura '+folio;
   this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+folio;
   this._MessageService.nombre='ProlactoIngredientes';
+  
+
  
     this.enviarfact.xml(id).subscribe(data => {
       localStorage.setItem('xml' + folio, data)
@@ -534,25 +538,7 @@ localStorage.removeItem('pdf'+folio);
           localStorage.setItem('pdf'+folio, pdfAsString);
         })
       },1000)
-     
 
-// setTimeout(()=>{
-//       let datos;
-//       datos={
-//         'nombre': 'Ivan Talamantes',
-//         'email': 'ivan.talamantes@live.com',
-//         'mensaje':'Factura'+folio,
-//           'asunto': 'Envio Factura '+folio,
-//         "folio": folio,
-//         "xml": localStorage.getItem('xml'+folio),
-//         "pdf": localStorage.getItem('pdf'+folio)
-//       }
-//       this._MessageService.sendMessage(datos).subscribe(() => {
-//         this.loading2 = false;
-//         document.getElementById('cerrarmodal').click();
-//         Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
-//       });
-//     },3000)
      
   })
 
