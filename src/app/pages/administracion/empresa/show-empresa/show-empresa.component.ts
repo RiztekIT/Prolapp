@@ -24,6 +24,7 @@ export class ShowEmpresaComponent implements OnInit {
   
   fotoSubir: string;
   empresaFoto: any;
+  arrfoto: Array<any> = [];
 
   // listData: MatTableDataSource<any>;
   // displayedColumns: string [] = [ 'Razon Social', 'RFC', 'Calle', 'Numero Interior', 'Numero Exterior', 'Codigo Postal', 
@@ -32,11 +33,11 @@ export class ShowEmpresaComponent implements OnInit {
   // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(public dialogbox: MatDialogRef<ShowEmpresaComponent>, public service:EmpresaService, private dialog: MatDialog, private snackBar: MatSnackBar, private sanitizer: DomSanitizer, private http: HttpClient ) {
-    this.Iniciar();
+    // this.Iniciar();
 
     this.service.listen().subscribe((m:any) =>{
 
-      this.refreshEmpresaList();
+      // this.refreshEmpresaList();
       
       this.refreshEmpresaFoto();
     });
@@ -44,54 +45,45 @@ export class ShowEmpresaComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.refreshEmpresaList();
+    // this.refreshEmpresaList();
     this.refreshEmpresaFoto();
   }
 
-  Iniciar(){
-    this.service.formData = {
-      IdEmpresa: 0,
-      RazonSocial: '',
-      RFC: '',
-      Calle: '',
-      NumeroInterior: 0,
-      NumeroExterior: 0,
-      CP: 0,
-      Colonia: '',
-      Ciudad: '',
-      Estado: '',
-      Pais: '',
-      Regimen: '',
-    }
-  }
+  // Iniciar(){
+  //   this.service.formData = {
+  //     IdEmpresa: 0,
+  //     RazonSocial: '',
+  //     RFC: '',
+  //     Calle: '',
+  //     NumeroInterior: 0,
+  //     NumeroExterior: 0,
+  //     CP: 0,
+  //     Colonia: '',
+  //     Ciudad: '',
+  //     Estado: '',
+  //     Pais: '',
+  //     Regimen: '',
+  //   }
+  // }
 
-  refreshEmpresaList(){
+  // refreshEmpresaList(){
 
-    this.service.getEmpresaList().subscribe(data =>{
-      //console.log(data[0]);
-      this.service.formData = data[0];
-      // this.listData = new MatTableDataSource(data);
-      // this.listData.sort = this.sort;
-      // this.listData.paginator = this.paginator;
-      // this.listData.paginator._intl.itemsPerPageLabel = 'Empresas por Pagina';
-    })
-  }
+  //   this.service.getEmpresaList().subscribe(data =>{
+  //     //console.log(data[0]);
+  //     // this.service.formData = data[0];
+  //     // this.listData = new MatTableDataSource(data);
+  //     // this.listData.sort = this.sort;
+  //     // this.listData.paginator = this.paginator;
+  //     // this.listData.paginator._intl.itemsPerPageLabel = 'Empresas por Pagina';
+  //   })
+  // }
 
   refreshEmpresaFoto(foto?: string){
     //console.log(this.service.getEmpresaFoto());
     this.service.getEmpresaFoto().subscribe(data => {
       console.log(data);
-      
-     let objectURL = data[0].Foto;
-     // let objectURL = foto;
-
-         this.empresaFoto = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-
-
     })
     
-  
-   
   }
 
   seleccionImagen(event){
@@ -111,9 +103,6 @@ export class ShowEmpresaComponent implements OnInit {
 
     this.refreshEmpresaFoto(this.fotoSubir);
 
-
-
-
   }
   onClose() {
     this.dialogbox.close();
@@ -122,17 +111,24 @@ export class ShowEmpresaComponent implements OnInit {
 
 
   cambiarImagen(){
+
+
     // console.log(this.fotoSubir);
     this.service.formData.Foto = this.fotoSubir
+    console.log(this.fotoSubir);
     console.log(this.service.formData);
 
-    this.service.updateEmpresaFoto(this.service.formData).subscribe(resp =>{
+    let FotoFinal = {
+      "IdEmpresa": this.service.formData.IdEmpresa,
+      "Foto": this.fotoSubir
+    }
+
+    this.service.updateEmpresaFoto(FotoFinal).subscribe(resp =>{
       console.log(resp)
         Swal.fire({
         icon: 'success',
         title: ' Foto de Empresa Actualizada'
-      })
-      this.refreshEmpresaFoto();
+      })  
 
     })
 
@@ -149,16 +145,6 @@ export class ShowEmpresaComponent implements OnInit {
     //   })
     // })
 
-  }
-
-  onEdit(empresa: Empresa){
-    
-    this.service.formData = empresa;
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true; 
-    dialogConfig.width = "70%";
-    this.dialog.open(EditEmpresaComponent, dialogConfig);
   }
 
   onSubmit(form: NgForm) {

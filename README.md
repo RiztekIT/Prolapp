@@ -19,3 +19,6 @@ npm install xml2json
 
 ## NGX-LOADING
 npm install --save ngx-loading
+
+## NGX-DROPZONE
+npm install --save ngx-dropzone

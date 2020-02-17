@@ -8,100 +8,120 @@
 
 </div>
 <hr>
-<div class="col-12">
-    <div class="card">
-        <div class="card-body">
+
+<mat-dialog-content>
+    <div class="col-12" style="overflow: visible;">
+        <div class="card">
+            <div class="card-body">
 
 
-            <!-- Step 1 -->
-            <h6>Informacion de la empresa</h6>
-            <section>
-                <!-- va en el ngform -->
-                <!--   updateReciboPago(reciboPago: ReciboPago) {
-    return this.http.put(this.APIUrl + '/ReciboPago', reciboPago);
-  } -->
+                <!-- Step 1 -->
+                <h6>Informacion de la empresa</h6>
+                <section>
+                    <!-- va en el ngform -->
+                    <!--   updateReciboPago(reciboPago: ReciboPago) {
+        return this.http.put(this.APIUrl + '/ReciboPago', reciboPago);
+      } -->
 
-                <div class="form-material">
+                    <div class="form-material">
 
-                    <mat-horizontal-stepper [linear]="isLinear" #stepper>
-                        <mat-step [stepControl]="firstFormGroup">
-                            <form>
-                                <ng-template matStepLabel>Datos de la Empresa</ng-template>
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <br>
-                                            <label class="input-group-text text-info">RFC :</label>
-                                            <input type="text" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="service.formData.RFC">
+                        <mat-horizontal-stepper [linear]="isLinear" #stepper>
+                            <mat-step [stepControl]="firstFormGroup">
+                                <form>
+                                    <ng-template matStepLabel>Datos de la Empresa</ng-template>
+                                    <br>
 
-                                            <label class="input-group-text text-info">Razon Social :</label>
-                                            <input type="text" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="service.formData.RazonSocial">
+                                    <div class="container">
+                                        <div class="row">
 
-                                            <label class="input-group-text text-info">Calle :</label>
-                                            <input type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle">
+                                            <div class="col-12 col-md-6">
+                                                <br>
+                                                <label class="input-group-text text-info">RFC :</label>
+                                                <input type="text" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="service.formData.RFC">
 
-                                            <label class="input-group-text text-info">NumeroInterior :</label>
-                                            <input type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior">
+                                                <label class="input-group-text text-info">Razon Social :</label>
+                                                <input type="text" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="service.formData.RazonSocial">
 
-                                            <label class="input-group-text text-info">NumeroExterior :</label>
-                                            <input type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior">
+                                                <label class="input-group-text text-info">Calle :</label>
+                                                <input type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle">
 
-                                            <label class="input-group-text text-info">CP :</label>
-                                            <input type="text" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP">
+                                                <label class="input-group-text text-info">NumeroInterior :</label>
+                                                <input type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior">
 
+                                                <label class="input-group-text text-info">NumeroExterior :</label>
+                                                <input type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior">
+
+                                                <label class="input-group-text text-info">CP :</label>
+                                                <input type="text" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP">
+
+
+                                            </div>
+                                            <div class="col-12 col-md-6">
+
+                                                <label class="input-group-text text-info">Colonia :</label>
+                                                <input type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia">
+
+                                                <label class="input-group-text text-info">Ciudad :</label>
+                                                <input type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad">
+
+                                                <label class="input-group-text text-info">Estado :</label>
+                                                <input type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado">
+
+                                                <label class="input-group-text text-info">Pais :</label>
+                                                <input type="text" class="form-control" name="Pais" #Estado="ngModel" [(ngModel)]="service.formData.Pais">
+
+                                                <label class="input-group-text text-info">Regimen :</label>
+                                                <input type="text" class="form-control" name="Regimen" #Estado="ngModel" [(ngModel)]="service.formData.Regimen">
+
+                                            </div>
+                                            <div class="container">
+                                                <div class="row">
+                                                    <div class="col-10"></div>
+                                                    <div class="col-2">
+                                                        <button class="btn btn-info btn-md" style="float: right;" matStepperNext>Next</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </mat-step>
+
+                            <mat-step [stepControl]="secondFormGroup">
+                                <form>
+                                    <ng-template matStepLabel>Seleccionar Foto de Empresa</ng-template>
+                                    <label class="input-group-text text-info">Foto de la Empresa:</label> <br>
+
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-md-12 col-12">
+
+                                                <div style="padding-left: 32px; text-align: left;">
+                                                    <button (click)="cambiarImagen()" [disabled]="!fotoSubir" type="button" class="btn btn-outline-secondary btn-block">
+                                                        <i class="fa fa-save"></i>
+                                                        Utilizar esta imagen
+                                                    </button>
+
+                                                </div>
+
+                                                <image-upload [class]="'customImgSel'" (uploadFinished)="seleccionImagen($event)" [clearButtonCaption]="'Limpiar'" [max]="1" buttonCaption=" Seleccionar nueva imagen de Empresa" dropBoxMessage=""></image-upload>
+
+                                            </div>
 
                                         </div>
-                                        <div class="col-6">
-
-                                            <label class="input-group-text text-info">Colonia :</label>
-                                            <input type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia">
-
-                                            <label class="input-group-text text-info">Ciudad :</label>
-                                            <input type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad">
-
-                                            <label class="input-group-text text-info">Estado :</label>
-                                            <input type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado">
-
-                                            <label class="input-group-text text-info">Pais :</label>
-                                            <input type="text" class="form-control" name="Pais" #Estado="ngModel" [(ngModel)]="service.formData.Pais">
-
-                                            <label class="input-group-text text-info">Regimen :</label>
-                                            <input type="text" class="form-control" name="Regimen" #Estado="ngModel" [(ngModel)]="service.formData.Regimen">
-
-
-
-
+                                        <div style="float: right; ">
+                                            <button matStepperPrevious class="btn btn-primary btn-md " style="margin-right: 5px; ">Back</button>
+                                            <button matStepperNext class="btn btn-info btn-md " (click)="final()">Finalizar</button>
                                         </div>
-                                        <button class="btn btn-info btn-md" style="float: right;" matStepperNext>Next</button>
                                     </div>
-                                </div>
-                            </form>
-                        </mat-step>
 
-                        <mat-step [stepControl]="secondFormGroup">
-                            <form>
-                                <ng-template matStepLabel>Producto</ng-template>
-                                <label class="input-group-text text-info">Producto :</label> <br>
+                                </form>
+                            </mat-step>
+                        </mat-horizontal-stepper>
+                    </div>
+                </section>
 
-                                <div class="container">
-                                    <div class="row">
-
-
-                                        <!-- Aqui va la foto -->
-
-                                    </div>
-                                    <div style="float: right; ">
-                                        <button matStepperPrevious class="btn btn-primary btn-md " style="margin-right: 5px; ">Back</button>
-                                        <button matStepperNext class="btn btn-info btn-md ">Next</button>
-                                    </div>
-                                </div>
-
-                            </form>
-                        </mat-step>
-                    </mat-horizontal-stepper>
-                </div>
-            </section>
-
+            </div>
         </div>
     </div>
-</div>
+</mat-dialog-content>

@@ -4,34 +4,179 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title"> Pedidos </h4>
-            <!-- <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6> -->
-            <div class="table-responsive m-t-20">
-                <table id="example" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Cliente</th>
-                            <th>Cantidad</th>
-                            <th>Fecha</th>
-                            <th>Estatus</th>
-                            <th>Fletera</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let incidencia of ReporteCompras">
-                            <td>{{ incidencia.id }}</td>
-                            <td>{{ incidencia.cliente }}</td>
-                            <td>{{ incidencia.cantidad }}</td>
-                            <td>{{ incidencia.fecha }}</td>
-                            <td>{{ incidencia.estatus }}</td>
-                            <td>{{ incidencia.fletera }}<select class="custom-select form-control" id="location1" name="location">
-                                    <option *ngFor="let flete of fletera; let i = index" value="">{{ i }} - {{ flete }}</option>
-                                </select> </td>
-                        </tr>
-                    </tbody>
-                </table>
 
+
+
+            <!-- Inicio Tabla Pedidos -->
+
+            <div fxLayoutAlign="row">
+                <mat-card style="text-align: right;" class="mat-elevation-z0">
+                    <mat-form-field>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                    </mat-form-field>
+                </mat-card>
             </div>
+
+            <div style="overflow:auto;">
+
+                <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+
+                    <ng-container matColumnDef="IdPedido">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Pedido</th>
+                        <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.IdPedido}} +
+                            <td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</th>
+                        <td mat-cell *matCellDef="let element">{{element.Nombre}}
+                            <td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Folio">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio</th>
+                        <td mat-cell *matCellDef="let element">{{element.Folio}}
+                            <td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Subtotal">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Subtotal</th>
+                        <td mat-cell *matCellDef="let element">{{element.Subtotal}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Descuento">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Descuento</th>
+                        <td mat-cell *matCellDef="let element">{{element.Descuento}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Total">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
+                        <td mat-cell *matCellDef="let element">{{element.Total}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Observaciones">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Observaciones</th>
+                        <td mat-cell *matCellDef="let element">{{element.Observaciones}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="FechaVencimiento">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Vencimiento</th>
+                        <td mat-cell *matCellDef="let element">{{element.FechaVencimiento}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="OrdenDeCompra">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Orden de Compra</th>
+                        <td mat-cell *matCellDef="let element">{{element.OrdenDeCompra}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="FechaDeEntrega">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Entrega</th>
+                        <td mat-cell *matCellDef="let element">{{element.FechaDeEntrega}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="CondicionesDePago">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Condiciones de Pago</th>
+                        <td mat-cell *matCellDef="let element">{{element.CondicionesDePago}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Vendedor">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Vendedor</th>
+                        <td mat-cell *matCellDef="let element">{{element.Vendedor}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Estatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                        <td mat-cell *matCellDef="let element">{{element.Estatus}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Usuario">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario</th>
+                        <td mat-cell *matCellDef="let element">{{element.Usuario}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Factura">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Factura</th>
+                        <td mat-cell *matCellDef="let element">{{element.Factura}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="LugarDeEntrega">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Lugar de Entrega</th>
+                        <td mat-cell *matCellDef="let element">{{element.LugarDeEntrega}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Moneda">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Moneda</th>
+                        <td mat-cell *matCellDef="let element">{{element.Moneda}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Prioridad">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Prioridad</th>
+                        <td mat-cell *matCellDef="let element">{{element.Prioridad}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Options">
+                        <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                        <td mat-cell *matCellDef="let row">
+
+                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                  </button>
+                            <mat-menu #menu="matMenu">
+                                <!--  -->
+                                <button mat-icon-button class="btn btn-dark">
+                                                <mat-icon>edit</mat-icon>
+                                            </button>
+                                <!--  -->
+                                <!-- <button mat-icon-button class="btn btn-danger" color="warn">
+                                                    <mat-icon>delete_outline</mat-icon>
+                                                </button> -->
+                            </mat-menu>
+                        </td>
+                    </ng-container>
+
+                    <!-- DETALLES DE PEDIDO -->
+                    <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                            <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="element.DetallePedido.length > 0" (click)="expandedElement = 0">
+
+                                <table width="100%">
+                                    <tr>
+                                        <th> Clave Producto </th>
+                                        <th> Producto </th>
+                                        <th> Cantidad </th>
+                                    </tr>
+                                    <tr *ngFor="let detalle of element.DetallePedido">
+                                        <td> {{detalle.ClaveProducto}} </td>
+                                        <td> {{detalle.Producto}} </td>
+                                        <td> {{ detalle.Cantidad}} </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <!-- DETALLES DE PEDIDO -->
+
+                </table>
+                <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                </mat-paginator>
+            </div>
+
+            <!-- Fin Tabla Pedidos -->
+
+
+
         </div>
 
     </div>

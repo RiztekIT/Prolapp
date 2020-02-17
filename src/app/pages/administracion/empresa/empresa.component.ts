@@ -21,6 +21,7 @@ import { ShowEmpresaComponent } from './show-empresa/show-empresa.component';
 export class EmpresaComponent implements OnInit {
 
   empresaFoto: any;
+  arrfoto: Array<any> = [];
 
   constructor(public router: Router, private dialog: MatDialog, public service: EmpresaService, private _formBuilder: FormBuilder, private sanitizer: DomSanitizer ) { 
 
@@ -46,7 +47,7 @@ export class EmpresaComponent implements OnInit {
 
     this.service.getEmpresaList().subscribe(data =>{
       //console.log(data[0]);
-      this.service.formData = data[0];
+      // this.service.formData = data[0];
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
@@ -56,21 +57,41 @@ export class EmpresaComponent implements OnInit {
 
   refreshEmpresaFoto(foto?: string){
     console.log(this.service.getEmpresaFoto());
+
+
+    // this.service.getEmpresaFoto().subscribe(data => {
+    //   console.log(data);
+      
+    //  let objectURL = data[0].Foto;
+    //  // let objectURL = foto;
+
+    //      this.empresaFoto = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+
+
+    // })
+
+
     this.service.getEmpresaFoto().subscribe(data => {
+
       console.log(data);
       
-     let objectURL = data[0].Foto;
-     // let objectURL = foto;
+      console.log(data.length);
+      for (let i = 0; i <= data.length -1 ; i++){
 
-         this.empresaFoto = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+        console.log(data[i].Foto);
 
+        
+        let objectURL = data[i].Foto;
 
+         this.arrfoto[i] = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+
+      }
     })
   }
 
 
-  onDelete( id:number ){
-
+  onDelete( row ){
+    console.log(row.IdEmpresa);
     Swal.fire({
       title: '¿Seguro que quiere eliminar la empresa?',
       icon: 'warning',
@@ -80,17 +101,25 @@ export class EmpresaComponent implements OnInit {
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result)=>{
-      if (result.value) {
-        // this.service.deleteEmpresa(id).subscribe(res => {
-        //   this.refreshEmpresaList();
-        //   Swal.fire({
-        //     title: ' Empresa Eliminada',
-        //     icon: 'success',
-        //     timer: 1000,
-        //     showCancelButton: false,
-        //     showConfirmButton: false
-        // });
-        //   });
+      if (result.value == true) {
+        this.service.deleteEmpresa(row.IdEmpresa).subscribe(res => {
+          this.refreshEmpresaList();
+          Swal.fire({
+            title: ' Empresa Eliminada',
+            icon: 'success',
+            timer: 1000,
+            showCancelButton: false,
+            showConfirmButton: false
+        });
+          });
+      }else{
+        Swal.fire({
+          title: 'Empresa No Eliminada',
+          icon: 'error',
+          timer: 1000,
+          showCancelButton: false,
+            showConfirmButton: false
+        })
       }
     })
   }

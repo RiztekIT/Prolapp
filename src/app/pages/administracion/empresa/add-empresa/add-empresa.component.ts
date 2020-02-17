@@ -18,6 +18,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class AddEmpresaComponent implements OnInit {
 
   fotoSubir: string;
+  idlast: number;
 
   isLinear = false;
   firstFormGroup: FormGroup;
@@ -29,9 +30,8 @@ export class AddEmpresaComponent implements OnInit {
 
 
   ngOnInit() {
-    this.resetForm();
+     this.resetForm();
     this.onCreate();
-
 
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
@@ -41,9 +41,21 @@ export class AddEmpresaComponent implements OnInit {
     });
   }
 
+
+
+
   resetForm(form?: NgForm) {
     if (form != null)
       form.resetForm();
+
+      // this.service.getLastEmpresa().subscribe(data =>{
+      
+      //   console.log(data[0].IdEmpresa);
+  
+      //   this.idlast = data[0].IdEmpresa;
+  
+      // })
+      
 
     this.service.formData = {
         IdEmpresa:0,
@@ -60,18 +72,48 @@ export class AddEmpresaComponent implements OnInit {
         Regimen:'',
         Foto: ''       
     }
+    console.log(this.idlast);
+  }
+
+
+  seleccionImagen(event){
+
+    console.log(event.src)
+
+    this.service.getLastEmpresa().subscribe(data =>{
+      
+      console.log(data);
+
+      this.idlast = data[0].IdEmpresa;
+
+    })
+
+    if(!event){
+      this.fotoSubir = null;
+      return; 
+    }
+
+    this.fotoSubir = event.src;
+
   }
   
   cambiarImagen(){
+
+    console.log(this.idlast);
     // console.log(this.fotoSubir);
     this.service.formData.Foto = this.fotoSubir
-    console.log(this.service.formData);
+   
 
-    this.service.updateEmpresaFoto(this.service.formData).subscribe(resp =>{
+    let FotoFinal = {
+      "IdEmpresa": this.idlast,
+      "Foto": this.fotoSubir
+    }
+
+    this.service.updateEmpresaFoto(FotoFinal).subscribe(resp =>{
       console.log(resp)
         Swal.fire({
         icon: 'success',
-        title: ' Foto de Empresa Actualizada'
+        title: ' Foto de Empresa Agregada'
       })
     })
   }
@@ -90,6 +132,22 @@ export class AddEmpresaComponent implements OnInit {
   }
 
   onClose() {
+    this.service.getLastEmpresa().subscribe(data =>{
+      
+      console.log(data);
+
+      this.idlast = data[0].IdEmpresa;
+
+      this.service.deleteEmpresa(this.idlast).subscribe(data=>{
+        this.dialogbox.close();
+        this.service.filter('Register click');
+      })
+      
+    })
+    
+  }
+
+  final(){
     this.dialogbox.close();
     this.service.filter('Register click');
   }
