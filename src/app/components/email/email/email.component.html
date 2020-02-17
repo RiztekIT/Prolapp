@@ -21,7 +21,7 @@
                 <!-- </mat-form-field> -->
 
                 <ngx-dropzone (change)="onSelect($event)">
-                    <ngx-dropzone-label>Seleecionar Archivos</ngx-dropzone-label>
+                    <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
                     <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
                         <ngx-dropzone-label>{{ f.name }} {{ f.type }}</ngx-dropzone-label>
                     </ngx-dropzone-preview>
@@ -29,6 +29,7 @@
                 </ngx-dropzone>
 
                 <button type="button" class="btn btn-secondary waves-effect" (click)="onEnviar()">Enviar</button>
+                <button type="button" class="btn btn-secondary waves-effect" (click)="leerArchivo()">leer</button>
 
             </div>
         </div>
