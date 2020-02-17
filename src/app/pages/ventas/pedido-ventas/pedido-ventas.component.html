@@ -63,7 +63,7 @@
 
                         <ng-container matColumnDef="FechaVencimiento">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Vencimiento</th>
-                            <td mat-cell *matCellDef="let element">{{element.FechaVencimiento}}
+                            <td mat-cell *matCellDef="let element">{{element.FechaVencimiento | date: 'yyyy-MM-dd'}}
                             </td>
                         </ng-container>
 
@@ -75,7 +75,7 @@
 
                         <ng-container matColumnDef="FechaDeEntrega">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Entrega</th>
-                            <td mat-cell *matCellDef="let element">{{element.FechaDeEntrega}}
+                            <td mat-cell *matCellDef="let element">{{element.FechaDeEntrega | date: 'yyyy-MM-dd'}}
                             </td>
                         </ng-container>
 
