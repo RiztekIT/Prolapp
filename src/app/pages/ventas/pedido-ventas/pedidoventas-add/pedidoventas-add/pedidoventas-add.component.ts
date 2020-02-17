@@ -483,6 +483,10 @@ export class PedidoventasAddComponent implements OnInit {
       this.refreshDetallesPedidoList();
       this.IniciarTotales();
       form.resetForm();
+      Swal.fire({
+        icon: 'success',
+        title: 'Concepto Agregado'
+      })
     })
 
 
@@ -626,6 +630,10 @@ export class PedidoventasAddComponent implements OnInit {
         this.refreshDetallesPedidoList();
         this.IniciarTotales();
         form.resetForm();
+        Swal.fire({
+          icon: 'success',
+          title: 'Pedido Actualizado'
+        })
       })
 
     } else {
@@ -647,6 +655,10 @@ console.log(this.service.formDataDP.IdDetallePedido);
         this.refreshDetallesPedidoList();
         this.IniciarTotales();
         form.resetForm();
+        Swal.fire({
+          icon: 'success',
+          title: 'Pedido Actualizado'
+        })
       })
 
 
@@ -687,23 +699,54 @@ console.log(this.service.formDataDP.IdDetallePedido);
 
 
   onDeleteDetalleProducto(dp: DetallePedido) {
-    this.SumarStock(dp.Cantidad, dp.ClaveProducto, dp.IdDetallePedido);
-    this.service.onDeleteDetallePedido(dp.IdDetallePedido).subscribe(res => {
-      console.log('//////////////////////////////////////////////////////');
-      console.log(res);
-      console.log('//////////////////////////////////////////////////////');
-      this.refreshDetallesPedidoList();
+
+    Swal.fire({
+      title: '¿Segur@ de Borrar Concepto?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+     
+        this.SumarStock(dp.Cantidad, dp.ClaveProducto, dp.IdDetallePedido);
+        this.service.onDeleteDetallePedido(dp.IdDetallePedido).subscribe(res => {
+          console.log('//////////////////////////////////////////////////////');
+          console.log(res);
+          console.log('//////////////////////////////////////////////////////');
+          this.refreshDetallesPedidoList();
+    
+          Swal.fire({
+            title: 'Borrado',
+            icon: 'success',
+            timer: 1000,
+            showCancelButton: false,
+            showConfirmButton: false
+        });
+
+      })
+        
+      }
     })
+
+    
+
+
+
+
   }
 
   crearPedido() {
+    console.clear();
+    this.service.formDataPedido.Estatus = 'Guardada';
+    console.log(this.service.formDataPedido);
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
-
       Swal.fire({
         icon: 'success',
-        title: 'Pedido Agregado'
+        title: 'Pedido Generado'
       })
-      this.dialogbox.close();
       this.service.filter('Register click');
     }
     )

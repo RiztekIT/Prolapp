@@ -42,7 +42,7 @@ export class PedidoVentasComponent implements OnInit {
 
   ngOnInit() {
     this.refreshPedidoList();
-    this.ObtenerUltimoPedido();
+    
 
   }
 
@@ -116,20 +116,19 @@ export class PedidoVentasComponent implements OnInit {
   onAdd() {
     // console.log(this.PedidoBlanco);
     this.service.addPedido(this.PedidoBlanco).subscribe(res => {
-
-
-      // console.log(res);
-      console.log(this.IdPedido);
-      localStorage.setItem('IdPedido', this.IdPedido.toString());
-      this.router.navigate(['/pedidoventasAdd']);
+      this.ObtenerUltimoPedido();
     });
   }
 
   ObtenerUltimoPedido() {
     this.service.getUltimoPedido().subscribe(res => {
-      // console.log(res);
-      this.IdPedido = res[0].IdPedido + 1;
+      console.log('NUEVO IDPEDIDO------');
+      console.log(res[0]);
+      console.log('NUEVO IDPEDIDO------');
+      this.IdPedido = res[0].IdPedido;
       console.log(this.IdPedido);
+      localStorage.setItem('IdPedido', this.IdPedido.toString());
+      this.router.navigate(['/pedidoventasAdd']);
     })
   }
 
@@ -152,11 +151,54 @@ export class PedidoVentasComponent implements OnInit {
   // }
 
   onDelete(pedido: Pedido) {
-    this.service.onDelete(pedido.IdPedido).subscribe(res => {
-      this.service.onDeleteAllDetallePedido(pedido.IdPedido).subscribe(res =>{
-        this.refreshPedidoList();
+    this.service.GetDetallePedidoId(pedido.IdPedido).subscribe(data => {
+      console.log(data);
+      if(data.length > 0 ){
+console.log('Si hay valores');
+for (let i = 0; i <= data.length - 1; i++) {
+  this.SumarStock(data[i].Cantidad, data[i].ClaveProducto, data[i].IdDetallePedido);
+  this.DeletePedidoDetallePedido(pedido);
+}
+      }else{
+console.log('No hay valores');
+this.DeletePedidoDetallePedido(pedido);
+      }
+    })
+    // for (let i = 0; i <= data.length - 1; i++) {
+      //   this.service.onDeleteAllDetallePedido(pedido.IdPedido).subscribe(res =>{
+      // this.service.onDelete(pedido.IdPedido).subscribe(res => {
+      //     this.refreshPedidoList();
+      //   });
+      // });
+    // }
+  }
+
+  //ELiminar Pedidos y DetallePedido
+  DeletePedidoDetallePedido(pedido: Pedido){
+    this.service.onDeleteAllDetallePedido(pedido.IdPedido).subscribe(res =>{
+      this.service.onDelete(pedido.IdPedido).subscribe(res => {
+          this.refreshPedidoList();
+        });
       });
-    });
+  }
+
+
+  //Metodo para sumar Stock Producto
+  SumarStock(Cantidad: string, ClaveProducto: string, Id: number) {
+    console.log(ClaveProducto + 'claveproducto');
+    console.log(Id + 'IDDDDD');
+    this.service.GetProductoDetalleProducto(ClaveProducto, Id).subscribe(data => {
+      console.log(data[0]);
+      let stock = data[0].Stock;
+      console.log(stock);
+      stock = (+stock) + (+Cantidad);
+      console.log(stock);
+      this.service.updateStockProduto(ClaveProducto, stock.toString()).subscribe(res => {
+        console.log(res);
+      });
+    })
+
+
   }
 
 
