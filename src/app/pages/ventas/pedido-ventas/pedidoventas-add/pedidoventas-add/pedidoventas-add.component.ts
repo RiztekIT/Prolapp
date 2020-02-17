@@ -282,9 +282,13 @@ export class PedidoventasAddComponent implements OnInit {
 
   private _filter2(value: any): any[] {
     // console.log(value);
-    const filterValue2 = value.toString();
-    return this.options2.filter(option =>
-      option.IdProducto.toString().includes(filterValue2) || option.Nombre.toLowerCase().toString().includes(filterValue2) );
+    if(value == null){
+    console.log('null value');
+    }else{
+      const filterValue2 = value.toString();
+      return this.options2.filter(option =>
+        option.IdProducto.toString().includes(filterValue2) || option.Nombre.toLowerCase().toString().includes(filterValue2) );
+    }
   }
 
   dropdownRefresh2() {
@@ -416,7 +420,7 @@ export class PedidoventasAddComponent implements OnInit {
   //Iniciar en 0 Valores de los Totales
   IniciarTotales() {
     //Inicializar en 0 el select del producto
-    this.ProductoSelect = +" ";
+    this.ProductoSelect = +"";
     //Inicializar Vacio el Select De Unidad
     this.service.formDataDP.Unidad = "";
     //Inicializar totales

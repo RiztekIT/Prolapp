@@ -205,7 +205,7 @@ this.DeletePedidoDetallePedido(pedido);
   applyFilter(filtervalue: string) {
     // this.listData.filter= filtervalue.trim().toLocaleLowerCase();
     this.listData.filterPredicate = (data, filter: string) => {
-      return data.Nombre.toString().toLowerCase().includes(filter);
+      return data.Nombre.toString().toLowerCase().includes(filter) || data.IdPedido.toString().includes(filter);
       // return data.Folio.toString().toLowerCase().includes(filter) || data.Nombre.toLowerCase().includes(filter);
     };
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
