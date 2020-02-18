@@ -102,7 +102,6 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12 col-md-6">
-                                            <br>
 
                                             <label class="input-group-text text-info">Lugar de Entrega:</label>
                                             <input type="text" class="form-control" name="LugarDeEntrega" #LugarDeEntrega="ngModel" [(ngModel)]="service.formDataPedido.LugarDeEntrega">
@@ -196,7 +195,6 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12 col-md-6">
-                                            <br>
                                             <label class="input-group-text text-info">Nombre :</label>
                                             <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formProd.Nombre" readonly>
 
@@ -339,10 +337,12 @@
                                         <!-- <button class="m-3" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Agregar Producto</button> -->
 
                                         <!-- Tabla de costos finales -->
+
                                         <div class="container row">
                                             <div class="col-md-7 col-lg-8">
                                             </div>
                                             <div class="col-12 col-md-5 col-lg-4">
+                                                <br>
                                                 <div class="form-material borderbox">
                                                     <div class="container">
                                                         <div class="row">

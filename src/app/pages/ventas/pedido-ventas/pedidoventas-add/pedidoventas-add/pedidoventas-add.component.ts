@@ -492,10 +492,10 @@ export class PedidoventasAddComponent implements OnInit {
     this.service.formDataDP.Importe = this.importeP.toString();
     this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
 
-    console.log(this.service.formDataDP);
+    // console.log(this.service.formDataDP);
 
     this.service.addDetallePedido(this.service.formDataDP).subscribe(res => {
-      console.log(res);
+      // console.log(res);
       //Restar el Stock
       this.RestarStock();
       // this.IniciarTotales();
