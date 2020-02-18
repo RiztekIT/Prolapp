@@ -35,8 +35,10 @@
                                             <label class="input-group-text text-info">Observaciones:</label>
                                             <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="service.formDataPedido.Observaciones">
 
-                                            <label class="input-group-text text-info">Fecha Vencimiento:</label>
-                                            <input type="text" class="form-control" name="FechaVencimiento" #FechaVencimiento="ngModel" [(ngModel)]="service.formDataPedido.FechaVencimiento">
+                                            <!-- <label class="input-group-text text-info">Fecha Vencimiento:</label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <input type="text" readonly="readonly" [matDatepicker]="picker1" class="form-control" name="FechaVencimiento" #FechaVencimiento="ngModel" [(ngModel)]="service.formDataPedido.FechaVencimiento">
+                                            <mat-datepicker #picker1></mat-datepicker> -->
 
                                             <label class="input-group-text text-info">Moneda</label>
                                             <select class="form-control" name="Moneda" #Moneda="ngModel" id="Moneda" (change)="MonedaSelected($event)" [(ngModel)]="service.formDataPedido.Moneda">
@@ -49,7 +51,9 @@
                                             <input type="text" class="form-control" name="OrdendeCompra" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataPedido.OrdenDeCompra">
 
                                             <label class="input-group-text text-info">Fecha de Entrega:</label>
-                                            <input type="text" class="form-control" name="FechaDeEntrega" #FechaDeEntrega="ngModel" [(ngModel)]="service.formDataPedido.FechaDeEntrega">
+                                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                            <input type="text" readonly="readonly" [matDatepicker]="picker2" class="form-control" name="FechaDeEntrega" #FechaDeEntrega="ngModel" [(ngModel)]="service.formDataPedido.FechaDeEntrega">
+                                            <mat-datepicker #picker2></mat-datepicker>
 
                                             <label class="input-group-text text-info">Condiciones De Pago:</label>
                                             <input type="text" class="form-control" name="CondicionesDePago" #CondicionesDePago="ngModel" [(ngModel)]="service.formDataPedido.CondicionesDePago">
@@ -58,7 +62,11 @@
                                             <input type="text" class="form-control" name="Vendedor" #Vendedor="ngModel" [(ngModel)]="service.formDataPedido.Vendedor">
 
                                             <label class="input-group-text text-info">Prioridad:</label>
-                                            <input type="text" class="form-control" name="Prioridad" #Prioridad="ngModel" [(ngModel)]="service.formDataPedido.Prioridad">
+                                            <!-- <input type="text" class="form-control" name="Prioridad" #Prioridad="ngModel" [(ngModel)]="service.formDataPedido.Prioridad"> -->
+                                            <select class="form-control" name="Prioridad" #Prioridad="ngModel" [(ngModel)]="service.formDataPedido.Prioridad">
+                                                <option [ngValue]="null" selected disabled>Seleccionar Prioridad</option>
+                                                <option *ngFor="let dl of listPrioridad" [ngValue]="dl.Prioridad"> {{dl.Prioridad}} </option>
+                                            </select>
 
 
                                         </div>
@@ -249,7 +257,7 @@
                                                     <div class="container">
                                                         <div class="row">
                                                             <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Importe</label>
-                                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImporteP" [ngModel]=" MonedaBoolean ==  true ? importeP : importePDLLS | currency">
+                                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImporteP" [ngModel]=" MonedaBoolean ==  true ? (importeP | currency ): (importePDLLS | currency)">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -339,7 +347,7 @@
                                                     <div class="container">
                                                         <div class="row">
                                                             <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
-                                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="MonedaBoolean ==  true ? total : totalDlls | currency">
+                                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="MonedaBoolean ==  true ? (total | currency) : (totalDlls | currency)">
                                                         </div>
                                                     </div>
                                                 </div>

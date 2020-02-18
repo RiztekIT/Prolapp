@@ -54,7 +54,7 @@ export class PedidoventasAddComponent implements OnInit {
   myControlUnidad = new FormControl();
   optionsUnidad = ['Pieza'];
   um: boolean;
-  ProductoSelect: number;
+  ProductoSelect: string;
   Id: number;
 
 
@@ -281,14 +281,17 @@ export class PedidoventasAddComponent implements OnInit {
   }
 
   private _filter2(value: any): any[] {
+    // console.clear();
     // console.log(value);
-    if(value == null){
-    console.log('null value');
-    }else{
+    if(typeof(value)=='string'){
+      const filterValue2 = value.toLowerCase();
+      return this.options2.filter(option => option.IdProducto.toString().toLowerCase().includes(filterValue2) || option.Nombre.toString().toLowerCase().includes(filterValue2) );
+    }else if(typeof(value)=='number'){
       const filterValue2 = value.toString();
-      return this.options2.filter(option =>
-        option.IdProducto.toString().includes(filterValue2) || option.Nombre.toLowerCase().toString().includes(filterValue2) );
+      return this.options2.filter(option => option.IdProducto.toString().includes(filterValue2) || option.Nombre.toString().includes(filterValue2) );
     }
+    
+
   }
 
   dropdownRefresh2() {
@@ -371,10 +374,15 @@ export class PedidoventasAddComponent implements OnInit {
         this.MonedaBoolean = false;
       }
       console.log(this.service.formDataPedido);
-      this.service.GetCliente(data[0].IdCliente).subscribe(data => {
-        // console.log(data);
-        this.service.formData = data[0];
-      });
+      if(data[0].IdCliente == 0){
+        console.log('ID 0');
+      }else{
+        console.log('ID Diferente a 0');
+          this.service.GetCliente(data[0].IdCliente).subscribe(data => {
+            console.log(data);
+            this.service.formData = data[0];
+          });
+      }
     });
 
     console.log(this.IdPedido);
@@ -409,6 +417,10 @@ export class PedidoventasAddComponent implements OnInit {
     { Moneda: 'MXN' },
     { Moneda: 'USD' }
   ];
+  public listPrioridad: Array<Object> = [
+    { Prioridad: 'Normal' },
+    { Prioridad: 'Urgente' }
+  ];
 
   //Tabla de Productos
   listData: MatTableDataSource<any>;
@@ -420,7 +432,9 @@ export class PedidoventasAddComponent implements OnInit {
   //Iniciar en 0 Valores de los Totales
   IniciarTotales() {
     //Inicializar en 0 el select del producto
-    this.ProductoSelect = +"";
+    this.ProductoSelect = "";
+    this.options2 = [];
+    this.dropdownRefresh2();
     //Inicializar Vacio el Select De Unidad
     this.service.formDataDP.Unidad = "";
     //Inicializar totales
@@ -484,8 +498,8 @@ export class PedidoventasAddComponent implements OnInit {
       console.log(res);
       //Restar el Stock
       this.RestarStock();
+      // this.IniciarTotales();
       this.refreshDetallesPedidoList();
-      this.IniciarTotales();
       form.resetForm();
       Swal.fire({
         icon: 'success',

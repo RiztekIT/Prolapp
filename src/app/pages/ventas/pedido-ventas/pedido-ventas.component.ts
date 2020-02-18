@@ -93,7 +93,7 @@ export class PedidoVentasComponent implements OnInit {
   public PedidoBlanco: Pedido =
     {
       IdPedido: 0,
-      IdCliente: 1,
+      IdCliente: 0,
       Folio: "",
       Subtotal: "",
       Descuento: "",
