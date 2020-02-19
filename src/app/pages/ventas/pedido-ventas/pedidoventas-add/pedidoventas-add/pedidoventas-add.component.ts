@@ -17,6 +17,7 @@ import { TipoCambioService } from '../../../../../services/tipo-cambio.service';
 import { EnviarfacturaService } from '../../../../../services/facturacioncxc/enviarfactura.service';
 import { ProductosService } from '../../../../../services/catalogos/productos.service';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Vendedor } from 'src/app/Models/catalogos/vendedores.model';
 
 //Constantes para obtener tipo de cambio
 const httpOptions = {
@@ -64,11 +65,13 @@ export class PedidoventasAddComponent implements OnInit {
 
     this.Inicializar();
     this.dropdownRefresh();
+    this.dropdownRefreshVendedor();
     this.dropdownRefresh2();
     this.refreshDetallesPedidoList();
     this.IniciarTotales();
     this.tipoDeCambio();
     this.service.formProd = new Producto();
+
 
 
 
@@ -143,12 +146,16 @@ export class PedidoventasAddComponent implements OnInit {
 
   myControl = new FormControl();
   myControl2 = new FormControl();
+  myControlVendedor = new FormControl();
   options: Cliente[] = [];
   options2: Producto[] = [];
   filteredOptions: Observable<any[]>;
   filteredOptions2: Observable<any[]>;
+  filteredOptionsVendedor: Observable<any[]>;
   listClientes: Cliente[] = [];
   listProducts: Producto[] = [];
+  //Lista de Vendedores
+  listVendedores: Vendedor[] = [];
   //Variable Moneda
   Moneda: string;
   //Boolean Moneda
@@ -197,6 +204,9 @@ export class PedidoventasAddComponent implements OnInit {
 
   //Cantidad de Producto al momento de editar (en caso de que se cambie el producto por uno nuevo)
   CantidadP: number;
+
+  //NombreVendedor
+  NombreVendedor: String;
 
   // //////////////////////////// BEGIN OBTENER TIPO CAMBIO ////////////////////////////
   rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
@@ -260,7 +270,7 @@ export class PedidoventasAddComponent implements OnInit {
 
 
   private _filter(value: any): any[] {
-    console.log(value);
+    // console.log(value);
     const filterValue = value.toString().toLowerCase();
     return this.options.filter(option =>
       option.Nombre.toLowerCase().includes(filterValue) ||
@@ -312,6 +322,36 @@ export class PedidoventasAddComponent implements OnInit {
       }
     });
 
+  }
+
+  //DropDown de Vendedores
+  dropdownRefreshVendedor() {
+    this.service.GetVendedor().subscribe(data => {
+      for (let i = 0; i < data.length; i++) {
+        let vendedor = data[i];
+        this.listVendedores.push(vendedor);
+        // this.options.push(vendedor)
+        this.filteredOptionsVendedor = this.myControlVendedor.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filterVendedor(value))
+          );
+      }
+    });
+
+  }
+//Filtro Dropdown Vendedores
+  private _filterVendedor(value: any): any[] {
+    // console.log(value);
+    const filterValue = value.toString().toLowerCase();
+    return this.listVendedores.filter(option =>
+      option.Nombre.toLowerCase().includes(filterValue) || option.IdVendedor.toString().includes(filterValue));
+  }
+
+  onSelectionChangeVendedor(options: Vendedor, event:any){
+    if(event.isUserInput){
+      this.NombreVendedor = options.Nombre;
+    }
   }
 
   //Selection change de cliente
@@ -380,6 +420,7 @@ export class PedidoventasAddComponent implements OnInit {
       console.log(this.service.formDataPedido);
       if (data[0].IdCliente == 0) {
         console.log('ID 0');
+        this.service.formData = new Cliente();
       } else {
         console.log('ID Diferente a 0');
         this.service.GetCliente(data[0].IdCliente).subscribe(data => {
@@ -388,12 +429,7 @@ export class PedidoventasAddComponent implements OnInit {
         });
       }
     });
-
     console.log(this.IdPedido);
-
-
-
-
   }
 
 
