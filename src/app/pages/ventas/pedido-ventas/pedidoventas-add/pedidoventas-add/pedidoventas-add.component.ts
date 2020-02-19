@@ -184,6 +184,8 @@ export class PedidoventasAddComponent implements OnInit {
   ivaDlls: any;
   subtotalDlls: any;
   totalDlls: any;
+  descuento: any;
+  totalDescuento: any;
 
   //Stock Real al momento de editar
   StockReal: number;
@@ -413,6 +415,14 @@ export class PedidoventasAddComponent implements OnInit {
     // console.log(this.service.Moneda);
   }
 
+  onBlurDescuento() {
+    this.descuento = this.service.formDataPedido.Descuento;
+    this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+      console.clear();
+      console.log(res);
+    })
+  }
+
   public listMoneda: Array<Object> = [
     { Moneda: 'MXN' },
     { Moneda: 'USD' }
@@ -447,6 +457,8 @@ export class PedidoventasAddComponent implements OnInit {
     this.ivaDlls = 0;
     //Stock real al momento de editar
     this.StockReal = 0;
+    this.descuento = 0;
+    this.totalDescuento = 0;
   }
 
   refreshDetallesPedidoList() {
@@ -749,25 +761,29 @@ console.log(this.service.formDataDP.IdDetallePedido);
       }
     })
 
-    
-
-
-
-
   }
 
   crearPedido() {
     console.clear();
-    this.service.formDataPedido.Estatus = 'Guardada';
-    console.log(this.service.formDataPedido);
-    this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Pedido Generado'
-      })
-      this.service.filter('Register click');
+    console.clear();
+    console.log(this.total)
+    console.log(this.descuento);
+    if (this.descuento > 0) {
+      this.service.formDataPedido.Total = this.totalDescuento
+      
     }
-    )
-  }
+    this.service.formDataPedido.Total = this.total;
+    console.log(this.service.formDataPedido);
+  //   this.service.formDataPedido.Estatus = 'Guardada';
+  //   console.log(this.service.formDataPedido);
+  //   this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+  //     Swal.fire({
+  //       icon: 'success',
+  //       title: 'Pedido Generado'
+  //     })
+  //     this.service.filter('Register click');
+  //   }
+  //   )
+  // }
 
-}
+}}
