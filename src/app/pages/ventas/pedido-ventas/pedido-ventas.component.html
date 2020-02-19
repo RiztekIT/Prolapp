@@ -150,11 +150,18 @@
                                             <th> Clave Producto </th>
                                             <th> Producto </th>
                                             <th> Cantidad </th>
+                                            <th> Precio Unitario </th>
                                         </tr>
                                         <tr *ngFor="let detalle of element.DetallePedido">
                                             <td> {{detalle.ClaveProducto}} </td>
                                             <td> {{detalle.Producto}} </td>
                                             <td> {{ detalle.Cantidad}} </td>
+                                            <div *ngIf="element.Moneda == 'MXN'">
+                                                <td> {{ detalle.PrecioUnitario | currency}} </td>
+                                            </div>
+                                            <div *ngIf="element.Moneda == 'USD'">
+                                                <td> {{ detalle.PrecioUnitarioDlls | currency}} </td>
+                                            </div>
                                         </tr>
                                     </table>
                                 </div>
