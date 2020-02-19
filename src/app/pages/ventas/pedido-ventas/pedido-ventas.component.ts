@@ -7,7 +7,7 @@ import { map, startWith } from 'rxjs/operators';
 import { VentasPedidoService } from '../../../services/ventas/ventas-pedido.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Producto } from '../../../Models/catalogos/productos-model';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, CommonModule } from '@angular/common';
 import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar } from '@angular/material';
 import { MatSort } from '@angular/material/sort';
 import { Subject } from 'rxjs';
@@ -43,7 +43,7 @@ export class PedidoVentasComponent implements OnInit {
 
   ngOnInit() {
     this.refreshPedidoList();
-    
+
 
   }
 
@@ -113,14 +113,33 @@ export class PedidoVentasComponent implements OnInit {
       Prioridad: "Normal"
     }
 
+  //Get the Folio and verify if it comes empty( in this case it will be set to 1) otherwise, it will be added 1 to not repeat the same Folio among the Pedidos
+  ObtenerFolio() {
+    this.service.GetFolio().subscribe(data => {
+      // console.log(data[0].Folio);
+      let folio = data[0].Folio;
+      if (folio == "") {
+        folio = 1;
+      } else {
+        folio = +folio + 1;
+      }
+      // console.log(folio);
+      this.PedidoBlanco.Folio = folio.toString();
+    });
+  }
 
+  //agregar nuevo pedido
   onAdd() {
-    // console.log(this.PedidoBlanco);
+    //Obtener el folio y agregarselo al pedido que se generara
+    this.ObtenerFolio();
+    console.log(this.PedidoBlanco);
     this.service.addPedido(this.PedidoBlanco).subscribe(res => {
+      //Obtener el pedido que se acaba de generar
       this.ObtenerUltimoPedido();
     });
   }
 
+  //Obtener ultimo pedido y agregarlo al local Storage
   ObtenerUltimoPedido() {
     this.service.getUltimoPedido().subscribe(res => {
       console.log('NUEVO IDPEDIDO------');
@@ -133,7 +152,8 @@ export class PedidoVentasComponent implements OnInit {
     })
   }
 
-
+  //editar pedido, llenar los formdata de donde se obtendra la informacion en el otro componente.
+  //Abrir la sig pagina donde se editara el pedido
   onEdit(pedido: Pedido) {
 
     this.service.formDataPedido = pedido;
@@ -143,44 +163,34 @@ export class PedidoVentasComponent implements OnInit {
     this.router.navigate(['/pedidoventasAdd']);
   }
 
-  // DeletePedidosCreados(){
-  //   if(){
 
-  //   }else{
-
-  //   }
-  // }
-
+  //Eliminar pedido
+  //A su vez verificar si existen detalles pedidos relacionados a ese pedido.
+  //En caso que si existan, se regresara el stock original a esos productos y se eliminaran los Detalles pedidos y el pedido.
+  //en caso que no existan detalles pedido, solamente se eliminara el pedido.
   onDelete(pedido: Pedido) {
     this.service.GetDetallePedidoId(pedido.IdPedido).subscribe(data => {
       console.log(data);
-      if(data.length > 0 ){
-console.log('Si hay valores');
-for (let i = 0; i <= data.length - 1; i++) {
-  this.SumarStock(data[i].Cantidad, data[i].ClaveProducto, data[i].IdDetallePedido);
-  this.DeletePedidoDetallePedido(pedido);
-}
-      }else{
-console.log('No hay valores');
-this.DeletePedidoDetallePedido(pedido);
+      if (data.length > 0) {
+        console.log('Si hay valores');
+        for (let i = 0; i <= data.length - 1; i++) {
+          this.SumarStock(data[i].Cantidad, data[i].ClaveProducto, data[i].IdDetallePedido);
+          this.DeletePedidoDetallePedido(pedido);
+        }
+      } else {
+        console.log('No hay valores');
+        this.DeletePedidoDetallePedido(pedido);
       }
     })
-    // for (let i = 0; i <= data.length - 1; i++) {
-      //   this.service.onDeleteAllDetallePedido(pedido.IdPedido).subscribe(res =>{
-      // this.service.onDelete(pedido.IdPedido).subscribe(res => {
-      //     this.refreshPedidoList();
-      //   });
-      // });
-    // }
   }
 
   //ELiminar Pedidos y DetallePedido
-  DeletePedidoDetallePedido(pedido: Pedido){
-    this.service.onDeleteAllDetallePedido(pedido.IdPedido).subscribe(res =>{
+  DeletePedidoDetallePedido(pedido: Pedido) {
+    this.service.onDeleteAllDetallePedido(pedido.IdPedido).subscribe(res => {
       this.service.onDelete(pedido.IdPedido).subscribe(res => {
-          this.refreshPedidoList();
-        });
+        this.refreshPedidoList();
       });
+    });
   }
 
 
@@ -202,12 +212,10 @@ this.DeletePedidoDetallePedido(pedido);
 
   }
 
-
+  //Filtro para buscar valores de la tabla de pedidos por Nombre de Cliente e IdPedido
   applyFilter(filtervalue: string) {
-    // this.listData.filter= filtervalue.trim().toLocaleLowerCase();
     this.listData.filterPredicate = (data, filter: string) => {
       return data.Nombre.toString().toLowerCase().includes(filter) || data.IdPedido.toString().includes(filter);
-      // return data.Folio.toString().toLowerCase().includes(filter) || data.Nombre.toLowerCase().includes(filter);
     };
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
 

@@ -40,7 +40,9 @@ export class PedidoventasAddComponent implements OnInit {
   dialogbox: any;
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
-    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient) { }
+    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient) {
+    this.MonedaBoolean = true;
+  }
 
 
 
@@ -283,14 +285,14 @@ export class PedidoventasAddComponent implements OnInit {
   private _filter2(value: any): any[] {
     // console.clear();
     // console.log(value);
-    if(typeof(value)=='string'){
+    if (typeof (value) == 'string') {
       const filterValue2 = value.toLowerCase();
-      return this.options2.filter(option => option.IdProducto.toString().toLowerCase().includes(filterValue2) || option.Nombre.toString().toLowerCase().includes(filterValue2) );
-    }else if(typeof(value)=='number'){
+      return this.options2.filter(option => option.IdProducto.toString().toLowerCase().includes(filterValue2) || option.Nombre.toString().toLowerCase().includes(filterValue2));
+    } else if (typeof (value) == 'number') {
       const filterValue2 = value.toString();
-      return this.options2.filter(option => option.IdProducto.toString().includes(filterValue2) || option.Nombre.toString().includes(filterValue2) );
+      return this.options2.filter(option => option.IdProducto.toString().includes(filterValue2) || option.Nombre.toString().includes(filterValue2));
     }
-    
+
 
   }
 
@@ -374,14 +376,14 @@ export class PedidoventasAddComponent implements OnInit {
         this.MonedaBoolean = false;
       }
       console.log(this.service.formDataPedido);
-      if(data[0].IdCliente == 0){
+      if (data[0].IdCliente == 0) {
         console.log('ID 0');
-      }else{
+      } else {
         console.log('ID Diferente a 0');
-          this.service.GetCliente(data[0].IdCliente).subscribe(data => {
-            console.log(data);
-            this.service.formData = data[0];
-          });
+        this.service.GetCliente(data[0].IdCliente).subscribe(data => {
+          console.log(data);
+          this.service.formData = data[0];
+        });
       }
     });
 
@@ -448,6 +450,8 @@ export class PedidoventasAddComponent implements OnInit {
     //Stock real al momento de editar
     this.StockReal = 0;
   }
+
+
 
   refreshDetallesPedidoList() {
     this.IniciarTotales();
@@ -657,15 +661,15 @@ export class PedidoventasAddComponent implements OnInit {
     } else {
       console.log('NUEVO PRODUCTO');
 
-console.clear();
-console.log(this.CantidadP.toString());
-console.log(this.ClaveP.toString());
-console.log(this.service.formDataDP.IdDetallePedido);
+      console.clear();
+      console.log(this.CantidadP.toString());
+      console.log(this.ClaveP.toString());
+      console.log(this.service.formDataDP.IdDetallePedido);
 
 
 
       this.SumarStock(this.CantidadP.toString(), this.ClaveP.toString(), this.service.formDataDP.IdDetallePedido);
-// console.log(this.service.formDataDP);
+      // console.log(this.service.formDataDP);
 
       this.service.OnEditDetallePedido(this.service.formDataDP).subscribe(res => {
         this.ActualizarDetallePedidoBool = false;
@@ -728,28 +732,28 @@ console.log(this.service.formDataDP.IdDetallePedido);
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.value) {
-     
+
         this.SumarStock(dp.Cantidad, dp.ClaveProducto, dp.IdDetallePedido);
         this.service.onDeleteDetallePedido(dp.IdDetallePedido).subscribe(res => {
           console.log('//////////////////////////////////////////////////////');
           console.log(res);
           console.log('//////////////////////////////////////////////////////');
           this.refreshDetallesPedidoList();
-    
+
           Swal.fire({
             title: 'Borrado',
             icon: 'success',
             timer: 1000,
             showCancelButton: false,
             showConfirmButton: false
-        });
+          });
 
-      })
-        
+        })
+
       }
     })
 
-    
+
 
 
 

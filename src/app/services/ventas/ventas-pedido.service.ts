@@ -116,8 +116,11 @@ export class VentasPedidoService {
   GetSumaImporte(Id:number): Observable<any>{
     return this.http.get<any>(this.APIUrl + '/pedido/SumaImporte/' + Id)
   }
+  //Obtener Ultimo Folio
+  GetFolio(): Observable<any>{
+    return this.http.get<any>(this.APIUrl + '/pedido/Folio')
+  }
   
-
   onDelete(id:number){
     return this.http.delete(this.APIUrl + '/Pedido/' + id);
   }
