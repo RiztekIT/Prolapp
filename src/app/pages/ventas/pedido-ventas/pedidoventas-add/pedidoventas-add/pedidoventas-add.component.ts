@@ -340,7 +340,7 @@ export class PedidoventasAddComponent implements OnInit {
     });
 
   }
-//Filtro Dropdown Vendedores
+  //Filtro Dropdown Vendedores
   private _filterVendedor(value: any): any[] {
     // console.log(value);
     const filterValue = value.toString().toLowerCase();
@@ -348,8 +348,8 @@ export class PedidoventasAddComponent implements OnInit {
       option.Nombre.toLowerCase().includes(filterValue) || option.IdVendedor.toString().includes(filterValue));
   }
 
-  onSelectionChangeVendedor(options: Vendedor, event:any){
-    if(event.isUserInput){
+  onSelectionChangeVendedor(options: Vendedor, event: any) {
+    if (event.isUserInput) {
       this.NombreVendedor = options.Nombre;
     }
   }
@@ -635,23 +635,30 @@ export class PedidoventasAddComponent implements OnInit {
     this.service.formDataDP = dp;
     this.service.GetProductoDetalleProducto(dp.ClaveProducto, dp.IdDetallePedido).subscribe(data => {
 
-      if (this.service.formDataPedido.Moneda == 'MXN') {
+      // if (this.service.formDataPedido.Moneda == 'MXN') {
+      //   this.importeP = data[0].Importe;
+      //   console.clear();
+      //   console.log(this.importeP);
+      //   console.log('mxn');
+      // }
+      // else {
+      //   this.importeP = data[0].ImporteDlls;
+      //   console.clear();
+      //   console.log(this.importeP);
+      //   console.log('dlls');
+      // }
+      if (this.MonedaBoolean == true) {
         this.importeP = data[0].Importe;
-        console.clear();
-        console.log(this.importeP);
-        console.log('mxn');
-      }
-      else {
-        this.importeP = data[0].ImporteDlls;
-        console.clear();
-        console.log(this.importeP);
-        console.log('dlls');
+        this.ProductoPrecio = data[0].PrecioUnitario;
+      } else {
+        this.importePDLLS = data[0].ImporteDlls;
+        this.ProductoPrecio = data[0].PrecioUnitarioDlls;
       }
 
       this.ProductoSelect = data[0].IdProducto;
       this.service.formProd.Nombre = data[0].Nombre;
-      this.ProductoPrecio = data[0].PrecioUnitario;
-      this.ProductoPrecioDLLS = data[0].PrecioUnitarioDlls;
+      // this.ProductoPrecio = data[0].PrecioUnitario;
+      // this.ProductoPrecioDLLS = data[0].PrecioUnitarioDlls;
       this.Cantidad = data[0].Cantidad;
       this.service.formDataPedido.Moneda;
       this.service.formProd.ClaveProducto = data[0].ClaveProducto;
@@ -815,20 +822,21 @@ export class PedidoventasAddComponent implements OnInit {
     console.log(this.descuento);
     if (this.descuento > 0) {
       this.service.formDataPedido.Total = this.totalDescuento
-      
+
     }
     this.service.formDataPedido.Total = this.total;
     console.log(this.service.formDataPedido);
-  //   this.service.formDataPedido.Estatus = 'Guardada';
-  //   console.log(this.service.formDataPedido);
-  //   this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
-  //     Swal.fire({
-  //       icon: 'success',
-  //       title: 'Pedido Generado'
-  //     })
-  //     this.service.filter('Register click');
-  //   }
-  //   )
-  // }
+    //   this.service.formDataPedido.Estatus = 'Guardada';
+    //   console.log(this.service.formDataPedido);
+    //   this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+    //     Swal.fire({
+    //       icon: 'success',
+    //       title: 'Pedido Generado'
+    //     })
+    //     this.service.filter('Register click');
+    //   }
+    //   )
+    // }
 
-}}
+  }
+}
