@@ -120,6 +120,10 @@ export class VentasPedidoService {
   GetFolio(): Observable<any>{
     return this.http.get<any>(this.APIUrl + '/pedido/Folio')
   }
+  //Obtener Vendedores
+  GetVendedor(): Observable<any>{
+    return this.http.get<any>(this.APIUrl + '/pedido/Vendedor')
+  }
   
   onDelete(id:number){
     return this.http.delete(this.APIUrl + '/Pedido/' + id);

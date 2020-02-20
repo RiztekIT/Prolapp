@@ -64,7 +64,17 @@
                                             <input type="text" class="form-control" name="CondicionesDePago" #CondicionesDePago="ngModel" [(ngModel)]="service.formDataPedido.CondicionesDePago">
 
                                             <label class="input-group-text text-info">Vendedor:</label>
-                                            <input type="text" class="form-control" name="Vendedor" #Vendedor="ngModel" [(ngModel)]="service.formDataPedido.Vendedor">
+                                            <!-- <input type="text" class="form-control" name="Vendedor" #Vendedor="ngModel" [(ngModel)]="service.formDataPedido.Vendedor"> -->
+                                            <mat-form-field>
+                                                <input type="text" placeholder="Seleccionar Vendedor" aria-label="Number" [formControl]="myControlVendedor" [(ngModel)]="service.formDataPedido.Vendedor" matInput [matAutocomplete]="autoVendedor">
+                                                <mat-autocomplete #autoVendedor="matAutocomplete">
+                                                    <mat-option *ngFor="let option of filteredOptionsVendedor | async" [value]="option.IdVendedor" (onSelectionChange)="onSelectionChangeVendedor(option, $event)">
+                                                        {{option.IdVendedor}} {{option.Nombre}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                            <input readonly type="text" class="form-control" [(ngModel)]="NombreVendedor" name="first">
+
 
                                             <label class="input-group-text text-info">Prioridad:</label>
                                             <!-- <input type="text" class="form-control" name="Prioridad" #Prioridad="ngModel" [(ngModel)]="service.formDataPedido.Prioridad"> -->

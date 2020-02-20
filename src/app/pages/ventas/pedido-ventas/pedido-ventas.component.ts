@@ -123,8 +123,14 @@ export class PedidoVentasComponent implements OnInit {
       } else {
         folio = +folio + 1;
       }
-      // console.log(folio);
+      console.log(folio);
       this.PedidoBlanco.Folio = folio.toString();
+      console.log(this.PedidoBlanco);
+      //Agregar el nuevo pedido. NECESITA ESTAR DENTRO DEL SUBSCRIBEEEEEEEE :(
+      this.service.addPedido(this.PedidoBlanco).subscribe(res => {
+        //Obtener el pedido que se acaba de generar
+        this.ObtenerUltimoPedido();
+      });
     });
   }
 
@@ -132,13 +138,9 @@ export class PedidoVentasComponent implements OnInit {
   onAdd() {
     //Obtener el folio y agregarselo al pedido que se generara
     this.ObtenerFolio();
-    console.log(this.PedidoBlanco);
-    this.service.addPedido(this.PedidoBlanco).subscribe(res => {
-      //Obtener el pedido que se acaba de generar
-      this.ObtenerUltimoPedido();
-    });
+    // console.log(this.PedidoBlanco.Folio);
   }
-
+  
   //Obtener ultimo pedido y agregarlo al local Storage
   ObtenerUltimoPedido() {
     this.service.getUltimoPedido().subscribe(res => {
