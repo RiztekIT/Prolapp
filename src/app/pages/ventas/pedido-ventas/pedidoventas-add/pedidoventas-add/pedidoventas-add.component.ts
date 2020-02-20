@@ -371,6 +371,7 @@ export class PedidoventasAddComponent implements OnInit {
       console.log(data);
       this.service.formDataPedido = data[0];
       this.Moneda = this.service.formDataPedido.Moneda;
+      this.descuento = this.service.formDataPedido.Descuento;
       if (this.Moneda == 'MXN') {
         this.MonedaBoolean = true;
 
@@ -418,10 +419,12 @@ export class PedidoventasAddComponent implements OnInit {
   }
 
   onBlurDescuento() {
-    this.descuento = this.service.formDataPedido.Descuento;
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+      this.descuento = this.service.formDataPedido.Descuento;
+      this.totalDescuento = this.total - this.descuento;
       console.clear();
       console.log(res);
+      console.log(this.descuento);
     })
   }
 
@@ -779,9 +782,12 @@ export class PedidoventasAddComponent implements OnInit {
     console.log(this.descuento);
     if (this.descuento > 0) {
       this.service.formDataPedido.Total = this.totalDescuento
-      
+    } else
+    {
+      this.service.formDataPedido.Total = this.total;
     }
-    this.service.formDataPedido.Total = this.total;
+    console.log('%c '+this.service.formDataPedido.Total +'', 'color: green;');
+    
     console.log(this.service.formDataPedido);
   //   this.service.formDataPedido.Estatus = 'Guardada';
   //   console.log(this.service.formDataPedido);
