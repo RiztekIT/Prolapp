@@ -411,6 +411,7 @@ export class PedidoventasAddComponent implements OnInit {
       console.log(data);
       this.service.formDataPedido = data[0];
       this.Moneda = this.service.formDataPedido.Moneda;
+      this.descuento = this.service.formDataPedido.Descuento;
       if (this.Moneda == 'MXN') {
         this.MonedaBoolean = true;
 
@@ -454,10 +455,12 @@ export class PedidoventasAddComponent implements OnInit {
   }
 
   onBlurDescuento() {
-    this.descuento = this.service.formDataPedido.Descuento;
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+      this.descuento = this.service.formDataPedido.Descuento;
+      this.totalDescuento = this.total - this.descuento;
       console.clear();
       console.log(res);
+      console.log(this.descuento);
     })
   }
 
@@ -816,27 +819,18 @@ export class PedidoventasAddComponent implements OnInit {
   }
 
   crearPedido() {
-    console.clear();
-    console.clear();
-    console.log(this.total)
-    console.log(this.descuento);
-    if (this.descuento > 0) {
-      this.service.formDataPedido.Total = this.totalDescuento
 
+      this.service.formDataPedido.Estatus = 'Guardada';
+      console.log(this.service.formDataPedido);
+      this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Pedido Generado'
+        })
+        this.service.filter('Register click');
+      }
+      )
     }
-    this.service.formDataPedido.Total = this.total;
-    console.log(this.service.formDataPedido);
-    //   this.service.formDataPedido.Estatus = 'Guardada';
-    //   console.log(this.service.formDataPedido);
-    //   this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
-    //     Swal.fire({
-    //       icon: 'success',
-    //       title: 'Pedido Generado'
-    //     })
-    //     this.service.filter('Register click');
-    //   }
-    //   )
-    // }
 
   }
 }

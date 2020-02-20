@@ -269,9 +269,6 @@
                                                 <div class="form-material borderbox">
                                                     <div class="container">
                                                         <div class="row">
-                                                            <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Descuento</label>
-                                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Descuento" [ngModel]="service.formDataPedido.Descuento">
-
                                                             <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Importe</label>
                                                             <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImporteP" [ngModel]=" MonedaBoolean ==  true ? (importeP | currency ): (importePDLLS | currency)">
                                                         </div>
@@ -364,6 +361,10 @@
                                                 <div class="form-material borderbox">
                                                     <div class="container">
                                                         <div class="row">
+
+                                                            <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Descuento</label>
+                                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Descuento" [ngModel]="service.formDataPedido.Descuento | currency">
+
                                                             <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
                                                             <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="MonedaBoolean ==  true ? (total | currency) : (totalDlls | currency)">
                                                         </div>
