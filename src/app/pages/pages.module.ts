@@ -153,7 +153,9 @@ import { AddVendedorComponent } from './administracion/catalogos/vendedores/add-
 import { EditVendedorComponent } from './administracion/catalogos/vendedores/edit-vendedor/edit-vendedor.component';
 import { ShowVendedorComponent } from './administracion/catalogos/vendedores/show-vendedor/show-vendedor.component';
 import { EmailComponent } from '../components/email/email/email.component';
-import { NgxDropzoneModule } from 'ngx-dropzone'
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { OrdendescargaComponent } from './almacen/ordendescarga/ordendescarga.component';
+import { OrdencargadetalleComponent } from './almacen/pedidosalmacen/ordencargadetalle/ordencargadetalle.component'
 
 
 
@@ -269,7 +271,9 @@ import { NgxDropzoneModule } from 'ngx-dropzone'
         ShowVendedorComponent,
         FoliosComponent,
         ShowVendedorComponent,
-        EmailComponent
+        EmailComponent,
+        OrdendescargaComponent,
+        OrdencargadetalleComponent
     
     ],
     exports: [
