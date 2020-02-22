@@ -25,17 +25,17 @@ import { MessageService } from 'src/app/services/message.service';
   templateUrl: './facturacioncxc.component.html',
   styleUrls: ['./facturacioncxc.component.css'],
   animations: [
+    /* Trigger para tabla con detalles, cambio de estado colapsado y expandido y sus estilis */
     trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none'})),
+      state('collapsed', style({height: '0px', minHeight: '0px', visibility: 'hidden'})),
       state('expanded', style({height: '*'})),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
 })
 export class FacturacioncxcComponent implements OnInit {
+  /* variable para los tipos de animacion del cargando */
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
-  // @ViewChild('custom',{static: false})
-  // custom: TemplateRef<any>;
   folioparam;
   idparam;
   IdFactura: any;
@@ -51,14 +51,9 @@ export class FacturacioncxcComponent implements OnInit {
   detalle = new Array<DetalleFactura>();
   public loading2 = false;
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
-  
-  //Collapse Informacion Detalle Facutura
-
-
   a = document.createElement('a');
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  // @ViewChild('tabla', null) tabla: MatTable<any>;
 
   constructor(private service:FacturaService, private dialog: MatDialog, private snackBar: MatSnackBar, private router:Router, public enviarfact: EnviarfacturaService, public _MessageService: MessageService) {
   
@@ -71,48 +66,27 @@ export class FacturacioncxcComponent implements OnInit {
    }
 
   ngOnInit() {
-
     this.refreshFacturaList();
     this.detallesFactura();
     this.Folio();
     this.ObtenerUltimaFactura();
     this.listData.connect();
-    
-    // localStorage.removeItem('pdf');
-    // localStorage.removeItem('xml');
-
-
-    
   }
 
 
-
-  
-
-  ref(){
-    // this.applyFilter('32534543343454353453');
-    // this.applyFilter('');
-    
-    
-    
-    console.log('ref');
-    // this.listData._updateChangeSubscription();
-    // this.listData.filteredData;
-  }
-
- 
-
+/* Metodo para traer los detalles de una factura */
   getDetalleFactura(id: number){
     this.service.getDetallesFacturaList(id).subscribe(data =>{
       data[0].Producto;
 
       return data;
       
-      
-      
+
     })
   }
 
+
+/* Metodo para traer todos los detalles de las facturas */
   detallesFactura(){
     this.service.getDetallesFactura().subscribe(data =>{
       this.listDetalleData = data;
@@ -123,70 +97,33 @@ export class FacturacioncxcComponent implements OnInit {
   }
 
 
-
+/* Metodo para traer todas las facturas */
   refreshFacturaList() {
   
-    // this.listData = new MatTableDataSource(this.MasterDetalle);
-    
-    
-    
     this.service.getFacturasListCLiente().subscribe(data => {
-      // this.MasterDetalle = data;
-      // console.log('longitud data '+data.length);
-      
-      
+
       for (let i = 0; i <= data.length-1; i++){
         this.service.master[i] = data[i]
         this.service.master[i].detalle = [];
-        // console.log(this.MasterDetalle);
         if (data[i].IdCliente != 1){
           
           this.service.getDetallesFacturaList(data[i].Id).subscribe(res => {
             for (let l = 0; l <=res.length-1; l++){
-              // this.MasterDetalle[i].detalle.pop();
-              // console.log(this.MasterDetalle[0].detalle);
               this.service.master[i].detalle.push(res[l]);
             }
-            // this.detalle = res;
-            // console.log(this.d);
             this.listData = new MatTableDataSource(this.service.master);
             this.listData.sort = this.sort;    
             this.listData.paginator = this.paginator;
             this.listData.paginator._intl.itemsPerPageLabel = 'Facturas por Pagina';
           })
         }}
-        
-        // let detalle = [];
-        // rows = data;
-        // data.forEach(factura => rows.push(factura, { detailRow: true, factura}))
-        
-        
-        
       });
-      // this.listData.filter = 'R';
-      
-      // this.listData.data = this.MasterDetalle;
-
-      
-      
-      // this.expandedElement = this.listData
-
-      // this.tabla.renderRows();
-      // this.tabla.dataSource = this.listData;
       console.log(this.listData);
-      
-      
-
   }
-//Eliminar Factura si no esta timbrada
+
+   /* Eliminar Factura solo si no esta timbrada */
   onDelete( factura: Factura){
-    // console.log(factura.Estatus);
     if (factura.Estatus == 'Timbrada' || factura.Estatus == 'Cancelada'){
-      // console.log('No se puede ELIMINAR BRO');
-      // this.snackBar.open('No se puede eliminar Factura', '', {
-      //   duration: 3000,
-      //   verticalPosition: 'top'
-      // });
       Swal.fire({
         icon: 'error',
         title: 'No se puede Eliminar Factura',
@@ -195,8 +132,6 @@ export class FacturacioncxcComponent implements OnInit {
         showConfirmButton: false,
       })
     }else{
-      // console.log('Se puede eliminar');
-
       Swal.fire({
         title: '¿Segur@ de Borrar Factura?',
         icon: 'warning',
@@ -220,21 +155,12 @@ export class FacturacioncxcComponent implements OnInit {
             });
         }
       })
-          // if ( confirm('Are you sure to delete?')) {
-          //   this.service.deleteFactura(factura.Id).subscribe(res => {
-          //   this.refreshFacturaList();
-          //   this.snackBar.open(res.toString(), '', {
-          //     duration: 3000,
-          //     verticalPosition: 'top'
-          //   });
-      
-          //   });
-          // }
+          
     }
-    // console.log(id);
 
   }
-  //Generar Factura en Blanco
+
+  /*  Generar Factura en Blanco */
   public FacturaBlanco: Factura = 
     {
       Id:0,
@@ -277,71 +203,49 @@ export class FacturacioncxcComponent implements OnInit {
       Usuario: ""
   }
 
+  /* Obteener el ultimo folio */
+
   Folio() {
     this.service.getFolio().subscribe(data => {
-      // console.log(data);
-      // this.folio = data;
       this.FacturaBlanco.Folio = data
       if (!this.FacturaBlanco.Folio){
         this.FacturaBlanco.Folio='1';
-      }
-      // console.log(this.FacturaBlanco.Folio);
-      // console.log(data);
-      // this.service.formData.Folio = this.folio;
-      // console.log(this.service.formData.Folio);
+      }      
     });
-    // console.log(this.folio);
-    // return folio;
   }
 
 
-
+/* Crear Factura y abrir nueva pantalla */
   onAdd(){
-    // console.log(this.FacturaBlanco);
     this.service.addFactura(this.FacturaBlanco).subscribe(res => {
-      // Swal.fire({
-      //   icon: 'success',
-      //   title: 'Factura Creada',
-      //   showCancelButton: false,
-      //   showConfirmButton: false,
-      //   timer: 1000
-      // })
-      // this.snackBar.open(res.toString(), '', {
-      //   duration: 5000,
-      //   verticalPosition: 'top'
-      // });
       let Id = this.IdFactura;
-      // console.log(Id);
       this.router.navigate(['/facturacionCxcAdd', Id]);
     }
     );
   }
  
+  /* Obtener el ultimo id para ponerlo en la nueva factura */
 ObtenerUltimaFactura(){
   this.service.getUltimaFactura().subscribe(data => {
-    // console.log(data);
     this.IdFactura = data[0].Id;
     if (!this.IdFactura){
       this.IdFactura='1';
     }
-    // console.log(this.IdFactura);
     return this.IdFactura;
-    // console.log(this.IdFactura);
     });
 
 }
+
+/* Metodo para editar una factura y mostrar pantalla para editar */
   onEdit(factura: Factura){
-// console.log(factura);
 this.service.formData = factura;
 let Id = factura.Id;
-    // console.log(Id);
-    
     this.router.navigate(['/facturacionCxcAdd', Id]);
   }
 
+  /* Metodo para el filtro de la tabla */
   applyFilter(filtervalue: string){  
     this.listData.filterPredicate = (data, filter: string) => {
-      // console.log(data.Nombre);
       if (data.Nombre){
         return data.Folio.toString().toLowerCase().includes(filter) || data.Nombre.toLowerCase().includes(filter);
       } else{
@@ -349,81 +253,39 @@ let Id = factura.Id;
       }
     };
     this.listData.filter= filtervalue.trim().toLocaleLowerCase();
-    // console.log(this.listData);
   }
   
-//   onExportClick() {
-//     const option = {
-//       margin: [0,0,0,0],
-//       filename: 'FacturaPDF.pdf',
-//       image: {type: 'jpeg', quality: 1},
-//       html2canvas: {scale: 2, logging: true},
-//       jsPDF: {orientation: 'portrait'}
-
-
-//     };
-//     const content: Element = document.getElementById('element-to-PDF');
-
-//     html2pdf()
-//    .from(content)
-//    .set(option)
-//    .save();
-// }
-
+/* Metodo que descarga el pdf mediante la libreria html2pdf */
 onExportClick(folio?:string) {
-  // this.proceso='xml';
   const content: Element = document.getElementById('element-to-PDF');
-  
-  const option = {
-    
+  const option = {    
     margin: [.5,0,0,0],
     filename: 'F-'+folio+'.pdf',
     image: {type: 'jpeg', quality: 1},
     html2canvas: {scale: 2, logging: true, scrollY: content.scrollHeight},
     jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
     pagebreak:{ avoid: '.pgbreak'}
-    // pagebreak:{ mode: ['', 'avoid']}
   };
 
   html2pdf()
  .from(content)
  .set(option)
  .save();
-//  this.proceso='';
 }
 
+/* Metodo para ver el pdf en el modal, primero descarga el xml */
 generar(id: string, folio:string) {
-  
-  // this.proceso='xml';
   let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
   this.enviarfact.xml(id).subscribe(data => {
     const blob = new Blob([data as BlobPart], { type: 'application/xml' });
-    // this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
     this.fileUrl = window.URL.createObjectURL(blob);
-    
-    
     this.a.href = this.fileUrl;
     this.a.target = '_blank';
-    // this.a.download = 'F-'+folio+'.xml';
-    
     document.body.appendChild(this.a);
-//      console.log(this.fileUrl);
-    //console.log(this.a);
-    //console.log('blob:'+this.a.href);
-    
-    //this.a.click();
     localStorage.removeItem('xml'+folio)
     localStorage.setItem('xml'+folio,data)
     this.xmlparam = folio;
-    //this.onExportClick(folio);    
-    //console.log(this.xmlparam);
-    
-    
- 
     return this.fileUrl;
-    
-    // console.log(this.fileUrl);
-    
   });
   setTimeout(()=>{
    },1000)
@@ -431,80 +293,47 @@ generar(id: string, folio:string) {
   
 }
 
+/* Metodo para descargar el xml */
 xml(id: string, folio:string){
-   // this.proceso='xml';
    let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
    this.enviarfact.xml(id).subscribe(data => {
      const blob = new Blob([data as BlobPart], { type: 'application/xml' });
-     // this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
      this.fileUrl = window.URL.createObjectURL(blob);
-     
-     
      this.a.href = this.fileUrl;
      this.a.target = '_blank';
-     this.a.download = 'F-'+folio+'.xml';
-     
+     this.a.download = 'F-'+folio+'.xml';     
      document.body.appendChild(this.a);
- //      console.log(this.fileUrl);
-     //console.log(this.a);
-     //console.log('blob:'+this.a.href);
-     
      this.a.click();
      localStorage.removeItem('xml')
      localStorage.setItem('xml',data)
      this.xmlparam = localStorage.getItem('xml');
-     //this.onExportClick(folio);    
-     //console.log(this.xmlparam);
-     
-     
      return this.fileUrl;
-     
-     // console.log(this.fileUrl);
-     
-     
    });
 }
 
+/* Metodo para descargar el pdf */
 pdf(id: string, folio:string){
-   // this.proceso='xml';
    this.xmlparam = '';
    let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
    this.enviarfact.xml(id).subscribe(data => {
      const blob = new Blob([data as BlobPart], { type: 'application/xml' });
-     // this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
      localStorage.removeItem('xml'+folio)
      localStorage.setItem('xml'+folio,data)
      this.xmlparam = folio;
      this.fileUrl = window.URL.createObjectURL(blob);
-     
-     
      this.a.href = this.fileUrl;
      this.a.target = '_blank';
-     //  this.a.download = 'F-'+folio+'.xml';
-     
      document.body.appendChild(this.a);
-     //      console.log(this.fileUrl);
-     //console.log(this.a);
-     //console.log('blob:'+this.a.href);
      setTimeout(()=>{
       this.onExportClick(folio);    
      },1000)
-     
-     //  this.a.click();
-    
-      //console.log(this.xmlparam);
-     
-     
      return this.fileUrl;
-     
-     // console.log(this.fileUrl);
-     
-     
     });
 }
 
+
+/* Metodo para enviar por correo, abre el modal con los datos */
 email(id: string, folio:string){
-//s  this.loading2 = true
 localStorage.removeItem('xml'+folio);
 localStorage.removeItem('pdf'+folio);
   document.getElementById('enviaremail').click();
@@ -515,7 +344,6 @@ localStorage.removeItem('pdf'+folio);
   this._MessageService.asunto='Envio Factura '+folio;
   this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+folio;
   this._MessageService.nombre='ProlactoIngredientes';
- 
     this.enviarfact.xml(id).subscribe(data => {
       localStorage.setItem('xml' + folio, data)
       this.xmlparam = folio;
@@ -528,40 +356,12 @@ localStorage.removeItem('pdf'+folio);
           html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
           jsPDF: { format: 'letter', orientation: 'portrait' },
         };
-    
-    
         html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
           localStorage.setItem('pdf'+folio, pdfAsString);
         })
       },1000)
-     
-
-// setTimeout(()=>{
-//       let datos;
-//       datos={
-//         'nombre': 'Ivan Talamantes',
-//         'email': 'ivan.talamantes@live.com',
-//         'mensaje':'Factura'+folio,
-//           'asunto': 'Envio Factura '+folio,
-//         "folio": folio,
-//         "xml": localStorage.getItem('xml'+folio),
-//         "pdf": localStorage.getItem('pdf'+folio)
-//       }
-//       this._MessageService.sendMessage(datos).subscribe(() => {
-//         this.loading2 = false;
-//         document.getElementById('cerrarmodal').click();
-//         Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
-//       });
-//     },3000)
-     
   })
 
-}
-
-ngOnChanges(changes: SimpleChanges): void {
-  //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-  //Add '${implements OnChanges}' to the class.
-  this.ref();
 }
 
 }

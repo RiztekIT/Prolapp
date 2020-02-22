@@ -25,7 +25,7 @@
                                 <div class="container">
                                     <div class="row">
 
-                                        <div class="col-6">
+                                        <div class="col-12 col-md-6">
                                             <label class="input-group-text text-info">IdPedido:</label>
                                             <input type="text" class="form-control" name="IdPedido" #IdPedido="ngModel" [(ngModel)]="service.formDataPedido.IdPedido" readonly>
 
@@ -35,30 +35,53 @@
                                             <label class="input-group-text text-info">Observaciones:</label>
                                             <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="service.formDataPedido.Observaciones">
 
-                                            <label class="input-group-text text-info">Fecha Vencimiento:</label>
-                                            <input type="text" class="form-control" name="FechaVencimiento" #FechaVencimiento="ngModel" [(ngModel)]="service.formDataPedido.FechaVencimiento">
+                                            <!-- <label class="input-group-text text-info">Fecha Vencimiento:</label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <input type="text" readonly="readonly" [matDatepicker]="picker1" class="form-control" name="FechaVencimiento" #FechaVencimiento="ngModel" [(ngModel)]="service.formDataPedido.FechaVencimiento">
+                                            <mat-datepicker #picker1></mat-datepicker> -->
 
                                             <label class="input-group-text text-info">Moneda</label>
                                             <select class="form-control" name="Moneda" #Moneda="ngModel" id="Moneda" (change)="MonedaSelected($event)" [(ngModel)]="service.formDataPedido.Moneda">
                                                 <option [ngValue]="null" selected disabled>Seleccionar Moneda</option>
                                                 <option *ngFor="let dl of listMoneda" [ngValue]="dl.Moneda"> {{dl.Moneda}} </option>
                                             </select>
+
+                                            <label class="input-group-text text-info">Descuento:</label>
+                                            <input type="text" class="form-control" name="Descuento" #Descuento="ngModel" (blur)="onBlurDescuento()" [(ngModel)]="service.formDataPedido.Descuento">
+
+
                                         </div>
                                         <div class="col-6">
                                             <label class="input-group-text text-info">Orden de Compra:</label>
                                             <input type="text" class="form-control" name="OrdendeCompra" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataPedido.OrdenDeCompra">
 
                                             <label class="input-group-text text-info">Fecha de Entrega:</label>
-                                            <input type="text" class="form-control" name="FechaDeEntrega" #FechaDeEntrega="ngModel" [(ngModel)]="service.formDataPedido.FechaDeEntrega">
+                                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                            <input type="text" readonly="readonly" [matDatepicker]="picker2" class="form-control" name="FechaDeEntrega" #FechaDeEntrega="ngModel" [(ngModel)]="service.formDataPedido.FechaDeEntrega">
+                                            <mat-datepicker #picker2></mat-datepicker>
 
                                             <label class="input-group-text text-info">Condiciones De Pago:</label>
                                             <input type="text" class="form-control" name="CondicionesDePago" #CondicionesDePago="ngModel" [(ngModel)]="service.formDataPedido.CondicionesDePago">
 
                                             <label class="input-group-text text-info">Vendedor:</label>
-                                            <input type="text" class="form-control" name="Vendedor" #Vendedor="ngModel" [(ngModel)]="service.formDataPedido.Vendedor">
+                                            <!-- <input type="text" class="form-control" name="Vendedor" #Vendedor="ngModel" [(ngModel)]="service.formDataPedido.Vendedor"> -->
+                                            <mat-form-field>
+                                                <input type="text" placeholder="Seleccionar Vendedor" aria-label="Number" [formControl]="myControlVendedor" [(ngModel)]="service.formDataPedido.Vendedor" matInput [matAutocomplete]="autoVendedor">
+                                                <mat-autocomplete #autoVendedor="matAutocomplete">
+                                                    <mat-option *ngFor="let option of filteredOptionsVendedor | async" [value]="option.IdVendedor" (onSelectionChange)="onSelectionChangeVendedor(option, $event)">
+                                                        {{option.IdVendedor}} {{option.Nombre}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                            <input readonly type="text" class="form-control" [(ngModel)]="NombreVendedor" name="first">
+
 
                                             <label class="input-group-text text-info">Prioridad:</label>
-                                            <input type="text" class="form-control" name="Prioridad" #Prioridad="ngModel" [(ngModel)]="service.formDataPedido.Prioridad">
+                                            <!-- <input type="text" class="form-control" name="Prioridad" #Prioridad="ngModel" [(ngModel)]="service.formDataPedido.Prioridad"> -->
+                                            <select class="form-control" name="Prioridad" #Prioridad="ngModel" [(ngModel)]="service.formDataPedido.Prioridad">
+                                                <option [ngValue]="null" selected disabled>Seleccionar Prioridad</option>
+                                                <option *ngFor="let dl of listPrioridad" [ngValue]="dl.Prioridad"> {{dl.Prioridad}} </option>
+                                            </select>
 
 
                                         </div>
@@ -68,7 +91,15 @@
 
 
                             </form>
-                            <button class="btn btn-info btn-md" style="float: right;" matStepperNext>Next</button>
+
+                            <div class="container row">
+                                <div class="col-md-10"></div>
+                                <div class="col-12 col-md-2">
+                                    <br>
+                                    <button class="btn btn-info btn-md float-md-right" matStepperNext>Next</button>
+                                </div>
+                            </div>
+
                         </mat-step>
                         <mat-step [stepControl]="firstFormGroup">
                             <form>
@@ -85,8 +116,11 @@
                                 </mat-form-field>
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col-6">
-                                            <br>
+                                        <div class="col-12 col-md-6">
+
+                                            <label class="input-group-text text-info">Lugar de Entrega:</label>
+                                            <input type="text" class="form-control" name="LugarDeEntrega" #LugarDeEntrega="ngModel" [(ngModel)]="service.formDataPedido.LugarDeEntrega">
+
                                             <label class="input-group-text text-info">Nombre :</label>
                                             <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre" readonly>
 
@@ -111,7 +145,7 @@
                                             <label class="input-group-text text-info">Estado :</label>
                                             <input type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado" readonly>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-12 col-md-6">
 
                                             <label class="input-group-text text-info">NumeroInterior :</label>
                                             <input type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior" readonly>
@@ -142,9 +176,18 @@
                                             <div>
                                             </div>
                                         </div>
-                                        <div style="float: right;">
-                                            <button matStepperPrevious class="btn btn-primary btn-md" style="margin-right: 5px;">Back</button>
-                                            <button matStepperNext class="btn btn-info btn-md">Next</button>
+
+
+                                        <div class="container row">
+                                            <div class="col-12 col-md-4">
+                                                <br>
+                                                <button matStepperPrevious class="btn btn-primary btn-md">Back</button>
+                                            </div>
+                                            <div class="col-4"></div>
+                                            <div class="col-12 col-md-4">
+                                                <br>
+                                                <button matStepperNext class="btn btn-info btn-md">Next</button>
+                                            </div>
                                         </div>
 
                                     </div>
@@ -166,8 +209,7 @@
                                 </mat-form-field>
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col-6">
-                                            <br>
+                                        <div class="col-12 col-md-6">
                                             <label class="input-group-text text-info">Nombre :</label>
                                             <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formProd.Nombre" readonly>
 
@@ -183,8 +225,17 @@
                                             <label class="input-group-text text-info"> ClaveProducto:</label>
                                             <input type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="service.formProd.ClaveProducto" readonly>
 
+                                            <label class="input-group-text text-info"> Stock:</label>
+                                            <input type="text" class="form-control" name="Stock" #Stock="ngModel" [(ngModel)]="service.formProd.Stock" readonly>
+
+                                            <label class="input-group-text text-info"> Descripcion Producto:</label>
+                                            <input type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="service.formProd.DescripcionProducto" readonly>
+
+
                                         </div>
-                                        <div class="col-6">
+
+
+                                        <div class="col-12 col-md-6">
 
                                             <mat-form-field class="example-full-width">
                                                 <input type="text" autocomplete="off" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formDataDP.Unidad" (focus)="unidadMedida()">
@@ -194,13 +245,6 @@
                                                     </mat-option>
                                                 </mat-autocomplete>
                                             </mat-form-field>
-
-
-                                            <label class="input-group-text text-info"> Stock:</label>
-                                            <input type="text" class="form-control" name="Stock" #Stock="ngModel" [(ngModel)]="service.formProd.Stock" readonly>
-
-                                            <label class="input-group-text text-info"> Descripcion Producto:</label>
-                                            <input type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="service.formProd.DescripcionProducto" readonly>
 
                                             <label class="input-group-text text-info"> Estatus:</label>
                                             <input type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formProd.Estatus" readonly>
@@ -218,15 +262,21 @@
                                             <input type="text" class="form-control" name="TextoExtra" #TextoExtra="ngModel" [(ngModel)]="service.formDataDP.TextoExtra">
 
                                         </div>
-                                        <div class="form-material borderbox">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Importe</label>
-                                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImporteP" [ngModel]=" MonedaBoolean ==  true ? importeP : importePDLLS | currency">
+                                        <div class="container row">
+                                            <div class="col-md-7 col-lg-8">
+                                            </div>
+                                            <div class="col-12 col-md-5 col-lg-4">
+                                                <div class="form-material borderbox">
+                                                    <div class="container">
+                                                        <div class="row">
+                                                            <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Importe</label>
+                                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImporteP" [ngModel]=" MonedaBoolean ==  true ? (importeP | currency ): (importePDLLS | currency)">
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-
                                         </div>
+
                                         <div *ngIf="Cantidad > 0 && ActualizarDetallePedidoBool == false">
                                             <button class="btn btn-dark" (click)="onAddProducto(DetallePedidoForm)">Agregar Producto</button>
                                         </div>
@@ -302,23 +352,44 @@
                                         <!-- <button class="m-3" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Agregar Producto</button> -->
 
                                         <!-- Tabla de costos finales -->
-                                        <div class="col-12 col-lg-4 col-md-4">
-                                            <div class="form-material borderbox">
-                                                <div class="container">
-                                                    <div class="row">
-                                                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
-                                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="MonedaBoolean ==  true ? total : totalDlls | currency">
+
+                                        <div class="container row">
+                                            <div class="col-md-7 col-lg-8">
+                                            </div>
+                                            <div class="col-12 col-md-5 col-lg-4">
+                                                <br>
+                                                <div class="form-material borderbox">
+                                                    <div class="container">
+                                                        <div class="row">
+
+                                                            <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Descuento</label>
+                                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Descuento" [ngModel]="service.formDataPedido.Descuento | currency">
+
+                                                            <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
+                                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="MonedaBoolean ==  true ? (total | currency) : (totalDlls | currency)">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                    </div>
-                                    <button matStepperPrevious class="btn btn-primary btn-md" style="margin-right: 5px;">Back</button>
 
-                                    <div>
-                                        <button class="btn btn-info btn-md" style="float: right;" (click)="crearPedido()">Generar Pedido</button>
                                     </div>
+
+                                    <div class="container row">
+                                        <div class="col-12 col-md-4">
+                                            <br>
+                                            <button matStepperPrevious class="btn btn-primary btn-md">Back</button>
+                                        </div>
+                                        <div class="col-4"></div>
+                                        <div class="col-12 col-md-4">
+                                            <br>
+                                            <button matStepperNext class="btn btn-info btn-md" (click)="crearPedido()">Generar Pedido</button>
+                                        </div>
+
+                                    </div>
+
+
 
 
 
