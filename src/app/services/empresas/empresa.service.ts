@@ -14,8 +14,7 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 export class EmpresaService {
   
 
-  constructor
-  (private http:HttpClient) { }
+  constructor(private http:HttpClient) { }
 
   formData = new Empresa();
 

@@ -67,6 +67,8 @@ import { EmpresaComponent } from './administracion/empresa/empresa.component';
 import { ReciboPagoComponent } from './cxc/complementopagocxc/recibo-pago/recibo-pago.component';
 import { ExpedienteComponent } from './administracion/expediente/expediente.component';
 import { PedidoventasAddComponent } from './ventas/pedido-ventas/pedidoventas-add/pedidoventas-add/pedidoventas-add.component';
+import { OrdencargadetalleComponent } from './almacen/pedidosalmacen/ordencargadetalle/ordencargadetalle.component';
+import { OrdendescargaComponent } from './almacen/ordendescarga/ordendescarga.component';
 
 
 
@@ -144,6 +146,8 @@ const pagesRoutes: Routes = [
                 { path: 'permisos', component: ShowUsuarioPermisoComponent  },
                 { path: 'recibopago', component: ReciboPagoComponent },
                 { path: 'pedidoventasAdd', component: PedidoventasAddComponent },
+                { path: 'ordencargadetalle', component: OrdencargadetalleComponent },
+                { path: 'ordendescarga', component: OrdendescargaComponent },
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },

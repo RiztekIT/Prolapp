@@ -5,85 +5,73 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
+        <ng-container matColumnDef="IdOrdenCarga">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Orden de Carga</th>
+            <td mat-cell *matCellDef="let element">{{element.IdOrdenCarga}}
+                <td>
+        </ng-container>
 
-        <!-- 
-                <ng-container matColumnDef="IdCliente">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>IdCliente</th mat-header-cell>
-                    <th mat-header-cell *matCellDef="let element">{{element.IdClientes}}</th mat-header-cell>
-                </ng-container> -->
+        <ng-container matColumnDef="NumSalida">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>NumSalida</th>
+            <td mat-cell *matCellDef="let element">{{element.NumSalida}}
+                <td>
+        </ng-container>
 
-        <ng-container matColumnDef="IdPedido">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Pedido</th>
-            <td mat-cell *matCellDef="let element">{{element.IdPedido}}
+        <ng-container matColumnDef="FechaOrden">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+            <td mat-cell *matCellDef="let element">{{element.FechaOrden}}
                 <td>
         </ng-container>
 
         <ng-container matColumnDef="IdCliente">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Id Cliente</th>
-            <td mat-cell *matCellDef="let element">{{element.IdCliente}}
-                <td>
+            <td mat-cell *matCellDef="let element">{{element.IdCliente}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="Folio">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio</th>
-            <td mat-cell *matCellDef="let element">{{element.Folio}}
-                <td>
-        </ng-container>
-
-        <ng-container matColumnDef="Subtotal">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Subtotal</th>
-            <td mat-cell *matCellDef="let element">{{element.Subtotal}}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="Descuento">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Descuento</th>
-            <td mat-cell *matCellDef="let element">{{element.Descuento}}
+        <ng-container matColumnDef="Cliente">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</th>
+            <td mat-cell *matCellDef="let element">{{element.Cliente}}
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="Total">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
-            <td mat-cell *matCellDef="let element">{{element.Total}}
+        <ng-container matColumnDef="Producto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+            <td mat-cell *matCellDef="let element">{{element.Producto}}
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="Observaciones">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Observaciones</th>
-            <td mat-cell *matCellDef="let element">{{element.Observaciones}}
+        <ng-container matColumnDef="Fletera">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fletera</th>
+            <td mat-cell *matCellDef="let element">{{element.Fletera}}
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="FechaVencimiento">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Vencimiento</th>
-            <td mat-cell *matCellDef="let element">{{element.FechaVencimiento}}
+        <ng-container matColumnDef="NumCaja">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Numero de Caja</th>
+            <td mat-cell *matCellDef="let element">{{element.NumCaja}}
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="OrdenDeCompra">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Orden de Compra</th>
-            <td mat-cell *matCellDef="let element">{{element.OrdenDeCompra}}
+        <ng-container matColumnDef="EnviarA">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Enviar A:</th>
+            <td mat-cell *matCellDef="let element">{{element.EnviarA}}
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="FechaDeEntrega">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Entrega</th>
-            <td mat-cell *matCellDef="let element">{{element.FechaDeEntrega}}
+        <ng-container matColumnDef="Sacos">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
+            <td mat-cell *matCellDef="let element">{{element.Sacos}}
             </td>
         </ng-container>
 
-        <ng-container matColumnDef="CondicionesDePago">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Condiciones de Pago</th>
-            <td mat-cell *matCellDef="let element">{{element.CondicionesDePago}}
+        <ng-container matColumnDef="Kilos">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Kilos</th>
+            <td mat-cell *matCellDef="let element">{{element.Kilos}}
             </td>
         </ng-container>
-        <ng-container matColumnDef="Vendedor">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Vendedor</th>
-            <td mat-cell *matCellDef="let element">{{element.Vendedor}}
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="Estatus">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
-            <td mat-cell *matCellDef="let element">{{element.Estatus}}
+        <ng-container matColumnDef="Notas">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Notas</th>
+            <td mat-cell *matCellDef="let element">{{element.Notas}}
             </td>
         </ng-container>
         <ng-container matColumnDef="Usuario">
@@ -91,34 +79,12 @@
             <td mat-cell *matCellDef="let element">{{element.Usuario}}
             </td>
         </ng-container>
-        <ng-container matColumnDef="Factura">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Factura</th>
-            <td mat-cell *matCellDef="let element">{{element.Factura}}
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="LugarDeEntrega">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Lugar de Entrega</th>
-            <td mat-cell *matCellDef="let element">{{element.LugarDeEntrega}}
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="Options">
-            <th mat-header-cell *matHeaderCellDef>Opciones</th>
+        <ng-container matColumnDef="Boton">
+            <th mat-header-cell *matHeaderCellDef>Orden de Carga</th>
             <td mat-cell *matCellDef="let row">
 
-                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                    <mat-icon>keyboard_arrow_down</mat-icon>
+                <button class="btn-block" mat-raised-button (click)="onEdit(row)"> Ver Orden
                   </button>
-                <mat-menu #menu="matMenu">
-                    <!--  -->
-                    <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
-                                                <mat-icon>edit</mat-icon>
-                                            </button> -->
-                    <!--  -->
-                    <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdClientes)">
-                                                    <mat-icon>delete_outline</mat-icon>
-                                                </button> -->
-                </mat-menu>
             </td>
         </ng-container>
 

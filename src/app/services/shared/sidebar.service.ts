@@ -113,7 +113,8 @@ export class SidebarService {
       icono: 'fa fa-square-o',
       submenu: [
         // { titulo: 'Dashboard', url: '/dashboard' },
-        { titulo: 'Pedidos', url: '/pedidosalmacen' },
+        { titulo: 'Orden de carga', url: '/pedidosalmacen' },
+        { titulo: 'Orden de descarga', url: '/ordendescarga' },
         { titulo: 'Importaciones', url: '/importacionesalmacen' },
         { titulo: 'Inventarios', url: '/inventariosalmacen' },
         { titulo: 'Documentos', url: '/documentosalmacen' },

@@ -17,6 +17,7 @@ import { TipoCambioService } from '../../../../../services/tipo-cambio.service';
 import { EnviarfacturaService } from '../../../../../services/facturacioncxc/enviarfactura.service';
 import { ProductosService } from '../../../../../services/catalogos/productos.service';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Vendedor } from 'src/app/Models/catalogos/vendedores.model';
 
 //Constantes para obtener tipo de cambio
 const httpOptions = {
@@ -40,7 +41,9 @@ export class PedidoventasAddComponent implements OnInit {
   dialogbox: any;
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
-    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient) { }
+    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient) {
+    this.MonedaBoolean = true;
+  }
 
 
 
@@ -54,7 +57,7 @@ export class PedidoventasAddComponent implements OnInit {
   myControlUnidad = new FormControl();
   optionsUnidad = ['Pieza'];
   um: boolean;
-  ProductoSelect: number;
+  ProductoSelect: string;
   Id: number;
 
 
@@ -62,11 +65,13 @@ export class PedidoventasAddComponent implements OnInit {
 
     this.Inicializar();
     this.dropdownRefresh();
+    this.dropdownRefreshVendedor();
     this.dropdownRefresh2();
     this.refreshDetallesPedidoList();
     this.IniciarTotales();
     this.tipoDeCambio();
     this.service.formProd = new Producto();
+
 
 
 
@@ -141,12 +146,16 @@ export class PedidoventasAddComponent implements OnInit {
 
   myControl = new FormControl();
   myControl2 = new FormControl();
+  myControlVendedor = new FormControl();
   options: Cliente[] = [];
   options2: Producto[] = [];
   filteredOptions: Observable<any[]>;
   filteredOptions2: Observable<any[]>;
+  filteredOptionsVendedor: Observable<any[]>;
   listClientes: Cliente[] = [];
   listProducts: Producto[] = [];
+  //Lista de Vendedores
+  listVendedores: Vendedor[] = [];
   //Variable Moneda
   Moneda: string;
   //Boolean Moneda
@@ -184,6 +193,8 @@ export class PedidoventasAddComponent implements OnInit {
   ivaDlls: any;
   subtotalDlls: any;
   totalDlls: any;
+  descuento: any;
+  totalDescuento: any;
 
   //Stock Real al momento de editar
   StockReal: number;
@@ -193,6 +204,9 @@ export class PedidoventasAddComponent implements OnInit {
 
   //Cantidad de Producto al momento de editar (en caso de que se cambie el producto por uno nuevo)
   CantidadP: number;
+
+  //NombreVendedor
+  NombreVendedor: String;
 
   // //////////////////////////// BEGIN OBTENER TIPO CAMBIO ////////////////////////////
   rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
@@ -256,7 +270,7 @@ export class PedidoventasAddComponent implements OnInit {
 
 
   private _filter(value: any): any[] {
-    console.log(value);
+    // console.log(value);
     const filterValue = value.toString().toLowerCase();
     return this.options.filter(option =>
       option.Nombre.toLowerCase().includes(filterValue) ||
@@ -281,14 +295,17 @@ export class PedidoventasAddComponent implements OnInit {
   }
 
   private _filter2(value: any): any[] {
+    // console.clear();
     // console.log(value);
-    if(value == null){
-    console.log('null value');
-    }else{
+    if (typeof (value) == 'string') {
+      const filterValue2 = value.toLowerCase();
+      return this.options2.filter(option => option.IdProducto.toString().toLowerCase().includes(filterValue2) || option.Nombre.toString().toLowerCase().includes(filterValue2));
+    } else if (typeof (value) == 'number') {
       const filterValue2 = value.toString();
-      return this.options2.filter(option =>
-        option.IdProducto.toString().includes(filterValue2) || option.Nombre.toLowerCase().toString().includes(filterValue2) );
+      return this.options2.filter(option => option.IdProducto.toString().includes(filterValue2) || option.Nombre.toString().includes(filterValue2));
     }
+
+
   }
 
   dropdownRefresh2() {
@@ -305,6 +322,36 @@ export class PedidoventasAddComponent implements OnInit {
       }
     });
 
+  }
+
+  //DropDown de Vendedores
+  dropdownRefreshVendedor() {
+    this.service.GetVendedor().subscribe(data => {
+      for (let i = 0; i < data.length; i++) {
+        let vendedor = data[i];
+        this.listVendedores.push(vendedor);
+        // this.options.push(vendedor)
+        this.filteredOptionsVendedor = this.myControlVendedor.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filterVendedor(value))
+          );
+      }
+    });
+
+  }
+  //Filtro Dropdown Vendedores
+  private _filterVendedor(value: any): any[] {
+    // console.log(value);
+    const filterValue = value.toString().toLowerCase();
+    return this.listVendedores.filter(option =>
+      option.Nombre.toLowerCase().includes(filterValue) || option.IdVendedor.toString().includes(filterValue));
+  }
+
+  onSelectionChangeVendedor(options: Vendedor, event: any) {
+    if (event.isUserInput) {
+      this.NombreVendedor = options.Nombre;
+    }
   }
 
   //Selection change de cliente
@@ -364,6 +411,7 @@ export class PedidoventasAddComponent implements OnInit {
       console.log(data);
       this.service.formDataPedido = data[0];
       this.Moneda = this.service.formDataPedido.Moneda;
+      this.descuento = this.service.formDataPedido.Descuento;
       if (this.Moneda == 'MXN') {
         this.MonedaBoolean = true;
 
@@ -371,17 +419,18 @@ export class PedidoventasAddComponent implements OnInit {
         this.MonedaBoolean = false;
       }
       console.log(this.service.formDataPedido);
-      this.service.GetCliente(data[0].IdCliente).subscribe(data => {
-        // console.log(data);
-        this.service.formData = data[0];
-      });
+      if (data[0].IdCliente == 0) {
+        console.log('ID 0');
+        this.service.formData = new Cliente();
+      } else {
+        console.log('ID Diferente a 0');
+        this.service.GetCliente(data[0].IdCliente).subscribe(data => {
+          console.log(data);
+          this.service.formData = data[0];
+        });
+      }
     });
-
     console.log(this.IdPedido);
-
-
-
-
   }
 
 
@@ -405,9 +454,23 @@ export class PedidoventasAddComponent implements OnInit {
     // console.log(this.service.Moneda);
   }
 
+  onBlurDescuento() {
+    this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+      this.descuento = this.service.formDataPedido.Descuento;
+      this.totalDescuento = this.total - this.descuento;
+      console.clear();
+      console.log(res);
+      console.log(this.descuento);
+    })
+  }
+
   public listMoneda: Array<Object> = [
     { Moneda: 'MXN' },
     { Moneda: 'USD' }
+  ];
+  public listPrioridad: Array<Object> = [
+    { Prioridad: 'Normal' },
+    { Prioridad: 'Urgente' }
   ];
 
   //Tabla de Productos
@@ -420,7 +483,9 @@ export class PedidoventasAddComponent implements OnInit {
   //Iniciar en 0 Valores de los Totales
   IniciarTotales() {
     //Inicializar en 0 el select del producto
-    this.ProductoSelect = +"";
+    this.ProductoSelect = "";
+    this.options2 = [];
+    this.dropdownRefresh2();
     //Inicializar Vacio el Select De Unidad
     this.service.formDataDP.Unidad = "";
     //Inicializar totales
@@ -433,7 +498,11 @@ export class PedidoventasAddComponent implements OnInit {
     this.ivaDlls = 0;
     //Stock real al momento de editar
     this.StockReal = 0;
+    this.descuento = 0;
+    this.totalDescuento = 0;
   }
+
+
 
   refreshDetallesPedidoList() {
     this.IniciarTotales();
@@ -484,8 +553,8 @@ export class PedidoventasAddComponent implements OnInit {
       // console.log(res);
       //Restar el Stock
       this.RestarStock();
+      // this.IniciarTotales();
       this.refreshDetallesPedidoList();
-      this.IniciarTotales();
       form.resetForm();
       Swal.fire({
         icon: 'success',
@@ -569,23 +638,30 @@ export class PedidoventasAddComponent implements OnInit {
     this.service.formDataDP = dp;
     this.service.GetProductoDetalleProducto(dp.ClaveProducto, dp.IdDetallePedido).subscribe(data => {
 
-      if (this.service.formDataPedido.Moneda == 'MXN') {
+      // if (this.service.formDataPedido.Moneda == 'MXN') {
+      //   this.importeP = data[0].Importe;
+      //   console.clear();
+      //   console.log(this.importeP);
+      //   console.log('mxn');
+      // }
+      // else {
+      //   this.importeP = data[0].ImporteDlls;
+      //   console.clear();
+      //   console.log(this.importeP);
+      //   console.log('dlls');
+      // }
+      if (this.MonedaBoolean == true) {
         this.importeP = data[0].Importe;
-        console.clear();
-        console.log(this.importeP);
-        console.log('mxn');
-      }
-      else {
-        this.importeP = data[0].ImporteDlls;
-        console.clear();
-        console.log(this.importeP);
-        console.log('dlls');
+        this.ProductoPrecio = data[0].PrecioUnitario;
+      } else {
+        this.importePDLLS = data[0].ImporteDlls;
+        this.ProductoPrecio = data[0].PrecioUnitarioDlls;
       }
 
       this.ProductoSelect = data[0].IdProducto;
       this.service.formProd.Nombre = data[0].Nombre;
-      this.ProductoPrecio = data[0].PrecioUnitario;
-      this.ProductoPrecioDLLS = data[0].PrecioUnitarioDlls;
+      // this.ProductoPrecio = data[0].PrecioUnitario;
+      // this.ProductoPrecioDLLS = data[0].PrecioUnitarioDlls;
       this.Cantidad = data[0].Cantidad;
       this.service.formDataPedido.Moneda;
       this.service.formProd.ClaveProducto = data[0].ClaveProducto;
@@ -643,15 +719,15 @@ export class PedidoventasAddComponent implements OnInit {
     } else {
       console.log('NUEVO PRODUCTO');
 
-console.clear();
-console.log(this.CantidadP.toString());
-console.log(this.ClaveP.toString());
-console.log(this.service.formDataDP.IdDetallePedido);
+      console.clear();
+      console.log(this.CantidadP.toString());
+      console.log(this.ClaveP.toString());
+      console.log(this.service.formDataDP.IdDetallePedido);
 
 
 
       this.SumarStock(this.CantidadP.toString(), this.ClaveP.toString(), this.service.formDataDP.IdDetallePedido);
-// console.log(this.service.formDataDP);
+      // console.log(this.service.formDataDP);
 
       this.service.OnEditDetallePedido(this.service.formDataDP).subscribe(res => {
         this.ActualizarDetallePedidoBool = false;
@@ -714,28 +790,28 @@ console.log(this.service.formDataDP.IdDetallePedido);
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.value) {
-     
+
         this.SumarStock(dp.Cantidad, dp.ClaveProducto, dp.IdDetallePedido);
         this.service.onDeleteDetallePedido(dp.IdDetallePedido).subscribe(res => {
           console.log('//////////////////////////////////////////////////////');
           console.log(res);
           console.log('//////////////////////////////////////////////////////');
           this.refreshDetallesPedidoList();
-    
+
           Swal.fire({
             title: 'Borrado',
             icon: 'success',
             timer: 1000,
             showCancelButton: false,
             showConfirmButton: false
-        });
+          });
 
-      })
-        
+        })
+
       }
     })
 
-    
+
 
 
 
@@ -743,17 +819,17 @@ console.log(this.service.formDataDP.IdDetallePedido);
   }
 
   crearPedido() {
-    console.clear();
-    this.service.formDataPedido.Estatus = 'Guardada';
-    console.log(this.service.formDataPedido);
-    this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
-      Swal.fire({
-        icon: 'success',
-        title: 'Pedido Generado'
-      })
-      this.service.filter('Register click');
-    }
-    )
-  }
 
-}
+      this.service.formDataPedido.Estatus = 'Guardada';
+      console.log(this.service.formDataPedido);
+      this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Pedido Generado'
+        })
+        this.service.filter('Register click');
+      }
+      )
+    }
+
+  }
