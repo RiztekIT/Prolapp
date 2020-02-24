@@ -408,11 +408,19 @@ this.xmlparametros='';
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
     // console.log(this.xmlparametros);
-    if (this.xmlparametros!=''){
+   /*  if (this.xmlparametros!='' && this.xmlparametros!='undefined'){
       console.log('1');
       console.log(this.xmlparametros);
       this.leerxml(this.xmlparametros);
       
+    } */
+
+    if (!this.xmlparametros){
+      console.log('2');
+      
+    }else{
+      console.log(this.xmlparametros);
+      this.leerxml(this.xmlparametros);
     }
     // this.PdfPreliminar();
      
