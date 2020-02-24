@@ -1,1 +1,42 @@
-<p>unidad-medida works!</p>
+<mat-card class="mat-elevation-z0">
+    <div class="row">
+        <div class="col-4">
+            <!-- <button class="btn btn-primary" (click)="onAdd()"><i class="mdi mdi-plus btn-lg"></i>Nuevo Proveedor</button> -->
+        </div>
+        <div class="col-4"></div>
+        <div class="col-4">
+            <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div style="overflow:auto;">
+        <table mat-table [dataSource]="listData" matSort>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <ng-container matColumnDef="key">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                <td mat-cell *matCellDef="let element">{{element.key}}</td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave SAT</th>
+                <td mat-cell *matCellDef="let element">{{element.name}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Options">
+                <th mat-header-cell *matHeaderCellDef>Options</th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox #checkbox [(checked)]="row.checkbox" (change)='change(checkbox.checked, row)'></mat-checkbox>
+                </td>
+            </ng-container>
+
+
+        </table>
+        <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+        </mat-paginator>
+    </div>
+
+</mat-card>

@@ -14,6 +14,7 @@ export class SidebarService {
         { titulo: 'Permisos', url: '/permisos' },
         { titulo: 'Empresa', url: '/empresa' },
         { titulo: 'Expediente', url: '/expediente' },
+        { titulo: 'Unidad Medida', url: '/unidadMedida' },
       ],
       url: '/catalogos',
     },

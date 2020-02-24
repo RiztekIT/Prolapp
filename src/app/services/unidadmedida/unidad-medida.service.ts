@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { UnidadMedida } from '../../Models/Unidad-Medida/unidadmedida-model';
 import {Observable } from 'rxjs';
 import {Subject} from 'rxjs';
+import { UnidadMedidaDetalle } from '../../Models/Unidad-Medida/unidadmedidaDetalle-model';
 
 //Import para obtener Datos API Unidad medida de SAT
 import { DomSanitizer } from '@angular/platform-browser';
@@ -28,6 +29,7 @@ export class UnidadMedidaService {
 
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
   formData: UnidadMedida;
+  master = new Array<UnidadMedidaDetalle>();
   readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
 
 //Get unidades medida API SAT
@@ -41,7 +43,10 @@ export class UnidadMedidaService {
 GetUnidadesMedida(): Observable <UnidadMedida[]>{
   return this.http.get<any[]>(this.APIUrl + '/UnidadMedida');
 }
-
+//
+GetUnidadMedidaClaveSAT(ClaveSAT: string): Observable <UnidadMedida[]>{
+  return this.http.get<any[]>(this.APIUrl + '/UnidadMedida/Checkbox/' + ClaveSAT);
+}
 //Agregar Unidad Medida
 
 //Actualziar Unidad Medida
