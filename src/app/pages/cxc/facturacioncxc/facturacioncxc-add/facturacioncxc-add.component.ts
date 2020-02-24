@@ -100,6 +100,10 @@ export class FacturacioncxcAddComponent implements OnInit {
     public service: FacturaService, private snackBar: MatSnackBar, private dialog: MatDialog,
     private router: Router, public enviarfact: EnviarfacturaService,
     private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService) {
+      this.service.Moneda = 'MXN';
+      console.log('Constr '+this.service.Moneda);
+      
+      
 
       /* Metodo para obtener los parametros de la pantalla anterior  */
     this.activatedRoute.params.subscribe(params => {
@@ -112,7 +116,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.service.listen().subscribe((m: any) => {
       this.refreshDetallesFacturaList();
     });
-
+    this.resetForm();
   }
 
   ngOnInit() {
@@ -218,6 +222,15 @@ export class FacturacioncxcAddComponent implements OnInit {
       this.ClienteNombre = cliente.Nombre;
       this.service.formData.UsoDelCFDI = cliente.UsoCFDI;
       this.service.formData.FormaDePago = cliente.MetodoPago;
+      this.service.formData.CondicionesDePago = cliente.DiasCredito + ' Dias Credito';
+      // this.service.formData.Vendedor = cliente.Vendedor
+      this.service.getvendedor(cliente.Vendedor).subscribe(data=>{
+        console.log(data);
+        
+        this.service.formData.Vendedor = data[0].nombre;
+
+      })
+     
 
       if (this.service.formData.FormaDePago == '99' || this.service.formData.FormaDePago == '') {
         this.service.formData.MetodoDePago = 'PPD';
@@ -451,6 +464,21 @@ export class FacturacioncxcAddComponent implements OnInit {
 
   /* Agregar Detalle Factura */
   onAddProducto() {
+
+    this.service.formData.Tipo = 'Ingreso';
+    this.service.formData.Estatus = 'Guardada';
+    this.service.formData.Version = '3.3';
+    this.service.formData.Id = this.IdFactura;
+    if (this.service.formData.Moneda == 'USD') {
+      this.service.formData.TipoDeCambio = this.Cdolar;
+    } else {
+      this.service.formData.TipoDeCambio = '0';
+    }
+    this.service.updateFactura(this.service.formData).subscribe(res => {
+     console.log(res);
+
+    }
+    );
   const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -466,13 +494,19 @@ export class FacturacioncxcAddComponent implements OnInit {
 
 /* Metodo para reinciar el form o iniciarlo con datos dependiendo del folio*/
   resetForm(form?: NgForm) {
+    console.log(this.IdFactura);
+    
 
     this.service.getFacturaId(this.IdFactura).subscribe(res => {
+      console.log(res[0]);
+      
       this.service.formData = res[0];
       //OBTENER LA INFORMACION DEL CLIENTE, EN ESPECIFICO EL NOMBRE DEL CLIENTE PARA PINTARLO EN EL FORMULARIO
+      if (this.service.formData.IdCliente!=0){
       this.service.getFacturaClienteID(this.service.formData.IdCliente).subscribe(res => {
         this.ClienteNombre = res[0].Nombre;
       });
+    }
 
       this.Estatus = this.service.formData.Estatus;
       if (this.Estatus === 'Timbrada' || this.Estatus === 'Cancelada') {
@@ -603,7 +637,7 @@ export class FacturacioncxcAddComponent implements OnInit {
 /* Metodo que se dispara al guardar la factura */
   onSubmit(form: NgForm) {
     this.service.formData.Tipo = 'Ingreso';
-    this.service.formData.Estatus = 'Creada';
+    this.service.formData.Estatus = 'Guardada';
     this.service.formData.Version = '3.3';
     this.service.formData.Id = this.IdFactura;
     if (this.service.formData.Moneda == 'USD') {
@@ -628,7 +662,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.loading = true;
     document.getElementById('enviaremail').click();
     this.service.formData.Tipo = 'Ingreso';
-    this.service.formData.Estatus = 'Creada';
+    this.service.formData.Estatus = 'Guardada';
     this.service.formData.Version = '3.3';
     this.service.formData.Serie = '5628';
     if (this.service.formData.Moneda == 'USD') {

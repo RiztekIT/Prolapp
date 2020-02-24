@@ -26,6 +26,7 @@ export class FacturaService {
    IdFactura: number;
    master = new Array<facturaMasterDetalle>();
    Moneda: string;
+   Cliente;
 
 
   // readonly APIUrl = "https://localhost:7002/api";
@@ -81,6 +82,9 @@ export class FacturaService {
   deleteFactura(id:number) {
     return this.http.delete(this.APIUrl + '/Factura/' + id);
   }
+  deleteFacturaCreada() {
+    return this.http.delete(this.APIUrl + '/Factura/DeleteFacturaCreada');
+  }
   // Eliminar detalle factura
   deleteDetalleFactura(id:number) {
     return this.http.delete(this.APIUrl + '/Factura/DeleteDetalleFactura/' + id);
@@ -112,6 +116,12 @@ getProductos(): Observable<any>{
 getDepDropDownValues(): Observable<any>{
   return this.http.get<Cliente[]>(this.APIUrl+'/cliente');
 }
+//Obtener Vendedor de la Base de Datos
+getvendedor(id:number): Observable<any>{
+  return this.http.get<any[]>(this.APIUrl+'/vendedor/'+id);
+}
+
+
 
 private _listeners = new Subject<any>(); 
 listen(): Observable<any> {

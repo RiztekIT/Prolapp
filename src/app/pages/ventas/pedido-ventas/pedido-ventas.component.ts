@@ -27,7 +27,7 @@ import { DetallePedido } from '../../../Models/Pedidos/detallePedido-model';
       state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
       state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
+    ]),  
   ],
 })
 
@@ -52,8 +52,11 @@ export class PedidoVentasComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
   displayedColumns: string[] = ['IdPedido', 'Nombre', 'Folio', 'Subtotal', 'Descuento', 'Total', 'Observaciones', 'FechaVencimiento', 'OrdenDeCompra', 'FechaDeEntrega', 'CondicionesDePago', 'Vendedor', 'Estatus', 'Usuario', 'Factura', 'LugarDeEntrega', 'Moneda', 'Prioridad', 'Options'];
+  
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Cantidad'];
+
   expandedElement: any;
+
   detalle = new Array<DetallePedido>();
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
 

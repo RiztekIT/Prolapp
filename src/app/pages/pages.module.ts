@@ -155,6 +155,9 @@ import { ShowVendedorComponent } from './administracion/catalogos/vendedores/sho
 import { EmailComponent } from '../components/email/email/email.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { UnidadMedidaComponent } from './administracion/unidad-medida/unidad-medida.component'
+import { OrdendescargaComponent } from './almacen/ordendescarga/ordendescarga.component';
+import { OrdencargadetalleComponent } from './almacen/pedidosalmacen/ordencargadetalle/ordencargadetalle.component';
+import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component'
 
 
 
@@ -271,7 +274,10 @@ import { UnidadMedidaComponent } from './administracion/unidad-medida/unidad-med
         FoliosComponent,
         ShowVendedorComponent,
         EmailComponent,
-        UnidadMedidaComponent
+        UnidadMedidaComponent,
+        OrdendescargaComponent,
+        OrdencargadetalleComponent,
+        ComppagoComponent
     
     ],
     exports: [

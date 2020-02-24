@@ -1,0 +1,63 @@
+<div id="div1" class="form-material">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+
+
+
+                <label class="input-group-text text-info">Folio</label>
+                <input type="string" class="form-control" readonly name="ClienteNombre" readonly [(ngModel)]="this.service.formData.Folio">
+
+                <label class="input-group-text text-info">Id del cliente</label>
+                <input type="string" class="form-control" readonly name="IdCliente" readonly [(ngModel)]="this.service.formData.IdCliente">
+
+                <label class="input-group-text text-info">Cliente</label>
+                <input type="string" class="form-control" readonly name="Cliente" readonly [(ngModel)]="this.service.Cliente">
+
+                <label class="input-group-text text-info">Moneda</label>
+                <input type="string" class="form-control" readonly name="Moneda" readonly [(ngModel)]="this.service.formData.Moneda">
+
+                <label class="input-group-text text-info">Total</label>
+                <input type="string" class="form-control" readonly name="Total" readonly [(ngModel)]="this.service.formData.Total">
+
+
+                <!--  <label class="input-group-text text-info">Uso del CFDI</label>
+                <select class="form-control" name="UsoDelCFDI" #UsoDelCFDI="ngModel" [(ngModel)]="service.formData.UsoDelCFDI" required>
+                        <option [ngValue]="null" selected disabled>Seleccionar CFDI</option>
+                        <option *ngFor="let dl of listCFDI" [ngValue]="dl.UsoDelCFDI"> {{dl.text}} </option>
+                      </select> -->
+
+                <label class="input-group-text text-info">Metodo de Pago</label>
+                <select class="form-control" name="MetodoDePago" #MetodoDePago="ngModel" [(ngModel)]="service.formData.MetodoDePago" required>
+                        <option [ngValue]="null" selected disabled>Seleccionar Metodo Pago</option>
+                        <option *ngFor="let dl of listMP" [ngValue]="dl.MetodoDePago"> {{dl.text}} </option>
+                      </select>
+
+                <!--               -------------------------------------------------------                                       -->
+
+                <label class="input-group-text text-info">Forma de Pago</label>
+
+                <select class="form-control" name="FormaDePago" #FormaDePago="ngModel" [(ngModel)]="service.formData.FormaDePago" required>
+                        <option [ngValue]="null" selected disabled>Seleccionar Forma Pago</option>
+                        <option *ngFor="let dl of listFP" [ngValue]="dl.FormaDePago"> {{dl.text}} </option>
+                      </select>
+
+                <label class="input-group-text text-info">Fecha Pago</label>
+
+                <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                <input [matDatepicker]="picker5" type="text" class="form-control" name="FechaPag" #FechaPag="ngModel" [(ngModel)]="FechaPago">
+                <mat-datepicker #picker5></mat-datepicker>
+
+
+                <label class="input-group-text text-info">Cantidad a Pagar</label>
+
+                <input type="string" class="form-control" name="cantidadPag" #cantidadPag="ngModel" [(ngModel)]="cantidadPago">
+
+
+
+
+                <button type="button" class="btn btn-secondary waves-effect" (click)="timbrar()">Timbrar</button>
+            </div>
+        </div>
+    </div>
+</div>

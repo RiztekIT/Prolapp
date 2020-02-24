@@ -60,17 +60,17 @@ export class FacturacioncxcComponent implements OnInit {
     this.service.listen().subscribe((m:any)=>{
       // console.log(m);
       this.refreshFacturaList();
-      this.detallesFactura();
+      // this.detallesFactura();
       });
 
    }
 
   ngOnInit() {
     this.refreshFacturaList();
-    this.detallesFactura();
+    // this.detallesFactura();
     this.Folio();
-    this.ObtenerUltimaFactura();
-    this.listData.connect();
+    //this.ObtenerUltimaFactura();
+    // this.listData.connect();
   }
 
 
@@ -96,9 +96,27 @@ export class FacturacioncxcComponent implements OnInit {
     })
   }
 
+  /* Metodo para hacer el complemento de pago */
+  comppago(factura){
+    console.log(factura);
+    
+      this.service.formData = factura;      
+      this.service.Cliente = factura.Nombre;
+    document.getElementById('comppagobtn').click();
+    
+
+
+  }
+
 
 /* Metodo para traer todas las facturas */
   refreshFacturaList() {
+
+    this.service.deleteFacturaCreada().subscribe(data=>{
+      console.log(data);
+      
+  
+
   
     this.service.getFacturasListCLiente().subscribe(data => {
 
@@ -117,8 +135,10 @@ export class FacturacioncxcComponent implements OnInit {
             this.listData.paginator._intl.itemsPerPageLabel = 'Facturas por Pagina';
           })
         }}
+        // console.log(this.listData);
       });
-      console.log(this.listData);
+    })
+      
   }
 
    /* Eliminar Factura solo si no esta timbrada */
@@ -164,7 +184,7 @@ export class FacturacioncxcComponent implements OnInit {
   public FacturaBlanco: Factura = 
     {
       Id:0,
-      IdCliente:1,
+      IdCliente:0,
       Serie: "",
       Folio: "",
       Tipo: "",
@@ -218,8 +238,18 @@ export class FacturacioncxcComponent implements OnInit {
 /* Crear Factura y abrir nueva pantalla */
   onAdd(){
     this.service.addFactura(this.FacturaBlanco).subscribe(res => {
-      let Id = this.IdFactura;
+      this.service.getUltimaFactura().subscribe(data => {
+        this.IdFactura = data[0].Id;
+        if (!this.IdFactura){
+          this.IdFactura='1';
+          let Id = this.IdFactura;
       this.router.navigate(['/facturacionCxcAdd', Id]);
+        }
+        let Id = this.IdFactura;
+      this.router.navigate(['/facturacionCxcAdd', Id]);
+
+        });
+      
     }
     );
   }
@@ -245,6 +275,8 @@ let Id = factura.Id;
 
   /* Metodo para el filtro de la tabla */
   applyFilter(filtervalue: string){  
+    console.log(this.listData);
+    
     this.listData.filterPredicate = (data, filter: string) => {
       if (data.Nombre){
         return data.Folio.toString().toLowerCase().includes(filter) || data.Nombre.toLowerCase().includes(filter);

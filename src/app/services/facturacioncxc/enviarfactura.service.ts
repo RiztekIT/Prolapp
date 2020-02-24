@@ -4,6 +4,7 @@ import { Factura } from '../../Models/facturacioncxc/factura-model';
 import { Observable, observable, throwError, Subscriber } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import xml2js from 'xml2js';
+import { pagoTimbre } from 'src/app/Models/ComplementoPago/pagotimbre';
 
 // var js2xmlparser = require("js2xmlparser");
 
@@ -119,6 +120,11 @@ export class EnviarfacturaService {
   unidadMedida(): Observable<any>{
     let rootURLUM = "/api/v3/catalogo/ClaveUnidad";
     return this.http.get(rootURLUM,httpOptions2);
+  }
+
+  timbrarPago(pago: string): Observable<any>{
+    let rootURLUM = "/api/v3/cfdi33/complemento/pagos/create";
+    return this.http.post(rootURLUM,pago,httpOptions);  
   }
   
 
