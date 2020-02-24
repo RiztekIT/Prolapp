@@ -457,7 +457,7 @@ export class PedidoventasAddComponent implements OnInit {
   onBlurDescuento() {
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
       this.descuento = this.service.formDataPedido.Descuento;
-      this.totalDescuento = this.total - this.descuento;
+      this.refreshDetallesPedidoList();
       console.clear();
       console.log(res);
       console.log(this.descuento);
@@ -500,6 +500,7 @@ export class PedidoventasAddComponent implements OnInit {
     this.StockReal = 0;
     this.descuento = 0;
     this.totalDescuento = 0;
+    this.subtotal = 0;
   }
 
 
@@ -520,7 +521,9 @@ export class PedidoventasAddComponent implements OnInit {
 
         this.service.GetSumaImporte(this.IdPedido).subscribe(data => {
           console.log(data);
-          this.total = data[0].importe;
+this.descuento = this.service.formDataPedido.Descuento;
+          this.subtotal = data[0].importe;
+          this.total = data[0].importe - this.descuento;
           this.totalDlls = data[0].importeDlls;
           console.log(this.total);
           console.log(this.totalDlls);
@@ -554,8 +557,8 @@ export class PedidoventasAddComponent implements OnInit {
       //Restar el Stock
       this.RestarStock();
       // this.IniciarTotales();
-      this.refreshDetallesPedidoList();
       form.resetForm();
+      this.refreshDetallesPedidoList();
       Swal.fire({
         icon: 'success',
         title: 'Concepto Agregado'
@@ -821,6 +824,8 @@ export class PedidoventasAddComponent implements OnInit {
   crearPedido() {
 
       this.service.formDataPedido.Estatus = 'Guardada';
+      this.service.formDataPedido.Total = this.total;
+      this.service.formDataPedido.Subtotal = this.subtotal;
       console.log(this.service.formDataPedido);
       this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
         Swal.fire({
