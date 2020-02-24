@@ -155,7 +155,8 @@ import { ShowVendedorComponent } from './administracion/catalogos/vendedores/sho
 import { EmailComponent } from '../components/email/email/email.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { OrdendescargaComponent } from './almacen/ordendescarga/ordendescarga.component';
-import { OrdencargadetalleComponent } from './almacen/pedidosalmacen/ordencargadetalle/ordencargadetalle.component'
+import { OrdencargadetalleComponent } from './almacen/pedidosalmacen/ordencargadetalle/ordencargadetalle.component';
+import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component'
 
 
 
@@ -273,7 +274,8 @@ import { OrdencargadetalleComponent } from './almacen/pedidosalmacen/ordencargad
         ShowVendedorComponent,
         EmailComponent,
         OrdendescargaComponent,
-        OrdencargadetalleComponent
+        OrdencargadetalleComponent,
+        ComppagoComponent
     
     ],
     exports: [

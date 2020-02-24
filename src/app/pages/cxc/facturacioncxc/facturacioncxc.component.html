@@ -130,31 +130,36 @@
                     <mat-icon>keyboard_arrow_down</mat-icon>
                   </button>
                                     <mat-menu #menu="matMenu">
-                                        <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                        <button title="Editar/Ver" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
                       <mat-icon>edit</mat-icon>
                     </button>
 
                                         <!-- ver PDF -->
                                         <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button>
-                                        <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" (click)="generar(row.UUID,row.Folio)" mat-icon-button class="btn btn-dark">
+                                        <button title="Ver PDF" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" (click)="generar(row.UUID,row.Folio)" mat-icon-button class="btn btn-dark">
                       <mat-icon>remove_red_eye</mat-icon>
 
                     </button>
                                         <!-- descargar PDF -->
                                         <!-- <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button> -->
 
-                                        <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" (click)="pdf(row.UUID,row.Folio)" mat-icon-button class="btn btn-dark">
+                                        <button title="Descargar PDF" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" (click)="pdf(row.UUID,row.Folio)" mat-icon-button class="btn btn-dark">
                       <mat-icon>picture_as_pdf</mat-icon>
 
                     </button>
                                         <!-- XML -->
-                                        <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="xml(row.UUID,row.Folio)">
+                                        <button title="Descargar XML" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="xml(row.UUID,row.Folio)">
                       <mat-icon>code</mat-icon>
                     </button>
                                         <!-- ENVIAR -->
                                         <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
-                                        <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="email(row.UUID,row.Folio)">
+                                        <button title="Enviar Correo" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="email(row.UUID,row.Folio)">
                       <mat-icon>alternate_email</mat-icon>
+                    </button>
+                                        <!-- Pago -->
+                                        <button id="comppagobtn" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#comppago"></button>
+                                        <button title="Pagar" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="comppago(row)">
+                      <mat-icon>attach_money</mat-icon>
                     </button>
                                         <!-- XML -->
                                         <!-- <button mat-icon-button class="btn btn-dark" (click)="onDelete(row.Id)">
@@ -245,7 +250,7 @@
     </div>
 </div>
 
-<!-- Eliminar Barra -->
+<!-- Modal de Enviar Correo -->
 
 
 <div class="modal fade bs-example-modal-lg show" id="cargando">
@@ -254,6 +259,22 @@
 
             <button id="cerrarmodal" type="button" [hidden]="true" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
             <app-email [foliop]="folioparam" [idp]="idparam"></app-email>
+
+
+        </div>
+    </div>
+    <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+    </ngx-loading>
+</div>
+
+<!-- Modal de complemento de pago -->
+
+<div class="modal fade bs-example-modal-lg show" id="comppago">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <button id="cerrarmodal" type="button" [hidden]="true" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+            <app-comppago></app-comppago>
 
 
         </div>

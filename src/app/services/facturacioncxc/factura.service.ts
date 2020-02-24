@@ -26,6 +26,7 @@ export class FacturaService {
    IdFactura: number;
    master = new Array<facturaMasterDetalle>();
    Moneda: string;
+   Cliente;
 
 
   // readonly APIUrl = "https://localhost:7002/api";

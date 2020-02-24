@@ -96,6 +96,18 @@ export class FacturacioncxcComponent implements OnInit {
     })
   }
 
+  /* Metodo para hacer el complemento de pago */
+  comppago(factura){
+    console.log(factura);
+    
+      this.service.formData = factura;      
+      this.service.Cliente = factura.Nombre;
+    document.getElementById('comppagobtn').click();
+    
+
+
+  }
+
 
 /* Metodo para traer todas las facturas */
   refreshFacturaList() {
