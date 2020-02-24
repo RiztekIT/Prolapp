@@ -119,7 +119,7 @@ export class PedidoventasAddComponent implements OnInit {
     if (this.um) {
       this.listUM = [];
       this.enviarfact.unidadMedida().subscribe(data => {
-        //console.log(JSON.parse(data).data);
+        console.log(JSON.parse(data).data);
         for (let i = 0; i < JSON.parse(data).data.length; i++) {
           this.listUM.push(JSON.parse(data).data[i])
         }
