@@ -38,22 +38,23 @@ export class UnidadMedidaService {
   let rootURLUM = "/api/v3/catalogo/ClaveUnidad";
   return this.http.get(rootURLUM, httpUnidadMedidaSAT);
 }
-
 //Get unidades medida API PROLAPP
 GetUnidadesMedida(): Observable <UnidadMedida[]>{
   return this.http.get<any[]>(this.APIUrl + '/UnidadMedida');
 }
-//
+// Obtener Unidades de medida en base a CLAVE SAT
 GetUnidadMedidaClaveSAT(ClaveSAT: string): Observable <UnidadMedida[]>{
   return this.http.get<any[]>(this.APIUrl + '/UnidadMedida/Checkbox/' + ClaveSAT);
 }
 //Agregar Unidad Medida
-
+addUnidadMedida(um: UnidadMedida) {
+  return this.http.post(this.APIUrl + '/UnidadMedida', um);
+}
 //Actualziar Unidad Medida
-
 //Eliminar Unidad Medida
-
-
+deleteUnidadMedida(id:string) {
+  return this.http.delete(this.APIUrl + '/UnidadMedida/' + id);
+}
 private _listeners = new Subject<any>(); 
 listen(): Observable<any> {
   return this._listeners.asObservable();
