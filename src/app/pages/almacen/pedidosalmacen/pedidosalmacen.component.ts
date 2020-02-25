@@ -5,6 +5,7 @@ import {MatSort} from '@angular/material/sort';
 import { OrdenCargaService } from 'src/app/services/almacen/orden-carga.service';
 import { OrdenCarga } from '../../../Models/almacen/ordencarga.model';
 import { Router } from '@angular/router';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-pedidosalmacen',
@@ -14,7 +15,7 @@ import { Router } from '@angular/router';
 export class PedidosalmacenComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string [] = ['IdOrdenCarga', 'NumSalida', 'FechaOrden', 'IdCliente', 'Cliente', 'Producto', 'Fletera', 'NumCaja', 'EnviarA', 'Sacos', 'Kilos', 'Notas','Usuario', 'Boton'];
+  displayedColumns: string [] = ['IdOrdenCarga', 'NumSalida', 'FechaOrden', 'IdCliente', 'Cliente', 'Producto', 'Fletera', 'NumCaja', 'EnviarA', 'Sacos', 'Kilos', 'Notas','Usuario','Estatus', 'Boton'];
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   constructor(public router: Router,private service:OrdenCargaService, private dialog: MatDialog, private snackBar: MatSnackBar) {
@@ -36,15 +37,15 @@ export class PedidosalmacenComponent implements OnInit {
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
       this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Carga por Pagina';
-      // console.log(data);
+      console.log(data);
     });
   }
 
   onEdit(ordencarga: OrdenCarga){
     this.service.formData = ordencarga;
     this.service.formData.IdOrdenCarga = ordencarga.IdOrdenCarga;
-    // let Id = pedido.IdPedido;
-    // localStorage.setItem('IdPedido', Id.toString());
+    // localStorage.setItem('IdOrdenCarga', this.service.formData.IdOrdenCarga.toString())
+    localStorage.setItem('FormDataOrdenCarga', JSON.stringify(ordencarga))
     this.router.navigate(['/ordencargadetalle']);
   }
 

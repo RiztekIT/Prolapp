@@ -12,4 +12,5 @@ export class OrdenCarga {
     Kilos: string;
     Notas: string;
     Usuario: string;
+    Estatus: string;
 }

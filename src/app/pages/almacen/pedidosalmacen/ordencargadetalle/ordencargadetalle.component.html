@@ -1,96 +1,168 @@
-<div style="overflow:auto;">
-
-    <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
 
 
-        <ng-container matColumnDef="IdDetalleOrdenCarga">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Detalle </th>
-            <td mat-cell *matCellDef="let element">{{element.IdDetalleOrdenCarga}}
-                <td>
-        </ng-container>
+            <div class="container">
+                <div class="row">
+                    <div class="col-11">
+                        <h2 style="text-align: center;">Detalle de la Orden de Carga</h2>
+                    </div>
+                    <div class="col-1">
 
-        <ng-container matColumnDef="IdOrdenCarga">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Orden de Carga</th>
-            <td mat-cell *matCellDef="let element">{{element.IdOrdenCarga}}
-                <td>
-        </ng-container>
+                        <button class="btn btn-danger btn-lg" type="button" (click)="regresar()">X</button>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="form-material">
 
-        <ng-container matColumnDef="IdProveedor">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Proveedor</th>
-            <td mat-cell *matCellDef="let element">{{element.IdProveedor}}
-                <td>
-        </ng-container>
+                <div class="container">
+                    <div class="row">
 
-        <ng-container matColumnDef="Proveedor">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Proveedor</th>
-            <td mat-cell *matCellDef="let element">{{element.Proveedor}}</td>
-        </ng-container>
+                        <div class="col-6 col-md-6">
 
-        <ng-container matColumnDef="PO">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Purchase Order</th>
-            <td mat-cell *matCellDef="let element">{{element.PO}}
-            </td>
-        </ng-container>
+                            <label class="input-group-text text-info txt"> Fletera: </label>
+                            <input type="text" class="form-control" name="Fletera" #Fletera="ngModel" [(ngModel)]="formDatae.Fletera" readonly>
+                        </div>
+                        <div class="col-6 col-md-6">
 
-        <ng-container matColumnDef="IdProducto">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Id del Producto</th>
-            <td mat-cell *matCellDef="let element">{{element.IdProducto}}
-            </td>
-        </ng-container>
+                            <label class="input-group-text text-info"> Numero de Caja: </label>
+                            <input type="text" class="form-control" name="NumCaja" #NumCaja="ngModel" [(ngModel)]="formDatae.NumCaja" readonly>
 
-        <ng-container matColumnDef="Lote">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
-            <td mat-cell *matCellDef="let element">{{element.Lote}}
-            </td>
-        </ng-container>
+                        </div>
 
-        <ng-container matColumnDef="Sacos">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
-            <td mat-cell *matCellDef="let element">{{element.Sacos}}
-            </td>
-        </ng-container>
 
-        <ng-container matColumnDef="PesoSaco">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Peso Saco</th>
-            <td mat-cell *matCellDef="let element">{{element.PesoSaco}}
-            </td>
-        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div style="overflow:auto;">
 
-        <ng-container matColumnDef="FechaMFG">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha MFG</th>
-            <td mat-cell *matCellDef="let element">{{element.FechaMFG}}
-            </td>
-        </ng-container>
+                <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
 
-        <ng-container matColumnDef="FechaCaducidad">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Caducidad</th>
-            <td mat-cell *matCellDef="let element">{{element.FechaCaducidad}}
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="Bodega">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Bodega</th>
-            <td mat-cell *matCellDef="let element">{{element.Bodega}}
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="USDA">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>USDA</th>
-            <td mat-cell *matCellDef="let element">{{element.USDA}}
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="Shipper">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Shipper</th>
-            <td mat-cell *matCellDef="let element">{{element.Shipper}}
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="Pedimiento">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Pedimento</th>
-            <td mat-cell *matCellDef="let element">{{element.Pedimiento}}
-            </td>
-        </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-    </table>
 
+                    <ng-container matColumnDef="IdDetalleOrdenCarga">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Detalle </th>
+                        <td mat-cell *matCellDef="let element">{{element.IdDetalleOrdenCarga}}
+                            <td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="IdOrdenCarga">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Orden de Carga</th>
+                        <td mat-cell *matCellDef="let element">{{element.IdOrdenCarga}}
+                            <td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="IdProveedor">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Proveedor</th>
+                        <td mat-cell *matCellDef="let element">{{element.IdProveedor}}
+                            <td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Proveedor">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Proveedor</th>
+                        <td mat-cell *matCellDef="let element">{{element.Proveedor}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="PO">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Purchase Order</th>
+                        <td mat-cell *matCellDef="let element">{{element.PO}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="IdProducto">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Id del Producto</th>
+                        <td mat-cell *matCellDef="let element">{{element.IdProducto}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Lote">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                        <td mat-cell *matCellDef="let element">{{element.Lote}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Sacos">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
+                        <td mat-cell *matCellDef="let element">{{element.Sacos}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="PesoSaco">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Peso Saco</th>
+                        <td mat-cell *matCellDef="let element">{{element.PesoSaco}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="FechaMFG">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha MFG</th>
+                        <td mat-cell *matCellDef="let element">{{element.FechaMFG}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="FechaCaducidad">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Caducidad</th>
+                        <td mat-cell *matCellDef="let element">{{element.FechaCaducidad}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Bodega">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Bodega</th>
+                        <td mat-cell *matCellDef="let element">{{element.Bodega}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="USDA">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>USDA</th>
+                        <td mat-cell *matCellDef="let element">{{element.USDA}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Shipper">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Shipper</th>
+                        <td mat-cell *matCellDef="let element">{{element.Shipper}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Pedimiento">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Pedimento</th>
+                        <td mat-cell *matCellDef="let element">{{element.Pedimiento}}
+                        </td>
+                    </ng-container>
+
+                </table>
+
+            </div>
+            <br>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <div class="col-10"></div>
+                    <div class="col-2" *ngIf="formDatae.Estatus == 'Creada';" style="display: grid">
+                        <button id="PrepararCarga" [hidden]="true" class="btn btn-info btn-md" data-toggle="modal"></button>
+                        <button class="btn btn-info btn-lg" type="button" (click)="cambiarEstatusP()">Preparar</button>
+                    </div>
+                    <div class="col-2" *ngIf="formDatae.Estatus == 'Preparada';" style="display: grid">
+                        <button id="CargarCarga" [hidden]="true" class="btn btn-info btn-md" data-toggle="modal"></button>
+                        <button class="btn btn-info btn-lg" type="button" (click)="cambiarEstatusC()">Cargar</button>
+                    </div>
+                    <div class="col-2" *ngIf="formDatae.Estatus == 'Cargada';" style="display: grid">
+                        <button id="EnviarCarga" [hidden]="true" class="btn btn-info btn-md" data-toggle="modal"></button>
+                        <button class="btn btn-info btn-lg" type="button" (click)="cambiarEstatusE()">Enviar</button>
+                    </div>
+                    <div class="col-2" *ngIf="formDatae.Estatus == 'Enviada';" style="display: grid">
+                        <button id="TerminarCarga" [hidden]="true" class="btn btn-info btn-md" data-toggle="modal"></button>
+                        <button class="btn btn-info btn-lg" type="button" (click)="cambiarEstatusT()">Terminar</button>
+                    </div>
+                    <div class="col-2" *ngIf="formDatae.Estatus == 'Terminada';" style="display: grid">
+                        <button [hidden]="true" class="btn btn-info btn-md" data-toggle="modal"></button>
+                        <button class="btn btn-info btn-lg" type="button" (click)="regresar()">Regresar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
