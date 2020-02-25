@@ -113,7 +113,10 @@ export class PedidoVentasComponent implements OnInit {
       Factura: 0,
       LugarDeEntrega: "",
       Moneda: "MXN",
-      Prioridad: "Normal"
+      Prioridad: "Normal",
+      SubtotalDlls: "",
+      DescuentoDlls:"",
+      TotalDlls:"",
     }
 
   //Get the Folio and verify if it comes empty( in this case it will be set to 1) otherwise, it will be added 1 to not repeat the same Folio among the Pedidos
