@@ -46,8 +46,19 @@
                                                 <option *ngFor="let dl of listMoneda" [ngValue]="dl.Moneda"> {{dl.Moneda}} </option>
                                             </select>
 
-                                            <label class="input-group-text text-info">Descuento:</label>
-                                            <input type="text" class="form-control" name="Descuento" #Descuento="ngModel" (blur)="onBlurDescuento()" [(ngModel)]="service.formDataPedido.Descuento">
+                                            <div *ngIf="MonedaBoolean == true; else elseBlockDlls">
+
+                                                <label class="input-group-text text-info">Descuento:</label>
+                                                <input type="text" class="form-control" name="Descuento" #Descuento="ngModel" (blur)="onBlurDescuento()" [(ngModel)]="service.formDataPedido.Descuento">
+
+                                            </div>
+                                            <ng-template #elseBlockDlls>
+
+                                                <label class="input-group-text text-info">DescuentoDlls:</label>
+                                                <input type="text" class="form-control" name="DescuentoDlls" #DescuentoDlls="ngModel" (blur)="onBlurDescuentoDlls()" [(ngModel)]="service.formDataPedido.DescuentoDlls">
+
+                                            </ng-template>
+
 
 
                                         </div>
@@ -214,8 +225,17 @@
                                             <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formProd.Nombre" readonly>
 
                                             <br>
-                                            <label class="input-group-text text-info"> Precio Costo:</label>
-                                            <input type="number" class="form-control" name="PrecioCosto" #PrecioVenta="ngModel" [(ngModel)]="ProductoPrecio" (ngModelChange)="onChangePrecio($event)">
+                                            <div *ngIf="MonedaBoolean == true; else elseBlockPC">
+
+                                                <label class="input-group-text text-info"> Precio Costo :</label>
+                                                <input type="number" class="form-control" name="PrecioCosto" #PrecioVenta="ngModel" [(ngModel)]="ProductoPrecio" (ngModelChange)="onChangePrecio($event)">
+
+                                            </div>
+                                            <ng-template #elseBlockPC>
+                                                <label class="input-group-text text-info"> Precio Costo Dlls :</label>
+                                                <input type="number" class="form-control" name="PrecioCostoDlls" #PrecioVenta="ngModel" [(ngModel)]="ProductoPrecioDLLS" (ngModelChange)="onChangePrecioDlls($event)">
+
+                                            </ng-template>
 
                                             <label class="input-group-text text-info"> Cantidad:</label>
                                             <input type="number" class="form-control" name="Cantidad" [(ngModel)]="Cantidad" (ngModelChange)="onChangeCantidadP($event)">
@@ -240,8 +260,8 @@
                                             <mat-form-field class="example-full-width">
                                                 <input type="text" autocomplete="off" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formDataDP.Unidad" (focus)="unidadMedida()">
                                                 <mat-autocomplete #autoUnidad="matAutocomplete">
-                                                    <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.key">
-                                                        {{option.key}} {{option.name}}
+                                                    <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.ClaveSAT">
+                                                        {{option.ClaveSAT}} {{option.Nombre}}
                                                     </mat-option>
                                                 </mat-autocomplete>
                                             </mat-form-field>
@@ -269,8 +289,21 @@
                                                 <div class="form-material borderbox">
                                                     <div class="container">
                                                         <div class="row">
-                                                            <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Importe</label>
-                                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImporteP" [ngModel]=" MonedaBoolean ==  true ? (importeP | currency ): (importePDLLS | currency)">
+
+                                                            <div *ngIf="MonedaBoolean == true; else elseBlockImporteDlls">
+
+                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Importe</label>
+                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImporteP" [ngModel]=" MonedaBoolean ==  true ? (importeP | currency ): (importePDLLS | currency)">
+
+                                                            </div>
+                                                            <ng-template #elseBlockImporteDlls>
+
+                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Importe Dlls</label>
+                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImportePDlls" [ngModel]=" MonedaBoolean ==  true ? (importeP | currency ): (importePDLLS | currency)">
+
+
+                                                            </ng-template>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -362,38 +395,60 @@
                                                     <div class="container">
                                                         <div class="row">
 
-                                                            <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Descuento</label>
-                                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Descuento" [ngModel]="service.formDataPedido.Descuento | currency">
+                                                            <div *ngIf="MonedaBoolean == true; else elseBlock">
 
-                                                            <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
-                                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="MonedaBoolean ==  true ? (total | currency) : (totalDlls | currency)">
+                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">SubTotal</label>
+                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="SubTotal" [ngModel]="MonedaBoolean ==  true ? (subtotal | currency) : (subtotalDlls | currency)">
+
+                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Descuento</label>
+                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Descuento" [ngModel]="MonedaBoolean ==  true ? (descuento | currency) : (descuentoDlls | currency)">
+
+                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
+                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="MonedaBoolean ==  true ? (total | currency) : (totalDlls | currency)">
+
+                                                            </div>
+
+                                                            <ng-template #elseBlock>
+
+                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">SubTotal Dlls</label>
+                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="SubTotalDlls" [ngModel]="subtotalDlls | currency">
+
+                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Descuento Dlls</label>
+                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="DescuentoDlls" [ngModel]="descuentoDlls | currency">
+
+                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total Dlls</label>
+                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="TotalDlls" #TotalDlls="ngModel" [ngModel]="totalDlls | currency">
+
+                                                            </ng-template>
+
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
-
                                     </div>
-
-                                    <div class="container row">
-                                        <div class="col-12 col-md-4">
-                                            <br>
-                                            <button matStepperPrevious class="btn btn-primary btn-md">Back</button>
-                                        </div>
-                                        <div class="col-4"></div>
-                                        <div class="col-12 col-md-4">
-                                            <br>
-                                            <button matStepperNext class="btn btn-info btn-md" (click)="crearPedido()">Generar Pedido</button>
-                                        </div>
-
-                                    </div>
-
-
-
 
 
                                 </div>
+
+                                <div class="container row">
+                                    <div class="col-12 col-md-4">
+                                        <br>
+                                        <button matStepperPrevious class="btn btn-primary btn-md">Back</button>
+                                    </div>
+                                    <div class="col-4"></div>
+                                    <div class="col-12 col-md-4">
+                                        <br>
+                                        <button matStepperNext class="btn btn-info btn-md" (click)="crearPedido()">Generar Pedido</button>
+                                    </div>
+
+                                </div>
+
+
+
+
+
 
                             </form>
                         </mat-step>
@@ -404,7 +459,4 @@
 
                 </div>
             </section>
-
         </div>
-    </div>
-</div>

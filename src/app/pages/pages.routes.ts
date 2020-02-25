@@ -69,6 +69,8 @@ import { ExpedienteComponent } from './administracion/expediente/expediente.comp
 import { PedidoventasAddComponent } from './ventas/pedido-ventas/pedidoventas-add/pedidoventas-add/pedidoventas-add.component';
 import { OrdencargadetalleComponent } from './almacen/pedidosalmacen/ordencargadetalle/ordencargadetalle.component';
 import { OrdendescargaComponent } from './almacen/ordendescarga/ordendescarga.component';
+import { UnidadMedidaComponent } from './administracion/unidad-medida/unidad-medida.component';
+
 
 
 
@@ -148,6 +150,7 @@ const pagesRoutes: Routes = [
                 { path: 'pedidoventasAdd', component: PedidoventasAddComponent },
                 { path: 'ordencargadetalle', component: OrdencargadetalleComponent },
                 { path: 'ordendescarga', component: OrdendescargaComponent },
+                { path: 'unidadMedida', component: UnidadMedidaComponent },
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },

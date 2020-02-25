@@ -11,6 +11,7 @@ import { HttpHeaders,HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { CurrencyPipe } from '@angular/common';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+import { UnidadMedidaService } from 'src/app/services/unidadmedida/unidad-medida.service';
 
 
 
@@ -58,7 +59,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
   
 
   constructor(public dialogbox: MatDialogRef<FacturacioncxcProductoComponent>,
-    public service: FacturaService, private snackBar: MatSnackBar, private http : HttpClient, private currencyPipe: CurrencyPipe, public enviarfact: EnviarfacturaService) { }
+    public service: FacturaService, private snackBar: MatSnackBar, public ServiceUnidad: UnidadMedidaService, private http : HttpClient, private currencyPipe: CurrencyPipe, public enviarfact: EnviarfacturaService) { }
 
   ngOnInit() {
     this.resetForm();
@@ -99,10 +100,10 @@ public listUM: Array<any> = [];
   private _filterUnidad(value: any): any[] {
     if (typeof(value)=='string'){
     const filterValueUnidad = value.toLowerCase();
-    return this.listUM.filter(optionUnidad => optionUnidad.key.toString().toLowerCase().includes(filterValueUnidad) || optionUnidad.name.toString().toLowerCase().includes(filterValueUnidad));
+    return this.listUM.filter(optionUnidad => optionUnidad.ClaveSAT.toString().toLowerCase().includes(filterValueUnidad) || optionUnidad.Nombre.toString().toLowerCase().includes(filterValueUnidad));
     }else if (typeof(value)=='number'){
       const filterValueUnidad = value;
-      return this.listUM.filter(optionUnidad => optionUnidad.key.toString().includes(filterValueUnidad) || optionUnidad.name.toString().includes(filterValueUnidad));
+      return this.listUM.filter(optionUnidad => optionUnidad.ClaveSAT.toString().includes(filterValueUnidad) || optionUnidad.Nombre.toString().includes(filterValueUnidad));
     }
   }
   onMoneda(){
@@ -118,11 +119,13 @@ public listUM: Array<any> = [];
   unidadMedida(){
     if (this.um){
     this.listUM = [];
-    this.enviarfact.unidadMedida().subscribe(data=>{
-      //console.log(JSON.parse(data).data);
-      for (let i=0; i<JSON.parse(data).data.length; i++){
-        this.listUM.push(JSON.parse(data).data[i])
-      }
+    // this.enviarfact.unidadMedida().subscribe(data=>{
+    //   //console.log(JSON.parse(data).data);
+    //   for (let i=0; i<JSON.parse(data).data.length; i++){
+    //     this.listUM.push(JSON.parse(data).data[i])
+    //   }
+    this.ServiceUnidad.GetUnidadesMedida().subscribe(data =>{
+      this.listUM = data;
       this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
       .pipe(
         startWith(''),

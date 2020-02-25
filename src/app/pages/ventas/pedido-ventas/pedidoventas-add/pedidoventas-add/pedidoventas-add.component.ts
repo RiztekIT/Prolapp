@@ -18,6 +18,7 @@ import { EnviarfacturaService } from '../../../../../services/facturacioncxc/env
 import { ProductosService } from '../../../../../services/catalogos/productos.service';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Vendedor } from 'src/app/Models/catalogos/vendedores.model';
+import { UnidadMedidaService } from 'src/app/services/unidadmedida/unidad-medida.service';
 
 //Constantes para obtener tipo de cambio
 const httpOptions = {
@@ -41,7 +42,7 @@ export class PedidoventasAddComponent implements OnInit {
   dialogbox: any;
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
-    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient) {
+    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient , public ServiceUnidad: UnidadMedidaService) {
     this.MonedaBoolean = true;
   }
 
@@ -105,10 +106,10 @@ export class PedidoventasAddComponent implements OnInit {
   private _filterUnidad(value: any): any[] {
     if (typeof (value) == 'string') {
       const filterValueUnidad = value.toLowerCase();
-      return this.listUM.filter(optionUnidad => optionUnidad.key.toString().toLowerCase().includes(filterValueUnidad) || optionUnidad.name.toString().toLowerCase().includes(filterValueUnidad));
+      return this.listUM.filter(optionUnidad => optionUnidad.ClaveSAT.toString().toLowerCase().includes(filterValueUnidad) || optionUnidad.Nombre.toString().toLowerCase().includes(filterValueUnidad));
     } else if (typeof (value) == 'number') {
       const filterValueUnidad = value;
-      return this.listUM.filter(optionUnidad => optionUnidad.key.toString().includes(filterValueUnidad) || optionUnidad.name.toString().includes(filterValueUnidad));
+      return this.listUM.filter(optionUnidad => optionUnidad.ClaveSAT.toString().includes(filterValueUnidad) || optionUnidad.Nombre.toString().includes|(filterValueUnidad));
     }
   }
 
@@ -118,11 +119,13 @@ export class PedidoventasAddComponent implements OnInit {
   unidadMedida() {
     if (this.um) {
       this.listUM = [];
-      this.enviarfact.unidadMedida().subscribe(data => {
-        //console.log(JSON.parse(data).data);
-        for (let i = 0; i < JSON.parse(data).data.length; i++) {
-          this.listUM.push(JSON.parse(data).data[i])
-        }
+      // this.enviarfact.unidadMedida().subscribe(data => {
+      //   console.log(JSON.parse(data).data);
+      //   for (let i = 0; i < JSON.parse(data).data.length; i++) {
+      //     this.listUM.push(JSON.parse(data).data[i])
+      //   }
+      this.ServiceUnidad.GetUnidadesMedida().subscribe(data =>{
+        this.listUM = data;
         this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
           .pipe(
             startWith(''),
@@ -193,9 +196,8 @@ export class PedidoventasAddComponent implements OnInit {
   ivaDlls: any;
   subtotalDlls: any;
   totalDlls: any;
+  descuentoDlls: any;
   descuento: any;
-  totalDescuento: any;
-
   //Stock Real al momento de editar
   StockReal: number;
 
@@ -380,6 +382,11 @@ export class PedidoventasAddComponent implements OnInit {
       this.service.formProd = options2;
       this.PStock = this.service.formProd.Stock;
       this.ProductoPrecio = +this.service.formProd.PrecioVenta;
+      //asignar el valor inicial en caso de que la moneda este declarada en USD
+      if (this.MonedaBoolean == false) {
+        this.ProductoPrecioDLLS = (+this.service.formProd.PrecioVenta / this.TipoCambio);
+      }
+      
       this.ClaveProducto = this.service.formProd.ClaveProducto;
       console.log(+this.PStock + " STOCKKKK");
     }
@@ -411,7 +418,13 @@ export class PedidoventasAddComponent implements OnInit {
       console.log(data);
       this.service.formDataPedido = data[0];
       this.Moneda = this.service.formDataPedido.Moneda;
-      this.descuento = this.service.formDataPedido.Descuento;
+      
+      if (this.MonedaBoolean==true) {
+        this.descuento = this.service.formDataPedido.Descuento;
+      } else {
+              this.descuentoDlls = this.service.formDataPedido.DescuentoDlls;
+
+      }
       if (this.Moneda == 'MXN') {
         this.MonedaBoolean = true;
 
@@ -457,10 +470,21 @@ export class PedidoventasAddComponent implements OnInit {
   onBlurDescuento() {
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
       this.descuento = this.service.formDataPedido.Descuento;
-      this.totalDescuento = this.total - this.descuento;
+      this.refreshDetallesPedidoList();
       console.clear();
       console.log(res);
       console.log(this.descuento);
+    })
+  }
+
+  onBlurDescuentoDlls() {
+    this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+      this.descuentoDlls = this.service.formDataPedido.DescuentoDlls;
+      this.descuento = this.descuentoDlls * this.TipoCambio;
+      this.refreshDetallesPedidoList();
+      console.clear();
+      console.log(res);
+      console.log(this.descuentoDlls);
     })
   }
 
@@ -499,7 +523,8 @@ export class PedidoventasAddComponent implements OnInit {
     //Stock real al momento de editar
     this.StockReal = 0;
     this.descuento = 0;
-    this.totalDescuento = 0;
+    this.subtotal = 0;
+    this.descuentoDlls = 0;
   }
 
 
@@ -520,8 +545,14 @@ export class PedidoventasAddComponent implements OnInit {
 
         this.service.GetSumaImporte(this.IdPedido).subscribe(data => {
           console.log(data);
-          this.total = data[0].importe;
-          this.totalDlls = data[0].importeDlls;
+
+            this.descuento = this.service.formDataPedido.Descuento;
+            this.subtotal = data[0].importe;
+            this.total = data[0].importe - this.descuento;
+            this.descuentoDlls = this.service.formDataPedido.DescuentoDlls;
+            this.subtotalDlls = data[0].importeDlls;
+            this.totalDlls = data[0].importeDlls - this.descuentoDlls;
+                    
           console.log(this.total);
           console.log(this.totalDlls);
         })
@@ -545,7 +576,7 @@ export class PedidoventasAddComponent implements OnInit {
     this.service.formDataDP.PrecioUnitarioDlls = this.ProductoPrecioDLLS.toString();
     this.service.formDataDP.Cantidad = this.Cantidad.toString();
     this.service.formDataDP.Importe = this.importeP.toString();
-    this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
+    console.log(this.service.formDataDP.Importe);
 
     // console.log(this.service.formDataDP);
 
@@ -554,8 +585,8 @@ export class PedidoventasAddComponent implements OnInit {
       //Restar el Stock
       this.RestarStock();
       // this.IniciarTotales();
-      this.refreshDetallesPedidoList();
       form.resetForm();
+      this.refreshDetallesPedidoList();
       Swal.fire({
         icon: 'success',
         title: 'Concepto Agregado'
@@ -614,6 +645,13 @@ export class PedidoventasAddComponent implements OnInit {
     elemHTML.value = +this.ProductoPrecio;
     this.calcularImportePedido();
   }
+  onChangePrecioDlls(precioDlls: any) {
+    console.log(precioDlls);
+    let elemHTML: any = document.getElementsByName('PrecioCostoDlls')[0];
+    // //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
+    elemHTML.value = +this.ProductoPrecioDLLS;
+    this.calcularImportePedido();
+  }
 
   validarStock(cantidad: any) {
     console.log(cantidad + ' CANTIDAD');
@@ -650,13 +688,13 @@ export class PedidoventasAddComponent implements OnInit {
       //   console.log(this.importeP);
       //   console.log('dlls');
       // }
-      if (this.MonedaBoolean == true) {
+      
         this.importeP = data[0].Importe;
         this.ProductoPrecio = data[0].PrecioUnitario;
-      } else {
+      
         this.importePDLLS = data[0].ImporteDlls;
         this.ProductoPrecio = data[0].PrecioUnitarioDlls;
-      }
+      
 
       this.ProductoSelect = data[0].IdProducto;
       this.service.formProd.Nombre = data[0].Nombre;
@@ -768,10 +806,10 @@ export class PedidoventasAddComponent implements OnInit {
       console.log('LA MONEDA ES USD');
       console.log(this.ProductoPrecio);
       console.log(this.TipoCambio);
-      this.ProductoPrecioDLLS = +this.ProductoPrecio;
-      this.ProductoPrecioMXN = +this.ProductoPrecio * this.TipoCambio;
-      this.importePDLLS = this.Cantidad * +this.ProductoPrecio;
-      this.importeP = this.Cantidad * (+this.ProductoPrecio * this.TipoCambio);
+      this.ProductoPrecioDLLS = +this.ProductoPrecioDLLS;
+      this.ProductoPrecioMXN = +this.ProductoPrecioDLLS * this.TipoCambio;
+      this.importePDLLS = this.Cantidad * +this.ProductoPrecioDLLS;
+      this.importeP = this.Cantidad * (+this.ProductoPrecioDLLS * this.TipoCambio);
     }
 
   }
@@ -821,6 +859,12 @@ export class PedidoventasAddComponent implements OnInit {
   crearPedido() {
 
       this.service.formDataPedido.Estatus = 'Guardada';
+
+        this.service.formDataPedido.Total = this.total;
+        this.service.formDataPedido.Subtotal = this.subtotal;
+        this.service.formDataPedido.TotalDlls =this.totalDlls;
+        this.service.formDataPedido.SubtotalDlls = this.subtotalDlls;
+
       console.log(this.service.formDataPedido);
       this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
         Swal.fire({
