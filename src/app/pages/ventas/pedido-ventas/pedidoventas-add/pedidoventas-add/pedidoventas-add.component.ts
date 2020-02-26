@@ -468,8 +468,9 @@ export class PedidoventasAddComponent implements OnInit {
   }
 
   onBlurDescuento() {
+    this.descuento = this.service.formDataPedido.Descuento;
+    this.service.formDataPedido.DescuentoDlls =  (+this.descuento * this.TipoCambio).toString();
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
-      this.descuento = this.service.formDataPedido.Descuento;
       this.refreshDetallesPedidoList();
       console.clear();
       console.log(res);
@@ -478,9 +479,9 @@ export class PedidoventasAddComponent implements OnInit {
   }
 
   onBlurDescuentoDlls() {
-    this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
       this.descuentoDlls = this.service.formDataPedido.DescuentoDlls;
-      this.descuento = this.descuentoDlls * this.TipoCambio;
+    this.service.formDataPedido.Descuento =  (+this.descuentoDlls / this.TipoCambio).toString();
+    this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
       this.refreshDetallesPedidoList();
       console.clear();
       console.log(res);
@@ -545,13 +546,16 @@ export class PedidoventasAddComponent implements OnInit {
 
         this.service.GetSumaImporte(this.IdPedido).subscribe(data => {
           console.log(data);
-
+console.clear();
+   console.log(this.service.formDataPedido);
             this.descuento = this.service.formDataPedido.Descuento;
             this.subtotal = data[0].importe;
             this.total = data[0].importe - this.descuento;
+   
             this.descuentoDlls = this.service.formDataPedido.DescuentoDlls;
             this.subtotalDlls = data[0].importeDlls;
             this.totalDlls = data[0].importeDlls - this.descuentoDlls;
+          
                     
           console.log(this.total);
           console.log(this.totalDlls);
@@ -576,7 +580,7 @@ export class PedidoventasAddComponent implements OnInit {
     this.service.formDataDP.PrecioUnitarioDlls = this.ProductoPrecioDLLS.toString();
     this.service.formDataDP.Cantidad = this.Cantidad.toString();
     this.service.formDataDP.Importe = this.importeP.toString();
-    console.log(this.service.formDataDP.Importe);
+    this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
 
     // console.log(this.service.formDataDP);
 
@@ -688,13 +692,13 @@ export class PedidoventasAddComponent implements OnInit {
       //   console.log(this.importeP);
       //   console.log('dlls');
       // }
-      
+      if (this.MonedaBoolean == true) {
         this.importeP = data[0].Importe;
         this.ProductoPrecio = data[0].PrecioUnitario;
-      
+      } else {
         this.importePDLLS = data[0].ImporteDlls;
         this.ProductoPrecio = data[0].PrecioUnitarioDlls;
-      
+      }
 
       this.ProductoSelect = data[0].IdProducto;
       this.service.formProd.Nombre = data[0].Nombre;
@@ -860,11 +864,11 @@ export class PedidoventasAddComponent implements OnInit {
 
       this.service.formDataPedido.Estatus = 'Guardada';
 
-        this.service.formDataPedido.Total = this.total;
-        this.service.formDataPedido.Subtotal = this.subtotal;
-        this.service.formDataPedido.TotalDlls =this.totalDlls;
-        this.service.formDataPedido.SubtotalDlls = this.subtotalDlls;
-
+      this.service.formDataPedido.Total = this.total;
+      this.service.formDataPedido.Subtotal = this.subtotal;
+      this.service.formDataPedido.TotalDlls =this.totalDlls;
+      this.service.formDataPedido.SubtotalDlls = this.subtotalDlls;
+      
       console.log(this.service.formDataPedido);
       this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
         Swal.fire({
