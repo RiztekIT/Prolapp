@@ -223,8 +223,11 @@ export class PedidoVentasComponent implements OnInit {
   }
 
 
-  openrep(){
-    
+  openrep(row){
+
+    console.log(row);
+    this.service.formt = row
+    // console.log();
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;

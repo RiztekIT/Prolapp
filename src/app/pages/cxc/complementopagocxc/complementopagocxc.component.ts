@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, SimpleChanges } from '@angular/core';
 import * as html2pdf from 'html2pdf.js';
-import { MatTableDataSource, MatSort, MatPaginator, MatTable } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatTable, MatDialogConfig, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import { Observable } from 'rxjs';
@@ -9,6 +9,7 @@ import { ReciboPagoService } from '../../../services/complementoPago/recibo-pago
 import { ReciboPago } from '../../../Models/ComplementoPago/recibopago';
 import { PagoCFDI } from '../../../Models/ComplementoPago/pagocfdi';
 import { ReciboPagoMasterPagoCFDI } from '../../../Models/ComplementoPago/recibopagoMasterpagoCFDI';
+import { ComplementoPagoComponent } from 'src/app/components/complemento-pago/complemento-pago.component';
 
 
 @Component({
@@ -27,7 +28,7 @@ import { ReciboPagoMasterPagoCFDI } from '../../../Models/ComplementoPago/recibo
 export class ComplementopagocxcComponent implements OnInit {
 
   
-  constructor(private service: ReciboPagoService, private router: Router) {
+  constructor(private service: ReciboPagoService, private router: Router, private dialog: MatDialog) {
     
     this.service.listen().subscribe((m: any) => {
       this.refreshReciboPagoList();
@@ -194,6 +195,19 @@ export class ComplementopagocxcComponent implements OnInit {
     })
 
 
+
+  }
+
+  openrep(row){
+
+    console.log(row);
+    this.service.formt = row
+    // console.log();
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(ComplementoPagoComponent, dialogConfig);
 
   }
 
