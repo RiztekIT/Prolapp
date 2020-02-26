@@ -18,6 +18,7 @@ import { EnviarfacturaService } from '../../../../../services/facturacioncxc/env
 import { ProductosService } from '../../../../../services/catalogos/productos.service';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Vendedor } from 'src/app/Models/catalogos/vendedores.model';
+import { UnidadMedidaService } from 'src/app/services/unidadmedida/unidad-medida.service';
 
 //Constantes para obtener tipo de cambio
 const httpOptions = {
@@ -41,7 +42,7 @@ export class PedidoventasAddComponent implements OnInit {
   dialogbox: any;
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
-    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient) {
+    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient , public ServiceUnidad: UnidadMedidaService) {
     this.MonedaBoolean = true;
   }
 
@@ -105,10 +106,10 @@ export class PedidoventasAddComponent implements OnInit {
   private _filterUnidad(value: any): any[] {
     if (typeof (value) == 'string') {
       const filterValueUnidad = value.toLowerCase();
-      return this.listUM.filter(optionUnidad => optionUnidad.key.toString().toLowerCase().includes(filterValueUnidad) || optionUnidad.name.toString().toLowerCase().includes(filterValueUnidad));
+      return this.listUM.filter(optionUnidad => optionUnidad.ClaveSAT.toString().toLowerCase().includes(filterValueUnidad) || optionUnidad.Nombre.toString().toLowerCase().includes(filterValueUnidad));
     } else if (typeof (value) == 'number') {
       const filterValueUnidad = value;
-      return this.listUM.filter(optionUnidad => optionUnidad.key.toString().includes(filterValueUnidad) || optionUnidad.name.toString().includes(filterValueUnidad));
+      return this.listUM.filter(optionUnidad => optionUnidad.ClaveSAT.toString().includes(filterValueUnidad) || optionUnidad.Nombre.toString().includes|(filterValueUnidad));
     }
   }
 
@@ -118,11 +119,13 @@ export class PedidoventasAddComponent implements OnInit {
   unidadMedida() {
     if (this.um) {
       this.listUM = [];
-      this.enviarfact.unidadMedida().subscribe(data => {
-        console.log(JSON.parse(data).data);
-        for (let i = 0; i < JSON.parse(data).data.length; i++) {
-          this.listUM.push(JSON.parse(data).data[i])
-        }
+      // this.enviarfact.unidadMedida().subscribe(data => {
+      //   console.log(JSON.parse(data).data);
+      //   for (let i = 0; i < JSON.parse(data).data.length; i++) {
+      //     this.listUM.push(JSON.parse(data).data[i])
+      //   }
+      this.ServiceUnidad.GetUnidadesMedida().subscribe(data =>{
+        this.listUM = data;
         this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
           .pipe(
             startWith(''),

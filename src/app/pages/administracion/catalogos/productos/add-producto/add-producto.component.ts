@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { Observable } from 'rxjs';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import { startWith, map } from 'rxjs/operators';
+import { UnidadMedidaService } from '../../../../../services/unidadmedida/unidad-medida.service';
 
 @Component({
   selector: 'app-add-producto',
@@ -18,38 +19,45 @@ export class AddProductoComponent implements OnInit {
 public listUM: Array<any> = [];
 
   constructor(public dialogbox: MatDialogRef<AddProductoComponent>,
-    public service: ProductosService, private snackBar: MatSnackBar,public enviarfact: EnviarfacturaService) { }
+    public service: ProductosService, private snackBar: MatSnackBar,public enviarfact: EnviarfacturaService, public ServiceUnidad: UnidadMedidaService) { }
 
   ngOnInit() {
     this.resetForm();
-    
+    this.unidadMedida();
 
-    this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filterUnidad(value))
-      );
+    
   }
 
   unidadMedida(){
-    this.listUM = [];
-    this.enviarfact.unidadMedida().subscribe(data=>{
-      //console.log(JSON.parse(data).data);
-      for (let i=0; i<JSON.parse(data).data.length; i++){
-        this.listUM.push(JSON.parse(data).data[i])
-      }
-      console.log(this.listUM);
+    // this.listUM = [];
+    // this.enviarfact.unidadMedida().subscribe(data=>{
+    //   //console.log(JSON.parse(data).data);
+    //   for (let i=0; i<JSON.parse(data).data.length; i++){
+    //     this.listUM.push(JSON.parse(data).data[i])
+    //   }
+    this.ServiceUnidad.GetUnidadesMedida().subscribe(data =>{
+        this.listUM = data;
+      
+
+        this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
+        .pipe(
+          startWith(''),
+          map(value => this._filterUnidad(value))
+        );
+
+
+    });
       
 
       
-    })
+    // })
   }
 
    //Filter Unidad
    private _filterUnidad(value: any): any[] {
-    const filterValueUnidad = value.toLowerCase();
-    //return this.optionsUnidad.filter(optionUnidad => optionUnidad.toString().toLowerCase().includes(filterValueUnidad));
-    return this.listUM.filter(optionUnidad => optionUnidad.key.toString().toLowerCase().includes(filterValueUnidad) || optionUnidad.name.toString().toLowerCase().includes(filterValueUnidad));
+     console.log(value);
+    const filterValueUnidad = value.toString().toLowerCase();
+    return this.listUM.filter(optionUnidad => optionUnidad.ClaveSAT.toString().toLowerCase().includes(filterValueUnidad) || optionUnidad.Nombre.toString().toLowerCase().includes(filterValueUnidad));
   }
 
 

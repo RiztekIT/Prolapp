@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import { CurrencyPipe } from '@angular/common';
 import { OrdenCargaService } from 'src/app/services/almacen/orden-carga.service';
+import Swal from 'sweetalert2';
 
 // import { pedidoMaster } from 'src/app/Models/Pedidos/pedido-master';
 // import { DetallePedido } from '../../../Models/Pedidos/detallePedido-model';
@@ -21,31 +22,101 @@ export class OrdencargadetalleComponent implements OnInit {
   displayedColumns: string [] = ['IdDetalleOrdenCarga', 'IdOrdenCarga', 'IdProveedor', 'Proveedor', 'PO', 'IdProducto', 'Lote', 'Sacos', 'PesoSaco', 'FechaMFG', 'FechaCaducidad', 'Bodega', 'USDA','Shipper', 'Pedimiento'];
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-
-  constructor(public router: Router, private dialog: MatDialog, private service: OrdenCargaService) { 
+  
+  formDatae: any;
+  
+  constructor(public router: Router, private dialog: MatDialog, public service: OrdenCargaService) { 
 
     this.service.listen().subscribe((m:any)=>{
       console.log(m);
       this.refreshDetalleOrdenCargaList();
       });
 
+
+      
+
+      
+  }
+
+  refreshForm(){
+
+    this.formDatae = JSON.parse(localStorage.getItem('FormDataOrdenCarga'));
+
+    console.log(this.formDatae.IdOrdenCarga);
+
   }
 
   ngOnInit() {
+    this.refreshForm();
     this.refreshDetalleOrdenCargaList();
-    console.log(this.service.formData);
   }
 
   refreshDetalleOrdenCargaList(){
-    this.service.getDetalleOrdenCargaList(this.service.formData.IdOrdenCarga).subscribe(data => {
+    // this.refreshForm();
+    this.service.getDetalleOrdenCargaList(this.formDatae.IdOrdenCarga).subscribe(data => {
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
-      // this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Carga por Pagina';
-      console.log(data);
     });
   }
 
+  cambiarEstatusP(){
+
+    this.refreshForm();
+    console.log(this.formDatae.IdOrdenCarga);
+
+
+    let estatus = {
+      IdOrdenCarga: this.formDatae.IdOrdenCarga,
+      Estatus: "Preparada"
+    }
+
+    this.service.updatedetalleOrdenCargaEstatus(estatus).subscribe(data =>{
+      this.formDatae.Estatus = "Preparada"
+    })
+
+  }
+  cambiarEstatusC(){
+
+    this.refreshForm();
+
+    let estatus = {
+      IdOrdenCarga: this.formDatae.IdOrdenCarga,
+      Estatus: "Cargada"
+    }
+
+    this.service.updatedetalleOrdenCargaEstatus(estatus).subscribe(data =>{
+      this.formDatae.Estatus = "Cargada"
+    })
+    
+  }
+  cambiarEstatusE(){
+    this.refreshForm();
+    let estatus = {
+      IdOrdenCarga: this.formDatae.IdOrdenCarga,
+      Estatus: "Enviada"
+    }
+
+    this.service.updatedetalleOrdenCargaEstatus(estatus).subscribe(data =>{
+      this.formDatae.Estatus = "Enviada"
+    })
+  }
+  cambiarEstatusT(){
+    this.refreshForm();
+    let estatus = {
+      IdOrdenCarga: this.formDatae.IdOrdenCarga,
+      Estatus: "Terminada"
+    }
+
+    this.service.updatedetalleOrdenCargaEstatus(estatus).subscribe(data =>{
+      this.formDatae.Estatus = "Terminada"
+    })
+    
+  }
+
+  regresar(){
+    this.router.navigate(['/pedidosalmacen']);
+  }
 
 }
   
