@@ -17,7 +17,6 @@ import { FormsModule } from '@angular/forms';
 import { SaldosComponent } from './components/saldos/saldos.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReporteEmisionComponent } from './components/reporte-emision/reporte-emision.component';
 // import { ComplementoPagoComponent } from './components/complemento-pago/complemento-pago.component';
 
 // import { CalendarioComponent } from './components/calendario/calendario.component';
