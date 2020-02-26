@@ -158,7 +158,8 @@ import { UnidadMedidaComponent } from './administracion/unidad-medida/unidad-med
 import { OrdendescargaComponent } from './almacen/ordendescarga/ordendescarga.component';
 import { OrdencargadetalleComponent } from './almacen/pedidosalmacen/ordencargadetalle/ordencargadetalle.component';
 import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component'
-
+import { ReporteEmisionComponent } from '../components/reporte-emision/reporte-emision.component';
+import { ComplementoPagoComponent } from '../components/complemento-pago/complemento-pago.component';
 
 
 
@@ -277,7 +278,9 @@ import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component'
         UnidadMedidaComponent,
         OrdendescargaComponent,
         OrdencargadetalleComponent,
-        ComppagoComponent
+        ComppagoComponent,
+        ReporteEmisionComponent,
+        ComplementoPagoComponent,
     
     ],
     exports: [
@@ -351,7 +354,9 @@ import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component'
         EditVendedorComponent,
         ShowVendedorComponent,
         ShowEmpresaComponent,
-        AddEmpresaComponent
+        AddEmpresaComponent,
+        ReporteEmisionComponent,
+        ComplementoPagoComponent,
     ]
 })
 export class PagesModule { }
