@@ -37,7 +37,6 @@ import { ReporteEmisionComponent } from './components/reporte-emision/reporte-em
     LoginComponent,
     RegisterComponent,
     SaldosComponent,
-    ReporteEmisionComponent,
     
     // CalendarioComponent
     ],
