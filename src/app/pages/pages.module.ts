@@ -159,7 +159,8 @@ import { OrdendescargaComponent } from './almacen/ordendescarga/ordendescarga.co
 import { OrdencargadetalleComponent } from './almacen/pedidosalmacen/ordencargadetalle/ordencargadetalle.component';
 import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component';
 import { ClienteDireccionComponent } from '../components/cliente-direccion/cliente-direccion.component';
-
+import { ReporteEmisionComponent } from '../components/reporte-emision/reporte-emision.component';
+import { ComplementoPagoComponent } from '../components/complemento-pago/complemento-pago.component';
 
 
 
@@ -280,6 +281,8 @@ import { ClienteDireccionComponent } from '../components/cliente-direccion/clien
         OrdencargadetalleComponent,
         ComppagoComponent,
         ClienteDireccionComponent,
+        ReporteEmisionComponent,
+        ComplementoPagoComponent,
     
     ],
     exports: [
@@ -355,6 +358,8 @@ import { ClienteDireccionComponent } from '../components/cliente-direccion/clien
         ShowEmpresaComponent,
         AddEmpresaComponent,
         ClienteDireccionComponent,
+        ReporteEmisionComponent,
+        ComplementoPagoComponent,
     ]
 })
 export class PagesModule { }

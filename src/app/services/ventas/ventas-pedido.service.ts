@@ -34,6 +34,8 @@ export class VentasPedidoService {
 
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
 
+
+  formt: any;
   formData= new Cliente();
   formProd= new Producto();
   formDataDP= new DetallePedido();
