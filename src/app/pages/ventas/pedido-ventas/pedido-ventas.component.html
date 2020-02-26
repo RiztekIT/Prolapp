@@ -101,11 +101,7 @@
                             <td mat-cell *matCellDef="let element">{{element.Usuario}}
                             </td>
                         </ng-container>
-                        <ng-container matColumnDef="Factura">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Factura</th>
-                            <td mat-cell *matCellDef="let element">{{element.Factura}}
-                            </td>
-                        </ng-container>
+
                         <ng-container matColumnDef="LugarDeEntrega">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Lugar de Entrega</th>
                             <td mat-cell *matCellDef="let element">{{element.LugarDeEntrega}}
@@ -119,6 +115,11 @@
                         <ng-container matColumnDef="Prioridad">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Prioridad</th>
                             <td mat-cell *matCellDef="let element">{{element.Prioridad}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Flete">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Flete</th>
+                            <td mat-cell *matCellDef="let element">{{element.Flete}}
                             </td>
                         </ng-container>
 

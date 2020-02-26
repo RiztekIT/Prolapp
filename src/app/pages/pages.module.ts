@@ -157,7 +157,8 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { UnidadMedidaComponent } from './administracion/unidad-medida/unidad-medida.component'
 import { OrdendescargaComponent } from './almacen/ordendescarga/ordendescarga.component';
 import { OrdencargadetalleComponent } from './almacen/pedidosalmacen/ordencargadetalle/ordencargadetalle.component';
-import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component'
+import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component';
+import { ClienteDireccionComponent } from '../components/cliente-direccion/cliente-direccion.component';
 
 
 
@@ -277,7 +278,8 @@ import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component'
         UnidadMedidaComponent,
         OrdendescargaComponent,
         OrdencargadetalleComponent,
-        ComppagoComponent
+        ComppagoComponent,
+        ClienteDireccionComponent,
     
     ],
     exports: [
@@ -351,7 +353,8 @@ import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component'
         EditVendedorComponent,
         ShowVendedorComponent,
         ShowEmpresaComponent,
-        AddEmpresaComponent
+        AddEmpresaComponent,
+        ClienteDireccionComponent,
     ]
 })
 export class PagesModule { }

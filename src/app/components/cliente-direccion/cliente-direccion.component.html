@@ -1,0 +1,144 @@
+<div class="d-flex justify-content-between">
+    <h4>Direcciones del Cliente: {{NombreCliente}}</h4>
+
+    <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
+        <mat-icon>close</mat-icon>
+    </button>
+
+
+</div>
+<hr>
+
+<div style="overflow: auto; height: 450px;">
+
+    <!-- Inicio FORM -->
+    <form #form="ngForm" (submit)="AgregarDireccionCliente(form)" autocomplete="off">
+
+        <div class="form-material">
+            <div class="container">
+                <div class="row">
+
+
+                    <div class="col-lg-6">
+                        <!-- ------------------------------------------------------------------------------------------------------------------------ -->
+                        <label class="input-group-text text-info ">IdCliente</label>
+                        <input readonly type="text" class="form-control" name="IdCliente" [(ngModel)]="IdCliente">
+                        <!--  ------------------------------------------------------------------------------------------------------------------------ -->
+                        <!-- ------------------------------------------------------------------------------------------------------------------------ -->
+                        <label class="input-group-text text-info ">Calle</label>
+                        <input required type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle">
+
+                        <div class="text-left text-danger" *ngIf="Calle.invalid && Calle.touched">
+                            Favor de Ingresar Calle
+                        </div>
+                        <!--  ------------------------------------------------------------------------------------------------------------------------ -->
+                        <!-- ------------------------------------------------------------------------------------------------------------------------ -->
+                        <label class="input-group-text text-info ">Colonia</label>
+                        <input required type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia">
+
+                        <div class="text-left text-danger" *ngIf="Colonia.invalid && Colonia.touched">
+                            Favor de Ingresar Colonia
+                        </div>
+                        <!--  ------------------------------------------------------------------------------------------------------------------------ -->
+                        <!-- ------------------------------------------------------------------------------------------------------------------------ -->
+                        <label class="input-group-text text-info ">Codigo Postal</label>
+                        <input required type="text" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP">
+
+                        <div class="text-left text-danger" *ngIf="CP.invalid && CP.touched">
+                            Favor de Ingresar Codigo Postal
+                        </div>
+                        <!--  ------------------------------------------------------------------------------------------------------------------------ -->
+
+
+                    </div>
+                    <div class="col-lg-6">
+                        <!--               -------------------------------------------------------                                       -->
+
+
+                        <!-- ------------------------------------------------------------------------------------------------------------------------ -->
+                        <label class="input-group-text text-info ">Ciudad</label>
+                        <input required type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad">
+
+                        <div class="text-left text-danger" *ngIf="Ciudad.invalid && Ciudad.touched">
+                            Favor de Ingresar Ciudad
+                        </div>
+                        <!--  ------------------------------------------------------------------------------------------------------------------------ -->
+                        <!-- ------------------------------------------------------------------------------------------------------------------------ -->
+                        <label class="input-group-text text-info ">Estado</label>
+                        <input required type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado">
+
+                        <div class="text-left text-danger" *ngIf="Estado.invalid && Estado.touched">
+                            Favor de Ingresar Estado
+                        </div>
+                        <!--  ------------------------------------------------------------------------------------------------------------------------ -->
+                        <!-- ------------------------------------------------------------------------------------------------------------------------ -->
+                        <label class="input-group-text text-info ">Numero Interior</label>
+                        <input type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior">
+
+                        <div class="text-left text-danger" *ngIf="NumeroInterior.invalid && NumeroInterior.touched">
+                            Favor de Ingresar Numero Interior
+                        </div>
+                        <!--  ------------------------------------------------------------------------------------------------------------------------ -->
+                        <!-- ------------------------------------------------------------------------------------------------------------------------ -->
+                        <label class="input-group-text text-info ">Numero Exterior</label>
+                        <input type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior">
+
+                        <div class="text-left text-danger" *ngIf="NumeroExterior.invalid && NumeroExterior.touched">
+                            Favor de Ingresar Numero Exterior
+                        </div>
+                        <!--  ------------------------------------------------------------------------------------------------------------------------ -->
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <br>
+        <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Agregar Direccion</button>
+
+    </form>
+    <!-- Fin FORM -->
+
+    <!-- Inicio Tabla -->
+
+    <div style="overflow:auto;">
+        <table mat-table [dataSource]="listData" matSort>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <ng-container matColumnDef="Nombre">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                <td mat-cell *matCellDef="let element">{{element.Nombre}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Options">
+                <th mat-header-cell *matHeaderCellDef>Options</th>
+                <td mat-cell *matCellDef="let row">
+
+                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>keyboard_arrow_down</mat-icon>
+                      </button>
+                    <mat-menu #menu="matMenu">
+                        <!--  -->
+                        <button mat-icon-button class="btn btn-dark" (click)="EditarDireccionCliente(row.IdCliente)">
+                                                <mat-icon>edit</mat-icon>
+                                            </button>
+                        <!--  -->
+                        <button mat-icon-button class="btn btn-danger" color="warn" (click)="EliminarDireccionCliente(row.IdCliente)">
+                                                    <mat-icon>delete_outline</mat-icon>
+                                                </button>
+                    </mat-menu>
+                </td>
+            </ng-container>
+
+
+        </table>
+        <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+        </mat-paginator>
+    </div>
+
+    <!-- Final Tabla -->
+
+</div>
