@@ -18,6 +18,7 @@ import { SaldosComponent } from './components/saldos/saldos.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PedidoComponent } from './components/pedido/pedido.component';
+import { ReporteEmisionComponent } from './components/reporte-emision/reporte-emision.component';
 
 // import { CalendarioComponent } from './components/calendario/calendario.component';
 
@@ -37,6 +38,7 @@ import { PedidoComponent } from './components/pedido/pedido.component';
     RegisterComponent,
     SaldosComponent,
     PedidoComponent,
+    ReporteEmisionComponent,
     
     // CalendarioComponent
     ],
