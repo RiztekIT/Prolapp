@@ -18,6 +18,12 @@ export class ReporteEmisionComponent implements OnInit {
   constructor(public dialogbox: MatDialogRef<ReporteEmisionComponent>, public router: Router, private _formBuilder: FormBuilder, 
     public service: VentasPedidoService ) { }
 
+    con : string| number;
+    arrcon: Array<any> = [];
+  
+    objconc: any; 
+  
+
   ngOnInit() {
     this.ver();
   }
@@ -27,9 +33,32 @@ export class ReporteEmisionComponent implements OnInit {
   }
 
   ver(){
-   
-    console.log(this.service.formt);
+
+    console.log(this.service.formt.DetallePedido[0]);
     
+    this.objconc = this.service.formt.DetallePedido
+    
+    this.arrcon = [];
+    for (this.con in this.objconc){
+      var conceptos = this.objconc[this.con];
+      this.arrcon.push({
+        IdDetallePedido: conceptos.IdDetallePedido,
+        IdPedido: conceptos.IdPedido,
+        ClaveProducto: conceptos.ClaveProducto,
+        Producto: conceptos.Producto,
+        Unidad: conceptos.Unidad,
+        PrecioUnitario: conceptos.PrecioUnitario,
+        Cantidad: conceptos.Cantidad,
+        Importe: conceptos.Importe,
+        Observaciones: conceptos.Observaciones,
+        TextoExtra: conceptos.TextoExtra,
+        PrecioUnitarioDlls: conceptos.PrecioUnitarioDlls,
+        ImporteDlls: conceptos.ImporteDlls
+      });
+    }
+    console.log(this.arrcon);
+
+
   }
 
 }
