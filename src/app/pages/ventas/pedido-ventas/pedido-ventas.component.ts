@@ -8,7 +8,7 @@ import { VentasPedidoService } from '../../../services/ventas/ventas-pedido.serv
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Producto } from '../../../Models/catalogos/productos-model';
 import { CurrencyPipe, CommonModule } from '@angular/common';
-import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
 import { MatSort } from '@angular/material/sort';
 import { Subject } from 'rxjs';
 import { Pedido } from '../../../Models/Pedidos/pedido-model';
@@ -16,6 +16,8 @@ import { Pedido } from '../../../Models/Pedidos/pedido-model';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import { pedidoMaster } from 'src/app/Models/Pedidos/pedido-master';
 import { DetallePedido } from '../../../Models/Pedidos/detallePedido-model';
+import { ReportesalmacenComponent } from '../../almacen/reportesalmacen/reportesalmacen.component';
+import { ReporteEmisionComponent } from '../../../components/reporte-emision/reporte-emision.component';
 
 @Component({
   selector: 'app-pedido-ventas',
@@ -217,6 +219,17 @@ export class PedidoVentasComponent implements OnInit {
       });
     })
 
+
+  }
+
+
+  openrep(){
+    
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(ReporteEmisionComponent, dialogConfig);
 
   }
 
