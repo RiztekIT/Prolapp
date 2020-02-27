@@ -35,7 +35,7 @@ export class ReporteEmisionComponent implements OnInit {
 
   ver(){
 
-    console.log(this.service.formt.DetallePedido[0]);
+    console.log(this.service.formt.DetallePedido);
     
     this.objconc = this.service.formt.DetallePedido
     

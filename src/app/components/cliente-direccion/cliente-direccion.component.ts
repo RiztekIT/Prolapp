@@ -34,6 +34,7 @@ export class ClienteDireccionComponent implements OnInit {
   //Metodo para obtener los datos y llenarlos en la tabla
   refreshProveedoresList() {
     this.service.getDireccionIdCliente(this.service.IdCliente).subscribe(data => {
+      console.log(data);
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;

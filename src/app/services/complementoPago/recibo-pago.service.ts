@@ -14,7 +14,18 @@ export class ReciboPagoService {
   formt: any;
 
   formData = new ReciboPago();
-  formDataPagoCFDI = new PagoCFDI;
+  formDataPagoCFDI = new PagoCFDI();
+
+  //formData pago de CFDI cuando se edita 
+  formDataPagoCFDIEdit = new PagoCFDI();
+
+  //Saldo Complemento de Pago
+  SaldoComplementoPago: number;
+
+  //Saldo de la Factura
+  SaldoFactura: number;
+
+
   // formDataDF: DetalleFactura;
   // formDataP: Producto;
   IdReciboPago: number;
@@ -96,6 +107,10 @@ export class ReciboPagoService {
   //Eliminar Recibo Pago
   deleteReciboPago(id: number) {
     return this.http.delete(this.APIUrl + '/ReciboPago/' + id);
+  }
+
+  deleteReciboCreado(){
+    return this.http.delete(this.APIUrl + '/ReciboPago/DeletePagoCreado/');
   }
   //Eliminar PagoCFDI
   deletePagoCFDI(id: number) {

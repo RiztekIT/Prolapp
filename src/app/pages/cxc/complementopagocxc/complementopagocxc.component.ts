@@ -65,6 +65,8 @@ export class ComplementopagocxcComponent implements OnInit {
 
   //Obtener lista de Recibo de pagos y pagos de CFDI 
   refreshReciboPagoList() {
+    this.service.deleteReciboCreado().subscribe(data=>{
+
     this.service.getReciboPagoClienteList().subscribe(data => {
       console.log(data);
       for (let i = 0; i <= data.length - 1; i++) {
@@ -82,6 +84,7 @@ export class ComplementopagocxcComponent implements OnInit {
       this.listData.paginator._intl.itemsPerPageLabel = 'Recibos de Pago por Pagina';
       // console.log(this.service.master);
     });
+  })
 
 
   }
@@ -100,7 +103,7 @@ export class ComplementopagocxcComponent implements OnInit {
   public ReciboPagoBlanco: ReciboPago =
     {
       Id: 0,
-      IdCliente: 1,
+      IdCliente: 0,
       FechaExpedicion: new Date(),
       FechaPago: new Date(),
       FormaPago: "",

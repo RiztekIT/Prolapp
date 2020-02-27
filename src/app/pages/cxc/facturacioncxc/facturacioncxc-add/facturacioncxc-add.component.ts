@@ -715,7 +715,8 @@ export class FacturacioncxcAddComponent implements OnInit {
         });
       } else
         if (data.response === 'error') {
-          this.loading2 = false;
+          this.loading = false;
+          document.getElementById('cerrarmodal').click();
           Swal.fire(
             'Error',
             '' + data.message + '',

@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
 import { EnviarfacturaService } from '../../../../services/facturacioncxc/enviarfactura.service';
 import { pagoTimbre } from 'src/app/Models/ComplementoPago/pagotimbre';
-import { NativeDateAdapter } from '@angular/material';
+import { NativeDateAdapter, MatDatepickerInputEvent, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.service';
 import { ReciboPago } from 'src/app/Models/ComplementoPago/recibopago';
 import Swal from 'sweetalert2';
@@ -40,16 +40,26 @@ export const APP_DATE_FORMATS =
 @Component({
   selector: 'app-comppago',
   templateUrl: './comppago.component.html',
-  styleUrls: ['./comppago.component.css']
+  styleUrls: ['./comppago.component.css'],
+  providers: [
+    {
+      provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+      provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+  ]
 })
 export class ComppagoComponent implements OnInit {
 
   @Input() foliop: any;
   @Input() idp: any;
+  @Output() dateChange:EventEmitter< MatDatepickerInputEvent< any>>;
 
   ClienteNombre: any;
   json1 = new pagoTimbre();
   FechaPago;
+  fecha2;
   cantidadPago;
   reciboPago = new ReciboPago();
   IdReciboPago: any;
@@ -141,33 +151,34 @@ export class ComppagoComponent implements OnInit {
             ClaveUnidad:'',
             Descripcion:'',
             ValorUnitario:'',
-            Importe:''
+            Importe:'',
+            Complemento:[
+              {
+                  typeComplement:'',
+                  FechaPago:'',
+                  FormaDePagoP:'',
+                  MonedaP:'',
+                  Monto:'',
+                  relacionados:[
+                      {
+                          IdDocumento:'',
+                          MonedaDR:'',
+                          TipoCambioDR:'',
+                          MetodoDePagoDR:'',
+                          NumParcialidad:'',
+                          ImpSaldoAnt:'',
+                          ImpPagado:'',
+                          ImpSaldoInsoluto:''
+                      }
+                  ]
+              }
+          ]
         }
     ],
     UsoCFDI:'',
     Serie:'',
     Moneda:'',
-    Pagos:[
-        {
-            typeComplement:'',
-            FechaPago:'',
-            FormaDePagoP:'',
-            MonedaP:'',
-            Monto:'',
-            relacionados:[
-                {
-                    IdDocumento:'',
-                    MonedaDR:'',
-                    TipoCambioDR:'',
-                    MetodoDePagoDR:'',
-                    NumParcialidad:'',
-                    ImpSaldoAnt:'',
-                    ImpPagado:'',
-                    ImpSaldoInsoluto:''
-                }
-            ]
-        }
-    ]
+   
     }
     
   }
@@ -186,29 +197,28 @@ export class ComppagoComponent implements OnInit {
       "ClaveUnidad" : "ACT",
       "Descripcion" : "Pago",
       "ValorUnitario" : "0",
-      "Importe" : "0"
+      "Importe" : "0",
+      "Complemento":[{
+        "typeComplement" : "pagos",
+        "FechaPago" : this.fecha2,
+        "FormaDePagoP": this.service.formData.FormaDePago,
+        "MonedaP" : datos.Moneda,
+        "Monto" : this.cantidadPago,
+        "relacionados" : [{
+          "IdDocumento": datos.UUID,
+          "MonedaDR" : datos.Moneda,
+          "TipoCambioDR" : datos.TipoDeCambio,
+          "MetodoDePagoDR" : "PPD",
+          "NumParcialidad" : "1",
+          "ImpSaldoAnt" : parseFloat(datos.Total).toFixed(2),
+          "ImpPagado": this.cantidadPago,
+          "ImpSaldoInsoluto": (parseFloat(datos.Total) - parseFloat(this.cantidadPago)).toString()
+        }]
+      }]
     });
     this.json1.UsoCFDI = "P01";
     this.json1.Serie = "6390";
-    this.json1.Moneda = datos.Moneda;
-    this.json1.Pagos.pop();
-    this.json1.Pagos.push({
-      "typeComplement" : "pagos",
-      "FechaPago" : this.FechaPago,
-      "FormaDePagoP": this.service.formData.FormaDePago,
-      "MonedaP" : datos.Moneda,
-      "Monto" : this.cantidadPago,
-      "relacionados" : [{
-        "IdDocumento": datos.UUID,
-        "MonedaDR" : datos.Moneda,
-        "TipoCambioDR" : datos.TipoDeCambio,
-        "MetodoDePagoDR" : "PPD",
-        "NumParcialidad" : "1",
-        "ImpSaldoAnt" : datos.Total,
-        "ImpPagado": this.cantidadPago,
-        "ImpSaldoInsoluto": (parseFloat(datos.Total) - parseFloat(this.cantidadPago)).toString()
-      }]
-    })
+    this.json1.Moneda = 'XXX';
   }
 
   ObtenerUltimaFactura() {
@@ -231,6 +241,39 @@ export class ComppagoComponent implements OnInit {
 
   }
 
+  change(date:any){
+    //2020-02-26T07:00:00
+    const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    let dia;
+    let mes;
+    let año;
+    let hora;
+    let min;
+    let seg;
+    
+    let fecha = new Date(this.FechaPago);
+
+    
+    dia = fecha.getDate();
+    mes = `${months[fecha.getMonth()]}`;
+    año = fecha.getFullYear();
+    hora = fecha.getHours();
+    min = fecha.getMinutes();
+    seg = fecha.getSeconds();
+
+    hora = '00';
+    min = '00';
+    seg = '00';
+
+    this.fecha2 = año + '-' + mes + '-' + dia + 'T' + hora + ':' + min + ':' + seg
+    console.log(fecha);
+    console.log(this.fecha2);
+    
+    
+    
+    
+  }
+
 
 
   timbrar(){
@@ -245,10 +288,11 @@ this.servicetimbrado.timbrarPago(JSON.stringify(this.json1)).subscribe(data=>{
     this.ObtenerUltimaFactura();
 
 
-    this.reciboPago.Id = this.IdReciboPago;
+    // this.reciboPago.Id = this.IdReciboPago;
     this.reciboPago.IdCliente =  datos.IdCliente;
     this.reciboPago.FechaExpedicion =  new Date();
-    this.reciboPago.FechaPago = this.FechaPago;
+    this.reciboPago.FechaPago = new Date(this.FechaPago);
+    // this.reciboPago.FechaPago = this.FechaPago;
     this.reciboPago.FormaPago = this.service.formData.FormaDePago;
     this.reciboPago.Moneda = datos.Moneda;
     this.reciboPago.TipoCambio = datos.TipoDeCambio;
