@@ -45,7 +45,7 @@
                 <label class="input-group-text text-info">Fecha Pago</label>
 
                 <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
-                <input [matDatepicker]="picker5" type="text" class="form-control" name="FechaPag" #FechaPag="ngModel" [(ngModel)]="FechaPago">
+                <input [matDatepicker]="picker5" type="text" class="form-control" name="FechaPag" #FechaPag="ngModel" [(ngModel)]="FechaPago" (dateChange)="change($event)">
                 <mat-datepicker #picker5></mat-datepicker>
 
 

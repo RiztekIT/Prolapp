@@ -108,9 +108,33 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-            <ng-container matColumnDef="Nombre">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
-                <td mat-cell *matCellDef="let element">{{element.Nombre}}</td>
+            <ng-container matColumnDef="Calle">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Calle</th>
+                <td mat-cell *matCellDef="let element">{{element.Calle}}</td>
+            </ng-container>
+            <ng-container matColumnDef="Colonia">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Colonia</th>
+                <td mat-cell *matCellDef="let element">{{element.Colonia}}</td>
+            </ng-container>
+            <ng-container matColumnDef="CP">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo Postal</th>
+                <td mat-cell *matCellDef="let element">{{element.CP}}</td>
+            </ng-container>
+            <ng-container matColumnDef="Ciudad">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Ciudad</th>
+                <td mat-cell *matCellDef="let element">{{element.Ciudad}}</td>
+            </ng-container>
+            <ng-container matColumnDef="Estado">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                <td mat-cell *matCellDef="let element">{{element.Estado}}</td>
+            </ng-container>
+            <ng-container matColumnDef="NumeroInterior">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Numero Interior</th>
+                <td mat-cell *matCellDef="let element">{{element.NumeroInterior}}</td>
+            </ng-container>
+            <ng-container matColumnDef="NumeroExterior">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Numero Exterior</th>
+                <td mat-cell *matCellDef="let element">{{element.NumeroExterior}}</td>
             </ng-container>
 
             <ng-container matColumnDef="Options">
