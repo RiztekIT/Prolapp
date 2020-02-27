@@ -26,6 +26,9 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
     updateOrdenCarga(ordencarga: OrdenCarga) {
         return this.http.put(APIUrl+ '/OrdenCarga', ordencarga);
         } 
+    updatedetalleOrdenCargaEstatus(ordenCarga: any) {
+        return this.http.put(APIUrl+ '/OrdenCarga/EstatusDetalle', ordenCarga);
+        } 
     addOrdenCarga(ordencarga: OrdenCarga){
         return this.http.post(APIUrl + '/OrdenCarga', ordencarga )          
     }

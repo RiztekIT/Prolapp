@@ -1,0 +1,174 @@
+.no-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    color: #000000 !important;
+}
+
+.card-header {
+    border-radius: 0px;
+    padding-top: 10px;
+    padding-bottom: 4px;
+    background: #ffffff;
+    border-color: #ffffff;
+    padding-left: 10px;
+}
+
+.blacktxt {
+    color: #000000;
+}
+
+.bolder {
+    font-weight: 900;
+}
+
+.card-outline-inverse {
+    background: #ffffff;
+    border-color: #000000;
+}
+
+.nowrap {
+    white-space: nowrap
+}
+
+.borderContainer {
+    border: 1px solid black;
+}
+
+p {
+    font-size: 12px !important;
+    color: #000000 !important;
+}
+
+p>.nomarginbottomP {
+    font-size: 12px !important;
+    margin-bottom: 0px;
+}
+
+.nomarginbottomP {
+    margin-bottom: 0px;
+}
+
+.PSellosQR {
+    font-size: 8px !important;
+}
+
+.text-center {
+    margin-bottom: 0px;
+}
+
+h6 {
+    line-height: 1px;
+    font-size: 10px;
+}
+
+th {
+    white-space: nowrap;
+    padding-left: 0px;
+}
+
+.table th {
+    padding-right: .75rem;
+}
+
+.containerborder {
+    border: 1px solid black;
+}
+
+.table-responsive {
+    margin-top: -23px;
+    margin-bottom: -30px;
+}
+
+.table {
+    padding-right: 0rem;
+    padding-left: 0.4rem;
+}
+
+.col-lg-12 {
+    padding-right: 1px;
+    padding-left: 20px;
+}
+
+.col-sm-6 {
+    padding-right: 1px;
+    padding-left: 20px;
+}
+
+.col-lg-6 {
+    padding-right: 1px;
+    padding-left: 1px;
+}
+
+.col-lg-7 {
+    padding-bottom: 0px;
+}
+
+th {
+    font-size: 10px;
+}
+
+.campofirma {
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+.bordeTopBottom {
+    width: 100%;
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
+}
+
+.card-body {
+    /* padding-bottom: -20px;
+    padding-top: 0rem; */
+    padding: 0rem;
+}
+
+.card {
+    margin-bottom: 10px;
+}
+
+.logo {
+    max-height: 100px;
+}
+
+.col-lg-12 .col-md-12 {
+    padding-left: 0px;
+    margin-left: 0px;
+}
+
+.tablaBodyAcomodo {
+    height: 10px;
+}
+
+.textoBodyAcomodo {
+    padding: 0;
+}
+
+.acomodoForzadoTh {
+    padding-left: 15px !important;
+}
+
+.acomodoForzadoTh2 {
+    padding-left: 15px !important;
+}
+
+.acomodoForzadoTh3 {
+    padding-left: 5px !important;
+}
+
+.pgbreak {
+    page-break-before: auto;
+}
+
+.bottomR {
+    margin-top: 0px;
+    margin-bottom: 24px !important;
+}
+
+#footer {
+    bottom: 0;
+    width: 100%;
+}

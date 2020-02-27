@@ -18,4 +18,8 @@ public Factura : number;
 public LugarDeEntrega: string;
 public Moneda: string;
 public Prioridad: string;
+public SubtotalDlls: string;
+public DescuentoDlls: string;
+public TotalDlls: string;
+public Flete: string;
 }

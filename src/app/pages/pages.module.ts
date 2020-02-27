@@ -154,10 +154,13 @@ import { EditVendedorComponent } from './administracion/catalogos/vendedores/edi
 import { ShowVendedorComponent } from './administracion/catalogos/vendedores/show-vendedor/show-vendedor.component';
 import { EmailComponent } from '../components/email/email/email.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { UnidadMedidaComponent } from './administracion/unidad-medida/unidad-medida.component'
 import { OrdendescargaComponent } from './almacen/ordendescarga/ordendescarga.component';
 import { OrdencargadetalleComponent } from './almacen/pedidosalmacen/ordencargadetalle/ordencargadetalle.component';
-import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component'
-
+import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component';
+import { ClienteDireccionComponent } from '../components/cliente-direccion/cliente-direccion.component';
+import { ReporteEmisionComponent } from '../components/reporte-emision/reporte-emision.component';
+import { ComplementoPagoComponent } from '../components/complemento-pago/complemento-pago.component';
 
 
 
@@ -273,9 +276,13 @@ import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component'
         FoliosComponent,
         ShowVendedorComponent,
         EmailComponent,
+        UnidadMedidaComponent,
         OrdendescargaComponent,
         OrdencargadetalleComponent,
-        ComppagoComponent
+        ComppagoComponent,
+        ClienteDireccionComponent,
+        ReporteEmisionComponent,
+        ComplementoPagoComponent,
     
     ],
     exports: [
@@ -349,7 +356,10 @@ import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component'
         EditVendedorComponent,
         ShowVendedorComponent,
         ShowEmpresaComponent,
-        AddEmpresaComponent
+        AddEmpresaComponent,
+        ClienteDireccionComponent,
+        ReporteEmisionComponent,
+        ComplementoPagoComponent,
     ]
 })
 export class PagesModule { }

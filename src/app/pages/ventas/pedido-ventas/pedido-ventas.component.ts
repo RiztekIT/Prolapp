@@ -8,7 +8,7 @@ import { VentasPedidoService } from '../../../services/ventas/ventas-pedido.serv
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Producto } from '../../../Models/catalogos/productos-model';
 import { CurrencyPipe, CommonModule } from '@angular/common';
-import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
 import { MatSort } from '@angular/material/sort';
 import { Subject } from 'rxjs';
 import { Pedido } from '../../../Models/Pedidos/pedido-model';
@@ -16,6 +16,8 @@ import { Pedido } from '../../../Models/Pedidos/pedido-model';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import { pedidoMaster } from 'src/app/Models/Pedidos/pedido-master';
 import { DetallePedido } from '../../../Models/Pedidos/detallePedido-model';
+import { ReportesalmacenComponent } from '../../almacen/reportesalmacen/reportesalmacen.component';
+import { ReporteEmisionComponent } from '../../../components/reporte-emision/reporte-emision.component';
 
 @Component({
   selector: 'app-pedido-ventas',
@@ -51,7 +53,7 @@ export class PedidoVentasComponent implements OnInit {
   MasterDetalle = new Array<pedidoMaster>();
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['IdPedido', 'Nombre', 'Folio', 'Subtotal', 'Descuento', 'Total', 'Observaciones', 'FechaVencimiento', 'OrdenDeCompra', 'FechaDeEntrega', 'CondicionesDePago', 'Vendedor', 'Estatus', 'Usuario', 'Factura', 'LugarDeEntrega', 'Moneda', 'Prioridad', 'Options'];
+  displayedColumns: string[] = ['IdPedido', 'Nombre', 'Folio', 'Subtotal', 'Descuento', 'Total', 'Observaciones', 'FechaVencimiento', 'OrdenDeCompra', 'FechaDeEntrega', 'CondicionesDePago', 'Vendedor', 'Estatus', 'Usuario',  'LugarDeEntrega', 'Moneda', 'Prioridad', 'Flete', 'Options'];
   
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Cantidad'];
 
@@ -113,7 +115,11 @@ export class PedidoVentasComponent implements OnInit {
       Factura: 0,
       LugarDeEntrega: "",
       Moneda: "MXN",
-      Prioridad: "Normal"
+      Prioridad: "Normal",
+      SubtotalDlls: "",
+      DescuentoDlls:"",
+      TotalDlls:"",
+      Flete: "Sucursal",
     }
 
   //Get the Folio and verify if it comes empty( in this case it will be set to 1) otherwise, it will be added 1 to not repeat the same Folio among the Pedidos
@@ -131,6 +137,7 @@ export class PedidoVentasComponent implements OnInit {
       console.log(this.PedidoBlanco);
       //Agregar el nuevo pedido. NECESITA ESTAR DENTRO DEL SUBSCRIBEEEEEEEE :(
       this.service.addPedido(this.PedidoBlanco).subscribe(res => {
+        console.log(res);
         //Obtener el pedido que se acaba de generar
         this.ObtenerUltimoPedido();
       });
@@ -214,6 +221,20 @@ export class PedidoVentasComponent implements OnInit {
       });
     })
 
+
+  }
+
+
+  openrep(row){
+
+    console.log(row);
+    this.service.formt = row
+    // console.log();
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(ReporteEmisionComponent, dialogConfig);
 
   }
 

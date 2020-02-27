@@ -1,0 +1,207 @@
+<button class="btn btn-danger" color="warn" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+</button>
+
+<div class="modal0-body">
+    <div class="container">
+        <div id="element-to-PDF">
+            <!-- TOP PAGE LOGO DESCRIPTION FACTURA -->
+            <div class="container">
+                <div class="row">
+                    <!-- logo -->
+                    <div class="col-1">
+                        <div class="card card-outline-inverse">
+
+                            <img src="../../../assets/images/prolacto.png" class="logo">
+
+                        </div>
+                    </div>
+                    <!-- descripcion -->
+                    <div class="col-8 pr-0">
+                        <h5 class="blacktxt text-center bolder"> PROLACTO INGREDIENTES S DE RL MI DE CV
+                        </h5>
+                        <p class="blacktxt bolder nomarginbottomP"><span class="bolder">R.F.C.:</span>PLA11011243A
+                        </p>
+                        <p class="blacktxt bolder nomarginbottomP"><span class="bolder">Regimen Fiscal:</span>(601) General de Ley Personas Morales
+                        </p>
+                        <p class="blacktxt bolder nomarginbottomP"><span class="bolder">Domicilio Fiscal:</span>J. Matias de Anchondo No. 207, Col. San Felipe, CP: 31203, Chihuahua, Chihuahua, México
+                        </p>
+                        <p class="blacktxt bolder nomarginbottomP"><span class="bolder">Expedido en:</span>Calle: Jose Matias de Anchondo No. 207, CP: 31203, México
+                        </p>
+                        <br>
+                        <div class="col-12">
+                            <p class="blacktxt bolder nomarginbottomP">Lugar de Expedicion:
+                                <span><i>31203</i></span>
+                            </p>
+                            <p class="blacktxt bolder nomarginbottomP">Cliente : <br>
+                                <span><i>RFC:LAVL78-NOMBRE-ID-Calle: J. Matias de Anchondo No. 207, Col. San Felipe, CP: 31203, Chihuahua, Chihuahua, México</i></span>
+                            </p>
+                        </div>
+                    </div>
+                    <!-- factura folio -->
+                    <div class="col-3 pl-0">
+                        <div class="card card-outline-inverse borderContainer">
+                            <div class="card-headerTR">
+                                <h5 class="m-b-0 text-white  text-center bolder">COMPROBANTE DE PAGOS</h5>
+                            </div>
+                            <div class="card-body ml-2">
+                                <p class="bolder nomarginbottomP">Comprobante Fiscal Digital: <span>(P)Pago</span></p>
+                                <p class="bolder nomarginbottomP">Serie: <span>1658165</span></p>
+                                <p class="bolder nomarginbottomP">Folio: <span>684</span></p>
+                                <p class="bolder nomarginbottomP">Fecha: <span>2020-02-20</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End TOP -->
+
+            <!-- facturado-lugar expedicion -->
+
+            <div class="container">
+                <!-- div facturado a -->
+                <div class="row">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <p class="nomarginbottomP bolder">Concepto: <span class="blacktxt bolder">(03) Transferencia electronica de fondos</span></p>
+                                        <p class="nomarginbottomP bolder">Documento: <span>SPEI 07 B8660</span></p>
+                                        <p class="nomarginbottomP bolder">Fecha Aplicacion: <span> 2020-02-20</span></p>
+                                        <p class="nomarginbottomP bolder">RFC Banco Ordenante: <span></span></p>
+                                        <p class="nomarginbottomP bolder">Banco Ordenante: <span></span></p>
+                                        <p class="nomarginbottomP bolder">Cuenta Ordenante: <span></span></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <p class="nomarginbottomP bolder">Importe: <span>26,000.00</span></p>
+                                        <p class="nomarginbottomP bolder">Moneda: <span>USD</span></p>
+                                        <p class="nomarginbottomP bolder">Tipo de Cambio: <span>18.59</span></p>
+                                        <p class="nomarginbottomP bolder">RFC Banco Beneficiario: <span>BBA830831LJ2</span></p>
+                                        <p class="nomarginbottomP bolder">Cuenta Beneficiaria: <span>072150001119448432</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- cantidad-unidad-clave- -->
+                <div class="container">
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="card card-outline-inverse">
+                            <div class="card-header">
+
+                                <div class="table-responsive no-scroll">
+                                    <table class="table ">
+                                        <thead>
+                                            <tr>
+                                                <th width="8.3%" class="bolder blacktxt">Documento</th>
+                                                <th width="8.3%" class="bolder blacktxt">Fecha</th>
+                                                <th width="8.3%" class="bolder blacktxt text-center">UUID</th>
+                                                <th width="41.6%" class="bolder blacktxt text-center">Saldo Anterior</th>
+                                                <th width="41.6%" class="bolder blacktxt text-center">Importe Pagado</th>
+                                                <th width="41.6%" class="bolder blacktxt text-center">Saldo Insoluto</th>
+                                                <th width="41.6%" class="bolder blacktxt text-center">Parcialidad</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="col-lg-12 col-md-12 col-12">
+                                    <table class="table">
+                                        <tbody>
+                                            <!-- <tr *ngFor="let conceptos of arrcon">
+                                                <div class="containter">
+
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <th class="text-left textoBodyAcomodo acomodoForzadoTh"> conceptos.cantidad | number: '1.0-2' </th>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <th class="text-right textoBodyAcomodo acomodoForzadoTh2"> conceptos.unidad </th>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <th class="text-right textoBodyAcomodo acomodoForzadoTh3"> conceptos.claveunidad </th>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <th class="text-left textoBodyAcomodo"> conceptos.descripcion | slice:0:40 <br> conceptos.descripcion | slice:40:70 </th>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </tr> -->
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="Breakline mb-1"></div>
+
+                <!-- row- QR -->
+                <!-- <div class="html2pdf__page-break"></div> -->
+                <div class="container">
+                    <div class="row">
+                        <!-- QR -->
+                        <div class="col-3 pr-0 mr-0">
+                            <div class="card card-outline-inverse">
+                                <div class="card-body">
+                                    <ngx-qrcode qrc-element-type="url" [qrc-value]="QRString"></ngx-qrcode>
+                                    <!-- cambia el qr string que esta en el TS -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-9 pl-0 ml-0">
+                            <div class="card card-outline-inverse">
+                                <div class="card-body">
+                                    <p class="nomarginbottomP PSellosQR"><span class="bolder">"Este documento es una representación impresa de un CFDI"</span></p>
+                                    <p class="nomarginbottomP PSellosQR"><span class="bolder">Folio fiscal:</span> uuid </p>
+                                    <p class="nomarginbottomP PSellosQR"><span class="bolder">Fecha y hora de certificacion:</span> 2019-12-05T13:57:14</p>
+                                    <p class="PSellosQR nomarginbottomP"><span class="bolder">Sello Digital del CFDI: </span><br> selloCFDI | slice:1:95 selloCFDI | slice:95:215 selloCFDI | slice:215:274 selloCFDI | slice:274:346</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="nomarginbottomP PSellosQR"><span class="bolder">Número de serie del Certificado de Sello Digital:</span> nocertificado </p>
+                        </div>
+                        <div class=" col-6">
+                            <p class="nomarginbottomP PSellosQR"><span class="bolder">Número de serie del Certificado de Sello Digital del SAT:</span> noCertificadoSAT </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- sello digital -->
+                <div class="pgbreak">
+                    <div class="col-12">
+
+                        <p class="PSellosQR nomarginbottomP" style="white-space: wrap"><span class="bolder">Cadena Original del
+                                Complemento de Certificacion del SAT:</span><br> certificado | slice:1:95 certificado | slice:95:215 certificado | slice:215:274 certificado | slice:274:346
+                        </p>
+
+                        <p class="PSellosQR nomarginbottomP"><span class="bolder">Sello Digital del SAT:</span><br> selloSAT | slice:1:95 selloSAT | slice:95:215 selloSAT | slice:215:274 selloSAT | slice:274:346
+                        </p>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>

@@ -11,6 +11,8 @@ import { Cliente } from 'src/app/Models/catalogos/clientes-model';
 })
 export class ReciboPagoService {
 
+  formt: any;
+
   formData = new ReciboPago();
   formDataPagoCFDI = new PagoCFDI;
   // formDataDF: DetalleFactura;

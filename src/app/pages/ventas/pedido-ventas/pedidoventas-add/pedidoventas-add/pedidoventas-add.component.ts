@@ -18,6 +18,7 @@ import { EnviarfacturaService } from '../../../../../services/facturacioncxc/env
 import { ProductosService } from '../../../../../services/catalogos/productos.service';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Vendedor } from 'src/app/Models/catalogos/vendedores.model';
+import { UnidadMedidaService } from 'src/app/services/unidadmedida/unidad-medida.service';
 
 //Constantes para obtener tipo de cambio
 const httpOptions = {
@@ -41,7 +42,7 @@ export class PedidoventasAddComponent implements OnInit {
   dialogbox: any;
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
-    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient) {
+    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient, public ServiceUnidad: UnidadMedidaService) {
     this.MonedaBoolean = true;
   }
 
@@ -105,10 +106,10 @@ export class PedidoventasAddComponent implements OnInit {
   private _filterUnidad(value: any): any[] {
     if (typeof (value) == 'string') {
       const filterValueUnidad = value.toLowerCase();
-      return this.listUM.filter(optionUnidad => optionUnidad.key.toString().toLowerCase().includes(filterValueUnidad) || optionUnidad.name.toString().toLowerCase().includes(filterValueUnidad));
+      return this.listUM.filter(optionUnidad => optionUnidad.ClaveSAT.toString().toLowerCase().includes(filterValueUnidad) || optionUnidad.Nombre.toString().toLowerCase().includes(filterValueUnidad));
     } else if (typeof (value) == 'number') {
       const filterValueUnidad = value;
-      return this.listUM.filter(optionUnidad => optionUnidad.key.toString().includes(filterValueUnidad) || optionUnidad.name.toString().includes(filterValueUnidad));
+      return this.listUM.filter(optionUnidad => optionUnidad.ClaveSAT.toString().includes(filterValueUnidad) || optionUnidad.Nombre.toString().includes | (filterValueUnidad));
     }
   }
 
@@ -118,11 +119,13 @@ export class PedidoventasAddComponent implements OnInit {
   unidadMedida() {
     if (this.um) {
       this.listUM = [];
-      this.enviarfact.unidadMedida().subscribe(data => {
-        //console.log(JSON.parse(data).data);
-        for (let i = 0; i < JSON.parse(data).data.length; i++) {
-          this.listUM.push(JSON.parse(data).data[i])
-        }
+      // this.enviarfact.unidadMedida().subscribe(data => {
+      //   console.log(JSON.parse(data).data);
+      //   for (let i = 0; i < JSON.parse(data).data.length; i++) {
+      //     this.listUM.push(JSON.parse(data).data[i])
+      //   }
+      this.ServiceUnidad.GetUnidadesMedida().subscribe(data => {
+        this.listUM = data;
         this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
           .pipe(
             startWith(''),
@@ -193,9 +196,8 @@ export class PedidoventasAddComponent implements OnInit {
   ivaDlls: any;
   subtotalDlls: any;
   totalDlls: any;
+  descuentoDlls: any;
   descuento: any;
-  totalDescuento: any;
-
   //Stock Real al momento de editar
   StockReal: number;
 
@@ -207,6 +209,12 @@ export class PedidoventasAddComponent implements OnInit {
 
   //NombreVendedor
   NombreVendedor: String;
+
+  //Variable Booleana de si lleva Flete el pedido
+  isFlete: boolean;
+
+  //variable Booleana para verificar si el pedido necesita factura
+  isFactura: boolean;
 
   // //////////////////////////// BEGIN OBTENER TIPO CAMBIO ////////////////////////////
   rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
@@ -380,6 +388,11 @@ export class PedidoventasAddComponent implements OnInit {
       this.service.formProd = options2;
       this.PStock = this.service.formProd.Stock;
       this.ProductoPrecio = +this.service.formProd.PrecioVenta;
+      //asignar el valor inicial en caso de que la moneda este declarada en USD
+      if (this.MonedaBoolean == false) {
+        this.ProductoPrecioDLLS = (+this.service.formProd.PrecioVenta / this.TipoCambio);
+      }
+
       this.ClaveProducto = this.service.formProd.ClaveProducto;
       console.log(+this.PStock + " STOCKKKK");
     }
@@ -399,6 +412,8 @@ export class PedidoventasAddComponent implements OnInit {
 
     // form.resetForm();
 
+
+
     //Obtener Tipo Cambio
     this.TipoCambio = this.serviceTipoCambio.TipoCambio;
     console.log('TIPO CAMBIO = ' + this.TipoCambio);
@@ -410,8 +425,21 @@ export class PedidoventasAddComponent implements OnInit {
     this.service.getPedidoId(this.IdPedido).subscribe(data => {
       console.log(data);
       this.service.formDataPedido = data[0];
+
+      //VerificarFlete
+      this.llevaFlete();
+
+      //Verificar Factura
+      this.llevaFactura(); 
+
       this.Moneda = this.service.formDataPedido.Moneda;
-      this.descuento = this.service.formDataPedido.Descuento;
+
+      if (this.MonedaBoolean == true) {
+        this.descuento = this.service.formDataPedido.Descuento;
+      } else {
+        this.descuentoDlls = this.service.formDataPedido.DescuentoDlls;
+
+      }
       if (this.Moneda == 'MXN') {
         this.MonedaBoolean = true;
 
@@ -447,6 +475,7 @@ export class PedidoventasAddComponent implements OnInit {
     // console.log(this.Moneda);
     this.service.formDataPedido.Moneda = this.Moneda;
     // console.log(this.service.formDataPedido);
+    this.service.formDataPedido.Estatus = 'Guardada';
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
       console.log(res);
     })
@@ -455,12 +484,26 @@ export class PedidoventasAddComponent implements OnInit {
   }
 
   onBlurDescuento() {
+    this.descuento = this.service.formDataPedido.Descuento;
+    this.service.formDataPedido.DescuentoDlls = (+this.descuento * this.TipoCambio).toString();
+    this.service.formDataPedido.Estatus = 'Guardada';
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
-      this.descuento = this.service.formDataPedido.Descuento;
-      this.totalDescuento = this.total - this.descuento;
+      this.refreshDetallesPedidoList();
       console.clear();
       console.log(res);
       console.log(this.descuento);
+    })
+  }
+
+  onBlurDescuentoDlls() {
+    this.descuentoDlls = this.service.formDataPedido.DescuentoDlls;
+    this.service.formDataPedido.Descuento = (+this.descuentoDlls / this.TipoCambio).toString();
+    this.service.formDataPedido.Estatus = 'Guardada';
+    this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+      this.refreshDetallesPedidoList();
+      console.clear();
+      console.log(res);
+      console.log(this.descuentoDlls);
     })
   }
 
@@ -471,6 +514,11 @@ export class PedidoventasAddComponent implements OnInit {
   public listPrioridad: Array<Object> = [
     { Prioridad: 'Normal' },
     { Prioridad: 'Urgente' }
+  ];
+  public listFlete: Array<Object> = [
+    { Flete: 'Local' },
+    { Flete: 'Foraneo' },
+    { Flete: 'Paqueteria' }
   ];
 
   //Tabla de Productos
@@ -499,7 +547,8 @@ export class PedidoventasAddComponent implements OnInit {
     //Stock real al momento de editar
     this.StockReal = 0;
     this.descuento = 0;
-    this.totalDescuento = 0;
+    this.subtotal = 0;
+    this.descuentoDlls = 0;
   }
 
 
@@ -520,8 +569,17 @@ export class PedidoventasAddComponent implements OnInit {
 
         this.service.GetSumaImporte(this.IdPedido).subscribe(data => {
           console.log(data);
-          this.total = data[0].importe;
-          this.totalDlls = data[0].importeDlls;
+          console.clear();
+          console.log(this.service.formDataPedido);
+          this.descuento = this.service.formDataPedido.Descuento;
+          this.subtotal = data[0].importe;
+          this.total = data[0].importe - this.descuento;
+
+          this.descuentoDlls = this.service.formDataPedido.DescuentoDlls;
+          this.subtotalDlls = data[0].importeDlls;
+          this.totalDlls = data[0].importeDlls - this.descuentoDlls;
+
+
           console.log(this.total);
           console.log(this.totalDlls);
         })
@@ -535,6 +593,59 @@ export class PedidoventasAddComponent implements OnInit {
       }
     })
   }
+
+  //Metodo para mostrat los tipos de flete en caso de que se requiera uno. U ocultar los fletes.
+  changeFlete(checkbox: any) {
+    console.log(checkbox);
+    if (checkbox == true) {
+      this.isFlete = true;
+    } else {
+      this.isFlete = false;
+      this.service.formDataPedido.Flete = 'Sucursal';
+    }
+  }
+
+  //Metodo para verificar si lleva Flete el pedido
+  llevaFlete() {
+    let flete = this.service.formDataPedido.Flete;
+    // console.clear();
+    // console.log(flete);
+    if (flete == 'Sucursal') {
+      this.isFlete = false;
+    } else {
+      this.isFlete = true;
+    }
+  }
+
+  //On change checkbox factura
+  changeFactura(checkbox: any) {
+    // console.clear();
+    // console.log(checkbox);
+    if (checkbox == true) {
+      this.isFactura = true;
+      this.service.formDataPedido.Factura = 1;
+    } else {
+      this.isFactura = false;
+      this.service.formDataPedido.Factura = 0;
+    }
+    console.log(this.service.formDataPedido.Factura);
+
+  }
+  //Metodo para verificar si el pedido lleva factura y darle valor booleano al checkbox
+  llevaFactura(){
+let factura = this.service.formDataPedido.Factura;
+// console.clear();
+// console.log(factura);
+if(factura == 0){
+  this.isFactura = false;
+}else{
+this.isFactura = true;
+}
+  }
+
+
+
+
 
   onAddProducto(form: NgForm) {
     this.service.formDataDP.IdPedido = this.IdPedido;
@@ -554,8 +665,8 @@ export class PedidoventasAddComponent implements OnInit {
       //Restar el Stock
       this.RestarStock();
       // this.IniciarTotales();
-      this.refreshDetallesPedidoList();
       form.resetForm();
+      this.refreshDetallesPedidoList();
       Swal.fire({
         icon: 'success',
         title: 'Concepto Agregado'
@@ -612,6 +723,13 @@ export class PedidoventasAddComponent implements OnInit {
     let elemHTML: any = document.getElementsByName('PrecioCosto')[0];
     // //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
     elemHTML.value = +this.ProductoPrecio;
+    this.calcularImportePedido();
+  }
+  onChangePrecioDlls(precioDlls: any) {
+    console.log(precioDlls);
+    let elemHTML: any = document.getElementsByName('PrecioCostoDlls')[0];
+    // //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
+    elemHTML.value = +this.ProductoPrecioDLLS;
     this.calcularImportePedido();
   }
 
@@ -768,10 +886,10 @@ export class PedidoventasAddComponent implements OnInit {
       console.log('LA MONEDA ES USD');
       console.log(this.ProductoPrecio);
       console.log(this.TipoCambio);
-      this.ProductoPrecioDLLS = +this.ProductoPrecio;
-      this.ProductoPrecioMXN = +this.ProductoPrecio * this.TipoCambio;
-      this.importePDLLS = this.Cantidad * +this.ProductoPrecio;
-      this.importeP = this.Cantidad * (+this.ProductoPrecio * this.TipoCambio);
+      this.ProductoPrecioDLLS = +this.ProductoPrecioDLLS;
+      this.ProductoPrecioMXN = +this.ProductoPrecioDLLS * this.TipoCambio;
+      this.importePDLLS = this.Cantidad * +this.ProductoPrecioDLLS;
+      this.importeP = this.Cantidad * (+this.ProductoPrecioDLLS * this.TipoCambio);
     }
 
   }
@@ -820,16 +938,22 @@ export class PedidoventasAddComponent implements OnInit {
 
   crearPedido() {
 
-      this.service.formDataPedido.Estatus = 'Guardada';
-      console.log(this.service.formDataPedido);
-      this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Pedido Generado'
-        })
-        this.service.filter('Register click');
-      }
-      )
-    }
+    this.service.formDataPedido.Estatus = 'Guardada';
 
+    this.service.formDataPedido.Total = this.total;
+    this.service.formDataPedido.Subtotal = this.subtotal;
+    this.service.formDataPedido.TotalDlls = this.totalDlls;
+    this.service.formDataPedido.SubtotalDlls = this.subtotalDlls;
+
+    console.log(this.service.formDataPedido);
+    this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Pedido Generado'
+      })
+      this.service.filter('Register click');
+    }
+    )
   }
+
+}

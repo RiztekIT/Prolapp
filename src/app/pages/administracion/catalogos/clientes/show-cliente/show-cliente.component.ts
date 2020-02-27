@@ -9,6 +9,8 @@ import { AddClienteComponent } from '../add-cliente/add-cliente.component';
 import { EditClienteComponent } from '../edit-cliente/edit-cliente.component';
 import Swal from 'sweetalert2';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+import { ClienteDireccionComponent } from '../../../../../components/cliente-direccion/cliente-direccion.component';
+import { ClienteDireccionService } from '../../../../../services/cliente-direccion/cliente-direccion.service';
 
 
 @Component({
@@ -25,7 +27,8 @@ export class ShowClienteComponent implements OnInit {
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private service:ClientesService, private dialog: MatDialog, private snackBar: MatSnackBar, public apicliente: EnviarfacturaService) {
+  constructor(private service:ClientesService, private dialog: MatDialog, private snackBar: MatSnackBar, public apicliente: EnviarfacturaService,
+    public serviceDireccion: ClienteDireccionService) {
 
     this.service.listen().subscribe((m:any)=>{
       console.log(m);
@@ -104,6 +107,16 @@ export class ShowClienteComponent implements OnInit {
     })
 
 
+  }
+
+  //Abrir Modal para agregar Direccion(es) a cierto cliente
+  onAddDireccionCliente(idCliente: number){
+    this.serviceDireccion.IdCliente = idCliente;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(ClienteDireccionComponent, dialogConfig);
   }
 
   onAdd(){
