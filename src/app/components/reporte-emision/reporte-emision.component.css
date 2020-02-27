@@ -50,10 +50,6 @@ p>.nomarginbottomP {
     margin-bottom: 0px;
 }
 
-.linkp {
-    color: blue;
-}
-
 .PSellosQR {
     font-size: 8px !important;
 }
@@ -170,4 +166,9 @@ th {
 .bottomR {
     margin-top: 0px;
     margin-bottom: 24px !important;
+}
+
+#footer {
+    bottom: 0;
+    width: 100%;
 }
