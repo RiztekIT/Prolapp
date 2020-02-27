@@ -152,7 +152,7 @@ th {
 }
 
 .acomodoForzadoTh2 {
-    padding-left: 15px !important;
+    padding-left: 20px !important;
 }
 
 .acomodoForzadoTh3 {
@@ -168,7 +168,10 @@ th {
     margin-bottom: 24px !important;
 }
 
-#footer {
-    bottom: 0;
-    width: 100%;
+.wrapper {
+    padding-top: 50%;
+}
+
+.overflow {
+    overflow: scroll;
 }
