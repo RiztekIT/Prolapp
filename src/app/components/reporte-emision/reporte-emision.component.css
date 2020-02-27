@@ -171,3 +171,7 @@ th {
 .wrapper {
     padding-top: 50%;
 }
+
+.overflow {
+    overflow: scroll;
+}

@@ -1,11 +1,12 @@
-<div>
-    <button class="btn btn-danger" color="warn" (click)="onClose()">
-    <mat-icon>close</mat-icon>
-  </button>
-</div>
+<div style="overflow: auto; height: 800px;">
+    <div>
+        <button class="btn btn-danger" color="warn" (click)="onClose()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
 
-<div class="modal0-body" style="height: 1200px;">
-    <div class="container">
+    <div class="modal0-body ">
+
         <div id="element-to-PDF">
             <!-- TOP PAGE LOGO DESCRIPTION FACTURA -->
             <div class="container">
@@ -14,10 +15,10 @@
                     <div class="col-lg-3 col-md-3 col-sm-3 col-3">
                         <div class="card card-outline-inverse">
                             <!-- <div class="card-header">
-                                <h6 class="m-b-0 text-white">Logo</h6>
-                            </div>
-                            <div class="card-body">
-                            </div> -->
+                                        <h6 class="m-b-0 text-white">Logo</h6>
+                                    </div>
+                                    <div class="card-body">
+                                    </div> -->
 
                             <img src="../../../assets/images/prolacto.png" class="logo">
 
@@ -71,7 +72,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <p class="nomarginbottomP"><span class="blacktxt bolder"> Cliente: ( {{service.formt.IdCliente}} )
-                      {{service.formt.Nombre}} </span></p>
+                              {{service.formt.Nombre}} </span></p>
                                     <p class="nomarginbottomP blacktxt">
                                         <span class=" bolder">Calle:</span> {{service.formt.Calle}} No.{{service.formt.NumeroExterior}} {{service.formt.NumeroInterior}}, CP. {{service.formt.CP}}, {{service.formt.Colonia}} , {{service.formt.Ciudad}} ,
                                         {{service.formt.Estado}}
@@ -156,66 +157,63 @@
                     <p> {{service.formt.Observaciones}} </p>
                 </div>
 
-
-                <div class="wrapper" style="padding-bottom: 0;">
-
-                    <!-- firma recibido -->
-                    <div class="pgbreak">
-                        <div class="row">
-                            <div class="col-lg-3 col-md-3 col-3">
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-6">
-                                <div class="campofirma"></div>
-                                <p class="text-center">Recibo esta mercancia a mi entera satisfacción</p>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-3">
-                            </div>
+                <!-- firma recibido -->
+                <div class="pgbreak">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-3 col-3">
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-6">
+                            <div class="campofirma"></div>
+                            <p class="text-center">Recibo esta mercancia a mi entera satisfacción</p>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-3">
                         </div>
                     </div>
-
-                    <!-- pagaré -->
-                    <div class="col-lg-12 col-md-12 col-12">
-                        <div class="card card-outline-inverse pgbreak">
-                            <div class="card-body">
-                                <div class="containerborder">
-                                    <div class="container">
-                                        <p>Esta factura será liquidada en dólares americanos y/o su equivalente en moneda nacional al tipo de cambio publicado en el diario oficial de la federación del día de la fecha de pago. Para cualquier aclaración, devolución
-                                            o cambio cuenta con un máximo de 8 días naturales a partir de la fecha factura <span>
-                        {{service.formt.FechaDeEntrega | date}} </span>. Debo (emos) y Pagare (emos) incondicionalmente a la orden de PRO LACTOINGREDIENTES, S DE RL MI DE CV, en esta ciudad o en cualquier otra en que se me (nos) requiera el importe de
-                                            la mercancía que ampara este documento. Por la cantidad de <span> {{service.formt.Total |currency}}
-                        ( {{service.formt.TotalDlls | currency:'USD':'code'}} )</span></p>
-                                        <!-- cambia -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-12 col-md-12 col-12">
-                        <div class="card card-outline-inverse pgbreak">
-                            <div class="card-body">
-                                <div class="containerborder">
-                                    <div class="container">
-                                        <h4 class="text-center bolder blacktxt"> ANOTACIONES Y OBSERVACIONES ADICIONALES </h4>
-                                        <br>
-                                        <br>
-                                        <br>
-                                        <br>
-                                        <br>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
+
+                <!-- pagaré -->
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="card card-outline-inverse pgbreak">
+                        <div class="card-body">
+                            <div class="containerborder">
+                                <div class="container">
+                                    <p>Esta factura será liquidada en dólares americanos y/o su equivalente en moneda nacional al tipo de cambio publicado en el diario oficial de la federación del día de la fecha de pago. Para cualquier aclaración, devolución
+                                        o cambio cuenta con un máximo de 8 días naturales a partir de la fecha factura <span>
+                                {{service.formt.FechaDeEntrega | date}} </span>. Debo (emos) y Pagare (emos) incondicionalmente a la orden de PRO LACTOINGREDIENTES, S DE RL MI DE CV, en esta ciudad o en cualquier otra en que se me (nos) requiera el importe
+                                        de la mercancía que ampara este documento. Por la cantidad de <span> {{service.formt.Total |currency}}
+                                ( {{service.formt.TotalDlls | currency:'USD':'code'}} )</span></p>
+                                    <!-- cambia -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="card card-outline-inverse pgbreak">
+                        <div class="card-body">
+                            <div class="containerborder">
+                                <div class="container">
+                                    <h4 class="text-center bolder blacktxt"> ANOTACIONES Y OBSERVACIONES ADICIONALES </h4>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
             </div>
         </div>
-    </div>
-</div>
 
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
-    <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button>
+        <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
+    </div>
 </div>
