@@ -14,7 +14,15 @@ export class ReciboPagoService {
   formt: any;
 
   formData = new ReciboPago();
-  formDataPagoCFDI = new PagoCFDI;
+  formDataPagoCFDI = new PagoCFDI();
+
+  //formData pago de CFDI cuando se edita 
+  formDataPagoCFDIEdit = new PagoCFDI();
+
+  //Saldo Complemento de Pago
+  SaldoComplementoPago: number;
+
+
   // formDataDF: DetalleFactura;
   // formDataP: Producto;
   IdReciboPago: number;

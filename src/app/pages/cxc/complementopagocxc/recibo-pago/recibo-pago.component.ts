@@ -393,9 +393,10 @@ console.log('NUEVO CFDIIIIIIIIIII');
 
   //Editar PagoCFDI
   onEditCFDI(pagoCFDI: any) {
-    // console.log(pagoCFDI);
-    this.service.formDataPagoCFDI = pagoCFDI;
-    // console.log(this.service.formDataPagoCFDI);
+    console.log(pagoCFDI);
+    this.service.formDataPagoCFDIEdit = pagoCFDI;
+    this.service.SaldoComplementoPago = this.Saldo + +pagoCFDI.Cantidad;
+    console.log(this.service.formDataPagoCFDI);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;

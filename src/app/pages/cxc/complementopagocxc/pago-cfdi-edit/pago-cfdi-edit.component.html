@@ -8,6 +8,7 @@
 
 </div>
 
+Saldo: {{Saldo}}
 <hr>
 
 
@@ -23,13 +24,14 @@
 
                     <label class="input-group-text text-info">Folio: </label>
 
-                    <input matInput readonly type="text" class="form-control" name="IdFactura" #IdFactura="ngModel" [(ngModel)]="service.formDataPagoCFDI.IdFactura">
+                    <input matInput readonly type="text" class="form-control" name="IdFactura" #IdFactura="ngModel" [(ngModel)]="service.formDataPagoCFDIEdit.IdFactura">
 
                     <div class="col-lg-6">
 
                         <label class="input-group-text text-info">Cantidad: </label>
 
-                        <input matInput required type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataPagoCFDI.Cantidad">
+                        <input matInput required type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [min]="0" [max]="100" [(ngModel)]="CantidadF" (ngModelChange)="onChangeCantidad($event)">
+                        <!-- <input type="number" class="form-control" name="Cantidad2" #Cantidad2="ngModel" [min]="0" [max]="100" [(ngModel)]="CantidadF" (ngModelChange)="onChangeCantidadF($event)"> -->
 
                         <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
                             Favor de Ingresar Cantidad.
@@ -41,7 +43,7 @@
                     <div class="col-lg-6">
 
                         <label class="input-group-text text-info">No Parcialidad: </label>
-                        <input readonly placeholder="NoParcialidad" class="form-control" name="NoParcialidad" [ngModel]="service.formDataPagoCFDI.NoParcialidad">
+                        <input readonly placeholder="NoParcialidad" class="form-control" name="NoParcialidad" [ngModel]="service.formDataPagoCFDIEdit.NoParcialidad">
                     </div>
                 </div>
 
