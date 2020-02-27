@@ -20,6 +20,8 @@ export class PagoCFDIEditComponent implements OnInit {
     this.Saldo = this.service.SaldoComplementoPago;
     //Asignar Cantidad a CantidadF2
     this.CantidadF2 = +this.service.formDataPagoCFDIEdit.Cantidad;
+    //Asignar Saldo de la Factura
+    this.SaldoF = +this.service.SaldoFactura;
     this.getTotal();
   }
 
@@ -64,7 +66,6 @@ export class PagoCFDIEditComponent implements OnInit {
 
   //
   CalcularCantidades(CantidadF2: any){
-    this.SaldoF = 20;
     this.CantidadF2 = +CantidadF2;
     // console.log(this.CantidadF2);
     // console.log(this.Saldo);
@@ -90,8 +91,8 @@ export class PagoCFDIEditComponent implements OnInit {
 
 
   onSubmit(form: any) {
-    this.service.formDataPagoCFDIEdit.Cantidad = this.service.formDataPagoCFDIEdit.Cantidad.toString();
-    // console.log(this.service.formDataPagoCFDI);
+    this.service.formDataPagoCFDIEdit.Cantidad = this.CantidadF2.toString();
+    console.log(this.service.formDataPagoCFDIEdit);
     //Actualizar pagoCFDI con la nueva informacion
     this.service.updatePagoCFDI(this.service.formDataPagoCFDIEdit).subscribe(res => {
       console.log(res);
@@ -106,6 +107,7 @@ export class PagoCFDIEditComponent implements OnInit {
           });
          }
          console.log(this.CFDI);
+         this.service.filter('Register click');
       });
       Swal.fire({
         icon: 'success',

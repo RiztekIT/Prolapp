@@ -1,3 +1,30 @@
 .mat-form-field {
     display: block;
 }
+
+.btn-danger:hover {
+    color: white;
+}
+
+::ng-deep .mat-cell {
+    overflow: auto;
+}
+
+::ng-deep .mat-header-cell {
+    color: #ffffff;
+    background: #000000;
+}
+
+
+/* 
+button {
+    padding-left: 10px;
+} */
+
+table {
+    width: 100%;
+}
+
+.color {
+    background-color: rgba(230, 69, 69, 0.596);
+}

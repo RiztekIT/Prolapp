@@ -396,6 +396,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
     console.log(pagoCFDI);
     this.service.formDataPagoCFDIEdit = pagoCFDI;
     this.service.SaldoComplementoPago = this.Saldo + +pagoCFDI.Cantidad;
+    this.service.SaldoFactura = +pagoCFDI.Saldo;
     console.log(this.service.formDataPagoCFDI);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;

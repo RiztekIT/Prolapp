@@ -22,6 +22,9 @@ export class ReciboPagoService {
   //Saldo Complemento de Pago
   SaldoComplementoPago: number;
 
+  //Saldo de la Factura
+  SaldoFactura: number;
+
 
   // formDataDF: DetalleFactura;
   // formDataP: Producto;
