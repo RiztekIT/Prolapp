@@ -157,7 +157,8 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { UnidadMedidaComponent } from './administracion/unidad-medida/unidad-medida.component'
 import { OrdendescargaComponent } from './almacen/ordendescarga/ordendescarga.component';
 import { OrdencargadetalleComponent } from './almacen/pedidosalmacen/ordencargadetalle/ordencargadetalle.component';
-import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component'
+import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component';
+import { ClienteDireccionComponent } from '../components/cliente-direccion/cliente-direccion.component';
 import { ReporteEmisionComponent } from '../components/reporte-emision/reporte-emision.component';
 import { ComplementoPagoComponent } from '../components/complemento-pago/complemento-pago.component';
 
@@ -279,6 +280,7 @@ import { ComplementoPagoComponent } from '../components/complemento-pago/complem
         OrdendescargaComponent,
         OrdencargadetalleComponent,
         ComppagoComponent,
+        ClienteDireccionComponent,
         ReporteEmisionComponent,
         ComplementoPagoComponent,
     
@@ -355,6 +357,7 @@ import { ComplementoPagoComponent } from '../components/complemento-pago/complem
         ShowVendedorComponent,
         ShowEmpresaComponent,
         AddEmpresaComponent,
+        ClienteDireccionComponent,
         ReporteEmisionComponent,
         ComplementoPagoComponent,
     ]

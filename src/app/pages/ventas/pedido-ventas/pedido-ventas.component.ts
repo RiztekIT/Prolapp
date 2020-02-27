@@ -53,7 +53,7 @@ export class PedidoVentasComponent implements OnInit {
   MasterDetalle = new Array<pedidoMaster>();
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['IdPedido', 'Nombre', 'Folio', 'Subtotal', 'Descuento', 'Total', 'Observaciones', 'FechaVencimiento', 'OrdenDeCompra', 'FechaDeEntrega', 'CondicionesDePago', 'Vendedor', 'Estatus', 'Usuario', 'Factura', 'LugarDeEntrega', 'Moneda', 'Prioridad', 'Options'];
+  displayedColumns: string[] = ['IdPedido', 'Nombre', 'Folio', 'Subtotal', 'Descuento', 'Total', 'Observaciones', 'FechaVencimiento', 'OrdenDeCompra', 'FechaDeEntrega', 'CondicionesDePago', 'Vendedor', 'Estatus', 'Usuario',  'LugarDeEntrega', 'Moneda', 'Prioridad', 'Flete', 'Options'];
   
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Cantidad'];
 
@@ -119,6 +119,7 @@ export class PedidoVentasComponent implements OnInit {
       SubtotalDlls: "",
       DescuentoDlls:"",
       TotalDlls:"",
+      Flete: "Sucursal",
     }
 
   //Get the Folio and verify if it comes empty( in this case it will be set to 1) otherwise, it will be added 1 to not repeat the same Folio among the Pedidos
@@ -136,6 +137,7 @@ export class PedidoVentasComponent implements OnInit {
       console.log(this.PedidoBlanco);
       //Agregar el nuevo pedido. NECESITA ESTAR DENTRO DEL SUBSCRIBEEEEEEEE :(
       this.service.addPedido(this.PedidoBlanco).subscribe(res => {
+        console.log(res);
         //Obtener el pedido que se acaba de generar
         this.ObtenerUltimoPedido();
       });

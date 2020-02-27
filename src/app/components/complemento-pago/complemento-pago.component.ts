@@ -18,6 +18,8 @@ export class ComplementoPagoComponent implements OnInit {
     this.ver();
   }
 
+  QRString = 'www.facebook.com';
+
   onClose() {
     this.dialogbox.close();
     this.service.filter('Register click');

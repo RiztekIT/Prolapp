@@ -59,6 +59,23 @@
 
                                             </ng-template>
 
+                                            <label class="input-group-text text-info">Requiere Factura:</label>
+                                            <mat-checkbox #checkbox1 [(checked)]="isFactura" (change)='changeFactura(checkbox1.checked)'></mat-checkbox>
+
+                                            <br>
+                                            <label class="input-group-text text-info">Flete:</label>
+                                            <mat-checkbox #checkbox [(checked)]="isFlete" (change)='changeFlete(checkbox.checked)'></mat-checkbox>
+
+                                            <div *ngIf="isFlete == true">
+                                                <label class="input-group-text text-info">Tipo de Flete:</label>
+                                                <select placeholder="Seleccionar Flete" class="form-control" name="Flete" #Flete="ngModel" [(ngModel)]="service.formDataPedido.Flete">
+                                                    <option [ngValue]="null" selected disabled>Seleccionar Flete</option>
+                                                    <option *ngFor="let lf of listFlete" [ngValue]="lf.Flete"> {{lf.Flete}} </option>
+                                                </select>
+                                            </div>
+
+
+
 
 
                                         </div>
@@ -84,7 +101,7 @@
                                                     </mat-option>
                                                 </mat-autocomplete>
                                             </mat-form-field>
-                                            <input readonly type="text" class="form-control" [(ngModel)]="NombreVendedor" name="first">
+                                            <input readonly placeholder="Vendedor No seleccionado" type="text" class="form-control" [(ngModel)]="NombreVendedor" name="first">
 
 
                                             <label class="input-group-text text-info">Prioridad:</label>
