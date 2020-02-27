@@ -24,6 +24,10 @@ import { PagoCFDIEditComponent } from '../pago-cfdi-edit/pago-cfdi-edit.componen
 export class ReciboPagoComponent implements OnInit {
 
   constructor(public service: ReciboPagoService, private router: Router, private dialog: MatDialog) {
+    this.service.listen().subscribe((m:any)=>{
+      // console.log(m);
+      this.refreshPagoCFDITList();
+      });
 
   }
 
