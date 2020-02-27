@@ -30,7 +30,7 @@ Saldo: {{Saldo}}
 
                         <label class="input-group-text text-info">Cantidad: </label>
 
-                        <input matInput required type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [min]="0" [max]="100" [(ngModel)]="CantidadF" (ngModelChange)="onChangeCantidad($event)">
+                        <input matInput required type="number" class="form-control" name="Cantidad3" #Cantidad="ngModel" [min]="0" [max]="100" [(ngModel)]="CantidadF2" (ngModelChange)="onChangeCantidad($event)">
                         <!-- <input type="number" class="form-control" name="Cantidad2" #Cantidad2="ngModel" [min]="0" [max]="100" [(ngModel)]="CantidadF" (ngModelChange)="onChangeCantidadF($event)"> -->
 
                         <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">

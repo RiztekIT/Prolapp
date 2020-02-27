@@ -18,8 +18,8 @@ export class PagoCFDIEditComponent implements OnInit {
     this.IdFactura = this.service.formDataPagoCFDIEdit.IdFactura;
     //Asignar el Saldo Complemneto Pago
     this.Saldo = this.service.SaldoComplementoPago;
-    //Asignar Cantidad a CantidadF
-    this.CantidadF = +this.service.formDataPagoCFDIEdit.Cantidad;
+    //Asignar Cantidad a CantidadF2
+    this.CantidadF2 = +this.service.formDataPagoCFDIEdit.Cantidad;
     this.getTotal();
   }
 
@@ -33,7 +33,7 @@ export class PagoCFDIEditComponent implements OnInit {
   //Saldo Complemento Pago
   Saldo: number;
   //Variable Cantidad
-  CantidadF: number;
+  CantidadF2: number;
   //Saldo de la Factura
   SaldoF: number;
 
@@ -50,41 +50,41 @@ export class PagoCFDIEditComponent implements OnInit {
 });
   }
 
-  onChangeCantidad(CantidadF: any) {
+  onChangeCantidad(CantidadF2: any) {
     //Obtener el valor que se ingresa en cierto input en la posicion 0
-    let elemHTML: any = document.getElementsByName('Cantidad')[0];
+    let elemHTML: any = document.getElementsByName('Cantidad3')[0];
     console.log(elemHTML.value);
-    //Transformar la Cantidad en entero e igualarlo a la variable CantidadF
+    //Transformar la Cantidad en entero e igualarlo a la variable CantidadF2
 
-    this.CalcularCantidades(CantidadF);
+    this.CalcularCantidades(CantidadF2);
     console.log('CANTIDAD F');
-    console.log(this.CantidadF);
-    elemHTML.value = this.CantidadF;
+    console.log(this.CantidadF2);
+    elemHTML.value = this.CantidadF2;
   }
 
   //
-  CalcularCantidades(CantidadF: any){
+  CalcularCantidades(CantidadF2: any){
     this.SaldoF = 20;
-    this.CantidadF = +CantidadF;
-    // console.log(this.CantidadF);
+    this.CantidadF2 = +CantidadF2;
+    // console.log(this.CantidadF2);
     // console.log(this.Saldo);
 
-    if (this.CantidadF > this.Saldo) {
+    if (this.CantidadF2 > this.Saldo) {
       console.log('ES MAYOR');
-      this.CantidadF = this.Saldo;
-      if (this.CantidadF >= this.SaldoF) {
+      this.CantidadF2 = this.Saldo;
+      if (this.CantidadF2 >= this.SaldoF) {
         console.log('MAYOR QUE EL SALDO DE LA FACTURA');
-        this.CantidadF = this.SaldoF;
+        this.CantidadF2 = this.SaldoF;
       }
-    } else if (this.CantidadF > this.SaldoF) {
-      this.CantidadF = this.SaldoF;
-    } else if (this.CantidadF <= 0) {
-      this.CantidadF = 0;
-    } else if(this.CantidadF == null){
-    this.CantidadF = 0;
+    } else if (this.CantidadF2 > this.SaldoF) {
+      this.CantidadF2 = this.SaldoF;
+    } else if (this.CantidadF2 <= 0) {
+      this.CantidadF2 = 0;
+    } else if(this.CantidadF2 == null){
+    this.CantidadF2 = 0;
     }
-    // this.Saldo = this.Saldo - this.CantidadF;
-    // this.SaldoNuevo = this.SaldoF - this.CantidadF;
+    // this.Saldo = this.Saldo - this.CantidadF2;
+    // this.SaldoNuevo = this.SaldoF - this.CantidadF2;
   }
 
 
