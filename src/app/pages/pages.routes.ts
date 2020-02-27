@@ -70,6 +70,7 @@ import { PedidoventasAddComponent } from './ventas/pedido-ventas/pedidoventas-ad
 import { OrdencargadetalleComponent } from './almacen/pedidosalmacen/ordencargadetalle/ordencargadetalle.component';
 import { OrdendescargaComponent } from './almacen/ordendescarga/ordendescarga.component';
 import { UnidadMedidaComponent } from './administracion/unidad-medida/unidad-medida.component';
+import { NotaCreditocxcComponent } from './cxc/nota-creditocxc/nota-creditocxc.component';
 
 
 
@@ -151,6 +152,7 @@ const pagesRoutes: Routes = [
                 { path: 'ordencargadetalle', component: OrdencargadetalleComponent },
                 { path: 'ordendescarga', component: OrdendescargaComponent },
                 { path: 'unidadMedida', component: UnidadMedidaComponent },
+                { path: 'notasCreditocxc', component: NotaCreditocxcComponent },
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },
