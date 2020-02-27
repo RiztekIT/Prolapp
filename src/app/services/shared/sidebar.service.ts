@@ -86,6 +86,7 @@ export class SidebarService {
         { titulo: 'Pedidos', url: '/pedidosCxc' },
         { titulo: 'Complemento de Pago', url: '/complementopagoCxc' },
         { titulo: 'Facturacion', url: '/facturacionCxc' },
+        { titulo: 'Notas de Credito', url: '/notasCreditocxc' },
         { titulo: 'Polizas', url: '/polizasCxc' },
         { titulo: 'Saldos de Cuentas', url: '/saldosCxc' },
         { titulo: 'Calendario', url: '/calendarioCxc' },

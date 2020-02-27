@@ -161,6 +161,7 @@ import { ComppagoComponent } from './cxc/comppago/comppago/comppago.component';
 import { ClienteDireccionComponent } from '../components/cliente-direccion/cliente-direccion.component';
 import { ReporteEmisionComponent } from '../components/reporte-emision/reporte-emision.component';
 import { ComplementoPagoComponent } from '../components/complemento-pago/complemento-pago.component';
+import { NotaCreditocxcComponent } from './cxc/nota-creditocxc/nota-creditocxc.component';
 
 
 
@@ -283,6 +284,7 @@ import { ComplementoPagoComponent } from '../components/complemento-pago/complem
         ClienteDireccionComponent,
         ReporteEmisionComponent,
         ComplementoPagoComponent,
+        NotaCreditocxcComponent,
     
     ],
     exports: [
