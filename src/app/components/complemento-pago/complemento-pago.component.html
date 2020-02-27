@@ -100,13 +100,29 @@
                                     <table class="table ">
                                         <thead>
                                             <tr>
-                                                <th width="8.3%" class="bolder blacktxt">Documento</th>
-                                                <th width="8.3%" class="bolder blacktxt">Fecha</th>
-                                                <th width="8.3%" class="bolder blacktxt text-center">UUID</th>
-                                                <th width="41.6%" class="bolder blacktxt text-center">Saldo Anterior</th>
-                                                <th width="41.6%" class="bolder blacktxt text-center">Importe Pagado</th>
-                                                <th width="41.6%" class="bolder blacktxt text-center">Saldo Insoluto</th>
-                                                <th width="41.6%" class="bolder blacktxt text-center">Parcialidad</th>
+                                                <div class="container row">
+                                                    <div class="col-1">
+                                                        <th class="bolder blacktxt">Documento</th>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <th class="bolder blacktxt">Fecha</th>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <th class="bolder blacktxt ">UUID</th>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <th class="bolder blacktxt text-center">Saldo Anterior</th>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <th class="bolder blacktxt text-center">Importe Pagado</th>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <th class="bolder blacktxt ">Saldo Insoluto</th>
+                                                    </div>
+                                                    <div class="col-1">
+                                                        <th class="bolder blacktxt">Parcialidad</th>
+                                                    </div>
+                                                </div>
                                             </tr>
                                         </thead>
                                     </table>
@@ -121,13 +137,13 @@
 
                                                     <div class="row">
                                                         <div class="col-1">
-                                                            <th class="text-left textoBodyAcomodo acomodoForzadoTh"> {{conceptos.Folio}} </th>
+                                                            <th class="textoBodyAcomodo acomodoForzadoTh"> {{conceptos.Folio}} </th>
                                                         </div>
-                                                        <div class="col-1">
+                                                        <div class="col-2">
                                                             <th class="text-right textoBodyAcomodo acomodoForzadoTh2"> {{conceptos.FechaDeExpedicion | slice:0:10}}</th>
                                                         </div>
                                                         <div class="col-2">
-                                                            <th class="text-right textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.UUID1| slice:0:10 }} <br>{{conceptos.UUID1| slice:10:20 }} </th>
+                                                            <th class="textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.UUID1| slice:0:9 }} <br>{{conceptos.UUID1| slice:9:20 }} </th>
                                                         </div>
                                                         <div class="col-2">
                                                             <th class="text-left textoBodyAcomodo"> {{this.SaldoAnterior}} </th>
@@ -138,7 +154,7 @@
                                                         <div class="col-2">
                                                             <th class="text-left textoBodyAcomodo"> {{conceptos.Saldo}} </th>
                                                         </div>
-                                                        <div class="col-2">
+                                                        <div class="col-1">
                                                             <th class="text-left textoBodyAcomodo"> {{conceptos.NoParcialidad}} </th>
                                                         </div>
                                                     </div>
@@ -216,5 +232,9 @@
 
 
             </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button>
+            <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
         </div>
     </div>

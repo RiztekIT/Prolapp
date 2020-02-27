@@ -3,6 +3,8 @@ import { MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.service';
+import * as html2pdf from 'html2pdf.js';
+
 
 @Component({
   selector: 'app-complemento-pago',
@@ -142,6 +144,23 @@ export class ComplementoPagoComponent implements OnInit {
 
     }
     
+  }
+      
+  onExportClick(Folio?:string) {
+    const content: Element = document.getElementById('element-to-PDF');
+    const option = {    
+      margin: [.5,0,0,0],
+      filename: 'F-'+this.service.formt.Folio+'.pdf',
+      image: {type: 'jpeg', quality: 1},
+      html2canvas: {scale: 2, logging: true},
+      jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
+      pagebreak:{ avoid: '.pgbreak'}
+    };
+  
+    html2pdf()
+   .from(content)
+   .set(option)
+   .save();
   }
 
 }

@@ -207,7 +207,7 @@ export class ComplementopagocxcComponent implements OnInit {
     this.service.formt = row
     // console.log();
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
+    dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
     this.dialog.open(ComplementoPagoComponent, dialogConfig);
