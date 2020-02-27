@@ -110,10 +110,12 @@ export class ReciboPagoComponent implements OnInit {
 
 
       //OBTENER LA INFORMACION DEL CLIENTE, EN ESPECIFICO EL NOMBRE DEL CLIENTE PARA PINTARLO EN EL FORMULARIO
+      if (this.service.formData.IdCliente!=0){
       this.service.getFacturaClienteID(this.service.formData.IdCliente).subscribe(res => {
         // console.log(res);
         this.ClienteNombre = res[0].Nombre;
       });
+    }
 
       
    
@@ -242,7 +244,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
       }else{
         // console.log('No hay valores');
         this.Saldo = +this.service.formData.Cantidad;
-
+        this.listData = new MatTableDataSource(data);
+           this.listData.sort = this.sort;
         this.dropdownRefresh2(this.service.formData.IdCliente);
       }
       console.log(this.Saldo);
@@ -283,6 +286,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
   onBlurCliente(){
     console.log(this.service.formData);
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
+      this.dropdownRefresh2(this.service.formData.IdCliente);
       console.log(data);
       console.log(this.service.formData);
     })
@@ -419,6 +423,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
       this.CFDI = data;
       let SaldoP = this.Total
       let NoP = 0
+      console.log(data);
+      
       for (let i=0; i<data.length; i++){
         this.CFDI[i].Saldo = SaldoP - +this.CFDI[i].Cantidad;
         SaldoP = SaldoP - +this.CFDI[i].Cantidad;
@@ -483,8 +489,13 @@ console.log('NUEVO CFDIIIIIIIIIII');
   //Metodo Disparado al momento de hacer submit el cual recibe los valors del form como parametro
   onSubmit() {
     this.service.formData.Cantidad = parseFloat(this.service.formData.Cantidad).toFixed(6);
+    this.service.formData.Estatus = 'Guardada';
     // console.log(this.service.formData)
-    console.log(this.service.formData.IdCliente);
+    this.service.updateReciboPago(this.service.formData).subscribe(data =>{
+      console.log(data);
+      this.refreshPagoCFDITList();
+    })
+    
   }
 
 

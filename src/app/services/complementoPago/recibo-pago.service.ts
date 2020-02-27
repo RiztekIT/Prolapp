@@ -95,6 +95,10 @@ export class ReciboPagoService {
   deleteReciboPago(id: number) {
     return this.http.delete(this.APIUrl + '/ReciboPago/' + id);
   }
+
+  deleteReciboCreado(){
+    return this.http.delete(this.APIUrl + '/ReciboPago/DeletePagoCreado/');
+  }
   //Eliminar PagoCFDI
   deletePagoCFDI(id: number) {
     return this.http.delete(this.APIUrl + '/ReciboPago/PagoCFDI/' + id);
