@@ -4,7 +4,7 @@
   </button>
 </div>
 
-<div class="modal0-body">
+<div class="modal0-body" style="height: 1200px;">
     <div class="container">
         <div id="element-to-PDF">
             <!-- TOP PAGE LOGO DESCRIPTION FACTURA -->
@@ -70,14 +70,16 @@
                         <div class="col-lg-12 col-md-12 col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <p class="nomarginbottomP"><span class="blacktxt bolder"> Cliente: ( {{service.formt.IdCliente}} ) {{service.formt.Nombre}} </span></p>
+                                    <p class="nomarginbottomP"><span class="blacktxt bolder"> Cliente: ( {{service.formt.IdCliente}} )
+                      {{service.formt.Nombre}} </span></p>
                                     <p class="nomarginbottomP blacktxt">
                                         <span class=" bolder">Calle:</span> {{service.formt.Calle}} No.{{service.formt.NumeroExterior}} {{service.formt.NumeroInterior}}, CP. {{service.formt.CP}}, {{service.formt.Colonia}} , {{service.formt.Ciudad}} ,
                                         {{service.formt.Estado}}
                                         <span class="bolder"> RFC: </span> {{service.formt.RFC}}
                                     </p>
                                     <p class="bolder blacktxt nomarginbottomP">Vendedor: <span> {{service.formt.Vendedor}} </span></p>
-                                    <p class="bolder blacktxt nomarginbottomP">Enviar a: <span> {{service.formt.LugarDeEntrega}} </span></p>
+                                    <p class="bolder blacktxt nomarginbottomP">Enviar a: <span> {{service.formt.LugarDeEntrega}} </span>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -95,10 +97,22 @@
                                     <table class="table ">
                                         <thead>
                                             <tr>
-                                                <th class="bolder blacktxt">Cantidad</th>
-                                                <th class="bolder blacktxt">Unidad</th>
-                                                <th class="bolder blacktxt text-center">Clave</th>
-                                                <th class="bolder blacktxt text-center">Descripción</th>
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <th class="bolder blacktxt pr-0">Cantidad</th>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <th class="bolder blacktxt">Unidad</th>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <th class="bolder blacktxt text-center">Clave</th>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <th class="bolder blacktxt text-center">Descripción</th>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </tr>
                                         </thead>
                                     </table>
@@ -112,16 +126,16 @@
                                                 <div class="containter">
 
                                                     <div class="row">
-                                                        <div class="col-3">
-                                                            <th class="text-center textoBodyAcomodo acomodoForzadoTh"> {{conceptos.Cantidad}} </th>
+                                                        <div class="col-1">
+                                                            <th class=" textoBodyAcomodo acomodoForzadoTh"> {{conceptos.Cantidad}} </th>
                                                         </div>
-                                                        <div class="col-3">
+                                                        <div class="col-2">
                                                             <th class=" textoBodyAcomodo acomodoForzadoTh2"> {{conceptos.Unidad}} </th>
                                                         </div>
                                                         <div class="col-3">
-                                                            <th class=" text-center textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.ClaveProducto}} </th>
+                                                            <th class=" textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.ClaveProducto}} </th>
                                                         </div>
-                                                        <div class="col-3">
+                                                        <div class="col-6">
                                                             <th class=" textoBodyAcomodo"> {{conceptos.Producto}}
                                                         </div>
                                                     </div>
@@ -138,11 +152,12 @@
 
                 <!-- Observaciones -->
                 <div>
-                    <p class="bolder nomarginbottomP">OBSERVACIONES:</p>
+                    <p class="bolder nomarginbottomP">OBSERVACIONES DE PEDIDO:</p>
                     <p> {{service.formt.Observaciones}} </p>
                 </div>
 
-                <div id="footer">
+
+                <div class="wrapper" style="padding-bottom: 0;">
 
                     <!-- firma recibido -->
                     <div class="pgbreak">
@@ -158,7 +173,6 @@
                         </div>
                     </div>
 
-
                     <!-- pagaré -->
                     <div class="col-lg-12 col-md-12 col-12">
                         <div class="card card-outline-inverse pgbreak">
@@ -168,8 +182,26 @@
                                         <p>Esta factura será liquidada en dólares americanos y/o su equivalente en moneda nacional al tipo de cambio publicado en el diario oficial de la federación del día de la fecha de pago. Para cualquier aclaración, devolución
                                             o cambio cuenta con un máximo de 8 días naturales a partir de la fecha factura <span>
                         {{service.formt.FechaDeEntrega | date}} </span>. Debo (emos) y Pagare (emos) incondicionalmente a la orden de PRO LACTOINGREDIENTES, S DE RL MI DE CV, en esta ciudad o en cualquier otra en que se me (nos) requiera el importe de
-                                            la mercancía que ampara este documento. Por la cantidad de <span> {{service.formt.Total |currency}} ( {{service.formt.TotalDlls | currency:'USD':'code'}} )</span></p>
+                                            la mercancía que ampara este documento. Por la cantidad de <span> {{service.formt.Total |currency}}
+                        ( {{service.formt.TotalDlls | currency:'USD':'code'}} )</span></p>
                                         <!-- cambia -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="card card-outline-inverse pgbreak">
+                            <div class="card-body">
+                                <div class="containerborder">
+                                    <div class="container">
+                                        <h4 class="text-center bolder blacktxt"> ANOTACIONES Y OBSERVACIONES ADICIONALES </h4>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <br>
+                                        <br>
                                     </div>
                                 </div>
                             </div>
@@ -181,4 +213,9 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+    <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
 </div>

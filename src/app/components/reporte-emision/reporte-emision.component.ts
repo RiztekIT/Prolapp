@@ -7,6 +7,7 @@ import { ClientesService } from '../../services/catalogos/clientes.service';
 import { EmpresaService } from '../../services/empresas/empresa.service';
 import { Pedido } from 'src/app/Models/Pedidos/pedido-model';
 import { VentasPedidoService } from '../../services/ventas/ventas-pedido.service';
+import * as html2pdf from 'html2pdf.js';
 
 @Component({
   selector: 'app-reporte-emision',
@@ -60,5 +61,26 @@ export class ReporteEmisionComponent implements OnInit {
 
 
   }
-
+  Folio() {
+    this.service.GetFolio().subscribe(data => {
+      this.service.formt.folio = data;
+      console.log(this.service.formt.Folio); })  ;
+      } 
+      
+  onExportClick(Folio?:string) {
+    const content: Element = document.getElementById('element-to-PDF');
+    const option = {    
+      margin: [.5,0,0,0],
+      filename: 'F-'+this.service.formt.Folio+'.pdf',
+      image: {type: 'jpeg', quality: 1},
+      html2canvas: {scale: 2, logging: true},
+      jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
+      pagebreak:{ avoid: '.pgbreak'}
+    };
+  
+    html2pdf()
+   .from(content)
+   .set(option)
+   .save();
+  }
 }
