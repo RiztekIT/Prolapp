@@ -15,6 +15,13 @@ import { PagoCFDI } from '../../../../Models/ComplementoPago/pagocfdi';
 import { MatDialog, MatDialogConfig } from '@angular/material';
 //Importacion Edit Pago CFDI
 import { PagoCFDIEditComponent } from '../pago-cfdi-edit/pago-cfdi-edit.component';
+import { pagoTimbre } from 'src/app/Models/ComplementoPago/pagotimbre';
+import { TipoCambioService } from 'src/app/services/tipo-cambio.service';
+import { CurrencyPipe } from '@angular/common';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+import Swal from 'sweetalert2';
+import { ngxLoadingAnimationTypes } from 'ngx-loading';
+import { FoliosService } from 'src/app/services/direccion/folios.service';
 
 @Component({
   selector: 'app-recibo-pago',
@@ -23,11 +30,26 @@ import { PagoCFDIEditComponent } from '../pago-cfdi-edit/pago-cfdi-edit.componen
 })
 export class ReciboPagoComponent implements OnInit {
 
-  constructor(public service: ReciboPagoService, private router: Router, private dialog: MatDialog) {
+  json1 = new pagoTimbre();
+  conceptos : any;
+  fecha2;
+  Cdolar: string;
+  public loading = false;
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
+
+  
+
+  constructor(public service: ReciboPagoService, private router: Router, private dialog: MatDialog,private tipoCambio:TipoCambioService,private currencyPipe: CurrencyPipe,private servicetimbrado:EnviarfacturaService, public servicefolios: FoliosService) {
     this.service.listen().subscribe((m:any)=>{
       // console.log(m);
       this.refreshPagoCFDITList();
       });
+
+      /* Metodo para obtener el tipo de cambio y ponerlo en la variable a usar */
+  // this.traerApi().subscribe(data => {
+    
+  // })
+
 
   }
 
@@ -37,14 +59,34 @@ export class ReciboPagoComponent implements OnInit {
     this.RP();
     this.dropdownRefresh();
     this.refreshPagoCFDITList();
+    this.setpagoTimbre();
+    this.tCambio();
+    
+    // this.tipoDeCambio();
+
+    
     // this.ClienteDefault();
     
+
+  }
+
+  tCambio(){
+    this.tipoCambio.TC();
+    this.tipoCambio.getTc().subscribe((data:any)=>{
+      console.log(data);
+
+      this.Cdolar = data;
+      console.log(this.Cdolar);
+      
+      this.service.formData.TipoCambio = this.currencyPipe.transform(this.Cdolar,'','symbol','1.4-4');
+      console.log(this.service.formData.TipoCambio);
+    })
 
   }
   //Checar si el Id es el Default
   ClienteDefault(){
     // console.log('CHECHANDO EL CLIENTE');
-    if(this.service.formData.IdCliente == 1){
+    if(this.service.formData.IdCliente == 0){
       console.log('CLIENTE DEFAULT');
     }else{
       console.log('ACTUALIZANDO DROPDOWN2');
@@ -62,7 +104,7 @@ export class ReciboPagoComponent implements OnInit {
   listClientes: Cliente[] = [];
   //Control Search/Lista de Facturas en base a IdClient
   myControl2 = new FormControl();
-  options2: Factura[] = [];
+  options2: any[] = [];
   filteredOptions2: Observable<any[]>;
   FacturaList: Factura[] = [];
   //Variables Saldo, Total, Cantidad
@@ -109,7 +151,8 @@ export class ReciboPagoComponent implements OnInit {
     // console.log(this.IdReciboPago);
     this.service.getReciboId(this.IdReciboPago).subscribe(res => {
       this.service.formData = res[0];
-      // console.log(this.service.formData);
+      this.tCambio();
+      console.log(this.service.formData);
       this.Estatus = this.service.formData.Estatus;
 
 
@@ -117,6 +160,7 @@ export class ReciboPagoComponent implements OnInit {
       if (this.service.formData.IdCliente!=0){
       this.service.getFacturaClienteID(this.service.formData.IdCliente).subscribe(res => {
         // console.log(res);
+        this.json1.Receptor.UID = res[0].IdApi;
         this.ClienteNombre = res[0].Nombre;
       });
     }
@@ -156,15 +200,16 @@ export class ReciboPagoComponent implements OnInit {
 
   //Verificar si ya existen o no PAGOS CFDI previos
   RP(){
-    this.service.getReciboPagosCFDI(this.IdReciboPago).subscribe(data => {
-      if (data.length > 0){
-        console.log('CFDI EXISTENTES');
-this.Nuevo = false;
-      }else{
-        console.log('CFDI NUEVO');
-this.Nuevo  = true;
-      }
-    })
+//     this.service.getReciboPagosCFDI(this.IdReciboPago).subscribe(data => {
+//       if (data.length > 0){
+//         console.log('CFDI EXISTENTES');
+// this.Nuevo = false;
+//       }else{
+//         console.log('CFDI NUEVO');
+// this.Nuevo  = true;
+//       }
+//     })
+this.Nuevo = true
   }
 
   //Lista Facturas por IdClient
@@ -176,27 +221,27 @@ this.Nuevo  = true;
 
       //Si hay pagosCFDI, se hara un select con condiciones de los PAGOSCFDI existentes
       if (this.Nuevo == false){
-console.log('YA HAYYYYY CFDIISISISISISIS');
-    console.log(idCliente+ 'Este es el IDCliente');
-    this.service.getFacturaPagoCFDI(idCliente).subscribe((data) => {
-      console.log(data);
-      if (data) {
-        for (let i = 0; i < data.length; i++) {
-          let facturaPagoCFDI = data[i];
-          this.FacturaList.push(facturaPagoCFDI);
-          this.options2.push(facturaPagoCFDI)
-          // console.log(this.options2);
-          this.filteredOptions2 = this.myControl2.valueChanges
-            .pipe(
-              startWith(''),
-              map(value => this._filter2(value))
-            );
-        }
-      }else{
-        console.log("No hay Facturas Correspondientes al Cliente");
-        this.options2 = [];
-      }
-    });
+// console.log('YA HAYYYYY CFDIISISISISISIS');
+//     console.log(idCliente+ 'Este es el IDCliente');
+//     this.service.getFacturaPagoCFDI(idCliente).subscribe((data) => {
+//       console.log(data);
+//       if (data) {
+//         for (let i = 0; i < data.length; i++) {
+//           let facturaPagoCFDI = data[i];
+//           this.FacturaList.push(facturaPagoCFDI);
+//           this.options2.push(facturaPagoCFDI)
+//           // console.log(this.options2);
+//           this.filteredOptions2 = this.myControl2.valueChanges
+//             .pipe(
+//               startWith(''),
+//               map(value => this._filter2(value))
+//             );
+//         }
+//       }else{
+//         console.log("No hay Facturas Correspondientes al Cliente");
+//         this.options2 = [];
+//       }
+//     });
 
 //Si no hay pagos CFDI, solo se verifica que la factura este Timbrada y con cuerde con el IdCliente
   }else{
@@ -205,9 +250,18 @@ console.log('NUEVO CFDIIIIIIIIIII');
       console.log(data);
       if (data) {
         for (let i = 0; i < data.length; i++) {
-          let facturaPagoCFDI = data[i];
-          this.FacturaList.push(facturaPagoCFDI);
-          this.options2.push(facturaPagoCFDI)
+
+          this.service.getFacturaPagoCFDI(idCliente,data[i].Folio).subscribe((data2) => {
+            if (data2.length>0){
+              this.options2.push(data2[0])
+            }else{
+              let facturaPagoCFDI = data[i];
+              this.FacturaList.push(facturaPagoCFDI);
+              this.options2.push(facturaPagoCFDI)
+            }
+          })
+
+
           // console.log(this.options2);
           this.filteredOptions2 = this.myControl2.valueChanges
             .pipe(
@@ -230,6 +284,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
   refreshPagoCFDITList(){
     this.service.getReciboPagosCFDI(this.IdReciboPago).subscribe(data => {
       console.log(data);
+      this.conceptos = data;
          if (data.length > 0){
            this.Saldo = 0;
            for (let i=0; i<data.length; i++){
@@ -308,7 +363,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
     if (event.isUserInput) {
      
       console.log(factura);
-      if( this.Nuevo == false){
+      if( factura.IdCliente == 0 || !factura.IdCliente){
         console.log('PAGOS CFDI EXISTENTES');
         this.TotalF = +factura.Total;
         this.SaldoF = +factura.Saldo;
@@ -451,6 +506,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
 
   ObtenerNoParcialidad(){
     this.service.getNoParcialidad(this.IdFactura).subscribe(data =>{
+      console.log(data);
       if(data[0].NoParcialidad == null){
         console.log('PARCIALIDAD NULL');
         this.service.formDataPagoCFDI.NoParcialidad = '1';
@@ -463,8 +519,11 @@ console.log('NUEVO CFDIIIIIIIIIII');
 
   //Metodo que se activara cuando se alla deja de manipular el campo Folio Factua
   onBlurFolio(){
+    console.log(this.IdFactura);
+    if (this.IdFactura>0){
     this.ObtenerNoParcialidad();
    console.log(this.service.formDataPagoCFDI);
+  }
   }
   
   onAddCFDI() {
@@ -494,7 +553,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
 
   //Metodo Disparado al momento de hacer submit el cual recibe los valors del form como parametro
   onSubmit() {
-    this.service.formData.Cantidad = parseFloat(this.service.formData.Cantidad).toFixed(6);
+    this.service.formData.Cantidad = parseFloat(this.service.formData.Cantidad).toFixed(2);
     this.service.formData.Estatus = 'Guardada';
     // console.log(this.service.formData)
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
@@ -505,4 +564,185 @@ console.log('NUEVO CFDIIIIIIIIIII');
   }
 
 
+  /* Metodos para Timbrado */
+  setpagoTimbre(){
+
+    this.json1 = {
+      Receptor: {
+        UID: '',
+    },
+    TipoCfdi:'',
+    Conceptos:[
+        {
+            ClaveProdServ:'',
+            Cantidad:'',
+            ClaveUnidad:'',
+            Descripcion:'',
+            ValorUnitario:'',
+            Importe:'',
+            Complemento:[
+              {
+                  typeComplement:'',
+                  FechaPago:'',
+                  FormaDePagoP:'',
+                  MonedaP:'',
+                  Monto:'',
+                  relacionados:[
+                  ]
+              }
+          ]
+        }
+    ],
+    UsoCFDI:'',
+    Serie:'',
+    Moneda:'',
+   
+    }
+    
+  }
+
+ 
+
+
+
+  crearJSON(){
+    let datos : any = this.service.formData
+    let relacionados = new Array<any>();
+    this.conceptos = this.listData.filteredData;
+    console.log(datos);
+    this.change(this.service.formData.FechaPago);
+    
+    this.json1.TipoCfdi = 'pago';
+    this.json1.UsoCFDI = "P01";
+    this.json1.Serie = "6390";
+    this.json1.Moneda = 'XXX';
+// console.log(this.conceptos);
+    // this.json1.Receptor.UID = datos.IdApi; LISTO
+    for (let i = 0; i< this.conceptos.length; i++){
+      relacionados.push({
+      "IdDocumento": this.conceptos[i].UUID1,
+      "MonedaDR" : this.conceptos[i].Moneda,
+      "TipoCambioDR" : parseFloat(this.Cdolar).toFixed(4),
+      "MetodoDePagoDR" : "PPD",
+      "NumParcialidad" : this.conceptos[i].NoParcialidad,
+      "ImpSaldoAnt" : (parseFloat(this.conceptos[i].Saldo) + parseFloat(this.conceptos[i].Cantidad)).toFixed(2),
+      "ImpPagado": parseFloat(this.conceptos[i].Cantidad).toFixed(2),
+      "ImpSaldoInsoluto": parseFloat(this.conceptos[i].Saldo).toFixed(2)
+      })
+    }
+    this.json1.Conceptos.pop();
+    this.json1.Conceptos.push({
+      "ClaveProdServ" : "84111506",
+      "Cantidad" : "1",
+      "ClaveUnidad" : "ACT",
+      "Descripcion" : "Pago",
+      "ValorUnitario" : "0",
+      "Importe" : "0",
+      "Complemento":[{
+        "typeComplement" : "pagos",
+        "FechaPago" : this.fecha2,
+        "FormaDePagoP": this.service.formData.FormaPago,
+        "MonedaP" : 'MXN',
+        "Monto" : parseFloat(this.service.formData.Cantidad).toFixed(2),
+        "relacionados" : relacionados
+      }]
+    });
+
+    
+     console.log(relacionados);
+    
+  }
+  
+  onTimbrar(){
+    this.loading = true;
+    this.crearJSON();
+    
+    console.log(JSON.stringify(this.json1));
+    this.servicetimbrado.timbrarPago(JSON.stringify(this.json1)).subscribe(data=>{
+      console.log(data);
+      if (data.response === 'success') {
+        let datos : any = this.service.formData        
+        this.service.formData.FechaExpedicion =  new Date();        
+        
+        this.service.formData.Moneda = datos.Moneda;
+        
+        
+        
+        this.service.formData.UUID = data.UUID;
+        
+        this.service.formData.Certificado ='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';
+        this.service.formData.NoCertificado ='00001000000403628664';
+        
+        this.service.formData.CadenaOriginal ='||' + data.SAT.Version + '|' + data.SAT.UUID + '|' + data.SAT.FechaTimbrado + '|LSO1306189R5|' + data.SAT.SelloCFD + '|' + data.SAT.NoCertificadoSAT + '||';
+        this.service.formData.SelloDigitalSAT =data.SAT.SelloSAT;
+        this.service.formData.SelloDigitalCFDI =data.SAT.SelloCFD;
+        this.service.formData.NoSelloSAT =data.SAT.NoCertificadoSAT;
+        this.service.formData.RFCPAC ='LSO1306189R5';
+        this.service.formData.Estatus ='Timbrada';
+
+
+    this.service.updateReciboPago(this.service.formData).subscribe(data =>{
+      this.loading = false;
+      Swal.fire(
+        'Factura Creada',
+        '' + this.service.formData.UUID + '',
+        'success'
+      )
+      this.servicefolios.updateFolios().subscribe(data =>{
+        console.log(data);
+      });
+      console.log(data);
+    })
+  }else
+  if (data.response === 'error') {
+    this.loading = false;
+    document.getElementById('cerrarmodal').click();
+    Swal.fire(
+      'Error',
+      '' + data.message + '',
+      'error'
+    )
+  }
+  })
+        
+
+
+  }
+
+  change(date:any){
+    //2020-02-26T07:00:00
+    const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    let dia;
+    let mes;
+    let año;
+    let hora;
+    let min;
+    let seg;
+    
+    let fecha = new Date(date);
+
+    
+    dia = fecha.getDate();
+    mes = `${months[fecha.getMonth()]}`;
+    año = fecha.getFullYear();
+    hora = fecha.getHours();
+    min = fecha.getMinutes();
+    seg = fecha.getSeconds();
+
+    hora = '00';
+    min = '00';
+    seg = '00';
+
+    this.fecha2 = año + '-' + mes + '-' + dia + 'T' + hora + ':' + min + ':' + seg
+    console.log(fecha);
+    console.log(this.fecha2);
+    
+    
+    
+    
+  }
+
+
+
 }
+

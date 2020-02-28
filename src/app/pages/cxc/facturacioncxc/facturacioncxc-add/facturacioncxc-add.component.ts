@@ -22,6 +22,7 @@ import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import { map, startWith, retry } from 'rxjs/operators';
 import { Prefactura } from '../../../../Models/facturacioncxc/prefactura-model';
 import { FoliosService } from '../../../../services/direccion/folios.service';
+import { TipoCambioService } from 'src/app/services/tipo-cambio.service';
 
 /* Headers para el envio de la factura */
 const httpOptions = {
@@ -99,7 +100,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   constructor(
     public service: FacturaService, private snackBar: MatSnackBar, private dialog: MatDialog,
     private router: Router, public enviarfact: EnviarfacturaService,
-    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService) {
+    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService, private tipoCambio:TipoCambioService) {
       this.service.Moneda = 'MXN';
       console.log('Constr '+this.service.Moneda);
       
@@ -249,45 +250,52 @@ export class FacturacioncxcAddComponent implements OnInit {
   }
 /* Metodo para obtener el tipo de cambio y ponerlo en la variable a usar */
   tipoDeCambio() {
-    this.traerApi().subscribe(data => {
-      this.Cdolar = data.bmx.series[0].datos[0].dato;
-    })
+    // this.traerApi().subscribe(data => {
+      this.Cdolar = this.tipoCambio.TipoCambio;
+    // })
   }
+ 
 
   /* Metodo para obtener el tipo de cambio de la API de Banxico */
-  traerApi(): Observable<any> {
-    let hora = new Date().getHours();
-    let fechahoy = new Date();
-    let fechaayer = new Date();
-    fechaayer.setDate(fechahoy.getDate() - 1)
-    let diaayer = new Date(fechaayer).getDate();
-    let mesayer = new Date(fechaayer).getMonth();
-    let añoayer = new Date(fechaayer).getFullYear();
-    let diasemana = new Date(fechahoy).getDay();
-    if (diasemana == 6 || diasemana == 0) {
-      this.rootURL = this.rootURL + 'oportuno'
-    } else {
-      if (hora < 11) {
-        this.rootURL = this.rootURL + 'oportuno'
-      }
-      else {
-        if (diasemana == 1) {
-          fechaayer.setDate(fechahoy.getDate() - 3)
-          let diaayer = new Date(fechaayer).getDate();
-          let mesayer = new Date(fechaayer).getMonth();
-          let añoayer = new Date(fechaayer).getFullYear();
-          mesayer = mesayer + 1;
-          let fecha = añoayer + '-' + mesayer + '-' + diaayer;
-          this.rootURL = this.rootURL + fecha + '/' + fecha
+  // traerApi(): Observable<any> {
+  //   let hora = new Date().getHours();
+  //   let fechahoy = new Date();
+  //   let fechaayer = new Date();
+  //   fechaayer.setDate(fechahoy.getDate() - 1)
+  //   let diaayer = new Date(fechaayer).getDate();
+  //   let mesayer = new Date(fechaayer).getMonth();
+  //   let añoayer = new Date(fechaayer).getFullYear();
+  //   let diasemana = new Date(fechahoy).getDay();
+  //   if (diasemana == 6 || diasemana == 0) {
+  //     this.rootURL = this.rootURL + 'oportuno'
+  //   } else {
+  //     if (hora < 11) {
+  //       this.rootURL = this.rootURL + 'oportuno'
+  //     }
+  //     else {
+  //       if (diasemana == 1) {
+  //         fechaayer.setDate(fechahoy.getDate() - 3)
+  //         let diaayer = new Date(fechaayer).getDate();
+  //         let mesayer = new Date(fechaayer).getMonth();
+  //         let añoayer = new Date(fechaayer).getFullYear();
+  //         mesayer = mesayer + 1;
+  //         let fecha = añoayer + '-' + mesayer + '-' + diaayer;
+  //         this.rootURL = this.rootURL + fecha + '/' + fecha
 
-        } else {
-          mesayer = mesayer + 1;
-          let fecha = añoayer + '-' + mesayer + '-' + diaayer;
-          this.rootURL = this.rootURL + fecha + '/' + fecha
-        }
-      }
-    }
-    return this.http.get(this.rootURL, httpOptions)
+  //       } else {
+  //         mesayer = mesayer + 1;
+  //         let fecha = añoayer + '-' + mesayer + '-' + diaayer;
+  //         this.rootURL = this.rootURL + fecha + '/' + fecha
+  //       }
+  //     }
+  //   }
+  //   return this.http.get(this.rootURL, httpOptions)
+  // }
+
+  traerApi(): Observable<any>{
+
+    return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
+
   }
 
   /* Iniciar en 0 Valores de los Totales */
