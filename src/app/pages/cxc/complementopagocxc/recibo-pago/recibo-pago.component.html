@@ -100,6 +100,10 @@
                                 <div class="text-left text-danger" *ngIf="Cuenta.invalid && Cuenta.touched">
                                     Favor de Ingresar Cuenta
                                 </div>
+
+                                <label class="input-group-text text-info">Tipo de Cambio</label>
+
+                                <input readonly type="string" class="form-control" name="Cuenta" #Cuenta="ngModel" [(ngModel)]="service.formData.TipoCambio">
                                 <!--               -------------------------------------------------------                                       -->
 
                             </div>
@@ -297,7 +301,7 @@
 
                             <br>
 
-                            <button [disabled]="Saldo > 0" class="btn btn-danger btn-lg" mat-raised-button><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
+                            <button [disabled]="Saldo > 0" class="btn btn-danger btn-lg" mat-raised-button (click)="onTimbrar()"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
 
                             <!-- <br> -->
                             <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button>
@@ -342,4 +346,18 @@
 
         </div>
     </div>
+</div>
+
+
+<div class="modal fade bs-example-modal-lg show" id="cargando" style="overflow: hidden">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <button id="cerrarmodal" type="button" [hidden]="true" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+
+
+        </div>
+    </div>
+    <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+    </ngx-loading>
 </div>

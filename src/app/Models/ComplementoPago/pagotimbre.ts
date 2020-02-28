@@ -21,8 +21,7 @@ export class pagoTimbre{
                     FormaDePagoP:String,
                     MonedaP:String,
                     Monto:String,
-                    relacionados:[
-                        {
+                    relacionados:{
                             IdDocumento:String,
                             MonedaDR:String,
                             TipoCambioDR:String,
@@ -31,8 +30,7 @@ export class pagoTimbre{
                             ImpSaldoAnt:String,
                             ImpPagado:String,
                             ImpSaldoInsoluto:String
-                        }
-                    ]
+                        }[]
                 }
             ]
         }

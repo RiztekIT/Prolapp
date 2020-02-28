@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
   // parche: string = 'https://cors-anywhere.herokuapp.com/'
   // readonly rootURL = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF63528/datos/oportuno"
   rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
-  Cdolar: String;
+  Cdolar: string;
   public usuario: Usuario;
 
   constructor(private http : HttpClient, private storageService: StorageServiceService, private tipoCambio:TipoCambioService) { }
@@ -67,6 +67,7 @@ if (hora>11){
       
       this.Cdolar = data.bmx.series[0].datos[l-i].dato;
       this.tipoCambio.TipoCambio = this.Cdolar;
+      this.tipoCambio.TC();
       // console.log('------CAMBIO------');
       // console.log(this.tipoCambio.TipoCambio);
       

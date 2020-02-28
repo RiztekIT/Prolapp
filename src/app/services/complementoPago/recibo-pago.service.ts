@@ -81,8 +81,8 @@ export class ReciboPagoService {
     return this.http.get<any[]>(this.APIUrl + '/Factura/FacturaClienteID/' + id);
   }
   //Obtener Folio de las Facturas que Correspondan con el IdCliente, Esten Timbradas, Tengan saldo pendiente
-  getFacturaPagoCFDI(id: number): Observable<any[]> {
-    return this.http.get<any[]>(this.APIUrl + '/ReciboPago/FacturaPagoCFDI/' + id);
+  getFacturaPagoCFDI(id: number, folio: number): Observable<any[]> {
+    return this.http.get<any[]>(this.APIUrl + '/ReciboPago/FacturaPagoCFDI/' + id + '/'+ folio);
   }
   //Obtener Lista de PagosCFDI en base a un ReciboPago
   getReciboPagosCFDI(id: number): Observable<PagoCFDI[]> {
