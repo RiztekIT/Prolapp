@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
+import { MatDialogRef, MatSnackBar } from '@angular/material';
+import { NgForm } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-nota-creditocxc',
@@ -7,7 +11,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotaCreditocxcComponent implements OnInit {
 
-  constructor() { }
+
+
+  constructor( ) { 
+
+    // this.service.listen().subscribe((m:any)=>{
+    //   this.refreshProveedoresList();
+    //   });
+  }
+
+    // listData: MatTableDataSource<any>;
+  // displayedColumns : string [] = [ 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado','NumeroInterior', 'NumeroExterior', 'Options'];
+  // @ViewChild(MatSort, null) sort : MatSort;
+  // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ngOnInit() {
   }

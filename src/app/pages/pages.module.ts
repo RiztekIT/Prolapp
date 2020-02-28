@@ -162,6 +162,8 @@ import { ClienteDireccionComponent } from '../components/cliente-direccion/clien
 import { ReporteEmisionComponent } from '../components/reporte-emision/reporte-emision.component';
 import { ComplementoPagoComponent } from '../components/complemento-pago/complemento-pago.component';
 import { NotaCreditocxcComponent } from './cxc/nota-creditocxc/nota-creditocxc.component';
+import { NotaCreditoService } from '../services/cuentasxcobrar/NotasCreditocxc/notaCredito.service';
+import { DetalleNotaCreditoComponent } from './cxc/nota-creditocxc/detalle-nota-credito/detalle-nota-credito.component';
 
 
 
@@ -285,6 +287,7 @@ import { NotaCreditocxcComponent } from './cxc/nota-creditocxc/nota-creditocxc.c
         ReporteEmisionComponent,
         ComplementoPagoComponent,
         NotaCreditocxcComponent,
+        DetalleNotaCreditoComponent,
     
     ],
     exports: [
@@ -336,7 +339,8 @@ import { NotaCreditocxcComponent } from './cxc/nota-creditocxc/nota-creditocxc.c
         EmpresaService,
         PedidoService,
         CurrencyPipe,
-        VentasPedidoService
+        VentasPedidoService,
+        NotaCreditoService
         
     ],
     entryComponents: [
@@ -362,6 +366,7 @@ import { NotaCreditocxcComponent } from './cxc/nota-creditocxc/nota-creditocxc.c
         ClienteDireccionComponent,
         ReporteEmisionComponent,
         ComplementoPagoComponent,
+        DetalleNotaCreditoComponent,
     ]
 })
 export class PagesModule { }

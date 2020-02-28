@@ -5,7 +5,7 @@ IdFactura: number;
 Serie: string;
 Folio: string;
 Tipo: string;
-FechaDeExpedicion: string;
+FechaDeExpedicion: Date;
 LugarDeExpedicion: string;
 Certificado: string;
 NumeroDeCertificado: string;
@@ -37,7 +37,8 @@ Ver: string;
 Usuario: string;
 SubtotalDlls: string;
 ImpuestosTrasladadosDlls: string;
-TotalDlls: string;   
+TotalDlls: string;  
+Relacion: string; 
 }
 
 

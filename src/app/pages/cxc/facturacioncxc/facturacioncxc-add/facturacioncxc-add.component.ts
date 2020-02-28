@@ -22,6 +22,9 @@ import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import { map, startWith, retry } from 'rxjs/operators';
 import { Prefactura } from '../../../../Models/facturacioncxc/prefactura-model';
 import { FoliosService } from '../../../../services/direccion/folios.service';
+import { NotaCredito } from '../../../../Models/nota-credito/notaCredito-model';
+import { NotaCreditoService } from '../../../../services/cuentasxcobrar/NotasCreditocxc/notaCredito.service';
+import { DetalleNotaCreditoComponent } from '../../nota-creditocxc/detalle-nota-credito/detalle-nota-credito.component';
 
 /* Headers para el envio de la factura */
 const httpOptions = {
@@ -99,7 +102,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   constructor(
     public service: FacturaService, private snackBar: MatSnackBar, private dialog: MatDialog,
     private router: Router, public enviarfact: EnviarfacturaService,
-    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService) {
+    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService, public serviceNota: NotaCreditoService ) {
       this.service.Moneda = 'MXN';
       console.log('Constr '+this.service.Moneda);
       
@@ -154,6 +157,80 @@ export class FacturacioncxcAddComponent implements OnInit {
     { Moneda: 'MXN' },
     { Moneda: 'USD' }
   ];
+
+
+
+  // INICIO NOTA DE PAGO----------------------------------------------------------------------->
+  
+
+  //Metodo Generar Nota Pago
+  GenerarNota(){
+    console.log(this.service.formData);
+    /*  Generar Nota en Blanco */
+  let NotaBlanco: NotaCredito = 
+  {
+    IdNotaCredito:0,
+    IdCliente:this.service.formData.IdCliente,
+    IdFactura: this.service.formData.Id,
+    Serie: "",
+    Folio: "",
+    Tipo: "Egreso",
+    FechaDeExpedicion: new Date(),
+    LugarDeExpedicion: "",
+    Certificado: "",
+    NumeroDeCertificado: "",
+    UUID: "",
+    UsoDelCFDI: "",
+    Subtotal: "0",
+    SubtotalDlls: "0",
+    Descuento: "0",
+    ImpuestosRetenidos: "0",
+    ImpuestosTrasladados: "0",
+    ImpuestosTrasladadosDlls: "0",
+    Total: "0",
+    TotalDlls: "0",
+    FormaDePago: "",
+    MetodoDePago: "",
+    Cuenta: "",
+    Moneda: this.service.formData.Moneda,
+    CadenaOriginal: "",
+    SelloDigitalSAT: "",
+    SelloDigitalCFDI: "",
+    NumeroDeSelloSAT: "",
+    RFCDelPAC: "",
+    Observaciones: "",
+    FechaVencimiento:  new Date(),
+    OrdenDeCompra: "",
+    TipoDeCambio: "0",
+    FechaDeEntrega:  new Date(),
+    CondicionesDePago: "",
+    Vendedor: "",
+    Estatus: "Creada",
+    Ver: "",
+    Usuario: "",
+    Relacion: ""
+}
+// console.log(NotaBlanco);
+// console.log(this.listData.data);
+this.service.getDetallesFacturaList(this.IdFactura).subscribe(data => {
+  this.serviceNota.DetalleFactura = data;
+  this.serviceNota.Moneda = this.Moneda;
+  this.serviceNota.TipoCambio = this.service.formData.TipoDeCambio;
+  const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(DetalleNotaCreditoComponent, dialogConfig);
+  console.log(this.serviceNota.DetalleFactura);
+})
+
+// this.serviceNota.addNotaCredito(NotaBlanco).subscribe(res =>{
+// console.log(res);
+// });
+  }
+
+
+  // FIN NOTA DE PAGO----------------------------------------------------------------------->
 
   /* Metodo para cambiar los datetimepicker al formato deseado */
   onChange(val) {
