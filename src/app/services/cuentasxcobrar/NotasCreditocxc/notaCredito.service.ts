@@ -84,6 +84,16 @@ return this.http.delete(this.APIUrl + '/NotaCredito/'+ id)
       return this.http.get<DetalleNotaCredito[]>(this.APIUrl + '/NotaCredito/DetalleNotaCreditoID/' + id);
     }
 
+    //Obtener ultima nota de credito de una factura en especifico por Id Factura
+    getUltimaNotaCreditoFacturaID(id: number): Observable<NotaCredito[]> {
+      return this.http.get<NotaCredito[]>(this.APIUrl + '/NotaCredito/UltimaNotaCreditoFacturaID/' + id);
+    }
+
+    //Obtener ultimo folio
+    getUltimoFolio(): Observable<any[]> {
+      return this.http.get<any[]>(this.APIUrl + '/NotaCredito/GetUltimoFolio');
+    }
+
 
   deleteNotaCredito(id: number){
     return this.http.delete(this.APIUrl + '/NotaCredito/' + id);
