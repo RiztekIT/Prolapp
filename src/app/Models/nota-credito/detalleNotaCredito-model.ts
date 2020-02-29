@@ -1,5 +1,4 @@
 export class DetalleNotaCredito {
-
     IdDetalleNotaCredito: number;
     IdNotaCredito: number;
     ClaveProducto: string;
@@ -15,5 +14,4 @@ export class DetalleNotaCredito {
     ImporteDlls: string;
     ImporteIVA: string;
     ImporteIVADlls: string;
-
 }
