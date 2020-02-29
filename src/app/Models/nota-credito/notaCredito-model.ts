@@ -3,9 +3,9 @@ IdNotaCredito: number;
 IdCliente: number;
 IdFactura: number;
 Serie: string;
-Folio: string;
+Folio: number;
 Tipo: string;
-FechaDeExpedicion: string;
+FechaDeExpedicion: Date;
 LugarDeExpedicion: string;
 Certificado: string;
 NumeroDeCertificado: string;
@@ -37,7 +37,8 @@ Ver: string;
 Usuario: string;
 SubtotalDlls: string;
 ImpuestosTrasladadosDlls: string;
-TotalDlls: string;   
+TotalDlls: string;  
+Relacion: string; 
 }
 
 

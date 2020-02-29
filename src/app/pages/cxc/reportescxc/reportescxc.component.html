@@ -1,1 +1,40 @@
-<p>reportescxc works!</p>
+<mat-card class="mat-elevation-z0">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="h1-responsive" style="text-align: center;"> Reportes de Cobranza </h2>
+        </div>
+        <br><br>
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4 btnalign">
+                    <button class="btn btn-primary" id="abrirpdf" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza</button>
+                </div>
+                <div class="col-4"></div>
+            </div>
+        </div>
+
+    </div>
+
+</mat-card>
+
+<div class="modal fade bs-example-modal-lg show" id="add-new-event">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <h4 class="modal-title">Factura</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div> -->
+            <app-reporte></app-reporte>
+            <!-- <app-factura [xmlparametros]="xmlparam"></app-factura> -->
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+                <button class="btn btn-primary waves-effect waves-light save-category">Descargar</button>
+                <!-- (click)="onExportClick()" -->
+            </div>
+        </div>
+    </div>
+</div>

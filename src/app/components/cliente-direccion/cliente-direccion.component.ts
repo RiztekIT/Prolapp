@@ -4,6 +4,7 @@ import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { ClienteDireccionService } from '../../services/cliente-direccion/cliente-direccion.service';
+import { ClienteDireccion } from '../../Models/cliente-direccion/clienteDireccion-model';
 @Component({
   selector: 'app-cliente-direccion',
   templateUrl: './cliente-direccion.component.html',
@@ -25,11 +26,16 @@ export class ClienteDireccionComponent implements OnInit {
 
   ngOnInit() {
     this.Inicializar();
+    this.refreshProveedoresList();
+    this.agregarDireccion = true;
   }
 
   //Variables
   NombreCliente: string;
   IdCliente: number;
+
+  //Variable para verificar si se actualizara o agregara una Direccion
+  agregarDireccion: boolean;
 
   //Metodo para obtener los datos y llenarlos en la tabla
   refreshProveedoresList() {
@@ -66,15 +72,24 @@ JoinClienteDireccion(){
 }
 
 //Agregar Nueva Direccion
-  AgregarDireccionCliente(){
-
+  AgregarDireccionCliente(form: NgForm){
+    console.log(form);
+console.log(this.service.formData);
+form.resetForm();
   }
 //Editar Direccion
-  EditarDireccionCliente(){
-
+  EditarDireccionCliente(dc: ClienteDireccion){
+    this.agregarDireccion = false;
+console.log(dc);
+this.service.formData = dc;
+  }
+  //Actualizar direccion cliente
+  ActualizarDireccion(){
+this.agregarDireccion = false;
   }
 //Eliminar Direccion
-  EliminarDireccionCliente(){
-
+  EliminarDireccionCliente(id: number){
+console.log(id);
   }
+
 }

@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import { FacturacioncxcProductoComponent } from '../facturacioncxc-producto/facturacioncxc-producto.component';
 import { Factura } from 'src/app/Models/facturacioncxc/factura-model';
-import { MatTableDataSource, MatSort } from '@angular/material';
+import { MatTableDataSource, MatSort,MatPaginator } from '@angular/material';
 import { DetalleFactura } from '../../../../Models/facturacioncxc/detalleFactura-model';
 import { FacturacioncxcEditProductoComponent } from '../facturacioncxc-edit-producto/facturacioncxc-edit-producto.component';
 import { FacturaTimbre } from '../../../../Models/facturacioncxc/facturatimbre-model';
@@ -22,7 +22,12 @@ import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import { map, startWith, retry } from 'rxjs/operators';
 import { Prefactura } from '../../../../Models/facturacioncxc/prefactura-model';
 import { FoliosService } from '../../../../services/direccion/folios.service';
+import { NotaCredito } from '../../../../Models/nota-credito/notaCredito-model';
+import { NotaCreditoService } from '../../../../services/cuentasxcobrar/NotasCreditocxc/notaCredito.service';
+import { DetalleNotaCreditoComponent } from '../../nota-creditocxc/detalle-nota-credito/detalle-nota-credito.component';
 import { TipoCambioService } from 'src/app/services/tipo-cambio.service';
+import { trigger, state, transition, animate, style } from '@angular/animations';
+import { DetalleNotaCredito } from 'src/app/Models/nota-credito/detalleNotaCredito-model';
 
 /* Headers para el envio de la factura */
 const httpOptions = {
@@ -72,6 +77,14 @@ export const APP_DATE_FORMATS =
 @Component({
   selector: 'app-facturacioncxc-add',
   templateUrl: './facturacioncxc-add.component.html',
+animations: [
+  /* Trigger para tabla con detalles, cambio de estado colapsado y expandido y sus estilis */
+  trigger('detailExpand', [
+    state('collapsed', style({height: '0px', minHeight: '0px', visibility: 'hidden'})),
+    state('expanded', style({height: '*'})),
+    transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+  ]),
+],
   styleUrls: ['./facturacioncxc-add.component.css'],
   providers: [
     {
@@ -100,7 +113,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   constructor(
     public service: FacturaService, private snackBar: MatSnackBar, private dialog: MatDialog,
     private router: Router, public enviarfact: EnviarfacturaService,
-    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService, private tipoCambio:TipoCambioService) {
+    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService, private tipoCambio:TipoCambioService, public serviceNota: NotaCreditoService ) {
       this.service.Moneda = 'MXN';
       console.log('Constr '+this.service.Moneda);
       
@@ -117,6 +130,11 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.service.listen().subscribe((m: any) => {
       this.refreshDetallesFacturaList();
     });
+
+    this.serviceNota.listen().subscribe((m:any)=>{
+      this.refreshNotaList();
+    });
+
     this.resetForm();
   }
 
@@ -126,6 +144,10 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.dropdownRefresh();
     this.refreshDetallesFacturaList();
     this.tipoDeCambio();
+    this.ObtenerUltimaNotaCreditoFactura();
+    this.refreshNotaList();
+
+    
   }
 
 
@@ -155,6 +177,174 @@ export class FacturacioncxcAddComponent implements OnInit {
     { Moneda: 'MXN' },
     { Moneda: 'USD' }
   ];
+
+
+
+  // INICIO NOTA DE PAGO----------------------------------------------------------------------->
+  
+EstatusNota: string;
+FolioNotaCredito: number;
+
+
+  //Metodo Generar Nota Pago
+  GenerarNota(){
+
+
+//Obtener ultimo Folio Nota Credito y asignarlo a NotaBlanco
+this.serviceNota.getUltimoFolio().subscribe(data =>{
+  console.log('---------------------------------------');
+  console.log(data);
+  console.log('---------------------------------------');
+if(data[0].Folio == null){
+this.FolioNotaCredito = 1;
+}else{
+this.FolioNotaCredito = data[0].Folio;
+}
+console.log(this.FolioNotaCredito);
+
+
+
+    console.log(this.service.formData);
+    /*  Generar Nota en Blanco */
+  let NotaBlanco: NotaCredito = 
+  {
+    IdNotaCredito:0,
+    IdCliente: +this.service.formData.IdCliente,
+    IdFactura: +this.service.formData.Id,
+    Serie: "",
+    Folio: this.FolioNotaCredito,
+    Tipo: "Egreso",
+    FechaDeExpedicion: new Date(),
+    LugarDeExpedicion: "",
+    Certificado: "",
+    NumeroDeCertificado: "",
+    UUID: "",
+    UsoDelCFDI: "",
+    Subtotal: "0",
+    Descuento: "0",
+    ImpuestosRetenidos: "0",
+    ImpuestosTrasladados: "0",
+    Total: "0",
+    FormaDePago: "",
+    MetodoDePago: "",
+    Cuenta: "",
+    Moneda: this.service.formData.Moneda,
+    CadenaOriginal: "",
+    SelloDigitalSAT: "",
+    SelloDigitalCFDI: "",
+    NumeroDeSelloSAT: "",
+    RFCDelPAC: "",
+    Observaciones: "",
+    FechaVencimiento:  new Date(),
+    OrdenDeCompra: "",
+    TipoDeCambio: "0",
+    FechaDeEntrega:  new Date(),
+    CondicionesDePago: "",
+    Vendedor: "",
+    Estatus: "Creada",
+    Ver: "",
+    Usuario: "",
+    SubtotalDlls: "0",
+    ImpuestosTrasladadosDlls: "0",
+    TotalDlls: "0",
+    Relacion: "",
+}
+console.log(NotaBlanco);
+// console.log(this.listData.data);
+this.serviceNota.addNotaCredito(NotaBlanco).subscribe(res =>{
+  console.log(res);
+this.service.getDetallesFacturaList(this.IdFactura).subscribe(data => {
+  this.serviceNota.DetalleFactura = data;
+  this.serviceNota.Moneda = this.Moneda;
+  this.serviceNota.TipoCambio = this.service.formData.TipoDeCambio;
+this.ObtenerUltimaNotaCreditoCreada();
+
+})
+});
+});
+  }
+
+  ObtenerUltimaNotaCreditoCreada(){
+    this.serviceNota.getUltimaNotaCredito().subscribe(data =>{
+      console.log(data[0]);
+      this.serviceNota.idNotaCredito = data[0].Id
+      this.serviceNota.ClienteNombre = this.ClienteNombre;
+
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width="70%";
+      this.dialog.open(DetalleNotaCreditoComponent, dialogConfig);
+    console.log(this.serviceNota.DetalleFactura);
+    });
+  }
+
+  //Obtener ultima nota de credito de cierta Factura en especifico
+  ObtenerUltimaNotaCreditoFactura(){
+    console.log(this.IdFactura);
+    this.serviceNota.getUltimaNotaCreditoFacturaID(this.IdFactura).subscribe(data=>{
+      if(data.length>0){
+        this.EstatusNota = data[0].Estatus;
+        console.log(this.EstatusNota);
+      }else{
+        this.EstatusNota = 'NoHay';
+        console.log(this.EstatusNota);
+      }
+console.log(data);
+    });
+  }
+
+  // INICIO TABLA DETALLE Y NOTA CREDITO ------------------------------------------------------------>
+
+  listData2: MatTableDataSource<any>;
+
+  displayedColumns2 : string [] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Subtotal', 'ImpuestosTrasladadosDlls', 'Total', 'Estado'];
+  displayedColumnsVersion : string [] = ['ClaveProducto'];
+
+  expandedElement: any;
+  detalle = new Array<DetalleNotaCredito>();
+  isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
+  a2 = document.createElement('a2');
+  @ViewChild(MatSort, null) sort2 : MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+  refreshNotaList(){
+
+    // this.service.deleteNotaCreada().subscribe(data =>{
+      // console.log(data);
+
+
+      this.serviceNota.getNotasjoinDetalle().subscribe(data=>{
+        console.log(data);
+
+        for(let i = 0; i <= data.length-1; i++){
+          this.serviceNota.master[i] = data[i]
+          console.log(this.service.master[i]);
+          this.serviceNota.master[i].DetalleNotaCredito = [];
+          if (data[i].IdCliente != 1){
+            console.log(data[i].IdNotaCredito);
+            this.serviceNota.getNotaCreditoDetalles(data[i].IdNotaCredito).subscribe(res=>{
+              console.log(res);
+              for(let l = 0; l <= res.length-1; l++){
+                this.serviceNota.master[i].DetalleNotaCredito.push(res[l]);
+              }
+              this.listData2 = new MatTableDataSource(this.service.master);
+              this.listData2.sort = this.sort2;
+              this.listData2.paginator = this.paginator;
+              // this.listData2.paginator._intl.itemsPerPageLabel = 'Notas de Credito Por Pagina';
+            })
+          }}
+      });
+
+      console.log(this.serviceNota.master);
+    // })
+  }
+  
+  // FIN TABLA DETALLE Y NOTA CREDITO  -------------------------------------------------------------->
+   
+
+
+  // FIN NOTA DE PAGO----------------------------------------------------------------------->
 
   /* Metodo para cambiar los datetimepicker al formato deseado */
   onChange(val) {

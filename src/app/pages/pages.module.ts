@@ -167,6 +167,9 @@ import { FooterReportesComponent } from '../components/footer-reportes/footer-re
 import { ReportesModalComponent } from '../components/reportes-modal/reportes-modal.component';
 
 
+import { NotaCreditoService } from '../services/cuentasxcobrar/NotasCreditocxc/notaCredito.service';
+import { DetalleNotaCreditoComponent } from './cxc/nota-creditocxc/detalle-nota-credito/detalle-nota-credito.component';
+import { ReporteComponent } from '../components/cxc/reporte/reporte.component';
 
 
 
@@ -290,7 +293,11 @@ import { ReportesModalComponent } from '../components/reportes-modal/reportes-mo
         NotaCreditocxcComponent,
         HeaderReportesComponent,
         FooterReportesComponent,
-        ReportesModalComponent
+        ReportesModalComponent,
+        DetalleNotaCreditoComponent,
+        ReporteComponent,
+       
+        
     
     ],
     exports: [
@@ -342,7 +349,8 @@ import { ReportesModalComponent } from '../components/reportes-modal/reportes-mo
         EmpresaService,
         PedidoService,
         CurrencyPipe,
-        VentasPedidoService
+        VentasPedidoService,
+        NotaCreditoService
         
     ],
     entryComponents: [
@@ -368,7 +376,8 @@ import { ReportesModalComponent } from '../components/reportes-modal/reportes-mo
         ClienteDireccionComponent,
         ReporteEmisionComponent,
         ComplementoPagoComponent,
-        ReportesModalComponent
+        ReportesModalComponent,
+        DetalleNotaCreditoComponent,
     ]
 })
 export class PagesModule { }
