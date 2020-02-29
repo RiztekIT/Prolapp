@@ -1,0 +1,27 @@
+<div style="overflow: auto; height: 800px;">
+    <div>
+        <button class="btn btn-danger" color="warn" (click)="onClose()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+
+
+
+
+    <div class="modal0-body ">
+
+        <div id="pdf">
+            <!-- TOP PAGE LOGO DESCRIPTION-->
+            <app-header-reportes></app-header-reportes>
+            <!-- End TOP -->
+            <div class="content-wrapper" style="height:850px">
+            </div>
+
+            <app-footer-reportes></app-footer-reportes>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button>
+            <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
+        </div>
+    </div>
