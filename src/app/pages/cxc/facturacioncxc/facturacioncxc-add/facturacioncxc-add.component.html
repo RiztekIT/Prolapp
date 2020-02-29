@@ -12,6 +12,7 @@
                             <span *ngSwitchCase="'Timbrada'" class="label label-light-success">TIMBRADA</span>
                             <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
                             <span *ngSwitchCase="'Cancelada'" class="label label-light-danger">CANCELADA</span>
+                            <span *ngSwitchCase="'Pagada'" class="label label-light-inverse">Pagada</span>
                         </p>
                     </div>
 
@@ -356,7 +357,7 @@
                         <br>
                         <br> -->
 
-                        <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock" style="display: grid">
+                        <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada' || this.Estatus=='Pagada'; else elseBlock" style="display: grid">
                             <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
                         class="mdi mdi-code-tags btn-lg"></i>XML / PDF</button>

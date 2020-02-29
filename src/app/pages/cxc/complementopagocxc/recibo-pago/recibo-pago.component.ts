@@ -22,6 +22,7 @@ import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfact
 import Swal from 'sweetalert2';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import { FoliosService } from 'src/app/services/direccion/folios.service';
+import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
 
 @Component({
   selector: 'app-recibo-pago',
@@ -39,7 +40,7 @@ export class ReciboPagoComponent implements OnInit {
 
   
 
-  constructor(public service: ReciboPagoService, private router: Router, private dialog: MatDialog,private tipoCambio:TipoCambioService,private currencyPipe: CurrencyPipe,private servicetimbrado:EnviarfacturaService, public servicefolios: FoliosService) {
+  constructor(public service: ReciboPagoService, private router: Router, private dialog: MatDialog,private tipoCambio:TipoCambioService,private currencyPipe: CurrencyPipe,private servicetimbrado:EnviarfacturaService, public servicefolios: FoliosService, public servicefactura: FacturaService) {
     this.service.listen().subscribe((m:any)=>{
       // console.log(m);
       this.refreshPagoCFDITList();
@@ -680,8 +681,14 @@ console.log('NUEVO CFDIIIIIIIIIII');
         this.service.formData.RFCPAC ='LSO1306189R5';
         this.service.formData.Estatus ='Timbrada';
 
-
+console.log(this.json1);
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
+      for (let i = 0; i < this.json1.Conceptos[0].Complemento[0].relacionados.length; i++){
+        this.servicefactura.updatePagadaFactura(this.json1.Conceptos[0].Complemento[0].relacionados[i].IdDocumento).subscribe(data =>{
+          console.log(data);
+        })
+      }
+      console.log(this.json1);
       this.loading = false;
       Swal.fire(
         'Factura Creada',

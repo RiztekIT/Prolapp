@@ -21,6 +21,7 @@ export class FacturaService {
   constructor(private http:HttpClient) { }
   //  formData: Factura;
    formData = new Factura();
+   saldoF;
    formDataDF: DetalleFactura;
    formDataP: Producto;
    IdFactura: number;
@@ -103,6 +104,10 @@ export class FacturaService {
 }
 updateCancelarFactura(id: number) {
   return this.http.put(this.APIUrl+ '/Factura/Cancelar/' + id, null);
+}
+
+updatePagadaFactura(id: String) {
+  return this.http.put(this.APIUrl+ '/Factura/Pagada/' + id, null);
 }
   //Editar Detalle Factura
   updateDetalleFactura(detalleFactura: DetalleFactura) {

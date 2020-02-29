@@ -6,6 +6,7 @@ import { NativeDateAdapter, MatDatepickerInputEvent, DateAdapter, MAT_DATE_FORMA
 import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.service';
 import { ReciboPago } from 'src/app/Models/ComplementoPago/recibopago';
 import Swal from 'sweetalert2';
+import { ngxLoadingAnimationTypes } from 'ngx-loading';
 
 
 /* Constante y variables para la transformacion de los meses en los datetimepicker */
@@ -63,6 +64,10 @@ export class ComppagoComponent implements OnInit {
   cantidadPago;
   reciboPago = new ReciboPago();
   IdReciboPago: any;
+  saldo;
+  CantidadF: number;
+  public loading = false;
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
   
 
@@ -124,12 +129,50 @@ export class ComppagoComponent implements OnInit {
   ];
   
 
-  constructor(private service:FacturaService, private servicetimbrado:EnviarfacturaService, private servicepago: ReciboPagoService) { }
+  constructor(public service:FacturaService, private servicetimbrado:EnviarfacturaService, private servicepago: ReciboPagoService) { }
+
+
+  
 
   ngOnInit() {
     this.FechaPago = Date();
     this.setpagoTimbre();
   }
+
+  onChangeCantidadF(CantidadF: any) {
+    // console.log(this.CantidadF);
+    //Obtener el valor que se ingresa en cierto input en la posicion 0
+    let elemHTML: any = document.getElementsByName('cantidadPag')[0];
+    //Transformar la Cantidad en entero e igualarlo a la variable CantidadF
+
+    this.CalcularCantidades(CantidadF);
+
+    elemHTML.value = this.CantidadF;
+    // console.log(this.CantidadF);
+  }
+
+  //
+  CalcularCantidades(CantidadF: any){
+    this.CantidadF = +CantidadF;
+    console.log('ESTE ES EL SALDO AL CAMBIAR LAS CANTIDADES');
+    console.log(this.service.saldoF);
+    // console.log(this.CantidadF);
+// this.Saldo = this.CantidadF;
+    if (this.CantidadF > this.service.saldoF) {
+      this.CantidadF = this.service.saldoF;
+      this.cantidadPago = this.CantidadF;
+      // if (this.CantidadF >= this.SaldoF) {
+      //   this.CantidadF = this.SaldoF;
+      // }
+    // } else if (this.CantidadF > this.SaldoF) {
+    //   this.CantidadF = this.SaldoF;
+    } else if (this.CantidadF <= 0) {
+      this.CantidadF = 0;
+      this.cantidadPago = this.CantidadF;
+    }
+    // this.SaldoNuevo = this.SaldoF - this.CantidadF;
+  }
+
 
   /* Metodo para cambiar los datetimepicker al formato deseado */
   onChange(val) {
@@ -210,15 +253,18 @@ export class ComppagoComponent implements OnInit {
           "TipoCambioDR" : datos.TipoDeCambio,
           "MetodoDePagoDR" : "PPD",
           "NumParcialidad" : "1",
-          "ImpSaldoAnt" : parseFloat(datos.Total).toFixed(2),
+          "ImpSaldoAnt" : parseFloat(this.service.saldoF).toFixed(2),
           "ImpPagado": this.cantidadPago,
-          "ImpSaldoInsoluto": (parseFloat(datos.Total) - parseFloat(this.cantidadPago)).toString()
+          "ImpSaldoInsoluto": (parseFloat(this.service.saldoF) - parseFloat(this.cantidadPago)).toString()
         }]
       }]
     });
     this.json1.UsoCFDI = "P01";
     this.json1.Serie = "6390";
     this.json1.Moneda = 'XXX';
+
+    console.log(this.json1);
+    
   }
 
   ObtenerUltimaFactura() {
@@ -277,6 +323,7 @@ export class ComppagoComponent implements OnInit {
 
 
   timbrar(){
+    this.loading = true;
 // console.log(this.service.formData);
 this.crearJSON();
 console.log(JSON.stringify(this.json1));
@@ -312,6 +359,16 @@ this.servicetimbrado.timbrarPago(JSON.stringify(this.json1)).subscribe(data=>{
 
     this.servicepago.addReciboPago(this.reciboPago).subscribe(res => {
 
+      console.log(this.json1);
+      if (this.json1.Conceptos[0].Complemento[0].relacionados[0].ImpSaldoInsoluto=='0'){
+
+        this.service.updatePagadaFactura(this.json1.Conceptos[0].Complemento[0].relacionados[0].IdDocumento).subscribe(data =>{
+          console.log(data);
+          this.service.filter('Register')
+        })
+      }
+      
+
       let Saldo = '0';
       this.servicepago.formDataPagoCFDI.IdReciboPago = this.IdReciboPago;
       this.servicepago.formDataPagoCFDI.IdFactura = this.service.formData.Id;
@@ -321,6 +378,8 @@ this.servicetimbrado.timbrarPago(JSON.stringify(this.json1)).subscribe(data=>{
       this.servicepago.formDataPagoCFDI.Saldo = '0';
       console.log(this.servicepago.formDataPagoCFDI);
         this.servicepago.addPagoCFDI(this.servicepago.formDataPagoCFDI).subscribe(res =>{
+          this.loading = false;
+          document.getElementById('cerrarmodalpago').click();
           Swal.fire(
             'Factura Creada',
             '' + this.service.formData.UUID + '',
@@ -333,7 +392,17 @@ this.servicetimbrado.timbrarPago(JSON.stringify(this.json1)).subscribe(data=>{
 
 
 
+  } else if (data.response === 'error') {
+    this.loading = false;
+          // document.getElementById('cerrarmodalpago').click();
+          Swal.fire(
+            'Error',
+            '' + data.message.message + '',
+            'error'
+          )
+
   }
+
 })
 
 

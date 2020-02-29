@@ -18,6 +18,7 @@ import { facturaMasterDetalle } from 'src/app/Models/facturacioncxc/facturamaste
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import Swal from 'sweetalert2';
 import { MessageService } from 'src/app/services/message.service';
+import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.service';
 
 
 @Component({
@@ -55,7 +56,7 @@ export class FacturacioncxcComponent implements OnInit {
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private service:FacturaService, private dialog: MatDialog, private snackBar: MatSnackBar, private router:Router, public enviarfact: EnviarfacturaService, public _MessageService: MessageService) {
+  constructor(private service:FacturaService, private dialog: MatDialog, private snackBar: MatSnackBar, private router:Router, public enviarfact: EnviarfacturaService, public _MessageService: MessageService,public servicerecibo: ReciboPagoService) {
   
     this.service.listen().subscribe((m:any)=>{
       // console.log(m);
@@ -102,6 +103,17 @@ export class FacturacioncxcComponent implements OnInit {
     
       this.service.formData = factura;      
       this.service.Cliente = factura.Nombre;
+      this.servicerecibo.getFacturaPagoCFDI(factura.IdCliente,factura.Folio).subscribe((data2) => {
+        if (data2.length>0){
+          this.service.saldoF = data2[0].Saldo
+        }else{
+          if (factura.Moneda=='MXN'){
+            this.service.saldoF = factura.Total
+          }else if (factura.Moneda=='USD'){
+            this.service.saldoF = factura.TotalDlls
+          }
+        }
+      })
     document.getElementById('comppagobtn').click();
     
 
