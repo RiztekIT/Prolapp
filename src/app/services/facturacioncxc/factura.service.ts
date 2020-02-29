@@ -121,6 +121,11 @@ getvendedor(id:number): Observable<any>{
   return this.http.get<any[]>(this.APIUrl+'/vendedor/'+id);
 }
 
+//Obtener Reportes
+getReportes(id: number): Observable<any>{
+  return this.http.get<any[]>(this.APIUrl + '/Factura/Reporte/' + id)
+}
+
 
 
 private _listeners = new Subject<any>(); 
