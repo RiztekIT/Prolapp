@@ -14,9 +14,12 @@
                             <span *ngSwitchCase="'Cancelada'" class="label label-light-danger">CANCELADA</span>
                         </p>
                     </div>
-                    <div *ngIf="Estatus == 'Timbrada'">
+                    <div *ngIf="Estatus == 'Timbrada' && (EstatusNota == 'Timbrada' || EstatusNota == 'NoHay') ; else NoseArma">
                         <button class="mt-2" mat-raised-button (click)="GenerarNota()" color="primary">Generar Nota Credito</button>
                     </div>
+                    <ng-template #NoseArma>
+                        Verificar que la factura este timbrada y que si ya existe una nota de credito, esta este timbrada :)
+                    </ng-template>
                     <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button>
                 </div>
                 <hr>

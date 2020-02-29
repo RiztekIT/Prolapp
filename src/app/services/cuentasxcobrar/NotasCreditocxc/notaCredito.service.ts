@@ -15,6 +15,9 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 
     constructor(private http:HttpClient) { }
 
+    idNotaCredito: number;
+
+    ClienteNombre: string;
 
     //Master
 
@@ -35,6 +38,7 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
     TipoCambio: string;
 
     readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+    // readonly APIUrl = "https://localhost:44361/api";
 
     //Get Join Notas y Detalle Notas
 
@@ -50,6 +54,46 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
   addNotaCredito(notaCredito: NotaCredito) {
     return this.http.post(this.APIUrl + '/NotaCredito', notaCredito);
   }
+  //Insertar Detalle Nota Credito
+  addDetalleNotaCredito(dnt: DetalleNotaCredito) {
+    return this.http.post(this.APIUrl + '/NotaCredito/InsertDetalleNotaCredito', dnt);
+  }
+  //Actualizar Nota Credito
+updateNotaCredito(notaCredito: NotaCredito){
+  return this.http.put(this.APIUrl + '/NotaCredito', notaCredito)
+}
+  //Actualizar Detalle Nota Credito
+updateDetalleNotaCredito(detalleNota: DetalleNotaCredito){
+  return this.http.put(this.APIUrl + '/NotaCredito/UpdateDetalleNotaCredito', detalleNota)
+}
+  //Eliminar Nota Credito
+  DeleteNotaCredito(id:number){
+return this.http.delete(this.APIUrl + '/NotaCredito/'+ id)
+  }
+  //Eliminar Detalle Nota Credito
+  DeleteDetalleNotaCredito(id: number){
+    return this.http.delete(this.APIUrl + '/NotaCredito/DeleteDetalleNotaCredito/'+ id)
+  }
+
+  //Obtener ultima Nota Pago
+  getUltimaNotaCredito(): Observable<any[]> {
+    return this.http.get<any[]>(this.APIUrl + '/NotaCredito/UltimaNotaCredito');
+  }
+  //Obtener Detalles Nota Credito en base a Id Nota Credito
+    getDetalleNotaCreditoList(id: number): Observable<DetalleNotaCredito[]> {
+      return this.http.get<DetalleNotaCredito[]>(this.APIUrl + '/NotaCredito/DetalleNotaCreditoID/' + id);
+    }
+
+    //Obtener ultima nota de credito de una factura en especifico por Id Factura
+    getUltimaNotaCreditoFacturaID(id: number): Observable<NotaCredito[]> {
+      return this.http.get<NotaCredito[]>(this.APIUrl + '/NotaCredito/UltimaNotaCreditoFacturaID/' + id);
+    }
+
+    //Obtener ultimo folio
+    getUltimoFolio(): Observable<any[]> {
+      return this.http.get<any[]>(this.APIUrl + '/NotaCredito/GetUltimoFolio');
+    }
+
 
   deleteNotaCredito(id: number){
     return this.http.delete(this.APIUrl + '/NotaCredito/' + id);

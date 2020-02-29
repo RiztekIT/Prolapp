@@ -3,7 +3,7 @@ IdNotaCredito: number;
 IdCliente: number;
 IdFactura: number;
 Serie: string;
-Folio: string;
+Folio: number;
 Tipo: string;
 FechaDeExpedicion: Date;
 LugarDeExpedicion: string;
