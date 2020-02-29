@@ -67,113 +67,69 @@
                                 <td mat-cell *matCellDef="let element" [ngSwitch]=element.Estatus>
                                     <span *ngSwitchCase="'Timbrada'" class="label label-light-success">TIMBRADA</span>
                                     <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
-                                    <span *ngSwitchCase="'Cancelada'" class="label label-light-danger">CANCELADA</span>
+                                    <span *ngSwitchCase="'Creada'" class="label label-light-danger">CREADA</span>
                                 </td>
                             </ng-container>
 
-                            <!-- <ng-container matColumnDef="Options">
-                            <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
-                            <td mat-cell *matCellDef="let row">
-                                
-
-                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-
-                            <ng-container matColumnDef="Folio">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>FOLIO</th>
-                                <td mat-cell *matCellDef="let element">{{element.Folio}}</td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="Cliente">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>CLIENTE</th>
-                                <td mat-cell *matCellDef="let element">{{element.Nombre}}</td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="FechaExpedicion">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA EXPEDICION</th>
-                                <td mat-cell *matCellDef="let element">{{element.FechaDeExpedicion}}</td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="Subtotal">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>SUBTOTAL</th>
-                                <td mat-cell *matCellDef="let element">{{element.Subtotal}}</td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="IVA">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>IVA</th>
-                                <td mat-cell *matCellDef="let element">{{element.ImpuestosTrasladados}}</td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="Total">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>TOTAL</th>
-                                <td mat-cell *matCellDef="let element">{{element.Total}}</td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="Estado">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
-                                <td mat-cell *matCellDef="let element" [ngSwitch]=element.Estatus>
-                                    <span *ngSwitchCase="'Timbrada'" class="label label-light-success">TIMBRADA</span>
-                                    <span *ngSwitchCase="'Creada'" class="label label-light-info">CREADA</span>
-                                    <span *ngSwitchCase="'Cancelada'" class="label label-light-danger">CANCELADA</span>
-                                </td>
-                            </ng-container> -->
 
 
-                            <!--IMPORTANTE AAAAAAAAAA-->
-
-
-                            <!-- <ng-container matColumnDef="Options">
+                            <ng-container matColumnDef="Options">
                                 <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
                                 <td mat-cell *matCellDef="let row">
+
 
                                     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
 
                     <mat-icon>keyboard_arrow_down</mat-icon>
-                  </button>
+                                 </button>
+
                                     <mat-menu #menu="matMenu">
+
                                         <button title="Editar/Ver" mat-icon-button class="btn btn-dark">
                       <mat-icon>edit</mat-icon>
-                            </button> -->
+                                 </button>
 
-                            <!-- ver PDF -->
-                            <!-- <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button>
-                                        <button title="Ver PDF" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" (click)="generar(row.UUID,row.Folio)" mat-icon-button class="btn btn-dark">
+                                        <!-- ver PDF -->
+                                        <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button>
+                                        <button title="Ver PDF" *ngIf="row.Estatus=='Guardada' || row.Estatus=='Creada'" mat-icon-button class="btn btn-dark">
+
+                                            <!-- (click)="generar(row.UUID,row.Folio)"  -->
                       <mat-icon>remove_red_eye</mat-icon>
 
-                    </button> -->
-                            <!-- descargar PDF -->
-                            <!-- <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button> -->
+                    </button>
+                                        <!-- descargar PDF -->
+                                        <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button>
 
-                            <!-- <button title="Descargar PDF" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" (click)="pdf(row.UUID,row.Folio)" mat-icon-button class="btn btn-dark">
+                                        <button title="Descargar PDF" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Guardada'" mat-icon-button class="btn btn-dark">
+                                <!-- (click)="pdf(row.UUID,row.Folio)" -->
                       <mat-icon>picture_as_pdf</mat-icon>
 
-                    </button> -->
-                            <!-- XML -->
-                            <!-- <button title="Descargar XML" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="xml(row.UUID,row.Folio)">
+                    </button>
+                                        <!-- XML -->
+                                        <!-- <button title="Descargar XML" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="xml(row.UUID,row.Folio)">
                       <mat-icon>code</mat-icon>
                     </button> -->
-                            <!-- ENVIAR -->
-                            <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
+                                        <!-- ENVIAR -->
+                                        <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
                                         <button title="Enviar Correo" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="email(row.UUID,row.Folio)">
                       <mat-icon>alternate_email</mat-icon>
                     </button> -->
-                            <!-- Pago -->
-                            <!-- <button id="comppagobtn" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#comppago"></button>
+                                        <!-- Pago -->
+                                        <!-- <button id="comppagobtn" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#comppago"></button>
                                         <button title="Pagar" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="comppago(row)">
                       <mat-icon>attach_money</mat-icon>
                     </button> -->
-                            <!-- XML -->
-                            <!-- <button mat-icon-button class="btn btn-dark" (click)="onDelete(row.Id)">
+                                        <!-- XML -->
+                                        <!-- <button mat-icon-button class="btn btn-dark" (click)="onDelete(row.Id)">
                         <mat-icon>email</mat-icon>
                     </button> -->
-                            <!-- Eliminar -->
-                            <!-- <button *ngIf="row.Estatus=='Guardada'" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
+                                        <!-- Eliminar -->
+                                        <button *ngIf="row.Estatus=='Guardada'|| row.Estatus=='Creada'" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
                       <mat-icon>delete_outline</mat-icon>
-                    </button> -->
-                            <!-- </mat-menu>
-
-
+                    </button>
+                                    </mat-menu>
                                 </td>
-                            </ng-container> -->
+                            </ng-container>
 
                             <ng-container matColumnDef="expandedDetail">
                                 <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">

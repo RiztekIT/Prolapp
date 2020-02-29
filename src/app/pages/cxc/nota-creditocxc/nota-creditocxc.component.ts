@@ -33,7 +33,7 @@ export class NotaCreditocxcComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
 
-  displayedColumns : string [] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Subtotal', 'ImpuestosTrasladadosDlls', 'Total', 'Estado'];
+  displayedColumns : string [] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Subtotal', 'ImpuestosTrasladadosDlls', 'Total', 'Estado', 'Options'];
   displayedColumnsVersion : string [] = ['ClaveProducto'];
 
   expandedElement: any;
@@ -83,6 +83,17 @@ export class NotaCreditocxcComponent implements OnInit {
 
       console.log(this.service.master);
     // })
+  }
+
+  onDelete(row){
+
+    console.log(row);
+
+    let id: any = row.IdNotaCredito;
+
+    this.service.deleteNotaCredito(id).subscribe(data=>{
+
+    })
   }
 
   applyFilter(filtervalue: string){  
