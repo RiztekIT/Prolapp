@@ -61,6 +61,7 @@ export class NotaCreditocxcComponent implements OnInit {
 
       this.service.getNotasjoinDetalle().subscribe(data=>{
         console.log(data);
+        this.service.master = new Array<NotaCreditoMaster>();
 
         for(let i = 0; i <= data.length-1; i++){
           this.service.master[i] = data[i]
@@ -92,7 +93,8 @@ export class NotaCreditocxcComponent implements OnInit {
     let id: any = row.IdNotaCredito;
 
     this.service.deleteNotaCredito(id).subscribe(data=>{
-
+      console.log(data);
+      this.refreshNotaList();
     })
   }
 
