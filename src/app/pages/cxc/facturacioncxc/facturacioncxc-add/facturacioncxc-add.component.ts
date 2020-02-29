@@ -171,8 +171,8 @@ export class FacturacioncxcAddComponent implements OnInit {
   let NotaBlanco: NotaCredito = 
   {
     IdNotaCredito:0,
-    IdCliente:this.service.formData.IdCliente,
-    IdFactura: this.service.formData.Id,
+    IdCliente: +this.service.formData.IdCliente,
+    IdFactura: +this.service.formData.Id,
     Serie: "",
     Folio: "",
     Tipo: "Egreso",
@@ -183,13 +183,10 @@ export class FacturacioncxcAddComponent implements OnInit {
     UUID: "",
     UsoDelCFDI: "",
     Subtotal: "0",
-    SubtotalDlls: "0",
     Descuento: "0",
     ImpuestosRetenidos: "0",
     ImpuestosTrasladados: "0",
-    ImpuestosTrasladadosDlls: "0",
     Total: "0",
-    TotalDlls: "0",
     FormaDePago: "",
     MetodoDePago: "",
     Cuenta: "",
@@ -209,25 +206,37 @@ export class FacturacioncxcAddComponent implements OnInit {
     Estatus: "Creada",
     Ver: "",
     Usuario: "",
-    Relacion: ""
+    SubtotalDlls: "0",
+    ImpuestosTrasladadosDlls: "0",
+    TotalDlls: "0",
+    Relacion: "",
 }
-// console.log(NotaBlanco);
+console.log(NotaBlanco);
 // console.log(this.listData.data);
+this.serviceNota.addNotaCredito(NotaBlanco).subscribe(res =>{
 this.service.getDetallesFacturaList(this.IdFactura).subscribe(data => {
   this.serviceNota.DetalleFactura = data;
   this.serviceNota.Moneda = this.Moneda;
   this.serviceNota.TipoCambio = this.service.formData.TipoDeCambio;
-  const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width="70%";
-    this.dialog.open(DetalleNotaCreditoComponent, dialogConfig);
-  console.log(this.serviceNota.DetalleFactura);
+this.ObtenerUltimaNotaCreditoCreada();
+console.log(res);
 })
+});
+  }
 
-// this.serviceNota.addNotaCredito(NotaBlanco).subscribe(res =>{
-// console.log(res);
-// });
+  ObtenerUltimaNotaCreditoCreada(){
+    this.serviceNota.getUltimaNotaCredito().subscribe(data =>{
+      console.log(data[0]);
+      this.serviceNota.idNotaCredito = data[0].Id
+      this.serviceNota.ClienteNombre = this.ClienteNombre;
+
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width="70%";
+      this.dialog.open(DetalleNotaCreditoComponent, dialogConfig);
+    console.log(this.serviceNota.DetalleFactura);
+    });
   }
 
 
