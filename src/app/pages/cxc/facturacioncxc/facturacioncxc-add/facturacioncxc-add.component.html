@@ -15,7 +15,12 @@
                             <span *ngSwitchCase="'Pagada'" class="label label-light-inverse">Pagada</span>
                         </p>
                     </div>
-
+                    <div *ngIf="Estatus == 'Timbrada' && (EstatusNota == 'Guardada' || EstatusNota == 'NoHay') ; else NoseArma">
+                        <button class="mt-2" mat-raised-button (click)="GenerarNota()" color="primary">Generar Nota Credito</button>
+                    </div>
+                    <ng-template #NoseArma>
+                        Verificar que la factura este timbrada y que si ya existe una nota de credito, esta este timbrada :)
+                    </ng-template>
                     <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button>
                 </div>
                 <hr>
@@ -335,7 +340,113 @@
                 </div>
 
             </div>
+            <mat-divider></mat-divider>
+            <!-- TABLA NOTA DE CREDITO  -->
 
+            <div class="mat-elevation-z8" *ngIf="Estatus == 'Timbrada' && EstatusNota !== 'NoHay'">
+                <div class="mat-elevation-z8">
+                    <div style="overflow: auto;">
+                        <table mat-table [dataSource]="listData2" matSort class="scrollable" multiTemplateDataRows>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns2;" class="example-element-row" matRipple [class.example-expanded-row]="expandedElement2 == row"></tr>
+                            <tr mat-row *matRowDef="let row; columns: ['expandedDetail2']" class="example-detail-row">
+                            </tr>
+
+
+                            <ng-container matColumnDef="Folio">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>FOLIO</th>
+                                <td class="folio" mat-cell *matCellDef="let element2" (click)="expandedElement2 = element2">
+                                    {{element2.Folio}} *</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="IdNotaCredito">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>IdNotaCredito</th>
+                                <td mat-cell *matCellDef="let element2">{{element2.IdNotaCredito}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="IdCliente">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>CLIENTE</th>
+                                <td mat-cell *matCellDef="let element2">{{element2.IdCliente}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="IdFactura">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>IdFactura</th>
+                                <td mat-cell *matCellDef="let element2">{{element2.IdFactura}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Estatus">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
+                                <td mat-cell *matCellDef="let element2" [ngSwitch]=element2.Estatus>
+                                    <span *ngSwitchCase="'Timbrada'" class="label label-light-success">TIMBRADA</span>
+                                    <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
+                                    <span *ngSwitchCase="'Creada'" class="label label-light-danger">CREADA</span>
+                                </td>
+                            </ng-container>
+
+
+
+                            <ng-container matColumnDef="Options">
+                                <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
+                                <td mat-cell *matCellDef="let row">
+
+
+                                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                                 </button>
+
+                                    <mat-menu #menu="matMenu">
+
+                                        <button title="Editar/Ver" mat-icon-button class="btn btn-dark">
+                      <mat-icon>edit</mat-icon>
+                                 </button>
+
+                                        <!-- Eliminar -->
+                                        <button *ngIf="row.Estatus=='Guardada'|| row.Estatus=='Creada'" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
+                      <mat-icon>delete_outline</mat-icon>
+                    </button>
+                                    </mat-menu>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="expandedDetail2">
+                                <td mat-cell *matCellDef="let element2" [attr.colspan]="displayedColumns2.length">
+                                    <!-- <mat-header-cell *matHeaderCellDef mat-sort-header>CONCEPTOS</mat-header-cell> -->
+                                    <div class="example-element-detail" [@detailExpand2]="element2 == expandedElement2 ? 'expanded' : 'collapsed'" *ngIf="element2.DetalleNotaCredito.length > 0" (click)="expandedElement2 = 0">
+                                        <!-- <table mat-table [dataSource]="element.detalle"> -->
+                                        <table width="100%">
+
+                                            <tr>
+                                                <th> IdDetalle </th>
+                                                <th> IdNotaCredito </th>
+                                                <th> Clave Producto </th>
+                                                <th> Cantidad </th>
+                                                <!-- <th> Importe </th> -->
+                                            </tr>
+                                            <tr *ngFor="let detalle of element2.DetalleNotaCredito">
+                                                <td> {{detalle.IdDetalleNotaCredito}} </td>
+                                                <td> {{detalle.IdNotaCredito}} </td>
+                                                <td> {{detalle.ClaveProducto }} </td>
+                                                <td> {{detalle.Cantidad }} </td>
+                                                <!-- <td> {{detalle.Importe }} </td> -->
+                                            </tr>
+                                        </table>
+
+                                        <!-- </table> -->
+
+                                    </div>
+                                </td>
+                            </ng-container>
+
+
+                        </table>
+                        <!-- <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                        </mat-paginator> -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!--  TABLA NOTA CREDITO -->
             <mat-divider></mat-divider>
             <br>
             <!-- Totales -->

@@ -146,11 +146,11 @@
                       </button>
                     <mat-menu #menu="matMenu">
                         <!--  -->
-                        <button mat-icon-button class="btn btn-dark" (click)="EditarDireccionCliente(row.IdCliente)">
+                        <button mat-icon-button class="btn btn-dark" (click)="EditarDireccionCliente(row)">
                                                 <mat-icon>edit</mat-icon>
                                             </button>
                         <!--  -->
-                        <button mat-icon-button class="btn btn-danger" color="warn" (click)="EliminarDireccionCliente(row.IdCliente)">
+                        <button mat-icon-button class="btn btn-danger" color="warn" (click)="EliminarDireccionCliente(row.IdDireccion)">
                                                     <mat-icon>delete_outline</mat-icon>
                                                 </button>
                     </mat-menu>

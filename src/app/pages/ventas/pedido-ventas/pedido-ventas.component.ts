@@ -18,6 +18,7 @@ import { pedidoMaster } from 'src/app/Models/Pedidos/pedido-master';
 import { DetallePedido } from '../../../Models/Pedidos/detallePedido-model';
 import { ReportesalmacenComponent } from '../../almacen/reportesalmacen/reportesalmacen.component';
 import { ReporteEmisionComponent } from '../../../components/reporte-emision/reporte-emision.component';
+import { ReportesModalComponent } from '../../../components/reportes-modal/reportes-modal.component';
 
 @Component({
   selector: 'app-pedido-ventas',
@@ -224,6 +225,17 @@ export class PedidoVentasComponent implements OnInit {
 
   }
 
+
+  openrep2(){
+
+    // console.log();
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(ReportesModalComponent, dialogConfig);
+
+  }
 
   openrep(row){
 
