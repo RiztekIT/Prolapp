@@ -162,10 +162,14 @@ import { ClienteDireccionComponent } from '../components/cliente-direccion/clien
 import { ReporteEmisionComponent } from '../components/reporte-emision/reporte-emision.component';
 import { ComplementoPagoComponent } from '../components/complemento-pago/complemento-pago.component';
 import { NotaCreditocxcComponent } from './cxc/nota-creditocxc/nota-creditocxc.component';
+import { HeaderReportesComponent } from "../components/header-reportes/header-reportes.component";
+import { FooterReportesComponent } from '../components/footer-reportes/footer-reportes.component';
+import { ReportesModalComponent } from '../components/reportes-modal/reportes-modal.component';
+
+
 import { NotaCreditoService } from '../services/cuentasxcobrar/NotasCreditocxc/notaCredito.service';
 import { DetalleNotaCreditoComponent } from './cxc/nota-creditocxc/detalle-nota-credito/detalle-nota-credito.component';
-
-
+import { ReporteComponent } from '../components/cxc/reporte/reporte.component';
 
 
 
@@ -287,7 +291,13 @@ import { DetalleNotaCreditoComponent } from './cxc/nota-creditocxc/detalle-nota-
         ReporteEmisionComponent,
         ComplementoPagoComponent,
         NotaCreditocxcComponent,
+        HeaderReportesComponent,
+        FooterReportesComponent,
+        ReportesModalComponent,
         DetalleNotaCreditoComponent,
+        ReporteComponent,
+       
+        
     
     ],
     exports: [
@@ -366,6 +376,7 @@ import { DetalleNotaCreditoComponent } from './cxc/nota-creditocxc/detalle-nota-
         ClienteDireccionComponent,
         ReporteEmisionComponent,
         ComplementoPagoComponent,
+        ReportesModalComponent,
         DetalleNotaCreditoComponent,
     ]
 })

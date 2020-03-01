@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-reportescxc',
   templateUrl: './reportescxc.component.html',
-  styles: []
+  styleUrls: ['/reportescxc.component.css']
 })
 export class ReportescxcComponent implements OnInit {
 
