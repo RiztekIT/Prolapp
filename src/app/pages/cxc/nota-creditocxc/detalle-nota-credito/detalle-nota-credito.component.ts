@@ -73,6 +73,7 @@ export class DetalleNotaCreditoComponent implements OnInit {
     this.DetalleNotaCredito();
     this.refreshTablaDetalles();
     console.log(this.IdNotaCredito);
+    console.log(this.service.formData);
   }
 
   IniciarImportes(){
@@ -177,12 +178,18 @@ onChangeCantidad(Cantidad: any){
     this.service.DetalleformData.IdNotaCredito = this.IdNotaCredito;
 console.log(form);
 console.log(this.service.DetalleformData);
-
-this.service.addDetalleNotaCredito(this.service.DetalleformData).subscribe(res=>{
+this.service.formData.IdNotaCredito = this.IdNotaCredito ;
+this.service.formData.Estatus = 'Guardada';
+console.log(this.service.formData);
+this.service.updateNotaCredito(this.service.formData).subscribe(res=>{
 console.log(res);
-this.IniciarImportes();
-form.resetForm();
-this.refreshTablaDetalles();
+  this.service.addDetalleNotaCredito(this.service.DetalleformData).subscribe(res=>{
+  
+    console.log(res);
+    this.IniciarImportes();
+    form.resetForm();
+    this.refreshTablaDetalles();
+  });
 });
   }
 

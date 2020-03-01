@@ -46,6 +46,11 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
    return this.http.get<[]>(this.APIUrl + '/NotaCredito');
   }
 
+  //GetNotas de credito en base a id Factura
+  getNotaCreditoFacturaID(id: number): Observable<any[]>{
+    return this.http.get<[]>(this.APIUrl + '/NotaCredito/NotaCreditoID/'+ id);
+   }
+
   getNotaCreditoDetalles(id: number): Observable <DetalleNotaCredito[]> {
     return this.http.get<DetalleNotaCredito[]>(this.APIUrl + '/NotaCredito/GetDetalleNotaCredito/'+ id);
   }
@@ -94,12 +99,17 @@ return this.http.delete(this.APIUrl + '/NotaCredito/'+ id)
       return this.http.get<any[]>(this.APIUrl + '/NotaCredito/GetUltimoFolio');
     }
 
+    //Obtener suma de cantidaes de cierta factura y cierto producto
+    getSumaCantidades(id:number, clave: string): Observable<any[]> {
+      return this.http.get<any[]>(this.APIUrl + '/NotaCredito/SumaCantidades/'+ id +'/'+ clave);
+    }
+
 
   deleteNotaCredito(id: number){
     return this.http.delete(this.APIUrl + '/NotaCredito/' + id);
   }  
   deleteNotaCreada() {
-    return this.http.delete(this.APIUrl + '/NotaCredito/DeleteNotaCreada/');
+    return this.http.delete(this.APIUrl + '/NotaCredito/DeleteNotaCreada');
   }
 
   private _listeners = new Subject<any>(); 

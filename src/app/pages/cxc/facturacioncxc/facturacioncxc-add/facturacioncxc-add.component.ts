@@ -28,6 +28,7 @@ import { DetalleNotaCreditoComponent } from '../../nota-creditocxc/detalle-nota-
 import { TipoCambioService } from 'src/app/services/tipo-cambio.service';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import { DetalleNotaCredito } from 'src/app/Models/nota-credito/detalleNotaCredito-model';
+import { NotaCreditoMaster } from 'src/app/Models/nota-credito/notaCreditoMaster-model';
 
 /* Headers para el envio de la factura */
 const httpOptions = {
@@ -79,7 +80,7 @@ export const APP_DATE_FORMATS =
   templateUrl: './facturacioncxc-add.component.html',
 animations: [
   /* Trigger para tabla con detalles, cambio de estado colapsado y expandido y sus estilis */
-  trigger('detailExpand', [
+  trigger('detailExpand2', [
     state('collapsed', style({height: '0px', minHeight: '0px', visibility: 'hidden'})),
     state('expanded', style({height: '*'})),
     transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
@@ -133,6 +134,7 @@ export class FacturacioncxcAddComponent implements OnInit {
 
     this.serviceNota.listen().subscribe((m:any)=>{
       this.refreshNotaList();
+      this.ObtenerUltimaNotaCreditoFactura();
     });
 
     this.resetForm();
@@ -250,15 +252,29 @@ console.log(this.FolioNotaCredito);
     Relacion: "",
 }
 console.log(NotaBlanco);
-// console.log(this.listData.data);
+
+
+console.log(this.listData.data);
 this.serviceNota.addNotaCredito(NotaBlanco).subscribe(res =>{
-  console.log(res);
+  this.serviceNota.formData = NotaBlanco;
+  // console.log(res);
 this.service.getDetallesFacturaList(this.IdFactura).subscribe(data => {
   this.serviceNota.DetalleFactura = data;
+  for(let i = 0; i <= data.length-1; i++){
+    console.log(data[i]);
+    this.serviceNota.getSumaCantidades(data[i].IdFactura, data[i].ClaveProducto).subscribe(data2=>{
+      console.log(data2[0].Cantidad);
+      if(data2 !== null){
+        console.log(+this.serviceNota.DetalleFactura[i].Cantidad);
+        console.log(+data2[0].Cantidad);
+      this.serviceNota.DetalleFactura[i].Cantidad = (+this.serviceNota.DetalleFactura[i].Cantidad - +data2[0].Cantidad).toString();
+      }
+      console.log(this.serviceNota.DetalleFactura);
+    })
+  }
   this.serviceNota.Moneda = this.Moneda;
   this.serviceNota.TipoCambio = this.service.formData.TipoDeCambio;
 this.ObtenerUltimaNotaCreditoCreada();
-
 })
 });
 });
@@ -298,45 +314,56 @@ console.log(data);
 
   listData2: MatTableDataSource<any>;
 
-  displayedColumns2 : string [] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Subtotal', 'ImpuestosTrasladadosDlls', 'Total', 'Estado'];
-  displayedColumnsVersion : string [] = ['ClaveProducto'];
+  displayedColumns2 : string [] = ['Folio', 'IdNotaCredito', 'IdCliente', 'IdFactura',  'Estatus', 'Options'];
+  displayedColumnsVersion : string [] = ['IdDetalleNotaCredito', 'IdNotaCredito', 'ClaveProducto', 'Cantidad'];
 
-  expandedElement: any;
+  expandedElement2: any;
   detalle = new Array<DetalleNotaCredito>();
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
   a2 = document.createElement('a2');
   @ViewChild(MatSort, null) sort2 : MatSort;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   refreshNotaList(){
 
+    this.serviceNota.deleteNotaCreada().subscribe(res=>{
+      this.ObtenerUltimaNotaCreditoFactura();
+console.log(res);
+   
     // this.service.deleteNotaCreada().subscribe(data =>{
       // console.log(data);
-
-
-      this.serviceNota.getNotasjoinDetalle().subscribe(data=>{
+      console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+      console.log(this.IdFactura);
+      console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+      this.serviceNota.master = new Array<NotaCreditoMaster>();
+      //this.detalle = new Array<DetalleNotaCredito>();
+      this.serviceNota.getNotaCreditoFacturaID(this.IdFactura).subscribe(data=>{
         console.log(data);
-
         for(let i = 0; i <= data.length-1; i++){
           this.serviceNota.master[i] = data[i]
-          console.log(this.service.master[i]);
+          console.log(this.serviceNota.master[i]);
           this.serviceNota.master[i].DetalleNotaCredito = [];
-          if (data[i].IdCliente != 1){
             console.log(data[i].IdNotaCredito);
             this.serviceNota.getNotaCreditoDetalles(data[i].IdNotaCredito).subscribe(res=>{
               console.log(res);
-              for(let l = 0; l <= res.length-1; l++){
+              for(let l = 0; l < res.length; l++){
+                console.log('cualquier');
                 this.serviceNota.master[i].DetalleNotaCredito.push(res[l]);
+                console.log(this.serviceNota.master[i]);
               }
-              this.listData2 = new MatTableDataSource(this.service.master);
+              this.listData2 = new MatTableDataSource(this.serviceNota.master);
               this.listData2.sort = this.sort2;
-              this.listData2.paginator = this.paginator;
+              console.log(this.listData2);
+              // this.listData2.paginator = this.paginator;
               // this.listData2.paginator._intl.itemsPerPageLabel = 'Notas de Credito Por Pagina';
             })
-          }}
+          }
+          
+              
+          console.log(this.serviceNota.master);
       });
+    });
 
-      console.log(this.serviceNota.master);
     // })
   }
   
@@ -529,6 +556,7 @@ console.log(data);
       console.log(data);
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
+      console.log(this.listData);
       for (let i = 0; i < data.length; i++) {
         this.subtotal = this.subtotal + parseFloat(data[i].Importe);
         if (data[i].ImporteIVA != 'NaN') {
