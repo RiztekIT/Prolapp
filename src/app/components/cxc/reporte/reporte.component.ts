@@ -37,9 +37,13 @@ export class ReporteComponent implements OnInit {
         this.serviceFactura.getReportes(this.IdCliente[i].IdClientes).subscribe(res=>{
           console.log(res);
 
+          this.objconc = res;
+
+          console.log(this.objconc.includes('Folio'));
           
           // ARREGLO PARA PINTAR
-
+                // this.arrcon = [];
+                // for (this.con)
 
 
 
