@@ -113,8 +113,13 @@
                 </div>
                 <hr>
                 <!-- Form Pago CFDI -->
-                <div id="div1" class="form-material">
-                    <div class="container">
+                <div id="div1" class="form-material mat-elevation-z8">
+                    <div class="card card-header">
+                        <h3 class="bolder blacktxt text-center">
+                            Facturas
+                        </h3>
+                    </div>
+                    <div class="container ">
                         <div class="row">
 
                             <!-- Inicio Contenedor de la Izquierda -->
@@ -126,7 +131,7 @@
                                 <mat-form-field class="example-full-width">
                                     <input type="text" placeholder="Seleccionar Folio" aria-label="Number" [formControl]="myControl2" matInput [matAutocomplete]="autoFolio" (blur)="onBlurFolio()" [(ngModel)]="service.formDataPagoCFDI.IdFactura">
                                     <mat-autocomplete #autoFolio="matAutocomplete">
-                                        <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.Folio" (onSelectionChange)="onSelectionChange2(option, $event)">
+                                        <mat-option *ngFor="let option of filteredOptions2 | async; let i = index" [value]="option.Folio" (onSelectionChange)="onSelectionChange2(option, $event, i)">
                                             {{option.Folio}} {{option.Total | currency}}
                                         </mat-option>
                                     </mat-autocomplete>
@@ -168,8 +173,19 @@
 
                                 <!--               -------------------------------------------------------                                       -->
                                 <br>
-                                <button [disabled]="CantidadF == 0 || TotalF == 0" class="btn btn-info btn-lg" mat-raised-button (click)="onAddCFDI()"><i
-                                            class="mdi mdi-content-save btn-lg"></i>Agregar</button>
+                                <div class="container row">
+                                    <div class="col-12 col-md-4"></div>
+                                    <div class="col-12 col-md-4">
+
+                                        <button [disabled]="CantidadF == 0 || TotalF == 0" class="btn btn-info btn-lg mt-3 mb-3" mat-raised-button (click)="onAddCFDI()"><i
+                                                    class="mdi mdi-content-save btn-lg"></i>Agregar</button>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+
+                                        <button class="btn btn-info btn-lg mt-3 mb-3" mat-raised-button (click)="borrarfact()"><i
+                                                    class="mdi mdi-content-save btn-lg"></i>Borrar</button>
+                                    </div>
+                                </div>
 
 
                             </div>
@@ -191,80 +207,92 @@
 
 
 
+            <div class="card-body">
+                <div id="div2" class="form-material mat-elevation-z5">
+                    <div class="card card-header">
+                        <h3 class="bolder blacktxt text-center">
+                            Pagos CFDI
+                        </h3>
+                    </div>
 
 
-            <!-- Tabla PagosCDFI -->
-            <br>
+                    <!-- Tabla PagosCDFI -->
+                    <!-- <br>
             <h2>Pagos CFDI</h2>
-            <br>
+            <br> -->
 
-            <div class="mat-elevation-z8">
-                <div style="overflow:auto;">
+                    <!-- <div class="mat-elevation-z8"> -->
+                    <div class="container">
+                        <div style="overflow:auto;">
 
-                    <div>
-                        <table style="width: 100% " mat-table [dataSource]="listData" matSort>
+                            <div>
+                                <table style="width: 100% " mat-table [dataSource]="listData" matSort>
 
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-                            <ng-container matColumnDef="FolioFactura">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio Factura</th>
-                                <td mat-cell *matCellDef="let element">{{element.Folio}}</td>
-                            </ng-container>
-                            <ng-container matColumnDef="Cantidad">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
-                                <td mat-cell *matCellDef="let element">{{element.Cantidad}}</td>
-                            </ng-container>
-                            <ng-container matColumnDef="SaldoPendiente">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo Pendiente</th>
-                                <td mat-cell *matCellDef="let element">{{element.Saldo}}</td>
-                            </ng-container>
-                            <ng-container matColumnDef="NoParcialidad">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>No Parcialidad</th>
-                                <td mat-cell *matCellDef="let element">{{element.NoParcialidad}}</td>
-                            </ng-container>
+                                    <ng-container matColumnDef="FolioFactura">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio Factura</th>
+                                        <td mat-cell *matCellDef="let element">{{element.Folio}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Cantidad">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
+                                        <td mat-cell *matCellDef="let element">{{element.Cantidad}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="SaldoPendiente">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo Pendiente</th>
+                                        <td mat-cell *matCellDef="let element">{{element.Saldo}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="NoParcialidad">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>No Parcialidad</th>
+                                        <td mat-cell *matCellDef="let element">{{element.NoParcialidad}}</td>
+                                    </ng-container>
 
-                            <ng-container matColumnDef="Options">
-                                <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
-                                <td mat-cell *matCellDef="let row">
-                                    <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock1">
-                                        <button type="button" class="btn btn-secondary">No Editable</button>
-                                    </div>
-                                    <ng-template #elseBlock1>
+                                    <ng-container matColumnDef="Options">
+                                        <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
+                                        <td mat-cell *matCellDef="let row">
+                                            <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock1">
+                                                <button type="button" class="btn btn-secondary">No Editable</button>
+                                            </div>
+                                            <ng-template #elseBlock1>
 
-                                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                     <mat-icon>keyboard_arrow_down</mat-icon>
                   </button>
-                                        <mat-menu #menu="matMenu">
-                                            <!--  -->
-                                            <button mat-icon-button class="btn btn-dark" (click)="onEditCFDI(row)">
+                                                <mat-menu #menu="matMenu">
+                                                    <!--  -->
+                                                    <button mat-icon-button class="btn btn-dark" (click)="onEditCFDI(row)">
                       <mat-icon>edit</mat-icon>
                     </button>
-                                            <!--  -->
-                                            <button mat-icon-button class="btn btn-danger" (click)="onDeletePagoCFDI(row)">
+                                                    <!--  -->
+                                                    <button mat-icon-button class="btn btn-danger" (click)="onDeletePagoCFDI(row)">
                       <mat-icon>delete_outline</mat-icon>
                     </button>
-                                        </mat-menu>
-                                    </ng-template>
-                                </td>
-                            </ng-container>
-                        </table>
+                                                </mat-menu>
+                                            </ng-template>
+                                        </td>
+                                    </ng-container>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <br>
+
             <mat-divider></mat-divider>
             <!-- Totales -->
+            <div class="card-body">
+                <div id="div2" class="form-material mat-elevation-z2">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
 
-            <div class="container">
-                <div class="row">
-                    <div class="col-2 col-lg-2 col-md-2">
 
+                            </div>
 
-                    </div>
-
-                    <div class="col-12 col-lg-4 col-md-4">
-                        <!-- <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock2">
+                            <div class="col-12 col-md-4">
+                                <!-- <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock2">
                                 
                             </div>
                             <ng-template #elseBlock2>
@@ -273,7 +301,7 @@
                             <br>
                             <br> -->
 
-                        <!-- <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock" style="display: grid">
+                                <!-- <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock" style="display: grid">
 
                                 <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
                             class="mdi mdi-code-tags btn-lg"></i>XML / PDF</button>
@@ -290,37 +318,41 @@
                                 <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
                                 </ngx-loading>
                             </div> -->
-                        <!-- <ng-template #elseBlock> -->
-                        <div style="display: grid">
-                            <!-- <button class="btn btn-info btn-lg" mat-raised-button (click)="onAddPagoCFDI()"><i
+                                <!-- <ng-template #elseBlock> -->
+                                <div style="display: grid">
+                                    <!-- <button class="btn btn-info btn-lg" mat-raised-button (click)="onAddPagoCFDI()"><i
                       class="mdi mdi-plus btn-lg"></i>Agregar Pago CFDI</button>
                             <br> -->
 
-                            <button class="btn btn-info btn-lg" mat-raised-button (click)="onSubmit()"><i
+                                    <button class="btn btn-info btn-lg" mat-raised-button (click)="onSubmit()"><i
                       class="mdi mdi-content-save btn-lg"></i>Guardar</button>
 
-                            <br>
+                                    <br>
 
-                            <button [disabled]="Saldo > 0" class="btn btn-danger btn-lg" mat-raised-button (click)="onTimbrar()"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
+                                    <button [disabled]="Saldo > 0" class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="onTimbrar()"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
 
-                            <!-- <br> -->
-                            <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button>
+                                    <!-- <br> -->
+                                    <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button>
                                     <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='prefactura(service.formData.Folio)'><i class="mdi mdi-code-tags btn-lg"></i>Prefactura</button>
 
                                     <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
                                     </ngx-loading> -->
-                        </div>
-                        <!-- </ng-template> -->
-                    </div>
+                                </div>
+                                <!-- </ng-template> -->
+                            </div>
+                            <div class="col-12 col-md-4">
 
-                    <div class="col-2 col-lg-2 col-md-2"></div>
 
-                    <div class="col-12 col-lg-4 col-md-4">
-                        <div class="form-material borderbox">
-                            <div class="container">
-                                <div class="row">
+                            </div>
 
-                                    <!-- <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Subtotal</label>
+                            <!-- <div class="col-2 col-lg-2 col-md-2"></div>
+
+                            <div class="col-12 col-lg-4 col-md-4">
+                                <div class="form-material borderbox">
+                                    <div class="container">
+                                        <div class="row"> -->
+
+                            <!-- <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Subtotal</label>
                                         <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Subtotal" #Subtotal="ngModel" [ngModel]="service.formData.Subtotal | currency">
 
                                         <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Impuestos Trasladados</label>
@@ -329,8 +361,10 @@
                                         <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
                                         <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="service.formData.Total | currency"> -->
 
+                            <!-- </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

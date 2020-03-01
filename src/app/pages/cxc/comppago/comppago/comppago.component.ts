@@ -290,6 +290,7 @@ export class ComppagoComponent implements OnInit {
   change(date:any){
     //2020-02-26T07:00:00
     const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    const days = ['00','01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12','13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
     let dia;
     let mes;
     let año;
@@ -300,7 +301,7 @@ export class ComppagoComponent implements OnInit {
     let fecha = new Date(this.FechaPago);
 
     
-    dia = fecha.getDate();
+    dia = `${days[fecha.getDate()]}`;
     mes = `${months[fecha.getMonth()]}`;
     año = fecha.getFullYear();
     hora = fecha.getHours();

@@ -34,6 +34,7 @@ export class ReciboPagoComponent implements OnInit {
   json1 = new pagoTimbre();
   conceptos : any;
   fecha2;
+  index;
   Cdolar: string;
   public loading = false;
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
@@ -160,7 +161,7 @@ export class ReciboPagoComponent implements OnInit {
       //OBTENER LA INFORMACION DEL CLIENTE, EN ESPECIFICO EL NOMBRE DEL CLIENTE PARA PINTARLO EN EL FORMULARIO
       if (this.service.formData.IdCliente!=0){
       this.service.getFacturaClienteID(this.service.formData.IdCliente).subscribe(res => {
-        // console.log(res);
+        console.log(res);
         this.json1.Receptor.UID = res[0].IdApi;
         this.ClienteNombre = res[0].Nombre;
       });
@@ -253,8 +254,13 @@ console.log('NUEVO CFDIIIIIIIIIII');
         for (let i = 0; i < data.length; i++) {
 
           this.service.getFacturaPagoCFDI(idCliente,data[i].Folio).subscribe((data2) => {
+            console.log(data2);
             if (data2.length>0){
-              this.options2.push(data2[0])
+              console.log(this.IdReciboPago); 
+              console.log(data2[0].IdReciboPago); 
+              if (this.IdReciboPago!=data2[0].IdReciboPago){
+                this.options2.push(data2[0])
+              }
             }else{
               let facturaPagoCFDI = data[i];
               this.FacturaList.push(facturaPagoCFDI);
@@ -263,12 +269,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
           })
 
 
-          // console.log(this.options2);
-          this.filteredOptions2 = this.myControl2.valueChanges
-            .pipe(
-              startWith(''),
-              map(value => this._filter2(value))
-            );
+          console.log(this.options2);
+          this.filteredOptions2 = this.myControl2.valueChanges.pipe(startWith(''),map(value => this._filter2(value)));
         }
       }else{
         console.log("No hay Facturas Correspondientes al Cliente");
@@ -328,6 +330,14 @@ console.log('NUEVO CFDIIIIIIIIIII');
       option.Folio.toString().includes(filterValue2));
   }
 
+  borrarfact(id:any){
+    //console.log(this.options2);
+    this.options2.splice(id,1);
+    //console.log(this.options2);
+    this.filteredOptions2 = this.myControl2.valueChanges.pipe(startWith(''),map(value => this._filter2(value)));
+    
+  }
+
   onSelectionChange(cliente: any, event: any) {
 
     if (event.isUserInput) {
@@ -338,6 +348,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
       //Limpiar arreglo de Facturas dependiendo del cliente
       this.options2 = [];
       this.dropdownRefresh2(this.service.formData.IdCliente);
+      this.json1.Receptor.UID = cliente.IdApi;
       this.ClienteNombre = cliente.Nombre;
     }
 
@@ -360,10 +371,12 @@ console.log('NUEVO CFDIIIIIIIIIII');
     })
   }
 
-  onSelectionChange2(factura: any, event: any) {
+  onSelectionChange2(factura: any, event: any, i: any) {
     if (event.isUserInput) {
-     
-      console.log(factura);
+    //  console.log(event);
+    //  console.log(i);
+    //   console.log(factura);
+    this.index = i;
       if( factura.IdCliente == 0 || !factura.IdCliente){
         console.log('PAGOS CFDI EXISTENTES');
         this.TotalF = +factura.Total;
@@ -541,6 +554,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
         this.options2 = [];
         this.CleanPagoCFDI();
         this.refreshPagoCFDITList();
+        // this.borrarfact(this.index);
         console.log(res);
       })
     
@@ -617,6 +631,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
     this.json1.UsoCFDI = "P01";
     this.json1.Serie = "6390";
     this.json1.Moneda = 'XXX';
+    console.log(this.json1.Receptor.UID);
 // console.log(this.conceptos);
     // this.json1.Receptor.UID = datos.IdApi; LISTO
     for (let i = 0; i< this.conceptos.length; i++){
@@ -719,6 +734,7 @@ console.log(this.json1);
   change(date:any){
     //2020-02-26T07:00:00
     const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    const days = ['00','01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12','13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
     let dia;
     let mes;
     let año;
@@ -729,7 +745,7 @@ console.log(this.json1);
     let fecha = new Date(date);
 
     
-    dia = fecha.getDate();
+    dia = `${days[fecha.getDate()]}`;
     mes = `${months[fecha.getMonth()]}`;
     año = fecha.getFullYear();
     hora = fecha.getHours();

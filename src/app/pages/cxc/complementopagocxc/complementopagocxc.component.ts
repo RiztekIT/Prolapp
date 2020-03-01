@@ -42,7 +42,7 @@ export class ComplementopagocxcComponent implements OnInit {
     this.refreshReciboPagoList();
     // this.detallesFactura();
     // this.Folio();
-    this.ObtenerUltimaFactura();
+    // this.ObtenerUltimaFactura();
     // this.listData.connect();
   }
 
@@ -128,8 +128,15 @@ export class ComplementopagocxcComponent implements OnInit {
   onAdd() {
 
     this.service.addReciboPago(this.ReciboPagoBlanco).subscribe(res => {
-      localStorage.setItem('IdRecibo', this.IdReciboPago.toString());
-      this.router.navigate(['/recibopago']);
+      this.service.getUltimoReciboPago().subscribe(data => {
+        this.service.IdReciboPago = data[0].Id;
+        this.IdReciboPago = this.service.IdReciboPago
+        console.log(this.service.IdReciboPago);
+        console.log(this.ReciboPagoBlanco);
+        console.log(this.IdReciboPago);
+        localStorage.setItem('IdRecibo', this.IdReciboPago.toString());
+        this.router.navigate(['/recibopago']);
+      });
     });
 
   }
