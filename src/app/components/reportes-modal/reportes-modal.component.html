@@ -13,15 +13,18 @@
 
         <div id="pdf">
             <!-- TOP PAGE LOGO DESCRIPTION-->
-            <app-header-reportes></app-header-reportes>
-            <!-- End TOP -->
-            <div class="content-wrapper" style="height:850px">
-            </div>
+            <div [style.display]="isVisible ? 'block' : 'none'">
+                <app-header-reportes></app-header-reportes>
 
-            <app-footer-reportes></app-footer-reportes>
+            </div>
+            <!-- End TOP -->
+            <div class="content-wrapper" style="height:100%">
+                <app-reporte></app-reporte>
+            </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button>
-            <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
-        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button>
+        <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
     </div>

@@ -1,42 +1,32 @@
-<div class="overfow: auto;">
-    <div class="container">
-        <div id="element-to-PDF">
-            <div class="card-header">
-                <div class="table-responsive no-scroll">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>ID Cliente</th>
-                                <th>Nombre</th>
-                            </tr>
-                            <tr>
-                                <th>Folio</th>
-                                <th>Tipo</th>
-                                <th>Fecha de Expedicion</th>
-                                <th>Total</th>
-                                <th>Moneda</th>
-                                <th>Tipo de Cambio</th>
-                            </tr>
-                        </thead>
-                        <tbody *ngFor="let info of arrcon; let i = index">
-                            <tr>
-                                <td class="wrap"> {{info.IdCliente}} </td>
-                                <td class="wrap"> {{info.Nombre}} </td>
-                                <tr>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID Cliente</th>
+            <th>Nombre</th>
+        </tr>
+        <tr>
+            <th>Folio</th>
+            <th>Tipo</th>
+            <th>Fecha de Expedicion</th>
+            <th>Total</th>
+            <th>Moneda</th>
+            <th>Tipo de Cambio</th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let info of arrcon; let i = index">
+        <tr>
+            <td class="wrap"> {{info.IdCliente}} </td>
+            <td class="wrap"> {{info.Nombre}} </td>
+            <tr>
 
-                                    <tr *ngFor="let info of arrcon[i].Docs">
+                <tr *ngFor="let info of arrcon[i].Docs">
 
-                                        <td> {{info.Folio}} </td>
-                                        <td> {{info.Tipo}} </td>
-                                        <td> {{info.FechaDeExpedicion| date}} </td>
-                                        <td> {{info.Total | currency}} </td>
-                                        <td> {{info.Moneda}} </td>
-                                        <td> {{info.TipoDeCambio}} </td>
-                                    </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                    <td> {{info.Folio}} </td>
+                    <td> {{info.Tipo}} </td>
+                    <td> {{info.FechaDeExpedicion| date}} </td>
+                    <td> {{info.Total | currency}} </td>
+                    <td> {{info.Moneda}} </td>
+                    <td> {{info.TipoDeCambio}} </td>
+                </tr>
+    </tbody>
+</table>

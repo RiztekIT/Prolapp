@@ -1,3 +1,19 @@
 .wrap {
     white-space: nowrap;
 }
+
+table {
+    border: 2px solid red;
+}
+
+th {
+    border: 2px solid blue;
+}
+
+tr {
+    border: 2px solid yellow;
+}
+
+td {
+    border: 2px solid green;
+}
