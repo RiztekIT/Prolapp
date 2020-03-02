@@ -15,11 +15,11 @@
                             <span *ngSwitchCase="'Pagada'" class="label label-light-inverse">Pagada</span>
                         </p>
                     </div>
-                    <div *ngIf="Estatus == 'Timbrada' && (EstatusNota == 'Guardada' || EstatusNota == 'NoHay') ; else NoseArma">
+                    <div *ngIf="Estatus == 'Timbrada' && (EstatusNota == 'Timbrada' || EstatusNota == 'NoHay') ; else NoseArma">
                         <button class="mt-2" mat-raised-button (click)="GenerarNota()" color="primary">Generar Nota Credito</button>
                     </div>
                     <ng-template #NoseArma>
-                        Verificar que la factura este timbrada y que si ya existe una nota de credito, esta este timbrada :)
+
                     </ng-template>
                     <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button>
                 </div>
@@ -396,14 +396,23 @@
 
                                     <mat-menu #menu="matMenu">
 
-                                        <button title="Editar/Ver" mat-icon-button class="btn btn-dark" (click)="onVerNC(row)">
+                                        <button *ngIf="row.Estatus == 'Guardada'" title="Editar/Ver" mat-icon-button class="btn btn-dark" (click)="onVerNC(row)">
                       <mat-icon>edit</mat-icon>
                                  </button>
 
                                         <!-- Eliminar -->
-                                        <button *ngIf="row.Estatus=='Guardada'|| row.Estatus=='Creada'" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
+                                        <button *ngIf="row.Estatus == 'Guardada'" mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteNC(row)">
                       <mat-icon>delete_outline</mat-icon>
                     </button>
+                                        <!-- Ver Nota Credito -->
+                                        <button *ngIf="row.Estatus == 'Timbrada' || row.Estatus == 'Cancelada'" title="Editar/Ver" mat-icon-button class="btn btn-dark" (click)="onVerNC(row)">
+                        <mat-icon>remove_red_eye</mat-icon>
+                                   </button>
+                                        <!-- Timbrada -->
+                                        <button *ngIf="row.Estatus == 'Timbrada'" mat-icon-button class="btn btn-danger" color="warn" (click)="CancelarNota(row)">
+                      <mat-icon>cancel</mat-icon>
+                    </button>
+
                                     </mat-menu>
                                 </td>
                             </ng-container>

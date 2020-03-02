@@ -32,6 +32,8 @@ export class DetalleNotaCreditoComponent implements OnInit {
         map(value => this._filterUnidad(value))
       );
       this.setfacturatimbre();
+
+      console.log(this.service.Timbrada);
   }
 
    listData: MatTableDataSource<any>;
@@ -294,6 +296,7 @@ this.refreshTablaDetalles();
         // this.numfact = data.UUID;
         console.log(this.service.formData);
         this.service.updateNotaCredito(this.service.formData).subscribe(data => {
+          this.service.Timbrada = true;
           // this.loading = false;
           console.log(data);
           document.getElementById('cerrarmodal').click();

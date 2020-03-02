@@ -38,6 +38,9 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
     //Tipo de Cambio
     TipoCambio: string;
 
+    //Variable para saber si la nota esta timbrada o no
+    Timbrada: boolean; 
+
     readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
     // readonly APIUrl = "https://localhost:44361/api";
 
@@ -79,6 +82,9 @@ return this.http.delete(this.APIUrl + '/NotaCredito/'+ id)
   //Eliminar Detalle Nota Credito
   DeleteDetalleNotaCredito(id: number){
     return this.http.delete(this.APIUrl + '/NotaCredito/DeleteDetalleNotaCredito/'+ id)
+  }
+  DeleteAllDetalleNotaCrediito(id:number){
+    return this.http.delete(this.APIUrl + '/NotaCredito/DeleteAllDetalleNotaCredito/'+ id)
   }
 
   //Obtener ultima Nota Pago
