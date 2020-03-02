@@ -7,7 +7,8 @@ import { TipoCambioService } from '../../services/tipo-cambio.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Bmx-Token': '19b7c18b48291872e37dbfd89ee7e4ea26743de4777741f90b79059950c34544',
+    // 'Bmx-Token': '19b7c18b48291872e37dbfd89ee7e4ea26743de4777741f90b79059950c34544',
+    'Bmx-Token': '410db2afc39118c6917da0778cf81b6becdf5614dabd10b92815768bc0a87e26',
     'Access-Control-Allow-Origin': 'http://localhost:4200',
     'Content-Type': 'application/json;charset=UTF-8',
     'Access-Control-Allow-Headers': 'Bmx-Token, Accept, Accept-Encoding, Content-Type, Origin',

@@ -23,6 +23,8 @@ import Swal from 'sweetalert2';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import { FoliosService } from 'src/app/services/direccion/folios.service';
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
+import * as html2pdf from 'html2pdf.js';
+import { ComplementoPagoComponent } from 'src/app/components/complemento-pago/complemento-pago.component';
 
 @Component({
   selector: 'app-recibo-pago',
@@ -39,9 +41,13 @@ export class ReciboPagoComponent implements OnInit {
   public loading = false;
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
+  fileUrl;
+  a = document.createElement('a');
+  public loading2 = false;
+
   
 
-  constructor(public service: ReciboPagoService, private router: Router, private dialog: MatDialog,private tipoCambio:TipoCambioService,private currencyPipe: CurrencyPipe,private servicetimbrado:EnviarfacturaService, public servicefolios: FoliosService, public servicefactura: FacturaService) {
+  constructor(public service: ReciboPagoService, private router: Router, private dialog: MatDialog,private tipoCambio:TipoCambioService,private currencyPipe: CurrencyPipe,private servicetimbrado:EnviarfacturaService, public servicefolios: FoliosService, public servicefactura: FacturaService, ) {
     this.service.listen().subscribe((m:any)=>{
       // console.log(m);
       this.refreshPagoCFDITList();
@@ -572,6 +578,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
     this.service.formData.Estatus = 'Guardada';
     // console.log(this.service.formData)
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
+      this.Estatus = this.service.formData.Estatus;
       console.log(data);
       this.refreshPagoCFDITList();
     })
@@ -671,6 +678,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
   
   onTimbrar(){
     this.loading = true;
+    this.onSubmit();
     this.crearJSON();
     
     console.log(JSON.stringify(this.json1));
@@ -695,13 +703,16 @@ console.log('NUEVO CFDIIIIIIIIIII');
         this.service.formData.NoSelloSAT =data.SAT.NoCertificadoSAT;
         this.service.formData.RFCPAC ='LSO1306189R5';
         this.service.formData.Estatus ='Timbrada';
+        this.Estatus = this.service.formData.Estatus;
 
 console.log(this.json1);
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
       for (let i = 0; i < this.json1.Conceptos[0].Complemento[0].relacionados.length; i++){
-        this.servicefactura.updatePagadaFactura(this.json1.Conceptos[0].Complemento[0].relacionados[i].IdDocumento).subscribe(data =>{
-          console.log(data);
-        })
+        if(this.json1.Conceptos[0].Complemento[0].relacionados[i].ImpSaldoInsoluto=='0'){
+          this.servicefactura.updatePagadaFactura(this.json1.Conceptos[0].Complemento[0].relacionados[i].IdDocumento).subscribe(data =>{
+            console.log(data);
+          })
+        }
       }
       console.log(this.json1);
       this.loading = false;
@@ -763,6 +774,73 @@ console.log(this.json1);
     
     
     
+  }
+
+  dxml(uuid,id){
+    this.loading = true;
+    document.getElementById('enviaremail').click();
+    let xml = 'http://devfactura.in/api/v3/cfdi33/' + uuid + '/xml';
+    this.servicetimbrado.xml(uuid).subscribe(data => {
+      localStorage.setItem('xml' + id, data)
+      const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+      this.fileUrl = window.URL.createObjectURL(blob);
+      this.a.href = this.fileUrl;
+      this.a.target = '_blank';
+      this.a.download = 'F-' + id + '.xml';
+      document.body.appendChild(this.a);
+      this.a.click();
+      do {
+        // this.xmlparam = id;
+        if (localStorage.getItem('xml' + id) != null) {
+          // this.xmlparam =  id;
+          setTimeout(()=>{
+            this.onExportClick(id);
+           },1000)
+        }
+      }
+      while (localStorage.getItem('xml' + id) == null);
+      // this.resetForm();
+      return this.fileUrl;
+    });
+    setTimeout(() => {
+      this.loading = false;
+      document.getElementById('cerrarmodal').click();
+    }, 7000)
+}
+onExportClick(folio?: string) {
+  // this.proceso = 'xml';
+  const content: Element = document.getElementById('element-to-PDF');
+  const option = {
+    margin: [0, 0, 0, 0],
+    filename: 'F-' + folio + '.pdf',
+    image: { type: 'jpeg', quality: 1 },
+    html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
+    jsPDF: { format: 'letter', orientation: 'portrait' },
+    
+  };
+
+  html2pdf().from(content).set(option).save(); 
+  // this.proceso = '';
+}
+
+
+  dxml2(uuid,id){
+    // console.log(row);
+    this.service.formt = this.service.formData
+     console.log(this.service.formt);
+    
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(ComplementoPagoComponent, dialogConfig);
+
+  }
+  cancelar(uuid,id){
+
+  }
+  email(uuid,id){
+
   }
 
 

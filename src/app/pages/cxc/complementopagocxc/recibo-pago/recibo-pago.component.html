@@ -9,6 +9,7 @@
                         Estatus:
                         <p [ngSwitch]=Estatus>
                             <span *ngSwitchCase="'Timbrada'" class="label label-light-success">TIMBRADA</span>
+                            <span *ngSwitchCase="'Guardada'" class="label label-light-success">GUARDADA</span>
                             <span *ngSwitchCase="'Creada'" class="label label-light-info">CREADA</span>
                             <span *ngSwitchCase="'Cancelada'" class="label label-light-danger">CANCELADA</span>
                         </p>
@@ -301,44 +302,45 @@
                             <br>
                             <br> -->
 
-                                <!-- <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock" style="display: grid">
-
-                                <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
+                                <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock" style="display: grid">
+                                    <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
+                                    <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml(service.formData.UUID,service.formData.Id)'><i
                             class="mdi mdi-code-tags btn-lg"></i>XML / PDF</button>
-                                <br>
-                                <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml2(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
+                                    <br>
+                                    <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml2(service.formData.UUID,service.formData.Id)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
                           PDF</button>
-                                <br>
-                                <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='cancelar(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
+                                    <br>
+                                    <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='cancelar(service.formData.UUID,service.formData.Id)'><i
                             class="mdi mdi-candle btn-lg"></i>Cancelar</button>
-                                <br>
-                                <button class="btn btn-info btn-lg" mat-raised-button style="display: none" mat-raised-button color="primary" type="button" (click)='email(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
+                                    <br>
+                                    <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button>
+                                    <button class="btn btn-info btn-lg" mat-raised-button mat-raised-button color="primary" type="button" (click)='email(service.formData.UUID,service.formData.Id)'><i
                             class="mdi mdi-content-save btn-lg"></i>Enviar</button>
 
-                                <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
-                                </ngx-loading>
-                            </div> -->
-                                <!-- <ng-template #elseBlock> -->
-                                <div style="display: grid">
-                                    <!-- <button class="btn btn-info btn-lg" mat-raised-button (click)="onAddPagoCFDI()"><i
+                                    <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+                                    </ngx-loading>
+                                </div>
+                                <ng-template #elseBlock>
+                                    <div style="display: grid">
+                                        <!-- <button class="btn btn-info btn-lg" mat-raised-button (click)="onAddPagoCFDI()"><i
                       class="mdi mdi-plus btn-lg"></i>Agregar Pago CFDI</button>
                             <br> -->
 
-                                    <button class="btn btn-info btn-lg" mat-raised-button (click)="onSubmit()"><i
+                                        <button class="btn btn-info btn-lg" mat-raised-button (click)="onSubmit()"><i
                       class="mdi mdi-content-save btn-lg"></i>Guardar</button>
 
-                                    <br>
+                                        <br>
 
-                                    <button [disabled]="Saldo > 0" class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="onTimbrar()"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
+                                        <button [disabled]="Saldo > 0" class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="onTimbrar()"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
 
-                                    <!-- <br> -->
-                                    <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button>
-                                    <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='prefactura(service.formData.Folio)'><i class="mdi mdi-code-tags btn-lg"></i>Prefactura</button>
+                                        <!-- <br> -->
+                                        <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button> -->
+                                        <!-- <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='prefactura(service.formData.Folio)'><i class="mdi mdi-code-tags btn-lg"></i>Prefactura</button> -->
 
-                                    <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+                                        <!-- <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
                                     </ngx-loading> -->
-                                </div>
-                                <!-- </ng-template> -->
+                                    </div>
+                                </ng-template>
                             </div>
                             <div class="col-12 col-md-4">
 

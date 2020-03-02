@@ -212,7 +212,7 @@ export class ComplementopagocxcComponent implements OnInit {
 
     console.log(row);
     this.service.formt = row
-    // console.log();
+    console.log(this.service.formt);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;

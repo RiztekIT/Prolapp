@@ -18,6 +18,7 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
     idNotaCredito: number;
 
     ClienteNombre: string;
+    IdApi: string;
 
     //Master
 
