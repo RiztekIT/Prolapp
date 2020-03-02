@@ -22,7 +22,7 @@
 
 <div class="modal fade bs-example-modal-lg show" id="add-new-event">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+        <div class="modal-content" id="element-to-PDF">
             <!-- <div class="modal-header">
                 <h4 class="modal-title">Factura</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -32,7 +32,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
-                <button class="btn btn-primary waves-effect waves-light save-category">Descargar</button>
+                <button class="btn btn-primary waves-effect waves-light save-category" (click)=" onExportClick()">Descargar</button>
                 <!-- (click)="onExportClick()" -->
             </div>
         </div>

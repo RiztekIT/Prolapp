@@ -198,7 +198,7 @@ export class FacturaComponent implements OnInit {
 
       this.arrcon = [];
       for (this.con in this.objconc){
-        var conceptos = this.objconc[this.con];  
+        var conceptos = this.objconc[this.con];
         this.arrcon.push({
         cantidad: conceptos.$.Cantidad,
         claveunidad: conceptos.$.NoIdentificacion,
