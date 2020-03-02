@@ -165,6 +165,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   Estatus: string;
   /* Nombre del Cliente a Facturar  */
   ClienteNombre: any;
+  IdApi: any;
   ClienteVendedor: any;
   ClienteMetodoDePagoCliente: any;
 
@@ -280,12 +281,42 @@ this.ObtenerUltimaNotaCreditoCreada();
 });
   }
 
+  onVerNC(row){
+    console.log(row);
+    this.serviceNota.formData = row;
+    this.serviceNota.DetalleFactura = row.DetalleNotaCredito;
+
+    for(let i = 0; i <= row.DetalleNotaCredito.length-1; i++){
+      console.log(row.DetalleNotaCredito[i]);
+      this.serviceNota.getSumaCantidades(row.IdFactura, row.DetalleNotaCredito[i].ClaveProducto).subscribe(data2=>{
+        console.log(data2[0].Cantidad);
+        if(data2 !== null){
+          console.log(+this.serviceNota.DetalleFactura[i].Cantidad);
+          console.log(+data2[0].Cantidad);
+        this.serviceNota.DetalleFactura[i].Cantidad = (+this.serviceNota.DetalleFactura[i].Cantidad - +data2[0].Cantidad).toString();
+        }
+        console.log(this.serviceNota.DetalleFactura);
+      })
+    }
+    this.serviceNota.Moneda = this.Moneda;
+    this.serviceNota.TipoCambio = this.service.formData.TipoDeCambio;
+
+    this.serviceNota.idNotaCredito = row.IdNotaCredito
+      this.serviceNota.ClienteNombre = this.ClienteNombre;
+      this.serviceNota.IdApi = this.IdApi;
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width="70%";
+      this.dialog.open(DetalleNotaCreditoComponent, dialogConfig);
+  }
+
   ObtenerUltimaNotaCreditoCreada(){
     this.serviceNota.getUltimaNotaCredito().subscribe(data =>{
       console.log(data[0]);
       this.serviceNota.idNotaCredito = data[0].Id
       this.serviceNota.ClienteNombre = this.ClienteNombre;
-
+      this.serviceNota.IdApi = this.IdApi;
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
@@ -438,6 +469,7 @@ console.log(res);
       this.service.formData.IdCliente = cliente.IdClientes;
       console.log(this.service.formData);
       this.ClienteNombre = cliente.Nombre;
+      this.IdApi = cliente.IdApi;
       this.service.formData.UsoDelCFDI = cliente.UsoCFDI;
       this.service.formData.FormaDePago = cliente.MetodoPago;
       this.service.formData.CondicionesDePago = cliente.DiasCredito + ' Dias Credito';
@@ -731,6 +763,7 @@ console.log(res);
       if (this.service.formData.IdCliente!=0){
       this.service.getFacturaClienteID(this.service.formData.IdCliente).subscribe(res => {
         this.ClienteNombre = res[0].Nombre;
+        this.IdApi = res[0].IdApi;
       });
     }
 

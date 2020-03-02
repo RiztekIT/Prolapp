@@ -28,3 +28,7 @@ table {
 .color {
     background-color: rgba(230, 69, 69, 0.596);
 }
+
+.card-header {
+    background-color: rgb(247, 247, 247)
+}

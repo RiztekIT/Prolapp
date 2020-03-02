@@ -1,63 +1,105 @@
 <div id="div1" class="form-material">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
+        <div class="card">
+
+
+            <div class="card-header">
+                <h4 class="bolder blacktxt text-center">Complemento de Pago</h4>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-12 col-md-6">
 
 
 
-                <label class="input-group-text text-info">Folio</label>
-                <input type="string" class="form-control" readonly name="ClienteNombre" readonly [(ngModel)]="this.service.formData.Folio">
+                        <label class="input-group-text text-info">Folio</label>
+                        <input type="string" class="form-control" readonly name="ClienteNombre" readonly [(ngModel)]="this.service.formData.Folio">
 
-                <label class="input-group-text text-info">Id del cliente</label>
-                <input type="string" class="form-control" readonly name="IdCliente" readonly [(ngModel)]="this.service.formData.IdCliente">
+                        <label class="input-group-text text-info">Id del cliente</label>
+                        <input type="string" class="form-control" readonly name="IdCliente" readonly [(ngModel)]="this.service.formData.IdCliente">
 
-                <label class="input-group-text text-info">Cliente</label>
-                <input type="string" class="form-control" readonly name="Cliente" readonly [(ngModel)]="this.service.Cliente">
+                        <label class="input-group-text text-info">Cliente</label>
+                        <input type="string" class="form-control" readonly name="Cliente" readonly [(ngModel)]="this.service.Cliente">
 
-                <label class="input-group-text text-info">Moneda</label>
-                <input type="string" class="form-control" readonly name="Moneda" readonly [(ngModel)]="this.service.formData.Moneda">
+                        <label class="input-group-text text-info">Moneda</label>
+                        <input type="string" class="form-control" readonly name="Moneda" readonly [(ngModel)]="this.service.formData.Moneda">
 
-                <label class="input-group-text text-info">Total</label>
-                <input type="string" class="form-control" readonly name="Total" readonly [(ngModel)]="this.service.formData.Total">
+                        <label class="input-group-text text-info">Total</label>
+                        <input type="string" class="form-control" readonly name="Total" readonly [(ngModel)]="this.service.formData.Total">
 
 
-                <!--  <label class="input-group-text text-info">Uso del CFDI</label>
+                        <!--  <label class="input-group-text text-info">Uso del CFDI</label>
                 <select class="form-control" name="UsoDelCFDI" #UsoDelCFDI="ngModel" [(ngModel)]="service.formData.UsoDelCFDI" required>
                         <option [ngValue]="null" selected disabled>Seleccionar CFDI</option>
                         <option *ngFor="let dl of listCFDI" [ngValue]="dl.UsoDelCFDI"> {{dl.text}} </option>
                       </select> -->
 
-                <label class="input-group-text text-info">Metodo de Pago</label>
-                <select class="form-control" name="MetodoDePago" #MetodoDePago="ngModel" [(ngModel)]="service.formData.MetodoDePago" required>
+
+
+
+
+
+
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="input-group-text text-info">Metodo de Pago</label>
+                        <select class="form-control" name="MetodoDePago" #MetodoDePago="ngModel" [(ngModel)]="service.formData.MetodoDePago" required>
                         <option [ngValue]="null" selected disabled>Seleccionar Metodo Pago</option>
                         <option *ngFor="let dl of listMP" [ngValue]="dl.MetodoDePago"> {{dl.text}} </option>
                       </select>
 
-                <!--               -------------------------------------------------------                                       -->
+                        <!--               -------------------------------------------------------                                       -->
 
-                <label class="input-group-text text-info">Forma de Pago</label>
+                        <label class="input-group-text text-info">Forma de Pago</label>
 
-                <select class="form-control" name="FormaDePago" #FormaDePago="ngModel" [(ngModel)]="service.formData.FormaDePago" required>
+                        <select class="form-control" name="FormaDePago" #FormaDePago="ngModel" [(ngModel)]="service.formData.FormaDePago" required>
                         <option [ngValue]="null" selected disabled>Seleccionar Forma Pago</option>
                         <option *ngFor="let dl of listFP" [ngValue]="dl.FormaDePago"> {{dl.text}} </option>
                       </select>
 
-                <label class="input-group-text text-info">Fecha Pago</label>
+                        <label class="input-group-text text-info">Fecha Pago</label>
 
-                <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
-                <input [matDatepicker]="picker5" type="text" class="form-control" name="FechaPag" #FechaPag="ngModel" [(ngModel)]="FechaPago" (dateChange)="change($event)">
-                <mat-datepicker #picker5></mat-datepicker>
-
-
-                <label class="input-group-text text-info">Cantidad a Pagar</label>
-
-                <input type="string" class="form-control" name="cantidadPag" #cantidadPag="ngModel" [(ngModel)]="cantidadPago">
+                        <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+                        <input [matDatepicker]="picker5" type="text" class="form-control" name="FechaPag" #FechaPag="ngModel" [(ngModel)]="FechaPago" (dateChange)="change($event)">
+                        <mat-datepicker #picker5></mat-datepicker>
 
 
+                        <label class="input-group-text text-info">Cantidad a Pagar</label>
 
+                        <input type="string" class="form-control" name="cantidadPag" #cantidadPag="ngModel" [(ngModel)]="cantidadPago" (ngModelChange)="onChangeCantidadF($event)">
+                        <label class="input-group-text text-info">Saldo</label>
 
-                <button type="button" class="btn btn-secondary waves-effect" (click)="timbrar()">Timbrar</button>
+                        <input readonly type="string" class="form-control" name="saldo" #cantidadPag="ngModel" [(ngModel)]="service.saldoF">
+                    </div>
+
+                    <div class="container row">
+                        <div class="col-8">
+
+                        </div>
+                        <div class="col-4">
+
+                            <button type="button" class="btn btn-secondary waves-effect" (click)="timbrar()">Timbrar</button>
+                            <button type="button" class="btn btn-secondary waves-effect" (click)="crearJSON()">json</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</div>
+
+
+
+<div class="modal fade bs-example-modal-lg show" id="cargando" style="overflow: hidden">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <button id="cerrarmodal" type="button" [hidden]="true" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+
+
+        </div>
+    </div>
+    <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+    </ngx-loading>
 </div>

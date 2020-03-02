@@ -8,6 +8,14 @@
 
 
 </div>
+<div>
+    <label class="input-group-text text-info">Tipo de Relacion</label>
+
+    <select class="form-control" name="Relacion" #Relacion="ngModel" [(ngModel)]="service.formData.Relacion">
+<option [ngValue]="null" selected disabled>Seleccionar Tipo de Relacion</option>
+<option *ngFor="let dl of listRel" [ngValue]="dl.Relacion"> {{dl.text}} </option>
+</select>
+</div>
 <hr>
 
 <div style="overflow: auto; height: 450px;">
@@ -71,6 +79,8 @@
                             <input readonly type="text " class="form-control " name="ImporteDlls" #ImporteDlls="ngModel" [(ngModel)]="service.DetalleformData.ImporteDlls">
 
                         </div>
+
+
 
                     </div>
                 </div>
@@ -152,4 +162,63 @@
     </div>
 
     <!-- FIN TABLA DETALLES NOTA CREDITO -->
+
+    <hr>
+
+    <div class="row">
+        <div class="col-12 col-md-8"></div>
+        <!-- Totales en Pesos -->
+        <div class="col-12 col-md-4" *ngIf="service.Moneda=='MXN'">
+            <div class="form-material borderbox">
+                <div class="container">
+                    <div class="row">
+
+                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Subtotal</label>
+                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Subtotal" #Subtotal="ngModel" [ngModel]="service.formData.Subtotal | currency">
+
+                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Impuestos Trasladados</label>
+                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [ngModel]="service.formData.ImpuestosTrasladados | currency">
+
+                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
+                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="service.formData.Total | currency">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Fin de totales en Pesos -->
+        <!-- Totales en Dolares -->
+
+        <div class="col-12 col-md-4" *ngIf="service.Moneda=='USD'">
+            <div class="form-material borderbox">
+                <div class="container">
+                    <div class="row">
+
+                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Subtotal</label>
+                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Subtotal" #Subtotal="ngModel" [ngModel]="service.formData.SubtotalDlls | currency">
+
+                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Impuestos Trasladados</label>
+                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [ngModel]="service.formData.ImpuestosTrasladadosDlls | currency">
+
+                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
+                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="service.formData.TotalDlls | currency">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Fin Totales en Dolares -->
+
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+            <button class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="onTimbrar()"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
+        </div>
+        <div class="col-md-4">
+
+        </div>
+    </div>
 </div>

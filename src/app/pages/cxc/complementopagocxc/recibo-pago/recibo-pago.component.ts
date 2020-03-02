@@ -22,6 +22,9 @@ import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfact
 import Swal from 'sweetalert2';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import { FoliosService } from 'src/app/services/direccion/folios.service';
+import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
+import * as html2pdf from 'html2pdf.js';
+import { ComplementoPagoComponent } from 'src/app/components/complemento-pago/complemento-pago.component';
 
 @Component({
   selector: 'app-recibo-pago',
@@ -33,13 +36,18 @@ export class ReciboPagoComponent implements OnInit {
   json1 = new pagoTimbre();
   conceptos : any;
   fecha2;
+  index;
   Cdolar: string;
   public loading = false;
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
+  fileUrl;
+  a = document.createElement('a');
+  public loading2 = false;
+
   
 
-  constructor(public service: ReciboPagoService, private router: Router, private dialog: MatDialog,private tipoCambio:TipoCambioService,private currencyPipe: CurrencyPipe,private servicetimbrado:EnviarfacturaService, public servicefolios: FoliosService) {
+  constructor(public service: ReciboPagoService, private router: Router, private dialog: MatDialog,private tipoCambio:TipoCambioService,private currencyPipe: CurrencyPipe,private servicetimbrado:EnviarfacturaService, public servicefolios: FoliosService, public servicefactura: FacturaService, ) {
     this.service.listen().subscribe((m:any)=>{
       // console.log(m);
       this.refreshPagoCFDITList();
@@ -159,7 +167,7 @@ export class ReciboPagoComponent implements OnInit {
       //OBTENER LA INFORMACION DEL CLIENTE, EN ESPECIFICO EL NOMBRE DEL CLIENTE PARA PINTARLO EN EL FORMULARIO
       if (this.service.formData.IdCliente!=0){
       this.service.getFacturaClienteID(this.service.formData.IdCliente).subscribe(res => {
-        // console.log(res);
+        console.log(res);
         this.json1.Receptor.UID = res[0].IdApi;
         this.ClienteNombre = res[0].Nombre;
       });
@@ -252,8 +260,13 @@ console.log('NUEVO CFDIIIIIIIIIII');
         for (let i = 0; i < data.length; i++) {
 
           this.service.getFacturaPagoCFDI(idCliente,data[i].Folio).subscribe((data2) => {
+            console.log(data2);
             if (data2.length>0){
-              this.options2.push(data2[0])
+              console.log(this.IdReciboPago); 
+              console.log(data2[0].IdReciboPago); 
+              if (this.IdReciboPago!=data2[0].IdReciboPago){
+                this.options2.push(data2[0])
+              }
             }else{
               let facturaPagoCFDI = data[i];
               this.FacturaList.push(facturaPagoCFDI);
@@ -262,12 +275,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
           })
 
 
-          // console.log(this.options2);
-          this.filteredOptions2 = this.myControl2.valueChanges
-            .pipe(
-              startWith(''),
-              map(value => this._filter2(value))
-            );
+          console.log(this.options2);
+          this.filteredOptions2 = this.myControl2.valueChanges.pipe(startWith(''),map(value => this._filter2(value)));
         }
       }else{
         console.log("No hay Facturas Correspondientes al Cliente");
@@ -327,6 +336,14 @@ console.log('NUEVO CFDIIIIIIIIIII');
       option.Folio.toString().includes(filterValue2));
   }
 
+  borrarfact(id:any){
+    //console.log(this.options2);
+    this.options2.splice(id,1);
+    //console.log(this.options2);
+    this.filteredOptions2 = this.myControl2.valueChanges.pipe(startWith(''),map(value => this._filter2(value)));
+    
+  }
+
   onSelectionChange(cliente: any, event: any) {
 
     if (event.isUserInput) {
@@ -337,6 +354,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
       //Limpiar arreglo de Facturas dependiendo del cliente
       this.options2 = [];
       this.dropdownRefresh2(this.service.formData.IdCliente);
+      this.json1.Receptor.UID = cliente.IdApi;
       this.ClienteNombre = cliente.Nombre;
     }
 
@@ -359,10 +377,12 @@ console.log('NUEVO CFDIIIIIIIIIII');
     })
   }
 
-  onSelectionChange2(factura: any, event: any) {
+  onSelectionChange2(factura: any, event: any, i: any) {
     if (event.isUserInput) {
-     
-      console.log(factura);
+    //  console.log(event);
+    //  console.log(i);
+    //   console.log(factura);
+    this.index = i;
       if( factura.IdCliente == 0 || !factura.IdCliente){
         console.log('PAGOS CFDI EXISTENTES');
         this.TotalF = +factura.Total;
@@ -540,6 +560,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
         this.options2 = [];
         this.CleanPagoCFDI();
         this.refreshPagoCFDITList();
+        // this.borrarfact(this.index);
         console.log(res);
       })
     
@@ -557,6 +578,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
     this.service.formData.Estatus = 'Guardada';
     // console.log(this.service.formData)
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
+      this.Estatus = this.service.formData.Estatus;
       console.log(data);
       this.refreshPagoCFDITList();
     })
@@ -616,6 +638,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
     this.json1.UsoCFDI = "P01";
     this.json1.Serie = "6390";
     this.json1.Moneda = 'XXX';
+    console.log(this.json1.Receptor.UID);
 // console.log(this.conceptos);
     // this.json1.Receptor.UID = datos.IdApi; LISTO
     for (let i = 0; i< this.conceptos.length; i++){
@@ -655,6 +678,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
   
   onTimbrar(){
     this.loading = true;
+    this.onSubmit();
     this.crearJSON();
     
     console.log(JSON.stringify(this.json1));
@@ -679,9 +703,18 @@ console.log('NUEVO CFDIIIIIIIIIII');
         this.service.formData.NoSelloSAT =data.SAT.NoCertificadoSAT;
         this.service.formData.RFCPAC ='LSO1306189R5';
         this.service.formData.Estatus ='Timbrada';
+        this.Estatus = this.service.formData.Estatus;
 
-
+console.log(this.json1);
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
+      for (let i = 0; i < this.json1.Conceptos[0].Complemento[0].relacionados.length; i++){
+        if(this.json1.Conceptos[0].Complemento[0].relacionados[i].ImpSaldoInsoluto=='0'){
+          this.servicefactura.updatePagadaFactura(this.json1.Conceptos[0].Complemento[0].relacionados[i].IdDocumento).subscribe(data =>{
+            console.log(data);
+          })
+        }
+      }
+      console.log(this.json1);
       this.loading = false;
       Swal.fire(
         'Factura Creada',
@@ -712,6 +745,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
   change(date:any){
     //2020-02-26T07:00:00
     const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    const days = ['00','01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12','13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
     let dia;
     let mes;
     let año;
@@ -722,7 +756,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
     let fecha = new Date(date);
 
     
-    dia = fecha.getDate();
+    dia = `${days[fecha.getDate()]}`;
     mes = `${months[fecha.getMonth()]}`;
     año = fecha.getFullYear();
     hora = fecha.getHours();
@@ -740,6 +774,73 @@ console.log('NUEVO CFDIIIIIIIIIII');
     
     
     
+  }
+
+  dxml(uuid,id){
+    this.loading = true;
+    document.getElementById('enviaremail').click();
+    let xml = 'http://devfactura.in/api/v3/cfdi33/' + uuid + '/xml';
+    this.servicetimbrado.xml(uuid).subscribe(data => {
+      localStorage.setItem('xml' + id, data)
+      const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+      this.fileUrl = window.URL.createObjectURL(blob);
+      this.a.href = this.fileUrl;
+      this.a.target = '_blank';
+      this.a.download = 'F-' + id + '.xml';
+      document.body.appendChild(this.a);
+      this.a.click();
+      do {
+        // this.xmlparam = id;
+        if (localStorage.getItem('xml' + id) != null) {
+          // this.xmlparam =  id;
+          setTimeout(()=>{
+            this.onExportClick(id);
+           },1000)
+        }
+      }
+      while (localStorage.getItem('xml' + id) == null);
+      // this.resetForm();
+      return this.fileUrl;
+    });
+    setTimeout(() => {
+      this.loading = false;
+      document.getElementById('cerrarmodal').click();
+    }, 7000)
+}
+onExportClick(folio?: string) {
+  // this.proceso = 'xml';
+  const content: Element = document.getElementById('element-to-PDF');
+  const option = {
+    margin: [0, 0, 0, 0],
+    filename: 'F-' + folio + '.pdf',
+    image: { type: 'jpeg', quality: 1 },
+    html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
+    jsPDF: { format: 'letter', orientation: 'portrait' },
+    
+  };
+
+  html2pdf().from(content).set(option).save(); 
+  // this.proceso = '';
+}
+
+
+  dxml2(uuid,id){
+    // console.log(row);
+    this.service.formt = this.service.formData
+     console.log(this.service.formt);
+    
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(ComplementoPagoComponent, dialogConfig);
+
+  }
+  cancelar(uuid,id){
+
+  }
+  email(uuid,id){
+
   }
 
 
