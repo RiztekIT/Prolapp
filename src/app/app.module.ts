@@ -19,6 +19,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CalendarioComponent } from './components/cxc/calendario/calendario.component';
+import { ReporteDllsComponent } from './components/cxc/reporte-dlls/reporte-dlls.component';
 // import { ComplementoPagoComponent } from './components/complemento-pago/complemento-pago.component';
 
 // import { CalendarioComponent } from './components/calendario/calendario.component';
@@ -39,6 +40,7 @@ import { CalendarioComponent } from './components/cxc/calendario/calendario.comp
     RegisterComponent,
     SaldosComponent,
     CalendarioComponent,
+ 
     
     // CalendarioComponent
     ],
