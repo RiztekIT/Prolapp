@@ -34,3 +34,7 @@ body {
     color: #ffffff;
     background: #000000;
 }
+
+.modal-backdrop {
+    z-index: 1!important;
+}

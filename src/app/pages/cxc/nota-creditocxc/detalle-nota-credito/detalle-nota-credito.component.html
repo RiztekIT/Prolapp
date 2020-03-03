@@ -180,9 +180,9 @@
 
                 <div class="col-4" *ngIf="service.Timbrada == true" style="display: grid">
                     <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
-                    <button class="btn btn-info btn-lg" mat-raised-button type="button"><i class="mdi mdi-code-tags btn-lg"></i>XML / PDF</button>
+                    <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml(service.formData.UUID,service.formData.Folio)'><i class="mdi mdi-code-tags btn-lg"></i>XML / PDF</button>
                     <br>
-                    <button class="btn btn-info btn-lg" mat-raised-button type="button" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>VerPDF</button>
+                    <button class="btn btn-info btn-lg" mat-raised-button type="button" data-toggle="modal" data-target="#add-new-eventnc" (click)='dxml2(service.formData.UUID,service.formData.Folio)'><i class="mdi mdi-file-pdf btn-lg"></i>VerPDF</button>
                     <br>
                     <button *ngIf="service.formData.Estatus !== 'Cancelada'" class="btn btn-info btn-lg" mat-raised-button type="button"><i class="mdi mdi-candle btn-lg"></i>Cancelar</button>
                     <br>
@@ -247,4 +247,40 @@
 
 
 
+    </div>
+
+
+
+
+
+    <div class="modal fade bs-example-modal-lg show" id="add-new-eventnc">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <!-- <div class="modal-header">
+                            <h4 class="modal-title">Factura</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div> -->
+
+                <!-- <app-factura #factura [xmlparametros]="xmlparam"></app-factura> -->
+                <app-notacredito #factura [xmlparametrosnc]="xmlparam"></app-notacredito>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+                    <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick(service.formData.Folio)">Descargar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg show" id="cargando" style="overflow: hidden">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <button id="cerrarmodal" type="button" [hidden]="true" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+
+
+            </div>
+        </div>
+        <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+        </ngx-loading>
     </div>

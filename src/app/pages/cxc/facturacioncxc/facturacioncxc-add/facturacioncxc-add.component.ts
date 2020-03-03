@@ -1063,7 +1063,7 @@ onDeleteNC(notaCredito: any){
   
   /* Metodo que guarda el xml en el localstorage para usarlo en el pdf */
   dxml2(id: string, folio: string) {
-    this.proceso = 'xml';
+    // this.proceso = 'xml';
     let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
     this.enviarfact.xml(id).subscribe(data => {
       localStorage.removeItem('xml' + folio)
