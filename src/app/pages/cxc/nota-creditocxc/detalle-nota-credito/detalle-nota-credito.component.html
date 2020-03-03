@@ -11,7 +11,7 @@
 <div>
     <label class="input-group-text text-info">Tipo de Relacion</label>
 
-    <select class="form-control" name="Relacion" #Relacion="ngModel" [(ngModel)]="service.formData.Relacion">
+    <select [disabled]="service.Timbrada == true" class="form-control" name="Relacion" #Relacion="ngModel" [(ngModel)]="service.formData.Relacion">
 <option [ngValue]="null" selected disabled>Seleccionar Tipo de Relacion</option>
 <option *ngFor="let dl of listRel" [ngValue]="dl.Relacion"> {{dl.text}} </option>
 </select>
@@ -30,7 +30,7 @@
                         <mat-form-field>
                             <input type="text" placeholder="Seleccionar Concepto" aria-label="Number" [formControl]="myControlDetalle" matInput [matAutocomplete]="auto" [(ngModel)]="ProductoSelect">
                             <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of filteredOptionsDetalles | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChange(option, $event)">
+                                <mat-option [disabled]="service.Timbrada == true" *ngFor="let option of filteredOptionsDetalles | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChange(option, $event)">
                                     {{option.ClaveProducto}} {{option.Producto}}
                                 </mat-option>
                             </mat-autocomplete>
@@ -55,7 +55,7 @@
 
 
                         <label class="input-group-text text-info ">Cantidad:</label>
-                        <input matInput required type="number" class="form-control " name="CantidadConcepto" #CantidadConcepto="ngModel" [(ngModel)]="CantidadDetalle" (ngModelChange)="onChangeCantidad($event)">
+                        <input [disabled]="service.Timbrada == true" matInput required type="number" class="form-control " name="CantidadConcepto" #CantidadConcepto="ngModel" [(ngModel)]="CantidadDetalle" (ngModelChange)="onChangeCantidad($event)">
                         <!-- <input matInput required type="number" class="form-control" name="Cantidad3" #Cantidad="ngModel" [min]="0" [max]="100" [(ngModel)]="CantidadF2" (ngModelChange)="onChangeCantidad($event)"> -->
                         <div class="text-left text-danger" *ngIf="CantidadConcepto.invalid && CantidadConcepto.touched">
                             Favor de Ingresar Cantidad
@@ -88,8 +88,10 @@
         </div>
 
         <br>
-        <button *ngIf="agregar == true" class="mt-4" mat-raised-button color="primary" (click)="onSubmit(form)" [disabled]="form.invalid ">Agregar Concepto</button>
-        <button *ngIf="agregar == false" class="mt-4" mat-raised-button color="primary" (click)="ActualizarDetalleNotaCredito(form)" [disabled]="form.invalid ">Actualziar Concepto</button>
+        <div *ngIf="service.Timbrada == false">
+            <button *ngIf="agregar == true" class="mt-4" mat-raised-button color="primary" (click)="onSubmit(form)" [disabled]="form.invalid ">Agregar Concepto</button>
+            <button *ngIf="agregar == false" class="mt-4" mat-raised-button color="primary" (click)="ActualizarDetalleNotaCredito(form)" [disabled]="form.invalid ">Actualziar Concepto</button>
+        </div>
     </form>
     <br>
     <mat-divider></mat-divider>
@@ -144,12 +146,16 @@
             <mat-icon>keyboard_arrow_down</mat-icon>
           </button>
                             <mat-menu #menu="matMenu">
-                                <!--  -->
-                                <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                <!-- Editar Detalle Nota -->
+                                <button *ngIf="service.Timbrada == false" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
               <mat-icon>edit</mat-icon>
             </button>
+                                <!-- Ver Detalle Nota -->
+                                <button *ngIf="service.Timbrada == true" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+              <mat-icon>remove_red_eye</mat-icon>
+            </button>
                                 <!--  -->
-                                <button mat-icon-button class="btn btn-danger" (click)="onDelete(row.IdDetalleNotaCredito)">
+                                <button *ngIf="service.Timbrada == false" mat-icon-button class="btn btn-danger" (click)="onDelete(row.IdDetalleNotaCredito)">
               <mat-icon>delete_outline</mat-icon>
             </button>
                             </mat-menu>
@@ -166,7 +172,35 @@
     <hr>
 
     <div class="row">
-        <div class="col-12 col-md-8"></div>
+        <div class="col-12 col-md-8">
+            <div class="row container">
+                <div class="col-4">
+
+                </div>
+
+                <div class="col-4" *ngIf="service.Timbrada == true" style="display: grid">
+                    <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
+                    <button class="btn btn-info btn-lg" mat-raised-button type="button"><i class="mdi mdi-code-tags btn-lg"></i>XML / PDF</button>
+                    <br>
+                    <button class="btn btn-info btn-lg" mat-raised-button type="button" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>VerPDF</button>
+                    <br>
+                    <button *ngIf="service.formData.Estatus !== 'Cancelada'" class="btn btn-info btn-lg" mat-raised-button type="button"><i class="mdi mdi-candle btn-lg"></i>Cancelar</button>
+                    <br>
+                    <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button>
+                    <button class="btn btn-info btn-lg" mat-raised-button type="button"><i class="mdi mdi-email btn-lg"></i>Enviar</button>
+                </div>
+                <div class="col-12 col-md-4" style="display: grid">
+                    <button *ngIf="service.Timbrada == false" class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="onTimbrar()"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
+                </div>
+                <div class="col-4">
+
+                </div>
+            </div>
+
+
+
+
+        </div>
         <!-- Totales en Pesos -->
         <div class="col-12 col-md-4" *ngIf="service.Moneda=='MXN'">
             <div class="form-material borderbox">
@@ -207,18 +241,10 @@
                 </div>
             </div>
         </div>
+
+        <!-- Fin Totales en Dolares -->
+
+
+
+
     </div>
-    <!-- Fin Totales en Dolares -->
-
-    <div class="row">
-        <div class="col-md-4">
-
-        </div>
-        <div class="col-md-4">
-            <button class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="onTimbrar()"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
-        </div>
-        <div class="col-md-4">
-
-        </div>
-    </div>
-</div>
