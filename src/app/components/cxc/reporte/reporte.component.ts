@@ -54,7 +54,7 @@ export class ReporteComponent implements OnInit {
       })
 
       this.textoNombre = this.masterArray[i].Nombre.length;
-      // console.log(this.textoNombre);
+      console.log(this.textoNombre);
 
       this.masterArray[i].Docs =[];
 

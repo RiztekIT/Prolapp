@@ -3,6 +3,11 @@
         <tr>
             <th class="blacktxt bolder">ID Cliente</th>
             <th class="blacktxt bolder">Nombre</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
         <tr>
             <th class="blacktxt bolder">Folio</th>
@@ -17,7 +22,7 @@
     <tbody *ngFor="let info of arrcon; let i = index">
         <tr>
             <td class="wrap lightback"> {{info.IdCliente}} </td>
-            <td class="wrap lightback"> {{info.Nombre}} </td>
+            <td class="wrap lightback"> {{info.Nombre | slice:0:35}} <br> {{info.Nombre | slice:35:this.textoNombre[i]}} </td>
             <tr>
 
                 <tr *ngFor="let info of arrcon[i].Docs">
