@@ -1,32 +1,32 @@
-<table class="table">
+<table class="table-hover">
     <thead>
         <tr>
-            <th>ID Cliente</th>
-            <th>Nombre</th>
+            <th class="blacktxt bolder">ID Cliente</th>
+            <th class="blacktxt bolder">Nombre</th>
         </tr>
         <tr>
-            <th>Folio</th>
-            <th>Tipo</th>
-            <th>Fecha de Expedicion</th>
-            <th>Total</th>
-            <th>Moneda</th>
-            <th>Tipo de Cambio</th>
+            <th class="blacktxt bolder">Folio</th>
+            <th class="blacktxt bolder">Tipo</th>
+            <th class="blacktxt bolder">Fecha de Expedicion</th>
+            <th class="blacktxt bolder">Total</th>
+            <th class="blacktxt bolder">Moneda</th>
+            <th class="blacktxt bolder">Tipo de Cambio</th>
         </tr>
     </thead>
     <tbody *ngFor="let info of arrcon; let i = index">
         <tr>
-            <td class="wrap"> {{info.IdCliente}} </td>
-            <td class="wrap"> {{info.Nombre}} </td>
+            <td class="wrap lightback"> {{info.IdCliente}} </td>
+            <td class="wrap lightback"> {{info.Nombre}} </td>
             <tr>
 
                 <tr *ngFor="let info of arrcon[i].Docs">
 
-                    <td> {{info.Folio}} </td>
-                    <td> {{info.Tipo}} </td>
-                    <td> {{info.FechaDeExpedicion| date}} </td>
-                    <td> {{info.Total | currency}} </td>
-                    <td> {{info.Moneda}} </td>
-                    <td> {{info.TipoDeCambio}} </td>
+                    <td class="pgbreak"> {{info.Folio}} </td>
+                    <td class="pgbreak"> {{info.Tipo}} </td>
+                    <td class="pgbreak"> {{info.FechaDeExpedicion| date}} </td>
+                    <td class="pgbreak"> {{info.Total | currency}} </td>
+                    <td class="pgbreak"> {{info.Moneda}} </td>
+                    <td class="pgbreak"> {{info.TipoDeCambio}} </td>
                 </tr>
     </tbody>
 </table>

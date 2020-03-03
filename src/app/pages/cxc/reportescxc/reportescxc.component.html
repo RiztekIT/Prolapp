@@ -27,15 +27,36 @@
 
 <div class="modal fade bs-example-modal-lg show" id="add-new-event">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content" id="element-to-PDF">
-            <!-- <div class="modal-header">
-                <h4 class="modal-title">Factura</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div> -->
+        <div class="modal-content">
+            <div class="container row">
+                <div class="col-11">
 
-            <app-reporte></app-reporte>
+                </div>
+                <div class="col-1">
+                    <div>
+                        <button class="btn btn-danger" color="warn" data-dismiss="modal" style="float: right;">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </div>
 
-            <!-- <app-factura [xmlparametros]="xmlparam"></app-factura> -->
+                </div>
+            </div>
+
+            <div class="modal0-body ">
+
+                <div id="pdf">
+                    <!-- TOP PAGE LOGO DESCRIPTION-->
+                    <div [style.display]="isVisible ? 'block' : 'none'">
+                        <app-header-reportes></app-header-reportes>
+
+                    </div>
+                    <!-- End TOP -->
+                    <div class="content-wrapper">
+                        <app-reporte-mxn></app-reporte-mxn>
+                    </div>
+                </div>
+
+            </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
@@ -45,43 +66,90 @@
         </div>
     </div>
 </div>
+
+
 <div class="modal fade bs-example-modal-lg show" id="add-new-event1">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content" id="element-to-PDF">
-            <!-- <div class="modal-header">
-                <h4 class="modal-title">Factura</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div> -->
-
-            <app-reporte-dlls></app-reporte-dlls>
+        <div class="modal-content">
 
 
-            <!-- <app-factura [xmlparametros]="xmlparam"></app-factura> -->
+            <div class="container row">
+                <div class="col-11">
+
+                </div>
+                <div class="col-1">
+                    <div>
+                        <button class="btn btn-danger" color="warn" data-dismiss="modal" style="float: right;">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal0-body ">
+
+                <div id="pdfdlls">
+                    <!-- TOP PAGE LOGO DESCRIPTION-->
+                    <div [style.display]="isVisible ? 'block' : 'none'">
+                        <app-header-reportes></app-header-reportes>
+
+                    </div>
+                    <!-- End TOP -->
+                    <div class="content-wrapper">
+                        <app-reporte-dlls></app-reporte-dlls>
+                    </div>
+                </div>
+
+            </div>
+
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
-                <button class="btn btn-primary waves-effect waves-light save-category" (click)=" onExportClick()">Descargar</button>
+                <button class="btn btn-primary waves-effect waves-light save-category" (click)=" onExportClickdlls()">Descargar</button>
                 <!-- (click)="onExportClick()" -->
             </div>
         </div>
     </div>
 </div>
+
 <div class="modal fade bs-example-modal-lg show" id="add-new-event2">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content" id="element-to-PDF">
-            <!-- <div class="modal-header">
-                <h4 class="modal-title">Factura</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div> -->
+        <div class="modal-content">
+            <div class="container row">
+                <div class="col-11">
 
-            <app-reporte-mxn></app-reporte-mxn>
+                </div>
+                <div class="col-1">
+                    <div>
+                        <button class="btn btn-danger" color="warn" data-dismiss="modal" style="float: right;">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                    </div>
 
+                </div>
+            </div>
 
-            <!-- <app-factura [xmlparametros]="xmlparam"></app-factura> -->
+            <div class="modal0-body ">
+
+                <div id="pdfmxn">
+                    <!-- TOP PAGE LOGO DESCRIPTION-->
+                    <div [style.display]="isVisible ? 'block' : 'none'">
+                        <app-header-reportes></app-header-reportes>
+
+                    </div>
+                    <!-- End TOP -->
+                    <div class="content-wrapper">
+                        <app-reporte-mxn></app-reporte-mxn>
+                    </div>
+                </div>
+
+            </div>
+
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
-                <button class="btn btn-primary waves-effect waves-light save-category" (click)=" onExportClick()">Descargar</button>
+                <button class="btn btn-primary waves-effect waves-light save-category" (click)=" onExportClickmxn()">Descargar</button>
                 <!-- (click)="onExportClick()" -->
             </div>
         </div>
