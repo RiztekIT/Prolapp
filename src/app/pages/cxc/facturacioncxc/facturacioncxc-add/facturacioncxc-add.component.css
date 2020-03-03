@@ -72,3 +72,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 .modal-backdrop {
     z-index: 1!important;
 }
+
+::ng-deep .swal2-container {
+    z-index: 2000 !important;
+}
