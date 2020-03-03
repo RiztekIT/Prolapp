@@ -2,18 +2,23 @@
     white-space: nowrap;
 }
 
-table {
-    border: 2px solid red;
-}
-
-th {
-    border: 2px solid blue;
-}
-
-tr {
-    border: 2px solid yellow;
+.table {
+    width: 100%;
 }
 
 td {
-    border: 2px solid green;
+    font-size: 14px;
+}
+
+.blacktxt {
+    color: #000000;
+}
+
+.bolder {
+    font-weight: 900;
+    padding: 7px;
+}
+
+.lightback {
+    background-color: #f5f5f5;
 }

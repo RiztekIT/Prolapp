@@ -1,3 +1,7 @@
 .btnalign {
     padding-left: 69px;
 }
+
+.modal-lg {
+    width: 90% !important;
+}
