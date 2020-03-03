@@ -43,7 +43,7 @@ export class ReporteComponent implements OnInit {
 
       for (let i = 0; i < data.length ; i++){
      
-      // console.log( this.IdCliente[i].IdClientes);
+      console.log( this.IdCliente[i].IdClientes);
 
       
       this.masterArray.push({
