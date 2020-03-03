@@ -8,10 +8,10 @@
             <th class="blacktxt bolder">Folio</th>
             <th class="blacktxt bolder">Tipo</th>
             <th class="blacktxt bolder">Fecha de Expedicion</th>
-            <th class="blacktxt bolder">Total</th>
+            <th class="blacktxt bolder">Total MXN</th>
+            <th class="blacktxt bolder">Total DLLS</th>
             <th class="blacktxt bolder">Moneda</th>
             <th class="blacktxt bolder">Tipo de Cambio</th>
-            <th class="blacktxt bolder">Total Dolares</th>
         </tr>
     </thead>
     <tbody *ngFor="let info of arrcon; let i = index">
@@ -26,9 +26,9 @@
                     <td class="pgbreak"> {{info.Tipo}} </td>
                     <td class="pgbreak"> {{info.FechaDeExpedicion| date}} </td>
                     <td class="pgbreak"> {{info.Total | currency}} </td>
+                    <td class="pgbreak"> {{info.TotalDlls | currency }} </td>
                     <td class="pgbreak"> {{info.Moneda}} </td>
                     <td class="pgbreak"> {{info.TipoDeCambio |currency}} </td>
-                    <td class="pgbreak"> {{info.TotalDlls | currency }} </td>
                 </tr>
     </tbody>
 </table>
