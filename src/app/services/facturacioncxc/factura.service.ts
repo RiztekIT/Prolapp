@@ -130,6 +130,12 @@ getvendedor(id:number): Observable<any>{
 getReportes(id: number): Observable<any>{
   return this.http.get<any[]>(this.APIUrl + '/Factura/Reporte/' + id)
 }
+getReportesU(id: number): Observable<any>{
+  return this.http.get<any[]>(this.APIUrl + '/Factura/ReporteU/' + id)
+}
+getReportesM(id: number): Observable<any>{
+  return this.http.get<any[]>(this.APIUrl + '/Factura/ReporteM/' + id)
+}
 
 
 

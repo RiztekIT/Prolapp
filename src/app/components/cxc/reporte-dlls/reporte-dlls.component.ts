@@ -4,12 +4,11 @@ import { ClientesService } from '../../../services/catalogos/clientes.service';
 import { ReporteMaster } from '../../../Models/cxc/reportecxcmaster-model';
 
 @Component({
-  selector: 'app-reporte',
-  templateUrl: './reporte.component.html',
-  styleUrls: ['./reporte.component.css']
+  selector: 'app-reporte-dlls',
+  templateUrl: './reporte-dlls.component.html',
+  styleUrls: ['./reporte-dlls.component.css']
 })
-export class ReporteComponent implements OnInit {
-
+export class ReporteDllsComponent implements OnInit {
   IdCliente: any;
 
   IdC: number;
@@ -53,9 +52,9 @@ export class ReporteComponent implements OnInit {
 
       this.masterArray[i].Docs =[];
 
-        this.serviceFactura.getReportes(this.IdCliente[i].IdClientes).subscribe(res=>{
+        this.serviceFactura.getReportesU(this.IdCliente[i].IdClientes).subscribe(res=>{
 
-          // console.log(res);
+          console.log(res);
 
 
           if(res.length > 0){
@@ -75,6 +74,8 @@ export class ReporteComponent implements OnInit {
           // console.log(this.objconc);
           this.datosArray(this.masterArray);
         })
+
+        
       }
 
     })
@@ -94,7 +95,8 @@ export class ReporteComponent implements OnInit {
         }
       }
        console.log(this.arrcon);
-      
     }
   }
+
+
 }

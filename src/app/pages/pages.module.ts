@@ -169,7 +169,11 @@ import { ReportesModalComponent } from '../components/reportes-modal/reportes-mo
 
 import { NotaCreditoService } from '../services/cuentasxcobrar/NotasCreditocxc/notaCredito.service';
 import { DetalleNotaCreditoComponent } from './cxc/nota-creditocxc/detalle-nota-credito/detalle-nota-credito.component';
+
+
 import { ReporteComponent } from '../components/cxc/reporte/reporte.component';
+import { ReporteDllsComponent } from '../components/cxc/reporte-dlls/reporte-dlls.component';
+import { ReporteMxnComponent } from '../components/cxc/reporte-mxn/reporte-mxn.component';
 import { NotacreditoComponent } from '../components/notacredito/notacredito/notacredito.component';
 
 
@@ -295,9 +299,11 @@ import { NotacreditoComponent } from '../components/notacredito/notacredito/nota
         HeaderReportesComponent,
         FooterReportesComponent,
         ReportesModalComponent,
+        NotacreditoComponent,
         DetalleNotaCreditoComponent,
         ReporteComponent,
-        NotacreditoComponent,
+        ReporteDllsComponent,
+        ReporteMxnComponent,
         
     
     ],
