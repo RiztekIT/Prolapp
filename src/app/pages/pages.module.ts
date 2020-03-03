@@ -171,6 +171,7 @@ import { NotaCreditoService } from '../services/cuentasxcobrar/NotasCreditocxc/n
 import { DetalleNotaCreditoComponent } from './cxc/nota-creditocxc/detalle-nota-credito/detalle-nota-credito.component';
 import { ReporteComponent } from '../components/cxc/reporte/reporte.component';
 import { ReporteDllsComponent } from '../components/cxc/reporte-dlls/reporte-dlls.component';
+import { ReporteMxnComponent } from '../components/cxc/reporte-mxn/reporte-mxn.component';
 
 
 
@@ -298,6 +299,7 @@ import { ReporteDllsComponent } from '../components/cxc/reporte-dlls/reporte-dll
         DetalleNotaCreditoComponent,
         ReporteComponent,
         ReporteDllsComponent,
+        ReporteMxnComponent,
         
     
     ],

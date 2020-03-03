@@ -52,9 +52,9 @@ export class ReporteDllsComponent implements OnInit {
 
       this.masterArray[i].Docs =[];
 
-        this.serviceFactura.getReportes(this.IdCliente[i].IdClientes).subscribe(res=>{
+        this.serviceFactura.getReportesU(this.IdCliente[i].IdClientes).subscribe(res=>{
 
-          // console.log(res);
+          console.log(res);
 
 
           if(res.length > 0){
@@ -95,7 +95,6 @@ export class ReporteDllsComponent implements OnInit {
         }
       }
        console.log(this.arrcon);
-      
     }
   }
 
