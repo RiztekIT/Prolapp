@@ -128,11 +128,17 @@ export class FacturacioncxcAddComponent implements OnInit {
     });
 
     //Observable para actualizar tabla de Detalles Factura
+    
     this.service.listen().subscribe((m: any) => {
+      console.log('listen1');
+      console.log(m);
+      // this.idFactura();
       this.refreshDetallesFacturaList();
     });
 
     this.serviceNota.listen().subscribe((m:any)=>{
+      console.log('listen2');
+      // this.idFactura();
       this.refreshNotaList();
       this.ObtenerUltimaNotaCreditoFactura();
     });
@@ -141,6 +147,8 @@ export class FacturacioncxcAddComponent implements OnInit {
   }
 
   ngOnInit() {
+    // this.idFactura();
+    console.log(this.IdFactura);
     this.resetForm();
     this.setfacturatimbre();
     this.dropdownRefresh();
@@ -151,6 +159,8 @@ export class FacturacioncxcAddComponent implements OnInit {
 
     
   }
+
+ 
 
 
   IdFactura: any;
@@ -625,8 +635,10 @@ onDeleteNC(notaCredito: any){
 
   /* Funcion Refresh Tabla Detalles Factura */
   refreshDetallesFacturaList() {
+    // this.idFactura();
     this.IniciarTotales();
     let tasa;
+    console.log(this.IdFactura+'XXXXXXXXXXXX');
     this.service.getDetallesFacturaList(this.IdFactura).subscribe(data => {
       console.log(data);
       this.listData = new MatTableDataSource(data);
@@ -660,6 +672,14 @@ onDeleteNC(notaCredito: any){
       this.service.formData.ImpuestosTrasladadosDlls = this.ivaDlls;
       this.service.formData.TotalDlls = this.totalDlls;
       console.log(this.service.formData);
+      // console.log(this.service.formData);
+    
+    this.service.updateFactura(this.service.formData).subscribe(res => {
+     console.log(res);
+
+    }
+    );
+      
     });
 
   }
@@ -775,6 +795,8 @@ onDeleteNC(notaCredito: any){
     } else {
       this.service.formData.TipoDeCambio = '0';
     }
+    console.log(this.service.formData);
+    
     this.service.updateFactura(this.service.formData).subscribe(res => {
      console.log(res);
 

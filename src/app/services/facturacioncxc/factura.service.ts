@@ -6,7 +6,7 @@ import { Factura } from '../../Models/facturacioncxc/factura-model';
 import { DetalleFactura } from '../../Models/facturacioncxc/detalleFactura-model';
 import { Producto } from '../../Models/catalogos/productos-model';
 
-import {Observable } from 'rxjs';
+import {Observable, BehaviorSubject } from 'rxjs';
 
 import {Subject} from 'rxjs';
 import { facturaMasterDetalle } from 'src/app/Models/facturacioncxc/facturamasterdetalle';
@@ -133,11 +133,19 @@ getReportes(id: number): Observable<any>{
 
 
 
-private _listeners = new Subject<any>(); 
+// private _listeners = new Subject<any>(); 
+private _listeners = new BehaviorSubject<any>(''); 
 listen(): Observable<any> {
   return this._listeners.asObservable();
 }
 filter(filterBy: string) {
   this._listeners.next(filterBy);
+}
+private _listeners2 = new BehaviorSubject<any>(''); 
+listen2(): Observable<any> {
+  return this._listeners2.asObservable();
+}
+filter2(filterBy: string) {
+  this._listeners2.next(filterBy);
 }
 }

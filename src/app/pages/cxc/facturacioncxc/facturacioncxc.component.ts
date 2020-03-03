@@ -58,7 +58,7 @@ export class FacturacioncxcComponent implements OnInit {
 
   constructor(private service:FacturaService, private dialog: MatDialog, private snackBar: MatSnackBar, private router:Router, public enviarfact: EnviarfacturaService, public _MessageService: MessageService,public servicerecibo: ReciboPagoService) {
   
-    this.service.listen().subscribe((m:any)=>{
+    this.service.listen2().subscribe((m:any)=>{
       // console.log(m);
       this.refreshFacturaList();
       // this.detallesFactura();
