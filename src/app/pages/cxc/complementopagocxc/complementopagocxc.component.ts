@@ -161,8 +161,10 @@ export class ComplementopagocxcComponent implements OnInit {
   }
 
   //Editar
-  onEdit(reciboPago: ReciboPago) {
-    this.service.formData = reciboPago;
+  onEdit(reciboPago) {
+    localStorage.removeItem('rowpago')    
+    this.service.row = reciboPago;
+    localStorage.setItem('rowpago',JSON.stringify(reciboPago));
     let Id = reciboPago.Id;
     localStorage.setItem('IdRecibo', Id.toString());
     this.router.navigate(['/recibopago']);

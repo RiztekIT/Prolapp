@@ -14,6 +14,7 @@ export class ReciboPagoService {
   formt: any;
 
   formData = new ReciboPago();
+  row;
   formDataPagoCFDI = new PagoCFDI();
 
   //formData pago de CFDI cuando se edita 

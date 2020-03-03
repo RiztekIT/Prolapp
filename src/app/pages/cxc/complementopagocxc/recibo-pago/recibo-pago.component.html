@@ -315,10 +315,10 @@
                                     <br>
                                     <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button>
                                     <button class="btn btn-info btn-lg" mat-raised-button mat-raised-button color="primary" type="button" (click)='email(service.formData.UUID,service.formData.Id)'><i
-                            class="mdi mdi-content-save btn-lg"></i>Enviar</button>
+                            class="mdi mdi-email btn-lg"></i>Enviar</button>
 
-                                    <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
-                                    </ngx-loading>
+                                    <!-- <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+                                    </ngx-loading> -->
                                 </div>
                                 <ng-template #elseBlock>
                                     <div style="display: grid">
@@ -395,5 +395,38 @@
         </div>
     </div>
     <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+    </ngx-loading>
+</div>
+
+<div class="modal fade bs-example-modal-lg show" id="add-new-event">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                    <h4 class="modal-title">Factura</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div> -->
+
+            <app-complemento-pago></app-complemento-pago>
+
+            <div class="modal-footer">
+                <button id="cerrarmodal" type="button" class="btn btn-secondary waves-effect" [hidden]="true" data-dismiss="modal">Cerrar</button>
+                <!-- <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick(service.formData.Folio)">Descargar</button> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade bs-example-modal-lg show" id="modalcorreo">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <button id="cerrarmodal" type="button" [hidden]="true" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+            <app-email [foliop]="folioparam" [idp]="idparam"></app-email>
+
+
+        </div>
+    </div>
+    <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
     </ngx-loading>
 </div>
