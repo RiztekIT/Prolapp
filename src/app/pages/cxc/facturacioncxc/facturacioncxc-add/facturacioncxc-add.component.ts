@@ -192,6 +192,8 @@ FolioNotaCredito: number;
   //Metodo Generar Nota Pago
   GenerarNota(){
 
+    this.serviceNota.Timbrada = false;
+
 
 //Obtener ultimo Folio Nota Credito y asignarlo a NotaBlanco
 this.serviceNota.getUltimoFolio().subscribe(data =>{
@@ -281,8 +283,19 @@ this.ObtenerUltimaNotaCreditoCreada();
 });
   }
 
+  //Editar Nota Credito
   onVerNC(row){
     console.log(row);
+console.log(row.Estatus);
+//Verificar Estatus de Nota Credito
+if(row.Estatus == 'Timbrada' || row.Estatus == 'Cancelada'){
+this.serviceNota.Timbrada = true;
+}else{
+  this.serviceNota.Timbrada = false;  
+}
+console.log(this.serviceNota.Timbrada);
+
+
     this.serviceNota.formData = row;
     this.serviceNota.DetalleFactura = row.DetalleNotaCredito;
 
@@ -400,7 +413,37 @@ console.log(res);
   
   // FIN TABLA DETALLE Y NOTA CREDITO  -------------------------------------------------------------->
    
+CancelarNota(){
+}
 
+onDeleteNC(notaCredito: any){
+  console.log(notaCredito);
+  Swal.fire({
+    title: '¿Segur@ de Borrar Nota Credito?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Borrar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.value) {
+    this.serviceNota.DeleteAllDetalleNotaCrediito(notaCredito.IdNotaCredito).subscribe(res=>{
+      this.serviceNota.deleteNotaCredito(notaCredito.IdNotaCredito).subscribe(res=>{
+        this.refreshNotaList();
+        Swal.fire({
+          title: 'Borrado',
+          icon: 'success',
+          timer: 1000,
+          showCancelButton: false,
+          showConfirmButton: false
+        });
+      })
+    })
+    }
+  })
+
+}
 
   // FIN NOTA DE PAGO----------------------------------------------------------------------->
 
@@ -1020,7 +1063,7 @@ console.log(res);
   
   /* Metodo que guarda el xml en el localstorage para usarlo en el pdf */
   dxml2(id: string, folio: string) {
-    this.proceso = 'xml';
+    // this.proceso = 'xml';
     let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
     this.enviarfact.xml(id).subscribe(data => {
       localStorage.removeItem('xml' + folio)

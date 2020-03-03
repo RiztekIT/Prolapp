@@ -25,6 +25,8 @@ import { FoliosService } from 'src/app/services/direccion/folios.service';
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
 import * as html2pdf from 'html2pdf.js';
 import { ComplementoPagoComponent } from 'src/app/components/complemento-pago/complemento-pago.component';
+import { MessageService } from 'src/app/services/message.service';
+// import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-recibo-pago',
@@ -32,7 +34,9 @@ import { ComplementoPagoComponent } from 'src/app/components/complemento-pago/co
   styleUrls: ['./recibo-pago.component.css']
 })
 export class ReciboPagoComponent implements OnInit {
-
+  folioparam;
+  xmlparam;
+  idparam;
   json1 = new pagoTimbre();
   conceptos : any;
   fecha2;
@@ -47,11 +51,12 @@ export class ReciboPagoComponent implements OnInit {
 
   
 
-  constructor(public service: ReciboPagoService, private router: Router, private dialog: MatDialog,private tipoCambio:TipoCambioService,private currencyPipe: CurrencyPipe,private servicetimbrado:EnviarfacturaService, public servicefolios: FoliosService, public servicefactura: FacturaService, ) {
+  constructor(public _MessageService: MessageService,public service: ReciboPagoService, private router: Router, private dialog: MatDialog,private tipoCambio:TipoCambioService,private currencyPipe: CurrencyPipe,private servicetimbrado:EnviarfacturaService, public servicefolios: FoliosService, public servicefactura: FacturaService, ) {
     this.service.listen().subscribe((m:any)=>{
       // console.log(m);
       this.refreshPagoCFDITList();
       });
+   
 
       /* Metodo para obtener el tipo de cambio y ponerlo en la variable a usar */
   // this.traerApi().subscribe(data => {
@@ -826,20 +831,94 @@ onExportClick(folio?: string) {
 
   dxml2(uuid,id){
     // console.log(row);
-    this.service.formt = this.service.formData
-     console.log(this.service.formt);
+    // this.service.formt = this.service.formData
+    //  console.log(this.service.row);
+    //  console.log(this.service.master);
+    //  console.log(this.listData.data);
+      this.service.formt = JSON.parse(localStorage.getItem('rowpago'));
+      // console.log((this.service.formt));
     
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width="70%";
-    this.dialog.open(ComplementoPagoComponent, dialogConfig);
+    // const dialogConfig = new MatDialogConfig();
+    // dialogConfig.disableClose = false;
+    // dialogConfig.autoFocus = true;
+    // dialogConfig.width="70%";
+    // this.dialog.open(ComplementoPagoComponent, dialogConfig);
 
   }
   cancelar(uuid,id){
+    Swal.fire({
+      title: '¿Segur@ de Cancelar la Factura?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Cancelar',
+      cancelButtonText: 'Deshacer'
+    }).then((result) => {
+      if (result.value) {
+        this.loading = true;
+        this.servicetimbrado.cancelar(uuid).subscribe(data => {
+          let data2 = JSON.parse(data);
+          if (data2.response === 'success') {
+            this.service.formData.Estatus='Cancelada';
+            this.service.updateReciboPago(this.service.formData).subscribe(data => {
+              this.loading = false;
+              Swal.fire({
+                title: 'Factura Cancelada',
+                icon: 'success',
+                timer: 1000,
+                showCancelButton: false,
+                showConfirmButton: false
+              });
+            });
+          }
+          else if (data2.response === 'error') {
+            this.loading = false;
+            // this.resetForm();
+            Swal.fire(
+              'Error en Cancelacion',
+              '' + data2.message + '',
+              'error'
+            )
+          }
+        })
+      }
+
+    })
 
   }
   email(uuid,id){
+  localStorage.removeItem('xml'+id);
+  localStorage.removeItem('pdf'+id);
+  document.getElementById('enviaremail2').click();
+  this.folioparam = id;
+  this.idparam = uuid;
+  this._MessageService.correo='ivan.talamantes@live.com';
+  this._MessageService.cco='ivan.talamantes@riztek.com.mx';
+  this._MessageService.asunto='Envio Recibo de Pago '+id;
+  this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+id;
+  this._MessageService.nombre='ProlactoIngredientes';
+ 
+    this.servicetimbrado.xml(uuid).subscribe(data => {
+      console.log(data);
+      
+      localStorage.setItem('xml' + id, data)
+      this.xmlparam = id;
+      setTimeout(()=>{
+        const content: Element = document.getElementById('element-to-PDF');
+        const option = {
+          margin: [0, 0, 0, 0],
+          filename: 'F-' + id + '.pdf',
+          image: { type: 'jpeg', quality: 1 },
+          html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
+          jsPDF: { format: 'letter', orientation: 'portrait' },
+        };
+        html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
+          localStorage.setItem('pdf'+id, pdfAsString);
+        })
+      },1000)
+     
+  })
 
   }
 

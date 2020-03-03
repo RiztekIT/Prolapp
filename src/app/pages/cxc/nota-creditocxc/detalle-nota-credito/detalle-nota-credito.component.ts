@@ -9,6 +9,8 @@ import { startWith, map } from 'rxjs/operators';
 import { DetalleNotaCredito } from '../../../../Models/nota-credito/detalleNotaCredito-model';
 import { FacturaService } from '../../../../services/facturacioncxc/factura.service';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+import * as html2pdf from 'html2pdf.js';
+import { ngxLoadingAnimationTypes } from 'ngx-loading';
 
 @Component({
   selector: 'app-detalle-nota-credito',
@@ -16,11 +18,12 @@ import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfact
   styleUrls: ['./detalle-nota-credito.component.css']
 })
 export class DetalleNotaCreditoComponent implements OnInit {
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
   constructor(public dialogbox: MatDialogRef<DetalleNotaCreditoComponent>, public service: NotaCreditoService, public serviceFactura: FacturaService, public enviarfact: EnviarfacturaService) { 
-    // this.service.listen().subscribe((m:any)=>{
-    //   this.refreshProveedoresList();
-    //   });
+    this.service.listen().subscribe((m:any)=>{
+      this.Inicializar();
+      });
   }
 
   ngOnInit() {
@@ -32,6 +35,8 @@ export class DetalleNotaCreditoComponent implements OnInit {
         map(value => this._filterUnidad(value))
       );
       this.setfacturatimbre();
+
+      console.log(this.service.Timbrada);
   }
 
    listData: MatTableDataSource<any>;
@@ -62,6 +67,10 @@ export class DetalleNotaCreditoComponent implements OnInit {
   ImporteIVA: number;
   ImporteIVADLLS: number;
   iva: number;
+  public loading = false;
+  fileUrl;
+  a = document.createElement('a');
+  xmlparam;
 
   json1;
 
@@ -294,6 +303,7 @@ this.refreshTablaDetalles();
         // this.numfact = data.UUID;
         console.log(this.service.formData);
         this.service.updateNotaCredito(this.service.formData).subscribe(data => {
+          this.service.Timbrada = true;
           // this.loading = false;
           console.log(data);
           document.getElementById('cerrarmodal').click();
@@ -505,6 +515,80 @@ this.refreshTablaDetalles();
       
     
     // return cadena;
+  }
+
+
+  dxml(uuid, folio){
+    console.log(uuid);
+    console.log(folio);
+    console.log(this.service.formData);
+
+    this.loading = true;
+    document.getElementById('enviaremail').click();
+    let xml = 'http://devfactura.in/api/v3/cfdi33/' + uuid + '/xml';
+    this.enviarfact.xml(uuid).subscribe(data => {
+      localStorage.setItem('xml' + folio, data)
+      const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+      this.fileUrl = window.URL.createObjectURL(blob);
+      this.a.href = this.fileUrl;
+      this.a.target = '_blank';
+      this.a.download = 'F-' + folio + '.xml';
+      document.body.appendChild(this.a);
+      this.a.click();
+      do {
+        this.xmlparam = folio;
+        if (localStorage.getItem('xml' + folio) != null) {
+          this.xmlparam =  folio;
+          setTimeout(()=>{
+            this.onExportClick((this.service.formData.Folio).toString());
+           },1000)
+        }
+      }
+      while (localStorage.getItem('xml' + folio) == null);
+      // this.resetForm();
+      return this.fileUrl;
+    });
+    setTimeout(() => {
+      this.loading = false;
+      document.getElementById('cerrarmodal').click();
+    }, 7000)
+
+  }
+
+  onExportClick(folio?: string) {
+    // this.proceso = 'xml';
+    document.getElementById('add-new-eventnc').style.zIndex = "1";
+    const content: Element = document.getElementById('element-to-PDFNC');
+    const option = {
+      margin: [0, 0, 0, 0],
+      filename: 'F-' + folio + '.pdf',
+      image: { type: 'jpeg', quality: 1 },
+      html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
+      jsPDF: { format: 'letter', orientation: 'portrait' },
+      
+    };
+
+    html2pdf().from(content).set(option).save(); 
+    // this.proceso = '';
+  }
+
+  dxml2(uuid, folio){
+    // this.proceso = 'xml';
+    let xml = 'http://devfactura.in/api/v3/cfdi33/' + uuid + '/xml';
+    this.enviarfact.xml(uuid).subscribe(data => {
+      localStorage.removeItem('xml' + folio)
+      localStorage.setItem('xml' + folio, data)
+      const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+      this.fileUrl = window.URL.createObjectURL(blob);
+      this.a.href = this.fileUrl;
+      this.a.target = '_blank';
+      this.a.download = 'F-' + folio + '.xml';
+      document.body.appendChild(this.a);
+      this.xmlparam = folio
+      // this.resetForm();
+      return this.fileUrl;
+    });
+
   }
 
 }
