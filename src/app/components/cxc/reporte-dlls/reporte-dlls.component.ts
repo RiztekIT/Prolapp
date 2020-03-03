@@ -54,7 +54,7 @@ export class ReporteDllsComponent implements OnInit {
 
         this.serviceFactura.getReportesU(this.IdCliente[i].IdClientes).subscribe(res=>{
 
-          console.log(res);
+          // console.log(res);
 
 
           if(res.length > 0){
