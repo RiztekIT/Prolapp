@@ -94,7 +94,7 @@ export class ReporteDllsComponent implements OnInit {
           this.arrcon.push(datos[j])
         }
       }
-       console.log(this.arrcon);
+      //  console.log(this.arrcon);
     }
   }
 
