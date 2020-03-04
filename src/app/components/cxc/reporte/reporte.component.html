@@ -22,7 +22,9 @@
     <tbody *ngFor="let info of arrcon; let i = index">
         <tr>
             <td class="wrap lightback"> {{info.IdCliente}} </td>
-            <td class="wrap lightback"> {{info.Nombre | slice:0:35}} <br> {{info.Nombre | slice:35:this.textoNombre[i]}} </td>
+            <!-- <td class="wrap lightback"> {{info.Nombre | slice:0:35}} <br> {{info.Nombre | slice:35:this.textoNombre[i]}} </td> -->
+            <!-- <td class="wrap lightback"> {{info.Nombre}}</td> -->
+            <td class="wrap lightback" [attr.colspan]="6"> {{info.Nombre}}</td>
             <tr>
 
                 <tr *ngFor="let info of arrcon[i].Docs">

@@ -175,6 +175,7 @@ import { ReporteComponent } from '../components/cxc/reporte/reporte.component';
 import { ReporteDllsComponent } from '../components/cxc/reporte-dlls/reporte-dlls.component';
 import { ReporteMxnComponent } from '../components/cxc/reporte-mxn/reporte-mxn.component';
 import { NotacreditoComponent } from '../components/notacredito/notacredito/notacredito.component';
+import { FacturacionComponent } from '../components/cxc/graficas/facturacion/facturacion.component';
 
 
 
@@ -304,6 +305,7 @@ import { NotacreditoComponent } from '../components/notacredito/notacredito/nota
         ReporteComponent,
         ReporteDllsComponent,
         ReporteMxnComponent,
+        FacturacionComponent,
         
     
     ],
