@@ -252,6 +252,7 @@ export class FacturacioncxcComponent implements OnInit {
     this.service.addFactura(this.FacturaBlanco).subscribe(res => {
       this.service.getUltimaFactura().subscribe(data => {
         this.IdFactura = data[0].Id;
+        this.service.formData.Id = this.IdFactura;//linea nueva
         if (!this.IdFactura){
           this.IdFactura='1';
           let Id = this.IdFactura;

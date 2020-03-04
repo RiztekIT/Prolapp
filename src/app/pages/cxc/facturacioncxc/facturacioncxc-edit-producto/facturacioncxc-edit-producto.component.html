@@ -65,7 +65,7 @@
 
 
                             <label class="input-group-text text-info">Precio Unitario: </label>
-                            <input required placeholder="Ingresar Precio" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitario" (ngModelChange)="sumar()" [(value)]="precioUnitarioF" (blur)="formato()">
+                            <input id="precioUnitario" required placeholder="Ingresar Precio" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitario" (ngModelChange)="sumar()" [(value)]="precioUnitarioF" (blur)="formato()">
                             <div class="text-left text-danger" *ngIf="PrecioUnitario.invalid && PrecioUnitario.touched">
                                 Favor de Ingresar Precio Unitario.
                             </div>
@@ -79,16 +79,17 @@
                             </div>
 
                             <label class="input-group-text text-info">Importe: </label>
-                            <input readonly="readonly" placeholder="0.00" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe" [(value)]="importeF" (blur)="formato()">
+                            <input id="importe" readonly="readonly" placeholder="0.00" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe" [(value)]="importeF" (blur)="formato()">
                             <label class="input-group-text text-info">IVA: </label>
-                            <input placeholder="0.00" class="form-control" name="ImporteIVA" #ImporteIVA="ngModel" [(ngModel)]="service.formDataDF.ImporteIVA" [(value)]="ivaF" (blur)="formato()">
+                            <input id="iva" placeholder="0.00" class="form-control" name="ImporteIVA" #ImporteIVA="ngModel" [(ngModel)]="service.formDataDF.ImporteIVA" [(value)]="ivaF" (blur)="formato()">
 
                         </ng-container>
 
                         <ng-container *ngIf="service.Moneda=='USD'">
 
                             <label class="input-group-text text-info">Precio Unitario DLLS: </label>
-                            <input required placeholder="Ingresar Precio" class="form-control" name="PrecioUnitarioDlls" #PrecioUnitarioDlls="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitarioDlls" (ngModelChange)="sumar()" [(value)]="precioUnitarioDllsF" (blur)="formatoDlls()">
+                            <input id='precioUnitarioDlls' required placeholder="Ingresar Precio" class="form-control" name="PrecioUnitarioDlls" #PrecioUnitarioDlls="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitarioDlls" (ngModelChange)="sumar()" [(value)]="precioUnitarioDllsF"
+                                (blur)="formatoDlls()">
                             <div class="text-left text-danger" *ngIf="PrecioUnitarioDlls.invalid && PrecioUnitarioDlls.touched">
                                 Favor de Ingresar Precio Unitario.
                             </div>
@@ -102,9 +103,9 @@
                             </div>
 
                             <label class="input-group-text text-info">Importe: </label>
-                            <input readonly="readonly" placeholder="0.00" class="form-control" name="ImporteDlls" #ImporteDlls="ngModel" [(ngModel)]="service.formDataDF.ImporteDlls" [(value)]="importeDllsF" (blur)="formatoDlls()">
+                            <input id="importeDlls" readonly="readonly" placeholder="0.00" class="form-control" name="ImporteDlls" #ImporteDlls="ngModel" [(ngModel)]="service.formDataDF.ImporteDlls" [(value)]="importeDllsF" (blur)="formatoDlls()">
                             <label class="input-group-text text-info">IVA: </label>
-                            <input placeholder="0.00" class="form-control" name="ImporteIVADlls" #ImporteIVADlls="ngModel" [(ngModel)]="service.formDataDF.ImporteIVADlls" [(value)]="ivaDllsF" (blur)="formatoDlls()">
+                            <input id='ivaDlls' placeholder="0.00" class="form-control" name="ImporteIVADlls" #ImporteIVADlls="ngModel" [(ngModel)]="service.formDataDF.ImporteIVADlls" [(value)]="ivaDllsF" (blur)="formatoDlls()">
                         </ng-container>
 
 

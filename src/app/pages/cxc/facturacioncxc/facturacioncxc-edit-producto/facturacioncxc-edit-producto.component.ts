@@ -205,6 +205,8 @@ if (diasemana == 6 || diasemana == 0){
     suma = p1 * p2;
     this.service.formDataDF.Importe=suma.toFixed(4);
     this.service.formDataDF.ImporteDlls= (suma / parseFloat(this.Cdolar)).toFixed(4);
+    // this.service.formDataDF.ImporteIVA = parseFloat(this.IVA).toFixed(4);
+    // this.service.formDataDF.ImporteIVADlls = parseFloat(this.IVA).toFixed(4);
     this.service.formDataDF.ImporteIVA = (suma * parseFloat(this.IVA)).toFixed(4);
     this.service.formDataDF.ImporteIVADlls = (parseFloat(this.service.formDataDF.ImporteDlls) * parseFloat(this.IVA)).toFixed(4);
     
@@ -225,8 +227,11 @@ if (diasemana == 6 || diasemana == 0){
     this.service.formDataDF.ImporteDlls=suma.toFixed(4);
     this.service.formDataDF.Importe = (suma * parseFloat(this.Cdolar)).toFixed(4);
     // this.service.formDataDF.Importe= (suma / parseFloat(this.Cdolar)).toFixed(4);
+    console.log(this.IVA);
     this.service.formDataDF.ImporteIVADlls = (suma * parseFloat(this.IVA)).toFixed(4);
     this.service.formDataDF.ImporteIVA = (parseFloat(this.service.formDataDF.Importe) * parseFloat(this.IVA)).toFixed(4);
+    // this.service.formDataDF.ImporteIVADlls = parseFloat(this.IVA).toFixed(4);
+    // this.service.formDataDF.ImporteIVA =  parseFloat(this.IVA).toFixed(4);
     console.log(this.service.formDataDF.PrecioUnitario);
     console.log(this.service.formDataDF.Importe);
     }

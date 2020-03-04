@@ -124,6 +124,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.IdFactura = params['id'];
       this.service.IdFactura = this.IdFactura;
+      this.service.formData.Id = this.IdFactura;
       this.proceso = '';
     });
 
@@ -132,9 +133,14 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.service.listen().subscribe((m: any) => {
       console.log('listen1');
       console.log(m);
+      
       // this.idFactura();
       this.refreshDetallesFacturaList();
     });
+
+    // this.service.listen().toPromise().then(m=>{
+    //   this.refreshDetallesFacturaList();
+    // })
 
     this.serviceNota.listen().subscribe((m:any)=>{
       console.log('listen2');
@@ -152,7 +158,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.resetForm();
     this.setfacturatimbre();
     this.dropdownRefresh();
-    this.refreshDetallesFacturaList();
+    // this.refreshDetallesFacturaList();
     this.tipoDeCambio();
     this.ObtenerUltimaNotaCreditoFactura();
     this.refreshNotaList();
@@ -466,9 +472,9 @@ onDeleteNC(notaCredito: any){
 
 
 /* Metodo que refresca la lista de detalles */
-  ngOnChanges(changes: SimpleChanges): void {
-    this.refreshDetallesFacturaList();
-  }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   this.refreshDetallesFacturaList();
+  // }
 
   /* Valores de Totales */
   subtotal: any;
@@ -639,7 +645,9 @@ onDeleteNC(notaCredito: any){
     this.IniciarTotales();
     let tasa;
     console.log(this.IdFactura+'XXXXXXXXXXXX');
-    this.service.getDetallesFacturaList(this.IdFactura).subscribe(data => {
+    console.log(this.service.formData.Id+'-yyyyyyyyyyy');
+    // this.service.getDetallesFacturaList(this.IdFactura).subscribe(data => {
+    this.service.getDetallesFacturaList(this.service.formData.Id).subscribe(data => {
       console.log(data);
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
@@ -647,7 +655,7 @@ onDeleteNC(notaCredito: any){
       for (let i = 0; i < data.length; i++) {
         this.subtotal = this.subtotal + parseFloat(data[i].Importe);
         if (data[i].ImporteIVA != 'NaN') {
-          this.iva = this.iva + parseFloat(data[i].ImporteIVA);
+          this.iva = this.iva +  parseFloat(data[i].ImporteIVA);
         } else {
           this.iva = this.iva + 0;
         }
@@ -657,7 +665,7 @@ onDeleteNC(notaCredito: any){
       for (let i = 0; i < data.length; i++) {
         this.subtotalDlls = this.subtotalDlls + parseFloat(data[i].ImporteDlls);
         if (data[i].ImporteIVADlls != 'NaN') {
-          this.ivaDlls = this.ivaDlls + (this.subtotalDlls * parseFloat(data[i].ImporteIVADlls));
+          this.ivaDlls = this.ivaDlls + parseFloat(data[i].ImporteIVADlls);
         } else {
           this.ivaDlls = this.ivaDlls + 0;
         }
