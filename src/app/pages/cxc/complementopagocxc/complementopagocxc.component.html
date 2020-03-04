@@ -98,7 +98,7 @@
                         <mat-icon>email</mat-icon>
                     </button> -->
                                         <!-- Eliminar -->
-                                        <button *ngIf="row.Estatus=='Creada'" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
+                                        <button *ngIf="row.Estatus=='Creada' || row.Estatus == 'Guardada'" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
                       <mat-icon>delete_outline</mat-icon>
                     </button>
                                     </mat-menu>

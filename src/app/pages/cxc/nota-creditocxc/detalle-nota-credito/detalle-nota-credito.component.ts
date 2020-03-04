@@ -11,6 +11,7 @@ import { FacturaService } from '../../../../services/facturacioncxc/factura.serv
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import * as html2pdf from 'html2pdf.js';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+import { NotaCredito } from '../../../../Models/nota-credito/notaCredito-model';
 
 @Component({
   selector: 'app-detalle-nota-credito',
@@ -100,6 +101,8 @@ export class DetalleNotaCreditoComponent implements OnInit {
     this.refreshTablaDetalles();
     console.log(this.IdNotaCredito);
     console.log(this.service.formData);
+    console.clear();
+    console.log(this.service.DetalleformData);
   }
 
   IniciarImportes(){
@@ -144,8 +147,14 @@ refreshTablaDetalles(){
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
     }
+    console.log(this.service.formData);
+    this.service.updateNotaCredito(this.service.formData).subscribe(res=>{
+      console.log(res);
+    })
   })
 }
+
+
 
 
 
@@ -173,6 +182,7 @@ onSelectionChange(detalle: DetalleNotaCredito, event: any){
     this.service.DetalleformData = detalle;
     this.CantidadDetalle = +detalle.Cantidad;
     this.CantidadOriginal = +detalle.Cantidad;
+    console.log(this.ProductoSelect);
   }
 
 }
@@ -225,17 +235,12 @@ console.log(form);
 console.log(this.service.DetalleformData);
 this.service.formData.IdNotaCredito = this.IdNotaCredito ;
 this.service.formData.Estatus = 'Guardada';
-console.log(this.service.formData);
-this.service.updateNotaCredito(this.service.formData).subscribe(res=>{
-console.log(res);
   this.service.addDetalleNotaCredito(this.service.DetalleformData).subscribe(res=>{
-  
     console.log(res);
     this.IniciarImportes();
     form.resetForm();
     this.refreshTablaDetalles();
-  });
-});
+    });
   }
 
   onEdit(detalle: DetalleNotaCredito){
