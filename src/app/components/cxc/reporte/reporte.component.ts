@@ -14,6 +14,8 @@ export class ReporteComponent implements OnInit {
 
   IdC: number;
 
+  textoNombre: any;
+
   masterArray = new Array<ReporteMaster>();
 
   constructor(public serviceFactura: FacturaService, public serviceCliente: ClientesService) { }
@@ -51,18 +53,18 @@ export class ReporteComponent implements OnInit {
         Nombre: this.IdCliente[i].Nombre
       })
 
+      this.textoNombre = this.masterArray[i].Nombre.length;
+      console.log(this.textoNombre);
+
       this.masterArray[i].Docs =[];
 
         this.serviceFactura.getReportes(this.IdCliente[i].IdClientes).subscribe(res=>{
-
-          // console.log(res);
-
 
           if(res.length > 0){
 
           for( let l = 0; l < res.length; l++){
 
-            // console.log(res[l]);
+           
             
             this.masterArray[i].Docs.push(res[l]);
 
@@ -70,9 +72,7 @@ export class ReporteComponent implements OnInit {
 
             }
           }
-          // console.log(this.objconc.includes('Folio'));
-          
-          // console.log(this.objconc);
+   
           this.datosArray(this.masterArray);
         })
       }
@@ -93,7 +93,7 @@ export class ReporteComponent implements OnInit {
           this.arrcon.push(datos[j])
         }
       }
-       console.log(this.arrcon);
+      //  console.log(this.arrcon);
       
     }
   }

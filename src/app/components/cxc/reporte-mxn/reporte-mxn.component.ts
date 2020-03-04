@@ -12,6 +12,7 @@ export class ReporteMxnComponent implements OnInit {
   IdCliente: any;
 
   IdC: number;
+  nombrelenght:number;
 
   masterArray = new Array<ReporteMaster>();
 
@@ -31,7 +32,6 @@ export class ReporteMxnComponent implements OnInit {
     this.serviceCliente.getClientesList().subscribe(data=>{
 
       this.IdCliente = data;
-
 
 
       // console.log(this.IdCliente);
@@ -92,7 +92,7 @@ export class ReporteMxnComponent implements OnInit {
           this.arrcon.push(datos[j])
         }
       }
-       console.log(this.arrcon);
+      //  console.log(this.arrcon);
       
     }
   }
