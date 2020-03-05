@@ -499,40 +499,6 @@ console.log('NUEVO CFDIIIIIIIIIII');
 
   //Eliminar PagoCFDI
   onDeletePagoCFDI(CFDI: any) {
-<<<<<<< HEAD
-    this.getTotal(CFDI.IdFactura);
-    console.log(CFDI);
-    //Borrar pagoCFDI
-    this.service.deletePagoCFDI(CFDI.Id).subscribe(res =>{
-    console.log(res);
-
-    this.service.getPagoCFDIFacturaID(CFDI.IdFactura).subscribe(data => {
-      this.CFDI = data;
-      let SaldoP = this.Total
-      let NoP = 1
-      console.log(data);
-      
-      for (let i=0; i<data.length; i++){       
-        this.CFDI[i].Saldo = SaldoP - +this.CFDI[i].Cantidad;
-        SaldoP = SaldoP - +this.CFDI[i].Cantidad;
-        this.CFDI[i].NoParcialidad = NoP.toString();
-        if (this.CFDI[i].Estatus='Timbrada'){
-          if (this.CFDI[i].NoParcialidad==NoP){
-            NoP = NoP + 1
-          }
-        }else{
-          this.service.updatePagoCFDI(this.CFDI[i]).subscribe(res =>{
-           console.log(res);
-          });
-        }
-       }
-       console.log(this.CFDI);
-      });
-
-    this.refreshPagoCFDITList();
-
-    });
-=======
 
     Swal.fire({
       title: '¿Segur@ de Borrar Pago CFDI?',
@@ -582,7 +548,6 @@ console.log('NUEVO CFDIIIIIIIIIII');
       }
     })
    
->>>>>>> 1abb5aae3c3d9bd23bba4767b9fff8c15259fa13
 
   }
 
