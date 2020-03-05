@@ -78,7 +78,8 @@ export class FacturacioncxcProductoComponent implements OnInit {
       );
 
       // console.log(this.service.IdFactura);
-      this.IdFactura = this.service.IdFactura ;
+      // this.IdFactura = this.service.IdFactura ;
+      this.IdFactura = this.service.formData.Id ;
       // console.log(this.IdFactura);
 
   }
@@ -142,7 +143,7 @@ public listUM: Array<any> = [];
 
   onClose() {
     this.dialogbox.close();
-    this.service.filter('Register click');
+    this.service.filter(this.IdFactura);
   }
  
   obtenerProductos(){
@@ -350,7 +351,7 @@ public listUM: Array<any> = [];
         title: 'Producto Agregado'
       })
       this.dialogbox.close();
-      this.service.filter('Register click');
+      this.service.filter(this.IdFactura);
     }
     );
     // console.log(this.service.formDataDF);

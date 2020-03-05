@@ -11,7 +11,7 @@
 <div>
     <label class="input-group-text text-info">Tipo de Relacion</label>
 
-    <select [disabled]="service.Timbrada == true" class="form-control" name="Relacion" #Relacion="ngModel" [(ngModel)]="service.formData.Relacion">
+    <select autocomplete="off" [disabled]="service.Timbrada == true" class="form-control" name="Relacion" #Relacion="ngModel" [(ngModel)]="service.formData.Relacion">
 <option [ngValue]="null" selected disabled>Seleccionar Tipo de Relacion</option>
 <option *ngFor="let dl of listRel" [ngValue]="dl.Relacion"> {{dl.text}} </option>
 </select>
@@ -174,11 +174,11 @@
     <div class="row">
         <div class="col-12 col-md-8">
             <div class="row container">
-                <div class="col-4">
+                <div class="col-2">
 
                 </div>
 
-                <div class="col-4" *ngIf="service.Timbrada == true" style="display: grid">
+                <div class="col-8" *ngIf="service.Timbrada == true" style="display: grid">
                     <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
                     <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml(service.formData.UUID,service.formData.Folio)'><i class="mdi mdi-code-tags btn-lg"></i>XML / PDF</button>
                     <br>
@@ -189,10 +189,10 @@
                     <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button>
                     <button class="btn btn-info btn-lg" mat-raised-button type="button"><i class="mdi mdi-email btn-lg"></i>Enviar</button>
                 </div>
-                <div class="col-12 col-md-4" style="display: grid">
-                    <button *ngIf="service.Timbrada == false" class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="onTimbrar()"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
+                <div class="col-8" style="display: grid" *ngIf="service.Timbrada == false">
+                    <button class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="onTimbrar()"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
                 </div>
-                <div class="col-4">
+                <div class="col-2">
 
                 </div>
             </div>

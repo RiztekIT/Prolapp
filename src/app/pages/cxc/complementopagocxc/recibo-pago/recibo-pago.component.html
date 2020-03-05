@@ -9,7 +9,7 @@
                         Estatus:
                         <p [ngSwitch]=Estatus>
                             <span *ngSwitchCase="'Timbrada'" class="label label-light-success">TIMBRADA</span>
-                            <span *ngSwitchCase="'Guardada'" class="label label-light-success">GUARDADA</span>
+                            <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
                             <span *ngSwitchCase="'Creada'" class="label label-light-info">CREADA</span>
                             <span *ngSwitchCase="'Cancelada'" class="label label-light-danger">CANCELADA</span>
                         </p>
@@ -181,11 +181,11 @@
                                         <button [disabled]="CantidadF == 0 || TotalF == 0" class="btn btn-info btn-lg mt-3 mb-3" mat-raised-button (click)="onAddCFDI()"><i
                                                     class="mdi mdi-content-save btn-lg"></i>Agregar</button>
                                     </div>
-                                    <div class="col-12 col-md-4">
+                                    <!-- <div class="col-12 col-md-4">
 
                                         <button class="btn btn-info btn-lg mt-3 mb-3" mat-raised-button (click)="borrarfact()"><i
                                                     class="mdi mdi-content-save btn-lg"></i>Borrar</button>
-                                    </div>
+                                    </div> -->
                                 </div>
 
 
