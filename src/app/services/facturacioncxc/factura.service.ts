@@ -140,14 +140,17 @@ getReportesM(id: number): Observable<any>{
 
 
 // private _listeners = new Subject<any>(); 
-private _listeners = new BehaviorSubject<any>(''); 
+private _listeners = new Subject<any>(); 
 listen(): Observable<any> {
   return this._listeners.asObservable();
 }
 filter(filterBy: string) {
+  // this._listeners.
+  
   this._listeners.next(filterBy);
+  // this._listeners.complete();
 }
-private _listeners2 = new BehaviorSubject<any>(''); 
+private _listeners2 = new Subject<any>(); 
 listen2(): Observable<any> {
   return this._listeners2.asObservable();
 }
