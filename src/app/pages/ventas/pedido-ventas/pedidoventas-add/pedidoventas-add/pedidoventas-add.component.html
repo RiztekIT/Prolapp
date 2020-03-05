@@ -1,5 +1,8 @@
-<h3 class="text-muted m-t-10 m-b-0">Pedidos Ventas</h3>
-<button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button>
+<h3 class="text-muted m-t-10 m-b-0">
+    Pedidos Ventas</h3>
+<button class="mt-2 btn-primary " style="float: right; margin-left: -5px;" mat-raised-button (click)="Regresar()" color="primary">Regresar</button>
+
+
 
 <div class="col-12">
     <div class="card">
@@ -146,8 +149,6 @@
                                     <div class="row">
                                         <div class="col-12 col-md-6">
 
-                                            <label class="input-group-text text-info">Lugar de Entrega:</label>
-                                            <input type="text" class="form-control" name="LugarDeEntrega" #LugarDeEntrega="ngModel" [(ngModel)]="service.formDataPedido.LugarDeEntrega">
 
                                             <label class="input-group-text text-info">Nombre :</label>
                                             <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre" readonly>
@@ -163,6 +164,11 @@
 
                                             <label class="input-group-text text-info">Colonia :</label>
                                             <input type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia" readonly>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+
+                                            <label class="input-group-text text-info">Lugar de Entrega:</label>
+                                            <input type="text" class="form-control" name="LugarDeEntrega" #LugarDeEntrega="ngModel" [(ngModel)]="service.formDataPedido.LugarDeEntrega">
 
                                             <label class="input-group-text text-info">CP :</label>
                                             <input type="text" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP" readonly>
@@ -172,8 +178,6 @@
 
                                             <label class="input-group-text text-info">Estado :</label>
                                             <input type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado" readonly>
-                                        </div>
-                                        <div class="col-12 col-md-6">
 
                                             <label class="input-group-text text-info">NumeroInterior :</label>
                                             <input type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior" readonly>
@@ -181,26 +185,26 @@
                                             <label class="input-group-text text-info">NumeroExterior :</label>
                                             <input type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior" readonly>
 
-                                            <label class="input-group-text text-info">ClaveCliente :</label>
-                                            <input type="text" class="form-control" name="ClaveCliente" #ClaveCliente="ngModel" [(ngModel)]="service.formData.ClaveCliente" readonly>
+                                            <!-- <label class="input-group-text text-info">ClaveCliente :</label>
+                                            <input type="text" class="form-control" name="ClaveCliente" #ClaveCliente="ngModel" [(ngModel)]="service.formData.ClaveCliente" readonly> -->
 
-                                            <label class="input-group-text text-info">Estatus :</label>
-                                            <input type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formData.Estatus" readonly>
+                                            <!-- <label class="input-group-text text-info">Estatus :</label>
+                                            <input type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formData.Estatus" readonly> -->
 
-                                            <label class="input-group-text text-info">LimiteCredito :</label>
+                                            <!-- <label class="input-group-text text-info">LimiteCredito :</label>
                                             <input type="text" class="form-control" name="LimiteCredito" #LimiteCredito="ngModel" [(ngModel)]="service.formData.LimiteCredito" readonly>
 
                                             <label class="input-group-text text-info">DiasCredito :</label>
-                                            <input type="text" class="form-control" name="DiasCredito" #DiasCredito="ngModel" [(ngModel)]="service.formData.DiasCredito" readonly>
+                                            <input type="text" class="form-control" name="DiasCredito" #DiasCredito="ngModel" [(ngModel)]="service.formData.DiasCredito" readonly> -->
 
-                                            <label class="input-group-text text-info">MetodoPago :</label>
-                                            <input type="text" class="form-control" name="MetodoPago" #MetodoPago="ngModel" [(ngModel)]="service.formData.MetodoPago" readonly>
+                                            <!-- <label class="input-group-text text-info">MetodoPago :</label>
+                                            <input type="text" class="form-control" name="MetodoPago" #MetodoPago="ngModel" [(ngModel)]="service.formData.MetodoPago" readonly> -->
 
-                                            <label class="input-group-text text-info">UsoCFDI :</label>
-                                            <input type="text" class="form-control" name="UsoCFDI" #UsoCFDI="ngModel" [(ngModel)]="service.formData.UsoCFDI" readonly>
+                                            <!-- <label class="input-group-text text-info">UsoCFDI :</label>
+                                            <input type="text" class="form-control" name="UsoCFDI" #UsoCFDI="ngModel" [(ngModel)]="service.formData.UsoCFDI" readonly> -->
 
-                                            <label class="input-group-text text-info">IdApi :</label>
-                                            <input type="text" class="form-control" name="IdApi" #IdApi="ngModel" value="" [(ngModel)]="service.formData.IdApi" readonly>
+                                            <!-- <label class="input-group-text text-info">IdApi :</label>
+                                            <input type="text" class="form-control" name="IdApi" #IdApi="ngModel" value="" [(ngModel)]="service.formData.IdApi" readonly> -->
                                             <div>
                                             </div>
                                         </div>
