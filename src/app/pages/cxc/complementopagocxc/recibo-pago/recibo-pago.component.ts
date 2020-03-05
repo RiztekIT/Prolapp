@@ -508,17 +508,22 @@ console.log('NUEVO CFDIIIIIIIIIII');
     this.service.getPagoCFDIFacturaID(CFDI.IdFactura).subscribe(data => {
       this.CFDI = data;
       let SaldoP = this.Total
-      let NoP = 0
+      let NoP = 1
       console.log(data);
       
-      for (let i=0; i<data.length; i++){
+      for (let i=0; i<data.length; i++){       
         this.CFDI[i].Saldo = SaldoP - +this.CFDI[i].Cantidad;
         SaldoP = SaldoP - +this.CFDI[i].Cantidad;
-        NoP = NoP + 1
         this.CFDI[i].NoParcialidad = NoP.toString();
-        this.service.updatePagoCFDI(this.CFDI[i]).subscribe(res =>{
-         console.log(res);
-        });
+        if (this.CFDI[i].Estatus='Timbrada'){
+          if (this.CFDI[i].NoParcialidad==NoP){
+            NoP = NoP + 1
+          }
+        }else{
+          this.service.updatePagoCFDI(this.CFDI[i]).subscribe(res =>{
+           console.log(res);
+          });
+        }
        }
        console.log(this.CFDI);
       });
