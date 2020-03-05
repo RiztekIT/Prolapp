@@ -11,7 +11,7 @@
 <div>
     <label class="input-group-text text-info">Tipo de Relacion</label>
 
-    <select [disabled]="service.Timbrada == true" class="form-control" name="Relacion" #Relacion="ngModel" [(ngModel)]="service.formData.Relacion">
+    <select autocomplete="off" [disabled]="service.Timbrada == true" class="form-control" name="Relacion" #Relacion="ngModel" [(ngModel)]="service.formData.Relacion">
 <option [ngValue]="null" selected disabled>Seleccionar Tipo de Relacion</option>
 <option *ngFor="let dl of listRel" [ngValue]="dl.Relacion"> {{dl.text}} </option>
 </select>
