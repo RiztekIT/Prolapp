@@ -499,6 +499,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
 
   //Eliminar PagoCFDI
   onDeletePagoCFDI(CFDI: any) {
+<<<<<<< HEAD
     this.getTotal(CFDI.IdFactura);
     console.log(CFDI);
     //Borrar pagoCFDI
@@ -531,6 +532,57 @@ console.log('NUEVO CFDIIIIIIIIIII');
     this.refreshPagoCFDITList();
 
     });
+=======
+
+    Swal.fire({
+      title: '¿Segur@ de Borrar Pago CFDI?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+       
+        this.getTotal(CFDI.IdFactura);
+        console.log(CFDI);
+        //Borrar pagoCFDI
+        this.service.deletePagoCFDI(CFDI.Id).subscribe(res =>{
+        console.log(res);
+    
+        this.service.getPagoCFDIFacturaID(CFDI.IdFactura).subscribe(data => {
+          this.CFDI = data;
+          let SaldoP = this.Total
+          let NoP = 0
+          console.log(data);
+          
+          for (let i=0; i<data.length; i++){
+            this.CFDI[i].Saldo = SaldoP - +this.CFDI[i].Cantidad;
+            SaldoP = SaldoP - +this.CFDI[i].Cantidad;
+            NoP = NoP + 1
+            this.CFDI[i].NoParcialidad = NoP.toString();
+            this.service.updatePagoCFDI(this.CFDI[i]).subscribe(res =>{
+             console.log(res);
+            });
+           }
+           console.log(this.CFDI);
+          });
+    
+        this.refreshPagoCFDITList();
+        Swal.fire({
+          title: 'Borrado',
+          icon: 'success',
+          timer: 1000,
+          showCancelButton: false,
+          showConfirmButton: false
+        });
+      
+        });
+      }
+    })
+   
+>>>>>>> 1abb5aae3c3d9bd23bba4767b9fff8c15259fa13
 
   }
 
@@ -727,7 +779,7 @@ console.log(this.json1);
       console.log(this.json1);
       this.loading = false;
       Swal.fire(
-        'Factura Creada',
+        'Complemento Pago Creado',
         '' + this.service.formData.UUID + '',
         'success'
       )
@@ -852,7 +904,7 @@ onExportClick(folio?: string) {
   }
   cancelar(uuid,id){
     Swal.fire({
-      title: '¿Segur@ de Cancelar la Factura?',
+      title: '¿Segur@ de Cancelar Complemento Pago?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',

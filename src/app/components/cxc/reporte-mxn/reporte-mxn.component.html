@@ -1,32 +1,48 @@
-<table class="table-hover">
-    <thead>
-        <tr>
-            <th class="blacktxt bolder">ID Cliente</th>
-            <th class="blacktxt bolder">Nombre</th>
-        </tr>
-        <tr>
-            <th class="blacktxt bolder">Folio</th>
-            <th class="blacktxt bolder">Tipo</th>
-            <th class="blacktxt bolder">Fecha de Expedicion</th>
-            <th class="blacktxt bolder">Total</th>
-            <th class="blacktxt bolder">Moneda</th>
-            <th class="blacktxt bolder">Tipo de Cambio</th>
-        </tr>
-    </thead>
-    <tbody *ngFor="let info of arrcon; let i = index">
-        <tr>
-            <td class="wrap lightback"> {{info.IdCliente}} </td>
-            <td class="wrap lightback" [attr.colspan]="6"> {{info.Nombre}} </td>
-            <tr>
+<div class="container row">
+    <div class="col-1"></div>
+    <div class="col-9">
 
-                <tr *ngFor="let info of arrcon[i].Docs">
 
-                    <td class="pgbreak"> {{info.Folio}} </td>
-                    <td class="pgbreak"> {{info.Tipo}} </td>
-                    <td class="pgbreak"> {{info.FechaDeExpedicion| date}} </td>
-                    <td class="pgbreak"> {{info.Total | currency}} </td>
-                    <td class="pgbreak"> {{info.Moneda}} </td>
-                    <td class="pgbreak"> {{info.TipoDeCambio}} </td>
+        <table class="table-hover">
+            <thead>
+                <tr>
+                    <th class="blacktxt bolder nowrap">ID Cliente</th>
+                    <th class="blacktxt bolder">Nombre</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
-    </tbody>
-</table>
+                <tr>
+                    <th class="blacktxt bolder ">Folio</th>
+                    <th class="blacktxt bolder ">Tipo</th>
+                    <th class="blacktxt bolder nowrap">Fecha de Expedicion</th>
+                    <th class="blacktxt bolder ">Total MXN</th>
+                    <th class="blacktxt bolder ">Total DLLS</th>
+                    <th class="blacktxt bolder ">Moneda</th>
+                    <th class="blacktxt bolder ">T.C.</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let info of arrcon; let i = index">
+                <tr class="pgbreak">
+                    <td class="wrap lightback pgbreak"> {{info.IdCliente}} </td>
+                    <!-- <td class="wrap lightback"> {{info.Nombre | slice:0:35}} <br> {{info.Nombre | slice:35:this.textoNombre[i]}} </td> -->
+                    <!-- <td class="wrap lightback"> {{info.Nombre}}</td> -->
+                    <td class="wrap lightback pgbreak" [attr.colspan]="6"> {{info.Nombre}}</td>
+
+                    <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
+                        <td class="pgbreak"> {{info.Folio}} </td>
+                        <td class="pgbreak"> {{info.Tipo}} </td>
+                        <td class="pgbreak"> {{info.FechaDeExpedicion| date: 'yyyy/MM/dd'}} </td>
+                        <td class="pgbreak"> {{info.Total | currency}} </td>
+                        <td class="pgbreak"> {{info.TotalDlls | currency }} </td>
+                        <td class="pgbreak"> {{info.Moneda}} </td>
+                        <td class="pgbreak"> {{info.TipoDeCambio |currency}} </td>
+                    </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <div class="col-2"></div>
+</div>

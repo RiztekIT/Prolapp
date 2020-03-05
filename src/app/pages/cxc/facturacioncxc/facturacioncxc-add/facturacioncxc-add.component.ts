@@ -379,7 +379,7 @@ console.log(data);
 
   listData2: MatTableDataSource<any>;
 
-  displayedColumns2 : string [] = ['Folio', 'IdNotaCredito', 'IdCliente', 'IdFactura',  'Estatus', 'Options'];
+  displayedColumns2 : string [] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Subtotal', 'ImpuestosTrasladadosDlls', 'Total', 'Estatus', 'Options'];
   displayedColumnsVersion : string [] = ['IdDetalleNotaCredito', 'IdNotaCredito', 'ClaveProducto', 'Cantidad'];
 
   expandedElement2: any;

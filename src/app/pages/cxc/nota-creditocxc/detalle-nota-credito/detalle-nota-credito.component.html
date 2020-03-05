@@ -37,7 +37,7 @@
                         </mat-form-field>
 
                         <label class="input-group-text text-info ">Clave Producto:</label>
-                        <input readonly type="text " class="form-control " name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="service.DetalleformData.ClaveProducto ">
+                        <input required readonly type="text " class="form-control " name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="service.DetalleformData.ClaveProducto ">
 
                         <label class="input-group-text text-info ">Producto:</label>
                         <input readonly type="text " class="form-control " name="Producto" #Producto="ngModel" [(ngModel)]="service.DetalleformData.Producto">
@@ -89,8 +89,8 @@
 
         <br>
         <div *ngIf="service.Timbrada == false">
-            <button *ngIf="agregar == true" class="mt-4" mat-raised-button color="primary" (click)="onSubmit(form)" [disabled]="form.invalid ">Agregar Concepto</button>
-            <button *ngIf="agregar == false" class="mt-4" mat-raised-button color="primary" (click)="ActualizarDetalleNotaCredito(form)" [disabled]="form.invalid ">Actualziar Concepto</button>
+            <button *ngIf="agregar == true" class="mt-4" mat-raised-button color="primary" (click)="onSubmit(form)" [disabled]="form.invalid || CantidadDetalle == 0 ">Agregar Concepto</button>
+            <button *ngIf="agregar == false" class="mt-4" mat-raised-button color="primary" (click)="ActualizarDetalleNotaCredito(form)" [disabled]="form.invalid || CantidadDetalle == 0">Actualziar Concepto</button>
         </div>
     </form>
     <br>
