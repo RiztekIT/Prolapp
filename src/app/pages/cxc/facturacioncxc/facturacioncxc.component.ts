@@ -257,11 +257,12 @@ export class FacturacioncxcComponent implements OnInit {
         if (!this.IdFactura){
           this.IdFactura='1';
           let Id = this.IdFactura;
-          //this.service.formData.Id=Id;
+          this.service.formData.Id=Id;
           localStorage.setItem('FacturaID',this.service.formData.Id.toString())
-      this.router.navigate(['/facturacionCxcAdd', Id]);
+          this.router.navigate(['/facturacionCxcAdd', Id]);
         }
         let Id = this.IdFactura;
+        this.service.formData.Id=Id;
         localStorage.setItem('FacturaID',this.service.formData.Id.toString())
       this.router.navigate(['/facturacionCxcAdd', Id]);
 
