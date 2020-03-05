@@ -119,7 +119,7 @@ getProductos(): Observable<any>{
 }
 //Obtener Clientes de la Base de Datos
 getDepDropDownValues(): Observable<any>{
-  return this.http.get<Cliente[]>(this.APIUrl+'/cliente');
+  return this.http.get<Cliente[]>(this.APIUrl+'/cliente/Facturar');
 }
 //Obtener Vendedor de la Base de Datos
 getvendedor(id:number): Observable<any>{
