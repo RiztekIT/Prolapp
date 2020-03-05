@@ -107,6 +107,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   folio: string;
   xmlparam;
   fileUrl;
+  fechaVenc = new Date();
   a = document.createElement('a');
   public loading = false;
   public loading2 = false;
@@ -527,6 +528,9 @@ onDeleteNC(notaCredito: any){
 /* Metodo que se dispara al seleccionar clientes */
   onSelectionChange(cliente: Cliente, event: any) {
     if (event.isUserInput) {
+      
+      this.fechaVenc = new Date(this.service.formData.FechaDeExpedicion)
+      console.log(this.fechaVenc);
 
       console.log(cliente);
       this.service.formData.IdCliente = cliente.IdClientes;
@@ -536,11 +540,15 @@ onDeleteNC(notaCredito: any){
       this.service.formData.UsoDelCFDI = cliente.UsoCFDI;
       this.service.formData.FormaDePago = cliente.MetodoPago;
       this.service.formData.CondicionesDePago = cliente.DiasCredito + ' Dias Credito';
+      this.fechaVenc.setDate(this.fechaVenc.getDate()+parseInt(cliente.DiasCredito))
+      this.service.formData.FechaVencimiento = new Date(this.fechaVenc)
+      // this.service.formData.FechaVencimiento.setDate(this.service.formData.FechaVencimiento.getDate()+parseFloat(cliente.DiasCredito))
+      console.log(this.fechaVenc);
       // this.service.formData.Vendedor = cliente.Vendedor
       this.service.getvendedor(cliente.Vendedor).subscribe(data=>{
         console.log(data);
         
-        this.service.formData.Vendedor = data[0].nombre;
+        this.service.formData.Vendedor = data[0].Nombre;
 
       })
      
