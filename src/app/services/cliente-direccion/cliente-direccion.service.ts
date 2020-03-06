@@ -31,6 +31,10 @@ export class ClienteDireccionService {
   getJoinDireccionCliente(id:number): Observable <any[]> {
     return this.http.get<any[]>(this.APIUrl + '/ClienteDireccion/JoinDireccionCliente/' + id);
   }
+  //Obtener cliente por ID CLiente
+  getObtenerClienteID(id:number): Observable <any[]> {
+    return this.http.get<any[]>(this.APIUrl + '/ClienteDireccion/ObtenerClienteID/' + id);
+  }
   addClienteDireccion(clientedireccion: ClienteDireccion) {
     return this.http.post(this.APIUrl + '/ClienteDireccion', clientedireccion);
  }

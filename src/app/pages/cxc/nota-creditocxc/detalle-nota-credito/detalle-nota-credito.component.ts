@@ -100,8 +100,8 @@ export class DetalleNotaCreditoComponent implements OnInit {
     this.DetalleNotaCredito();
     this.refreshTablaDetalles();
     console.log(this.IdNotaCredito);
-    console.log(this.service.formData);
     console.clear();
+    console.log(this.service.formData);
     console.log(this.service.DetalleformData);
   }
 
@@ -493,7 +493,7 @@ this.refreshTablaDetalles();
               Cantidad: this.listData.data[i].Cantidad,
               ClaveUnidad: this.listData.data[i].Unidad,
               Unidad: this.listData.data[i].Unidad,
-              Descripcion: this.listData.data[i].DescripcionProducto,
+              Descripcion: this.listData.data[i].Producto,
               ValorUnitario: this.listData.data[i].PrecioUnitarioDlls,
               Importe: this.listData.data[i].ImporteDlls,
               Descuento: '0',

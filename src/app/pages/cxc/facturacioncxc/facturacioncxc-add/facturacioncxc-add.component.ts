@@ -107,6 +107,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   folio: string;
   xmlparam;
   fileUrl;
+  fechaVenc = new Date();
   a = document.createElement('a');
   public loading = false;
   public loading2 = false;
@@ -117,22 +118,26 @@ export class FacturacioncxcAddComponent implements OnInit {
     private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService, private tipoCambio:TipoCambioService, public serviceNota: NotaCreditoService ) {
       this.service.Moneda = 'MXN';
       console.log('Constr '+this.service.Moneda);
+      this.service.formData.Id = +localStorage.getItem('FacturaID')
       
       
 
       /* Metodo para obtener los parametros de la pantalla anterior  */
-    this.activatedRoute.params.subscribe(params => {
-      this.IdFactura = params['id'];
-      this.service.IdFactura = this.IdFactura;
-      this.service.formData.Id = this.IdFactura;
-      this.proceso = '';
-    });
+    // this.activatedRoute.params.subscribe(params => {
+    //   this.IdFactura = params['id'];
+    //   this.service.IdFactura = this.IdFactura;
+    //   this.service.formData.Id = this.IdFactura;
+    //   this.proceso = '';
+    // });
 
     //Observable para actualizar tabla de Detalles Factura
+    
     
     this.service.listen().subscribe((m: any) => {
       console.log('listen1');
       console.log(m);
+
+      
       
       // this.idFactura();
       this.refreshDetallesFacturaList();
@@ -154,11 +159,11 @@ export class FacturacioncxcAddComponent implements OnInit {
 
   ngOnInit() {
     // this.idFactura();
-    console.log(this.IdFactura);
+    // console.log(this.IdFactura);
     this.resetForm();
     this.setfacturatimbre();
     this.dropdownRefresh();
-    // this.refreshDetallesFacturaList();
+    this.refreshDetallesFacturaList();
     this.tipoDeCambio();
     this.ObtenerUltimaNotaCreditoFactura();
     this.refreshNotaList();
@@ -274,10 +279,11 @@ console.log(NotaBlanco);
 
 
 console.log(this.listData.data);
+NotaBlanco.TipoDeCambio = this.service.formData.TipoDeCambio;
 this.serviceNota.addNotaCredito(NotaBlanco).subscribe(res =>{
   this.serviceNota.formData = NotaBlanco;
   // console.log(res);
-this.service.getDetallesFacturaList(this.IdFactura).subscribe(data => {
+this.service.getDetallesFacturaList(this.service.formData.Id).subscribe(data => {
   this.serviceNota.DetalleFactura = data;
   for(let i = 0; i <= data.length-1; i++){
     console.log(data[i]);
@@ -357,8 +363,8 @@ console.log(this.serviceNota.Timbrada);
 
   //Obtener ultima nota de credito de cierta Factura en especifico
   ObtenerUltimaNotaCreditoFactura(){
-    console.log(this.IdFactura);
-    this.serviceNota.getUltimaNotaCreditoFacturaID(this.IdFactura).subscribe(data=>{
+    // console.log(this.IdFactura);
+    this.serviceNota.getUltimaNotaCreditoFacturaID(this.service.formData.Id).subscribe(data=>{
       if(data.length>0){
         this.EstatusNota = data[0].Estatus;
         console.log(this.EstatusNota);
@@ -392,12 +398,12 @@ console.log(res);
    
     // this.service.deleteNotaCreada().subscribe(data =>{
       // console.log(data);
-      console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
-      console.log(this.IdFactura);
-      console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+      // console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+      // console.log(this.IdFactura);
+      // console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
       this.serviceNota.master = new Array<NotaCreditoMaster>();
       //this.detalle = new Array<DetalleNotaCredito>();
-      this.serviceNota.getNotaCreditoFacturaID(this.IdFactura).subscribe(data=>{
+      this.serviceNota.getNotaCreditoFacturaID(this.service.formData.Id).subscribe(data=>{
         console.log(data);
         for(let i = 0; i <= data.length-1; i++){
           this.serviceNota.master[i] = data[i]
@@ -523,6 +529,9 @@ onDeleteNC(notaCredito: any){
 /* Metodo que se dispara al seleccionar clientes */
   onSelectionChange(cliente: Cliente, event: any) {
     if (event.isUserInput) {
+      
+      this.fechaVenc = new Date(this.service.formData.FechaDeExpedicion)
+      console.log(this.fechaVenc);
 
       console.log(cliente);
       this.service.formData.IdCliente = cliente.IdClientes;
@@ -532,11 +541,15 @@ onDeleteNC(notaCredito: any){
       this.service.formData.UsoDelCFDI = cliente.UsoCFDI;
       this.service.formData.FormaDePago = cliente.MetodoPago;
       this.service.formData.CondicionesDePago = cliente.DiasCredito + ' Dias Credito';
+      this.fechaVenc.setDate(this.fechaVenc.getDate()+parseInt(cliente.DiasCredito))
+      this.service.formData.FechaVencimiento = new Date(this.fechaVenc)
+      // this.service.formData.FechaVencimiento.setDate(this.service.formData.FechaVencimiento.getDate()+parseFloat(cliente.DiasCredito))
+      console.log(this.fechaVenc);
       // this.service.formData.Vendedor = cliente.Vendedor
       this.service.getvendedor(cliente.Vendedor).subscribe(data=>{
         console.log(data);
         
-        this.service.formData.Vendedor = data[0].nombre;
+        this.service.formData.Vendedor = data[0].Nombre;
 
       })
      
@@ -644,7 +657,7 @@ onDeleteNC(notaCredito: any){
     // this.idFactura();
     this.IniciarTotales();
     let tasa;
-    console.log(this.IdFactura+'XXXXXXXXXXXX');
+    // console.log(this.IdFactura+'XXXXXXXXXXXX');
     console.log(this.service.formData.Id+'-yyyyyyyyyyy');
     // this.service.getDetallesFacturaList(this.IdFactura).subscribe(data => {
     this.service.getDetallesFacturaList(this.service.formData.Id).subscribe(data => {
@@ -797,7 +810,7 @@ onDeleteNC(notaCredito: any){
     this.service.formData.Tipo = 'Ingreso';
     this.service.formData.Estatus = 'Guardada';
     this.service.formData.Version = '3.3';
-    this.service.formData.Id = this.IdFactura;
+    // this.service.formData.Id = this.IdFactura;
     if (this.service.formData.Moneda == 'USD') {
       this.service.formData.TipoDeCambio = this.Cdolar;
     } else {
@@ -825,10 +838,10 @@ onDeleteNC(notaCredito: any){
 
 /* Metodo para reinciar el form o iniciarlo con datos dependiendo del folio*/
   resetForm(form?: NgForm) {
-    console.log(this.IdFactura);
+    // console.log(this.IdFactura);
     
 
-    this.service.getFacturaId(this.IdFactura).subscribe(res => {
+    this.service.getFacturaId(this.service.formData.Id).subscribe(res => {
       console.log(res[0]);
       
       this.service.formData = res[0];
@@ -971,7 +984,7 @@ onDeleteNC(notaCredito: any){
     this.service.formData.Tipo = 'Ingreso';
     this.service.formData.Estatus = 'Guardada';
     this.service.formData.Version = '3.3';
-    this.service.formData.Id = this.IdFactura;
+    // this.service.formData.Id = this.IdFactura;
     if (this.service.formData.Moneda == 'USD') {
       this.service.formData.TipoDeCambio = this.Cdolar;
     } else {
@@ -1002,12 +1015,12 @@ onDeleteNC(notaCredito: any){
     } else {
       this.service.formData.TipoDeCambio = '0';
     }
-    this.service.formData.Id = +this.IdFactura;
+    // this.service.formData.Id = +this.IdFactura;
     this.service.updateFactura(this.service.formData).subscribe(res => {
       console.log(this.service.formData);
       this.resetForm(form);
       this.IniciarTotales();
-      this.crearjsonfactura(this.IdFactura);
+      this.crearjsonfactura(this.service.formData.Id);
     }
     );
 
@@ -1289,7 +1302,7 @@ onDeleteNC(notaCredito: any){
   }
 /* Maetodo para la prefactura */
   prefactura(folio: string) {
-    this.crearjsonprefactura(this.IdFactura);
+    this.crearjsonprefactura(this.service.formData.Id);
   }
 
 

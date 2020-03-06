@@ -138,6 +138,7 @@ export class FacturacioncxcComponent implements OnInit {
         if (data[i].IdCliente != 1){
           
           this.service.getDetallesFacturaList(data[i].Id).subscribe(res => {
+            this.service.master[i].detalle.pop();
             for (let l = 0; l <=res.length-1; l++){
               this.service.master[i].detalle.push(res[l]);
             }
@@ -249,16 +250,20 @@ export class FacturacioncxcComponent implements OnInit {
 
 /* Crear Factura y abrir nueva pantalla */
   onAdd(){
+    console.log(this.FacturaBlanco);
     this.service.addFactura(this.FacturaBlanco).subscribe(res => {
       this.service.getUltimaFactura().subscribe(data => {
-        this.IdFactura = data[0].Id;
-        this.service.formData.Id = this.IdFactura;//linea nueva
+        this.IdFactura = data[0].Id;         
         if (!this.IdFactura){
           this.IdFactura='1';
           let Id = this.IdFactura;
-      this.router.navigate(['/facturacionCxcAdd', Id]);
+          this.service.formData.Id=Id;
+          localStorage.setItem('FacturaID',this.service.formData.Id.toString())
+          this.router.navigate(['/facturacionCxcAdd', Id]);
         }
         let Id = this.IdFactura;
+        this.service.formData.Id=Id;
+        localStorage.setItem('FacturaID',this.service.formData.Id.toString())
       this.router.navigate(['/facturacionCxcAdd', Id]);
 
         });
@@ -283,6 +288,7 @@ ObtenerUltimaFactura(){
   onEdit(factura: Factura){
 this.service.formData = factura;
 let Id = factura.Id;
+localStorage.setItem('FacturaID',this.service.formData.Id.toString())
     this.router.navigate(['/facturacionCxcAdd', Id]);
   }
 

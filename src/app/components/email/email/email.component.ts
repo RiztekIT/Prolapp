@@ -37,7 +37,11 @@ export class EmailComponent implements OnInit {
       const blob = new Blob([res as ArrayBuffer], { type: 'application/xml' });
       // this.files.push(blob)
       console.log(blob);
+<<<<<<< HEAD
       let file = new File([blob],'archivo.'+ );
+=======
+      let file = new File([blob],'archivo.xml');
+>>>>>>> 96d61b3a71d21d554e7580b49a98eb7007e8361f
       this.files.push(file);
       
       

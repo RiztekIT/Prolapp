@@ -1,5 +1,6 @@
 <div class="d-flex justify-content-between">
     <h4>Direcciones del Cliente: {{NombreCliente}}</h4>
+    <h4>IdCliente: {{IdCliente}}</h4>
 
     <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
         <mat-icon>close</mat-icon>
@@ -7,12 +8,13 @@
 
 
 </div>
-<hr>
 
-<div style="overflow: auto; height: 450px;">
+
+<div style="overflow: auto; height: 600px;">
+    <hr>
 
     <!-- Inicio FORM -->
-    <form #form="ngForm" (submit)="AgregarDireccionCliente(form)" autocomplete="off">
+    <form #form="ngForm" autocomplete="off">
 
         <div class="form-material">
             <div class="container">
@@ -21,12 +23,12 @@
 
                     <div class="col-lg-6">
                         <!-- ------------------------------------------------------------------------------------------------------------------------ -->
-                        <label class="input-group-text text-info ">IdCliente</label>
-                        <input readonly type="text" class="form-control" name="IdCliente" [(ngModel)]="IdCliente">
+                        <!-- <label class="input-group-text text-info ">IdCliente</label>
+                        <input readonly type="text" class="form-control" name="IdCliente" [(ngModel)]="IdCliente"> -->
                         <!--  ------------------------------------------------------------------------------------------------------------------------ -->
                         <!-- ------------------------------------------------------------------------------------------------------------------------ -->
                         <label class="input-group-text text-info ">Calle</label>
-                        <input required type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle">
+                        <input required type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle" autocomplete="off">
 
                         <div class="text-left text-danger" *ngIf="Calle.invalid && Calle.touched">
                             Favor de Ingresar Calle
@@ -34,7 +36,7 @@
                         <!--  ------------------------------------------------------------------------------------------------------------------------ -->
                         <!-- ------------------------------------------------------------------------------------------------------------------------ -->
                         <label class="input-group-text text-info ">Colonia</label>
-                        <input required type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia">
+                        <input required type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia" autocomplete="off">
 
                         <div class="text-left text-danger" *ngIf="Colonia.invalid && Colonia.touched">
                             Favor de Ingresar Colonia
@@ -42,7 +44,7 @@
                         <!--  ------------------------------------------------------------------------------------------------------------------------ -->
                         <!-- ------------------------------------------------------------------------------------------------------------------------ -->
                         <label class="input-group-text text-info ">Codigo Postal</label>
-                        <input required type="text" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP">
+                        <input required type="number" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP" autocomplete="off">
 
                         <div class="text-left text-danger" *ngIf="CP.invalid && CP.touched">
                             Favor de Ingresar Codigo Postal
@@ -57,7 +59,7 @@
 
                         <!-- ------------------------------------------------------------------------------------------------------------------------ -->
                         <label class="input-group-text text-info ">Ciudad</label>
-                        <input required type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad">
+                        <input required type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad" autocomplete="off">
 
                         <div class="text-left text-danger" *ngIf="Ciudad.invalid && Ciudad.touched">
                             Favor de Ingresar Ciudad
@@ -65,26 +67,26 @@
                         <!--  ------------------------------------------------------------------------------------------------------------------------ -->
                         <!-- ------------------------------------------------------------------------------------------------------------------------ -->
                         <label class="input-group-text text-info ">Estado</label>
-                        <input required type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado">
+                        <input required type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado" autocomplete="off">
 
                         <div class="text-left text-danger" *ngIf="Estado.invalid && Estado.touched">
                             Favor de Ingresar Estado
                         </div>
                         <!--  ------------------------------------------------------------------------------------------------------------------------ -->
                         <!-- ------------------------------------------------------------------------------------------------------------------------ -->
-                        <label class="input-group-text text-info ">Numero Interior</label>
-                        <input type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior">
-
-                        <div class="text-left text-danger" *ngIf="NumeroInterior.invalid && NumeroInterior.touched">
-                            Favor de Ingresar Numero Interior
-                        </div>
-                        <!--  ------------------------------------------------------------------------------------------------------------------------ -->
-                        <!-- ------------------------------------------------------------------------------------------------------------------------ -->
                         <label class="input-group-text text-info ">Numero Exterior</label>
-                        <input type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior">
+                        <input required type="number" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior" autocomplete="off">
 
                         <div class="text-left text-danger" *ngIf="NumeroExterior.invalid && NumeroExterior.touched">
                             Favor de Ingresar Numero Exterior
+                        </div>
+                        <!--  ------------------------------------------------------------------------------------------------------------------------ -->
+                        <!-- ------------------------------------------------------------------------------------------------------------------------ -->
+                        <label class="input-group-text text-info ">Numero Interior</label>
+                        <input type="number" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior" autocomplete="off">
+
+                        <div class="text-left text-danger" *ngIf="NumeroInterior.invalid && NumeroInterior.touched">
+                            Favor de Ingresar Numero Interior
                         </div>
                         <!--  ------------------------------------------------------------------------------------------------------------------------ -->
 
@@ -95,8 +97,11 @@
             </div>
         </div>
         <br>
-        <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Agregar Direccion</button>
-
+        <button *ngIf="agregarDireccion == true" (click)="AgregarDireccionCliente(form)" class="btn btn-success" mat-raised-button color="success" [disabled]="form.invalid">Agregar Direccion</button>
+        <button *ngIf="agregarDireccion == false" (click)="ActualizarDireccion(form)" class="btn btn-success" mat-raised-button color="success" [disabled]="form.invalid">Actualizar Direccion</button>
+        <button mat-icon-button class="btn btn-danger" color="warn" (click)="LimpiarCampos(form)"><mat-icon>delete_outline</mat-icon></button>
+        <br>
+        <hr>
     </form>
     <!-- Fin FORM -->
 

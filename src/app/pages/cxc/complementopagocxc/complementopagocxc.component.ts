@@ -213,7 +213,8 @@ export class ComplementopagocxcComponent implements OnInit {
   openrep(row){
 
     console.log(row);
-    this.service.formt = row
+    this.service.formt = row;
+    localStorage.setItem('rowpago',JSON.stringify(row));
     console.log(this.service.formt);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;

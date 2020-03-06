@@ -38,6 +38,7 @@ export class ComplementoPagoComponent implements OnInit {
 }
   ver(){
     this.service.formt = JSON.parse(localStorage.getItem('rowpago'));
+    
     console.log(this.service.formt)
 
 
