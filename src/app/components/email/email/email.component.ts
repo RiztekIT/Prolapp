@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { MessageService } from 'src/app/services/message.service';
 import Swal from 'sweetalert2';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+
 
 @Component({
   selector: 'app-email',
@@ -13,15 +14,35 @@ export class EmailComponent implements OnInit {
 
   @Input() foliop: any;
   @Input() idp: any;
+  
 
   files: File[] = [];
   sanitizer: any;
   loading2 = false;
+  fileUrl;
+  a = document.createElement('a');
+  pdfstatus = false;
 
-  constructor(public _MessageService: MessageService) { }
-
+  constructor(public _MessageService: MessageService) { 
+  }
+  
   ngOnInit() {
-   
+  }
+  
+  ngOnChanges(changes: SimpleChanges): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    this.urlPDF();
+    
+  }
+
+  urlPDF(){
+
+    // const blob = new Blob([localStorage.getItem('pdf'+this.foliop) as BlobPart], { type: 'application/pdf' });
+    // this.fileUrl = window.URL.createObjectURL(blob);
+    this.fileUrl = localStorage.getItem('pdf'+this.foliop); 
+    this.pdfstatus = true;   
+    console.log(this.fileUrl);
   }
 
   leerArchivo(){
@@ -31,6 +52,7 @@ export class EmailComponent implements OnInit {
 
     
     
+
     this._MessageService.readFile(formData).subscribe(res=>{
       console.log(res);
       const blob = new Blob([res as ArrayBuffer], { type: 'application/xml' });
@@ -38,9 +60,12 @@ export class EmailComponent implements OnInit {
       console.log(blob);
       let file = new File([blob],'archivo.xml');
       this.files.push(file);
+
+
       
       
     })
+    
   
   }
 

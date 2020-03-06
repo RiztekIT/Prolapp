@@ -37,6 +37,7 @@
         "ng2-charts": "^2.3.0",
         "ng2-file-upload": "^1.4.0",
         "ng2-imageupload": "^1.4.2",
+        "ngx-doc-viewer": "^1.0.3",
         "ngx-dropzone": "^2.2.2",
         "ngx-loading": "^8.0.0",
         "ngx-qrcode2": "0.0.9",

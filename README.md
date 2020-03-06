@@ -22,3 +22,6 @@ npm install --save ngx-loading
 
 ## NGX-DROPZONE
 npm install --save ngx-dropzone
+
+## NGX-Viewer
+npm install ngx-doc-viewer --save
