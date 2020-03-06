@@ -99,6 +99,7 @@
         <br>
         <button *ngIf="agregarDireccion == true" (click)="AgregarDireccionCliente(form)" class="btn btn-success" mat-raised-button color="success" [disabled]="form.invalid">Agregar Direccion</button>
         <button *ngIf="agregarDireccion == false" (click)="ActualizarDireccion(form)" class="btn btn-success" mat-raised-button color="success" [disabled]="form.invalid">Actualizar Direccion</button>
+        <button *ngIf="agregarDireccion == false" (click)="Cancelar(form)" class="btn btn-danger" mat-raised-button color="danger" [disabled]="form.invalid">Cancelar</button>
         <button mat-icon-button class="btn btn-danger" color="warn" (click)="LimpiarCampos(form)"><mat-icon>delete_outline</mat-icon></button>
         <br>
         <hr>
