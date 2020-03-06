@@ -279,6 +279,7 @@ console.log(NotaBlanco);
 
 
 console.log(this.listData.data);
+NotaBlanco.TipoDeCambio = this.service.formData.TipoDeCambio;
 this.serviceNota.addNotaCredito(NotaBlanco).subscribe(res =>{
   this.serviceNota.formData = NotaBlanco;
   // console.log(res);
