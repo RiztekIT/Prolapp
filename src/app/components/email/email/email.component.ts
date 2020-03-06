@@ -3,6 +3,7 @@ import { MessageService } from 'src/app/services/message.service';
 import Swal from 'sweetalert2';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 
+
 @Component({
   selector: 'app-email',
   templateUrl: './email.component.html',
@@ -45,23 +46,26 @@ export class EmailComponent implements OnInit {
   }
 
   leerArchivo(){
-    // const formData = new FormData();
-    // formData.append('folio', this.foliop)
-    // console.log(this.foliop);
+    const formData = new FormData();
+    formData.append('folio', this.foliop)
+    console.log(this.foliop);
 
     
     
-    // this._MessageService.readFile(formData).subscribe(res=>{
-    //   console.log(res);
-    //   const blob = new Blob([res as ArrayBuffer], { type: 'application/xml' });
-    //   // this.files.push(blob)
-    //   console.log(blob);
-    //   let file = new File([blob],'archivo.xml');
-    //   this.files.push(file);
+
+    this._MessageService.readFile(formData).subscribe(res=>{
+      console.log(res);
+      const blob = new Blob([res as ArrayBuffer], { type: 'application/xml' });
+      // this.files.push(blob)
+      console.log(blob);
+      let file = new File([blob],'archivo.xml');
+      this.files.push(file);
+
+
       
       
-    // })
-    this.urlPDF();
+    })
+    
   
   }
 
