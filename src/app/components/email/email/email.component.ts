@@ -3,6 +3,7 @@ import { MessageService } from 'src/app/services/message.service';
 import Swal from 'sweetalert2';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 
+
 @Component({
   selector: 'app-email',
   templateUrl: './email.component.html',
@@ -36,7 +37,7 @@ export class EmailComponent implements OnInit {
       const blob = new Blob([res as ArrayBuffer], { type: 'application/xml' });
       // this.files.push(blob)
       console.log(blob);
-      let file = new File([blob],'archivo.pdf');
+      let file = new File([blob],'archivo.'+ );
       this.files.push(file);
       
       
