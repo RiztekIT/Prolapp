@@ -176,6 +176,7 @@ import { ReporteDllsComponent } from '../components/cxc/reporte-dlls/reporte-dll
 import { ReporteMxnComponent } from '../components/cxc/reporte-mxn/reporte-mxn.component';
 import { NotacreditoComponent } from '../components/notacredito/notacredito/notacredito.component';
 import { FacturacionComponent } from '../components/cxc/graficas/facturacion/facturacion.component';
+import {NgxDocViewerModule} from 'ngx-doc-viewer'
 
 
 
@@ -345,7 +346,8 @@ import { FacturacionComponent } from '../components/cxc/graficas/facturacion/fac
         NgxLoadingModule.forRoot({}),
         MatStepperModule,
         MatTooltipModule,
-        NgxDropzoneModule
+        NgxDropzoneModule,
+        NgxDocViewerModule
 
     ],
     providers: [

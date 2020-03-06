@@ -1,39 +1,45 @@
-<div class="row" class="form-material">
-    <div class="col-12">
-        <div class="container">
-            <div class="card-body">
-                <!-- <mat-form-field class="example-full-width"> -->
-                <label class="input-group-text text-info">Para:</label>
-                <input type="string" class="form-control" name="correo" #correo="ngModel" [(ngModel)]="_MessageService.correo">
-                <!-- </mat-form-field> -->
+<div class="container" class="form-material">
+    <div class="row" class="form-material">
+        <div class="col-6">
+            Visor de Docs
+            <ngx-doc-viewer *ngIf="pdfstatus" [url]="fileUrl" viewer="pdf" style="width:100%;height:80vh;"></ngx-doc-viewer>
+        </div>
+        <div class="col-6">
+            <div class="container">
+                <div class="card-body">
+                    <!-- <mat-form-field class="example-full-width"> -->
+                    <label class="input-group-text text-info">Para:</label>
+                    <input type="string" class="form-control" name="correo" #correo="ngModel" [(ngModel)]="_MessageService.correo">
+                    <!-- </mat-form-field> -->
 
-                <!-- <mat-form-field class="example-full-width"> -->
-                <label class="input-group-text text-info">CCO:</label>
-                <input type="string" class="form-control" name="cco" #cco="ngModel" [(ngModel)]="_MessageService.cco">
-                <!-- </mat-form-field> -->
-                <!-- <mat-form-field class="example-full-width"> -->
-                <label class="input-group-text text-info">Asunto:</label>
-                <input type="string" class="form-control" name="asunto" #asunto="ngModel" [(ngModel)]="_MessageService.asunto">
-                <!-- </mat-form-field> -->
-                <!-- <mat-form-field class="example-full-width"> -->
-                <label class="input-group-text text-info">Correo:</label>
-                <textarea rows="5" type="string" class="form-control" name="cuerpo" #cuerpo="ngModel" [(ngModel)]="_MessageService.cuerpo"></textarea>
-                <!-- </mat-form-field> -->
+                    <!-- <mat-form-field class="example-full-width"> -->
+                    <label class="input-group-text text-info">CCO:</label>
+                    <input type="string" class="form-control" name="cco" #cco="ngModel" [(ngModel)]="_MessageService.cco">
+                    <!-- </mat-form-field> -->
+                    <!-- <mat-form-field class="example-full-width"> -->
+                    <label class="input-group-text text-info">Asunto:</label>
+                    <input type="string" class="form-control" name="asunto" #asunto="ngModel" [(ngModel)]="_MessageService.asunto">
+                    <!-- </mat-form-field> -->
+                    <!-- <mat-form-field class="example-full-width"> -->
+                    <label class="input-group-text text-info">Correo:</label>
+                    <textarea rows="5" type="string" class="form-control" name="cuerpo" #cuerpo="ngModel" [(ngModel)]="_MessageService.cuerpo"></textarea>
+                    <!-- </mat-form-field> -->
 
-                <ngx-dropzone (change)="onSelect($event)">
-                    <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
-                    <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
-                        <ngx-dropzone-label>{{ f.name }} {{ f.type }}</ngx-dropzone-label>
-                    </ngx-dropzone-preview>
+                    <ngx-dropzone (change)="onSelect($event)">
+                        <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                        <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                            <ngx-dropzone-label>{{ f.name }} {{ f.type }}</ngx-dropzone-label>
+                        </ngx-dropzone-preview>
 
-                </ngx-dropzone>
+                    </ngx-dropzone>
 
-                <button type="button" class="btn btn-secondary waves-effect" (click)="onEnviar()">Enviar</button>
-                <button type="button" class="btn btn-secondary waves-effect" (click)="leerArchivo()">leer</button>
+                    <button type="button" class="btn btn-secondary waves-effect" (click)="onEnviar()">Enviar</button>
+                    <button type="button" class="btn btn-secondary waves-effect" (click)="leerArchivo()">leer</button>
 
+                </div>
             </div>
         </div>
+        <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+        </ngx-loading>
     </div>
-    <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
-    </ngx-loading>
 </div>
