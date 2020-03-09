@@ -132,15 +132,20 @@
                   </button>
                                 <mat-menu #menu="matMenu">
                                     <!--  -->
-                                    <button mat-icon-button class="btn btn-dark" (click)="openrep(row)">
-                                                <mat-icon>visibility</mat-icon>
-                                            </button>
-                                    <!--  -->
-                                    <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                    <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
                                                 <mat-icon>edit</mat-icon>
                                             </button>
                                     <!--  -->
-                                    <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
+                                    <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
+                                                <mat-icon>visibility</mat-icon>
+                                            </button>
+                                    <!--  -->
+                                    <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
+                                    <button title="Enviar Correo" mat-icon-button class="btn btn-dark" (click)="email()">
+                                                <mat-icon>alternate_email</mat-icon>
+                                              </button>
+                                    <!--  -->
+                                    <button title="Eliminar" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
                                                     <mat-icon>delete_outline</mat-icon>
                                                 </button>
                                 </mat-menu>
@@ -184,4 +189,19 @@
             <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Pedido</button>
         </div>
     </div>
+</div>
+
+
+<div class="modal fade bs-example-modal-lg show" id="cargando">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <button id="cerrarmodal" type="button" [hidden]="true" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+            <app-email [foliop]="folioparam" [idp]="idparam"></app-email>
+
+
+        </div>
+    </div>
+    <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+    </ngx-loading>
 </div>

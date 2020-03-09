@@ -150,13 +150,13 @@
                                             </div>
                                             <br>
                                             <div *ngIf="isDireccion == true">
-                                                <!-- <button mat-icon-button class="btn btn-success" (click)="AbrirDireccionCliente()"><mat-icon>add</mat-icon></button> -->
+                                                <button mat-icon-button class="btn btn-success" (click)="AbrirDireccionCliente(service.formData.IdClientes)"><mat-icon>add_location</mat-icon></button>
                                                 <label class="input-group-text text-info">Direccion:</label>
                                                 <mat-form-field>
                                                     <input type="text" placeholder="Seleccionar Direccion" aria-label="Number" [formControl]="myControlDireccion" [ngModel]="IdDireccion" matInput [matAutocomplete]="autoDireccion">
                                                     <mat-autocomplete #autoDireccion="matAutocomplete">
                                                         <mat-option *ngFor="let option of filteredOptionsDireccion | async" [value]="option.IdDireccion" (onSelectionChange)="onSelectionChangeDireccion(option, $event)">
-                                                            {{option.IdCliente}} | {{option.Calle}} | {{option.Colonia}} | {{option.CP}} | {{option.Calle}} | {{option.Ciudad}} | {{option.Estado}} | {{option.NumeroExterior}}
+                                                            {{option.Calle}} | {{option.Colonia}} | {{option.CP}} | {{option.Calle}} | {{option.Ciudad}} | {{option.Estado}} | {{option.NumeroExterior}}
                                                         </mat-option>
                                                     </mat-autocomplete>
                                                 </mat-form-field>
