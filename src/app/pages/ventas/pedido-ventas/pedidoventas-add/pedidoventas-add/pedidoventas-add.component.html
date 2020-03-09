@@ -92,7 +92,6 @@
                                             <input type="text" class="form-control" name="CondicionesDePago" #CondicionesDePago="ngModel" [(ngModel)]="service.formDataPedido.CondicionesDePago">
 
                                             <label class="input-group-text text-info">Vendedor:</label>
-                                            <!-- <input type="text" class="form-control" name="Vendedor" #Vendedor="ngModel" [(ngModel)]="service.formDataPedido.Vendedor"> -->
                                             <mat-form-field>
                                                 <input type="text" placeholder="Seleccionar Vendedor" aria-label="Number" [formControl]="myControlVendedor" [(ngModel)]="service.formDataPedido.Vendedor" matInput [matAutocomplete]="autoVendedor">
                                                 <mat-autocomplete #autoVendedor="matAutocomplete">
@@ -145,8 +144,24 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12 col-md-6">
-
-
+                                            <div *ngIf="ClienteSeleccionado == true">
+                                                <label class="input-group-text text-info">Otra Direccion:</label>
+                                                <mat-checkbox #checkboxDireccion [(checked)]="isDireccion" (change)='changeDireccion(checkboxDireccion.checked)'></mat-checkbox>
+                                            </div>
+                                            <br>
+                                            <div *ngIf="isDireccion == true">
+                                                <!-- <button mat-icon-button class="btn btn-success" (click)="AbrirDireccionCliente()"><mat-icon>add</mat-icon></button> -->
+                                                <label class="input-group-text text-info">Direccion:</label>
+                                                <mat-form-field>
+                                                    <input type="text" placeholder="Seleccionar Direccion" aria-label="Number" [formControl]="myControlDireccion" [ngModel]="IdDireccion" matInput [matAutocomplete]="autoDireccion">
+                                                    <mat-autocomplete #autoDireccion="matAutocomplete">
+                                                        <mat-option *ngFor="let option of filteredOptionsDireccion | async" [value]="option.IdDireccion" (onSelectionChange)="onSelectionChangeDireccion(option, $event)">
+                                                            {{option.IdCliente}} | {{option.Calle}} | {{option.Colonia}} | {{option.CP}} | {{option.Calle}} | {{option.Ciudad}} | {{option.Estado}} | {{option.NumeroExterior}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                </mat-form-field>
+                                            </div>
+                                            <br>
                                             <label class="input-group-text text-info">Nombre :</label>
                                             <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre" readonly>
 
@@ -156,16 +171,17 @@
                                             <label class="input-group-text text-info">Razon Social :</label>
                                             <input type="text" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="service.formData.RazonSocial" readonly>
 
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <label class="input-group-text text-info">Lugar de Entrega:</label>
+                                            <input type="text" class="form-control" name="LugarDeEntrega" #LugarDeEntrega="ngModel" [(ngModel)]="service.formDataPedido.LugarDeEntrega">
+
                                             <label class="input-group-text text-info">Calle :</label>
                                             <input type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle" readonly>
 
                                             <label class="input-group-text text-info">Colonia :</label>
                                             <input type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia" readonly>
-                                        </div>
-                                        <div class="col-12 col-md-6">
 
-                                            <label class="input-group-text text-info">Lugar de Entrega:</label>
-                                            <input type="text" class="form-control" name="LugarDeEntrega" #LugarDeEntrega="ngModel" [(ngModel)]="service.formDataPedido.LugarDeEntrega">
 
                                             <label class="input-group-text text-info">CP :</label>
                                             <input type="text" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP" readonly>
@@ -176,11 +192,12 @@
                                             <label class="input-group-text text-info">Estado :</label>
                                             <input type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado" readonly>
 
+                                            <label class="input-group-text text-info">NumeroExterior :</label>
+                                            <input type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior" readonly>
+
                                             <label class="input-group-text text-info">NumeroInterior :</label>
                                             <input type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior" readonly>
 
-                                            <label class="input-group-text text-info">NumeroExterior :</label>
-                                            <input type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior" readonly>
 
                                             <!-- <label class="input-group-text text-info">ClaveCliente :</label>
                                             <input type="text" class="form-control" name="ClaveCliente" #ClaveCliente="ngModel" [(ngModel)]="service.formData.ClaveCliente" readonly> -->

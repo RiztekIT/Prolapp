@@ -7,6 +7,7 @@ import {Observable,Subject } from 'rxjs';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Pedido } from '../../Models/Pedidos/pedido-model';
 import { pedidoMaster } from 'src/app/Models/Pedidos/pedido-master';
+import { ClienteDireccion } from 'src/app/Models/cliente-direccion/clienteDireccion-model';
 
 
 
@@ -86,6 +87,16 @@ export class VentasPedidoService {
   getDepDropDownValues2(): Observable<any> {
     return this.http.get<Cliente[]>(this.APIUrl + '/producto');
   }
+
+  //get Direcciones en base a ID CLIENTE
+  getDireccionesCliente(id: number): Observable<ClienteDireccion[]> {
+    return this.http.get<ClienteDireccion[]>(this.APIUrl + '/Pedido/DireccionCliente/' + id);
+  } 
+
+ //get Direcciones en base a ID CLIENTE
+ getDireccionID(id: number): Observable<ClienteDireccion[]> {
+  return this.http.get<ClienteDireccion[]>(this.APIUrl + '/Pedido/DireccionID/' + id);
+}   
 
   //Get Unidades De Medida
   unidadMedida(): Observable<any>{

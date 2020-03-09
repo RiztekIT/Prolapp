@@ -22,4 +22,5 @@ public SubtotalDlls: string;
 public DescuentoDlls: string;
 public TotalDlls: string;
 public Flete: string;
+public IdDireccion: number;
 }

@@ -121,6 +121,7 @@ export class PedidoVentasComponent implements OnInit {
       DescuentoDlls:"",
       TotalDlls:"",
       Flete: "Sucursal",
+      IdDireccion: 0
     }
 
   //Get the Folio and verify if it comes empty( in this case it will be set to 1) otherwise, it will be added 1 to not repeat the same Folio among the Pedidos

@@ -78,5 +78,5 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 
 .modal-dialog {
-    max-width: 1500px;
+    max-width: 2000px;
 }

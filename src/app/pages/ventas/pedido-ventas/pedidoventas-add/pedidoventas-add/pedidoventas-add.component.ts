@@ -19,6 +19,7 @@ import { ProductosService } from '../../../../../services/catalogos/productos.se
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Vendedor } from 'src/app/Models/catalogos/vendedores.model';
 import { UnidadMedidaService } from 'src/app/services/unidadmedida/unidad-medida.service';
+import { ClienteDireccion } from '../../../../../Models/cliente-direccion/clienteDireccion-model';
 
 //Constantes para obtener tipo de cambio
 const httpOptions = {
@@ -150,15 +151,23 @@ export class PedidoventasAddComponent implements OnInit {
   myControl = new FormControl();
   myControl2 = new FormControl();
   myControlVendedor = new FormControl();
+  myControlDireccion = new FormControl();
+
   options: Cliente[] = [];
   options2: Producto[] = [];
+
   filteredOptions: Observable<any[]>;
   filteredOptions2: Observable<any[]>;
   filteredOptionsVendedor: Observable<any[]>;
+  filteredOptionsDireccion: Observable<any[]>;
+
   listClientes: Cliente[] = [];
   listProducts: Producto[] = [];
   //Lista de Vendedores
   listVendedores: Vendedor[] = [];
+  //Lista Direcciones
+  listDireccion: ClienteDireccion[]= [];
+
   //Variable Moneda
   Moneda: string;
   //Boolean Moneda
@@ -210,11 +219,20 @@ export class PedidoventasAddComponent implements OnInit {
   //NombreVendedor
   NombreVendedor: String;
 
+  //Variable para checar si ya se selecciono algun Cliente
+  ClienteSeleccionado: boolean;
+
   //Variable Booleana de si lleva Flete el pedido
   isFlete: boolean;
 
+  //Variable Booleana de si lleva Direccion diferente a la FISCAL 
+  isDireccion: boolean;
+
   //variable Booleana para verificar si el pedido necesita factura
   isFactura: boolean;
+
+  //Id Direccion
+  IdDireccion: number;
 
   // //////////////////////////// BEGIN OBTENER TIPO CAMBIO ////////////////////////////
   rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
@@ -362,12 +380,112 @@ export class PedidoventasAddComponent implements OnInit {
     }
   }
 
+  // --------------------------- SELECT DIRECCION CLIENTE || onCHANGE SELECT DIRECCION CLIENTE || Modal Direccion Cliente  --------------------------------------
+
+//DropDown de Vendedores
+dropdownRefreshDirecciones(id: number) {
+  this.listDireccion = [];
+  this.service.getDireccionesCliente(id).subscribe(data => {
+    console.log(data);
+    for (let i = 0; i < data.length; i++) {
+      let direccion = data[i];
+      this.listDireccion.push(direccion);
+      // this.options.push(vendedor)
+      this.filteredOptionsDireccion = this.myControlDireccion.valueChanges
+        .pipe(
+          startWith(''),
+          map(value => this._filterDireccion(value))
+        );
+    }
+  });
+
+}
+//Filtro Dropdown Vendedores
+private _filterDireccion(value: any): any[] {
+  // console.log(value);
+  const filterValue = value.toString().toLowerCase();
+  return this.listDireccion.filter(option =>
+    option.Calle.toLowerCase().includes(filterValue) || option.Colonia.toString().includes(filterValue));
+}
+
+//Metodo para mostrar las Direcciones Correspondientes a ese Cliente. En dado de que sea falso, se ocultara el select y se regresara la direccion fiscal a ese cliente en especifico
+changeDireccion(checkbox: any) {
+  console.log(checkbox);
+  //mostrar el select de direcciones
+  if (checkbox == true) {
+    this.isDireccion = true;
+    console.log(this.service.formData.IdClientes);
+    this.dropdownRefreshDirecciones(this.service.formData.IdClientes);
+    //En dado que sea falso, se ocultara el select de direcciones y se regresara a la direccion Fiscal
+  } else {
+    this.isDireccion = false;
+    this.service.GetCliente(this.service.formData.IdClientes).subscribe(data => {
+      console.log(data);
+      this.service.formData.Calle = data[0].Calle;
+      this.service.formData.Colonia = data[0].Colonia;
+      this.service.formData.CP = data[0].CP;
+      this.service.formData.Ciudad = data[0].Ciudad;
+      this.service.formData.Estado = data[0].Estado;
+      this.service.formData.NumeroInterior = data[0].NumeroInterior;
+      this.service.formData.NumeroExterior = data[0].NumeroExterior;
+
+      this.service.formDataPedido.IdDireccion = 0;
+
+    this.IdDireccion = +"";
+
+      //Actualizar Pedido con la informacion de cliente seleccionada
+      this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+        console.log(res);
+      });
+      
+
+
+    });
+  }
+}
+
+//Metodo que se ejecutara cuando se seleccione alguna direccion
+onSelectionChangeDireccion(options: ClienteDireccion, event: any) {
+  if (event.isUserInput) {
+    console.log(options);
+    this.service.formData.Calle = options.Calle;
+    this.service.formData.Colonia = options.Colonia;
+    this.service.formData.CP = options.CP;
+    this.service.formData.Ciudad = options.Ciudad;
+    this.service.formData.Estado = options.Estado;
+    this.service.formData.NumeroInterior = options.NumeroInterior;
+    this.service.formData.NumeroExterior = options.NumeroExterior;
+//Agregarle la direccion seleccionada a Pedidos y actualizarlo
+
+    this.service.formDataPedido.IdDireccion = options.IdDireccion;
+      this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+        console.log(res);
+      });
+
+  }
+}
+
+
+//Metodo para verificar si lleva Direccion que NO sea la FISCAL
+llevaDireccion() {
+  // let direccion = this.service.formDataPedido.Flete;
+  // // console.clear();
+  // // console.log(flete);
+  // if (flete == 'Sucursal') {
+  //   this.isFlete = false;
+  // } else {
+  //   this.isFlete = true;
+  // }
+}
+
+  // --------------------------- SELECT DIRECCION CLIENTE || onCHANGE SELECT DIRECCION CLIENTE --------------------------------------
+  
   //Selection change de cliente
 
   onSelectionChange(options: Cliente, event: any) {
     if (event.isUserInput) {
-
       this.service.formData = options;
+      this.dropdownRefreshDirecciones(options.IdClientes);
     }
   }
 
@@ -379,8 +497,37 @@ export class PedidoventasAddComponent implements OnInit {
     this.service.formDataPedido.Estatus = 'Guardada';
     console.log(this.service.formDataPedido);
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+      this.ClienteSeleccionado = true;
       console.log(res);
     });
+  }
+
+  ChecarClienteSeleccionado(){
+    console.log(this.service.formData.IdClientes);
+    if(this.service.formData.IdClientes > 0){
+this.ClienteSeleccionado = true;
+
+//Asignar la direccion al formdata
+if(this.service.formDataPedido.IdDireccion > 0){
+  this.service.getDireccionID(this.service.formDataPedido.IdDireccion).subscribe( data =>{
+    this.service.formData.Calle = data[0].Calle;
+      this.service.formData.Colonia = data[0].Colonia;
+      this.service.formData.CP = data[0].CP;
+      this.service.formData.Ciudad = data[0].Ciudad;
+      this.service.formData.Estado = data[0].Estado;
+      this.service.formData.NumeroInterior = data[0].NumeroInterior;
+      this.service.formData.NumeroExterior = data[0].NumeroExterior;
+
+this.IdDireccion = data[0].IdDireccion; 
+this.isDireccion = true;
+this.changeDireccion(this.isDireccion);
+  });
+}
+
+    }else{
+      this.ClienteSeleccionado = false;
+    }
+    console.log(this.ClienteSeleccionado);
   }
 
   onSelectionChange2(options2: Producto, event: any) {
@@ -450,11 +597,13 @@ export class PedidoventasAddComponent implements OnInit {
       if (data[0].IdCliente == 0) {
         console.log('ID 0');
         this.service.formData = new Cliente();
+        this.ChecarClienteSeleccionado();
       } else {
         console.log('ID Diferente a 0');
         this.service.GetCliente(data[0].IdCliente).subscribe(data => {
           console.log(data);
           this.service.formData = data[0];
+          this.ChecarClienteSeleccionado();
         });
       }
     });
@@ -569,7 +718,7 @@ export class PedidoventasAddComponent implements OnInit {
 
         this.service.GetSumaImporte(this.IdPedido).subscribe(data => {
           console.log(data);
-          console.clear();
+          // console.clear();
           console.log(this.service.formDataPedido);
           this.descuento = this.service.formDataPedido.Descuento;
           this.subtotal = data[0].importe;
