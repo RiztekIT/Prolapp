@@ -2,7 +2,7 @@
     <div class="row" class="form-material">
         <div class="col-6">
             Visor de Docs
-            <ngx-doc-viewer *ngIf="pdfstatus" [url]="fileUrl" viewer="pdf" style="width:100%;height:80vh;"></ngx-doc-viewer>
+            <ngx-doc-viewer [url]="fileUrl" viewer="pdf" style="width:100%;height:80vh;" googleCheckContentLoaded="false"></ngx-doc-viewer>
         </div>
         <div class="col-6">
             <div class="container">
@@ -35,7 +35,9 @@
 
                     <button type="button" class="btn btn-secondary waves-effect" (click)="onEnviar()">Enviar</button>
                     <button type="button" class="btn btn-secondary waves-effect" (click)="leerArchivo()">leer</button>
-                    <button type="button" class="btn btn-secondary waves-effect" (click)="urlPDF()">leer</button>
+                    <button type="button" class="btn btn-secondary waves-effect" (click)="crearURL()">leer</button>
+                    <!-- <button type="button" class="btn btn-secondary waves-effect" (click)="onClick()">subir</button> -->
+
 
                 </div>
             </div>
@@ -44,3 +46,6 @@
         </ngx-loading>
     </div>
 </div>
+
+
+<input type="file" id="fileUpload" name="fileUpload" multiple="multiple" style="display:none;" />
