@@ -55,15 +55,12 @@ export class EmailComponent implements OnInit {
 
     this._MessageService.readFile(formData).subscribe(res=>{
       console.log(res);
-      const blob = new Blob([res as ArrayBuffer], { type: 'application/xml' });
+      const blob = new Blob([res as ArrayBuffer], { type: 'application/pdf' });
       // this.files.push(blob)
       console.log(blob);
-      let file = new File([blob],'archivo.xml');
+      let file = new File([blob],'archivo.pdf');
+      this.fileUrl = file;
       this.files.push(file);
-
-
-      
-      
     })
     
   
