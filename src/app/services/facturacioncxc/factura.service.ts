@@ -137,6 +137,11 @@ getReportesM(id: number): Observable<any>{
   return this.http.get<any[]>(this.APIUrl + '/Factura/ReporteM/' + id)
 }
 
+//Obtener JOIN Recibo pago-> PAgoCFDI por ID Factura
+getPagosCFDI(id: number): Observable<any>{
+  return this.http.get<any[]>(this.APIUrl + '/Factura/PagoCFDI/' + id)
+}
+
 
 
 // private _listeners = new Subject<any>(); 
