@@ -10,6 +10,7 @@ import { ReciboPago } from '../../../Models/ComplementoPago/recibopago';
 import { PagoCFDI } from '../../../Models/ComplementoPago/pagocfdi';
 import { ReciboPagoMasterPagoCFDI } from '../../../Models/ComplementoPago/recibopagoMasterpagoCFDI';
 import { ComplementoPagoComponent } from 'src/app/components/complemento-pago/complemento-pago.component';
+import { ngxLoadingAnimationTypes } from 'ngx-loading';
 
 
 @Component({
@@ -26,6 +27,7 @@ import { ComplementoPagoComponent } from 'src/app/components/complemento-pago/co
   ],
 })
 export class ComplementopagocxcComponent implements OnInit {
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
   
   constructor(private service: ReciboPagoService, private router: Router, private dialog: MatDialog) {
@@ -45,7 +47,7 @@ export class ComplementopagocxcComponent implements OnInit {
     // this.ObtenerUltimaFactura();
     // this.listData.connect();
   }
-
+  loadtable = true;
   IdReciboPago: any;
   listData: MatTableDataSource<any>;
   MasterDetalle = new Array<ReciboPagoMasterPagoCFDI>();
@@ -65,6 +67,7 @@ export class ComplementopagocxcComponent implements OnInit {
 
   //Obtener lista de Recibo de pagos y pagos de CFDI 
   refreshReciboPagoList() {
+    this.loadtable = true;
     this.service.deleteReciboCreado().subscribe(data=>{
 
     this.service.getReciboPagoClienteList().subscribe(data => {
@@ -82,6 +85,7 @@ export class ComplementopagocxcComponent implements OnInit {
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
       this.listData.paginator._intl.itemsPerPageLabel = 'Recibos de Pago por Pagina';
+      this.loadtable = false;
       // console.log(this.service.master);
     });
   })
