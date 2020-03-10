@@ -43,9 +43,9 @@ export class NotaCreditocxcComponent implements OnInit {
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   constructor(private service: NotaCreditoService, private dialog: MatDialog, private snackbar: MatSnackBar, private router: Router, public _MessageService: MessageService ) { 
-    this.service.listen().subscribe((m:any)=>{
-      this.refreshNotaList();
-    });
+    // this.service.listen().subscribe((m:any)=>{
+    //   this.refreshNotaList();
+    // });
   }
 
 
