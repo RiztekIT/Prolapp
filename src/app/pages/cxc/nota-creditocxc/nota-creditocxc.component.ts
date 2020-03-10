@@ -13,6 +13,7 @@ import { DetalleNotaCredito } from '../../../Models/nota-credito/detalleNotaCred
 import { NotaCreditoMaster } from 'src/app/Models/nota-credito/notaCreditoMaster-model';
 import { MessageService } from '../../../services/message.service';
 import { ThrowStmt } from '@angular/compiler';
+import { ngxLoadingAnimationTypes } from 'ngx-loading';
 
 
 
@@ -30,7 +31,8 @@ import { ThrowStmt } from '@angular/compiler';
   ],
 })
 export class NotaCreditocxcComponent implements OnInit {
-
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
+  loadtable = true;
   listData: MatTableDataSource<any>;
 
   displayedColumns : string [] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Subtotal', 'ImpuestosTrasladadosDlls', 'Total', 'Estado', 'Options'];
@@ -43,9 +45,9 @@ export class NotaCreditocxcComponent implements OnInit {
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   constructor(private service: NotaCreditoService, private dialog: MatDialog, private snackbar: MatSnackBar, private router: Router, public _MessageService: MessageService ) { 
-    this.service.listen().subscribe((m:any)=>{
-      this.refreshNotaList();
-    });
+    // this.service.listen().subscribe((m:any)=>{
+    //   this.refreshNotaList();
+    // });
   }
 
 
@@ -54,6 +56,7 @@ export class NotaCreditocxcComponent implements OnInit {
   }
 
   refreshNotaList(){
+    this.loadtable = true;
 
     // this.service.deleteNotaCreada().subscribe(data =>{
       // console.log(data);
@@ -78,6 +81,7 @@ export class NotaCreditocxcComponent implements OnInit {
               this.listData.sort = this.sort;
               this.listData.paginator = this.paginator;
               this.listData.paginator._intl.itemsPerPageLabel = 'Notas de Credito Por Pagina';
+              this.loadtable = false;
             })
           }}
       });
@@ -88,7 +92,10 @@ export class NotaCreditocxcComponent implements OnInit {
 
   onEdit(nota: any){
     console.log(nota);
-          this.router.navigate(['/facturacionCxcAdd', nota.IdFactura]);
+    console.log(nota.IdFactura.toString());
+    // localStorage.removeItem('FacturaID');
+    localStorage.setItem('FacturaID', nota.IdFactura.toString())
+    this.router.navigate(['/facturacionCxcAdd', nota.IdFactura]);
         
   }
 

@@ -137,7 +137,7 @@
 
                                         <!-- ver PDF -->
                                         <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button>
-                                        <button title="Ver PDF" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada' || row.Estatus=='Pagada'" (click)="generar(row.UUID,row.Folio)" mat-icon-button class="btn btn-dark">
+                                        <button title="Ver PDF" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada' || row.Estatus=='Pagada'" (click)="generar(row.UUID,row.Folio,row)" mat-icon-button class="btn btn-dark">
                       <mat-icon>remove_red_eye</mat-icon>
 
                     </button>
@@ -220,6 +220,8 @@
                         </table>
                         <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
                         </mat-paginator>
+                        <ngx-loading [show]="loadtable" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+                        </ngx-loading>
                     </div>
                 </div>
             </div>
@@ -254,7 +256,7 @@
 <!-- Modal de Enviar Correo -->
 
 
-<div *ngIf='emailmodalstatus' class="modal fade bs-example-modal-lg show" id="cargando">
+<div class="modal fade bs-example-modal-lg show" id="cargando">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 

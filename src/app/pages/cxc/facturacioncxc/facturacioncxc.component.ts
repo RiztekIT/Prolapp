@@ -38,6 +38,7 @@ export class FacturacioncxcComponent implements OnInit {
   /* variable para los tipos de animacion del cargando */
 
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
+  loadtable = true;
   folioparam;
   idparam;
   statusparam;
@@ -127,7 +128,7 @@ export class FacturacioncxcComponent implements OnInit {
 
 /* Metodo para traer todas las facturas */
   refreshFacturaList() {
-
+this.loadtable = true;
     this.service.deleteFacturaCreada().subscribe(data=>{
       console.log(data);
       
@@ -150,6 +151,7 @@ export class FacturacioncxcComponent implements OnInit {
             this.listData.sort = this.sort;    
             this.listData.paginator = this.paginator;
             this.listData.paginator._intl.itemsPerPageLabel = 'Facturas por Pagina';
+            this.loadtable = false;
           })
         }}
         // console.log(this.listData);
@@ -332,7 +334,9 @@ onExportClick(folio?:string) {
 }
 
 /* Metodo para ver el pdf en el modal, primero descarga el xml */
-generar(id: string, folio:string) {
+generar(id: string, folio:string,row) {
+  console.log(row);
+  localStorage.setItem('rowfact',JSON.stringify(row));
   
   let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
   this.enviarfact.xml(id).subscribe(data => {
@@ -395,6 +399,7 @@ pdf(id: string, folio:string){
 email(id: string, folio:string){
 localStorage.removeItem('xml'+folio);
 localStorage.removeItem('pdf'+folio);
+document.getElementById('enviaremail').click();
 
   this.folioparam = folio;
   this.idparam = id;
@@ -407,12 +412,12 @@ localStorage.removeItem('pdf'+folio);
       localStorage.setItem('xml' + folio, data)
       this.xmlparam = folio;
       setTimeout(()=>{
-        const content: Element = document.getElementById('element-to-PDF');
+        const content: Element = document.getElementById('Factura-PDF');
         const option = {
           margin: [0, 0, 0, 0],
           filename: 'F-' + folio + '.pdf',
           image: { type: 'jpeg', quality: 1 },
-          html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
+          html2canvas: { scale: 2, logging: true, scrollY: 0 },
           jsPDF: { format: 'letter', orientation: 'portrait' },
         };
         html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
@@ -423,12 +428,7 @@ localStorage.removeItem('pdf'+folio);
       },1000)
   })
 
-  setTimeout(()=>{
-    
-    this.btnemail.nativeElement.click();
-    this.emailmodalstatus=true;
-    console.log(this.emailmodalstatus);
-  },2000);
+ 
 
 }
 

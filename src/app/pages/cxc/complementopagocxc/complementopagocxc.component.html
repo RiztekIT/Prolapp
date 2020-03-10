@@ -133,6 +133,8 @@
                         </table>
                         <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
                         </mat-paginator>
+                        <ngx-loading [show]="loadtable" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+                        </ngx-loading>
                     </div>
                 </div>
             </div>
