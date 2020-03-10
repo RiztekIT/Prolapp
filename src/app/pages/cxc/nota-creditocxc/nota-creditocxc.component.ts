@@ -88,7 +88,10 @@ export class NotaCreditocxcComponent implements OnInit {
 
   onEdit(nota: any){
     console.log(nota);
-          this.router.navigate(['/facturacionCxcAdd', nota.IdFactura]);
+    console.log(nota.IdFactura.toString());
+    // localStorage.removeItem('FacturaID');
+    localStorage.setItem('FacturaID', nota.IdFactura.toString())
+    this.router.navigate(['/facturacionCxcAdd', nota.IdFactura]);
         
   }
 
