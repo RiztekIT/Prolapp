@@ -187,3 +187,7 @@ th {
 .Breakline {
     border-bottom: 3px solid black;
 }
+
+.mg-r {
+    margin-right: -50px;
+}

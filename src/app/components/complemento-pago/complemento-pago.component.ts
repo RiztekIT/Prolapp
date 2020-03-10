@@ -14,9 +14,17 @@ import * as html2pdf from 'html2pdf.js';
 })
 export class ComplementoPagoComponent implements OnInit {
 
+  myAngularxQrCode: string;
+  QRsize:number;
+  
   // constructor(public dialogbox: MatDialogRef<ComplementoPagoComponent>, public router: Router, private _formBuilder: FormBuilder, 
   constructor(public router: Router, private _formBuilder: FormBuilder, 
-    public service: ReciboPagoService) { }
+    public service: ReciboPagoService) { 
+      this.QRsize = 125;
+      // assign a value to QR
+      this.myAngularxQrCode = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.asp?id=28c751ac-b6f3-4293-b35e-9ce78b4eb4b8&re=CIN960904FQ2&rr=CUOA880131Q85&tt=0000002578.930000&fe=nfsuQW==';
+      
+    }
 
     con : string| number;
   arrcon: Array<any> = [];
@@ -152,12 +160,12 @@ export class ComplementoPagoComponent implements OnInit {
   }
       
   onExportClick(Folio?:string) {
-    const content: Element = document.getElementById('element-to-PDF');
+    const content: Element = document.getElementById('ComprobanteDePago-PDF');
     const option = {    
       margin: [.5,0,0,0],
       filename: 'F-'+this.service.formt.Folio+'.pdf',
       // image: {type: 'jpeg', quality: 1},
-      html2canvas: {scale: 2, logging: true},
+      html2canvas: {scale: 2, logging: true, scrollY: 0},
       jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
       pagebreak:{ avoid: '.pgbreak'}
     };
