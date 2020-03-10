@@ -1239,6 +1239,7 @@ onDeleteNC(notaCredito: any){
 
   localStorage.removeItem('xml'+folio);
   localStorage.removeItem('pdf'+folio);
+  document.getElementById('enviaremail2').click();
   
   this.folioparam = folio;
   this.idparam = id;
@@ -1262,7 +1263,6 @@ onDeleteNC(notaCredito: any){
         };
         html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
           localStorage.setItem('pdf'+folio, pdfAsString);
-          document.getElementById('enviaremail2').click();
        
         })
       },1000)

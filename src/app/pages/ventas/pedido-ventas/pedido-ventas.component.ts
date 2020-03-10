@@ -20,6 +20,12 @@ import { ReportesalmacenComponent } from '../../almacen/reportesalmacen/reportes
 import { ReporteEmisionComponent } from '../../../components/reporte-emision/reporte-emision.component';
 import { ReportesModalComponent } from '../../../components/reportes-modal/reportes-modal.component';
 
+//importanciones de modal
+import * as html2pdf from 'html2pdf.js';
+import { MessageService } from 'src/app/services/message.service';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+import { ngxLoadingAnimationTypes } from 'ngx-loading';
+
 @Component({
   selector: 'app-pedido-ventas',
   templateUrl: './pedido-ventas.component.html',
@@ -35,7 +41,8 @@ import { ReportesModalComponent } from '../../../components/reportes-modal/repor
 })
 
 export class PedidoVentasComponent implements OnInit {
-  constructor(public router: Router, private dialog: MatDialog, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder) {
+  constructor(public router: Router, private dialog: MatDialog, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, 
+    private _formBuilder: FormBuilder,  public _MessageService: MessageService,  public enviarfact: EnviarfacturaService,) {
 
     this.service.listen().subscribe((m: any) => {
       console.log(m);
@@ -60,6 +67,14 @@ export class PedidoVentasComponent implements OnInit {
 
   expandedElement: any;
 
+  // INICIO MODAL EMAIL
+  public loading2 = false;
+  xmlparam;
+  fileUrl;
+  folioparam;
+  idparam;
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
+// FIN MODAL EMAIL
   detalle = new Array<DetallePedido>();
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
 
@@ -121,6 +136,7 @@ export class PedidoVentasComponent implements OnInit {
       DescuentoDlls:"",
       TotalDlls:"",
       Flete: "Sucursal",
+      IdDireccion: 0
     }
 
   //Get the Folio and verify if it comes empty( in this case it will be set to 1) otherwise, it will be added 1 to not repeat the same Folio among the Pedidos
@@ -249,6 +265,39 @@ export class PedidoVentasComponent implements OnInit {
     this.dialog.open(ReporteEmisionComponent, dialogConfig);
 
   }
+
+/* Metodo para enviar por correo, abre el modal con los datos */
+email(id: string, folio:string){
+  localStorage.removeItem('xml'+folio);
+  localStorage.removeItem('pdf'+folio);
+    document.getElementById('enviaremail').click();
+    this.folioparam = folio;
+    this.idparam = id;
+    this._MessageService.correo='ivan.talamantes@live.com';
+    this._MessageService.cco='ivan.talamantes@riztek.com.mx';
+    this._MessageService.asunto='Envio Factura '+folio;
+    this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+folio;
+    this._MessageService.nombre='ProlactoIngredientes';
+      this.enviarfact.xml(id).subscribe(data => {
+        localStorage.setItem('xml' + folio, data)
+        this.xmlparam = folio;
+        setTimeout(()=>{
+          const content: Element = document.getElementById('element-to-PDF');
+          const option = {
+            margin: [0, 0, 0, 0],
+            filename: 'F-' + folio + '.pdf',
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
+            jsPDF: { format: 'letter', orientation: 'portrait' },
+          };
+          html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
+            localStorage.setItem('pdf'+folio, pdfAsString);
+          })
+        },1000)
+    })
+  
+  }
+
 
   //Filtro para buscar valores de la tabla de pedidos por Nombre de Cliente e IdPedido
   applyFilter(filtervalue: string) {

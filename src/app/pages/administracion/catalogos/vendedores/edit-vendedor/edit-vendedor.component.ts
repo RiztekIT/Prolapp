@@ -32,7 +32,7 @@ export class EditVendedorComponent implements OnInit {
       // });
       Swal.fire({
         icon: 'success',
-        title: 'Usuario Actualizado'
+        title: 'Vendedor Actualizado'
       })
     });
   }
