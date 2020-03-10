@@ -1,6 +1,6 @@
 <div class="modal0-body">
     <div class="container">
-        <div id="element-to-PDF">
+        <div id="Factura-PDF">
             <!-- TOP PAGE LOGO DESCRIPTION FACTURA -->
             <div class="container">
                 <div class="row">
@@ -29,7 +29,7 @@
                     </div>
                     <!-- factura folio -->
                     <div class="col-lg-3 col-md-3 col-sm-3 col-3">
-                        <div class="card card-outline-inverse borderContainer">
+                        <div class="card card-outline-inverse borderContainer mg-r">
                             <div class="card-header">
                                 <h6 class="m-b-0 text-white text-center bolder">FACTURA</h6>
                             </div>
@@ -410,7 +410,8 @@
                         <div class="col-lg-3 col-md-3 col-3">
                             <div class="card card-outline-inverse">
                                 <div class="card-body">
-                                    <ngx-qrcode qrc-element-type="url" [qrc-value]="QRString"></ngx-qrcode>
+                                    <qrcode [qrdata]=myAngularxQrCode [size]=QRsize></qrcode>
+                                    <!-- <ngx-qrcode qrc-element-type="url" [qrc-value]="QRString"></ngx-qrcode> -->
                                     <!-- cambia el qr string que esta en el TS -->
                                 </div>
                             </div>
@@ -558,9 +559,9 @@
                 <div class="col-lg-12 col-md-12 col-12">
                     <div class="card card-outline-inverse pgbreak">
                         <div class="card-body">
-                            <div class="containerborder">
+                            <div class="containerborder mg-r">
                                 <div class="container">
-                                    <p>Esta factura será liquidada en dólares americanos y/o su equivalente en moneda nacional al tipo de cambio publicado en el diario oficial de la federación del día de la fecha de pago. Para cualquier aclaración, devolución
+                                    <p class="mg-b">Esta factura será liquidada en dólares americanos y/o su equivalente en moneda nacional al tipo de cambio publicado en el diario oficial de la federación del día de la fecha de pago. Para cualquier aclaración, devolución
                                         o cambio cuenta con un máximo de 8 días naturales a partir de la fecha factura <span>
                         {{fecha | slice:0:10}} </span>. Debo (emos) y Pagare (emos) incondicionalmente a la orden de {{nombreE}}, en esta ciudad o en cualquier otra en que se me (nos) requiera el importe de la mercancía que ampara este documento. Por
                                         la cantidad de <span> {{total | currency}} ({{textnum | uppercase}} {{monedaT}})</span></p>

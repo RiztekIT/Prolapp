@@ -77,6 +77,6 @@ tr.example-element-row:not(.example-expanded-row):active {
     z-index: 2000 !important;
 }
 
-.modal-dialog {
+.modal-dialogenviar {
     max-width: 2000px;
 }

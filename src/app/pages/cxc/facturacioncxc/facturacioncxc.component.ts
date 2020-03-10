@@ -308,24 +308,28 @@ localStorage.setItem('FacturaID',this.service.formData.Id.toString())
   
 /* Metodo que descarga el pdf mediante la libreria html2pdf */
 onExportClick(folio?:string) {
-  const content: Element = document.getElementById('element-to-PDF');
+  const content: Element = document.getElementById('Factura-PDF');
   const option = {    
-    margin: [.5,0,0,0],
-    filename: 'F-'+folio+'.pdf',
+    margin: [.5,.5,.5,0],
+    filename: 'F-.pdf',
     image: {type: 'jpeg', quality: 1},
-    html2canvas: {scale: 2, logging: true, scrollY: content.scrollHeight},
+    html2canvas: {scale: 2, logging: true, scrollY: -2, scrollX: -15},
     jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
     pagebreak:{ avoid: '.pgbreak'}
   };
 
   html2pdf()
  .from(content)
- .set(option)
+ .set(option).toPdf().get('pdf').then(function (pdf) {
+  setTimeout(() => {}, 1000);
+ })
  .save();
+ 
 }
 
 /* Metodo para ver el pdf en el modal, primero descarga el xml */
 generar(id: string, folio:string) {
+  
   let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
   this.enviarfact.xml(id).subscribe(data => {
     const blob = new Blob([data as BlobPart], { type: 'application/xml' });

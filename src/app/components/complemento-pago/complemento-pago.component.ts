@@ -156,7 +156,7 @@ export class ComplementoPagoComponent implements OnInit {
     const option = {    
       margin: [.5,0,0,0],
       filename: 'F-'+this.service.formt.Folio+'.pdf',
-      image: {type: 'jpeg', quality: 1},
+      // image: {type: 'jpeg', quality: 1},
       html2canvas: {scale: 2, logging: true},
       jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
       pagebreak:{ avoid: '.pgbreak'}
