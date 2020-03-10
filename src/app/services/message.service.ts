@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 
@@ -28,8 +28,17 @@ export class MessageService {
   }
   readFile(body){
     console.log(body);
+    let headers = new HttpHeaders();
+    headers = headers.set('Accept','application/pdf');
+
     
-    return this._http.post("http://riztekserver.ddns.net:3000/cargarArchivo", body)
+    // return this._http.get<any>("http://riztekserver.ddns.net:3000/cargarArchivo",{headers:headers, responseType:'arrayBuffer' as 'json'})
+    return this._http.post<any>("http://riztekserver.ddns.net:3000/cargarArchivo",body,{headers:headers, responseType:'arrayBuffer' as 'json'})
+  }
+
+
+  readDir(body){
+    return this._http.post<any>("http://riztekserver.ddns.net:3000/cargarArchivo2",body);
   }
   // sendMessage2(body,files){
   //   console.log(body);

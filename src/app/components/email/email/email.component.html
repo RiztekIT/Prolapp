@@ -35,7 +35,10 @@
 
                     <button type="button" class="btn btn-secondary waves-effect" (click)="onEnviar()">Enviar</button>
                     <button type="button" class="btn btn-secondary waves-effect" (click)="leerArchivo()" file-hander>leer</button>
+                    <button type="button" class="btn btn-secondary waves-effect" (click)="leerDir()" file-hander>leerDir</button>
                     <button type="button" class="btn btn-secondary waves-effect" (click)="urlPDF()">leer</button>
+
+                    <button *ngFor="let a of archivos" (click)='leerArchivos(a)'> {{a}} </button>
 
                 </div>
             </div>

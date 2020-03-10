@@ -6,6 +6,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { HttpRequest, HttpClient, HttpEventType, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, tap, last, map } from 'rxjs/operators';
 import { Subscription, of } from 'rxjs';
+import * as html2pdf from 'html2pdf.js';
+import * as FileSaver from 'file-saver';
 
 
 
@@ -29,8 +31,9 @@ export class EmailComponent implements OnInit {
   fileUrl;
   a = document.createElement('a');
   pdfstatus = false;
+  archivos: any[];
 
-  private files2: Array<FileUploadModel> = [];
+  // private files2: Array<FileUploadModel> = [];
 
   constructor(public _MessageService: MessageService,private sanitizer: DomSanitizer, private _http: HttpClient) { 
   }
@@ -41,80 +44,18 @@ export class EmailComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    this.urlPDF();
+    // this.urlPDF();
     
   }
 
-//   onClick() {
-//     const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
-//     fileUpload.onchange = () => {
-//           for (let index = 0; index < fileUpload.files.length; index++) {
-//                 const file = fileUpload.files[index];
-//                 this.files2.push({ data: file, state: 'in', 
-//                   inProgress: false, progress: 0, canRetry: false, canCancel: true });
-//           }
-//           this.uploadFiles();
-//     };
-//     fileUpload.click();
-// }
 
-// private uploadFiles() {
-//   const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
-//   fileUpload.value = '';
-
-//   this.files2.forEach(file => {this.uploadFile(file);});
-// }
-
-
-
-  
-
-//   private uploadFile(file: FileUploadModel) {
-//     const fd = new FormData();
-//     console.log(file);
-//     fd.append(this.param, file.data);
-//     console.log(fd.get(this.param))
-//     const req = new HttpRequest('POST', 'https://file.io', fd, {
-//           reportProgress: true
-//     });
-
-//     file.inProgress = true;
-//     file.sub = this._http.request(req).pipe(
-//           map(event => {
-//                 switch (event.type) {
-//                       case HttpEventType.UploadProgress:
-//                             // file.progress = Math.round(event.loaded * 100 / event.total);
-//                             break;
-//                       case HttpEventType.Response:
-//                             return event;
-//                 }
-//           }),
-//           tap(message => { }),
-//           last(),
-//           catchError((error: HttpErrorResponse) => {
-//                 // file.inProgress = false;
-//                 // file.canRetry = true;
-//                 console.log(error);
-//                 return of('upload failed.');
-//           })
-//     ).subscribe(
-//           (event: any) => {
-//                 if (typeof (event) === 'object') {
-//                       // this.removeFileFromArray(file);
-//                       this.complete.emit(event.body);
-//                       console.log(event.body);
-//                       this.fileUrl = event.body.link
-//                       this.pdfstatus=true;
-//                 }
-//           }
-//     );
-// }
 
   urlPDF(){
 
-    const blob = new Blob([localStorage.getItem('pdf'+this.foliop) as BlobPart], { type: 'application/pdf' });
+    // const blob = new Blob([localStorage.getItem('pdf'+this.foliop) as BlobPart], { type: 'application/pdf' });
     // let file = new File(blob,'pdf.pdf')
-    this.fileUrl = window.URL.createObjectURL(blob);
+    this.fileUrl = localStorage.getItem('pdf'+this.foliop);
+    // this.fileUrl = localStorage.getItem('pdfnuevo2');
     // this.fileUrl = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(localStorage.getItem('pdf'+this.foliop)))
     // this.fileUrl = localStorage.getItem('pdf'+this.foliop); 
     // this.pdfstatus = true;   
@@ -124,22 +65,56 @@ export class EmailComponent implements OnInit {
   leerArchivo(){
     const formData = new FormData();
     formData.append('folio', this.foliop)
+    formData.append('archivo', this.archivos[0])
     console.log(this.foliop);
-
-    
-    
-
     this._MessageService.readFile(formData).subscribe(res=>{
       console.log(res);
-      const blob = new Blob([res as ArrayBuffer], { type: 'application/pdf' });
-      // this.files.push(blob)
-      console.log(blob);
-      let file = new File([blob],'archivo.pdf');
-      this.fileUrl = file;
-      this.files.push(file);
+      const blob = new Blob([res as BlobPart], { type: 'application/pdf' });
+      let fr = new FileReader();
+      
+      fr.readAsDataURL(blob);
+      fr.onload = e =>{
+        console.log(e);
+        console.log(fr.result);
+          this.fileUrl = fr.result;
+      }
     })
-    
-  
+  }
+
+  leerArchivos(a){
+    const formData = new FormData();
+    formData.append('folio', this.foliop)
+    formData.append('archivo', a)
+    console.log(this.foliop);
+    this._MessageService.readFile(formData).subscribe(res=>{
+      console.log(res);
+      const blob = new Blob([res as BlobPart], { type: 'application/pdf' });
+      let fr = new FileReader();
+      
+      fr.readAsDataURL(blob);
+      fr.onload = e =>{
+        console.log(e);
+        console.log(fr.result);
+          this.fileUrl = fr.result;
+      }
+    })
+  }
+
+  leerDir(){
+
+    const formData = new FormData();
+    formData.append('folio', this.foliop)
+    console.log(this.foliop);
+    this._MessageService.readDir(formData).subscribe(res=>{
+      console.log(res);
+      this.archivos =[];
+      if (res){
+      for(let i = 0; i<res.length; i++){
+        this.archivos.push(res[i]);
+      }
+    }
+    })
+
   }
 
   
@@ -153,7 +128,6 @@ export class EmailComponent implements OnInit {
       console.log(res);
     })
     this.files.push(...event.addedFiles);
-    // this.uploadFile(event.addedFiles[0]);
   }
 
   onRemove(event){
