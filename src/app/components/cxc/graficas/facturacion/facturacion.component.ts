@@ -90,7 +90,7 @@ export class FacturacionComponent implements OnInit {
       
 
         this.serviceFactura.getReportes(this.IdCliente[i].IdClientes).subscribe(res=>{
-          console.log(res);
+          // console.log(res);
           
 
           if(res.length > 0){
@@ -123,15 +123,15 @@ export class FacturacionComponent implements OnInit {
 dataGraf(mxn,usd){
 
   
-console.log(mxn);
-console.log(usd);
+// console.log(mxn);
+// console.log(usd);
 
 
 
 this.graficos.grafico1.data = []
 this.graficos.grafico1.data.push(mxn.toString())
 this.graficos.grafico1.data.push(usd.toString())
-console.log(this.graficos.grafico1.data);
+// console.log(this.graficos.grafico1.data);
 
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, SimpleChanges, TemplateRef, ElementRef } from '@angular/core';
 import * as html2pdf from 'html2pdf.js';
 
 import {MatTableDataSource, MatPaginator, MatTable} from '@angular/material';
@@ -36,9 +36,12 @@ import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.
 })
 export class FacturacioncxcComponent implements OnInit {
   /* variable para los tipos de animacion del cargando */
+
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   folioparam;
   idparam;
+  statusparam;
+  emailmodalstatus = false;
   IdFactura: any;
   listData: MatTableDataSource<any>;
   MasterDetalle = new Array<facturaMasterDetalle>();
@@ -53,6 +56,7 @@ export class FacturacioncxcComponent implements OnInit {
   public loading2 = false;
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
   a = document.createElement('a');
+  @ViewChild("enviaremail",{static:false}) public btnemail: ElementRef;
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -391,7 +395,7 @@ pdf(id: string, folio:string){
 email(id: string, folio:string){
 localStorage.removeItem('xml'+folio);
 localStorage.removeItem('pdf'+folio);
-  document.getElementById('enviaremail').click();
+
   this.folioparam = folio;
   this.idparam = id;
   this._MessageService.correo='ivan.talamantes@live.com';
@@ -413,10 +417,23 @@ localStorage.removeItem('pdf'+folio);
         };
         html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
           localStorage.setItem('pdf'+folio, pdfAsString);
+          this.statusparam=true;          
+          console.log(this.statusparam);
         })
       },1000)
   })
 
+  setTimeout(()=>{
+    
+    this.btnemail.nativeElement.click();
+    this.emailmodalstatus=true;
+    console.log(this.emailmodalstatus);
+  },2000);
+
+}
+
+onshowModalEmail(){
+  console.log('mostrar modal');
 }
 
 }

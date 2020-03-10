@@ -188,6 +188,23 @@ th {
     border-bottom: 3px solid black;
 }
 
+.mg-l {
+    margin-left: -20px;
+}
+
+.mg-ltb {
+    margin-left: -15px;
+}
+
+.mg-rl {
+    margin-left: 10px;
+    /* margin-right: 45px; */
+}
+
+.table-responsive {
+    width: auto;
+}
+
 .mg-r {
     margin-right: -50px;
 }

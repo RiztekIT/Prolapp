@@ -254,12 +254,12 @@
 <!-- Modal de Enviar Correo -->
 
 
-<div class="modal fade bs-example-modal-lg show" id="cargando">
+<div *ngIf='emailmodalstatus' class="modal fade bs-example-modal-lg show" id="cargando">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
             <button id="cerrarmodal" type="button" [hidden]="true" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
-            <app-email [foliop]="folioparam" [idp]="idparam"></app-email>
+            <app-email [foliop]="folioparam" [idp]="idparam" [status]="statusparam"></app-email>
 
 
         </div>
