@@ -1,6 +1,6 @@
 <div class="container row">
-    <div class="col-1"></div>
-    <div class="col-9">
+    <!-- <div class="col-1"></div> -->
+    <div class="col-12 sinpadding">
 
 
         <table class="table-hover">
@@ -13,6 +13,8 @@
                     <th></th>
                     <th></th>
                     <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
                 <tr>
                     <th class="blacktxt bolder ">Folio</th>
@@ -20,6 +22,8 @@
                     <th class="blacktxt bolder nowrap">Fecha de Expedicion</th>
                     <th class="blacktxt bolder ">Total MXN</th>
                     <th class="blacktxt bolder ">Total DLLS</th>
+                    <th class="blacktxt bolder ">Saldo MXN</th>
+                    <th class="blacktxt bolder ">Saldo DLLS</th>
                     <th class="blacktxt bolder ">Moneda</th>
                     <th class="blacktxt bolder ">T.C.</th>
                 </tr>
@@ -29,7 +33,7 @@
                     <td class="wrap lightback pgbreak"> {{info.IdCliente}} </td>
                     <!-- <td class="wrap lightback"> {{info.Nombre | slice:0:35}} <br> {{info.Nombre | slice:35:this.textoNombre[i]}} </td> -->
                     <!-- <td class="wrap lightback"> {{info.Nombre}}</td> -->
-                    <td class="wrap lightback pgbreak" [attr.colspan]="6"> {{info.Nombre}}</td>
+                    <td class="wrap lightback pgbreak" [attr.colspan]="8"> {{info.Nombre}}</td>
 
                     <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
                         <td class="pgbreak"> {{info.Folio}} </td>
@@ -37,6 +41,8 @@
                         <td class="pgbreak"> {{info.FechaDeExpedicion| date: 'yyyy/MM/dd'}} </td>
                         <td class="pgbreak"> {{info.Total | currency}} </td>
                         <td class="pgbreak"> {{info.TotalDlls | currency }} </td>
+                        <td class="pgbreak"> </td>
+                        <td class="pgbreak"> </td>
                         <td class="pgbreak"> {{info.Moneda}} </td>
                         <td class="pgbreak"> {{info.TipoDeCambio |currency}} </td>
                     </tr>
@@ -44,5 +50,5 @@
         </table>
 
     </div>
-    <div class="col-2"></div>
+    <!-- <div class="col-2"></div> -->
 </div>

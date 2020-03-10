@@ -27,3 +27,11 @@ th {
 .lightback {
     background-color: #f5f5f5;
 }
+
+.sinpadding {
+    padding-left: 0px;
+}
+
+::ng-deep .modal-lg {
+    max-width: 810px;
+}
