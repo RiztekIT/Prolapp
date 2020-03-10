@@ -102,6 +102,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   folioparam;
   idparam;
+  statusparam;
   json1 = new FacturaTimbre();
   json2 = new Prefactura();
   folio: string;
@@ -1255,6 +1256,8 @@ onDeleteNC(notaCredito: any){
         };
         html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
           localStorage.setItem('pdf'+folio, pdfAsString);
+          this.statusparam=true;
+          
        
         })
       },1000)

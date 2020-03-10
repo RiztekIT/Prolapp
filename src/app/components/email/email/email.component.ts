@@ -22,6 +22,7 @@ export class EmailComponent implements OnInit {
   // @Input() param = 'file';
   @Input() foliop: any;
   @Input() idp: any;
+  @Input() status:boolean;
   // @Output() complete = new EventEmitter<string>();
   
 
@@ -39,7 +40,9 @@ export class EmailComponent implements OnInit {
   }
   
   ngOnInit() {
+    console.log('abrir modal');
   }
+
   
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.

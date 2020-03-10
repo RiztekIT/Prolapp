@@ -86,3 +86,7 @@ table {
 .color {
     background-color: rgba(230, 69, 69, 0.596);
 }
+
+::ng-deep .modal-lg {
+    max-width: 1000px;
+}
