@@ -4,7 +4,7 @@
 
 <div class="modal0-body">
     <div class="container">
-        <div id="element-to-PDF">
+        <div id="ComprobanteDePago-PDF">
             <!-- TOP PAGE LOGO DESCRIPTION FACTURA -->
             <div class="container">
                 <div class="row">
@@ -17,7 +17,7 @@
                         </div>
                     </div>
                     <!-- descripcion -->
-                    <div class="col-8 pr-0">
+                    <div class="col-8 mg-r">
                         <h5 class="blacktxt text-center bolder"> PROLACTO INGREDIENTES S DE RL MI DE CV
                         </h5>
                         <p class="blacktxt bolder nomarginbottomP"><span class="bolder">R.F.C.:</span>PLA11011243A
@@ -37,8 +37,8 @@
                             </p>
                         </div>
                     </div>
-                    <!-- factura folio -->
-                    <div class="col-3 pl-0">
+
+                    <div class="col-3">
                         <div class="card card-outline-inverse borderContainer">
                             <div class="card-headerTR">
                                 <h5 class="m-b-0 text-white  text-center bolder">COMPROBANTE DE PAGOS</h5>
@@ -180,7 +180,8 @@
                         <div class="col-3 pr-0 mr-0">
                             <div class="card card-outline-inverse">
                                 <div class="card-body">
-                                    <ngx-qrcode qrc-element-type="url" [qrc-value]="QRString"></ngx-qrcode>
+                                    <qrcode [qrdata]=myAngularxQrCode [size]=QRsize></qrcode>
+                                    <!-- <ngx-qrcode qrc-element-type="url" [qrc-value]="QRString"></ngx-qrcode> -->
                                     <!-- cambia el qr string que esta en el TS -->
                                 </div>
                             </div>

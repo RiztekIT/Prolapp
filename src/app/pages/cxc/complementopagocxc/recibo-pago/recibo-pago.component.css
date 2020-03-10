@@ -32,3 +32,7 @@ table {
 .card-header {
     background-color: rgb(247, 247, 247)
 }
+
+.modal-lg {
+    max-width: 850px;
+}

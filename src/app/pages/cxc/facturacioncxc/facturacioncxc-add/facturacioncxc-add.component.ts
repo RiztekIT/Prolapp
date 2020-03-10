@@ -1128,19 +1128,27 @@ onDeleteNC(notaCredito: any){
   /* Metodo que crear el PDF */
   onExportClick(folio?: string) {
     this.proceso = 'xml';
-    const content: Element = document.getElementById('element-to-PDF');
+    const content: Element = document.getElementById('Factura-PDF');
     const option = {
-      margin: [0, 0, 0, 0],
+      margin: [.5,.5,.5,0],
       filename: 'F-' + folio + '.pdf',
       image: { type: 'jpeg', quality: 1 },
-      html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
-      jsPDF: { format: 'letter', orientation: 'portrait' },
+      html2canvas: {scale: 2, logging: true, scrollY: -2, scrollX: -15},
+      jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
+      pagebreak:{ avoid: '.pgbreak'}
       
     };
 
-    html2pdf().from(content).set(option).save(); 
+    html2pdf()
+   .from(content)
+   .set(option).toPdf().get('pdf').then(function (pdf) {
+    setTimeout(() => {}, 1000);
+   })
+   .save();
     this.proceso = '';
   }
+
+
 
 /* Metodo que obtiene el xml de la API */
   dpdfxml() {

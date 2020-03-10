@@ -124,7 +124,9 @@ import { ImageUploadModule } from 'angular2-image-upload';
 
   //qr code
 import { NgxQRCodeModule } from 'ngx-qrcode2'; 
-import { NgxLoadingModule } from 'ngx-loading'
+import { NgxLoadingModule } from 'ngx-loading';
+import { QRCodeModule } from "angularx-qrcode";
+import {NgxDocViewerModule} from 'ngx-doc-viewer'
 
 
 // Importacion Angular Material
@@ -176,7 +178,6 @@ import { ReporteDllsComponent } from '../components/cxc/reporte-dlls/reporte-dll
 import { ReporteMxnComponent } from '../components/cxc/reporte-mxn/reporte-mxn.component';
 import { NotacreditoComponent } from '../components/notacredito/notacredito/notacredito.component';
 import { FacturacionComponent } from '../components/cxc/graficas/facturacion/facturacion.component';
-import {NgxDocViewerModule} from 'ngx-doc-viewer'
 
 
 
@@ -347,7 +348,8 @@ import {NgxDocViewerModule} from 'ngx-doc-viewer'
         MatStepperModule,
         MatTooltipModule,
         NgxDropzoneModule,
-        NgxDocViewerModule
+        NgxDocViewerModule,
+        QRCodeModule
 
     ],
     providers: [

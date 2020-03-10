@@ -204,3 +204,7 @@ th {
 .table-responsive {
     width: auto;
 }
+
+.mg-r {
+    margin-right: -50px;
+}

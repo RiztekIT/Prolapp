@@ -20,10 +20,16 @@ declare function cantidad(n);
 export class FacturaComponent implements OnInit {
 
 
+  myAngularxQrCode: string;
+  QRsize:number;
+
 
   @Input() xmlparametros;
 
   constructor(private _http: HttpClient, private sanitizer: DomSanitizer, public service: FacturaService) {
+    this.QRsize = 125;
+    // assign a value
+    this.myAngularxQrCode = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.asp?id=28c751ac-b6f3-4293-b35e-9ce78b4eb4b8&re=CIN960904FQ2&rr=CUOA880131Q85&tt=0000002578.930000&fe=nfsuQW==';
     // this.loadXML();
   }
   // XML
@@ -86,7 +92,8 @@ export class FacturaComponent implements OnInit {
   title = 'xmljson';
   public xmlItems: any;
   fileUrl: any;
-  QRString = 'CodigoQREjemplo';
+
+  QRString = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.asp?id=28c751ac-b6f3-4293-b35e-9ce78b4eb4b8&re=CIN960904FQ2&rr=CUOA880131Q85&tt=0000002578.930000&fe=nfsuQW==';
   // loadXML(){
   //   this._http.get('/assets/F-1.xml',
   //   {
