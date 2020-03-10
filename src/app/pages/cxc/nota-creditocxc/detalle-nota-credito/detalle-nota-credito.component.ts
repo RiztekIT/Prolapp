@@ -565,11 +565,12 @@ this.refreshTablaDetalles();
     document.getElementById('add-new-eventnc').style.zIndex = "1";
     const content: Element = document.getElementById('element-to-PDFNC');
     const option = {
-      margin: [0, 0, 0, 0],
+      margin: [.5,.5,.5,0],
       filename: 'F-' + folio + '.pdf',
       image: { type: 'jpeg', quality: 1 },
-      html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
-      jsPDF: { format: 'letter', orientation: 'portrait' },
+      html2canvas: {scale: 2, logging: true, scrollY: -2, scrollX: -15},
+      jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
+      pagebreak:{ avoid: '.pgbreak'}
       
     };
 

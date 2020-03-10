@@ -17,8 +17,15 @@ declare function cantidad(n);
 export class NotacreditoComponent implements OnInit {
 
   @Input() xmlparametrosnc;
-
-  constructor(private _http: HttpClient, private sanitizer: DomSanitizer, public service: FacturaService) { }
+  myAngularxQrCode: string;
+  QRsize:number;
+  
+  constructor(private _http: HttpClient, private sanitizer: DomSanitizer, public service: FacturaService) {
+    this.QRsize = 125;
+    // assign a value to QR
+    this.myAngularxQrCode = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.asp?id=28c751ac-b6f3-4293-b35e-9ce78b4eb4b8&re=CIN960904FQ2&rr=CUOA880131Q85&tt=0000002578.930000&fe=nfsuQW==';
+    
+   }
 
   factura = new Prefactura();
   cfdiNombre: string;
@@ -79,7 +86,6 @@ export class NotacreditoComponent implements OnInit {
   title = 'xmljson';
   public xmlItems: any;
   fileUrl: any;
-  QRString = 'CodigoQREjemplo';
 
   // ngOnInit() {
   // }
