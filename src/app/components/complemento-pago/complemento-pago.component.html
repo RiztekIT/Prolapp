@@ -79,7 +79,7 @@
                                     <div class="card-body">
                                         <p class="nomarginbottomP bolder">Importe: <span> {{service.formt.Cantidad | currency}} </span></p>
                                         <p class="nomarginbottomP bolder">Moneda: <span> {{service.formt.Moneda }} </span></p>
-                                        <p class="nomarginbottomP bolder">Tipo de Cambio: <span> {{service.formt.TipoCambio}} </span></p>
+                                        <p class="nomarginbottomP bolder">Tipo de Cambio: <span> {{service.formt.TipoCambio | currency}} </span></p>
                                         <p class="nomarginbottomP bolder">RFC Banco Beneficiario: <span>BBA830831LJ2</span></p>
                                         <p class="nomarginbottomP bolder">Cuenta Beneficiaria: <span>072150001119448432</span></p>
                                     </div>
@@ -110,16 +110,16 @@
                                                 <div class="col-2">
                                                     <th class="bolder blacktxt ">UUID</th>
                                                 </div>
-                                                <div class="col-2">
-                                                    <th class="bolder blacktxt text-center">Saldo Anterior</th>
+                                                <div class="col-2" style="margin-left: 35px;">
+                                                    <th class="bolder blacktxt">Saldo Anterior</th>
                                                 </div>
-                                                <div class="col-2">
-                                                    <th class="bolder blacktxt text-center">Importe Pagado</th>
+                                                <div class="col-2" style="margin-left: 10px;">
+                                                    <th class="bolder blacktxt text-left">Importe Pagado</th>
                                                 </div>
-                                                <div class="col-2">
+                                                <div class="col-2" style="margin-right: -15px; margin-left: -15px;">
                                                     <th class="bolder blacktxt ">Saldo Insoluto</th>
                                                 </div>
-                                                <div class="col-1">
+                                                <div class="col-1" style="margin-left: -15px;">
                                                     <th class="bolder blacktxt">Parcialidad</th>
                                                 </div>
                                             </div>
@@ -146,16 +146,16 @@
                                                     <!-- <th class="textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.UUID1| slice:0:9 }} <br>{{conceptos.UUID1| slice:9:20 }} </th> -->
                                                     <th class="textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.UUID1 }} </th>
                                                 </div>
-                                                <div class="col-2 mg-rl">
-                                                    <th class="text-left textoBodyAcomodo"> {{this.SaldoAnterior}} </th>
+                                                <div class="col-2 " style="margin-left: 20px;">
+                                                    <th class="text-left textoBodyAcomodo"> {{this.SaldoAnterior | currency}} </th>
                                                 </div>
-                                                <div class="col-2 mg-l2">
-                                                    <th class="text-left textoBodyAcomodo"> {{conceptos.Cantidad}} </th>
+                                                <div class="col-2 " style="margin-left: 5px;">
+                                                    <th class="text-left textoBodyAcomodo"> {{conceptos.Cantidad | currency}} </th>
                                                 </div>
-                                                <div class="col-2">
-                                                    <th class="text-left textoBodyAcomodo"> {{conceptos.Saldo}} </th>
+                                                <div class="col-2 " style="margin-left: -25px;">
+                                                    <th class="text-left textoBodyAcomodo"> {{conceptos.Saldo | currency}} </th>
                                                 </div>
-                                                <div class="col-1">
+                                                <div class="col-1 " style="margin-left: -10px;">
                                                     <th class="text-left textoBodyAcomodo"> {{conceptos.NoParcialidad}} </th>
                                                 </div>
                                             </div>
@@ -191,7 +191,7 @@
                                 <div class="card-body">
                                     <p class="nomarginbottomP PSellosQR"><span class="bolder">"Este documento es una representación impresa de un CFDI"</span></p>
                                     <p class="nomarginbottomP PSellosQR"><span class="bolder">Folio fiscal:</span> {{service.formt.UUID}} </p>
-                                    <p class="nomarginbottomP PSellosQR"><span class="bolder">Fecha y hora de certificacion:</span> {{service.formt.FechaExpedicion}} </p>
+                                    <p class="nomarginbottomP PSellosQR"><span class="bolder">Fecha y hora de certificacion:</span> {{service.formt.FechaExpedicion | date: 'yyy-MM-dd hh:mm:ss'}} </p>
                                     <p class="PSellosQR nomarginbottomP"><span class="bolder">Sello Digital del CFDI: </span><br> {{service.formt.SelloDigitalCFDI}}
                                         <!-- | slice:1:95 
                                          | slice:95:215 
