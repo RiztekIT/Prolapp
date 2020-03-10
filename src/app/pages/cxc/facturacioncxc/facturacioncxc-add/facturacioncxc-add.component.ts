@@ -169,6 +169,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.tipoDeCambio();
     this.ObtenerUltimaNotaCreditoFactura();
     this.refreshNotaList();
+    this.refreshPagoCFDIList();
 
     
   }
@@ -470,6 +471,28 @@ onDeleteNC(notaCredito: any){
 }
 
   // FIN NOTA DE PAGO----------------------------------------------------------------------->
+
+    // TABLA COMPLEMENTO PAGO (PAGOS CFDI) ----------------------------------------------------------------------->
+    listDataPagosCFDI: MatTableDataSource<any>;
+    displayedColumnsPagosCFDI: string[] = ['IdReciboPago', 'FechaPago', 'Cantidad', 'Estado', 'Options'];
+    @ViewChild(MatSort, null) sortPagoCFDI: MatSort;
+
+    refreshPagoCFDIList() {
+
+      this.service.getPagosCFDI(4).subscribe(data => {
+        console.clear();
+        console.log(data);
+        this.listDataPagosCFDI = new MatTableDataSource(data);
+        this.listDataPagosCFDI.sort = this.sortPagoCFDI;
+        // this.listData.paginator = this.paginator;
+        // this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+      console.log(this.listDataPagosCFDI);
+      });
+  
+    }
+
+
+  // FIN TABLA COMPLEMENTO PAGO (PAGOS CFDI) ----------------------------------------------------------------------->
 
   /* Metodo para cambiar los datetimepicker al formato deseado */
   onChange(val) {
