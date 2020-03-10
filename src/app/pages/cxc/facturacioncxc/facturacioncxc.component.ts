@@ -38,6 +38,7 @@ export class FacturacioncxcComponent implements OnInit {
   /* variable para los tipos de animacion del cargando */
 
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
+  loadtable = true;
   folioparam;
   idparam;
   statusparam;
@@ -127,7 +128,7 @@ export class FacturacioncxcComponent implements OnInit {
 
 /* Metodo para traer todas las facturas */
   refreshFacturaList() {
-
+this.loadtable = true;
     this.service.deleteFacturaCreada().subscribe(data=>{
       console.log(data);
       
@@ -150,6 +151,7 @@ export class FacturacioncxcComponent implements OnInit {
             this.listData.sort = this.sort;    
             this.listData.paginator = this.paginator;
             this.listData.paginator._intl.itemsPerPageLabel = 'Facturas por Pagina';
+            this.loadtable = false;
           })
         }}
         // console.log(this.listData);
@@ -332,7 +334,9 @@ onExportClick(folio?:string) {
 }
 
 /* Metodo para ver el pdf en el modal, primero descarga el xml */
-generar(id: string, folio:string) {
+generar(id: string, folio:string,row) {
+  console.log(row);
+  localStorage.setItem('rowfact',JSON.stringify(row));
   
   let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
   this.enviarfact.xml(id).subscribe(data => {

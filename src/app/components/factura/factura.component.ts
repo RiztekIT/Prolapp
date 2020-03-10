@@ -142,6 +142,8 @@ export class FacturaComponent implements OnInit {
   // }
 
   leerxml(folio:string) {
+    let row = JSON.parse(localStorage.getItem('rowfact'));
+    console.log(row);
     // this.PdfPreliminar();
     // this._http.get('/assets/F-1.xml',
     // this._http.get(localStorage.getItem('xml'),
@@ -400,6 +402,8 @@ this.xmlparametros='';
 
 
   ngOnInit() {
+
+    
 
 
 
