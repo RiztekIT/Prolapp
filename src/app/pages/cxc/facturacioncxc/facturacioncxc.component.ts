@@ -395,6 +395,7 @@ pdf(id: string, folio:string){
 email(id: string, folio:string){
 localStorage.removeItem('xml'+folio);
 localStorage.removeItem('pdf'+folio);
+document.getElementById('enviaremail').click();
 
   this.folioparam = folio;
   this.idparam = id;
@@ -407,12 +408,12 @@ localStorage.removeItem('pdf'+folio);
       localStorage.setItem('xml' + folio, data)
       this.xmlparam = folio;
       setTimeout(()=>{
-        const content: Element = document.getElementById('element-to-PDF');
+        const content: Element = document.getElementById('Factura-PDF');
         const option = {
           margin: [0, 0, 0, 0],
           filename: 'F-' + folio + '.pdf',
           image: { type: 'jpeg', quality: 1 },
-          html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
+          html2canvas: { scale: 2, logging: true, scrollY: 0 },
           jsPDF: { format: 'letter', orientation: 'portrait' },
         };
         html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
@@ -423,12 +424,7 @@ localStorage.removeItem('pdf'+folio);
       },1000)
   })
 
-  setTimeout(()=>{
-    
-    this.btnemail.nativeElement.click();
-    this.emailmodalstatus=true;
-    console.log(this.emailmodalstatus);
-  },2000);
+ 
 
 }
 
