@@ -18,10 +18,11 @@ export class ClienteDireccionComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(public service: ClienteDireccionService, public dialogbox: MatDialogRef<ClienteDireccionComponent>,) { 
+
     this.service.listen().subscribe((m:any)=>{
-      // console.log(m);
       this.refreshDireccionesList();
       });
+      
   }
 
   ngOnInit() {

@@ -21,6 +21,11 @@ import { Vendedor } from 'src/app/Models/catalogos/vendedores.model';
 import { UnidadMedidaService } from 'src/app/services/unidadmedida/unidad-medida.service';
 import { ClienteDireccion } from '../../../../../Models/cliente-direccion/clienteDireccion-model';
 
+
+import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
+import { ClienteDireccionService } from '../../../../../services/cliente-direccion/cliente-direccion.service';
+
+import { ClienteDireccionComponent } from '../../../../../components/cliente-direccion/cliente-direccion.component';
 //Constantes para obtener tipo de cambio
 const httpOptions = {
   headers: new HttpHeaders({
@@ -43,8 +48,15 @@ export class PedidoventasAddComponent implements OnInit {
   dialogbox: any;
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
-    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient, public ServiceUnidad: UnidadMedidaService) {
+    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient, public ServiceUnidad: UnidadMedidaService,
+    public serviceDireccion: ClienteDireccionService, private dialog: MatDialog) {
     this.MonedaBoolean = true;
+
+
+    this.serviceDireccion.listen().subscribe((m:any)=>{
+      this.dropdownRefreshDirecciones(this.service.formData.IdClientes);
+      });
+
   }
 
 
@@ -477,6 +489,16 @@ llevaDireccion() {
   //   this.isFlete = true;
   // }
 }
+
+AbrirDireccionCliente(id: number){
+console.log(id);
+this.serviceDireccion.IdCliente = id;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(ClienteDireccionComponent, dialogConfig);
+} 
 
   // --------------------------- SELECT DIRECCION CLIENTE || onCHANGE SELECT DIRECCION CLIENTE --------------------------------------
   
