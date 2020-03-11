@@ -104,6 +104,8 @@ export class ComplementoPagoComponent implements OnInit {
       });
     }
 
+    console.log(this.arrcon);
+
     this.SaldoAnterior = conceptos.Cantidad + conceptos.Saldo;
 
     console.log(this.SaldoAnterior);
