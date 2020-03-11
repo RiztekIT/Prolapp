@@ -337,6 +337,7 @@ onExportClick(folio?:string) {
 generar(id: string, folio:string,row) {
   console.log(row);
   localStorage.setItem('rowfact',JSON.stringify(row));
+  this.xmlparam = folio;
   
   let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
   this.enviarfact.xml(id).subscribe(data => {
@@ -347,11 +348,10 @@ generar(id: string, folio:string,row) {
     document.body.appendChild(this.a);
     localStorage.removeItem('xml'+folio)
     localStorage.setItem('xml'+folio,data)
-    this.xmlparam = folio;
     return this.fileUrl;
   });
-  setTimeout(()=>{
-   },1000)
+  // setTimeout(()=>{
+  //  },1000)
   document.getElementById('abrirpdf').click();  
   
 }

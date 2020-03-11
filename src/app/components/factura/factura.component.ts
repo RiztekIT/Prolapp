@@ -67,6 +67,7 @@ export class FacturaComponent implements OnInit {
   noCertificadoSAT: string;
   selloSAT: string;
   iva: string;
+  RetIva: string;
   monedaT: string;
   claveCliente: number;
 
@@ -141,9 +142,199 @@ export class FacturaComponent implements OnInit {
 
   // }
 
+  pdfDB(folio: string){
+     let row = JSON.parse(localStorage.getItem('rowfact'));
+    console.log(row.Certificado);
+    console.log(row.detalle[0].Cantidad);
+    console.log(row.detalle);
+
+this.certificado = row.Certificado;
+this.serie = row.Serie;
+this.folio = row.Folio;
+this.fecha = row.FechaDeExpedicion;
+this.formaDePago = row.FormaDePago;
+this.nocertificado = row.NumeroDeCertificado;
+this.moneda = row.Moneda;
+// this.subtotal = row.Subtotal;
+// this.total = row.Total;
+this.textnum = cantidad(this.total);
+this.tipoDeComprobante = row.Tipo;
+this.metodoPago = row.MetodoDePago;
+this.lugarExpedicion = row.LugarDeExpedicion;
+this.selloCFDI = row.SelloDigitalCFDI;
+this.rfcE = row.RFCDelPAC
+this.nombreE = 'PRO LACTO INGREDIENTES S DE RL MI DE CV';
+this.nombreR = row.Nombre;
+this.rfcR = row.RFC;
+this.usoCFDI = row.UsoCFDI;
+this.regimen = '601';
+this.cantidad = row.detalle[0].Cantidad;
+this.claveUnidad = row.detalle[0].ClaveProducto;
+this.unidad = row.detalle[0].Unidad;
+this.descripcionConcepto = row.detalle[0].Producto;
+this.valorUnitario = row.detalle[0].PrecioUnitario;
+this.importeConcepto = row.detalle[0].Importe;
+this.uuid = row.UUID;
+this.noCertificadoSAT = row.NumeroDeSelloSAT;
+this.iva = row.ImpuestosTrasladados;
+this.RetIva = row.ImpuestosRetenidos;
+this.selloSAT = row.SelloDigitalSAT;
+
+
+this.objconc = row.detalle;
+
+switch (this.moneda) {
+  case "MXN":
+    this.monedaT = "MXN"
+    this.total = row.Total;
+    this.subtotal = row.Subtotal;
+    break;
+  case "USD":
+    this.monedaT = "USD"
+    this.total = row.TotalDlls;
+    this.subtotal = row.SubtotalDlls;
+}
+
+this.arrcon = [];
+
+if(this.moneda === 'MXN'){
+  for (this.con in this.objconc){
+    var conceptos = this.objconc[this.con];
+    this.arrcon.push({
+      cantidad: conceptos.Cantidad,
+      claveunidad: conceptos.ClaveProducto,
+      unidad: conceptos.Unidad,
+      descripcion: conceptos.Producto,
+      valorunitario: conceptos.PrecioUnitario,
+      importe: conceptos.Importe,
+    });
+}
+}else if(this.moneda === 'USD'){
+  for (this.con in this.objconc){
+    var conceptos = this.objconc[this.con];
+    this.arrcon.push({
+      cantidad: conceptos.Cantidad,
+      claveunidad: conceptos.ClaveProducto,
+      unidad: conceptos.Unidad,
+      descripcion: conceptos.Producto,
+      valorunitario: conceptos.PrecioUnitarioDlls,
+      importe: conceptos.ImporteDlls,
+    });
+}
+}
+console.log(this.objconc);
+console.log(this.arrcon);
+
+this.service.getFacturasClienteFolio(folio).subscribe(data=>{
+  console.log(data);
+  
+  switch (data[0].Estado){
+    case "NO APLICA":
+      data[0].Estado = "NO APLICA ESTADO"
+  }
+  switch (data[0].CondicionesDePago){
+    case "":
+      data[0].CondicionesDePago = " N/A"
+  }
+   this.vendedor = data[0].Vendedor;
+   this.ordenCompra = data[0].OrdenDeCompra
+   this.fechaVencimiento = data[0].FechaVencimiento
+   this.fechaEntrega = data[0].FechaDeEntrega
+   this.tipoCambio = data[0].TipoDeCambio
+   this.condicionesPago = data[0].CondicionesDePago
+   this.direccionCalle = data[0].Calle + ' , ' + data[0].NumeroExterior + ' , ' + data[0].NumeroInterior + ' , ' + data[0].Colonia + ' , ' +  data[0].CP + ' , ' + data[0].Ciudad + ' , ' + data[0].Estado;
+   this.observaciones = data[0].Observaciones;
+   this.claveCliente = data[0].IdCliente;
+   
+ })
+ 
+ //  console.log(this.uuid);
+
+
+ switch (this.metodoPago){
+
+   case "PUE":
+     this.metodoPago = "PUE (Pago de Unica Exhibición)"
+     break;
+
+   case "PPD":
+     this.metodoPago = "PPD (Pago Parcial o Diferido)"
+ }
+
+ switch (this.usoCFDI) {
+   case "G01":
+     this.cfdiNombre = "Adquisición de Mercancías"
+     break;
+   case "G02":
+     this.cfdiNombre = "Devoluciones, descuentos o bonificaciones"
+     break;
+   case "G03":
+     this.cfdiNombre = "Gastos en General"
+     break;
+   case "I01":
+     this.cfdiNombre = "Construcciones"
+     break;
+   case "I02":
+     this.cfdiNombre = "Mobiliario y Equipo de Oficina por contrucciones"
+     break;
+   case "I03":
+     this.cfdiNombre = "Equipo de transporte"
+     break;
+   case "I04":
+     this.cfdiNombre = "Equipo de Cómputo y accesorios"
+     break;
+   case "I05":
+     this.cfdiNombre = "Dados, troqueles, moldes, matrices y herramientas"
+     break;
+   case "I06":
+     this.cfdiNombre = "Comunicaciones telefónicas"
+     break;
+   case "I07":
+     this.cfdiNombre = "Comunicaciones satelitales"
+     break;
+   case "I08":
+     this.cfdiNombre = "Otras máquinas y equipo"
+   case "D01":
+     this.cfdiNombre = "Honorarios médicos, dentales y hospitalarios"
+     break;
+   case "D02":
+     this.cfdiNombre = "Gastos médicos por incapacidad o discapacidad"
+     break;
+   case "D03":
+     this.cfdiNombre = "Gastos funerales"
+     break;
+   case "D04":
+     this.cfdiNombre = "Donativos"
+     break;
+   case "D05":
+     this.cfdiNombre = "Intereses reales efectivamente pagados por créditos hipotecarios (casa habitación)"
+     break;
+   case "D06":
+     this.cfdiNombre = "Aportaciones voluntarias SAR"
+     break;
+   case "D07":
+     this.cfdiNombre = "Primas por seguros de gastos médicos"
+     break;
+   case "D08":
+     this.cfdiNombre = "Gastos por transportación escolar obligatoria"
+     break;
+   case "D09":
+     this.cfdiNombre = "Deposito en cuentas para ahorro, primas que tengan como base planes de pensiones"
+     break;
+   case "D10":
+     this.cfdiNombre = "Pagos por servicios educativos"
+     break;
+   case "P01":
+     this.cfdiNombre = "Por definir"
+     break;
+ }
+
+ 
+this.xmlparametros='';
+  }
+
   leerxml(folio:string) {
-    let row = JSON.parse(localStorage.getItem('rowfact'));
-    console.log(row);
+   
     // this.PdfPreliminar();
     // this._http.get('/assets/F-1.xml',
     // this._http.get(localStorage.getItem('xml'),
@@ -431,7 +622,7 @@ this.xmlparametros='';
       
     }else{
       console.log(this.xmlparametros);
-      this.leerxml(this.xmlparametros);
+      this.pdfDB(this.xmlparametros);
     }
     // this.PdfPreliminar();
      

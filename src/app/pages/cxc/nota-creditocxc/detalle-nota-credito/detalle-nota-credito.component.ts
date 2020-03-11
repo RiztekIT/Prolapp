@@ -155,18 +155,45 @@ refreshTablaDetalles(){
 }
 
 
+ObtenerDetalles(){
+     //obtener los detalles de cierta factura en especifico
+     this.serviceFactura.getDetallesFacturaList(this.service.IdFactura).subscribe(data => {
+      this.service.DetalleFactura = data;
+      for (let i = 0; i <= data.length - 1; i++) {
+        console.log(data[i]);
+        //sumas las cantidades de cierto producto en cierta factura
+        this.service.getSumaCantidades(data[i].IdFactura, data[i].ClaveProducto).subscribe(data2 => {
+          console.log(data2[0].Cantidad);
+          //si la cantidad es diferente de null (ya existen notas de credito con el mismo producto en la misma factura)
+          if (data2 !== null) {
+            console.log(+this.service.DetalleFactura[i].Cantidad);
+            console.log(+data2[0].Cantidad);
+            //asignarle la cantidad a DetalleFactura. Calcular la cantidad, restando las cantidad de ese producto en la misma factura y asi colocar el maximo que se podra ingresar en el form.
+            this.service.DetalleFactura[i].Cantidad = (+this.service.DetalleFactura[i].Cantidad - +data2[0].Cantidad).toString();
+          }
+          console.log(this.service.DetalleFactura);
+        })
+      }
+         this.listDetalle = this.service.DetalleFactura;
+         
+      this.filteredOptionsDetalles = this.myControlDetalle.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filterUnidad(value))
+      );
 
+        });
+}
 
 
 
 DetalleNotaCredito() {  
     this.listDetalle = [];
-      this.listDetalle = this.service.DetalleFactura;
-      this.filteredOptionsDetalles = this.myControlDetalle.valueChanges
-        .pipe(
-          startWith(''),
-          map(value => this._filterUnidad(value))
-        );
+      
+console.log(this.service.IdFactura);
+
+this.ObtenerDetalles();
+
 }
 
  //Filter Unidad
@@ -177,9 +204,10 @@ DetalleNotaCredito() {
 }
 
 onSelectionChange(detalle: DetalleNotaCredito, event: any){
+  console.log(event);
   if (event.isUserInput) {
     console.log(detalle);
-    this.service.DetalleformData = detalle;
+    this.service.DetalleformData  = detalle;
     this.CantidadDetalle = +detalle.Cantidad;
     this.CantidadOriginal = +detalle.Cantidad;
     console.log(this.ProductoSelect);
@@ -246,9 +274,32 @@ this.service.formData.Estatus = 'Guardada';
   onEdit(detalle: DetalleNotaCredito){
 console.log(detalle);
 this.agregar = false;
-this.service.DetalleformData = detalle;
-this.CantidadDetalle = +detalle.Cantidad;
-this.ProductoSelect = detalle.ClaveProducto;
+
+//Obtener la Cantidad de cierto detalle Factura por IdFactura y Clave producto
+this.service.getDetalleFactura(this.service.IdFactura, detalle.ClaveProducto).subscribe(data =>{
+  console.log(data[0]);
+  //sumas las cantidades de cierto producto en cierta factura
+  this.service.getSumaCantidades(this.service.IdFactura, detalle.ClaveProducto).subscribe(data2 => {
+    console.log(data2[0].Cantidad);
+    //si la cantidad es diferente de null (ya existen notas de credito con el mismo producto en la misma factura)
+    // if (data2 !== null) {
+    //   console.log(+this.service.DetalleFactura[i].Cantidad);
+    //   console.log(+data2[0].Cantidad);
+    //   //asignarle la cantidad a DetalleFactura. Calcular la cantidad, restando las cantidad de ese producto en la misma factura y asi colocar el maximo que se podra ingresar en el form.
+    //   this.service.DetalleFactura[i].Cantidad = (+this.service.DetalleFactura[i].Cantidad - +data2[0].Cantidad).toString();
+    // }
+    // console.log(this.service.DetalleFactura);
+    this.service.DetalleformData = detalle;
+    this.ProductoSelect = detalle.ClaveProducto;
+    this.CantidadDetalle = +detalle.Cantidad;
+    this.CantidadOriginal = (+data[0].Cantidad) - ((data2[0].Cantidad) - (+detalle.Cantidad));
+    this.onChangeCantidad(this.CantidadDetalle);
+  })
+})
+
+
+// this.onSelectionChange();
+
   }
 
   ActualizarDetalleNotaCredito(form: NgForm){
