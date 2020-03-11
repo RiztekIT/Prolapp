@@ -110,6 +110,9 @@ return this.http.delete(this.APIUrl + '/NotaCredito/'+ id)
     getSumaCantidades(id:number, clave: string): Observable<any[]> {
       return this.http.get<any[]>(this.APIUrl + '/NotaCredito/SumaCantidades/'+ id +'/'+ clave);
     }
+    getNCClienteFolio(id:string): Observable<any[]>{
+      return this.http.get<any[]>(this.APIUrl+ '/NotaCredito/NCClienteFolio/'+id)
+    }
 
 
   deleteNotaCredito(id: number){

@@ -580,6 +580,7 @@ this.refreshTablaDetalles();
 
   dxml2(uuid, folio){
     // this.proceso = 'xml';
+    this.xmlparam = folio
     let xml = 'http://devfactura.in/api/v3/cfdi33/' + uuid + '/xml';
     this.enviarfact.xml(uuid).subscribe(data => {
       localStorage.removeItem('xml' + folio)
@@ -590,7 +591,6 @@ this.refreshTablaDetalles();
       this.a.target = '_blank';
       this.a.download = 'F-' + folio + '.xml';
       document.body.appendChild(this.a);
-      this.xmlparam = folio
       // this.resetForm();
       return this.fileUrl;
     });

@@ -60,6 +60,8 @@ export class FacturaService {
   getFacturasClienteFolio(id:string): Observable<any[]>{
     return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaClienteFolio/'+id)
   }
+
+  
   //Obtener los datos del Cliente en base a una factura
   
   getFacturaClienteID(id:number): Observable<any[]>{
