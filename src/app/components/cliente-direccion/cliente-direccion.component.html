@@ -1,8 +1,12 @@
 <div class="d-flex justify-content-between">
-    <h4>Direcciones del Cliente: {{NombreCliente}}</h4>
-    <h4>IdCliente: {{IdCliente}}</h4>
+    <h4 style="font-weight: 900;">Direcciones del Cliente:
+        <p style="font-weight: 400; ">{{NombreCliente}} </p>
+    </h4>
+    <h4 style="font-weight: 900;">IdCliente:
+        <p style="font-weight: 400; ">{{IdCliente}} </p>
+    </h4>
 
-    <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
+    <button mat-button class="btn btn-danger" style="height: 50px;" color="warn" (click)="onClose()">
         <mat-icon>close</mat-icon>
     </button>
 
@@ -10,7 +14,7 @@
 </div>
 
 
-<div style="overflow: auto; height: 600px;">
+<div style="overflow: auto; height: 650px;">
     <hr>
 
     <!-- Inicio FORM -->

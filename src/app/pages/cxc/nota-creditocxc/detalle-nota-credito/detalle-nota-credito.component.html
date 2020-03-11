@@ -1,8 +1,15 @@
 <div class="d-flex justify-content-between">
     <h4 class="text-inverse">Generar Nota Credito</h4>
-    Cliente: {{ClienteNombre}}
+    <h3 style="font-weight: 900; display: inline-block;">
+        Cliente:
+        <p style="font-weight: 400; display: inline-block;">
+            {{ClienteNombre}}
+        </p>
 
-    <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
+    </h3>
+
+
+    <button mat-button class="btn btn-danger btnh" color="warn" (click)="onClose()">
             <mat-icon>close</mat-icon>
         </button>
 
@@ -18,7 +25,7 @@
 </div>
 <hr>
 
-<div style="overflow: auto; height: 450px;">
+<div style="overflow: none; height: 650px;">
 
 
     <form #form="ngForm" autocomplete="off">

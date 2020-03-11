@@ -23,7 +23,6 @@ export class ComplementoPagoComponent implements OnInit {
       this.QRsize = 125;
       // assign a value to QR
       this.myAngularxQrCode = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.asp?id=28c751ac-b6f3-4293-b35e-9ce78b4eb4b8&re=CIN960904FQ2&rr=CUOA880131Q85&tt=0000002578.930000&fe=nfsuQW==';
-      
     }
 
     con : string| number;
@@ -104,7 +103,7 @@ export class ComplementoPagoComponent implements OnInit {
       });
     }
 
-    this.SaldoAnterior = conceptos.Cantidad + conceptos.Saldo;
+    this.SaldoAnterior = (+conceptos.Cantidad) + (+conceptos.Saldo);
 
     console.log(this.SaldoAnterior);
 
