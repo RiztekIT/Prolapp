@@ -286,67 +286,15 @@ export class FacturacioncxcAddComponent implements OnInit {
       this.serviceNota.addNotaCredito(NotaBlanco).subscribe(res => {
         this.serviceNota.formData = NotaBlanco;
         // console.log(res);
-        this.service.getDetallesFacturaList(this.service.formData.Id).subscribe(data => {
-          this.serviceNota.DetalleFactura = data;
-          for (let i = 0; i <= data.length - 1; i++) {
-            console.log(data[i]);
-            this.serviceNota.getSumaCantidades(data[i].IdFactura, data[i].ClaveProducto).subscribe(data2 => {
-              console.log(data2[0].Cantidad);
-              if (data2 !== null) {
-                console.log(+this.serviceNota.DetalleFactura[i].Cantidad);
-                console.log(+data2[0].Cantidad);
-                this.serviceNota.DetalleFactura[i].Cantidad = (+this.serviceNota.DetalleFactura[i].Cantidad - +data2[0].Cantidad).toString();
-              }
-              console.log(this.serviceNota.DetalleFactura);
-            })
-          }
+console.log(this.service.formData.Id);
+        this.serviceNota.IdFactura = this.service.formData.Id;
+
+        
           this.serviceNota.Moneda = this.Moneda;
           this.serviceNota.TipoCambio = this.service.formData.TipoDeCambio;
           this.ObtenerUltimaNotaCreditoCreada();
         })
-      });
     });
-  }
-
-  //Editar Nota Credito
-  onVerNC(row) {
-    console.log(row);
-    console.log(row.Estatus);
-    //Verificar Estatus de Nota Credito
-    if (row.Estatus == 'Timbrada' || row.Estatus == 'Cancelada') {
-      this.serviceNota.Timbrada = true;
-    } else {
-      this.serviceNota.Timbrada = false;
-    }
-    console.log(this.serviceNota.Timbrada);
-
-
-    this.serviceNota.formData = row;
-    this.serviceNota.DetalleFactura = row.DetalleNotaCredito;
-
-    for (let i = 0; i <= row.DetalleNotaCredito.length - 1; i++) {
-      console.log(row.DetalleNotaCredito[i]);
-      this.serviceNota.getSumaCantidades(row.IdFactura, row.DetalleNotaCredito[i].ClaveProducto).subscribe(data2 => {
-        console.log(data2[0].Cantidad);
-        if (data2 !== null) {
-          console.log(+this.serviceNota.DetalleFactura[i].Cantidad);
-          console.log(+data2[0].Cantidad);
-          this.serviceNota.DetalleFactura[i].Cantidad = (+this.serviceNota.DetalleFactura[i].Cantidad - +data2[0].Cantidad).toString();
-        }
-        console.log(this.serviceNota.DetalleFactura);
-      })
-    }
-    this.serviceNota.Moneda = this.Moneda;
-    this.serviceNota.TipoCambio = this.service.formData.TipoDeCambio;
-
-    this.serviceNota.idNotaCredito = row.IdNotaCredito
-    this.serviceNota.ClienteNombre = this.ClienteNombre;
-    this.serviceNota.IdApi = this.IdApi;
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = "70%";
-    this.dialog.open(DetalleNotaCreditoComponent, dialogConfig);
   }
 
   ObtenerUltimaNotaCreditoCreada() {
@@ -364,7 +312,51 @@ export class FacturacioncxcAddComponent implements OnInit {
     });
   }
 
-  //Obtener ultima nota de credito de cierta Factura en especifico
+
+  //Editar Nota Credito
+  onVerNC(row) {
+    console.log(row);
+    console.log(row.Estatus);
+    //Verificar Estatus de Nota Credito
+    if (row.Estatus == 'Timbrada' || row.Estatus == 'Cancelada') {
+      this.serviceNota.Timbrada = true;
+    } else {
+      this.serviceNota.Timbrada = false;
+    }
+    console.log(this.serviceNota.Timbrada);
+
+
+    this.serviceNota.formData = row;
+    // this.serviceNota.DetalleFactura = row.DetalleNotaCredito;
+    this.serviceNota.IdFactura = this.service.formData.Id;
+
+    // for (let i = 0; i <= row.DetalleNotaCredito.length - 1; i++) {
+    //   console.log(row.DetalleNotaCredito[i]);
+    //   this.serviceNota.getSumaCantidades(row.IdFactura, row.DetalleNotaCredito[i].ClaveProducto).subscribe(data2 => {
+    //     console.log(data2[0].Cantidad);
+    //     if (data2 !== null) {
+    //       console.log(+this.serviceNota.DetalleFactura[i].Cantidad);
+    //       console.log(+data2[0].Cantidad);
+    //       this.serviceNota.DetalleFactura[i].Cantidad = (+this.serviceNota.DetalleFactura[i].Cantidad - +data2[0].Cantidad).toString();
+    //     }
+    //     console.log(this.serviceNota.DetalleFactura);
+    //   })
+    // }
+    this.serviceNota.Moneda = this.Moneda;
+    this.serviceNota.TipoCambio = this.service.formData.TipoDeCambio;
+
+    this.serviceNota.idNotaCredito = row.IdNotaCredito
+    this.serviceNota.ClienteNombre = this.ClienteNombre;
+    this.serviceNota.IdApi = this.IdApi;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "70%";
+    this.dialog.open(DetalleNotaCreditoComponent, dialogConfig);
+  }
+
+  
+  //Obtener ultima nota de credito de cierta Factura en especifico verificar si existen o no, para mostrat la tabla
   ObtenerUltimaNotaCreditoFactura() {
     // console.log(this.IdFactura);
     this.serviceNota.getUltimaNotaCreditoFacturaID(this.service.formData.Id).subscribe(data => {

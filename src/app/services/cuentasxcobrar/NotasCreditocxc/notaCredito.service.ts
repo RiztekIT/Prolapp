@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { NotaCredito } from '../../../Models/nota-credito/notaCredito-model';
 import { NotaCreditoMaster } from '../../../Models/nota-credito/notaCreditoMaster-model';
 import { DetalleNotaCredito } from '../../../Models/nota-credito/detalleNotaCredito-model';
+import { DetalleFactura } from '../../../Models/facturacioncxc/detalleFactura-model';
 
 export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 
@@ -41,6 +42,9 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
     //Variable para saber si la nota esta timbrada o no
     Timbrada: boolean; 
 
+    //Variable ID FACTURA
+    IdFactura: number;
+
     readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
     // readonly APIUrl = "https://localhost:44361/api";
 
@@ -58,6 +62,8 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
   getNotaCreditoDetalles(id: number): Observable <DetalleNotaCredito[]> {
     return this.http.get<DetalleNotaCredito[]>(this.APIUrl + '/NotaCredito/GetDetalleNotaCredito/'+ id);
   }
+
+
 
      //Insertar nueva Nota Credito
   addNotaCredito(notaCredito: NotaCredito) {
@@ -110,6 +116,11 @@ return this.http.delete(this.APIUrl + '/NotaCredito/'+ id)
     getSumaCantidades(id:number, clave: string): Observable<any[]> {
       return this.http.get<any[]>(this.APIUrl + '/NotaCredito/SumaCantidades/'+ id +'/'+ clave);
     }
+
+      //Obtener la Cantidad de cierto detalle Factura por IdFactura y Clave producto
+  getDetalleFactura(id: number, clave: string):Observable <DetalleFactura[]> {
+    return this.http.get<DetalleFactura[]>(this.APIUrl + '/NotaCredito/GetDetalleFactura/'+ id +'/' + clave);
+  }
 
 
   deleteNotaCredito(id: number){
