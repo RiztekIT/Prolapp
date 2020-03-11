@@ -175,3 +175,11 @@ th {
 .modal-backdrop {
     z-index: 1!important;
 }
+
+.mg-r {
+    margin-right: 15px;
+}
+
+.mg-b {
+    margin-bottom: -3px;
+}

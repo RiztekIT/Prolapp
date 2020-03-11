@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import { FacturacioncxcProductoComponent } from '../facturacioncxc-producto/facturacioncxc-producto.component';
 import { Factura } from 'src/app/Models/facturacioncxc/factura-model';
-import { MatTableDataSource, MatSort,MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { DetalleFactura } from '../../../../Models/facturacioncxc/detalleFactura-model';
 import { FacturacioncxcEditProductoComponent } from '../facturacioncxc-edit-producto/facturacioncxc-edit-producto.component';
 import { FacturaTimbre } from '../../../../Models/facturacioncxc/facturatimbre-model';
@@ -78,14 +78,14 @@ export const APP_DATE_FORMATS =
 @Component({
   selector: 'app-facturacioncxc-add',
   templateUrl: './facturacioncxc-add.component.html',
-animations: [
-  /* Trigger para tabla con detalles, cambio de estado colapsado y expandido y sus estilis */
-  trigger('detailExpand2', [
-    state('collapsed', style({height: '0px', minHeight: '0px', visibility: 'hidden'})),
-    state('expanded', style({height: '*'})),
-    transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-  ]),
-],
+  animations: [
+    /* Trigger para tabla con detalles, cambio de estado colapsado y expandido y sus estilis */
+    trigger('detailExpand2', [
+      state('collapsed', style({ height: '0px', minHeight: '0px', visibility: 'hidden' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
   styleUrls: ['./facturacioncxc-add.component.css'],
   providers: [
     {
@@ -98,7 +98,7 @@ animations: [
 
 })
 export class FacturacioncxcAddComponent implements OnInit {
-/* variable para los tipos de animacion del cargando */
+  /* variable para los tipos de animacion del cargando */
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   folioparam;
   idparam;
@@ -117,14 +117,14 @@ export class FacturacioncxcAddComponent implements OnInit {
   constructor(
     public service: FacturaService, private snackBar: MatSnackBar, private dialog: MatDialog,
     private router: Router, public enviarfact: EnviarfacturaService,
-    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService, private tipoCambio:TipoCambioService, public serviceNota: NotaCreditoService ) {
-      this.service.Moneda = 'MXN';
-      console.log('Constr '+this.service.Moneda);
-      this.service.formData.Id = +localStorage.getItem('FacturaID')
-      
-      
+    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService, private tipoCambio: TipoCambioService, public serviceNota: NotaCreditoService) {
+    this.service.Moneda = 'MXN';
+    console.log('Constr ' + this.service.Moneda);
+    this.service.formData.Id = +localStorage.getItem('FacturaID')
 
-      /* Metodo para obtener los parametros de la pantalla anterior  */
+
+
+    /* Metodo para obtener los parametros de la pantalla anterior  */
     // this.activatedRoute.params.subscribe(params => {
     //   this.IdFactura = params['id'];
     //   this.service.IdFactura = this.IdFactura;
@@ -133,14 +133,14 @@ export class FacturacioncxcAddComponent implements OnInit {
     // });
 
     //Observable para actualizar tabla de Detalles Factura
-    
-    
+
+
     this.service.listen().subscribe((m: any) => {
       console.log('listen1');
       console.log(m);
 
-      
-      
+
+
       // this.idFactura();
       this.refreshDetallesFacturaList();
     });
@@ -149,7 +149,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     //   this.refreshDetallesFacturaList();
     // })
 
-    this.serviceNota.listen().subscribe((m:any)=>{
+    this.serviceNota.listen().subscribe((m: any) => {
       console.log('listen2');
       // this.idFactura();
       this.refreshNotaList();
@@ -169,11 +169,12 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.tipoDeCambio();
     this.ObtenerUltimaNotaCreditoFactura();
     this.refreshNotaList();
+    this.refreshPagoCFDIList();
 
-    
+
   }
 
- 
+
 
 
   IdFactura: any;
@@ -207,130 +208,130 @@ export class FacturacioncxcAddComponent implements OnInit {
 
 
   // INICIO NOTA DE PAGO----------------------------------------------------------------------->
-  
-EstatusNota: string;
-FolioNotaCredito: number;
+
+  EstatusNota: string;
+  FolioNotaCredito: number;
 
 
   //Metodo Generar Nota Pago
-  GenerarNota(){
+  GenerarNota() {
 
     this.serviceNota.Timbrada = false;
 
 
-//Obtener ultimo Folio Nota Credito y asignarlo a NotaBlanco
-this.serviceNota.getUltimoFolio().subscribe(data =>{
-  console.log('---------------------------------------');
-  console.log(data);
-  console.log('---------------------------------------');
-if(data[0].Folio == null){
-this.FolioNotaCredito = 1;
-}else{
-this.FolioNotaCredito = data[0].Folio;
-}
-console.log(this.FolioNotaCredito);
-
-
-
-    console.log(this.service.formData);
-    /*  Generar Nota en Blanco */
-  let NotaBlanco: NotaCredito = 
-  {
-    IdNotaCredito:0,
-    IdCliente: +this.service.formData.IdCliente,
-    IdFactura: +this.service.formData.Id,
-    Serie: "",
-    Folio: this.FolioNotaCredito,
-    Tipo: "Egreso",
-    FechaDeExpedicion: new Date(),
-    LugarDeExpedicion: "",
-    Certificado: "",
-    NumeroDeCertificado: "",
-    UUID: "",
-    UsoDelCFDI: "",
-    Subtotal: "0",
-    Descuento: "0",
-    ImpuestosRetenidos: "0",
-    ImpuestosTrasladados: "0",
-    Total: "0",
-    FormaDePago: "",
-    MetodoDePago: "",
-    Cuenta: "",
-    Moneda: this.service.formData.Moneda,
-    CadenaOriginal: "",
-    SelloDigitalSAT: "",
-    SelloDigitalCFDI: "",
-    NumeroDeSelloSAT: "",
-    RFCDelPAC: "",
-    Observaciones: "",
-    FechaVencimiento:  new Date(),
-    OrdenDeCompra: "",
-    TipoDeCambio: "0",
-    FechaDeEntrega:  new Date(),
-    CondicionesDePago: "",
-    Vendedor: "",
-    Estatus: "Creada",
-    Ver: "",
-    Usuario: "",
-    SubtotalDlls: "0",
-    ImpuestosTrasladadosDlls: "0",
-    TotalDlls: "0",
-    Relacion: "",
-}
-console.log(NotaBlanco);
-
-
-console.log(this.listData.data);
-NotaBlanco.TipoDeCambio = this.service.formData.TipoDeCambio;
-this.serviceNota.addNotaCredito(NotaBlanco).subscribe(res =>{
-  this.serviceNota.formData = NotaBlanco;
-  // console.log(res);
-this.service.getDetallesFacturaList(this.service.formData.Id).subscribe(data => {
-  this.serviceNota.DetalleFactura = data;
-  for(let i = 0; i <= data.length-1; i++){
-    console.log(data[i]);
-    this.serviceNota.getSumaCantidades(data[i].IdFactura, data[i].ClaveProducto).subscribe(data2=>{
-      console.log(data2[0].Cantidad);
-      if(data2 !== null){
-        console.log(+this.serviceNota.DetalleFactura[i].Cantidad);
-        console.log(+data2[0].Cantidad);
-      this.serviceNota.DetalleFactura[i].Cantidad = (+this.serviceNota.DetalleFactura[i].Cantidad - +data2[0].Cantidad).toString();
+    //Obtener ultimo Folio Nota Credito y asignarlo a NotaBlanco
+    this.serviceNota.getUltimoFolio().subscribe(data => {
+      console.log('---------------------------------------');
+      console.log(data);
+      console.log('---------------------------------------');
+      if (data[0].Folio == null) {
+        this.FolioNotaCredito = 1;
+      } else {
+        this.FolioNotaCredito = data[0].Folio;
       }
-      console.log(this.serviceNota.DetalleFactura);
-    })
-  }
-  this.serviceNota.Moneda = this.Moneda;
-  this.serviceNota.TipoCambio = this.service.formData.TipoDeCambio;
-this.ObtenerUltimaNotaCreditoCreada();
-})
-});
-});
+      console.log(this.FolioNotaCredito);
+
+
+
+      console.log(this.service.formData);
+      /*  Generar Nota en Blanco */
+      let NotaBlanco: NotaCredito =
+      {
+        IdNotaCredito: 0,
+        IdCliente: +this.service.formData.IdCliente,
+        IdFactura: +this.service.formData.Id,
+        Serie: "",
+        Folio: this.FolioNotaCredito,
+        Tipo: "Egreso",
+        FechaDeExpedicion: new Date(),
+        LugarDeExpedicion: "",
+        Certificado: "",
+        NumeroDeCertificado: "",
+        UUID: "",
+        UsoDelCFDI: "",
+        Subtotal: "0",
+        Descuento: "0",
+        ImpuestosRetenidos: "0",
+        ImpuestosTrasladados: "0",
+        Total: "0",
+        FormaDePago: "",
+        MetodoDePago: "",
+        Cuenta: "",
+        Moneda: this.service.formData.Moneda,
+        CadenaOriginal: "",
+        SelloDigitalSAT: "",
+        SelloDigitalCFDI: "",
+        NumeroDeSelloSAT: "",
+        RFCDelPAC: "",
+        Observaciones: "",
+        FechaVencimiento: new Date(),
+        OrdenDeCompra: "",
+        TipoDeCambio: "0",
+        FechaDeEntrega: new Date(),
+        CondicionesDePago: "",
+        Vendedor: "",
+        Estatus: "Creada",
+        Ver: "",
+        Usuario: "",
+        SubtotalDlls: "0",
+        ImpuestosTrasladadosDlls: "0",
+        TotalDlls: "0",
+        Relacion: "",
+      }
+      console.log(NotaBlanco);
+
+
+      console.log(this.listData.data);
+      NotaBlanco.TipoDeCambio = this.service.formData.TipoDeCambio;
+      this.serviceNota.addNotaCredito(NotaBlanco).subscribe(res => {
+        this.serviceNota.formData = NotaBlanco;
+        // console.log(res);
+        this.service.getDetallesFacturaList(this.service.formData.Id).subscribe(data => {
+          this.serviceNota.DetalleFactura = data;
+          for (let i = 0; i <= data.length - 1; i++) {
+            console.log(data[i]);
+            this.serviceNota.getSumaCantidades(data[i].IdFactura, data[i].ClaveProducto).subscribe(data2 => {
+              console.log(data2[0].Cantidad);
+              if (data2 !== null) {
+                console.log(+this.serviceNota.DetalleFactura[i].Cantidad);
+                console.log(+data2[0].Cantidad);
+                this.serviceNota.DetalleFactura[i].Cantidad = (+this.serviceNota.DetalleFactura[i].Cantidad - +data2[0].Cantidad).toString();
+              }
+              console.log(this.serviceNota.DetalleFactura);
+            })
+          }
+          this.serviceNota.Moneda = this.Moneda;
+          this.serviceNota.TipoCambio = this.service.formData.TipoDeCambio;
+          this.ObtenerUltimaNotaCreditoCreada();
+        })
+      });
+    });
   }
 
   //Editar Nota Credito
-  onVerNC(row){
+  onVerNC(row) {
     console.log(row);
-console.log(row.Estatus);
-//Verificar Estatus de Nota Credito
-if(row.Estatus == 'Timbrada' || row.Estatus == 'Cancelada'){
-this.serviceNota.Timbrada = true;
-}else{
-  this.serviceNota.Timbrada = false;  
-}
-console.log(this.serviceNota.Timbrada);
+    console.log(row.Estatus);
+    //Verificar Estatus de Nota Credito
+    if (row.Estatus == 'Timbrada' || row.Estatus == 'Cancelada') {
+      this.serviceNota.Timbrada = true;
+    } else {
+      this.serviceNota.Timbrada = false;
+    }
+    console.log(this.serviceNota.Timbrada);
 
 
     this.serviceNota.formData = row;
     this.serviceNota.DetalleFactura = row.DetalleNotaCredito;
 
-    for(let i = 0; i <= row.DetalleNotaCredito.length-1; i++){
+    for (let i = 0; i <= row.DetalleNotaCredito.length - 1; i++) {
       console.log(row.DetalleNotaCredito[i]);
-      this.serviceNota.getSumaCantidades(row.IdFactura, row.DetalleNotaCredito[i].ClaveProducto).subscribe(data2=>{
+      this.serviceNota.getSumaCantidades(row.IdFactura, row.DetalleNotaCredito[i].ClaveProducto).subscribe(data2 => {
         console.log(data2[0].Cantidad);
-        if(data2 !== null){
+        if (data2 !== null) {
           console.log(+this.serviceNota.DetalleFactura[i].Cantidad);
           console.log(+data2[0].Cantidad);
-        this.serviceNota.DetalleFactura[i].Cantidad = (+this.serviceNota.DetalleFactura[i].Cantidad - +data2[0].Cantidad).toString();
+          this.serviceNota.DetalleFactura[i].Cantidad = (+this.serviceNota.DetalleFactura[i].Cantidad - +data2[0].Cantidad).toString();
         }
         console.log(this.serviceNota.DetalleFactura);
       })
@@ -339,17 +340,17 @@ console.log(this.serviceNota.Timbrada);
     this.serviceNota.TipoCambio = this.service.formData.TipoDeCambio;
 
     this.serviceNota.idNotaCredito = row.IdNotaCredito
-      this.serviceNota.ClienteNombre = this.ClienteNombre;
-      this.serviceNota.IdApi = this.IdApi;
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width="70%";
-      this.dialog.open(DetalleNotaCreditoComponent, dialogConfig);
+    this.serviceNota.ClienteNombre = this.ClienteNombre;
+    this.serviceNota.IdApi = this.IdApi;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "70%";
+    this.dialog.open(DetalleNotaCreditoComponent, dialogConfig);
   }
 
-  ObtenerUltimaNotaCreditoCreada(){
-    this.serviceNota.getUltimaNotaCredito().subscribe(data =>{
+  ObtenerUltimaNotaCreditoCreada() {
+    this.serviceNota.getUltimaNotaCredito().subscribe(data => {
       console.log(data[0]);
       this.serviceNota.idNotaCredito = data[0].Id
       this.serviceNota.ClienteNombre = this.ClienteNombre;
@@ -357,24 +358,24 @@ console.log(this.serviceNota.Timbrada);
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width="70%";
+      dialogConfig.width = "70%";
       this.dialog.open(DetalleNotaCreditoComponent, dialogConfig);
-    console.log(this.serviceNota.DetalleFactura);
+      console.log(this.serviceNota.DetalleFactura);
     });
   }
 
   //Obtener ultima nota de credito de cierta Factura en especifico
-  ObtenerUltimaNotaCreditoFactura(){
+  ObtenerUltimaNotaCreditoFactura() {
     // console.log(this.IdFactura);
-    this.serviceNota.getUltimaNotaCreditoFacturaID(this.service.formData.Id).subscribe(data=>{
-      if(data.length>0){
+    this.serviceNota.getUltimaNotaCreditoFacturaID(this.service.formData.Id).subscribe(data => {
+      if (data.length > 0) {
         this.EstatusNota = data[0].Estatus;
         console.log(this.EstatusNota);
-      }else{
+      } else {
         this.EstatusNota = 'NoHay';
         console.log(this.EstatusNota);
       }
-console.log(data);
+      console.log(data);
     });
   }
 
@@ -382,94 +383,127 @@ console.log(data);
 
   listData2: MatTableDataSource<any>;
 
-  displayedColumns2 : string [] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Subtotal', 'ImpuestosTrasladadosDlls', 'Total', 'Estatus', 'Options'];
-  displayedColumnsVersion : string [] = ['IdDetalleNotaCredito', 'IdNotaCredito', 'ClaveProducto', 'Cantidad'];
+  displayedColumns2: string[] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Subtotal', 'ImpuestosTrasladadosDlls', 'Total', 'Estatus', 'Options'];
+  displayedColumnsVersion: string[] = ['IdDetalleNotaCredito', 'IdNotaCredito', 'ClaveProducto', 'Cantidad'];
 
   expandedElement2: any;
   detalle = new Array<DetalleNotaCredito>();
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
   a2 = document.createElement('a2');
-  @ViewChild(MatSort, null) sort2 : MatSort;
+  @ViewChild(MatSort, null) sort2: MatSort;
   // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  refreshNotaList(){
+  refreshNotaList() {
 
-    this.serviceNota.deleteNotaCreada().subscribe(res=>{
+    this.serviceNota.deleteNotaCreada().subscribe(res => {
       this.ObtenerUltimaNotaCreditoFactura();
-console.log(res);
-   
-    // this.service.deleteNotaCreada().subscribe(data =>{
+      console.log(res);
+
+      // this.service.deleteNotaCreada().subscribe(data =>{
       // console.log(data);
       // console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
       // console.log(this.IdFactura);
       // console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
       this.serviceNota.master = new Array<NotaCreditoMaster>();
       //this.detalle = new Array<DetalleNotaCredito>();
-      this.serviceNota.getNotaCreditoFacturaID(this.service.formData.Id).subscribe(data=>{
+      this.serviceNota.getNotaCreditoFacturaID(this.service.formData.Id).subscribe(data => {
         console.log(data);
-        for(let i = 0; i <= data.length-1; i++){
+        for (let i = 0; i <= data.length - 1; i++) {
           this.serviceNota.master[i] = data[i]
           console.log(this.serviceNota.master[i]);
           this.serviceNota.master[i].DetalleNotaCredito = [];
-            console.log(data[i].IdNotaCredito);
-            this.serviceNota.getNotaCreditoDetalles(data[i].IdNotaCredito).subscribe(res=>{
-              console.log(res);
-              for(let l = 0; l < res.length; l++){
-                console.log('cualquier');
-                this.serviceNota.master[i].DetalleNotaCredito.push(res[l]);
-                console.log(this.serviceNota.master[i]);
-              }
-              this.listData2 = new MatTableDataSource(this.serviceNota.master);
-              this.listData2.sort = this.sort2;
-              console.log(this.listData2);
-              // this.listData2.paginator = this.paginator;
-              // this.listData2.paginator._intl.itemsPerPageLabel = 'Notas de Credito Por Pagina';
-            })
-          }
-          
-              
-          console.log(this.serviceNota.master);
+          console.log(data[i].IdNotaCredito);
+          this.serviceNota.getNotaCreditoDetalles(data[i].IdNotaCredito).subscribe(res => {
+            console.log(res);
+            for (let l = 0; l < res.length; l++) {
+              console.log('cualquier');
+              this.serviceNota.master[i].DetalleNotaCredito.push(res[l]);
+              console.log(this.serviceNota.master[i]);
+            }
+            this.listData2 = new MatTableDataSource(this.serviceNota.master);
+            this.listData2.sort = this.sort2;
+            console.log(this.listData2);
+            // this.listData2.paginator = this.paginator;
+            // this.listData2.paginator._intl.itemsPerPageLabel = 'Notas de Credito Por Pagina';
+          })
+        }
+
+
+        console.log(this.serviceNota.master);
       });
     });
 
     // })
   }
-  
+
   // FIN TABLA DETALLE Y NOTA CREDITO  -------------------------------------------------------------->
-   
-CancelarNota(){
-}
 
-onDeleteNC(notaCredito: any){
-  console.log(notaCredito);
-  Swal.fire({
-    title: '¿Segur@ de Borrar Nota Credito?',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: 'Borrar',
-    cancelButtonText: 'Cancelar'
-  }).then((result) => {
-    if (result.value) {
-    this.serviceNota.DeleteAllDetalleNotaCrediito(notaCredito.IdNotaCredito).subscribe(res=>{
-      this.serviceNota.deleteNotaCredito(notaCredito.IdNotaCredito).subscribe(res=>{
-        this.refreshNotaList();
-        Swal.fire({
-          title: 'Borrado',
-          icon: 'success',
-          timer: 1000,
-          showCancelButton: false,
-          showConfirmButton: false
-        });
-      })
+  CancelarNota() {
+  }
+
+  onDeleteNC(notaCredito: any) {
+    console.log(notaCredito);
+    Swal.fire({
+      title: '¿Segur@ de Borrar Nota Credito?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        this.serviceNota.DeleteAllDetalleNotaCrediito(notaCredito.IdNotaCredito).subscribe(res => {
+          this.serviceNota.deleteNotaCredito(notaCredito.IdNotaCredito).subscribe(res => {
+            this.refreshNotaList();
+            Swal.fire({
+              title: 'Borrado',
+              icon: 'success',
+              timer: 1000,
+              showCancelButton: false,
+              showConfirmButton: false
+            });
+          })
+        })
+      }
     })
-    }
-  })
 
-}
+  }
 
   // FIN NOTA DE PAGO----------------------------------------------------------------------->
+
+  // TABLA COMPLEMENTO PAGO (PAGOS CFDI) ----------------------------------------------------------------------->
+
+  //Variable para verificar si existen pagos CFDI a esta factura y asi mostrat o no la tabla 
+  PagoCFDI: boolean;
+
+  listDataPagosCFDI: MatTableDataSource<any>;
+  displayedColumnsPagosCFDI: string[] = ['IdReciboPago', 'FechaPago', 'Cantidad', 'Estado', 'Options'];
+  @ViewChild(MatSort, null) sortPagoCFDI: MatSort;
+
+  refreshPagoCFDIList() {
+
+    this.service.getPagosCFDI(this.service.formData.Id).subscribe(data => {
+      if (data.length > 0) {
+        console.clear();
+        // console.log(this.service.formData.Id);
+        console.log(data);
+        this.PagoCFDI = true;
+        this.listDataPagosCFDI = new MatTableDataSource(data);
+        this.listDataPagosCFDI.sort = this.sortPagoCFDI;
+        // this.listData.paginator = this.paginator;
+        // this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+        console.log(this.listDataPagosCFDI);
+      } else {
+        this.PagoCFDI = false;
+      }
+      console.log(this.PagoCFDI);
+    });
+
+  }
+
+
+  // FIN TABLA COMPLEMENTO PAGO (PAGOS CFDI) ----------------------------------------------------------------------->
 
   /* Metodo para cambiar los datetimepicker al formato deseado */
   onChange(val) {
@@ -479,7 +513,7 @@ onDeleteNC(notaCredito: any){
   }
 
 
-/* Metodo que refresca la lista de detalles */
+  /* Metodo que refresca la lista de detalles */
   // ngOnChanges(changes: SimpleChanges): void {
   //   this.refreshDetallesFacturaList();
   // }
@@ -503,7 +537,7 @@ onDeleteNC(notaCredito: any){
   displayedColumns: string[] = ['ClaveProducto', 'ClaveSAT', 'Producto', 'Cantidad', 'PrecioUnitario', 'Precio', 'Options'];
   @ViewChild(MatSort, null) sort: MatSort;
 
-/* Metodo para obtener todos los clientes y ponerlos en el combobox */
+  /* Metodo para obtener todos los clientes y ponerlos en el combobox */
   dropdownRefresh() {
 
     this.service.getDepDropDownValues().subscribe((data) => {
@@ -528,10 +562,10 @@ onDeleteNC(notaCredito: any){
       option.IdClientes.toString().includes(filterValue));
   }
 
-/* Metodo que se dispara al seleccionar clientes */
+  /* Metodo que se dispara al seleccionar clientes */
   onSelectionChange(cliente: Cliente, event: any) {
     if (event.isUserInput) {
-      
+
       this.fechaVenc = new Date(this.service.formData.FechaDeExpedicion)
       console.log(this.fechaVenc);
 
@@ -543,18 +577,18 @@ onDeleteNC(notaCredito: any){
       this.service.formData.UsoDelCFDI = cliente.UsoCFDI;
       this.service.formData.FormaDePago = cliente.MetodoPago;
       this.service.formData.CondicionesDePago = cliente.DiasCredito + ' Dias Credito';
-      this.fechaVenc.setDate(this.fechaVenc.getDate()+parseInt(cliente.DiasCredito))
+      this.fechaVenc.setDate(this.fechaVenc.getDate() + parseInt(cliente.DiasCredito))
       this.service.formData.FechaVencimiento = new Date(this.fechaVenc)
       // this.service.formData.FechaVencimiento.setDate(this.service.formData.FechaVencimiento.getDate()+parseFloat(cliente.DiasCredito))
       console.log(this.fechaVenc);
       // this.service.formData.Vendedor = cliente.Vendedor
-      this.service.getvendedor(cliente.Vendedor).subscribe(data=>{
+      this.service.getvendedor(cliente.Vendedor).subscribe(data => {
         console.log(data);
-        
+
         this.service.formData.Vendedor = data[0].Nombre;
 
       })
-     
+
 
       if (this.service.formData.FormaDePago == '99' || this.service.formData.FormaDePago == '') {
         this.service.formData.MetodoDePago = 'PPD';
@@ -565,19 +599,19 @@ onDeleteNC(notaCredito: any){
 
   }
 
-/* Metodo para obtener la moneda del servicio */
+  /* Metodo para obtener la moneda del servicio */
   onMoneda() {
     this.Moneda = this.service.formData.Moneda;
     this.service.Moneda = this.Moneda;
     console.log(this.service.Moneda);
   }
-/* Metodo para obtener el tipo de cambio y ponerlo en la variable a usar */
+  /* Metodo para obtener el tipo de cambio y ponerlo en la variable a usar */
   tipoDeCambio() {
     // this.traerApi().subscribe(data => {
-      this.Cdolar = this.tipoCambio.TipoCambio;
+    this.Cdolar = this.tipoCambio.TipoCambio;
     // })
   }
- 
+
 
   /* Metodo para obtener el tipo de cambio de la API de Banxico */
   // traerApi(): Observable<any> {
@@ -615,7 +649,7 @@ onDeleteNC(notaCredito: any){
   //   return this.http.get(this.rootURL, httpOptions)
   // }
 
-  traerApi(): Observable<any>{
+  traerApi(): Observable<any> {
 
     return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
 
@@ -630,14 +664,14 @@ onDeleteNC(notaCredito: any){
     this.totalDlls = 0;
     this.ivaDlls = 0;
   }
-/* MEtodo que guarda el xml y el pdf en el localstorage */
-  localstorage(){
+  /* MEtodo que guarda el xml y el pdf en el localstorage */
+  localstorage() {
     let id = this.service.formData.UUID
     let folio = this.service.formData.Folio
     this.enviarfact.xml(id).subscribe(data => {
       localStorage.setItem('xml' + folio, data)
       this.xmlparam = folio;
-      setTimeout(()=>{
+      setTimeout(() => {
         const content: Element = document.getElementById('element-to-PDF');
         const option = {
           margin: [0, 0, 0, 0],
@@ -646,12 +680,12 @@ onDeleteNC(notaCredito: any){
           html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
           jsPDF: { format: 'letter', orientation: 'portrait' },
         };
-        html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
-          localStorage.setItem('pdf'+folio, pdfAsString);
+        html2pdf().from(content).set(option).output('datauristring').then(function (pdfAsString) {
+          localStorage.setItem('pdf' + folio, pdfAsString);
         })
-      },1000)
-  });
-}
+      }, 1000)
+    });
+  }
 
 
   /* Funcion Refresh Tabla Detalles Factura */
@@ -660,7 +694,7 @@ onDeleteNC(notaCredito: any){
     this.IniciarTotales();
     let tasa;
     // console.log(this.IdFactura+'XXXXXXXXXXXX');
-    console.log(this.service.formData.Id+'-yyyyyyyyyyy');
+    console.log(this.service.formData.Id + '-yyyyyyyyyyy');
     // this.service.getDetallesFacturaList(this.IdFactura).subscribe(data => {
     this.service.getDetallesFacturaList(this.service.formData.Id).subscribe(data => {
       console.log(data);
@@ -670,7 +704,7 @@ onDeleteNC(notaCredito: any){
       for (let i = 0; i < data.length; i++) {
         this.subtotal = this.subtotal + parseFloat(data[i].Importe);
         if (data[i].ImporteIVA != 'NaN') {
-          this.iva = this.iva +  parseFloat(data[i].ImporteIVA);
+          this.iva = this.iva + parseFloat(data[i].ImporteIVA);
         } else {
           this.iva = this.iva + 0;
         }
@@ -696,13 +730,13 @@ onDeleteNC(notaCredito: any){
       this.service.formData.TotalDlls = this.totalDlls;
       console.log(this.service.formData);
       // console.log(this.service.formData);
-    
-    this.service.updateFactura(this.service.formData).subscribe(res => {
-     console.log(res);
 
-    }
-    );
-      
+      this.service.updateFactura(this.service.formData).subscribe(res => {
+        console.log(res);
+
+      }
+      );
+
     });
 
   }
@@ -819,41 +853,41 @@ onDeleteNC(notaCredito: any){
       this.service.formData.TipoDeCambio = '0';
     }
     console.log(this.service.formData);
-    
+
     this.service.updateFactura(this.service.formData).subscribe(res => {
-     console.log(res);
+      console.log(res);
 
     }
     );
-  const dialogConfig = new MatDialogConfig();
+    const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "70%";
     this.dialog.open(FacturacioncxcProductoComponent, dialogConfig);
   }
-/* Metodo al seleccionar moneda y guardar el dato en el servicio */
+  /* Metodo al seleccionar moneda y guardar el dato en el servicio */
   MonedaSelected(event: any) {
     this.Moneda = event.target.selectedOptions[0].text;
     this.service.Moneda = this.Moneda;
     this.refreshDetallesFacturaList();
   }
 
-/* Metodo para reinciar el form o iniciarlo con datos dependiendo del folio*/
+  /* Metodo para reinciar el form o iniciarlo con datos dependiendo del folio*/
   resetForm(form?: NgForm) {
     // console.log(this.IdFactura);
-    
+
 
     this.service.getFacturaId(this.service.formData.Id).subscribe(res => {
       console.log(res[0]);
-      
+
       this.service.formData = res[0];
       //OBTENER LA INFORMACION DEL CLIENTE, EN ESPECIFICO EL NOMBRE DEL CLIENTE PARA PINTARLO EN EL FORMULARIO
-      if (this.service.formData.IdCliente!=0){
-      this.service.getFacturaClienteID(this.service.formData.IdCliente).subscribe(res => {
-        this.ClienteNombre = res[0].Nombre;
-        this.IdApi = res[0].IdApi;
-      });
-    }
+      if (this.service.formData.IdCliente != 0) {
+        this.service.getFacturaClienteID(this.service.formData.IdCliente).subscribe(res => {
+          this.ClienteNombre = res[0].Nombre;
+          this.IdApi = res[0].IdApi;
+        });
+      }
 
       this.Estatus = this.service.formData.Estatus;
       if (this.Estatus === 'Timbrada' || this.Estatus === 'Cancelada') {
@@ -867,7 +901,7 @@ onDeleteNC(notaCredito: any){
     });
 
   }
-/* Metodo para crear el JSON de la factura */
+  /* Metodo para crear el JSON de la factura */
   crearjsonfactura(id: number): string {
     let cadena: string;
     this.service.getFacturasClienteID(id).subscribe(data => {
@@ -981,7 +1015,7 @@ onDeleteNC(notaCredito: any){
   }
 
 
-/* Metodo que se dispara al guardar la factura */
+  /* Metodo que se dispara al guardar la factura */
   onSubmit(form: NgForm) {
     this.service.formData.Tipo = 'Ingreso';
     this.service.formData.Estatus = 'Guardada';
@@ -1004,7 +1038,7 @@ onDeleteNC(notaCredito: any){
     }
     );
   }
-/* Metodo para actualizar la factura despues de timbrarla */
+  /* Metodo para actualizar la factura despues de timbrarla */
   timbrar(form: NgForm) {
     this.loading = true;
     document.getElementById('enviaremail').click();
@@ -1028,7 +1062,7 @@ onDeleteNC(notaCredito: any){
 
   }
 
-/* Metodo que timbra la factura */
+  /* Metodo que timbra la factura */
   enviar(cadena: string) {
     this.enviarfact.enviarFactura(cadena).subscribe(data => {
       console.log(data);
@@ -1045,6 +1079,7 @@ onDeleteNC(notaCredito: any){
         this.service.formData.RFCdelPAC = 'LSO1306189R5';
         this.service.formData.Estatus = 'Timbrada';
         this.numfact = data.UUID;
+        console.log(this.service.formData);
         this.service.updateFactura(this.service.formData).subscribe(data => {
           this.loading = false;
           document.getElementById('cerrarmodal').click();
@@ -1057,7 +1092,7 @@ onDeleteNC(notaCredito: any){
           this.dxml2(this.numfact, this.service.formData.Folio);
         });
         this.estatusfact = 'Factura Creada ' + data.invoice_uid;
-        this.servicefolios.updateFolios().subscribe(data =>{
+        this.servicefolios.updateFolios().subscribe(data => {
           console.log(data);
         });
       } else
@@ -1090,10 +1125,10 @@ onDeleteNC(notaCredito: any){
       do {
         this.xmlparam = folio;
         if (localStorage.getItem('xml' + folio) != null) {
-          this.xmlparam =  folio;
-          setTimeout(()=>{
+          this.xmlparam = folio;
+          setTimeout(() => {
             this.onExportClick(this.service.formData.Folio);
-           },1000)
+          }, 1000)
         }
       }
       while (localStorage.getItem('xml' + folio) == null);
@@ -1105,7 +1140,7 @@ onDeleteNC(notaCredito: any){
       document.getElementById('cerrarmodal').click();
     }, 7000)
   }
-  
+
   /* Metodo que guarda el xml en el localstorage para usarlo en el pdf */
   dxml2(id: string, folio: string) {
     // this.proceso = 'xml';
@@ -1130,34 +1165,34 @@ onDeleteNC(notaCredito: any){
     this.proceso = 'xml';
     const content: Element = document.getElementById('Factura-PDF');
     const option = {
-      margin: [.5,.5,.5,0],
+      margin: [.5, .5, .5, 0],
       filename: 'F-' + folio + '.pdf',
       image: { type: 'jpeg', quality: 1 },
-      html2canvas: {scale: 2, logging: true, scrollY: -2, scrollX: -15},
-      jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
-      pagebreak:{ avoid: '.pgbreak'}
-      
+      html2canvas: { scale: 2, logging: true, scrollY: -2, scrollX: -15 },
+      jsPDF: { unit: 'cm', format: 'letter', orientation: 'portrait' },
+      pagebreak: { avoid: '.pgbreak' }
+
     };
 
     html2pdf()
-   .from(content)
-   .set(option).toPdf().get('pdf').then(function (pdf) {
-    setTimeout(() => {}, 1000);
-   })
-   .save();
+      .from(content)
+      .set(option).toPdf().get('pdf').then(function (pdf) {
+        setTimeout(() => { }, 1000);
+      })
+      .save();
     this.proceso = '';
   }
 
 
 
-/* Metodo que obtiene el xml de la API */
+  /* Metodo que obtiene el xml de la API */
   dpdfxml() {
     this.enviarfact.xml('http://devfactura.in/api/v3/cfdi33/5e06601d92802/xml')
   }
 
   /* Metodo para reiniciar el modelo de la factura */
   setfacturatimbre() {
-  this.json1 = {
+    this.json1 = {
       Receptor: {
         UID: ''
       },
@@ -1238,22 +1273,22 @@ onDeleteNC(notaCredito: any){
 
   email(id: string, folio: string) {
 
-  localStorage.removeItem('xml'+folio);
-  localStorage.removeItem('pdf'+folio);
-  document.getElementById('enviaremail2').click();
-  
-  this.folioparam = folio;
-  this.idparam = id;
-  this._MessageService.correo='ivan.talamantes@live.com';
-  this._MessageService.cco='ivan.talamantes@riztek.com.mx';
-  this._MessageService.asunto='Envio Factura '+folio;
-  this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+folio;
-  this._MessageService.nombre='ProlactoIngredientes';
- 
+    localStorage.removeItem('xml' + folio);
+    localStorage.removeItem('pdf' + folio);
+    document.getElementById('enviaremail2').click();
+
+    this.folioparam = folio;
+    this.idparam = id;
+    this._MessageService.correo = 'ivan.talamantes@live.com';
+    this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
+    this._MessageService.asunto = 'Envio Factura ' + folio;
+    this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + folio;
+    this._MessageService.nombre = 'ProlactoIngredientes';
+
     this.enviarfact.xml(id).subscribe(data => {
       localStorage.setItem('xml' + folio, data)
       this.xmlparam = folio;
-      setTimeout(()=>{
+      setTimeout(() => {
         const content: Element = document.getElementById('element-to-PDF');
         const option = {
           margin: [0, 0, 0, 0],
@@ -1262,18 +1297,18 @@ onDeleteNC(notaCredito: any){
           html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
           jsPDF: { format: 'letter', orientation: 'portrait' },
         };
-        html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
-          localStorage.setItem('pdf'+folio, pdfAsString);
-          this.statusparam=true;
-          
-       
-        })
-      },1000)
-     
-  })
-    }
+        html2pdf().from(content).set(option).output('datauristring').then(function (pdfAsString) {
+          localStorage.setItem('pdf' + folio, pdfAsString);
+          this.statusparam = true;
 
-    /* Metodo para cancelar la factura */
+
+        })
+      }, 1000)
+
+    })
+  }
+
+  /* Metodo para cancelar la factura */
   cancelar(id: string, folio: string) {
     Swal.fire({
       title: '¿Segur@ de Cancelar la Factura?',
@@ -1314,13 +1349,13 @@ onDeleteNC(notaCredito: any){
 
     })
   }
-/* Maetodo para la prefactura */
+  /* Maetodo para la prefactura */
   prefactura(folio: string) {
     this.crearjsonprefactura(this.service.formData.Id);
   }
 
 
-/* Metodo que crear el JSON para la Prefactura */
+  /* Metodo que crear el JSON para la Prefactura */
   crearjsonprefactura(id: number): string {
     let cadena: string;
     this.service.getFacturasClienteID(id).subscribe(data => {

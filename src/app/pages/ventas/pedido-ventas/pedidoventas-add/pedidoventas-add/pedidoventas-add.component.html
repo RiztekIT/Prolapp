@@ -249,7 +249,7 @@
                                     <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl2" [(ngModel)]="ProductoSelect" matInput [matAutocomplete]="autoProducto">
                                     <mat-autocomplete #autoProducto="matAutocomplete">
                                         <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.IdProducto" (onSelectionChange)="onSelectionChange2(option, $event)">
-                                            {{option.IdProducto}} {{option.Nombre}}
+                                            {{option.ClaveProducto}} || {{option.Nombre}}
                                         </mat-option>
                                     </mat-autocomplete>
                                 </mat-form-field>

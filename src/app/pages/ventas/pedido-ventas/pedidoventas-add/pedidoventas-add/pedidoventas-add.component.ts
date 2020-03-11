@@ -80,9 +80,9 @@ export class PedidoventasAddComponent implements OnInit {
     this.Inicializar();
     this.dropdownRefresh();
     this.dropdownRefreshVendedor();
-    this.dropdownRefresh2();
+    // this.dropdownRefresh2();
     this.refreshDetallesPedidoList();
-    this.IniciarTotales();
+    // this.IniciarTotales();
     this.tipoDeCambio();
     this.service.formProd = new Producto();
 
@@ -337,16 +337,17 @@ export class PedidoventasAddComponent implements OnInit {
     // console.log(value);
     if (typeof (value) == 'string') {
       const filterValue2 = value.toLowerCase();
-      return this.options2.filter(option => option.IdProducto.toString().toLowerCase().includes(filterValue2) || option.Nombre.toString().toLowerCase().includes(filterValue2));
+      return this.options2.filter(option => option.ClaveProducto.toString().toLowerCase().includes(filterValue2) || option.Nombre.toString().toLowerCase().includes(filterValue2));
     } else if (typeof (value) == 'number') {
       const filterValue2 = value.toString();
-      return this.options2.filter(option => option.IdProducto.toString().includes(filterValue2) || option.Nombre.toString().includes(filterValue2));
+      return this.options2.filter(option => option.ClaveProducto.toString().includes(filterValue2) || option.Nombre.toString().includes(filterValue2));
     }
 
 
   }
 
   dropdownRefresh2() {
+    this.options2 = [];
     this.service.getDepDropDownValues2().subscribe(dataP => {
       for (let i = 0; i < dataP.length; i++) {
         let product = dataP[i];
