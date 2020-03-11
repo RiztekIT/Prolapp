@@ -33,7 +33,7 @@ export class ComplementopagocxcComponent implements OnInit {
   constructor(private service: ReciboPagoService, private router: Router, private dialog: MatDialog) {
     
     this.service.listen().subscribe((m: any) => {
-      this.refreshReciboPagoList();
+      // this.refreshReciboPagoList();
       // this.detallesFactura();
     });
     
