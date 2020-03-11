@@ -1071,6 +1071,7 @@ console.log(this.service.formData.Id);
         this.service.formData.RFCdelPAC = 'LSO1306189R5';
         this.service.formData.Estatus = 'Timbrada';
         this.numfact = data.UUID;
+        console.log(this.service.formData);
         this.service.updateFactura(this.service.formData).subscribe(data => {
           this.loading = false;
           document.getElementById('cerrarmodal').click();
