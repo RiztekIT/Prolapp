@@ -5,6 +5,8 @@ import { Cliente } from '../../Models/catalogos/clientes-model';
 import { Factura } from '../../Models/facturacioncxc/factura-model';
 import { DetalleFactura } from '../../Models/facturacioncxc/detalleFactura-model';
 import { Producto } from '../../Models/catalogos/productos-model';
+import { Saldos } from 'src/app/Models/cxc/saldos-model';
+
 
 import {Observable, BehaviorSubject } from 'rxjs';
 
@@ -28,6 +30,7 @@ export class FacturaService {
    master = new Array<facturaMasterDetalle>();
    Moneda: string;
    Cliente;
+   saldos = new Saldos();
 
 
   // readonly APIUrl = "https://localhost:7002/api";
@@ -144,6 +147,9 @@ getPagosCFDI(id: number): Observable<any>{
   return this.http.get<any[]>(this.APIUrl + '/Factura/PagoCFDI/' + id)
 }
 
+addSaldos(saldo: Saldos){
+  return this.http.post(this.APIUrl + '/Saldos', saldo)
+}
 
 
 // private _listeners = new Subject<any>(); 
