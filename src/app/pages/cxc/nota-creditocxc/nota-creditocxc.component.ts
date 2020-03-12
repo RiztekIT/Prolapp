@@ -74,6 +74,7 @@ export class NotaCreditocxcComponent implements OnInit {
             console.log(data[i].IdNotaCredito);
             this.service.getNotaCreditoDetalles(data[i].IdNotaCredito).subscribe(res=>{
               console.log(res);
+              this.service.master[i].DetalleNotaCredito.pop();
               for(let l = 0; l <= res.length-1; l++){
                 this.service.master[i].DetalleNotaCredito.push(res[l]);
               }
@@ -103,12 +104,33 @@ export class NotaCreditocxcComponent implements OnInit {
 
     console.log(row);
 
-    let id: any = row.IdNotaCredito;
+    Swal.fire({
+      title: '¿Seguro de Borrar Nota?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        let id: any = row.IdNotaCredito;
+        this.service.deleteNotaCredito(id).subscribe(data=>{
+          console.log(data);
+          this.refreshNotaList();
 
-    this.service.deleteNotaCredito(id).subscribe(data=>{
-      console.log(data);
-      this.refreshNotaList();
+          Swal.fire({
+            title: 'Borrado',
+            icon: 'success',
+            timer: 1000,
+            showCancelButton: false,
+            showConfirmButton: false
+          });
+        });
+      }
     })
+
+
   }
 
   applyFilter(filtervalue: string){  

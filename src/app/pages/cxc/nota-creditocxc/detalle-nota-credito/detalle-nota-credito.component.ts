@@ -100,7 +100,7 @@ export class DetalleNotaCreditoComponent implements OnInit {
     this.DetalleNotaCredito();
     this.refreshTablaDetalles();
     console.log(this.IdNotaCredito);
-    console.clear();
+    // console.clear();
     console.log(this.service.formData);
     console.log(this.service.DetalleformData);
   }
