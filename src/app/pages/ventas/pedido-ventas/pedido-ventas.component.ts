@@ -26,6 +26,8 @@ import { MessageService } from 'src/app/services/message.service';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-pedido-ventas',
   templateUrl: './pedido-ventas.component.html',
@@ -198,28 +200,53 @@ export class PedidoVentasComponent implements OnInit {
   //En caso que si existan, se regresara el stock original a esos productos y se eliminaran los Detalles pedidos y el pedido.
   //en caso que no existan detalles pedido, solamente se eliminara el pedido.
   onDelete(pedido: Pedido) {
-    this.service.GetDetallePedidoId(pedido.IdPedido).subscribe(data => {
-      console.log(data);
-      if (data.length > 0) {
-        console.log('Si hay valores');
-        for (let i = 0; i <= data.length - 1; i++) {
-          this.SumarStock(data[i].Cantidad, data[i].ClaveProducto, data[i].IdDetallePedido);
-          this.DeletePedidoDetallePedido(pedido);
-        }
-      } else {
-        console.log('No hay valores');
-        this.DeletePedidoDetallePedido(pedido);
+
+    Swal.fire({
+      title: '¿Segur@ de Borrar Pedido?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        
+          this.service.GetDetallePedidoId(pedido.IdPedido).subscribe(data => {
+            console.log(data);
+            if (data.length > 0) {
+              console.log('Si hay valores');
+              for (let i = 0; i <= data.length - 1; i++) {
+                this.SumarStock(data[i].Cantidad, data[i].ClaveProducto, data[i].IdDetallePedido);
+                this.DeletePedidoDetallePedido(pedido);
+              }
+            } else {
+              console.log('No hay valores');
+              this.DeletePedidoDetallePedido(pedido);
+            }
+          })
+
+          Swal.fire({
+            title: 'Borrado',
+            icon: 'success',
+            timer: 1000,
+            showCancelButton: false,
+            showConfirmButton: false
+          });
       }
     })
+
   }
 
   //ELiminar Pedidos y DetallePedido
   DeletePedidoDetallePedido(pedido: Pedido) {
+
     this.service.onDeleteAllDetallePedido(pedido.IdPedido).subscribe(res => {
       this.service.onDelete(pedido.IdPedido).subscribe(res => {
         this.refreshPedidoList();
       });
     });
+
   }
 
 

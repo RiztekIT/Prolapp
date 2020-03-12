@@ -30,8 +30,9 @@ th {
 
 .sinpadding {
     padding-left: 0px;
+    padding-right: 0px;
 }
 
 ::ng-deep .modal-lg {
-    max-width: 810px;
+    max-width: 850px;
 }

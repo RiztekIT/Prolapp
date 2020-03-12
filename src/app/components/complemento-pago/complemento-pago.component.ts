@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 // import { MatDialogRef } from '@angular/material';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.service';
@@ -18,12 +18,11 @@ export class ComplementoPagoComponent implements OnInit {
   QRsize:number;
   
   // constructor(public dialogbox: MatDialogRef<ComplementoPagoComponent>, public router: Router, private _formBuilder: FormBuilder, 
-  constructor(public router: Router, private _formBuilder: FormBuilder, 
+  constructor(public router: Router, private _formBuilder: FormBuilder, public dialogbox: MatDialogRef<ComplementoPagoComponent>, private dialog: MatDialog,
     public service: ReciboPagoService) { 
       this.QRsize = 125;
       // assign a value to QR
       this.myAngularxQrCode = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.asp?id=28c751ac-b6f3-4293-b35e-9ce78b4eb4b8&re=CIN960904FQ2&rr=CUOA880131Q85&tt=0000002578.930000&fe=nfsuQW==';
-      
     }
 
     con : string| number;
@@ -40,10 +39,9 @@ export class ComplementoPagoComponent implements OnInit {
   QRString = 'www.facebook.com';
 
   onClose() {
-    // this.dialogbox.close();
-    // document.getElementById('cerrarmodal').click();
+    this.dialogbox.close();
     this.service.filter('Register click');
-}
+  }
   ver(){
     this.service.formt = JSON.parse(localStorage.getItem('rowpago'));
     
@@ -104,9 +102,7 @@ export class ComplementoPagoComponent implements OnInit {
       });
     }
 
-    console.log(this.arrcon);
-
-    this.SaldoAnterior = conceptos.Cantidad + conceptos.Saldo;
+    this.SaldoAnterior = (+conceptos.Cantidad) + (+conceptos.Saldo);
 
     console.log(this.SaldoAnterior);
 
