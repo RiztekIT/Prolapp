@@ -387,6 +387,8 @@ console.log(this.service.formData.Id);
 
   refreshNotaList() {
 
+
+
     this.serviceNota.deleteNotaCreada().subscribe(res => {
       this.ObtenerUltimaNotaCreditoFactura();
       console.log(res);
@@ -399,16 +401,20 @@ console.log(this.service.formData.Id);
       this.serviceNota.master = new Array<NotaCreditoMaster>();
       //this.detalle = new Array<DetalleNotaCredito>();
       this.serviceNota.getNotaCreditoFacturaID(this.service.formData.Id).subscribe(data => {
+        console.clear();
         console.log(data);
-        for (let i = 0; i <= data.length - 1; i++) {
+        for (let i = 0; i < data.length; i++) {
+          console.log('SE EJECUTO ' + i);
           this.serviceNota.master[i] = data[i]
           console.log(this.serviceNota.master[i]);
           this.serviceNota.master[i].DetalleNotaCredito = [];
           console.log(data[i].IdNotaCredito);
           this.serviceNota.getNotaCreditoDetalles(data[i].IdNotaCredito).subscribe(res => {
             console.log(res);
+            this.serviceNota.master[i].DetalleNotaCredito.pop();
             for (let l = 0; l < res.length; l++) {
               console.log('cualquier');
+              console.log('ENTRANDO POR ' + l);
               this.serviceNota.master[i].DetalleNotaCredito.push(res[l]);
               console.log(this.serviceNota.master[i]);
             }
