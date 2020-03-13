@@ -603,7 +603,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
   onSubmit() {
     this.service.formData.Cantidad = parseFloat(this.service.formData.Cantidad).toFixed(2);
     this.service.formData.Estatus = 'Guardada';
-    // console.log(this.service.formData)
+    console.log(this.service.formData)
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
       this.Estatus = this.service.formData.Estatus;
       console.log(data);

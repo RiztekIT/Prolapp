@@ -63,6 +63,9 @@ export class DetalleNotaCreditoComponent implements OnInit {
   //Nombre Cliente
   ClienteNombre: string;
 
+  //Variable Booleana para activar el boton Cancelar
+  CancelarOperacion: boolean;
+
   Importe: number;
   ImporteDlls: number;
   ImporteIVA: number;
@@ -96,6 +99,7 @@ export class DetalleNotaCreditoComponent implements OnInit {
     this.IdNotaCredito = this.service.idNotaCredito;
     this.ClienteNombre = this.service.ClienteNombre;
     this.agregar=true;
+    this.CancelarOperacion = false;
     this.IniciarImportes();
     this.DetalleNotaCredito();
     this.refreshTablaDetalles();
@@ -274,6 +278,7 @@ this.service.formData.Estatus = 'Guardada';
   onEdit(detalle: DetalleNotaCredito){
 console.log(detalle);
 this.agregar = false;
+this.CancelarOperacion = true;
 
 //Obtener la Cantidad de cierto detalle Factura por IdFactura y Clave producto
 this.service.getDetalleFactura(this.service.IdFactura, detalle.ClaveProducto).subscribe(data =>{
@@ -303,6 +308,10 @@ this.service.getDetalleFactura(this.service.IdFactura, detalle.ClaveProducto).su
   }
 
   ActualizarDetalleNotaCredito(form: NgForm){
+
+//Activar boton de cancelar operacion
+
+
     this.service.DetalleformData.Cantidad = this.CantidadDetalle.toString();
     this.service.DetalleformData.IdNotaCredito = this.IdNotaCredito;
     console.log(this.service.DetalleformData.IdDetalleNotaCredito);
@@ -314,6 +323,13 @@ this.service.getDetalleFactura(this.service.IdFactura, detalle.ClaveProducto).su
     form.resetForm();
     this.refreshTablaDetalles();
     });
+  }
+
+  Cancelar(form:NgForm){
+    this.CancelarOperacion = false;
+    this.IniciarImportes();
+    form.resetForm();
+    this.refreshTablaDetalles();
   }
 
   onDelete(id: number){

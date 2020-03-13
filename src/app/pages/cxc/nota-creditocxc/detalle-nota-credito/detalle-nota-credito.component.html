@@ -97,7 +97,8 @@
         <br>
         <div *ngIf="service.Timbrada == false">
             <button *ngIf="agregar == true" class="mt-4" mat-raised-button color="primary" (click)="onSubmit(form)" [disabled]="form.invalid || CantidadDetalle == 0 ">Agregar Concepto</button>
-            <button *ngIf="agregar == false" class="mt-4" mat-raised-button color="primary" (click)="ActualizarDetalleNotaCredito(form)" [disabled]="form.invalid || CantidadDetalle == 0">Actualziar Concepto</button>
+            <button *ngIf="agregar == false" class="mt-4" mat-raised-button color="primary" (click)="ActualizarDetalleNotaCredito(form)" [disabled]="form.invalid || CantidadDetalle == 0">Actualizar Concepto</button>
+            <button *ngIf="CancelarOperacion == true" class="mt-4" mat-raised-button color="primary" (click)="Cancelar(form)">Cancelar</button>
         </div>
     </form>
     <br>

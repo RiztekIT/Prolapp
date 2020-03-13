@@ -669,6 +669,9 @@
                                     <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Impuestos Trasladados</label>
                                     <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [ngModel]="service.formData.ImpuestosTrasladados | currency">
 
+                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Saldo</label>
+                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Saldo" #Saldo="ngModel" [ngModel]="this.service.SaldoFacturaMXN | currency">
+
                                     <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
                                     <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="service.formData.Total | currency">
 
@@ -689,6 +692,9 @@
 
                                     <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Impuestos Trasladados</label>
                                     <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [ngModel]="service.formData.ImpuestosTrasladadosDlls | currency">
+
+                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Saldo</label>
+                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Saldo" #Saldo="ngModel" [ngModel]="this.service.SaldoFacturaDLLS | currency">
 
                                     <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
                                     <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="service.formData.TotalDlls | currency">

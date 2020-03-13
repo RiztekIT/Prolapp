@@ -32,6 +32,9 @@ export class FacturaService {
    Cliente;
    saldos = new Saldos();
 
+   SaldoFacturaMXN: number;
+   SaldoFacturaDLLS: number;
+
 
   // readonly APIUrl = "https://localhost:7002/api";
   // readonly APIUrl = "http://192.168.1.67:32767/api";
