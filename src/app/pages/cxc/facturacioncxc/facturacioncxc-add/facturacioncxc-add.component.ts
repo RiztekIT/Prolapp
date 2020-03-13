@@ -516,6 +516,9 @@ console.log(this.service.formData.Id);
   //   this.refreshDetallesFacturaList();
   // }
 
+  /*Valores de saldos*/
+
+
   /* Valores de Totales */
   subtotal: any;
   iva: any;
@@ -1038,6 +1041,7 @@ console.log(this.service.formData.Id);
   }
   /* Metodo para actualizar la factura despues de timbrarla */
   timbrar(form: NgForm) {
+
     this.loading = true;
     document.getElementById('enviaremail').click();
     this.service.formData.Tipo = 'Ingreso';
@@ -1055,7 +1059,15 @@ console.log(this.service.formData.Id);
       this.resetForm(form);
       this.IniciarTotales();
       this.crearjsonfactura(this.service.formData.Id);
+
+
+      this.service.saldos.Folio = this.service.formData.Folio;
+      this.service.saldos.SaldoPendiente = this.service.formData.Total;
+
+      this.service.addSaldos(this.service.saldos)
     }
+
+    // this.service.addSaldos(  )
     );
 
   }

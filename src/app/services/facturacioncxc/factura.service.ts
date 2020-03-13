@@ -151,6 +151,10 @@ addSaldos(saldo: Saldos){
   return this.http.post(this.APIUrl + '/Saldos', saldo)
 }
 
+getSaldos(): Observable<any>{
+  return this.http.get<any[]>(this.APIUrl + '/Saldos')
+}
+
 
 // private _listeners = new Subject<any>(); 
 private _listeners = new Subject<any>(); 
