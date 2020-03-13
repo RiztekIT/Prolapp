@@ -208,3 +208,7 @@ th {
 .mg-r {
     margin-right: -50px;
 }
+
+.btnh {
+    max-height: 25px;
+}

@@ -168,10 +168,11 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.refreshDetallesFacturaList();
     this.tipoDeCambio();
     this.ObtenerUltimaNotaCreditoFactura();
+    this.IniciarSaldo();
     this.refreshNotaList();
     this.refreshPagoCFDIList();
 
-
+    console.log(this.service.SaldoFacturaMXN +' || '+ this.service.SaldoFacturaDLLS);
   }
 
 
@@ -193,6 +194,11 @@ export class FacturacioncxcAddComponent implements OnInit {
   ClienteVendedor: any;
   ClienteMetodoDePagoCliente: any;
 
+  //Variable Saldo
+  // SaldoFacturaMXN: number;
+  // SaldoFacturaDLLS: number;
+  // TipoCambioFactura: number;
+
   /* list Metodo Pago */
   public listMP: Array<Object> = [
     { MetodoDePago: 'PUE', text: 'PUE-Pago en una sola exhibicion' },
@@ -205,6 +211,14 @@ export class FacturacioncxcAddComponent implements OnInit {
     { Moneda: 'USD' }
   ];
 
+
+  IniciarSaldo(){
+    this.service.SaldoFacturaDLLS = 0;
+    this.service.SaldoFacturaMXN = 0;
+    // this.TipoCambioFactura = +this.service.formData.TipoDeCambio;
+    // console.log(this.TipoCambioFactura);
+
+  }
 
 
   // INICIO NOTA DE PAGO----------------------------------------------------------------------->
@@ -387,6 +401,8 @@ console.log(this.service.formData.Id);
 
   refreshNotaList() {
 
+// this.IniciarSaldo();
+
     this.serviceNota.deleteNotaCreada().subscribe(res => {
       this.ObtenerUltimaNotaCreditoFactura();
       console.log(res);
@@ -399,16 +415,24 @@ console.log(this.service.formData.Id);
       this.serviceNota.master = new Array<NotaCreditoMaster>();
       //this.detalle = new Array<DetalleNotaCredito>();
       this.serviceNota.getNotaCreditoFacturaID(this.service.formData.Id).subscribe(data => {
+        // console.clear();
         console.log(data);
-        for (let i = 0; i <= data.length - 1; i++) {
+        for (let i = 0; i < data.length; i++) {
+
+        // this.service.SaldoFacturaMXN = (this.service.SaldoFacturaMXN + +data[i].Total);
+        // this.service.SaldoFacturaDLLS = (this.service.SaldoFacturaDLLS + +data[i].TotalDlls);
+
+          console.log('SE EJECUTO ' + i);
           this.serviceNota.master[i] = data[i]
           console.log(this.serviceNota.master[i]);
           this.serviceNota.master[i].DetalleNotaCredito = [];
           console.log(data[i].IdNotaCredito);
           this.serviceNota.getNotaCreditoDetalles(data[i].IdNotaCredito).subscribe(res => {
             console.log(res);
+            this.serviceNota.master[i].DetalleNotaCredito.pop();
             for (let l = 0; l < res.length; l++) {
               console.log('cualquier');
+              console.log('ENTRANDO POR ' + l);
               this.serviceNota.master[i].DetalleNotaCredito.push(res[l]);
               console.log(this.serviceNota.master[i]);
             }
@@ -419,9 +443,11 @@ console.log(this.service.formData.Id);
             // this.listData2.paginator._intl.itemsPerPageLabel = 'Notas de Credito Por Pagina';
           })
         }
-
-
+        this.SaldoSumatoria();
+        // console.clear();
         console.log(this.serviceNota.master);
+        console.log(this.service.SaldoFacturaMXN);
+        console.log(this.service.SaldoFacturaDLLS);
       });
     });
 
@@ -464,6 +490,58 @@ console.log(this.service.formData.Id);
 
   // FIN NOTA DE PAGO----------------------------------------------------------------------->
 
+// SUMATORIA DE SALDO
+
+SaldoSumatoria(){
+this.service.SaldoFacturaMXN = 0;
+this.service.SaldoFacturaDLLS = 0;
+
+console.log('---------------------------------------');
+console.log(this.serviceNota.master);
+if(this.serviceNota.master.length > 0){
+  for (let i = 0; i < this.serviceNota.master.length; i++) {
+  
+    this.service.SaldoFacturaMXN = (this.service.SaldoFacturaMXN + +this.serviceNota.master[i].Total);
+    this.service.SaldoFacturaDLLS = (this.service.SaldoFacturaDLLS + +this.serviceNota.master[i].TotalDlls);
+  
+  }
+}
+
+if(this.listDataPagosCFDI.data.length > 0){
+console.log(this.listDataPagosCFDI.data);
+
+for (let i = 0; i < this.listDataPagosCFDI.data.length; i++) {
+
+if(this.service.formData.Moneda == 'MXN'){
+this.service.SaldoFacturaMXN = (this.service.SaldoFacturaMXN + +this.listDataPagosCFDI.data[i].Cantidad);
+this.service.SaldoFacturaDLLS = (this.service.SaldoFacturaDLLS + (+this.listDataPagosCFDI.data[i].Cantidad / +this.service.formData.TipoDeCambio));
+}else{
+  this.service.SaldoFacturaDLLS = (this.service.SaldoFacturaDLLS + +this.listDataPagosCFDI.data[i].Cantidad);
+  this.service.SaldoFacturaMXN = (this.service.SaldoFacturaMXN + (+this.listDataPagosCFDI.data[i].Cantidad * +this.service.formData.TipoDeCambio));
+
+}
+
+        }
+}
+
+
+
+console.log('--------------------');
+console.log(this.service.SaldoFacturaMXN);
+console.log(this.service.SaldoFacturaDLLS);
+console.log('--------------------');
+
+
+
+}
+
+CFDISumatoria(){
+
+}
+
+// SUMATORIA DE SALDO
+
+
   // TABLA COMPLEMENTO PAGO (PAGOS CFDI) ----------------------------------------------------------------------->
 
   //Variable para verificar si existen pagos CFDI a esta factura y asi mostrat o no la tabla 
@@ -475,14 +553,30 @@ console.log(this.service.formData.Id);
 
   refreshPagoCFDIList() {
 
+    console.log(this.service.SaldoFacturaMXN);
+    // this.IniciarSaldo();
+
     this.service.getPagosCFDI(this.service.formData.Id).subscribe(data => {
       if (data.length > 0) {
-        console.clear();
+        // console.clear();
         // console.log(this.service.formData.Id);
         console.log(data);
         this.PagoCFDI = true;
-        this.listDataPagosCFDI = new MatTableDataSource(data);
-        this.listDataPagosCFDI.sort = this.sortPagoCFDI;
+        // for (let i = 0; i < data.length; i++) {
+          // this.SaldoFacturaMXN = this.SaldoFacturaMXN + data[i].
+          // if(this.service.formData.Moneda == 'MXN'){
+            // this.service.SaldoFacturaMXN = (this.service.SaldoFacturaMXN + +data[i].Cantidad);
+            // this.service.SaldoFacturaDLLS = (this.service.SaldoFacturaDLLS + (+data[i].Cantidad / +this.service.formData.TipoDeCambio));
+            // }else{
+              //   this.service.SaldoFacturaDLLS = (this.service.SaldoFacturaDLLS + +data[i].Cantidad);
+              //   this.service.SaldoFacturaMXN = (this.service.SaldoFacturaMXN + (+data[i].Cantidad * +this.service.formData.TipoDeCambio));
+              
+              // }
+              
+              // }
+              this.listDataPagosCFDI = new MatTableDataSource(data);
+              this.listDataPagosCFDI.sort = this.sortPagoCFDI;
+              this.SaldoSumatoria();
         // this.listData.paginator = this.paginator;
         // this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
         console.log(this.listDataPagosCFDI);
@@ -490,6 +584,8 @@ console.log(this.service.formData.Id);
         this.PagoCFDI = false;
       }
       console.log(this.PagoCFDI);
+      console.log(this.service.SaldoFacturaMXN);
+      console.log(this.service.SaldoFacturaDLLS);
     });
 
   }
@@ -655,6 +751,7 @@ console.log(this.service.formData.Id);
     this.subtotalDlls = 0;
     this.totalDlls = 0;
     this.ivaDlls = 0;
+
   }
   /* MEtodo que guarda el xml y el pdf en el localstorage */
   localstorage() {
