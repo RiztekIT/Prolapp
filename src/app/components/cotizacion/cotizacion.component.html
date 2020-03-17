@@ -1,0 +1,189 @@
+<div style="overflow: auto; height: 800px;">
+    <div>
+        <button class="btn btn-danger" color="warn" (click)="onClose()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+
+
+    <div class="modal0-body ">
+
+        <div id="Cotizacion-PDF">
+            <!-- TOP PAGE LOGO DESCRIPTION FACTURA -->
+            <div class="container">
+                <div class="row">
+                    <!-- logo -->
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                        <div class="card card-outline-inverse">
+                            <!-- <div class="card-header">
+                                        <h6 class="m-b-0 text-white">Logo</h6>
+                                    </div>
+                                    <div class="card-body">
+                                    </div> -->
+
+                            <img src="../../../assets/images/prolacto.png" class="logo">
+
+                        </div>
+                    </div>
+                    <!-- descripcion -->
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                        <h5 class="blacktxt bolder"> PROLACTO INGREDIENTES S DE RL MI DE CV
+                        </h5>
+                        <p class="blacktxt bolder nomarginbottomP"><span class="bolder">R.F.C.:</span>PLA11011243A
+                        </p>
+                        <p class="blacktxt bolder nomarginbottomP"> Calle: J. Matias de Anchondo No. 207, Col. San Felipe, CP: 31203, Chihuahua, Chihuahua, México
+                        </p>
+                        <div class="container row">
+                            <div class="col-8 pl-0">
+                                <p class="blacktxt bolder nomarginbottomP">Lugar de Expedicion: <br>
+                                    <span>Calle: <i>Jose Matias de Anchondo, CP. 31203</i></span>
+                                </p>
+                            </div>
+                            <div class="col-4 mt-2">
+                                <p class="blacktxt bolder nomarginbottomP">Orden de Compra:
+                                    <span> service.formt.OrdenDeCompra </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- factura folio -->
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                        <div class="card card-outline-inverse borderContainer">
+                            <div class="card-body">
+                                <h5 class="text-center bolder blacktxt">Cotizacion No. : </h5>
+                                <!-- cambia POR FAVOR QUE ESTA COSA NO SE ACOMODA -->
+                                <div>
+                                    <h5 class="text-center bolder blacktxt"> service.formt.Folio </h5>
+                                    <h5 class="text-center bolder blacktxt"> service.formt.FechaDeEntrega | date: 'yyyy-MM-dd' </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End TOP -->
+
+            <!-- facturado-lugar expedicion -->
+
+            <div class="container">
+                <!-- div facturado a -->
+                <div class="row">
+                    <div class="container col-12">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="nomarginbottomP"><span class="blacktxt bolder"> Cliente: ( service.formt.IdCliente )
+                              service.formt.Nombre </span></p>
+                                    <p class="nomarginbottomP blacktxt">
+                                        <span class=" bolder">Calle:</span> service.formt.Calle No.service.formt.NumeroExterior service.formt.NumeroInterior, CP. service.formt.CP, service.formt.Colonia , service.formt.Ciudad , service.formt.Estado
+                                        <span class="bolder"> RFC: </span> service.formt.RFC
+                                    </p>
+                                    <p class="bolder blacktxt nomarginbottomP">Vendedor: <span> service.formt.Vendedor </span></p>
+                                    <p class="bolder blacktxt nomarginbottomP">Enviar a: <span> service.formt.LugarDeEntrega </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- cantidad-unidad-clave- -->
+                <div class="container" style="height:610px">
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="card card-outline-inverse">
+                            <div class="card-header">
+
+                                <div class="table-responsive no-scroll">
+                                    <table class="table ">
+                                        <thead>
+                                            <tr>
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <th class="bolder blacktxt pr-0">Cantidad</th>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <th class="bolder blacktxt">Unidad</th>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <th class="bolder blacktxt text-center">Clave</th>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <th class="bolder blacktxt text-center">SubTotal</th>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <th class="bolder blacktxt text-center">Total</th>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="col-lg-12 col-md-12 col-12">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr *ngFor="let conceptos of arrcon">
+                                                <div class="containter">
+
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <th class=" textoBodyAcomodo acomodoForzadoTh"> conceptos.Cantidad </th>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <th class=" textoBodyAcomodo acomodoForzadoTh2"> conceptos.Unidad </th>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <th class=" textoBodyAcomodo acomodoForzadoTh3"> conceptos.ClaveProducto </th>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <th class=" textoBodyAcomodo"> conceptos.Producto
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Observaciones -->
+                    <div>
+                        <p class="bolder nomarginbottomP">OBSERVACIONES DE PEDIDO:</p>
+                        <p> service.formt.Observaciones </p>
+                    </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-12">
+                    <div class="card card-outline-inverse pgbreak">
+                        <div class="card-body">
+                            <div class="containerborder">
+                                <div class="container">
+                                    <h4 class="text-center bolder blacktxt"> ANOTACIONES Y OBSERVACIONES ADICIONALES </h4>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div headerReporte></div>
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button>
+        <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
+    </div>
+</div>

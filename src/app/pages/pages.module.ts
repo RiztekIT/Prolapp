@@ -396,7 +396,8 @@ import { CotizacionComponent } from '../components/cotizacion/cotizacion.compone
         ComplementoPagoComponent,
         ReportesModalComponent,
         DetalleNotaCreditoComponent,
-        CotizacionComponent
+        CotizacionComponent,
+        EmailComponent
     ]
 })
 export class PagesModule { }
