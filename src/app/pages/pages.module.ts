@@ -178,6 +178,8 @@ import { ReporteDllsComponent } from '../components/cxc/reporte-dlls/reporte-dll
 import { ReporteMxnComponent } from '../components/cxc/reporte-mxn/reporte-mxn.component';
 import { NotacreditoComponent } from '../components/notacredito/notacredito/notacredito.component';
 import { FacturacionComponent } from '../components/cxc/graficas/facturacion/facturacion.component';
+import { CotizacionesVentasComponent } from './ventas/cotizaciones-ventas/cotizaciones-ventas.component';
+import { CotizacionComponent } from '../components/cotizacion/cotizacion.component';
 
 
 
@@ -308,6 +310,8 @@ import { FacturacionComponent } from '../components/cxc/graficas/facturacion/fac
         ReporteDllsComponent,
         ReporteMxnComponent,
         FacturacionComponent,
+        CotizacionesVentasComponent,
+        CotizacionComponent
         
     
     ],
@@ -392,6 +396,7 @@ import { FacturacionComponent } from '../components/cxc/graficas/facturacion/fac
         ComplementoPagoComponent,
         ReportesModalComponent,
         DetalleNotaCreditoComponent,
+        CotizacionComponent
     ]
 })
 export class PagesModule { }
