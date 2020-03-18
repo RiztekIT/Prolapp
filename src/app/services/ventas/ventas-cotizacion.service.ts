@@ -38,7 +38,7 @@ const httpOptions2 = {
     formData= new Cliente();
     formProd= new Producto();
     // formDataDP= new DetallePedido();
-    formDataPedido = new Cotizacion();
+    formDataCotizacion = new Cotizacion();
     // master = new Array<pedidoMaster>();
     Moneda: string;
     IdCotizacion: number;
@@ -94,10 +94,6 @@ const httpOptions2 = {
       return this._listeners.asObservable();
     }
 
-    private _listeners = new Subject<any>(); 
-  listen(): Observable<any> {
-    return this._listeners.asObservable();
-  }
   filter(filterBy: string) {
     this._listeners.next(filterBy);
   }

@@ -25,7 +25,7 @@ import { VentasCotizacionService } from '../../../services/ventas/ventas-cotizac
 })
 export class CotizacionesVentasComponent implements OnInit {
 
-  constructor( private dialog: MatDialog, public _MessageService: MessageService, private service: VentasCotizacionService) {
+  constructor(public router: Router, private dialog: MatDialog, public _MessageService: MessageService, private service: VentasCotizacionService) {
 
     this.service.listen().subscribe((m: any) => {
       console.log(m);
@@ -136,6 +136,10 @@ email(){
             console.log(this.statusparam);
           })
         },1000)
+  }
+
+  onAdd(){
+    this.router.navigate(['/cotizacionesVentasAdd'])
   }
   
 
