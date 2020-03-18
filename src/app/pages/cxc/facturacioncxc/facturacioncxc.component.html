@@ -6,13 +6,27 @@
                 <app-folios></app-folios>
 
                 <h2 style="text-align: center;">Facturacion</h2>
-                <div fxLayoutAlign="row">
+                <div>
+                    <div class="row">
+                        <div class="col-8">
+                            <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary"> <i
+                                class="mdi mdi-plus btn-lg"></i>Generar Factura</button>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field>
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div fxLayoutAlign="row">
                     <mat-card style="text-align: right;" class="mat-elevation-z0">
+                        
                         <mat-form-field>
                             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
                         </mat-form-field>
                     </mat-card>
-                </div>
+                </div> -->
 
 
                 <div class="mat-elevation-z8">
@@ -226,7 +240,7 @@
                 </div>
             </div>
 
-            <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Factura</button>
+
 
         </div>
     </div>
