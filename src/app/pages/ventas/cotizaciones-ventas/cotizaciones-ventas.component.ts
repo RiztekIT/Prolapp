@@ -9,6 +9,9 @@ import * as html2pdf from 'html2pdf.js';
 import { MessageService } from 'src/app/services/message.service';
 import { EmailComponent } from 'src/app/components/email/email/email.component';
 import { VentasCotizacionService } from '../../../services/ventas/ventas-cotizacion.service';
+import { DetalleCotizacion } from "../../../Models/ventas/detalleCotizacion-model";
+import { Cotizacion } from '../../../Models/ventas/cotizacion-model';
+import { cotizacionMaster } from '../../../Models/ventas/cotizacion-master';
 
 @Component({
   selector: 'app-cotizaciones-ventas',
@@ -39,14 +42,17 @@ export class CotizacionesVentasComponent implements OnInit {
   }
 
   
-  // MasterDetalle = new Array<pedidoMaster>();
+  MasterDetalle = new Array<cotizacionMaster>();
 
   listData: MatTableDataSource<any>;
   displayedColumns: string[] = ['IdCliente', 'Nombre', 'RFC', 'Subtotal', 'Total', 'Descuento', 'SubtotalDlls', 'TotalDlls', 'DescuentoDlls', 'Observaciones', 'Vendedor', 'Moneda', 'FechaDeExpedicion', 'Flete',  'Folio', 'Telefono', 'Correo', 'Options'];
   
-  // displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Cantidad'];
+  displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Cantidad'];
 
-  // expandedElement: any;
+  expandedElement: any;
+
+  detalle = new Array<DetalleCotizacion>();
+  isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
   
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;

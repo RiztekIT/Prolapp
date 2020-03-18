@@ -24,6 +24,7 @@ const httpOptions2 = {
   export class VentasCotizacionService {
 
     formdata = new Cotizacion();
+    formrow: any;
 
     constructor(private http:HttpClient) { }
     readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
