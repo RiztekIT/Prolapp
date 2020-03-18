@@ -88,6 +88,11 @@ const httpOptions2 = {
     addCotizacion(cotizacion: Cotizacion){
         return this.http.post(this.APIUrl + '/Cotizacion', cotizacion)
     }
+    
+    private _listeners = new Subject<any>(); 
+    listen(): Observable<any> {
+      return this._listeners.asObservable();
+    }
 
     private _listeners = new Subject<any>(); 
   listen(): Observable<any> {
