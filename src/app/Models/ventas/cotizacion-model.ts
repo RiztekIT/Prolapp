@@ -1,4 +1,5 @@
 export class Cotizacion {
+IdCotizacion: number;
 IdCliente: number;
 Nombre: string;
 RFC: string;
