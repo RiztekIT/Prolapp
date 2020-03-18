@@ -8,7 +8,7 @@ Descuento: number;
 SubtotalDlls: number;
 TotalDlls: number;
 DescuentoDlls: number;
-Observacionesa: string;
+Observaciones: string;
 Vendedor: number;
 Moneda: string;
 FechaDeExpedicion: string;
