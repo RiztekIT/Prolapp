@@ -5,7 +5,7 @@ import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar } fr
 import { MatSort } from '@angular/material/sort';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import { CurrencyPipe } from '@angular/common';
-import { OrdenCargaService } from 'src/app/services/almacen/orden-carga.service';
+import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
 import Swal from 'sweetalert2';
 
 // import { pedidoMaster } from 'src/app/Models/Pedidos/pedido-master';

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
-import { OrdenCarga } from '../../Models/almacen/ordencarga.model';
+import { OrdenCarga } from '../../../Models/almacen/OrdenCarga/ordencarga.model';
 import {Observable } from 'rxjs';
 import {Subject} from 'rxjs';
+import { MasterOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterOrdenCarga-model';
+import { MasterDetalleOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterDetalleOrdenCarga-model';
 
 export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 
@@ -16,11 +18,17 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 
     formData = new OrdenCarga;
 
+    master = new Array<MasterOrdenCarga>();
+
     getOrdenCargaList(): Observable <OrdenCarga[]> {
         return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga');
       }
     getDetalleOrdenCargaList(id: number): Observable <OrdenCarga[]> {
         return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga/DetalleOrdenCarga/' + id);
+      }
+
+      getOrdenCargaIDList(id: number): Observable <MasterDetalleOrdenCarga[]>{
+        return this.http.get<MasterDetalleOrdenCarga[]>(APIUrl + '/OrdenCarga/MasterID/'+ id);
       }
 
     updateOrdenCarga(ordencarga: OrdenCarga) {
