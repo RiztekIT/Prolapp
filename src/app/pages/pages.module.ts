@@ -180,6 +180,7 @@ import { NotacreditoComponent } from '../components/notacredito/notacredito/nota
 import { FacturacionComponent } from '../components/cxc/graficas/facturacion/facturacion.component';
 import { CotizacionesVentasComponent } from './ventas/cotizaciones-ventas/cotizaciones-ventas.component';
 import { CotizacionComponent } from '../components/cotizacion/cotizacion.component';
+import { AddCotizacionComponent } from './ventas/cotizaciones-ventas/add-cotizacion/add-cotizacion.component';
 
 
 
@@ -311,7 +312,8 @@ import { CotizacionComponent } from '../components/cotizacion/cotizacion.compone
         ReporteMxnComponent,
         FacturacionComponent,
         CotizacionesVentasComponent,
-        CotizacionComponent
+        CotizacionComponent,
+        AddCotizacionComponent
         
     
     ],

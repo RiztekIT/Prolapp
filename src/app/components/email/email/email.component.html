@@ -1,4 +1,7 @@
 <div class="container" class="form-material">
+    <button mat-button class="btn btn-danger btnh" color="warn" (click)="onClose()">
+                <mat-icon>close</mat-icon>
+            </button>
     <div class="row">
         <div class="col-12 col-md-6">
             Visor de Docs
@@ -34,9 +37,9 @@
                     </ngx-dropzone>
 
                     <button type="button" class="btn btn-secondary waves-effect" (click)="onEnviar()">Enviar</button>
-                    <button type="button" class="btn btn-secondary waves-effect" (click)="leerArchivo()" file-hander>leer</button>
-                    <button type="button" class="btn btn-secondary waves-effect" (click)="leerDir()" file-hander>leerDir</button>
-                    <button type="button" class="btn btn-secondary waves-effect" (click)="urlPDF()">leer</button>
+                    <!-- <button type="button" class="btn btn-secondary waves-effect" (click)="leerArchivo()" file-hander>leer</button> -->
+                    <!-- <button type="button" class="btn btn-secondary waves-effect" (click)="leerDir()" file-hander>leerDir</button> -->
+                    <!-- <button type="button" class="btn btn-secondary waves-effect" (click)="urlPDF()">leer</button> -->
 
                     <button *ngFor="let a of archivos" (click)='leerArchivos(a)'> {{a}} </button>
 

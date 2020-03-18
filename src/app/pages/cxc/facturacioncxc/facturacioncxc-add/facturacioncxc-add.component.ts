@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter, SimpleChanges } from '@angular/core';
-import { MatDialog, MatDialogConfig, MatSnackBar, MatDivider } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatSnackBar, MatDivider, MAT_DATE_LOCALE } from '@angular/material';
 import { FacturaService } from '../../../../services/facturacioncxc/factura.service';
 import { NgForm, FormControl } from '@angular/forms';
 import { Cliente } from '../../../../Models/catalogos/clientes-model';
@@ -67,6 +67,9 @@ export const APP_DATE_FORMATS =
   },
   display: {
     dateInput: 'input',
+    // monthYearLabel: 'MMM YYYY',
+    // dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+    // monthYearA11yLabel: 'MMM YYYY',
     monthYearLabel: { year: 'numeric', month: 'numeric' },
     dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
     monthYearA11yLabel: { year: 'numeric', month: 'long' },
@@ -93,6 +96,9 @@ export const APP_DATE_FORMATS =
     },
     {
       provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    },
+    {
+      provide: MAT_DATE_LOCALE, useValue: 'es-MX'
     }
   ]
 
@@ -506,7 +512,7 @@ if(this.serviceNota.master.length > 0){
   
   }
 }
-
+if (this.PagoCFDI){
 if(this.listDataPagosCFDI.data.length > 0){
 console.log(this.listDataPagosCFDI.data);
 
@@ -522,6 +528,17 @@ this.service.SaldoFacturaDLLS = (this.service.SaldoFacturaDLLS + (+this.listData
 }
 
         }
+}
+}
+this.service.SaldoFacturaMXN = +this.service.formData.Total - this.service.SaldoFacturaMXN;
+this.service.SaldoFacturaDLLS = +this.service.formData.TotalDlls - this.service.SaldoFacturaDLLS;
+
+if(this.service.SaldoFacturaMXN<0){
+  this.service.SaldoFacturaMXN=0;
+}
+if(this.service.SaldoFacturaDLLS<0){
+  this.service.SaldoFacturaDLLS=0
+
 }
 
 
@@ -555,6 +572,7 @@ CFDISumatoria(){
 
     console.log(this.service.SaldoFacturaMXN);
     // this.IniciarSaldo();
+    this.PagoCFDI = false;
 
     this.service.getPagosCFDI(this.service.formData.Id).subscribe(data => {
       if (data.length > 0) {
