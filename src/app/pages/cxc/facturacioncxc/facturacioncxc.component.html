@@ -153,8 +153,8 @@
                       <mat-icon>code</mat-icon>
                     </button>
                                         <!-- ENVIAR -->
-                                        <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
-                                        <button title="Enviar Correo" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada' || row.Estatus=='Pagada'" mat-icon-button class="btn btn-dark" (click)="email(row.UUID,row.Folio)">
+                                        <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button> -->
+                                        <button title="Enviar Correo" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada' || row.Estatus=='Pagada'" mat-icon-button class="btn btn-dark" (click)="email(row.UUID,row.Folio,row)">
                       <mat-icon>alternate_email</mat-icon>
                     </button>
                                         <!-- Pago -->
@@ -256,7 +256,7 @@
 <!-- Modal de Enviar Correo -->
 
 
-<div class="modal fade bs-example-modal-lg show" id="cargando">
+<!-- <div class="modal fade bs-example-modal-lg show" id="cargando">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -268,7 +268,7 @@
     </div>
     <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
     </ngx-loading>
-</div>
+</div> -->
 
 <!-- Modal de complemento de pago -->
 

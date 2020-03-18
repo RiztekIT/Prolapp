@@ -506,7 +506,7 @@ if(this.serviceNota.master.length > 0){
   
   }
 }
-
+if (this.PagoCFDI){
 if(this.listDataPagosCFDI.data.length > 0){
 console.log(this.listDataPagosCFDI.data);
 
@@ -522,6 +522,7 @@ this.service.SaldoFacturaDLLS = (this.service.SaldoFacturaDLLS + (+this.listData
 }
 
         }
+}
 }
 
 
@@ -555,6 +556,7 @@ CFDISumatoria(){
 
     console.log(this.service.SaldoFacturaMXN);
     // this.IniciarSaldo();
+    this.PagoCFDI = false;
 
     this.service.getPagosCFDI(this.service.formData.Id).subscribe(data => {
       if (data.length > 0) {
