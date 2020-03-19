@@ -86,7 +86,7 @@ console.log(data);
     this.service.formData = ordencarga;
     this.service.formData.IdOrdenCarga = ordencarga.IdOrdenCarga;
     // localStorage.setItem('IdOrdenCarga', this.service.formData.IdOrdenCarga.toString())
-    localStorage.setItem('FormDataOrdenCarga', JSON.stringify(ordencarga))
+    localStorage.setItem('IdOrdenCarga', this.service.formData.IdOrdenCarga.toString())
     this.router.navigate(['/ordencargadetalle']);
   }
 

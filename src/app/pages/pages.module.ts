@@ -181,6 +181,8 @@ import { FacturacionComponent } from '../components/cxc/graficas/facturacion/fac
 import { CotizacionesVentasComponent } from './ventas/cotizaciones-ventas/cotizaciones-ventas.component';
 import { CotizacionComponent } from '../components/cotizacion/cotizacion.component';
 import { AddCotizacionComponent } from './ventas/cotizaciones-ventas/add-cotizacion/add-cotizacion.component';
+import { PrepararComponent } from './almacen/pedidosalmacen/ordencargadetalle/preparar/preparar.component';
+import { CargarComponent } from './almacen/pedidosalmacen/ordencargadetalle/cargar/cargar.component';
 
 
 
@@ -313,7 +315,9 @@ import { AddCotizacionComponent } from './ventas/cotizaciones-ventas/add-cotizac
         FacturacionComponent,
         CotizacionesVentasComponent,
         CotizacionComponent,
-        AddCotizacionComponent
+        AddCotizacionComponent,
+        PrepararComponent,
+        CargarComponent
         
     
     ],

@@ -7,6 +7,7 @@ import { MasterOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterOrdenC
 import { MasterDetalleOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterDetalleOrdenCarga-model';
 
 export const APIUrl = "http://riztekserver.ddns.net:44361/api";
+// export const APIUrl = "https://localhost:44361/api";
 
 @Injectable({
     providedIn: 'root'
@@ -16,17 +17,26 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 
     constructor(private http:HttpClient) { }
 
+    //form data para guardar los datos de la Orden de Carga
     formData = new OrdenCarga;
-
+    //Id Orden de Carga
+    IdOrdenCarga: number;
+//Master donde se guardara el master 
     master = new Array<MasterOrdenCarga>();
 
     getOrdenCargaList(): Observable <OrdenCarga[]> {
         return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga');
       }
+
+      //Obtener orden de carga por ID
+    getOrdenCargaID(id: number): Observable <OrdenCarga[]> {
+        return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga/' + id);
+      }
     getDetalleOrdenCargaList(id: number): Observable <OrdenCarga[]> {
         return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga/DetalleOrdenCarga/' + id);
       }
 
+      //JOIN DETALLES, TARIMA, TARIMA DETALLES
       getOrdenCargaIDList(id: number): Observable <MasterDetalleOrdenCarga[]>{
         return this.http.get<MasterDetalleOrdenCarga[]>(APIUrl + '/OrdenCarga/MasterID/'+ id);
       }
@@ -34,8 +44,8 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
     updateOrdenCarga(ordencarga: OrdenCarga) {
         return this.http.put(APIUrl+ '/OrdenCarga', ordencarga);
         } 
-    updatedetalleOrdenCargaEstatus(ordenCarga: any) {
-        return this.http.put(APIUrl+ '/OrdenCarga/EstatusDetalle', ordenCarga);
+    updatedetalleOrdenCargaEstatus(Id: number, Estatus:string) {
+        return this.http.put(APIUrl+ '/OrdenCarga/EstatusDetalle/' + Id + '/' + Estatus, null);
         } 
     addOrdenCarga(ordencarga: OrdenCarga){
         return this.http.post(APIUrl + '/OrdenCarga', ordencarga )          
@@ -43,6 +53,9 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
     deleteOrdenCarga(id: number){
         return this.http.delete(APIUrl +'/OrdenCarga/BorrarOrdenCarga/'+ id)
       }
+
+      /* *************************************************** */
+      /* *************************************************** */
       
       private _listeners = new Subject<any>(); 
       listen(): Observable<any> {
