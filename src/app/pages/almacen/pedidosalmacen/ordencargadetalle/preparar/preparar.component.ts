@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { DetalleTarima } from '../../../../../Models/almacen/Tarima/detalleTarima-model';
+
+
 
 @Component({
   selector: 'app-preparar',
@@ -7,9 +11,37 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PrepararComponent implements OnInit {
 
-  constructor() { }
+  constructor(public router: Router) { }
 
   ngOnInit() {
   }
+
+  //Informacion que vendra del QR
+  QRdata: DetalleTarima;
+
+  regresar(){
+    this.router.navigate(['/ordencargadetalle']);
+  }
+
+  simularQR(){
+
+this.QRdata.ClaveProducto = 'LPD002';
+this.QRdata.Lote = '123'
+this.QRdata.Sacos = '70';
+
+
+
+  }
+
+traspaso(){
+
+}
+
+pdf(){
+
+}
+
+finalizar(){
+}
 
 }
