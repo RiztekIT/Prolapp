@@ -657,25 +657,27 @@ this.changeDireccion(this.isDireccion);
 
   onBlurDescuento() {
     this.descuento = this.service.formDataPedido.Descuento;
-    this.service.formDataPedido.DescuentoDlls = (+this.descuento * this.TipoCambio).toString();
+    this.service.formDataPedido.DescuentoDlls = (+this.descuento / this.TipoCambio).toString();
     this.service.formDataPedido.Estatus = 'Guardada';
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
       this.refreshDetallesPedidoList();
       console.clear();
       console.log(res);
-      console.log(this.descuento);
+      console.log(this.descuento,'descuentoMXN');
+      console.log(this.descuentoDlls,'descuentoDLLS');
     })
   }
 
   onBlurDescuentoDlls() {
     this.descuentoDlls = this.service.formDataPedido.DescuentoDlls;
-    this.service.formDataPedido.Descuento = (+this.descuentoDlls / this.TipoCambio).toString();
+    this.service.formDataPedido.Descuento = (+this.descuentoDlls * this.TipoCambio).toString();
     this.service.formDataPedido.Estatus = 'Guardada';
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
       this.refreshDetallesPedidoList();
       console.clear();
       console.log(res);
-      console.log(this.descuentoDlls);
+      console.log(this.descuentoDlls,'DescuentoDLLS');
+      console.log(this.descuento,'DescuentoMXN');
     })
   }
 
@@ -750,6 +752,7 @@ this.changeDireccion(this.isDireccion);
           this.descuentoDlls = this.service.formDataPedido.DescuentoDlls;
           this.subtotalDlls = data[0].importeDlls;
           this.totalDlls = data[0].importeDlls - this.descuentoDlls;
+
 
 
           console.log(this.total);

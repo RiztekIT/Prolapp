@@ -184,3 +184,11 @@ th {
     max-width: 20px;
     max-height: 20px;
 }
+
+.overflow {
+    overflow: scroll;
+}
+
+.mat-dialog-content {
+    max-height: 65vh;
+}

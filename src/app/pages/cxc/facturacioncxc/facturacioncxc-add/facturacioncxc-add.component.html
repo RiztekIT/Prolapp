@@ -21,7 +21,7 @@
                     <ng-template #NoseArma>
 
                     </ng-template>
-                    <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button>
+                    <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary"><i class=""></i>Regresar</button>
                 </div>
                 <hr>
 
@@ -133,7 +133,7 @@
 
                                     <label class="input-group-text text-info">Fecha Expedicion</label>
 
-                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker-toggle [for]="picker1"></mat-datepicker-toggle>
                                     <input readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="FechaDeExpedicion" #FechaDeExpedicion="ngModel" [(ngModel)]="service.formData.FechaDeExpedicion">
                                     <mat-datepicker #picker1></mat-datepicker>
 
@@ -257,18 +257,34 @@
                 <hr>
 
                 <mat-divider></mat-divider>
-                <!-- <mat-card style="text-align: right;" class="mat-elevation-z0">
-                    <mat-form-field>
-                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-                    </mat-form-field>
-                </mat-card> -->
                 <br>
+                <!-- <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <button class="btn btn-lg" mat-raised-button (click)="onAddProducto()"><i
+                                class="mdi mdi-plus btn-lg"></i>Agregar Producto</button>
+                    </div>
+                    <div class="col-4"></div>
+                </div>
+
+                <hr>
+                <br> -->
                 <!-- <div class="card-body"> -->
                 <div id="div2" class="form-material mat-elevation-z5">
                     <div class="card card-header">
-                        <h3 class="bolder blacktxt text-center">
-                            Productos
-                        </h3>
+                        <div class="row">
+                            <div class="col-4">
+                                <h3 class="bolder blacktxt text-center">
+                                    Productos
+                                </h3>
+                            </div>
+                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <button color="primary" class="btn btn-lg" mat-raised-button (click)="onAddProducto()"><i
+                                        class="mdi mdi-plus btn-lg"></i>Agregar Producto</button>
+                            </div>
+                        </div>
+
                     </div>
 
                     <!-- <div class="mat-elevation-z8"> -->
@@ -553,7 +569,7 @@
                         </ng-container>
                         <ng-container matColumnDef="Cantidad">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
-                            <td mat-cell *matCellDef="let element">{{element.Cantidad}}</td>
+                            <td mat-cell *matCellDef="let element">{{element.Cantidad | currency}}</td>
                         </ng-container>
                         <ng-container matColumnDef="Estado">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
@@ -633,8 +649,8 @@
                         </div>
                         <ng-template #elseBlock>
                             <div style="display: grid">
-                                <button class="btn btn-info btn-lg" mat-raised-button (click)="onAddProducto()"><i
-                  class="mdi mdi-plus btn-lg"></i>Agregar Producto</button>
+                                <!-- <button class="btn btn-info btn-lg" mat-raised-button (click)="onAddProducto()"><i
+                  class="mdi mdi-plus btn-lg"></i>Agregar Producto</button> -->
                                 <br>
 
                                 <button class="btn btn-info btn-lg" mat-raised-button (click)="onSubmit(form)"><i
@@ -669,6 +685,9 @@
                                     <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Impuestos Trasladados</label>
                                     <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [ngModel]="service.formData.ImpuestosTrasladados | currency">
 
+                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Saldo</label>
+                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Saldo" #Saldo="ngModel" [ngModel]="this.service.SaldoFacturaMXN | currency">
+
                                     <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
                                     <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="service.formData.Total | currency">
 
@@ -689,6 +708,9 @@
 
                                     <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Impuestos Trasladados</label>
                                     <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [ngModel]="service.formData.ImpuestosTrasladadosDlls | currency">
+
+                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Saldo</label>
+                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Saldo" #Saldo="ngModel" [ngModel]="this.service.SaldoFacturaDLLS | currency">
 
                                     <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
                                     <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="service.formData.TotalDlls | currency">
@@ -755,13 +777,10 @@
 
 <!-- Aqui va el PDF -->
 
-<div class="modal fade bs-example-modal-lg show" id="add-new-event">
+<!-- <div class="modal fade bs-example-modal-lg show" id="add-new-event">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <!-- <div class="modal-header">
-                <h4 class="modal-title">Factura</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div> -->
+         
 
             <app-factura #factura [xmlparametros]="xmlparam"></app-factura>
 
@@ -771,7 +790,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- cargando -->
 <ng-template #customTemplate>
@@ -796,7 +815,7 @@
 </div>
 
 
-<div class="modal fade bs-example-modal-xl" id="modalcorreo">
+<!-- <div class="modal fade bs-example-modal-xl" id="modalcorreo">
     <div class="modal-dialog modal-xl modal-dialogenviar">
         <div class="modal-content">
 
@@ -808,4 +827,4 @@
     </div>
     <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
     </ngx-loading>
-</div>
+</div> -->

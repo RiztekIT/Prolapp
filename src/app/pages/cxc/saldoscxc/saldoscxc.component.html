@@ -1,1 +1,80 @@
-<p>saldoscxc works!</p>
+<div fxLayoutAlign="row">
+    <mat-card style="text-align: right;" class="mat-elevation-z0">
+        <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+        </mat-form-field>
+    </mat-card>
+</div>
+
+
+<div style="overflow:auto;">
+
+    <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <ng-container matColumnDef="Folio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio De Factura</th>
+            <td mat-cell *matCellDef="let element">{{element.Folio}}
+                <td>
+        </ng-container>
+
+        <ng-container matColumnDef="SaldoPendiente">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Saldo Pendiente MXN </th>
+            <td class="folio" mat-cell *matCellDef="let element">{{element.SaldoPendiente}}
+                <td>
+        </ng-container>
+
+        <ng-container matColumnDef="SaldoPendienteDlls">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Saldo Pendiente USD </th>
+            <td mat-cell *matCellDef="let element">{{element.SaldoPendienteDlls}}
+                <td>
+        </ng-container>
+
+        <ng-container matColumnDef="Options">
+            <th mat-header-cell *matHeaderCellDef>Opciones</th>
+            <td mat-cell *matCellDef="let row">
+
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                  </button>
+                <mat-menu #menu="matMenu">
+                    <!--  -->
+                    <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                                <mat-icon>edit</mat-icon>
+                                            </button>
+                    <!--  -->
+                    <!-- <button mat-icon-button class="btn btn-danger" color="warn">
+                                                    <mat-icon>delete_outline</mat-icon>
+                                                </button> -->
+                </mat-menu>
+            </td>
+        </ng-container>
+
+        <!-- DETALLES DE PEDIDO -->
+        <!-- <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="element.DetallePedido.length > 0" (click)="expandedElement = 0">
+
+                    <table width="100%">
+                        <tr>
+                            <th> Clave Producto </th>
+                            <th> Producto </th>
+                            <th> Cantidad </th>
+                        </tr>
+                        <tr *ngFor="let detalle of element.DetallePedido">
+                            <td> {{detalle.ClaveProducto}} </td>
+                            <td> {{detalle.Producto}} </td>
+                            <td> {{ detalle.Cantidad}} </td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+        </ng-container> -->
+        <!-- DETALLES DE PEDIDO -->
+
+    </table>
+    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+    </mat-paginator>
+</div>

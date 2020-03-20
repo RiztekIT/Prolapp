@@ -20,7 +20,7 @@
                         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 
 
-                        <ng-container matColumnDef="IdPedido">
+                        <ng-container matColumnDef="IdPedido" sticky>
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Pedido</th>
                             <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.IdPedido}} +
                                 <td>
@@ -123,7 +123,7 @@
                             </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="Options">
+                        <ng-container matColumnDef="Options" stickyEnd>
                             <th mat-header-cell *matHeaderCellDef>Opciones</th>
                             <td mat-cell *matCellDef="let row">
 
@@ -192,7 +192,7 @@
 </div>
 
 
-<div class="modal fade bs-example-modal-lg show" id="cargando">
+<!-- <div class="modal fade bs-example-modal-lg show" id="cargando">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -204,4 +204,4 @@
     </div>
     <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
     </ngx-loading>
-</div>
+</div> -->

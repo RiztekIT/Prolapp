@@ -19,6 +19,8 @@ import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import Swal from 'sweetalert2';
 import { MessageService } from 'src/app/services/message.service';
 import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.service';
+import { EmailComponent } from 'src/app/components/email/email/email.component';
+import { FacturaComponent } from 'src/app/components/factura/factura.component';
 
 
 @Component({
@@ -294,6 +296,7 @@ ObtenerUltimaFactura(){
   onEdit(factura: Factura){
 this.service.formData = factura;
 let Id = factura.Id;
+localStorage.setItem('rowfact',JSON.stringify(factura));
 localStorage.setItem('FacturaID',this.service.formData.Id.toString())
     this.router.navigate(['/facturacionCxcAdd', Id]);
   }
@@ -337,22 +340,28 @@ onExportClick(folio?:string) {
 generar(id: string, folio:string,row) {
   console.log(row);
   localStorage.setItem('rowfact',JSON.stringify(row));
-  this.xmlparam = folio;
+  // this.xmlparam = folio;
   
-  let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
-  this.enviarfact.xml(id).subscribe(data => {
-    const blob = new Blob([data as BlobPart], { type: 'application/xml' });
-    this.fileUrl = window.URL.createObjectURL(blob);
-    this.a.href = this.fileUrl;
-    this.a.target = '_blank';
-    document.body.appendChild(this.a);
-    localStorage.removeItem('xml'+folio)
-    localStorage.setItem('xml'+folio,data)
-    return this.fileUrl;
-  });
+  // let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
+  // this.enviarfact.xml(id).subscribe(data => {
+  //   const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+  //   this.fileUrl = window.URL.createObjectURL(blob);
+  //   this.a.href = this.fileUrl;
+  //   this.a.target = '_blank';
+  //   document.body.appendChild(this.a);
+  //   localStorage.removeItem('xml'+folio)
+  //   localStorage.setItem('xml'+folio,data)
+  //   return this.fileUrl;
+  // });
   // setTimeout(()=>{
   //  },1000)
-  document.getElementById('abrirpdf').click();  
+  // document.getElementById('abrirpdf').click(); 
+  const dialogConfig = new MatDialogConfig();
+      // dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = false;
+      dialogConfig.width = "70%";
+     
+      this.dialog.open(FacturaComponent, dialogConfig); 
   
 }
 
@@ -396,10 +405,11 @@ pdf(id: string, folio:string){
 
 
 /* Metodo para enviar por correo, abre el modal con los datos */
-email(id: string, folio:string){
+email(id: string, folio:string,row){
 localStorage.removeItem('xml'+folio);
 localStorage.removeItem('pdf'+folio);
-document.getElementById('enviaremail').click();
+localStorage.setItem('rowfact',JSON.stringify(row));
+// document.getElementById('enviaremail').click();
 
   this.folioparam = folio;
   this.idparam = id;
@@ -410,8 +420,9 @@ document.getElementById('enviaremail').click();
   this._MessageService.nombre='ProlactoIngredientes';
     this.enviarfact.xml(id).subscribe(data => {
       localStorage.setItem('xml' + folio, data)
+    })
       this.xmlparam = folio;
-      setTimeout(()=>{
+      // setTimeout(()=>{
         const content: Element = document.getElementById('Factura-PDF');
         const option = {
           margin: [0, 0, 0, 0],
@@ -424,9 +435,21 @@ document.getElementById('enviaremail').click();
           localStorage.setItem('pdf'+folio, pdfAsString);
           this.statusparam=true;          
           console.log(this.statusparam);
+         
         })
-      },1000)
-  })
+       
+      // },1000)
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "70%";
+      dialogConfig.data = {
+        foliop: folio,
+        idp: id,
+        status: true
+      }
+      this.dialog.open(EmailComponent, dialogConfig);
+
 
  
 

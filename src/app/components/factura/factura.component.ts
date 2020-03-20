@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, Inject } from '@angular/core';
 import xml2js from 'xml2js';
 import { processors } from 'xml2js'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -6,7 +6,12 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Parser } from '@angular/compiler/src/ml_parser/parser';
 import { Prefactura } from 'src/app/Models/facturacioncxc/prefactura-model';
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
+
+// export interface parametros{
+//   foliop: string
+// }
 
 declare function cantidad(n);
 
@@ -26,7 +31,7 @@ export class FacturaComponent implements OnInit {
 
   @Input() xmlparametros;
 
-  constructor(private _http: HttpClient, private sanitizer: DomSanitizer, public service: FacturaService) {
+  constructor(private _http: HttpClient, private sanitizer: DomSanitizer, public service: FacturaService, public dialogRef: MatDialogRef<FacturaComponent>) {
     this.QRsize = 125;
     // assign a value
     this.myAngularxQrCode = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.asp?id=28c751ac-b6f3-4293-b35e-9ce78b4eb4b8&re=CIN960904FQ2&rr=CUOA880131Q85&tt=0000002578.930000&fe=nfsuQW==';
@@ -142,7 +147,11 @@ export class FacturaComponent implements OnInit {
 
   // }
 
-  pdfDB(folio: string){
+  onClose(){
+    this.dialogRef.close();
+  }
+
+  pdfDB(){
      let row = JSON.parse(localStorage.getItem('rowfact'));
     console.log(row.Certificado);
     console.log(row.detalle[0].Cantidad);
@@ -225,7 +234,7 @@ if(this.moneda === 'MXN'){
 console.log(this.objconc);
 console.log(this.arrcon);
 
-this.service.getFacturasClienteFolio(folio).subscribe(data=>{
+this.service.getFacturasClienteFolio(this.folio).subscribe(data=>{
   console.log(data);
   
   switch (data[0].Estado){
@@ -603,6 +612,8 @@ this.xmlparametros='';
     const blob = new Blob(['/assets/js/F-1.xml'], { type: 'application/octet-stream' });
 
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+
+    this.pdfDB();
   }
   QRstring = "";
 
@@ -617,13 +628,13 @@ this.xmlparametros='';
       
     } */
 
-    if (!this.xmlparametros){
-      console.log('2');
+    // if (!this.xmlparametros){
+    //   console.log('2');
       
-    }else{
-      console.log(this.xmlparametros);
-      this.pdfDB(this.xmlparametros);
-    }
+    // }else{
+    //   console.log(this.xmlparametros);
+    //   this.pdfDB(this.xmlparametros);
+    // }
     // this.PdfPreliminar();
      
   }

@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import { CurrencyPipe } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { UnidadMedidaService } from 'src/app/services/unidadmedida/unidad-medida.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -27,6 +28,7 @@ const httpOptions = {
   styleUrls: ['./facturacioncxc-edit-producto.component.css']
 })
 export class FacturacioncxcEditProductoComponent implements OnInit {
+  um: boolean;
   IVA;
   IdFactura: any;
   myControl = new FormControl();
@@ -53,7 +55,7 @@ public listUM: Array<any> = [];
   
 
   constructor(public dialogbox: MatDialogRef<FacturacioncxcEditProductoComponent>,
-    public service: FacturaService, private snackBar: MatSnackBar,public enviarfact: EnviarfacturaService, private currencyPipe: CurrencyPipe, private http : HttpClient) { }
+    public service: FacturaService, private snackBar: MatSnackBar,public enviarfact: EnviarfacturaService, private currencyPipe: CurrencyPipe, private http : HttpClient,public ServiceUnidad: UnidadMedidaService) { }
 
   ngOnInit() {
     this.obtenerProductos();
@@ -71,6 +73,7 @@ public listUM: Array<any> = [];
       // console.log(this.IdFactura);
 
       this.tipoDeCambio();
+      this.um = true;
       
 
   }
@@ -83,10 +86,20 @@ public listUM: Array<any> = [];
       option.ClaveProducto.toLowerCase().includes(filterValue));
   }
   //Filter Unidad
+  // private _filterUnidad(value: any): any[] {
+  //   const filterValueUnidad = value.toLowerCase();
+  //   //return this.optionsUnidad.filter(optionUnidad => optionUnidad.toString().toLowerCase().includes(filterValueUnidad));
+  //   return this.listUM.filter(optionUnidad => optionUnidad.key.toString().toLowerCase().includes(filterValueUnidad) || optionUnidad.name.toString().toLowerCase().includes(filterValueUnidad));
+  // }
+
   private _filterUnidad(value: any): any[] {
+    if (typeof(value)=='string'){
     const filterValueUnidad = value.toLowerCase();
-    //return this.optionsUnidad.filter(optionUnidad => optionUnidad.toString().toLowerCase().includes(filterValueUnidad));
-    return this.listUM.filter(optionUnidad => optionUnidad.key.toString().toLowerCase().includes(filterValueUnidad) || optionUnidad.name.toString().toLowerCase().includes(filterValueUnidad));
+    return this.listUM.filter(optionUnidad => optionUnidad.ClaveSAT.toString().toLowerCase().includes(filterValueUnidad) || optionUnidad.Nombre.toString().toLowerCase().includes(filterValueUnidad));
+    }else if (typeof(value)=='number'){
+      const filterValueUnidad = value;
+      return this.listUM.filter(optionUnidad => optionUnidad.ClaveSAT.toString().includes(filterValueUnidad) || optionUnidad.Nombre.toString().includes(filterValueUnidad));
+    }
   }
 
   onClose() {
@@ -95,17 +108,38 @@ public listUM: Array<any> = [];
   }
 
   unidadMedida(){
-    this.listUM = [];
-    this.enviarfact.unidadMedida().subscribe(data=>{
-      //console.log(JSON.parse(data).data);
-      for (let i=0; i<JSON.parse(data).data.length; i++){
-        this.listUM.push(JSON.parse(data).data[i])
-      }
-      // console.log(this.listUM);
+    // this.listUM = [];
+    // this.enviarfact.unidadMedida().subscribe(data=>{
+    //   //console.log(JSON.parse(data).data);
+    //   for (let i=0; i<JSON.parse(data).data.length; i++){
+    //     this.listUM.push(JSON.parse(data).data[i])
+    //   }
+    //   // console.log(this.listUM);
       
 
       
-    })
+    // })
+    if (this.um){
+      this.listUM = [];
+      // this.enviarfact.unidadMedida().subscribe(data=>{
+      //   //console.log(JSON.parse(data).data);
+      //   for (let i=0; i<JSON.parse(data).data.length; i++){
+      //     this.listUM.push(JSON.parse(data).data[i])
+      //   }
+      this.ServiceUnidad.GetUnidadesMedida().subscribe(data =>{
+        this.listUM = data;
+        this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
+        .pipe(
+          startWith(''),
+          map(value => this._filterUnidad(value))
+        );
+        // console.log(this.listUM);
+  
+        this.um=false;
+        
+      })
+  
+    }
   }
  
   obtenerProductos(){
@@ -305,7 +339,7 @@ if (diasemana == 6 || diasemana == 0){
     this.service.updateDetalleFactura(this.service.formDataDF).subscribe(res => {
       Swal.fire({
         icon: 'success',
-        title: 'Concepto Actualizado'
+        title: 'Producto Actualizado'
       })
       
     }

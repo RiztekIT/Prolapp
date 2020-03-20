@@ -113,6 +113,7 @@ export class NotacreditoComponent implements OnInit {
     // console.log('XMLSTRIng'+this.xmlString);
     // const parser = new xml2js.Parser({strict: false, trim: true});
 
+    console.log(folio);
 
     const p = new xml2js.parseString(localStorage.getItem('xml'+folio), { tagNameProcessors: [processors.stripPrefix] }, (err, result) => {
 

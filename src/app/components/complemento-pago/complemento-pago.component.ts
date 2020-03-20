@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 // import { MatDialogRef } from '@angular/material';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.service';
@@ -18,7 +18,7 @@ export class ComplementoPagoComponent implements OnInit {
   QRsize:number;
   
   // constructor(public dialogbox: MatDialogRef<ComplementoPagoComponent>, public router: Router, private _formBuilder: FormBuilder, 
-  constructor(public router: Router, private _formBuilder: FormBuilder, 
+  constructor(public router: Router, private _formBuilder: FormBuilder, public dialogbox: MatDialogRef<ComplementoPagoComponent>, private dialog: MatDialog,
     public service: ReciboPagoService) { 
       this.QRsize = 125;
       // assign a value to QR
@@ -39,10 +39,9 @@ export class ComplementoPagoComponent implements OnInit {
   QRString = 'www.facebook.com';
 
   onClose() {
-    // this.dialogbox.close();
-    // document.getElementById('cerrarmodal').click();
+    this.dialogbox.close();
     this.service.filter('Register click');
-}
+  }
   ver(){
     this.service.formt = JSON.parse(localStorage.getItem('rowpago'));
     

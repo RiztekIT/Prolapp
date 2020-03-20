@@ -1,104 +1,176 @@
-<div style="overflow:auto;">
+<div class="row">
+    <div class="col-12">
+        <div class="card ">
+            <div class="card-body">
+                <h2 style="text-align: center;">Orden de Carga</h2>
+                <div fxLayoutAlign="row">
+                    <mat-card style="text-align: right;" class="mat-elevation-z0">
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                        </mat-form-field>
+                    </mat-card>
+                </div>
 
-    <table mat-table [dataSource]="listData" matSort class="scrollable">
+                <div style="overflow:auto;">
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
 
-        <ng-container matColumnDef="IdOrdenCarga">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Orden de Carga</th>
-            <td mat-cell *matCellDef="let element">{{element.IdOrdenCarga}}
-                <td>
-        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 
-        <ng-container matColumnDef="NumSalida">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>NumSalida</th>
-            <td mat-cell *matCellDef="let element">{{element.NumSalida}}
-                <td>
-        </ng-container>
 
-        <ng-container matColumnDef="FechaOrden">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
-            <td mat-cell *matCellDef="let element">{{element.FechaOrden}}
-                <td>
-        </ng-container>
+                        <ng-container matColumnDef="Folio" sticky>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Folio</th>
+                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Folio}} +
+                                <td>
+                        </ng-container>
 
-        <ng-container matColumnDef="IdCliente">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Id Cliente</th>
-            <td mat-cell *matCellDef="let element">{{element.IdCliente}}</td>
-        </ng-container>
+                        <ng-container matColumnDef="FechaEnvio">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Envio</th>
+                            <td mat-cell *matCellDef="let element">{{element.FechaEnvio}}
+                                <td>
+                        </ng-container>
 
-        <ng-container matColumnDef="Cliente">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</th>
-            <td mat-cell *matCellDef="let element">{{element.Cliente}}
-            </td>
-        </ng-container>
+                        <ng-container matColumnDef="Cliente">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</th>
+                            <td mat-cell *matCellDef="let element">{{element.Cliente}}
+                                <td>
+                        </ng-container>
 
-        <ng-container matColumnDef="Producto">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
-            <td mat-cell *matCellDef="let element">{{element.Producto}}
-            </td>
-        </ng-container>
+                        <ng-container matColumnDef="IdPedido">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Pedido</th>
+                            <td mat-cell *matCellDef="let element">{{element.IdPedido}}
 
-        <ng-container matColumnDef="Fletera">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fletera</th>
-            <td mat-cell *matCellDef="let element">{{element.Fletera}}
-            </td>
-        </ng-container>
+                            </td>
+                        </ng-container>
 
-        <ng-container matColumnDef="NumCaja">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Numero de Caja</th>
-            <td mat-cell *matCellDef="let element">{{element.NumCaja}}
-            </td>
-        </ng-container>
+                        <ng-container matColumnDef="Fletera">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fletera</th>
+                            <td mat-cell *matCellDef="let element">{{element.Fletera}}
+                            </td>
+                        </ng-container>
 
-        <ng-container matColumnDef="EnviarA">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Enviar A:</th>
-            <td mat-cell *matCellDef="let element">{{element.EnviarA}}
-            </td>
-        </ng-container>
+                        <ng-container matColumnDef="Caja">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Caja</th>
+                            <td mat-cell *matCellDef="let element">{{element.Caja}}
+                            </td>
+                        </ng-container>
 
-        <ng-container matColumnDef="Sacos">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
-            <td mat-cell *matCellDef="let element">{{element.Sacos}}
-            </td>
-        </ng-container>
+                        <ng-container matColumnDef="Sacos">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
+                            <td mat-cell *matCellDef="let element">{{element.Sacos}}
+                            </td>
+                        </ng-container>
 
-        <ng-container matColumnDef="Kilos">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Kilos</th>
-            <td mat-cell *matCellDef="let element">{{element.Kilos}}
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="Notas">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Notas</th>
-            <td mat-cell *matCellDef="let element">{{element.Notas}}
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="Usuario">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario</th>
-            <td mat-cell *matCellDef="let element">{{element.Usuario}}
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="Estatus">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
-            <td mat-cell *matCellDef="let element" [ngSwitch]=element.Estatus>
-                <span *ngSwitchCase="'Creada'" class="label label-light-warning">Creada</span>
-                <span *ngSwitchCase="'Preparada'" class="label label-light-danger">Preparada</span>
-                <span *ngSwitchCase="'Cargada'" class="label label-light-primary">Cargada</span>
-                <span *ngSwitchCase="'Enviada'" class="label label-light-success">Enviada</span>
-                <span *ngSwitchCase="'Terminada'" class="label label-light-info">Terminada</span>
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="Boton">
-            <th mat-header-cell *matHeaderCellDef>Orden de Carga</th>
-            <td mat-cell *matCellDef="let row">
+                        <ng-container matColumnDef="Kg">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
+                            <td mat-cell *matCellDef="let element">{{element.Kg}}
+                            </td>
+                        </ng-container>
 
-                <button class="btn-block" mat-raised-button (click)="onEdit(row)"> Ver Orden
+                        <ng-container matColumnDef="Origen">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Origen</th>
+                            <td mat-cell *matCellDef="let element">{{element.Origen}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Destino">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Destino</th>
+                            <td mat-cell *matCellDef="let element">{{element.Destino}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Estatus">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                            <td mat-cell *matCellDef="let element">{{element.Estatus}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Options" stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                            <td mat-cell *matCellDef="let row">
+
+                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon>keyboard_arrow_down</mat-icon>
                   </button>
-            </td>
-        </ng-container>
+                                <mat-menu #menu="matMenu">
+                                    <!--  -->
+                                    <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                                <mat-icon>edit</mat-icon>
+                                            </button>
+                                    <!--  -->
+                                    <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
+                                                <mat-icon>visibility</mat-icon>
+                                            </button> -->
+                                    <!--  -->
+                                    <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
+                                    <button title="Enviar Correo" mat-icon-button class="btn btn-dark" (click)="email()">
+                                                <mat-icon>alternate_email</mat-icon>
+                                              </button> -->
+                                    <!--  -->
+                                    <!-- <button title="Eliminar" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
+                                                    <mat-icon>delete_outline</mat-icon>
+                                                </button> -->
+                                </mat-menu>
+                            </td>
+                        </ng-container>
 
-    </table>
-    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
-    </mat-paginator>
+                        <!-- DETALLES ORDEN CARGA -->
+                        <ng-container matColumnDef="expandedDetail">
+                            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                                <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="element.detalleOrdenCarga.length > 0" (click)="expandedElement = 0">
+
+                                    <table width="100%">
+                                        <tr>
+                                            <th> #Tarima </th>
+                                            <th> QR </th>
+                                            <th> Clave Producto </th>
+                                            <th> Producto </th>
+                                            <th> Sacos </th>
+                                            <th> Lote </th>
+                                        </tr>
+                                        <tr *ngFor="let detalle of element.detalleOrdenCarga">
+                                            <td> {{detalle.IdTarima2}} </td>
+                                            <td> {{detalle.QR}} </td>
+                                            <td> {{detalle.ClaveProducto}} </td>
+                                            <td> {{detalle.Producto}} </td>
+                                            <td> {{ detalle.Sacos1}} </td>
+                                            <td> {{ detalle.Lote}} </td>
+                                            <!-- <div *ngIf="element.Moneda == 'MXN'">
+                                                <td> {{ detalle.PrecioUnitario | currency}} </td>
+                                            </div>
+                                            <div *ngIf="element.Moneda == 'USD'">
+                                                <td> {{ detalle.PrecioUnitarioDlls | currency}} </td>
+                                            </div> -->
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <!-- DETALLES ORDEN CARGA -->
+
+                    </table>
+                    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+            </div>
+            <!-- <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Pedido</button> -->
+        </div>
+    </div>
 </div>
+
+
+<!-- <div class="modal fade bs-example-modal-lg show" id="cargando">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <button id="cerrarmodal" type="button" [hidden]="true" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+            <app-email [foliop]="folioparam" [idp]="idparam"></app-email>
+
+
+        </div>
+    </div> -->
+<!-- <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+    </ngx-loading> -->
+<!-- </div> -->
