@@ -399,7 +399,8 @@ import { AddCotizacionComponent } from './ventas/cotizaciones-ventas/add-cotizac
         ReportesModalComponent,
         DetalleNotaCreditoComponent,
         CotizacionComponent,
-        EmailComponent
+        EmailComponent,
+        FacturaComponent
     ]
 })
 export class PagesModule { }
