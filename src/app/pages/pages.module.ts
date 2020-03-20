@@ -126,7 +126,7 @@ import { ImageUploadModule } from 'angular2-image-upload';
 import { NgxQRCodeModule } from 'ngx-qrcode2'; 
 import { NgxLoadingModule } from 'ngx-loading';
 import { QRCodeModule } from "angularx-qrcode";
-import {NgxDocViewerModule} from 'ngx-doc-viewer'
+import {NgxDocViewerModule} from 'ngx-doc-viewer';
 
 
 // Importacion Angular Material
@@ -183,6 +183,8 @@ import { CotizacionComponent } from '../components/cotizacion/cotizacion.compone
 import { AddCotizacionComponent } from './ventas/cotizaciones-ventas/add-cotizacion/add-cotizacion.component';
 import { PrepararComponent } from './almacen/pedidosalmacen/ordencargadetalle/preparar/preparar.component';
 import { CargarComponent } from './almacen/pedidosalmacen/ordencargadetalle/cargar/cargar.component';
+import { OrdenCargaComponent } from '../components/almacen/orden-carga/orden-carga.component';
+import { OrdenSalidaComponent } from '../components/almacen/orden-salida/orden-salida.component';
 
 
 
@@ -317,7 +319,9 @@ import { CargarComponent } from './almacen/pedidosalmacen/ordencargadetalle/carg
         CotizacionComponent,
         AddCotizacionComponent,
         PrepararComponent,
-        CargarComponent
+        CargarComponent,
+        OrdenCargaComponent,
+        OrdenSalidaComponent,
         
     
     ],
@@ -403,7 +407,10 @@ import { CargarComponent } from './almacen/pedidosalmacen/ordencargadetalle/carg
         ReportesModalComponent,
         DetalleNotaCreditoComponent,
         CotizacionComponent,
-        EmailComponent
+        EmailComponent,
+        OrdenCargaComponent,
+        OrdenSalidaComponent,
+        FacturaComponent
     ]
 })
 export class PagesModule { }
