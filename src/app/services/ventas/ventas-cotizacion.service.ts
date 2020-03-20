@@ -9,6 +9,9 @@ import { Producto } from 'src/app/Models/catalogos/productos-model';
 import { DetallePedido } from 'src/app/Models/Pedidos/detallePedido-model';
 import { Pedido } from 'src/app/Models/Pedidos/pedido-model';
 import { pedidoMaster } from 'src/app/Models/Pedidos/pedido-master';
+import { DetalleCotizacion } from 'src/app/Models/ventas/detalleCotizacion-model';
+import { cotizacionMaster } from 'src/app/Models/ventas/cotizacion-master';
+import { ClienteDireccion } from 'src/app/Models/cliente-direccion/clienteDireccion-model';
 
 const httpOptions2 = {
 
@@ -36,29 +39,29 @@ const httpOptions2 = {
     constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
 
     formt: any;
-    formData= new Cliente();
-    formProd= new Producto();
-    // formDataDP= new DetallePedido();
+    formData = new Cliente();
+    formProd = new Producto();
+    formDataDP = new DetalleCotizacion();
     formDataCotizacion = new Cotizacion();
-    // master = new Array<pedidoMaster>();
+    master = new Array<cotizacionMaster>();
     Moneda: string;
     IdCotizacion: number;
     IdCliente : number;
     readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
     
 
-    updateVentasPedido(pedido: any) {
-      return this.http.put(this.APIUrl + '/Pedido', pedido);
-    }
+    // updateVentasPedido(pedido: any) {
+    //   return this.http.put(this.APIUrl + '/Pedido', pedido);
+    // }
+    //get Direcciones en base a ID CLIENTE
+    getDireccionesCliente(id: number): Observable<ClienteDireccion[]> {
+    return this.http.get<ClienteDireccion[]>(this.APIUrl + '/Pedido/DireccionCliente/' + id);
+    } 
 
     GetCliente(id:number): Observable <Cliente[]>{
       return this.http.get<any>(this.APIUrl + '/Cliente/id/' + id);
     }
-
-    getCotizaciones(): Observable<Cotizacion[]>{
-        return this.http.get<any>(this.APIUrl + '/Cotizaciones');
-    }
-
+    
     getDepDropDownValues(): Observable<any> {
       return this.http.get<Cliente[]>(this.APIUrl + '/cliente');
     }
@@ -66,28 +69,82 @@ const httpOptions2 = {
       return this.http.get<Cliente[]>(this.APIUrl + '/producto');
     }
     //Get Unidades De Medida
-  unidadMedida(): Observable<any>{
-    let rootURLUM = "/api/v3/catalogo/ClaveUnidad";
-    return this.http.get(rootURLUM,httpOptions2);
+    unidadMedida(): Observable<any>{
+      let rootURLUM = "/api/v3/catalogo/ClaveUnidad";
+      return this.http.get(rootURLUM,httpOptions2);
+    }
+    //get Direcciones en base a ID CLIENTE
+ getDireccionID(id: number): Observable<ClienteDireccion[]> {
+  return this.http.get<ClienteDireccion[]>(this.APIUrl + '/Pedido/DireccionID/' + id);
+    }
+
+    getCotizacionId(id: number): Observable <Cotizacion[]>{
+      return this.http.get<Cotizacion[]>(this.APIUrl + '/Cotizacion/CotizacionId/' + id);
+    }
+
+    GetProductoDetalleCotizacion(claveProducto:string, Id:number): Observable<any>{
+      return this.http.get<any>(this.APIUrl + '/Cotizacion/ProductoDetalleProducto/' + claveProducto + '/'+ Id)
+    }
+
+    //Get Ultimo pedido
+    getUltimaCotizacion(): Observable <any>{
+    return this.http.get<any>(this.APIUrl + '/Cotizacion/UltimaCotizacion');
+    }
+
+    OnEditDetalleCotizacion(dp: DetalleCotizacion){
+      return this.http.put(this.APIUrl + '/Cotizacion/EditDetallecotizacion', dp)
+    }
+
+    onDeleteDetalleCotizacion(id: number){
+      return this.http.delete(this.APIUrl + '/Cotizacion/DeleteDetalleCotizacion/' + id);
+    }
+
+    //Get Detalle Cotizacion Por ID
+  GetDetalleCotizacionId(id:number): Observable<any>{
+    return this.http.get<DetalleCotizacion[]>(this.APIUrl + '/Cotizacion/DetalleCotizacionesId/' + id)
+  }
+  
+  GetSumaImporte(Id:number): Observable<any>{
+    return this.http.get<any>(this.APIUrl + '/Cotizacion/SumaImporte/' + Id)
   }
 
-  //Obtener Vendedores
-  GetVendedor(): Observable<any>{
-    return this.http.get<any>(this.APIUrl + '/Cotizaciones/Vendedor')
+  addDetalleCotizacion(detalle: DetalleCotizacion){
+    return this.http.post(this.APIUrl + '/Cotizacion/InsertDetalleCotizacion', detalle );
   }
 
 
+  GetFolio(): Observable<any>{
+    return this.http.get<any>(this.APIUrl + '/Cotizacion/Folio')
+  }
+  
+  //Eliminar ALL Detalle Pedido
+  onDeleteAllDetalleCotizacion(id: number){
+    return this.http.delete(this.APIUrl + '/Cotizacion/DeleteAllDetalleCotizacion/' + id);
+  }
+
+
+  
+    //Obtener Vendedores
+    GetVendedor(): Observable<any>{
+      return this.http.get<any>(this.APIUrl + '/Cotizacion/Vendedor')
+    }
+    
+    
+    getCotizaciones(): Observable<any[]>{
+      return this.http.get<any>(this.APIUrl + '/Cotizaciones');
+    }
+    
     /////////////////////////////////////////////////
     onDeleteCotizacion(id: number){
-        return this.http.delete(this.APIUrl + '/Cotizaciones/BorrarCotizacion/' + id);
+        return this.http.delete(this.APIUrl + '/Cotizacion/BorrarCotizacion/' + id);
     }
 
     onEditCotizacion(ct : Cotizacion){
-        return this.http.put(this.APIUrl + '/Cotizacion', ct)
+        return this.http.put(this.APIUrl + '/Cotizaciones', ct)
     }
 
     addCotizacion(cotizacion: Cotizacion){
-        return this.http.post(this.APIUrl + '/Cotizacion', cotizacion)
+        return this.http.post(this.APIUrl + '/Cotizaciones', cotizacion)
     }
     
     private _listeners = new Subject<any>(); 

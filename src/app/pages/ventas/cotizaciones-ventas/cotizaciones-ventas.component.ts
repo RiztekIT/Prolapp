@@ -12,6 +12,7 @@ import { VentasCotizacionService } from '../../../services/ventas/ventas-cotizac
 import { DetalleCotizacion } from "../../../Models/ventas/detalleCotizacion-model";
 import { Cotizacion } from '../../../Models/ventas/cotizacion-model';
 import { cotizacionMaster } from '../../../Models/ventas/cotizacion-master';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cotizaciones-ventas',
@@ -41,6 +42,7 @@ export class CotizacionesVentasComponent implements OnInit {
     this.refreshCotizacionesList();
   }
 
+  IdCotizacion: any;
   
   MasterDetalle = new Array<cotizacionMaster>();
 
@@ -61,23 +63,25 @@ export class CotizacionesVentasComponent implements OnInit {
     // this.service.getPedidoList().subscribe(data => {
     this.service.getCotizaciones().subscribe(data => {
       console.log(data);
-      // for (let i = 0; i <= data.length - 1; i++) {
-      //   if (data[i].Estatus == 'Creada') {
+      for (let i = 0; i <= data.length - 1; i++) {
+        if (data[i].Estatus == 'Creada') {
           // console.log(data[i]);
           // console.log('ELIMINAR ESTE PEDIDO');
           // console.log(i + 1);
-        //   this.service.onDelete(data[i].IdPedido).subscribe(res => {
-        //     this.refreshPedidoList();
-        //   });
-        // }
-        // this.service.master[i] = data[i]
-        // this.service.master[i].DetallePedido = [];
-        // this.service.getDetallePedidoId(data[i].IdPedido).subscribe(res => {
-        //   for (let l = 0; l <= res.length - 1; l++) {
-        //     this.service.master[i].DetallePedido.push(res[l]);
-        //   }
-        // });
-      // }
+          this.service.onDeleteCotizacion(data[i].IdCotizacion).subscribe(res => {
+            console.log(data[i].IdCotizacion);
+            this.refreshCotizacionesList();
+          });
+        }
+        this.service.master[i] = data[i]
+        this.service.master[i].DetalleCotizacion = [];
+        this.service.GetDetalleCotizacionId(data[i].IdCotizacion).subscribe(res => {
+          // console.log(res); 
+          for (let l = 0; l <= res.length - 1; l++) {
+            this.service.master[i].DetalleCotizacion.push(res[l]);
+          }
+        });
+      }
 
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
@@ -89,7 +93,7 @@ export class CotizacionesVentasComponent implements OnInit {
 
   applyFilter(filtervalue: string) {
     this.listData.filterPredicate = (data, filter: string) => {
-      return data.Nombre.toString().toLowerCase().includes(filter) || data.IdPedido.toString().includes(filter);
+      return data.Nombre.toString().toLowerCase().includes(filter) || data.IdCotizacion.toString().includes(filter);
     };
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
 
@@ -144,9 +148,131 @@ email(){
         },1000)
   }
 
+  
   onAdd(){
-    this.router.navigate(['/cotizacionesVentasAdd'])
+
+    this.ObtenerFolio();
+    // this.router.navigate(['/cotizacionesVentasAdd'])
   }
+
+
+  public CotizacionBlanco: Cotizacion = 
+  {
+IdCotizacion: 0,
+IdCliente: 0,
+Nombre: "",
+RFC: "",
+Subtotal: 0,
+Total: 0,
+Descuento: 0,
+SubtotalDlls: 0,
+TotalDlls: 0,
+DescuentoDlls: 0,
+Observaciones: "",
+Vendedor: 0,
+Moneda: "MXN",
+FechaDeExpedicion: new Date(),
+Flete: "Sucursal",
+Folio: 0,
+Telefono: 0,
+Correo:"",
+IdDireccion: 0,
+Estatus: "Creada", 
+  }
+
+
+  ObtenerFolio() {
+    this.service.GetFolio().subscribe(data => {
+      console.log(data[0].Folio);
+      let folio = data[0].Folio;
+      if (folio == "") {
+        folio = 1;
+      } else {
+        folio = +folio + 1;
+      }
+      console.log(folio);
+      this.CotizacionBlanco.Folio = folio.toString();
+      console.log(this.CotizacionBlanco);
+      //Agregar el nuevo pedido. NECESITA ESTAR DENTRO DEL SUBSCRIBEEEEEEEE :(
+      this.service.addCotizacion(this.CotizacionBlanco).subscribe(res => {
+        console.log(res);
+        //Obtener el pedido que se acaba de generar
+        this.ObtenerUltimoPedido();
+      });
+    });
+  }
+
+  ObtenerUltimoPedido() {
+    this.service.getUltimaCotizacion().subscribe(res => {
+      console.log('NUEVO IDCOTIZACION------');
+      console.log(res[0]);
+      console.log('NUEVO IDCOTIZACION------');
+      this.IdCotizacion = res[0].IdCotizacion;
+      // console.log(this.IdPedido);
+      localStorage.setItem('IdCotizacion', this.IdCotizacion.toString());
+      this.router.navigate(['/cotizacionesVentasAdd']);
+    })
+  }
+
+  onEdit(cotizacion: Cotizacion) {
+
+    this.service.formDataCotizacion = cotizacion;
+    this.service.IdCliente = cotizacion.IdCliente;
+    let Id = cotizacion.IdCotizacion;
+    localStorage.setItem('IdCotizacion', Id.toString());
+    this.router.navigate(['/cotizacionesVentasAdd']);
+  }
+
+  onDelete(cotizacion: Cotizacion) {
+
+    Swal.fire({
+      title: '¿Segur@ de Borrar Cotizacion  ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        
+          this.service.GetDetalleCotizacionId(cotizacion.IdCotizacion).subscribe(data => {
+            console.log(data);
+            if (data.length > 0) {
+              console.log('Si hay valores');
+              for (let i = 0; i <= data.length - 1; i++) {
+                // this.SumarStock(data[i].Cantidad, data[i].ClaveProducto, data[i].IdDetallePedido);
+                this.DeleteCotizacionDetalleCotizacion(cotizacion);
+              }
+            } else {
+              console.log('No hay valores');
+              this.DeleteCotizacionDetalleCotizacion(cotizacion);
+            }
+          })
+
+          Swal.fire({
+            title: 'Borrado',
+            icon: 'success',
+            timer: 1000,
+            showCancelButton: false,
+            showConfirmButton: false
+          });
+      }
+    })
+
+  }
+
+  DeleteCotizacionDetalleCotizacion(cotizacion: Cotizacion) {
+
+    this.service.onDeleteAllDetalleCotizacion(cotizacion.IdCotizacion).subscribe(res => {
+      this.service.onDeleteCotizacion(cotizacion.IdCotizacion).subscribe(res => {
+        this.refreshCotizacionesList();
+      });
+    });
+
+  }
+
+  
   
 
 }
