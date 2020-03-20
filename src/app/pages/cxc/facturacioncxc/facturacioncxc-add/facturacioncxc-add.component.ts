@@ -1208,8 +1208,8 @@ CFDISumatoria(){
             '' + this.numfact + '',
             'success'
           )
-
-          this.dxml2(this.numfact, this.service.formData.Folio);
+          this.resetForm();
+          // this.dxml2(this.numfact, this.service.formData.Folio);
         });
         this.estatusfact = 'Factura Creada ' + data.invoice_uid;
         this.servicefolios.updateFolios().subscribe(data => {
