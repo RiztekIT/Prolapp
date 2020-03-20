@@ -126,7 +126,7 @@ import { ImageUploadModule } from 'angular2-image-upload';
 import { NgxQRCodeModule } from 'ngx-qrcode2'; 
 import { NgxLoadingModule } from 'ngx-loading';
 import { QRCodeModule } from "angularx-qrcode";
-import {NgxDocViewerModule} from 'ngx-doc-viewer'
+import {NgxDocViewerModule} from 'ngx-doc-viewer';
 
 
 // Importacion Angular Material
@@ -410,6 +410,7 @@ import { OrdenSalidaComponent } from '../components/almacen/orden-salida/orden-s
         EmailComponent,
         OrdenCargaComponent,
         OrdenSalidaComponent,
+        FacturaComponent
     ]
 })
 export class PagesModule { }

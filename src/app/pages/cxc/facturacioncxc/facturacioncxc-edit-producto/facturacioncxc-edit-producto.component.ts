@@ -339,7 +339,7 @@ if (diasemana == 6 || diasemana == 0){
     this.service.updateDetalleFactura(this.service.formDataDF).subscribe(res => {
       Swal.fire({
         icon: 'success',
-        title: 'Concepto Actualizado'
+        title: 'Producto Actualizado'
       })
       
     }

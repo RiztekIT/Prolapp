@@ -258,7 +258,7 @@
 
                 <mat-divider></mat-divider>
                 <br>
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-4"></div>
                     <div class="col-4">
                         <button class="btn btn-lg" mat-raised-button (click)="onAddProducto()"><i
@@ -267,19 +267,24 @@
                     <div class="col-4"></div>
                 </div>
 
-                <!-- <mat-card style="text-align: right;" class="mat-elevation-z0">
-                    <mat-form-field>
-                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-                    </mat-form-field>
-                </mat-card> -->
                 <hr>
-                <br>
+                <br> -->
                 <!-- <div class="card-body"> -->
                 <div id="div2" class="form-material mat-elevation-z5">
                     <div class="card card-header">
-                        <h3 class="bolder blacktxt text-center">
-                            Productos
-                        </h3>
+                        <div class="row">
+                            <div class="col-4">
+                                <h3 class="bolder blacktxt text-center">
+                                    Productos
+                                </h3>
+                            </div>
+                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <button color="primary" class="btn btn-lg" mat-raised-button (click)="onAddProducto()"><i
+                                        class="mdi mdi-plus btn-lg"></i>Agregar Producto</button>
+                            </div>
+                        </div>
+
                     </div>
 
                     <!-- <div class="mat-elevation-z8"> -->
@@ -772,13 +777,10 @@
 
 <!-- Aqui va el PDF -->
 
-<div class="modal fade bs-example-modal-lg show" id="add-new-event">
+<!-- <div class="modal fade bs-example-modal-lg show" id="add-new-event">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <!-- <div class="modal-header">
-                <h4 class="modal-title">Factura</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div> -->
+         
 
             <app-factura #factura [xmlparametros]="xmlparam"></app-factura>
 
@@ -788,7 +790,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- cargando -->
 <ng-template #customTemplate>

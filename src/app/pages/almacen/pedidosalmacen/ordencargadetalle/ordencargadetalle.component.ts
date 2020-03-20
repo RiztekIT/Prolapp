@@ -69,9 +69,11 @@ IdOrdenCarga: number;
       Estatus: "Preparada"
     }
 
-    this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
-      this.service.formData.Estatus = "Preparada"
-    })
+    this.router.navigate(['/ordenCargaPreparar']);
+
+    // this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
+    //   this.service.formData.Estatus = "Preparada"
+    // })
 
   }
   cambiarEstatusC(){
@@ -81,9 +83,9 @@ IdOrdenCarga: number;
       Estatus: "Cargada"
     }
 
-    this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
-      this.service.formData.Estatus = "Cargada"
-    })
+    // this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
+    //   this.service.formData.Estatus = "Cargada"
+    // })
     
   }
   cambiarEstatusE(){
@@ -93,9 +95,9 @@ IdOrdenCarga: number;
       Estatus: "Enviada"
     }
 
-    this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
-      this.service.formData.Estatus = "Enviada"
-    })
+    // this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
+    //   this.service.formData.Estatus = "Enviada"
+    // })
   }
   cambiarEstatusT(){
 
@@ -104,9 +106,9 @@ IdOrdenCarga: number;
       Estatus: "Terminada"
     }
 
-    this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
-      this.service.formData.Estatus = "Terminada"
-    })
+    // this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
+    //   this.service.formData.Estatus = "Terminada"
+    // })
     
   }
 

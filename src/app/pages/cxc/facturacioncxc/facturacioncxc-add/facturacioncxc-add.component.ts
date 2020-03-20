@@ -29,6 +29,7 @@ import { TipoCambioService } from 'src/app/services/tipo-cambio.service';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import { DetalleNotaCredito } from 'src/app/Models/nota-credito/detalleNotaCredito-model';
 import { NotaCreditoMaster } from 'src/app/Models/nota-credito/notaCreditoMaster-model';
+import { FacturaComponent } from 'src/app/components/factura/factura.component';
 
 /* Headers para el envio de la factura */
 const httpOptions = {
@@ -846,7 +847,7 @@ CFDISumatoria(){
 
       }
       );
-
+      this.SaldoSumatoria();
     });
 
   }
@@ -1207,8 +1208,8 @@ CFDISumatoria(){
             '' + this.numfact + '',
             'success'
           )
-
-          this.dxml2(this.numfact, this.service.formData.Folio);
+          this.resetForm();
+          // this.dxml2(this.numfact, this.service.formData.Folio);
         });
         this.estatusfact = 'Factura Creada ' + data.invoice_uid;
         this.servicefolios.updateFolios().subscribe(data => {
@@ -1263,20 +1264,29 @@ CFDISumatoria(){
   /* Metodo que guarda el xml en el localstorage para usarlo en el pdf */
   dxml2(id: string, folio: string) {
     // this.proceso = 'xml';
-    let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
-    this.enviarfact.xml(id).subscribe(data => {
-      localStorage.removeItem('xml' + folio)
-      localStorage.setItem('xml' + folio, data)
-      const blob = new Blob([data as BlobPart], { type: 'application/xml' });
-      this.fileUrl = window.URL.createObjectURL(blob);
-      this.a.href = this.fileUrl;
-      this.a.target = '_blank';
-      this.a.download = 'F-' + folio + '.xml';
-      document.body.appendChild(this.a);
-      this.xmlparam = folio
-      this.resetForm();
-      return this.fileUrl;
-    });
+    // let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
+    // this.enviarfact.xml(id).subscribe(data => {
+    //   localStorage.removeItem('xml' + folio)
+    //   localStorage.setItem('xml' + folio, data)
+    //   const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+    //   this.fileUrl = window.URL.createObjectURL(blob);
+    //   this.a.href = this.fileUrl;
+    //   this.a.target = '_blank';
+    //   this.a.download = 'F-' + folio + '.xml';
+    //   document.body.appendChild(this.a);
+    //   this.xmlparam = folio
+    //   this.resetForm();
+    //   return this.fileUrl;
+    // });
+
+const dialogConfig = new MatDialogConfig();
+      // dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = false;
+      dialogConfig.width = "100%";
+      dialogConfig.height = "80%"
+      
+     
+      this.dialog.open(FacturaComponent, dialogConfig);
   }
 
   /* Metodo que crear el PDF */
