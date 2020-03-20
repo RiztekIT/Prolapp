@@ -17,7 +17,7 @@ export class PrepararComponent implements OnInit {
   }
 
   //Informacion que vendra del QR
-  QRdata: DetalleTarima;
+  QRdata = new DetalleTarima();   
 
   regresar(){
     this.router.navigate(['/ordencargadetalle']);
@@ -28,7 +28,6 @@ export class PrepararComponent implements OnInit {
 this.QRdata.ClaveProducto = 'LPD002';
 this.QRdata.Lote = '123'
 this.QRdata.Sacos = '70';
-
 
 
   }
