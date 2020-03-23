@@ -126,7 +126,7 @@ import { ImageUploadModule } from 'angular2-image-upload';
 import { NgxQRCodeModule } from 'ngx-qrcode2'; 
 import { NgxLoadingModule } from 'ngx-loading';
 import { QRCodeModule } from "angularx-qrcode";
-import {NgxDocViewerModule} from 'ngx-doc-viewer'
+import {NgxDocViewerModule} from 'ngx-doc-viewer';
 
 
 // Importacion Angular Material
@@ -181,6 +181,10 @@ import { FacturacionComponent } from '../components/cxc/graficas/facturacion/fac
 import { CotizacionesVentasComponent } from './ventas/cotizaciones-ventas/cotizaciones-ventas.component';
 import { CotizacionComponent } from '../components/cotizacion/cotizacion.component';
 import { AddCotizacionComponent } from './ventas/cotizaciones-ventas/add-cotizacion/add-cotizacion.component';
+import { PrepararComponent } from './almacen/pedidosalmacen/ordencargadetalle/preparar/preparar.component';
+import { CargarComponent } from './almacen/pedidosalmacen/ordencargadetalle/cargar/cargar.component';
+import { OrdenCargaComponent } from '../components/almacen/orden-carga/orden-carga.component';
+import { OrdenSalidaComponent } from '../components/almacen/orden-salida/orden-salida.component';
 
 
 
@@ -313,7 +317,11 @@ import { AddCotizacionComponent } from './ventas/cotizaciones-ventas/add-cotizac
         FacturacionComponent,
         CotizacionesVentasComponent,
         CotizacionComponent,
-        AddCotizacionComponent
+        AddCotizacionComponent,
+        PrepararComponent,
+        CargarComponent,
+        OrdenCargaComponent,
+        OrdenSalidaComponent,
         
     
     ],
@@ -399,7 +407,11 @@ import { AddCotizacionComponent } from './ventas/cotizaciones-ventas/add-cotizac
         ReportesModalComponent,
         DetalleNotaCreditoComponent,
         CotizacionComponent,
-        EmailComponent
+        EmailComponent,
+        FacturaComponent,
+        ComppagoComponent,
+        OrdenCargaComponent,
+        OrdenSalidaComponent,
     ]
 })
 export class PagesModule { }

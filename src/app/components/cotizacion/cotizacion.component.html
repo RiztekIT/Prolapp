@@ -34,28 +34,18 @@
                         </p>
                         <p class="blacktxt bolder nomarginbottomP"> Calle: J. Matias de Anchondo No. 207, Col. San Felipe, CP: 31203, Chihuahua, Chihuahua, México
                         </p>
-                        <div class="container row">
-                            <div class="col-8 pl-0">
-                                <p class="blacktxt bolder nomarginbottomP">Lugar de Expedicion: <br>
-                                    <span>Calle: <i>Jose Matias de Anchondo, CP. 31203</i></span>
-                                </p>
-                            </div>
-                            <div class="col-4 mt-2">
-                                <p class="blacktxt bolder nomarginbottomP">Orden de Compra:
-                                    <span> service.formt.OrdenDeCompra </span>
-                                </p>
-                            </div>
-                        </div>
+                        <p class="blacktxt bolder nomarginbottomP">Lugar de Expedicion: <br>
+                            <span>Calle: <i>Jose Matias de Anchondo, CP. 31203</i></span>
+                        </p>
                     </div>
                     <!-- factura folio -->
                     <div class="col-lg-3 col-md-3 col-sm-3 col-3">
                         <div class="card card-outline-inverse borderContainer">
                             <div class="card-body">
                                 <h5 class="text-center bolder blacktxt">Cotizacion No. : </h5>
-                                <!-- cambia POR FAVOR QUE ESTA COSA NO SE ACOMODA -->
                                 <div>
-                                    <h5 class="text-center bolder blacktxt"> service.formt.Folio </h5>
-                                    <h5 class="text-center bolder blacktxt"> service.formt.FechaDeEntrega | date: 'yyyy-MM-dd' </h5>
+                                    <h5 class="text-center bolder blacktxt"> {{service.formrow.Folio}} </h5>
+                                    <h5 class="text-center bolder blacktxt"> {{service.formrow.FechaDeExpedicion | date: 'yyyy-MM-dd'}} </h5>
                                 </div>
                             </div>
                         </div>
@@ -73,15 +63,18 @@
                         <div class="col-lg-12 col-md-12 col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <p class="nomarginbottomP"><span class="blacktxt bolder"> Cliente: ( service.formt.IdCliente )
-                              service.formt.Nombre </span></p>
+                                    <p class="nomarginbottomP"><span class="blacktxt bolder"> Cliente: ( {{service.formrow.IdCliente}} )
+                              {{service.formrow.Nombre}} </span></p>
                                     <p class="nomarginbottomP blacktxt">
-                                        <span class=" bolder">Calle:</span> service.formt.Calle No.service.formt.NumeroExterior service.formt.NumeroInterior, CP. service.formt.CP, service.formt.Colonia , service.formt.Ciudad , service.formt.Estado
-                                        <span class="bolder"> RFC: </span> service.formt.RFC
+                                        <span class=" bolder">Calle:</span> {{service.formrow.Calle}} No.service.formrow.NumeroExterior service.formrow.NumeroInterior, CP. service.formrow.CP, service.formrow.Colonia , service.formrow.Ciudad , service.formrow.Estado
+                                        <span class="bolder"> RFC: </span> {{service.formrow.RFC}}
                                     </p>
-                                    <p class="bolder blacktxt nomarginbottomP">Vendedor: <span> service.formt.Vendedor </span></p>
-                                    <p class="bolder blacktxt nomarginbottomP">Enviar a: <span> service.formt.LugarDeEntrega </span>
+                                    <p class="bolder blacktxt nomarginbottomP">Telefono: <span style="font-weight: 200;"> {{service.formrow.Telefono}} </span>
                                     </p>
+                                    <p class="bolder blacktxt nomarginbottomP">Vendedor: <span style="font-weight: 200;"> {{service.formrow.Vendedor}} </span></p>
+                                    <p class="bolder blacktxt nomarginbottomP">Flete: <span style="font-weight: 200;"> {{service.formrow.Flete}} </span></p>
+                                    <p class="bolder blacktxt nomarginbottomP">Moneda: <span style="font-weight: 200;"> {{service.formrow.Moneda}} </span></p>
+
                                 </div>
                             </div>
                         </div>
@@ -111,7 +104,7 @@
                                                             <th class="bolder blacktxt text-center">Clave</th>
                                                         </div>
                                                         <div class="col-3">
-                                                            <th class="bolder blacktxt text-center">SubTotal</th>
+                                                            <th class="bolder blacktxt text-center">Producto</th>
                                                         </div>
                                                         <div class="col-3">
                                                             <th class="bolder blacktxt text-center">Total</th>
@@ -132,16 +125,16 @@
 
                                                     <div class="row">
                                                         <div class="col-1">
-                                                            <th class=" textoBodyAcomodo acomodoForzadoTh"> conceptos.Cantidad </th>
+                                                            <th class=" textoBodyAcomodo acomodoForzadoTh"> {{conceptos.Cantidad}} </th>
                                                         </div>
                                                         <div class="col-2">
-                                                            <th class=" textoBodyAcomodo acomodoForzadoTh2"> conceptos.Unidad </th>
+                                                            <th class=" textoBodyAcomodo acomodoForzadoTh2"> {{conceptos.Unidad}} </th>
                                                         </div>
                                                         <div class="col-3">
-                                                            <th class=" textoBodyAcomodo acomodoForzadoTh3"> conceptos.ClaveProducto </th>
+                                                            <th class=" textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.ClaveProducto}} </th>
                                                         </div>
                                                         <div class="col-6">
-                                                            <th class=" textoBodyAcomodo"> conceptos.Producto
+                                                            <th class=" textoBodyAcomodo"> {{conceptos.Producto}} </th>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -155,8 +148,8 @@
                     </div>
                     <!-- Observaciones -->
                     <div>
-                        <p class="bolder nomarginbottomP">OBSERVACIONES DE PEDIDO:</p>
-                        <p> service.formt.Observaciones </p>
+                        <p class="bolder nomarginbottomP">OBSERVACIONES DE COTIZACIONES:</p>
+                        <p> {{service.formrow.Observaciones}} </p>
                     </div>
                 </div>
 

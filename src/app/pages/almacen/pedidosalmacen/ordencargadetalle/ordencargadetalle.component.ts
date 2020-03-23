@@ -5,7 +5,7 @@ import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar } fr
 import { MatSort } from '@angular/material/sort';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import { CurrencyPipe } from '@angular/common';
-import { OrdenCargaService } from 'src/app/services/almacen/orden-carga.service';
+import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
 import Swal from 'sweetalert2';
 
 // import { pedidoMaster } from 'src/app/Models/Pedidos/pedido-master';
@@ -18,12 +18,13 @@ import Swal from 'sweetalert2';
 })
 export class OrdencargadetalleComponent implements OnInit {
 
+IdOrdenCarga: number;
   listData: MatTableDataSource<any>;
-  displayedColumns: string [] = ['IdDetalleOrdenCarga', 'IdOrdenCarga', 'IdProveedor', 'Proveedor', 'PO', 'IdProducto', 'Lote', 'Sacos', 'PesoSaco', 'FechaMFG', 'FechaCaducidad', 'Bodega', 'USDA','Shipper', 'Pedimiento'];
+  displayedColumns: string [] = ['IdTarima', 'QR', 'ClaveProducto', 'Producto', 'Sacos', 'Lote', 'Proveedor', 'PO', 'FechaMFG', 'FechaCaducidad', 'Shipper', 'USDA', 'Pedimento'];
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   
-  formDatae: any;
+  DataOrdenCarga: any;
   
   constructor(public router: Router, private dialog: MatDialog, public service: OrdenCargaService) { 
 
@@ -31,29 +32,27 @@ export class OrdencargadetalleComponent implements OnInit {
       console.log(m);
       this.refreshDetalleOrdenCargaList();
       });
-
-
-      
-
-      
   }
 
-  refreshForm(){
-
-    this.formDatae = JSON.parse(localStorage.getItem('FormDataOrdenCarga'));
-
-    console.log(this.formDatae.IdOrdenCarga);
-
-  }
-
+  
+  
   ngOnInit() {
+    this.IdOrdenCarga = +(localStorage.getItem('IdOrdenCarga'));
     this.refreshForm();
     this.refreshDetalleOrdenCargaList();
   }
 
+
+          refreshForm(){
+            this.DataOrdenCarga = this.service.getOrdenCargaID(this.IdOrdenCarga).subscribe( data=> {
+                  console.log(data);
+                  this.service.formData = data[0];
+            });
+          }
+
   refreshDetalleOrdenCargaList(){
-    // this.refreshForm();
-    this.service.getDetalleOrdenCargaList(this.formDatae.IdOrdenCarga).subscribe(data => {
+    this.service.getOrdenCargaIDList(this.IdOrdenCarga).subscribe(data => {
+      console.log(data);
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
@@ -62,59 +61,59 @@ export class OrdencargadetalleComponent implements OnInit {
 
   cambiarEstatusP(){
 
-    this.refreshForm();
-    console.log(this.formDatae.IdOrdenCarga);
+    console.log(this.service.formData.IdOrdenCarga);
 
 
     let estatus = {
-      IdOrdenCarga: this.formDatae.IdOrdenCarga,
+      IdOrdenCarga: this.service.formData.IdOrdenCarga,
       Estatus: "Preparada"
     }
 
-    this.service.updatedetalleOrdenCargaEstatus(estatus).subscribe(data =>{
-      this.formDatae.Estatus = "Preparada"
-    })
+    this.router.navigate(['/ordenCargaPreparar']);
+
+    // this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
+    //   this.service.formData.Estatus = "Preparada"
+    // })
 
   }
   cambiarEstatusC(){
 
-    this.refreshForm();
-
     let estatus = {
-      IdOrdenCarga: this.formDatae.IdOrdenCarga,
+      IdOrdenCarga: this.service.formData.IdOrdenCarga,
       Estatus: "Cargada"
     }
 
-    this.service.updatedetalleOrdenCargaEstatus(estatus).subscribe(data =>{
-      this.formDatae.Estatus = "Cargada"
-    })
+    // this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
+    //   this.service.formData.Estatus = "Cargada"
+    // })
     
   }
   cambiarEstatusE(){
-    this.refreshForm();
+   
     let estatus = {
-      IdOrdenCarga: this.formDatae.IdOrdenCarga,
+      IdOrdenCarga: this.service.formData.IdOrdenCarga,
       Estatus: "Enviada"
     }
 
-    this.service.updatedetalleOrdenCargaEstatus(estatus).subscribe(data =>{
-      this.formDatae.Estatus = "Enviada"
-    })
+    // this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
+    //   this.service.formData.Estatus = "Enviada"
+    // })
   }
   cambiarEstatusT(){
-    this.refreshForm();
+
     let estatus = {
-      IdOrdenCarga: this.formDatae.IdOrdenCarga,
+      IdOrdenCarga: this.service.formData.IdOrdenCarga,
       Estatus: "Terminada"
     }
 
-    this.service.updatedetalleOrdenCargaEstatus(estatus).subscribe(data =>{
-      this.formDatae.Estatus = "Terminada"
-    })
+    // this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
+    //   this.service.formData.Estatus = "Terminada"
+    // })
     
   }
 
   regresar(){
+    localStorage.removeItem('FormDataOrdenCarga');
     this.router.navigate(['/pedidosalmacen']);
   }
 

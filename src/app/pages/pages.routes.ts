@@ -73,6 +73,8 @@ import { UnidadMedidaComponent } from './administracion/unidad-medida/unidad-med
 import { NotaCreditocxcComponent } from './cxc/nota-creditocxc/nota-creditocxc.component';
 import { CotizacionesVentasComponent } from '../pages/ventas/cotizaciones-ventas/cotizaciones-ventas.component';
 import { AddCotizacionComponent } from './ventas/cotizaciones-ventas/add-cotizacion/add-cotizacion.component';
+import { PrepararComponent } from './almacen/pedidosalmacen/ordencargadetalle/preparar/preparar.component';
+import { CargarComponent } from './almacen/pedidosalmacen/ordencargadetalle/cargar/cargar.component';
 
 
 
@@ -157,6 +159,8 @@ const pagesRoutes: Routes = [
                 { path: 'notasCreditocxc', component: NotaCreditocxcComponent },
                 { path: 'cotizacionesVentas', component: CotizacionesVentasComponent },
                 { path: 'cotizacionesVentasAdd', component: AddCotizacionComponent },
+                { path: 'ordenCargaPreparar', component: PrepararComponent },
+                { path: 'ordenCargaCargar', component: CargarComponent },
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },

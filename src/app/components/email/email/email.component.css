@@ -6,3 +6,11 @@
 ::ng-deep .mat-form-field {
     width: 100% !important;
 }
+
+.mat-dialog-content {
+    max-height: 90vh;
+}
+
+::ng-deep .swal2-container {
+    z-index: 2000;
+}

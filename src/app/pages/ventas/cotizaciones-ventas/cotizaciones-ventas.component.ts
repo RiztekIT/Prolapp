@@ -9,7 +9,7 @@ import * as html2pdf from 'html2pdf.js';
 import { MessageService } from 'src/app/services/message.service';
 import { EmailComponent } from 'src/app/components/email/email/email.component';
 import { VentasCotizacionService } from '../../../services/ventas/ventas-cotizacion.service';
-import { DetalleCotizacion } from "../../../Models/ventas/detalleCotizacion-model";
+import { DetalleCotizacion } from '../../../Models/ventas/detalleCotizacion-model';
 import { Cotizacion } from '../../../Models/ventas/cotizacion-model';
 import { cotizacionMaster } from '../../../Models/ventas/cotizacion-master';
 import Swal from 'sweetalert2';
@@ -29,7 +29,7 @@ import Swal from 'sweetalert2';
 })
 export class CotizacionesVentasComponent implements OnInit {
 
-  constructor(public router: Router, private dialog: MatDialog, public _MessageService: MessageService, private service: VentasCotizacionService) {
+  constructor( public router: Router, private dialog: MatDialog, public _MessageService: MessageService, private service: VentasCotizacionService) {
 
     this.service.listen().subscribe((m: any) => {
       console.log(m);
@@ -100,9 +100,10 @@ export class CotizacionesVentasComponent implements OnInit {
   }
 
 
-  openrep(){
+  openrep(row){
 
-    console.log();
+    console.log(row);
+    this.service.formrow = row;
     // console.log();
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;

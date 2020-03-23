@@ -74,10 +74,11 @@
                             <div class="col-lg-6">
                                 <!--               -------------------------------------------------------                                       -->
 
+
                                 <label class="input-group-text text-info">Fecha Pago</label>
 
                                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                                <input readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="FechaPago" #FechaPago="ngModel" [(ngModel)]="service.formData.FechaPago">
+                                <input readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="FechaPago" #FechaPago="ngModel" [(ngModel)]="service.formData.FechaPago" (dateChange)="changeMat($event)">
                                 <mat-datepicker #picker1></mat-datepicker>
 
                                 <div class="text-left text-danger" *ngIf="FechaPago.invalid && FechaPago.touched">
@@ -102,9 +103,25 @@
                                     Favor de Ingresar Cuenta
                                 </div>
 
-                                <label class="input-group-text text-info">Tipo de Cambio</label>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label class="input-group-text text-info">Tipo de Cambio</label>
 
-                                <input readonly type="string" class="form-control" name="Cuenta" #Cuenta="ngModel" [(ngModel)]="service.formData.TipoCambio">
+                                        <input readonly type="string" class="form-control" name="Cuenta" #Cuenta="ngModel" [ngModel]="service.tipoCambioPago | currency">
+                                    </div>
+                                    <!--  <div class="col-6">
+                                        <label class="input-group-text text-info">Moneda</label>
+
+                                        <select class="form-control" name="Moneda" #Moneda="ngModel" (change)="MonedaSelected($event)" [(ngModel)]="service.formData.Moneda" required>
+                                                <option [ngValue]="null" selected disabled>Seleccionar Moneda</option>
+                                                <option *ngFor="let dl of listMoneda" [ngValue]="dl.Moneda"> {{dl.Moneda}} </option>
+                                            </select>
+                                    </div> -->
+                                </div>
+
+                                <!-- <label class="input-group-text text-info">Tipo de Cambio</label> -->
+
+                                <!-- <input readonly type="string" class="form-control" name="Cuenta" #Cuenta="ngModel" [(ngModel)]="service.formData.TipoCambio"> -->
                                 <!--               -------------------------------------------------------                                       -->
 
                             </div>
@@ -133,10 +150,11 @@
                                     <input type="text" placeholder="Seleccionar Folio" aria-label="Number" [formControl]="myControl2" matInput [matAutocomplete]="autoFolio" (blur)="onBlurFolio()" [(ngModel)]="service.formDataPagoCFDI.IdFactura">
                                     <mat-autocomplete #autoFolio="matAutocomplete">
                                         <mat-option *ngFor="let option of filteredOptions2 | async; let i = index" [value]="option.Folio" (onSelectionChange)="onSelectionChange2(option, $event, i)">
-                                            {{option.Folio}} {{option.Total | currency}}
+                                            {{option.Folio}} {{option.Total | currency}} / {{option.TotalDlls | currency}}
                                         </mat-option>
                                     </mat-autocomplete>
                                 </mat-form-field>
+
 
                                 <!------------------------------------------------------------------------------------------>
                                 <br>
@@ -156,21 +174,22 @@
                             <!-- Inicio Contenedor de la Derecha -->
                             <div class="col-lg-6">
 
+
                                 <label class="input-group-text text-info">Total</label>
 
-                                <input type="number" class="form-control" name="Total" readonly [(ngModel)]="TotalF">
+                                <input class="form-control" name="Total" readonly [(ngModel)]="TotalFFormat">
 
                                 <!--               -------------------------------------------------------                                       -->
                                 <br>
                                 <label class="input-group-text text-info">Saldo Anterior</label>
 
-                                <input readonly type="number" class="form-control" name="SaldoF" [(ngModel)]="SaldoF">
+                                <input readonly class="form-control" name="SaldoF" [(ngModel)]="SaldoFFormat">
 
                                 <!--               -------------------------------------------------------                                       -->
                                 <br>
                                 <label class="input-group-text text-info">Nuevo Saldo</label>
 
-                                <input readonly type="number" class="form-control" name="SaldoNuevo" [(ngModel)]="SaldoNuevo">
+                                <input readonly class="form-control" name="SaldoNuevo" [(ngModel)]="SaldoNuevoFormat">
 
                                 <!--               -------------------------------------------------------                                       -->
                                 <br>
@@ -332,6 +351,7 @@
                                         <br>
 
                                         <button [disabled]="Saldo > 0" class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="onTimbrar()"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
+                                        <button [disabled]="Saldo > 0" class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="crearJSON()"><i class="mdi mdi-send btn-lg"></i>JSON</button>
 
                                         <!-- <br> -->
                                         <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button> -->
@@ -398,26 +418,23 @@
     </ngx-loading>
 </div>
 
-<div class="modal fade bs-example-modal-lg show" id="add-new-event">
+<!-- <div class="modal fade bs-example-modal-lg show" id="add-new-event">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <!-- <div class="modal-header">
-                    <h4 class="modal-title">Factura</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div> -->
+        
 
             <app-complemento-pago></app-complemento-pago>
 
             <div class="modal-footer">
                 <button id="cerrarmodal" type="button" class="btn btn-secondary waves-effect" [hidden]="true" data-dismiss="modal">Cerrar</button>
-                <!-- <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick(service.formData.Folio)">Descargar</button> -->
+                
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 
-<div class="modal fade bs-example-modal-lg show" id="modalcorreo">
+<!-- <div class="modal fade bs-example-modal-lg show" id="modalcorreo">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -429,4 +446,4 @@
     </div>
     <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
     </ngx-loading>
-</div>
+</div> -->

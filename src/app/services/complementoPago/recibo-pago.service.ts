@@ -12,6 +12,7 @@ import { Cliente } from 'src/app/Models/catalogos/clientes-model';
 export class ReciboPagoService {
 
   formt: any;
+  tipoCambioPago;
 
   formData = new ReciboPago();
   row;
@@ -84,6 +85,9 @@ export class ReciboPagoService {
   //Obtener Folio de las Facturas que Correspondan con el IdCliente, Esten Timbradas, Tengan saldo pendiente
   getFacturaPagoCFDI(id: number, folio: number): Observable<any[]> {
     return this.http.get<any[]>(this.APIUrl + '/ReciboPago/FacturaPagoCFDI/' + id + '/'+ folio);
+  }
+  getFacturaPagoCFDIDlls(id: number, folio: number): Observable<any[]> {
+    return this.http.get<any[]>(this.APIUrl + '/ReciboPago/FacturaPagoCFDIDlls/' + id + '/'+ folio);
   }
   //Obtener Lista de PagosCFDI en base a un ReciboPago
   getReciboPagosCFDI(id: number): Observable<PagoCFDI[]> {
