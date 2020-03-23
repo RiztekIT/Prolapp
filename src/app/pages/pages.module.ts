@@ -183,6 +183,8 @@ import { CotizacionComponent } from '../components/cotizacion/cotizacion.compone
 import { AddCotizacionComponent } from './ventas/cotizaciones-ventas/add-cotizacion/add-cotizacion.component';
 import { PrepararComponent } from './almacen/pedidosalmacen/ordencargadetalle/preparar/preparar.component';
 import { CargarComponent } from './almacen/pedidosalmacen/ordencargadetalle/cargar/cargar.component';
+import { OrdenCargaComponent } from '../components/almacen/orden-carga/orden-carga.component';
+import { OrdenSalidaComponent } from '../components/almacen/orden-salida/orden-salida.component';
 
 
 
@@ -317,7 +319,9 @@ import { CargarComponent } from './almacen/pedidosalmacen/ordencargadetalle/carg
         CotizacionComponent,
         AddCotizacionComponent,
         PrepararComponent,
-        CargarComponent
+        CargarComponent,
+        OrdenCargaComponent,
+        OrdenSalidaComponent,
         
     
     ],
@@ -405,7 +409,9 @@ import { CargarComponent } from './almacen/pedidosalmacen/ordencargadetalle/carg
         CotizacionComponent,
         EmailComponent,
         FacturaComponent,
-        ComppagoComponent
+        ComppagoComponent,
+        OrdenCargaComponent,
+        OrdenSalidaComponent,
     ]
 })
 export class PagesModule { }

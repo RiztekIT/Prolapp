@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import {MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar} from '@angular/material';
+import {MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar, MatDialogConfig} from '@angular/material';
 import {MatSort} from '@angular/material/sort';
 import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
 import { OrdenCarga } from '../../../Models/almacen/OrdenCarga/ordencarga.model';
@@ -11,7 +11,7 @@ import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import Swal from 'sweetalert2';
 import { DetalleOrdenCarga } from '../../../Models/almacen/OrdenCarga/detalleOrdenCarga-model';
 import { Observable, Subscriber } from 'rxjs';
-
+import { OrdenCargaComponent } from 'src/app/components/almacen/orden-carga/orden-carga.component';
 
 @Component({
   selector: 'app-pedidosalmacen',
@@ -93,5 +93,20 @@ console.log(data);
   applyFilter(filtervalue: string){  
     this.listData.filter= filtervalue.trim().toLocaleLowerCase();  
   }
+
+///////////////////////////////// MODALES /////////////////////////////////////////////
+openrep(row){
+
+  console.log(row);
+  // this.service.formrow = row;
+  // console.log();
+  const dialogConfig = new MatDialogConfig();
+  dialogConfig.disableClose = false;
+  dialogConfig.autoFocus = true;
+  dialogConfig.width="70%";
+  this.dialog.open(OrdenCargaComponent, dialogConfig);
+}
+
+/////////////////////////////// Fin Modales //////////////////////////////////////////
 
 }

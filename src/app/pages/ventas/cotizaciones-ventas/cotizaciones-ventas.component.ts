@@ -9,7 +9,7 @@ import * as html2pdf from 'html2pdf.js';
 import { MessageService } from 'src/app/services/message.service';
 import { EmailComponent } from 'src/app/components/email/email/email.component';
 import { VentasCotizacionService } from '../../../services/ventas/ventas-cotizacion.service';
-import { DetalleCotizacion } from "../../../Models/ventas/detalleCotizacion-model";
+import { DetalleCotizacion } from '../../../Models/ventas/detalleCotizacion-model';
 import { Cotizacion } from '../../../Models/ventas/cotizacion-model';
 import { cotizacionMaster } from '../../../Models/ventas/cotizacion-master';
 
@@ -28,7 +28,7 @@ import { cotizacionMaster } from '../../../Models/ventas/cotizacion-master';
 })
 export class CotizacionesVentasComponent implements OnInit {
 
-  constructor(public router: Router, private dialog: MatDialog, public _MessageService: MessageService, private service: VentasCotizacionService) {
+  constructor( private dialog: MatDialog, public _MessageService: MessageService, private service: VentasCotizacionService) {
 
     this.service.listen().subscribe((m: any) => {
       console.log(m);
@@ -41,7 +41,6 @@ export class CotizacionesVentasComponent implements OnInit {
     this.refreshCotizacionesList();
   }
 
-  
   MasterDetalle = new Array<cotizacionMaster>();
 
   listData: MatTableDataSource<any>;
@@ -61,23 +60,15 @@ export class CotizacionesVentasComponent implements OnInit {
     // this.service.getPedidoList().subscribe(data => {
     this.service.getCotizaciones().subscribe(data => {
       console.log(data);
-      // for (let i = 0; i <= data.length - 1; i++) {
-      //   if (data[i].Estatus == 'Creada') {
-          // console.log(data[i]);
-          // console.log('ELIMINAR ESTE PEDIDO');
-          // console.log(i + 1);
-        //   this.service.onDelete(data[i].IdPedido).subscribe(res => {
-        //     this.refreshPedidoList();
-        //   });
-        // }
-        // this.service.master[i] = data[i]
-        // this.service.master[i].DetallePedido = [];
-        // this.service.getDetallePedidoId(data[i].IdPedido).subscribe(res => {
-        //   for (let l = 0; l <= res.length - 1; l++) {
-        //     this.service.master[i].DetallePedido.push(res[l]);
-        //   }
-        // });
-      // }
+      for (let i = 0; i <= data.length - 1; i++) {
+        this.service.master[i] = data[i]
+        this.service.master[i].DetalleCotizacion = [];
+        this.service.getDetalleCotizacionesId(data[i].IdCotizacion).subscribe(res => {
+          for (let l = 0; l <= res.length - 1; l++) {
+            this.service.master[i].DetalleCotizacion.push(res[l]);
+          }
+        });
+      }
 
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
@@ -96,9 +87,10 @@ export class CotizacionesVentasComponent implements OnInit {
   }
 
 
-  openrep(){
+  openrep(row){
 
-    console.log();
+    console.log(row);
+    this.service.formrow = row;
     // console.log();
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
@@ -142,10 +134,6 @@ email(){
             console.log(this.statusparam);
           })
         },1000)
-  }
-
-  onAdd(){
-    this.router.navigate(['/cotizacionesVentasAdd'])
   }
   
 
