@@ -326,6 +326,7 @@ export class AddCotizacionComponent implements OnInit {
   //DropDown de Vendedores
   dropdownRefreshVendedor() {
     this.service.GetVendedor().subscribe(data => {
+      console.log(data);
       for (let i = 0; i < data.length; i++) {
         let vendedor = data[i];
         this.listVendedores.push(vendedor);
@@ -338,13 +339,15 @@ export class AddCotizacionComponent implements OnInit {
       }
     });
   }
+
   //Filtro Dropdown Vendedores
   private _filterVendedor(value: any): any[] {
-    // console.log(value);
+    console.log(value);
     const filterValue = value.toString().toLowerCase();
     return this.listVendedores.filter(option =>
       option.Nombre.toLowerCase().includes(filterValue) || option.IdVendedor.toString().includes(filterValue));
   }
+
   onSelectionChangeVendedor(options: Vendedor, event: any) {
     if (event.isUserInput) {
       this.NombreVendedor = options.Nombre;

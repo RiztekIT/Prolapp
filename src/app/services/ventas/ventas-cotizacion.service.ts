@@ -121,7 +121,7 @@ export class VentasCotizacionService {
   
   //Eliminar ALL Detalle Pedido
   onDeleteAllDetalleCotizacion(id: number){
-    return this.http.delete(this.APIUrl + '/Cotizacion/DeleteAllDetalleCotizacion/' + id);
+    return this.http.delete(this.APIUrl + '/Cotizaciones/DeleteAllDetalleCotizacion/' + id);
   }
 
     /////////////////////////////////////////////////
@@ -143,7 +143,7 @@ export class VentasCotizacionService {
 
   //Obtener Vendedores
   GetVendedor(): Observable<any> {
-    return this.http.get<any>(this.APIUrl + '/Cotizaciones/Vendedor')
+    return this.http.get<any>(this.APIUrl + '/Cotizacion/Vendedor')
   }
 
     //Get Detalles cotizaciones en base a IdCotizacion
@@ -154,7 +154,7 @@ export class VentasCotizacionService {
   /////////////////////////////////////////////////
 
   onEditCotizacion(ct: Cotizacion) {
-    return this.http.put(this.APIUrl + '/Cotizacion', ct)
+    return this.http.put(this.APIUrl + '/Cotizaciones', ct)
   }
 
 
