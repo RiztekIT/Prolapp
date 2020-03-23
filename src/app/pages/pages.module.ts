@@ -404,7 +404,8 @@ import { CargarComponent } from './almacen/pedidosalmacen/ordencargadetalle/carg
         DetalleNotaCreditoComponent,
         CotizacionComponent,
         EmailComponent,
-        FacturaComponent
+        FacturaComponent,
+        ComppagoComponent
     ]
 })
 export class PagesModule { }

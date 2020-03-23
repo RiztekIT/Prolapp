@@ -6,7 +6,7 @@ import { ReciboPago } from '../../../../Models/ComplementoPago/recibopago';
 import { Observable, empty, timer } from 'rxjs';
 import { Cliente } from 'src/app/Models/catalogos/clientes-model';
 //Importacion Angular Material Tables and Sort
-import { MatTableDataSource, MatSort } from '@angular/material';
+import { MatTableDataSource, MatSort, NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 //Importacion para utilizar Pipe de DropDown Clientes
 import { map, startWith } from 'rxjs/operators';
 import { Factura } from 'src/app/Models/facturacioncxc/factura-model';
@@ -26,12 +26,63 @@ import { FacturaService } from 'src/app/services/facturacioncxc/factura.service'
 import * as html2pdf from 'html2pdf.js';
 import { ComplementoPagoComponent } from 'src/app/components/complemento-pago/complemento-pago.component';
 import { MessageService } from 'src/app/services/message.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 // import { MatDialogRef } from '@angular/material';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    // 'Bmx-Token': '19b7c18b48291872e37dbfd89ee7e4ea26743de4777741f90b79059950c34544',
+    'Bmx-Token': '410db2afc39118c6917da0778cf81b6becdf5614dabd10b92815768bc0a87e26',
+    'Access-Control-Allow-Origin': 'http://localhost:4200',
+    'Content-Type': 'application/json;charset=UTF-8',
+    'Access-Control-Allow-Headers': 'Bmx-Token, Accept, Accept-Encoding, Content-Type, Origin',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS'
+
+  })
+  
+}
+
+/* Constante y variables para la transformacion de los meses en los datetimepicker */
+// const months =['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DIC'];
+const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+export class AppDateAdapter extends NativeDateAdapter {
+  format(date: Date, displayFormat: Object): string {
+    if (displayFormat === 'input') {
+      const day = date.getDate();
+      const month = date.getMonth();
+      const year = date.getFullYear();
+      return `${day}/${months[month]}/${year}`
+    }
+    return date.toDateString();
+  }
+}
+
+export const APP_DATE_FORMATS =
+{
+  parse: {
+    dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
+  },
+  display: {
+    dateInput: 'input',
+    monthYearLabel: { year: 'numeric', month: 'numeric' },
+    dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+    monthYearA11yLabel: { year: 'numeric', month: 'long' },
+  }
+};
+/* ----------------------------------------- */
 
 @Component({
   selector: 'app-recibo-pago',
   templateUrl: './recibo-pago.component.html',
-  styleUrls: ['./recibo-pago.component.css']
+  styleUrls: ['./recibo-pago.component.css'],
+  providers: [
+    {
+      provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+      provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+  ]
 })
 export class ReciboPagoComponent implements OnInit {
   folioparam;
@@ -40,10 +91,12 @@ export class ReciboPagoComponent implements OnInit {
   json1 = new pagoTimbre();
   conceptos : any;
   fecha2;
+  fechaapi;
   index;
   Cdolar: string;
   public loading = false;
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
+  FechaPago;
 
   fileUrl;
   a = document.createElement('a');
@@ -51,7 +104,7 @@ export class ReciboPagoComponent implements OnInit {
 
   
 
-  constructor(public _MessageService: MessageService,public service: ReciboPagoService, private router: Router, private dialog: MatDialog,private tipoCambio:TipoCambioService,private currencyPipe: CurrencyPipe,private servicetimbrado:EnviarfacturaService, public servicefolios: FoliosService, public servicefactura: FacturaService, ) {
+  constructor(public _MessageService: MessageService,public service: ReciboPagoService, private router: Router, private dialog: MatDialog,private tipoCambio:TipoCambioService,private currencyPipe: CurrencyPipe,private servicetimbrado:EnviarfacturaService, public servicefolios: FoliosService, public servicefactura: FacturaService,private http : HttpClient ) {
     this.service.listen().subscribe((m:any)=>{
       // console.log(m);
       this.refreshPagoCFDITList();
@@ -73,7 +126,7 @@ export class ReciboPagoComponent implements OnInit {
     this.dropdownRefresh();
     this.refreshPagoCFDITList();
     this.setpagoTimbre();
-    this.tCambio();
+    // this.tCambio();
     
     // this.tipoDeCambio();
 
@@ -82,6 +135,8 @@ export class ReciboPagoComponent implements OnInit {
     
 
   }
+
+  
 
   tCambio(){
     this.tipoCambio.TC();
@@ -127,12 +182,16 @@ export class ReciboPagoComponent implements OnInit {
   CantidadF: number;
   //Total 
   TotalF: number;
+  TotalFFormat;
   //Saldo que tiene Cierto Recibo de Pago
   Saldo: number;
+  
   //Saldo Restante de la Factura
   SaldoF: number;
+  SaldoFFormat
   //Nuevo Saldo Factura
   SaldoNuevo: number;
+  SaldoNuevoFormat;
   //Nombre del Cliente a Facturar 
   ClienteNombre: any;
   //Id De la Factua
@@ -145,6 +204,8 @@ export class ReciboPagoComponent implements OnInit {
    CFDI: any;
    //Total de la Factura
    Total: any;
+
+   Moneda: string;
 
 
 
@@ -164,7 +225,7 @@ export class ReciboPagoComponent implements OnInit {
     // console.log(this.IdReciboPago);
     this.service.getReciboId(this.IdReciboPago).subscribe(res => {
       this.service.formData = res[0];
-      this.tCambio();
+      // this.tCambio();
       console.log(this.service.formData);
       this.Estatus = this.service.formData.Estatus;
 
@@ -192,6 +253,9 @@ export class ReciboPagoComponent implements OnInit {
     this.TotalF = 0;
     this.SaldoF = 0;
     this.SaldoNuevo = 0;
+    this.TotalFFormat = 0;
+    this.SaldoFFormat = 0;
+    this.SaldoNuevoFormat = 0;
   }
 
   //Lista Clientes
@@ -264,6 +328,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
       if (data) {
         for (let i = 0; i < data.length; i++) {
 
+
+          if (data[i].Moneda==='MXN'){
           this.service.getFacturaPagoCFDI(idCliente,data[i].Folio).subscribe((data2) => {
             console.log(data2);
             if (data2.length>0){
@@ -278,6 +344,23 @@ console.log('NUEVO CFDIIIIIIIIIII');
               this.options2.push(facturaPagoCFDI)
             }
           })
+        }
+        if (data[i].Moneda==='USD'){
+          this.service.getFacturaPagoCFDIDlls(idCliente,data[i].Folio).subscribe((data2) => {
+            console.log(data2);
+            if (data2.length>0){
+              console.log(this.IdReciboPago); 
+              console.log(data2[0].IdReciboPago); 
+              if (this.IdReciboPago!=data2[0].IdReciboPago){
+                this.options2.push(data2[0])
+              }
+            }else{
+              let facturaPagoCFDI = data[i];
+              this.FacturaList.push(facturaPagoCFDI);
+              this.options2.push(facturaPagoCFDI)
+            }
+          })
+        }
 
 
           console.log(this.options2);
@@ -383,23 +466,43 @@ console.log('NUEVO CFDIIIIIIIIIII');
   }
 
   onSelectionChange2(factura: any, event: any, i: any) {
+    console.log(factura);
+    console.log(event);
+    console.log(i);
     if (event.isUserInput) {
     //  console.log(event);
     //  console.log(i);
     //   console.log(factura);
     this.index = i;
+    
       if( factura.IdCliente == 0 || !factura.IdCliente){
         console.log('PAGOS CFDI EXISTENTES');
         this.TotalF = +factura.Total;
         this.SaldoF = +factura.Saldo;
         this.IdFactura = factura.Id;
       }else{
+        if(factura.Moneda==='MXN'){
         console.log('NUEVO PAGO CFDI');
         this.TotalF = +factura.Total;
         this.SaldoF = +factura.Total;
         this.IdFactura = factura.Id;
+      }
+      if(factura.Moneda==='USD'){
+        console.log('NUEVO PAGO CFDI');
+        this.TotalF = +factura.TotalDlls;
+        this.SaldoF = +factura.TotalDlls;
+        this.IdFactura = factura.Id;
+      }
 
       }
+   
+
+    console.log(this.TotalF);
+
+    this.TotalFFormat = this.currencyPipe.transform(this.TotalF)
+    console.log(this.TotalFFormat);
+    this.SaldoFFormat = this.currencyPipe.transform(this.SaldoF)
+
     
     }
   }
@@ -442,8 +545,21 @@ console.log('NUEVO CFDIIIIIIIIIII');
       this.CantidadF = 0;
     }
     this.SaldoNuevo = this.SaldoF - this.CantidadF;
+    this.SaldoFFormat = this.currencyPipe.transform(this.SaldoNuevo);
   }
 
+
+   /* list Metodo Pago */
+   public listMoneda: Array<Object> = [
+    { Moneda: 'MXN' },
+    { Moneda: 'USD' }
+  ];
+
+  MonedaSelected(event: any) {
+    this.Moneda = event.target.selectedOptions[0].text;
+    this.service.formData.Moneda = this.Moneda;
+    this.change(this.service.formData.FechaPago);
+  }
 
   //Forma Pago
   public listFP: Array<Object> = [
@@ -603,6 +719,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
   onSubmit() {
     this.service.formData.Cantidad = parseFloat(this.service.formData.Cantidad).toFixed(2);
     this.service.formData.Estatus = 'Guardada';
+    this.service.formData.TipoCambio = this.service.tipoCambioPago
     console.log(this.service.formData)
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
       this.Estatus = this.service.formData.Estatus;
@@ -672,7 +789,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
       relacionados.push({
       "IdDocumento": this.conceptos[i].UUID1,
       "MonedaDR" : this.conceptos[i].Moneda,
-      "TipoCambioDR" : parseFloat(this.Cdolar).toFixed(4),
+      "TipoCambioDR" : parseFloat(this.service.tipoCambioPago).toFixed(4),
       "MetodoDePagoDR" : "PPD",
       "NumParcialidad" : this.conceptos[i].NoParcialidad,
       "ImpSaldoAnt" : (parseFloat(this.conceptos[i].Saldo) + parseFloat(this.conceptos[i].Cantidad)).toFixed(2),
@@ -699,7 +816,9 @@ console.log('NUEVO CFDIIIIIIIIIII');
     });
 
     
-     console.log(relacionados);
+    //  console.log(relacionados);
+    console.clear();
+     console.log(JSON.stringify(this.json1));
     
   }
   
@@ -759,7 +878,7 @@ console.log(this.json1);
     document.getElementById('cerrarmodal').click();
     Swal.fire(
       'Error',
-      '' + data.message + '',
+      '' + data.message.message + '',
       'error'
     )
   }
@@ -769,11 +888,18 @@ console.log(this.json1);
 
   }
 
+  changeMat(evento){
+    this.service.formData.FechaPago = evento.target.value;
+    this.change(this.service.formData.FechaPago);
+  }
+
   change(date:any){
     //2020-02-26T07:00:00
+    console.log(date);
     const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
     const days = ['00','01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12','13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
     let dia;
+    let dia2;
     let mes;
     let año;
     let hora;
@@ -784,6 +910,7 @@ console.log(this.json1);
 
     
     dia = `${days[fecha.getDate()]}`;
+    dia2 = `${days[fecha.getDate()-1]}`;
     mes = `${months[fecha.getMonth()]}`;
     año = fecha.getFullYear();
     hora = fecha.getHours();
@@ -797,10 +924,31 @@ console.log(this.json1);
     this.fecha2 = año + '-' + mes + '-' + dia + 'T' + hora + ':' + min + ':' + seg
     console.log(fecha);
     console.log(this.fecha2);
+
+    this.fechaapi = año + '-' + mes + '-' + dia2
+
+    
+      console.log(this.fechaapi);
+      this.traerApi(this.fechaapi).subscribe(data =>{
+        let l;
+        console.log(data);
+        l = data.bmx.series[0].datos[0].dato;
+        console.log(l);
+        this.service.tipoCambioPago = parseFloat(l).toFixed(4);
+    
+        
+      })
     
     
     
     
+    
+  }
+
+  traerApi(fecha): Observable<any>{
+
+    return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/"+fecha+'/'+fecha, httpOptions)
+
   }
 
   dxml(uuid,id){

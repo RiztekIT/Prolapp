@@ -21,6 +21,7 @@ import { MessageService } from 'src/app/services/message.service';
 import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.service';
 import { EmailComponent } from 'src/app/components/email/email/email.component';
 import { FacturaComponent } from 'src/app/components/factura/factura.component';
+import { ComppagoComponent } from '../comppago/comppago/comppago.component';
 
 
 @Component({
@@ -111,6 +112,7 @@ export class FacturacioncxcComponent implements OnInit {
       this.service.formData = factura;      
       this.service.Cliente = factura.Nombre;
       this.servicerecibo.getFacturaPagoCFDI(factura.IdCliente,factura.Folio).subscribe((data2) => {
+        console.log(data2);
         if (data2.length>0){
           this.service.saldoF = data2[0].Saldo
         }else{
@@ -120,8 +122,12 @@ export class FacturacioncxcComponent implements OnInit {
             this.service.saldoF = factura.TotalDlls
           }
         }
+
+        const dialogConfig = new MatDialogConfig();      
+          dialogConfig.autoFocus = false;
+          dialogConfig.width = "80%";  
+          this.dialog.open(ComppagoComponent, dialogConfig); 
       })
-    document.getElementById('comppagobtn').click();
     
 
 
@@ -320,7 +326,7 @@ onExportClick(folio?:string) {
   const content: Element = document.getElementById('Factura-PDF');
   const option = {    
     margin: [.5,.5,.5,0],
-    filename: 'F-.pdf',
+    filename: 'F-'+folio+'.pdf',
     image: {type: 'jpeg', quality: 1},
     html2canvas: {scale: 2, logging: true, scrollY: -2, scrollX: -15},
     jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
@@ -336,7 +342,7 @@ onExportClick(folio?:string) {
  
 }
 
-/* Metodo para ver el pdf en el modal, primero descarga el xml */
+/* Metodo para ver el pdf en el modal,  */
 generar(id: string, folio:string,row) {
   console.log(row);
   localStorage.setItem('rowfact',JSON.stringify(row));
@@ -359,7 +365,8 @@ generar(id: string, folio:string,row) {
   const dialogConfig = new MatDialogConfig();
       // dialogConfig.disableClose = true;
       dialogConfig.autoFocus = false;
-      dialogConfig.width = "70%";
+      dialogConfig.width = "80%";
+      
      
       this.dialog.open(FacturaComponent, dialogConfig); 
   
@@ -384,23 +391,38 @@ xml(id: string, folio:string){
 }
 
 /* Metodo para descargar el pdf */
-pdf(id: string, folio:string){
-   this.xmlparam = '';
-   let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
-   this.enviarfact.xml(id).subscribe(data => {
-     const blob = new Blob([data as BlobPart], { type: 'application/xml' });
-     localStorage.removeItem('xml'+folio)
-     localStorage.setItem('xml'+folio,data)
-     this.xmlparam = folio;
-     this.fileUrl = window.URL.createObjectURL(blob);
-     this.a.href = this.fileUrl;
-     this.a.target = '_blank';
-     document.body.appendChild(this.a);
-     setTimeout(()=>{
-      this.onExportClick(folio);    
-     },1000)
-     return this.fileUrl;
-    });
+pdf(id: string, folio:string,row){
+  //  this.xmlparam = '';
+  //  let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
+  //  this.enviarfact.xml(id).subscribe(data => {
+  //    const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+  //    localStorage.removeItem('xml'+folio)
+  //    localStorage.setItem('xml'+folio,data)
+  //    this.xmlparam = folio;
+  //    this.fileUrl = window.URL.createObjectURL(blob);
+  //    this.a.href = this.fileUrl;
+  //    this.a.target = '_blank';
+  //    document.body.appendChild(this.a);
+  //    setTimeout(()=>{
+  //     this.onExportClick(folio);    
+  //    },1000)
+  //    return this.fileUrl;
+  //   });
+  localStorage.setItem('rowfact',JSON.stringify(row));
+  const dialogConfig = new MatDialogConfig();
+  dialogConfig.autoFocus = false;
+  dialogConfig.width = "80%";
+  
+ 
+  this.dialog.open(FacturaComponent, dialogConfig); 
+  
+  setTimeout(()=>{
+        this.onExportClick(folio);    
+        this.dialog.closeAll();
+        
+       },1000)
+
+       
 }
 
 
@@ -421,8 +443,16 @@ localStorage.setItem('rowfact',JSON.stringify(row));
     this.enviarfact.xml(id).subscribe(data => {
       localStorage.setItem('xml' + folio, data)
     })
-      this.xmlparam = folio;
-      // setTimeout(()=>{
+
+    const dialogConfig2 = new MatDialogConfig();
+    dialogConfig2.autoFocus = false;
+    dialogConfig2.width = "0%";    
+    let dialogFact = this.dialog.open(FacturaComponent, dialogConfig2); 
+    
+
+    setTimeout(()=>{
+
+      // this.xmlparam = folio;
         const content: Element = document.getElementById('Factura-PDF');
         const option = {
           margin: [0, 0, 0, 0],
@@ -434,21 +464,24 @@ localStorage.setItem('rowfact',JSON.stringify(row));
         html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
           localStorage.setItem('pdf'+folio, pdfAsString);
           this.statusparam=true;          
-          console.log(this.statusparam);
-         
+          console.log(this.statusparam);                
         })
-       
-      // },1000)
+        dialogFact.close()
+        
+      },1000)
+      
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = "70%";
+      // dialogConfig.width = "90%";
+      dialogConfig.height = "90%";
       dialogConfig.data = {
         foliop: folio,
         idp: id,
         status: true
       }
       this.dialog.open(EmailComponent, dialogConfig);
+      
 
 
  

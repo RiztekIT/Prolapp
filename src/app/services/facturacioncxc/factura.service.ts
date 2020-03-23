@@ -31,6 +31,7 @@ export class FacturaService {
    Moneda: string;
    Cliente;
    saldos = new Saldos();
+   tipoCambioPago;
 
    SaldoFacturaMXN: number;
    SaldoFacturaDLLS: number;

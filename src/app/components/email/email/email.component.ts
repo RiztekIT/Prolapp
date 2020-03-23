@@ -80,6 +80,8 @@ export class EmailComponent implements OnInit {
     // this.fileUrl = localStorage.getItem('pdf'+this.foliop); 
     // this.pdfstatus = true;  
     if (this.fileUrl){
+      console.log(this.fileUrl);
+      this.pdfstatus=true;
       clearInterval(this.Intevalo);
       this.leerDir();
     } 

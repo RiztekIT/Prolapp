@@ -2,11 +2,29 @@ import { Component, OnInit, Input, SimpleChanges, Output, EventEmitter } from '@
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
 import { EnviarfacturaService } from '../../../../services/facturacioncxc/enviarfactura.service';
 import { pagoTimbre } from 'src/app/Models/ComplementoPago/pagotimbre';
-import { NativeDateAdapter, MatDatepickerInputEvent, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { NativeDateAdapter, MatDatepickerInputEvent, DateAdapter, MAT_DATE_FORMATS, MatDialogRef } from '@angular/material';
 import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.service';
 import { ReciboPago } from 'src/app/Models/ComplementoPago/recibopago';
 import Swal from 'sweetalert2';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+import { CurrencyPipe } from '@angular/common';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    // 'Bmx-Token': '19b7c18b48291872e37dbfd89ee7e4ea26743de4777741f90b79059950c34544',
+    'Bmx-Token': '410db2afc39118c6917da0778cf81b6becdf5614dabd10b92815768bc0a87e26',
+    'Access-Control-Allow-Origin': 'http://localhost:4200',
+    'Content-Type': 'application/json;charset=UTF-8',
+    'Access-Control-Allow-Headers': 'Bmx-Token, Accept, Accept-Encoding, Content-Type, Origin',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS'
+
+  })
+}
+
+
 
 
 /* Constante y variables para la transformacion de los meses en los datetimepicker */
@@ -53,19 +71,30 @@ export const APP_DATE_FORMATS =
 })
 export class ComppagoComponent implements OnInit {
 
+  myFilter = (d: Date | null): boolean => {
+    const day = (d || new Date()).getDay();
+    // Prevent Saturday and Sunday from being selected.
+    return day !== 0 && day !== 6;
+  }
+
   @Input() foliop: any;
   @Input() idp: any;
   @Output() dateChange:EventEmitter< MatDatepickerInputEvent< any>>;
+
+  rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
 
   ClienteNombre: any;
   json1 = new pagoTimbre();
   FechaPago;
   fecha2;
+  fechaapi;
   cantidadPago;
+  cantidadPagoHtml;
   reciboPago = new ReciboPago();
   IdReciboPago: any;
   saldo;
   CantidadF: number;
+  SaldoFormato;
   public loading = false;
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
@@ -129,14 +158,22 @@ export class ComppagoComponent implements OnInit {
   ];
   
 
-  constructor(public service:FacturaService, private servicetimbrado:EnviarfacturaService, private servicepago: ReciboPagoService) { }
+  constructor(public service:FacturaService, private servicetimbrado:EnviarfacturaService, private servicepago: ReciboPagoService, private currencyPipe: CurrencyPipe, public dialogRef: MatDialogRef<ComppagoComponent>, private http : HttpClient) { }
 
 
   
 
   ngOnInit() {
     this.FechaPago = Date();
+    
+    this.SaldoFormato = this.currencyPipe.transform(this.service.saldoF);
+    console.log(this.service.saldoF);
+    console.log(this.SaldoFormato);
     this.setpagoTimbre();
+  }
+
+  onClose(){
+    this.dialogRef.close();
   }
 
   onChangeCantidadF(CantidadF: any) {
@@ -149,6 +186,12 @@ export class ComppagoComponent implements OnInit {
 
     elemHTML.value = this.CantidadF;
     // console.log(this.CantidadF);
+  }
+
+  formatoCantidad(evento){
+    console.clear();
+    console.log('formato',evento);
+     this.cantidadPagoHtml = this.currencyPipe.transform(evento.target.value)
   }
 
   //
@@ -169,7 +212,11 @@ export class ComppagoComponent implements OnInit {
     } else if (this.CantidadF <= 0) {
       this.CantidadF = 0;
       this.cantidadPago = this.CantidadF;
+    }else{
+      this.cantidadPago = +CantidadF;
     }
+
+    
     // this.SaldoNuevo = this.SaldoF - this.CantidadF;
   }
 
@@ -230,40 +277,42 @@ export class ComppagoComponent implements OnInit {
 
   crearJSON(){
     let datos : any = this.service.formData
+    
 
-    this.json1.Receptor.UID = datos.IdApi;
-    this.json1.TipoCfdi = 'pago';
-    this.json1.Conceptos.pop();
-    this.json1.Conceptos.push({
-      "ClaveProdServ" : "84111506",
-      "Cantidad" : "1",
-      "ClaveUnidad" : "ACT",
-      "Descripcion" : "Pago",
-      "ValorUnitario" : "0",
-      "Importe" : "0",
-      "Complemento":[{
-        "typeComplement" : "pagos",
-        "FechaPago" : this.fecha2,
-        "FormaDePagoP": this.service.formData.FormaDePago,
-        "MonedaP" : datos.Moneda,
-        "Monto" : this.cantidadPago,
-        "relacionados" : [{
-          "IdDocumento": datos.UUID,
-          "MonedaDR" : datos.Moneda,
-          "TipoCambioDR" : datos.TipoDeCambio,
-          "MetodoDePagoDR" : "PPD",
-          "NumParcialidad" : "1",
-          "ImpSaldoAnt" : parseFloat(this.service.saldoF).toFixed(2),
-          "ImpPagado": this.cantidadPago,
-          "ImpSaldoInsoluto": (parseFloat(this.service.saldoF) - parseFloat(this.cantidadPago)).toString()
-        }]
+  
+  this.json1.Receptor.UID = datos.IdApi;
+  this.json1.TipoCfdi = 'pago';
+  this.json1.Conceptos.pop();
+  this.json1.Conceptos.push({
+    "ClaveProdServ" : "84111506",
+    "Cantidad" : "1",
+    "ClaveUnidad" : "ACT",
+    "Descripcion" : "Pago",
+    "ValorUnitario" : "0",
+    "Importe" : "0",
+    "Complemento":[{
+      "typeComplement" : "pagos",
+      "FechaPago" : this.fecha2,
+      "FormaDePagoP": this.service.formData.FormaDePago,
+      "MonedaP" : "MXN",
+      "Monto" : parseFloat(this.cantidadPago).toFixed(2),
+      "relacionados" : [{
+        "IdDocumento": datos.UUID,
+        "MonedaDR" : datos.Moneda,
+        "TipoCambioDR" : this.service.tipoCambioPago,
+        "MetodoDePagoDR" : "PPD",
+        "NumParcialidad" : "1",
+        "ImpSaldoAnt" : parseFloat(this.service.saldoF).toFixed(2),
+        "ImpPagado": parseFloat(this.cantidadPago).toFixed(2),
+        "ImpSaldoInsoluto": (parseFloat(this.service.saldoF) - parseFloat(this.cantidadPago)).toString()
       }]
-    });
-    this.json1.UsoCFDI = "P01";
-    this.json1.Serie = "6390";
-    this.json1.Moneda = 'XXX';
+    }]
+  });
+  this.json1.UsoCFDI = "P01";
+  this.json1.Serie = "6390";
+  this.json1.Moneda = 'XXX';
+  console.log(this.json1);
 
-    console.log(this.json1);
     
   }
 
@@ -292,6 +341,7 @@ export class ComppagoComponent implements OnInit {
     const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
     const days = ['00','01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12','13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
     let dia;
+    let dia2;
     let mes;
     let año;
     let hora;
@@ -302,6 +352,7 @@ export class ComppagoComponent implements OnInit {
 
     
     dia = `${days[fecha.getDate()]}`;
+    dia2 = `${days[fecha.getDate()-1]}`;
     mes = `${months[fecha.getMonth()]}`;
     año = fecha.getFullYear();
     hora = fecha.getHours();
@@ -315,6 +366,25 @@ export class ComppagoComponent implements OnInit {
     this.fecha2 = año + '-' + mes + '-' + dia + 'T' + hora + ':' + min + ':' + seg
     console.log(fecha);
     console.log(this.fecha2);
+    
+    this.fechaapi = año + '-' + mes + '-' + dia2
+
+    if(this.service.formData.Moneda==='USD'){
+      console.log(this.fechaapi);
+      this.traerApi(this.fechaapi).subscribe(data =>{
+        let l;
+        console.log(data);
+        l = data.bmx.series[0].datos[0].dato;
+        console.log(l);
+        this.service.tipoCambioPago = parseFloat(l).toFixed(4);
+    
+        
+      })
+    }else{
+      this.service.tipoCambioPago = '0';
+    
+    }
+    
     
     
     
@@ -380,7 +450,7 @@ this.servicetimbrado.timbrarPago(JSON.stringify(this.json1)).subscribe(data=>{
       console.log(this.servicepago.formDataPagoCFDI);
         this.servicepago.addPagoCFDI(this.servicepago.formDataPagoCFDI).subscribe(res =>{
           this.loading = false;
-          document.getElementById('cerrarmodalpago').click();
+          this.dialogRef.close();
           Swal.fire(
             'Factura Creada',
             '' + this.service.formData.UUID + '',
@@ -407,6 +477,12 @@ this.servicetimbrado.timbrarPago(JSON.stringify(this.json1)).subscribe(data=>{
 })
 
 
+
+  }
+
+  traerApi(fecha): Observable<any>{
+
+    return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/"+fecha+'/'+fecha, httpOptions)
 
   }
 

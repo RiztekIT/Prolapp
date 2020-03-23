@@ -158,7 +158,7 @@
                                         <!-- descargar PDF -->
                                         <!-- <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button> -->
 
-                                        <button title="Descargar PDF" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada' || row.Estatus=='Pagada'" (click)="pdf(row.UUID,row.Folio)" mat-icon-button class="btn btn-dark">
+                                        <button title="Descargar PDF" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada' || row.Estatus=='Pagada'" (click)="pdf(row.UUID,row.Folio,row)" mat-icon-button class="btn btn-dark">
                       <mat-icon>picture_as_pdf</mat-icon>
 
                     </button>
@@ -172,10 +172,10 @@
                       <mat-icon>alternate_email</mat-icon>
                     </button>
                                         <!-- Pago -->
-                                        <button id="comppagobtn" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#comppago"></button>
+                                        <!--    <button id="comppagobtn" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#comppago"></button>
                                         <button title="Pagar" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="comppago(row)">
                       <mat-icon>attach_money</mat-icon>
-                    </button>
+                    </button> -->
                                         <!-- XML -->
                                         <!-- <button mat-icon-button class="btn btn-dark" (click)="onDelete(row.Id)">
                         <mat-icon>email</mat-icon>
@@ -282,7 +282,7 @@
 
 <!-- Modal de complemento de pago -->
 
-<div class="modal fade bs-example-modal-lg show" id="comppago">
+<!-- <div class="modal fade bs-example-modal-lg show" id="comppago">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -294,4 +294,4 @@
     </div>
     <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
     </ngx-loading>
-</div>
+</div> -->
