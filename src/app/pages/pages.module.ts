@@ -415,6 +415,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         ComppagoComponent,
         OrdenCargaComponent,
         OrdenSalidaComponent,
+        NotacreditoComponent
     ]
 })
 export class PagesModule { }

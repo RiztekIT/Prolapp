@@ -1,249 +1,251 @@
 <!-- <button class="btn btn-danger" color="warn" (click)="onClose()">
     <mat-icon>close</mat-icon>
 </button> -->
+<mat-dialog-content>
+    <div class="modal0-body">
+        <div class="d-flex justify-content-between m-2">
+            <!-- <h4>Privilegios</h4> -->
 
-<div class="modal0-body">
-    <div class="d-flex justify-content-between m-2">
-        <h4>Privilegios</h4>
-
-        <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
+            <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
         <mat-icon>close</mat-icon>
         </button>
-    </div>
-    <div class="container">
-        <div id="ComprobanteDePago-PDF">
-            <!-- TOP PAGE LOGO DESCRIPTION FACTURA -->
-            <div class="container">
-                <div class="row">
-                    <!-- logo -->
-                    <div class="col-1">
-                        <div class="card card-outline-inverse">
-
-                            <img src="../../../assets/images/prolacto.png" class="logo">
-
-                        </div>
-                    </div>
-                    <!-- descripcion -->
-                    <div class="col-8 mg-r">
-                        <h5 class="blacktxt text-center bolder"> PROLACTO INGREDIENTES S DE RL MI DE CV
-                        </h5>
-                        <p class="blacktxt bolder nomarginbottomP"><span class="bolder">R.F.C.:</span>PLA11011243A
-                        </p>
-                        <p class="blacktxt bolder nomarginbottomP"><span class="bolder">Regimen Fiscal:</span>(601) General de Ley Personas Morales
-                        </p>
-                        <p class="blacktxt bolder nomarginbottomP"><span class="bolder">Domicilio Fiscal:</span>J. Matias de Anchondo No. 207, Col. San Felipe, CP: 31203, Chihuahua, Chihuahua, México
-                        </p>
-                        <p class="blacktxt bolder nomarginbottomP"><span class="bolder">Expedido en:</span>Calle: Jose Matias de Anchondo No. 207, CP: 31203, México
-                        </p>
-                        <br>
-                        <div class="col-12">
-                            <p class="blacktxt bolder nomarginbottomP">Lugar de Expedicion: 31203.
-                                <span><i> </i></span>
-                            </p>
-                            <p class="blacktxt bolder nomarginbottomP">Cliente : <span><i>{{service.formt.Nombre}} <br> RFC: {{service.formt.RFC}}, ID: {{service.formt.IdCliente}},  Calle: {{service.formt.Calle}} No. {{service.formt.NumeroExterior}} {{service.formt.NumeroInterior}}, Col. {{service.formt.Colonia}}, CP: {{service.formt.CP}}, {{service.formt.Ciudad}}, {{service.formt.Estado}}</i></span>
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="col-3">
-                        <div class="card card-outline-inverse borderContainer">
-                            <div class="card-headerTR">
-                                <h5 class="m-b-0 text-white  text-center bolder">COMPROBANTE DE PAGOS</h5>
-                            </div>
-                            <div class="card-body ml-2">
-                                <p class="bolder nomarginbottomP">Comprobante Fiscal Digital: <span> {{service.formt.Tipo}} </span></p>
-                                <p class="bolder nomarginbottomP">Serie: <span>1658165</span></p>
-                                <p class="bolder nomarginbottomP">Folio: <span>684</span></p>
-                                <p class="bolder nomarginbottomP">Fecha: <span> {{service.formt.FechaExpedicion | slice:0:10}} </span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End TOP -->
-
-            <!-- facturado-lugar expedicion -->
-
-            <div class="container">
-                <!-- div facturado a -->
-                <div class="row">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <p class="nomarginbottomP bolder">Concepto: <span class="blacktxt bolder"> {{service.formt.FormaPago}} </span></p>
-                                        <p class="nomarginbottomP bolder">Documento: <span> {{service.formt.Referencia}} </span></p>
-                                        <p class="nomarginbottomP bolder">Fecha Aplicacion: <span> {{service.formt.FechaPago | slice:0:10}} </span></p>
-                                        <p class="nomarginbottomP bolder">RFC Banco Ordenante: <span></span></p>
-                                        <p class="nomarginbottomP bolder">Banco Ordenante: <span></span></p>
-                                        <p class="nomarginbottomP bolder">Cuenta Ordenante: <span></span></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <p class="nomarginbottomP bolder">Importe: <span> {{service.formt.Cantidad | currency}} </span></p>
-                                        <p class="nomarginbottomP bolder">Moneda: <span> {{service.formt.Moneda }} </span></p>
-                                        <p class="nomarginbottomP bolder">Tipo de Cambio: <span> {{service.formt.TipoCambio | currency}} </span></p>
-                                        <p class="nomarginbottomP bolder">RFC Banco Beneficiario: <span>BBA830831LJ2</span></p>
-                                        <p class="nomarginbottomP bolder">Cuenta Beneficiaria: <span>072150001119448432</span></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- cantidad-unidad-clave- -->
+        </div>
+        <div class="container">
+            <div id="ComprobanteDePago-PDF">
+                <!-- TOP PAGE LOGO DESCRIPTION FACTURA -->
                 <div class="container">
-                    <!-- <div class="col-lg-12 col-md-12 col-12"> -->
-                    <div class="card card-outline-inverse">
-                        <div class="card-header">
+                    <div class="row">
+                        <!-- logo -->
+                        <div class="col-1">
+                            <div class="card card-outline-inverse">
 
-                            <div class="table-responsive no-scroll mg-l">
-                                <table class="table ">
-                                    <thead>
-                                        <tr>
-                                            <div class="container row">
-                                                <div class="col-1">
-                                                    <th class="bolder blacktxt">Documento</th>
+                                <img src="../../../assets/images/prolacto.png" class="logo">
+
+                            </div>
+                        </div>
+                        <!-- descripcion -->
+                        <div class="col-8 mg-r">
+                            <h5 class="blacktxt text-center bolder"> PROLACTO INGREDIENTES S DE RL MI DE CV
+                            </h5>
+                            <p class="blacktxt bolder nomarginbottomP"><span class="bolder">R.F.C.:</span>PLA11011243A
+                            </p>
+                            <p class="blacktxt bolder nomarginbottomP"><span class="bolder">Regimen Fiscal:</span>(601) General de Ley Personas Morales
+                            </p>
+                            <p class="blacktxt bolder nomarginbottomP"><span class="bolder">Domicilio Fiscal:</span>J. Matias de Anchondo No. 207, Col. San Felipe, CP: 31203, Chihuahua, Chihuahua, México
+                            </p>
+                            <p class="blacktxt bolder nomarginbottomP"><span class="bolder">Expedido en:</span>Calle: Jose Matias de Anchondo No. 207, CP: 31203, México
+                            </p>
+                            <br>
+                            <div class="col-12">
+                                <p class="blacktxt bolder nomarginbottomP">Lugar de Expedicion: 31203.
+                                    <span><i> </i></span>
+                                </p>
+                                <p class="blacktxt bolder nomarginbottomP">Cliente : <span><i>{{service.formt.Nombre}} <br> RFC: {{service.formt.RFC}}, ID: {{service.formt.IdCliente}},  Calle: {{service.formt.Calle}} No. {{service.formt.NumeroExterior}} {{service.formt.NumeroInterior}}, Col. {{service.formt.Colonia}}, CP: {{service.formt.CP}}, {{service.formt.Ciudad}}, {{service.formt.Estado}}</i></span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-3">
+                            <div class="card card-outline-inverse borderContainer">
+                                <div class="card-headerTR">
+                                    <h5 class="m-b-0 text-white  text-center bolder">COMPROBANTE DE PAGOS</h5>
+                                </div>
+                                <div class="card-body ml-2">
+                                    <p class="bolder nomarginbottomP">Comprobante Fiscal Digital: <span> {{service.formt.Tipo}} </span></p>
+                                    <p class="bolder nomarginbottomP">Serie: <span>1658165</span></p>
+                                    <p class="bolder nomarginbottomP">Folio: <span>684</span></p>
+                                    <p class="bolder nomarginbottomP">Fecha: <span> {{service.formt.FechaExpedicion | slice:0:10}} </span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End TOP -->
+
+                <!-- facturado-lugar expedicion -->
+
+                <div class="container">
+                    <!-- div facturado a -->
+                    <div class="row">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <p class="nomarginbottomP bolder">Concepto: <span class="blacktxt bolder"> {{service.formt.FormaPago}} </span></p>
+                                            <p class="nomarginbottomP bolder">Documento: <span> {{service.formt.Referencia}} </span></p>
+                                            <p class="nomarginbottomP bolder">Fecha Aplicacion: <span> {{service.formt.FechaPago | slice:0:10}} </span></p>
+                                            <p class="nomarginbottomP bolder">RFC Banco Ordenante: <span></span></p>
+                                            <p class="nomarginbottomP bolder">Banco Ordenante: <span></span></p>
+                                            <p class="nomarginbottomP bolder">Cuenta Ordenante: <span></span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <p class="nomarginbottomP bolder">Importe: <span> {{service.formt.Cantidad | currency}} </span></p>
+                                            <p class="nomarginbottomP bolder">Moneda: <span> {{service.formt.Moneda }} </span></p>
+                                            <p class="nomarginbottomP bolder">Tipo de Cambio: <span> {{service.formt.TipoCambio | currency}} </span></p>
+                                            <p class="nomarginbottomP bolder">RFC Banco Beneficiario: <span>BBA830831LJ2</span></p>
+                                            <p class="nomarginbottomP bolder">Cuenta Beneficiaria: <span>072150001119448432</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- cantidad-unidad-clave- -->
+                    <div class="container">
+                        <!-- <div class="col-lg-12 col-md-12 col-12"> -->
+                        <div class="card card-outline-inverse">
+                            <div class="card-header">
+
+                                <div class="table-responsive no-scroll mg-l">
+                                    <table class="table ">
+                                        <thead>
+                                            <tr>
+                                                <div class="container row">
+                                                    <div class="col-1">
+                                                        <th class="bolder blacktxt">Documento</th>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <th class="bolder blacktxt">Fecha</th>
+                                                    </div>
+                                                    <div class="col-2">
+                                                        <th class="bolder blacktxt ">UUID</th>
+                                                    </div>
+                                                    <div class="col-2" style="margin-left: 35px;">
+                                                        <th class="bolder blacktxt">Saldo Anterior</th>
+                                                    </div>
+                                                    <div class="col-2" style="margin-left: 10px;">
+                                                        <th class="bolder blacktxt text-left">Importe Pagado</th>
+                                                    </div>
+                                                    <div class="col-2" style="margin-right: -15px; margin-left: -15px;">
+                                                        <th class="bolder blacktxt ">Saldo Insoluto</th>
+                                                    </div>
+                                                    <div class="col-1" style="margin-left: -15px;">
+                                                        <th class="bolder blacktxt">Parcialidad</th>
+                                                    </div>
                                                 </div>
-                                                <div class="col-2">
-                                                    <th class="bolder blacktxt">Fecha</th>
-                                                </div>
-                                                <div class="col-2">
-                                                    <th class="bolder blacktxt ">UUID</th>
-                                                </div>
-                                                <div class="col-2" style="margin-left: 35px;">
-                                                    <th class="bolder blacktxt">Saldo Anterior</th>
-                                                </div>
-                                                <div class="col-2" style="margin-left: 10px;">
-                                                    <th class="bolder blacktxt text-left">Importe Pagado</th>
-                                                </div>
-                                                <div class="col-2" style="margin-right: -15px; margin-left: -15px;">
-                                                    <th class="bolder blacktxt ">Saldo Insoluto</th>
-                                                </div>
-                                                <div class="col-1" style="margin-left: -15px;">
-                                                    <th class="bolder blacktxt">Parcialidad</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <!-- <div class="col-lg-12 col-md-12 col-12"> -->
+                                <table class="table">
+                                    <tbody>
+                                        <tr *ngFor="let conceptos of arrcon">
+                                            <div class="containter">
+
+                                                <div class="row">
+                                                    <div class="col-1">
+                                                        <th class="textoBodyAcomodo acomodoForzadoTh"> {{conceptos.Folio}} </th>
+                                                    </div>
+                                                    <div class="col-1 mg-ltb">
+                                                        <th class="text-right textoBodyAcomodo acomodoForzadoTh2"> {{conceptos.FechaDeExpedicion | slice:0:10}}</th>
+                                                    </div>
+                                                    <div class="col-3 mg-rl">
+                                                        <!-- <th class="textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.UUID1| slice:0:9 }} <br>{{conceptos.UUID1| slice:9:20 }} </th> -->
+                                                        <th class="textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.UUID1 }} </th>
+                                                    </div>
+                                                    <div class="col-2 " style="margin-left: 20px;">
+                                                        <th class="text-left textoBodyAcomodo"> {{this.SaldoAnterior | currency}} </th>
+                                                    </div>
+                                                    <div class="col-2 " style="margin-left: 5px;">
+                                                        <th class="text-left textoBodyAcomodo"> {{conceptos.Cantidad | currency}} </th>
+                                                    </div>
+                                                    <div class="col-2 " style="margin-left: -25px;">
+                                                        <th class="text-left textoBodyAcomodo"> {{conceptos.Saldo | currency}} </th>
+                                                    </div>
+                                                    <div class="col-1 " style="margin-left: -10px;">
+                                                        <th class="text-left textoBodyAcomodo"> {{conceptos.NoParcialidad}} </th>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </tr>
-                                    </thead>
+
+                                    </tbody>
                                 </table>
+                                <!-- </div> -->
                             </div>
                         </div>
-                        <div class="card-body">
-                            <!-- <div class="col-lg-12 col-md-12 col-12"> -->
-                            <table class="table">
-                                <tbody>
-                                    <tr *ngFor="let conceptos of arrcon">
-                                        <div class="containter">
-
-                                            <div class="row">
-                                                <div class="col-1">
-                                                    <th class="textoBodyAcomodo acomodoForzadoTh"> {{conceptos.Folio}} </th>
-                                                </div>
-                                                <div class="col-1 mg-ltb">
-                                                    <th class="text-right textoBodyAcomodo acomodoForzadoTh2"> {{conceptos.FechaDeExpedicion | slice:0:10}}</th>
-                                                </div>
-                                                <div class="col-3 mg-rl">
-                                                    <!-- <th class="textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.UUID1| slice:0:9 }} <br>{{conceptos.UUID1| slice:9:20 }} </th> -->
-                                                    <th class="textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.UUID1 }} </th>
-                                                </div>
-                                                <div class="col-2 " style="margin-left: 20px;">
-                                                    <th class="text-left textoBodyAcomodo"> {{this.SaldoAnterior | currency}} </th>
-                                                </div>
-                                                <div class="col-2 " style="margin-left: 5px;">
-                                                    <th class="text-left textoBodyAcomodo"> {{conceptos.Cantidad | currency}} </th>
-                                                </div>
-                                                <div class="col-2 " style="margin-left: -25px;">
-                                                    <th class="text-left textoBodyAcomodo"> {{conceptos.Saldo | currency}} </th>
-                                                </div>
-                                                <div class="col-1 " style="margin-left: -10px;">
-                                                    <th class="text-left textoBodyAcomodo"> {{conceptos.NoParcialidad}} </th>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                            <!-- </div> -->
-                        </div>
+                        <!-- </div> -->
                     </div>
-                    <!-- </div> -->
-                </div>
 
-                <div class="Breakline mb-1"></div>
+                    <div class="Breakline mb-1"></div>
 
-                <!-- row- QR -->
-                <!-- <div class="html2pdf__page-break"></div> -->
-                <div class="container">
-                    <div class="row">
-                        <!-- QR -->
-                        <div class="col-3 pr-0 mr-0">
-                            <div class="card card-outline-inverse">
-                                <div class="card-body">
-                                    <qrcode [qrdata]=myAngularxQrCode [size]=QRsize></qrcode>
-                                    <!-- <ngx-qrcode qrc-element-type="url" [qrc-value]="QRString"></ngx-qrcode> -->
-                                    <!-- cambia el qr string que esta en el TS -->
+                    <!-- row- QR -->
+                    <!-- <div class="html2pdf__page-break"></div> -->
+                    <div class="container">
+                        <div class="row">
+                            <!-- QR -->
+                            <div class="col-3 pr-0 mr-0">
+                                <div class="card card-outline-inverse">
+                                    <div class="card-body">
+                                        <qrcode [qrdata]=myAngularxQrCode [size]=QRsize></qrcode>
+                                        <!-- <ngx-qrcode qrc-element-type="url" [qrc-value]="QRString"></ngx-qrcode> -->
+                                        <!-- cambia el qr string que esta en el TS -->
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-9 pl-0 ml-0">
-                            <div class="card card-outline-inverse">
-                                <div class="card-body">
-                                    <p class="nomarginbottomP PSellosQR"><span class="bolder">"Este documento es una representación impresa de un CFDI"</span></p>
-                                    <p class="nomarginbottomP PSellosQR"><span class="bolder">Folio fiscal:</span> {{service.formt.UUID}} </p>
-                                    <p class="nomarginbottomP PSellosQR"><span class="bolder">Fecha y hora de certificacion:</span> {{service.formt.FechaExpedicion | date: 'yyy-MM-dd hh:mm:ss'}} </p>
-                                    <p class="PSellosQR nomarginbottomP"><span class="bolder">Sello Digital del CFDI: </span><br> {{service.formt.SelloDigitalCFDI}}
-                                        <!-- | slice:1:95 
+                            <div class="col-9 pl-0 ml-0">
+                                <div class="card card-outline-inverse">
+                                    <div class="card-body">
+                                        <p class="nomarginbottomP PSellosQR"><span class="bolder">"Este documento es una representación impresa de un CFDI"</span></p>
+                                        <p class="nomarginbottomP PSellosQR"><span class="bolder">Folio fiscal:</span> {{service.formt.UUID}} </p>
+                                        <p class="nomarginbottomP PSellosQR"><span class="bolder">Fecha y hora de certificacion:</span> {{service.formt.FechaExpedicion | date: 'yyy-MM-dd hh:mm:ss'}} </p>
+                                        <p class="PSellosQR nomarginbottomP"><span class="bolder">Sello Digital del CFDI: </span><br> {{service.formt.SelloDigitalCFDI}}
+                                            <!-- | slice:1:95 
                                          | slice:95:215 
                                          | slice:215:274 
                                          | slice:274:346
                                          -->
-                                    </p>
+                                        </p>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="container">
-                    <div class="row">
-                        <div class="col-6">
-                            <p class="nomarginbottomP PSellosQR"><span class="bolder">Número de serie del Certificado de Sello Digital:</span> {{service.formt.NoCertificado}}</p>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="nomarginbottomP PSellosQR"><span class="bolder">Número de serie del Certificado de Sello Digital:</span> {{service.formt.NoCertificado}}</p>
+                            </div>
+                            <div class=" col-6">
+                                <p class="nomarginbottomP PSellosQR"><span class="bolder">Número de serie del Certificado de Sello Digital del SAT:</span> {{service.formt.NoSelloSAT}} </p>
+                            </div>
                         </div>
-                        <div class=" col-6">
-                            <p class="nomarginbottomP PSellosQR"><span class="bolder">Número de serie del Certificado de Sello Digital del SAT:</span> {{service.formt.NoSelloSAT}} </p>
-                        </div>
+
                     </div>
 
-                </div>
+                    <!-- sello digital -->
+                    <div class="pgbreak">
+                        <div class="col-12">
 
-                <!-- sello digital -->
-                <div class="pgbreak">
-                    <div class="col-12">
-
-                        <p class="PSellosQR nomarginbottomP" style="white-space: wrap"><span class="bolder">Cadena Original del
+                            <p class="PSellosQR nomarginbottomP" style="white-space: wrap"><span class="bolder">Cadena Original del
                                 Complemento de Certificacion del SAT:</span><br> {{ service.formt.CadenaOriginal }}
-                        </p>
+                            </p>
 
-                        <p class="PSellosQR nomarginbottomP"><span class="bolder">Sello Digital del SAT:</span><br> {{service.formt.SelloDigitalSAT}} </p>
+                            <p class="PSellosQR nomarginbottomP"><span class="bolder">Sello Digital del SAT:</span><br> {{service.formt.SelloDigitalSAT}} </p>
 
+                        </div>
                     </div>
+
+
+
                 </div>
-
-
-
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button> -->
+                <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
             </div>
         </div>
-        <div class="modal-footer">
-            <!-- <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button> -->
-            <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
-        </div>
     </div>
+</mat-dialog-content>

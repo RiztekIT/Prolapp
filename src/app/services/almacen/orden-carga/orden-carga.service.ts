@@ -23,6 +23,8 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
     IdOrdenCarga: number;
 //Master donde se guardara el master 
     master = new Array<MasterOrdenCarga>();
+    //formrow para guardar los datos del row para mostrarlos en PDF
+    formrow: any;
 
     getOrdenCargaList(): Observable <OrdenCarga[]> {
         return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga');

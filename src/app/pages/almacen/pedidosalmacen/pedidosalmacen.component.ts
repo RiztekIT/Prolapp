@@ -53,7 +53,9 @@ export class PedidosalmacenComponent implements OnInit {
    }
 
   ngOnInit() {
+
     this.refreshOrdenCargaList();
+    
   }
 
   refreshOrdenCargaList(){
@@ -97,7 +99,9 @@ console.log(data);
 ///////////////////////////////// MODALES /////////////////////////////////////////////
 openrep(row){
 
+  this.service.formrow = row;
   console.log(row);
+  console.log(this.service.formrow);
   // this.service.formrow = row;
   // console.log();
   const dialogConfig = new MatDialogConfig();

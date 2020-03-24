@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, Inject } from '@angular/core';
 import xml2js from 'xml2js';
 import { processors } from 'xml2js'
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -7,8 +7,12 @@ import { Parser } from '@angular/compiler/src/ml_parser/parser';
 import { Prefactura } from 'src/app/Models/facturacioncxc/prefactura-model';
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
 import { NotaCreditoService } from 'src/app/services/cuentasxcobrar/NotasCreditocxc/notaCredito.service';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 declare function cantidad(n);
+export interface parametros{
+  param: string
+}
 
 @Component({
   selector: 'app-notacredito',
@@ -18,10 +22,11 @@ declare function cantidad(n);
 export class NotacreditoComponent implements OnInit {
 
   @Input() xmlparametrosnc;
+  @Input() param;
   myAngularxQrCode: string;
   QRsize:number;
   
-  constructor(private _http: HttpClient, private sanitizer: DomSanitizer, public service: FacturaService, public servicenc: NotaCreditoService) {
+  constructor(private _http: HttpClient, private sanitizer: DomSanitizer, public service: FacturaService, public servicenc: NotaCreditoService, public dialogRef: MatDialogRef<NotacreditoComponent>, @Inject(MAT_DIALOG_DATA) public data: parametros) {
     this.QRsize = 125;
     // assign a value to QR
     this.myAngularxQrCode = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.asp?id=28c751ac-b6f3-4293-b35e-9ce78b4eb4b8&re=CIN960904FQ2&rr=CUOA880131Q85&tt=0000002578.930000&fe=nfsuQW==';
@@ -361,6 +366,8 @@ this.xmlparametrosnc='';
     const blob = new Blob(['/assets/js/F-1.xml'], { type: 'application/octet-stream' });
 
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+console.log(this.data.param);
+    this.leerxml(this.data.param)
   }
   QRstring = "";
 
@@ -374,14 +381,14 @@ this.xmlparametrosnc='';
       this.leerxml(this.xmlparametros);
       
     } */
-
+/* 
     if (!this.xmlparametrosnc){
       console.log('2');
       
     }else{
       console.log(this.xmlparametrosnc);
       this.leerxml(this.xmlparametrosnc);
-    }
+    } */
     // this.PdfPreliminar();
      
   }

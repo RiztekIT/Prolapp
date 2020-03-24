@@ -4,13 +4,24 @@
             <div class="card-body">
 
                 <h2 style="text-align: center;">Complemento de Pago</h2>
-                <div fxLayoutAlign="row">
+                <div class="row">
+                    <div class="col-8">
+                        <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary"> <i
+                            class="mdi mdi-plus btn-lg"></i>Generar Pago</button>
+                    </div>
+                    <div class="col-4">
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <!--    <div fxLayoutAlign="row">
                     <mat-card style="text-align: right;" class="mat-elevation-z0">
                         <mat-form-field>
                             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
                         </mat-form-field>
                     </mat-card>
-                </div>
+                </div> -->
 
 
                 <div class="mat-elevation-z8">
@@ -67,36 +78,34 @@
                   </button>
                                     <mat-menu #menu="matMenu">
 
-                                        <button mat-icon-button class="btn btn-dark" (click)="openrep(row)">
+                                        <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                                    <mat-icon>edit</mat-icon>
+                                                    </button>
+
+                                        <button title="Ver PDF" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
                                             <mat-icon>visibility</mat-icon>
                                         </button>
 
-
-                                        <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
-                      <mat-icon>edit</mat-icon>
-                    </button>
-
-                                        <!-- ver PDF -->
-                                        <!-- <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button>
-                                        <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" (click)="generar(row.UUID,row.Folio)" mat-icon-button class="btn btn-dark">
-                      <mat-icon>remove_red_eye</mat-icon>
-
-                    </button> -->
                                         <!-- descargar PDF -->
                                         <!-- <button id="abrirpdf" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#add-new-event"></button> -->
 
-                                        <!-- <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" (click)="pdf(row.UUID,row.Folio)" mat-icon-button class="btn btn-dark">
-                      <mat-icon>picture_as_pdf</mat-icon>
+                                        <button title="Descargar PDF" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada' || row.Estatus=='Pagada'" (click)="pdf(row)" mat-icon-button class="btn btn-dark">
+                                                <mat-icon>picture_as_pdf</mat-icon>
+                          
+                                              </button>
 
-                    </button> -->
-                                        <!-- Enviar -->
-                                        <!-- <button *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada'" mat-icon-button class="btn btn-dark" (click)="xml(row.UUID,row.Folio)">
-                      <mat-icon>code</mat-icon>
-                    </button> -->
                                         <!-- XML -->
-                                        <!-- <button mat-icon-button class="btn btn-dark" (click)="onDelete(row.Id)">
-                        <mat-icon>email</mat-icon>
-                    </button> -->
+                                        <button title="Descargar XML" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada' || row.Estatus=='Pagada'" mat-icon-button class="btn btn-dark" (click)="xml(row)">
+                                                <mat-icon>code</mat-icon>
+                                              </button>
+
+                                        <!-- ENVIAR -->
+                                        <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button> -->
+                                        <button title="Enviar Correo" *ngIf="row.Estatus=='Timbrada' || row.Estatus=='Cancelada' || row.Estatus=='Pagada'" mat-icon-button class="btn btn-dark" (click)="email(row)">
+                                                <mat-icon>alternate_email</mat-icon>
+                                              </button>
+
+
                                         <!-- Eliminar -->
                                         <button *ngIf="row.Estatus=='Creada' || row.Estatus == 'Guardada'" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
                       <mat-icon>delete_outline</mat-icon>
@@ -139,7 +148,7 @@
                 </div>
             </div>
 
-            <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Pago</button>
+
 
         </div>
     </div>
