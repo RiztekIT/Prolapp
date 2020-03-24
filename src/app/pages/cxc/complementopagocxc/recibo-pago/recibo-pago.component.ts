@@ -27,6 +27,7 @@ import * as html2pdf from 'html2pdf.js';
 import { ComplementoPagoComponent } from 'src/app/components/complemento-pago/complemento-pago.component';
 import { MessageService } from 'src/app/services/message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { EmailComponent } from 'src/app/components/email/email/email.component';
 // import { MatDialogRef } from '@angular/material';
 
 const httpOptions = {
@@ -953,8 +954,8 @@ console.log(this.json1);
 
   dxml(uuid,id){
     this.loading = true;
-    document.getElementById('enviaremail').click();
-    let xml = 'http://devfactura.in/api/v3/cfdi33/' + uuid + '/xml';
+    //document.getElementById('enviaremail').click();
+    //let xml = 'http://devfactura.in/api/v3/cfdi33/' + uuid + '/xml';
     this.servicetimbrado.xml(uuid).subscribe(data => {
       localStorage.setItem('xml' + id, data)
       const blob = new Blob([data as BlobPart], { type: 'application/xml' });
@@ -963,28 +964,24 @@ console.log(this.json1);
       this.a.target = '_blank';
       this.a.download = 'F-' + id + '.xml';
       document.body.appendChild(this.a);
-      this.a.click();
-      do {
-        // this.xmlparam = id;
-        if (localStorage.getItem('xml' + id) != null) {
-          // this.xmlparam =  id;
-          setTimeout(()=>{
-            this.onExportClick(id);
-           },1000)
-        }
-      }
-      while (localStorage.getItem('xml' + id) == null);
-      // this.resetForm();
-      return this.fileUrl;
+      this.a.click();    
     });
-    setTimeout(() => {
-      this.loading = false;
-      document.getElementById('cerrarmodal').click();
-    }, 7000)
+    
+    const dialogConfig = new MatDialogConfig();
+    // dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="80%";
+    this.dialog.open(ComplementoPagoComponent, dialogConfig);
+
+    setTimeout(()=>{
+      this.onExportClick(id);    
+      this.dialog.closeAll();
+      
+     },1000)
 }
 onExportClick(folio?: string) {
   // this.proceso = 'xml';
-  const content: Element = document.getElementById('element-to-PDF');
+  const content: Element = document.getElementById('ComprobanteDePago-PDF');
   const option = {
     margin: [0, 0, 0, 0],
     filename: 'F-' + folio + '.pdf',
@@ -1005,7 +1002,12 @@ onExportClick(folio?: string) {
     //  console.log(this.service.row);
     //  console.log(this.service.master);
     //  console.log(this.listData.data);
-      this.service.formt = JSON.parse(localStorage.getItem('rowpago'));
+      // this.service.formt = JSON.parse(localStorage.getItem('rowpago'));
+      const dialogConfig = new MatDialogConfig();
+    // dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="80%";
+    this.dialog.open(ComplementoPagoComponent, dialogConfig);
       // console.log((this.service.formt));
     
     // const dialogConfig = new MatDialogConfig();
@@ -1060,35 +1062,57 @@ onExportClick(folio?: string) {
   email(uuid,id){
   localStorage.removeItem('xml'+id);
   localStorage.removeItem('pdf'+id);
-  document.getElementById('enviaremail2').click();
+  // document.getElementById('enviaremail2').click();
+
+
   this.folioparam = id;
   this.idparam = uuid;
   this._MessageService.correo='ivan.talamantes@live.com';
   this._MessageService.cco='ivan.talamantes@riztek.com.mx';
-  this._MessageService.asunto='Envio Recibo de Pago '+id;
+  this._MessageService.asunto='Envio Complemento de Pago '+id;
   this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+id;
   this._MessageService.nombre='ProlactoIngredientes';
- 
     this.servicetimbrado.xml(uuid).subscribe(data => {
-      console.log(data);
-      
       localStorage.setItem('xml' + id, data)
-      this.xmlparam = id;
-      setTimeout(()=>{
-        const content: Element = document.getElementById('element-to-PDF');
+    })
+
+    const dialogConfig2 = new MatDialogConfig();
+    dialogConfig2.autoFocus = false;
+    dialogConfig2.width = "0%";    
+    let dialogFact = this.dialog.open(ComplementoPagoComponent, dialogConfig2); 
+    
+
+    setTimeout(()=>{
+
+      // this.xmlparam = folio;
+        const content: Element = document.getElementById('ComprobanteDePago-PDF');
         const option = {
           margin: [0, 0, 0, 0],
           filename: 'F-' + id + '.pdf',
           image: { type: 'jpeg', quality: 1 },
-          html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
+          html2canvas: { scale: 2, logging: true, scrollY: 0 },
           jsPDF: { format: 'letter', orientation: 'portrait' },
         };
         html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
           localStorage.setItem('pdf'+id, pdfAsString);
+          this.statusparam=true;          
+          console.log(this.statusparam);                
         })
+        dialogFact.close()
+        
       },1000)
-     
-  })
+      
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      // dialogConfig.width = "90%";
+      dialogConfig.height = "90%";
+      dialogConfig.data = {
+        foliop: id,
+        idp: uuid,
+        status: true
+      }
+      this.dialog.open(EmailComponent, dialogConfig);
 
   }
 

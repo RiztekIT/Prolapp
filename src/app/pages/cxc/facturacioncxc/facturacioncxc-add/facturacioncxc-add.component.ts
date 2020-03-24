@@ -372,7 +372,7 @@ console.log(this.service.formData.Id);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "70%";
+    dialogConfig.width = "80%";
     this.dialog.open(DetalleNotaCreditoComponent, dialogConfig);
   }
 
@@ -463,7 +463,46 @@ console.log(this.service.formData.Id);
 
   // FIN TABLA DETALLE Y NOTA CREDITO  -------------------------------------------------------------->
 
-  CancelarNota() {
+  CancelarNota(row) {
+    Swal.fire({
+      title: '¿Segur@ de Cancelar la Factura?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Cancelar',
+      cancelButtonText: 'Deshacer'
+    }).then((result) => {
+      if (result.value) {
+        this.loading = true;
+        this.enviarfact.cancelar(row.UUID).subscribe(data => {
+          let data2 = JSON.parse(data);
+          if (data2.response === 'success') {
+            // this.service.updateCancelarFactura(this.service.formData.Id).subscribe(data => {
+            //   this.loading = false;
+            //   Swal.fire({
+            //     title: 'Factura Cancelada',
+            //     icon: 'success',
+            //     timer: 1000,
+            //     showCancelButton: false,
+            //     showConfirmButton: false
+            //   });
+            // });
+          }
+          else if (data2.response === 'error') {
+            this.loading = false;
+            // this.resetForm();
+            Swal.fire(
+              'Error en Cancelacion',
+              '' + data2.message + '',
+              'error'
+            )
+          }
+        })
+      }
+
+    })
+    
   }
 
   onDeleteNC(notaCredito: any) {
@@ -1231,8 +1270,8 @@ CFDISumatoria(){
   /* Metodo que crear el xml y el pdf y los descargax */
   dxml(id: string, folio: string) {
     this.loading = true;
-    document.getElementById('enviaremail').click();
-    let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
+    // document.getElementById('enviaremail').click();
+    // let xml = 'http://devfactura.in/api/v3/cfdi33/' + id + '/xml';
     this.enviarfact.xml(id).subscribe(data => {
       localStorage.setItem('xml' + folio, data)
       const blob = new Blob([data as BlobPart], { type: 'application/xml' });
@@ -1242,23 +1281,25 @@ CFDISumatoria(){
       this.a.download = 'F-' + folio + '.xml';
       document.body.appendChild(this.a);
       this.a.click();
-      do {
-        this.xmlparam = folio;
-        if (localStorage.getItem('xml' + folio) != null) {
-          this.xmlparam = folio;
-          setTimeout(() => {
-            this.onExportClick(this.service.formData.Folio);
-          }, 1000)
-        }
-      }
-      while (localStorage.getItem('xml' + folio) == null);
-      this.resetForm();
-      return this.fileUrl;
+      
+      
     });
-    setTimeout(() => {
-      this.loading = false;
-      document.getElementById('cerrarmodal').click();
-    }, 7000)
+    const dialogConfig = new MatDialogConfig();
+      // dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = false;
+      dialogConfig.width = "100%";
+      dialogConfig.height = "80%"
+      
+     
+      this.dialog.open(FacturaComponent, dialogConfig);
+
+      setTimeout(()=>{
+        this.onExportClick(folio);    
+        this.dialog.closeAll();
+        
+       },1000)
+    
+  
   }
 
   /* Metodo que guarda el xml en el localstorage para usarlo en el pdf */

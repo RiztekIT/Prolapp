@@ -412,6 +412,7 @@ import { OrdenSalidaComponent } from '../components/almacen/orden-salida/orden-s
         ComppagoComponent,
         OrdenCargaComponent,
         OrdenSalidaComponent,
+        NotacreditoComponent
     ]
 })
 export class PagesModule { }

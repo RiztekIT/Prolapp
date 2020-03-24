@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
+import {MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogConfig} from '@angular/material';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { NgForm, FormControl } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -12,6 +12,9 @@ import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfact
 import * as html2pdf from 'html2pdf.js';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import { NotaCredito } from '../../../../Models/nota-credito/notaCredito-model';
+import { MessageService } from 'src/app/services/message.service';
+import { NotacreditoComponent } from '../../../../components/notacredito/notacredito/notacredito.component';
+import { EmailComponent } from 'src/app/components/email/email/email.component';
 
 @Component({
   selector: 'app-detalle-nota-credito',
@@ -21,7 +24,7 @@ import { NotaCredito } from '../../../../Models/nota-credito/notaCredito-model';
 export class DetalleNotaCreditoComponent implements OnInit {
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
-  constructor(public dialogbox: MatDialogRef<DetalleNotaCreditoComponent>, public service: NotaCreditoService, public serviceFactura: FacturaService, public enviarfact: EnviarfacturaService) { 
+  constructor(public dialogbox: MatDialogRef<DetalleNotaCreditoComponent>, public service: NotaCreditoService, public serviceFactura: FacturaService, public enviarfact: EnviarfacturaService, public _MessageService: MessageService, private dialog: MatDialog) { 
     this.service.listen().subscribe((m:any)=>{
       this.Inicializar();
       });
@@ -39,6 +42,9 @@ export class DetalleNotaCreditoComponent implements OnInit {
 
       console.log(this.service.Timbrada);
   }
+
+  folioparam;
+idparam;
 
    listData: MatTableDataSource<any>;
   displayedColumns : string [] = [ 'ClaveProducto', 'Producto', 'Cantidad', 'PrecioUnitario', 'Precio', 'Options'];
@@ -596,7 +602,7 @@ this.refreshTablaDetalles();
     console.log(this.service.formData);
 
     this.loading = true;
-    document.getElementById('enviaremail').click();
+    // document.getElementById('enviaremail').click();
     let xml = 'http://devfactura.in/api/v3/cfdi33/' + uuid + '/xml';
     this.enviarfact.xml(uuid).subscribe(data => {
       localStorage.setItem('xml' + folio, data)
@@ -607,29 +613,34 @@ this.refreshTablaDetalles();
       this.a.download = 'F-' + folio + '.xml';
       document.body.appendChild(this.a);
       this.a.click();
-      do {
-        this.xmlparam = folio;
-        if (localStorage.getItem('xml' + folio) != null) {
-          this.xmlparam =  folio;
-          setTimeout(()=>{
-            this.onExportClick((this.service.formData.Folio).toString());
-           },1000)
-        }
+      const dialogConfig = new MatDialogConfig();
+      // dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = false;
+      dialogConfig.width = "100%";
+      dialogConfig.height = "80%";
+      dialogConfig.data =  {
+        param : folio
       }
-      while (localStorage.getItem('xml' + folio) == null);
-      // this.resetForm();
-      return this.fileUrl;
+      
+     
+      this.dialog.open(NotacreditoComponent, dialogConfig);
+
+      setTimeout(()=>{
+        this.onExportClick(folio);    
+        this.dialog.closeAll();
+        this.loading = false;
+        
+       },1000)
     });
-    setTimeout(() => {
-      this.loading = false;
-      document.getElementById('cerrarmodal').click();
-    }, 7000)
+
+    
+ 
 
   }
 
   onExportClick(folio?: string) {
     // this.proceso = 'xml';
-    document.getElementById('add-new-eventnc').style.zIndex = "1";
+    // document.getElementById('element-to-PDFNC').style.zIndex = "1";
     const content: Element = document.getElementById('element-to-PDFNC');
     const option = {
       margin: [.5,.5,.5,0],
@@ -659,9 +670,126 @@ this.refreshTablaDetalles();
       this.a.download = 'F-' + folio + '.xml';
       document.body.appendChild(this.a);
       // this.resetForm();
+      
+      const dialogConfig = new MatDialogConfig();
+      // dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = false;
+      dialogConfig.width = "100%";
+      dialogConfig.height = "80%"
+      dialogConfig.data =  {
+        param : folio
+      }
+      
+     
+      this.dialog.open(NotacreditoComponent, dialogConfig);
       return this.fileUrl;
     });
 
+   
+
+  }
+
+  email(){
+    console.log(this.service.formData); 
+    localStorage.removeItem('xml' + this.service.formData.Folio);
+    localStorage.removeItem('pdf' + this.service.formData.Folio);
+    let folio = this.service.formData.Folio;
+    // document.getElementById('enviaremail2').click();
+    // localStorage.setItem('rowfact',JSON.stringify(this.service.formData));
+
+    this.folioparam = this.service.formData.Folio;
+    this.idparam = this.service.formData.UUID;
+    this._MessageService.correo='ivan.talamantes@live.com';
+    this._MessageService.cco='ivan.talamantes@riztek.com.mx';
+    this._MessageService.asunto='Envio Nota de Credito '+this.service.formData.Folio;
+    this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+this.service.formData.Folio;
+    this._MessageService.nombre='ProlactoIngredientes';
+      this.enviarfact.xml(this.service.formData.UUID).subscribe(data => {
+        localStorage.setItem('xml' + this.service.formData.Folio, data)
+        const dialogConfig2 = new MatDialogConfig();
+        dialogConfig2.autoFocus = false;
+        dialogConfig2.width = "0%";    
+        dialogConfig2.data =  {
+          param : folio
+        }
+        let dialogFact = this.dialog.open(NotacreditoComponent, dialogConfig2); 
+        setTimeout(()=>{
+  
+          // this.xmlparam = folio;
+            const content: Element = document.getElementById('element-to-PDFNC');
+            const option = {
+              margin: [0, 0, 0, 0],
+              filename: 'F-' + this.service.formData.Folio + '.pdf',
+              image: { type: 'jpeg', quality: 1 },
+              html2canvas: { scale: 2, logging: true, scrollY: 0 },
+              jsPDF: { format: 'letter', orientation: 'portrait' },
+            };
+            html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
+              localStorage.setItem('pdf'+folio, pdfAsString);
+              this.statusparam=true;          
+              console.log(this.statusparam);                
+            })
+            dialogFact.close()
+            
+          },1000)
+          
+          const dialogConfig = new MatDialogConfig();
+          dialogConfig.disableClose = true;
+          dialogConfig.autoFocus = true;
+          // dialogConfig.width = "90%";
+          dialogConfig.height = "90%";
+          dialogConfig.data = {
+            foliop: this.service.formData.Folio,
+            idp: this.service.formData.UUID,
+            status: true
+          }
+          this.dialog.open(EmailComponent, dialogConfig);
+      })
+  
+      
+  
+      
+  }
+
+  cancelar(id: string, folio: string) {
+    Swal.fire({
+      title: '¿Segur@ de Cancelar la Factura?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Cancelar',
+      cancelButtonText: 'Deshacer'
+    }).then((result) => {
+      if (result.value) {
+        this.loading = true;
+        this.enviarfact.cancelar(id).subscribe(data => {
+          let data2 = JSON.parse(data);
+          if (data2.response === 'success') {
+            // this.service.updateCancelarFactura(this.service.formData.Id).subscribe(data => {
+            //   this.loading = false;
+            //   Swal.fire({
+            //     title: 'Factura Cancelada',
+            //     icon: 'success',
+            //     timer: 1000,
+            //     showCancelButton: false,
+            //     showConfirmButton: false
+            //   });
+            // });
+          }
+          else if (data2.response === 'error') {
+            this.loading = false;
+            // this.resetForm();
+            Swal.fire(
+              'Error en Cancelacion',
+              '' + data2.message + '',
+              'error'
+            )
+          }
+        })
+      }
+
+    })
   }
 
 }

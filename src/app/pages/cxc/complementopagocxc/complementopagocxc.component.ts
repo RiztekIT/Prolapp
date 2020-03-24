@@ -11,6 +11,9 @@ import { PagoCFDI } from '../../../Models/ComplementoPago/pagocfdi';
 import { ReciboPagoMasterPagoCFDI } from '../../../Models/ComplementoPago/recibopagoMasterpagoCFDI';
 import { ComplementoPagoComponent } from 'src/app/components/complemento-pago/complemento-pago.component';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+import { MessageService } from 'src/app/services/message.service';
+import { EmailComponent } from 'src/app/components/email/email/email.component';
 
 
 @Component({
@@ -30,7 +33,7 @@ export class ComplementopagocxcComponent implements OnInit {
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
   
-  constructor(private service: ReciboPagoService, private router: Router, private dialog: MatDialog) {
+  constructor(private service: ReciboPagoService, private router: Router, private dialog: MatDialog, public enviarfact: EnviarfacturaService, public _MessageService: MessageService) {
     
     this.service.listen().subscribe((m: any) => {
       // this.refreshReciboPagoList();
@@ -47,6 +50,8 @@ export class ComplementopagocxcComponent implements OnInit {
     // this.ObtenerUltimaFactura();
     // this.listData.connect();
   }
+  folioparam;
+  idparam;
   loadtable = true;
   IdReciboPago: any;
   listData: MatTableDataSource<any>;
@@ -221,9 +226,9 @@ export class ComplementopagocxcComponent implements OnInit {
     localStorage.setItem('rowpago',JSON.stringify(row));
     console.log(this.service.formt);
     const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
+    // dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.width="70%";
+    dialogConfig.width="80%";
     this.dialog.open(ComplementoPagoComponent, dialogConfig);
 
   }
@@ -236,6 +241,125 @@ export class ComplementopagocxcComponent implements OnInit {
      };
     this.listData.filter= filtervalue.trim().toLocaleLowerCase();
     // console.log(this.listData);
+  }
+
+  pdf(row){
+    console.log(row);
+    this.service.formt = row;
+    localStorage.setItem('rowpago',JSON.stringify(row));
+    console.log(this.service.formt);
+    const dialogConfig = new MatDialogConfig();
+    // dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="80%";
+    this.dialog.open(ComplementoPagoComponent, dialogConfig);
+
+    setTimeout(()=>{
+      this.onExportClick(row.Id);    
+      this.dialog.closeAll();
+      
+     },1000)
+    
+  }
+
+  onExportClick(folio?:string) {
+    const content: Element = document.getElementById('ComprobanteDePago-PDF');
+    const option = {    
+      margin: [.5,.5,.5,0],
+      filename: 'F-'+folio+'.pdf',
+      image: {type: 'jpeg', quality: 1},
+      html2canvas: {scale: 2, logging: true, scrollY: -2, scrollX: -15},
+      jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
+      pagebreak:{ avoid: '.pgbreak'}
+    };
+  
+    html2pdf()
+   .from(content)
+   .set(option).toPdf().get('pdf').then(function (pdf) {
+    setTimeout(() => {}, 1000);
+   })
+   .save();
+   
+  }
+
+  xml(row){
+    this.enviarfact.xml(row.UUID).subscribe(data => {
+      const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+      this.fileUrl = window.URL.createObjectURL(blob);
+      this.a.href = this.fileUrl;
+      this.a.target = '_blank';
+      this.a.download = 'F-'+row.Id+'.xml';     
+      document.body.appendChild(this.a);
+      this.a.click();
+      localStorage.removeItem('xml')
+      localStorage.setItem('xml',data)
+      this.xmlparam = localStorage.getItem('xml');
+      return this.fileUrl;
+    });
+
+
+  }
+
+  email(row){
+    localStorage.removeItem('xml'+row.Id);
+localStorage.removeItem('pdf'+row.Id);
+localStorage.setItem('rowpago',JSON.stringify(row));
+// document.getElementById('enviaremail').click();
+
+  this.folioparam = row.Id;
+  this.idparam = row.UUID;
+  this._MessageService.correo='ivan.talamantes@live.com';
+  this._MessageService.cco='ivan.talamantes@riztek.com.mx';
+  this._MessageService.asunto='Envio Complemento de Pago '+row.Id;
+  this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+row.Id;
+  this._MessageService.nombre='ProlactoIngredientes';
+    this.enviarfact.xml(row.UUID).subscribe(data => {
+      localStorage.setItem('xml' + row.Id, data)
+    })
+
+    const dialogConfig2 = new MatDialogConfig();
+    dialogConfig2.autoFocus = false;
+    dialogConfig2.width = "0%";    
+    let dialogFact = this.dialog.open(ComplementoPagoComponent, dialogConfig2); 
+    
+
+    setTimeout(()=>{
+
+      // this.xmlparam = folio;
+        const content: Element = document.getElementById('ComprobanteDePago-PDF');
+        const option = {
+          margin: [0, 0, 0, 0],
+          filename: 'F-' + row.Id + '.pdf',
+          image: { type: 'jpeg', quality: 1 },
+          html2canvas: { scale: 2, logging: true, scrollY: 0 },
+          jsPDF: { format: 'letter', orientation: 'portrait' },
+        };
+        html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
+          localStorage.setItem('pdf'+row.Id, pdfAsString);
+          this.statusparam=true;          
+          console.log(this.statusparam);                
+        })
+        dialogFact.close()
+        
+      },1000)
+      
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      // dialogConfig.width = "90%";
+      dialogConfig.height = "90%";
+      dialogConfig.data = {
+        foliop: row.Id,
+        idp: row.UUID,
+        status: true
+      }
+      this.dialog.open(EmailComponent, dialogConfig);
+      
+
+
+ 
+
+
   }
 
 
