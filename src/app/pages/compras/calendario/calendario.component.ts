@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-calendario',
+  selector: 'app-ccalendario',
   templateUrl: './calendario.component.html',
   styles: []
 })
-export class CalendarioComponent implements OnInit {
+export class CalendarioCComponent implements OnInit {
 
   constructor() { }
 

@@ -11,5 +11,8 @@ export class EditEmpresaComponent implements OnInit {
 
   ngOnInit() {
   }
+  onEdit(row){
+    
+  }
 
 }

@@ -185,6 +185,8 @@ import { PrepararComponent } from './almacen/pedidosalmacen/ordencargadetalle/pr
 import { CargarComponent } from './almacen/pedidosalmacen/ordencargadetalle/cargar/cargar.component';
 import { OrdenCargaComponent } from '../components/almacen/orden-carga/orden-carga.component';
 import { OrdenSalidaComponent } from '../components/almacen/orden-salida/orden-salida.component';
+import { VendedoresComponent } from './administracion/catalogos/vendedores/vendedores.component';
+import { CalendarioCComponent } from './compras/calendario/calendario.component'
 
 
 
@@ -322,7 +324,8 @@ import { OrdenSalidaComponent } from '../components/almacen/orden-salida/orden-s
         CargarComponent,
         OrdenCargaComponent,
         OrdenSalidaComponent,
-        
+        VendedoresComponent,
+        CalendarioCComponent
     
     ],
     exports: [
