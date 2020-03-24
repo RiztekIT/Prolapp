@@ -6,6 +6,7 @@ import { procesoMasterDetalle } from "../../Models/procesomaster-model";
 
 import {Subject} from 'rxjs';
 import { Privilegio } from '../../Models/privilegio-model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,8 @@ export class ProcesoService {
 
   // readonly APIUrl = "https://localhost:44361/api";
   // readonly APIUrl = "http://192.168.1.67:32767/api";;
-  readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+  readonly APIUrl = environment.APIUrl;
+  //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
 
 
   getProcesoList(): Observable <Proceso[]> {

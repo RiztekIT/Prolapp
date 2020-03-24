@@ -197,7 +197,7 @@ export class EmailComponent implements OnInit {
         this._MessageService.sendMessage(formData).subscribe(() => {
           this.loading2 = false;
           this.files = []
-          document.getElementById('cerrarmodal').click();
+          //document.getElementById('cerrarmodal').click();
           Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
         });
       },5000);

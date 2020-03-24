@@ -5,6 +5,7 @@ import { ReciboPago } from '../../Models/ComplementoPago/recibopago';
 import { PagoCFDI } from '../../Models/ComplementoPago/pagocfdi';
 import { ReciboPagoMasterPagoCFDI } from '../../Models/ComplementoPago/recibopagoMasterpagoCFDI';
 import { Cliente } from 'src/app/Models/catalogos/clientes-model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,8 @@ export class ReciboPagoService {
   constructor(private http: HttpClient) { }
 
   // URL donde mandaremos el request al servidor para obtener los Datos de la DB
-  readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+  readonly APIUrl = environment.APIUrl;
+  //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
 
   //Obtener Lista de ReciboPago
   getRecibosPagoList(): Observable<ReciboPago[]> {

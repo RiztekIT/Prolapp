@@ -8,6 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Pedido } from '../../Models/Pedidos/pedido-model';
 import { pedidoMaster } from 'src/app/Models/Pedidos/pedido-master';
 import { ClienteDireccion } from 'src/app/Models/cliente-direccion/clienteDireccion-model';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -48,7 +49,8 @@ export class VentasPedidoService {
 
   // readonly APIUrl = "https://localhost:44361/api";
   // readonly APIUrl = "http://192.168.1.67:32767/api";
-  readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+  readonly APIUrl = environment.APIUrl;
+  //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
 
 
 

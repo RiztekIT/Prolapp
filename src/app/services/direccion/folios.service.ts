@@ -2,8 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { Folio } from 'src/app/Models/direccion/folio-model';
+import { environment } from 'src/environments/environment';
 
-export const APIUrl = "http://riztekserver.ddns.net:44361/api";
+export const APIUrl = environment.APIUrl;
+//export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 
 
 @Injectable({

@@ -5,8 +5,11 @@ import {Observable } from 'rxjs';
 import {Subject} from 'rxjs';
 import { MasterOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterOrdenCarga-model';
 import { MasterDetalleOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterDetalleOrdenCarga-model';
+import { environment } from 'src/environments/environment';
 
-export const APIUrl = "http://riztekserver.ddns.net:44361/api";
+//export const APIUrl = "http://riztekserver.ddns.net:44361/api";
+export const APIUrl = environment.APIUrl;
+
 // export const APIUrl = "https://localhost:44361/api";
 
 @Injectable({

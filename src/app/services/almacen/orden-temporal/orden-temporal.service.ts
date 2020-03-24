@@ -4,8 +4,10 @@ import { OrdenCarga } from '../../../Models/almacen/OrdenCarga/ordencarga.model'
 import {Observable } from 'rxjs';
 import {Subject} from 'rxjs';
 import { OrdenTemporal } from '../../../Models/almacen/OrdenTemporal/ordenTemporal-model';
+import { environment } from 'src/environments/environment';
 
-export const APIUrl = "http://riztekserver.ddns.net:44361/api";
+export const APIUrl = environment.APIUrl;
+//export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 
 @Injectable({
   providedIn: 'root'

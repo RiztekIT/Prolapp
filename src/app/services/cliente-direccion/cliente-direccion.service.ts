@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { ClienteDireccion } from '../../Models/cliente-direccion/clienteDireccion-model';
 import {Observable, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class ClienteDireccionService {
 
   IdCliente: number;
 
-  readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+  //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+  readonly APIUrl = environment.APIUrl;
 
   //Obtener list Clientes Direccion
   getClientesDireccionList(): Observable <ClienteDireccion[]> {
