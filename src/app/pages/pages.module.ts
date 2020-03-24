@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef } from '@angular/material';
+import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule } from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
@@ -187,6 +187,7 @@ import { OrdenCargaComponent } from '../components/almacen/orden-carga/orden-car
 import { OrdenSalidaComponent } from '../components/almacen/orden-salida/orden-salida.component';
 import { VendedoresComponent } from './administracion/catalogos/vendedores/vendedores.component';
 import { CalendarioCComponent } from './compras/calendario/calendario.component'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -354,6 +355,7 @@ import { CalendarioCComponent } from './compras/calendario/calendario.component'
         MatSelectModule,
         MatAutocompleteModule,
         MatCardModule,
+        MatSlideToggleModule,
         MatGridListModule,
         MatMenuModule,
         MatDividerModule,
@@ -366,7 +368,8 @@ import { CalendarioCComponent } from './compras/calendario/calendario.component'
         MatTooltipModule,
         NgxDropzoneModule,
         NgxDocViewerModule,
-        QRCodeModule
+        QRCodeModule,
+        BrowserAnimationsModule,
 
     ],
     providers: [
