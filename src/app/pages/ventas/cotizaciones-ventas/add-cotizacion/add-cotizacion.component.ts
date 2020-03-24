@@ -41,6 +41,9 @@ const httpOptions = {
 })
 export class AddCotizacionComponent implements OnInit {
 
+  public show:boolean = false;
+  public buttonName:any = 'Cliente Nuevo';
+
   dialogbox: any;
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasCotizacionService,private _formBuilder: FormBuilder,
@@ -58,6 +61,8 @@ export class AddCotizacionComponent implements OnInit {
     firstFormGroup: FormGroup;
     secondFormGroup: FormGroup;
     thirdFormGroup: FormGroup;
+
+    Nuevo: false;
 
 
     filteredOptionsUnidad: Observable<any[]>;
@@ -968,4 +973,14 @@ crearPedido() {
   )
 }
 
+toggle() {
+  this.show = !this.show;
+
+  // CHANGE THE NAME OF THE BUTTON.
+  if(this.show)  
+    this.buttonName = "Cliente Existente";  
+  else
+    this.buttonName = "Cliente Nuevo";
+
+}
 }
