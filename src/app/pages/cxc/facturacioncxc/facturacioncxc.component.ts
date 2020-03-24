@@ -159,9 +159,9 @@ this.loadtable = true;
             this.listData.sort = this.sort;    
             this.listData.paginator = this.paginator;
             this.listData.paginator._intl.itemsPerPageLabel = 'Facturas por Pagina';
-            this.loadtable = false;
           })
         }}
+        this.loadtable = false;
         // console.log(this.listData);
       });
     })
