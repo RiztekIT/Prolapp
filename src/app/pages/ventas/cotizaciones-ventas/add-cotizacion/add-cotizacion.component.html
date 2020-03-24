@@ -1,37 +1,497 @@
-<mat-horizontal-stepper [linear]="isLinear" #stepper>
-    <mat-step>
-        <form>
-            <ng-template matStepLabel>Informacion del Cliente</ng-template>
-            <br>
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 col-md6">
-                        <label class="input-group-text text-info"> N° De Cotizacion </label>
-                        <input type="text" class="form-control" name="IdCotizacion" #IdCotizacion="ngModel" [(ngModel)]="service.formDataCotizacion.IdCotizacion" readonly>
-                    </div>
+<h3 class="text-muted m-t-10 m-b-0">Cotizacion Ventas</h3>
+<button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button>
+
+<div class="col-12">
+    <div class="card">
+        <div class="card-body">
+
+
+            <!-- Step 1 -->
+            <h6>Informacion del cliente</h6>
+            <section>
+                <!-- va en el ngform -->
+                <!--   updateReciboPago(reciboPago: ReciboPago) {
+    return this.http.put(this.APIUrl + '/ReciboPago', reciboPago);
+  } -->
+
+                <div class="form-material">
+
+                    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+                        <mat-step [stepControl]="thirdFormGroup">
+                            <form>
+                                <ng-template matStepLabel>Cotizacion</ng-template>
+                                <br>
+
+                                <div class="container">
+                                    <div class="row">
+
+                                        <div class="col-12 col-md-6">
+                                            <label class="input-group-text text-info">IdCotizacion:</label>
+                                            <input type="text" class="form-control" name="IdCotizacion" #IdCotizacion="ngModel" [(ngModel)]="service.formDataCotizacion.IdCotizacion" readonly>
+
+                                            <label class="input-group-text text-info">Folio:</label>
+                                            <input type="text" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="service.formDataCotizacion.Folio" readonly>
+
+                                            <label class="input-group-text text-info">Observaciones:</label>
+                                            <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="service.formDataCotizacion.Observaciones">
+
+                                            <!-- <label class="input-group-text text-info">Fecha Vencimiento:</label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <input type="text" readonly="readonly" [matDatepicker]="picker1" class="form-control" name="FechaVencimiento" #FechaVencimiento="ngModel" [(ngModel)]="service.formDataPedido.FechaVencimiento">
+                                            <mat-datepicker #picker1></mat-datepicker> -->
+
+                                            <label class="input-group-text text-info">Moneda</label>
+                                            <select class="form-control" name="Moneda" #Moneda="ngModel" id="Moneda" (change)="MonedaSelected($event)" [(ngModel)]="service.formDataCotizacion.Moneda">
+                                                <option [ngValue]="null" selected disabled>Seleccionar Moneda</option>
+                                                <option *ngFor="let dl of listMoneda" [ngValue]="dl.Moneda"> {{dl.Moneda}} </option>
+                                            </select>
+
+                                            <div *ngIf="MonedaBoolean == true; else elseBlockDlls">
+
+                                                <label class="input-group-text text-info">Descuento:</label>
+                                                <input type="text" class="form-control" name="Descuento" #Descuento="ngModel" (blur)="onBlurDescuento()" [(ngModel)]="service.formDataCotizacion.Descuento">
+
+                                            </div>
+                                            <ng-template #elseBlockDlls>
+
+                                                <label class="input-group-text text-info">DescuentoDlls:</label>
+                                                <input type="text" class="form-control" name="DescuentoDlls" #DescuentoDlls="ngModel" (blur)="onBlurDescuentoDlls()" [(ngModel)]="service.formDataCotizacion.DescuentoDlls">
+
+                                            </ng-template>
+
+                                            <!-- <label class="input-group-text text-info">Requiere Factura:</label>
+                                            <mat-checkbox #checkbox1 [(checked)]="isFactura" (change)='changeFactura(checkbox1.checked)'></mat-checkbox> -->
+
+                                            <br>
+                                            <label class="input-group-text text-info">Flete:</label>
+                                            <mat-checkbox #checkbox [(checked)]="isFlete" (change)='changeFlete(checkbox.checked)'></mat-checkbox>
+
+                                            <div *ngIf="isFlete == true">
+                                                <label class="input-group-text text-info">Tipo de Flete:</label>
+                                                <select placeholder="Seleccionar Flete" class="form-control" name="Flete" #Flete="ngModel" [(ngModel)]="service.formDataCotizacion.Flete">
+                                                    <option [ngValue]="null" selected disabled>Seleccionar Flete</option>
+                                                    <option *ngFor="let lf of listFlete" [ngValue]="lf.Flete"> {{lf.Flete}} </option>
+                                                </select>
+                                            </div>
+
+
+
+
+
+                                        </div>
+                                        <div class="col-6">
+                                            <!-- <label class="input-group-text text-info">Orden de Compra:</label>
+                                            <input type="text" class="form-control" name="OrdendeCompra" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataPedido.OrdenDeCompra"> -->
+
+                                            <label class="input-group-text text-info">Fecha de Entrega:</label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                            <input type="text" readonly="readonly" [matDatepicker]="picker2" class="form-control" name="FechaDeEntrega" #FechaDeEntrega="ngModel" [(ngModel)]="service.formDataCotizacion.FechaDeExpedicion">
+                                            <mat-datepicker #picker2></mat-datepicker>
+
+                                            <!-- <label class="input-group-text text-info">Condiciones De Pago:</label>
+                                            <input type="text" class="form-control" name="CondicionesDePago" #CondicionesDePago="ngModel" [(ngModel)]="service.formDataPedido.CondicionesDePago"> -->
+
+                                            <label class="input-group-text text-info">Vendedor:</label>
+                                            <mat-form-field>
+                                                <input type="text" placeholder="Seleccionar Vendedor" aria-label="Number" [formControl]="myControlVendedor" [(ngModel)]="service.formDataCotizacion.Vendedor" matInput [matAutocomplete]="autoVendedor">
+                                                <mat-autocomplete #autoVendedor="matAutocomplete">
+                                                    <mat-option *ngFor="let option of filteredOptionsVendedor | async" [value]="option.IdVendedor" (onSelectionChange)="onSelectionChangeVendedor(option, $event)">
+                                                        {{option.IdVendedor}} {{option.Nombre}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                            <input readonly placeholder="Vendedor No seleccionado" type="text" class="form-control" [(ngModel)]="NombreVendedor" name="first">
+
+
+                                            <!-- <label class="input-group-text text-info">Prioridad:</label> -->
+                                            <!-- <input type="text" class="form-control" name="Prioridad" #Prioridad="ngModel" [(ngModel)]="service.formDataPedido.Prioridad"> -->
+                                            <!-- <select class="form-control" name="Prioridad" #Prioridad="ngModel" [(ngModel)]="service.formDataPedido.Prioridad">
+                                                <option [ngValue]="null" selected disabled>Seleccionar Prioridad</option>
+                                                <option *ngFor="let dl of listPrioridad" [ngValue]="dl.Prioridad"> {{dl.Prioridad}} </option>
+                                            </select> -->
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                            </form>
+
+                            <div class="container row">
+                                <div class="col-md-10"></div>
+                                <div class="col-12 col-md-2">
+                                    <br>
+                                    <button class="btn btn-info btn-md float-md-right" matStepperNext>Next</button>
+                                </div>
+                            </div>
+
+                        </mat-step>
+                        <mat-step [stepControl]="firstFormGroup">
+                            <form>
+                                <ng-template matStepLabel>Cliente</ng-template>
+                                <label class="input-group-text text-info">Cliente :</label> <br>
+
+                                <mat-form-field>
+                                    <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="service.formData.IdClientes" name="IdClientes">
+                                    <mat-autocomplete #auto="matAutocomplete">
+                                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (blur)="onBlurCliente()" (onSelectionChange)="onSelectionChange(option, $event)">
+                                            {{option.IdClientes}} {{option.Nombre}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <div *ngIf="ClienteSeleccionado == true">
+                                                <label class="input-group-text text-info">Otra Direccion:</label>
+                                                <mat-checkbox #checkboxDireccion [(checked)]="isDireccion" (change)='changeDireccion(checkboxDireccion.checked)'></mat-checkbox>
+                                            </div>
+                                            <br>
+                                            <div *ngIf="isDireccion == true">
+                                                <button mat-icon-button class="btn btn-success" (click)="AbrirDireccionCliente(service.formData.IdClientes)"><mat-icon>add_location</mat-icon></button>
+                                                <label class="input-group-text text-info">Direccion:</label>
+                                                <mat-form-field>
+                                                    <input type="text" placeholder="Seleccionar Direccion" aria-label="Number" [formControl]="myControlDireccion" [ngModel]="IdDireccion" matInput [matAutocomplete]="autoDireccion">
+                                                    <mat-autocomplete #autoDireccion="matAutocomplete">
+                                                        <mat-option *ngFor="let option of filteredOptionsDireccion | async" [value]="option.IdDireccion" (onSelectionChange)="onSelectionChangeDireccion(option, $event)">
+                                                            {{option.Calle}} | {{option.Colonia}} | {{option.CP}} | {{option.Calle}} | {{option.Ciudad}} | {{option.Estado}} | {{option.NumeroExterior}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                </mat-form-field>
+                                            </div>
+                                            <br>
+                                            <label class="input-group-text text-info">Nombre :</label>
+                                            <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre" readonly>
+
+                                            <label class="input-group-text text-info">RFC :</label>
+                                            <input type="text" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="service.formData.RFC" readonly>
+
+                                            <label class="input-group-text text-info">Razon Social :</label>
+                                            <input type="text" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="service.formData.RazonSocial" readonly>
+
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <!-- <label class="input-group-text text-info">Lugar de Entrega:</label>
+                                            <input type="text" class="form-control" name="LugarDeEntrega" #LugarDeEntrega="ngModel" [(ngModel)]="service.formDataPedido.LugarDeEntrega"> -->
+
+                                            <label class="input-group-text text-info">Calle :</label>
+                                            <input type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle" readonly>
+
+                                            <label class="input-group-text text-info">Colonia :</label>
+                                            <input type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia" readonly>
+
+
+                                            <label class="input-group-text text-info">CP :</label>
+                                            <input type="text" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP" readonly>
+
+                                            <label class="input-group-text text-info">Ciudad :</label>
+                                            <input type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad" readonly>
+
+                                            <label class="input-group-text text-info">Estado :</label>
+                                            <input type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado" readonly>
+
+                                            <label class="input-group-text text-info">NumeroExterior :</label>
+                                            <input type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior" readonly>
+
+                                            <label class="input-group-text text-info">NumeroInterior :</label>
+                                            <input type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior" readonly>
+
+
+                                            <!-- <label class="input-group-text text-info">ClaveCliente :</label>
+                                            <input type="text" class="form-control" name="ClaveCliente" #ClaveCliente="ngModel" [(ngModel)]="service.formData.ClaveCliente" readonly> -->
+
+                                            <!-- <label class="input-group-text text-info">Estatus :</label>
+                                            <input type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formData.Estatus" readonly> -->
+
+                                            <!-- <label class="input-group-text text-info">LimiteCredito :</label>
+                                            <input type="text" class="form-control" name="LimiteCredito" #LimiteCredito="ngModel" [(ngModel)]="service.formData.LimiteCredito" readonly>
+
+                                            <label class="input-group-text text-info">DiasCredito :</label>
+                                            <input type="text" class="form-control" name="DiasCredito" #DiasCredito="ngModel" [(ngModel)]="service.formData.DiasCredito" readonly> -->
+
+                                            <!-- <label class="input-group-text text-info">MetodoPago :</label>
+                                            <input type="text" class="form-control" name="MetodoPago" #MetodoPago="ngModel" [(ngModel)]="service.formData.MetodoPago" readonly> -->
+
+                                            <!-- <label class="input-group-text text-info">UsoCFDI :</label>
+                                            <input type="text" class="form-control" name="UsoCFDI" #UsoCFDI="ngModel" [(ngModel)]="service.formData.UsoCFDI" readonly> -->
+
+                                            <!-- <label class="input-group-text text-info">IdApi :</label>
+                                            <input type="text" class="form-control" name="IdApi" #IdApi="ngModel" value="" [(ngModel)]="service.formData.IdApi" readonly> -->
+                                            <div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="container row">
+                                            <div class="col-12 col-md-4">
+                                                <br>
+                                                <button matStepperPrevious class="btn btn-primary btn-md">Back</button>
+                                            </div>
+                                            <div class="col-4"></div>
+                                            <div class="col-12 col-md-4">
+                                                <br>
+                                                <button matStepperNext class="btn btn-info btn-md">Next</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </form>
+                        </mat-step>
+
+                        <mat-step [stepControl]="secondFormGroup">
+                            <form #DetallePedidoForm="ngForm">
+                                <ng-template matStepLabel>Producto</ng-template>
+                                <label class="input-group-text text-info">Producto :</label> <br>
+                                <mat-form-field>
+                                    <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl2" [(ngModel)]="ProductoSelect" matInput [matAutocomplete]="autoProducto">
+                                    <mat-autocomplete #autoProducto="matAutocomplete">
+                                        <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.IdProducto" (onSelectionChange)="onSelectionChange2(option, $event)">
+                                            {{option.ClaveProducto}} || {{option.Nombre}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <label class="input-group-text text-info">Nombre :</label>
+                                            <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formProd.Nombre" readonly>
+
+                                            <br>
+                                            <div *ngIf="MonedaBoolean == true; else elseBlockPC">
+
+                                                <label class="input-group-text text-info"> Precio Costo :</label>
+                                                <input type="number" class="form-control" name="PrecioCosto" #PrecioVenta="ngModel" [(ngModel)]="ProductoPrecio" (ngModelChange)="onChangePrecio($event)">
+
+                                            </div>
+                                            <ng-template #elseBlockPC>
+                                                <label class="input-group-text text-info"> Precio Costo Dlls :</label>
+                                                <input type="number" class="form-control" name="PrecioCostoDlls" #PrecioVenta="ngModel" [(ngModel)]="ProductoPrecioDLLS" (ngModelChange)="onChangePrecioDlls($event)">
+
+                                            </ng-template>
+
+                                            <label class="input-group-text text-info"> Cantidad:</label>
+                                            <input type="number" class="form-control" name="Cantidad" [(ngModel)]="Cantidad" (ngModelChange)="onChangeCantidadP($event)">
+
+
+
+                                            <label class="input-group-text text-info"> ClaveProducto:</label>
+                                            <input type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="service.formProd.ClaveProducto" readonly>
+
+                                            <label class="input-group-text text-info"> Stock:</label>
+                                            <input type="text" class="form-control" name="Stock" #Stock="ngModel" [(ngModel)]="service.formProd.Stock" readonly>
+
+                                            <label class="input-group-text text-info"> Descripcion Producto:</label>
+                                            <input type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="service.formProd.DescripcionProducto" readonly>
+
+
+                                        </div>
+
+
+                                        <div class="col-12 col-md-6">
+
+                                            <mat-form-field class="example-full-width">
+                                                <input type="text" autocomplete="off" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formDataDP.Unidad" (focus)="unidadMedida()">
+                                                <mat-autocomplete #autoUnidad="matAutocomplete">
+                                                    <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.ClaveSAT">
+                                                        {{option.ClaveSAT}} {{option.Nombre}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+
+                                            <label class="input-group-text text-info"> Estatus:</label>
+                                            <input type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formProd.Estatus" readonly>
+
+                                            <label class="input-group-text text-info"> IVA:</label>
+                                            <input type="text" class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="service.formProd.IVA" readonly>
+
+                                            <label class="input-group-text text-info">Clave SAT :</label>
+                                            <input type="text" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="service.formProd.ClaveSAT" readonly>
+
+                                            <label class="input-group-text text-info">Observaciones :</label>
+                                            <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="service.formDataDP.Observaciones">
+
+                                            <!-- <label class="input-group-text text-info">Texto Extra :</label>
+                                            <input type="text" class="form-control" name="TextoExtra" #TextoExtra="ngModel" [(ngModel)]="service.formDataDP.TextoExtra"> -->
+
+                                        </div>
+                                        <div class="container row">
+                                            <div class="col-md-7 col-lg-8">
+                                            </div>
+                                            <div class="col-12 col-md-5 col-lg-4">
+                                                <div class="form-material borderbox">
+                                                    <div class="container">
+                                                        <div class="row">
+
+                                                            <div *ngIf="MonedaBoolean == true; else elseBlockImporteDlls">
+
+                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Importe</label>
+                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImporteP" [ngModel]=" MonedaBoolean ==  true ? (importeP | currency ): (importePDLLS | currency)">
+
+                                                            </div>
+                                                            <ng-template #elseBlockImporteDlls>
+
+                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Importe Dlls</label>
+                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImportePDlls" [ngModel]=" MonedaBoolean ==  true ? (importeP | currency ): (importePDLLS | currency)">
+
+
+                                                            </ng-template>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div *ngIf="Cantidad > 0 && ActualizarDetallePedidoBool == false">
+                                            <button class="btn btn-dark" (click)="onAddProducto(DetallePedidoForm)">Agregar Producto</button>
+                                        </div>
+                                        <div *ngIf="ActualizarDetallePedidoBool != false">
+                                            <button class="btn btn-dark" (click)="OnEditDetallePedidodp(DetallePedidoForm)">Actualizar Producto</button>
+                                            <button class="btn btn-dark" (click)="Cancelar(DetallePedidoForm)">Cancelar</button>
+
+                                        </div>
+                                        <br>
+                                        <mat-divider></mat-divider>
+                                        <!-- <mat-card style="text-align: right;" class="mat-elevation-z0">
+                                            <mat-form-field>
+                                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                                            </mat-form-field>
+                                        </mat-card> -->
+                                        <h2>Productos</h2>
+                                        <div class="mat-elevation-z8 container">
+                                            <div style="overflow:auto;">
+
+                                                <div>
+                                                    <table style="width: 100% " mat-table [dataSource]="listData" matSort>
+
+                                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                                        <ng-container matColumnDef="ClaveProducto">
+                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
+                                                            <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}</td>
+                                                        </ng-container>
+                                                        <ng-container matColumnDef="ClaveSAT">
+                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave SAT</th>
+                                                            <td mat-cell *matCellDef="let element">{{element.ClaveSAT}}</td>
+                                                        </ng-container>
+                                                        <ng-container matColumnDef="Producto">
+                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                                                            <td mat-cell *matCellDef="let element">{{element.Producto}}</td>
+                                                        </ng-container>
+                                                        <ng-container matColumnDef="Cantidad">
+                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
+                                                            <td mat-cell *matCellDef="let element">{{element.Cantidad}}</td>
+                                                        </ng-container>
+                                                        <ng-container matColumnDef="Importe" *ngIf="MonedaBoolean == true">
+                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
+                                                            <td mat-cell *matCellDef="let element">{{element.Importe | currency}}</td>
+                                                        </ng-container>
+                                                        <ng-container matColumnDef="Importe" *ngIf="MonedaBoolean == false">
+                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
+                                                            <td mat-cell *matCellDef="let element">{{element.ImporteDlls | currency}}</td>
+                                                        </ng-container>
+
+                                                        <ng-container matColumnDef="Options">
+                                                            <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
+                                                            <td mat-cell *matCellDef="let row">
+                                                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                                <mat-icon>keyboard_arrow_down</mat-icon>
+                                              </button>
+                                                                <mat-menu #menu="matMenu">
+                                                                    <!--  -->
+                                                                    <button mat-icon-button class="btn btn-dark" (click)="OnEditProducto(row)">
+                                                  <mat-icon>edit</mat-icon>
+                                                </button>
+                                                                    <!--  -->
+                                                                    <button mat-icon-button class="btn btn-danger" (click)="onDeleteDetalleProducto(row)">
+                                                  <mat-icon>delete_outline</mat-icon>
+                                                </button>
+                                                                </mat-menu>
+                                                            </td>
+                                                        </ng-container>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <button class="m-3" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Agregar Producto</button> -->
+
+                                        <!-- Tabla de costos finales -->
+
+                                        <div class="container row">
+                                            <div class="col-md-7 col-lg-8">
+                                            </div>
+                                            <div class="col-12 col-md-5 col-lg-4">
+                                                <br>
+                                                <div class="form-material borderbox">
+                                                    <div class="container">
+                                                        <div class="row">
+
+                                                            <div *ngIf="MonedaBoolean == true; else elseBlock">
+
+                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">SubTotal</label>
+                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="SubTotal" [ngModel]="MonedaBoolean ==  true ? (subtotal | currency) : (subtotalDlls | currency)">
+
+                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Descuento</label>
+                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Descuento" [ngModel]="MonedaBoolean ==  true ? (descuento | currency) : (descuentoDlls | currency)">
+
+                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
+                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="MonedaBoolean ==  true ? (total | currency) : (totalDlls | currency)">
+
+                                                            </div>
+
+                                                            <ng-template #elseBlock>
+
+                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">SubTotal Dlls</label>
+                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="SubTotalDlls" [ngModel]="subtotalDlls | currency">
+
+                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Descuento Dlls</label>
+                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="DescuentoDlls" [ngModel]="descuentoDlls | currency">
+
+                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total Dlls</label>
+                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="TotalDlls" #TotalDlls="ngModel" [ngModel]="totalDlls | currency">
+
+                                                            </ng-template>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="container row">
+                                    <div class="col-12 col-md-4">
+                                        <br>
+                                        <button matStepperPrevious class="btn btn-primary btn-md">Back</button>
+                                    </div>
+                                    <div class="col-4"></div>
+                                    <div class="col-12 col-md-4">
+                                        <br>
+                                        <button matStepperNext class="btn btn-info btn-md" (click)="crearPedido()">Generar Cotizacion</button>
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
+                            </form>
+                        </mat-step>
+
+
+                    </mat-horizontal-stepper>
+
+
                 </div>
-            </div>
-        </form>
-    </mat-step>
-    <mat-step>
-        <form [formGroup]="secondFormGroup">
-            <ng-template matStepLabel>Fill out your address</ng-template>
-            <mat-form-field>
-                <mat-label>Address</mat-label>
-                <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
-            </mat-form-field>
-            <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button matStepperNext>Next</button>
-            </div>
-        </form>
-    </mat-step>
-    <mat-step>
-        <ng-template matStepLabel>Done</ng-template>
-        <p>You are now done.</p>
-        <div>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button (click)="stepper.reset()">Reset</button>
+            </section>
         </div>
-    </mat-step>
-</mat-horizontal-stepper>

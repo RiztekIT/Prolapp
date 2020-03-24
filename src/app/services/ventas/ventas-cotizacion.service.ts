@@ -6,6 +6,8 @@ import { Cotizacion } from '../../Models/ventas/cotizacion-model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Cliente } from 'src/app/Models/catalogos/clientes-model';
 import { Producto } from 'src/app/Models/catalogos/productos-model';
+import { DetallePedido } from 'src/app/Models/Pedidos/detallePedido-model';
+import { ClienteDireccion } from 'src/app/Models/cliente-direccion/clienteDireccion-model';
 import { cotizacionMaster } from '../../Models/ventas/cotizacion-master';
 import { DetalleCotizacion } from '../../Models/ventas/detalleCotizacion-model';
 
@@ -24,58 +26,124 @@ const httpOptions2 = {
   responseType: 'text' as 'json'
 }
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class VentasCotizacionService {
-
   
-
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
-
   formdata = new Cotizacion();
   formrow: any;
-  master = new Array<cotizacionMaster>();
-  formDatadc = new DetalleCotizacion();
-  // formt: any;
-  // formData = new Cliente();
+  
+  constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
+  
+  formt: any;
+  formData = new Cliente();
   formProd = new Producto();
-  // formDataDP= new DetallePedido();
+  formDataDP = new DetalleCotizacion();
   formDataCotizacion = new Cotizacion();
-  // master = new Array<pedidoMaster>();
+  master = new Array<cotizacionMaster>();
   Moneda: string;
   IdCotizacion: number;
-  IdCliente: number;
+  IdCliente : number;
   readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
-
-
+  
   updateVentasPedido(pedido: any) {
     return this.http.put(this.APIUrl + '/Pedido', pedido);
   }
 
-  GetCliente(id: number): Observable<Cliente[]> {
-    return this.http.get<any>(this.APIUrl + '/Cliente/id/' + id);
+    // updateVentasPedido(pedido: any) {
+    //   return this.http.put(this.APIUrl + '/Pedido', pedido);
+    // }
+    //get Direcciones en base a ID CLIENTE
+    getDireccionesCliente(id: number): Observable<ClienteDireccion[]> {
+    return this.http.get<ClienteDireccion[]>(this.APIUrl + '/Pedido/DireccionCliente/' + id);
+    } 
+
+    GetCliente(id:number): Observable <Cliente[]>{
+      return this.http.get<any>(this.APIUrl + '/Cliente/id/' + id);
+    }
+    
+    getDepDropDownValues(): Observable<any> {
+      return this.http.get<Cliente[]>(this.APIUrl + '/cliente');
+    }
+    getDepDropDownValues2(): Observable<any> {
+      return this.http.get<Cliente[]>(this.APIUrl + '/producto');
+    }
+    //Get Unidades De Medida
+    unidadMedida(): Observable<any>{
+      let rootURLUM = "/api/v3/catalogo/ClaveUnidad";
+      return this.http.get(rootURLUM,httpOptions2);
+    }
+    //get Direcciones en base a ID CLIENTE
+ getDireccionID(id: number): Observable<ClienteDireccion[]> {
+  return this.http.get<ClienteDireccion[]>(this.APIUrl + '/Pedido/DireccionID/' + id);
+    }
+
+    getCotizacionId(id: number): Observable <Cotizacion[]>{
+      return this.http.get<Cotizacion[]>(this.APIUrl + '/Cotizacion/CotizacionId/' + id);
+    }
+
+    GetProductoDetalleCotizacion(claveProducto:string, Id:number): Observable<any>{
+      return this.http.get<any>(this.APIUrl + '/Cotizacion/ProductoDetalleProducto/' + claveProducto + '/'+ Id)
+    }
+
+    //Get Ultimo pedido
+    getUltimaCotizacion(): Observable <any>{
+    return this.http.get<any>(this.APIUrl + '/Cotizacion/UltimaCotizacion');
+    }
+
+    OnEditDetalleCotizacion(dp: DetalleCotizacion){
+      return this.http.put(this.APIUrl + '/Cotizacion/EditDetallecotizacion', dp)
+    }
+
+    onDeleteDetalleCotizacion(id: number){
+      return this.http.delete(this.APIUrl + '/Cotizacion/DeleteDetalleCotizacion/' + id);
+    }
+
+    //Get Detalle Cotizacion Por ID
+  GetDetalleCotizacionId(id:number): Observable<any>{
+    return this.http.get<DetalleCotizacion[]>(this.APIUrl + '/Cotizacion/DetalleCotizacionesId/' + id)
   }
+  
+  GetSumaImporte(Id:number): Observable<any>{
+    return this.http.get<any>(this.APIUrl + '/Cotizacion/SumaImporte/' + Id)
+  }
+
+  addDetalleCotizacion(detalle: DetalleCotizacion){
+    return this.http.post(this.APIUrl + '/Cotizacion/InsertDetalleCotizacion', detalle );
+  }
+
+
+  GetFolio(): Observable<any>{
+    return this.http.get<any>(this.APIUrl + '/Cotizacion/Folio')
+  }
+  
+  //Eliminar ALL Detalle Pedido
+  onDeleteAllDetalleCotizacion(id: number){
+    return this.http.delete(this.APIUrl + '/Cotizaciones/DeleteAllDetalleCotizacion/' + id);
+  }
+
+    /////////////////////////////////////////////////
+    onDeleteCotizacion(id: number){
+        return this.http.delete(this.APIUrl + '/Cotizacion/BorrarCotizacion/' + id);
+    }
+
+
+    addCotizacion(cotizacion: Cotizacion){
+        return this.http.post(this.APIUrl + '/Cotizaciones', cotizacion)
+    }
+    
+   
+ 
 
   getCotizaciones(): Observable<any[]> {
     return this.http.get<any>(this.APIUrl + '/Cotizaciones');
   }
 
-  getDepDropDownValues(): Observable<any> {
-    return this.http.get<Cliente[]>(this.APIUrl + '/cliente');
-  }
-  getDepDropDownValues2(): Observable<any> {
-    return this.http.get<Cliente[]>(this.APIUrl + '/producto');
-  }
-  //Get Unidades De Medida
-  unidadMedida(): Observable<any> {
-    let rootURLUM = "/api/v3/catalogo/ClaveUnidad";
-    return this.http.get(rootURLUM, httpOptions2);
-  }
-
   //Obtener Vendedores
   GetVendedor(): Observable<any> {
-    return this.http.get<any>(this.APIUrl + '/Cotizaciones/Vendedor')
+    return this.http.get<any>(this.APIUrl + '/Cotizacion/Vendedor')
   }
 
     //Get Detalles cotizaciones en base a IdCotizacion
@@ -84,17 +152,12 @@ export class VentasCotizacionService {
     }
 
   /////////////////////////////////////////////////
-  onDeleteCotizacion(id: number) {
-    return this.http.delete(this.APIUrl + '/Cotizaciones/BorrarCotizacion/' + id);
-  }
 
   onEditCotizacion(ct: Cotizacion) {
-    return this.http.put(this.APIUrl + '/Cotizacion', ct)
+    return this.http.put(this.APIUrl + '/Cotizaciones', ct)
   }
 
-  addCotizacion(cotizacion: Cotizacion) {
-    return this.http.post(this.APIUrl + '/Cotizacion', cotizacion)
-  }
+
 
   private _listeners = new Subject<any>();
   listen(): Observable<any> {

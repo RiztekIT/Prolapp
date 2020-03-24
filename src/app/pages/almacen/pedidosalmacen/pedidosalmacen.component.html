@@ -28,7 +28,7 @@
 
                         <ng-container matColumnDef="FechaEnvio">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Envio</th>
-                            <td mat-cell *matCellDef="let element">{{element.FechaEnvio}}
+                            <td mat-cell *matCellDef="let element">{{element.FechaEnvio | date: 'yyyy/MM/dd'}}
                                 <td>
                         </ng-container>
 
@@ -126,26 +126,20 @@
 
                                     <table width="100%">
                                         <tr>
-                                            <th> #Tarima </th>
-                                            <th> QR </th>
+                                            <!-- <th> #Tarima </th>
+                                            <th> QR </th> -->
                                             <th> Clave Producto </th>
                                             <th> Producto </th>
                                             <th> Sacos </th>
                                             <th> Lote </th>
                                         </tr>
                                         <tr *ngFor="let detalle of element.detalleOrdenCarga">
-                                            <td> {{detalle.IdTarima2}} </td>
-                                            <td> {{detalle.QR}} </td>
+                                            <!-- <td> {{detalle.IdTarima2}} </td>
+                                            <td> {{detalle.QR}} </td> -->
                                             <td> {{detalle.ClaveProducto}} </td>
                                             <td> {{detalle.Producto}} </td>
-                                            <td> {{ detalle.Sacos1}} </td>
+                                            <td> {{ detalle.Sacos}} </td>
                                             <td> {{ detalle.Lote}} </td>
-                                            <!-- <div *ngIf="element.Moneda == 'MXN'">
-                                                <td> {{ detalle.PrecioUnitario | currency}} </td>
-                                            </div>
-                                            <div *ngIf="element.Moneda == 'USD'">
-                                                <td> {{ detalle.PrecioUnitarioDlls | currency}} </td>
-                                            </div> -->
                                         </tr>
                                     </table>
                                 </div>
