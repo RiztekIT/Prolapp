@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef } from '@angular/material';
+import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule } from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
@@ -185,6 +185,9 @@ import { PrepararComponent } from './almacen/pedidosalmacen/ordencargadetalle/pr
 import { CargarComponent } from './almacen/pedidosalmacen/ordencargadetalle/cargar/cargar.component';
 import { OrdenCargaComponent } from '../components/almacen/orden-carga/orden-carga.component';
 import { OrdenSalidaComponent } from '../components/almacen/orden-salida/orden-salida.component';
+import { VendedoresComponent } from './administracion/catalogos/vendedores/vendedores.component';
+import { CalendarioCComponent } from './compras/calendario/calendario.component'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -322,7 +325,8 @@ import { OrdenSalidaComponent } from '../components/almacen/orden-salida/orden-s
         CargarComponent,
         OrdenCargaComponent,
         OrdenSalidaComponent,
-        
+        VendedoresComponent,
+        CalendarioCComponent
     
     ],
     exports: [
@@ -351,6 +355,7 @@ import { OrdenSalidaComponent } from '../components/almacen/orden-salida/orden-s
         MatSelectModule,
         MatAutocompleteModule,
         MatCardModule,
+        MatSlideToggleModule,
         MatGridListModule,
         MatMenuModule,
         MatDividerModule,
@@ -363,7 +368,8 @@ import { OrdenSalidaComponent } from '../components/almacen/orden-salida/orden-s
         MatTooltipModule,
         NgxDropzoneModule,
         NgxDocViewerModule,
-        QRCodeModule
+        QRCodeModule,
+        BrowserAnimationsModule,
 
     ],
     providers: [

@@ -46,4 +46,7 @@ export class SaldoscxcComponent implements OnInit {
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
 
   }
+  onEdit(row){
+    
+  }
 }

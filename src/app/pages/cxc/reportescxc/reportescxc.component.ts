@@ -4,7 +4,7 @@ import * as html2pdf from 'html2pdf.js';
 @Component({
   selector: 'app-reportescxc',
   templateUrl: './reportescxc.component.html',
-  styleUrls: ['/reportescxc.component.css']
+  styleUrls: ['./reportescxc.component.css']
 })
 export class ReportescxcComponent implements OnInit {
 

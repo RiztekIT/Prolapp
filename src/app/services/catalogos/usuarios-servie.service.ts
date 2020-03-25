@@ -6,6 +6,7 @@ import {Observable } from 'rxjs';
 import {Subject} from 'rxjs';
 import { Proceso } from '../../Models/proceso-model';
 import { procesoMasterDetalle } from '../../Models/procesomaster-model';
+import { environment } from 'src/environments/environment';
 
 
 @Injectable({
@@ -19,7 +20,8 @@ export class UsuariosServieService {
   master = new Array<procesoMasterDetalle>();
 
   // readonly APIUrl = "https://localhost:44361/api";
-  readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+  readonly APIUrl = environment.APIUrl;
+  //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
 
 
   getUsuariosList(): Observable <Usuario[]> {

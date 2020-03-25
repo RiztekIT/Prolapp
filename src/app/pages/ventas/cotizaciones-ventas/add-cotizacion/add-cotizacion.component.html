@@ -129,9 +129,11 @@
 
                         </mat-step>
                         <mat-step [stepControl]="firstFormGroup">
-                            <form>
-                                <ng-template matStepLabel>Cliente</ng-template>
-                                <label class="input-group-text text-info">Cliente :</label> <br>
+                            <ng-template matStepLabel>Cliente</ng-template>
+                            <label class="input-group-text text-info">Cliente :</label> <br>
+                            <mat-slide-toggle (click)="toggle()"> {{buttonName}} </mat-slide-toggle>
+                            <form *ngIf="show">
+                                <br>
 
                                 <mat-form-field>
                                     <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="service.formData.IdClientes" name="IdClientes">
@@ -238,6 +240,56 @@
 
                                     </div>
                                 </div>
+                            </form>
+                            <form *ngIf="!show">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+
+                                            <label class="input-group-text text-info">Nombre :</label>
+                                            <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formDataCotizacion.Nombre">
+
+                                            <label class="input-group-text text-info">Calle :</label>
+                                            <input type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle">
+
+                                            <label class="input-group-text text-info">Colonia :</label>
+                                            <input type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia">
+
+                                            <label class="input-group-text text-info">CP :</label>
+                                            <input type="text" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP">
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+
+                                            <label class="input-group-text text-info">Ciudad :</label>
+                                            <input type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad">
+
+                                            <label class="input-group-text text-info">Estado :</label>
+                                            <input type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado">
+
+                                            <label class="input-group-text text-info">NumeroExterior :</label>
+                                            <input type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior">
+
+                                            <label class="input-group-text text-info">NumeroInterior :</label>
+                                            <input type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior">
+                                        </div>
+
+                                        <div class="container row">
+                                            <div class="col-12 col-md-4">
+                                                <br>
+                                                <button matStepperPrevious class="btn btn-primary btn-md">Back</button>
+                                            </div>
+                                            <div class="col-4"></div>
+                                            <div class="col-12 col-md-4">
+                                                <br>
+                                                <button matStepperNext class="btn btn-info btn-md">Next</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
                             </form>
                         </mat-step>
 

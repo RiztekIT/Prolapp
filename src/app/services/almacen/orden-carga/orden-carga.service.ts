@@ -7,8 +7,11 @@ import { MasterOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterOrdenC
 import { MasterDetalleOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterDetalleOrdenCarga-model';
 import { ClienteDireccion } from 'src/app/Models/cliente-direccion/clienteDireccion-model';
 import { Cliente } from '../../../Models/catalogos/clientes-model';
+import { environment } from 'src/environments/environment';
 
-export const APIUrl = "http://riztekserver.ddns.net:44361/api";
+//export const APIUrl = "http://riztekserver.ddns.net:44361/api";
+export const APIUrl = environment.APIUrl;
+
 // export const APIUrl = "https://localhost:44361/api";
 
 @Injectable({

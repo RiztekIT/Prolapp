@@ -18,7 +18,7 @@ export class FoliosComponent implements OnInit {
 
 
    folios: number;
-   fecha: Date;
+   fecha: any;
    saldo: number;
   
   ngOnInit() {

@@ -12,6 +12,7 @@ import {Observable, BehaviorSubject } from 'rxjs';
 
 import {Subject} from 'rxjs';
 import { facturaMasterDetalle } from 'src/app/Models/facturacioncxc/facturamasterdetalle';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -39,7 +40,8 @@ export class FacturaService {
 
   // readonly APIUrl = "https://localhost:7002/api";
   // readonly APIUrl = "http://192.168.1.67:32767/api";
-  readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+  //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+  readonly APIUrl = environment.APIUrl;
 
   //Obtener lista de Facturas
   getFacturasList(): Observable <Factura[]> {

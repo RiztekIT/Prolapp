@@ -294,7 +294,7 @@ export class PedidoVentasComponent implements OnInit {
   }
 
 /* Metodo para enviar por correo, abre el modal con los datos */
-email(id: string, folio:string){
+email(id?: string, folio?:string){
   localStorage.removeItem('xml'+folio);
   localStorage.removeItem('pdf'+folio);
     document.getElementById('enviaremail').click();

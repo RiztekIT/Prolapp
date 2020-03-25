@@ -751,7 +751,8 @@ this.refreshTablaDetalles();
       
   }
 
-  cancelar(id: string, folio: string) {
+  cancelar(id: string, folio: number) {
+    
     Swal.fire({
       title: '¿Segur@ de Cancelar la Factura?',
       icon: 'warning',

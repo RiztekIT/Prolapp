@@ -10,6 +10,7 @@ import { DetallePedido } from 'src/app/Models/Pedidos/detallePedido-model';
 import { ClienteDireccion } from 'src/app/Models/cliente-direccion/clienteDireccion-model';
 import { cotizacionMaster } from '../../Models/ventas/cotizacion-master';
 import { DetalleCotizacion } from '../../Models/ventas/detalleCotizacion-model';
+import { environment } from 'src/environments/environment';
 
 const httpOptions2 = {
 
@@ -46,7 +47,8 @@ export class VentasCotizacionService {
   Moneda: string;
   IdCotizacion: number;
   IdCliente : number;
-  readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+  readonly APIUrl = environment.APIUrl;
+  //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
   
   updateVentasPedido(pedido: any) {
     return this.http.put(this.APIUrl + '/Pedido', pedido);
