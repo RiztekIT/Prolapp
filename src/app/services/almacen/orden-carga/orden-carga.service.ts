@@ -5,6 +5,8 @@ import {Observable } from 'rxjs';
 import {Subject} from 'rxjs';
 import { MasterOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterOrdenCarga-model';
 import { MasterDetalleOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterDetalleOrdenCarga-model';
+import { ClienteDireccion } from 'src/app/Models/cliente-direccion/clienteDireccion-model';
+import { Cliente } from '../../../Models/catalogos/clientes-model';
 
 export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 // export const APIUrl = "https://localhost:44361/api";
@@ -25,6 +27,7 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
     master = new Array<MasterOrdenCarga>();
     //formrow para guardar los datos del row para mostrarlos en PDF
     formrow: any;
+    formDataCliente = new Cliente();
 
     getOrdenCargaList(): Observable <OrdenCarga[]> {
         return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga');
@@ -55,6 +58,14 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
     deleteOrdenCarga(id: number){
         return this.http.delete(APIUrl +'/OrdenCarga/BorrarOrdenCarga/'+ id)
       }
+      //get Direcciones en base a ID CLIENTE
+    getDireccionID(id: number): Observable<ClienteDireccion[]> {
+        return this.http.get<ClienteDireccion[]>(APIUrl + '/Pedido/DireccionID/' + id);
+      }
+      //get Direcciones en base a ID CLIENTE
+    getDireccionesCliente(id: number): Observable<ClienteDireccion[]> {
+      return this.http.get<ClienteDireccion[]>(APIUrl + '/Pedido/DireccionCliente/' + id);
+      } 
 
       /* *************************************************** */
       /* *************************************************** */

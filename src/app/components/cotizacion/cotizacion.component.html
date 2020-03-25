@@ -66,8 +66,14 @@
                                     <p class="nomarginbottomP"><span class="blacktxt bolder"> Cliente: ( {{service.formrow.IdCliente}} )
                               {{service.formrow.Nombre}} </span></p>
                                     <p class="nomarginbottomP blacktxt">
-                                        <span class=" bolder">Calle:</span> {{service.formrow.Calle}} No.service.formrow.NumeroExterior service.formrow.NumeroInterior, CP. service.formrow.CP, service.formrow.Colonia , service.formrow.Ciudad , service.formrow.Estado
-                                        <span class="bolder"> RFC: </span> {{service.formrow.RFC}}
+                                        <span class=" bolder">Calle:</span> {{this.service.formData.Calle}}
+                                        <span class=" bolder">No.</span> {{this.service.formData.NumeroExterior}}
+                                        <span class=" bolder">No. Interior </span>{{service.formData.NumeroInterior}}
+                                        <span class=" bolder">CP. </span> {{this.service.formData.CP}}
+                                        <span class=" bolder">Colonia: </span> {{this.service.formData.Colonia}}
+                                        <span class=" bolder">Ciudad: </span> {{this.service.formData.Ciudad}}
+                                        <span class=" bolder">Estado: </span> {{this.service.formData.Estado}}
+                                        <span class=" bolder">RFC: </span> {{this.service.formData.RFC}}
                                     </p>
                                     <p class="bolder blacktxt nomarginbottomP">Telefono: <span style="font-weight: 200;"> {{service.formrow.Telefono}} </span>
                                     </p>
@@ -83,103 +89,62 @@
 
 
                 <!-- cantidad-unidad-clave- -->
-                <div class="container" style="height:610px">
+                <div class="container" style="height:570px">
                     <div class="col-lg-12 col-md-12 col-12">
                         <div class="card card-outline-inverse">
-                            <div class="card-header">
-
-                                <div class="table-responsive no-scroll">
-                                    <table class="table ">
-                                        <thead>
-                                            <tr>
-                                                <div class="container">
-                                                    <div class="row">
-                                                        <div class="col-1">
-                                                            <th class="bolder blacktxt pr-0">Cantidad</th>
-                                                        </div>
-                                                        <div class="col-2">
-                                                            <th class="bolder blacktxt">Unidad</th>
-                                                        </div>
-                                                        <div class="col-3">
-                                                            <th class="bolder blacktxt text-center">Clave</th>
-                                                        </div>
-                                                        <div class="col-3">
-                                                            <th class="bolder blacktxt text-center">Producto</th>
-                                                        </div>
-                                                        <div class="col-3">
-                                                            <th class="bolder blacktxt text-center">Total</th>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="col-lg-12 col-md-12 col-12">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr *ngFor="let conceptos of arrcon">
-                                                <div class="containter">
-
-                                                    <div class="row">
-                                                        <div class="col-1">
-                                                            <th class=" textoBodyAcomodo acomodoForzadoTh"> {{conceptos.Cantidad}} </th>
-                                                        </div>
-                                                        <div class="col-2">
-                                                            <th class=" textoBodyAcomodo acomodoForzadoTh2"> {{conceptos.Unidad}} </th>
-                                                        </div>
-                                                        <div class="col-3">
-                                                            <th class=" textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.ClaveProducto}} </th>
-                                                        </div>
-                                                        <div class="col-5">
-                                                            <th class=" textoBodyAcomodo"> {{conceptos.Producto}} </th>
-                                                        </div>
-                                                        <div class="col-1">
-                                                            <th class=" textoBodyAcomodo"> {{conceptos.Total}} </th>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </tr>
-
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                            <table class="table ">
+                                <thead>
+                                    <tr>
+                                        <th class="bolder blacktxt pb-0">Cantidad</th>
+                                        <th class="bolder blacktxt pb-0">Unidad</th>
+                                        <th class="bolder blacktxt pb-0">Clave</th>
+                                        <th class="bolder blacktxt pb-0">Producto</th>
+                                        <th class="bolder blacktxt pb-0">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let conceptos of arrcon">
+                                        <th> {{conceptos.Cantidad}} </th>
+                                        <th> {{conceptos.Unidad}} </th>
+                                        <th> {{conceptos.ClaveProducto}} </th>
+                                        <th> {{conceptos.Producto}} </th>
+                                        <th> {{this.total | currency}} </th>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <!-- Observaciones -->
-                    <div>
-                        <p class="bolder nomarginbottomP">OBSERVACIONES DE COTIZACIONES:</p>
-                        <p> {{service.formrow.Observaciones}} </p>
-                    </div>
                 </div>
+            </div>
+            <!-- Observaciones -->
+            <div>
+                <p class="bolder nomarginbottomP">OBSERVACIONES DE COTIZACIONES:</p>
+                <p> {{service.formrow.Observaciones}} </p>
+            </div>
 
-                <div class="col-lg-12 col-md-12 col-12">
-                    <div class="card card-outline-inverse pgbreak">
-                        <div class="card-body">
-                            <div class="containerborder">
-                                <div class="container">
-                                    <h4 class="text-center bolder blacktxt"> ANOTACIONES Y OBSERVACIONES ADICIONALES </h4>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                    <br>
-                                </div>
+
+            <div class="col-lg-12 col-md-12 col-12">
+                <div class="card card-outline-inverse pgbreak">
+                    <div class="card-body">
+                        <div class="containerborder">
+                            <div class="container">
+                                <h4 class="text-center bolder blacktxt"> ANOTACIONES Y OBSERVACIONES ADICIONALES </h4>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div headerReporte></div>
     </div>
+</div>
 
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button>
-        <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
-    </div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button>
+    <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
 </div>
