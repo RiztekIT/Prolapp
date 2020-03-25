@@ -5,6 +5,8 @@ import {Observable } from 'rxjs';
 import {Subject} from 'rxjs';
 import { MasterOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterOrdenCarga-model';
 import { MasterDetalleOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterDetalleOrdenCarga-model';
+import { ClienteDireccion } from 'src/app/Models/cliente-direccion/clienteDireccion-model';
+import { Cliente } from '../../../Models/catalogos/clientes-model';
 import { environment } from 'src/environments/environment';
 import { DetalleOrdenCarga } from '../../../Models/almacen/OrdenCarga/detalleOrdenCarga-model';
 
@@ -29,6 +31,7 @@ export const APIUrl = environment.APIUrl;
     master = new Array<MasterOrdenCarga>();
     //formrow para guardar los datos del row para mostrarlos en PDF
     formrow: any;
+    formDataCliente = new Cliente();
 
     getOrdenCargaList(): Observable <OrdenCarga[]> {
         return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga');
@@ -67,6 +70,14 @@ export const APIUrl = environment.APIUrl;
       updateDetalleOrdenCargaSaldo(id: number, saldo:string){
         return this.http.put(APIUrl + '/OrdenCarga/UpdateSaldo/' + id + '/' + saldo, null);
       }
+      //get Direcciones en base a ID CLIENTE
+    getDireccionID(id: number): Observable<ClienteDireccion[]> {
+        return this.http.get<ClienteDireccion[]>(APIUrl + '/Pedido/DireccionID/' + id);
+      }
+      //get Direcciones en base a ID CLIENTE
+    getDireccionesCliente(id: number): Observable<ClienteDireccion[]> {
+      return this.http.get<ClienteDireccion[]>(APIUrl + '/Pedido/DireccionCliente/' + id);
+      } 
 
       /* *************************************************** */
       /* *************************************************** */

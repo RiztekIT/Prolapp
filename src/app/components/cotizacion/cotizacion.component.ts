@@ -17,8 +17,8 @@ export class CotizacionComponent implements OnInit {
 
   con : string| number;
   arrcon: Array<any> = [];
-
   objconc: any; 
+  total:any;
 
   ngOnInit() {
     this.ver();
@@ -28,9 +28,8 @@ export class CotizacionComponent implements OnInit {
     this.dialogbox.close();
 }
 
-ver(){
 
-  console.log(this.service.formrow.DetalleCotizacion);
+ver(){
   
   this.objconc = this.service.formrow.DetalleCotizacion
   
@@ -48,13 +47,37 @@ ver(){
       Cantidad: conceptos.Cantidad,
       Importe: conceptos.Importe,
       ImporteDlls: conceptos.ImporteDlls,
-      Observaciones: conceptos.Observaciones,      
-    });
+      Observaciones: conceptos.Observaciones,    
+       
+     });
+//cuando se termine cotizaciones, asignar el valor al total
+
+    // if (this.service.formrow.Moneda == "MXN") {
+    //   this.total = +conceptos.PrecioUnitario * +conceptos.Cantidad;
+    // } else {
+    //   this.total = 
+    // }
+    
   }
+
+
+
+  this.service.GetCliente(this.service.formrow.IdCliente).subscribe(data => {
+
+    this.service.formData.Calle = data[0].Calle;
+    this.service.formData.Colonia = data[0].Colonia;
+    this.service.formData.CP = data[0].CP;
+    this.service.formData.RFC = data[0].RFC;
+    this.service.formData.Ciudad = data[0].Ciudad;
+    this.service.formData.Estado = data[0].Estado;
+    this.service.formData.NumeroExterior = data[0].NumeroExterior;
+    this.service.formData.NumeroInterior = data[0].NumeroInterior;
+  });
+  
 }
 
 onExportClick(Folio?:string) {
-  const content: Element = document.getElementById('OrdenCarga-PDF');
+  const content: Element = document.getElementById('Cotizacion-PDF');
   const option = {    
     margin: [.5,0,0,0],
     filename: 'F-'+'.pdf',
@@ -71,3 +94,4 @@ onExportClick(Folio?:string) {
 }  
 
 }
+
