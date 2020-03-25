@@ -188,6 +188,10 @@ import { OrdenSalidaComponent } from '../components/almacen/orden-salida/orden-s
 import { VendedoresComponent } from './administracion/catalogos/vendedores/vendedores.component';
 import { CalendarioCComponent } from './compras/calendario/calendario.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { OrdenCargaService } from '../services/almacen/orden-carga/orden-carga.service';
+import { OrdenDescargaService } from '../services/almacen/orden-descarga/orden-descarga.service';
+import { TarimaService } from '../services/almacen/tarima/tarima.service';
+import { OrdenTemporalService } from '../services/almacen/orden-temporal/orden-temporal.service';
 
 
 
@@ -384,6 +388,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         CurrencyPipe,
         VentasPedidoService,
         NotaCreditoService,
+        OrdenCargaService,
+        OrdenDescargaService,
+        TarimaService,
+        OrdenTemporalService
         
         
     ],
