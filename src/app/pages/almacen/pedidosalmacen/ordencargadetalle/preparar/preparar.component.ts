@@ -29,6 +29,8 @@ this.QRdata.ClaveProducto = 'LPD002';
 this.QRdata.Lote = '123'
 this.QRdata.Sacos = '70';
 
+console.log(this.QRdata);
+
 
   }
 

@@ -6,10 +6,10 @@ import { APIUrl } from 'src/app/services/pedidos/pedido.service';
 
 export const environment = {
   production: false,
-  APIUrl: 'http://74.208.251.38:44361/api',
-  APIUrlEmail: 'http://74.208.251.38:3000'
-  //APIUrl: 'http://riztekserver.ddns.net:44361/api',
-  //APIUrlEmail: 'http://riztekserver.ddns.net:3000'
+  // APIUrl: 'http://74.208.251.38:44361/api',
+  // APIUrlEmail: 'http://74.208.251.38:3000'
+  APIUrl: 'http://riztekserver.ddns.net:44361/api',
+  APIUrlEmail: 'http://riztekserver.ddns.net:3000'
 };
 
 /*
