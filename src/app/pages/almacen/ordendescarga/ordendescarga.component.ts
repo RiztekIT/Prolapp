@@ -36,13 +36,41 @@ export class OrdendescargaComponent implements OnInit {
 
   ArrOrdenDescarga: any;
 
-  constructor(public router: Router,private service:OrdenDescargaService, private dialog: MatDialog) { }
-
-  ngOnInit() {
+  constructor(public router: Router,private service:OrdenDescargaService, private dialog: MatDialog) {
     this.service.listen().subscribe((m:any)=>{
       console.log(m);
-      this.refreshOrdenCargaList();
+      this.refreshOrdenDescargaList();
       });
+   }
+
+  ngOnInit() {
+    this.refreshOrdenDescargaList();
   }
+
+  refreshOrdenCargaList(){
+    this.ArrOrdenDescarga = this.service.getOrdenDescargaList();
+    this.ArrOrdenDescarga.subscribe(data =>{
+    console.log(data);
+      for (let i = 0; i <= data.length - 1; i++) {
+        this.service.master[i] = data[i];
+        this.service.master[i].detalleOrdenCarga = [];
+        this.service.getOrdenCargaIDList(data[i].IdOrdenCarga).subscribe(res => {
+          console.log(res);
+          for (let l = 0; l <= res.length - 1; l++) {
+            this.service.master[i].detalleOrdenCarga.push(res[l]); 
+          }
+        });
+      }
+      console.log(this.service.master);
+        this.listData = new MatTableDataSource(data);
+        this.listData.sort = this.sort;
+        this.listData.paginator = this.paginator;
+        this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Carga por Pagina';
+    })
+        // this.service.getOrdenCargaList().subscribe(data => {
+        //   console.log(data);
+          
+        // });
+      }
 
 }
