@@ -47,17 +47,21 @@ export class OrdendescargaComponent implements OnInit {
     this.refreshOrdenDescargaList();
   }
 
-  refreshOrdenCargaList(){
+  applyFilter(filtervalue: string){  
+    this.listData.filter= filtervalue.trim().toLocaleLowerCase();  
+  }
+
+  refreshOrdenDescargaList(){
     this.ArrOrdenDescarga = this.service.getOrdenDescargaList();
     this.ArrOrdenDescarga.subscribe(data =>{
     console.log(data);
       for (let i = 0; i <= data.length - 1; i++) {
         this.service.master[i] = data[i];
-        this.service.master[i].detalleOrdenCarga = [];
-        this.service.getOrdenCargaIDList(data[i].IdOrdenCarga).subscribe(res => {
+        this.service.master[i].DetalleOrdenDescarga = [];
+        this.service.getOrdenDescargaIDList(data[i].IdOrdenCarga).subscribe(res => {
           console.log(res);
           for (let l = 0; l <= res.length - 1; l++) {
-            this.service.master[i].detalleOrdenCarga.push(res[l]); 
+            this.service.master[i].DetalleOrdenDescarga.push(res[l]); 
           }
         });
       }
