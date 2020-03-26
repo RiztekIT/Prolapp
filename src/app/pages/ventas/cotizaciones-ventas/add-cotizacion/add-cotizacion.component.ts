@@ -71,6 +71,8 @@ export class AddCotizacionComponent implements OnInit {
   um: boolean;
   ProductoSelect: string;
   Id: number;
+
+
   ngOnInit() {  
 
     this.Inicializar();
@@ -82,15 +84,15 @@ export class AddCotizacionComponent implements OnInit {
     this.tipoDeCambio();
     this.service.formProd = new Producto();
 
-    this.firstFormGroup = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
-    });
-    this.secondFormGroup = this._formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });
-    this.thirdFormGroup = this._formBuilder.group({
-      thirdCtrl: ['', Validators.required]
-    });
+    // this.firstFormGroup = this._formBuilder.group({
+    //   firstCtrl: ['', Validators.required]
+    // });
+    // this.secondFormGroup = this._formBuilder.group({
+    //   secondCtrl: ['', Validators.required]
+    // });
+    // this.thirdFormGroup = this._formBuilder.group({
+    //   thirdCtrl: ['', Validators.required]
+    // });
 
     this.um = true;
 
@@ -447,12 +449,15 @@ AbrirDireccionCliente(id: number){
     if (event.isUserInput) {
       this.service.formData = options;
       this.dropdownRefreshDirecciones(options.IdClientes);
+      
     }
   }
   onBlurCliente() {
-    // console.log(this.service.formDataPedido);
+    console.log(this.service.formDataCotizacion)
     this.service.formDataCotizacion.IdCliente = this.service.formData.IdClientes;
     this.service.formDataCotizacion.Estatus = 'Guardada';
+    this.service.formDataCotizacion.Nombre = this.service.formData.Nombre;
+    this.service.formDataCotizacion.RFC = this.service.formData.RFC;
     console.log(this.service.formDataCotizacion);
     this.service.onEditCotizacion(this.service.formDataCotizacion).subscribe(res => {
       this.ClienteSeleccionado = true;
@@ -966,7 +971,7 @@ crearPedido() {
   this.service.onEditCotizacion(this.service.formDataCotizacion).subscribe(res => {
     Swal.fire({
       icon: 'success',
-      title: 'Pedido Generado'
+      title: 'Cotizacion Generada'
     })
     this.service.filter('Register click');
   }
