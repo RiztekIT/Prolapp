@@ -16,6 +16,13 @@ export class OrdenTemporalService {
 
   constructor(private http:HttpClient) { }
 
+   //Tabla previsualizacion
+   preOrdenTemporal = new Array<OrdenTemporal>();
+   //Posicion del arreglo a editar
+   posicionOrdenTemporal: number;
+   //Concepto a editar
+   ordenTemporalData = new OrdenTemporal();
+
 //Insertar Orden Temporal
 addOrdenTemporal(oT: OrdenTemporal) {
   return this.http.post(APIUrl + '/OrdenTemporal', oT);
