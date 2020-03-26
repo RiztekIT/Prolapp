@@ -20,6 +20,10 @@ export class OrdenTemporalService {
 addOrdenTemporal(oT: OrdenTemporal) {
   return this.http.post(APIUrl + '/OrdenTemporal', oT);
 }
+//Obtener Orden Temporal por ID Orden Carga, LOTE y Clave Producto
+getDetalleOrdenCargaIdLoteClave(id: number, lote: string, clave: string): Observable <OrdenTemporal[]>{
+  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporal/'+ id + '/' + lote + '/' + clave);
+}
 
 
 

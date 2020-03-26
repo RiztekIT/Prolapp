@@ -8,6 +8,7 @@ import { MasterDetalleOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/maste
 import { ClienteDireccion } from 'src/app/Models/cliente-direccion/clienteDireccion-model';
 import { Cliente } from '../../../Models/catalogos/clientes-model';
 import { environment } from 'src/environments/environment';
+import { DetalleOrdenCarga } from '../../../Models/almacen/OrdenCarga/detalleOrdenCarga-model';
 
 //export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 export const APIUrl = environment.APIUrl;
@@ -48,6 +49,10 @@ export const APIUrl = environment.APIUrl;
       getOrdenCargaIDList(id: number): Observable <MasterDetalleOrdenCarga[]>{
         return this.http.get<MasterDetalleOrdenCarga[]>(APIUrl + '/OrdenCarga/MasterID/'+ id);
       }
+      //Obtener Detalle Orden Carga por ID Orden Carga, LOTE y Clave Producto
+      getDetalleOrdenCargaIdLoteClave(id: number, lote: string, clave: string): Observable <DetalleOrdenCarga[]>{
+        return this.http.get<DetalleOrdenCarga[]>(APIUrl + '/OrdenCarga/DetalleOrdenCarga/'+ id + '/' + lote + '/' + clave);
+      }
 
     updateOrdenCarga(ordencarga: OrdenCarga) {
         return this.http.put(APIUrl+ '/OrdenCarga', ordencarga);
@@ -60,6 +65,10 @@ export const APIUrl = environment.APIUrl;
     }
     deleteOrdenCarga(id: number){
         return this.http.delete(APIUrl +'/OrdenCarga/BorrarOrdenCarga/'+ id)
+      }
+      //Actualizar saldo de DetalleOrdenCarga por ID
+      updateDetalleOrdenCargaSaldo(id: number, saldo:string){
+        return this.http.put(APIUrl + '/OrdenCarga/UpdateSaldo/' + id + '/' + saldo, null);
       }
       //get Direcciones en base a ID CLIENTE
     getDireccionID(id: number): Observable<ClienteDireccion[]> {
