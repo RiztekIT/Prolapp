@@ -39,7 +39,7 @@ import { CalendarioComponent } from './components/cxc/calendario/calendario.comp
     LoginComponent,
     RegisterComponent,
     SaldosComponent,
-    CalendarioComponent
+    CalendarioComponent,
     
   
  

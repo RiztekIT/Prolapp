@@ -192,6 +192,8 @@ import { OrdenCargaService } from '../services/almacen/orden-carga/orden-carga.s
 import { OrdenDescargaService } from '../services/almacen/orden-descarga/orden-descarga.service';
 import { TarimaService } from '../services/almacen/tarima/tarima.service';
 import { OrdenTemporalService } from '../services/almacen/orden-temporal/orden-temporal.service';
+import { EntradaProductoComponent } from '../components/almacen/entrada-producto/entrada-producto.component';
+import { SalidaProductoComponent } from '../components/almacen/salida-producto/salida-producto.component';
 
 
 
@@ -330,7 +332,9 @@ import { OrdenTemporalService } from '../services/almacen/orden-temporal/orden-t
         OrdenCargaComponent,
         OrdenSalidaComponent,
         VendedoresComponent,
-        CalendarioCComponent
+        CalendarioCComponent,
+        EntradaProductoComponent,
+        SalidaProductoComponent
     
     ],
     exports: [
@@ -426,7 +430,9 @@ import { OrdenTemporalService } from '../services/almacen/orden-temporal/orden-t
         ComppagoComponent,
         OrdenCargaComponent,
         OrdenSalidaComponent,
-        NotacreditoComponent
+        NotacreditoComponent,
+        EntradaProductoComponent,
+        SalidaProductoComponent
     ]
 })
 export class PagesModule { }

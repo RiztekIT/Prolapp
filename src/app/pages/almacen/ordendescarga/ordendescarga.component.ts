@@ -10,6 +10,8 @@ import Swal from 'sweetalert2';
 import { Observable, Subscriber } from 'rxjs';
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { OrdenDescargaService } from '../../../services/almacen/orden-descarga/orden-descarga.service';
+import { OrdenSalidaComponent } from 'src/app/components/almacen/orden-salida/orden-salida.component';
+import { OrdenDescarga } from '../../../Models/almacen/OrdenDescarga/ordenDescarga-model';
 @Component({
   selector: 'app-ordendescarga',
   templateUrl: './ordendescarga.component.html',
@@ -34,7 +36,7 @@ export class OrdendescargaComponent implements OnInit {
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  ArrOrdenDescarga: any;
+  arrOrdenDescarga: any;
 
   constructor(public router: Router,private service:OrdenDescargaService, private dialog: MatDialog) {
     this.service.listen().subscribe((m:any)=>{
@@ -47,21 +49,20 @@ export class OrdendescargaComponent implements OnInit {
     this.refreshOrdenDescargaList();
   }
 
-  applyFilter(filtervalue: string){  
-    this.listData.filter= filtervalue.trim().toLocaleLowerCase();  
-  }
+  
+
 
   refreshOrdenDescargaList(){
-    this.ArrOrdenDescarga = this.service.getOrdenDescargaList();
-    this.ArrOrdenDescarga.subscribe(data =>{
+    this.arrOrdenDescarga = this.service.getOrdenDescargaList();
+    this.arrOrdenDescarga.subscribe(data =>{
     console.log(data);
       for (let i = 0; i <= data.length - 1; i++) {
         this.service.master[i] = data[i];
-        this.service.master[i].DetalleOrdenDescarga = [];
-        this.service.getOrdenDescargaIDList(data[i].IdOrdenCarga).subscribe(res => {
+        this.service.master[i].detalleOrdenDescarga = [];
+        this.service.getOrdenDescargaIDList(data[i].IdOrdenDescarga).subscribe(res => {
           console.log(res);
           for (let l = 0; l <= res.length - 1; l++) {
-            this.service.master[i].DetalleOrdenDescarga.push(res[l]); 
+            this.service.master[i].detalleOrdenDescarga.push(res[l]); 
           }
         });
       }
@@ -69,12 +70,27 @@ export class OrdendescargaComponent implements OnInit {
         this.listData = new MatTableDataSource(data);
         this.listData.sort = this.sort;
         this.listData.paginator = this.paginator;
-        this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Carga por Pagina';
+        this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Descarga por Pagina';
     })
         // this.service.getOrdenCargaList().subscribe(data => {
         //   console.log(data);
           
         // });
       }
+      applyFilter(filtervalue: string){  
+        this.listData.filter= filtervalue.trim().toLocaleLowerCase();  
+      }
 
+      openrep(row){
+
+        this.service.formrow = row;
+        console.log(this.service.formrow);
+        // this.service.formrow = row;
+        // console.log();
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = false;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width="70%";
+        this.dialog.open(OrdenSalidaComponent, dialogConfig);
+      }
 }

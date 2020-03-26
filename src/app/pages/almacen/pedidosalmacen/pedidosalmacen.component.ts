@@ -85,6 +85,7 @@ console.log(data);
   }
 
   onEdit(ordencarga: OrdenCarga){
+
     this.service.formData = ordencarga;
     this.service.formData.IdOrdenCarga = ordencarga.IdOrdenCarga;
     // localStorage.setItem('IdOrdenCarga', this.service.formData.IdOrdenCarga.toString())

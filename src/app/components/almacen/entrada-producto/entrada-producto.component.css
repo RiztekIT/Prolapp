@@ -36,8 +36,9 @@ thead {
 }
 
 p {
-    font-size: 12px !important;
+    font-size: 10px !important;
     color: #000000 !important;
+    margin-bottom: 0px;
 }
 
 p>.nomarginbottomP {
@@ -107,14 +108,6 @@ th {
 
 th {
     font-size: 10px;
-    text-align: center;
-}
-
-td {
-    text-align: center;
-}
-
-tablacenter {
     text-align: center;
 }
 

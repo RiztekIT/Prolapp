@@ -6,6 +6,8 @@ import { OrdenCargaService } from '../../../../../services/almacen/orden-carga/o
 import { OrdenTemporalService } from '../../../../../services/almacen/orden-temporal/orden-temporal.service';
 import { Tarima } from '../../../../../Models/almacen/Tarima/tarima-model';
 import { OrdenTemporal } from 'src/app/Models/almacen/OrdenTemporal/ordenTemporal-model';
+import { MatDialogConfig, MatDialog } from '@angular/material';
+import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-producto/entrada-producto.component';
 
 
 
@@ -17,10 +19,16 @@ import { OrdenTemporal } from 'src/app/Models/almacen/OrdenTemporal/ordenTempora
 export class PrepararComponent implements OnInit {
 
   constructor(public router: Router, public tarimaService: TarimaService, public ordenCargaService: OrdenCargaService,
-    public ordenTemporalService: OrdenTemporalService) { }
+    public ordenTemporalService: OrdenTemporalService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.IdOrdenCarga = +(localStorage.getItem('IdOrdenCarga'));
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(EntradaProductoComponent, dialogConfig);
   }
 
   //Informacion que vendra del QR
@@ -127,6 +135,14 @@ export class PrepararComponent implements OnInit {
 
   pdf() {
 
+    // console.log(row);
+    // this.service.formrow = row;
+    // console.log();
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(EntradaProductoComponent, dialogConfig);
   }
 
   finalizar() {
