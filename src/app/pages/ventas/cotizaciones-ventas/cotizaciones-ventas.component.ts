@@ -181,7 +181,6 @@ IdDireccion: 0,
 Estatus: "Creada", 
   }
 
-
   ObtenerFolio() {
     this.service.GetFolio().subscribe(data => {
       console.log(data[0].Folio);
