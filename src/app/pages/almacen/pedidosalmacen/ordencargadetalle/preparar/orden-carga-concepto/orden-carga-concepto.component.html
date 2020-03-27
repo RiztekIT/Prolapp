@@ -33,11 +33,11 @@
                         <input readonly="readonly" type="text" class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="ordenTemporalService.ordenTemporalData.Lote">
 
                         <label class="input-group-text text-info">Sacos</label>
-                        <input required type="number" class="form-control" name="Sacos" #Sacos="ngModel" [(ngModel)]="ordenTemporalService.ordenTemporalData.Sacos">
-
+                        <input required type="number" class="form-control" name="Sacos" [(ngModel)]="cantidadSacos">
+                        <!-- 
                         <div class="text-left text-danger" *ngIf="Sacos.invalid && Sacos.touched">
-                            Favor de Ingresar un Nombre.
-                        </div>
+                            Favor de Ingresar un valor.
+                        </div> -->
                     </div>
                 </div>
                 <br>
