@@ -111,9 +111,13 @@ th {
     text-align: center;
 }
 
+td {
+    font-size: 10px;
+    text-align: center;
+}
+
 .campofirma {
     width: 100%;
-    border-bottom: 1px solid black;
 }
 
 .bordeTopBottom {
@@ -190,4 +194,10 @@ th {
 .table-striped>tbody>tr:nth-child(even)>td,
 .table-striped>tbody>tr:nth-child(even)>th {
     background-color: #b4b4b4;
+}
+
+@media screen and (min-height: 500px) {
+    .alturamodal {
+        height: 21px;
+    }
 }
