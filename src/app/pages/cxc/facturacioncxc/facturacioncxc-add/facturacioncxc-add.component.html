@@ -643,6 +643,8 @@
                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='email(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
                         class="mdi mdi-email btn-lg"></i>Enviar</button>
 
+
+
                             <!-- <button type="button" class="btn btn-secondary">No Editable</button> -->
                             <!-- <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
                             </ngx-loading> -->
@@ -761,6 +763,8 @@
             <!-- </div> -->
         </div>
     </div>
+    <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}" [template]="customTemplate">
+    </ngx-loading>
 </div>
 
 
@@ -810,8 +814,7 @@
 
         </div>
     </div>
-    <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}" [template]="customTemplate">
-    </ngx-loading>
+
 </div>
 
 

@@ -1339,7 +1339,7 @@ const dialogConfig = new MatDialogConfig();
       filename: 'F-' + folio + '.pdf',
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 2, logging: true, scrollY: -2, scrollX: -15 },
-      jsPDF: { unit: 'cm', format: 'letter', orientation: 'portrait' },
+      jsPDF: { unit: 'cm', format: 'letter', orientation: 'p' },
       pagebreak: { avoid: '.pgbreak' }
 
     };
@@ -1351,7 +1351,10 @@ const dialogConfig = new MatDialogConfig();
       })
       .save();
     this.proceso = '';
+    this.loading = false;
   }
+
+
 
 
 
