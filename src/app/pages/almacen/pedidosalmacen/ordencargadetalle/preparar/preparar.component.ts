@@ -6,9 +6,10 @@ import { OrdenCargaService } from '../../../../../services/almacen/orden-carga/o
 import { OrdenTemporalService } from '../../../../../services/almacen/orden-temporal/orden-temporal.service';
 import { Tarima } from '../../../../../Models/almacen/Tarima/tarima-model';
 import { OrdenTemporal } from 'src/app/Models/almacen/OrdenTemporal/ordenTemporal-model';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatDialogConfig, MatDialog } from '@angular/material';
+import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-producto/entrada-producto.component';
+import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
 import Swal from 'sweetalert2';
-import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { OrdenCargaConceptoComponent } from './orden-carga-concepto/orden-carga-concepto.component';
 import { TraspasoTarimaComponent } from '../../../traspaso-tarima/traspaso-tarima.component';
 
@@ -34,6 +35,7 @@ export class PrepararComponent implements OnInit {
     });
 
   }
+
 
   ngOnInit() {
     this.IdOrdenCarga = +(localStorage.getItem('IdOrdenCarga'));
@@ -224,6 +226,14 @@ export class PrepararComponent implements OnInit {
 
   pdf() {
 
+    // console.log(row);
+    // this.service.formrow = row;
+    // console.log();
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(EntradaProductoComponent, dialogConfig);
   }
 
   finalizar() {

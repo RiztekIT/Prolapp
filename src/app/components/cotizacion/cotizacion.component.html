@@ -1,8 +1,8 @@
 <div style="overflow: auto; height: 800px;">
     <div>
         <button class="btn btn-danger" color="warn" (click)="onClose()">
-        <mat-icon>close</mat-icon>
-      </button>
+      <mat-icon>close</mat-icon>
+    </button>
     </div>
 
 
@@ -14,7 +14,7 @@
             <div class="container">
                 <div class="row">
                     <!-- logo -->
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                    <div class="col-4">
                         <div class="card card-outline-inverse">
                             <!-- <div class="card-header">
                                         <h6 class="m-b-0 text-white">Logo</h6>
@@ -22,125 +22,60 @@
                                     <div class="card-body">
                                     </div> -->
 
-                            <img src="../../../assets/images/prolacto.png" class="logo">
+                            <img src="../../../assets/images/ProLactoLogo.png" class="logo">
 
                         </div>
                     </div>
-                    <!-- descripcion -->
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                        <h5 class="blacktxt bolder"> PROLACTO INGREDIENTES S DE RL MI DE CV
-                        </h5>
-                        <p class="blacktxt bolder nomarginbottomP"><span class="bolder">R.F.C.:</span>PLA11011243A
-                        </p>
-                        <p class="blacktxt bolder nomarginbottomP"> Calle: J. Matias de Anchondo No. 207, Col. San Felipe, CP: 31203, Chihuahua, Chihuahua, México
-                        </p>
-                        <p class="blacktxt bolder nomarginbottomP">Lugar de Expedicion: <br>
-                            <span>Calle: <i>Jose Matias de Anchondo, CP. 31203</i></span>
-                        </p>
-                    </div>
+                    <div class="col-4"></div>
+
                     <!-- factura folio -->
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-3">
-                        <div class="card card-outline-inverse borderContainer">
-                            <div class="card-body">
-                                <h5 class="text-center bolder blacktxt">Cotizacion No. : </h5>
-                                <div>
-                                    <h5 class="text-center bolder blacktxt"> {{service.formrow.Folio}} </h5>
-                                    <h5 class="text-center bolder blacktxt"> {{service.formrow.FechaDeExpedicion | date: 'yyyy-MM-dd'}} </h5>
-                                </div>
-                            </div>
+                    <div class="col-4">
+                        <div class="card-body">
+                            <span style="font-size: 40px; font-weight: 900; color: red;">COTIZACION</span>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- End TOP -->
+            <!-- contenido -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Handle</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                </tbody>
+            </table>
 
-            <!-- facturado-lugar expedicion -->
-
-            <div class="container">
-                <!-- div facturado a -->
-                <div class="row">
-                    <div class="container col-12">
-                        <div class="col-lg-12 col-md-12 col-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <p class="nomarginbottomP"><span class="blacktxt bolder"> Cliente: ( {{service.formrow.IdCliente}} )
-                              {{service.formrow.Nombre}} </span></p>
-                                    <p class="nomarginbottomP blacktxt">
-                                        <span class=" bolder">Calle:</span> {{this.service.formData.Calle}}
-                                        <span class=" bolder">No.</span> {{this.service.formData.NumeroExterior}}
-                                        <span class=" bolder">No. Interior </span>{{service.formData.NumeroInterior}}
-                                        <span class=" bolder">CP. </span> {{this.service.formData.CP}}
-                                        <span class=" bolder">Colonia: </span> {{this.service.formData.Colonia}}
-                                        <span class=" bolder">Ciudad: </span> {{this.service.formData.Ciudad}}
-                                        <span class=" bolder">Estado: </span> {{this.service.formData.Estado}}
-                                        <span class=" bolder">RFC: </span> {{this.service.formData.RFC}}
-                                    </p>
-                                    <p class="bolder blacktxt nomarginbottomP">Telefono: <span style="font-weight: 200;"> {{service.formrow.Telefono}} </span>
-                                    </p>
-                                    <p class="bolder blacktxt nomarginbottomP">Vendedor: <span style="font-weight: 200;"> {{service.formrow.Vendedor}} </span></p>
-                                    <p class="bolder blacktxt nomarginbottomP">Flete: <span style="font-weight: 200;"> {{service.formrow.Flete}} </span></p>
-                                    <p class="bolder blacktxt nomarginbottomP">Moneda: <span style="font-weight: 200;"> {{service.formrow.Moneda}} </span></p>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <!-- cantidad-unidad-clave- -->
-                <div class="container" style="height:570px">
-                    <div class="col-lg-12 col-md-12 col-12">
-                        <div class="card card-outline-inverse">
-                            <table class="table ">
-                                <thead>
-                                    <tr>
-                                        <th class="bolder blacktxt pb-0">Cantidad</th>
-                                        <th class="bolder blacktxt pb-0">Unidad</th>
-                                        <th class="bolder blacktxt pb-0">Clave</th>
-                                        <th class="bolder blacktxt pb-0">Producto</th>
-                                        <th class="bolder blacktxt pb-0">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let conceptos of arrcon">
-                                        <th> {{conceptos.Cantidad}} </th>
-                                        <th> {{conceptos.Unidad}} </th>
-                                        <th> {{conceptos.ClaveProducto}} </th>
-                                        <th> {{conceptos.Producto}} </th>
-                                        <th> {{this.total | currency}} </th>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Observaciones -->
-            <div>
-                <p class="bolder nomarginbottomP">OBSERVACIONES DE COTIZACIONES:</p>
-                <p> {{service.formrow.Observaciones}} </p>
-            </div>
-
-
-            <div class="col-lg-12 col-md-12 col-12">
-                <div class="card card-outline-inverse pgbreak">
-                    <div class="card-body">
-                        <div class="containerborder">
-                            <div class="container">
-                                <h4 class="text-center bolder blacktxt"> ANOTACIONES Y OBSERVACIONES ADICIONALES </h4>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                                <br>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- fin contenido -->
         </div>
+        <!-- fin pdf -->
+
+
     </div>
+
 </div>
 
 

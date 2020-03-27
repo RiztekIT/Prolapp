@@ -46,13 +46,17 @@ IdOrdenCarga: number;
           refreshForm(){
             this.DataOrdenCarga = this.service.getOrdenCargaID(this.IdOrdenCarga).subscribe( data=> {
                   console.log(data);
+                  console.log(this.service.formData,'12312312312312');
                   this.service.formData = data[0];
+                  
+                  console.log(this.service.formData,'asdasdasdasdasd');
             });
           }
 
   refreshDetalleOrdenCargaList(){
     this.service.getOrdenCargaIDList(this.IdOrdenCarga).subscribe(data => {
       console.log(data);
+      this.service.formDataDOC = data[0];
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;

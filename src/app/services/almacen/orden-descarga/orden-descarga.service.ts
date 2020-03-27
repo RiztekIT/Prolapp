@@ -18,6 +18,7 @@ export class OrdenDescargaService {
   constructor( private http:HttpClient) { }
 
   master = new Array<MasterOrdenDescarga>();
+  formrow: any;
 
 
   getOrdenDescargaList(): Observable <OrdenDescarga[]> {
@@ -26,10 +27,8 @@ export class OrdenDescargaService {
 
   //JOIN DETALLES, TARIMA, TARIMA DETALLES
   getOrdenDescargaIDList(id: number): Observable <MasterDetalleOrdenDescarga[]>{
-    return this.http.get<MasterDetalleOrdenDescarga[]>(APIUrl + '/OrdenCarga/MasterID/'+ id);
+    return this.http.get<MasterDetalleOrdenDescarga[]>(APIUrl + '/OrdenDescarga/MasterID/'+ id);
   }
-
-
 
   private _listeners = new Subject<any>(); 
         listen(): Observable<any> {
