@@ -5,6 +5,7 @@ import {Subject} from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DetalleTarima } from '../../../Models/almacen/Tarima/detalleTarima-model';
 import { Tarima } from '../../../Models/almacen/Tarima/tarima-model';
+import { TraspasoTarima } from '../../../Models/almacen/Tarima/traspasoTarima-model';
 
 export const APIUrl = environment.APIUrl;
 
@@ -22,9 +23,42 @@ export class TarimaService {
 getDetalleTarimaID(id: number): Observable <DetalleTarima[]>{
   return this.http.get<DetalleTarima[]>(APIUrl + '/Tarima/GetDetalleTarimaID/'+ id);
 }
-
-//Update
-
+  //Obtener Tarima por IdTarima
+getTarimaID(id: number): Observable <Tarima[]>{
+  return this.http.get<Tarima[]>(APIUrl + '/Tarima/GetTarimaID/'+ id);
+}
+//Insert Tarima
+addTarima(t: Tarima) {
+  return this.http.post(APIUrl + '/Tarima', t);
+}
+//Update Tarima
+updateTarima(t: Tarima) {
+  return this.http.put(APIUrl+ '/Tarima', t);
+  }
+  //Update Tarima ( Sacos y peso Total)
+  updateTarimaSacosPeso(id: number, sacos: string, peso: string) {
+    return this.http.put(APIUrl+ '/Tarima/UpdateTarimaSacosPeso/' + id + '/' + sacos + '/' + peso , null);
+    }
+    //Update Tarima ( Sacos y peso Total)
+  updateDetalleTarimaIdSacos(idt: number, iddt:number, sacos: string) {
+    return this.http.put(APIUrl+ '/Tarima/UpdateTarimaSacosPeso/' + idt + '/' + iddt + '/' + sacos , null);
+    }
+//Insert Detalle Tarima
+addDetalleTarima(dt: DetalleTarima) {
+  return this.http.post(APIUrl + '/Tarima/AddDetalleTarima', dt);
+}
+//Update Detalle Tarima
+updateDetalleTarima(dt: DetalleTarima) {
+  return this.http.put(APIUrl+ '/Tarima', dt);
+  }
+//Insert Traspaso Tarima
+addTraspasoTarima(tt: TraspasoTarima) {
+  return this.http.post(APIUrl + '/TraspasoTarima', tt);
+}
+//Update Traspaso Tarima
+updateTraspasoTarima(tt: TraspasoTarima) {
+  return this.http.put(APIUrl+ '/TraspasoTarima', tt);
+  }
 
   private _listeners = new Subject<any>(); 
       listen(): Observable<any> {
