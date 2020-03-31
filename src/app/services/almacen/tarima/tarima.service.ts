@@ -27,6 +27,10 @@ getDetalleTarimaID(id: number): Observable <DetalleTarima[]>{
 getTarimaID(id: number): Observable <Tarima[]>{
   return this.http.get<Tarima[]>(APIUrl + '/Tarima/GetTarimaID/'+ id);
 }
+  //Obtener Ultima Tarima
+  getUltimaTarima(): Observable <Tarima[]>{
+    return this.http.get<Tarima[]>(APIUrl + '/Tarima/GetUltimaTarima');
+  }
 //Insert Tarima
 addTarima(t: Tarima) {
   return this.http.post(APIUrl + '/Tarima', t);
@@ -58,6 +62,10 @@ addTraspasoTarima(tt: TraspasoTarima) {
 //Update Traspaso Tarima
 updateTraspasoTarima(tt: TraspasoTarima) {
   return this.http.put(APIUrl+ '/TraspasoTarima', tt);
+  }
+  //Eliminar detalle tarima
+  deleteDetalleTarima(id: number){
+    return this.http.delete(APIUrl+ '/Tarima/BorrarDetalleTarima/' + id);
   }
 
   private _listeners = new Subject<any>(); 

@@ -6,7 +6,7 @@ export class TraspasoTarima {
     Producto: string;
     Lote: string;
     Sacos: string;
-    FehcaTraspaso: Date;
+    FechaTraspaso: Date;
     IdUsuario: number;
     Usuario: string;
 }
