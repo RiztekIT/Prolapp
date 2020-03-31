@@ -123,7 +123,7 @@ export class VentasCotizacionService {
   
   //Eliminar ALL Detalle Pedido
   onDeleteAllDetalleCotizacion(id: number){
-    return this.http.delete(this.APIUrl + '/Cotizaciones/DeleteAllDetalleCotizacion/' + id);
+    return this.http.delete(this.APIUrl + '/Cotizacion/DeleteDetalleCotizacion/' + id);
   }
 
     /////////////////////////////////////////////////

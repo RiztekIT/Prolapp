@@ -230,6 +230,7 @@ Estatus: "Creada",
 
   onDelete(cotizacion: Cotizacion) {
 
+    console.log(cotizacion);
     Swal.fire({
       title: '¿Segur@ de Borrar Cotizacion  ?',
       icon: 'warning',
@@ -240,7 +241,6 @@ Estatus: "Creada",
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.value) {
-        
           this.service.GetDetalleCotizacionId(cotizacion.IdCotizacion).subscribe(data => {
             console.log(data);
             if (data.length > 0) {
@@ -268,13 +268,17 @@ Estatus: "Creada",
   }
 
   DeleteCotizacionDetalleCotizacion(cotizacion: Cotizacion) {
-
+    console.log(cotizacion);
     this.service.onDeleteAllDetalleCotizacion(cotizacion.IdCotizacion).subscribe(res => {
       this.service.onDeleteCotizacion(cotizacion.IdCotizacion).subscribe(res => {
         this.refreshCotizacionesList();
       });
     });
 
+  }
+
+  hacerPedido(cotizacion: Cotizacion){
+    
   }
 
   
