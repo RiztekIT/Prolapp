@@ -79,7 +79,7 @@ ver(){
 onExportClick(Folio?:string) {
   const content: Element = document.getElementById('Cotizacion-PDF');
   const option = {    
-    margin: [.5,0,0,0],
+    margin: [0,0,0,.5],
     filename: 'F-'+'.pdf',
     image: {type: 'jpeg', quality: 1},
     html2canvas: {scale: 2, logging: true},

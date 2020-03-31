@@ -1,4 +1,4 @@
-<div style="overflow: auto; height: 800px;">
+<div style="overflow: auto; height: 80vh;">
     <div>
         <button class="btn btn-danger" color="warn" (click)="onClose()">
       <mat-icon>close</mat-icon>
@@ -7,31 +7,26 @@
 
 
 
-    <div class="modal0-body ">
+    <div class="modal0-body">
 
         <div id="Cotizacion-PDF">
             <!-- TOP PAGE LOGO DESCRIPTION FACTURA -->
             <div class="container">
                 <div class="row">
                     <!-- logo -->
-                    <div class="col-4">
+                    <div class="col-2" style="padding-left: 0;">
                         <div class="card card-outline-inverse">
-                            <!-- <div class="card-header">
-                                        <h6 class="m-b-0 text-white">Logo</h6>
-                                    </div>
-                                    <div class="card-body">
-                                    </div> -->
-
-                            <img src="../../../assets/images/ProLactoLogo.png" class="logo">
-
+                            <img src="../../../assets/images/logoCotizacion.jpg" style="height: 200px; width: 300px;">
                         </div>
                     </div>
-                    <div class="col-4"></div>
+                    <div class="col-6"></div>
 
                     <!-- factura folio -->
                     <div class="col-4">
                         <div class="card-body">
-                            <span style="font-size: 40px; font-weight: 900; color: red;">COTIZACION</span>
+                            <span style="font-size: 40px; font-weight: 900; color: #000000;">COTIZACION</span>
+                            <p class="bolder blacktxt nomarginbottomP">COTIZACION #<span style="float: right;">68654</span></p>
+                            <p class="bolder blacktxt">FECHA EXPEDICION:<span style="float: right;"> 2020/03/03</span></p>
                         </div>
                     </div>
                 </div>
@@ -41,10 +36,11 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                        <th class="bolder blacktxt" scope="col">CODIGO</th>
+                        <th class="bolder blacktxt" scope="col">DESCRIPCION</th>
+                        <th class="bolder blacktxt" scope="col">PRECIO</th>
+                        <th class="bolder blacktxt" scope="col">CANTIDAD</th>
+                        <th class="bolder blacktxt" scope="col">TOTAL</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,11 +49,13 @@
                         <td>Mark</td>
                         <td>Otto</td>
                         <td>@mdo</td>
+                        <td>@mdo</td>
                     </tr>
                     <tr>
                         <th scope="row">2</th>
                         <td>Jacob</td>
                         <td>Thornton</td>
+                        <td>@fat</td>
                         <td>@fat</td>
                     </tr>
                     <tr>
@@ -65,19 +63,94 @@
                         <td>Larry</td>
                         <td>the Bird</td>
                         <td>@twitter</td>
+                        <td>@twitter</td>
                     </tr>
                 </tbody>
             </table>
-
             <!-- fin contenido -->
-        </div>
-        <!-- fin pdf -->
+            <!-- contenido 2 -->
+            <div class="containerborderbottom">
+                <div class="bolder blacktxt">
 
+                    <h5 class="bolder blacktxt">OBSERVACIONES:</h5>
+                    <p>96841984196814194198419841</p>
+                </div>
+            </div>
+            <!-- fin contenido 2 -->
+
+            <div style="height: 230px;">
+
+            </div>
+
+
+            <div class="container row">
+                <div class="col-4 container row">
+                    <h5 class="bolder blacktxt">COTIZACION A:</h5>
+                    <div class="col-12">
+                        <p class="bolder blacktxt nomarginbottomP">Cliente: <span style="font-weight: 400;">panchito sadecv</span></p>
+                    </div>
+                    <div class="col-12">
+                        <p class="bolder blacktxt nomarginbottomP">Empresa*: <span style="font-weight: 400;">41</span></p>
+                    </div>
+                    <div class="col-12">
+                        <p class="bolder blacktxt nomarginbottomP">Telefono: <span style="font-weight: 400;">65196485</span></p>
+                    </div>
+                    <div class="col-12">
+                        <p class="bolder blacktxt nomarginbottomP">Correo: <span style="font-weight: 400;">panchitopantera@gmail.com</span></p>
+                    </div>
+                    <div class="col-12">
+                        <p class="bolder blacktxt nomarginbottomP">RFC: <span style="font-weight: 400;">asf4984af68s</span></p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <h5 class="bolder blacktxt">aosjiff</h5>
+                </div>
+                <div class="col-4 container row">
+                    <div class="col-6">
+                        <p class="bolder blacktxt nomarginbottomP">Sub Total</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="bolder blacktxt nomarginbottomP">8574</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="bolder blacktxt nomarginbottomP">IVA</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="bolder blacktxt nomarginbottomP">68441</p>
+                    </div>
+                    <div class="line"></div>
+                    <div class="col-6">
+                        <p class="bolder blacktxt nomarginbottomP">Total</p>
+                    </div>
+                    <div class="col-6">
+                        <p class="bolder blacktxt nomarginbottomP">49812</p>
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-4"></div>
+                        <div class="col-4"></div>
+                        <div class="col-2">
+                            <div class="card card-outline-inverse">
+                                <img src="../../../assets/images/footerCotizacion.jpg" style="height: 200px; width: 300px;">
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- fin pdf -->
+        </div>
 
     </div>
-
 </div>
-
 
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button>

@@ -40,6 +40,11 @@ export class CotizacionesVentasComponent implements OnInit {
 
   ngOnInit() {
     this.refreshCotizacionesList();
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(CotizacionComponent, dialogConfig);
   }
 
   IdCotizacion: any;
