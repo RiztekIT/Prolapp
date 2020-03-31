@@ -34,14 +34,14 @@
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
-
-                        <label class="input-group-text text-info">Producto</label>
+                        <br>
+                        <!-- <label class="input-group-text text-info">Producto</label> -->
                         <input readonly="readonly" type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="producto">
 
 
 
                         <label class="input-group-text text-info">Cantidad Sacos</label>
-                        <input type="number" class="form-control" name="sacoTraspaso" #sacoTraspaso="ngModel" [(ngModel)]="sacosTraspaso">
+                        <input required type="number" class="form-control" name="sacoTraspaso" #sacoTraspaso="ngModel" [(ngModel)]="sacosTraspaso">
 
                         <!-- <label class="input-group-text text-info">Sacos</label>
                             <input required type="number" class="form-control" name="Sacos" [(ngModel)]="cantidadSacos"> -->
@@ -49,14 +49,17 @@
                                 <div class="text-left text-danger" *ngIf="Sacos.invalid && Sacos.touched">
                                     Favor de Ingresar un valor.
                                 </div> -->
+
+                        <label class="input-group-text text-info">Nueva Tarima?</label>
+                        <mat-checkbox #checkboxnT [(checked)]="nuevaTarima" (change)='changeNuevaTarima(checkboxnT.checked)'></mat-checkbox>
+
                     </div>
                     <div class="col-lg-6">
+                        <div *ngIf="nuevaTarima == false">
+                            <label class="input-group-text text-info">Tarima Destino (Codigo QR)</label>
+                            <input required type="text" class="form-control" name="IdtarimaIdDestino" #IdtarimaDestino="ngModel" [(ngModel)]="tarimaIdDestino">
+                        </div>
 
-                        <label class="input-group-text text-info">Tarima Destino (Codigo QR)</label>
-                        <input type="text" class="form-control" name="IdtarimaIdDestino" #IdtarimaDestino="ngModel" [(ngModel)]="tarimaIdDestino">
-
-                        <label class="input-group-text text-info">Producto</label>
-                        <input readonly="readonly" type="text" class="form-control" name="Producto" #Producto="ngModel" [(ngModel)]="tarimaService.tarimaDetalleData.Producto">
                     </div>
                 </div>
                 <br>
