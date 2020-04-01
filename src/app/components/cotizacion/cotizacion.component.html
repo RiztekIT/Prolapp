@@ -25,8 +25,8 @@
                     <div class="col-4">
                         <div class="card-body">
                             <span style="font-size: 40px; font-weight: 900; color: #000000;">COTIZACION</span>
-                            <p class="bolder blacktxt nomarginbottomP">COTIZACION #<span style="float: right;">68654</span></p>
-                            <p class="bolder blacktxt">FECHA EXPEDICION:<span style="float: right;"> 2020/03/03</span></p>
+                            <h5 class="bolder blacktxt nomarginbottomP">COTIZACION #<span style="float: right;">{{this.service.formrow.Folio}}</span></h5>
+                            <h5 class="bolder blacktxt">FECHA EXPEDICION:<span style="float: right;"> {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</span></h5>
                         </div>
                     </div>
                 </div>
@@ -43,28 +43,13 @@
                         <th class="bolder blacktxt" scope="col">TOTAL</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody *ngFor="let conceptos of arrcon; let i = index">
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                        <td>@twitter</td>
-                    </tr>
+                        <th scope="row">{{conceptos.ClaveProducto}}</th>
+                        <td>{{conceptos.Producto}}</td>
+                        <td>{{conceptos.PrecioUnitario}}</td>
+                        <td>{{conceptos.Cantidad}}</td>
+                        <td>{{this.total}}</td>
                 </tbody>
             </table>
             <!-- fin contenido -->
@@ -73,13 +58,12 @@
                 <div class="bolder blacktxt">
 
                     <h5 class="bolder blacktxt">OBSERVACIONES:</h5>
-                    <p>96841984196814194198419841</p>
+                    <p>{{this.service.formrow.Observaciones}}</p>
                 </div>
             </div>
             <!-- fin contenido 2 -->
 
             <div style="height: 230px;">
-
             </div>
 
 
@@ -87,19 +71,19 @@
                 <div class="col-4 container row">
                     <h5 class="bolder blacktxt">COTIZACION A:</h5>
                     <div class="col-12">
-                        <p class="bolder blacktxt nomarginbottomP">Cliente: <span style="font-weight: 400;">panchito sadecv</span></p>
+                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 15px;">Cliente: <span style="font-weight: 400;">{{this.service.formrow.Nombre}}</span></p>
                     </div>
                     <div class="col-12">
-                        <p class="bolder blacktxt nomarginbottomP">Empresa*: <span style="font-weight: 400;">41</span></p>
+                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 15px;">Empresa*: <span style="font-weight: 400;">41**</span></p>
                     </div>
                     <div class="col-12">
-                        <p class="bolder blacktxt nomarginbottomP">Telefono: <span style="font-weight: 400;">65196485</span></p>
+                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 15px;">Telefono: <span style="font-weight: 400;">{{this.service.formrow.Telefono}}</span></p>
                     </div>
                     <div class="col-12">
-                        <p class="bolder blacktxt nomarginbottomP">Correo: <span style="font-weight: 400;">panchitopantera@gmail.com</span></p>
+                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 15px;">Correo: <span style="font-weight: 400;">{{this.service.formrow.Correo}}</span></p>
                     </div>
                     <div class="col-12">
-                        <p class="bolder blacktxt nomarginbottomP">RFC: <span style="font-weight: 400;">asf4984af68s</span></p>
+                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 15px;">RFC: <span style="font-weight: 400;">****</span></p>
                     </div>
                 </div>
                 <div class="col-4">
@@ -110,42 +94,36 @@
                         <p class="bolder blacktxt nomarginbottomP">Sub Total</p>
                     </div>
                     <div class="col-6">
-                        <p class="bolder blacktxt nomarginbottomP">8574</p>
+                        <p class="bolder blacktxt nomarginbottomP">{{this.service.formrow.Subtotal | currency}}</p>
                     </div>
                     <div class="col-6">
                         <p class="bolder blacktxt nomarginbottomP">IVA</p>
                     </div>
                     <div class="col-6">
-                        <p class="bolder blacktxt nomarginbottomP">68441</p>
+                        <p class="bolder blacktxt nomarginbottomP">***</p>
                     </div>
                     <div class="line"></div>
                     <div class="col-6">
                         <p class="bolder blacktxt nomarginbottomP">Total</p>
                     </div>
                     <div class="col-6">
-                        <p class="bolder blacktxt nomarginbottomP">49812</p>
+                        <h5 class="bolder blacktxt nomarginbottomP">{{this.service.formrow.Total | currency}}</h5>
                     </div>
                 </div>
-
-
-
-
-
-                <div class="container">
-                    <div class="row">
-                        <div class="col-4"></div>
-                        <div class="col-4"></div>
-                        <div class="col-2">
-                            <div class="card card-outline-inverse">
-                                <img src="../../../assets/images/footerCotizacion.jpg" style="height: 200px; width: 300px;">
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-
             </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4"></div>
+                    <div class="col-2">
+                        <div class="card card-outline-inverse">
+                            <img src="../../../assets/images/footerCotizacion.jpg" style="height: 200px; width: 300px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- fin pdf -->
         </div>
 
