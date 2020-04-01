@@ -23,6 +23,10 @@ export class TarimaService {
 getDetalleTarimaID(id: number): Observable <DetalleTarima[]>{
   return this.http.get<DetalleTarima[]>(APIUrl + '/Tarima/GetDetalleTarimaID/'+ id);
 }
+ //Obtener detalles de Tarima por IdDetalleTarima
+ getDetalleTarimaIDdetalle(id: number): Observable <DetalleTarima[]>{
+  return this.http.get<DetalleTarima[]>(APIUrl + '/Tarima/GetDetalleTarimaIDdetalle/'+ id);
+}
   //Obtener Tarima por IdTarima
 getTarimaID(id: number): Observable <Tarima[]>{
   return this.http.get<Tarima[]>(APIUrl + '/Tarima/GetTarimaID/'+ id);
@@ -45,7 +49,7 @@ updateTarima(t: Tarima) {
     }
     //Update Tarima ( Sacos y peso Total)
   updateDetalleTarimaIdSacos(idt: number, iddt:number, sacos: string) {
-    return this.http.put(APIUrl+ '/Tarima/UpdateTarimaSacosPeso/' + idt + '/' + iddt + '/' + sacos , null);
+    return this.http.put(APIUrl+ '/Tarima/UpdateDetalleTarimaIdSacos/' + idt + '/' + iddt + '/' + sacos , null);
     }
 //Insert Detalle Tarima
 addDetalleTarima(dt: DetalleTarima) {

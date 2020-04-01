@@ -59,9 +59,10 @@ export class TraspasoTarimaComponent implements OnInit {
     console.log(this.sacosTraspaso)
     if (this.nuevaTarima == true) {
       let tarimaInsert = new Tarima();
+      let sacosTraspaso = this.sacosTraspaso;
       tarimaInsert.IdTarima = 0;
-      tarimaInsert.Sacos = this.sacosTraspaso.toString();
-      tarimaInsert.PesoTotal = (this.sacosTraspaso * 20).toString();
+      tarimaInsert.Sacos = sacosTraspaso.toString();
+      tarimaInsert.PesoTotal = (sacosTraspaso * 20).toString();
       tarimaInsert.QR = 'QR2';
       console.log(tarimaInsert);
       console.log(this.detalleTarimaSelected);
@@ -70,7 +71,9 @@ export class TraspasoTarimaComponent implements OnInit {
         //Obtener id new Tarima
         this.tarimaService.getUltimaTarima().subscribe(dataUT => {
           console.log(dataUT);
+
           this.detalleTarimaSelected.IdTarima = dataUT[0].IdTarima;
+          this.detalleTarimaSelected.Sacos = sacosTraspaso.toString();
           console.log(this.detalleTarimaSelected);
           //Agregar detalle Tarima
           this.tarimaService.addDetalleTarima(this.detalleTarimaSelected).subscribe(resDT => {
@@ -81,14 +84,14 @@ export class TraspasoTarimaComponent implements OnInit {
             this.tt.ClaveProducto = this.detalleTarimaSelected.ClaveProducto;
             this.tt.Producto = this.detalleTarimaSelected.Producto;
             this.tt.Lote = this.detalleTarimaSelected.Lote;
-            this.tt.Sacos = this.sacosTraspaso.toString();
+            this.tt.Sacos = sacosTraspaso.toString();
             this.tt.FechaTraspaso = new Date();
             this.tt.IdUsuario = 0;
             this.tt.Usuario = 'TYSOK';
             console.log(this.tt);
             this.tarimaService.addTraspasoTarima(this.tt).subscribe(resTrasTarima => {
               console.log(resTrasTarima);
-              // this.actualizarTarimaOrigen();
+              this.actualizarTarimaOrigen();
             })
           });
         });
@@ -104,30 +107,52 @@ export class TraspasoTarimaComponent implements OnInit {
 
   actualizarTarimaOrigen() {
 
-    let idTarima = this.detalleTarimaSelected.IdTarima;
+    let idTarima = this.tarimaIdOrigen;
     let idDetalleTarima = this.detalleTarimaSelected.IdDetalleTarima;
+    let sacosTraspaso = this.sacosTraspaso;
     let SacosIniciot;
     let SacosIniciodt;
     let SacosFinalt;
     let SacosFinaldt;
     let PesoTotal;
+    console.log(idTarima);
+    console.log(sacosTraspaso);
     this.tarimaService.getTarimaID(idTarima).subscribe(data => {
+      console.log(data);
+      console.log(sacosTraspaso);
       SacosIniciot = data[0].Sacos;
-      SacosFinalt = ((+SacosIniciot) - (this.sacosTraspaso)).toString();
-      PesoTotal = (+SacosFinalt * 20).toString();
+      console.log(SacosIniciot);
+      SacosFinalt = ((+SacosIniciot) - (+sacosTraspaso));
+      console.log(SacosFinalt);
+      PesoTotal = ((+SacosFinalt) * (20));
+      console.log(PesoTotal);
+      console.log(idTarima);
+      console.log('////////////////');
+      console.log(SacosFinalt);
+      console.log(PesoTotal);
+      console.log(idTarima);
+      console.log('////////////////');
       //Actualizamos Tarima Origen
-      this.tarimaService.updateTarimaSacosPeso(idTarima, SacosFinalt, PesoTotal).subscribe(res => {
+      this.tarimaService.updateTarimaSacosPeso(idTarima, SacosFinalt.toString(), PesoTotal.toString()).subscribe(res => {
         console.log(res);
+        console.log(idDetalleTarima);
         //Obtener Detalle Tarima ID
-        this.tarimaService.getDetalleTarimaID(idDetalleTarima).subscribe(datadt => {
+        this.tarimaService.getDetalleTarimaIDdetalle(idDetalleTarima).subscribe(datadt => {
+          console.log(datadt);
           SacosIniciodt = datadt[0].Sacos;
           SacosFinaldt = (+SacosIniciodt - this.sacosTraspaso)
+          console.log(SacosIniciodt);
+          console.log(SacosFinaldt);
           if (SacosFinaldt > 0) {
+            console.log(idTarima);
+            console.log(idDetalleTarima);
+            console.log(SacosFinaldt.toString());
             //Actualizar detalles Tarima Origen
             this.tarimaService.updateDetalleTarimaIdSacos(idTarima, idDetalleTarima, SacosFinaldt.toString()).subscribe(resdt => {
               console.log(resdt);
             });
           } else {
+            console.log(idDetalleTarima);
             this.tarimaService.deleteDetalleTarima(idDetalleTarima).subscribe(resDelete => {
               console.log(resDelete);
             });
