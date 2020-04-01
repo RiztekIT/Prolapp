@@ -29,7 +29,7 @@
                         <mat-form-field>
                             <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControlDetalleTarima" [(ngModel)]="DetalleTarimaSelect" matInput [matAutocomplete]="autoProducto">
                             <mat-autocomplete #autoProducto="matAutocomplete">
-                                <mat-option *ngFor="let option of filteredOptionsDetalleTarima | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChangeDetalleTarima(option, $event)">
+                                <mat-option *ngFor="let option of filteredOptionsDetalleTarima | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChangeDetalleTarimaOrigen(option, $event)">
                                     {{option.ClaveProducto}} || {{option.Producto}}
                                 </mat-option>
                             </mat-autocomplete>
@@ -57,7 +57,7 @@
                     <div class="col-lg-6">
                         <div *ngIf="nuevaTarima == false">
                             <label class="input-group-text text-info">Tarima Destino (Codigo QR)</label>
-                            <input required type="text" class="form-control" name="IdtarimaIdDestino" #IdtarimaDestino="ngModel" [(ngModel)]="tarimaIdDestino">
+                            <input required type="text" class="form-control" name="IdtarimaIdDestino" #IdtarimaDestino="ngModel" [(ngModel)]="tarimaIdDestino" (blur)="onBlurIdDestino(tarimaIdDestino)">
                         </div>
 
                     </div>
