@@ -21,26 +21,37 @@ import { TraspasoTarimaComponent } from '../../../traspaso-tarima/traspaso-tarim
   styleUrls: ['./preparar.component.css']
 })
 export class PrepararComponent implements OnInit {
-
-  listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['ClaveProducto', 'Lote', 'Sacos', 'Options'];
-  @ViewChild(MatSort, null) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-
+  
   constructor(public router: Router, public tarimaService: TarimaService, public ordenCargaService: OrdenCargaService,
     public ordenTemporalService: OrdenTemporalService, private dialog: MatDialog, ) {
+      
+      this.ordenTemporalService.listen().subscribe((m: any) => {
+        this.actualizarTabla();
+      });
 
-    this.ordenTemporalService.listen().subscribe((m: any) => {
-      this.actualizarTabla();
-    });
+      this.ordenTemporalService.listenOrdenTemporal().subscribe((m: any) => {
+        this.actualizarTablaOrdenTemporal();
+      });
+      
+    }
+    
+    
+    ngOnInit() {
+      this.IdOrdenCarga = +(localStorage.getItem('IdOrdenCarga'));
+      this.showButton = false;
+      this.actualizarTablaOrdenTemporal();
+    }
+    // Tabla pre visualizacion
+      listData: MatTableDataSource<any>;
+      displayedColumns: string[] = ['ClaveProducto', 'Lote', 'Sacos', 'Options'];
+      @ViewChild(MatSort, null) sort: MatSort;
+      @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  }
-
-
-  ngOnInit() {
-    this.IdOrdenCarga = +(localStorage.getItem('IdOrdenCarga'));
-    this.showButton = false;
-  }
+    // Tabla pre visualizacion
+      listDataOrdenTemporal: MatTableDataSource<any>;
+      displayedColumnsOrdenTemporal: string[] = ['ClaveProducto', 'Lote', 'Sacos', 'Options'];
+      @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
+      @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
 
   //Informacion que vendra del QR
   QRdata = new Tarima();
@@ -148,13 +159,30 @@ export class PrepararComponent implements OnInit {
 
   }
 
+  // ----- INICIO TABLA ORDEN TEMPORAL -------
+  actualizarTablaOrdenTemporal(){
+    this.ordenTemporalService.GetOrdenTemporalID(this.IdOrdenCarga).subscribe( dataOrdenTemporal => {
+console.log(dataOrdenTemporal);
+if(dataOrdenTemporal.length > 0){
+console.log('Si hay Movimientos en esta orden de carga');
+// this.listDataOrdenTemporal = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
+// this.listData.sort = this.sortOrdenTemporal;
+// this.listData.paginator = this.paginatorOrdenTemporal;
+// this.listData.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+}else{
+  console.log('No hay Movimientos en esta orden de carga');
+}
+    })
+  }
+  // ----- FIN TABLA ORDEN TEMPORAL -------
+
   //Resetear tabla y valores para escanear nuevo codigo QR
   resetQR() {
     this.ordenTemporalService.preOrdenTemporal = [];
     this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
     this.listData.sort = this.sort;
     this.listData.paginator = this.paginator;
-    this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+    this.listData.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
     this.showButton = false;
   }
 

@@ -97,12 +97,26 @@ export class TraspasoTarimaComponent implements OnInit {
         });
       });
     } else {
-      // this.actualizarTarimaOrigen();
-      // this.actualizarTarimaDestino();
+      this.tt = new TraspasoTarima();
+            this.tt.IdOrigenTarima = this.tarimaIdOrigen;
+            this.tt.IdDestinoTarima = this.tarimaIdDestino;
+            this.tt.ClaveProducto = this.detalleTarimaSelected.ClaveProducto;
+            this.tt.Producto = this.detalleTarimaSelected.Producto;
+            this.tt.Lote = this.detalleTarimaSelected.Lote;
+            this.tt.Sacos = this.sacosTraspaso.toString();
+            this.tt.FechaTraspaso = new Date();
+            this.tt.IdUsuario = 0;
+            this.tt.Usuario = 'TYSOK';
+            console.log(this.tt);
+            this.tarimaService.addTraspasoTarima(this.tt).subscribe(resTrasTarima => {
+              console.log(resTrasTarima);
+              this.actualizarTarimaOrigen();
+              this.actualizarTarimaDestino();
+            })
     }
 
 
-    // this.dialogbox.close();
+    this.dialogbox.close();
   }
 
   actualizarTarimaOrigen() {
@@ -163,6 +177,71 @@ export class TraspasoTarimaComponent implements OnInit {
 
   }
   actualizarTarimaDestino() {
+//Actualizar Tarima Destino
+this.detalleTarimaSelectedDestino = new DetalleTarima();
+this.detalleTarimaSelectedDestino = this.detalleTarimaSelected;
+this.detalleTarimaSelectedDestino.IdTarima = this.tarimaIdDestino;
+this.detalleTarimaSelectedDestino.Sacos = this.sacosTraspaso.toString();
+let idTarima = this.tarimaIdDestino;
+    let idDetalleTarima;
+    let sacosTraspaso = this.sacosTraspaso;
+    let clave = this.detalleTarimaSelectedDestino.ClaveProducto;
+    let lote = this.detalleTarimaSelectedDestino.Lote;
+    let SacosIniciot;
+    let SacosIniciodt;
+    let SacosFinalt;
+    let SacosFinaldt;
+    let PesoTotal;
+
+
+    console.log(idTarima);
+    console.log(sacosTraspaso);
+    this.tarimaService.getTarimaID(idTarima).subscribe(data => {
+      console.log(data);
+      console.log(sacosTraspaso);
+      SacosIniciot = data[0].Sacos;
+      console.log(SacosIniciot);
+      SacosFinalt = ((+SacosIniciot) + (+sacosTraspaso));
+      console.log(SacosFinalt);
+      PesoTotal = ((+SacosFinalt) * (20));
+      console.log(PesoTotal);
+      console.log(idTarima);
+      console.log('////////////////');
+      console.log(SacosFinalt);
+      console.log(PesoTotal);
+      console.log(idTarima);
+      console.log('////////////////');
+      //Actualizamos Tarima Origen
+      this.tarimaService.updateTarimaSacosPeso(idTarima, SacosFinalt.toString(), PesoTotal.toString()).subscribe(res => {
+        console.log(res);
+        //Buscar si existe detalleTarima en la tarima con la misma ClaveProducto y Lote
+this.tarimaService.getDetalleTarimaIdClaveLote(idTarima, clave, lote).subscribe(dataDetalleTarima =>{
+console.log(dataDetalleTarima);
+if(dataDetalleTarima.length > 0){
+  //si existen, actualizar detalle tarima
+  idDetalleTarima = dataDetalleTarima[0].IdDetalleTarima;
+  SacosFinaldt = ((+dataDetalleTarima[0].Sacos) + (sacosTraspaso));
+  console.log(idTarima);
+  console.log(idDetalleTarima);
+  console.log(SacosFinaldt.toString());
+    this.tarimaService.updateDetalleTarimaIdSacos(idTarima, idDetalleTarima, SacosFinaldt.toString()).subscribe(resdt => {
+    console.log(resdt);
+  });
+
+}else{
+  //si no, agregar detalle tarima
+  console.log(this.detalleTarimaSelected);
+  this.tarimaService.addDetalleTarima(this.detalleTarimaSelected).subscribe(resDT => {
+
+  });
+}
+  
+  
+});
+      });
+    });
+
+
 
   }
 

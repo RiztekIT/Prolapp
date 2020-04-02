@@ -34,7 +34,7 @@ getDetalleOrdenCargaIdLoteClave(id: number, lote: string, clave: string): Observ
 
 //Obtener Orden Temporal por ID Orden Carga
 GetOrdenTemporalID(id: number): Observable <OrdenTemporal[]>{
-  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporal/'+ id);
+  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalID/'+ id);
 }
 
 
@@ -45,6 +45,14 @@ GetOrdenTemporalID(id: number): Observable <OrdenTemporal[]>{
       }
       filter(filterBy: string) {
         this._listeners.next(filterBy);
+      }
+
+  private _listenersOrdenTemporal = new Subject<any>(); 
+      listenOrdenTemporal(): Observable<any> {
+        return this._listenersOrdenTemporal.asObservable();
+      }
+      filterOrdenTemporal(filterBy: string) {
+        this._listenersOrdenTemporal.next(filterBy);
       }
 
 }
