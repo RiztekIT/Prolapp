@@ -28,6 +28,8 @@ export class AddClienteComponent implements OnInit {
     this.dropdownRefresh();
   }
 
+  
+
   //Forma Pago
   public listFP: Array<Object> = [
     { FormaDePago: "01", text: "01-Efectivo" },
@@ -148,7 +150,7 @@ export class AddClienteComponent implements OnInit {
   }
 
   onClose() {
-    this.dialogbox.close();
+    this.dialogbox.close(this.service.formData);
     this.service.filter('Register click');
   }
 
@@ -184,6 +186,7 @@ export class AddClienteComponent implements OnInit {
         //
         this.service.addCliente(this.service.formData).subscribe(res => {
           console.log(res);
+          
           Swal.fire({
             icon: 'success',
             title: 'Cliente Agregado',

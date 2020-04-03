@@ -30,6 +30,7 @@ import { trigger, state, transition, animate, style } from '@angular/animations'
 import { DetalleNotaCredito } from 'src/app/Models/nota-credito/detalleNotaCredito-model';
 import { NotaCreditoMaster } from 'src/app/Models/nota-credito/notaCreditoMaster-model';
 import { FacturaComponent } from 'src/app/components/factura/factura.component';
+import { AddClienteComponent } from 'src/app/pages/administracion/catalogos/clientes/add-cliente/add-cliente.component';
 
 /* Headers para el envio de la factura */
 const httpOptions = {
@@ -713,6 +714,7 @@ CFDISumatoria(){
 
   /* Metodo que se dispara al seleccionar clientes */
   onSelectionChange(cliente: Cliente, event: any) {
+    console.log(event);
     if (event.isUserInput) {
 
       this.fechaVenc = new Date(this.service.formData.FechaDeExpedicion)
@@ -1339,7 +1341,7 @@ const dialogConfig = new MatDialogConfig();
       filename: 'F-' + folio + '.pdf',
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 2, logging: true, scrollY: -2, scrollX: -15 },
-      jsPDF: { unit: 'cm', format: 'letter', orientation: 'portrait' },
+      jsPDF: { unit: 'cm', format: 'letter', orientation: 'p' },
       pagebreak: { avoid: '.pgbreak' }
 
     };
@@ -1351,7 +1353,10 @@ const dialogConfig = new MatDialogConfig();
       })
       .save();
     this.proceso = '';
+    this.loading = false;
   }
+
+
 
 
 
@@ -1640,6 +1645,37 @@ const dialogConfig = new MatDialogConfig();
     });
     return cadena;
 
+  }
+
+
+  nuevoCliente(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    let dl = this.dialog.open(AddClienteComponent, dialogConfig);
+
+    dl.afterClosed().subscribe(res =>{
+      this.dropdownRefresh();
+
+      console.log(res);
+      //
+      let event = {
+        isUserInput: true
+      }
+  
+      let clien : Cliente;
+
+      clien = res;
+  
+      
+  
+      this.onSelectionChange(clien, event);
+    })
+
+    
+
+    
   }
 
 
