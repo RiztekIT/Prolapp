@@ -1,6 +1,12 @@
 export class TraspasoTarima {
     IdTraspasoTarima: number;
-    Cantidad: string;
-    QRorigen: string;
-    QRdestino: string;
+    IdOrigenTarima: number;
+    IdDestinoTarima: number;
+    ClaveProducto: string;
+    Producto: string;
+    Lote: string;
+    Sacos: string;
+    FechaTraspaso: Date;
+    IdUsuario: number;
+    Usuario: string;
 }

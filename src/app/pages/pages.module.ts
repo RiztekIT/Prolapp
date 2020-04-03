@@ -195,6 +195,7 @@ import { OrdenTemporalService } from '../services/almacen/orden-temporal/orden-t
 import { EntradaProductoComponent } from '../components/almacen/entrada-producto/entrada-producto.component';
 import { SalidaProductoComponent } from '../components/almacen/salida-producto/salida-producto.component';
 import { OrdenCargaConceptoComponent } from './almacen/pedidosalmacen/ordencargadetalle/preparar/orden-carga-concepto/orden-carga-concepto.component';
+import { TraspasoTarimaComponent } from './almacen/traspaso-tarima/traspaso-tarima.component';
 
 
 
@@ -337,6 +338,7 @@ import { OrdenCargaConceptoComponent } from './almacen/pedidosalmacen/ordencarga
         EntradaProductoComponent,
         SalidaProductoComponent,
         OrdenCargaConceptoComponent,
+        TraspasoTarimaComponent,
     
     ],
     exports: [
@@ -436,6 +438,7 @@ import { OrdenCargaConceptoComponent } from './almacen/pedidosalmacen/ordencarga
         EntradaProductoComponent,
         SalidaProductoComponent,
         OrdenCargaConceptoComponent,
+        TraspasoTarimaComponent
     ]
 })
 export class PagesModule { }

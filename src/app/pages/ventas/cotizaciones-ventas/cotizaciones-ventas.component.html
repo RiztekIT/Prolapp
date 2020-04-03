@@ -132,8 +132,12 @@
                                             </button>
                                     <!--  -->
                                     <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
-    <mat-icon>visibility</mat-icon>
-</button>
+                                    <mat-icon>visibility</mat-icon>
+                                    </button>
+
+                                    <button title="Hacer Pedido" mat-icon-button class="btn btn-dark" (click)="hacerPedido(row)">
+                                        <mat-icon>send</mat-icon>
+                                    </button>
 
                                     <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
                                     <button title="Enviar Correo" mat-icon-button class="btn btn-dark" (click)="email()">

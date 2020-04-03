@@ -1,4 +1,4 @@
-<div style="overflow: auto; height: 800px;">
+<div style="overflow-y: scroll; overflow-x: hidden; height: 80vh;">
     <div>
         <button class="btn btn-danger" color="warn" (click)="onClose()">
       <mat-icon>close</mat-icon>
@@ -17,7 +17,7 @@
                     <div class="col-3" style="padding-top: 0; margin-top: 0;">
                         <div class="card card-outline-inverse">
 
-                            <img src="../../../assets/images/prolacto.png" class="logo">
+                            <img src="../../../assets/images/ProLactoLogo.png" class="logo">
 
                         </div>
                     </div>
@@ -28,13 +28,13 @@
                                 <p class="bolder blacktxt">Preparado por: </p>
                             </div>
                             <div class="col-3 containerborder">
-                                <p>Javier </p>
+                                <p>Pancholin </p>
                             </div>
                             <div class="col-3 containerborder nowrap">
                                 <p class="bolder blacktxt nowrap">Codigo de Documento: </p>
                             </div>
                             <div class="col-3 containerborder">
-                                <p> 984fas</p>
+                                <p> {{this.service.formDatapdf.Folio}}</p>
                             </div>
                         </div>
                         <div class="container row">
@@ -79,13 +79,13 @@
                         <p class="bolder blacktxt">PROVEEDOR: <span style="font-weight:400"> PANCHITO</span></p>
                     </div>
                     <div class="containerborder">
-                        <p class="bolder blacktxt">PEDIMENTO: <span style="font-weight:400">SADF94SDF9</span></p>
+                        <p class="bolder blacktxt">PEDIMENTO: <span style="font-weight:400">{{this.pedimento}}</span></p>
                     </div>
                     <div class="containerborder">
-                        <p class="bolder blacktxt">TRANSPORTISTA: <span style="font-weight:400">DYNAMO</span></p>
+                        <p class="bolder blacktxt">TRANSPORTISTA: <span style="font-weight:400">{{this.service.formDatapdf.Fletera}}</span></p>
                     </div>
                     <div class="containerborder">
-                        <p class="bolder blacktxt">NOMBRE OPERADOR <span style="font-weight:400">MIGUEL</span></p>
+                        <p class="bolder blacktxt">NOMBRE OPERADOR <span style="font-weight:400">MIGUEL**</span></p>
                     </div>
                 </div>
 
@@ -95,7 +95,7 @@
                             <p class="bolder blacktxt">FECHA </p>
                         </div>
                         <div class="col-4" style="padding-right:0">
-                            <p><span style="font-weight:400">06-MAR-20</span></p>
+                            <p><span style="font-weight:400">{{this.service.formDatapdf.FechaInicioCarga | date: 'yyyy/MM/dd'}}</span></p>
                         </div>
                     </div>
                     <div class="containerborder container row" style="margin-left: 0; padding-left: 0;">
@@ -103,7 +103,7 @@
                             <p class="bolder blacktxt">N° FACTURA, REMISION O TRASPASO </p>
                         </div>
                         <div class="col-4" style="padding-right:0">
-                            <p><span style="font-weight:400;">IUSFHD 918</span></p>
+                            <p><span style="font-weight:400;">IUSFHD 918**</span></p>
                         </div>
                     </div>
                     <div class="containerborder container row" style="margin-left: 0; padding-left: 0;">
@@ -111,7 +111,7 @@
                             <p class="bolder blacktxt">UNIDAD</p>
                         </div>
                         <div class="col-4" style="padding-right:0">
-                            <p> <span style="font-weight:400">T6185</span></p>
+                            <p> <span style="font-weight:400">T6185**</span></p>
                         </div>
                     </div>
                     <div class="containerborder container row" style="margin-left: 0; padding-left: 0;">
@@ -119,48 +119,50 @@
                             <p class="bolder blacktxt">SELLO CAJA </p>
                         </div>
                         <div class="col-4" style="padding-right:0">
-                            <p> <span style="font-weight:400">CEIJOASFD 1984</span></p>
+                            <p> <span style="font-weight:400">CEIJOASFD 1984**</span></p>
                         </div>
                     </div>
                     <div class="containerborder container row" style="margin-left: 0; padding-left: 0;">
                         <div class="col-6" style="padding-left:0">
-                            <p class="bolder blacktxt">HORA LLEGADA<span style="font-weight:400">8AM</span></p>
+                            <p class="bolder blacktxt">HORA LLEGADA: <span style="font-weight:400">{{this.service.formDatapdf.FechaInicioCarga | date: 'hh:mm:ss'}}</span></p>
                         </div>
                         <div class="col-6" style="padding-right:0">
-                            <p class="bolder blacktxt">HORA SALIDA<span style="font-weight:400">9AM</span></p>
+                            <p class="bolder blacktxt">HORA SALIDA: <span style="font-weight:400">{{this.service.formDatapdf.FechaFinalCarga | date: 'hh:mm:ss'}}</span></p>
                         </div>
                     </div>
                 </div>
             </div>
+            <div style="height: 730px;">
 
-            <table class="table-striped">
-                <thead>
-                    <tr>
-                        <th class="blacktxt bolder whitecolor">Numero de Tarima</th>
-                        <th class="blacktxt bolder whitecolor">Clave Producto</th>
-                        <th class="blacktxt bolder whitecolor">Producto</th>
-                        <th class="blacktxt bolder whitecolor">SACOS</th>
-                        <th class="blacktxt bolder whitecolor">PESO POR SACO</th>
-                        <th class="blacktxt bolder whitecolor">LOTE</th>
-                        <th class="blacktxt bolder whitecolor">FECHA CAD</th>
-                        <th class="blacktxt bolder whitecolor">Comentarios</th>
-                    </tr>
-                </thead>
-                <tbody *ngFor="let conceptos of arrcon; let i = index">
-                    <tr class="pgbreak">
-                        <td class="wrap lightback pgbreak"> {{conceptos.Proveedor}} </td>
-                        <td class="wrap lightback">{{conceptos.PO}}</td>
-                        <td class="wrap lightback pgbreak"> {{conceptos.Producto}}</td>
-                        <td class="pgbreak">{{conceptos.Lote}} </td>
-                        <td class="pgbreak">{{conceptos.Sacos}} </td>
-                        <td class="pgbreak">{{conceptos.PesoxSaco}}</td>
-                        <td class="pgbreak">{{this.pesoTotal}}</td>
-                        <td class="pgbreak">{{conceptos.FechaMFG | date: 'yyyy/MM/dd'}}</td>
-                        <td class="pgbreak">{{conceptos.FechaCaducidad | date: 'yyyy/MM/dd'}} </td>
-                        <td class="pgbreak">elbodegon***</td>
-                </tbody>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="blacktxt bolder whitecolor">Numero de Tarima</th>
+                            <th class="blacktxt bolder whitecolor">Clave Producto</th>
+                            <th class="blacktxt bolder whitecolor">Producto</th>
+                            <th class="blacktxt bolder whitecolor">SACOS</th>
+                            <th class="blacktxt bolder whitecolor">PESO POR SACO</th>
+                            <th class="blacktxt bolder whitecolor">LOTE</th>
+                            <th class="blacktxt bolder whitecolor">FECHA MFG</th>
+                            <th class="blacktxt bolder whitecolor">FECHA CAD</th>
+                            <th class="blacktxt bolder whitecolor">Comentarios</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let conceptos of arrcon; let i = index">
+                        <tr class="pgbreak">
+                            <td style="text-align: center;" class="wrap lightback pgbreak"> {{conceptos.Proveedor}} </td>
+                            <td style="text-align: center;" class="wrap lightback">{{conceptos.ClaveProducto}}</td>
+                            <td style="text-align: center;" class="wrap lightback pgbreak"> {{conceptos.Producto}}</td>
+                            <td style="text-align: center;" class="pgbreak">{{conceptos.Sacos}} </td>
+                            <td style="text-align: center;" class="pgbreak">{{conceptos.PesoxSaco}}</td>
+                            <td style="text-align: center;" class="pgbreak">{{conceptos.Lote}} </td>
+                            <td style="text-align: center;" class="pgbreak">{{conceptos.FechaMFG | date: 'yyyy/MM/dd'}}</td>
+                            <td style="text-align: center;" class="pgbreak">{{conceptos.FechaCaducidad | date: 'yyyy/MM/dd'}} </td>
+                            <td style="text-align: center;" class="pgbreak">no observaciones**</td>
+                    </tbody>
 
-            </table>
+                </table>
+            </div>
 
             <div class="container row pgbreak" style="padding-right: 0;">
                 <div class="col-5 pgbreak">
@@ -192,7 +194,7 @@
                         </div>
                         <div class="col-6 containerborder">
                             <p class="bolder blacktxt" style="text-align: center;">
-                                TIZOC PORRAS
+                                {{this.service.formDatapdf.Usuario}}
                             </p>
                         </div>
                     </div>
@@ -205,7 +207,7 @@
                         </div>
                         <div class="col-6 containerborder nowrap">
                             <p style="text-align: center;">
-                                28000.00 KG.
+                                {{this.pesoTotal}} KG.
                             </p>
                         </div>
                     </div>
@@ -216,9 +218,8 @@
         <!-- fin Area A IMPRIMIR -->
 
     </div>
-
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button>
-        <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
-    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button>
+    <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
 </div>
