@@ -43,13 +43,13 @@ export class PrepararComponent implements OnInit {
     }
     // Tabla pre visualizacion
       listData: MatTableDataSource<any>;
-      displayedColumns: string[] = ['ClaveProducto', 'Lote', 'Sacos', 'Options'];
+      displayedColumns: string[] = ['ClaveProducto', 'Lote', 'Sacos', 'Comentarios', 'Options'];
       @ViewChild(MatSort, null) sort: MatSort;
       @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-    // Tabla pre visualizacion
+    // Tabla Orden Temporal
       listDataOrdenTemporal: MatTableDataSource<any>;
-      displayedColumnsOrdenTemporal: string[] = ['ClaveProducto', 'Lote', 'Sacos', 'Options'];
+      displayedColumnsOrdenTemporal: string[] = ['QR', 'ClaveProducto', 'Producto', 'Lote', 'Sacos', 'PesoTotal', 'FechaCaducidad', 'Comentarios', 'Options'];
       @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
       @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
 
@@ -71,7 +71,7 @@ export class PrepararComponent implements OnInit {
   simularQR() {
 
     //Obtener Datos Escaneados del QR
-    this.QRdata.IdTarima = 2;
+    this.QRdata.IdTarima = 33;
     this.QRdata.Sacos = '150';
     this.QRdata.PesoTotal = '3000';
     this.QRdata.QR = '123';
@@ -83,8 +83,13 @@ export class PrepararComponent implements OnInit {
     //Obtener los detalles de Tarima del QR previamente escaneado
     this.tarimaService.getDetalleTarimaID(this.QRdata.IdTarima).subscribe(data => {
       console.log(data);
+      if(data.length > 0){
+        
+      
       for (let i = 0; i <= data.length - 1; i++) {
 
+        //Variable para establece el maximo de sacos en base a la cantidad de sacos en la tarima
+        let sacosMaximos = data[i].Sacos;
         this.QRDetalledata[i] = data[i];
         console.log(this.QRDetalledata);
 
@@ -112,7 +117,7 @@ export class PrepararComponent implements OnInit {
               oT.QR = this.QRdata.QR;
               oT.ClaveProducto = this.QRDetalledata[i].ClaveProducto;
               oT.Lote = this.QRDetalledata[i].Lote;
-              oT.Sacos = SaldoMaximo;
+              oT.Sacos = sacosMaximos;
               oT.Producto = this.QRDetalledata[i].Producto;
               oT.PesoTotal = ((+oT.Sacos) * (+this.QRDetalledata[i].PesoxSaco)).toString();
               oT.FechaCaducidad = this.QRDetalledata[i].FechaCaducidad;
@@ -153,7 +158,10 @@ export class PrepararComponent implements OnInit {
         })
 
       }
-
+    }
+    else{
+      console.log('Tarima Vacia');
+    }
     });
 
 
@@ -165,12 +173,16 @@ export class PrepararComponent implements OnInit {
 console.log(dataOrdenTemporal);
 if(dataOrdenTemporal.length > 0){
 console.log('Si hay Movimientos en esta orden de carga');
-// this.listDataOrdenTemporal = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
-// this.listData.sort = this.sortOrdenTemporal;
-// this.listData.paginator = this.paginatorOrdenTemporal;
-// this.listData.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+this.listDataOrdenTemporal = new MatTableDataSource(dataOrdenTemporal);
+this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
+this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
+this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
 }else{
   console.log('No hay Movimientos en esta orden de carga');
+  this.listDataOrdenTemporal = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
+  // this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
+  // this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
+  // this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
 }
     })
   }
@@ -208,6 +220,7 @@ console.log('Si hay Movimientos en esta orden de carga');
           // Actualizar Saldo de la tabla Detalle Orden Carga
           this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo).subscribe(res => {
             console.log(res);
+            this.actualizarTablaOrdenTemporal();
           });
         });
       });

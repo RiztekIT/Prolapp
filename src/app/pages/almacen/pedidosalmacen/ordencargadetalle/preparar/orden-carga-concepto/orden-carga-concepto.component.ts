@@ -17,13 +17,37 @@ export class OrdenCargaConceptoComponent implements OnInit {
   ngOnInit() {
 
    this.cantidadSacos = +this.ordenTemporalService.ordenTemporalData.Sacos; 
+   this.cantidadMaximaSacos = +this.ordenTemporalService.ordenTemporalData.Sacos; 
   }
 
   cantidadSacos: number;
+  cantidadMaximaSacos: number;
 
   onClose() {
     this.dialogbox.close();
     
+  }
+
+  //metodo que se ejecuta cuando cambia la cantidad de sacos
+  onChangeCantidadSacos(cantidad: any){
+    console.log(cantidad);
+    let elemHTML: any = document.getElementsByName('Cantidad')[0];
+    this.validarCantidad(cantidad);
+    elemHTML.value = this.cantidadSacos;
+  }
+
+
+  validarCantidad(cantidad: any) {
+    console.log(cantidad + ' CANTIDAD');
+    if (+cantidad >= this.cantidadMaximaSacos) {
+      this.cantidadSacos = this.cantidadMaximaSacos;
+    }
+    if (+cantidad < 0) {
+      this.cantidadSacos = 0;
+    }
+    if (cantidad == null) {
+      this.cantidadSacos = 0;
+    }
   }
 
   onSubmit(form: NgForm) {
