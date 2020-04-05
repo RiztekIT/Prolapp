@@ -44,15 +44,24 @@
                       {{dl.Nombre}}
                     </option>
                   </select> -->
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <mat-form-field class="example-full-width">
+                                                <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClienteId" [(ngModel)]="service.formData.IdCliente">
+                                                <mat-autocomplete #auto="matAutocomplete">
+                                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChange(option, $event)">
+                                                        {{option.IdClientes}} {{option.Nombre}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-4">
+                                            <button color="primary" class="btn btn-lg" type="button" mat-raised-button (click)="nuevoCliente()"><i
+                                class="mdi mdi-plus btn-lg"></i>Nuevo</button>
+                                        </div>
+                                    </div>
 
-                                    <mat-form-field class="example-full-width">
-                                        <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClienteId" [(ngModel)]="service.formData.IdCliente">
-                                        <mat-autocomplete #auto="matAutocomplete">
-                                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChange(option, $event)">
-                                                {{option.IdClientes}} {{option.Nombre}}
-                                            </mat-option>
-                                        </mat-autocomplete>
-                                    </mat-form-field>
+
 
                                     <!------------------------------------------------------------------------------------------>
                                     <!-- <input style="display: none" type="string" [(ngModel)]="ClienteNombre"> -->
@@ -643,6 +652,8 @@
                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='email(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
                         class="mdi mdi-email btn-lg"></i>Enviar</button>
 
+
+
                             <!-- <button type="button" class="btn btn-secondary">No Editable</button> -->
                             <!-- <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
                             </ngx-loading> -->
@@ -761,6 +772,8 @@
             <!-- </div> -->
         </div>
     </div>
+    <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}" [template]="customTemplate">
+    </ngx-loading>
 </div>
 
 
@@ -810,8 +823,7 @@
 
         </div>
     </div>
-    <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}" [template]="customTemplate">
-    </ngx-loading>
+
 </div>
 
 

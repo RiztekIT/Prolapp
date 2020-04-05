@@ -41,7 +41,7 @@
 
 
                         <label class="input-group-text text-info">Cantidad Sacos</label>
-                        <input required type="number" class="form-control" name="sacoTraspaso" #sacoTraspaso="ngModel" [(ngModel)]="sacosTraspaso">
+                        <input required type="number" class="form-control" name="sacoTraspaso" #sacoTraspaso="ngModel" (ngModelChange)="onChangeCantidadSacos($event)" [(ngModel)]="sacosTraspaso">
 
                         <!-- <label class="input-group-text text-info">Sacos</label>
                             <input required type="number" class="form-control" name="Sacos" [(ngModel)]="cantidadSacos"> -->

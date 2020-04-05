@@ -188,6 +188,11 @@ th {
     border-top: 1px solid #000000;
 }
 
+.tdnomargin {
+    margin: 0px;
+    padding: 0px;
+}
+
 
 /* .cowcontainer {
     /* clip-path: polygon(50% 20%, 90% 80%, 10% 80%); */
