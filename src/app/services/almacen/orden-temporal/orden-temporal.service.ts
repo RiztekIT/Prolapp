@@ -22,6 +22,12 @@ export class OrdenTemporalService {
    posicionOrdenTemporal: number;
    //Concepto a editar
    ordenTemporalData = new OrdenTemporal();
+   //formdata que guarda los datos de orden temporal para deplegar en pdf
+   formDataOtPDF: any;
+   //formdata que guarda los los datos de orden de carga para desplegar en pdf
+   formDataOCPDF: any;
+   //formdata que guarda los detalles de orden de carga para desplegar en pdf
+   formDataOCDTPDF: any;
 
 //Insertar Orden Temporal
 addOrdenTemporal(oT: OrdenTemporal) {

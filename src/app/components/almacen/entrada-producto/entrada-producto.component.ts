@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as html2pdf from 'html2pdf.js';
 import { MatDialogRef } from '@angular/material';
 import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
+import { OrdenTemporalService } from '../../../services/almacen/orden-temporal/orden-temporal.service';
 
 @Component({
   selector: 'app-entrada-producto',
@@ -10,10 +11,11 @@ import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-ca
 })
 export class EntradaProductoComponent implements OnInit {
   usda: any;
-  pesoTotal: any;
+  pesoTotalTarima: Array<any> = [];
+  pesoTotal = 0;
   pedimento: any;
 
-  constructor(public dialogbox: MatDialogRef<EntradaProductoComponent>, public service: OrdenCargaService) { }
+  constructor(public dialogbox: MatDialogRef<EntradaProductoComponent>, private service: OrdenCargaService, public ordentemporal: OrdenTemporalService) { }
 
   objconc: any;
   con: string | number;
@@ -22,9 +24,7 @@ export class EntradaProductoComponent implements OnInit {
 
 
   ngOnInit() {
-    
     console.clear();
-    console.log(this.service.formData);
     this.ver();
   }
 
@@ -32,37 +32,49 @@ export class EntradaProductoComponent implements OnInit {
     this.dialogbox.close();
   }
   ver() {
-    console.clear();
-    console.log(this.service.formDatapdf);
-    
-    this.objconc = this.service.formDatapdf.detalleOrdenCarga;
-// select a orden temporal con base al id de la carga
-    this.arrcon = [];
-    for (this.con in this.objconc) {
-      var conceptos = this.objconc[this.con];
-      this.arrcon.push({
-        IdDetalleOrdenCarga: conceptos.IdDetalleOrdenCarga,
-        IdOrdenCarga: conceptos.IdOrdenCarga,
-        ClaveProducto: conceptos.ClaveProducto,
-        Producto: conceptos.Producto,
-        Sacos: conceptos.Sacos,
-        PesoxSaco: conceptos.PesoxSaco,
-        Lote: conceptos.Lote,
-        IdProveedor: conceptos.IdProveedor,
-        Proveedor: conceptos.Proveedor,
-        PO: conceptos.PO,
-        FechaMFG: conceptos.FechaMFG,
-        FechaCaducidad: conceptos.FechaCaducidad,
-        Shipper: conceptos.Shipper,
-        USDA: conceptos.USDA,
-        Pedimento: conceptos.Pedimento,
-        Saldo: conceptos.Saldo,
-      });
-    }
-    console.log(conceptos.USDA);
-    this.usda = conceptos.USDA;
-    this.pesoTotal = +conceptos.Sacos * +conceptos.PesoxSaco;
-    this.pedimento = conceptos.Pedimento;
+    this.service.getOCID(+localStorage.getItem('IdOrdenCarga')).subscribe(data => {
+this.ordentemporal.formDataOCPDF = data[0];
+this.service.getOrdenCargaIDList(+localStorage.getItem('IdOrdenCarga')).subscribe(respuesta=> {
+this.ordentemporal.formDataOCDTPDF = respuesta[0]
+
+    this.ordentemporal.GetOrdenTemporalID(+localStorage.getItem('IdOrdenCarga')).subscribe(res => {
+      
+        
+        console.log(this.ordentemporal.formDataOCPDF,'ORDENDECARGA')
+
+        this.ordentemporal.formDataOtPDF = res;
+        // console.log(this.ordentemporal.formDataOtPDF);
+        // console.clear();
+        // console.log(this.service.formDatapdf);
+
+        this.objconc = this.ordentemporal.formDataOtPDF;
+        // select a orden temporal con base al id de la carga
+        this.arrcon = [];
+        for (this.con in this.objconc) {
+          var conceptos = this.objconc[this.con];
+          this.arrcon.push({
+            IdOrdenTemporal: conceptos.IdOrdenTemporal,
+            IdTarima: conceptos.IdTarima,
+            IdOrdenCarga: conceptos.IdOrdenCarga,
+            IdOrdenDescarga: conceptos.IdOrdenDescarga,
+            QR: conceptos.QR,
+            ClaveProducto: conceptos.ClaveProducto,
+            Lote: conceptos.Lote,
+            Sacos: conceptos.Sacos,
+            Producto: conceptos.Producto,
+            FechaCaducidad: conceptos.FechaCaducidad,
+            Comentarios: conceptos.Comentarios,
+          });
+          this.pesoTotalTarima[this.con] = conceptos.Sacos * 25;
+          // console.log(this.pesoTotalTarima[this.con],'tarima');
+
+          this.pesoTotal = +this.pesoTotalTarima[this.con] + +this.pesoTotal
+          
+        }
+console.log(this.pesoTotal,'PESOTOTAL');
+    });
+  });
+  });
   }
 
 

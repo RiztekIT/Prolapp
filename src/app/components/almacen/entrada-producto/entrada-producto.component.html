@@ -1,7 +1,7 @@
 <div style="overflow-y: scroll; overflow-x: hidden; height: 80vh;">
     <div>
         <button class="btn btn-danger" color="warn" (click)="onClose()">
-      <mat-icon>close</mat-icon>
+      <!-- <mat-icon>close</mat-icon> -->
     </button>
     </div>
 
@@ -34,7 +34,7 @@
                                 <p class="bolder blacktxt nowrap">Codigo de Documento: </p>
                             </div>
                             <div class="col-3 containerborder">
-                                <p> {{this.service.formDatapdf.Folio}}</p>
+                                <p> {{this.ordentemporal.formDataOCPDF.Folio}}</p>
                             </div>
                         </div>
                         <div class="container row">
@@ -82,10 +82,10 @@
                         <p class="bolder blacktxt">PEDIMENTO: <span style="font-weight:400">{{this.pedimento}}</span></p>
                     </div>
                     <div class="containerborder">
-                        <p class="bolder blacktxt">TRANSPORTISTA: <span style="font-weight:400">{{this.service.formDatapdf.Fletera}}</span></p>
+                        <p class="bolder blacktxt">TRANSPORTISTA: <span style="font-weight:400">{{this.ordentemporal.formDataOCPDF.Fletera}}</span></p>
                     </div>
                     <div class="containerborder">
-                        <p class="bolder blacktxt">NOMBRE OPERADOR <span style="font-weight:400">MIGUEL**</span></p>
+                        <p class="bolder blacktxt">NOMBRE OPERADOR <span style="font-weight:400">{{this.ordentemporal.formDataOCPDF.Chofer}}</span></p>
                     </div>
                 </div>
 
@@ -95,7 +95,7 @@
                             <p class="bolder blacktxt">FECHA </p>
                         </div>
                         <div class="col-4" style="padding-right:0">
-                            <p><span style="font-weight:400">{{this.service.formDatapdf.FechaInicioCarga | date: 'yyyy/MM/dd'}}</span></p>
+                            <span style="font-weight:400">{{this.ordentemporal.formDataOCPDF.FechaInicioCarga | date: 'yyyy/MM/dd'}}</span>
                         </div>
                     </div>
                     <div class="containerborder container row" style="margin-left: 0; padding-left: 0;">
@@ -124,10 +124,10 @@
                     </div>
                     <div class="containerborder container row" style="margin-left: 0; padding-left: 0;">
                         <div class="col-6" style="padding-left:0">
-                            <p class="bolder blacktxt">HORA LLEGADA: <span style="font-weight:400">{{this.service.formDatapdf.FechaInicioCarga | date: 'hh:mm:ss'}}</span></p>
+                            <p class="bolder blacktxt">HORA LLEGADA: <span style="font-weight:400">{{this.ordentemporal.formDataOCPDF.FechaInicioCarga | date: 'hh:mm:ss'}}</span></p>
                         </div>
                         <div class="col-6" style="padding-right:0">
-                            <p class="bolder blacktxt">HORA SALIDA: <span style="font-weight:400">{{this.service.formDatapdf.FechaFinalCarga | date: 'hh:mm:ss'}}</span></p>
+                            <p class="bolder blacktxt">HORA SALIDA: <span style="font-weight:400">{{this.ordentemporal.formDataOCPDF.FechaFinalCarga | date: 'hh:mm:ss'}}</span></p>
                         </div>
                     </div>
                 </div>
@@ -141,24 +141,22 @@
                             <th class="blacktxt bolder whitecolor">Clave Producto</th>
                             <th class="blacktxt bolder whitecolor">Producto</th>
                             <th class="blacktxt bolder whitecolor">SACOS</th>
-                            <th class="blacktxt bolder whitecolor">PESO POR SACO</th>
+                            <th class="blacktxt bolder whitecolor">PESO KG POR TARIMA</th>
                             <th class="blacktxt bolder whitecolor">LOTE</th>
-                            <th class="blacktxt bolder whitecolor">FECHA MFG</th>
                             <th class="blacktxt bolder whitecolor">FECHA CAD</th>
                             <th class="blacktxt bolder whitecolor">Comentarios</th>
                         </tr>
                     </thead>
                     <tbody *ngFor="let conceptos of arrcon; let i = index">
                         <tr class="pgbreak">
-                            <td style="text-align: center;" class="wrap lightback pgbreak"> {{conceptos.Proveedor}} </td>
+                            <td style="text-align: center;" class="wrap lightback pgbreak"> {{i+1}} </td>
                             <td style="text-align: center;" class="wrap lightback">{{conceptos.ClaveProducto}}</td>
                             <td style="text-align: center;" class="wrap lightback pgbreak"> {{conceptos.Producto}}</td>
                             <td style="text-align: center;" class="pgbreak">{{conceptos.Sacos}} </td>
-                            <td style="text-align: center;" class="pgbreak">{{conceptos.PesoxSaco}}</td>
+                            <td style="text-align: center;" class="pgbreak">{{this.pesoTotalTarima[i]}}</td>
                             <td style="text-align: center;" class="pgbreak">{{conceptos.Lote}} </td>
-                            <td style="text-align: center;" class="pgbreak">{{conceptos.FechaMFG | date: 'yyyy/MM/dd'}}</td>
                             <td style="text-align: center;" class="pgbreak">{{conceptos.FechaCaducidad | date: 'yyyy/MM/dd'}} </td>
-                            <td style="text-align: center;" class="pgbreak">no observaciones**</td>
+                            <td style="text-align: center;" class="pgbreak">{{conceptos.Comentarios}}</td>
                     </tbody>
 
                 </table>
@@ -194,7 +192,7 @@
                         </div>
                         <div class="col-6 containerborder">
                             <p class="bolder blacktxt" style="text-align: center;">
-                                {{this.service.formDatapdf.Usuario}}
+                                {{this.ordentemporal.formDataOCPDF.Usuario}}
                             </p>
                         </div>
                     </div>
