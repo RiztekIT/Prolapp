@@ -80,3 +80,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 .modal-dialogenviar {
     max-width: 2000px;
 }
+
+.backdrop[_ngcontent-iwk-c13] {
+    z-index: 1;
+}

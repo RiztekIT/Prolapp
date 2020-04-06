@@ -6,6 +6,7 @@
                 <button class="btn btn-primary" type="button" (click)="regresar()">Regresar</button>
                 <hr>
                 <button class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button>
+                <zxing-scanner></zxing-scanner>
                 <hr>
                 <h5>TABLA VISUALIZACION</h5>
 
@@ -28,6 +29,11 @@
                         <ng-container matColumnDef="Sacos">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
                             <td mat-cell *matCellDef="let element">{{element.Sacos}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Comentarios">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Comentarios</th>
+                            <td mat-cell *matCellDef="let element">{{element.Comentarios}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="Options">
@@ -58,6 +64,82 @@
                         <button class="btn btn-danger" type="button" (click)="Cancelar()">Cancelar</button>
                         <button class="btn btn-success" type="button" (click)="Aceptar()">Aceptar</button>
                     </div>
+                </div>
+
+                <hr>
+                <hr>
+                <h3>TABLA ORDEN TEMPORAL</h3>
+
+                <div style="overflow:auto;">
+                    <table mat-table [dataSource]="listDataOrdenTemporal" matSort>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsOrdenTemporal"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsOrdenTemporal;"></tr>
+
+                        <ng-container matColumnDef="QR">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo QR</th>
+                            <td mat-cell *matCellDef="let elementOT">{{elementOT.QR}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="ClaveProducto">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
+                            <td mat-cell *matCellDef="let elementOT">{{elementOT.ClaveProducto}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Producto">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                            <td mat-cell *matCellDef="let elementOT">{{elementOT.Producto}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Lote">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                            <td mat-cell *matCellDef="let elementOT">{{elementOT.Lote}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Sacos">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
+                            <td mat-cell *matCellDef="let elementOT">{{elementOT.Sacos}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="PesoTotal">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Peso Total</th>
+                            <td mat-cell *matCellDef="let elementOT">{{elementOT.PesoTotal}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="FechaCaducidad">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Caducidad</th>
+                            <td mat-cell *matCellDef="let elementOT">{{elementOT.FechaCaducidad}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Comentarios">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Comentarios</th>
+                            <td mat-cell *matCellDef="let elementOT">{{elementOT.Comentarios}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Options">
+                            <th mat-header-cell *matHeaderCellDef>Options</th>
+                            <td mat-cell *matCellDef="let row; let i = index">
+
+                                <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                    <mat-icon>keyboard_arrow_down</mat-icon>
+                                  </button> -->
+                                <!-- <mat-menu #menu="matMenu"> -->
+                                <!--  -->
+                                <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
+                                                            <mat-icon>edit</mat-icon>
+                                                        </button> -->
+                                <!--  -->
+                                <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdProveedor)">
+                                                                <mat-icon>delete_outline</mat-icon>
+                                                            </button> -->
+                                <!-- </mat-menu> -->
+                            </td>
+                        </ng-container>
+
+
+                    </table>
+                    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                    </mat-paginator>
                 </div>
 
                 <hr>

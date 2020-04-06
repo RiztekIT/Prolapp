@@ -19,9 +19,11 @@ export class CotizacionComponent implements OnInit {
   arrcon: Array<any> = [];
   objconc: any; 
   total:any;
+  fechaVencimiento:any;
 
   ngOnInit() {
     this.ver();
+    
   }
 
   onClose() {
@@ -50,36 +52,31 @@ ver(){
       Observaciones: conceptos.Observaciones,    
        
      });
-//cuando se termine cotizaciones, asignar el valor al total
 
-    // if (this.service.formrow.Moneda == "MXN") {
-    //   this.total = +conceptos.PrecioUnitario * +conceptos.Cantidad;
-    // } else {
-    //   this.total = 
-    // }
-    
+      this.total = +conceptos.PrecioUnitario * +conceptos.Cantidad;
+      console.log(this.total);
   }
 
 
+//si se agregan direcciones, usar esta seccion
+  // this.service.GetCliente(this.service.formrow.IdCliente).subscribe(data => {
 
-  this.service.GetCliente(this.service.formrow.IdCliente).subscribe(data => {
-
-    this.service.formData.Calle = data[0].Calle;
-    this.service.formData.Colonia = data[0].Colonia;
-    this.service.formData.CP = data[0].CP;
-    this.service.formData.RFC = data[0].RFC;
-    this.service.formData.Ciudad = data[0].Ciudad;
-    this.service.formData.Estado = data[0].Estado;
-    this.service.formData.NumeroExterior = data[0].NumeroExterior;
-    this.service.formData.NumeroInterior = data[0].NumeroInterior;
-  });
+  //   this.service.formData.Calle = data[0].Calle;
+  //   this.service.formData.Colonia = data[0].Colonia;
+  //   this.service.formData.CP = data[0].CP;
+  //   this.service.formData.RFC = data[0].RFC;
+  //   this.service.formData.Ciudad = data[0].Ciudad;
+  //   this.service.formData.Estado = data[0].Estado;
+  //   this.service.formData.NumeroExterior = data[0].NumeroExterior;
+  //   this.service.formData.NumeroInterior = data[0].NumeroInterior;
+  // });
   
 }
 
 onExportClick(Folio?:string) {
   const content: Element = document.getElementById('Cotizacion-PDF');
   const option = {    
-    margin: [.5,0,0,0],
+    margin: [0,.5,0,.5],
     filename: 'F-'+'.pdf',
     image: {type: 'jpeg', quality: 1},
     html2canvas: {scale: 2, logging: true},

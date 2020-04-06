@@ -11,5 +11,6 @@ Sacos: string;
 Producto: string;
 PesoTotal: string;
 FechaCaducidad: Date;
+Comentarios: string;
 
 }

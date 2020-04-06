@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, VERSION } from '@angular/core';
 import { Router } from '@angular/router';
 import { DetalleTarima } from '../../../../../Models/almacen/Tarima/detalleTarima-model';
 import { TarimaService } from '../../../../../services/almacen/tarima/tarima.service';
@@ -12,6 +12,9 @@ import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
 import Swal from 'sweetalert2';
 import { OrdenCargaConceptoComponent } from './orden-carga-concepto/orden-carga-concepto.component';
 import { TraspasoTarimaComponent } from '../../../traspaso-tarima/traspaso-tarima.component';
+//IMPORTS QR SCANNER
+//import { ZXingScannerComponent } from '@zxing/ngx-scanner';
+//import { Result } from '@zxing/library';
 
 
 
@@ -21,26 +24,37 @@ import { TraspasoTarimaComponent } from '../../../traspaso-tarima/traspaso-tarim
   styleUrls: ['./preparar.component.css']
 })
 export class PrepararComponent implements OnInit {
-
-  listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['ClaveProducto', 'Lote', 'Sacos', 'Options'];
-  @ViewChild(MatSort, null) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-
+  
   constructor(public router: Router, public tarimaService: TarimaService, public ordenCargaService: OrdenCargaService,
     public ordenTemporalService: OrdenTemporalService, private dialog: MatDialog, ) {
+      
+      this.ordenTemporalService.listen().subscribe((m: any) => {
+        this.actualizarTabla();
+      });
 
-    this.ordenTemporalService.listen().subscribe((m: any) => {
-      this.actualizarTabla();
-    });
+      this.ordenTemporalService.listenOrdenTemporal().subscribe((m: any) => {
+        this.actualizarTablaOrdenTemporal();
+      });
+      
+    }
+    
+    
+    ngOnInit() {
+      this.IdOrdenCarga = +(localStorage.getItem('IdOrdenCarga'));
+      this.showButton = false;
+      this.actualizarTablaOrdenTemporal();
+    }
+    // Tabla pre visualizacion
+      listData: MatTableDataSource<any>;
+      displayedColumns: string[] = ['ClaveProducto', 'Lote', 'Sacos', 'Comentarios', 'Options'];
+      @ViewChild(MatSort, null) sort: MatSort;
+      @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  }
-
-
-  ngOnInit() {
-    this.IdOrdenCarga = +(localStorage.getItem('IdOrdenCarga'));
-    this.showButton = false;
-  }
+    // Tabla Orden Temporal
+      listDataOrdenTemporal: MatTableDataSource<any>;
+      displayedColumnsOrdenTemporal: string[] = ['QR', 'ClaveProducto', 'Producto', 'Lote', 'Sacos', 'PesoTotal', 'FechaCaducidad', 'Comentarios', 'Options'];
+      @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
+      @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
 
   //Informacion que vendra del QR
   QRdata = new Tarima();
@@ -53,14 +67,66 @@ export class PrepararComponent implements OnInit {
   //Variable para mostrar botones
   showButton: boolean;
 
+  // SCANNER QR //
+  ngVersion = VERSION.full;
+
+  @ViewChild('scanner', null)
+  //scanner: ZXingScannerComponent;
+
+  hasCameras = false;
+  hasPermission: boolean;
+  qrResultString: string;
+
+  availableDevices: MediaDeviceInfo[];
+  selectedDevice: MediaDeviceInfo;
+  currentDevice: MediaDeviceInfo = null;
+
+  // SCANNER QR //
+
   regresar() {
     this.router.navigate(['/ordencargadetalle']);
   }
 
+  leerQR(){
+    //this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
+      //this.hasCameras = true;
+
+      //console.log('Devices: ', devices);
+      //this.availableDevices = devices;
+
+      // selects the devices's back camera by default
+      // for (const device of devices) {
+      //     if (/back|rear|environment/gi.test(device.label)) {
+      //         this.scanner.changeDevice(device);
+      //         this.selectedDevice = device;
+      //         break;
+      //     }
+      // }
+//  });
+
+  //this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
+    //  console.error('An error has occurred when trying to enumerate your video-stream-enabled devices.');
+  //});
+
+ // this.scanner.permissionResponse.subscribe((answer: boolean) => {
+   // this.hasPermission = answer;
+ //// });
+}
+
+  handleQrCodeResult(resultString: string) {
+    console.log('Result: ', resultString);
+    this.qrResultString = resultString;
+}
+
+// onDeviceSelectChange(selectedValue: string) {
+//     console.log('Selection changed: ', selectedValue);
+//     this.selectedDevice = this.scanner.getDeviceById(selectedValue);
+// }
+
   simularQR() {
 
     //Obtener Datos Escaneados del QR
-    this.QRdata.IdTarima = 2;
+    this.QRdata.IdTarima = 33;
     this.QRdata.Sacos = '150';
     this.QRdata.PesoTotal = '3000';
     this.QRdata.QR = '123';
@@ -72,8 +138,13 @@ export class PrepararComponent implements OnInit {
     //Obtener los detalles de Tarima del QR previamente escaneado
     this.tarimaService.getDetalleTarimaID(this.QRdata.IdTarima).subscribe(data => {
       console.log(data);
+      if(data.length > 0){
+        
+      
       for (let i = 0; i <= data.length - 1; i++) {
 
+        //Variable para establece el maximo de sacos en base a la cantidad de sacos en la tarima
+        let sacosMaximos = data[i].Sacos;
         this.QRDetalledata[i] = data[i];
         console.log(this.QRDetalledata);
 
@@ -101,7 +172,7 @@ export class PrepararComponent implements OnInit {
               oT.QR = this.QRdata.QR;
               oT.ClaveProducto = this.QRDetalledata[i].ClaveProducto;
               oT.Lote = this.QRDetalledata[i].Lote;
-              oT.Sacos = SaldoMaximo;
+              oT.Sacos = sacosMaximos;
               oT.Producto = this.QRDetalledata[i].Producto;
               oT.PesoTotal = ((+oT.Sacos) * (+this.QRDetalledata[i].PesoxSaco)).toString();
               oT.FechaCaducidad = this.QRDetalledata[i].FechaCaducidad;
@@ -142,11 +213,35 @@ export class PrepararComponent implements OnInit {
         })
 
       }
-
+    }
+    else{
+      console.log('Tarima Vacia');
+    }
     });
 
 
   }
+
+  // ----- INICIO TABLA ORDEN TEMPORAL -------
+  actualizarTablaOrdenTemporal(){
+    this.ordenTemporalService.GetOrdenTemporalID(this.IdOrdenCarga).subscribe( dataOrdenTemporal => {
+console.log(dataOrdenTemporal);
+if(dataOrdenTemporal.length > 0){
+console.log('Si hay Movimientos en esta orden de carga');
+this.listDataOrdenTemporal = new MatTableDataSource(dataOrdenTemporal);
+this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
+this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
+this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+}else{
+  console.log('No hay Movimientos en esta orden de carga');
+  this.listDataOrdenTemporal = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
+  // this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
+  // this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
+  // this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+}
+    })
+  }
+  // ----- FIN TABLA ORDEN TEMPORAL -------
 
   //Resetear tabla y valores para escanear nuevo codigo QR
   resetQR() {
@@ -154,7 +249,7 @@ export class PrepararComponent implements OnInit {
     this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
     this.listData.sort = this.sort;
     this.listData.paginator = this.paginator;
-    this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+    this.listData.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
     this.showButton = false;
   }
 
@@ -180,6 +275,7 @@ export class PrepararComponent implements OnInit {
           // Actualizar Saldo de la tabla Detalle Orden Carga
           this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo).subscribe(res => {
             console.log(res);
+            this.actualizarTablaOrdenTemporal();
           });
         });
       });
@@ -237,6 +333,16 @@ export class PrepararComponent implements OnInit {
   }
 
   finalizar() {
+    this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, "Preparada").subscribe(data =>{
+      Swal.fire({
+        title: 'Preparado',
+        icon: 'success',
+        timer: 1000,
+        showCancelButton: false,
+        showConfirmButton: false
+      });
+      this.router.navigate(['/ordencargadetalle']);
+    })
   }
 
 }

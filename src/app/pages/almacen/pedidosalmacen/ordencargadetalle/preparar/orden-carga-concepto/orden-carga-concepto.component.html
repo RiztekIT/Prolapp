@@ -32,16 +32,23 @@
                         <label class="input-group-text text-info">Lote</label>
                         <input readonly="readonly" type="text" class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="ordenTemporalService.ordenTemporalData.Lote">
 
+
+                    </div>
+                    <div class="col-lg-6">
+
                         <label class="input-group-text text-info">Sacos</label>
-                        <input required type="number" class="form-control" name="Sacos" [(ngModel)]="cantidadSacos">
-                        <!-- 
-                        <div class="text-left text-danger" *ngIf="Sacos.invalid && Sacos.touched">
-                            Favor de Ingresar un valor.
-                        </div> -->
+                        <input required type="number" class="form-control" id="sacos" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="cantidadSacos" (ngModelChange)="onChangeCantidadSacos($event)">
+
+                        <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched ||cantidadSacos == 0">
+                            Favor de Ingresar un valor mayor a 0.
+                        </div>
+
+                        <label class="input-group-text text-info">Comentarios</label>
+                        <input type="text" class="form-control" name="Comentario" #Comentario="ngModel" [(ngModel)]="Comentarios">
                     </div>
                 </div>
                 <br>
-                <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Actualizar Concepto</button>
+                <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid || cantidadSacos==0">Actualizar Concepto</button>
                 <br>
             </div>
         </div>

@@ -75,6 +75,19 @@ th {
     border: 1px solid black;
 }
 
+.bordeTopBottom {
+    width: 100%;
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
+}
+
+.containerborderbottom {
+    border-bottom: 1px solid rgb(223, 223, 223);
+    margin-bottom: 10px;
+    opacity: 0.4;
+    color: black;
+}
+
 .table-responsive {
     margin-top: -23px;
     margin-bottom: -30px;
@@ -105,18 +118,12 @@ th {
 }
 
 th {
-    font-size: 10px;
+    font-size: 15px;
 }
 
 .campofirma {
     width: 100%;
     border-bottom: 1px solid black;
-}
-
-.bordeTopBottom {
-    width: 100%;
-    border-bottom: 2px solid black;
-    border-top: 2px solid black;
 }
 
 .card-body {
@@ -129,9 +136,10 @@ th {
     margin-bottom: 10px;
 }
 
-.logo {
-    max-height: 100px;
-}
+
+/* .logo {
+    max-height: 200px;
+} */
 
 .col-lg-12 .col-md-12 {
     padding-left: 0px;
@@ -174,3 +182,25 @@ th {
 .overflow {
     overflow: scroll;
 }
+
+.line {
+    width: 100%;
+    border-top: 1px solid #000000;
+}
+
+.tdnomargin {
+    margin: 0px;
+    padding: 0px;
+}
+
+
+/* .cowcontainer {
+    /* clip-path: polygon(50% 20%, 90% 80%, 10% 80%); */
+
+
+/* transform: rotate(135deg);
+    height: 800px;
+    width: 1000px; */
+
+
+/* } */

@@ -1,4 +1,4 @@
-<div style="overflow: auto; height: 800px;">
+<div style="overflow: auto; height: 80vh;">
     <div>
         <button class="btn btn-danger" color="warn" (click)="onClose()">
       <mat-icon>close</mat-icon>
@@ -7,31 +7,26 @@
 
 
 
-    <div class="modal0-body ">
+    <div class="modal0-body">
 
         <div id="Cotizacion-PDF">
             <!-- TOP PAGE LOGO DESCRIPTION FACTURA -->
             <div class="container">
                 <div class="row">
                     <!-- logo -->
-                    <div class="col-4">
+                    <div class="col-2" style="padding-left: 0;">
                         <div class="card card-outline-inverse">
-                            <!-- <div class="card-header">
-                                        <h6 class="m-b-0 text-white">Logo</h6>
-                                    </div>
-                                    <div class="card-body">
-                                    </div> -->
-
-                            <img src="../../../assets/images/ProLactoLogo.png" class="logo">
-
+                            <img src="../../../assets/images/logoCotizacion.jpg" style="height: 200px; width: 300px;">
                         </div>
                     </div>
-                    <div class="col-4"></div>
+                    <div class="col-5"></div>
 
                     <!-- factura folio -->
                     <div class="col-4">
                         <div class="card-body">
-                            <span style="font-size: 40px; font-weight: 900; color: red;">COTIZACION</span>
+                            <span style="font-size: 40px; font-weight: 900; color: #000000;">COTIZACION</span>
+                            <h5 class="bolder blacktxt nomarginbottomP">COTIZACION #<span style="float: right;">{{this.service.formrow.Folio}}</span></h5>
+                            <h5 class="bolder blacktxt">FECHA EXPEDICION:<span style="float: right;"> {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</span></h5>
                         </div>
                     </div>
                 </div>
@@ -41,43 +36,103 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                        <th class="bolder blacktxt" scope="col">IMG</th>
+                        <th class="bolder blacktxt" scope="col">CODIGO</th>
+                        <th class="bolder blacktxt" scope="col">DESCRIPCION</th>
+                        <th class="bolder blacktxt" scope="col">PRECIO</th>
+                        <th class="bolder blacktxt" scope="col">CANTIDAD</th>
+                        <th class="bolder blacktxt" scope="col">TOTAL</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody *ngFor="let conceptos of arrcon; let i = index">
                     <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                    </tr>
+                        <th scope="row" class="tdnomargin"><img src="../../../assets/images/LogoContinental.png" alt="Logo" style="height: 50px; width: 50px;"></th>
+                        <th>{{conceptos.ClaveProducto}}</th>
+                        <td>{{conceptos.Producto}}</td>
+                        <td>{{conceptos.PrecioUnitario}}</td>
+                        <td>{{conceptos.Cantidad}}</td>
+                        <td>{{conceptos.Importe}}</td>
                 </tbody>
             </table>
-
             <!-- fin contenido -->
-        </div>
-        <!-- fin pdf -->
+            <!-- contenido 2 -->
+            <div class="containerborderbottom">
+                <div class="bolder blacktxt">
 
+                    <h5 class="bolder blacktxt">OBSERVACIONES:</h5>
+                    <p>{{this.service.formrow.Observaciones}}</p>
+                </div>
+            </div>
+            <!-- fin contenido 2 -->
+
+            <div class="container row">
+                <div class="col-4 container row">
+                    <h5 class="bolder blacktxt">INFORMACION:</h5>
+                    <div class="col-12">
+                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Cliente: <span style="font-weight: 400;">{{this.service.formrow.Nombre}}</span></p>
+                    </div>
+                    <div class="col-12">
+                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Telefono: <span style="font-weight: 400;">{{this.service.formrow.Telefono}}</span></p>
+                    </div>
+                    <div class="col-12">
+                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Correo: <span style="font-weight: 400;">{{this.service.formrow.Correo}}</span></p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <h5 class="bolder blacktxt">DATOS ADICIONALES:</h5>
+                    <div class="col-12">
+                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Moneda: <span style="font-weight: 400;">{{this.service.formrow.Moneda}}</span></p>
+                    </div>
+                    <div class="col-12">
+                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Tipo de Cambio: <span style="font-weight: 400;">********</span></p>
+                    </div>
+                    <div class="col-12">
+                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Vigencia: <span style="font-weight: 400;">{{this.fechaVencimiento}}</span></p>
+                    </div>
+                    <div class="col-12">
+                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">*Cotizacion creada el dia {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}} los precios pueden cambiar debido al tipo de cambio al momento en que se realizo la cotizacion</p>
+                    </div>
+                </div>
+                <div class="col-4 container row">
+                    <div class="col-6">
+                        <h4 class="bolder blacktxt nomarginbottomP">Sub Total</h4>
+                    </div>
+                    <div class="col-6">
+                        <p class="bolder blacktxt nomarginbottomP">{{this.service.formrow.Subtotal | currency}}</p>
+                    </div>
+                    <div class="col-6">
+                        <h4 class="bolder blacktxt nomarginbottomP">IVA</h4>
+                    </div>
+                    <div class="col-6">
+                        <p class="bolder blacktxt nomarginbottomP">***</p>
+                    </div>
+                    <div class="line"></div>
+                    <div class="col-6">
+                        <h4 class="bolder blacktxt nomarginbottomP">Total</h4>
+                    </div>
+                    <div class="col-6">
+                        <h5 class="bolder blacktxt nomarginbottomP">{{this.service.formrow.Total | currency}}</h5>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4"></div>
+                    <div class="col-2">
+                        <div class="card card-outline-inverse">
+                            <img src="../../../assets/images/footerCotizacion.jpg" style="height: 200px; width: 300px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- fin pdf -->
+        </div>
 
     </div>
-
 </div>
-
 
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button>
