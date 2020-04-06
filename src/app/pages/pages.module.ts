@@ -197,6 +197,8 @@ import { SalidaProductoComponent } from '../components/almacen/salida-producto/s
 import { OrdenCargaConceptoComponent } from './almacen/pedidosalmacen/ordencargadetalle/preparar/orden-carga-concepto/orden-carga-concepto.component';
 import { TraspasoTarimaComponent } from './almacen/traspaso-tarima/traspaso-tarima.component';
 
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+
 
 
 @NgModule({
@@ -382,6 +384,7 @@ import { TraspasoTarimaComponent } from './almacen/traspaso-tarima/traspaso-tari
         NgxDocViewerModule,
         QRCodeModule,
         BrowserAnimationsModule,
+        ZXingScannerModule,
 
     ],
     providers: [

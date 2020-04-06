@@ -18,10 +18,12 @@ export class OrdenCargaConceptoComponent implements OnInit {
 
    this.cantidadSacos = +this.ordenTemporalService.ordenTemporalData.Sacos; 
    this.cantidadMaximaSacos = +this.ordenTemporalService.ordenTemporalData.Sacos; 
+   this.Comentarios = this.ordenTemporalService.ordenTemporalData.Comentarios; 
   }
 
   cantidadSacos: number;
   cantidadMaximaSacos: number;
+  Comentarios: string;
 
   onClose() {
     this.dialogbox.close();
@@ -56,7 +58,9 @@ export class OrdenCargaConceptoComponent implements OnInit {
 console.log(this.ordenTemporalService.posicionOrdenTemporal);
 console.log(this.ordenTemporalService.preOrdenTemporal);
 console.log(this.cantidadSacos);
+console.log(this.Comentarios);
 this.ordenTemporalService.preOrdenTemporal[this.ordenTemporalService.posicionOrdenTemporal].Sacos = this.cantidadSacos.toString();
+this.ordenTemporalService.preOrdenTemporal[this.ordenTemporalService.posicionOrdenTemporal].Comentarios = this.Comentarios;
 console.log(this.ordenTemporalService.preOrdenTemporal);
     this.dialogbox.close();
     this.ordenTemporalService.filter('Register click');

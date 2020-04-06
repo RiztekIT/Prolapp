@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, VERSION } from '@angular/core';
 import { Router } from '@angular/router';
 import { DetalleTarima } from '../../../../../Models/almacen/Tarima/detalleTarima-model';
 import { TarimaService } from '../../../../../services/almacen/tarima/tarima.service';
@@ -12,6 +12,9 @@ import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
 import Swal from 'sweetalert2';
 import { OrdenCargaConceptoComponent } from './orden-carga-concepto/orden-carga-concepto.component';
 import { TraspasoTarimaComponent } from '../../../traspaso-tarima/traspaso-tarima.component';
+//IMPORTS QR SCANNER
+import { ZXingScannerComponent } from '@zxing/ngx-scanner';
+import { Result } from '@zxing/library';
 
 
 
@@ -64,9 +67,61 @@ export class PrepararComponent implements OnInit {
   //Variable para mostrar botones
   showButton: boolean;
 
+  // SCANNER QR //
+  ngVersion = VERSION.full;
+
+  @ViewChild('scanner', null)
+  scanner: ZXingScannerComponent;
+
+  hasCameras = false;
+  hasPermission: boolean;
+  qrResultString: string;
+
+  availableDevices: MediaDeviceInfo[];
+  selectedDevice: MediaDeviceInfo;
+  currentDevice: MediaDeviceInfo = null;
+
+  // SCANNER QR //
+
   regresar() {
     this.router.navigate(['/ordencargadetalle']);
   }
+
+  leerQR(){
+    this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
+      this.hasCameras = true;
+
+      console.log('Devices: ', devices);
+      this.availableDevices = devices;
+
+      // selects the devices's back camera by default
+      // for (const device of devices) {
+      //     if (/back|rear|environment/gi.test(device.label)) {
+      //         this.scanner.changeDevice(device);
+      //         this.selectedDevice = device;
+      //         break;
+      //     }
+      // }
+  });
+
+  this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
+      console.error('An error has occurred when trying to enumerate your video-stream-enabled devices.');
+  });
+
+  this.scanner.permissionResponse.subscribe((answer: boolean) => {
+    this.hasPermission = answer;
+  });
+}
+
+  handleQrCodeResult(resultString: string) {
+    console.log('Result: ', resultString);
+    this.qrResultString = resultString;
+}
+
+// onDeviceSelectChange(selectedValue: string) {
+//     console.log('Selection changed: ', selectedValue);
+//     this.selectedDevice = this.scanner.getDeviceById(selectedValue);
+// }
 
   simularQR() {
 
@@ -278,6 +333,16 @@ this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pa
   }
 
   finalizar() {
+    this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, "Preparada").subscribe(data =>{
+      Swal.fire({
+        title: 'Preparado',
+        icon: 'success',
+        timer: 1000,
+        showCancelButton: false,
+        showConfirmButton: false
+      });
+      this.router.navigate(['/ordencargadetalle']);
+    })
   }
 
 }
