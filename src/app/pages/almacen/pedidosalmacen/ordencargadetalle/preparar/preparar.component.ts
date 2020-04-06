@@ -13,8 +13,8 @@ import Swal from 'sweetalert2';
 import { OrdenCargaConceptoComponent } from './orden-carga-concepto/orden-carga-concepto.component';
 import { TraspasoTarimaComponent } from '../../../traspaso-tarima/traspaso-tarima.component';
 //IMPORTS QR SCANNER
-import { ZXingScannerComponent } from '@zxing/ngx-scanner';
-import { Result } from '@zxing/library';
+//import { ZXingScannerComponent } from '@zxing/ngx-scanner';
+//import { Result } from '@zxing/library';
 
 
 
@@ -71,7 +71,7 @@ export class PrepararComponent implements OnInit {
   ngVersion = VERSION.full;
 
   @ViewChild('scanner', null)
-  scanner: ZXingScannerComponent;
+  //scanner: ZXingScannerComponent;
 
   hasCameras = false;
   hasPermission: boolean;
@@ -88,11 +88,11 @@ export class PrepararComponent implements OnInit {
   }
 
   leerQR(){
-    this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
-      this.hasCameras = true;
+    //this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
+      //this.hasCameras = true;
 
-      console.log('Devices: ', devices);
-      this.availableDevices = devices;
+      //console.log('Devices: ', devices);
+      //this.availableDevices = devices;
 
       // selects the devices's back camera by default
       // for (const device of devices) {
@@ -102,15 +102,15 @@ export class PrepararComponent implements OnInit {
       //         break;
       //     }
       // }
-  });
+//  });
 
-  this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
-      console.error('An error has occurred when trying to enumerate your video-stream-enabled devices.');
-  });
+  //this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
+    //  console.error('An error has occurred when trying to enumerate your video-stream-enabled devices.');
+  //});
 
-  this.scanner.permissionResponse.subscribe((answer: boolean) => {
-    this.hasPermission = answer;
-  });
+ // this.scanner.permissionResponse.subscribe((answer: boolean) => {
+   // this.hasPermission = answer;
+ //// });
 }
 
   handleQrCodeResult(resultString: string) {
