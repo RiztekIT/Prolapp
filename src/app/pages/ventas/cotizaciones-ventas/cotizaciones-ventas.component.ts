@@ -9,6 +9,7 @@ import * as html2pdf from 'html2pdf.js';
 import { MessageService } from 'src/app/services/message.service';
 import { EmailComponent } from 'src/app/components/email/email/email.component';
 import { VentasCotizacionService } from '../../../services/ventas/ventas-cotizacion.service';
+import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
 import { DetalleCotizacion } from '../../../Models/ventas/detalleCotizacion-model';
 import { Cotizacion } from '../../../Models/ventas/cotizacion-model';
 import { cotizacionMaster } from '../../../Models/ventas/cotizacion-master';
@@ -29,7 +30,7 @@ import Swal from 'sweetalert2';
 })
 export class CotizacionesVentasComponent implements OnInit {
 
-  constructor( public router: Router, private dialog: MatDialog, public _MessageService: MessageService, private service: VentasCotizacionService) {
+  constructor( public router: Router, private dialog: MatDialog, public _MessageService: MessageService, private service: VentasCotizacionService, private service2: VentasPedidoService) {
 
     this.service.listen().subscribe((m: any) => {
       console.log(m);
@@ -273,7 +274,45 @@ Estatus: "Creada",
   }
 
   hacerPedido(cotizacion: Cotizacion){
-    
+
+    // console.log(cotizacion);
+
+
+    this.service.formcotped = cotizacion;
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    // this.dialog.open(, dialogConfig);
+
+
+    // let cotizacion2pedido: any = {
+    //   IdCliente: cotizacion.IdCliente,
+    //   RFC:cotizacion.RFC,
+    //   Subtotal: cotizacion.Subtotal,
+    //   Descuento: cotizacion.Descuento,
+    //   Total: cotizacion.Total,
+    //   Observaciones: cotizacion.Observaciones,
+    //   // FechaVencimiento: cotizacion
+    //   FechaDeEntrega: cotizacion.FechaDeExpedicion,
+    //   // LugarDeEntrega: 
+    //   IdDireccion: cotizacion.IdDireccion,
+    //   Nombre: cotizacion.Nombre,
+    //   Subtotaldlls: cotizacion.SubtotalDlls,
+    //   Descuentoddls: cotizacion.DescuentoDlls,
+    //   Totaldlls: cotizacion.TotalDlls,
+    //   Moneda: cotizacion.Moneda,
+    //   Flete: cotizacion.Flete,
+      
+    // }
+
+
+
+
+    // localStorage.setItem('cotizacionapedido', cotizacion2pedido);
+    // this.router.navigate(['/PedidosVentasAdd'])
+
   }
 
   

@@ -676,6 +676,7 @@ IniciarTotales() {
 }
 
 refreshDetallesPedidoList() {
+
   this.IniciarTotales();
 
   this.service.GetDetalleCotizacionId(this.IdCotizacion).subscribe(data => {
@@ -702,6 +703,7 @@ refreshDetallesPedidoList() {
         this.totalDlls = data[0].importeDlls - this.descuentoDlls;
 
 
+       console.log(this.descuentoDlls);
 
         console.log(this.total);
         console.log(this.totalDlls);
@@ -920,6 +922,8 @@ calcularImportePedido() {
 
 
 onDeleteDetalleProducto(dp: DetalleCotizacion) {
+
+  console.log(dp);
 
   Swal.fire({
     title: '¿Segur@ de Borrar Concepto?',
