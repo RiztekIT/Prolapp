@@ -27,8 +27,6 @@ export class OrdenCargaService {
   formData = new OrdenCarga;
   //form data para guardar los datos de los detalles de orden de carga
   formDataDOC:any;
-  //form data para guardar los datos de orden de carga que se van a desplegar en el pdf
-  formDatapdf:any;
   //Id Orden de Carga
   IdOrdenCarga: number;
   //Master donde se guardara el master 
@@ -45,6 +43,11 @@ export class OrdenCargaService {
   getOrdenCargaID(id: number): Observable<OrdenCarga[]> {
     return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga/' + id);
   }
+
+  getOCID(id: number): Observable<OrdenCarga[]> {
+    return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga/OrdenCargaID/' + id);
+  }
+
   getDetalleOrdenCargaList(id: number): Observable<OrdenCarga[]> {
     return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga/DetalleOrdenCarga/' + id);
   }

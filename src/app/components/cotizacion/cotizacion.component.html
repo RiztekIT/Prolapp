@@ -26,17 +26,19 @@
                         <div class="card-body">
                             <span style="font-size: 40px; font-weight: 900; color: #000000;">COTIZACION</span>
                             <h5 class="bolder blacktxt nomarginbottomP">COTIZACION #<span style="float: right;">{{this.service.formrow.Folio}}</span></h5>
-                            <h5 class="bolder blacktxt">FECHA EXPEDICION:<span style="float: right;"> {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</span></h5>
+                            <h5 class="bolder blacktxt">FECHA EXPEDICION:<span style="float: right;">
+                  {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</span></h5>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- End TOP -->
+            <!-- ../../../assets/images/sacos/3.DARIGOLDmilk.png -->
             <!-- contenido -->
             <table class="table">
                 <thead>
                     <tr>
-                        <th class="bolder blacktxt" scope="col">IMG</th>
+                        <th class="bolder blacktxt" scope="col">SACO</th>
                         <th class="bolder blacktxt" scope="col">CODIGO</th>
                         <th class="bolder blacktxt" scope="col">DESCRIPCION</th>
                         <th class="bolder blacktxt" scope="col">PRECIO</th>
@@ -46,17 +48,18 @@
                 </thead>
                 <tbody *ngFor="let conceptos of arrcon; let i = index">
                     <tr>
-                        <th scope="row" class="tdnomargin"><img src="../../../assets/images/LogoContinental.png" alt="Logo" style="height: 50px; width: 50px;"></th>
+                        <th scope="row" class="tdnomargin"><img src="../../../assets/images/sacos/3.DARIGOLDmilk.png" alt="Logo" style="height: 70px; width: 70px;"></th>
                         <th>{{conceptos.ClaveProducto}}</th>
                         <td>{{conceptos.Producto}}</td>
                         <td>{{conceptos.PrecioUnitario}}</td>
                         <td>{{conceptos.Cantidad}}</td>
                         <td>{{conceptos.Importe}}</td>
+                    </tr>
                 </tbody>
             </table>
             <!-- fin contenido -->
             <!-- contenido 2 -->
-            <div class="containerborderbottom">
+            <div class="containerborderbottom" style="height: 350px;">
                 <div class="bolder blacktxt">
 
                     <h5 class="bolder blacktxt">OBSERVACIONES:</h5>
@@ -90,7 +93,7 @@
                         <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Vigencia: <span style="font-weight: 400;">{{this.fechaVencimiento}}</span></p>
                     </div>
                     <div class="col-12">
-                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">*Cotizacion creada el dia {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}} los precios pueden cambiar debido al tipo de cambio al momento en que se realizo la cotizacion</p>
+                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Para fines informativos y de comparacion, calculado al {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</p>
                     </div>
                 </div>
                 <div class="col-4 container row">

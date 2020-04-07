@@ -33,6 +33,7 @@ ver(){
   console.log(this.service.formrow.detalleOrdenCarga);
   
   this.objconc = this.service.formrow.detalleOrdenCarga;
+  console.log(this.objconc);
   
   this.arrcon = [];
   for (this.con in this.objconc){
@@ -56,6 +57,7 @@ ver(){
       Saldo: conceptos.Saldo,      
     });
   }
+  console.log(this.arrcon);
   this.usda = conceptos.USDA;
   this.pesoTotal = +conceptos.Sacos * +conceptos.PesoxSaco;
 }
