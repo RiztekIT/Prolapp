@@ -729,6 +729,7 @@ onAddProducto(form: NgForm) {
   this.service.formDataDP.Cantidad = this.Cantidad.toString();
   this.service.formDataDP.Importe = this.importeP.toString();
   this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
+  this.service.formDataCotizacion.TipoDeCambio = this.TipoCambio;
 
   // console.log(this.service.formDataDP);
 

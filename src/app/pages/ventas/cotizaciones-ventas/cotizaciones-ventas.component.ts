@@ -180,7 +180,8 @@ Telefono: 0,
 Correo:"",
 IdDireccion: 0,
 Estatus: "Creada", 
-  }
+TipoDeCambio: 0
+}
 
   ObtenerFolio() {
     this.service.GetFolio().subscribe(data => {
