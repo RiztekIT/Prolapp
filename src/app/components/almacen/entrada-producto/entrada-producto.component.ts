@@ -50,6 +50,7 @@ this.ordentemporal.formDataOCDTPDF = respuesta[0]
         this.objconc = this.ordentemporal.formDataOtPDF;
         // select a orden temporal con base al id de la carga
         this.arrcon = [];
+        this.defaultpx = 350;
         for (this.con in this.objconc) {
           var conceptos = this.objconc[this.con];
           this.arrcon.push({
@@ -69,7 +70,8 @@ this.ordentemporal.formDataOCDTPDF = respuesta[0]
           // console.log(this.pesoTotalTarima[this.con],'tarima');
 
           this.pesoTotal = +this.pesoTotalTarima[this.con] + +this.pesoTotal
-          
+         
+
         }
 console.log(this.pesoTotal,'PESOTOTAL');
     });

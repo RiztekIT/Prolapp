@@ -35,31 +35,34 @@
             <!-- End TOP -->
             <!-- ../../../assets/images/sacos/3.DARIGOLDmilk.png -->
             <!-- contenido -->
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th class="bolder blacktxt" scope="col">SACO</th>
-                        <th class="bolder blacktxt" scope="col">CODIGO</th>
-                        <th class="bolder blacktxt" scope="col">DESCRIPCION</th>
-                        <th class="bolder blacktxt" scope="col">PRECIO</th>
-                        <th class="bolder blacktxt" scope="col">CANTIDAD</th>
-                        <th class="bolder blacktxt" scope="col">TOTAL</th>
-                    </tr>
-                </thead>
-                <tbody *ngFor="let conceptos of arrcon; let i = index">
-                    <tr>
-                        <th scope="row" class="tdnomargin"><img src="../../../assets/images/sacos/3.DARIGOLDmilk.png" alt="Logo" style="height: 70px; width: 70px;"></th>
-                        <th>{{conceptos.ClaveProducto}}</th>
-                        <td>{{conceptos.Producto}}</td>
-                        <td>{{conceptos.PrecioUnitario}}</td>
-                        <td>{{conceptos.Cantidad}}</td>
-                        <td>{{conceptos.Importe}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div style="height: 700px;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="bolder blacktxt" scope="col">SACO</th>
+                            <th class="bolder blacktxt" scope="col">CODIGO</th>
+                            <th class="bolder blacktxt" scope="col">DESCRIPCION</th>
+                            <th class="bolder blacktxt" scope="col">PRECIO</th>
+                            <th class="bolder blacktxt" scope="col">CANTIDAD</th>
+                            <th class="bolder blacktxt" scope="col">TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let conceptos of arrcon; let i = index">
+                        <tr>
+                            <th scope="row" class="tdnomargin"><img src="../../../assets/images/sacos/3.DARIGOLDmilk.png" alt="Logo" style="height: 70px; width: 70px;"></th>
+                            <th>{{conceptos.ClaveProducto}}</th>
+                            <td>{{conceptos.Producto}}</td>
+                            <td>{{conceptos.PrecioUnitario}}</td>
+                            <td>{{conceptos.Cantidad}}</td>
+                            <td>{{conceptos.Importe}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <!-- fin contenido -->
             <!-- contenido 2 -->
-            <div class="containerborderbottom" style="height: 350px;">
+            <!-- <div class="containerborderbottom" [ngStyle]="{'height.px': defaultpx}"> -->
+            <div class="containerborderbottom">
                 <div class="bolder blacktxt">
 
                     <h5 class="bolder blacktxt">OBSERVACIONES:</h5>

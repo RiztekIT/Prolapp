@@ -20,6 +20,7 @@ export class CotizacionComponent implements OnInit {
   objconc: any; 
   total:any;
   fechaVencimiento:any;
+  defaultpx:number
 
   ngOnInit() {
     this.ver();
@@ -36,6 +37,7 @@ ver(){
   this.objconc = this.service.formrow.DetalleCotizacion
   
   this.arrcon = [];
+  this.defaultpx = 350;
   for (this.con in this.objconc){
     var conceptos = this.objconc[this.con];
     this.arrcon.push({
@@ -53,8 +55,14 @@ ver(){
        
      });
 
-      this.total = +conceptos.PrecioUnitario * +conceptos.Cantidad;
-      console.log(this.total);
+      // this.total = +conceptos.PrecioUnitario * +conceptos.Cantidad;
+      // console.log(this.total);
+
+      // if (this.con > "0" && this.defaultpx <70) {
+      //   this.defaultpx = this.defaultpx - 70
+      // }
+      // console.log(this.con,"contador");
+      // console.log(this.defaultpx,"pixeles");
   }
 
 
