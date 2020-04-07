@@ -35,7 +35,7 @@
             <!-- End TOP -->
             <!-- ../../../assets/images/sacos/3.DARIGOLDmilk.png -->
             <!-- contenido -->
-            <div style="height: 700px;">
+            <div style="height:410px;">
                 <table class="table">
                     <thead>
                         <tr>
@@ -90,10 +90,10 @@
                         <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Moneda: <span style="font-weight: 400;">{{this.service.formrow.Moneda}}</span></p>
                     </div>
                     <div class="col-12">
-                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Tipo de Cambio: <span style="font-weight: 400;">********</span></p>
+                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Tipo de Cambio: <span style="font-weight: 400;">{{this.service.formrow.TipoDeCambio}}</span></p>
                     </div>
                     <div class="col-12">
-                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Vigencia: <span style="font-weight: 400;">{{this.fechaVencimiento}}</span></p>
+                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Vigencia: <span style="font-weight: 400;">{{this.service.formrow.Vigencia | date: 'yyyy/MM/dd'}}</span></p>
                     </div>
                     <div class="col-12">
                         <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Para fines informativos y de comparacion, calculado al {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</p>
