@@ -50,7 +50,7 @@ this.ordentemporal.formDataOCDTPDF = respuesta[0]
         this.objconc = this.ordentemporal.formDataOtPDF;
         // select a orden temporal con base al id de la carga
         this.arrcon = [];
-        this.defaultpx = 350;
+        // this.defaultpx = 350;
         for (this.con in this.objconc) {
           var conceptos = this.objconc[this.con];
           this.arrcon.push({
