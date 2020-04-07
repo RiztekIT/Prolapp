@@ -231,6 +231,9 @@ export class AddCotizacionComponent implements OnInit {
   //Id Direccion
   IdDireccion: number;
 
+  //VIGENCIA
+  Vigencia: Date;
+
   // //////////////////////////// BEGIN OBTENER TIPO CAMBIO ////////////////////////////
   rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
   Cdolar: String;
@@ -730,6 +733,7 @@ onAddProducto(form: NgForm) {
   this.service.formDataDP.Importe = this.importeP.toString();
   this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
   this.service.formDataCotizacion.TipoDeCambio = this.TipoCambio;
+  this.service.formDataCotizacion.Vigencia = this.Vigencia;
 
   // console.log(this.service.formDataDP);
 
