@@ -24,9 +24,9 @@
                     <!-- factura folio -->
                     <div class="col-4">
                         <div class="card-body">
-                            <span style="font-size: 40px; font-weight: 900; color: #000000;">COTIZACION</span>
-                            <h5 class="bolder blacktxt nomarginbottomP">COTIZACION #<span style="float: right;">{{this.service.formrow.Folio}}</span></h5>
-                            <h5 class="bolder blacktxt">FECHA EXPEDICION:<span style="float: right;">
+                            <span style="font-size: 30px; font-weight: 400; color: #000000;">COTIZACION</span>
+                            <h5 class=" nomarginbottomP">COTIZACION #<span style="float: right;">{{this.service.formrow.Folio}}</span></h5>
+                            <h5>FECHA EXPEDICION:<span style="float: right;">
                   {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</span></h5>
                         </div>
                     </div>
@@ -35,94 +35,96 @@
             <!-- End TOP -->
             <!-- ../../../assets/images/sacos/3.DARIGOLDmilk.png -->
             <!-- contenido -->
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th class="bolder blacktxt" scope="col">SACO</th>
-                        <th class="bolder blacktxt" scope="col">CODIGO</th>
-                        <th class="bolder blacktxt" scope="col">DESCRIPCION</th>
-                        <th class="bolder blacktxt" scope="col">PRECIO</th>
-                        <th class="bolder blacktxt" scope="col">CANTIDAD</th>
-                        <th class="bolder blacktxt" scope="col">TOTAL</th>
-                    </tr>
-                </thead>
-                <tbody *ngFor="let conceptos of arrcon; let i = index">
-                    <tr>
-                        <th scope="row" class="tdnomargin"><img src="../../../assets/images/sacos/3.DARIGOLDmilk.png" alt="Logo" style="height: 70px; width: 70px;"></th>
-                        <th>{{conceptos.ClaveProducto}}</th>
-                        <td>{{conceptos.Producto}}</td>
-                        <td>{{conceptos.PrecioUnitario}}</td>
-                        <td>{{conceptos.Cantidad}}</td>
-                        <td>{{conceptos.Importe}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div style="height:500px;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">SACO</th>
+                            <th scope="col">CODIGO</th>
+                            <th scope="col">DESCRIPCION</th>
+                            <th scope="col">PRECIO</th>
+                            <th scope="col">CANTIDAD</th>
+                            <th scope="col">TOTAL</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let conceptos of arrcon; let i = index">
+                        <tr>
+                            <th scope="row" class="tdnomargin"><img src="../../../assets/images/sacos/3.DARIGOLDmilk.png" alt="Logo" style="height: 40px; width: 40px;"></th>
+                            <td>{{conceptos.ClaveProducto}}</td>
+                            <td>{{conceptos.Producto}}</td>
+                            <td>{{conceptos.PrecioUnitario}}</td>
+                            <td>{{conceptos.Cantidad}}</td>
+                            <td>{{conceptos.Importe}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <!-- fin contenido -->
             <!-- contenido 2 -->
-            <div class="containerborderbottom" style="height: 350px;">
-                <div class="bolder blacktxt">
+            <!-- <div class="containerborderbottom" [ngStyle]="{'height.px': defaultpx}"> -->
 
-                    <h5 class="bolder blacktxt">OBSERVACIONES:</h5>
-                    <p>{{this.service.formrow.Observaciones}}</p>
-                </div>
-            </div>
             <!-- fin contenido 2 -->
 
             <div class="container row">
                 <div class="col-4 container row">
-                    <h5 class="bolder blacktxt">INFORMACION:</h5>
+                    <h5>INFORMACION:</h5>
                     <div class="col-12">
-                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Cliente: <span style="font-weight: 400;">{{this.service.formrow.Nombre}}</span></p>
+                        <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Cliente: <span style="font-weight: 100;">{{this.service.formrow.Nombre}}</span></p>
                     </div>
                     <div class="col-12">
-                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Telefono: <span style="font-weight: 400;">{{this.service.formrow.Telefono}}</span></p>
+                        <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Telefono: <span style="font-weight: 100;">{{this.service.formrow.Telefono}}</span></p>
                     </div>
                     <div class="col-12">
-                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Correo: <span style="font-weight: 400;">{{this.service.formrow.Correo}}</span></p>
+                        <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Correo: <span style="font-weight: 100;">{{this.service.formrow.Correo}}</span></p>
                     </div>
                 </div>
                 <div class="col-4">
-                    <h5 class="bolder blacktxt">DATOS ADICIONALES:</h5>
+                    <h5>DATOS ADICIONALES:</h5>
                     <div class="col-12">
-                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Moneda: <span style="font-weight: 400;">{{this.service.formrow.Moneda}}</span></p>
+                        <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Moneda: <span style="font-weight: 100;">{{this.service.formrow.Moneda}}</span></p>
                     </div>
                     <div class="col-12">
-                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Tipo de Cambio: <span style="font-weight: 400;">********</span></p>
+                        <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Tipo de Cambio: <span style="font-weight: 100;">{{this.service.formrow.TipoDeCambio}}</span></p>
                     </div>
                     <div class="col-12">
-                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Vigencia: <span style="font-weight: 400;">{{this.fechaVencimiento}}</span></p>
-                    </div>
-                    <div class="col-12">
-                        <p class="bolder blacktxt nomarginbottomP" style="font-size: 13px !important;">Para fines informativos y de comparacion, calculado al {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</p>
+                        <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Vigencia: <span style="font-weight: 100;">{{this.service.formrow.Vigencia | date: 'yyyy/MM/dd'}}</span></p>
                     </div>
                 </div>
                 <div class="col-4 container row">
                     <div class="col-6">
-                        <h4 class="bolder blacktxt nomarginbottomP">Sub Total</h4>
+                        <h4 class=" blacktxt nomarginbottomP">Sub Total</h4>
                     </div>
                     <div class="col-6">
-                        <p class="bolder blacktxt nomarginbottomP">{{this.service.formrow.Subtotal | currency}}</p>
+                        <p class=" blacktxt nomarginbottomP">{{this.service.formrow.Subtotal | currency}}</p>
                     </div>
                     <div class="col-6">
-                        <h4 class="bolder blacktxt nomarginbottomP">IVA</h4>
+                        <h4 class=" blacktxt nomarginbottomP">IVA</h4>
                     </div>
                     <div class="col-6">
-                        <p class="bolder blacktxt nomarginbottomP">***</p>
+                        <p class=" blacktxt nomarginbottomP">***</p>
                     </div>
                     <div class="line"></div>
                     <div class="col-6">
-                        <h4 class="bolder blacktxt nomarginbottomP">Total</h4>
+                        <h4 class=" blacktxt nomarginbottomP">Total</h4>
                     </div>
                     <div class="col-6">
-                        <h5 class="bolder blacktxt nomarginbottomP">{{this.service.formrow.Total | currency}}</h5>
+                        <h5 class=" blacktxt nomarginbottomP">{{this.service.formrow.Total | currency}}</h5>
                     </div>
                 </div>
             </div>
 
+
             <div class="container">
                 <div class="row">
-                    <div class="col-4"></div>
-                    <div class="col-4"></div>
+                    <div class="col-8">
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <p class=" blacktxt nomarginbottomP nowrap" style="font-size: 10px !important; text-align: center;">Para fines informativos y de comparacion, calculado al {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</p>
+                    </div>
                     <div class="col-2">
                         <div class="card card-outline-inverse">
                             <img src="../../../assets/images/footerCotizacion.jpg" style="height: 200px; width: 300px;">

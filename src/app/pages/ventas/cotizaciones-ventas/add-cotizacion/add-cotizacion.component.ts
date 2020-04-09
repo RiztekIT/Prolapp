@@ -231,6 +231,9 @@ export class AddCotizacionComponent implements OnInit {
   //Id Direccion
   IdDireccion: number;
 
+  //VIGENCIA
+  Vigencia: Date;
+
   // //////////////////////////// BEGIN OBTENER TIPO CAMBIO ////////////////////////////
   rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
   Cdolar: String;
@@ -676,6 +679,7 @@ IniciarTotales() {
 }
 
 refreshDetallesPedidoList() {
+
   this.IniciarTotales();
 
   this.service.GetDetalleCotizacionId(this.IdCotizacion).subscribe(data => {
@@ -702,6 +706,7 @@ refreshDetallesPedidoList() {
         this.totalDlls = data[0].importeDlls - this.descuentoDlls;
 
 
+       console.log(this.descuentoDlls);
 
         console.log(this.total);
         console.log(this.totalDlls);
@@ -727,6 +732,8 @@ onAddProducto(form: NgForm) {
   this.service.formDataDP.Cantidad = this.Cantidad.toString();
   this.service.formDataDP.Importe = this.importeP.toString();
   this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
+  this.service.formDataCotizacion.TipoDeCambio = this.TipoCambio;
+  this.service.formDataCotizacion.Vigencia = this.Vigencia;
 
   // console.log(this.service.formDataDP);
 
@@ -920,6 +927,8 @@ calcularImportePedido() {
 
 
 onDeleteDetalleProducto(dp: DetalleCotizacion) {
+
+  console.log(dp);
 
   Swal.fire({
     title: '¿Segur@ de Borrar Concepto?',

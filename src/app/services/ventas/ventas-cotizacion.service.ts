@@ -38,6 +38,7 @@ export class VentasCotizacionService {
   
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
   
+  formcotped: any;
   formt: any;
   formData = new Cliente();
   formProd = new Producto();
