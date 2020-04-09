@@ -307,26 +307,30 @@ if(dataDetalleTarima.length > 0){
 
   //metodo que se ejecuta cuando cambia la cantidad de sacos
   onChangeCantidadSacos(cantidad: any){
-    console.log(cantidad);
+    // console.log(cantidad);
     let elemHTML: any = document.getElementsByName('sacoTraspaso')[0];
     this.validarCantidad(cantidad);
     elemHTML.value = this.sacosTraspaso;
     console.log(this.sacosTraspaso);
+    
   }
 
 
   validarCantidad(cantidad: any) {
     // console.log(cantidad + ' CANTIDAD');
-    if (+cantidad >= this.cantidadMaximaSacos) {
+  this.sacosTraspaso = +cantidad;
+    // console.log(this.cantidadMaximaSacos);
+
+    if (this.sacosTraspaso >= this.cantidadMaximaSacos) {
       this.sacosTraspaso = this.cantidadMaximaSacos;
     }
-    if (+cantidad < 0) {
+    if (this.sacosTraspaso <= 0) {
       this.sacosTraspaso = 0;
     }
     if (cantidad == null) {
       this.sacosTraspaso = 0;
     }
-    console.log(this.sacosTraspaso);
+    // console.log(this.sacosTraspaso);
   }
 
   onBlurIdDestino(tarimaId: number) {

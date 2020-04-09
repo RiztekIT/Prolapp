@@ -13,8 +13,8 @@ import Swal from 'sweetalert2';
 import { OrdenCargaConceptoComponent } from './orden-carga-concepto/orden-carga-concepto.component';
 import { TraspasoTarimaComponent } from '../../../traspaso-tarima/traspaso-tarima.component';
 //IMPORTS QR SCANNER
-//import { ZXingScannerComponent } from '@zxing/ngx-scanner';
-//import { Result } from '@zxing/library';
+// import { ZXingScannerComponent } from '@zxing/ngx-scanner';
+// import { Result } from '@zxing/library';
 
 
 
@@ -43,7 +43,47 @@ export class PrepararComponent implements OnInit {
       this.IdOrdenCarga = +(localStorage.getItem('IdOrdenCarga'));
       this.showButton = false;
       this.actualizarTablaOrdenTemporal();
+      // this.onPageInit();
+   
+
     }
+    // @ViewChild('scanner',{static:true, read: false}) scanner: ZXingScannerComponent;
+    // currentDevice: MediaDeviceInfo = null;
+    // allowedFormats: any;
+
+    // private onPageInit(){
+    //   this.initCamera();
+    //   this.scanner.permissionResponse.subscribe(
+    //     (perm: boolean) =>{
+    //      this.hasPermission = perm;
+    //     });
+
+    // }
+  
+    // private initCamera(): void {
+    //   this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
+    //     this.hasDevices = true;
+    //     this.availableDevices = devices;
+    //     this.currentDevice = null;
+    //     if (this.availableDevices.length > 1) {
+    //       const defaultCamera = this.availableDevices.filter(e => e.label.toLocaleLowerCase().indexOf('back') > -1);
+    //       if (defaultCamera !== null && defaultCamera !== undefined) {
+    //         this.currentDevice = defaultCamera[0];
+    //       } else {
+    //          this.currentDevice = this.availableDevices[0];
+    //       }
+    //     } else {
+    //       this.currentDevice = this.availableDevices[0];
+    //     }
+    //   });
+    // }
+    // handleQrCodeResult(resultString: string) {
+    //   console.debug('Result: ', resultString);
+    //   const final_value = JSON.parse(resultString)
+    //   this.qrResultString = 'name: ' + final_value.name + ' age: ' + final_value.age;
+    // }
+
+
     // Tabla pre visualizacion
       listData: MatTableDataSource<any>;
       displayedColumns: string[] = ['ClaveProducto', 'Lote', 'Sacos', 'Comentarios', 'Options'];
@@ -68,69 +108,33 @@ export class PrepararComponent implements OnInit {
   showButton: boolean;
 
   // SCANNER QR //
-  ngVersion = VERSION.full;
 
-  @ViewChild('scanner', null)
-  //scanner: ZXingScannerComponent;
+  // ngVersion = VERSION.full;
 
-  hasCameras = false;
-  hasPermission: boolean;
-  qrResultString: string;
+  // @ViewChild('scanner', null)
+  // scanner: ZXingScannerComponent;
 
-  availableDevices: MediaDeviceInfo[];
-  selectedDevice: MediaDeviceInfo;
-  currentDevice: MediaDeviceInfo = null;
+  // hasDevices: boolean;
+  // hasPermission: boolean;
+  // qrResultString: string;
+  // qrResult: Result;
+
+  // availableDevices: MediaDeviceInfo[];
+  // currentDevice: MediaDeviceInfo;
 
   // SCANNER QR //
 
-  regresar() {
-    this.router.navigate(['/ordencargadetalle']);
-  }
-
-  leerQR(){
-    //this.scanner.camerasFound.subscribe((devices: MediaDeviceInfo[]) => {
-      //this.hasCameras = true;
-
-      //console.log('Devices: ', devices);
-      //this.availableDevices = devices;
-
-      // selects the devices's back camera by default
-      // for (const device of devices) {
-      //     if (/back|rear|environment/gi.test(device.label)) {
-      //         this.scanner.changeDevice(device);
-      //         this.selectedDevice = device;
-      //         break;
-      //     }
-      // }
-//  });
-
-  //this.scanner.camerasNotFound.subscribe((devices: MediaDeviceInfo[]) => {
-    //  console.error('An error has occurred when trying to enumerate your video-stream-enabled devices.');
-  //});
-
- // this.scanner.permissionResponse.subscribe((answer: boolean) => {
-   // this.hasPermission = answer;
- //// });
-}
-
-  handleQrCodeResult(resultString: string) {
-    console.log('Result: ', resultString);
-    this.qrResultString = resultString;
-}
-
-// onDeviceSelectChange(selectedValue: string) {
-//     console.log('Selection changed: ', selectedValue);
-//     this.selectedDevice = this.scanner.getDeviceById(selectedValue);
-// }
+ 
 
   simularQR() {
 
     //Obtener Datos Escaneados del QR
-    this.QRdata.IdTarima = 33;
+    this.QRdata.IdTarima = 36;
     this.QRdata.Sacos = '150';
     this.QRdata.PesoTotal = '3000';
     this.QRdata.QR = '123';
 
+    //igualar en 0s el arreglo que se encuentra en el servicio
     this.ordenTemporalService.preOrdenTemporal = [];
     console.log(this.ordenTemporalService.preOrdenTemporal);
 
@@ -138,13 +142,17 @@ export class PrepararComponent implements OnInit {
     //Obtener los detalles de Tarima del QR previamente escaneado
     this.tarimaService.getDetalleTarimaID(this.QRdata.IdTarima).subscribe(data => {
       console.log(data);
+      //verificar si la tarima tiene detalles tarima
       if(data.length > 0){
         
-      
+        
+        // recorrer tantos conceptos tenga la tarima escaneada
       for (let i = 0; i <= data.length - 1; i++) {
 
         //Variable para establece el maximo de sacos en base a la cantidad de sacos en la tarima
         let sacosMaximos = data[i].Sacos;
+        console.log(sacosMaximos);
+        //igualar el objeto QRdetalle data con el concepto
         this.QRDetalledata[i] = data[i];
         console.log(this.QRDetalledata);
 
@@ -155,9 +163,21 @@ export class PrepararComponent implements OnInit {
           if (dataOrdenCarga.length > 0) {
             console.log('Si hay Datos Registrados');
             let SaldoMaximo = dataOrdenCarga[0].Saldo;
+            let sacosIngreso;
+
+            console.log(SaldoMaximo);
+            console.log(sacosMaximos);
+            if(SaldoMaximo < sacosMaximos){
+sacosIngreso = sacosMaximos;
+            }else{
+sacosIngreso = SaldoMaximo
+            }
+
+          console.log(sacosIngreso);
 
             //Verificar que se puedan ingresar mas productos a ordenTemporal en base al saldo de DetalleOrdenCarga
-            if (+SaldoMaximo > 0) {
+            console.log(sacosIngreso);
+            if (+sacosIngreso > 0) {
               //Orden Temporal
               let oT = new OrdenTemporal();
 
@@ -172,7 +192,7 @@ export class PrepararComponent implements OnInit {
               oT.QR = this.QRdata.QR;
               oT.ClaveProducto = this.QRDetalledata[i].ClaveProducto;
               oT.Lote = this.QRDetalledata[i].Lote;
-              oT.Sacos = sacosMaximos;
+              oT.Sacos = sacosIngreso;
               oT.Producto = this.QRDetalledata[i].Producto;
               oT.PesoTotal = ((+oT.Sacos) * (+this.QRDetalledata[i].PesoxSaco)).toString();
               oT.FechaCaducidad = this.QRDetalledata[i].FechaCaducidad;
@@ -219,6 +239,23 @@ export class PrepararComponent implements OnInit {
     }
     });
 
+
+  }
+
+  onDeleteRowTablaV(posicion: any){
+    console.log(posicion);
+    console.log(this.ordenTemporalService.preOrdenTemporal);
+    this.ordenTemporalService.preOrdenTemporal.splice(posicion, 1);
+      console.log(this.ordenTemporalService.preOrdenTemporal);
+      if(this.ordenTemporalService.preOrdenTemporal.length > 0){
+        this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
+                this.listData.sort = this.sort;
+                this.listData.paginator = this.paginator;
+                this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+                this.showButton = true;
+      }else{
+        this.resetQR();
+      }
 
   }
 
@@ -283,6 +320,10 @@ this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pa
     this.resetQR();
   }
 
+  regresar() {
+    this.router.navigate(['/ordencargadetalle']);
+  }
+
 
   //Cancelar operacion de insert Tabla Orden Temporal
   Cancelar() {
@@ -316,6 +357,47 @@ this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pa
     dialogConfig.autoFocus = true;
     dialogConfig.width = "70%";
     this.dialog.open(TraspasoTarimaComponent, dialogConfig);
+  }
+
+  onDeleteOrdenTemporal(ot: OrdenTemporal){
+    console.log(ot);
+    let Lote = ot.Lote;
+    let ClaveProducto = ot.ClaveProducto;
+    Swal.fire({
+      title: '¿Seguro de Borrar Ingreso?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+         //Obtener Detalle Orden de Carga, para ser actualizado posteriormente
+         this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, Lote, ClaveProducto).subscribe(dataOrdenCarga => {
+          console.log(dataOrdenCarga);
+          let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) + (+ot.Sacos)).toString();
+          console.log(NuevoSaldo)
+          // Actualizar Saldo de la tabla Detalle Orden Carga
+          this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo).subscribe(res => {
+            console.log(res);
+            this.ordenTemporalService.deleteOrdenTemporal(ot.IdOrdenTemporal).subscribe(res =>{
+              this.actualizarTablaOrdenTemporal();
+              
+              Swal.fire({
+                title: 'Borrado',
+                icon: 'success',
+                timer: 1000,
+                showCancelButton: false,
+                showConfirmButton: false
+              });
+            })
+            });
+          });
+      }
+    })
+ 
+
   }
 
 

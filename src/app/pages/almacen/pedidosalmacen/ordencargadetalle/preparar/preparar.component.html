@@ -7,6 +7,17 @@
                 <hr>
                 <button class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button>
                 <!-- <zxing-scanner></zxing-scanner> -->
+                <!-- <div class="scanner-shell" [hidden]="!hasDevices"> -->
+
+
+                <!-- <zxing-scanner #scanner start="true" [device]="currentDevice" (scanSuccess)="handleQrCodeResult($event)" [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']"></zxing-scanner>
+
+                    <section class="results" *ngIf="qrResultString">
+                        <small>Result</small>
+                        <strong>{{ qrResultString}}</strong>
+                    </section> -->
+
+                <!-- </div> -->
                 <hr>
                 <h5>TABLA VISUALIZACION</h5>
 
@@ -49,9 +60,9 @@
                                                             <mat-icon>edit</mat-icon>
                                                         </button>
                                 <!--  -->
-                                <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdProveedor)">
+                                <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteRowTablaV(i)">
                                                                 <mat-icon>delete_outline</mat-icon>
-                                                            </button> -->
+                                                            </button>
                                 <!-- </mat-menu> -->
                             </td>
                         </ng-container>
@@ -129,9 +140,9 @@
                                                             <mat-icon>edit</mat-icon>
                                                         </button> -->
                                 <!--  -->
-                                <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdProveedor)">
+                                <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteOrdenTemporal(row)">
                                                                 <mat-icon>delete_outline</mat-icon>
-                                                            </button> -->
+                                                            </button>
                                 <!-- </mat-menu> -->
                             </td>
                         </ng-container>
