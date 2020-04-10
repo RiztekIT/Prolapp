@@ -196,6 +196,7 @@ import { EntradaProductoComponent } from '../components/almacen/entrada-producto
 import { SalidaProductoComponent } from '../components/almacen/salida-producto/salida-producto.component';
 import { OrdenCargaConceptoComponent } from './almacen/pedidosalmacen/ordencargadetalle/preparar/orden-carga-concepto/orden-carga-concepto.component';
 import { TraspasoTarimaComponent } from './almacen/traspaso-tarima/traspaso-tarima.component';
+import { EnviarOrdenCargaComponent } from './almacen/pedidosalmacen/ordencargadetalle/enviar-orden-carga/enviar-orden-carga.component';
 
 // import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
@@ -341,6 +342,7 @@ import { TraspasoTarimaComponent } from './almacen/traspaso-tarima/traspaso-tari
         SalidaProductoComponent,
         OrdenCargaConceptoComponent,
         TraspasoTarimaComponent,
+        EnviarOrdenCargaComponent,
     
     ],
     exports: [
