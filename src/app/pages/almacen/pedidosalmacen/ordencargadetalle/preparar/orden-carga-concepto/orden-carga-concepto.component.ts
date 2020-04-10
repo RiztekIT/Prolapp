@@ -44,7 +44,7 @@ export class OrdenCargaConceptoComponent implements OnInit {
     if (+cantidad >= this.cantidadMaximaSacos) {
       this.cantidadSacos = this.cantidadMaximaSacos;
     }
-    if (+cantidad < 0) {
+    if (+cantidad <= 0) {
       this.cantidadSacos = 0;
     }
     if (cantidad == null) {

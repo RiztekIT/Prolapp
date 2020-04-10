@@ -19,6 +19,7 @@ export class OrdenDescargaService {
 
   master = new Array<MasterOrdenDescarga>();
   formrow: any;
+  formData: any;
 
 
   getOrdenDescargaList(): Observable <OrdenDescarga[]> {

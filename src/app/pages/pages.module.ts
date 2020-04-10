@@ -198,7 +198,10 @@ import { OrdenCargaConceptoComponent } from './almacen/pedidosalmacen/ordencarga
 import { TraspasoTarimaComponent } from './almacen/traspaso-tarima/traspaso-tarima.component';
 import { CotizacionpedidoComponent } from '../components/cotizacionpedido/cotizacionpedido.component';
 
+import { OrdendescargadetalleComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargadetalle.component';
 //import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendescargatarima/ordendescargatarima.component';
+// import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 
 
@@ -343,6 +346,8 @@ import { CotizacionpedidoComponent } from '../components/cotizacionpedido/cotiza
         OrdenCargaConceptoComponent,
         TraspasoTarimaComponent,
         CotizacionpedidoComponent,
+        OrdendescargadetalleComponent,
+        OrdendescargatarimaComponent
     
     ],
     exports: [
@@ -386,7 +391,7 @@ import { CotizacionpedidoComponent } from '../components/cotizacionpedido/cotiza
         NgxDocViewerModule,
         QRCodeModule,
         BrowserAnimationsModule,
-      //  ZXingScannerModule,
+    //    ZXingScannerModule,
 
     ],
     providers: [
