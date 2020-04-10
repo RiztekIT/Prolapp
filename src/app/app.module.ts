@@ -41,7 +41,6 @@ import { CotizacionpedidoComponent } from './components/cotizacionpedido/cotizac
     RegisterComponent,
     SaldosComponent,
     CalendarioComponent,
-    CotizacionpedidoComponent,
     
   
  
