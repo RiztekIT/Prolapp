@@ -985,12 +985,32 @@ crearPedido() {
     this.service.filter('Register click');
   }
   )
+
+  if (this.show == false){
+    // this.service.getProspectos().subscribe(res => {
+    //   console.clear();
+    //   console.log(res);
+    // })
+
+    this.service.formprosp.Nombre = this.service.formDataCotizacion.Nombre;
+    this.service.formprosp.Telefono = this.service.formDataCotizacion.Telefono;
+    this.service.formprosp.Correo = this.service.formDataCotizacion.Correo;
+
+    // console.log(this.service.formprosp);
+
+    this.service.addProspecto(this.service.formprosp).subscribe(res => {
+      console.clear();
+      console.log('Se agrego Prospecto');
+    })
+    
+  }
 }
 
 toggle() {
+
   this.show = !this.show;
 
-  // CHANGE THE NAME OF THE BUTTON.
+
   if(this.show)  
     this.buttonName = "Cliente Existente";  
   else
