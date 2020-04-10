@@ -197,10 +197,9 @@ import { SalidaProductoComponent } from '../components/almacen/salida-producto/s
 import { OrdenCargaConceptoComponent } from './almacen/pedidosalmacen/ordencargadetalle/preparar/orden-carga-concepto/orden-carga-concepto.component';
 import { TraspasoTarimaComponent } from './almacen/traspaso-tarima/traspaso-tarima.component';
 import { OrdendescargadetalleComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargadetalle.component';
-
-
 //import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendescargatarima/ordendescargatarima.component';
+// import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 
 
@@ -389,7 +388,7 @@ import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendesca
         NgxDocViewerModule,
         QRCodeModule,
         BrowserAnimationsModule,
-      //  ZXingScannerModule,
+    //    ZXingScannerModule,
 
     ],
     providers: [

@@ -47,6 +47,10 @@ GetOrdenTemporalIDOD(id: number): Observable <OrdenTemporal[]>{
   return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIDOD/'+ id);
 }
 
+deleteOrdenTemporal(id:number){
+  return this.http.delete(APIUrl + '/OrdenTemporal/BorrarOrdenTemporal/' + id)
+}
+
 
 
   private _listeners = new Subject<any>(); 
