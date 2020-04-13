@@ -196,8 +196,9 @@ import { EntradaProductoComponent } from '../components/almacen/entrada-producto
 import { SalidaProductoComponent } from '../components/almacen/salida-producto/salida-producto.component';
 import { OrdenCargaConceptoComponent } from './almacen/pedidosalmacen/ordencargadetalle/preparar/orden-carga-concepto/orden-carga-concepto.component';
 import { TraspasoTarimaComponent } from './almacen/traspaso-tarima/traspaso-tarima.component';
+import { ScannerComponent } from '../components/scanner/scanner.component';
 
-// import { ZXingScannerModule } from '@zxing/ngx-scanner';
+
 
 
 
@@ -384,7 +385,6 @@ import { TraspasoTarimaComponent } from './almacen/traspaso-tarima/traspaso-tari
         NgxDocViewerModule,
         QRCodeModule,
         BrowserAnimationsModule,
-    //    ZXingScannerModule,
 
     ],
     providers: [
@@ -441,7 +441,8 @@ import { TraspasoTarimaComponent } from './almacen/traspaso-tarima/traspaso-tari
         EntradaProductoComponent,
         SalidaProductoComponent,
         OrdenCargaConceptoComponent,
-        TraspasoTarimaComponent
+        TraspasoTarimaComponent,
+        ScannerComponent
     ]
 })
 export class PagesModule { }

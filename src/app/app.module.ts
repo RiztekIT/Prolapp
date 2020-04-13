@@ -20,6 +20,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CalendarioComponent } from './components/cxc/calendario/calendario.component';
 import { CotizacionpedidoComponent } from './components/cotizacionpedido/cotizacionpedido.component';
+import { ScannerComponent } from './components/scanner/scanner.component';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
 // import { FacturacionComponent } from './components/cxc/graficas/facturacion/facturacion.component';
 // import { ComplementoPagoComponent } from './components/complemento-pago/complemento-pago.component';
 
@@ -42,6 +44,7 @@ import { CotizacionpedidoComponent } from './components/cotizacionpedido/cotizac
     SaldosComponent,
     CalendarioComponent,
     CotizacionpedidoComponent,
+    ScannerComponent,
     
   
  
@@ -57,6 +60,7 @@ import { CotizacionpedidoComponent } from './components/cotizacionpedido/cotizac
     ServiceModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ZXingScannerModule
     // NgbModule
   ],
   bootstrap: [AppComponent],

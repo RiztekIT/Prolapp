@@ -12,6 +12,7 @@ import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
 import Swal from 'sweetalert2';
 import { OrdenCargaConceptoComponent } from './orden-carga-concepto/orden-carga-concepto.component';
 import { TraspasoTarimaComponent } from '../../../traspaso-tarima/traspaso-tarima.component';
+import { ScannerComponent } from 'src/app/components/scanner/scanner.component';
 //IMPORTS QR SCANNER
 // import { ZXingScannerComponent } from '@zxing/ngx-scanner';
 // import { Result } from '@zxing/library';
@@ -24,6 +25,8 @@ import { TraspasoTarimaComponent } from '../../../traspaso-tarima/traspaso-tarim
   styleUrls: ['./preparar.component.css']
 })
 export class PrepararComponent implements OnInit {
+  enableScan=false;
+  qrleido;
   
   constructor(public router: Router, public tarimaService: TarimaService, public ordenCargaService: OrdenCargaService,
     public ordenTemporalService: OrdenTemporalService, private dialog: MatDialog, ) {
@@ -124,6 +127,36 @@ export class PrepararComponent implements OnInit {
 
   // SCANNER QR //
 
+  escaner(evento){
+    console.log(evento);
+    this.qrleido = evento;
+    // this.enableScan = false;
+  }
+  escanear(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "70%";
+
+    let dialogscan = this.dialog.open(ScannerComponent, dialogConfig);
+
+    dialogscan.afterClosed().subscribe(data=>{
+      console.log(data);
+      this.qrleido = data;
+    })
+
+    
+
+  }
+  cerrarescaner(){
+    console.log('cerrar escaner');
+    this.enableScan = false;
+    console.log(this.enableScan);
+  }
+  camaras(event){
+    console.log(event);
+
+  }
  
 
   simularQR() {
