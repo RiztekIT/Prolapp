@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, observable } from 'rxjs';
 import { Cotizacion } from '../../Models/ventas/cotizacion-model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Cliente } from 'src/app/Models/catalogos/clientes-model';
+import { Prospecto } from '../../Models/ventas/prospecto-model';
 import { Producto } from 'src/app/Models/catalogos/productos-model';
 import { DetallePedido } from 'src/app/Models/Pedidos/detallePedido-model';
 import { ClienteDireccion } from 'src/app/Models/cliente-direccion/clienteDireccion-model';
@@ -38,6 +39,7 @@ export class VentasCotizacionService {
   
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
   
+  formprosp= new Prospecto();
   formcotped: any;
   formt: any;
   formData = new Cliente();
@@ -157,6 +159,14 @@ export class VentasCotizacionService {
 
   onEditCotizacion(ct: Cotizacion) {
     return this.http.put(this.APIUrl + '/Cotizaciones', ct)
+  }
+
+  getProspectos(): Observable<any>{
+    return this.http.get<any>(this.APIUrl + '/Cotizacion/GetProspecto')
+  }
+
+  addProspecto(prospecto : Prospecto){
+    return this.http.post(this.APIUrl + '/Cotizacion/InsertProspecto', prospecto);
   }
 
 

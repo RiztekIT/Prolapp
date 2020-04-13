@@ -14,6 +14,7 @@ import { DetalleCotizacion } from '../../../Models/ventas/detalleCotizacion-mode
 import { Cotizacion } from '../../../Models/ventas/cotizacion-model';
 import { cotizacionMaster } from '../../../Models/ventas/cotizacion-master';
 import Swal from 'sweetalert2';
+import { CotizacionpedidoComponent } from 'src/app/components/cotizacionpedido/cotizacionpedido.component';
 
 @Component({
   selector: 'app-cotizaciones-ventas',
@@ -286,7 +287,7 @@ Vigencia: new Date()
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
-    // this.dialog.open(, dialogConfig);
+    this.dialog.open(CotizacionpedidoComponent, dialogConfig);
 
 
     // let cotizacion2pedido: any = {
