@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { OrdenDescargaService } from 'src/app/services/almacen/orden-descarga/orden-descarga.service';
 import { OrdenTemporalService } from 'src/app/services/almacen/orden-temporal/orden-temporal.service';
+import { Router } from '@angular/router';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 
 
@@ -13,7 +14,7 @@ import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 export class OrdendescargadetalleComponent implements OnInit {
   //Id Orden Carga
   IdOrdenDescarga: number;
-  constructor(private service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, ) {
+  constructor(private service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public router: Router, ) {
 
     this.ordenTemporalService.listenOrdenTemporal().subscribe((m: any) => {
       this.actualizarTablaOrdenTemporal();
@@ -32,6 +33,10 @@ export class OrdendescargadetalleComponent implements OnInit {
     this.actualizarTablaOrdenTemporal();
     console.log(this.service.formData);
     console.log(localStorage.getItem('IdOrdenDescarga'));
+  }
+
+  regresar(){
+    this.router.navigate(['/ordendescarga']);
   }
 
   actualizarTablaOrdenTemporal() {
@@ -53,8 +58,30 @@ export class OrdendescargadetalleComponent implements OnInit {
     })
   }
 
-  nuevaTarima(){
-    
+  onAddTarima(){
+    this.ObtenerFolio();
+  }
+  
+  ObtenerFolio() {
+    this.router.navigate(['/ordenDescargatarima']);
+    // this.service.GetFolio().subscribe(data => {
+    //   // console.log(data[0].Folio);
+    //   let folio = data[0].Folio;
+    //   if (folio == "") {
+    //     folio = 1;
+    //   } else {
+    //     folio = +folio + 1;
+    //   }
+    //   console.log(folio);
+    //   this.PedidoBlanco.Folio = folio.toString();
+    //   console.log(this.PedidoBlanco);
+    //   //Agregar el nuevo pedido. NECESITA ESTAR DENTRO DEL SUBSCRIBEEEEEEEE :(
+    //   this.service.addPedido(this.PedidoBlanco).subscribe(res => {
+    //     console.log(res);
+    //     //Obtener el pedido que se acaba de generar
+    //     this.ObtenerUltimoPedido();
+    //   });
+    // });
   }
 
 

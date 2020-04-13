@@ -1,1 +1,88 @@
-<p>ordendescargatarima works!</p>
+<div class="card">
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-11">
+                    <h2 style="text-align: center;">Detalles Tarima</h2>
+                </div>
+                <div class="col-1">
+                    <button class="btn btn-primary" type="button" (click)="regresar()">Regresar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="form-material">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+
+                        <label class="input-group-text text-info">IdTarima:</label>
+                        <input type="text" class="form-control" name="IdTarima" #IdPedido="ngModel" [(ngModel)]="service.formDataTarima.IdTarima">
+
+                        <label class="input-group-text text-info">Sacos:</label>
+                        <input type="text" class="form-control" name="Sacos" #IdPedido="ngModel" [(ngModel)]="service.formDataTarima.Sacos">
+
+                        <label class="input-group-text text-info">PesoTotal:</label>
+                        <input type="text" class="form-control" name="PesoTotal" #IdPedido="ngModel" [(ngModel)]="service.formDataTarima.PesoTotal">
+
+                        <label class="input-group-text text-info">QR:</label>
+                        <input type="text" class="form-control" name="QR" #IdPedido="ngModel" [(ngModel)]="service.formDataTarima.QR">
+                    </div>
+                    <div class="col-6">
+
+                        <label class="input-group-text text-info">IdDetalleTarima:</label>
+                        <input type="text" class="form-control" name="IdDetalleTarima" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataTarimaDT.IdDetalleTarima">
+
+                        <label class="input-group-text text-info">IdTarima:</label>
+                        <input type="text" class="form-control" name="IdTarima" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataTarimaDT.IdTarima">
+
+                        <label class="input-group-text text-info">ClaveProducto:</label>
+                        <input type="text" class="form-control" name="ClaveProducto" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataTarimaDT.ClaveProducto">
+
+                        <label class="input-group-text text-info">Producto:</label>
+                        <input type="text" class="form-control" name="Producto" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataTarimaDT.Producto">
+
+                        <label class="input-group-text text-info">Sacos:</label>
+                        <input type="text" class="form-control" name="Sacos" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataTarimaDT.Sacos">
+
+                        <label class="input-group-text text-info">PesoxSaco:</label>
+                        <input type="text" class="form-control" name="PesoxSaco" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataTarimaDT.PesoxSaco">
+
+                        <label class="input-group-text text-info">Lote:</label>
+                        <input type="text" class="form-control" name="Lote" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataTarimaDT.Lote">
+
+                        <label class="input-group-text text-info">IdProveedor:</label>
+                        <input type="text" class="form-control" name="IdProveedor" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataTarimaDT.IdProveedor">
+
+                        <label class="input-group-text text-info">Proveedor:</label>
+                        <input type="text" class="form-control" name="Proveedor" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataTarimaDT.Proveedor">
+
+                        <label class="input-group-text text-info">PO:</label>
+                        <input type="text" class="form-control" name="PO" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataTarimaDT.PO">
+
+                        <label class="input-group-text text-info">FechaMFG:</label>
+                        <input type="text" class="form-control" name="FechaMFG" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataTarimaDT.FechaMFG">
+
+                        <label class="input-group-text text-info">FechaCaducidad:</label>
+                        <input type="text" class="form-control" name="FechaCaducidad" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataTarimaDT.FechaCaducidad">
+
+                        <label class="input-group-text text-info">Shipper:</label>
+                        <input type="text" class="form-control" name="Shipper" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataTarimaDT.Shipper">
+
+                        <label class="input-group-text text-info">USDA:</label>
+                        <input type="text" class="form-control" name="USDA" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataTarimaDT.USDA">
+
+                        <label class="input-group-text text-info">Pedimento:</label>
+                        <input type="text" class="form-control" name="Pedimento" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataTarimaDT.Pedimento">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button (click)="crearTarima()"></button>
+    </div>
+</div>

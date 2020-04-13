@@ -5,6 +5,8 @@ import {Subject} from 'rxjs';
 import { OrdenDescarga } from '../../../Models/almacen/OrdenDescarga/ordenDescarga-model';
 import { MasterOrdenDescarga } from 'src/app/Models/almacen/OrdenDescarga/masterOrdenDescarga-model';
 import { MasterDetalleOrdenDescarga } from 'src/app/Models/almacen/OrdenDescarga/masterDetalleOrdenDescarga-model';
+import { Tarima } from '../../../Models/almacen/Tarima/tarima-model';
+import { DetalleTarima } from '../../../Models/almacen/Tarima/detalleTarima-model';
 
 
 export const APIUrl = "http://riztekserver.ddns.net:44361/api";
@@ -14,6 +16,14 @@ export const APIUrl = "http://riztekserver.ddns.net:44361/api";
   providedIn: 'root'
 })
 export class OrdenDescargaService {
+
+//form data que se llena con los datos de tarima
+formDataTarima = new Tarima();
+//form data que se llena con los datos de detalle tarima
+formDataTarimaDT = new DetalleTarima();
+
+
+
 
   constructor( private http:HttpClient) { }
 
