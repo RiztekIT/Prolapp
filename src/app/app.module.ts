@@ -19,7 +19,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CalendarioComponent } from './components/cxc/calendario/calendario.component';
-import { CotizacionpedidoComponent } from './components/cotizacionpedido/cotizacionpedido.component';
+// import { CotizacionpedidoComponent } from './components/cotizacionpedido/cotizacionpedido.component';
 import { ScannerComponent } from './components/scanner/scanner.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 // import { FacturacionComponent } from './components/cxc/graficas/facturacion/facturacion.component';
@@ -43,7 +43,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     RegisterComponent,
     SaldosComponent,
     CalendarioComponent,
-    CotizacionpedidoComponent,
+    // CotizacionpedidoComponent,
     ScannerComponent,
     
   
