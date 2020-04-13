@@ -172,6 +172,67 @@
                 <hr>
                 <button class="btn btn-primary" type="button" (click)="pdf()">PDF</button>
                 <hr>
+                <button *ngIf="MostrarConceptos == false" class="btn btn-primary" type="button" (click)="conceptosFaltantes()">Conceptos Faltantes</button>
+                <button *ngIf="MostrarConceptos == true" class="btn btn-primary" type="button" (click)="ocultarConceptosFaltantes()">Ocultar Tabla</button>
+                <hr>
+                <div *ngIf="MostrarConceptos == true">
+
+                    <h3>TABLA ORDEN TEMPORAL</h3>
+
+                    <div style="overflow:auto;">
+                        <table mat-table [dataSource]="listDataConceptosFaltantes" matSort>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsConceptosFaltantes"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsConceptosFaltantes;"></tr>
+
+                            <ng-container matColumnDef="ClaveProducto">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
+                                <td mat-cell *matCellDef="let elementOT">{{elementOT.ClaveProducto}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Producto">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                                <td mat-cell *matCellDef="let elementOT">{{elementOT.Producto}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Lote">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                                <td mat-cell *matCellDef="let elementOT">{{elementOT.Lote}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Saldo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo</th>
+                                <td mat-cell *matCellDef="let elementOT">{{elementOT.Saldo}}</td>
+                            </ng-container>
+
+                            <!-- <ng-container matColumnDef="Options">
+                                <th mat-header-cell *matHeaderCellDef>Options</th>
+                                <td mat-cell *matCellDef="let row; let i = index"> -->
+
+                            <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                        <mat-icon>keyboard_arrow_down</mat-icon>
+                                    </button> -->
+                            <!-- <mat-menu #menu="matMenu"> -->
+                            <!--  -->
+                            <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button> -->
+                            <!--  -->
+                            <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteOrdenTemporal(row)">
+                                            <mat-icon>delete_outline</mat-icon>
+                                        </button> -->
+                            <!-- </mat-menu> -->
+                            <!-- </td> -->
+                            <!-- </ng-container> -->
+
+
+                        </table>
+                        <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                        </mat-paginator>
+                    </div>
+                </div>
+
+                <hr>
                 <button class="btn btn-primary" type="button" (click)="finalizar()">Finalizar</button>
             </div>
         </div>

@@ -13,5 +13,11 @@ export class CargarComponent implements OnInit {
   ngOnInit() {
   }
 
+  regresar(){
+    this.router.navigate(['/ordencargadetalle']);
+    
+
+  }
+
 
 }

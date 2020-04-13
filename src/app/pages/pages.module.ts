@@ -196,8 +196,17 @@ import { EntradaProductoComponent } from '../components/almacen/entrada-producto
 import { SalidaProductoComponent } from '../components/almacen/salida-producto/salida-producto.component';
 import { OrdenCargaConceptoComponent } from './almacen/pedidosalmacen/ordencargadetalle/preparar/orden-carga-concepto/orden-carga-concepto.component';
 import { TraspasoTarimaComponent } from './almacen/traspaso-tarima/traspaso-tarima.component';
+
 import { ScannerComponent } from '../components/scanner/scanner.component';
 
+
+import { EnviarOrdenCargaComponent } from './almacen/pedidosalmacen/ordencargadetalle/enviar-orden-carga/enviar-orden-carga.component';
+import { CotizacionpedidoComponent } from '../components/cotizacionpedido/cotizacionpedido.component';
+
+import { OrdendescargadetalleComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargadetalle.component';
+//import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendescargatarima/ordendescargatarima.component';
+// import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 
 
@@ -342,6 +351,10 @@ import { ScannerComponent } from '../components/scanner/scanner.component';
         SalidaProductoComponent,
         OrdenCargaConceptoComponent,
         TraspasoTarimaComponent,
+        EnviarOrdenCargaComponent,
+        CotizacionpedidoComponent,
+        OrdendescargadetalleComponent,
+        OrdendescargatarimaComponent
     
     ],
     exports: [
@@ -442,7 +455,8 @@ import { ScannerComponent } from '../components/scanner/scanner.component';
         SalidaProductoComponent,
         OrdenCargaConceptoComponent,
         TraspasoTarimaComponent,
-        ScannerComponent
+        ScannerComponent,
+        CotizacionpedidoComponent,
     ]
 })
 export class PagesModule { }

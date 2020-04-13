@@ -86,6 +86,7 @@ IdOrdenCarga: number;
       IdOrdenCarga: this.service.formData.IdOrdenCarga,
       Estatus: "Cargada"
     }
+    this.router.navigate(['/ordenCargaCargar']);
 
     // this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
     //   this.service.formData.Estatus = "Cargada"
@@ -98,6 +99,7 @@ IdOrdenCarga: number;
       IdOrdenCarga: this.service.formData.IdOrdenCarga,
       Estatus: "Enviada"
     }
+    this.router.navigate(['/ordenCargaEnviar']);
 
     // this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
     //   this.service.formData.Estatus = "Enviada"
