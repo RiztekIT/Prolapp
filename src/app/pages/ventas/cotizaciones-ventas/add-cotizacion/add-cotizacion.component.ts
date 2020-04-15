@@ -733,7 +733,16 @@ onAddProducto(form: NgForm) {
   this.service.formDataDP.Importe = this.importeP.toString();
   this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
   this.service.formDataCotizacion.TipoDeCambio = this.TipoCambio;
+
+
+  this.Vigencia = new Date();
+
+  this.Vigencia.setDate(this.Vigencia.getDate() + 1);
+
+  console.log(this.Vigencia);
+
   this.service.formDataCotizacion.Vigencia = this.Vigencia;
+  
 
   // console.log(this.service.formDataDP);
 
@@ -975,35 +984,38 @@ crearPedido() {
   this.service.formDataCotizacion.Subtotal = this.subtotal;
   this.service.formDataCotizacion.TotalDlls = this.totalDlls;
   this.service.formDataCotizacion.SubtotalDlls = this.subtotalDlls;
-
+  
+  console.clear();  
   console.log(this.service.formDataCotizacion);
+  
   this.service.onEditCotizacion(this.service.formDataCotizacion).subscribe(res => {
+    console.log(res);
     Swal.fire({
       icon: 'success',
       title: 'Cotizacion Generada'
     })
-    this.service.filter('Register click');
+    // this.service.filter('Register click');
+    if (this.show == false){
+      // this.service.getProspectos().subscribe(res => {
+      //   console.clear();
+      //   console.log(res);
+      // })
+  
+      this.service.formprosp.Nombre = this.service.formDataCotizacion.Nombre;
+      this.service.formprosp.Telefono = this.service.formDataCotizacion.Telefono;
+      this.service.formprosp.Correo = this.service.formDataCotizacion.Correo;
+  
+      // console.log(this.service.formprosp);
+  
+      this.service.addProspecto(this.service.formprosp).subscribe(res => {
+        
+        console.log('Se agrego Prospecto');
+      })
+      
+    }
   }
   )
 
-  if (this.show == false){
-    // this.service.getProspectos().subscribe(res => {
-    //   console.clear();
-    //   console.log(res);
-    // })
-
-    this.service.formprosp.Nombre = this.service.formDataCotizacion.Nombre;
-    this.service.formprosp.Telefono = this.service.formDataCotizacion.Telefono;
-    this.service.formprosp.Correo = this.service.formDataCotizacion.Correo;
-
-    // console.log(this.service.formprosp);
-
-    this.service.addProspecto(this.service.formprosp).subscribe(res => {
-      console.clear();
-      console.log('Se agrego Prospecto');
-    })
-    
-  }
 }
 
 toggle() {

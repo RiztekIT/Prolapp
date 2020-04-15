@@ -6,13 +6,16 @@ import { OrdenDescarga } from '../../../Models/almacen/OrdenDescarga/ordenDescar
 import { MasterOrdenDescarga } from 'src/app/Models/almacen/OrdenDescarga/masterOrdenDescarga-model';
 import { MasterDetalleOrdenDescarga } from 'src/app/Models/almacen/OrdenDescarga/masterDetalleOrdenDescarga-model';
 import { Tarima } from '../../../Models/almacen/Tarima/tarima-model';
-import { DetalleTarima } from '../../../Models/almacen/Tarima/detalleTarima-model';
 import { environment } from 'src/environments/environment';
+import { DetalleTarima } from '../../../Models/almacen/Tarima/detalleTarima-model';
+// import { environment } from 'src/environments/environment';
 
 
 //export const APIUrl = "http://riztekserver.ddns.net:44361/api";
-export const APIUrl = environment.APIUrl;
+// export const APIUrl = environment.APIUrl;
+// export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 // export const APIUrl = "https://localhost:44361/api";
+export const APIUrl = environment.APIUrl;
 
 @Injectable({
   providedIn: 'root'
