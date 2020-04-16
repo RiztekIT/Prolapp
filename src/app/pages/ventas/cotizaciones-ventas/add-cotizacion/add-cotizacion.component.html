@@ -112,7 +112,7 @@
 
                                     <label class="input-group-text text-info">Fecha de Entrega:</label>
                                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                                    <input type="text" readonly="readonly" [matDatepicker]="picker2" class="form-control" name="FechaDeEntrega" #FechaDeEntrega="ngModel" [(ngModel)]="service.formDataCotizacion.FechaDeExpedicion">
+                                    <input type="datetime" readonly="readonly" [matDatepicker]="picker2" class="form-control" name="FechaDeEntrega" #FechaDeEntrega="ngModel" [(ngModel)]="service.formDataCotizacion.FechaDeExpedicion">
                                     <mat-datepicker #picker2></mat-datepicker>
                                 </div>
 

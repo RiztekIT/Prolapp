@@ -49,7 +49,7 @@ export class CotizacionesVentasComponent implements OnInit {
   MasterDetalle = new Array<cotizacionMaster>();
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['IdCliente', 'Nombre', 'RFC', 'Subtotal', 'Total', 'Descuento', 'SubtotalDlls', 'TotalDlls', 'DescuentoDlls', 'Observaciones', 'Vendedor', 'Moneda', 'FechaDeExpedicion', 'Flete',  'Folio', 'Telefono', 'Correo', 'Options'];
+  displayedColumns: string[] = ['IdCotizacion', 'Nombre', 'Subtotal', 'Total', 'SubtotalDlls', 'TotalDlls', 'Observaciones', 'Moneda', 'FechaDeExpedicion', 'Folio', 'Telefono', 'Correo', 'Options'];
   
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Cantidad'];
 
