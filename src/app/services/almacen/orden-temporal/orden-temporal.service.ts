@@ -46,6 +46,10 @@ GetOrdenTemporalID(id: number): Observable <OrdenTemporal[]>{
 GetOrdenTemporalIDOD(id: number): Observable <OrdenTemporal[]>{
   return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIDOD/'+ id);
 }
+//Obtener Orden Temporal por ID Tarima
+GetOrdenTemporalIdTarima(id: number): Observable <OrdenTemporal[]>{
+  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIdTarima/'+ id);
+}
 
 deleteOrdenTemporal(id:number){
   return this.http.delete(APIUrl + '/OrdenTemporal/BorrarOrdenTemporal/' + id)
