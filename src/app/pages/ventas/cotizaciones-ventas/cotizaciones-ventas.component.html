@@ -20,9 +20,9 @@
                         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 
 
-                        <ng-container matColumnDef="IdCliente" sticky>
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Pedido</th>
-                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.IdCliente}} +
+                        <ng-container matColumnDef="IdCotizacion" sticky>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Cotiacion</th>
+                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.IdCotizacion}} +
                                 <td>
                         </ng-container>
 
@@ -32,11 +32,11 @@
                                 <td>
                         </ng-container>
 
-                        <ng-container matColumnDef="RFC">
+                        <!-- <ng-container matColumnDef="RFC">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>RFC</th>
                             <td mat-cell *matCellDef="let element">{{element.RFC}}
                                 <td>
-                        </ng-container>
+                        </ng-container> -->
 
                         <ng-container matColumnDef="Subtotal">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Subtotal MXN/USD</th>
@@ -51,11 +51,11 @@
                             </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="Descuento">
+                        <!-- <ng-container matColumnDef="Descuento">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Descuento MXN/USD</th>
                             <td mat-cell *matCellDef="let element">{{element.Descuento | currency}}/{{element.Descuento | currency:'USD':'code'}}
                             </td>
-                        </ng-container>
+                        </ng-container> -->
 
                         <ng-container matColumnDef="SubtotalDlls">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>SubtotalDlls</th>
@@ -69,11 +69,11 @@
                             </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="DescuentoDlls">
+                        <!-- <ng-container matColumnDef="DescuentoDlls">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>DescuentoDlls</th>
                             <td mat-cell *matCellDef="let element">{{element.DescuentoDlls}}
                             </td>
-                        </ng-container>
+                        </ng-container> -->
 
                         <ng-container matColumnDef="Observaciones">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Observaciones</th>
@@ -81,11 +81,11 @@
                             </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="Vendedor">
+                        <!-- <ng-container matColumnDef="Vendedor">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Vendedor</th>
                             <td mat-cell *matCellDef="let element">{{element.Vendedor}}
                             </td>
-                        </ng-container>
+                        </ng-container> -->
                         <ng-container matColumnDef="Moneda">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Moneda</th>
                             <td mat-cell *matCellDef="let element">{{element.Moneda}}
@@ -96,11 +96,11 @@
                             <td mat-cell *matCellDef="let element">{{element.FechaDeExpedicion}}
                             </td>
                         </ng-container>
-                        <ng-container matColumnDef="Flete">
+                        <!-- <ng-container matColumnDef="Flete">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Flete</th>
                             <td mat-cell *matCellDef="let element">{{element.Flete}}
                             </td>
-                        </ng-container>
+                        </ng-container> -->
 
                         <ng-container matColumnDef="Folio">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio</th>
