@@ -241,12 +241,15 @@
                                                 <label class="input-group-text text-info">Telefono :</label>
                                                 <input type="number" class="form-control" name="Telefono" #Telefono="ngModel" [(ngModel)]="service.formDataCotizacion.Telefono">
 
+                                                <label class="input-group-text text-info">Correo :</label>
+                                                <input type="email" class="form-control" name="Correo" #Correo="ngModel" [(ngModel)]="service.formDataCotizacion.Correo">
                                             </div>
 
                                             <div class="col-12 col-md-6">
 
-                                                <label class="input-group-text text-info">Correo :</label>
-                                                <input type="email" class="form-control" name="Correo" #Correo="ngModel" [(ngModel)]="service.formDataCotizacion.Correo">
+
+                                                <label class="input-group-text text-info">Direccion :</label>
+                                                <input type="text" class="form-control" name="Direccion" #Empresa="ngModel" [(ngModel)]="service.formprosp.Direccion">
 
                                                 <label class="input-group-text text-info">Empresa :</label>
                                                 <input type="text" class="form-control" name="Empresa" #Empresa="ngModel" [(ngModel)]="service.formprosp.Empresa">
@@ -262,7 +265,7 @@
                             </div>
                         </div>
                     </form>
-
+                    <br>
                     <form #DetallePedidoForm="ngForm">
 
                         <h6>Informacion del Producto</h6>
