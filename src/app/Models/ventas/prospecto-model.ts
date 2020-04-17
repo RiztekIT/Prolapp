@@ -5,4 +5,6 @@ Correo: string;
 Telefono: number;
 Direccion: string;
 Empresa: string;
+Estatus: string;
+IdCotizacion: number;
 }

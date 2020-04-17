@@ -26,6 +26,7 @@ export class SidebarService {
         { titulo: 'Cotizaciones', url: '/cotizacionesVentas' },
         { titulo: 'Calendario', url: '/calendarioVentas' },
         { titulo: 'Reportes', url: '/reportesVentas' },
+        { titulo: 'Prospecto', url: '/prospectoVentas' },
         // { titulo: 'Graficos', url: '/dashboard' },
       ],
        url: '/dashboardVentas',
