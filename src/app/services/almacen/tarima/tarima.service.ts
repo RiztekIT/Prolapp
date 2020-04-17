@@ -19,6 +19,13 @@ export class TarimaService {
   tarimaData = new Tarima();
   tarimaDetalleData = new DetalleTarima();
 
+  //Tarima proviniente de un traspaso de OrdenCarga
+  trapasoOrdenCarga: boolean;
+  //IdTarima a traspasar;
+  idTarimaOrdenCarga: number;
+  //Detalle tarima a traspasar de OrdenCarga
+  detalleTarimaOrdenCarga: DetalleTarima;
+
   //Obtener detalles de Tarima por IdTarima
 getDetalleTarimaID(id: number): Observable <DetalleTarima[]>{
   return this.http.get<DetalleTarima[]>(APIUrl + '/Tarima/GetDetalleTarimaID/'+ id);

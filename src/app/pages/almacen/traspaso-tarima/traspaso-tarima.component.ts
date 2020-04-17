@@ -20,6 +20,10 @@ export class TraspasoTarimaComponent implements OnInit {
 
   ngOnInit() {
     this.nuevaTarima = false;
+    console.log(this.tarimaService.trapasoOrdenCarga);
+    if(this.tarimaService.trapasoOrdenCarga == true){
+this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.tarimaService.detalleTarimaOrdenCarga);
+    }
   }
 
   tarimaIdOrigen: number;
@@ -246,6 +250,15 @@ if(dataDetalleTarima.length > 0){
 
   }
 
+  traspasoTarimaOrdenCarga(idTarima: number, detalleTarimaOrigen: DetalleTarima){
+    this.tarimaIdOrigen = idTarima
+    let ClaveP = detalleTarimaOrigen.ClaveProducto;
+    this.DetalleTarimaSelect = ClaveP;
+this.dropdownRefreshDetalleTarima(idTarima);
+console.log(detalleTarimaOrigen);
+this.onSelectionChangeDetalleTarimaOrigen(detalleTarimaOrigen, true);
+  }
+
   onBlurIdOrigen() {
     this.dropdownRefreshDetalleTarima(this.tarimaIdOrigen);
   }
@@ -294,7 +307,7 @@ if(dataDetalleTarima.length > 0){
 
 
   onSelectionChangeDetalleTarimaOrigen(dt: DetalleTarima, event: any) {
-    if (event.isUserInput) {
+    // if (event.isUserInput) {
       console.log(dt);
       this.detalleTarimaSelected = new DetalleTarima();
       this.detalleTarimaSelected = dt;
@@ -302,7 +315,7 @@ if(dataDetalleTarima.length > 0){
       this.sacosTraspaso = +dt.Sacos;
       this.cantidadMaximaSacos = +dt.Sacos;
       this.idDetalleTarimaOrigen = dt.IdDetalleTarima;
-    }
+    // }
   }
 
   //metodo que se ejecuta cuando cambia la cantidad de sacos
