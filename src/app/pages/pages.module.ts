@@ -206,11 +206,8 @@ import { CotizacionpedidoComponent } from '../components/cotizacionpedido/cotiza
 import { OrdendescargadetalleComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargadetalle.component';
 import { OrdendescargatarimaComponent } from '../components/almacen/orden-descarga/ordendescargatarima/ordendescargatarima.component';
 //import { ZXingScannerModule } from '@zxing/ngx-scanner';
-<<<<<<< HEAD
-import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendescargatarima/ordendescargatarima.component';
+// import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendescargatarima/ordendescargatarima.component';
 import { ProspectoVentasComponent } from './ventas/prospecto-ventas/prospecto-ventas.component';
-=======
->>>>>>> ce2386e05f5970ca3795c97a825cc8743ecd7f9f
 // import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 
