@@ -26,7 +26,7 @@ saldototal:any;
    }
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string [] = ['Producto', 'Sacos', 'Lote', 'Saldo', 'Options'];
+  displayedColumns: string [] = ['ClaveProducto','Producto', 'Sacos', 'Lote', 'Saldo', 'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   
@@ -56,7 +56,8 @@ saldototal:any;
 
   onEdit(row){
 this.rowDTOD = row;
-console.log(this.rowDTOD.Sacos);
+console.log(this.rowDTOD.Sacos,'sacos en total');
+console.log(this.rowDTOD.Saldo,'saldo al momento');
   }
 
   onBlursacos(form:NgForm){
@@ -83,7 +84,7 @@ this.service.formDTOD.FechaMFG = this.rowDTOD.FechaMFG;
 this.service.formDTOD.FechaCaducidad = this.rowDTOD.FechaCaducidad;
 this.service.formDTOD.Shipper = this.rowDTOD.Shipper;
 this.service.formDTOD.USDA = this.rowDTOD.USDA;
-this.service.formDTOD.Pedimento = this.rowDTOD.Pedimento;n
+this.service.formDTOD.Pedimento = this.rowDTOD.Pedimento;
 
 
 
