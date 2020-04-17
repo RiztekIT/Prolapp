@@ -1198,7 +1198,9 @@ CFDISumatoria(){
     this.service.formData.Tipo = 'Ingreso';
     this.service.formData.Estatus = 'Guardada';
     this.service.formData.Version = '3.3';
-    this.service.formData.Serie = '5628';
+    //this.service.formData.Serie = '5628';
+    this.service.formData.Serie = '315381';
+    
     if (this.service.formData.Moneda == 'USD') {
       this.service.formData.TipoDeCambio = this.Cdolar;
     } else {
