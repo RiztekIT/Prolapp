@@ -231,6 +231,9 @@ export class AddCotizacionComponent implements OnInit {
   //Id Direccion
   IdDireccion: number;
 
+  //VIGENCIA
+  Vigencia: Date;
+
   // //////////////////////////// BEGIN OBTENER TIPO CAMBIO ////////////////////////////
   rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
   Cdolar: String;
@@ -676,6 +679,7 @@ IniciarTotales() {
 }
 
 refreshDetallesPedidoList() {
+
   this.IniciarTotales();
 
   this.service.GetDetalleCotizacionId(this.IdCotizacion).subscribe(data => {
@@ -702,6 +706,7 @@ refreshDetallesPedidoList() {
         this.totalDlls = data[0].importeDlls - this.descuentoDlls;
 
 
+       console.log(this.descuentoDlls);
 
         console.log(this.total);
         console.log(this.totalDlls);
@@ -727,6 +732,17 @@ onAddProducto(form: NgForm) {
   this.service.formDataDP.Cantidad = this.Cantidad.toString();
   this.service.formDataDP.Importe = this.importeP.toString();
   this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
+  this.service.formDataCotizacion.TipoDeCambio = this.TipoCambio;
+
+
+  this.Vigencia = new Date();
+
+  this.Vigencia.setDate(this.Vigencia.getDate() + 1);
+
+  console.log(this.Vigencia);
+
+  this.service.formDataCotizacion.Vigencia = this.Vigencia;
+  
 
   // console.log(this.service.formDataDP);
 
@@ -921,6 +937,8 @@ calcularImportePedido() {
 
 onDeleteDetalleProducto(dp: DetalleCotizacion) {
 
+  console.log(dp);
+
   Swal.fire({
     title: '¿Segur@ de Borrar Concepto?',
     icon: 'warning',
@@ -966,22 +984,45 @@ crearPedido() {
   this.service.formDataCotizacion.Subtotal = this.subtotal;
   this.service.formDataCotizacion.TotalDlls = this.totalDlls;
   this.service.formDataCotizacion.SubtotalDlls = this.subtotalDlls;
-
+  
+  console.clear();  
   console.log(this.service.formDataCotizacion);
+  
   this.service.onEditCotizacion(this.service.formDataCotizacion).subscribe(res => {
+    console.log(res);
     Swal.fire({
       icon: 'success',
       title: 'Cotizacion Generada'
     })
-    this.service.filter('Register click');
+    // this.service.filter('Register click');
+    if (this.show == false){
+      // this.service.getProspectos().subscribe(res => {
+      //   console.clear();
+      //   console.log(res);
+      // })
+  
+      this.service.formprosp.Nombre = this.service.formDataCotizacion.Nombre;
+      this.service.formprosp.Telefono = this.service.formDataCotizacion.Telefono;
+      this.service.formprosp.Correo = this.service.formDataCotizacion.Correo;
+  
+      // console.log(this.service.formprosp);
+  
+      this.service.addProspecto(this.service.formprosp).subscribe(res => {
+        
+        console.log('Se agrego Prospecto');
+      })
+      
+    }
   }
   )
+
 }
 
 toggle() {
+
   this.show = !this.show;
 
-  // CHANGE THE NAME OF THE BUTTON.
+
   if(this.show)  
     this.buttonName = "Cliente Existente";  
   else

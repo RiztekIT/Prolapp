@@ -35,6 +35,10 @@ getTarimaID(id: number): Observable <Tarima[]>{
   getUltimaTarima(): Observable <Tarima[]>{
     return this.http.get<Tarima[]>(APIUrl + '/Tarima/GetUltimaTarima');
   }
+  //Obtener Tarima por QR code
+  getTarimaQR(qr : string): Observable <Tarima[]>{
+    return this.http.get<Tarima[]>(APIUrl + '/Tarima/GetTarimaQR/'+ qr);
+  }
   //Obtener detalle tarima por IdTarima, claveProducto, lote
   getDetalleTarimaIdClaveLote(id: number, clave: string, lote: string): Observable <DetalleTarima[]>{
     return this.http.get<DetalleTarima[]>(APIUrl + '/Tarima/GetDetalleTarimaIdClaveLote/' + id + '/' + clave + '/' + lote);

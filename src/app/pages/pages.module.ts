@@ -197,6 +197,18 @@ import { SalidaProductoComponent } from '../components/almacen/salida-producto/s
 import { OrdenCargaConceptoComponent } from './almacen/pedidosalmacen/ordencargadetalle/preparar/orden-carga-concepto/orden-carga-concepto.component';
 import { TraspasoTarimaComponent } from './almacen/traspaso-tarima/traspaso-tarima.component';
 
+import { ScannerComponent } from '../components/scanner/scanner.component';
+
+
+import { EnviarOrdenCargaComponent } from './almacen/pedidosalmacen/ordencargadetalle/enviar-orden-carga/enviar-orden-carga.component';
+import { CotizacionpedidoComponent } from '../components/cotizacionpedido/cotizacionpedido.component';
+
+import { OrdendescargadetalleComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargadetalle.component';
+import { OrdendescargatarimaComponent } from '../components/almacen/orden-descarga/ordendescargatarima/ordendescargatarima.component';
+//import { ZXingScannerModule } from '@zxing/ngx-scanner';
+// import { ZXingScannerModule } from '@zxing/ngx-scanner';
+
+
 
 
 @NgModule({
@@ -339,6 +351,10 @@ import { TraspasoTarimaComponent } from './almacen/traspaso-tarima/traspaso-tari
         SalidaProductoComponent,
         OrdenCargaConceptoComponent,
         TraspasoTarimaComponent,
+        EnviarOrdenCargaComponent,
+        CotizacionpedidoComponent,
+        OrdendescargadetalleComponent,
+        OrdendescargatarimaComponent
     
     ],
     exports: [
@@ -438,7 +454,10 @@ import { TraspasoTarimaComponent } from './almacen/traspaso-tarima/traspaso-tari
         EntradaProductoComponent,
         SalidaProductoComponent,
         OrdenCargaConceptoComponent,
-        TraspasoTarimaComponent
+        TraspasoTarimaComponent,
+        ScannerComponent,
+        CotizacionpedidoComponent,
+        OrdendescargatarimaComponent
     ]
 })
 export class PagesModule { }

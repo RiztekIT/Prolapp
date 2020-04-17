@@ -13,6 +13,7 @@ import { DetalleOrdenCarga } from '../../../Models/almacen/OrdenCarga/detalleOrd
 //export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 export const APIUrl = environment.APIUrl;
 
+
 // export const APIUrl = "https://localhost:44361/api";
 
 @Injectable({
@@ -27,8 +28,6 @@ export class OrdenCargaService {
   formData = new OrdenCarga;
   //form data para guardar los datos de los detalles de orden de carga
   formDataDOC:any;
-  //form data para guardar los datos de orden de carga que se van a desplegar en el pdf
-  formDatapdf:any;
   //Id Orden de Carga
   IdOrdenCarga: number;
   //Master donde se guardara el master 
@@ -45,13 +44,18 @@ export class OrdenCargaService {
   getOrdenCargaID(id: number): Observable<OrdenCarga[]> {
     return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga/' + id);
   }
+
+  getOCID(id: number): Observable<OrdenCarga[]> {
+    return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga/OrdenCargaID/' + id);
+  }
+
   getDetalleOrdenCargaList(id: number): Observable<OrdenCarga[]> {
     return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga/DetalleOrdenCarga/' + id);
   }
 
-  //JOIN DETALLES, TARIMA, TARIMA DETALLES
-  getOrdenCargaIDList(id: number): Observable<MasterDetalleOrdenCarga[]> {
-    return this.http.get<MasterDetalleOrdenCarga[]>(APIUrl + '/OrdenCarga/MasterID/' + id);
+//Obtiene todos los detalles orden de carga en base a ID ORDEN CARGA
+  getOrdenCargaIDList(id: number): Observable<DetalleOrdenCarga[]> {
+    return this.http.get<DetalleOrdenCarga[]>(APIUrl + '/OrdenCarga/MasterID/' + id);
   }
   //Obtener Detalle Orden Carga por ID Orden Carga, LOTE y Clave Producto
   getDetalleOrdenCargaIdLoteClave(id: number, lote: string, clave: string): Observable<DetalleOrdenCarga[]> {

@@ -28,7 +28,7 @@ import { OrdenDescarga } from '../../../Models/almacen/OrdenDescarga/ordenDescar
 export class OrdendescargaComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string [] = ['Folio', 'FechaEnvio', 'Cliente', 'IdPedido', 'Fletera', 'Caja', 'Sacos', 'Kg', 'Origen' , 'Destino', 'Estatus', 'Options'];
+  displayedColumns: string [] = ['Folio', 'FechaLlegada', 'Proveedor', 'PO', 'Fletera', 'Caja', 'Sacos', 'Kg', 'Origen' , 'Destino', 'Estatus', 'Options'];
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Sacos', 'Lote'];
   expandedElement: any;
   detalle = new Array<DetalleOrdenDescarga>();
@@ -48,9 +48,6 @@ export class OrdendescargaComponent implements OnInit {
   ngOnInit() {
     this.refreshOrdenDescargaList();
   }
-
-  
-
 
   refreshOrdenDescargaList(){
     this.arrOrdenDescarga = this.service.getOrdenDescargaList();
@@ -93,4 +90,18 @@ export class OrdendescargaComponent implements OnInit {
         dialogConfig.width="70%";
         this.dialog.open(OrdenSalidaComponent, dialogConfig);
       }
+
+      onEdit(ordenDescarga: OrdenDescarga){
+        this.service.formData = ordenDescarga;
+        this.service.formData.IdOrdenDescarga = ordenDescarga.IdOrdenDescarga;
+        localStorage.setItem('IdOrdenDescarga', this.service.formData.IdOrdenDescarga.toString())
+console.clear();
+        console.log(this.service.formData);
+        console.log(localStorage.getItem('IdOrdenDescarga'));
+
+
+        this.router.navigate(['/ordenDescargadetalle']);
+      }
+
+
 }

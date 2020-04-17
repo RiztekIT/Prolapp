@@ -5,7 +5,33 @@
                 <h2>PREPARAR</h2>
                 <button class="btn btn-primary" type="button" (click)="regresar()">Regresar</button>
                 <hr>
-                <button class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button>
+                <div class="row">
+                    <div class="col-5">
+                        <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}}
+                    </div>
+                    <div class="col-2">
+
+                        <!-- <zxing-scanner (camerasFound)="camaras($event)" [enable]="enableScan" (scanSuccess)='escaner($event)'></zxing-scanner> -->
+                    </div>
+                    <div class="col-5">
+                        <button class="btn btn-primary" type="button" (click)="escanear()">ABRIR ESCANER</button>
+                        <!-- <button class="btn btn-primary" type="button" (click)="cerrarescaner()">Cerrar ESCANER</button> -->
+
+                    </div>
+                </div>
+
+
+                <!-- <div class="scanner-shell" [hidden]="!hasDevices"> -->
+
+
+                <!-- <zxing-scanner #scanner start="true" [device]="currentDevice" (scanSuccess)="handleQrCodeResult($event)" [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']"></zxing-scanner>
+
+                    <section class="results" *ngIf="qrResultString">
+                        <small>Result</small>
+                        <strong>{{ qrResultString}}</strong>
+                    </section> -->
+
+                <!-- </div> -->
                 <hr>
                 <h5>TABLA VISUALIZACION</h5>
 
@@ -48,9 +74,9 @@
                                                             <mat-icon>edit</mat-icon>
                                                         </button>
                                 <!--  -->
-                                <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdProveedor)">
+                                <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteRowTablaV(i)">
                                                                 <mat-icon>delete_outline</mat-icon>
-                                                            </button> -->
+                                                            </button>
                                 <!-- </mat-menu> -->
                             </td>
                         </ng-container>
@@ -128,9 +154,9 @@
                                                             <mat-icon>edit</mat-icon>
                                                         </button> -->
                                 <!--  -->
-                                <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdProveedor)">
+                                <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteOrdenTemporal(row)">
                                                                 <mat-icon>delete_outline</mat-icon>
-                                                            </button> -->
+                                                            </button>
                                 <!-- </mat-menu> -->
                             </td>
                         </ng-container>
@@ -145,6 +171,67 @@
                 <button class="btn btn-primary" type="button" (click)="traspaso()">Traspasar</button>
                 <hr>
                 <button class="btn btn-primary" type="button" (click)="pdf()">PDF</button>
+                <hr>
+                <button *ngIf="MostrarConceptos == false" class="btn btn-primary" type="button" (click)="conceptosFaltantes()">Conceptos Faltantes</button>
+                <button *ngIf="MostrarConceptos == true" class="btn btn-primary" type="button" (click)="ocultarConceptosFaltantes()">Ocultar Tabla</button>
+                <hr>
+                <div *ngIf="MostrarConceptos == true">
+
+                    <h3>TABLA ORDEN TEMPORAL</h3>
+
+                    <div style="overflow:auto;">
+                        <table mat-table [dataSource]="listDataConceptosFaltantes" matSort>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsConceptosFaltantes"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsConceptosFaltantes;"></tr>
+
+                            <ng-container matColumnDef="ClaveProducto">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
+                                <td mat-cell *matCellDef="let elementOT">{{elementOT.ClaveProducto}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Producto">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                                <td mat-cell *matCellDef="let elementOT">{{elementOT.Producto}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Lote">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                                <td mat-cell *matCellDef="let elementOT">{{elementOT.Lote}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Saldo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo</th>
+                                <td mat-cell *matCellDef="let elementOT">{{elementOT.Saldo}}</td>
+                            </ng-container>
+
+                            <!-- <ng-container matColumnDef="Options">
+                                <th mat-header-cell *matHeaderCellDef>Options</th>
+                                <td mat-cell *matCellDef="let row; let i = index"> -->
+
+                            <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                        <mat-icon>keyboard_arrow_down</mat-icon>
+                                    </button> -->
+                            <!-- <mat-menu #menu="matMenu"> -->
+                            <!--  -->
+                            <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
+                                            <mat-icon>edit</mat-icon>
+                                        </button> -->
+                            <!--  -->
+                            <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteOrdenTemporal(row)">
+                                            <mat-icon>delete_outline</mat-icon>
+                                        </button> -->
+                            <!-- </mat-menu> -->
+                            <!-- </td> -->
+                            <!-- </ng-container> -->
+
+
+                        </table>
+                        <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                        </mat-paginator>
+                    </div>
+                </div>
+
                 <hr>
                 <button class="btn btn-primary" type="button" (click)="finalizar()">Finalizar</button>
             </div>

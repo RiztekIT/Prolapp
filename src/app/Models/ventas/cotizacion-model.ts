@@ -19,4 +19,6 @@ Telefono: number;
 Correo:string;
 IdDireccion: number;
 Estatus: string;
+TipoDeCambio: number;
+Vigencia: Date
 }

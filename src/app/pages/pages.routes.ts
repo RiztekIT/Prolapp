@@ -75,6 +75,8 @@ import { CotizacionesVentasComponent } from '../pages/ventas/cotizaciones-ventas
 import { AddCotizacionComponent } from './ventas/cotizaciones-ventas/add-cotizacion/add-cotizacion.component';
 import { PrepararComponent } from './almacen/pedidosalmacen/ordencargadetalle/preparar/preparar.component';
 import { CargarComponent } from './almacen/pedidosalmacen/ordencargadetalle/cargar/cargar.component';
+import { EnviarOrdenCargaComponent } from './almacen/pedidosalmacen/ordencargadetalle/enviar-orden-carga/enviar-orden-carga.component';
+import { OrdendescargadetalleComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargadetalle.component';
 
 
 
@@ -161,6 +163,8 @@ const pagesRoutes: Routes = [
                 { path: 'cotizacionesVentasAdd', component: AddCotizacionComponent },
                 { path: 'ordenCargaPreparar', component: PrepararComponent },
                 { path: 'ordenCargaCargar', component: CargarComponent },
+                { path: 'ordenCargaEnviar', component: EnviarOrdenCargaComponent },
+                { path: 'ordenDescargadetalle', component: OrdendescargadetalleComponent },
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },

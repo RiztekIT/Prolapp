@@ -7,7 +7,7 @@ import { MasterDetalleOrdenCarga } from './masterDetalleOrdenCarga-model';
 export class MasterOrdenCarga {
 
     ordenCarga?: OrdenCarga[];
-    detalleOrdenCarga?: MasterDetalleOrdenCarga[];
+    detalleOrdenCarga?: DetalleOrdenCarga[];
 // detalleOrdenCarga?: DetalleOrdenCarga[];
 // tarima?: Tarima[];
 // detalleTarima?: DetalleTarima[];

@@ -9,10 +9,12 @@ import * as html2pdf from 'html2pdf.js';
 import { MessageService } from 'src/app/services/message.service';
 import { EmailComponent } from 'src/app/components/email/email/email.component';
 import { VentasCotizacionService } from '../../../services/ventas/ventas-cotizacion.service';
+import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
 import { DetalleCotizacion } from '../../../Models/ventas/detalleCotizacion-model';
 import { Cotizacion } from '../../../Models/ventas/cotizacion-model';
 import { cotizacionMaster } from '../../../Models/ventas/cotizacion-master';
 import Swal from 'sweetalert2';
+import { CotizacionpedidoComponent } from 'src/app/components/cotizacionpedido/cotizacionpedido.component';
 
 @Component({
   selector: 'app-cotizaciones-ventas',
@@ -29,7 +31,7 @@ import Swal from 'sweetalert2';
 })
 export class CotizacionesVentasComponent implements OnInit {
 
-  constructor( public router: Router, private dialog: MatDialog, public _MessageService: MessageService, private service: VentasCotizacionService) {
+  constructor( public router: Router, private dialog: MatDialog, public _MessageService: MessageService, private service: VentasCotizacionService, private service2: VentasPedidoService) {
 
     this.service.listen().subscribe((m: any) => {
       console.log(m);
@@ -47,7 +49,7 @@ export class CotizacionesVentasComponent implements OnInit {
   MasterDetalle = new Array<cotizacionMaster>();
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['IdCliente', 'Nombre', 'RFC', 'Subtotal', 'Total', 'Descuento', 'SubtotalDlls', 'TotalDlls', 'DescuentoDlls', 'Observaciones', 'Vendedor', 'Moneda', 'FechaDeExpedicion', 'Flete',  'Folio', 'Telefono', 'Correo', 'Options'];
+  displayedColumns: string[] = ['IdCotizacion', 'Nombre', 'Subtotal', 'Total', 'SubtotalDlls', 'TotalDlls', 'Observaciones', 'Moneda', 'FechaDeExpedicion', 'Folio', 'Telefono', 'Correo', 'Options'];
   
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Cantidad'];
 
@@ -179,7 +181,9 @@ Telefono: 0,
 Correo:"",
 IdDireccion: 0,
 Estatus: "Creada", 
-  }
+TipoDeCambio: 0,
+Vigencia: new Date()
+}
 
   ObtenerFolio() {
     this.service.GetFolio().subscribe(data => {
@@ -273,7 +277,45 @@ Estatus: "Creada",
   }
 
   hacerPedido(cotizacion: Cotizacion){
-    
+
+    // console.log(cotizacion);
+
+
+    this.service.formcotped = cotizacion;
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(CotizacionpedidoComponent, dialogConfig);
+
+
+    // let cotizacion2pedido: any = {
+    //   IdCliente: cotizacion.IdCliente,
+    //   RFC:cotizacion.RFC,
+    //   Subtotal: cotizacion.Subtotal,
+    //   Descuento: cotizacion.Descuento,
+    //   Total: cotizacion.Total,
+    //   Observaciones: cotizacion.Observaciones,
+    //   // FechaVencimiento: cotizacion
+    //   FechaDeEntrega: cotizacion.FechaDeExpedicion,
+    //   // LugarDeEntrega: 
+    //   IdDireccion: cotizacion.IdDireccion,
+    //   Nombre: cotizacion.Nombre,
+    //   Subtotaldlls: cotizacion.SubtotalDlls,
+    //   Descuentoddls: cotizacion.DescuentoDlls,
+    //   Totaldlls: cotizacion.TotalDlls,
+    //   Moneda: cotizacion.Moneda,
+    //   Flete: cotizacion.Flete,
+      
+    // }
+
+
+
+
+    // localStorage.setItem('cotizacionapedido', cotizacion2pedido);
+    // this.router.navigate(['/PedidosVentasAdd'])
+
   }
 
   

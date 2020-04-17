@@ -86,8 +86,6 @@ console.log(data);
 
   onEdit(ordencarga: OrdenCarga){
     this.service.formData = ordencarga;
-    //frormdatapdf se llena de ordencarga ya que el formdata cambia en ordencargaDetalle y no trae los detalles
-    this.service.formDatapdf = ordencarga; 
     this.service.formData.IdOrdenCarga = ordencarga.IdOrdenCarga;
     // localStorage.setItem('IdOrdenCarga', this.service.formData.IdOrdenCarga.toString())
     localStorage.setItem('IdOrdenCarga', this.service.formData.IdOrdenCarga.toString())
