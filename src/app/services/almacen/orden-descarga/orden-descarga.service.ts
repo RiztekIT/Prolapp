@@ -8,8 +8,12 @@ import { MasterDetalleOrdenDescarga } from 'src/app/Models/almacen/OrdenDescarga
 import { Tarima } from '../../../Models/almacen/Tarima/tarima-model';
 import { environment } from 'src/environments/environment';
 import { DetalleTarima } from '../../../Models/almacen/Tarima/detalleTarima-model';
+import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
+// import { environment } from 'src/environments/environment';
 
 
+//export const APIUrl = "http://riztekserver.ddns.net:44361/api";
+// export const APIUrl = environment.APIUrl;
 // export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 // export const APIUrl = "https://localhost:44361/api";
 export const APIUrl = environment.APIUrl;
@@ -32,6 +36,7 @@ formDataTarimaDT = new DetalleTarima();
   master = new Array<MasterOrdenDescarga>();
   formrow: any;
   formData: any;
+  formDTOD = new DetalleOrdenDescarga(); 
 
 
   getOrdenDescargaList(): Observable <OrdenDescarga[]> {
@@ -42,6 +47,20 @@ formDataTarimaDT = new DetalleTarima();
   getOrdenDescargaIDList(id: number): Observable <MasterDetalleOrdenDescarga[]>{
     return this.http.get<MasterDetalleOrdenDescarga[]>(APIUrl + '/OrdenDescarga/MasterID/'+ id);
   }
+
+  getDetalleOrdenDescarga(): Observable<any> {
+    return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetDetalleOrdenDescarga');
+  }
+
+  OnEditDetalleOrdenDescarga(dtod: DetalleOrdenDescarga){
+    return this.http.put(APIUrl + '/OrdenDescarga/UpdateDetalleOrdenDescarga', dtod)
+  }
+
+
+
+
+
+
 
   private _listeners = new Subject<any>(); 
         listen(): Observable<any> {

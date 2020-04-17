@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { OrdenDescargaService } from 'src/app/services/almacen/orden-descarga/orden-descarga.service';
 import { OrdenTemporalService } from 'src/app/services/almacen/orden-temporal/orden-temporal.service';
 import { Router } from '@angular/router';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog } from '@angular/material';
+import { OrdendescargatarimaComponent } from 'src/app/components/almacen/orden-descarga/ordendescargatarima/ordendescargatarima.component';
 
 
 
@@ -14,7 +15,7 @@ import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 export class OrdendescargadetalleComponent implements OnInit {
   //Id Orden Carga
   IdOrdenDescarga: number;
-  constructor(private service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public router: Router, ) {
+  constructor(private service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public router: Router,  private dialog: MatDialog) {
 
     this.ordenTemporalService.listenOrdenTemporal().subscribe((m: any) => {
       this.actualizarTablaOrdenTemporal();
@@ -59,7 +60,13 @@ export class OrdendescargadetalleComponent implements OnInit {
   }
 
   onAddTarima(){
-    this.ObtenerFolio();
+
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(OrdendescargatarimaComponent, dialogConfig);
   }
   
   ObtenerFolio() {
