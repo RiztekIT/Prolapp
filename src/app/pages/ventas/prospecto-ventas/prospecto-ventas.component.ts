@@ -6,6 +6,9 @@ import Swal from 'sweetalert2';
 import { Prospecto } from 'src/app/Models/ventas/prospecto-model';
 import { VentasCotizacionService } from '../../../services/ventas/ventas-cotizacion.service';
 import { FormBuilder } from '@angular/forms';
+import { AddClienteComponent } from '../../administracion/catalogos/clientes/add-cliente/add-cliente.component';
+import { ClientesService } from '../../../services/catalogos/clientes.service';
+
 
 
 @Component({
@@ -15,7 +18,7 @@ import { FormBuilder } from '@angular/forms';
 })
 export class ProspectoVentasComponent implements OnInit {
 
-  constructor(public router: Router, private dialog: MatDialog, public service: VentasCotizacionService, private _formBuilder: FormBuilder) {
+  constructor(public router: Router, private dialog: MatDialog, public service: VentasCotizacionService, public service2: ClientesService, private _formBuilder: FormBuilder) {
     this.service.listen().subscribe((m:any)=>{
       this.refreshProspectoList();
     });
@@ -43,7 +46,22 @@ export class ProspectoVentasComponent implements OnInit {
 
   onDelete(row){}
 
-  onEdit(prospecto: Prospecto){}
+  onEdit(prospecto: Prospecto){
+    console.log(prospecto);
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(AddClienteComponent, dialogConfig);
+    
+    this.service2.formData.Nombre = prospecto.Nombre;
+    this.service2.formData.Calle = prospecto.Direccion;
+    this.service2.formData.RazonSocial = prospecto.Empresa;
+    this.service2.prospEstatus = prospecto.Estatus;
+
+
+  }
 
   applyFilter(filtervalue: string) {
     this.listData.filterPredicate = (data, filter: string) => {
