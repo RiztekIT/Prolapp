@@ -25,6 +25,7 @@ export class TarimaService {
   idTarimaOrdenCarga: number;
   //Detalle tarima a traspasar de OrdenCarga
   detalleTarimaOrdenCarga: DetalleTarima;
+  QrOrigen: string;
 
   //Obtener detalles de Tarima por IdTarima
 getDetalleTarimaID(id: number): Observable <DetalleTarima[]>{
