@@ -44,8 +44,8 @@ formDataTarimaDT = new DetalleTarima();
   }
 
   //JOIN DETALLES, TARIMA, TARIMA DETALLES
-  getOrdenDescargaIDList(id: number): Observable <MasterDetalleOrdenDescarga[]>{
-    return this.http.get<MasterDetalleOrdenDescarga[]>(APIUrl + '/OrdenDescarga/MasterID/'+ id);
+  getOrdenDescargaIDList(id: number): Observable <DetalleOrdenDescarga[]>{
+    return this.http.get<DetalleOrdenDescarga[]>(APIUrl + '/OrdenDescarga/MasterID/'+ id);
   }
 
   getDetalleOrdenDescarga(): Observable<any> {
@@ -56,10 +56,9 @@ formDataTarimaDT = new DetalleTarima();
     return this.http.put(APIUrl + '/OrdenDescarga/UpdateDetalleOrdenDescarga', dtod)
   }
 
-
-
-
-
+  getDetalleOrdenDescargaIdLoteClave(id: number, lote: string, clave: string): Observable<DetalleOrdenDescarga[]> {
+    return this.http.get<DetalleOrdenDescarga[]>(APIUrl + '/OrdenDescarga/DetalleOrdenDescarga/' + id + '/' + lote + '/' + clave);
+  }
 
 
   private _listeners = new Subject<any>(); 
