@@ -22,6 +22,7 @@ import { ProductosService } from 'src/app/services/catalogos/productos.service';
 import { ClienteDireccionService } from 'src/app/services/cliente-direccion/cliente-direccion.service';
 import { ClienteDireccionComponent } from 'src/app/components/cliente-direccion/cliente-direccion.component';
 import { DetalleCotizacion } from '../../../../Models/ventas/detalleCotizacion-model';
+import { Prospecto } from 'src/app/Models/ventas/prospecto-model';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -518,6 +519,8 @@ this.changeDireccion(this.isDireccion);
     this.service.formDataCotizacion;
     this.service.formDataDP;
 
+    this.service.formprosp = new Prospecto();
+
     this.ActualizarDetallePedidoBool = false;
 
     // form.resetForm();
@@ -1002,14 +1005,21 @@ crearPedido() {
       // })
   
       this.service.formprosp.Nombre = this.service.formDataCotizacion.Nombre;
+      console.log(this.service.formDataCotizacion);
       this.service.formprosp.Telefono = this.service.formDataCotizacion.Telefono;
+      console.log(this.service.formprosp.Telefono);
       this.service.formprosp.Correo = this.service.formDataCotizacion.Correo;
+      this.service.formprosp.Estatus = 'Pendiente';
+      this.service.formprosp.IdCotizacion = this.service.formDataCotizacion.IdCotizacion;
   
-      // console.log(this.service.formprosp);
+      console.log(this.service.formprosp);
   
       this.service.addProspecto(this.service.formprosp).subscribe(res => {
-        
+        console.log(res);
         console.log('Se agrego Prospecto');
+
+        this.service.formprosp = new Prospecto();
+
       })
       
     }

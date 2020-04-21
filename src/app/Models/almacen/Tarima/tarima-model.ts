@@ -3,4 +3,5 @@ export class Tarima {
     Sacos: string;
     PesoTotal: string;
     QR: string;
+    Bodega: string;
 }

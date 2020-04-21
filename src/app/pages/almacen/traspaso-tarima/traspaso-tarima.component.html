@@ -23,7 +23,7 @@
                     <div class="col-lg-6">
 
                         <label class="input-group-text text-info">Tarima Origen (Codigo QR)</label>
-                        <input type="text" class="form-control" name="IdtarimaIdOrigen" #IdtarimaOrigen="ngModel" [(ngModel)]="tarimaIdOrigen" (blur)="onBlurIdOrigen()">
+                        <input required type="text" class="form-control" name="IdtarimaIdOrigen" #IdtarimaOrigen="ngModel" [(ngModel)]="tarimaQrOrigen" (blur)="onBlurIdOrigen()">
 
                         <label class="input-group-text text-info">Producto :</label> <br>
                         <mat-form-field>
@@ -57,13 +57,18 @@
                     <div class="col-lg-6">
                         <div *ngIf="nuevaTarima == false">
                             <label class="input-group-text text-info">Tarima Destino (Codigo QR)</label>
-                            <input required type="text" class="form-control" name="IdtarimaIdDestino" #IdtarimaDestino="ngModel" [(ngModel)]="tarimaIdDestino" (blur)="onBlurIdDestino(tarimaIdDestino)">
+                            <input required type="text" class="form-control" name="IdtarimaIdDestino" #IdtarimaDestino="ngModel" [(ngModel)]="tarimaQrDestino" (blur)="onBlurIdDestino(tarimaQrDestino)">
                         </div>
 
                     </div>
                 </div>
                 <br>
-                <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Traspasar</button>
+                <div *ngIf="this.tarimaDValida == true">
+                    <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Traspasar</button>
+                </div>
+                <div *ngIf="this.tarimaDValida == false && this.nuevaTarima == true">
+                    <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Traspasar</button>
+                </div>
                 <br>
             </div>
         </div>
