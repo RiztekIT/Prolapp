@@ -12,6 +12,8 @@ import { Vendedor } from '../../../../../Models/catalogos/vendedores.model';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Cliente } from 'src/app/Models/catalogos/clientes-model';
+import { VentasCotizacionService } from '../../../../../services/ventas/ventas-cotizacion.service';
 
 @Component({
   selector: 'app-add-cliente',
@@ -21,11 +23,15 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class AddClienteComponent implements OnInit {
 
   constructor(public dialogbox: MatDialogRef<AddClienteComponent>, public router: Router,
-    public service: ClientesService, private snackBar: MatSnackBar, public apicliente: EnviarfacturaService, private _formBuilder: FormBuilder) { }
+    public service: ClientesService, public service2: VentasCotizacionService, private snackBar: MatSnackBar, public apicliente: EnviarfacturaService, private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    console.log(this.service.formData.Nombre);
+    // console.log(this.service2.formprosp);
+    // this.service.formData = new Cliente();
     this.resetForm();
     this.dropdownRefresh();
+  
   }
 
   
@@ -117,7 +123,12 @@ export class AddClienteComponent implements OnInit {
   }
 
   resetForm(form?: NgForm) {
-    if (form != null)
+    if (this.service.formData.Nombre != null){
+      console.log(this.service.formData.Nombre);
+      
+    }
+    else{
+
       form.resetForm();
 
     this.service.formData = {
@@ -147,6 +158,7 @@ export class AddClienteComponent implements OnInit {
       IdVendedor: 7,
       Nombre: ''
     }
+    };
   }
 
   onClose() {
@@ -156,6 +168,8 @@ export class AddClienteComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     console.log(this.service.formData);
+
+    
 
    
     let email;

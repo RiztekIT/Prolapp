@@ -43,7 +43,23 @@
 
                         <ng-container matColumnDef="ClaveProducto">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
-                            <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}</td>
+                            <!-- style="background-color: red;" -->
+                            <td mat-cell *matCellDef="let element">
+                                <div *ngIf="element.productoValido == false; else elseBlock" style="background-color: red;">
+                                    {{element.ClaveProducto}}
+                                </div>
+                                <ng-template #elseBlock>
+                                    {{element.ClaveProducto}}
+
+                                </ng-template>
+                                <!-- <div *ngIf="element.IdOrdenCarga == 0" style="background-color: red;">
+                                    {{element.ClaveProducto}}
+                                </div>
+                                <div *ngIf="element.IdOrdenCarga > 0">
+                                    {{element.ClaveProducto}}
+                                </div> -->
+                            </td>
+
                         </ng-container>
 
                         <ng-container matColumnDef="Lote">
@@ -70,13 +86,28 @@
                                   </button> -->
                                 <!-- <mat-menu #menu="matMenu"> -->
                                 <!--  -->
-                                <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
+                                <div *ngIf="row.productoValido == false; else elseBlock">
+
+                                    <button mat-icon-button class="btn btn-success" color="black" (click)="traspasoOrdenCarga(row)">
+                                        <mat-icon>redo</mat-icon>
+                                    </button>
+                                </div>
+                                <ng-template #elseBlock>
+                                    <!-- {{element.ClaveProducto}} -->
+                                    <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                    <button mat-icon-button class="btn btn-success" color="dark" (click)="traspasoOrdenCarga(row)">
+                                        <mat-icon>redo</mat-icon>
+                                    </button>
+                                </ng-template>
+                                <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
                                                             <mat-icon>edit</mat-icon>
-                                                        </button>
+                                                        </button> -->
                                 <!--  -->
-                                <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteRowTablaV(i)">
+                                <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteRowTablaV(i)">
                                                                 <mat-icon>delete_outline</mat-icon>
-                                                            </button>
+                                                            </button> -->
                                 <!-- </mat-menu> -->
                             </td>
                         </ng-container>
@@ -85,9 +116,11 @@
                     </table>
                     <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
                     </mat-paginator>
-                    <div *ngIf="showButton == true">
-                        <button class="btn btn-danger" type="button" (click)="Cancelar()">Cancelar</button>
+                    <div *ngIf="showButtonAceptar == true">
                         <button class="btn btn-success" type="button" (click)="Aceptar()">Aceptar</button>
+                    </div>
+                    <div *ngIf="showButtonCancelar == true">
+                        <button class="btn btn-danger" type="button" (click)="Cancelar()">Cancelar</button>
                     </div>
                 </div>
 

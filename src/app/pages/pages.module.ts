@@ -206,6 +206,8 @@ import { CotizacionpedidoComponent } from '../components/cotizacionpedido/cotiza
 import { OrdendescargadetalleComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargadetalle.component';
 import { OrdendescargatarimaComponent } from '../components/almacen/orden-descarga/ordendescargatarima/ordendescargatarima.component';
 //import { ZXingScannerModule } from '@zxing/ngx-scanner';
+// import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendescargatarima/ordendescargatarima.component';
+import { ProspectoVentasComponent } from './ventas/prospecto-ventas/prospecto-ventas.component';
 // import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 
@@ -354,7 +356,8 @@ import { OrdendescargatarimaComponent } from '../components/almacen/orden-descar
         EnviarOrdenCargaComponent,
         CotizacionpedidoComponent,
         OrdendescargadetalleComponent,
-        OrdendescargatarimaComponent
+        OrdendescargatarimaComponent,
+        ProspectoVentasComponent
     
     ],
     exports: [

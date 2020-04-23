@@ -34,6 +34,12 @@
                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
 
+                            <ng-container matColumnDef="ClaveProducto" sticky>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>ClaveProducto</th>
+                                <td class="ClaveProducto" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                    {{element.ClaveProducto}}
+                                    <td>
+                            </ng-container>
                             <ng-container matColumnDef="Producto" sticky>
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
                                 <td class="Producto" mat-cell *matCellDef="let element" (click)="expandedElement = element">
