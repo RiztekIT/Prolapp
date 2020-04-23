@@ -60,13 +60,8 @@ export class OrdendescargadetalleComponent implements OnInit {
   }
 
   onAddTarima(){
-
-
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width="70%";
-    this.dialog.open(OrdendescargatarimaComponent, dialogConfig);
+    
+    this.router.navigate(['/ordenDescargaTarima']);
   }
   
   ObtenerFolio() {

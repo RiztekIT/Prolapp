@@ -58,7 +58,7 @@ dataODID = new Array<DetalleOrdenDescarga>();
 
     
     this.service.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga,this.dataODID[i].Lote, this.dataODID[i].ClaveProducto).subscribe(data =>{
-    console.log(data,'aaa');
+    console.log(data,'IDLOTECP');
     let DOD = new DetalleOrdenDescarga();
 
     DOD.IdDetalleOrdenDescarga = this.dataODID[i].IdDetalleOrdenDescarga;
@@ -110,7 +110,9 @@ if (saldoMaximo < sacosMaximos){}
 
   onBlursacos(form:NgForm){
     
-    console.log(this.sacosSaldo);
+    console.log(this.sacosSaldo,'ingresado');
+
+
   }
 
 regresar(){

@@ -24,6 +24,8 @@ export class OrdenTemporalService {
    preOrdenTemporalOD = new Array<DetalleOrdenDescarga>();
    //Posicion del arreglo a editar
    posicionOrdenTemporal: number;
+   //Posicion del arreglo a editar en OD
+   posicionOrdenTemporalOD: number;
    //Concepto a editar
    ordenTemporalData = new OrdenTemporal();
    //formdata que guarda los datos de orden temporal para deplegar en pdf
