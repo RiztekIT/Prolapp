@@ -34,11 +34,21 @@ export class PrepararComponent implements OnInit {
   constructor(public router: Router, public tarimaService: TarimaService, public ordenCargaService: OrdenCargaService,
     public ordenTemporalService: OrdenTemporalService, private dialog: MatDialog, ) {
 
+    //Actualiza la tabla visualizacion cuando se hace un traspaso
     this.ordenTemporalService.listen().subscribe((m: any) => {
-      this.actualizarTabla();
+      console.log(m);
+      this.simularQR(m);
+      this.tarimaService.trapasoOrdenCarga = false;
     });
 
+    //Actualiza Tabla Orden Temporal
     this.ordenTemporalService.listenOrdenTemporal().subscribe((m: any) => {
+      if (this.ordenTemporalService.traspasoOrdenTemporal == true) {
+        //Actualizar Saldo detalle Orden Carga//Actualizar sacos Orden Temporal 
+        this.actualizarOrdenTemporalTraspaso(this.ordenTemporalService.ordenTemporalt);
+        //Regresar variable a false
+        this.ordenTemporalService.traspasoOrdenTemporal = false;
+      }
       this.actualizarTablaOrdenTemporal();
     });
 
@@ -96,13 +106,13 @@ export class PrepararComponent implements OnInit {
 
   // Tabla pre visualizacion
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['ClaveProducto', 'Lote', 'Sacos', 'Comentarios', 'Options'];
+  displayedColumns: string[] = ['ClaveProducto', 'Lote', 'Sacos', 'sacosSobra', 'Comentarios', 'Options'];
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   // Tabla Orden Temporal
   listDataOrdenTemporal: MatTableDataSource<any>;
-  displayedColumnsOrdenTemporal: string[] = ['QR', 'ClaveProducto', 'Producto', 'Lote', 'Sacos', 'PesoTotal', 'FechaCaducidad', 'Comentarios', 'Options'];
+  displayedColumnsOrdenTemporal: string[] = ['Options1', 'QR', 'ClaveProducto', 'Producto', 'Lote', 'Sacos', 'PesoTotal', 'FechaCaducidad', 'Comentarios', 'Options'];
   @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
 
@@ -193,12 +203,13 @@ export class PrepararComponent implements OnInit {
 
 
   simularQR(qrleido: string) {
+    console.log(qrleido);
     this.QRdata = new Tarima();
     //Obtener Datos Escaneados del QR
     // this.QRdata.IdTarima = 0;
     // this.QRdata.Sacos = '150';
-    // this.QRdata.PesoTotal = '3000';
-    this.QRdata.QR = 'QR1';
+    // this.QRdata.PesoTotal = '3000'; 
+    this.QRdata.QR = 'QR3';
     console.log(this.QRdata);
 
     //igualar en 0s el arreglo que se encuentra en el servicio
@@ -271,10 +282,10 @@ export class PrepararComponent implements OnInit {
                         console.log(sacosMaximos);
                         if (SaldoMaximo < sacosMaximos) {
                           sacosIngreso = SaldoMaximo;
-                        } else {
-                          sacosIngreso = sacosMaximos
                           //Traspasar sacos sobrantes
                           sacosSobrantes = sacosMaximos - sacosIngreso;
+                        } else {
+                          sacosIngreso = sacosMaximos
                         }
                       } else {
                         //     //Alerta Tarima contiene producto/Lote que no concuerda con Orden Carga
@@ -451,6 +462,129 @@ export class PrepararComponent implements OnInit {
   }
   // ----- FIN TABLA ORDEN TEMPORAL -------
 
+
+
+  //Metodo para regresar conceptos de OrdenTemporal a tabla visualizacion
+  regresarConceptos(row: OrdenTemporal) {
+    console.log(row);
+    let undoQR = row.QR;
+    Swal.fire({
+      title: '¿Seguro de Borrar Ingreso(s)?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        //Obtener todos los productos que sean del mismo QR
+        this.ordenTemporalService.GetOrdenTemporalIdqr(this.IdOrdenCarga, undoQR).subscribe(dataOt => {
+          console.log(dataOt);
+          //Actualizar Saldos a su estado original
+          for (let l = 0; l <= dataOt.length - 1; l++) {
+            let SaldoActual;
+            let SaldoFinal;
+            let Sacos = +dataOt[l].Sacos;
+            this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, dataOt[l].Lote, dataOt[l].ClaveProducto).subscribe(dataDetalle => {
+              console.log(dataDetalle);
+              SaldoActual = +dataDetalle[0].Saldo;
+              console.log(SaldoActual);
+              console.log(Sacos);
+              SaldoFinal = SaldoActual + Sacos;
+              console.log(SaldoFinal);
+              this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataDetalle[0].IdDetalleOrdenCarga, SaldoFinal.toString()).subscribe(res => {
+                console.log(res);
+                this.ordenTemporalService.deleteOrdenTemporal(dataOt[l].IdOrdenTemporal).subscribe(res => {
+                  console.log(res);
+                  Swal.fire({
+                    title: 'Borrado',
+                    icon: 'success',
+                    timer: 1000,
+                    showCancelButton: false,
+                    showConfirmButton: false
+                  });
+                  console.log(l);
+                  console.log(dataOt.length);
+                  if (l == dataOt.length - 1) {
+                    this.actualizarTablaOrdenTemporal();
+                    this.simularQR(row.QR);
+                  }
+                })
+              })
+            })
+          }
+        })
+      }
+    })
+
+  }
+
+  //Metodo para actualizar Saldo de Detalle Orden Carga, y actualizar Orden Temporal (eliminar o actualizar sacos)
+  actualizarOrdenTemporalTraspaso(row: OrdenTemporal) {
+    console.log(row);
+
+    let sacosInicio = +row.Sacos;
+    let sacosActuales;
+    let sacosTraspasados;
+
+    //Obtener informacion de DetalleTarima acorde al concepto que fue traspasado
+    this.tarimaService.getDetalleTarimaIdClaveLote(row.IdTarima, row.ClaveProducto, row.Lote).subscribe(dataDetalleTarima => {
+      console.log(dataDetalleTarima);
+      //si se encuentra un resultado, el concepto no fue traspasado por completo.
+      if (dataDetalleTarima.length > 0) {
+        console.log(sacosInicio);;
+        sacosActuales = +dataDetalleTarima[0].Sacos;
+        console.log(sacosActuales)
+        sacosTraspasados = sacosInicio - sacosActuales;
+        console.log(sacosTraspasados);
+        //Actualizar Orden Temporal
+        row.Sacos = sacosActuales.toString();
+        row.PesoTotal = (+sacosActuales * 20).toString();
+        console.log(row);
+        this.ordenTemporalService.updateOrdenTemporal(row).subscribe(resUpdateOT => {
+          console.log(resUpdateOT);
+          this.actualizarTablaOrdenTemporal();
+        })
+        console.log(sacosTraspasados);
+      //Obtener Detalle orden de carga a actualizar
+      this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(row.IdOrdenCarga, row.Lote, row.ClaveProducto).subscribe(dataDetalle => {
+        console.log(dataDetalle);
+        let saldoFinal = +dataDetalle[0].Saldo;
+        saldoFinal = (saldoFinal + sacosTraspasados);
+        //Actualizar Saldo Detalle Orden Carga
+        this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataDetalle[0].IdDetalleOrdenCarga, saldoFinal.toString()).subscribe(resSaldo => {
+          console.log(resSaldo);
+        })
+      })
+      }//si no hay resultado, el concepto ya no existe en esa tarima
+      else {
+        sacosTraspasados = sacosInicio;
+        console.log(sacosTraspasados);
+        //Eliminar Orden Temporal
+        this.ordenTemporalService.deleteOrdenTemporal(row.IdOrdenTemporal).subscribe(resDelete => {
+          console.log(resDelete);
+          this.actualizarTablaOrdenTemporal();
+        })
+        console.log(sacosTraspasados);
+      //Obtener Detalle orden de carga a actualizar
+      this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(row.IdOrdenCarga, row.Lote, row.ClaveProducto).subscribe(dataDetalle => {
+        console.log(dataDetalle);
+        let saldoFinal = +dataDetalle[0].Saldo;
+        saldoFinal = (saldoFinal + sacosTraspasados);
+        //Actualizar Saldo Detalle Orden Carga
+        this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataDetalle[0].IdDetalleOrdenCarga, saldoFinal.toString()).subscribe(resSaldo => {
+          console.log(resSaldo);
+        })
+      })
+      }
+      
+
+    })
+
+
+  }
+
   //Resetear tabla y valores para escanear nuevo codigo QR
   resetQR() {
     this.ordenTemporalService.preOrdenTemporal = [];
@@ -538,21 +672,21 @@ export class PrepararComponent implements OnInit {
 
           console.log(ordenT);
           //Insert a Orden Temporal
-          // this.ordenTemporalService.addOrdenTemporal(this.ordenTemporalService.preOrdenTemporal[i]).subscribe(resAdd => {
-          //   console.log(resAdd);
-          //   //Obtener Detalle Orden de Carga, para ser actualizado posteriormente
-          //   this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, Lote, ClaveProducto).subscribe(dataOrdenCarga => {
-          //     console.log(dataOrdenCarga);
-          //     console.log(Sacos);
-          //     let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) - (+Sacos)).toString();
-          //     console.log(NuevoSaldo);
-          //     // Actualizar Saldo de la tabla Detalle Orden Carga
-          //     this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo).subscribe(res => {
-          //       console.log(res);
-          //       this.actualizarTablaOrdenTemporal();
-          //     });
-          //   });
-          // });
+          this.ordenTemporalService.addOrdenTemporal(ordenT).subscribe(resAdd => {
+            console.log(resAdd);
+            //   //Obtener Detalle Orden de Carga, para ser actualizado posteriormente
+            this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, Lote, ClaveProducto).subscribe(dataOrdenCarga => {
+              console.log(dataOrdenCarga);
+              console.log(Sacos);
+              let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) - (+Sacos)).toString();
+              console.log(NuevoSaldo);
+              // Actualizar Saldo de la tabla Detalle Orden Carga
+              this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo).subscribe(res => {
+                console.log(res);
+                this.actualizarTablaOrdenTemporal();
+              });
+            });
+          });
         }
         this.resetQR();
 
@@ -562,7 +696,7 @@ export class PrepararComponent implements OnInit {
         Swal.fire({
           title: 'Conceptos no Validos',
           icon: 'error',
-          text: 'Los Conceptos ingresados no coinciden con los de la Tarima. Favor de solo ingresar los conceptos y sacos acorde a la tarima.'
+          text: 'Los Conceptos ingresados no coinciden con los de la Tarima. Favor de revisar conceptos a ingresar.'
         });
       }
     })
@@ -573,14 +707,6 @@ export class PrepararComponent implements OnInit {
   //Cancelar operacion de insert Tabla Orden Temporal
   Cancelar() {
     this.resetQR();
-  }
-
-  //Actualizar valores de la tabla que sera insertada a Orden Temporal (Este metodo es disparado al actualizar el numero de sacos de x concepto)
-  actualizarTabla() {
-    this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
-    this.listData.sort = this.sort;
-    this.listData.paginator = this.paginator;
-    this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
   }
 
   //Editar producto a ingresar en Orden Temporal
@@ -599,16 +725,34 @@ export class PrepararComponent implements OnInit {
   traspasoOrdenCarga(row: DetalleTarima) {
     console.log(row);
     this.tarimaService.trapasoOrdenCarga = true;
+    this.ordenTemporalService.traspasoOrdenTemporal = false;
     this.tarimaService.idTarimaOrdenCarga = row.IdTarima;
     this.tarimaService.detalleTarimaOrdenCarga = row;
-    this.tarimaService.getTarimaID(row.IdTarima).subscribe( dataQr =>{
-this.tarimaService.QrOrigen = dataQr[0].QR;
-const dialogConfig = new MatDialogConfig();
-dialogConfig.disableClose = true;
-dialogConfig.autoFocus = true;
-dialogConfig.width = "70%";
-this.dialog.open(TraspasoTarimaComponent, dialogConfig);
-})
+    this.tarimaService.getTarimaID(row.IdTarima).subscribe(dataQr => {
+      this.tarimaService.QrOrigen = dataQr[0].QR;
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "70%";
+      this.dialog.open(TraspasoTarimaComponent, dialogConfig);
+    })
+  }
+
+  traspasoOrdenCargaTemporal(row: OrdenTemporal) {
+    console.log(row);
+    //Indicamos que el traspaso se esta haciendo desde la tabla Orden Temporal
+    this.ordenTemporalService.traspasoOrdenTemporal = true;
+    this.tarimaService.trapasoOrdenCarga = false;
+    this.ordenTemporalService.ordenTemporalt = new OrdenTemporal();
+    this.ordenTemporalService.ordenTemporalt = row;
+    this.tarimaService.idTarimaOrdenCarga = row.IdTarima;
+    this.tarimaService.QrOrigen = row.QR;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "70%";
+    this.dialog.open(TraspasoTarimaComponent, dialogConfig);
+    // this.traspasoOrdenCargaTemporal(row);
   }
 
   traspaso() {
