@@ -120,12 +120,14 @@ export class ShowClienteComponent implements OnInit {
   }
 
   onAdd(){
+    this.service.formData = new Cliente();
 
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
     this.dialog.open(AddClienteComponent, dialogConfig);
+
 
   }
 

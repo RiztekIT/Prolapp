@@ -1,0 +1,12 @@
+.btn-danger:hover {
+    color: white;
+}
+
+.btn-danger {
+    background: red;
+    color: white;
+}
+
+::ng-deep .mat-form-field {
+    width: 100% !important;
+}

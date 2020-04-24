@@ -8,6 +8,8 @@ import { Producto } from 'src/app/Models/catalogos/productos-model';
 import { DetalleTarima } from '../../../Models/almacen/Tarima/detalleTarima-model';
 import { Tarima } from '../../../Models/almacen/Tarima/tarima-model';
 import { TraspasoTarima } from '../../../Models/almacen/Tarima/traspasoTarima-model';
+import { OrdenTemporalService } from '../../../services/almacen/orden-temporal/orden-temporal.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-traspaso-tarima',
@@ -16,14 +18,21 @@ import { TraspasoTarima } from '../../../Models/almacen/Tarima/traspasoTarima-mo
 })
 export class TraspasoTarimaComponent implements OnInit {
 
-  constructor(public dialogbox: MatDialogRef<TraspasoTarimaComponent>, public tarimaService: TarimaService) { }
+  constructor(public dialogbox: MatDialogRef<TraspasoTarimaComponent>, public tarimaService: TarimaService, public ordenTemporalService: OrdenTemporalService) { }
 
   ngOnInit() {
     this.nuevaTarima = false;
     this.tarimaDValida = false;
     console.log(this.tarimaService.trapasoOrdenCarga);
+    console.log(this.ordenTemporalService.traspasoOrdenTemporal);
     if(this.tarimaService.trapasoOrdenCarga == true){
 this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.tarimaService.detalleTarimaOrdenCarga, this.tarimaService.QrOrigen);
+    }
+    if(this.ordenTemporalService.traspasoOrdenTemporal == true){
+      console.log(this.tarimaService.idTarimaOrdenCarga);
+      console.log(this.ordenTemporalService.ordenTemporalt);
+      console.log(this.tarimaService.QrOrigen);
+this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.ordenTemporalService.ordenTemporalt, this.tarimaService.QrOrigen);
     }
   }
 
@@ -60,7 +69,9 @@ this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.tarima
   //Dropdown Producto
 
   onClose() {
-    this.dialogbox.close();
+    // console.log(this.tarimaService.trapasoOrdenCarga);
+    
+this.dialogbox.close();
 
   }
 
@@ -110,6 +121,7 @@ this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.tarima
             this.tarimaService.addTraspasoTarima(this.tt).subscribe(resTrasTarima => {
               console.log(resTrasTarima);
               this.actualizarTarimaOrigen();
+              // this.onClose();
             })
           });
         });
@@ -130,11 +142,22 @@ this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.tarima
               console.log(resTrasTarima);
               this.actualizarTarimaOrigen();
               this.actualizarTarimaDestino();
+              // this.onClose();
             })
     }
 
+    Swal.fire({
+      title: 'Concepto Traspasado',
+      icon: 'success',
+      timer: 1000,
+      showCancelButton: false,
+      showConfirmButton: false
+    });
 
-    this.dialogbox.close();
+    this.onClose();
+
+
+    
   }
 
   actualizarTarimaOrigen() {
@@ -182,13 +205,28 @@ this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.tarima
             //Actualizar detalles Tarima Origen
             this.tarimaService.updateDetalleTarimaIdSacos(idTarima, idDetalleTarima, SacosFinaldt.toString()).subscribe(resdt => {
               console.log(resdt);
+              // this.onClose();
+              if(this.tarimaService.trapasoOrdenCarga == true){
+                this.ordenTemporalService.filter(this.tarimaQrOrigen);
+                }
+                if(this.ordenTemporalService.traspasoOrdenTemporal == true){
+                this.ordenTemporalService.filterOrdenTemporal('HOLA DESDE TRASPASO TARIMA');
+                }
             });
           } else {
             console.log(idDetalleTarima);
             this.tarimaService.deleteDetalleTarima(idDetalleTarima).subscribe(resDelete => {
               console.log(resDelete);
+              // this.onClose();
+              if(this.tarimaService.trapasoOrdenCarga == true){
+                this.ordenTemporalService.filter(this.tarimaQrOrigen);
+                }
+                if(this.ordenTemporalService.traspasoOrdenTemporal == true){
+                  this.ordenTemporalService.filterOrdenTemporal('HOLA DESDE TRASPASO TARIMA');
+                  }
             });
           }
+
         });
       });
     });
@@ -263,18 +301,56 @@ if(dataDetalleTarima.length > 0){
 
   }
 
-  traspasoTarimaOrdenCarga(idTarima: number, detalleTarimaOrigen: DetalleTarima, qr: string){
+  traspasoTarimaOrdenCarga(idTarima: number, detalleTarimaOrigen: any, qr: string){
     this.tarimaIdOrigen = idTarima;
     this.tarimaQrOrigen = qr;
     let ClaveP = detalleTarimaOrigen.ClaveProducto;
     this.DetalleTarimaSelect = ClaveP;
+
 this.dropdownRefreshDetalleTarima(qr);
 console.log(detalleTarimaOrigen);
-this.onSelectionChangeDetalleTarimaOrigen(detalleTarimaOrigen, true);
+//Obtener valores que seran enviados como parametro a detalle tarima origen
+this.tarimaService.getDetalleTarimaIdClaveLote(idTarima, ClaveP, detalleTarimaOrigen.Lote).subscribe( data =>{
+  let detalleTarima = new DetalleTarima();
+  detalleTarima = data[0];
+  console.log(detalleTarima);
+  this.onSelectionChangeDetalleTarimaOrigen(detalleTarima, true);
+})
   }
 
   onBlurIdOrigen() {
+
+    this.tarimaService.getTarimaQR(this.tarimaQrOrigen).subscribe( dataTarima =>{
+console.log(dataTarima);
+this.listDetalleTarima = [];
+console.log(this.listDetalleTarima);
+//Inicializar en 0 el dropdown de Detalles Tarima. 
+this.filteredOptionsDetalleTarima = new  Observable<any[]>();
+if(dataTarima.length > 0){
+  
+  if(dataTarima[0].Bodega == 'Transito'){
+    Swal.fire({
+      icon: 'error',
+      title: 'Tarima en Transito',
+      text: 'La tarima con el codigo ' + this.tarimaQrOrigen + ' se encuentra en Transito.' 
+    })
+  }else{
     this.dropdownRefreshDetalleTarima(this.tarimaQrOrigen);
+  }
+  }else{
+    Swal.fire({
+      icon: 'error',
+      title: 'Tarima no existente',
+      text: 'La tarima con el codigo ' + this.tarimaQrOrigen + ' no existe.' 
+    })
+    // this.dropdownRefreshDetalleTarima('');
+  
+  }
+})
+
+
+
+
   }
 
   changeNuevaTarima(checkbox: any) {
@@ -373,22 +449,31 @@ console.log('TEXTO');
 this.tarimaService.getTarimaQR(qrDestino).subscribe(dataqr =>{
   console.log(dataqr);
   if(dataqr.length > 0){
-console.log('si entro');
-    this.tarimaIdDestino = dataqr[0].IdTarima;
-    console.log(this.tarimaIdDestino);
-    this.tarimaService.getTarimaID(this.tarimaIdDestino).subscribe(data => {
-      console.log(data);
-      if (data.length > 0) {
+    console.log('si entro');
+    if(dataqr[0].Bodega == 'Transito'){
+      Swal.fire({
+        icon: 'error',
+        title: 'Tarima en Transito',
+        text: 'La tarima con el codigo ' + this.tarimaQrDestino + ' se encuentra en transito.' 
+      })
+    }else{      
+      this.tarimaIdDestino = dataqr[0].IdTarima;
+      console.log(this.tarimaIdDestino);
+      this.tarimaService.getTarimaID(this.tarimaIdDestino).subscribe(data => {
+        console.log(data);
         this.tarimaDestino = new Tarima();
         this.tarimaDestino = data[0];
         console.log(this.tarimaDestino);
         this.tarimaDValida = true;
-      }else{
-        console.log('No existe Tarima Destino');
-      }
-    });
-  }else{
+      });
+    }
+    }else{
     console.log('No existe Tarima Destino');
+    Swal.fire({
+      icon: 'error',
+      title: 'Tarima no existente',
+      text: 'La tarima con el codigo ' + this.tarimaQrDestino + ' no existe.' 
+    })
   }
 });
     }else{

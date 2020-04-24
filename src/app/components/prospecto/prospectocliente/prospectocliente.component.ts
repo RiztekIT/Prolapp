@@ -1,35 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { ClientesService } from '../../../../../services/catalogos/clientes.service';
 import { NgForm, FormControl } from '@angular/forms';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import Swal from 'sweetalert2';
 
 import { map, startWith } from 'rxjs/operators';
 
-import { Vendedor } from '../../../../../Models/catalogos/vendedores.model';
 
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Cliente } from 'src/app/Models/catalogos/clientes-model';
-import { VentasCotizacionService } from '../../../../../services/ventas/ventas-cotizacion.service';
+import { VentasCotizacionService } from '../../../services/ventas/ventas-cotizacion.service';
+import { Vendedor } from '../../../Models/catalogos/vendedores.model';
+import { ClientesService } from '../../../services/catalogos/clientes.service';
+
 
 @Component({
-  selector: 'app-add-cliente',
-  templateUrl: './add-cliente.component.html',
-  styleUrls: ['./add-cliente.component.css']
+  selector: 'app-prospectocliente',
+  templateUrl: './prospectocliente.component.html',
+  styleUrls: ['./prospectocliente.component.css']
 })
-export class AddClienteComponent implements OnInit {
+export class ProspectoclienteComponent implements OnInit {
 
-  constructor(public dialogbox: MatDialogRef<AddClienteComponent>, public router: Router,
+  constructor(public dialogbox: MatDialogRef<ProspectoclienteComponent>, public router: Router,
     public service: ClientesService, public service2: VentasCotizacionService, private snackBar: MatSnackBar, public apicliente: EnviarfacturaService, private _formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    console.log(this.service.formData.Nombre);
     // console.log(this.service2.formprosp);
     // this.service.formData = new Cliente();
-    this.resetForm();
-    this.dropdownRefresh();  
+    // this.resetForm();
+    this.dropdownRefresh();
+   
   }
 
   
@@ -120,49 +123,65 @@ export class AddClienteComponent implements OnInit {
     }
   }
 
-  resetForm(form?: NgForm) {
-    if (this.service.formData.Nombre != null){
+  // resetForm(form?: NgForm) {
 
-      form.resetForm();
+  //     form.resetForm();
 
-    this.service.formData = {
-      IdClientes: 0,
-      Nombre: '',
-      RFC: '',
-      RazonSocial: '',
-      Calle: '',
-      Colonia: '',
-      CP: '',
-      Ciudad: '',
-      Estado: '',
-      NumeroInterior: ''  ,
-      NumeroExterior: '',
-      ClaveCliente: '',
-      Estatus: '',
-      LimiteCredito: '',
-      DiasCredito: '',
-      MetodoPago: '',
-      UsoCFDI: '',
-      IdApi: '',
-      MetodoPagoCliente: '',
-      Vendedor: 7
-    }
+  //   this.service.formData = {
+  //     IdClientes: 0,
+  //     Nombre: '',
+  //     RFC: '',
+  //     RazonSocial: '',
+  //     Calle: '',
+  //     Colonia: '',
+  //     CP: '',
+  //     Ciudad: '',
+  //     Estado: '',
+  //     NumeroInterior: ''  ,
+  //     NumeroExterior: '',
+  //     ClaveCliente: '',
+  //     Estatus: '',
+  //     LimiteCredito: '',
+  //     DiasCredito: '',
+  //     MetodoPago: '',
+  //     UsoCFDI: '',
+  //     IdApi: '',
+  //     MetodoPagoCliente: '',
+  //     Vendedor: 7
+  //   }
 
-    this.service.formDataV = {
-      IdVendedor: 7,
-      Nombre: ''
-    }
-    };
-  }
+  //   this.service.formDataV = {
+  //     IdVendedor: 7,
+  //     Nombre: ''
+  //   }
+    
+  // }
 
   onClose() {
     this.dialogbox.close(this.service.formData);
     this.service.filter('Register click');
-    this.resetForm();
   }
 
   onSubmit(form: NgForm) {
 
+    let prospecto = JSON.parse(localStorage.getItem("prospecto"));
+
+    // console.log(prospecto);
+
+    this.service2.getProspecto(+prospecto).subscribe(data => {
+    
+    data[0].Estatus = "Cliente"
+    
+    console.log(data);
+
+
+    this.service2.editProspecto(data[0]).subscribe(datau => {
+      console.log(datau);
+      this.service2.filter('');
+    })
+  })
+
+   
     let email;
     let rfc;
     let razon;

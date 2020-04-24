@@ -35,10 +35,18 @@ export class OrdenTemporalService {
    formDataOCPDF: any;
    //formdata que guarda los detalles de orden de carga para desplegar en pdf
    formDataOCDTPDF: any;
+   //Variable para saber si el traspaso de hizo desde la tabla Orden Temporal en Orden Carga
+   traspasoOrdenTemporal: boolean;
+   //Objeto donde sera guardado el objeto a traspasar
+   ordenTemporalt: OrdenTemporal;
 
 //Insertar Orden Temporal
 addOrdenTemporal(oT: OrdenTemporal) {
   return this.http.post(APIUrl + '/OrdenTemporal', oT);
+}
+//update Orden Temporal
+updateOrdenTemporal(ot: OrdenTemporal){
+  return this.http.put(APIUrl + '/OrdenTemporal', ot);
 }
 //Obtener Orden Temporal por ID Orden Carga, LOTE y Clave Producto
 getDetalleOrdenCargaIdLoteClave(id: number, lote: string, clave: string): Observable <OrdenTemporal[]>{
@@ -56,6 +64,10 @@ GetOrdenTemporalIDOD(id: number): Observable <OrdenTemporal[]>{
 //Obtener Orden Temporal por ID Tarima
 GetOrdenTemporalIdTarima(id: number): Observable <OrdenTemporal[]>{
   return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIdTarima/'+ id);
+}
+//Obtener Orden Temporal por ID carga y qr
+GetOrdenTemporalIdqr(id: number, qr: string): Observable <OrdenTemporal[]>{
+  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIdqr/'+ id + '/' + qr);
 }
 
 deleteOrdenTemporal(id:number){
