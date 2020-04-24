@@ -7,6 +7,7 @@ import { OrdenTemporal } from '../../../Models/almacen/OrdenTemporal/ordenTempor
 import { environment } from 'src/environments/environment';
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { preOrdenTemporal } from '../../../Models/almacen/OrdenTemporal/preOrdenTemporal-model';
+import { preOrdenTemporalOD } from '../../../Models/almacen/OrdenTemporal/preOrdenTemporalOD-model';
 
 export const APIUrl = environment.APIUrl;
 //export const APIUrl = "http://riztekserver.ddns.net:44361/api";
@@ -21,7 +22,7 @@ export class OrdenTemporalService {
    //Tabla previsualizacion
    preOrdenTemporal = new Array<preOrdenTemporal>();
    //Tabla previsualizacion OD
-   preOrdenTemporalOD = new Array<DetalleOrdenDescarga>();
+   preOrdenTemporalOD = new Array<preOrdenTemporalOD>();
    //Posicion del arreglo a editar
    posicionOrdenTemporal: number;
    //Posicion del arreglo a editar en OD

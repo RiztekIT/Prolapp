@@ -16,11 +16,11 @@
 <div class="card">
     <div class="card-body">
         <div fxLayoutAlign="row">
-            <mat-card style="text-align: right;" class="mat-elevation-z0">
+            <!-- <mat-card style="text-align: right;" class="mat-elevation-z0">
                 <mat-form-field>
                     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
                 </mat-form-field>
-            </mat-card>
+            </mat-card> -->
 
             <!-- tabla que se llena apartir de detalleOD -->
             <h3>TABLA VISUALIZACION</h3>
@@ -73,25 +73,13 @@
 
                             <ng-container matColumnDef="Options" stickyEnd>
                                 <th mat-header-cell *matHeaderCellDef>Opciones</th>
-                                <td mat-cell *matCellDef="let row">
+                                <td mat-cell *matCellDef="let row; let i = dataIndex">
 
 
-                                    <button title="Editar" mat-icon-button class="btn btn-dark" (click)="IngresoSacos(row)">
-                    <mat-icon>edit</mat-icon>
-                  </button>
-                                    <!--  -->
-                                    <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
-                                                <mat-icon>visibility</mat-icon>
-                                            </button> -->
-                                    <!--  -->
-                                    <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
-                                    <button title="Enviar Correo" mat-icon-button class="btn btn-dark" (click)="email()">
-                                                <mat-icon>alternate_email</mat-icon>
-                                              </button> -->
-                                    <!--  -->
-                                    <!-- <button title="Eliminar" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
-                                                    <mat-icon>delete_outline</mat-icon>
-                                                </button> -->
+                                    <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+
 
                                 </td>
                             </ng-container>
@@ -105,7 +93,7 @@
                     <div class="form-material">
                         <div class="col-6">
                             <label class="input-group-text text-info">Sacos:</label>
-                            <input type="text" class="form-control" name="Sacos" #Sacos="ngModel" [(ngModel)]="this.sacosSaldo">
+                            <input type="text" class="form-control" name="Sacos" #Sacos="ngModel" [(ngModel)]="this.sacosSaldo" (focus)="onFocusInputSaldo()">
                             <button class="btn btn-success" style="margin-top: 5px;" (click)="addSacos()">Agregar Sacos</button>
                         </div>
                     </div>
@@ -113,10 +101,65 @@
                         <button class="btn btn-danger">
                             <mat-icon>close</mat-icon>
                         </button>
-                        <button class="btn btn-info">
+                        <button class="btn btn-info" (click)="onAddTarimaOT()">
                             <mat-icon>done_all</mat-icon>
                         </button>
 
+                    </div>
+                </div>
+            </div>
+
+            <h3>Sacos Ingresados</h3>
+            <div class="container row">
+                <div class="col-8">
+                    <div style="overflow:auto;">
+
+                        <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsSacosIngresados"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsSacosIngresados;"></tr>
+
+
+                            <ng-container matColumnDef="ClaveProducto">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>ClaveProducto</th>
+                                <td class="ClaveProducto" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                    {{element.ClaveProducto}}
+                                    <td>
+                            </ng-container>
+                            <ng-container matColumnDef="Producto">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                                <td class="Producto" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                    {{element.Producto}}
+                                    <td>
+                            </ng-container>
+                            <ng-container matColumnDef="Sacos">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
+                                <td class="Sacos" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                    {{element.Sacos}}
+                                    <td>
+                            </ng-container>
+                            <ng-container matColumnDef="SacosIngresados">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>SacosIngresados</th>
+                                <td class="SacosIngresados" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                    {{element.SacosIngresados}}
+                                    <td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Lote">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                                <td class="Lote" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Lote}}
+                                    <td>
+                            </ng-container>
+
+                        </table>
+                        <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                        </mat-paginator>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-material">
+                        <div class="col-6">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -183,9 +226,9 @@
                                                             <mat-icon>edit</mat-icon>
                                                         </button> -->
                             <!--  -->
-                            <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteOrdenTemporal(row)">
+                            <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteOrdenTemporal(row)">
                                                                 <mat-icon>delete_outline</mat-icon>
-                                                            </button>
+                                                            </button> -->
                             <!-- </mat-menu> -->
                         </td>
                     </ng-container>
@@ -200,4 +243,4 @@
         </div>
     </div>
 </div>
-<button (click)="crearTarima()"></button>
+<!-- <button (click)="crearTarima()"></button> -->
