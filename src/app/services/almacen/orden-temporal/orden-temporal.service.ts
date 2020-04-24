@@ -5,6 +5,7 @@ import {Observable } from 'rxjs';
 import {Subject} from 'rxjs';
 import { OrdenTemporal } from '../../../Models/almacen/OrdenTemporal/ordenTemporal-model';
 import { environment } from 'src/environments/environment';
+import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { preOrdenTemporal } from '../../../Models/almacen/OrdenTemporal/preOrdenTemporal-model';
 
 export const APIUrl = environment.APIUrl;
@@ -19,8 +20,12 @@ export class OrdenTemporalService {
 
    //Tabla previsualizacion
    preOrdenTemporal = new Array<preOrdenTemporal>();
+   //Tabla previsualizacion OD
+   preOrdenTemporalOD = new Array<DetalleOrdenDescarga>();
    //Posicion del arreglo a editar
    posicionOrdenTemporal: number;
+   //Posicion del arreglo a editar en OD
+   posicionOrdenTemporalOD: number;
    //Concepto a editar
    ordenTemporalData = new OrdenTemporal();
    //formdata que guarda los datos de orden temporal para deplegar en pdf

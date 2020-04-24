@@ -309,7 +309,8 @@ export class ComppagoComponent implements OnInit {
     }]
   });
   this.json1.UsoCFDI = "P01";
-  this.json1.Serie = "6390";
+  //this.json1.Serie = "6390";
+  this.json1.Serie = "358668";
   this.json1.Moneda = 'XXX';
   console.log(this.json1);
 

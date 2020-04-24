@@ -8,6 +8,8 @@ import { VentasCotizacionService } from '../../../services/ventas/ventas-cotizac
 import { FormBuilder } from '@angular/forms';
 import { AddClienteComponent } from '../../administracion/catalogos/clientes/add-cliente/add-cliente.component';
 import { ClientesService } from '../../../services/catalogos/clientes.service';
+import { ProspectoclienteComponent } from 'src/app/components/prospecto/prospectocliente/prospectocliente.component';
+import { Cliente } from 'src/app/Models/catalogos/clientes-model';
 
 
 
@@ -49,17 +51,21 @@ export class ProspectoVentasComponent implements OnInit {
   onEdit(prospecto: Prospecto){
     console.log(prospecto);
 
+
+    this.service2.formData = new Cliente();
+
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
-    this.dialog.open(AddClienteComponent, dialogConfig);
+    this.dialog.open(ProspectoclienteComponent, dialogConfig);
     
     this.service2.formData.Nombre = prospecto.Nombre;
     this.service2.formData.Calle = prospecto.Direccion;
     this.service2.formData.RazonSocial = prospecto.Empresa;
     this.service2.prospEstatus = prospecto.Estatus;
 
+    localStorage.setItem("prospecto" , JSON.stringify(prospecto.IdProspecto));
 
   }
 

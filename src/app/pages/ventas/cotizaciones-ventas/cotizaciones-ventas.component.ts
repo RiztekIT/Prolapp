@@ -15,6 +15,8 @@ import { Cotizacion } from '../../../Models/ventas/cotizacion-model';
 import { cotizacionMaster } from '../../../Models/ventas/cotizacion-master';
 import Swal from 'sweetalert2';
 import { CotizacionpedidoComponent } from 'src/app/components/cotizacionpedido/cotizacionpedido.component';
+import { CotizacionEmailComponent } from 'src/app/components/cotizacion/cotizacion-email/cotizacion-email.component';
+import { ngxLoadingAnimationTypes } from 'ngx-loading';
 
 @Component({
   selector: 'app-cotizaciones-ventas',
@@ -30,6 +32,15 @@ import { CotizacionpedidoComponent } from 'src/app/components/cotizacionpedido/c
   ],
 })
 export class CotizacionesVentasComponent implements OnInit {
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
+  loadtable = true;
+  folioparam;
+  idparam;
+  statusparam;
+  emailmodalstatus = false;
+  folio: number;
+  fileUrl;
+  public loading2 = false;
 
   constructor( public router: Router, private dialog: MatDialog, public _MessageService: MessageService, private service: VentasCotizacionService, private service2: VentasPedidoService) {
 
@@ -115,30 +126,33 @@ export class CotizacionesVentasComponent implements OnInit {
   }
 
   
-email(){
-  console.log();
-    // console.log();
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width="70%";
-    this.dialog.open(EmailComponent, dialogConfig);
+email(id: string, folio:string,row){
+console.log(row);
+localStorage.setItem('rowcot',JSON.stringify(row));
 
-  console.log('asdasd');
-  document.getElementById('enviaremail').click();
-  
-    // this.folioparam = folio;
-    // this.idparam = id;
-    this._MessageService.correo='ivan.talamantes@live.com';
-    this._MessageService.cco='ivan.talamantes@riztek.com.mx';
-    this._MessageService.asunto='Envio Factura ';
-    this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio ';
-    this._MessageService.nombre='ProlactoIngredientes';
+console.log('asdasd');
+
+this.folioparam = folio;
+this.idparam = id;
+this._MessageService.correo='ivan.talamantes@live.com';
+this._MessageService.cco='ivan.talamantes@riztek.com.mx';
+this._MessageService.asunto='Envio Factura ';
+this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio ';
+this._MessageService.nombre='ProlactoIngredientes';
+
+
+
+  const dialogConfig2 = new MatDialogConfig();
+  dialogConfig2.disableClose = false;
+  dialogConfig2.autoFocus = true;
+  dialogConfig2.width="70%"; 
+  this.dialog.open(CotizacionComponent, dialogConfig2);
+
         setTimeout(()=>{
           const content: Element = document.getElementById('Cotizacion-PDF');
           const option = {
             margin: [0, 0, 0, 0],
-            filename: 'F-'  + '.pdf',
+            filename: 'C-'  + '.pdf',
             image: { type: 'jpeg', quality: 1 },
             html2canvas: { scale: 2, logging: true, scrollY: 0 },
             jsPDF: { format: 'letter', orientation: 'portrait' },
@@ -149,6 +163,18 @@ email(){
             console.log(this.statusparam);
           })
         },1000)
+
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      // dialogConfig.width = "90%";
+      dialogConfig.height = "90%";
+      dialogConfig.data = {
+        foliop: folio,
+        idp: id,
+        status: true
+      }
+      this.dialog.open(CotizacionEmailComponent, dialogConfig);
   }
 
   

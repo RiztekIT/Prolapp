@@ -46,6 +46,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     // CotizacionpedidoComponent,
     ScannerComponent,
     
+    
   
  
     

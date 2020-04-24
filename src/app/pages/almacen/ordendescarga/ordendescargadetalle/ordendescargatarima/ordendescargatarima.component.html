@@ -1,0 +1,203 @@
+<div class="card">
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-11">
+                    <h2 style="text-align: center;">Detalles Tarima</h2>
+                </div>
+                <div class="col-1">
+                    <button class="btn btn-primary" type="button" (click)="regresar()">Regresar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div fxLayoutAlign="row">
+            <mat-card style="text-align: right;" class="mat-elevation-z0">
+                <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                </mat-form-field>
+            </mat-card>
+
+            <!-- tabla que se llena apartir de detalleOD -->
+            <h3>TABLA VISUALIZACION</h3>
+            <div class="container row">
+                <div class="col-8">
+                    <div style="overflow:auto;">
+
+                        <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
+                            <ng-container matColumnDef="ClaveProducto">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>ClaveProducto</th>
+                                <td class="ClaveProducto" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                    {{element.ClaveProducto}}
+                                    <td>
+                            </ng-container>
+                            <ng-container matColumnDef="Producto">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                                <td class="Producto" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                    {{element.Producto}}
+                                    <td>
+                            </ng-container>
+                            <ng-container matColumnDef="Sacos">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
+                                <td class="Sacos" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                    {{element.Sacos}}
+                                    <td>
+                            </ng-container>
+                            <ng-container matColumnDef="SacosIngresados">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>SacosIngresados</th>
+                                <td class="SacosIngresados" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                    {{element.SacosIngresados}}
+                                    <td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Saldo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo</th>
+                                <td class="Saldo" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                    {{element.Saldo}}
+                                    <td>
+                            </ng-container>
+                            <ng-container matColumnDef="Lote">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                                <td class="Lote" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Lote}}
+                                    <td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Options" stickyEnd>
+                                <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                                <td mat-cell *matCellDef="let row">
+
+
+                                    <button title="Editar" mat-icon-button class="btn btn-dark" (click)="IngresoSacos(row)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                                    <!--  -->
+                                    <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
+                                                <mat-icon>visibility</mat-icon>
+                                            </button> -->
+                                    <!--  -->
+                                    <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
+                                    <button title="Enviar Correo" mat-icon-button class="btn btn-dark" (click)="email()">
+                                                <mat-icon>alternate_email</mat-icon>
+                                              </button> -->
+                                    <!--  -->
+                                    <!-- <button title="Eliminar" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
+                                                    <mat-icon>delete_outline</mat-icon>
+                                                </button> -->
+
+                                </td>
+                            </ng-container>
+
+                        </table>
+                        <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                        </mat-paginator>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-material">
+                        <div class="col-6">
+                            <label class="input-group-text text-info">Sacos:</label>
+                            <input type="text" class="form-control" name="Sacos" #Sacos="ngModel" [(ngModel)]="this.sacosSaldo">
+                            <button class="btn btn-success" style="margin-top: 5px;" (click)="addSacos()">Agregar Sacos</button>
+                        </div>
+                    </div>
+                    <div class="container row">
+                        <button class="btn btn-danger">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <button class="btn btn-info">
+                            <mat-icon>done_all</mat-icon>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- tabla de orden temporal -->
+            <h3>TABLA ORDEN TEMPORAL</h3>
+
+            <div style="overflow:auto;">
+                <table mat-table [dataSource]="listDataOrdenTemporal" matSort>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsOrdenTemporal"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsOrdenTemporal;"></tr>
+
+                    <ng-container matColumnDef="QR">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo QR</th>
+                        <td mat-cell *matCellDef="let elementOT">{{elementOT.QR}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ClaveProducto">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
+                        <td mat-cell *matCellDef="let elementOT">{{elementOT.ClaveProducto}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Producto">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                        <td mat-cell *matCellDef="let elementOT">{{elementOT.Producto}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Lote">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                        <td mat-cell *matCellDef="let elementOT">{{elementOT.Lote}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Sacos">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
+                        <td mat-cell *matCellDef="let elementOT">{{elementOT.Sacos}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="PesoTotal">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Peso Total</th>
+                        <td mat-cell *matCellDef="let elementOT">{{elementOT.PesoTotal}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="FechaCaducidad">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Caducidad</th>
+                        <td mat-cell *matCellDef="let elementOT">{{elementOT.FechaCaducidad}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Comentarios">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Comentarios</th>
+                        <td mat-cell *matCellDef="let elementOT">{{elementOT.Comentarios}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Options">
+                        <th mat-header-cell *matHeaderCellDef>Options</th>
+                        <td mat-cell *matCellDef="let row; let i = index">
+
+                            <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                    <mat-icon>keyboard_arrow_down</mat-icon>
+                                  </button> -->
+                            <!-- <mat-menu #menu="matMenu"> -->
+                            <!--  -->
+                            <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
+                                                            <mat-icon>edit</mat-icon>
+                                                        </button> -->
+                            <!--  -->
+                            <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteOrdenTemporal(row)">
+                                                                <mat-icon>delete_outline</mat-icon>
+                                                            </button>
+                            <!-- </mat-menu> -->
+                        </td>
+                    </ng-container>
+
+
+                </table>
+                <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                </mat-paginator>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<button (click)="crearTarima()"></button>
