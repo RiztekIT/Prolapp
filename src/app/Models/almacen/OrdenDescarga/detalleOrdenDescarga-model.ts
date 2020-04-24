@@ -15,4 +15,6 @@ Shipper: string;
 USDA: string;
 Pedimento: string;
 Saldo: string;
+//se agrega a la tabla de DOD pero es un dato temporal que no se agrega a la DB
+SacosIngresados: string;
 }

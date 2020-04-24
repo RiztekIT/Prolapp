@@ -45,7 +45,7 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
                             <!-- style="background-color: red;" -->
                             <td mat-cell *matCellDef="let element">
-                                <div *ngIf="element.IdOrdenCarga == 0; else elseBlock" style="background-color: red;">
+                                <div *ngIf="element.productoValido == false; else elseBlock" style="background-color: red;">
                                     {{element.ClaveProducto}}
                                 </div>
                                 <ng-template #elseBlock>
@@ -86,7 +86,7 @@
                                   </button> -->
                                 <!-- <mat-menu #menu="matMenu"> -->
                                 <!--  -->
-                                <div *ngIf="row.IdOrdenCarga == 0; else elseBlock">
+                                <div *ngIf="row.productoValido == false; else elseBlock">
 
                                     <button mat-icon-button class="btn btn-success" color="black" (click)="traspasoOrdenCarga(row)">
                                         <mat-icon>redo</mat-icon>

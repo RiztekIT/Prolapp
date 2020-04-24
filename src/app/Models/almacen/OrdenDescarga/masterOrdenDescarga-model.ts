@@ -5,5 +5,5 @@ import { MasterDetalleOrdenDescarga } from './masterDetalleOrdenDescarga-model';
 export class MasterOrdenDescarga{
     
     OrdenDescarga?: OrdenDescarga[];
-    detalleOrdenDescarga?: MasterDetalleOrdenDescarga[];
+    detalleOrdenDescarga?: DetalleOrdenDescarga[];
 }

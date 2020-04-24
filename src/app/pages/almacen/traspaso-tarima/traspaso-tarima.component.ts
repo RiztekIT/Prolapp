@@ -20,19 +20,26 @@ export class TraspasoTarimaComponent implements OnInit {
 
   ngOnInit() {
     this.nuevaTarima = false;
+    this.tarimaDValida = false;
     console.log(this.tarimaService.trapasoOrdenCarga);
     if(this.tarimaService.trapasoOrdenCarga == true){
-this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.tarimaService.detalleTarimaOrdenCarga);
+this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.tarimaService.detalleTarimaOrdenCarga, this.tarimaService.QrOrigen);
     }
   }
 
   tarimaIdOrigen: number;
   tarimaIdDestino: number;
 
+  tarimaQrOrigen: string;
+  tarimaQrDestino: string;
+
   sacosTraspaso: number;
   cantidadMaximaSacos: number;
   nuevaTarima: boolean;
   idDetalleTarimaOrigen: number;
+
+  //variable para indicar que la tarima Destino esta correcta
+  tarimaDValida: boolean;
 
   //Dropdown Producto
 
@@ -68,7 +75,13 @@ this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.tarima
       tarimaInsert.IdTarima = 0;
       tarimaInsert.Sacos = sacosTraspaso.toString();
       tarimaInsert.PesoTotal = (sacosTraspaso * 20).toString();
-      tarimaInsert.QR = 'QR2';
+
+      //Generar CODIGO QR
+      tarimaInsert.QR = 'QR6';
+
+
+
+
       console.log(tarimaInsert);
       console.log(this.detalleTarimaSelected);
       this.tarimaService.addTarima(tarimaInsert).subscribe(rest => {
@@ -250,17 +263,18 @@ if(dataDetalleTarima.length > 0){
 
   }
 
-  traspasoTarimaOrdenCarga(idTarima: number, detalleTarimaOrigen: DetalleTarima){
-    this.tarimaIdOrigen = idTarima
+  traspasoTarimaOrdenCarga(idTarima: number, detalleTarimaOrigen: DetalleTarima, qr: string){
+    this.tarimaIdOrigen = idTarima;
+    this.tarimaQrOrigen = qr;
     let ClaveP = detalleTarimaOrigen.ClaveProducto;
     this.DetalleTarimaSelect = ClaveP;
-this.dropdownRefreshDetalleTarima(idTarima);
+this.dropdownRefreshDetalleTarima(qr);
 console.log(detalleTarimaOrigen);
 this.onSelectionChangeDetalleTarimaOrigen(detalleTarimaOrigen, true);
   }
 
   onBlurIdOrigen() {
-    this.dropdownRefreshDetalleTarima(this.tarimaIdOrigen);
+    this.dropdownRefreshDetalleTarima(this.tarimaQrOrigen);
   }
 
   changeNuevaTarima(checkbox: any) {
@@ -275,19 +289,23 @@ this.onSelectionChangeDetalleTarimaOrigen(detalleTarimaOrigen, true);
 
   }
 
-  dropdownRefreshDetalleTarima(id: number) {
+  dropdownRefreshDetalleTarima(qr: string) {
     this.listDetalleTarima = [];
-    this.tarimaService.getDetalleTarimaID(id).subscribe(dataP => {
-      for (let i = 0; i < dataP.length; i++) {
-        let product = dataP[i];
-        this.listDetalleTarima.push(product)
-        this.filteredOptionsDetalleTarima = this.myControlDetalleTarima.valueChanges
+    this.tarimaService.getTarimaQR(qr).subscribe( dataQR =>{
+let tarimaId = dataQR[0].IdTarima;
+this.tarimaIdOrigen = tarimaId;
+      this.tarimaService.getDetalleTarimaID(tarimaId).subscribe(dataP => {
+        for (let i = 0; i < dataP.length; i++) {
+          let product = dataP[i];
+          this.listDetalleTarima.push(product)
+          this.filteredOptionsDetalleTarima = this.myControlDetalleTarima.valueChanges
           .pipe(
             startWith(''),
             map(value => this._filterDetalleTarima(value))
-          );
-      }
-    });
+            );
+          }
+        });
+      });
 
   }
 
@@ -346,16 +364,37 @@ this.onSelectionChangeDetalleTarimaOrigen(detalleTarimaOrigen, true);
     // console.log(this.sacosTraspaso);
   }
 
-  onBlurIdDestino(tarimaId: number) {
-    console.log(tarimaId);
-    this.tarimaService.getTarimaID(+tarimaId).subscribe(data => {
+  onBlurIdDestino(qrDestino: string) {
+    this.tarimaDValida = false;
+    console.log(qrDestino);
+    this.tarimaIdDestino = 0;
+    if(qrDestino != ''){
+console.log('TEXTO');
+this.tarimaService.getTarimaQR(qrDestino).subscribe(dataqr =>{
+  console.log(dataqr);
+  if(dataqr.length > 0){
+console.log('si entro');
+    this.tarimaIdDestino = dataqr[0].IdTarima;
+    console.log(this.tarimaIdDestino);
+    this.tarimaService.getTarimaID(this.tarimaIdDestino).subscribe(data => {
       console.log(data);
       if (data.length > 0) {
         this.tarimaDestino = new Tarima();
         this.tarimaDestino = data[0];
         console.log(this.tarimaDestino);
+        this.tarimaDValida = true;
+      }else{
+        console.log('No existe Tarima Destino');
       }
     });
+  }else{
+    console.log('No existe Tarima Destino');
+  }
+});
+    }else{
+console.log('VACIO');
+    }
+ 
 
   }
 
