@@ -220,9 +220,9 @@ export class PrepararComponent implements OnInit {
 
     //Verificar que exista Codigo QR previamente escaneado y en dado caso, traerse id de tarima
     this.tarimaService.getTarimaQR(this.QRdata.QR).subscribe(data => {
-      let idTarima = data[0].IdTarima;
       console.log(data);
       if (data.length > 0) {
+        let idTarima = data[0].IdTarima;
 
         //Verificar que la tarima se encuentre en la bodega donde sera cargado.
         if (data[0].Bodega == this.bodegaOrigen) {

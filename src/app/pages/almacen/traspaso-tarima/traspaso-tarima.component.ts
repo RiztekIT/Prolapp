@@ -146,6 +146,14 @@ this.dialogbox.close();
             })
     }
 
+    Swal.fire({
+      title: 'Concepto Traspasado',
+      icon: 'success',
+      timer: 1000,
+      showCancelButton: false,
+      showConfirmButton: false
+    });
+
     this.onClose();
 
 

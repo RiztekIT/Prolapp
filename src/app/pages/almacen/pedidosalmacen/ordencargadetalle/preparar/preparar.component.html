@@ -7,14 +7,15 @@
                 <hr>
                 <div class="row">
                     <div class="col-5">
-                        <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}}
+                        <!-- <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}} -->
+                        <button class="btn btn-primary" type="button" (click)="escanear()">ABRIR ESCANER</button>
                     </div>
                     <div class="col-2">
 
                         <!-- <zxing-scanner (camerasFound)="camaras($event)" [enable]="enableScan" (scanSuccess)='escaner($event)'></zxing-scanner> -->
                     </div>
                     <div class="col-5">
-                        <button class="btn btn-primary" type="button" (click)="escanear()">ABRIR ESCANER</button>
+                        QR Leido: {{qrleido}}
                         <!-- <button class="btn btn-primary" type="button" (click)="cerrarescaner()">Cerrar ESCANER</button> -->
 
                     </div>
