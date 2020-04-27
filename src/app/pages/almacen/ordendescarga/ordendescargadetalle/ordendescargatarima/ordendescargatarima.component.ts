@@ -9,6 +9,10 @@ import { DetalleOrdenDescarga } from '../../../../../Models/almacen/OrdenDescarg
 import { OrdenTemporal } from 'src/app/Models/almacen/OrdenTemporal/ordenTemporal-model';
 import { Router } from '@angular/router';
 import { preOrdenTemporalOD } from '../../../../../Models/almacen/OrdenTemporal/preOrdenTemporalOD-model';
+import { nanoid } from 'nanoid'
+
+
+ 
 
 @Component({
   selector: 'app-ordendescargatarima',
@@ -16,6 +20,8 @@ import { preOrdenTemporalOD } from '../../../../../Models/almacen/OrdenTemporal/
   styleUrls: ['./ordendescargatarima.component.css']
 })
 export class OrdendescargatarimaComponent implements OnInit {
+
+
 
 rowDTOD:any;
 sacosSaldo:any;
@@ -212,7 +218,7 @@ console.log(this.rowDTOD.Saldo,'Saldo al momento');
         ordenTemp.IdTarima = this.ordenTemporalService.preOrdenTemporalOD[i].IdTarima;
         ordenTemp.IdOrdenCarga = this.ordenTemporalService.preOrdenTemporalOD[i].IdOrdenCarga;
         ordenTemp.IdOrdenDescarga = this.ordenTemporalService.preOrdenTemporalOD[i].IdOrdenDescarga;
-        ordenTemp.QR = this.ordenTemporalService.preOrdenTemporalOD[i].QR;
+        ordenTemp.QR = nanoid(7);
         ordenTemp.ClaveProducto = this.ordenTemporalService.preOrdenTemporalOD[i].ClaveProducto;
         ordenTemp.Lote = this.ordenTemporalService.preOrdenTemporalOD[i].Lote;
         ordenTemp.Sacos = this.ordenTemporalService.preOrdenTemporalOD[i].Sacos;
