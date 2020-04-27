@@ -302,18 +302,29 @@ Vigencia: new Date()
 
   }
 
-  hacerPedido(cotizacion: Cotizacion){
+  hacerPedido(row){
 
-    // console.log(cotizacion);
+    // console.log(row.Estatus);
 
 
-    this.service.formcotped = cotizacion;
+    if (row.Estatus === 'Guardada'){
 
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width="70%";
-    this.dialog.open(CotizacionpedidoComponent, dialogConfig);
+      this.service.formcotped = row;
+  
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width="70%";
+      this.dialog.open(CotizacionpedidoComponent, dialogConfig);
+    }else {
+      Swal.fire({
+        title: 'No es posible hacer pedido',
+        icon: 'warning',
+        text: 'Faltan datos de prospecto',
+        showCancelButton: false,
+        showConfirmButton: true
+      });
+    }
 
 
     // let cotizacion2pedido: any = {
