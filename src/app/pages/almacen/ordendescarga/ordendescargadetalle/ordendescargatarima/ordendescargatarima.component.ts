@@ -91,6 +91,8 @@ regresar(){
     DOD.Sacos = this.dataODID[i].Sacos
     DOD.Lote = this.dataODID[i].Lote
     DOD.Saldo = this.dataODID[i].Saldo
+    DOD.PesoTotal = ((+DOD.Sacos) * (+this.dataODID[i].PesoxSaco)).toString();
+    DOD.FechaCaducidad = this.dataODID[i].FechaCaducidad;
     DOD.SacosIngresados = '0'
     console.log(DOD,'asasasasasas');
     this.ordenTemporalService.preOrdenTemporalOD.push(DOD);
@@ -184,7 +186,7 @@ console.log(this.rowDTOD.Saldo,'Saldo al momento');
         for (let i =0; i <= this.ordenTemporalService.preOrdenTemporalOD.length -1; i++){
           if((dataOD[l].ClaveProducto == this.ordenTemporalService.preOrdenTemporalOD[i].ClaveProducto) && (dataOD[l].Sacos == this.ordenTemporalService.preOrdenTemporalOD[i].Sacos)){
             console.log(this.ordenTemporalService.preOrdenTemporalOD,'oooooooooooooasssssssssssss');
-            console.log('ESTE COINCIDE');
+            
             console.log(dataOD[l].ClaveProducto);
             console.log(this.ordenTemporalService.preOrdenTemporalOD[i].ClaveProducto);
             console.log(dataOD[l].Sacos);
@@ -192,7 +194,7 @@ console.log(this.rowDTOD.Saldo,'Saldo al momento');
             conceptoCoincidir = conceptoCoincidir - 1;
             break;
           } else{
-            console.log('ESTE NO COINCIDE');
+            
             console.log(dataOD[l].ClaveProducto);
             console.log(this.ordenTemporalService.preOrdenTemporalOD[i].ClaveProducto);
             console.log(dataOD[l].Sacos);
@@ -216,7 +218,7 @@ console.log(this.rowDTOD.Saldo,'Saldo al momento');
 
         ordenTemp.IdOrdenTemporal = this.ordenTemporalService.preOrdenTemporalOD[i].IdOrdenTemporal;
         ordenTemp.IdTarima = this.ordenTemporalService.preOrdenTemporalOD[i].IdTarima;
-        ordenTemp.IdOrdenCarga = this.ordenTemporalService.preOrdenTemporalOD[i].IdOrdenCarga;
+        ordenTemp.IdOrdenCarga = 0;
         ordenTemp.IdOrdenDescarga = this.ordenTemporalService.preOrdenTemporalOD[i].IdOrdenDescarga;
         ordenTemp.QR = nanoid(7);
         ordenTemp.ClaveProducto = this.ordenTemporalService.preOrdenTemporalOD[i].ClaveProducto;
