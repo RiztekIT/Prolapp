@@ -43,7 +43,7 @@ formDataTarimaDT = new DetalleTarima();
     return this.http.get<OrdenDescarga[]>(APIUrl + '/OrdenDescarga');
   }
 
-  //JOIN DETALLES, TARIMA, TARIMA DETALLES
+  //trae los DOD dependiendo del ID de OD
   getOrdenDescargaIDList(id: number): Observable <DetalleOrdenDescarga[]>{
     return this.http.get<DetalleOrdenDescarga[]>(APIUrl + '/OrdenDescarga/MasterID/'+ id);
   }
