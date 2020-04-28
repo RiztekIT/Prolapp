@@ -11,6 +11,7 @@ import { CurrencyPipe } from '@angular/common';
 import { Producto } from '../../../../Models/catalogos/productos-model';
 
 import { MatTableDataSource, MatSort } from '@angular/material';
+import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import Swal from 'sweetalert2';
 import { TipoCambioService } from '../../../../services/tipo-cambio.service';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
@@ -23,6 +24,7 @@ import { ClienteDireccionService } from 'src/app/services/cliente-direccion/clie
 import { ClienteDireccionComponent } from 'src/app/components/cliente-direccion/cliente-direccion.component';
 import { DetalleCotizacion } from '../../../../Models/ventas/detalleCotizacion-model';
 import { Prospecto } from 'src/app/Models/ventas/prospecto-model';
+import { CotizacionComponent } from 'src/app/components/cotizacion/cotizacion.component';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -41,6 +43,8 @@ const httpOptions = {
   styleUrls: ['./add-cotizacion.component.css']
 })
 export class AddCotizacionComponent implements OnInit {
+
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
   public show:boolean = false;
   public buttonName:any = 'Cliente Nuevo';
@@ -459,7 +463,7 @@ AbrirDireccionCliente(id: number){
   onBlurCliente() {
     console.log(this.service.formDataCotizacion)
     this.service.formDataCotizacion.IdCliente = this.service.formData.IdClientes;
-    this.service.formDataCotizacion.Estatus = 'Guardada';
+    this.service.formDataCotizacion.Estatus = 'Creada';
     this.service.formDataCotizacion.Nombre = this.service.formData.Nombre;
     this.service.formDataCotizacion.RFC = this.service.formData.RFC;
     console.log(this.service.formDataCotizacion);
@@ -631,7 +635,7 @@ public listMoneda: Array<Object> = [
 onBlurDescuento() {
   this.descuento = this.service.formDataCotizacion.Descuento;
   this.service.formDataCotizacion.DescuentoDlls = (+this.descuento / this.TipoCambio);
-  this.service.formDataCotizacion.Estatus = 'Guardada';
+  this.service.formDataCotizacion.Estatus = 'Creada';
   this.service.onEditCotizacion(this.service.formDataCotizacion).subscribe(res => {
     this.refreshDetallesPedidoList();
     console.clear();
@@ -644,7 +648,7 @@ onBlurDescuento() {
 onBlurDescuentoDlls() {
   this.descuentoDlls = this.service.formDataCotizacion.DescuentoDlls;
   this.service.formDataCotizacion.Descuento = (+this.descuentoDlls * this.TipoCambio);
-  this.service.formDataCotizacion.Estatus = 'Guardada';
+  this.service.formDataCotizacion.Estatus = 'Creada';
   this.service.onEditCotizacion(this.service.formDataCotizacion).subscribe(res => {
     this.refreshDetallesPedidoList();
     console.clear();
@@ -980,7 +984,7 @@ onDeleteDetalleProducto(dp: DetalleCotizacion) {
 
 }
 
-crearPedido() {
+crearCotizacion() {
 
   this.service.formDataCotizacion.Estatus = 'Guardada';
   this.service.formDataCotizacion.Total = this.total;
@@ -997,13 +1001,16 @@ crearPedido() {
       icon: 'success',
       title: 'Cotizacion Generada'
     })
-    // this.service.filter('Register click');
+
     if (this.show == false){
-      // this.service.getProspectos().subscribe(res => {
-      //   console.clear();
-      //   console.log(res);
-      // })
-  
+
+      this.service.formDataCotizacion.Estatus = 'Prospecto Pendiente'
+      
+      this.service.onEditCotizacion(this.service.formDataCotizacion).subscribe(res2 =>{
+        console.log("Cotizacion Pendiente");
+        
+      })
+      
       this.service.formprosp.Nombre = this.service.formDataCotizacion.Nombre;
       console.log(this.service.formDataCotizacion);
       this.service.formprosp.Telefono = this.service.formDataCotizacion.Telefono;
@@ -1012,7 +1019,7 @@ crearPedido() {
       this.service.formprosp.Estatus = 'Pendiente';
       this.service.formprosp.IdCotizacion = this.service.formDataCotizacion.IdCotizacion;
   
-      console.log(this.service.formprosp);
+      // console.log(this.service.formprosp);
   
       this.service.addProspecto(this.service.formprosp).subscribe(res => {
         console.log(res);
@@ -1038,5 +1045,43 @@ toggle() {
   else
     this.buttonName = "Cliente Nuevo";
 
+}
+
+// onSubmit(form: NgForm) {
+
+//   this.service.formDataCotizacion.Estatus = 'Guardada';
+
+//   if (this.service.formDataCotizacion.Moneda == 'USD') {
+//     this.service.formDataCotizacion.TipoDeCambio = +this.Cdolar;
+//   } else {
+//     this.service.formDataCotizacion.TipoDeCambio = +'0';
+//   }
+//   this.service.onEditCotizacion(this.service.formDataCotizacion).subscribe(res => {
+//     // this.resetForm(form);
+//     this.IniciarTotales();
+//     Swal.fire(
+//       'Cotizacion Guardada',
+//       '',
+//       'success'
+//     )
+
+//   }
+//   );
+// }
+
+dxml2(form: any) {
+
+  console.log(form);
+
+  this.service.formrow = form;
+
+const dialogConfig = new MatDialogConfig();
+    // dialogConfig.disableClose = true; 
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    
+   
+    this.dialog.open(CotizacionComponent, dialogConfig);
 }
 }
