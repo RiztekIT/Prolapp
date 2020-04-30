@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { OrdenTemporalService } from '../../../../../../services/almacen/orden-temporal/orden-temporal.service';
 import { NgForm } from '@angular/forms';
+import { TarimaService } from '../../../../../../services/almacen/tarima/tarima.service';
 
 
 
@@ -12,7 +13,8 @@ import { NgForm } from '@angular/forms';
 })
 export class OrdenCargaConceptoComponent implements OnInit {
 
-  constructor(public ordenTemporalService: OrdenTemporalService, public dialogbox: MatDialogRef<OrdenCargaConceptoComponent>) { }
+  constructor(public ordenTemporalService: OrdenTemporalService, public dialogbox: MatDialogRef<OrdenCargaConceptoComponent>,
+    public tarimaService: TarimaService) { }
 
   ngOnInit() {
 
@@ -62,8 +64,9 @@ console.log(this.Comentarios);
 this.ordenTemporalService.preOrdenTemporal[this.ordenTemporalService.posicionOrdenTemporal].Sacos = this.cantidadSacos.toString();
 this.ordenTemporalService.preOrdenTemporal[this.ordenTemporalService.posicionOrdenTemporal].Comentarios = this.Comentarios;
 console.log(this.ordenTemporalService.preOrdenTemporal);
+this.tarimaService.trapasoOrdenCarga = false;
     this.dialogbox.close();
-    this.ordenTemporalService.filter('Register click');
+    // this.ordenTemporalService.filter('Register click');
   }
 
 }

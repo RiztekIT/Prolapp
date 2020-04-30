@@ -28,3 +28,6 @@ npm install ngx-doc-viewer --save
 
 ## File-saver (if error)
 npm install file-saver --save
+
+## Nanoid (Generador Codigo random QR)
+npm install nanoid
