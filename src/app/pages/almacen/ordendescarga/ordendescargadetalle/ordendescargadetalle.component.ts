@@ -3,7 +3,7 @@ import { OrdenDescargaService } from 'src/app/services/almacen/orden-descarga/or
 import { OrdenTemporalService } from 'src/app/services/almacen/orden-temporal/orden-temporal.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog } from '@angular/material';
-import { OrdendescargatarimaComponent } from 'src/app/components/almacen/orden-descarga/ordendescargatarima/ordendescargatarima.component';
+// import { OrdendescargatarimaComponent } from 'src/app/components/almacen/orden-descarga/ordendescargatarima/ordendescargatarima.component';
 
 
 

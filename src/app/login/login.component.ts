@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
      console.log(data);
      session.user = form.value.NombreUsuario;
      session.token = data.toString();
-     if (data!='Entra') {
+     if (data!='Error') {
       this.storageServce.setCurrentSession(session)
       this.router.navigate(['/direccion']);
      }
