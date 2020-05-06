@@ -19,7 +19,8 @@ export class ShowProductoComponent implements OnInit {
 
 
   listData: MatTableDataSource<any>;
-  displayedColumns : string [] = [ 'Nombre', 'PrecioVenta', 'PrecioCosto', 'Cantidad', 'Options'];
+  // displayedColumns : string [] = [ 'Nombre', 'PrecioVenta', 'PrecioCosto', 'Cantidad', 'Options'];
+  displayedColumns : string [] = [ 'Nombre',  'Options'];
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
