@@ -43,7 +43,22 @@
             <td mat-cell *matCellDef="let element">{{element.RazonSocial}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="Calle">
+        <ng-container matColumnDef="Contacto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contacto</th>
+            <td mat-cell *matCellDef="let element">{{element.contacto}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Telefono">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Telefono</th>
+            <td mat-cell *matCellDef="let element">{{element.telefono}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Correo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Correo</th>
+            <td mat-cell *matCellDef="let element">{{element.correo}}</td>
+        </ng-container>
+
+        <!--   <ng-container matColumnDef="Calle">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Calle</th>
             <td mat-cell *matCellDef="let element">{{element.Calle}}</td>
         </ng-container>
@@ -68,11 +83,6 @@
             <td mat-cell *matCellDef="let element">{{element.Estado}}</td>
         </ng-container>
 
-        <!-- <ng-container matColumnDef="NumeroInterior">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>Numero Interior</mat-header-cell>
-                    <mat-header-cell *matCellDef="let element">{{element.NumeroInterior}}</mat-header-cell>
-                </ng-container> -->
-
         <ng-container matColumnDef="NumeroExterior">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Numero Exterior</th>
             <td mat-cell *matCellDef="let element">{{element.NumeroExterior}}</td>
@@ -86,7 +96,7 @@
         <ng-container matColumnDef="Estatus">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
             <td mat-cell *matCellDef="let element">{{element.Estatus}}</td>
-        </ng-container>
+        </ng-container> -->
 
         <ng-container matColumnDef="Options">
             <th mat-header-cell *matHeaderCellDef>Options</th>

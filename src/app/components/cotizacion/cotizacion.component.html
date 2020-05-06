@@ -13,6 +13,11 @@
             <!-- TOP PAGE LOGO DESCRIPTION FACTURA -->
             <div class="container">
                 <div class="row">
+
+                    <div class="col-12" style="background-color: black; height: 15px;"></div>
+                </div>
+
+                <div class="row">
                     <!-- logo -->
                     <div class="col-2" style="padding-left: 0;">
                         <div class="card card-outline-inverse">
@@ -20,22 +25,29 @@
                         </div>
                     </div>
                     <div class="col-5"></div>
+                    <div class="col-5">
 
-                    <!-- factura folio -->
-                    <div class="col-4">
+
+
+
+                        <!-- factura folio -->
+
                         <div class="card-body">
                             <span style="font-size: 30px; font-weight: 400; color: #000000;">COTIZACION</span>
                             <h5 class=" nomarginbottomP">COTIZACION #<span style="float: right;">{{this.service.formrow.Folio}}</span></h5>
                             <h5>FECHA EXPEDICION:<span style="float: right;">
-                  {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</span></h5>
+                              {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</span></h5>
                         </div>
+
+
                     </div>
+
                 </div>
             </div>
             <!-- End TOP -->
             <!-- ../../../assets/images/sacos/3.DARIGOLDmilk.png -->
             <!-- contenido -->
-            <div style="height:500px;">
+            <div style="background-image: url('/assets/images/prolactopngopacidad.png'); height: 500px; background-size: cover">
                 <table class="table">
                     <thead>
                         <tr>
@@ -54,7 +66,7 @@
                             <td>{{conceptos.Producto}}</td>
                             <td>{{conceptos.PrecioUnitario}}</td>
                             <td>{{conceptos.Cantidad}}</td>
-                            <td>{{conceptos.Importe}}</td>
+                            <td>{{conceptos.Importe | currency}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -120,15 +132,28 @@
                         <br>
                         <br>
                         <br>
-                        <br>
-                        <br>
-                        <br>
+
                         <p class=" blacktxt nomarginbottomP nowrap" style="font-size: 10px !important; text-align: center;">Para fines informativos y de comparacion, calculado al {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</p>
+                        <br>
+                        <br>
+                        <br>
                     </div>
-                    <div class="col-2">
-                        <div class="card card-outline-inverse">
+                </div>
+                <div class="row" style="background-color: black">
+
+                    <div class="col-4" style="color: white; text-align: end">
+
+                        <h3 style="color: white"> <i class="fa fa-phone"></i> 52 (614) 2629931 </h3>
+                        <!-- <div class="card card-outline-inverse">
                             <img src="../../../assets/images/footerCotizacion.jpg" style="height: 200px; width: 300px;">
-                        </div>
+                        </div> -->
+                    </div>
+                    <div class="col-1">
+                        <h3 style="color: white"> | </h3>
+                    </div>
+                    <div class="col-7" style="color: white; text-align:start">
+
+                        <h3 style="color: white"><i class="fa fa-globe"></i> www.prolactoingredientes.com.mx </h3>
                     </div>
                 </div>
             </div>
