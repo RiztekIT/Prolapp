@@ -18,7 +18,8 @@ import Swal from 'sweetalert2';
 export class ShowProveedorComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
-  displayedColumns : string [] = [ 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado', 'NumeroExterior', 'ClaveProveedor', 'Estatus', 'Options'];
+  // displayedColumns : string [] = [ 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado', 'NumeroExterior', 'ClaveProveedor', 'Estatus', 'Options'];
+  displayedColumns : string [] = [ 'Nombre', 'RFC', 'RazonSocial', 'Contacto', 'Telefono','Correo', 'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
