@@ -1,4 +1,4 @@
-export class preOrdenTemporalOD {
+export class preOrdenTemporalODSacos {
 
     IdOrdenTemporal: number;
     IdDetalleOrdenDescarga: number;

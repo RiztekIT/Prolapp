@@ -3,7 +3,6 @@ import { OrdenDescargaService } from 'src/app/services/almacen/orden-descarga/or
 import { OrdenTemporalService } from 'src/app/services/almacen/orden-temporal/orden-temporal.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog } from '@angular/material';
-import { OrdendescargatarimaComponent } from 'src/app/components/almacen/orden-descarga/ordendescargatarima/ordendescargatarima.component';
 
 
 
@@ -44,13 +43,13 @@ export class OrdendescargadetalleComponent implements OnInit {
     this.ordenTemporalService.GetOrdenTemporalIDOD(this.IdOrdenDescarga).subscribe(dataOrdenTemporal => {
       console.log(dataOrdenTemporal);
       if (dataOrdenTemporal.length > 0) {
-        console.log('Si hay Movimientos en esta orden de carga');
+        console.log('Si hay Movimientos en esta orden de Descarga');
         this.listDataOrdenTemporal = new MatTableDataSource(dataOrdenTemporal);
         this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
         this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
         this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
       } else {
-        console.log('No hay Movimientos en esta orden de carga');
+        console.log('No hay Movimientos en esta orden de Descarga');
         this.listDataOrdenTemporal = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
         // this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
         // this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
