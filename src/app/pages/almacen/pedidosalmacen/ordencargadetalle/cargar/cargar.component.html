@@ -1,11 +1,17 @@
-<div class="row">
+<!-- <div class="row">
     <h3>Cargar Orden Carga</h3>
     <div class="col-12">
         <button class="btn btn-primary" type="button" (click)="regresar()">Regresar</button>
         <div class="card">
             <div class="card-body">
-                This is some text within a card block.
+                <ngx-dropzone (change)="onSelect($event)">
+                    <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                    <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                        <ngx-dropzone-label>{{ f.name }} {{ f.type }}</ngx-dropzone-label>
+                    </ngx-dropzone-preview>
+
+                </ngx-dropzone>
             </div>
         </div>
     </div>
-</div>
+</div> -->

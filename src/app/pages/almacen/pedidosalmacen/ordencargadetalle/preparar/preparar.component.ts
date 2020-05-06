@@ -209,8 +209,8 @@ export class PrepararComponent implements OnInit {
     // this.QRdata.IdTarima = 0;
     // this.QRdata.Sacos = '150';
     // this.QRdata.PesoTotal = '3000'; 
-    // this.QRdata.QR = 'QR3';
-    this.QRdata.QR = qrleido;
+    this.QRdata.QR = 'QR5';
+    // this.QRdata.QR = qrleido;
     console.log(this.QRdata);
 
     //igualar en 0s el arreglo que se encuentra en el servicio
@@ -454,10 +454,10 @@ export class PrepararComponent implements OnInit {
       } else {
         console.log('No hay Movimientos en esta orden de carga');
 
-        // this.listDataOrdenTemporal = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
-        // this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
-        // this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
-        // this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+        this.listDataOrdenTemporal = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
+        this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
+        this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
+        this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
       }
     })
   }
