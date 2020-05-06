@@ -23,7 +23,8 @@ export class ShowClienteComponent implements OnInit {
   listData: MatTableDataSource<any>;
   displaytt: any;
   myOptions: any;
-  displayedColumns : string [] = [ 'ClaveCliente', 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado',  'NumeroExterior','Estatus', 'LimiteDeCredito', 'DiasDeCredito', 'Vendedor', 'Options'];
+  //displayedColumns : string [] = [ 'ClaveCliente', 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado',  'NumeroExterior','Estatus', 'LimiteDeCredito', 'DiasDeCredito', 'Vendedor', 'Options'];
+  displayedColumns : string [] = [ 'ClaveCliente', 'Nombre', 'RFC', 'RazonSocial', 'Contacto', 'Telefono', 'Correo' ,'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -44,7 +45,7 @@ export class ShowClienteComponent implements OnInit {
 
   refreshClientesList() {
 
-    this.service.getClientesList().subscribe(data => {
+    this.service.getClientesContactoList().subscribe(data => {
       // console.log(data);
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;

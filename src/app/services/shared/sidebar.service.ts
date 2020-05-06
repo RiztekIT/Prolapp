@@ -22,11 +22,11 @@ export class SidebarService {
       titulo: 'Ventas',
       icono: 'fa fa-money',
       submenu: [
-        { titulo: 'Pedidos', url: '/pedidosVentas' },
+        { titulo: 'Prospecto', url: '/prospectoVentas' },
         { titulo: 'Cotizaciones', url: '/cotizacionesVentas' },
+        { titulo: 'Orden de Compra', url: '/pedidosVentas' },
         { titulo: 'Calendario', url: '/calendarioVentas' },
         { titulo: 'Reportes', url: '/reportesVentas' },
-        { titulo: 'Prospecto', url: '/prospectoVentas' },
         // { titulo: 'Graficos', url: '/dashboard' },
       ],
        url: '/dashboardVentas',
@@ -86,8 +86,8 @@ export class SidebarService {
       submenu: [
         // { titulo: 'Dashboard', url: '/dashboard' },
         { titulo: 'Pedidos', url: '/pedidosCxc' },
-        { titulo: 'Complemento de Pago', url: '/complementopagoCxc' },
         { titulo: 'Facturacion', url: '/facturacionCxc' },
+        { titulo: 'Complemento de Pago', url: '/complementopagoCxc' },
         { titulo: 'Notas de Credito', url: '/notasCreditocxc' },
         { titulo: 'Polizas', url: '/polizasCxc' },
         { titulo: 'Saldos de Cuentas', url: '/saldosCxc' },
