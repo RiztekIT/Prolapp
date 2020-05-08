@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { DetalleTarima } from '../../../Models/almacen/Tarima/detalleTarima-model';
 import { Tarima } from '../../../Models/almacen/Tarima/tarima-model';
 import { TraspasoTarima } from '../../../Models/almacen/Tarima/traspasoTarima-model';
+import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 
 export const APIUrl = environment.APIUrl;
 
@@ -18,6 +19,7 @@ export class TarimaService {
 
   tarimaData = new Tarima();
   tarimaDetalleData = new DetalleTarima();
+  tarimaDetalleDOD = new Array<DetalleOrdenDescarga>();
 
   //Tarima proviniente de un traspaso de OrdenCarga
   trapasoOrdenCarga: boolean;

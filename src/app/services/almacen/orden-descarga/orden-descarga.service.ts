@@ -59,6 +59,12 @@ formDataTarimaDT = new DetalleTarima();
   getDetalleOrdenDescargaIdLoteClave(id: number, lote: string, clave: string): Observable<DetalleOrdenDescarga[]> {
     return this.http.get<DetalleOrdenDescarga[]>(APIUrl + '/OrdenDescarga/DetalleOrdenDescarga/' + id + '/' + lote + '/' + clave);
   }
+  
+
+  //Actualizar saldo de DetalleOrdenDescarga por ID
+  updateDetalleOrdenDescargaSaldo(id: number, saldo: string) {
+    return this.http.put(APIUrl + '/OrdenDescarga/UpdateSaldo/' + id + '/' + saldo, null);
+  }
 
 
   private _listeners = new Subject<any>(); 
@@ -67,5 +73,13 @@ formDataTarimaDT = new DetalleTarima();
         }
         filter(filterBy: string) {
           this._listeners.next(filterBy);
+        }
+
+        private _listenersOrdenTemporal = new Subject<any>(); 
+        listenOrdenTemporal(): Observable<any> {
+          return this._listenersOrdenTemporal.asObservable();
+        }
+        filterOrdenTemporal(filterBy: string) {
+          this._listenersOrdenTemporal.next(filterBy);
         }
 }
