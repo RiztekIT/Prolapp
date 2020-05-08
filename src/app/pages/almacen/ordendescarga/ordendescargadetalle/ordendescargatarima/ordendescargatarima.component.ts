@@ -38,6 +38,7 @@ cantidadSacos: number;
 ClaveProducto: any;
 dataODID = new Array<DetalleOrdenDescarga>();
 cantidadMaximaSacos: number;
+sacosCero: boolean;
 // isVisibleVisualizacion: boolean;
 // isVisibleOT: boolean;
 
@@ -85,6 +86,7 @@ regresar(){
     console.log(this.ordenTemporalService.preOrdenTemporalOD);
     this.Tarimaservice.tarimaDetalleDOD = [];
     this.ordenTemporalService.preOrdenTemporalSacos = [];
+    this.sacosCero = true;
   }
 
   refreshOrdenDescargaList(){   
@@ -176,28 +178,34 @@ console.log(this.rowDTOD.Saldo,'Saldo al momento');
       validarCantidad() {
       this.cantidadSacos = this.sacosSaldo;
       this.cantidadMaximaSacos = +this.rowDTOD.Sacos;
-      
-      if ((+this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Saldo - +this.cantidadSacos) < 0) {
-        this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Saldo = this.cantidadMaximaSacos.toString()
+      this.sacosCero = true;
+      console.log(this.cantidadSacos,'sacos entrando');
+      if ((+this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados + +this.cantidadSacos) > this.cantidadMaximaSacos) {
+        
+        this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados = this.cantidadMaximaSacos.toString();
+        this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Saldo = '0'
         console.log('la cantidad de sacos ingresados es mayor al saldo');
       }
       else{
         console.log('else');
-        if (this.sacosSaldo >= this.cantidadMaximaSacos) {
+        console.log(this.cantidadSacos,'sacos entrando');
+        if (this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados > '0'){
+        console.log('aquientro');
+          this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados = (+this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados + +this.cantidadSacos).toString(); 
+
+        }
+          if (this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados == '0'){
+            
+            this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados = this.cantidadSacos.toString();
+          }
+        if (this.cantidadSacos >= this.cantidadMaximaSacos) {
           this.cantidadSacos = this.cantidadMaximaSacos;
         }
-        if (this.sacosSaldo <= 0) {
-          this.cantidadSacos = 0;
-        }
-        if (this.sacosSaldo == null) {
-          this.cantidadSacos = 0;
+        if (this.cantidadSacos == null || this.cantidadSacos <= 0 || this.sacosSaldo == null) {
+          console.log('1111111');
+          this.sacosCero = false
         }
         
-        if (this.sacosSaldo > this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Saldo) {
-          this.cantidadSacos = +this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Saldo;
-        }
-
-        this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados = this.cantidadSacos.toString();
         this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Saldo = (+this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Saldo - +this.cantidadSacos.toString()).toString();
       }
     }
@@ -211,70 +219,147 @@ console.log(this.rowDTOD.Saldo,'Saldo al momento');
       });
     }
     this.validarCantidad();
-    this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresadosTotales = (+this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Sacos - +this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Saldo).toString()
-    console.log(this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresadosTotales,'sacos totaaaaaaales');
-    if(this.InputComentarios == '' || this.InputComentarios == null){
-      console.log('comentario if');
-      this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = 'NA'
-    } else{
-        console.log('comentario else');
-        this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = this.InputComentarios
+    if(this.sacosCero == false){
+      Swal.fire({
+        title: 'Ingresar Numero Valido',
+        icon: 'warning',
+        text: ''
+      });
+      return;
+    }
+      console.log(this.ordenTemporalService.posicionOrdenTemporalOD,'posicion3');
+    if (this.ordenTemporalService.preOrdenTemporalSacos.length == 0){
+      console.log('lenght 0');
+
+
+      this.ingresoSacos()
+      console.log('solo se debe mostrar 1 vez');    
+        
+      } else{
+        
+        console.log('length else');
+        console.log(this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].ClaveProducto);
+        
+        console.log(this.ordenTemporalService.preOrdenTemporalSacos);
+        
+        console.log(this.ordenTemporalService.posicionOrdenTemporalOD,'posicion1');
+        let posicion = this.ordenTemporalService.posicionOrdenTemporalOD
+        for (let i = 0; i <= this.ordenTemporalService.preOrdenTemporalSacos.length -1; i++){
+          console.log('for');
+          console.log(this.ordenTemporalService.preOrdenTemporalSacos[i].ClaveProducto);
+          console.log(posicion,'posicion2');
+          console.log(this.ordenTemporalService.preOrdenTemporalSacos[1],'probando');
+          console.log(this.ordenTemporalService.preOrdenTemporalSacos[posicion].ClaveProducto[0]);
+          console.log(this.ordenTemporalService.preOrdenTemporalOD[posicion].ClaveProducto);
+
+          console.log( this.ordenTemporalService.preOrdenTemporalOD[posicion].ClaveProducto[0]+'lo trae od'+  this.ordenTemporalService.preOrdenTemporalSacos[i].ClaveProducto+ 'OT');
+        if(this.ordenTemporalService.preOrdenTemporalSacos[posicion].ClaveProducto == this.ordenTemporalService.preOrdenTemporalSacos[i].ClaveProducto && this.ordenTemporalService.preOrdenTemporalSacos[posicion].Lote == this.ordenTemporalService.preOrdenTemporalSacos[i].Lote){
+          console.log(this.ordenTemporalService.preOrdenTemporalSacos);
+          console.log('if');
+          Swal.fire({
+            title: 'El Producto ya se Ingreso',
+            icon: 'warning',
+            text: ''
+          });
+          // this.ordenTemporalService.preOrdenTemporalSacos.splice(i, 1); 
+          // this.listDataSacosIngresados = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalSacos);
+          // this.listData.sort = this.sort;
+          // this.listData.paginator = this.paginator;
+          // this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+      
+          this.sacosSaldo = null;
+          this.ordenTemporalService.posicionOrdenTemporalOD = null
+          return;
         }
-    console.log('sipaso');
-    console.log(this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD ].Sacos,'Cantidad de sacos');
-    console.log(this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD ].SacosIngresados,'Sacos ingresados');
-    console.log(+this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Saldo - +this.cantidadSacos.toString(),'resta' ) 
-  
-    
-    console.log(this.ordenTemporalService.preOrdenTemporalSacos);
-
-    let oTSacos = new preOrdenTemporalODSacos();
+        else{
+          console.log('else');
+          this.ingresoSacos();
+      
+      }
+      }
 
 
 
-    oTSacos.IdDetalleOrdenDescarga = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].IdDetalleOrdenDescarga;
-    oTSacos.ClaveProducto = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].ClaveProducto;
-    oTSacos.Producto = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Producto;
-    oTSacos.Sacos = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Sacos;
-    oTSacos.SacosIngresados = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados;
-    oTSacos.IdOrdenDescarga = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].IdOrdenDescarga;
-    oTSacos.Lote = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Lote
-    oTSacos.Saldo = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Saldo
-    // oTSacos.PesoTotal = ((+oTSacos.Sacos) * (+this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].PesoxSaco)).toString();
-    oTSacos.FechaCaducidad = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].FechaCaducidad;
-    oTSacos.Comentarios = 'NA';
 
-    console.log(oTSacos,'OTSACOS');
 
-    this.ordenTemporalService.preOrdenTemporalSacos.push(oTSacos);
-    console.log('pushazo');
-    console.log(this.ordenTemporalService.preOrdenTemporalSacos);
-    this.listDataSacosIngresados = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalSacos);
-    this.listData.sort = this.sort;
-    this.listData.paginator = this.paginator;
-    this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
-
-    this.sacosSaldo = 0;
-    this.ordenTemporalService.posicionOrdenTemporalOD = null
-    
-    // this.isVisibleVisualizacion = true;
+      }
 }
 
-onDeleteSacos(posicion: any){
+ingresoSacos(){
+  this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresadosTotales = (+this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Sacos - +this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Saldo).toString()
+        console.log(this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresadosTotales,'sacos totaaaaaaales');
+        if(this.InputComentarios == '' || this.InputComentarios == null){
+          console.log('comentario if');
+          this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = 'NA'
+        } else{
+            console.log('comentario else');
+            this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = this.InputComentarios
+            }
+        console.log('sipaso');
+        console.log(this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD ].Sacos,'Cantidad de sacos');
+        console.log(this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD ].SacosIngresados,'Sacos ingresados');
+        console.log(+this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Saldo - +this.cantidadSacos.toString(),'resta' ) 
+      
+        
+        console.log(this.ordenTemporalService.preOrdenTemporalSacos);
+    
+        let oTSacos = new preOrdenTemporalODSacos();
+    
+    
+    
+        oTSacos.IdDetalleOrdenDescarga = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].IdDetalleOrdenDescarga;
+        oTSacos.ClaveProducto = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].ClaveProducto;
+        oTSacos.Producto = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Producto;
+        oTSacos.Sacos = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Sacos;
+        oTSacos.SacosIngresados = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados;
+        oTSacos.IdOrdenDescarga = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].IdOrdenDescarga;
+        oTSacos.Lote = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Lote
+        oTSacos.Saldo = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Saldo
+        // oTSacos.PesoTotal = ((+oTSacos.Sacos) * (+this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].PesoxSaco)).toString();
+        oTSacos.FechaCaducidad = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].FechaCaducidad;
+        oTSacos.Comentarios = 'NA';
+        oTSacos.posicionArreglo = this.ordenTemporalService.posicionOrdenTemporalOD;
+    
+        console.log(oTSacos,'OTSACOS');
+    
+        this.ordenTemporalService.preOrdenTemporalSacos.push(oTSacos);
+        console.log(this.ordenTemporalService.preOrdenTemporalSacos);
+
+        this.listDataSacosIngresados = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalSacos);
+          this.listData.sort = this.sort;
+          this.listData.paginator = this.paginator;
+          this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+      
+          this.sacosSaldo = null;
+          this.ordenTemporalService.posicionOrdenTemporalOD = null
+        
+        // this.isVisibleVisualizacion = true;
+}
+
+
+
+onDeleteSacos(row: any, posicion: any){
   
   console.log(posicion);
   console.log(this.ordenTemporalService.preOrdenTemporalSacos);
+  console.log(row);
+
+
 
   this.ordenTemporalService.preOrdenTemporalSacos.splice(posicion, 1); 
   
-  this.ordenTemporalService.preOrdenTemporalOD[posicion].Saldo = (+this.ordenTemporalService.preOrdenTemporalOD[posicion].SacosIngresados + +this.ordenTemporalService.preOrdenTemporalOD[posicion].Saldo).toString()
-  this.ordenTemporalService.preOrdenTemporalOD[posicion].SacosIngresados = '0';
+
+  this.ordenTemporalService.preOrdenTemporalOD[row.posicionArreglo].SacosIngresados = (+this.dataODID[row.posicionArreglo].Sacos - +this.dataODID[row.posicionArreglo].Saldo).toString();
+  this.ordenTemporalService.preOrdenTemporalOD[row.posicionArreglo].Saldo = (+this.ordenTemporalService.preOrdenTemporalOD[row.posicionArreglo].Sacos - +this.ordenTemporalService.preOrdenTemporalOD[row.posicionArreglo].SacosIngresados).toString()
   this.listDataSacosIngresados = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalSacos);
   this.listData.sort = this.sort;
   this.listData.paginator = this.paginator;
   this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
   
+
 }
+
+
 
 
   onAddTarimaOT(){
@@ -375,10 +460,16 @@ onDeleteSacos(posicion: any){
                     console.log(dataOD);
                     console.log(Sacos);
                     let NuevoSaldo = ((+dataOD[0].Saldo) - (+Sacos)).toString();
-                    this.service.updateDetalleOrdenCargaSaldo(dataOD[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res =>{
+                    this.service.updateDetalleOrdenDescargaSaldo(dataOD[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res =>{
                       console.log(res);
                   })
                     })
+                    
+                    this.ordenTemporalService.preOrdenTemporalSacos = [];
+                    this.listDataSacosIngresados = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalSacos);
+  this.listData.sort = this.sort;
+  this.listData.paginator = this.paginator;
+  this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
                     this.actualizarTablaOrdenTemporal();
     // console.log('actualizar');
     // this.isVisibleOT = true;
@@ -403,8 +494,65 @@ onDeleteSacos(posicion: any){
     
   }
 
+  regresarConceptos(row: OrdenTemporal){
+    console.clear();
+    console.log(row, "row");
+    let undoQR = row.QR;
+    Swal.fire({
+      title: '¿Seguro de Borrar Ingreso(s)?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        //Obtener todos los productos que sean del mismo QR
+        console.log(this.IdOrdenDescarga);
+        console.log(undoQR);
+        this.ordenTemporalService.GetOrdenTemporalIdqrOD(this.IdOrdenDescarga, undoQR).subscribe(dataOt => {
+          console.log(dataOt);
+          //Actualizar Saldos a su estado original
+          for (let l = 0; l <= dataOt.length - 1; l++) {
+            let SaldoActual;
+            let SaldoFinal;
+            let Sacos = +dataOt[l].Sacos;
+            this.service.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga, dataOt[l].Lote, dataOt[l].ClaveProducto).subscribe(dataDetalle => {
+              console.log(dataDetalle);
+              SaldoActual = +dataDetalle[0].Saldo;
+              console.log(SaldoActual);
+              console.log(Sacos);
+              SaldoFinal = SaldoActual + Sacos;
+              console.log(SaldoFinal);
+              this.service.updateDetalleOrdenDescargaSaldo(dataDetalle[0].IdDetalleOrdenDescarga, SaldoFinal.toString()).subscribe(res => {
+                console.log(res);
+                this.ordenTemporalService.deleteOrdenTemporal(dataOt[l].IdOrdenTemporal).subscribe(res => {
+                  console.log(res);
+                  Swal.fire({
+                    title: 'Borrado',
+                    icon: 'success',
+                    timer: 1000,
+                    showCancelButton: false,
+                    showConfirmButton: false
+                  });
+                  console.log(l);
+                  console.log(dataOt.length);
+                  if (l == dataOt.length - 1) {
+                    this.actualizarTablaOrdenTemporal();
+                  }
+                })
+              })
+            })
+          }
+        })
+      }
+    })
+  }
+
 
   actualizarTablaOrdenTemporal() {
+    console.log('actualiza');
     this.ordenTemporalService.GetOrdenTemporalIDOD(this.IdOrdenDescarga).subscribe(dataOrdenTemporal => {
       console.log(dataOrdenTemporal);
       if (dataOrdenTemporal.length > 0) {
@@ -415,6 +563,12 @@ onDeleteSacos(posicion: any){
         this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
       } else {
         console.log('No hay Movimientos en esta orden de Descarga');
+      
+        this.listDataOrdenTemporal = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
+        this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
+        this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
+        this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+      
 
         // this.listDataOrdenTemporal = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
         // this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;

@@ -59,9 +59,10 @@ formDataTarimaDT = new DetalleTarima();
   getDetalleOrdenDescargaIdLoteClave(id: number, lote: string, clave: string): Observable<DetalleOrdenDescarga[]> {
     return this.http.get<DetalleOrdenDescarga[]>(APIUrl + '/OrdenDescarga/DetalleOrdenDescarga/' + id + '/' + lote + '/' + clave);
   }
+  
 
   //Actualizar saldo de DetalleOrdenDescarga por ID
-  updateDetalleOrdenCargaSaldo(id: number, saldo: string) {
+  updateDetalleOrdenDescargaSaldo(id: number, saldo: string) {
     return this.http.put(APIUrl + '/OrdenDescarga/UpdateSaldo/' + id + '/' + saldo, null);
   }
 

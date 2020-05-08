@@ -72,6 +72,9 @@ GetOrdenTemporalIdTarima(id: number): Observable <OrdenTemporal[]>{
 GetOrdenTemporalIdqr(id: number, qr: string): Observable <OrdenTemporal[]>{
   return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIdqr/'+ id + '/' + qr);
 }
+GetOrdenTemporalIdqrOD(id: number, qr: string): Observable <OrdenTemporal[]>{
+  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIdqrOD/'+ id + '/' + qr);
+}
 
 deleteOrdenTemporal(id:number){
   return this.http.delete(APIUrl + '/OrdenTemporal/BorrarOrdenTemporal/' + id)

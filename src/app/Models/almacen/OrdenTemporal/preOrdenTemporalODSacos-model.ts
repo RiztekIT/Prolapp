@@ -18,5 +18,6 @@ export class preOrdenTemporalODSacos {
     Saldo: string;
     SacosIngresados: string;
     SacosIngresadosTotales: string;
+    posicionArreglo: number;
 
 }
