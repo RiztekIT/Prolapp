@@ -51,17 +51,23 @@ updateImagen(imagen: Imagenes) {
         return this.http.post(this.URLApiImagenes+"/guardarImagenOrdenCarga", body)
         
         }
-        //Regresa el nombre de los archivos
-          readFile(body){
+    //Borrar Imagen Orden Carga
+      deleteImagenOrdenCarga(body){
+        console.log(body);
+        return this.http.post(this.URLApiImagenes+"/borrarImagenOrdenCarga", body)
+        
+        }
+        //Regresa las imagenes
+          readImagenes(body){
             console.log(body)
             let headers = new HttpHeaders();
             headers = headers.set('Accept','application/pdf');
-            return this.http.post<any>(this.URLApiImagenes+"/cargarArchivo",body,{headers:headers, responseType:'arrayBuffer' as 'json'})
+            return this.http.post<any>(this.URLApiImagenes+"/ObtenerImagenOrdenCarga",body,{headers:headers, responseType:'arrayBuffer' as 'json'})
           }
         
-        //regresa un archivo en base a un ID
-          readDir(body){
-            return this.http.post<any>(this.URLApiImagenes+"/cargarArchivo2",body);
+        //regresa el nombre de las imagenes
+          readDirImagenes(body){
+            return this.http.post<any>(this.URLApiImagenes+"/cargarNombreImagenesOrdenCarga",body);
           }
 
       //Conectar con el servidor NODEJS para guardar, obtener Imagen(es)
