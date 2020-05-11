@@ -205,6 +205,7 @@ import { CotizacionpedidoComponent } from '../components/cotizacionpedido/cotiza
 
 import { OrdendescargadetalleComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargadetalle.component';
 //import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { EmailgeneralComponent } from '../components/email/emailgeneral/emailgeneral.component';
 // import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendescargatarima/ordendescargatarima.component';
 import { ProspectoVentasComponent } from './ventas/prospecto-ventas/prospecto-ventas.component';
 import { ProspectoclienteComponent } from '../components/prospecto/prospectocliente/prospectocliente.component';
@@ -363,6 +364,7 @@ import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendesca
         ProspectoVentasComponent,
         ProspectoclienteComponent,
         CotizacionEmailComponent,
+        EmailgeneralComponent,
     
     ],
     exports: [
@@ -468,6 +470,7 @@ import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendesca
         OrdendescargatarimaComponent,
         ProspectoclienteComponent,
         CotizacionEmailComponent,
+        EmailgeneralComponent
     ]
 })
 export class PagesModule { }
