@@ -70,6 +70,12 @@
                                 <td class="Lote" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Lote}}
                                     <td>
                             </ng-container>
+                            <ng-container matColumnDef="Comentarios">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Comentarios</th>
+                                <td class="Comentarios" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                    {{element.Comentarios}}
+                                    <td>
+                            </ng-container>
 
                             <ng-container matColumnDef="Options" stickyEnd>
                                 <th mat-header-cell *matHeaderCellDef>Opciones</th>
@@ -77,8 +83,8 @@
 
 
                                     <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
-                                        <mat-icon>edit</mat-icon>
-                                    </button>
+                    <mat-icon>edit</mat-icon>
+                  </button>
 
 
                                 </td>
@@ -91,30 +97,39 @@
                 </div>
                 <div class="col-4">
                     <div class="form-material">
-                        <div class="col-6">
-                            <label class="input-group-text text-info">Sacos:</label>
-                            <input type="text" class="form-control" name="Sacos" #Sacos="ngModel" [(ngModel)]="this.sacosSaldo" (focus)="onFocusInputSaldo()">
-                            <button class="btn btn-success" style="margin-top: 5px;" (click)="addSacos()">Agregar Sacos</button>
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="input-group-text text-info">Sacos:</label>
+                                <input type="text" class="form-control" name="Sacos" #Sacos="ngModel" [(ngModel)]="this.sacosSaldo">
+                            </div>
+                            <div class="col-6">
+                                <label class="input-group-text text-info">Comentarios:</label>
+                                <input type="text" class="form-control" name="Comentarios" #Comentarios="ngModel" [(ngModel)]="this.InputComentarios">
+
+                            </div>
                         </div>
                     </div>
+                    <button class="btn btn-success" style="margin-top: 5px;" (click)="addSacos()">Agregar Datos</button>
+
                     <div class="container row">
                         <button class="btn btn-danger">
-                            <mat-icon>close</mat-icon>
-                        </button>
+              <mat-icon>close</mat-icon>
+            </button>
                         <button class="btn btn-info" (click)="onAddTarimaOT()">
-                            <mat-icon>done_all</mat-icon>
-                        </button>
+              <mat-icon>done_all</mat-icon>
+            </button>
 
                     </div>
                 </div>
             </div>
 
-            <h3>Sacos Ingresados</h3>
+
+            <h3>Tabla Sacos Ingresados</h3>
             <div class="container row">
                 <div class="col-8">
                     <div style="overflow:auto;">
 
-                        <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
+                        <table mat-table [dataSource]="listDataSacosIngresados" matSort class="scrollable" multiTemplateDataRows>
 
                             <tr mat-header-row *matHeaderRowDef="displayedColumnsSacosIngresados"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumnsSacosIngresados;"></tr>
@@ -144,11 +159,17 @@
                                     {{element.SacosIngresados}}
                                     <td>
                             </ng-container>
+                            <ng-container matColumnDef="Options" stickyEnd>
+                                <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                                <td mat-cell *matCellDef="let row; let i = dataIndex">
 
-                            <ng-container matColumnDef="Lote">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
-                                <td class="Lote" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Lote}}
-                                    <td>
+
+                                    <button mat-icon-button class="btn btn-dark" (click)="onDeleteSacos(row,i)">
+                    <mat-icon>undo</mat-icon>
+                  </button>
+
+
+                                </td>
                             </ng-container>
 
                         </table>
@@ -217,19 +238,12 @@
                         <th mat-header-cell *matHeaderCellDef>Options</th>
                         <td mat-cell *matCellDef="let row; let i = index">
 
-                            <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                                    <mat-icon>keyboard_arrow_down</mat-icon>
-                                  </button> -->
-                            <!-- <mat-menu #menu="matMenu"> -->
-                            <!--  -->
-                            <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
-                                                            <mat-icon>edit</mat-icon>
-                                                        </button> -->
-                            <!--  -->
-                            <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteOrdenTemporal(row)">
-                                                                <mat-icon>delete_outline</mat-icon>
-                                                            </button> -->
-                            <!-- </mat-menu> -->
+
+                            <button mat-icon-button class="btn btn-dark" (click)="regresarConceptos(row)">
+                <mat-icon>undo</mat-icon>
+              </button>
+
+
                         </td>
                     </ng-container>
 
@@ -239,8 +253,6 @@
                 </mat-paginator>
             </div>
 
-
         </div>
     </div>
 </div>
-<!-- <button (click)="crearTarima()"></button> -->

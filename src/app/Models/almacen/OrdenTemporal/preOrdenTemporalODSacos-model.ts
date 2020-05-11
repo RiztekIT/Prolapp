@@ -1,4 +1,4 @@
-export class preOrdenTemporalOD {
+export class preOrdenTemporalODSacos {
 
     IdOrdenTemporal: number;
     IdDetalleOrdenDescarga: number;
@@ -18,5 +18,6 @@ export class preOrdenTemporalOD {
     Saldo: string;
     SacosIngresados: string;
     SacosIngresadosTotales: string;
+    posicionArreglo: number;
 
 }

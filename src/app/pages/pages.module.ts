@@ -156,6 +156,12 @@ import { EditVendedorComponent } from './administracion/catalogos/vendedores/edi
 import { ShowVendedorComponent } from './administracion/catalogos/vendedores/show-vendedor/show-vendedor.component';
 import { EmailComponent } from '../components/email/email/email.component';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+
+ 
+import { DropzoneModule } from 'ngx-dropzone-wrapper';    
+import { DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';    
+import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';   
+
 import { UnidadMedidaComponent } from './administracion/unidad-medida/unidad-medida.component'
 import { OrdendescargaComponent } from './almacen/ordendescarga/ordendescarga.component';
 import { OrdencargadetalleComponent } from './almacen/pedidosalmacen/ordencargadetalle/ordencargadetalle.component';
@@ -213,7 +219,13 @@ import { CotizacionEmailComponent } from '../components/cotizacion/cotizacion-em
 
 import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargatarima/ordendescargatarima.component';
 // import { ZXingScannerModule } from '@zxing/ngx-scanner';
-
+const DROPZONECONFIG: DropzoneConfigInterface = {    
+    
+    url: 'https://riztekserver.ddns.net:3000',    
+    maxFilesize: 100,    
+    acceptedFiles: 'image/jpg,image/png,image/jpeg/*'    
+      
+  };
 
 
 
@@ -408,6 +420,7 @@ import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendesca
         NgxDocViewerModule,
         QRCodeModule,
         BrowserAnimationsModule,
+        DropzoneModule,
 
     ],
     providers: [
@@ -425,7 +438,11 @@ import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendesca
         OrdenCargaService,
         OrdenDescargaService,
         TarimaService,
-        OrdenTemporalService
+        OrdenTemporalService,
+        {
+            provide: DROPZONE_CONFIG,
+            useValue: DROPZONECONFIG
+        }
         
         
     ],

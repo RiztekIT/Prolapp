@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable } from 'rxjs';
 import {Subject} from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -39,4 +39,36 @@ updateImagen(imagen: Imagenes) {
       filter(filterBy: string) {
         this._listeners.next(filterBy);
       }
+
+
+      //Conectar con el servidor NODEJS para guardar, obtener Imagen(es)
+
+      URLApiImagenes = environment.APIUrlEmail;
+
+    //Guardar Imagen Orden Carga
+      saveImagenOrdenCarga(body){
+        console.log(body);
+        return this.http.post(this.URLApiImagenes+"/guardarImagenOrdenCarga", body)
+        
+        }
+    //Borrar Imagen Orden Carga
+      deleteImagenOrdenCarga(body){
+        console.log(body);
+        return this.http.post(this.URLApiImagenes+"/borrarImagenOrdenCarga", body)
+        
+        }
+        //Regresa las imagenes
+          readImagenes(body){
+            console.log(body)
+            let headers = new HttpHeaders();
+            headers = headers.set('Accept','application/pdf');
+            return this.http.post<any>(this.URLApiImagenes+"/ObtenerImagenOrdenCarga",body,{headers:headers, responseType:'arrayBuffer' as 'json'})
+          }
+        
+        //regresa el nombre de las imagenes
+          readDirImagenes(body){
+            return this.http.post<any>(this.URLApiImagenes+"/cargarNombreImagenesOrdenCarga",body);
+          }
+
+      //Conectar con el servidor NODEJS para guardar, obtener Imagen(es)
 }
