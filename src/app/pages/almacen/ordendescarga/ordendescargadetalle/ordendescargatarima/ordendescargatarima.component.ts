@@ -60,7 +60,7 @@ regresar(){
 
   //tabla visualizacion
   listData: MatTableDataSource<any>;
-  displayedColumns: string [] = ['ClaveProducto','Producto', 'Sacos', 'SacosIngresados', 'Lote', 'Saldo', 'Comentarios', 'Options'];
+  displayedColumns: string [] = ['ClaveProducto','Producto', 'Sacos', 'Saldo', 'Lote', 'Comentarios', 'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -90,16 +90,20 @@ regresar(){
   }
 
   refreshOrdenDescargaList(){   
+    
     this.service.getOrdenDescargaIDList(this.IdOrdenDescarga).subscribe(dataID =>{ 
-
+ 
       console.log(dataID,'detalles DOD a asignarse');
       // recorrer tantos conceptos tenga la OD
+      this.ordenTemporalService.preOrdenTemporalOD = [];
+      console.log(this.ordenTemporalService.preOrdenTemporalOD,'reinicio');
       for (let i = 0; i <= dataID.length - 1; i++) {
       this.dataODID[i] = dataID[i];
       console.log(dataID[i],'ID OD-verificar tabla');
 
     
     this.service.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga,this.dataODID[i].Lote, this.dataODID[i].ClaveProducto).subscribe(data =>{
+     
     console.log(data,'IDLOTECP');
     let DOD = new preOrdenTemporalOD();
     let DTOD = new DetalleOrdenDescarga();
@@ -192,6 +196,7 @@ console.log(this.rowDTOD.Saldo,'Saldo al momento');
         if (this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados > '0'){
         console.log('aquientro');
           this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados = (+this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados + +this.cantidadSacos).toString(); 
+          // this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados = (+this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados + +this.cantidadSacos).toString(); 
 
         }
           if (this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados == '0'){
@@ -246,14 +251,13 @@ console.log(this.rowDTOD.Saldo,'Saldo al momento');
         let posicion = this.ordenTemporalService.posicionOrdenTemporalOD
         for (let i = 0; i <= this.ordenTemporalService.preOrdenTemporalSacos.length -1; i++){
           console.log('for');
-          console.log(this.ordenTemporalService.preOrdenTemporalSacos[i].ClaveProducto);
+          console.log(this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].ClaveProducto);
           console.log(posicion,'posicion2');
-          console.log(this.ordenTemporalService.preOrdenTemporalSacos[1],'probando');
-          console.log(this.ordenTemporalService.preOrdenTemporalSacos[posicion].ClaveProducto[0]);
-          console.log(this.ordenTemporalService.preOrdenTemporalOD[posicion].ClaveProducto);
+          console.log(this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].ClaveProducto,'probando');
+          console.log(this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].ClaveProducto);
 
-          console.log( this.ordenTemporalService.preOrdenTemporalOD[posicion].ClaveProducto[0]+'lo trae od'+  this.ordenTemporalService.preOrdenTemporalSacos[i].ClaveProducto+ 'OT');
-        if(this.ordenTemporalService.preOrdenTemporalSacos[posicion].ClaveProducto == this.ordenTemporalService.preOrdenTemporalSacos[i].ClaveProducto && this.ordenTemporalService.preOrdenTemporalSacos[posicion].Lote == this.ordenTemporalService.preOrdenTemporalSacos[i].Lote){
+          console.log( this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].ClaveProducto+'lo trae od '+  this.ordenTemporalService.preOrdenTemporalSacos[i].ClaveProducto+ 'OT');
+        if(this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].ClaveProducto == this.ordenTemporalService.preOrdenTemporalSacos[i].ClaveProducto && this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Lote == this.ordenTemporalService.preOrdenTemporalSacos[i].Lote){
           console.log(this.ordenTemporalService.preOrdenTemporalSacos);
           console.log('if');
           Swal.fire({
@@ -271,12 +275,11 @@ console.log(this.rowDTOD.Saldo,'Saldo al momento');
           this.ordenTemporalService.posicionOrdenTemporalOD = null
           return;
         }
-        else{
-          console.log('else');
+      }
+        
+          console.log('segundo if');
           this.ingresoSacos();
       
-      }
-      }
 
 
 
@@ -541,6 +544,11 @@ onDeleteSacos(row: any, posicion: any){
                   if (l == dataOt.length - 1) {
                     this.actualizarTablaOrdenTemporal();
                   }
+                  //regresar los valores ya con los saldos reiniciados
+                  this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalOD);
+                  this.listData.sort = this.sort;
+                  this.listData.paginator = this.paginator;
+                  this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Descarga por Pagina';
                 })
               })
             })
