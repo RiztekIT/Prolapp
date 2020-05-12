@@ -1,4 +1,4 @@
-<!-- <div class="row">
+<div class="row">
     <h3>Cargar Orden Carga</h3>
     <div class="col-12">
         <button class="btn btn-primary" type="button" (click)="regresar()">Regresar</button>
@@ -6,12 +6,60 @@
             <div class="card-body">
                 <ngx-dropzone (change)="onSelect($event)">
                     <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
-                    <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
+                    <!-- <ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
                         <ngx-dropzone-label>{{ f.name }} {{ f.type }}</ngx-dropzone-label>
-                    </ngx-dropzone-preview>
-
+                    </ngx-dropzone-preview> -->
+                    <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                        <ngx-dropzone-label> {{ f.type }}</ngx-dropzone-label>
+                    </ngx-dropzone-image-preview>
                 </ngx-dropzone>
+                <hr>
+                <button class="btn btn-primary" (click)='guardarImagenes()'>Guardar Imagenes</button>
+                <div class="text-left text-danger" *ngIf="imagenSeleccionada == false">
+                    No hay ninguna imagen seleccionada.
+                </div>
+                <!-- <dropzone  [config]="config" [message]="'Drag and Drop Images here'"></dropzone>  -->
+            </div>
+        </div>
+        <!-- <div class="card">
+            <div class="card-body">
+                <button *ngFor="let a of imagenes" (click)='obtenerImagen(a)'> {{a}} </button>
+            </div>
+            <div>
+IMAGENES
+                <img [src]="imagePath" alt="400" width="400">
+            </div>
+        </div> -->
+
+        <!-- Imagenes -->
+<div class="card">
+    <div class="card-body">
+
+        <!-- <div style="display: inline-flex; overflow-x: scroll;"> -->
+        <div class="container row" style=" overflow-x: scroll;">
+            <div class="d-flex flex-wrap ">
+                <div class="card containercard col-12 col-lg-3 " *ngFor="let image of imageInfo">
+                    <div >
+                        <img [src]="image.ImagePath" height="600px" width="600px" class="img-fluid">
+                        <div class="row">
+                            <div class="col-6">
+                                <button class="btn btn-success">
+                                    <mat-icon>done</mat-icon>
+                                </button>
+                            </div>
+                            <div class="col-6">
+                                <button class="btn btn-danger" (click)="deleteImage(image.ImageName)">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
-</div> -->
+</div>
+<!-- Imagenes -->
+    </div>
+</div>

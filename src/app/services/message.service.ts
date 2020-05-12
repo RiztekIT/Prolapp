@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 
 
 
@@ -29,6 +30,8 @@ export class MessageService {
     
     return this._http.post(this.URLApiEMail+"/archivofact", body)
   }
+
+  //regresa el archivo solicitado
   readFile(body){
     console.log(body);
     let headers = new HttpHeaders();
@@ -39,7 +42,7 @@ export class MessageService {
     return this._http.post<any>(this.URLApiEMail+"/cargarArchivo",body,{headers:headers, responseType:'arrayBuffer' as 'json'})
   }
 
-
+//regresa el nombre de los archivos
   readDir(body){
     return this._http.post<any>(this.URLApiEMail+"/cargarArchivo2",body);
   }
