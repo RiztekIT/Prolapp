@@ -52,12 +52,12 @@
                                     {{element.Sacos}}
                                     <td>
                             </ng-container>
-                            <ng-container matColumnDef="SacosIngresados">
+                            <!-- <ng-container matColumnDef="SacosIngresados">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>SacosIngresados</th>
                                 <td class="SacosIngresados" mat-cell *matCellDef="let element" (click)="expandedElement = element">
                                     {{element.SacosIngresados}}
                                     <td>
-                            </ng-container>
+                            </ng-container> -->
 
                             <ng-container matColumnDef="Saldo">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo</th>
@@ -109,15 +109,13 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-success" style="margin-top: 5px;" (click)="addSacos()">Agregar Datos</button>
+                    <button class="btn btn-success" style="margin-top: 5px;" (click)="addSacos()"> <mat-icon>done</mat-icon> Agregar Sacos</button>
 
                     <div class="container row">
-                        <button class="btn btn-danger">
+                        <!-- <button class="btn btn-danger">
               <mat-icon>close</mat-icon>
-            </button>
-                        <button class="btn btn-info" (click)="onAddTarimaOT()">
-              <mat-icon>done_all</mat-icon>
-            </button>
+            </button> -->
+
 
                     </div>
                 </div>
@@ -179,8 +177,9 @@
                 </div>
                 <div class="col-4">
                     <div class="form-material">
-                        <div class="col-6">
-                        </div>
+                        <button class="btn btn-info" (click)="onAddTarimaOT()">
+                                <mat-icon>done_all</mat-icon> Crear Tarima
+                            </button>
                     </div>
                 </div>
             </div>
