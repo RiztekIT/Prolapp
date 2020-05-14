@@ -166,7 +166,7 @@ this.nocertificado = row.NumeroDeCertificado;
 this.moneda = row.Moneda;
 // this.subtotal = row.Subtotal;
 // this.total = row.Total;
-this.textnum = cantidad(this.total);
+
 this.tipoDeComprobante = row.Tipo;
 this.metodoPago = row.MetodoDePago;
 this.lugarExpedicion = row.LugarDeExpedicion;
@@ -197,11 +197,13 @@ switch (this.moneda) {
     this.monedaT = "MXN"
     this.total = row.Total;
     this.subtotal = row.Subtotal;
+    this.textnum = cantidad(this.total);
     break;
   case "USD":
     this.monedaT = "USD"
     this.total = row.TotalDlls;
     this.subtotal = row.SubtotalDlls;
+    this.textnum = cantidad(this.total);
 }
 
 this.arrcon = [];

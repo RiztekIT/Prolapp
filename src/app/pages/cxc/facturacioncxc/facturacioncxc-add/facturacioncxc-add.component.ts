@@ -1057,7 +1057,7 @@ CFDISumatoria(){
   crearjsonfactura(id: number): string {
     let cadena: string;
     this.service.getFacturasClienteID(id).subscribe(data => {
-
+console.log(data);
       this.json1.Receptor.UID = data[0].IdApi;
       this.json1.Moneda = data[0].Moneda;
       if (data[0].Moneda == 'MXN') {
@@ -1199,7 +1199,8 @@ CFDISumatoria(){
     this.service.formData.Estatus = 'Guardada';
     this.service.formData.Version = '3.3';
     //this.service.formData.Serie = '5628';
-    this.service.formData.Serie = '315381';
+    // this.service.formData.Serie = '315381';
+    this.service.formData.Serie = '5628';
     
     if (this.service.formData.Moneda == 'USD') {
       this.service.formData.TipoDeCambio = this.Cdolar;
@@ -1227,6 +1228,7 @@ CFDISumatoria(){
 
   /* Metodo que timbra la factura */
   enviar(cadena: string) {
+    console.log(cadena);
     this.enviarfact.enviarFactura(cadena).subscribe(data => {
       console.log(data);
       if (data.response === 'success') {
