@@ -90,6 +90,10 @@ updateTraspasoTarima(tt: TraspasoTarima) {
   deleteDetalleTarima(id: number){
     return this.http.delete(APIUrl+ '/Tarima/BorrarDetalleTarima/' + id);
   }
+//Eliminar tarima
+deleteTarima(id: number){
+  return this.http.delete(APIUrl+ '/Tarima/BorrarTarima/' + id);
+}
 
   private _listeners = new Subject<any>(); 
       listen(): Observable<any> {
