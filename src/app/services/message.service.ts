@@ -25,6 +25,12 @@ export class MessageService {
     
     return this._http.post(this.URLApiEMail+"/formulario", body)
   }
+
+  enviarCorreo(body){
+    return this._http.post(this.URLApiEMail+"/correo",body)
+  }
+
+  
   saveFile(body){
     console.log(body);
     

@@ -212,6 +212,7 @@ import { CotizacionpedidoComponent } from '../components/cotizacionpedido/cotiza
 import { OrdendescargadetalleComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargadetalle.component';
 //import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { OrdenDescargaConceptoComponent } from '../components/almacen/orden-descarga/ordendescargadetalle/ordendescargatarima/orden-descarga-concepto/orden-descarga-concepto.component';
+import { EmailgeneralComponent } from '../components/email/emailgeneral/emailgeneral.component';
 // import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendescargatarima/ordendescargatarima.component';
 import { ProspectoVentasComponent } from './ventas/prospecto-ventas/prospecto-ventas.component';
 import { ProspectoclienteComponent } from '../components/prospecto/prospectocliente/prospectocliente.component';
@@ -376,7 +377,8 @@ const DROPZONECONFIG: DropzoneConfigInterface = {
         ProspectoVentasComponent,
         ProspectoclienteComponent,
         CotizacionEmailComponent,
-        OrdenDescargaConceptoComponent
+        OrdenDescargaConceptoComponent,
+        EmailgeneralComponent,
     
     ],
     exports: [
@@ -487,7 +489,8 @@ const DROPZONECONFIG: DropzoneConfigInterface = {
         OrdendescargatarimaComponent,
         ProspectoclienteComponent,
         CotizacionEmailComponent,
-        OrdenDescargaConceptoComponent
+        OrdenDescargaConceptoComponent,
+        EmailgeneralComponent
     ]
 })
 export class PagesModule { }
