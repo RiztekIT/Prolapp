@@ -1,0 +1,100 @@
+<mat-dialog-content>
+
+    <div class="container" style=" width: 800px;" id="Acuse-PDF">
+        <div style="min-width: 750px !important;">
+            <div class="container">
+                <div class="row">
+                    <!-- logo -->
+                    <!-- <div class="col-lg-3 col-md-3 col-sm-3 col-3"> -->
+                    <div class="col-4">
+                        <div class="card card-outline-inverse">
+                            <!-- <div class="card-header">
+                                            <h6 class="m-b-0 text-white">Logo</h6>
+                                        </div>
+                                        <div class="card-body">
+                                        </div> -->
+
+                            <img src="../../../assets/images/logoacuse.png" class="logo">
+
+                        </div>
+
+                    </div>
+                    <div class="col-8 negro" style="text-align: center; align-self: center">
+                        <h2 class="negro"><b>Servicio de Administracion Tributaria</b></h2>
+                        <h3 class="negro"><b>Acuse de Cancelacion de CFDI</b></h3>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div class="row negro">
+                    <div class="col-6">
+                        <h4 class="negro"><b>Fecha y hora de solicitud</b></h4>
+                    </div>
+                    <div class="col-6">
+                        <h4 class="negro">{{ fechahorasolicitud | slice:0:10 }} {{ fechahorasolicitud | slice:11:19 }}</h4>
+                    </div>
+
+                </div>
+                <br>
+                <div class="row negro">
+                    <div class="col-6">
+                        <h4 class="negro"><b>Fecha y hora de cancelacion</b></h4>
+                    </div>
+                    <div class="col-6">
+                        <h4 class="negro">{{ fechahoracancel | slice:0:10 }} {{ fechahoracancel | slice:11:19 }}</h4>
+                    </div>
+
+                </div>
+                <br>
+                <div class="row negro">
+                    <div class="col-6">
+                        <h4 class="negro"><b>RFC Emisor</b></h4>
+                    </div>
+                    <div class="col-6">
+                        <h4 class="negro">{{ rfcemisor }}</h4>
+                    </div>
+
+                </div>
+                <br>
+
+                <div class="row">
+                    <div class="col-6" style="border: black; border-style: solid; border-width: thin">
+                        <h4 class="negro"><b>Folio Fiscal</b></h4>
+                    </div>
+                    <div class="col-6" style="border: black; border-style: solid; border-width: thin">
+                        <h4 class="negro"><b>Estado CFDI</b></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6" style="border: black; border-style: solid; border-width: thin">
+                        <h4 class="negro">{{ foliofiscal }}</h4>
+                    </div>
+                    <div class="col-6" style="border: black; border-style: solid; border-width: thin">
+                        <h4 class="negro">{{ estatus }}</h4>
+                    </div>
+                </div>
+
+                <br>
+                <div class="row">
+                    <h4 class="negro"><b>Sello Digital SAT:</b></h4>
+                </div>
+                <div class="row">
+                    <p class="parrafo">
+
+                        {{ sellodigitalsat | slice:0:50}}
+                        <br> {{ sellodigitalsat | slice:50:90}}
+
+                    </p>
+
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <button (click)="descargar()">Descargar</button>
+    </div>
+</mat-dialog-content>

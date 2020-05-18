@@ -218,6 +218,7 @@ import { ProspectoclienteComponent } from '../components/prospecto/prospectoclie
 import { CotizacionEmailComponent } from '../components/cotizacion/cotizacion-email/cotizacion-email.component';
 
 import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargatarima/ordendescargatarima.component';
+import { AcusecancelacionComponent } from '../components/acusecancelacion/acusecancelacion.component';
 // import { ZXingScannerModule } from '@zxing/ngx-scanner';
 const DROPZONECONFIG: DropzoneConfigInterface = {    
     
@@ -377,6 +378,7 @@ const DROPZONECONFIG: DropzoneConfigInterface = {
         ProspectoclienteComponent,
         CotizacionEmailComponent,
         EmailgeneralComponent,
+        AcusecancelacionComponent
     
     ],
     exports: [
@@ -487,7 +489,8 @@ const DROPZONECONFIG: DropzoneConfigInterface = {
         OrdendescargatarimaComponent,
         ProspectoclienteComponent,
         CotizacionEmailComponent,
-        EmailgeneralComponent
+        EmailgeneralComponent,
+        AcusecancelacionComponent
     ]
 })
 export class PagesModule { }

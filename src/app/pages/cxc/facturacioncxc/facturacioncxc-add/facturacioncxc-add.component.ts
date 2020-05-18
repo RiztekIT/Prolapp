@@ -31,6 +31,9 @@ import { DetalleNotaCredito } from 'src/app/Models/nota-credito/detalleNotaCredi
 import { NotaCreditoMaster } from 'src/app/Models/nota-credito/notaCreditoMaster-model';
 import { FacturaComponent } from 'src/app/components/factura/factura.component';
 import { AddClienteComponent } from 'src/app/pages/administracion/catalogos/clientes/add-cliente/add-cliente.component';
+import { AcusecancelacionComponent } from 'src/app/components/acusecancelacion/acusecancelacion.component';
+import xml2js from 'xml2js';
+import { processors } from 'xml2js'
 
 /* Headers para el envio de la factura */
 const httpOptions = {
@@ -1293,7 +1296,7 @@ console.log(data);
     const dialogConfig = new MatDialogConfig();
       // dialogConfig.disableClose = true;
       dialogConfig.autoFocus = false;
-      dialogConfig.width = "100%";
+      dialogConfig.width = "80%";
       dialogConfig.height = "80%"
       
      
@@ -1344,7 +1347,8 @@ const dialogConfig = new MatDialogConfig();
       margin: [.5, .5, .5, 0],
       filename: 'F-' + folio + '.pdf',
       image: { type: 'jpeg', quality: 1 },
-      html2canvas: { scale: 2, logging: true, scrollY: -2, scrollX: -15 },
+      // html2canvas: { scale: 2, logging: true, scrollY: -2, scrollX: -15 },
+      html2canvas: { scale: 2, logging: true },
       jsPDF: { unit: 'cm', format: 'letter', orientation: 'p' },
       pagebreak: { avoid: '.pgbreak' }
 
@@ -1680,6 +1684,96 @@ const dialogConfig = new MatDialogConfig();
     
 
     
+  }
+
+
+  acuse(fact){
+    console.log(fact);
+    /* const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    let dl = this.dialog.open(AcusecancelacionComponent, dialogConfig);
+ */
+    
+
+this.enviarfact.acuseCancelacion(fact.UUID).subscribe((data:any)=>{
+  console.log(data);
+  let resp = JSON.parse(data)
+  console.log(resp.acuse);
+  localStorage.setItem('xml',resp.acuse)
+  const p = new xml2js.parseString(localStorage.getItem('xml'), { tagNameProcessors: [processors.stripPrefix] }, (err, result) => {
+    console.log(result);
+    let rfcemisor;
+    let fechahorasolicitud;
+    let fechahoracancel;
+    let foliofiscal;
+    let estatus;
+    let sellodigitalsat;
+
+    rfcemisor = result.Acuse.$.RfcEmisor;
+    fechahorasolicitud = result.Acuse.$.Fecha;
+    fechahoracancel = result.Acuse.$.Fecha;
+    foliofiscal = result.Acuse.Folios[0].UUID[0];
+    estatus = 'Cancelado';
+    sellodigitalsat = result.Acuse.Signature[0].SignatureValue[0]
+
+
+    /* console.log(rfcemisor);
+    console.log(fechahorasolicitud);
+    console.log(fechahoracancel);
+    console.log(foliofiscal);
+    console.log(estatus);
+    console.log(sellodigitalsat); */
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    dialogConfig.data = {
+      rfcemisor: rfcemisor,
+    fechahorasolicitud:    fechahorasolicitud,
+    fechahoracancel:    fechahoracancel,
+    foliofiscal:    foliofiscal,
+    estatus:    estatus,
+    sellodigitalsat:    sellodigitalsat
+    }
+    let dl = this.dialog.open(AcusecancelacionComponent, dialogConfig);
+    
+    
+    setTimeout(()=>{
+      // this.proceso = 'xml';
+      const content: Element = document.getElementById('Acuse-PDF');
+      const option = {
+        margin: [.5, .5, .5, 0],
+        filename: 'Acuse-' + fact.UUID + '.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2, logging: true, scrollY: -2, scrollX: -15 },
+        jsPDF: { unit: 'cm', format: 'letter', orientation: 'p' },
+        pagebreak: { avoid: '.pgbreak' }
+  
+      };
+  
+      html2pdf()
+        .from(content)
+        .set(option).toPdf().get('pdf').then(function (pdf) {
+          setTimeout(() => { }, 1000);
+        })
+        .save();
+
+      dl.close();
+      // this.dialog.closeAll();
+      
+     },1000)
+
+
+
+
+  })
+})
+
+    
+
   }
 
 
