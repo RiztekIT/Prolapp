@@ -18,6 +18,8 @@ const httpOptions = {
 }
 
 
+
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -29,12 +31,20 @@ export class HeaderComponent implements OnInit {
   rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
   Cdolar: string;
   public usuario: Usuario;
+  public user;
 
   constructor(private http : HttpClient, private storageService: StorageServiceService, private tipoCambio:TipoCambioService) { }
 
   ngOnInit() {
     this.tipoDeCambio();
     this.usuario = this.storageService.getCurrentUser();
+    this.getUsuario();
+  }
+
+  getUsuario(){
+    let u = JSON.parse(localStorage.getItem('ProlappSession'));
+    console.log(JSON.parse(localStorage.getItem('ProlappSession')));
+    this.user = u.user;
   }
 
 

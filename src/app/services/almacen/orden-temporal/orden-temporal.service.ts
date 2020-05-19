@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { preOrdenTemporal } from '../../../Models/almacen/OrdenTemporal/preOrdenTemporal-model';
 import { preOrdenTemporalOD } from '../../../Models/almacen/OrdenTemporal/preOrdenTemporalOD-model';
+import { preOrdenTemporalODSacos } from 'src/app/Models/almacen/OrdenTemporal/preOrdenTemporalODSacos-model';
 
 export const APIUrl = environment.APIUrl;
 //export const APIUrl = "http://riztekserver.ddns.net:44361/api";
@@ -23,12 +24,16 @@ export class OrdenTemporalService {
    preOrdenTemporal = new Array<preOrdenTemporal>();
    //Tabla previsualizacion OD
    preOrdenTemporalOD = new Array<preOrdenTemporalOD>();
+   //Tabla previsualizacion OD
+   preOrdenTemporalSacos = new Array<preOrdenTemporalODSacos>();
    //Posicion del arreglo a editar
    posicionOrdenTemporal: number;
    //Posicion del arreglo a editar en OD
    posicionOrdenTemporalOD: number;
    //Concepto a editar
    ordenTemporalData = new OrdenTemporal();
+   //Concepto a editar en OD
+   ordenTemporalDataOD = new OrdenTemporal();
    //formdata que guarda los datos de orden temporal para deplegar en pdf
    formDataOtPDF: any;
    //formdata que guarda los los datos de orden de carga para desplegar en pdf
@@ -39,6 +44,11 @@ export class OrdenTemporalService {
    traspasoOrdenTemporal: boolean;
    //Objeto donde sera guardado el objeto a traspasar
    ordenTemporalt: OrdenTemporal;
+   //Sacos a modificar en edit de OD
+   sacosETOD: number;
+   //obtener el peso del saco para sacar el peso total en edit de OD
+   pesoETOD: number;
+
 
 //Insertar Orden Temporal
 addOrdenTemporal(oT: OrdenTemporal) {
@@ -69,10 +79,14 @@ GetOrdenTemporalIdTarima(id: number): Observable <OrdenTemporal[]>{
 GetOrdenTemporalIdqr(id: number, qr: string): Observable <OrdenTemporal[]>{
   return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIdqr/'+ id + '/' + qr);
 }
+GetOrdenTemporalIdqrOD(id: number, qr: string): Observable <OrdenTemporal[]>{
+  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIdqrOD/'+ id + '/' + qr);
+}
 
 deleteOrdenTemporal(id:number){
   return this.http.delete(APIUrl + '/OrdenTemporal/BorrarOrdenTemporal/' + id)
 }
+
 
 
 

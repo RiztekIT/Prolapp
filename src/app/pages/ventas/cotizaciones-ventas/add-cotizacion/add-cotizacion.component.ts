@@ -25,6 +25,9 @@ import { ClienteDireccionComponent } from 'src/app/components/cliente-direccion/
 import { DetalleCotizacion } from '../../../../Models/ventas/detalleCotizacion-model';
 import { Prospecto } from 'src/app/Models/ventas/prospecto-model';
 import { CotizacionComponent } from 'src/app/components/cotizacion/cotizacion.component';
+import { MessageService } from 'src/app/services/message.service';
+import { EmailgeneralComponent } from '../../../../components/email/emailgeneral/emailgeneral.component';
+import * as html2pdf from 'html2pdf.js';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -53,7 +56,7 @@ export class AddCotizacionComponent implements OnInit {
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasCotizacionService,private _formBuilder: FormBuilder,
     private serviceTipoCambio: TipoCambioService, private serviceProducto: ProductosService, private http: HttpClient, public ServiceUnidad: UnidadMedidaService,
-    private dialog: MatDialog, public serviceDireccion: ClienteDireccionService) { 
+    private dialog: MatDialog, public serviceDireccion: ClienteDireccionService, public _MessageService: MessageService) { 
       this.MonedaBoolean = true;
 
       this.serviceDireccion.listen().subscribe((m:any)=>{
@@ -1084,4 +1087,61 @@ const dialogConfig = new MatDialogConfig();
    
     this.dialog.open(CotizacionComponent, dialogConfig);
 }
+
+email(cotizacion){
+  console.log(cotizacion);
+
+ 
+  // document.getElementById('enviaremail2').click();
+
+  // this.folioparam = folio;
+  // this.idparam = id;
+  this._MessageService.correo = 'ivan.talamantes@live.com';
+  this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
+  this._MessageService.asunto = 'Envio Cotizacion ' + cotizacion.Folio;
+  this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + cotizacion.Folio;
+  this._MessageService.nombre = 'ProlactoIngredientes';
+
+  this.service.formrow = cotizacion;
+  const dialogConfig2 = new MatDialogConfig();
+  dialogConfig2.autoFocus = false;
+  dialogConfig2.width = "0%";    
+  let dialogFact = this.dialog.open(CotizacionComponent, dialogConfig2); 
+  
+
+  setTimeout(()=>{
+
+    // this.xmlparam = folio;
+      const content: Element = document.getElementById('Cotizacion-PDF');
+      const option = {
+        margin: [0, 0, 0, 0],
+        filename: 'Cotizacion-' + cotizacion.Folio + '.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2, logging: true, scrollY: 0 },
+        jsPDF: { format: 'letter', orientation: 'portrait' },
+      };
+      html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
+        localStorage.setItem('pdfcotizacion'+cotizacion.Folio, pdfAsString);
+        this.statusparam=true;          
+        console.log(this.statusparam);                
+      })
+      dialogFact.close()
+      
+    },1000)
+
+  const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "90%";
+      dialogConfig.data = {
+        foliop: cotizacion.Folio,
+         cliente: cotizacion.Nombre,
+        status: true
+      }
+      this.dialog.open(EmailgeneralComponent, dialogConfig);
+
+ 
+
+}
+
 }

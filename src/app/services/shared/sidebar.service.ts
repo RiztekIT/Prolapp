@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
+
+export const APIUrl = environment.APIUrl;
+declare function init_plugins();
 
 @Injectable({
   providedIn: 'root'
 })
 export class SidebarService {
 
-  menu: any = [
+  menu: Array<menutipo>;
+  submenu: Array<submenutipo>;
+
+  /* menu: any = [
     {
       titulo: 'Administracion',
       icono: 'fa fa-gear',
@@ -140,7 +148,91 @@ export class SidebarService {
       ],
        url: '/direccion',
     }
-  ];
+  ]; */
 
-  constructor() { }
+  
+
+  constructor(private http:HttpClient) { 
+    this.getMenu();
+    
+  }
+
+
+  getMenu() {
+    return this.http.get(APIUrl + '/Menu/1').subscribe((data:any)=>{
+      // console.log(data);
+      this.menu = [];
+      
+      for (let i=0; i< data.length; i++){
+        this.menu[i] = {
+          "titulo":data[i].titulo,
+          "icono":data[i].icono,
+          "url":data[i].url
+        }
+      
+        this.menu[i].submenu = [];
+// console.log(this.menu);
+        
+
+        // console.log(data[i].idmenu);
+        // console.log(this.menu);
+        // this.menu[i].submenu
+        this.http.get(APIUrl+ '/Menu/Submenu/1/'+data[i].idmenu).subscribe((submenu:any)=>{
+          // console.log(data[i].idmenu);
+          // console.log(submenu);
+          this.submenu = [];
+
+          this.menu[i].submenu = []
+          for (let j=0; j< submenu.length; j++){
+            this.menu[i].submenu[j] = {
+              "titulo" : submenu[j].titulo,
+              "url": submenu[j].url
+            }
+          }
+
+
+        
+
+
+
+        })
+
+
+
+
+       
+      }
+      
+     
+      // console.log(this.menu);
+      init_plugins();
+
+    });
+  }
+
+
+  // public loadScript() { 
+  //   let body = <HTMLDivElement> document.body; 
+  //   let script = document.createElement('script'); 
+  //   script.innerHTML = ''; 
+  //   script.src = './comslider2056140/comsliderd.js?timestamp=1586825732'; 
+  //   script.async = true; 
+  //   script.defer = true; 
+  //   body.appendChild(script); 
+  // } 
+
+
+
+}
+
+
+export interface menutipo{
+  titulo:string;
+  icono:string;
+  url:string;
+  submenu?:Array<submenutipo>
+}
+export interface submenutipo{
+  titulo:string;
+  url:string;
 }
