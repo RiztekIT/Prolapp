@@ -655,6 +655,9 @@
                             <button *ngIf="this.Estatus=='Cancelada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='acuse(service.formData)' [disabled]="form.invalid"><i
                         class="mdi mdi-download btn-lg"></i>Descargar Acuse</button>
 
+                            <button *ngIf="this.Estatus=='Timbrada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='saldar(service.formData)' [disabled]="form.invalid"><i
+                        class="mdi mdi-currency-usd btn-lg"></i>Saldar</button>
+
 
 
                             <!-- <button type="button" class="btn btn-secondary">No Editable</button> -->
