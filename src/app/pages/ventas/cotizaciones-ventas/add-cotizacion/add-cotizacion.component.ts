@@ -1007,7 +1007,7 @@ crearCotizacion() {
 
     if (this.show == false){
 
-      this.service.formDataCotizacion.Estatus = 'Prospecto Pendiente'
+      // this.service.formDataCotizacion.Estatus = 'Prospecto Pendiente'
       
       this.service.onEditCotizacion(this.service.formDataCotizacion).subscribe(res2 =>{
         console.log("Cotizacion Pendiente");
