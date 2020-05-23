@@ -100,7 +100,7 @@
                         <div class="row">
                             <div class="col-6">
                                 <label class="input-group-text text-info">Sacos:</label>
-                                <input type="text" class="form-control" name="Sacos" #Sacos="ngModel" [(ngModel)]="this.sacosSaldo">
+                                <input type="number" class="form-control" name="Sacos" #Sacos="ngModel" [(ngModel)]="this.cantidadSacos" (ngModelChange)="onChangeCantidadSacos($event)">
                             </div>
                             <div class="col-6">
                                 <label class="input-group-text text-info">Comentarios:</label>
@@ -116,7 +116,6 @@
               <mat-icon>close</mat-icon>
             </button> -->
 
-
                     </div>
                 </div>
             </div>
@@ -131,7 +130,6 @@
 
                             <tr mat-header-row *matHeaderRowDef="displayedColumnsSacosIngresados"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumnsSacosIngresados;"></tr>
-
 
                             <ng-container matColumnDef="ClaveProducto">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>ClaveProducto</th>
@@ -175,10 +173,17 @@
                         </mat-paginator>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-2">
                     <div class="form-material">
                         <button class="btn btn-info" (click)="onAddTarimaOT()">
                                 <mat-icon>done_all</mat-icon> Crear Tarima
+                            </button>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-material">
+                        <button class="btn btn-info" (click)="onAddTarimaExistenteOT()">
+                                <mat-icon>done_all</mat-icon> Añadir a Tarima
                             </button>
                     </div>
                 </div>
@@ -245,7 +250,7 @@
                                 <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEditOT(row, i)">
                                             <mat-icon>edit</mat-icon>
                                         </button>
-                                <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="onDeleteProductOT(row)">
+                                <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="onDeleteProductOT(row, i)">
                                             <mat-icon>close</mat-icon>
                                         </button>
                                 <!--  -->
