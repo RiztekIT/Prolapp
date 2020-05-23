@@ -651,6 +651,9 @@
                             <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button>
                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='email(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
                         class="mdi mdi-email btn-lg"></i>Enviar</button>
+                            <br>
+                            <button *ngIf="this.Estatus=='Cancelada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='acuse(service.formData)' [disabled]="form.invalid"><i
+                        class="mdi mdi-download btn-lg"></i>Descargar Acuse</button>
 
 
 
