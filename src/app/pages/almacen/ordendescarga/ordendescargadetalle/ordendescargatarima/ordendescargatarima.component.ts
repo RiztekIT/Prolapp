@@ -469,7 +469,7 @@ this.cantidadSacos = 0;
    
       // this.ordenTemporalService.preOrdenTemporalSacos[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados;
       // this.ordenTemporalService.preOrdenTemporalSacos[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios;
-    this.
+  
       this.ordenTemporalService.preOrdenTemporalSacos.push(this.preOrdenTemporalSacos)
     this.listDataSacosIngresados = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalSacos);
     this.listData.sort = this.sort;
