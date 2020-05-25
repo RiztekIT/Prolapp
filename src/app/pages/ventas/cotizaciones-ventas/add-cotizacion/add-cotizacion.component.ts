@@ -697,6 +697,9 @@ refreshDetallesPedidoList() {
     console.log(data);
     //Verificar si hay datos en la tabla
     if (data.length > 0) {
+
+      this.service.formrow = this.service.formDataCotizacion;
+      this.service.formrow.DetalleCotizacion = data;
       this.valores = true;
       (<HTMLInputElement>document.getElementById("Moneda")).disabled = true;
       this.listData = new MatTableDataSource(data);
@@ -707,6 +710,7 @@ refreshDetallesPedidoList() {
         console.log(data);
         // console.clear();
         console.log(this.service.formDataCotizacion);
+        
         this.descuento = this.service.formDataCotizacion.Descuento;
         this.subtotal = data[0].importe;
         this.total = data[0].importe - this.descuento;
@@ -1084,7 +1088,7 @@ const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
     
-   
+  
     this.dialog.open(CotizacionComponent, dialogConfig);
 }
 

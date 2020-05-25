@@ -1,5 +1,42 @@
 import { Component, OnInit } from '@angular/core';
 import * as html2pdf from 'html2pdf.js';
+import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
+import { NativeDateAdapter } from '@angular/material';
+import { SharedService } from 'src/app/services/service.index';
+import { ngxLoadingAnimationTypes } from 'ngx-loading';
+
+
+/* Constante y variables para la transformacion de los meses en los datetimepicker */
+// const months =['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DIC'];
+const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+export class AppDateAdapter extends NativeDateAdapter {
+  format(date: Date, displayFormat: Object): string {
+    if (displayFormat === 'input') {
+      const day = date.getDate();
+      const month = date.getMonth();
+      const year = date.getFullYear();
+      return `${day}/${months[month]}/${year}`
+    }
+    return date.toDateString();
+  }
+}
+
+export const APP_DATE_FORMATS =
+{
+  parse: {
+    dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
+  },
+  display: {
+    dateInput: 'input',
+    // monthYearLabel: 'MMM YYYY',
+    // dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+    // monthYearA11yLabel: 'MMM YYYY',
+    monthYearLabel: { year: 'numeric', month: 'numeric' },
+    dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+    monthYearA11yLabel: { year: 'numeric', month: 'long' },
+  }
+};
+/* ----------------------------------------- */
 
 @Component({
   selector: 'app-reportescxc',
@@ -7,8 +44,12 @@ import * as html2pdf from 'html2pdf.js';
   styleUrls: ['./reportescxc.component.css']
 })
 export class ReportescxcComponent implements OnInit {
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
+  fechaInicial = new Date();
+  fechaFinal = new Date();
+  loading = false;
 
-  constructor() { }
+  constructor(public serviceFactura: FacturaService, public sharedService: SharedService) { }
 
   isVisible: boolean;
   
@@ -139,6 +180,36 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
           }, 1000);
           setTimeout(() => { this.isVisible = true;  }, 1000);
           
+            }
+
+
+
+            reporteFechas(){
+              this.loading = true;
+              console.log(this.fechaInicial);
+              console.log(this.fechaFinal);
+              let fecha1;
+              let fecha2;
+
+              let dia = this.fechaInicial.getDate();
+              let mes = this.fechaInicial.getMonth() + 1;
+              let anio = this.fechaInicial.getFullYear();
+              fecha1 = anio + '-' + mes + '-' + dia
+              
+              let dia2 = this.fechaFinal.getDate();
+              let mes2 = this.fechaFinal.getMonth() + 1;
+              let anio2 = this.fechaFinal.getFullYear();
+              fecha2 = anio2 + '-' + mes2 + '-' + dia2
+
+              console.log(fecha1);
+              console.log(fecha2);
+
+
+              this.serviceFactura.getFacturasFechas(fecha1,fecha2).subscribe(data=>{
+                console.log(data);
+                this.loading = false;
+                this.sharedService.generarReporteFacturacionFechas(data,fecha1,fecha2);
+              })
             }
 
 
