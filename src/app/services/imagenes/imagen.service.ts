@@ -18,6 +18,10 @@ export class ImagenService {
  getImagenes(): Observable <Imagenes[]>{
   return this.http.get<Imagenes[]>(APIUrl + '/Imagenes');
 }
+ //Obtener Imagen por Folio, Tipo y nombre
+ getImagenFTN(imagen: Imagenes):Observable<Imagenes[]>{
+  return this.http.post<Imagenes[]>(APIUrl + '/Imagenes/GetImagenFTN', imagen);
+}
 //Insert Imagen
 addImagen(imagen: Imagenes) {
   return this.http.post(APIUrl + '/Imagenes', imagen);
@@ -28,8 +32,16 @@ updateImagen(imagen: Imagenes) {
   }
   //Eliminar Imagen
   deleteImagen(id: number){
-    return this.http.delete(APIUrl+ '/Imagen/BorrarImagen/' + id);
+    return this.http.delete(APIUrl+ '/Imagenes/BorrarImagen/' + id);
   }
+  //Eliminar imagen por Tipo, Folio y Nombre
+  // deleteImagenTipoFolioNombre(tipo: string, folio: string, nombre: string){
+  //   return this.http.delete(APIUrl+ '/Imagenes/BorrarImagenOC/'+tipo+'/'+folio+'/'+nombre);
+  // }
+  deleteImagenOC(imagen: Imagenes) {
+    return this.http.post(APIUrl + '/Imagenes/BorrarImagenOC', imagen);
+  }
+
 
 
   private _listeners = new Subject<any>(); 

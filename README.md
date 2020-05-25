@@ -31,3 +31,6 @@ npm install file-saver --save
 
 ## Nanoid (Generador Codigo random QR)
 npm install nanoid
+
+## Compresor de imagen
+npm i ngx-image-compress
