@@ -32,6 +32,8 @@ export class OrdenTemporalService {
    posicionOrdenTemporalOD: number;
    //Concepto a editar
    ordenTemporalData = new OrdenTemporal();
+   //Concepto a editar en OD
+   ordenTemporalDataOD = new OrdenTemporal();
    //formdata que guarda los datos de orden temporal para deplegar en pdf
    formDataOtPDF: any;
    //formdata que guarda los los datos de orden de carga para desplegar en pdf
@@ -42,6 +44,11 @@ export class OrdenTemporalService {
    traspasoOrdenTemporal: boolean;
    //Objeto donde sera guardado el objeto a traspasar
    ordenTemporalt: OrdenTemporal;
+   //Sacos a modificar en edit de OD
+   sacosETOD: number;
+   //obtener el peso del saco para sacar el peso total en edit de OD
+   pesoETOD: number;
+
 
 //Insertar Orden Temporal
 addOrdenTemporal(oT: OrdenTemporal) {
@@ -79,6 +86,7 @@ GetOrdenTemporalIdqrOD(id: number, qr: string): Observable <OrdenTemporal[]>{
 deleteOrdenTemporal(id:number){
   return this.http.delete(APIUrl + '/OrdenTemporal/BorrarOrdenTemporal/' + id)
 }
+
 
 
 

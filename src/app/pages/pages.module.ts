@@ -207,12 +207,17 @@ import { CotizacionpedidoComponent } from '../components/cotizacionpedido/cotiza
 
 import { OrdendescargadetalleComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargadetalle.component';
 //import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { OrdenDescargaConceptoComponent } from '../components/almacen/orden-descarga/ordendescargadetalle/ordendescargatarima/orden-descarga-concepto/orden-descarga-concepto.component';
+import { EmailgeneralComponent } from '../components/email/emailgeneral/emailgeneral.component';
 // import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendescargatarima/ordendescargatarima.component';
 import { ProspectoVentasComponent } from './ventas/prospecto-ventas/prospecto-ventas.component';
 import { ProspectoclienteComponent } from '../components/prospecto/prospectocliente/prospectocliente.component';
 import { CotizacionEmailComponent } from '../components/cotizacion/cotizacion-email/cotizacion-email.component';
 
 import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargatarima/ordendescargatarima.component';
+import { OrdenDecargaTarimaExistenteComponent } from '../components/almacen/orden-descarga/ordendescargadetalle/ordendescargatarima/orden-decarga-tarima-existente/orden-decarga-tarima-existente.component';
+
+import { AcusecancelacionComponent } from '../components/acusecancelacion/acusecancelacion.component';
 // import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 //Import de compresor de imagenes
@@ -368,6 +373,10 @@ import {NgxImageCompressService} from 'ngx-image-compress';
         ProspectoVentasComponent,
         ProspectoclienteComponent,
         CotizacionEmailComponent,
+        OrdenDescargaConceptoComponent,
+        EmailgeneralComponent,
+        OrdenDecargaTarimaExistenteComponent,
+        AcusecancelacionComponent
     
     ],
     exports: [
@@ -475,6 +484,12 @@ import {NgxImageCompressService} from 'ngx-image-compress';
         ProspectoclienteComponent,
         CotizacionEmailComponent,
         EnviarOrdenCargaComponent,
+        EmailgeneralComponent,
+        AcusecancelacionComponent,
+        OrdenDescargaConceptoComponent,
+        EmailgeneralComponent,
+        OrdenDecargaTarimaExistenteComponent
+        
     ]
 })
 export class PagesModule { }

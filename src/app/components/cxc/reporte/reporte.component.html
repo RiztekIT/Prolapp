@@ -11,8 +11,8 @@
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th></th>
-                    <th></th>
+                    <!-- <th></th>
+                    <th></th> -->
                     <th></th>
                     <th></th>
                 </tr>
@@ -22,8 +22,8 @@
                     <th class="blacktxt bolder nowrap">Fecha de Expedicion</th>
                     <th class="blacktxt bolder ">Total MXN</th>
                     <th class="blacktxt bolder ">Total DLLS</th>
-                    <th class="blacktxt bolder ">Saldo MXN</th>
-                    <th class="blacktxt bolder ">Saldo DLLS</th>
+                    <!-- <th class="blacktxt bolder ">Saldo MXN</th> -->
+                    <!-- <th class="blacktxt bolder ">Saldo DLLS</th> -->
                     <th class="blacktxt bolder ">Moneda</th>
                     <th class="blacktxt bolder ">T.C.</th>
                 </tr>
@@ -41,11 +41,15 @@
                         <td class="pgbreak"> {{info.FechaDeExpedicion| date: 'yyyy/MM/dd'}} </td>
                         <td class="pgbreak"> {{info.Total | currency}} </td>
                         <td class="pgbreak"> {{info.TotalDlls | currency }} </td>
-                        <td class="pgbreak"> </td>
-                        <td class="pgbreak"> </td>
+                        <!-- <td class="pgbreak"> </td>
+                        <td class="pgbreak"> </td> -->
                         <td class="pgbreak"> {{info.Moneda}} </td>
                         <td class="pgbreak"> {{info.TipoDeCambio |currency}} </td>
                     </tr>
+                    <td class="wrap lightback pgbreak" [attr.colspan]="2"> </td>
+                    <td class="wrap lightback pgbreak"> Total </td>
+                    <td class="wrap lightback pgbreak" > {{info.TotalMXN |currency}} </td>
+                    <td class="wrap lightback pgbreak" > {{info.TotalDLLS |currency}} </td>
             </tbody>
         </table>
 

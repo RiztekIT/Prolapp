@@ -22,6 +22,8 @@ import { CalendarioComponent } from './components/cxc/calendario/calendario.comp
 // import { CotizacionpedidoComponent } from './components/cotizacionpedido/cotizacionpedido.component';
 import { ScannerComponent } from './components/scanner/scanner.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { EmailgeneralComponent } from './components/email/emailgeneral/emailgeneral.component';
+// import { AcusecancelacionComponent } from './components/acusecancelacion/acusecancelacion.component';
 // import { FacturacionComponent } from './components/cxc/graficas/facturacion/facturacion.component';
 // import { ComplementoPagoComponent } from './components/complemento-pago/complemento-pago.component';
 
@@ -45,6 +47,8 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
     CalendarioComponent,
     // CotizacionpedidoComponent,
     ScannerComponent,
+    // AcusecancelacionComponent,
+    
     
     
   

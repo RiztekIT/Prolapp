@@ -22,6 +22,8 @@ export class ReporteMxnComponent implements OnInit {
   arrcon: Array<any> = [];
 
   objconc: Array<any> = []; 
+  totalmxn;
+  totaldlls;
 
   ngOnInit() {
     this.getClientes();
@@ -29,7 +31,7 @@ export class ReporteMxnComponent implements OnInit {
 
   getClientes(){
 
-    this.serviceCliente.getClientesList().subscribe(data=>{
+    this.serviceCliente.getClientesListID().subscribe(data=>{
 
       this.IdCliente = data;
 
@@ -41,19 +43,24 @@ export class ReporteMxnComponent implements OnInit {
       this.masterArray = []
 
       for (let i = 0; i < data.length ; i++){
+        this.totaldlls = '0';
+        this.totalmxn = '0';
      
       // console.log( this.IdCliente[i].IdClientes);
 
       
       this.masterArray.push({
         IdCliente: this.IdCliente[i].IdClientes,
-        Nombre: this.IdCliente[i].Nombre
+        Nombre: this.IdCliente[i].Nombre,
+        TotalMXN: '0',
+        TotalDLLS: '0'
       })
 
       this.masterArray[i].Docs =[];
 
         this.serviceFactura.getReportesM(this.IdCliente[i].IdClientes).subscribe(res=>{
-
+          this.totaldlls = '0';
+          this.totalmxn = '0';
           // console.log(res);
 
 
@@ -64,6 +71,10 @@ export class ReporteMxnComponent implements OnInit {
             // console.log(res[l]);
             
             this.masterArray[i].Docs.push(res[l]);
+            this.totalmxn = (+this.totalmxn + +res[l].Total).toString();
+            this.totaldlls = (+this.totaldlls + +res[l].TotalDlls).toString();            
+            this.masterArray[i].TotalMXN = this.totalmxn;
+            this.masterArray[i].TotalDLLS = this.totaldlls;
 
               this.objconc.push(res[l]);
 
