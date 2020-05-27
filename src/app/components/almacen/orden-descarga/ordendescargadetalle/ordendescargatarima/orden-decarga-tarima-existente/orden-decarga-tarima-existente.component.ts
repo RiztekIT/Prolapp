@@ -43,12 +43,12 @@ export class OrdenDecargaTarimaExistenteComponent implements OnInit {
     this.tarimaService.getTarima().subscribe(data => {
       for (let i = 0; i < data.length; i++) {
         let TQr = data[i].QR;
-        this.listQR.push(TQr);
-        this.options.push(TQr)
+        // this.listQR.push(TQr);
+        // this.options.push(TQr)
         this.filteredOptions = this.myControl.valueChanges
           .pipe(
-            startWith(''),
-            map(value => this._filter(value))
+            // startWith(''),
+            // map(value => this._filter(value))
           );
       }
     });
