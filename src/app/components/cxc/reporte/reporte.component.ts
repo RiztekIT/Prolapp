@@ -2,6 +2,8 @@ import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
 import { ClientesService } from '../../../services/catalogos/clientes.service';
 import { ReporteMaster } from '../../../Models/cxc/reportecxcmaster-model';
+import { SharedService } from '../../../services/shared/shared.service';
+
 
 @Component({
   selector: 'app-reporte',
@@ -18,7 +20,7 @@ export class ReporteComponent implements OnInit {
 
   masterArray = new Array<ReporteMaster>();
 
-  constructor(public serviceFactura: FacturaService, public serviceCliente: ClientesService) { }
+  constructor(public serviceFactura: FacturaService, public serviceCliente: ClientesService, public sharedService: SharedService) { }
 
   con : string| number;
   arrcon: Array<any> = [];
@@ -108,4 +110,12 @@ export class ReporteComponent implements OnInit {
       
     }
   }
+
+
+  exportAsXLSX():void {
+console.log(this.arrcon);
+this.sharedService.generarExcelCobranza(this.arrcon);
+    // this.sharedService.exportAsExcelFile(this.arrcon,'ejemplo');
+    //this.excelService.exportAsExcelFile(this.data, 'sample');
+ }
 }

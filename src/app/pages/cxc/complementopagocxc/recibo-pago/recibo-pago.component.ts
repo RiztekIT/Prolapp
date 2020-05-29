@@ -810,8 +810,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
     
     this.json1.TipoCfdi = 'pago';
     this.json1.UsoCFDI = "P01";
-    //this.json1.Serie = "6390";
-    this.json1.Serie = "358668";
+    this.json1.Serie = "6390";
+    // this.json1.Serie = "358668";
     this.json1.Moneda = 'XXX';
     console.log(this.json1.Receptor.UID);
 // console.log(this.conceptos);
@@ -819,6 +819,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
     for (let i = 0; i< this.conceptos.length; i++){
       relacionados.push({
       "IdDocumento": this.conceptos[i].UUID1,
+      // "IdDocumento": '81F3E693-0B77-4D67-B4EC-9DCF4B06DF17',
       "MonedaDR" : this.conceptos[i].Moneda,
       "TipoCambioDR" : parseFloat(this.service.tipoCambioPago).toFixed(4),
       "MetodoDePagoDR" : "PPD",

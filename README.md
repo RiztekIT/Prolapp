@@ -31,3 +31,12 @@ npm install file-saver --save
 
 ## Nanoid (Generador Codigo random QR)
 npm install nanoid
+
+## Compresor de imagen
+npm i ngx-image-compress
+
+## Excel
+npm i --save exceljs@1.12.0
+
+## Excel 2
+npm install xlsx — save

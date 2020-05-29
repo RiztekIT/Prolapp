@@ -37,10 +37,10 @@ import { pagoTimbre } from 'src/app/Models/ComplementoPago/pagotimbre';
   }
   const httpOptions3 = {
     headers: new HttpHeaders({
-      'F-Api-Key':'JDJ5JDEwJEhCSnZrcnFVRFJrWU91U0hIRTBSdU9QeTIuWWlpaHo3ZHpqSy5OSTFmMGE0VWU5SDlSb3pD',
-      //'F-Api-Key':'JDJ5JDEwJDdRdWdpL05PMW5qb2M0c3BmdXpSZC5SdFVDd0JTT2RCeHguQ2FEdUZud0JNSXFoOC5DR25x', //Pruebas
-      'F-Secret-Key':'JDJ5JDEwJDBDU1gzS3pMRnJBNFR1eC9VVUVhRS5jb0FpTEc5bXJtSDkyVHlFVC5FM3JUYlkzbUZENGZh',
-      //'F-Secret-Key':'JDJ5JDEwJHJ0ZWRaRVhNU3cwQ1B2VzRZc2ZaRWV5c3ZNTWs3WFhoZThOOFg0YkdmQUZsQWc3UzQxZ25t', //Pruebas
+      //'F-Api-Key':'JDJ5JDEwJEhCSnZrcnFVRFJrWU91U0hIRTBSdU9QeTIuWWlpaHo3ZHpqSy5OSTFmMGE0VWU5SDlSb3pD',
+      'F-Api-Key':'JDJ5JDEwJDdRdWdpL05PMW5qb2M0c3BmdXpSZC5SdFVDd0JTT2RCeHguQ2FEdUZud0JNSXFoOC5DR25x', //Pruebas
+      //'F-Secret-Key':'JDJ5JDEwJDBDU1gzS3pMRnJBNFR1eC9VVUVhRS5jb0FpTEc5bXJtSDkyVHlFVC5FM3JUYlkzbUZENGZh',
+      'F-Secret-Key':'JDJ5JDEwJHJ0ZWRaRVhNU3cwQ1B2VzRZc2ZaRWV5c3ZNTWs3WFhoZThOOFg0YkdmQUZsQWc3UzQxZ25t', //Pruebas
       'Access-Control-Allow-Origin': 'http://192.168.1.180:4200',
       'Content-Type': 'application/json;charset=UTF-8',
       'Access-Control-Allow-Headers': 'F-Secret-Key,Accept, Accept-Encoding, Content-Type',

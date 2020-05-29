@@ -86,6 +86,11 @@ export class FacturaService {
       
     return this.http.get<Factura[]>(this.APIUrl + '/Factura/Id/' + id);
   }
+
+  //Obtener factura entre fechas
+  getFacturasFechas(fechaini,fechafinal){
+    return this.http.get<any[]>(this.APIUrl + '/Factura/FacturaFechas/' + fechaini+ '/' + fechafinal);
+  }
   //Obtener el ultimo Folio
   getFolio(): Observable<any>{
     return this.http.get<Factura[]>(this.APIUrl+'/Factura/Folio');

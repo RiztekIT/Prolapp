@@ -86,3 +86,7 @@ button {
 ::ng-deep .modal-lg {
     max-width: 1000px;
 }
+
+.nombre {
+    left: 0px !important
+}

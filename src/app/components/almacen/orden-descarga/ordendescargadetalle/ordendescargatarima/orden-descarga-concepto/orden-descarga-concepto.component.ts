@@ -4,6 +4,8 @@ import { OrdenTemporalService } from '../../../../../../services/almacen/orden-t
 import { NgForm } from '@angular/forms';
 import { TarimaService } from '../../../../../../services/almacen/tarima/tarima.service';
 import { OrdenTemporal } from 'src/app/Models/almacen/OrdenTemporal/ordenTemporal-model';
+import { OrdenDescargaService } from '../../../../../../services/almacen/orden-descarga/orden-descarga.service';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -14,7 +16,7 @@ import { OrdenTemporal } from 'src/app/Models/almacen/OrdenTemporal/ordenTempora
 export class OrdenDescargaConceptoComponent implements OnInit {
 
   constructor(public ordenTemporalService: OrdenTemporalService, public dialogbox: MatDialogRef<OrdenDescargaConceptoComponent>,
-    public tarimaService: TarimaService) { }
+    public tarimaService: TarimaService, public OrdenDescargaService: OrdenDescargaService) { }
 
   ngOnInit() {
     console.log(this.ordenTemporalService.ordenTemporalDataOD);
@@ -101,10 +103,34 @@ console.log(dataUptsacos);
       // this.tarimaService.getTarimaID(this.ordenTemporalService.ordenTemporalDataOD.IdTarima).subscribe(resDataTarima => {
       //   console.log(resDataTarima, 'lo que trae tarima');
 
+
+      this.OrdenDescargaService.getDetalleOrdenDescargaIdLoteClave(this.ordenTemporalService.ordenTemporalDataOD.IdOrdenDescarga, this.ordenTemporalService.ordenTemporalDataOD.Lote, this.ordenTemporalService.ordenTemporalDataOD.ClaveProducto).subscribe(dataOD => {
+        console.log(dataOD[0].Saldo, 'saldo en OD');
+        console.log(this.cantidadSacos, 'sacos ingresados');
+        let reinicioSaldo = ((+dataOD[0].Saldo) + +this.ordenTemporalService.ordenTemporalDataOD.Sacos).toString();
+        console.log(reinicioSaldo,'reinicioSaldo');
+        let NuevoSaldo = ((+reinicioSaldo) - (+this.cantidadSacos)).toString();
+        if(+NuevoSaldo < 0 ){
+          Swal.fire({
+            title: 'No se puede ingresar mas sacos que el # de saldo',
+            icon: 'warning',
+            timer: 1000,
+            showCancelButton: false,
+            showConfirmButton: false
+          });
+          return;
+        }
+        console.log(NuevoSaldo);
+        this.OrdenDescargaService.updateDetalleOrdenDescargaSaldo(dataOD[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res => {
+          console.log(res);
+this.OrdenDescargaService.filter('Register click');
+          this.ordenTemporalService.filterOrdenTemporal('Register click');
+        })
+      })
+
         
 
-          //falta mover las cantidades de sacos del producto editado en tarima, OT
-          this.ordenTemporalService.filterOrdenTemporal('Register click');
+          
         });
        });
       // })

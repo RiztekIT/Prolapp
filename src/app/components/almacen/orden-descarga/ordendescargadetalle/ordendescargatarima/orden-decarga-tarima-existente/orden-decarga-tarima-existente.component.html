@@ -1,0 +1,63 @@
+<div class="d-flex justify-content-between m-2">
+    <h4>Concepto</h4>
+
+    <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+</button>
+
+
+</div>
+
+<hr>
+
+
+<div style="overflow: auto; height: 450px;">
+
+
+    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+
+
+        <div class="form-material">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+
+                        <mat-form-field>
+                            <input type="text" placeholder="Seleccionar QR de Tarima" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="service.formData.IdClientes" name="QR ">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChange(option, $event)">
+                                    {{option.IdClientes}} {{option.Nombre}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+
+
+                        <label class="input-group-text text-info">Codigo QR</label>
+                        <input type="text" class="form-control" name="QRs" #QRs="ngModel" [(ngModel)]="QR">
+
+                        <label class="input-group-text text-info">Producto</label>
+                        <input readonly="readonly" type="text" class="form-control" name="Producto" [(ngModel)]="this.Producto">
+
+                        <label class="input-group-text text-info">Lote</label>
+                        <input readonly="readonly" type="text" class="form-control" name="Lote" [(ngModel)]="this.Lote">
+
+
+                    </div>
+                    <div class="col-lg-6">
+
+                        <label class="input-group-text text-info">Sacos</label>
+                        <input type="number" class="form-control" id="sacos" name="Sacos" [(ngModel)]="this.SacosIngresadosAll">
+
+                        <!-- <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched ||cantidadSacos == 0">
+                            Favor de Ingresar un valor mayor a 0.
+                        </div> -->
+
+                    </div>
+                </div>
+                <br>
+                <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Ingresar Conceptos</button>
+                <br>
+            </div>
+        </div>
+    </form>
+</div>

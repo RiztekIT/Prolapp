@@ -29,6 +29,10 @@ export class TarimaService {
   detalleTarimaOrdenCarga: DetalleTarima;
   QrOrigen: string;
 
+  getTarima(): Observable <Tarima[]>{
+    return this.http.get<Tarima[]>(APIUrl + '/Tarima');
+  }
+
   //Obtener detalles de Tarima por IdTarima
 getDetalleTarimaID(id: number): Observable <DetalleTarima[]>{
   return this.http.get<DetalleTarima[]>(APIUrl + '/Tarima/GetDetalleTarimaID/'+ id);

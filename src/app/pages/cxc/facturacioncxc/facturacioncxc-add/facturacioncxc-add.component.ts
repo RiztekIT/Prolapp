@@ -1775,6 +1775,31 @@ this.enviarfact.acuseCancelacion(fact.UUID).subscribe((data:any)=>{
 
   }
 
+  saldar(fact){
+
+    // console.log('fact',fact);
+    // console.log('service',this.service.formData);
+    this.service.formData.Estatus = 'Pagada'
+
+    // console.log('fact',fact);
+    // console.log('service',this.service.formData);
+
+    this.service.updateFactura(this.service.formData).subscribe(res => {
+      // this.resetForm(fact);
+      this.resetForm();
+      this.IniciarTotales();
+      Swal.fire(
+        'Factura Saldada',
+        '',
+        'success'
+      )
+
+    }
+    );
+
+
+  }
+
 
 
 
