@@ -1202,7 +1202,7 @@ console.log(data);
     this.service.formData.Estatus = 'Guardada';
     this.service.formData.Version = '3.3';
     //this.service.formData.Serie = '5628';
-    this.service.formData.Serie = '372057';
+    this.service.formData.Serie = '379068';
     
     if (this.service.formData.Moneda == 'USD') {
       this.service.formData.TipoDeCambio = this.Cdolar;
@@ -1296,7 +1296,7 @@ console.log(data);
       // dialogConfig.disableClose = true;
       dialogConfig.autoFocus = false;
       dialogConfig.width = "80%";
-      dialogConfig.height = "80%"
+      //dialogConfig.height = "80%"
       
      
       this.dialog.open(FacturaComponent, dialogConfig);
@@ -1346,8 +1346,8 @@ const dialogConfig = new MatDialogConfig();
       margin: [.5, .5, .5, 0],
       filename: 'F-' + folio + '.pdf',
       image: { type: 'jpeg', quality: 1 },
-      // html2canvas: { scale: 2, logging: true, scrollY: -2, scrollX: -15 },
-      html2canvas: { scale: 2, logging: true },
+      html2canvas: { scale: 2, logging: true, scrollY: -2, scrollX: -15 },
+      //html2canvas: { scale: 2, logging: true },
       jsPDF: { unit: 'cm', format: 'letter', orientation: 'p' },
       pagebreak: { avoid: '.pgbreak' }
 
