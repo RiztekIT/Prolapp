@@ -1,7 +1,16 @@
-<div>
+<!-- <div>
     <button (click)='exportAsXLSX()'>Excel</button>
+</div> -->
+<div class="container">
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4">
+            <button (click)="exportarXLS()" class="btn btn-success"> <i class="mdi mdi-file-excel-box" ></i> Excel </button>
+            <button (click)="exportarPDF()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
+        </div>
+    </div>
 </div>
-<div class="container row">
+<div class="container row" id="pdfreporte">
     <!-- <div class="col-1"></div> -->
     <div class="col-11">
 
@@ -14,6 +23,7 @@
                     <th></th>
                     <th></th>
                     <th></th>
+                    <th></th>
                     <!-- <th></th>
                     <th></th> -->
                     <th></th>
@@ -23,6 +33,7 @@
                     <th class="blacktxt bolder ">Folio</th>
                     <th class="blacktxt bolder ">Tipo</th>
                     <th class="blacktxt bolder nowrap">Fecha de Expedicion</th>
+                    <th class="blacktxt bolder nowrap">Fecha de Vencimiento</th>
                     <th class="blacktxt bolder ">Total MXN</th>
                     <th class="blacktxt bolder ">Total DLLS</th>
                     <!-- <th class="blacktxt bolder ">Saldo MXN</th> -->
@@ -32,7 +43,7 @@
                 </tr>
             </thead>
             <tbody *ngFor="let info of arrcon; let i = index">
-                <tr class="pgbreak">
+                <tr class="pgbreak border3">
                     <td class="wrap lightback pgbreak"> {{info.IdCliente}} </td>
                     <!-- <td class="wrap lightback"> {{info.Nombre | slice:0:35}} <br> {{info.Nombre | slice:35:this.textoNombre[i]}} </td> -->
                     <!-- <td class="wrap lightback"> {{info.Nombre}}</td> -->
@@ -42,6 +53,7 @@
                         <td class="pgbreak"> {{info.Folio}} </td>
                         <td class="pgbreak"> {{info.Tipo}} </td>
                         <td class="pgbreak"> {{info.FechaDeExpedicion| date: 'yyyy/MM/dd'}} </td>
+                        <td class="pgbreak"> {{info.FechaVencimiento| date: 'yyyy/MM/dd'}} </td>
                         <td class="pgbreak"> {{info.Total | currency}} </td>
                         <td class="pgbreak"> {{info.TotalDlls | currency }} </td>
                         <!-- <td class="pgbreak"> </td>
@@ -49,7 +61,7 @@
                         <td class="pgbreak"> {{info.Moneda}} </td>
                         <td class="pgbreak"> {{info.TipoDeCambio |currency}} </td>
                     </tr>
-                    <td class="wrap lightback pgbreak" [attr.colspan]="2"> </td>
+                    <td class="wrap lightback pgbreak" [attr.colspan]="3"> </td>
                     <td class="wrap lightback pgbreak"> Total </td>
                     <td class="wrap lightback pgbreak"> {{info.TotalMXN |currency}} </td>
                     <td class="wrap lightback pgbreak"> {{info.TotalDLLS |currency}} </td>
