@@ -34,3 +34,11 @@ npm install nanoid
 
 ## NGX-DROPZONE-WRAPPER
 npm i ngx-dropzone-wrapper
+## Compresor de imagen
+npm i ngx-image-compress
+
+## Excel
+npm i --save exceljs@1.12.0
+
+## Excel 2
+npm install xlsx --save

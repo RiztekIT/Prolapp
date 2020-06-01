@@ -19,4 +19,14 @@ export class preOrdenTemporalOD {
     SacosIngresados: string;
     SacosIngresadosTotales: string;
 
+    //para DT
+    IdProveedor: number;
+    Proveedor: string;
+    PO: string;
+    FechaMFG: Date;
+    Shipper: string;
+    USDA: string;
+    Pedimento: string;
+    PesoxSaco: string;
+
 }

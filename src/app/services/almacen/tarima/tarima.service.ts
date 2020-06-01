@@ -7,6 +7,7 @@ import { DetalleTarima } from '../../../Models/almacen/Tarima/detalleTarima-mode
 import { Tarima } from '../../../Models/almacen/Tarima/tarima-model';
 import { TraspasoTarima } from '../../../Models/almacen/Tarima/traspasoTarima-model';
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
+import { Usuario } from 'src/app/Models/catalogos/usuarios-model';
 
 export const APIUrl = environment.APIUrl;
 
@@ -28,6 +29,12 @@ export class TarimaService {
   //Detalle tarima a traspasar de OrdenCarga
   detalleTarimaOrdenCarga: DetalleTarima;
   QrOrigen: string;
+
+  //Bodega Origen/Destino
+  bodega: string;
+  getTarima(): Observable <Tarima[]>{
+    return this.http.get<Tarima[]>(APIUrl + '/Tarima');
+  }
 
   //Obtener detalles de Tarima por IdTarima
 getDetalleTarimaID(id: number): Observable <DetalleTarima[]>{
@@ -93,6 +100,12 @@ updateTraspasoTarima(tt: TraspasoTarima) {
 //Eliminar tarima
 deleteTarima(id: number){
   return this.http.delete(APIUrl+ '/Tarima/BorrarTarima/' + id);
+}
+
+//Obtener Informacion de Usuario por NombreUsuario
+//Obtener Tarima por QR code
+getUsuario(nombreUsuario : string): Observable <Usuario[]>{
+  return this.http.get<Usuario[]>(APIUrl + '/usuario/userinfo/'+ nombreUsuario);
 }
 
   private _listeners = new Subject<any>(); 

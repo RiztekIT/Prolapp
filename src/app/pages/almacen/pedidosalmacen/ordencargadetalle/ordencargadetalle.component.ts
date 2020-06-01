@@ -1,15 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
 import { MatSort } from '@angular/material/sort';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import { CurrencyPipe } from '@angular/common';
 import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
 import Swal from 'sweetalert2';
-
-// import { pedidoMaster } from 'src/app/Models/Pedidos/pedido-master';
-// import { DetallePedido } from '../../../Models/Pedidos/detallePedido-model';
+import { EmailComponent } from 'src/app/components/email/email/email.component';
+import { MessageService } from 'src/app/services/message.service';
+import { EnviarOrdenCargaComponent } from './enviar-orden-carga/enviar-orden-carga.component';
+import { AlmacenEmailService } from 'src/app/services/almacen/almacen-email.service';
 
 @Component({
   selector: 'app-ordencargadetalle',
@@ -25,8 +26,9 @@ IdOrdenCarga: number;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   
   DataOrdenCarga: any;
+  Folio: number;
   
-  constructor(public router: Router, private dialog: MatDialog, public service: OrdenCargaService) { 
+  constructor(public router: Router, private dialog: MatDialog, public service: OrdenCargaService,  public _MessageService: MessageService, public AlmacenEmailService: AlmacenEmailService) { 
 
     this.service.listen().subscribe((m:any)=>{
       console.log(m);
@@ -40,6 +42,7 @@ IdOrdenCarga: number;
     this.IdOrdenCarga = +(localStorage.getItem('IdOrdenCarga'));
     this.refreshForm();
     this.refreshDetalleOrdenCargaList();
+    this.ObtenerFolio(this.IdOrdenCarga);
   }
 
 
@@ -61,6 +64,15 @@ IdOrdenCarga: number;
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
     });
+  }
+
+   //Obtener Folio de Orden Carga
+   ObtenerFolio(id: number) {
+    this.service.getOrdenCargaID(id).subscribe(dataOC => {
+      console.log(dataOC);
+      this.Folio = dataOC[0].Folio;
+      console.log(this.Folio);
+    })
   }
 
   cambiarEstatusP(){
@@ -99,7 +111,26 @@ IdOrdenCarga: number;
       IdOrdenCarga: this.service.formData.IdOrdenCarga,
       Estatus: "Enviada"
     }
-    this.router.navigate(['/ordenCargaEnviar']);
+    this.AlmacenEmailService.correo='ivan.talamantes@live.com';
+    this.AlmacenEmailService.cco='javier.sierra@riztek.com.mx';
+    this.AlmacenEmailService.asunto='Envio Orden Carga con Folio '+this.Folio.toString();
+    this.AlmacenEmailService.cuerpo='Se han enviado Documentos de Orden Carga con el Folio '+this.Folio.toString();
+    this.AlmacenEmailService.nombre='ProlactoIngredientes';
+    this.AlmacenEmailService.folio = this.Folio;
+
+    const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        // dialogConfig.width = "90%";
+        dialogConfig.height = "90%";
+        // dialogConfig.data = {
+        //   foliop: folio,
+        //   idp: id,
+        //   status: true
+        // }
+        this.dialog.open(EnviarOrdenCargaComponent, dialogConfig);
+
+    // this.router.navigate(['/ordenCargaEnviar']);
 
     // this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
     //   this.service.formData.Estatus = "Enviada"
@@ -116,6 +147,67 @@ IdOrdenCarga: number;
     //   this.service.formData.Estatus = "Terminada"
     // })
     
+  }
+
+    /* Metodo para enviar por correo, abre el modal con los datos */
+email(){
+  // localStorage.removeItem('xml'+folio);
+  // localStorage.removeItem('pdf'+folio);
+  // localStorage.setItem('rowfact',JSON.stringify(row));
+  // document.getElementById('enviaremail').click();
+  let id=1
+  let folio = 1
+
+  this.service.IdOrdenCarga = this.IdOrdenCarga;
+
+    this._MessageService.correo='ivan.talamantes@live.com';
+    this._MessageService.cco='ivan.talamantes@riztek.com.mx';
+    this._MessageService.asunto='Envio Factura '+folio;
+    this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+folio;
+    this._MessageService.nombre='ProlactoIngredientes';
+  
+
+      // const dialogConfig2 = new MatDialogConfig();
+      // dialogConfig2.autoFocus = false;
+      // dialogConfig2.width = "0%";    
+      // let dialogFact = this.dialog.open(FacturaComponent, dialogConfig2); 
+      
+  
+      // setTimeout(()=>{
+
+      //     const content: Element = document.getElementById('Factura-PDF');
+      //     const option = {
+      //       margin: [0, 0, 0, 0],
+      //       filename: 'F-' + folio + '.pdf',
+      //       image: { type: 'jpeg', quality: 1 },
+      //       html2canvas: { scale: 2, logging: true, scrollY: 0 },
+      //       jsPDF: { format: 'letter', orientation: 'portrait' },
+      //     };
+      //     // html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
+      //     //   localStorage.setItem('pdf'+folio, pdfAsString);
+      //     //   this.statusparam=true;          
+      //     //   console.log(this .statusparam);                
+      //     // })
+      //     // dialogFact.close()
+          
+      //   },1000)
+        
+        // const dialogConfig = new MatDialogConfig();
+        // dialogConfig.disableClose = true;
+        // dialogConfig.autoFocus = true;
+        // // dialogConfig.width = "90%";
+        // dialogConfig.height = "90%";
+        // dialogConfig.data = {
+        //   foliop: folio,
+        //   idp: id,
+        //   status: true
+        // }
+        // this.dialog.open(EmailComponent, dialogConfig);
+        
+  
+  
+   
+  
   }
 
   regresar(){

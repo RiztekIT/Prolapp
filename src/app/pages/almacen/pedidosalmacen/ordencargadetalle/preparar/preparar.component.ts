@@ -209,7 +209,7 @@ export class PrepararComponent implements OnInit {
     // this.QRdata.IdTarima = 0;
     // this.QRdata.Sacos = '150';
     // this.QRdata.PesoTotal = '3000'; 
-    this.QRdata.QR = 'QR5';
+    this.QRdata.QR = 'LCozokb';
     // this.QRdata.QR = qrleido;
     console.log(this.QRdata);
 
@@ -722,13 +722,15 @@ export class PrepararComponent implements OnInit {
     dialogConfig.width = "70%";
     this.dialog.open(OrdenCargaConceptoComponent, dialogConfig);
   }
-
+//
   traspasoOrdenCarga(row: DetalleTarima) {
     console.log(row);
     this.tarimaService.trapasoOrdenCarga = true;
     this.ordenTemporalService.traspasoOrdenTemporal = false;
     this.tarimaService.idTarimaOrdenCarga = row.IdTarima;
     this.tarimaService.detalleTarimaOrdenCarga = row;
+    //Indicar cual es la bodega de la tarima
+    this.tarimaService.bodega = this.bodegaOrigen;
     this.tarimaService.getTarimaID(row.IdTarima).subscribe(dataQr => {
       this.tarimaService.QrOrigen = dataQr[0].QR;
       const dialogConfig = new MatDialogConfig();
@@ -748,6 +750,8 @@ export class PrepararComponent implements OnInit {
     this.ordenTemporalService.ordenTemporalt = row;
     this.tarimaService.idTarimaOrdenCarga = row.IdTarima;
     this.tarimaService.QrOrigen = row.QR;
+    //Indicar cual es la bodega de la tarima
+    this.tarimaService.bodega = this.bodegaOrigen;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -759,6 +763,8 @@ export class PrepararComponent implements OnInit {
   traspaso() {
 
     this.tarimaService.trapasoOrdenCarga = false;
+    //Indicar cual es la bodega de la tarima
+    this.tarimaService.bodega = this.bodegaOrigen;
 
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;

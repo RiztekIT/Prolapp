@@ -95,28 +95,41 @@
                                 </div>
                                 <!--               -------------------------------------------------------                                       -->
 
-                                <label class="input-group-text text-info">Cuenta</label>
+                                <div class="row">
+                                   <!--  <div class="col-6">
+                                        <label class="input-group-text text-info">Cuenta</label>
 
-                                <input type="string" class="form-control" name="Cuenta" #Cuenta="ngModel" [(ngModel)]="service.formData.Cuenta">
+                                        <input type="string" class="form-control" name="Cuenta" #Cuenta="ngModel" [(ngModel)]="service.formData.Cuenta">
+        
+                                        <div class="text-left text-danger" *ngIf="Cuenta.invalid && Cuenta.touched">
+                                            Favor de Ingresar Cuenta
+                                        </div>
+                                    </div> -->
+                                    <div class="col-12">
+                                        <label class="input-group-text text-info">Banco</label>
 
-                                <div class="text-left text-danger" *ngIf="Cuenta.invalid && Cuenta.touched">
-                                    Favor de Ingresar Cuenta
+                                        <select class="form-control" name="Banco" #Banco="ngModel" (change)="BancoSelected($event)" [(ngModel)]="banco" required>
+                                                <option [ngValue]="null" selected disabled>Seleccionar Banco</option>
+                                                <option *ngFor="let banco of listbancos" [ngValue]="banco.banco"> {{banco.banco}} </option>
+                                            </select>
+                                    </div>
                                 </div>
+                               
 
                                 <div class="row">
-                                    <div class="col-12">
+                                    <div class="col-6">
                                         <label class="input-group-text text-info">Tipo de Cambio</label>
 
                                         <input readonly type="string" class="form-control" name="Cuenta" #Cuenta="ngModel" [ngModel]="service.tipoCambioPago | currency">
                                     </div>
-                                    <!--  <div class="col-6">
+                                      <div class="col-6">
                                         <label class="input-group-text text-info">Moneda</label>
 
                                         <select class="form-control" name="Moneda" #Moneda="ngModel" (change)="MonedaSelected($event)" [(ngModel)]="service.formData.Moneda" required>
                                                 <option [ngValue]="null" selected disabled>Seleccionar Moneda</option>
                                                 <option *ngFor="let dl of listMoneda" [ngValue]="dl.Moneda"> {{dl.Moneda}} </option>
                                             </select>
-                                    </div> -->
+                                    </div>
                                 </div>
 
                                 <!-- <label class="input-group-text text-info">Tipo de Cambio</label> -->

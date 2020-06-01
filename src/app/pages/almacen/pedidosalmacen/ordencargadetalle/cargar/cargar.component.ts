@@ -6,7 +6,8 @@ import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-ca
 
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
-
+import Swal from 'sweetalert2';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
   selector: 'app-cargar',
@@ -15,13 +16,18 @@ import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
 })
 export class CargarComponent implements OnInit {
 
-  constructor(public router: Router, public imageService: ImagenService, public ordenCargaService: OrdenCargaService, private _sanitizer: DomSanitizer) { }
+  constructor(public router: Router, public imageService: ImagenService, public ordenCargaService: OrdenCargaService, private _sanitizer: DomSanitizer,
+    private imageCompress: NgxImageCompressService) { }
 
   ngOnInit() {
-this.IdOrdenCarga = +localStorage.getItem('IdOrdenCarga');
-this.ObtenerFolio(this.IdOrdenCarga);
+    this.IdOrdenCarga = +localStorage.getItem('IdOrdenCarga');
+    this.ObtenerFolio(this.IdOrdenCarga);
 
   }
+  //Imagen a comprimir
+  imgResultBeforeCompress: string;
+  imgResultAfterCompress: string;
+
   files: File[] = [];
   imagenes: any[];
   IdOrdenCarga: number;
@@ -37,167 +43,283 @@ this.ObtenerFolio(this.IdOrdenCarga);
 
   imagenSeleccionada: boolean;
 
-  regresar(){
+  regresar() {
     this.router.navigate(['/ordencargadetalle']);
-    
+
 
   }
 
-  ObtenerFolio(id: number){
-this.ordenCargaService.getOrdenCargaID(id).subscribe( dataOC =>{
-  console.log(dataOC);
-this.Folio = dataOC[0].Folio;
-console.log(this.Folio);
-this.leerDirImagenes();
-})
+  //Obtener Folio de Orden Carga
+  ObtenerFolio(id: number) {
+    this.ordenCargaService.getOrdenCargaID(id).subscribe(dataOC => {
+      console.log(dataOC);
+      this.Folio = dataOC[0].Folio;
+      console.log(this.Folio);
+      this.leerDirImagenes();
+    })
   }
 
   //Metodo ejecutado cuando se agrega(n) archivo(s) en el dropzone
-  onSelect(event){
+  onSelect(event) {
+    console.log(event)
     this.imagenSeleccionada = true;
-    // console.log(event);
-    console.log(event.addedFiles[0])
-    // for(let i = 0; i<event.addedFiles.length; i++){
-    // const formData = new FormData();
-    // formData.append('0',event.addedFiles[i])
-    //Cambiar el folio, por uno en base a la orden de carga
-    // formData.append('folio', this.Folio.toString())
-    // console.log(formData);
-    // this.imageService.saveImagenOrdenCarga(formData).subscribe(res=>{
-      // console.log('RESPUESTA')
-      // console.log(res);
-      //Guardar ruta de la imagen en la base de datos
-      //imagenes/OrdenCarga/folio/nombreIMAGEN
-      // const imagen = new Imagenes();
-      // imagen.Folio = 5;
-      // this.imageService.addImagen(imagen).subscribe(res =>{
-        // this.leerDirImagenes();
+    console.log(event.addedFiles[0].size)
 
-      // })
-    // })
-  // }
-    this.files.push(...event.addedFiles);
+    for (var i = 0; i < event.addedFiles.length; i++) {
+      console.log(event.addedFiles[i])
+      let imageName = event.addedFiles[i].name;
+
+      //Convertir imagen a Blob
+      const blob = new Blob([event.addedFiles[i] as BlobPart], { type: imageName });
+      let fr = new FileReader();
+      let image;
+      //Covertir Imagen a base64
+      fr.readAsDataURL(blob);
+      fr.onload = e => {
+        console.log(e);
+        console.log(fr.result);
+        console.log(fr);
+        image = fr.result;
+        console.warn('Size in bytes was:', this.imageCompress.byteCount(image));
+        //Comprimir la imagen
+        this.imageCompress.compressFile(image, -1, 25, 50).then(
+          result => {
+            console.warn('Size in bytes is now:', this.imageCompress.byteCount(result));
+            //Metodo para convertir imagen a File para guardarlo en arreglo y posteriormente subirlo al servidor
+            this.dataURItoBlob(result, imageName);
+
+          }
+        );
+
+      }
+    }
+
+  }
+
+  //Metodo para convertir imagen base64 a tipo File
+  dataURItoBlob(dataURI: any, fileName: string): File {
+
+    // convert base64/URLEncoded data component to a file
+    var byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+      byteString = atob(dataURI.split(',')[1]);
+    else
+      byteString = unescape(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    // write the bytes of the string to a typed array
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    //igualar imagen a tipo File 
+    let image = new File([ia], fileName, { type: mimeString });
+    //Guardar imagen tipo File en areglo
+    this.files.push(image);
+
+    return new File([ia], fileName, { type: mimeString });
   }
 
   // al remover una imagen del dropzone
-  onRemove(event){
+  onRemove(event) {
     console.log(event);
-    // const formData = new FormData();
-    // formData.append('name', event.name)
-    //Cambiar el folio, por uno en base a la orden de carga
-    //Cambiar el folio, por uno en base a la orden de carga
-    // formData.append('folio', this.Folio.toString())
-    // console.log(formData);
-    // this.imageService.deleteImagenOrdenCarga(formData).subscribe( res =>{
-      // console.log(res);
-      this.files.splice(this.files.indexOf(event),1);
-      // this.leerDirImagenes();
-    // })
-
+    //Eliminar imagen del dropzone
+    this.files.splice(this.files.indexOf(event), 1);
   }
 
   //Eliminar imagen del servidor 
-  deleteImage(imageName: string){
+  deleteImage(imageName: string) {
     console.log(imageName);
     //SWAL ALERT DELETE
-    const formData = new FormData();
-    formData.append('name', imageName)
-    formData.append('folio', this.Folio.toString())
-    console.log(formData);
-    this.imageService.deleteImagenOrdenCarga(formData).subscribe( res =>{
-      console.log(res);
-      //Eliminar Imagen de la base de datos
-      this.leerDirImagenes();
+    Swal.fire({
+      title: '¿Segur@ de borar Imagen?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+
+        Swal.fire({
+          title: 'Borrado',
+          icon: 'success',
+          timer: 1000,
+          showCancelButton: false,
+          showConfirmButton: false
+        });
+        const formData = new FormData();
+        formData.append('name', imageName)
+        formData.append('folio', this.Folio.toString())
+        console.log(formData);
+        //Eliminar imagen del servidor
+        this.imageService.deleteImagenOrdenCarga(formData).subscribe(res => {
+          console.log(res);
+          this.leerDirImagenes();
+          let imagen = new Imagenes();
+          imagen.Folio = this.Folio;
+          imagen.Tipo = 'OrdenCarga';
+          imagen.Imagen = imageName;
+          console.log(imagen)
+          //Eliminar Imagen de la base de datos
+          this.imageService.deleteImagenOC(imagen).subscribe(resp => {
+            console.log(resp)
+          })
+        })
+      }
     })
+  }
+
+  //Comprimir imagen
+  compressFile() {
+
+
+    this.imageCompress.uploadFile().then(({ image, orientation }) => {
+
+      console.log(image);
+      console.log(orientation);
+
+      this.imgResultBeforeCompress = image;
+      console.warn('Size in bytes was:', this.imageCompress.byteCount(image));
+
+      this.imageCompress.compressFile(image, orientation, 50, 50).then(
+        result => {
+          this.imgResultAfterCompress = result;
+          console.warn('Size in bytes is now:', this.imageCompress.byteCount(result));
+        }
+      );
+
+    });
 
   }
 
-  guardarImagenes(){
-    console.log(this.files[0]);
-    if(this.files.length>0){
-this.imagenSeleccionada = true;
+  guardarImagenes() {
+    console.log(this.files);
+    if (this.files.length > 0) {
+      this.imagenSeleccionada = true;
       //recorrer el arreglo que se lleno previamente al seleccionar las imagenes ( Dropzone )
-      for(let i = 0; i<this.files.length; i++){
+      for (let i = 0; i < this.files.length; i++) {
         console.log(this.files[i]);
         //agregar informacion necesaria a el objeto
-    const formData = new FormData();
-    formData.append('0',this.files[i]);
-    formData.append('folio', this.Folio.toString())
-    console.log(formData);
-    //Guardar la imagen en el servidor
-    this.imageService.saveImagenOrdenCarga(formData).subscribe(res=>{
-      console.log('RESPUESTA')
-      console.log(res);
-      this.leerDirImagenes();
-      const imagen = new Imagenes();
-      imagen.Folio = this.Folio;
-      imagen.Tipo = 'OrdenCarga';
-      imagen.Imagen='';
-      // imagen.Path='';
-      console.log('////////////////////////////')
-      console.log(this.files[i].name)
-      imagen.Path='imagenes/OrdenCarga/'+this.Folio.toString()+'/'+this.files[i].name;
-      console.log(imagen);
-      //Guardar Imagen en base de datos
-      this.imageService.addImagen(imagen).subscribe(resDB =>{
-        console.log(resDB)
-      })
-    })
+        const formData = new FormData();
+
+
+
+
+        formData.append('0', this.files[i]);
+        formData.append('folio', this.Folio.toString())
+        console.log(formData);
+        //Guardar la imagen en el servidor
+        this.imageService.saveImagenOrdenCarga(formData).subscribe(res => {
+          console.log('RESPUESTA')
+          console.log(res);
+          const imagen = new Imagenes();
+          imagen.Folio = this.Folio;
+          imagen.Tipo = 'OrdenCarga';
+          imagen.Imagen = this.files[i].name;
+          // imagen.Path='';
+          console.log('////////////////////////////')
+          console.log(this.files[i].name)
+          imagen.Path = 'imagenes/OrdenCarga/' + this.Folio.toString() + '/' + this.files[i].name;
+          console.log(imagen);
+          //Guardar Imagen en base de datos
+          //Verficar si ya existe esa imagen en la base de datos
+          this.imageService.getImagenFTN(imagen).subscribe(dataIma => {
+            if (dataIma.length > 0) {
+              console.log('****************')
+              console.log('Ya EXISTE LA IMAGEN')
+              if (i = this.files.length) {
+                this.leerDirImagenes();
+              }
+            } else {
+              console.log('****************')
+              console.log('IMAGEN NUEVA')
+              this.imageService.addImagen(imagen).subscribe(resDB => {
+                console.log(resDB)
+                // this.leerDirImagenes()
+                if (i = this.files.length) {
+                  this.leerDirImagenes();
+                };
+              })
+
+            }
+          })
+        })
+      }
+    } else {
+      this.imagenSeleccionada = false;
+    }
   }
-  }else{
-this.imagenSeleccionada = false;
-  }
-  }
-  
+
   //Metodo para obtener el nombre de las imagenes y posteriormente traerse la imagen del servidor
-  leerDirImagenes(){  
+  leerDirImagenes() {
     //Obtener nombre de la imagen del servidor
     const formData = new FormData();
     formData.append('folio', this.Folio.toString())
-    this.imageService.readDirImagenes(formData).subscribe(res=>{
-      console.log(res);
-      this.imagenes =[];
-      this.imageInfo = [];
-      this.files = [];
-      if (res){
-      for(let i = 0; i<res.length; i++){
-        this.imagenes.push(res[i]);
-        let data = new ImgInfo;
-        data.ImageName = res[i];
+    this.imagenes = [];
+    this.imageInfo = new Array<ImgInfo>();
+    this.files = [];
+    console.log(this.imageInfo);
+    this.imageService.readDirImagenes(formData).subscribe(res => {
+      if (res.length > 0) {
+        console.log('Si hay imagenes')
+        console.log(res);
+        // this.imageInfo = [];
+        // this.imageInfo.length=0;
+        // if (res) {
+        for (let i = 0; i < res.length; i++) {
+          this.imagenes.push(res[i]);
+          let data = new ImgInfo;
+          data.ImageName = res[i];
 
-        //Traer la imagen del servidor
-        const formData = new FormData();
-    formData.append('folio', this.Folio.toString())
-    formData.append('archivo', data.ImageName)
-    console.log(formData);
-    this.imageService.readImagenes(formData).subscribe(resImagen=>{
-      console.log(resImagen);
-      var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(resImagen)));
-      data.ImagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,'+ base64String);
-        console.log(data);
-        this.imageInfo.push(data)
-    })
+          //Traer la imagen del servidor
+          const formDataImg = new FormData();
+          formDataImg.append('folio', this.Folio.toString())
+          formDataImg.append('archivo', data.ImageName)
+          console.log(formDataImg);
+          this.imageService.readImagenes(formDataImg).subscribe(resImagen => {
+            console.log(resImagen);
+
+            // var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(resImagen)));
+            // data.ImagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + base64String);
+
+            let TYPED_ARRAY = new Uint8Array(resImagen);
+            const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
+              return data + String.fromCharCode(byte);
+            }, '');
+            let base64String = btoa(STRING_CHAR);
+
+            data.ImagePath = this._sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + base64String);
+
+            console.log(data);
+            this.imageInfo.push(data)
+          })
+        }
+        console.log(this.imageInfo)
+
+      } else {
+        console.log('No hay imagenes')
       }
-      console.log(this.imageInfo)
-
-    }
     })
 
   }
 
-  //Metodo para obtener imagen del server, recibe como parametro el nombre del archivo (  YA NO SE UTILIZA EN ESTE COMPONENTE  )
-  obtenerImagen(a){
+  //Metodo para obtener imagen del server, recibe como parametro el nombre del archivo (  YA NO SE UTILIZA EN ESTE METODO  )
+  obtenerImagen(a) {
     console.log(a);
     const formData = new FormData();
     formData.append('folio', this.Folio.toString())
     formData.append('archivo', a)
     console.log(formData);
-    this.imageService.readImagenes(formData).subscribe(res=>{
+    this.imageService.readImagenes(formData).subscribe(res => {
       console.log(res);
       var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(res)));
       // console.log(base64String);
       // this.user_photo = this.domSanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + data).toString();
-      this.imagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,'+ base64String);
+      this.imagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + base64String);
     })
   }
 
