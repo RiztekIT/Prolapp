@@ -810,8 +810,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
     
     this.json1.TipoCfdi = 'pago';
     this.json1.UsoCFDI = "P01";
-    this.json1.Serie = "6390";
-    // this.json1.Serie = "358668";
+    //this.json1.Serie = "6390";
+     this.json1.Serie = "358668";
     this.json1.Moneda = 'XXX';
     console.log(this.json1.Receptor.UID);
 // console.log(this.conceptos);
