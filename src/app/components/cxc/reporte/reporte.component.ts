@@ -35,7 +35,7 @@ export class ReporteComponent implements OnInit {
 
   getClientes(){
 
-    this.serviceCliente.getClientesListID().subscribe(data=>{
+    this.serviceCliente.getClientesListIDN().subscribe(data=>{
 
       this.IdCliente = data;
 
