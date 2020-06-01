@@ -216,7 +216,7 @@
                                                     <table class="table">
                                                         <thead>
                                                             <tr>
-                                                                <th class="text-center textoBodyAcomodo"> {{ tipoCambio |currency }} </th>
+                                                                <th class="text-center textoBodyAcomodo"> {{ tipoCambio |currency: '':'symbol':'1.4-4' }} </th>
                                                                 <th class="text-center textoBodyAcomodo"> {{ fechaEntrega | slice:0:10 }} </th>
                                                                 <th class="text-center textoBodyAcomodo"> {{ condicionesPago }} </th>
                                                             </tr>

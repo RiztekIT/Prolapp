@@ -32,6 +32,9 @@ export class TarimaService {
 
   //Bodega Origen/Destino
   bodega: string;
+  getTarima(): Observable <Tarima[]>{
+    return this.http.get<Tarima[]>(APIUrl + '/Tarima');
+  }
 
   //Obtener detalles de Tarima por IdTarima
 getDetalleTarimaID(id: number): Observable <DetalleTarima[]>{

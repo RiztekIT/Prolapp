@@ -7,7 +7,7 @@ import { DetalleNotaCredito } from '../../../Models/nota-credito/detalleNotaCred
 import { DetalleFactura } from '../../../Models/facturacioncxc/detalleFactura-model';
 import { environment } from 'src/environments/environment';
 
-export const APIUrl = environment.APIUrl;
+//export const APIUrl = environment.APIUrl;
 //export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 
 @Injectable({
@@ -47,8 +47,9 @@ export const APIUrl = environment.APIUrl;
     //Variable ID FACTURA
     IdFactura: number;
 
-    readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+    //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
     // readonly APIUrl = "https://localhost:44361/api";
+    readonly APIUrl = environment.APIUrl;
 
     //Get Join Notas y Detalle Notas
 

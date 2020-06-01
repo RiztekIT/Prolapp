@@ -61,7 +61,7 @@ export class HeaderComponent implements OnInit {
     let diasemana = new Date(fechahoy).getDay();
 
     let i;
-if (hora>11){
+if (hora>10){
   i=2;
 }else{
   i=1;

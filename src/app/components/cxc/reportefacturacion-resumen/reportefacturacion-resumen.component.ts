@@ -1,138 +1,110 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FacturacionService } from 'src/app/services/reportes/facturacion.service';
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
-import { ClientesService } from '../../../services/catalogos/clientes.service';
-import { ReporteMaster } from '../../../Models/cxc/reportecxcmaster-model';
-import { SharedService } from '../../../services/shared/shared.service';
 import * as html2pdf from 'html2pdf.js';
 
-
 @Component({
-  selector: 'app-reporte',
-  templateUrl: './reporte.component.html',
-  styleUrls: ['./reporte.component.css']
+  selector: 'app-reportefacturacion-resumen',
+  templateUrl: './reportefacturacion-resumen.component.html',
+  styleUrls: ['./reportefacturacion-resumen.component.css']
 })
-export class ReporteComponent implements OnInit {
-
-  IdCliente: any;
-
-  IdC: number;
-
-  textoNombre: any;
-
-  masterArray = new Array<ReporteMaster>();
-
+export class ReportefacturacionResumenComponent implements OnInit {
+  fechaInicial = new Date();
+  fechaFinal = new Date();
+  facturas = new Array<any>();
   isVisible: boolean;
 
-  constructor(public serviceFactura: FacturaService, public serviceCliente: ClientesService, public sharedService: SharedService) { }
-
-  con : string| number;
-  arrcon: Array<any> = [];
-  totalmxn;
-  totaldlls;
-
-  objconc: Array<any> = []; 
+  constructor(public sharedService: FacturacionService,public serviceFactura: FacturaService) { }
 
   ngOnInit() {
-    this.getClientes();
+    this.reporteresumen();
   }
 
-  getClientes(){
+  reporteresumen(){
+    console.log(this.fechaInicial);
+    console.log(this.fechaFinal);
+    let fecha1;
+    let fecha2;
 
-    this.serviceCliente.getClientesListIDN().subscribe(data=>{
+    this.fechaInicial = this.sharedService.fecha1
+    this.fechaFinal = this.sharedService.fecha2
 
-      this.IdCliente = data;
+    let dia = this.fechaInicial.getDate();
+    let mes = this.fechaInicial.getMonth() + 1;
+    let anio = this.fechaInicial.getFullYear();
+    fecha1 = anio + '-' + mes + '-' + dia
+    
+    let dia2 = this.fechaFinal.getDate();
+    let mes2 = this.fechaFinal.getMonth() + 1;
+    let anio2 = this.fechaFinal.getFullYear();
+    fecha2 = anio2 + '-' + mes2 + '-' + dia2
 
+    console.log(fecha1);
+    console.log(fecha2);
+    this.serviceFactura.getFacturasFechas(fecha1,fecha2).subscribe(data=>{
 
-
-      // console.log(this.IdCliente);
-
-      this.objconc = []
-
-      this.masterArray = []
-
-      for (let i = 0; i < data.length ; i++){
-     this.totaldlls = '0';
-     this.totalmxn = '0';
-      // console.log( this.IdCliente[i].IdClientes);
-
-      
-      this.masterArray.push({
-        IdCliente: this.IdCliente[i].IdClientes,
-        Nombre: this.IdCliente[i].Nombre,
-        TotalMXN: '0',
-        TotalDLLS: '0'
-      })
-
-      this.textoNombre = this.masterArray[i].Nombre.length;
-      // console.log(this.textoNombre);
-
-      this.masterArray[i].Docs =[];
-
-        this.serviceFactura.getReportes(this.IdCliente[i].IdClientes).subscribe(res=>{
-          this.totaldlls = '0';
-          this.totalmxn = '0';
-          if(res.length > 0){
-
-          for( let l = 0; l < res.length; l++){
-
-           
-            
-            this.masterArray[i].Docs.push(res[l]);
-            
-            this.totalmxn = (+this.totalmxn + +res[l].Total).toString();
-            this.totaldlls = (+this.totaldlls + +res[l].TotalDlls).toString();            
-            this.masterArray[i].TotalMXN = this.totalmxn;
-            this.masterArray[i].TotalDLLS = this.totaldlls;
-              this.objconc.push(res[l]);
-
-            }
-          }
-   
-          this.datosArray(this.masterArray);
-        })
+      for (let i=0; i<data.length; i++){
+        this.facturas[i] = data[i];
       }
-      
 
     })
+
   }
 
-  datosArray(datos){
+  reporteFechasExcel(){
+    // this.loading = true;
+    console.log(this.fechaInicial);
+    console.log(this.fechaFinal);
+    let fecha1;
+    let fecha2;
 
-    // console.log(datos);
+    this.fechaInicial = this.sharedService.fecha1
+    this.fechaFinal = this.sharedService.fecha2
 
-    this.arrcon = [];
-    if(datos.length > 0){
-      for(let j = 0; j < datos.length; j++){
-        //var info = datos[j];
-        //console.log(info);
-        if (datos[j].Docs.length>0){
-          this.arrcon.push(datos[j])
-        }
-      }
-      //  console.log(this.arrcon);
+    let dia = this.fechaInicial.getDate();
+    let mes = this.fechaInicial.getMonth() + 1;
+    let anio = this.fechaInicial.getFullYear();
+    fecha1 = anio + '-' + mes + '-' + dia
+    
+    let dia2 = this.fechaFinal.getDate();
+    let mes2 = this.fechaFinal.getMonth() + 1;
+    let anio2 = this.fechaFinal.getFullYear();
+    fecha2 = anio2 + '-' + mes2 + '-' + dia2
+
+    console.log(fecha1);
+    console.log(fecha2);
+
+
+    this.serviceFactura.getFacturasFechas(fecha1,fecha2).subscribe(data=>{
       
-    }
+      
+      console.log(data);
+      // this.loading = false;
+   /*    for (let i=0; i<data.length; i++ ){
+        this.facturas[i] = data[i];
+        this.facturas[i].detalle = []
+        this.serviceFactura.getDetallesFacturaList(data[i].Id).subscribe(con =>{
+          console.log(con);
+          for (let l = 0; l <=con.length-1; l++){
+            this.facturas[i].detalle.push(con[l]);
+          }
+          
+          
+        })
+      }
+    })
+    console.log(this.facturas); */
+    this.sharedService.generarReporteFacturacionFechas(data,fecha1,fecha2);
+  })
   }
 
-
-  exportAsXLSX():void {
-console.log(this.arrcon);
-this.sharedService.generarExcelCobranza(this.arrcon);
-    // this.sharedService.exportAsExcelFile(this.arrcon,'ejemplo');
-    //this.excelService.exportAsExcelFile(this.data, 'sample');
- }
-
- exportarXLS(){
-  this.sharedService.generarExcelCobranza(this.arrcon);
- }
-
- exportarPDF(){
+  exportarPDF(){
 
 
-  this.isVisible = false;
+    this.isVisible = false;
   setTimeout(() => {  
   // setTimeout(this.onExportClick,5)
-  const content: Element = document.getElementById('pdfreporte');
+  const content: Element = document.getElementById('pdf3');
   const option = {    
     margin: [3,0,3,0],
     filename: 'Reporte.pdf',
@@ -166,6 +138,6 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
     }).save();
   }, 1000);
   setTimeout(() => { this.isVisible = true;  }, 1000);
+  }
 
- }
 }
