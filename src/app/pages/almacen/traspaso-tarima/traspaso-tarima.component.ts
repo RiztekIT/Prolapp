@@ -10,6 +10,10 @@ import { Tarima } from '../../../Models/almacen/Tarima/tarima-model';
 import { TraspasoTarima } from '../../../Models/almacen/Tarima/traspasoTarima-model';
 import { OrdenTemporalService } from '../../../services/almacen/orden-temporal/orden-temporal.service';
 import Swal from 'sweetalert2';
+import { MatDialogConfig, MatDialog } from '@angular/material';
+import { ScannerComponent } from 'src/app/components/scanner/scanner.component';
+//Libreria para generar codigos QR
+import { nanoid } from 'nanoid'
 
 @Component({
   selector: 'app-traspaso-tarima',
@@ -18,13 +22,15 @@ import Swal from 'sweetalert2';
 })
 export class TraspasoTarimaComponent implements OnInit {
 
-  constructor(public dialogbox: MatDialogRef<TraspasoTarimaComponent>, public tarimaService: TarimaService, public ordenTemporalService: OrdenTemporalService) { }
+  constructor(public dialogbox: MatDialogRef<TraspasoTarimaComponent>, public tarimaService: TarimaService, public ordenTemporalService: OrdenTemporalService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.nuevaTarima = false;
     this.tarimaDValida = false;
     console.log(this.tarimaService.trapasoOrdenCarga);
     console.log(this.ordenTemporalService.traspasoOrdenTemporal);
+    this.bodega = this.tarimaService.bodega;
+    this.getUserInfo();
     if(this.tarimaService.trapasoOrdenCarga == true){
 this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.tarimaService.detalleTarimaOrdenCarga, this.tarimaService.QrOrigen);
     }
@@ -35,6 +41,16 @@ this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.tarima
 this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.ordenTemporalService.ordenTemporalt, this.tarimaService.QrOrigen);
     }
   }
+
+  //Bodega Origen/Destino
+  bodega: string;
+
+  //CodigoQRLeido
+  qrleido;
+
+  //Informacion de Usuario Logeado
+IdUsuario: number;
+Usuario: string;
 
   tarimaIdOrigen: number;
   tarimaIdDestino: number;
@@ -75,7 +91,45 @@ this.dialogbox.close();
 
   }
 
-  onSubmit(form: NgForm) {
+  getUserInfo(){
+    let Usersession = JSON.parse(localStorage.getItem('ProlappSession'));
+    console.log(Usersession.user);
+    let user = Usersession.user;
+    this.tarimaService.getUsuario(user).subscribe(res=>{
+      this.Usuario = user;
+      this.IdUsuario = res[0].IdUsuario;
+    })
+  }
+
+  //Escanear codigo QR
+  escanear(target: string) {
+    console.log(target)
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "70%";
+
+    let dialogscan = this.dialog.open(ScannerComponent, dialogConfig);
+
+    dialogscan.afterClosed().subscribe(data => {
+
+      console.log(data);
+      this.qrleido = data;
+//Verificar en cual input fue activado el lector QR
+      if(target == 'origen'){
+this.tarimaQrOrigen = this.qrleido;
+this.onBlurIdOrigen();
+      }else{
+this.tarimaQrDestino = this.qrleido;
+this.onBlurIdDestino
+      }
+      
+
+    })
+
+  }
+
+  onSubmit() {
     //Verificar si es una nueva tarima 
     //Verficar si se estan traspasando todos los sacos de ese producto TRUE( nomas cambiar el idTarima ) FALSE ( generar nuevo Dt y actualizar los sacos de Dt origen )
     //Hacer Update a Tarima
@@ -86,11 +140,24 @@ this.dialogbox.close();
       tarimaInsert.IdTarima = 0;
       tarimaInsert.Sacos = sacosTraspaso.toString();
       tarimaInsert.PesoTotal = (sacosTraspaso * 20).toString();
+      tarimaInsert.Bodega= this.bodega;
 
       //Generar CODIGO QR
-      tarimaInsert.QR = 'QR6';
+      // let codigoQR = 'gArzGVs';
+      let codigoQR = nanoid(7);
+//Verificar si este codigo QR ya existe
+this.tarimaService.getTarimaQR(codigoQR).subscribe(resQR=>{
+  console.log(resQR)
+  if(resQR.length> 0){
+codigoQR = nanoid(7);
+  }
+tarimaInsert.QR = codigoQR;
 
+// tarimaInsert.QR = nanoid(7);
+      // console.clear();
+      console.warn(tarimaInsert.QR);
 
+      
 
 
       console.log(tarimaInsert);
@@ -100,7 +167,7 @@ this.dialogbox.close();
         //Obtener id new Tarima
         this.tarimaService.getUltimaTarima().subscribe(dataUT => {
           console.log(dataUT);
-
+          
           this.detalleTarimaSelected.IdTarima = dataUT[0].IdTarima;
           this.detalleTarimaSelected.Sacos = sacosTraspaso.toString();
           console.log(this.detalleTarimaSelected);
@@ -115,8 +182,13 @@ this.dialogbox.close();
             this.tt.Lote = this.detalleTarimaSelected.Lote;
             this.tt.Sacos = sacosTraspaso.toString();
             this.tt.FechaTraspaso = new Date();
-            this.tt.IdUsuario = 0;
-            this.tt.Usuario = 'TYSOK';
+
+            //Informacion del Usuario que esta traspasando la tarima
+            // this.tt.IdUsuario = 0;
+            // this.tt.Usuario = 'TYSOK';
+            this.tt.IdUsuario = this.IdUsuario;
+            this.tt.Usuario = this.Usuario;
+
             console.log(this.tt);
             this.tarimaService.addTraspasoTarima(this.tt).subscribe(resTrasTarima => {
               console.log(resTrasTarima);
@@ -126,6 +198,7 @@ this.dialogbox.close();
           });
         });
       });
+    })
     } else {
       this.tt = new TraspasoTarima();
             this.tt.IdOrigenTarima = this.tarimaIdOrigen;
@@ -328,11 +401,11 @@ console.log(this.listDetalleTarima);
 this.filteredOptionsDetalleTarima = new  Observable<any[]>();
 if(dataTarima.length > 0){
   
-  if(dataTarima[0].Bodega == 'Transito'){
+  if(dataTarima[0].Bodega == 'Transito' || dataTarima[0].Bodega != this.bodega){
     Swal.fire({
       icon: 'error',
-      title: 'Tarima en Transito',
-      text: 'La tarima con el codigo ' + this.tarimaQrOrigen + ' se encuentra en Transito.' 
+      title: 'Error Tarima',
+      text: 'La tarima con el codigo ' + this.tarimaQrOrigen + ' no se encuentra en esta bodega.' 
     })
   }else{
     this.dropdownRefreshDetalleTarima(this.tarimaQrOrigen);
@@ -450,11 +523,11 @@ this.tarimaService.getTarimaQR(qrDestino).subscribe(dataqr =>{
   console.log(dataqr);
   if(dataqr.length > 0){
     console.log('si entro');
-    if(dataqr[0].Bodega == 'Transito'){
+    if(dataqr[0].Bodega == 'Transito' || dataqr[0].Bodega != this.bodega){
       Swal.fire({
         icon: 'error',
-        title: 'Tarima en Transito',
-        text: 'La tarima con el codigo ' + this.tarimaQrDestino + ' se encuentra en transito.' 
+        title: 'Error Tarima',
+        text: 'La tarima con el codigo ' + this.tarimaQrDestino + ' no se encuentra en esta bodega.' 
       })
     }else{      
       this.tarimaIdDestino = dataqr[0].IdTarima;

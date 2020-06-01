@@ -39,4 +39,4 @@ npm i ngx-image-compress
 npm i --save exceljs@1.12.0
 
 ## Excel 2
-npm install xlsx — save
+npm install xlsx --save
