@@ -40,3 +40,7 @@ th {
 .border3 {
     border-top-style: double !important;
 }
+
+.texto {
+    text-align: end;
+}

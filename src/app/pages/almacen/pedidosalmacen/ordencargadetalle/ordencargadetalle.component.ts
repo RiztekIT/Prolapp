@@ -112,9 +112,9 @@ IdOrdenCarga: number;
       Estatus: "Enviada"
     }
     this.AlmacenEmailService.correo='ivan.talamantes@live.com';
-    this.AlmacenEmailService.cco='ivan.talamantes@riztek.com.mx';
-    this.AlmacenEmailService.asunto='Envio Factura ';
-    this.AlmacenEmailService.cuerpo='Se ha enviado un comprobante fiscal digital con folio ';
+    this.AlmacenEmailService.cco='javier.sierra@riztek.com.mx';
+    this.AlmacenEmailService.asunto='Envio Orden Carga con Folio '+this.Folio.toString();
+    this.AlmacenEmailService.cuerpo='Se han enviado Documentos de Orden Carga con el Folio '+this.Folio.toString();
     this.AlmacenEmailService.nombre='ProlactoIngredientes';
     this.AlmacenEmailService.folio = this.Folio;
 
@@ -157,6 +157,8 @@ email(){
   // document.getElementById('enviaremail').click();
   let id=1
   let folio = 1
+
+  this.service.IdOrdenCarga = this.IdOrdenCarga;
 
     this._MessageService.correo='ivan.talamantes@live.com';
     this._MessageService.cco='ivan.talamantes@riztek.com.mx';
