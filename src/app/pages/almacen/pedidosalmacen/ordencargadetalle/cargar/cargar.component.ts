@@ -307,7 +307,7 @@ export class CargarComponent implements OnInit {
 
   }
 
-  //Metodo para obtener imagen del server, recibe como parametro el nombre del archivo (  YA NO SE UTILIZA EN ESTE COMPONENTE  )
+  //Metodo para obtener imagen del server, recibe como parametro el nombre del archivo (  YA NO SE UTILIZA EN ESTE METODO  )
   obtenerImagen(a) {
     console.log(a);
     const formData = new FormData();
