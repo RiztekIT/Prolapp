@@ -44,3 +44,7 @@ th {
 .border2 {
     border-top-style: dotted;
 }
+
+.texto {
+    text-align: end;
+}

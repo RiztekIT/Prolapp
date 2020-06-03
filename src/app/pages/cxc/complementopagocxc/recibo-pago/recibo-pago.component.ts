@@ -852,6 +852,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
     console.clear();
      console.log(JSON.stringify(this.json1));
     
+
+    
   }
   
   onTimbrar(){
