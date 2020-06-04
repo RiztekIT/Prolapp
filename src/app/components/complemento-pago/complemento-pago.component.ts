@@ -16,6 +16,7 @@ export class ComplementoPagoComponent implements OnInit {
 
   myAngularxQrCode: string;
   QRsize:number;
+  rfcBanco;
   
   // constructor(public dialogbox: MatDialogRef<ComplementoPagoComponent>, public router: Router, private _formBuilder: FormBuilder, 
   constructor(public router: Router, private _formBuilder: FormBuilder, public dialogbox: MatDialogRef<ComplementoPagoComponent>, private dialog: MatDialog,
@@ -46,6 +47,22 @@ export class ComplementoPagoComponent implements OnInit {
     this.service.formt = JSON.parse(localStorage.getItem('rowpago'));
     
     console.log(this.service.formt)
+
+    if (this.service.formt.Cuenta==='014150655040229899'){
+      this.rfcBanco = 'BSM970519DU8'
+    }
+    if (this.service.formt.Cuenta==='021150040537518226'){
+      this.rfcBanco = 'HMI950125KG8'
+    }
+    if (this.service.formt.Cuenta==='021150070030383384'){
+      this.rfcBanco = 'HMI950125KG8'
+    }
+    if (this.service.formt.Cuenta==='014150825007240214'){
+      this.rfcBanco = 'BSM970519DU8'
+    }
+    if (this.service.formt.Cuenta==='012150001119448432'){
+      this.rfcBanco = 'BBA830831LJ2'
+    }
 
 
     this.objconc = this.service.formt.pagoCFDI;

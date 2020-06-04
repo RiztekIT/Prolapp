@@ -160,6 +160,7 @@ export class FacturaComponent implements OnInit {
 this.certificado = row.Certificado;
 this.serie = row.Serie;
 this.folio = row.Folio;
+//this.folio = '9119';
 this.fecha = row.FechaDeExpedicion;
 this.formaDePago = row.FormaDePago;
 this.nocertificado = row.NumeroDeCertificado;
@@ -171,7 +172,7 @@ this.tipoDeComprobante = row.Tipo;
 this.metodoPago = row.MetodoDePago;
 this.lugarExpedicion = row.LugarDeExpedicion;
 this.selloCFDI = row.SelloDigitalCFDI;
-this.rfcE = row.RFCDelPAC
+this.rfcE = 'PLA11011243A'
 this.nombreE = 'PRO LACTO INGREDIENTES S DE RL MI DE CV';
 this.nombreR = row.Nombre;
 this.rfcR = row.RFC;

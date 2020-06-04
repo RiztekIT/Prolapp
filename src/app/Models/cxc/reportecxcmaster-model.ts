@@ -6,5 +6,8 @@ export class ReporteMaster{
     Docs?: any[];
     TotalMXN?: string;
     TotalDLLS?:string;
+    TotalAbonos?:string;
+    TotalSaldo?:string;
+    
 
 }

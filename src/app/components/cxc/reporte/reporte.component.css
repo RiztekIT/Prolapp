@@ -8,7 +8,7 @@
 
 td {
     font-size: 16px !important;
-    padding: 5px;
+    /* padding: 5px; */
 }
 
 th {
@@ -35,4 +35,16 @@ th {
 
 ::ng-deep .modal-lg {
     max-width: 850px;
+}
+
+.border3 {
+    border-top-style: double !important;
+}
+
+.border2 {
+    border-top-style: dotted;
+}
+
+.texto {
+    text-align: end;
 }

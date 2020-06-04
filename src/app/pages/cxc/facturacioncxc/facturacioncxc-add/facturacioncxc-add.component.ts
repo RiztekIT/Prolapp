@@ -1202,7 +1202,7 @@ console.log(data);
     this.service.formData.Estatus = 'Guardada';
     this.service.formData.Version = '3.3';
     //this.service.formData.Serie = '5628';
-    this.service.formData.Serie = '372057';
+    this.service.formData.Serie = '386447';
     
     if (this.service.formData.Moneda == 'USD') {
       this.service.formData.TipoDeCambio = this.Cdolar;
@@ -1296,7 +1296,7 @@ console.log(data);
       // dialogConfig.disableClose = true;
       dialogConfig.autoFocus = false;
       dialogConfig.width = "80%";
-      // dialogConfig.height = "80%"
+      //dialogConfig.height = "80%"
       
      
       this.dialog.open(FacturaComponent, dialogConfig);

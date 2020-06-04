@@ -54,7 +54,7 @@
                                 <mat-form-field>
                                     <mat-label> Fecha Inicial </mat-label>
                                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                                    <input matInput readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="fechaInicial" [(ngModel)]="fechaInicial">
+                                    <input matInput readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="fechaInicial" [(ngModel)]="sharedService.fecha1">
                                     <mat-datepicker #picker1></mat-datepicker>
                                 </mat-form-field>
                             </div>
@@ -62,12 +62,14 @@
                                 <mat-form-field>
                                     <mat-label> Fecha Final </mat-label>
                                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                                    <input matInput readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="fechaFinal" [(ngModel)]="fechaFinal">
+                                    <input matInput readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="fechaFinal" [(ngModel)]="sharedService.fecha2">
                                     <mat-datepicker #picker2></mat-datepicker>
                                 </mat-form-field>
                             </div>
                             <div class="col-4">
-                                <button (click)="reporteFechas()" class="btn btn-info"> Ver Reporte </button>
+                                <button (click)="abrirReporte()" class="btn btn-info"> Reporte Detallado </button>
+                                <!-- <button (click)="reporteFechasExcel()" class="btn btn-info"> Reporte Resumen Excel</button> -->
+                                <button (click)="abrirReporteResumen()" class="btn btn-info"> Reporte Resumen</button>
                             </div>
                         </div>
                     </div>

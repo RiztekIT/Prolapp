@@ -8,7 +8,8 @@
                 <div class="row">
                     <div class="col-5">
                         <!-- <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}} -->
-                        <button class="btn btn-primary" type="button" (click)="escanear()">ABRIR ESCANER</button>
+                        <button class="btn btn-primary" type="button" (click)="escanear()">Abrir Escaner</button>
+                        <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" (blur)="simularQR(qrleido)">
                     </div>
                     <div class="col-2">
 
@@ -138,8 +139,8 @@
                 </div>
 
                 <hr>
-                <hr>
-                <h3>TABLA ORDEN TEMPORAL</h3>
+                <!-- <hr> -->
+                <h3>TABLA SALIDA DE PRODUCTO</h3>
 
                 <div style="overflow:auto;">
                     <table mat-table [dataSource]="listDataOrdenTemporal" matSort>
@@ -238,12 +239,12 @@
                 <hr>
                 <button class="btn btn-primary" type="button" (click)="pdf()">PDF</button>
                 <hr>
-                <button *ngIf="MostrarConceptos == false" class="btn btn-primary" type="button" (click)="conceptosFaltantes()">Conceptos Faltantes</button>
+                <button *ngIf="MostrarConceptos == false" class="btn btn-primary" type="button" (click)="conceptosFaltantes()">Productos Faltantes</button>
                 <button *ngIf="MostrarConceptos == true" class="btn btn-primary" type="button" (click)="ocultarConceptosFaltantes()">Ocultar Tabla</button>
                 <hr>
                 <div *ngIf="MostrarConceptos == true">
 
-                    <h3>TABLA ORDEN TEMPORAL</h3>
+                    <h3>TABLA PRODUCTOS FALTANTES</h3>
 
                     <div style="overflow:auto;">
                         <table mat-table [dataSource]="listDataConceptosFaltantes" matSort>
@@ -298,7 +299,7 @@
                     </div>
                 </div>
 
-                <hr>
+                <!-- <hr> -->
                 <button class="btn btn-primary" type="button" (click)="finalizar()">Finalizar</button>
             </div>
         </div>

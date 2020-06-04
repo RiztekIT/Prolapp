@@ -222,6 +222,12 @@ import { AcusecancelacionComponent } from '../components/acusecancelacion/acusec
 
 //Import de compresor de imagenes
 import {NgxImageCompressService} from 'ngx-image-compress';
+import { ReportefacturacionfechasComponent } from '../components/cxc/reportefacturacionfechas/reportefacturacionfechas.component';
+import { ReportefacturacionResumenComponent } from '../components/cxc/reportefacturacion-resumen/reportefacturacion-resumen.component';
+import { OrdenDescargaEvidenciasComponent } from './almacen/ordendescarga/ordendescargadetalle/orden-descarga-evidencias/orden-descarga-evidencias.component';
+
+
+
 
 
 
@@ -376,7 +382,10 @@ import {NgxImageCompressService} from 'ngx-image-compress';
         OrdenDescargaConceptoComponent,
         EmailgeneralComponent,
         OrdenDecargaTarimaExistenteComponent,
-        AcusecancelacionComponent
+        AcusecancelacionComponent,
+        ReportefacturacionfechasComponent,
+        ReportefacturacionResumenComponent,
+        OrdenDescargaEvidenciasComponent
     
     ],
     exports: [
@@ -488,7 +497,9 @@ import {NgxImageCompressService} from 'ngx-image-compress';
         AcusecancelacionComponent,
         OrdenDescargaConceptoComponent,
         EmailgeneralComponent,
-        OrdenDecargaTarimaExistenteComponent
+        OrdenDecargaTarimaExistenteComponent,
+        ReportefacturacionfechasComponent,
+        ReportefacturacionResumenComponent,
         
     ]
 })

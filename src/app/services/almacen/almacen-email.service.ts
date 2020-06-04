@@ -44,6 +44,8 @@ export class AlmacenEmailService {
         headers = headers.set('Accept','application/pdf');
         return this._http.post<any>(this.URLApiEMail+"/ObtenerDocumentoOrdenCarga",body,{headers:headers, responseType:'arrayBuffer' as 'json'})
       }
-    
-
+    //Regresa el nombre de los archivos
+    readDirDocuemntos(body){
+      return this._http.post<any>(this.URLApiEMail+"/cargarNombreDocuemntosOrdenCarga",body);
+    }
 }

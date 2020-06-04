@@ -6,7 +6,7 @@
     },
 
     "/api/v3/*": {
-        "target": "http://devfactura.in/",
+        "target": "https://factura.com ",
         "secure": false,
         "changeOrigin": true
     },
@@ -14,7 +14,7 @@
 
 
     "/api/v1/*": {
-        "target": "http://devfactura.in/ ",
+        "target": "https://factura.com ",
         "secure": false,
         "changeOrigin": true
     }

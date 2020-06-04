@@ -86,6 +86,7 @@ export const APP_DATE_FORMATS =
   ]
 })
 export class ReciboPagoComponent implements OnInit {
+  banco;
   folioparam;
   xmlparam;
   idparam;
@@ -328,6 +329,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
       console.log(data);
       if (data) {
         for (let i = 0; i < data.length; i++) {
+          //this.service.formData.Moneda = data[i].Moneda;
 
 
           if (data[i].Moneda==='MXN'){
@@ -556,10 +558,37 @@ console.log('NUEVO CFDIIIIIIIIIII');
     { Moneda: 'USD' }
   ];
 
+  /* lista de Bancos*/
+  public listbancos: Array<Object> = [
+    { banco: 'SANTANDER', cuenta:"014150655040229899"},
+    { banco: 'HSBC', cuenta:"021150040537518226"},
+    { banco: 'HSBC DLLS', cuenta:"021150070030383384"},
+    { banco: 'SANTANDER DLLS', cuenta:"014150825007240214"},
+    { banco: 'BANCOMER', cuenta:"012150001119448432"}
+  ]
+
   MonedaSelected(event: any) {
     this.Moneda = event.target.selectedOptions[0].text;
     this.service.formData.Moneda = this.Moneda;
     this.change(this.service.formData.FechaPago);
+  }
+
+  BancoSelected(event:any){
+    if (event.target.selectedOptions[0].text==='SANTANDER'){
+      this.service.formData.Cuenta = '014150655040229899'
+    }
+    if (event.target.selectedOptions[0].text==='HSBC'){
+      this.service.formData.Cuenta = '021150040537518226'
+    }
+    if (event.target.selectedOptions[0].text==='HSBC DLLS'){
+      this.service.formData.Cuenta = '021150070030383384'
+    }
+    if (event.target.selectedOptions[0].text==='SANTANDER DLLS'){
+      this.service.formData.Cuenta = '014150825007240214'
+    }
+    if (event.target.selectedOptions[0].text==='BANCOMER'){
+      this.service.formData.Cuenta = '012150001119448432'
+    }
   }
 
   //Forma Pago
@@ -781,8 +810,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
     
     this.json1.TipoCfdi = 'pago';
     this.json1.UsoCFDI = "P01";
-    this.json1.Serie = "6390";
-    // this.json1.Serie = "358668";
+    //this.json1.Serie = "6390";
+     this.json1.Serie = "358668";
     this.json1.Moneda = 'XXX';
     console.log(this.json1.Receptor.UID);
 // console.log(this.conceptos);
@@ -822,6 +851,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
     //  console.log(relacionados);
     console.clear();
      console.log(JSON.stringify(this.json1));
+    
+
     
   }
   
@@ -913,7 +944,7 @@ console.log(this.json1);
 
     
     dia = `${days[fecha.getDate()]}`;
-    dia2 = `${days[fecha.getDate()-1]}`;
+    dia2 = `${days[fecha.getDate()+1]}`;
     mes = `${months[fecha.getMonth()]}`;
     año = fecha.getFullYear();
     hora = fecha.getHours();
@@ -929,6 +960,7 @@ console.log(this.json1);
     console.log(this.fecha2);
 
     this.fechaapi = año + '-' + mes + '-' + dia2
+    console.log(this.service.formData.Moneda)
 
     if(this.service.formData.Moneda==='USD'){
       console.log(this.fechaapi);
@@ -954,7 +986,8 @@ console.log(this.json1);
 
   traerApi(fecha): Observable<any>{
 
-    return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/"+fecha+'/'+fecha, httpOptions)
+    //return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/"+fecha+'/'+fecha, httpOptions)
+    return this.http.get("/SieAPIRest/service/v1/series/SF60653/datos/"+fecha+'/'+fecha, httpOptions)
 
   }
 

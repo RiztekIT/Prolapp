@@ -14,7 +14,8 @@
 <div style="overflow: auto; height: 450px;">
 
 
-    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+    <!-- <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off"> -->
+    <form #form="ngForm" autocomplete="off">
 
 
         <div class="form-material">
@@ -23,6 +24,7 @@
                     <div class="col-lg-6">
 
                         <label class="input-group-text text-info">Tarima Origen (Codigo QR)</label>
+                        <button mat-icon-button class="form-control" (click)="escanear('origen')"><mat-icon>qr_code</mat-icon></button>
                         <input required type="text" class="form-control" name="IdtarimaIdOrigen" #IdtarimaOrigen="ngModel" [(ngModel)]="tarimaQrOrigen" (blur)="onBlurIdOrigen()">
 
                         <label class="input-group-text text-info">Producto :</label> <br>
@@ -57,6 +59,7 @@
                     <div class="col-lg-6">
                         <div *ngIf="nuevaTarima == false">
                             <label class="input-group-text text-info">Tarima Destino (Codigo QR)</label>
+                            <button mat-icon-button class="form-control" (click)="escanear('destino')"><mat-icon>qr_code</mat-icon></button>
                             <input required type="text" class="form-control" name="IdtarimaIdDestino" #IdtarimaDestino="ngModel" [(ngModel)]="tarimaQrDestino" (blur)="onBlurIdDestino(tarimaQrDestino)">
                         </div>
 
@@ -64,10 +67,12 @@
                 </div>
                 <br>
                 <div *ngIf="this.tarimaDValida == true">
-                    <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Traspasar</button>
+                    <!-- <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Traspasar</button> -->
+                    <button class="btn btn-success" mat-raised-button color="success" (click)="onSubmit()" [disabled]="form.invalid">Traspasar</button>
                 </div>
                 <div *ngIf="this.tarimaDValida == false && this.nuevaTarima == true">
-                    <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Traspasar</button>
+                    <!-- <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Traspasar</button> -->
+                    <button class="btn btn-success" mat-raised-button color="success" (click)="onSubmit()" [disabled]="form.invalid">Traspasar</button>
                 </div>
                 <br>
             </div>

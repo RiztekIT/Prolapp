@@ -307,7 +307,7 @@ export class CargarComponent implements OnInit {
 
   }
 
-  //Metodo para obtener imagen del server, recibe como parametro el nombre del archivo (  YA NO SE UTILIZA EN ESTE COMPONENTE  )
+  //Metodo para obtener imagen del server, recibe como parametro el nombre del archivo (  YA NO SE UTILIZA EN ESTE METODO  )
   obtenerImagen(a) {
     console.log(a);
     const formData = new FormData();
@@ -321,6 +321,20 @@ export class CargarComponent implements OnInit {
       // this.user_photo = this.domSanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + data).toString();
       this.imagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + base64String);
     })
+  }
+
+  finalizar() {
+
+    //Verificar si el estatus va en orden
+    this.ordenCargaService.getOCID(this.IdOrdenCarga).subscribe(res => {
+      if (res[0].Estatus == 'Preparada') {
+        this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(res => {
+          console.log(res)
+          this.router.navigate(['/ordencargadetalle']);
+        })
+      }
+      this.router.navigate(['/ordencargadetalle']);
+    });
   }
 
 

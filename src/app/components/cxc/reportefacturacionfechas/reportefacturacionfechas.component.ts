@@ -1,212 +1,112 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FacturacionService } from '../../../services/reportes/facturacion.service';
+import { MatDialogRef, MatDialogConfig } from '@angular/material';
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
-import { ClientesService } from '../../../services/catalogos/clientes.service';
-import { ReporteMaster } from '../../../Models/cxc/reportecxcmaster-model';
-import { SharedService } from '../../../services/shared/shared.service';
 import * as html2pdf from 'html2pdf.js';
-
+import { facturaMasterDetalle } from 'src/app/Models/facturacioncxc/facturamasterdetalle';
+import * as fs from 'file-saver';
+import * as XLSX from 'xlsx'
+import { Workbook } from 'exceljs';
 
 @Component({
-  selector: 'app-reporte',
-  templateUrl: './reporte.component.html',
-  styleUrls: ['./reporte.component.css']
+  selector: 'app-reportefacturacionfechas',
+  templateUrl: './reportefacturacionfechas.component.html',
+  styleUrls: ['./reportefacturacionfechas.component.css']
 })
-export class ReporteComponent implements OnInit {
+export class ReportefacturacionfechasComponent implements OnInit {
 
-  IdCliente: any;
+  facts;
+  fechaInicial = new Date();
+  fechaFinal = new Date();
+  //facturas = new facturaMasterDetalle;
 
-  IdC: number;
-
-  textoNombre: any;
-
-  masterArray = new Array<ReporteMaster>();
-
+  facturas = new Array<any>();
   isVisible: boolean;
 
-  constructor(public serviceFactura: FacturaService, public serviceCliente: ClientesService, public sharedService: SharedService) { }
 
-  con : string| number;
-  arrcon: Array<any> = [];
-  totalmxn;
-  totaldlls;
-  saldo;
-  abono;
-  totalsaldo;
-  totalabonos;
+  // masterArray = new Array<ReporteMaster>();
 
-
-  objconc: Array<any> = []; 
+  constructor(public dialogRef: MatDialogRef<ReportefacturacionfechasComponent>,public reporteFacturacionService: FacturacionService, public serviceFactura: FacturaService,public sharedService: FacturacionService) { }
 
   ngOnInit() {
-    this.getClientes();
+
+    this.reporteFechasDetallado();
+    // this.dialogRef.afterOpened().subscribe(data=>{
+    //   this.ver();
+
+    // })
   }
 
-  getClientes(){
+  ver(){
+    for (let i=0; i<this.reporteFacturacionService.datosReporteDetalladoFechas.length;i++){
 
-    this.serviceCliente.getClientesListIDN().subscribe(data=>{
+      this.facts.push(this.reporteFacturacionService.datosReporteDetalladoFechas[i])
+    }
+    // this.facts = this.reporteFacturacionService.datosReporteDetalladoFechas; 
+    console.log('facs',this.facts);
+  }
 
-      this.IdCliente = data;
+  reporteFechasDetallado(){
+    
+    // console.log(this.fechaInicial);
+    // console.log(this.fechaFinal);
+    let fecha1;
+    let fecha2;
+
+    this.fechaInicial = this.sharedService.fecha1
+    this.fechaFinal = this.sharedService.fecha2
+
+    let dia = this.fechaInicial.getDate();
+    let mes = this.fechaInicial.getMonth() + 1;
+    let anio = this.fechaInicial.getFullYear();
+    fecha1 = anio + '-' + mes + '-' + dia
+    
+    let dia2 = this.fechaFinal.getDate();
+    let mes2 = this.fechaFinal.getMonth() + 1;
+    let anio2 = this.fechaFinal.getFullYear();
+    fecha2 = anio2 + '-' + mes2 + '-' + dia2
+
+    // console.log(fecha1);
+    // console.log(fecha2);
+
+    // this.facts = [];
 
 
-
-      // console.log(this.IdCliente);
-
-      this.objconc = []
-
-      this.masterArray = []
-
-      for (let i = 0; i < data.length ; i++){
-     this.totaldlls = '0';
-     this.totalmxn = '0';
-     this.totalsaldo = '0';
-     this.totalabonos = '0';
-      // console.log( this.IdCliente[i].IdClientes);
-
+    this.serviceFactura.getFacturasFechas(fecha1,fecha2).subscribe(data=>{
       
-      this.masterArray.push({
-        IdCliente: this.IdCliente[i].IdClientes,
-        Nombre: this.IdCliente[i].Nombre,
-        TotalMXN: '0',
-        TotalDLLS: '0'
-      })
-
-      this.textoNombre = this.masterArray[i].Nombre.length;
-      // console.log(this.textoNombre);
-
-      this.masterArray[i].Docs =[];
-
-        this.serviceFactura.getReportes(this.IdCliente[i].IdClientes).subscribe(res=>{
-          this.totaldlls = '0';
-          this.totalmxn = '0';
-          this.totalsaldo = '0';
-     this.totalabonos = '0';
-
-          this.saldo = 0;
-          this.abono = 0;
-          
-          let notacredito;
-          let pagos;
-          if(res.length > 0){
-
-          for( let l = 0; l < res.length; l++){
-
-            if (res[l].Moneda === 'MXN'){
-              if (!res[l].NCTotal){
-
-                notacredito = 0;
-              }else{
-                notacredito = +res[l].NCTotal;
-              }
-            }else if (res[l].Moneda === 'USD'){
-              if (!res[l].NCTotalDlls){
-                
-                notacredito = 0;
-              }else{
-                notacredito = +res[l].NCTotalDlls;
-              }
-            }
-
-              if (!res[l].pagos){
-
-                pagos = 0;
-              }else{
-                pagos = res[l].pagos
-              }
-
-            this.abono = +notacredito + +pagos;
-            // console.log(this.abono);
-            // console.log(+notacredito);
-            // console.log(+pagos);
-            
-            if (res[l].Moneda === 'MXN'){
-
-              this.saldo = +res[l].Total - +this.abono
-
-            }else if (res[l].Moneda === 'USD'){
-              this.saldo = +res[l].TotalDlls - +this.abono
-
-            }
-            
-
-           
-            console.log(res[l]);
-            // this.masterArray[i].Docs.push(res[l],"abonos:'5");
-            this.masterArray[i].Docs.push({
-              FechaDeExpedicion: res[l].FechaDeExpedicion,
-              FechaVencimiento: res[l].FechaVencimiento,
-              Folio: res[l].Folio,
-              Idcliente: res[l].Idcliente,
-              Moneda: res[l].Moneda,
-              NCTotal: res[l].NCTotal,
-              NCTotalDlls: res[l].NCTotalDlls,
-              Tipo: res[l].Tipo,
-              TipoDeCambio: res[l].TipoDeCambio,
-              Total: res[l].Total,
-              TotalDlls: res[l].TotalDlls,
-              pagos: res[l].pagos,
-              Abonos: this.abono,
-              Saldo: this.saldo
-            })
-            
-            this.totalmxn = (+this.totalmxn + +res[l].Total).toString();
-            this.totaldlls = (+this.totaldlls + +res[l].TotalDlls).toString();  
-            this.totalsaldo = +this.totalsaldo + +this.saldo;
-            this.totalabonos = +this.totalabonos + +this.abono;          
-            this.masterArray[i].TotalMXN = this.totalmxn;
-            this.masterArray[i].TotalDLLS = this.totaldlls;
-            this.masterArray[i].TotalAbonos = this.totalabonos;
-            this.masterArray[i].TotalSaldo = this.totalsaldo;
-
-              this.objconc.push(res[l]);
-
-            }
+      
+      console.log('subscribe 1',data);
+      
+      for (let i=0; i<data.length; i++ ){
+        this.facturas[i] = data[i];
+        this.facturas[i].detalle = []
+        this.serviceFactura.getDetallesFacturaList(data[i].Id).subscribe(con =>{
+          console.log(con);
+          for (let l = 0; l <=con.length-1; l++){
+            this.facturas[i].detalle.push(con[l]);
           }
-   
-          this.datosArray(this.masterArray);
+          
+          
         })
       }
+
+      console.log('antes del service',this.facturas);
+      // this.facts = this.facturas
+      
       
 
+
+      // this.sharedService.generarReporteFacturacionFechas(this.facturas,fecha1,fecha2);
     })
   }
 
-  datosArray(datos){
 
-    // console.log(datos);
+  exportarPDF(){
 
-    this.arrcon = [];
-    if(datos.length > 0){
-      for(let j = 0; j < datos.length; j++){
-        //var info = datos[j];
-        //console.log(info);
-        if (datos[j].Docs.length>0){
-          this.arrcon.push(datos[j])
-        }
-      }
-       console.log('arrcon',this.arrcon);
-      
-    }
-  }
-
-
-  exportAsXLSX():void {
-console.log(this.arrcon);
-this.sharedService.generarExcelCobranza(this.arrcon);
-    // this.sharedService.exportAsExcelFile(this.arrcon,'ejemplo');
-    //this.excelService.exportAsExcelFile(this.data, 'sample');
- }
-
- exportarXLS(){
-  this.sharedService.generarExcelCobranza(this.arrcon);
- }
-
- exportarPDF(){
-
-
-  this.isVisible = false;
+    this.isVisible = false;
   setTimeout(() => {  
   // setTimeout(this.onExportClick,5)
-  const content: Element = document.getElementById('pdfreporte');
+  const content: Element = document.getElementById('pdf2');
   const option = {    
     margin: [3,0,3,0],
     filename: 'Reporte.pdf',
@@ -241,5 +141,180 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
   }, 1000);
   setTimeout(() => { this.isVisible = true;  }, 1000);
 
- }
+  }
+
+
+  exportarXLS(){
+    const title = 'PRO LACTOINGREDIENTES S DE RL MI DE CV';
+    const subtitle = 'Reporte Detallado Facturacion entre Fechas';
+    const header = ["Id", "Cliente", "Folio", "Fecha de Expedicion", "Fecha Vencimiento"]
+    const header2 = ["", "", "Total", "Moneda", "T.C."]
+    const header3 = ["Cantidad", "Producto", "Precio", "Importe"]
+    const data = this.facturas;
+    // console.log('datos service',data);
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Facturacion Detallada');
+    let titleRow = worksheet.addRow([title]);
+    titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
+    worksheet.addRow([]);
+    let subtitleRow = worksheet.addRow([subtitle])
+    subtitleRow.font = { name: 'Comic Sans MS', family: 4, size: 12 };
+    
+    
+    worksheet.addRow([]);
+    let subTitleRow = worksheet.addRow(['Fecha : ',this.fechaInicial, ' al ',this.fechaFinal]);
+    //Sat Mar 14 2020 00:00:00 GMT-0700 (hora estándar del Pacífico de México)
+
+    const logoBase64 = "data:image/png;base64,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";
+    let logo = workbook.addImage({
+      base64: logoBase64,
+      extension: 'png',
+    });
+    worksheet.addImage(logo, 'E1:E5');
+    worksheet.mergeCells('A1:D2');
+    worksheet.mergeCells('A3:D4');
+    // worksheet.mergeCells('A5:D5');
+    worksheet.addRow([]);
+    worksheet.mergeCells('A6:D6');
+
+    
+    
+    // console.log(data);
+    // const dat: any[] = Array.of(data);
+    // console.log(dat);
+
+    // let sumapesos = 0;
+    // let sumadolares = 0;
+    let count = 0;
+    
+    data.forEach((d) => {
+
+      let headerRow = worksheet.addRow(header);
+    headerRow.eachCell((cell, number) => {
+      
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color : {argb: 'FFFFFF'} }
+    });
+
+    let headerRow2 = worksheet.addRow(header2);
+    headerRow2.eachCell((cell, number) => {
+      
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color : {argb: 'FFFFFF'} }
+    });
+
+
+
+      let registro = [];
+      let registro2 = [];
+      let registro3 = [];
+      count = count +1;
+
+      if (d.Moneda==='MXN'){
+
+        registro = [d.IdCliente,d.Nombre,d.Folio,d.FechaDeExpedicion,d.FechaVencimiento];
+        registro2 = ["","",+d.Total,d.Moneda,+d.TipoDeCambio];
+      }
+      else if (d.Moneda==='USD'){
+        registro = [d.IdCliente,d.Nombre,d.Folio,d.FechaDeExpedicion,d.FechaVencimiento];
+        registro2 = ["","",+d.TotalDlls,d.Moneda,+d.TipoDeCambio];
+      }
+
+     
+
+
+      // console.log('registro',registro);
+      
+      
+      let row = worksheet.addRow(registro);
+      
+      
+      let row2 = worksheet.addRow(registro2);
+      let dlls = row2.getCell(3);
+      dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+      let dlls2 = row2.getCell(5);
+      dlls2.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+
+      let headerRow3 = worksheet.addRow(header3);
+    headerRow2.eachCell((cell, number) => {
+      
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color : {argb: 'FFFFFF'} }
+    });
+
+    d.detalle.forEach((det)=>{
+      if (d.Moneda==='MXN'){
+        registro3 = [+det.Cantidad,det.ClaveProducto,+det.PrecioUnitario,+det.Importe];
+      }
+      else if (d.Moneda==='USD'){
+        registro3 = [+det.Cantidad,det.ClaveProducto,+det.PrecioUnitarioDlls,+det.ImporteDlls];
+      }
+  
+      let row3 = worksheet.addRow(registro3);
+      let pesos = row3.getCell(3)
+      pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+  
+      let pesos2 = row3.getCell(4)
+      pesos2.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+  
+
+    })
+
+   
+
+
+
+
+      // let clienter = row.getCell(2);
+      // clienter.fill = {
+      //   type: 'pattern',
+      //   pattern: 'solid',
+      //   fgColor: { argb: 'FFFFFF' }
+      // }
+      // let pesos = row.getCell(3);
+      // pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+      
+      
+    }
+    );
+
+    worksheet.addRow([]);
+   
+
+    
+    worksheet.addRow([])
+    worksheet.addRow(['','Total de Registros - '+ count]);
+
+
+    
+    worksheet.getColumn(2).width = 50;
+    worksheet.getColumn(3).width = 12;
+    worksheet.getColumn(4).width = 22;
+    worksheet.getColumn(5).width = 22;
+    
+    
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, 'ReporteDetallado.xlsx');
+    });
+  }
+
 }
