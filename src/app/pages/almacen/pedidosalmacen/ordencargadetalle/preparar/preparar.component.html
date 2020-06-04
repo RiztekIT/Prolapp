@@ -3,21 +3,36 @@
         <div class="card">
             <div class="card-body">
                 <h2>PREPARAR</h2>
-                <button class="btn btn-primary" type="button" (click)="regresar()">Regresar</button>
+                <div class="container" style="margin-right: 0;">
+                    <div class="row">
+                        <div class="col-10"></div>
+                        <div class="col-2">
+                            <button class="btn btn-primary" type="button" (click)="regresar()">Regresar</button>
+                        </div>
+                    </div>
+                </div>
+
                 <hr>
                 <div class="row">
-                    <div class="col-5">
+                    <div class="col-12 col-md-5">
                         <!-- <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}} -->
-                        <button class="btn btn-primary" type="button" (click)="escanear()">ABRIR ESCANER</button>
+                        <div class="input-group">
+
+                            <span class="input-group-addon" style="background-color: white;"><i class="btn btn-danger" type="button"
+                  (click)="escanear()">
+                  <mat-icon>qr_code</mat-icon>
+                </i></span>
+                            <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" (blur)="simularQR(qrleido)">
+                        </div>
                     </div>
                     <div class="col-2">
 
                         <!-- <zxing-scanner (camerasFound)="camaras($event)" [enable]="enableScan" (scanSuccess)='escaner($event)'></zxing-scanner> -->
                     </div>
-                    <div class="col-5">
-                        QR Leido: {{qrleido}}
+                    <div class="col-12 col-md-5">
+                        <p style="font-weight: 400; margin-bottom: 0;"> QR Leido: </p>
+                        <input class="form-control" readonly name="QRleido" #QRleido="ngModel" [(ngModel)]="qrleido">
                         <!-- <button class="btn btn-primary" type="button" (click)="cerrarescaner()">Cerrar ESCANER</button> -->
-
                     </div>
                 </div>
 
@@ -102,17 +117,17 @@
                                 <div *ngIf="row.productoValido == false; else elseBlock">
 
                                     <button mat-icon-button class="btn btn-success" color="black" (click)="traspasoOrdenCarga(row)">
-                                        <mat-icon>redo</mat-icon>
-                                    </button>
+                    <mat-icon>redo</mat-icon>
+                  </button>
                                 </div>
                                 <ng-template #elseBlock>
                                     <!-- {{element.ClaveProducto}} -->
                                     <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
-                                        <mat-icon>edit</mat-icon>
-                                    </button>
+                    <mat-icon>edit</mat-icon>
+                  </button>
                                     <button mat-icon-button class="btn btn-success" color="dark" (click)="traspasoOrdenCarga(row)">
-                                        <mat-icon>redo</mat-icon>
-                                    </button>
+                    <mat-icon>redo</mat-icon>
+                  </button>
                                 </ng-template>
                                 <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
                                                             <mat-icon>edit</mat-icon>
@@ -129,17 +144,29 @@
                     </table>
                     <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
                     </mat-paginator>
-                    <div *ngIf="showButtonAceptar == true">
-                        <button class="btn btn-success" type="button" (click)="Aceptar()">Aceptar</button>
+                    <div class="container" style="margin-right: 0;">
+                        <div class="row">
+                            <div class="col-0 col-md-8"></div>
+                            <div class="col-12 col-md-2">
+                                <div *ngIf="showButtonAceptar == true">
+                                    <button class="btn btn-success" type="button" (click)="Aceptar()">Aceptar</button>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <div *ngIf="showButtonCancelar == true">
+                                    <button class="btn btn-danger" type="button" (click)="Cancelar()">Cancelar</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div *ngIf="showButtonCancelar == true">
-                        <button class="btn btn-danger" type="button" (click)="Cancelar()">Cancelar</button>
-                    </div>
+
+
+
                 </div>
 
                 <hr>
-                <hr>
-                <h3>TABLA ORDEN TEMPORAL</h3>
+                <!-- <hr> -->
+                <h3>TABLA SALIDA DE PRODUCTO</h3>
 
                 <div style="overflow:auto;">
                     <table mat-table [dataSource]="listDataOrdenTemporal" matSort>
@@ -161,8 +188,8 @@
                                                         </button> -->
                                 <!--  -->
                                 <button mat-icon-button class="btn btn-danger" color="warn" (click)="regresarConceptos(row)">
-                                                                <mat-icon>undo</mat-icon>
-                                                            </button>
+                  <mat-icon>undo</mat-icon>
+                </button>
                                 <!-- </mat-menu> -->
                             </td>
                         </ng-container>
@@ -221,8 +248,8 @@
                                                         </button> -->
                                 <!--  -->
                                 <button mat-icon-button class="btn btn-success" color="dark" (click)="traspasoOrdenCargaTemporal(row)">
-                                    <mat-icon>redo</mat-icon>
-                                </button>
+                  <mat-icon>redo</mat-icon>
+                </button>
                                 <!-- </mat-menu> -->
                             </td>
                         </ng-container>
@@ -234,16 +261,17 @@
                 </div>
 
                 <hr>
-                <button class="btn btn-primary" type="button" (click)="traspaso()">Traspasar</button>
+                <button class="btn btn-primary" type="button" (click)="traspaso()">
+          <mat-icon>sync_alt</mat-icon> Traspasar
+        </button>
+
                 <hr>
-                <button class="btn btn-primary" type="button" (click)="pdf()">PDF</button>
-                <hr>
-                <button *ngIf="MostrarConceptos == false" class="btn btn-primary" type="button" (click)="conceptosFaltantes()">Conceptos Faltantes</button>
+                <button *ngIf="MostrarConceptos == false" class="btn btn-primary" type="button" (click)="conceptosFaltantes()">Productos Faltantes</button>
                 <button *ngIf="MostrarConceptos == true" class="btn btn-primary" type="button" (click)="ocultarConceptosFaltantes()">Ocultar Tabla</button>
                 <hr>
                 <div *ngIf="MostrarConceptos == true">
 
-                    <h3>TABLA ORDEN TEMPORAL</h3>
+                    <h3>TABLA PRODUCTOS FALTANTES</h3>
 
                     <div style="overflow:auto;">
                         <table mat-table [dataSource]="listDataConceptosFaltantes" matSort>
@@ -298,8 +326,18 @@
                     </div>
                 </div>
 
-                <hr>
-                <button class="btn btn-primary" type="button" (click)="finalizar()">Finalizar</button>
+                <!-- <hr> -->
+                <div class="container" style="margin-right: 0;">
+                    <div class="row">
+                        <div class="col-0 col-md-8"></div>
+                        <div class="col-12 col-md-2">
+                            <p> <button style="float: right;" class="btn btn-primary custom-button" type="button" (click)="pdf()">PDF</button></p>
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <p> <button style="float: right;" class="btn btn-danger custom-button" type="button" (click)="finalizar()">Finalizar</button></p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

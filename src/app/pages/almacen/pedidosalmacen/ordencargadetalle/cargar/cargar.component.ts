@@ -118,6 +118,7 @@ export class CargarComponent implements OnInit {
     let image = new File([ia], fileName, { type: mimeString });
     //Guardar imagen tipo File en areglo
     this.files.push(image);
+    this.guardarImagenes();
 
     return new File([ia], fileName, { type: mimeString });
   }
@@ -321,6 +322,20 @@ export class CargarComponent implements OnInit {
       // this.user_photo = this.domSanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + data).toString();
       this.imagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + base64String);
     })
+  }
+
+  finalizar() {
+
+    //Verificar si el estatus va en orden
+    this.ordenCargaService.getOCID(this.IdOrdenCarga).subscribe(res => {
+      if (res[0].Estatus == 'Preparada') {
+        this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(res => {
+          console.log(res)
+          this.router.navigate(['/ordencargadetalle']);
+        })
+      }
+      this.router.navigate(['/ordencargadetalle']);
+    });
   }
 
 

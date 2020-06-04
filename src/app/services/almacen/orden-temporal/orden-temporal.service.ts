@@ -106,4 +106,12 @@ deleteOrdenTemporal(id:number){
         this._listenersOrdenTemporal.next(filterBy);
       }
 
+  private _listenersOrdenTemporalSI = new Subject<any>(); 
+      listenOrdenTemporalSI(): Observable<any> {
+        return this._listenersOrdenTemporalSI.asObservable();
+      }
+      filterOrdenTemporalSI(filterBy: string) {
+        this._listenersOrdenTemporalSI.next(filterBy);
+      }
+
 }

@@ -32,6 +32,7 @@ IdOrdenCarga: number;
 
     this.service.listen().subscribe((m:any)=>{
       console.log(m);
+      this.getOrdenCarga();
       this.refreshDetalleOrdenCargaList();
       });
   }
@@ -40,19 +41,22 @@ IdOrdenCarga: number;
   
   ngOnInit() {
     this.IdOrdenCarga = +(localStorage.getItem('IdOrdenCarga'));
-    this.refreshForm();
+    console.log(this.IdOrdenCarga)
+    this.getOrdenCarga();
     this.refreshDetalleOrdenCargaList();
     this.ObtenerFolio(this.IdOrdenCarga);
   }
 
+  //variable para guardar el estatus de la Orden Carga
+  estatusOC: string;
 
-          refreshForm(){
-            this.DataOrdenCarga = this.service.getOrdenCargaID(this.IdOrdenCarga).subscribe( data=> {
-                  console.log(data);
-                  console.log(this.service.formData,'12312312312312');
+  //Obtener informacion Orden Carga
+          getOrdenCarga(){
+            this.service.getOCID(this.IdOrdenCarga).subscribe( data=> {
+              console.log(data)
                   this.service.formData = data[0];
-                  
-                  console.log(this.service.formData,'asdasdasdasdasd');
+                  this.estatusOC = data[0].Estatus;
+                  console.log(this.estatusOC);
             });
           }
 
@@ -75,42 +79,29 @@ IdOrdenCarga: number;
     })
   }
 
-  cambiarEstatusP(){
-
-    console.log(this.service.formData.IdOrdenCarga);
-
-
-    let estatus = {
-      IdOrdenCarga: this.service.formData.IdOrdenCarga,
-      Estatus: "Preparada"
-    }
-
+  preparar(){
     this.router.navigate(['/ordenCargaPreparar']);
-
-    // this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
-    //   this.service.formData.Estatus = "Preparada"
-    // })
-
   }
-  cambiarEstatusC(){
+  cargar(){
 
-    let estatus = {
-      IdOrdenCarga: this.service.formData.IdOrdenCarga,
-      Estatus: "Cargada"
+    this.service.getOCID(this.IdOrdenCarga).subscribe(data=>{
+console.log(data)
+if(data[0].Fletera == '' || data[0].Caja == ''){
+  Swal.fire({
+    title: 'Error',
+    text:'Favor de asignar Fletera y/o Caja',
+    icon: 'error',
+    // showCancelButton: false,
+    // showConfirmButton: false
+  });
+}
+else{
+  this.router.navigate(['/ordenCargaCargar']);
     }
-    this.router.navigate(['/ordenCargaCargar']);
-
-    // this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
-    //   this.service.formData.Estatus = "Cargada"
-    // })
-    
+    });
   }
-  cambiarEstatusE(){
+  enviar(){
    
-    let estatus = {
-      IdOrdenCarga: this.service.formData.IdOrdenCarga,
-      Estatus: "Enviada"
-    }
     this.AlmacenEmailService.correo='ivan.talamantes@live.com';
     this.AlmacenEmailService.cco='javier.sierra@riztek.com.mx';
     this.AlmacenEmailService.asunto='Envio Orden Carga con Folio '+this.Folio.toString();
@@ -121,93 +112,12 @@ IdOrdenCarga: number;
     const dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
-        // dialogConfig.width = "90%";
         dialogConfig.height = "90%";
-        // dialogConfig.data = {
-        //   foliop: folio,
-        //   idp: id,
-        //   status: true
-        // }
+      
         this.dialog.open(EnviarOrdenCargaComponent, dialogConfig);
 
-    // this.router.navigate(['/ordenCargaEnviar']);
-
-    // this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
-    //   this.service.formData.Estatus = "Enviada"
-    // })
   }
-  cambiarEstatusT(){
-
-    let estatus = {
-      IdOrdenCarga: this.service.formData.IdOrdenCarga,
-      Estatus: "Terminada"
-    }
-
-    // this.service.updatedetalleOrdenCargaEstatus(estatus.IdOrdenCarga, estatus.Estatus).subscribe(data =>{
-    //   this.service.formData.Estatus = "Terminada"
-    // })
-    
-  }
-
-    /* Metodo para enviar por correo, abre el modal con los datos */
-email(){
-  // localStorage.removeItem('xml'+folio);
-  // localStorage.removeItem('pdf'+folio);
-  // localStorage.setItem('rowfact',JSON.stringify(row));
-  // document.getElementById('enviaremail').click();
-  let id=1
-  let folio = 1
-
-  this.service.IdOrdenCarga = this.IdOrdenCarga;
-
-    this._MessageService.correo='ivan.talamantes@live.com';
-    this._MessageService.cco='ivan.talamantes@riztek.com.mx';
-    this._MessageService.asunto='Envio Factura '+folio;
-    this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+folio;
-    this._MessageService.nombre='ProlactoIngredientes';
-  
-
-      // const dialogConfig2 = new MatDialogConfig();
-      // dialogConfig2.autoFocus = false;
-      // dialogConfig2.width = "0%";    
-      // let dialogFact = this.dialog.open(FacturaComponent, dialogConfig2); 
-      
-  
-      // setTimeout(()=>{
-
-      //     const content: Element = document.getElementById('Factura-PDF');
-      //     const option = {
-      //       margin: [0, 0, 0, 0],
-      //       filename: 'F-' + folio + '.pdf',
-      //       image: { type: 'jpeg', quality: 1 },
-      //       html2canvas: { scale: 2, logging: true, scrollY: 0 },
-      //       jsPDF: { format: 'letter', orientation: 'portrait' },
-      //     };
-      //     // html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
-      //     //   localStorage.setItem('pdf'+folio, pdfAsString);
-      //     //   this.statusparam=true;          
-      //     //   console.log(this .statusparam);                
-      //     // })
-      //     // dialogFact.close()
-          
-      //   },1000)
-        
-        // const dialogConfig = new MatDialogConfig();
-        // dialogConfig.disableClose = true;
-        // dialogConfig.autoFocus = true;
-        // // dialogConfig.width = "90%";
-        // dialogConfig.height = "90%";
-        // dialogConfig.data = {
-        //   foliop: folio,
-        //   idp: id,
-        //   status: true
-        // }
-        // this.dialog.open(EmailComponent, dialogConfig);
-        
-  
-  
-   
-  
+  terminar(){
   }
 
   regresar(){

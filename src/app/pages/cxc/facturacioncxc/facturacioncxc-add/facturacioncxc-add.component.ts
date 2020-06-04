@@ -1202,7 +1202,7 @@ console.log(data);
     this.service.formData.Estatus = 'Guardada';
     this.service.formData.Version = '3.3';
     //this.service.formData.Serie = '5628';
-    this.service.formData.Serie = '379068';
+    this.service.formData.Serie = '386447';
     
     if (this.service.formData.Moneda == 'USD') {
       this.service.formData.TipoDeCambio = this.Cdolar;

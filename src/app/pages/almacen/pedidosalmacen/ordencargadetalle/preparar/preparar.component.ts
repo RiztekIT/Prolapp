@@ -140,6 +140,9 @@ export class PrepararComponent implements OnInit {
   // Variable para guardar el nombre del Origen
   bodegaOrigen: string;
 
+  //Input donde se guardara el QR escanedado
+  inputQR: string;
+
 
   // SCANNER QR //
 
@@ -209,7 +212,7 @@ export class PrepararComponent implements OnInit {
     // this.QRdata.IdTarima = 0;
     // this.QRdata.Sacos = '150';
     // this.QRdata.PesoTotal = '3000'; 
-    this.QRdata.QR = 'LCozokb';
+    this.QRdata.QR = 'ab4rwB-';
     // this.QRdata.QR = qrleido;
     console.log(this.QRdata);
 
@@ -450,14 +453,14 @@ export class PrepararComponent implements OnInit {
         this.listDataOrdenTemporal = new MatTableDataSource(dataOrdenTemporal);
         this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
         this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
-        this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+        this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
       } else {
         console.log('No hay Movimientos en esta orden de carga');
 
         this.listDataOrdenTemporal = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
         this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
         this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
-        this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+        this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
       }
     })
   }
@@ -592,7 +595,7 @@ export class PrepararComponent implements OnInit {
     this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
     this.listData.sort = this.sort;
     this.listData.paginator = this.paginator;
-    this.listData.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+    this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
     this.showButtonAceptar = false;
     this.showButtonCancelar = false;
   }
@@ -877,14 +880,19 @@ export class PrepararComponent implements OnInit {
       console.log(Terminado);
       //Si la variable Terminado es True, se actualizara el estatus de orden carga a PREPARADA
       if (Terminado == true) {
-        this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, "Preparada").subscribe(data => {
-          Swal.fire({
-            title: 'Preparado',
-            icon: 'success',
-            timer: 1000,
-            showCancelButton: false,
-            showConfirmButton: false
-          });
+        this.ordenCargaService.getOCID(this.IdOrdenCarga).subscribe( res=>{
+          if(res[0].Estatus == 'Creada'){
+            this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, "Preparada").subscribe(data => {
+              Swal.fire({
+                title: 'Preparado',
+                icon: 'success',
+                timer: 1000,
+                showCancelButton: false,
+                showConfirmButton: false
+              });
+              this.router.navigate(['/ordencargadetalle']);
+            })
+          }
           this.router.navigate(['/ordencargadetalle']);
         })
       } else {
