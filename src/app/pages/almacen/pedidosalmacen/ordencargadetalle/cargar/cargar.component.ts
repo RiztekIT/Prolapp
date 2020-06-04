@@ -323,6 +323,20 @@ export class CargarComponent implements OnInit {
     })
   }
 
+  finalizar() {
+
+    //Verificar si el estatus va en orden
+    this.ordenCargaService.getOCID(this.IdOrdenCarga).subscribe(res => {
+      if (res[0].Estatus == 'Preparada') {
+        this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(res => {
+          console.log(res)
+          this.router.navigate(['/ordencargadetalle']);
+        })
+      }
+      this.router.navigate(['/ordencargadetalle']);
+    });
+  }
+
 
 
 }
