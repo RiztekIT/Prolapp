@@ -602,7 +602,6 @@ export class OrdendescargatarimaComponent implements OnInit {
               let IdTarimaDt = DataTarima[0].IdTarima;
               let Sacos = POTS[i].SacosIngresados;
               let Lote = POTS[i].Lote;
-              console.log(POTS[i].Lote, 'LOTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
               let ClaveProducto = POTS[i].ClaveProducto;
 
               //detalle tarima
