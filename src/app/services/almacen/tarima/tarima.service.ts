@@ -21,6 +21,7 @@ export class TarimaService {
   tarimaData = new Tarima();
   tarimaDetalleData = new DetalleTarima();
   tarimaDetalleDOD = new Array<DetalleOrdenDescarga>();
+  formDataDrop = new Tarima();
 
   //Tarima proviniente de un traspaso de OrdenCarga
   trapasoOrdenCarga: boolean;

@@ -1,7 +1,14 @@
 <div class="row">
     <h3>Cargar Orden Carga</h3>
     <div class="col-12">
-        <button class="btn btn-primary" type="button" (click)="regresar()">Regresar</button>
+        <div class="container" style="margin-right: 0;">
+            <div class="row">
+                <div class="col-10"></div>
+                <div class="col-2">
+                    <button class="btn btn-primary" type="button" (click)="regresar()">Regresar</button>
+                </div>
+            </div>
+        </div>
         <div class="card">
             <div class="card-body">
                 <ngx-dropzone (change)="onSelect($event)">
@@ -14,7 +21,6 @@
                     </ngx-dropzone-image-preview>
                 </ngx-dropzone>
                 <hr>
-                <button class="btn btn-primary" (click)='guardarImagenes()'>Guardar Imagenes</button>
                 <div class="text-left text-danger" *ngIf="imagenSeleccionada == false">
                     No hay ninguna imagen seleccionada.
                 </div>
@@ -38,9 +44,12 @@ IMAGENES
                 <div class="container row" style=" overflow-x: scroll; overflow-y: scroll">
                     <div class="d-flex flex-wrap ">
                         <div class="card containercard col-12 col-lg-3 " *ngFor="let image of imageInfo">
-                            <div>
-                                <img [src]="image.ImagePath" height="600px" width="600px" class="img-fluid">
-                                <div class="row">
+                            <div class="imgcontainer">
+                                <img [src]="image.ImagePath" class="img-fluid img-responsive imgblur">
+                                <button class="btn-danger boton" (click)="deleteImage(image.ImageName)">
+                  <mat-icon>close</mat-icon>
+                </button>
+                                <!-- <div class="row">
                                     <div class="col-6">
                                         <button class="btn btn-success">
                                     <mat-icon>done</mat-icon>
@@ -51,22 +60,30 @@ IMAGENES
                                     <mat-icon>close</mat-icon>
                                 </button>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
 
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Imagenes -->
 
-        <!-- <div>
+            <div class="container" style="margin-right: 0;">
+
+                <div class="row">
+                    <div class="col-10"></div>
+                    <div class="col-2">
+                        <button class="btn btn-danger" type="button" (click)="finalizar()">Finalizar</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Imagenes -->
+
+            <!-- <div>
     <button (click)="compressFile()">Upload and compress Image</button>
     <img *ngIf="imgResultBeforeCompress" [src]="imgResultBeforeCompress" alt="">
     <img *ngIf="imgResultAfterCompress" [src]="imgResultAfterCompress" alt="">
   </div> -->
-        <button class="btn btn-primary" type="button" (click)="finalizar()">Finalizar</button>
-    </div>
+        </div>
 
-</div>
+    </div>

@@ -97,6 +97,10 @@
                 </div>
                 <div class="col-4">
                     <div class="form-material">
+                        <div class="col-12">
+                            <label class="input-group-text text-info">Producto:</label>
+                            <input type="text" readonly class="form-control" name="NombreProd" #NombreProd="ngModel" [(ngModel)]="this.NombreProducto">
+                        </div>
                         <div class="row">
                             <div class="col-6">
                                 <label class="input-group-text text-info">Sacos:</label>
@@ -108,8 +112,32 @@
 
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <label class="input-group-text text-info">Lote:</label>
+                                <input type="number" required class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="this.lote">
+                            </div>
+                            <div class="col-4">
+                                <label class="input-group-text text-info">Fecha de Caducidad</label>
+
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <input readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="FechaCaducidad" #FechaCaducidad="ngModel" [(ngModel)]="this.fechaCaducidad" (dateChange)="changeMat($event)">
+                                <mat-datepicker #picker1></mat-datepicker>
+
+
+                            </div>
+                            <div class="col-4">
+                                <label class="input-group-text text-info">FechaMFG</label>
+
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <input readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="FechaMFG" #FechaMFG="ngModel" [(ngModel)]="this.fechaMFG" (dateChange)="changeMat($event)">
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </div>
+                        </div>
                     </div>
-                    <button class="btn btn-success" style="margin-top: 5px;" (click)="addSacos()"> <mat-icon>done</mat-icon> Agregar Sacos</button>
+                    <button class="btn btn-success" style="margin-top: 5px;" (click)="addSacos()">
+            <mat-icon>done</mat-icon> Agregar Sacos
+          </button>
 
                     <div class="container row">
                         <!-- <button class="btn btn-danger">
@@ -155,6 +183,26 @@
                                     {{element.SacosIngresados}}
                                     <td>
                             </ng-container>
+                            <ng-container matColumnDef="Lote">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                                <td class="Lote" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                    {{element.Lote}}
+                                    <td>
+                            </ng-container>
+                            <ng-container matColumnDef="FechaCaducidad">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>fechaCaducidad</th>
+                                <td class="fechaCaducidad" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                    {{element.FechaCaducidad | date: 'yyyy-MM-dd' }}
+                                    <td>
+                            </ng-container>
+                            <ng-container matColumnDef="FechaMFG">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>fechaMFG</th>
+                                <td class="fechaMFG" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                    {{element.FechaMFG | date: 'yyyy-MM-dd' }}
+                                    <td>
+                            </ng-container>
+
+
                             <ng-container matColumnDef="Options" stickyEnd>
                                 <th mat-header-cell *matHeaderCellDef>Opciones</th>
                                 <td mat-cell *matCellDef="let row; let i = dataIndex">
@@ -176,15 +224,15 @@
                 <div class="col-2">
                     <div class="form-material">
                         <button class="btn btn-info" (click)="onAddTarimaOT()">
-                                <mat-icon>done_all</mat-icon> Crear Tarima
-                            </button>
+              <mat-icon>done_all</mat-icon> Crear Tarima
+            </button>
                     </div>
                 </div>
                 <div class="col-2">
                     <div class="form-material">
                         <button class="btn btn-info" (click)="onAddTarimaExistenteOT()">
-                                <mat-icon>done_all</mat-icon> Añadir a Tarima
-                            </button>
+              <mat-icon>done_all</mat-icon> Añadir a Tarima
+            </button>
                     </div>
                 </div>
             </div>
@@ -243,16 +291,16 @@
                         <td mat-cell *matCellDef="let row; let i = index">
 
                             <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                                <mat-icon>keyboard_arrow_down</mat-icon>
-                            </button>
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              </button>
                             <mat-menu #menu="matMenu">
                                 <!--  -->
                                 <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEditOT(row, i)">
-                                            <mat-icon>edit</mat-icon>
-                                        </button>
+                  <mat-icon>edit</mat-icon>
+                </button>
                                 <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="onDeleteProductOT(row, i)">
-                                            <mat-icon>close</mat-icon>
-                                        </button>
+                  <mat-icon>close</mat-icon>
+                </button>
                                 <!--  -->
                                 <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
                                             <mat-icon>visibility</mat-icon>
@@ -267,8 +315,8 @@
                                                 <mat-icon>delete_outline</mat-icon>
                                             </button> -->
                                 <button mat-icon-button class="btn btn-dark" (click)="regresarConceptos(row)">
-                                    <mat-icon>undo</mat-icon>
-                                </button>
+                  <mat-icon>undo</mat-icon>
+                </button>
                             </mat-menu>
                         </td>
                     </ng-container>
