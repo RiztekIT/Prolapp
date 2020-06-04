@@ -29,10 +29,14 @@ import { OrdenDecargaTarimaExistenteComponent } from '../../../../../components/
 export class OrdendescargatarimaComponent implements OnInit {
 
 
-
+  fecha2;
   rowDTOD: any;
   sacosSaldo: any;
   InputComentarios: string;
+  NombreProducto: string;
+  fechaCaducidad: Date;
+  fechaMFG: Date;
+  lote: string;
   sacostotal: any;
   saldototal: any;
   IdOrdenDescarga: number;
@@ -42,6 +46,8 @@ export class OrdendescargatarimaComponent implements OnInit {
   dataODID = new Array<DetalleOrdenDescarga>();
   cantidadMaximaSacos: number;
   sacosCero: boolean;
+
+
 
   preOrdenTemporalSacos: preOrdenTemporalODSacos;
 
@@ -63,6 +69,12 @@ export class OrdendescargatarimaComponent implements OnInit {
       console.log(m);
       this.actualizarTablaOrdenTemporal();
     });
+    this.ordenTemporalService.listenOrdenTemporalSI().subscribe((m: any) => {
+      console.log(m);
+      this.ActualizarOrdenTemporalSI();
+    });
+
+
   }
 
   regresar() {
@@ -77,7 +89,7 @@ export class OrdendescargatarimaComponent implements OnInit {
 
   //tabla Sacos Ingresados
   listDataSacosIngresados: MatTableDataSource<any>;
-  displayedColumnsSacosIngresados: string[] = ['ClaveProducto', 'Producto', 'Sacos', 'SacosIngresados', 'Options'];
+  displayedColumnsSacosIngresados: string[] = ['ClaveProducto', 'Producto', 'Sacos', 'SacosIngresados', 'Lote', 'FechaCaducidad', 'FechaMFG', 'Options'];
   @ViewChild(MatSort, null) sortSacosIngresados: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorSacosIngresados: MatPaginator;
 
@@ -97,6 +109,7 @@ export class OrdendescargatarimaComponent implements OnInit {
     this.Tarimaservice.tarimaDetalleDOD = [];
     this.ordenTemporalService.preOrdenTemporalSacos = [];
     this.sacosCero = true;
+    this.preOrdenTemporalSacos = new preOrdenTemporalODSacos();
   }
 
   refreshOrdenDescargaList() {
@@ -181,6 +194,9 @@ export class OrdendescargatarimaComponent implements OnInit {
 
   // onEdit(detalleordendescarga: DetalleOrdenDescarga, id: any) {
   onEdit(preOD: preOrdenTemporalODSacos, id: any) {
+    console.log(this.ordenTemporalService.preOrdenTemporalOD);
+    this.NombreProducto = this.ordenTemporalService.preOrdenTemporalOD[id].Producto
+    console.log(this.ordenTemporalService.preOrdenTemporalOD[id].Producto);
     console.log(preOD);
     console.log(id);
     // console.log(detalleordendescarga);
@@ -210,6 +226,8 @@ export class OrdendescargatarimaComponent implements OnInit {
     let oTSacos = new preOrdenTemporalODSacos();
     oTSacos = preOD;
     oTSacos.posicionArreglo = id;
+    this.preOrdenTemporalSacos.FechaCaducidad = new Date();
+    this.preOrdenTemporalSacos.FechaMFG = new Date();
 
 
 
@@ -389,6 +407,15 @@ export class OrdendescargatarimaComponent implements OnInit {
       // this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = this.InputComentarios
       this.preOrdenTemporalSacos.Comentarios = this.InputComentarios
     }
+
+    console.log('////////////////');
+    console.log(this.fechaCaducidad);
+    console.log(this.fechaMFG);
+
+    this.preOrdenTemporalSacos.Lote = this.lote
+    this.preOrdenTemporalSacos.FechaCaducidad = this.fechaCaducidad
+    this.preOrdenTemporalSacos.FechaMFG = this.fechaMFG
+
     this.ordenTemporalService.preOrdenTemporalSacos.push(this.preOrdenTemporalSacos)
     this.listDataSacosIngresados = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalSacos);
     this.listData.sort = this.sort;
@@ -396,6 +423,12 @@ export class OrdendescargatarimaComponent implements OnInit {
     this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
 
     this.cantidadSacos = null;
+    this.lote = null;
+    this.fechaCaducidad = null;
+    this.fechaMFG = null;
+
+
+
     // console.log(this.ordenTemporalService.posicionOrdenTemporalOD, 'posicion3');
     // console.log(this.ordenTemporalService.preOrdenTemporalSacos, 'posicion3');
     // if (this.ordenTemporalService.preOrdenTemporalSacos.length == 0) {
@@ -452,7 +485,7 @@ export class OrdendescargatarimaComponent implements OnInit {
     if (this.InputComentarios == '' || this.InputComentarios == null) {
       console.log('comentario if');
       // this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = 'NA'
-      this.preOrdenTemporalSacos.Comentarios = 'NA'
+      this.preOrdenTemporalSacos.Comentarios = 'Sin Comentarios'
     } else {
       console.log('comentario else');
       // this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = this.InputComentarios
@@ -486,6 +519,14 @@ export class OrdendescargatarimaComponent implements OnInit {
     console.log(this.Tarimaservice.tarimaDetalleDOD, 'tarimadetallealinicio00000000000');
   }
 
+  ActualizarOrdenTemporalSI() {
+    this.ordenTemporalService.preOrdenTemporalSacos = []
+    this.listDataSacosIngresados = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalSacos);
+    this.listData.sort = this.sort;
+    this.listData.paginator = this.paginator;
+    this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+  }
+
 
 
   onDeleteSacos(row: any, posicion: any) {
@@ -508,6 +549,8 @@ export class OrdendescargatarimaComponent implements OnInit {
     this.listData.sort = this.sort;
     this.listData.paginator = this.paginator;
     this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+
+
 
 
   }
@@ -559,6 +602,7 @@ export class OrdendescargatarimaComponent implements OnInit {
               let IdTarimaDt = DataTarima[0].IdTarima;
               let Sacos = POTS[i].SacosIngresados;
               let Lote = POTS[i].Lote;
+              console.log(POTS[i].Lote, 'LOTEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE');
               let ClaveProducto = POTS[i].ClaveProducto;
 
               //detalle tarima
@@ -698,31 +742,31 @@ export class OrdendescargatarimaComponent implements OnInit {
                             console.log(resDeleteTarima);
 
 
-                          Swal.fire({
-                            title: 'Borrado',
-                            icon: 'success',
-                            timer: 1000,
-                            showCancelButton: false,
-                            showConfirmButton: false
-                          });
-                          console.log(l);
-                          console.log(dataOt.length);
-                          if (l == dataOt.length - 1) {
-                            this.actualizarTablaOrdenTemporal();
-                          }
-                          //regresar los valores ya con los saldos reiniciados
-                          this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalOD);
-                          this.listData.sort = this.sort;
-                          this.listData.paginator = this.paginator;
-                          this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Descarga por Pagina';
-                          this.service.filter('Register click');
-
+                            Swal.fire({
+                              title: 'Borrado',
+                              icon: 'success',
+                              timer: 1000,
+                              showCancelButton: false,
+                              showConfirmButton: false
+                            });
+                            console.log(l);
+                            console.log(dataOt.length);
+                            if (l == dataOt.length - 1) {
                               this.actualizarTablaOrdenTemporal();
-                              this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalOD);
-                              this.listData.sort = this.sort;
-                              this.listData.paginator = this.paginator;
-                              this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Descarga por Pagina';
-                        })
+                            }
+                            //regresar los valores ya con los saldos reiniciados
+                            this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalOD);
+                            this.listData.sort = this.sort;
+                            this.listData.paginator = this.paginator;
+                            this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Descarga por Pagina';
+                            this.service.filter('Register click');
+
+                            this.actualizarTablaOrdenTemporal();
+                            this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalOD);
+                            this.listData.sort = this.sort;
+                            this.listData.paginator = this.paginator;
+                            this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Descarga por Pagina';
+                          })
                         })
                       })
                     })
@@ -892,6 +936,46 @@ export class OrdendescargatarimaComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = "70%";
     this.dialog.open(OrdenDescargaConceptoComponent, dialogConfig);
+  }
+
+  changeMat(evento) {
+    this.preOrdenTemporalSacos.FechaCaducidad = evento.target.value;
+    this.change(this.preOrdenTemporalSacos.FechaCaducidad);
+  }
+
+  change(date: any) {
+    //2020-02-26T07:00:00
+    console.log(date);
+    const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    const days = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
+    let dia;
+    let dia2;
+    let mes;
+    let año;
+    let hora;
+    let min;
+    let seg;
+
+    let fecha = new Date(date);
+
+
+    dia = `${days[fecha.getDate()]}`;
+    dia2 = `${days[fecha.getDate() - 1]}`;
+    mes = `${months[fecha.getMonth()]}`;
+    año = fecha.getFullYear();
+    hora = fecha.getHours();
+    min = fecha.getMinutes();
+    seg = fecha.getSeconds();
+
+    hora = '00';
+    min = '00';
+    seg = '00';
+
+    this.fecha2 = año + '-' + mes + '-' + dia + 'T' + hora + ':' + min + ':' + seg
+    console.log(fecha);
+    console.log(this.fecha2);
+
+
   }
 
 }

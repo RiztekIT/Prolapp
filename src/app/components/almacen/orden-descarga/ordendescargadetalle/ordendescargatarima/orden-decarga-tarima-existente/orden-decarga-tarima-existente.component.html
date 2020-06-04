@@ -23,10 +23,10 @@
                     <div class="col-lg-6">
 
                         <mat-form-field>
-                            <input type="text" placeholder="Seleccionar QR de Tarima" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="service.formData.IdClientes" name="QR ">
+                            <input type="text" placeholder="Seleccionar QR de Tarima" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="tarimaService.formDataDrop.QR" name="QR">
                             <mat-autocomplete #auto="matAutocomplete">
-                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChange(option, $event)">
-                                    {{option.IdClientes}} {{option.Nombre}}
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.QR" (blur)="onBlurQR()" (onSelectionChange)="onSelectionChange(option, $event)">
+                                    <b>   {{option.QR}}  </b>
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
