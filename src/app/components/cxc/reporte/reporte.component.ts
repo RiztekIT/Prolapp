@@ -29,6 +29,11 @@ export class ReporteComponent implements OnInit {
   arrcon: Array<any> = [];
   totalmxn;
   totaldlls;
+  saldo;
+  abono;
+  totalsaldo;
+  totalabonos;
+
 
   objconc: Array<any> = []; 
 
@@ -53,6 +58,8 @@ export class ReporteComponent implements OnInit {
       for (let i = 0; i < data.length ; i++){
      this.totaldlls = '0';
      this.totalmxn = '0';
+     this.totalsaldo = '0';
+     this.totalabonos = '0';
       // console.log( this.IdCliente[i].IdClientes);
 
       
@@ -71,18 +78,85 @@ export class ReporteComponent implements OnInit {
         this.serviceFactura.getReportes(this.IdCliente[i].IdClientes).subscribe(res=>{
           this.totaldlls = '0';
           this.totalmxn = '0';
+          this.totalsaldo = '0';
+     this.totalabonos = '0';
+
+          this.saldo = 0;
+          this.abono = 0;
+          
+          let notacredito;
+          let pagos;
           if(res.length > 0){
 
           for( let l = 0; l < res.length; l++){
 
-           
+            if (res[l].Moneda === 'MXN'){
+              if (!res[l].NCTotal){
+
+                notacredito = 0;
+              }else{
+                notacredito = +res[l].NCTotal;
+              }
+            }else if (res[l].Moneda === 'USD'){
+              if (!res[l].NCTotalDlls){
+                
+                notacredito = 0;
+              }else{
+                notacredito = +res[l].NCTotalDlls;
+              }
+            }
+
+              if (!res[l].pagos){
+
+                pagos = 0;
+              }else{
+                pagos = res[l].pagos
+              }
+
+            this.abono = +notacredito + +pagos;
+            // console.log(this.abono);
+            // console.log(+notacredito);
+            // console.log(+pagos);
             
-            this.masterArray[i].Docs.push(res[l]);
+            if (res[l].Moneda === 'MXN'){
+
+              this.saldo = +res[l].Total - +this.abono
+
+            }else if (res[l].Moneda === 'USD'){
+              this.saldo = +res[l].TotalDlls - +this.abono
+
+            }
+            
+
+           
+            console.log(res[l]);
+            // this.masterArray[i].Docs.push(res[l],"abonos:'5");
+            this.masterArray[i].Docs.push({
+              FechaDeExpedicion: res[l].FechaDeExpedicion,
+              FechaVencimiento: res[l].FechaVencimiento,
+              Folio: res[l].Folio,
+              Idcliente: res[l].Idcliente,
+              Moneda: res[l].Moneda,
+              NCTotal: res[l].NCTotal,
+              NCTotalDlls: res[l].NCTotalDlls,
+              Tipo: res[l].Tipo,
+              TipoDeCambio: res[l].TipoDeCambio,
+              Total: res[l].Total,
+              TotalDlls: res[l].TotalDlls,
+              pagos: res[l].pagos,
+              Abonos: this.abono,
+              Saldo: this.saldo
+            })
             
             this.totalmxn = (+this.totalmxn + +res[l].Total).toString();
-            this.totaldlls = (+this.totaldlls + +res[l].TotalDlls).toString();            
+            this.totaldlls = (+this.totaldlls + +res[l].TotalDlls).toString();  
+            this.totalsaldo = +this.totalsaldo + +this.saldo;
+            this.totalabonos = +this.totalabonos + +this.abono;          
             this.masterArray[i].TotalMXN = this.totalmxn;
             this.masterArray[i].TotalDLLS = this.totaldlls;
+            this.masterArray[i].TotalAbonos = this.totalabonos;
+            this.masterArray[i].TotalSaldo = this.totalsaldo;
+
               this.objconc.push(res[l]);
 
             }
@@ -109,7 +183,7 @@ export class ReporteComponent implements OnInit {
           this.arrcon.push(datos[j])
         }
       }
-      //  console.log(this.arrcon);
+       console.log('arrcon',this.arrcon);
       
     }
   }
@@ -136,7 +210,7 @@ this.sharedService.generarExcelCobranza(this.arrcon);
   const option = {    
     margin: [3,0,3,0],
     filename: 'Reporte.pdf',
-    image: {type: 'png', quality: 1},
+    image: {type: 'jpeg', quality: 0.5},
     html2canvas: {scale: 2, logging: true, scrollY: -2, scrollX: -15},
     jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
     pagebreak:{ avoid: '.pgbreak'}
