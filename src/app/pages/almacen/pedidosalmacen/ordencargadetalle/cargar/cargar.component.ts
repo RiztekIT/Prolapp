@@ -118,6 +118,7 @@ export class CargarComponent implements OnInit {
     let image = new File([ia], fileName, { type: mimeString });
     //Guardar imagen tipo File en areglo
     this.files.push(image);
+    this.guardarImagenes();
 
     return new File([ia], fileName, { type: mimeString });
   }
