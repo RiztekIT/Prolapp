@@ -10,3 +10,8 @@ txt {
     color: #ffffff;
     background: #000000;
 }
+
+.custom-button {
+    min-width: 100px;
+    max-width: 100px;
+}

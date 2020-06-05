@@ -86,12 +86,12 @@ export class LoginComponent implements OnInit {
    this.service.formData = {
     IdUsuario: 0,
     Nombre: '',
-    NombreUsuario: 'IvanTa',
+    NombreUsuario: '',
     ApellidoPaterno: '',
     ApellidoMaterno: '',
     Correo: '',
     Telefono: '',
-    Contra: 'Ivan2019',
+    Contra: '',
     FechaUltimoAcceso: '2019-12-19'
    }
 

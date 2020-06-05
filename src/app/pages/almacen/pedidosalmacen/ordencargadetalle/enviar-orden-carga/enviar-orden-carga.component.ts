@@ -315,10 +315,19 @@ this.obtenerDocumentos();
               // this.loading2 = false;
               // this.files = []
               //document.getElementById('cerrarmodal').click();
+              this.ordenCargaService.getOCID(this.IdOrdenCarga).subscribe(res => {
+                if (res[0].Estatus == 'Cargada') {
               this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, "Enviada").subscribe(data => {
               Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
+              this.ordenCargaService.filter('');
+              this.dialogRef.close();
             });
-          });
+            }
+            Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
+            this.ordenCargaService.filter('');
+            this.dialogRef.close();
+        });
+      });
           // },5000);
       }
 

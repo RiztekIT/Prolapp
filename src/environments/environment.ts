@@ -9,13 +9,16 @@ export const environment = {
   // APIUrl: 'http://74.208.251.38:44361/api',
   // APIUrlEmail: 'http://74.208.251.38:3000'
   //APIUrl: 'http://riztekserver.ddns.net:44361/api',
+  //APIUrlEmail: 'http://riztekserver.ddns.net:3000'
+  //APIUrl: 'https://erpprolapp.ddns.net:44361/api',
+  //APIUrlEmail: 'https://erpprolapp.ddns.net:3000'
   // APIUrlEmail: 'http://riztekserver.ddns.net:3000'
   //URLS de desarrollo
-  //APIUrl: 'https://riztekserver.ddns.net:44361/api',
-  //APIUrlEmail: 'https://riztekserver.ddns.net:3000'   
+  APIUrl: 'https://riztekserver.ddns.net:44361/api',
+  APIUrlEmail: 'https://riztekserver.ddns.net:3000'   
   //URLS de Produccion
-   APIUrl: 'https://erpprolapp.ddns.net:44361/api',
-   APIUrlEmail: 'https://erpprolapp.ddns.net:3000'
+  //  APIUrl: 'https://erpprolapp.ddns.net:44361/api',
+  //  APIUrlEmail: 'https://erpprolapp.ddns.net:3000'
 };
 
 /*

@@ -944,7 +944,7 @@ console.log(this.json1);
 
     
     dia = `${days[fecha.getDate()]}`;
-    dia2 = `${days[fecha.getDate()-1]}`;
+    dia2 = `${days[fecha.getDate()+1]}`;
     mes = `${months[fecha.getMonth()]}`;
     año = fecha.getFullYear();
     hora = fecha.getHours();
@@ -986,7 +986,8 @@ console.log(this.json1);
 
   traerApi(fecha): Observable<any>{
 
-    return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/"+fecha+'/'+fecha, httpOptions)
+    //return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/"+fecha+'/'+fecha, httpOptions)
+    return this.http.get("/SieAPIRest/service/v1/series/SF60653/datos/"+fecha+'/'+fecha, httpOptions)
 
   }
 

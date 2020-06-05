@@ -109,7 +109,7 @@ export class ReportefacturacionfechasComponent implements OnInit {
   const content: Element = document.getElementById('pdf2');
   const option = {    
     margin: [3,0,3,0],
-    filename: 'Reporte2.pdf',
+    filename: 'Reporte.pdf',
     image: {type: 'jpeg', quality: 0.5},
     html2canvas: {scale: 2, logging: true, scrollY: -2, scrollX: -15},
     jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
