@@ -74,7 +74,7 @@ if(this.evidencia==true){
     //  this.files = [];
      this.filesImagen = [];
     //  console.log(this.imageInfo);
-     this.imageService.readDirImagenes(formData).subscribe(res => {
+     this.imageService.readDirImagenesServidor(formData,'cargarNombreImagenesOrdenCarga').subscribe(res => {
        if (res.length > 0) {
          console.log('Si hay imagenes')
         //  console.log(res);
@@ -91,7 +91,7 @@ if(this.evidencia==true){
            formDataImg.append('folio', this.Folio.toString())
            formDataImg.append('archivo', data.ImageName)
           //  console.log(formDataImg);
-           this.imageService.readImagenes(formDataImg).subscribe(resImagen => {
+           this.imageService.readImagenesServidor(formDataImg,'ObtenerImagenOrdenCarga').subscribe(resImagen => {
             //  console.log(resImagen);
              
              // var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(resImagen)));
