@@ -28,7 +28,7 @@ export class SharedService {
   public generarExcelCobranza(datos){
     const title = 'Reporte Cobranza';
 const header = ["ID Cliente", "Cliente"]
-const header1 = ["Folio", "Tipo", "Fecha de Expedicion","Fecha de Vencimiento","Total MXN", "Total DLLS","Moneda", "T.C."]
+const header1 = ["Folio","Fecha de Expedicion","Fecha de Vencimiento","Total MXN", "Total DLLS","Abonos","Saldo","Moneda", "T.C."]
 const data = datos;
 let workbook = new Workbook();
 let worksheet = workbook.addWorksheet('Cobranza');
@@ -69,7 +69,7 @@ headerRow1.eachCell((cell, number) => {
   cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
   cell.font = { color : {argb: 'FFFFFF'} }
 });
-worksheet.mergeCells('B6:H6');
+worksheet.mergeCells('B6:I6');
 
 console.log(data);
 const dat: any[] = Array.of(data);
@@ -83,31 +83,46 @@ data.forEach((d) => {
 
   let totalMXN = 0;
   let totalUSD = 0;
+  let totalAbono = 0;
+  let totalSaldo = 0;
 
   d.Docs.forEach((docs)=>{
 
     let fechaexp = docs.FechaDeExpedicion.substring(0,10);
     let fechavenc = docs.FechaDeExpedicion.substring(0,10);
 
-    let registro2 = [docs.Folio,docs.Tipo,fechaexp,fechavenc,+docs.Total,+docs.TotalDlls,docs.Moneda,+docs.TipoDeCambio]
+    let registro2 = [docs.Folio,fechaexp,fechavenc,+docs.Total,+docs.TotalDlls,+docs.Abonos,+docs.Saldo,docs.Moneda,+docs.TipoDeCambio]
     let row2 = worksheet.addRow(registro2);
     totalMXN = totalMXN + +docs.Total; 
     totalUSD = totalUSD + +docs.TotalDlls; 
+
+    
+    totalAbono = totalAbono + +docs.Abonos;
+
+    totalSaldo = totalSaldo + +docs.Saldo;
   
     
-    let pesos = row2.getCell(5);
+    let pesos = row2.getCell(4);
     pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-    let dlls = row2.getCell(6);
+    let dlls = row2.getCell(5);
     dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-    dlls = row2.getCell(8);
+    dlls = row2.getCell(6);
+    dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+    dlls = row2.getCell(7);
+    dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+    dlls = row2.getCell(9);
     dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
   })
 
-  let suma = ['','','','Total',totalMXN,totalUSD]
+  let suma = ['','','Total',totalMXN,totalUSD,totalAbono,totalSaldo]
   let sumarow = worksheet.addRow(suma);
-  let totalformat = sumarow.getCell(5);
+  let totalformat = sumarow.getCell(4);
+  totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+  totalformat = sumarow.getCell(5);
   totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
   totalformat = sumarow.getCell(6);
+  totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+  totalformat = sumarow.getCell(7);
   totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
   
   
@@ -119,10 +134,12 @@ data.forEach((d) => {
 );
 
 
+worksheet.getColumn(2).width = 15;
 worksheet.getColumn(3).width = 15;
 worksheet.getColumn(4).width = 15;
 worksheet.getColumn(5).width = 15;
 worksheet.getColumn(6).width = 15;
+worksheet.getColumn(7).width = 15;
 
 
 workbook.xlsx.writeBuffer().then((data) => {
