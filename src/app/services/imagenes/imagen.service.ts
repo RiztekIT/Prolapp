@@ -57,29 +57,33 @@ updateImagen(imagen: Imagenes) {
 
       URLApiImagenes = environment.APIUrlEmail;
 
-    //Guardar Imagen Orden Carga
-      saveImagenOrdenCarga(body){
+    //Guardar Imagen Servidor
+      saveImagenServidor(body, url){
         console.log(body);
-        return this.http.post(this.URLApiImagenes+"/guardarImagenOrdenCarga", body)
+        // return this.http.post(this.URLApiImagenes+"/guardarImagenOrdenCarga", body)
+        return this.http.post(this.URLApiImagenes+"/"+url, body)
         
         }
-    //Borrar Imagen Orden Carga
-      deleteImagenOrdenCarga(body){
+    //Borrar Imagen Servidor
+      deleteImagenServidor(body, url){
         console.log(body);
-        return this.http.post(this.URLApiImagenes+"/borrarImagenOrdenCarga", body)
+        // return this.http.post(this.URLApiImagenes+"/borrarImagenOrdenCarga", body)
+        return this.http.post(this.URLApiImagenes+"/"+url, body)
         
         }
         //Regresa las imagenes
-          readImagenes(body){
+          readImagenesServidor(body, url){
             console.log(body)
             let headers = new HttpHeaders();
             headers = headers.set('Accept','application/pdf');
-            return this.http.post<any>(this.URLApiImagenes+"/ObtenerImagenOrdenCarga",body,{headers:headers, responseType:'arrayBuffer' as 'json'})
+            // return this.http.post<any>(this.URLApiImagenes+"/ObtenerImagenOrdenCarga",body,{headers:headers, responseType:'arrayBuffer' as 'json'})
+            return this.http.post<any>(this.URLApiImagenes+"/"+url,body,{headers:headers, responseType:'arrayBuffer' as 'json'})
           }
         
         //regresa el nombre de las imagenes
-          readDirImagenes(body){
-            return this.http.post<any>(this.URLApiImagenes+"/cargarNombreImagenesOrdenCarga",body);
+          readDirImagenesServidor(body, url){
+            // return this.http.post<any>(this.URLApiImagenes+"/cargarNombreImagenesOrdenCarga",body);
+            return this.http.post<any>(this.URLApiImagenes+"/"+url,body);
           }
 
       //Conectar con el servidor NODEJS para guardar, obtener Imagen(es)

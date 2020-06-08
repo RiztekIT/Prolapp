@@ -81,6 +81,7 @@ import { OrdendescargadetallecuuComponent } from './almacen/ordendescargacuu/ord
 import { ProspectoVentasComponent } from './ventas/prospecto-ventas/prospecto-ventas.component';
 import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargatarima/ordendescargatarima.component';
 import { OrdendescargatarimacuuComponent } from './almacen/ordendescargacuu/ordendescargadetallecuu/ordendescargatarimacuu/ordendescargatarimacuu.component';
+import { OrdenDescargaEvidenciasComponent } from './almacen/ordendescarga/ordendescargadetalle/orden-descarga-evidencias/orden-descarga-evidencias.component';
 
 
 
@@ -174,6 +175,7 @@ const pagesRoutes: Routes = [
                 { path: 'prospectoVentas', component: ProspectoVentasComponent },
                 { path: 'ordenDescargaTarima', component: OrdendescargatarimaComponent },
                 { path: 'ordenDescargaTarimacuu', component: OrdendescargatarimacuuComponent },
+                { path: 'ordenDescargaEvidencia', component: OrdenDescargaEvidenciasComponent },
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },

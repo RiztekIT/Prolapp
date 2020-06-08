@@ -118,6 +118,7 @@ export class ReporteMxnComponent implements OnInit {
 
             }else if (res[l].Moneda === 'USD'){
               this.saldo = +res[l].TotalDlls - +this.abono
+              this.saldo = this.saldo * +res[l].TipoDeCambio;
 
             }
 

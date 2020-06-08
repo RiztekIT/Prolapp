@@ -3,8 +3,10 @@ import { OrdenDescargaService } from 'src/app/services/almacen/orden-descarga/or
 import { OrdenTemporalService } from 'src/app/services/almacen/orden-temporal/orden-temporal.service';
 import { Router } from '@angular/router';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog } from '@angular/material';
-
-
+import { Imagenes } from 'src/app/Models/Imagenes/imagenes-model';
+import { ImagenService } from '../../../../services/imagenes/imagen.service';
+import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-ordendescargadetalle',
@@ -14,7 +16,7 @@ import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog }
 export class OrdendescargadetalleComponent implements OnInit {
   //Id Orden Carga
   IdOrdenDescarga: number;
-  constructor(private service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public router: Router,  private dialog: MatDialog) {
+  constructor(private service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public router: Router,  private dialog: MatDialog,  public imageService: ImagenService, private _sanitizer: DomSanitizer,) {
 
     this.ordenTemporalService.listenOrdenTemporal().subscribe((m: any) => {
       this.actualizarTablaOrdenTemporal();
@@ -27,12 +29,21 @@ export class OrdendescargadetalleComponent implements OnInit {
   @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
 
+  files: File[] = [];
+  imagenes: any[];
+  Folio: number;
+
+  imagePath: SafeResourceUrl;
+  imageInfo: ImgInfo[] = [];
+
+
 
   ngOnInit() {
     this.IdOrdenDescarga = +(localStorage.getItem('IdOrdenDescarga'));
     this.actualizarTablaOrdenTemporal();
     console.log(this.service.formData);
     console.log(localStorage.getItem('IdOrdenDescarga'));
+    this.ObtenerFolio(this.IdOrdenDescarga);
   }
 
   regresar(){
@@ -58,13 +69,76 @@ export class OrdendescargadetalleComponent implements OnInit {
     })
   }
 
+  evidencia(){
+    this.router.navigate(['/ordenDescargaEvidencia']);
+  }
   onAddTarima(){
     
     this.router.navigate(['/ordenDescargaTarima']);
   }
+
+  //Metodo para obtener el nombre de las imagenes y posteriormente traerse la imagen del servidor
+leerDirImagenes() {
+  //Obtener nombre de la imagen del servidor
+  const formData = new FormData();
+  formData.append('folio', this.Folio.toString())
+  this.imagenes = [];
+  this.imageInfo = new Array<ImgInfo>();
+  this.files = [];
+  console.log(this.imageInfo);
+  this.imageService.readDirImagenesServidor(formData,'cargarNombreImagenesOrdenDescarga').subscribe(res => {
+    if(res){
+    if (res.length > 0) {
+      console.log('Si hay imagenes')
+      console.log(res);
+      
+      for (let i = 0; i < res.length; i++) {
+        this.imagenes.push(res[i]);
+        let data = new ImgInfo;
+        data.ImageName = res[i];
+
+        //Traer la imagen del servidor
+        const formDataImg = new FormData();
+        formDataImg.append('folio', this.Folio.toString())
+        formDataImg.append('archivo', data.ImageName)
+        console.log(formDataImg);
+        this.imageService.readImagenesServidor(formDataImg,'ObtenerImagenOrdenDescarga').subscribe(resImagen => {
+          console.log(resImagen);
+
+          let TYPED_ARRAY = new Uint8Array(resImagen);
+          const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
+            return data + String.fromCharCode(byte);
+          }, '');
+          let base64String = btoa(STRING_CHAR);
+
+          data.ImagePath = this._sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + base64String);
+
+          console.log(data);
+          this.imageInfo.push(data)
+        })
+      }
+      console.log(this.imageInfo)
+
+    } else {
+      console.log('No hay imagenes')
+    }
+  }
+  })
+
+}
+
+//Obtener Folio de Orden Descarga
+ObtenerFolio(id: number) {
+  this.service.getOrdenDescargaID(id).subscribe(dataOC => {
+    console.log(dataOC);
+    this.Folio = dataOC[0].Folio;
+    console.log(this.Folio);
+    this.leerDirImagenes();
+  })
+}
   
-  ObtenerFolio() {
-    this.router.navigate(['/ordenDescargatarima']);
+  // ObtenerFolio() {
+    // this.router.navigate(['/ordenDescargatarima']);
     // this.service.GetFolio().subscribe(data => {
     //   // console.log(data[0].Folio);
     //   let folio = data[0].Folio;
@@ -83,7 +157,7 @@ export class OrdendescargadetalleComponent implements OnInit {
     //     this.ObtenerUltimoPedido();
     //   });
     // });
-  }
+  // }
 
 
 
