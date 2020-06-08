@@ -225,6 +225,8 @@ import {NgxImageCompressService} from 'ngx-image-compress';
 import { ReportefacturacionfechasComponent } from '../components/cxc/reportefacturacionfechas/reportefacturacionfechas.component';
 import { ReportefacturacionResumenComponent } from '../components/cxc/reportefacturacion-resumen/reportefacturacion-resumen.component';
 import { OrdenDescargaEvidenciasComponent } from './almacen/ordendescarga/ordendescargadetalle/orden-descarga-evidencias/orden-descarga-evidencias.component';
+import { OrdendescargadetallecuuComponent } from './almacen/ordendescargacuu/ordendescargadetallecuu/ordendescargadetallecuu.component';
+import { OrdendescargatarimacuuComponent } from './almacen/ordendescargacuu/ordendescargadetallecuu/ordendescargatarimacuu/ordendescargatarimacuu.component';
 
 
 
@@ -385,7 +387,9 @@ import { OrdenDescargaEvidenciasComponent } from './almacen/ordendescarga/ordend
         AcusecancelacionComponent,
         ReportefacturacionfechasComponent,
         ReportefacturacionResumenComponent,
-        OrdenDescargaEvidenciasComponent
+        OrdenDescargaEvidenciasComponent,
+        OrdendescargadetallecuuComponent,
+        OrdendescargatarimacuuComponent
     
     ],
     exports: [

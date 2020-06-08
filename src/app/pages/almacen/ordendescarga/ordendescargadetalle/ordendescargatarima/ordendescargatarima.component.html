@@ -221,19 +221,46 @@
                         </mat-paginator>
                     </div>
                 </div>
+
+
                 <div class="col-2">
                     <div class="form-material">
                         <button class="btn btn-info" (click)="onAddTarimaOT()">
-              <mat-icon>done_all</mat-icon> Crear Tarima
-            </button>
+                            <mat-icon>done_all</mat-icon> Crear Tarima
+                        </button>
                     </div>
                 </div>
                 <div class="col-2">
-                    <div class="form-material">
+                    <!-- <div class="form-material">
                         <button class="btn btn-info" (click)="onAddTarimaExistenteOT()">
               <mat-icon>done_all</mat-icon> Añadir a Tarima
             </button>
+                    </div> -->
+                    <mat-slide-toggle (click)="toggle()">Tarima Existente</mat-slide-toggle>
+                    <div *ngIf="this.show == false; else elseBlock">
                     </div>
+                    <ng-template #elseBlock>
+                        <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+                            <div class="form-material">
+                                <div class="container">
+
+                                    <mat-form-field>
+                                        <input type="text" placeholder="Seleccionar QR de Tarima" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="Tarimaservice.formDataDrop.QR" name="QR">
+                                        <mat-autocomplete #auto="matAutocomplete">
+                                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.QR" (blur)="onBlurQR()" (onSelectionChange)="onSelectionChange(option, $event)">
+                                                <b>   {{option.QR}}  </b>
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+
+                                    <button class="btn btn-success" mat-raised-button color="success" type="submit">Ingresar Conceptos</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </ng-template>
+
+
                 </div>
             </div>
 
