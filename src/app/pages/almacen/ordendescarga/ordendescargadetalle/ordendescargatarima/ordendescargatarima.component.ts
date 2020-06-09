@@ -651,7 +651,7 @@ export class OrdendescargatarimaComponent implements OnInit {
               this.Tarimaservice.addDetalleTarima(DetalleTarimaTemp).subscribe(DataTemp => {
                 console.log(DataTemp);
               })
-
+ 
               //insercion a orden temporal
               let ordenTemp = new OrdenTemporal();
 

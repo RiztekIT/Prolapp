@@ -101,7 +101,6 @@ export class OrdendescargaComponent implements OnInit {
 
 
     if (ordenDescarga.Origen == "PasoTx") {
-
       this.router.navigate(['/ordenDescargadetallecuu']);
     } else {
       this.router.navigate(['/ordenDescargadetalle']);
