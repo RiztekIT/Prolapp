@@ -17,6 +17,7 @@ import { preOrdenTemporalODSacos } from '../../../../../Models/almacen/OrdenTemp
 import { OrdenCargaConceptoComponent } from '../../../pedidosalmacen/ordencargadetalle/preparar/orden-carga-concepto/orden-carga-concepto.component';
 import { OrdenDescargaConceptoComponent } from 'src/app/components/almacen/orden-descarga/ordendescargadetalle/ordendescargatarima/orden-descarga-concepto/orden-descarga-concepto.component';
 import { OrdenDecargaTarimaExistenteComponent } from '../../../../../components/almacen/orden-descarga/ordendescargadetalle/ordendescargatarima/orden-decarga-tarima-existente/orden-decarga-tarima-existente.component';
+import { map, startWith } from 'rxjs/operators';
 
 
 
@@ -47,6 +48,14 @@ export class OrdendescargatarimaComponent implements OnInit {
   cantidadMaximaSacos: number;
   sacosCero: boolean;
 
+  // qrTarimaExistente
+  myControl = new FormControl();
+  filteredOptions: Observable<any[]>;
+  listQR: Tarima[] = [];
+  options: Tarima[] = [];
+  POTSTE: any;
+  show:boolean;
+
 
 
   preOrdenTemporalSacos: preOrdenTemporalODSacos;
@@ -54,7 +63,7 @@ export class OrdendescargatarimaComponent implements OnInit {
   // isVisibleVisualizacion: boolean;
   // isVisibleOT: boolean;
 
-  constructor(public router: Router, private dialog: MatDialog, public service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, private Tarimaservice: TarimaService) {
+  constructor(public router: Router, private dialog: MatDialog, public service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public Tarimaservice: TarimaService) {
     this.service.listen().subscribe((m: any) => {
       console.log(m);
       this.refreshOrdenDescargaList();
@@ -76,11 +85,24 @@ export class OrdendescargatarimaComponent implements OnInit {
 
 
   }
+  ngOnInit() {
+    this.IdOrdenDescarga = +(localStorage.getItem('IdOrdenDescarga'));
+    this.refreshOrdenDescargaList();
+    this.actualizarTablaOrdenTemporal();
+    //igualar en 0s el arreglo que se encuentra en el servicio
+    this.ordenTemporalService.preOrdenTemporalOD = [];
+    console.log(this.ordenTemporalService.preOrdenTemporalOD);
+    this.Tarimaservice.tarimaDetalleDOD = [];
+    this.ordenTemporalService.preOrdenTemporalSacos = [];
+    this.sacosCero = true;
+    this.preOrdenTemporalSacos = new preOrdenTemporalODSacos();
+    this.show = false;
+  }
 
   regresar() {
     this.router.navigate(['/ordenDescargadetalle']);
   }
-
+  
   //tabla visualizacion
   listData: MatTableDataSource<any>;
   displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Sacos', 'Saldo', 'Lote', 'Comentarios', 'Options'];
@@ -99,18 +121,6 @@ export class OrdendescargatarimaComponent implements OnInit {
   @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
 
-  ngOnInit() {
-    this.IdOrdenDescarga = +(localStorage.getItem('IdOrdenDescarga'));
-    this.refreshOrdenDescargaList();
-    this.actualizarTablaOrdenTemporal();
-    //igualar en 0s el arreglo que se encuentra en el servicio
-    this.ordenTemporalService.preOrdenTemporalOD = [];
-    console.log(this.ordenTemporalService.preOrdenTemporalOD);
-    this.Tarimaservice.tarimaDetalleDOD = [];
-    this.ordenTemporalService.preOrdenTemporalSacos = [];
-    this.sacosCero = true;
-    this.preOrdenTemporalSacos = new preOrdenTemporalODSacos();
-  }
 
   refreshOrdenDescargaList() {
 
@@ -363,6 +373,7 @@ export class OrdendescargatarimaComponent implements OnInit {
   }
 
   addSacos(form: NgForm) {
+    this.dropdownRefresh();
 
     console.log(this.ordenTemporalService.preOrdenTemporalSacos, 'prueba doble');
     console.log(this.Tarimaservice.tarimaDetalleDOD, 'tarimadetallealinicio-----------');
@@ -390,7 +401,7 @@ export class OrdendescargatarimaComponent implements OnInit {
 
 
 
-    if (this.cantidadSacos == 0) {
+    if (this.cantidadSacos == 0 || this.cantidadSacos == null) {
       Swal.fire({
         title: 'Ingresar Numero Valido',
         icon: 'warning',
@@ -558,6 +569,7 @@ export class OrdendescargatarimaComponent implements OnInit {
   onAddTarimaOT() {
     console.log(this.ordenTemporalService.preOrdenTemporalSacos);
     let POTS = this.ordenTemporalService.preOrdenTemporalSacos;
+
     console.log(POTS, 'POTS');
     //trae el ultimo que se selecciono
     console.log(this.preOrdenTemporalSacos, 'this.preordenTemporalSacos');
@@ -572,6 +584,17 @@ export class OrdendescargatarimaComponent implements OnInit {
     else {
       let IdOD = POTS[0].IdOrdenDescarga
       console.log(IdOD);
+      // Update a detalleordencompra para actualizar lote,y fechas
+      console.log(POTS[0].IdDetalleOrdenDescarga);
+      console.log(POTS[0].Lote);
+      console.log(POTS[0].FechaCaducidad);
+      console.log(POTS[0].FechaMFG);
+      for (let j=0; j <= POTS.length -1; j++){
+        this.service.OnEditDetalleOrdenDescarga(POTS[j]).subscribe(res => {
+          console.log(res);
+          
+        })
+      }
       // se hace un get para obtener la OD y de ahi tomar el peso por saco
       this.service.getOrdenDescargaIDList(IdOD).subscribe(dataOD => {
         console.log(dataOD)
@@ -798,8 +821,13 @@ export class OrdendescargatarimaComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         //Obtener Detalle Orden de descarga, para ser actualizado posteriormente
+        console.log(this.IdOrdenDescarga);
+        console.log(Lote);
+        console.log(ClaveProducto);
         this.service.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga, Lote, ClaveProducto).subscribe(dataOrdenDescarga => {
           console.log(dataOrdenDescarga, 'dataOrdenDescarga');
+          console.log(+dataOrdenDescarga[0].Saldo);
+          console.log(ot.Sacos);
           let NuevoSaldo = ((+dataOrdenDescarga[0].Saldo) + (+ot.Sacos)).toString();
           let pesoSaco = dataOrdenDescarga[0].PesoxSaco;
           console.log(NuevoSaldo)
@@ -906,11 +934,11 @@ export class OrdendescargatarimaComponent implements OnInit {
 
 
 
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = "70%";
-      this.dialog.open(OrdenDecargaTarimaExistenteComponent, dialogConfig);
+      // const dialogConfig = new MatDialogConfig();
+      // dialogConfig.disableClose = true;
+      // dialogConfig.autoFocus = true;
+      // dialogConfig.width = "70%";
+      // this.dialog.open(OrdenDecargaTarimaExistenteComponent, dialogConfig);
     }
   }
 
@@ -975,6 +1003,165 @@ export class OrdendescargatarimaComponent implements OnInit {
     console.log(this.fecha2);
 
 
+  }
+
+  // qr
+  private _filter(value: any): any[] {
+    // Causa problema al borrar el codigo
+    console.log(value);
+
+    console.log(this.Tarimaservice.formDataDrop);
+
+    const filterValue = value.toString().toLowerCase();
+    return this.options.filter(option =>
+      option.QR.toLowerCase().includes(filterValue));
+
+  }
+
+  dropdownRefresh() {
+console.log('no');
+    this.Tarimaservice.getTarima().subscribe(data => {
+      console.log(data);
+      for (let i = 0; i < data.length; i++) {
+        let Qr = data[i];
+        this.listQR.push(Qr);
+        this.options.push(Qr)
+        this.filteredOptions = this.myControl.valueChanges
+
+          .pipe(
+            startWith(''),
+            map(value => this._filter(value))
+          );
+      }
+    });
+
+  }
+
+  //on blur se usa para que en caso de modificar el filtro no se borre el dato que esta dentro del select, limpia el arreglo y lo vuelve a llenar desde DB
+  onBlurQR() {
+    console.log('blur');
+    this.listQR = [];
+    this.options = [];
+    this.dropdownRefresh();
+  }
+
+  onSelectionChange(options: Tarima, event: any) {
+    if (event.isUserInput) {
+      this.Tarimaservice.formDataDrop = options;
+    }
+  }
+
+  onSubmit(form: NgForm) {
+    this.POTSTE = this.ordenTemporalService.preOrdenTemporalSacos;
+    let TarimaDataQR = this.Tarimaservice.formDataDrop
+
+    if (TarimaDataQR.QR == null) {
+      Swal.fire({
+        title: 'Ingresar QR',
+        icon: 'warning',
+        text: ''
+      });
+
+    } else {
+
+      console.log(TarimaDataQR);
+      let idTarima = TarimaDataQR.IdTarima;
+      let codigoQR = TarimaDataQR.QR;
+      let sacos
+      let DTTE = new Array<DetalleTarima>();
+      this.Tarimaservice.getTarimaID(idTarima).subscribe(resDataTarima => {
+        let sacosOT = +resDataTarima[0].Sacos;
+        let pesoTotalOT = +resDataTarima[0].PesoTotal;
+        let PesoTotalTarima = 0;
+        for (let i = 0; i <= this.POTSTE.length - 1; i++) {
+          let Dt = new DetalleTarima();
+          // Dt = this.POTSTE[i];
+
+          PesoTotalTarima = ((+this.POTSTE[i].SacosIngresados) * (+this.POTSTE[i].PesoxSaco))
+
+          Dt.IdTarima = idTarima;
+          Dt.ClaveProducto = this.POTSTE[i].ClaveProducto;
+          Dt.Producto = this.POTSTE[i].Producto;
+          Dt.Sacos = this.POTSTE[i].SacosIngresados;
+          Dt.PesoxSaco = this.POTSTE[i].PesoxSaco;
+          Dt.Lote = this.POTSTE[i].Lote;
+          Dt.IdProveedor = this.POTSTE[i].IdProveedor;
+          Dt.PO = this.POTSTE[i].PO;
+          Dt.FechaMFG = this.POTSTE[i].FechaMFG;
+          Dt.FechaCaducidad = this.POTSTE[i].FechaCaducidad;
+          Dt.Shipper = this.POTSTE[i].Shipper;
+          Dt.USDA = this.POTSTE[i].USDA;
+          Dt.Pedimento = this.POTSTE[i].Pedimento;
+          DTTE.push(Dt);
+          sacosOT = (+sacosOT + +DTTE[i].Sacos)
+          // pesoTotalOT =( +pesoTotalOT + +this.POTSTE[i].PesoTotal)
+          pesoTotalOT = (+pesoTotalOT + +PesoTotalTarima)
+        }
+        console.log(DTTE)
+        console.warn(idTarima);
+        console.log(this.POTSTE)
+        console.log(sacosOT);
+        console.log(pesoTotalOT);
+        this.Tarimaservice.updateTarimaSacosPeso(idTarima, sacosOT.toString(), pesoTotalOT.toString()).subscribe(dataT => {
+
+          for (let i = 0; i <= DTTE.length - 1; i++) {
+
+
+            // let sacostarimaE = +sacosOT + +resDataTarima[0].Sacos;            
+            // let pesotarimaE = +pesoTotalOT + +resDataTarima[0].PesoTotal;
+            this.Tarimaservice.addDetalleTarima(DTTE[i]).subscribe(DataTemp => {
+              console.log(DataTemp);
+
+              //insercion a orden temporal
+              let ordenTempTE = new OrdenTemporal();
+
+              ordenTempTE.IdOrdenTemporal = 1;
+              ordenTempTE.IdTarima = idTarima;
+              ordenTempTE.IdOrdenCarga = 0;
+              //cambiar esta chingadera
+              ordenTempTE.IdOrdenDescarga = 1;
+              ordenTempTE.QR = codigoQR;
+              ordenTempTE.ClaveProducto = this.POTSTE[i].ClaveProducto;
+              ordenTempTE.Lote = this.POTSTE[i].Lote;
+              ordenTempTE.Sacos = this.POTSTE[i].SacosIngresados;
+              ordenTempTE.Producto = this.POTSTE[i].Producto;
+              ordenTempTE.PesoTotal = ((+this.POTSTE[i].SacosIngresados) * (+this.POTSTE[i].PesoxSaco)).toString();
+              ordenTempTE.FechaCaducidad = this.POTSTE[i].FechaCaducidad;
+              ordenTempTE.Comentarios = this.POTSTE[i].Comentarios;
+              console.log(ordenTempTE, 'ordenTempTE');
+
+              // console.log(sacostarimaE);
+              // console.log(pesotarimaE);
+
+
+              console.log(dataT);
+              this.ordenTemporalService.addOrdenTemporal(ordenTempTE).subscribe(DataOT => {
+                console.log(DataOT);
+
+
+                this.ordenTemporalService.filterOrdenTemporal('Register click');
+                this.ordenTemporalService.filterOrdenTemporalSI('Register click');
+
+                
+
+              })
+            })
+          }
+        })
+      }
+      )
+    }
+  }
+
+  toggle() {
+
+    this.show = !this.show;
+  
+  
+    if(this.show)  
+      console.log('displayed');
+    else
+      console.log('notdisplayed');
   }
 
 }

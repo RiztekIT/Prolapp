@@ -71,6 +71,10 @@ formDataTarimaDT = new DetalleTarima();
     return this.http.put(APIUrl + '/OrdenDescarga/UpdateSaldo/' + id + '/' + saldo, null);
   }
 
+  UpdateDtODIDLoteFechaCadFechaMFG(id:number, lote: string, fechacad: Date, fechamdf: Date){
+    return this.http.put(APIUrl + '/OrdenDescarga/UpdateDtODIDLoteFechaCadFechaMFG/' + id + '/' + lote + '/' + fechacad + '/' + fechamdf, null);
+  }
+
 
   private _listeners = new Subject<any>(); 
         listen(): Observable<any> {
