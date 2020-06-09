@@ -7,6 +7,8 @@ import { Imagenes } from 'src/app/Models/Imagenes/imagenes-model';
 import { ImagenService } from '../../../../services/imagenes/imagen.service';
 import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { AlmacenEmailService } from '../../../../services/almacen/almacen-email.service';
+import { OrdenDescargaEmailComponent } from './orden-descarga-email/orden-descarga-email.component';
 
 @Component({
   selector: 'app-ordendescargadetalle',
@@ -16,7 +18,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class OrdendescargadetalleComponent implements OnInit {
   //Id Orden Carga
   IdOrdenDescarga: number;
-  constructor(private service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public router: Router,  private dialog: MatDialog,  public imageService: ImagenService, private _sanitizer: DomSanitizer,) {
+  constructor(private service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public router: Router,  private dialog: MatDialog,  public imageService: ImagenService, private _sanitizer: DomSanitizer,
+    public AlmacenEmailService:AlmacenEmailService){
 
     this.ordenTemporalService.listenOrdenTemporal().subscribe((m: any) => {
       this.actualizarTablaOrdenTemporal();
@@ -158,6 +161,25 @@ ObtenerFolio(id: number) {
     //   });
     // });
   // }
+
+
+  email(){
+   
+    this.AlmacenEmailService.correo='ivan.talamantes@live.com';
+    this.AlmacenEmailService.cco='javier.sierra@riztek.com.mx';
+    this.AlmacenEmailService.asunto='Envio Orden Descarga con Folio '+this.Folio.toString();
+    this.AlmacenEmailService.cuerpo='Se han enviado Documentos de Orden Descarga con el Folio '+this.Folio.toString();
+    this.AlmacenEmailService.nombre='ProlactoIngredientes';
+    this.AlmacenEmailService.folio = this.Folio;
+
+    const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.height = "90%";
+      
+        this.dialog.open(OrdenDescargaEmailComponent, dialogConfig);
+
+  }
 
 
 

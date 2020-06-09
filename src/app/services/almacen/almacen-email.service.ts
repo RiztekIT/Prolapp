@@ -20,32 +20,36 @@ export class AlmacenEmailService {
   folio: number;
 
   //Enviar Correo
-  sendMessage(body){
+  sendMessageAlmacen(body){
     console.log(body);
     return this._http.post(this.URLApiEMail+"/correo", body)
   }
 
   //Guardar Archivos en el servidor
-  saveFile(body){
+  saveFileAlmacen(body, url){
     console.log(body);
-    return this._http.post(this.URLApiEMail+"/guardarDocumentoOrdenCarga", body)
+    return this._http.post(this.URLApiEMail+"/"+url, body)
+    // return this._http.post(this.URLApiEMail+"/guardarDocumentoOrdenCarga", body)
   }
 
   //borrar Documento
-  deleteDocumentoOrdenCarga(body){
+  deleteDocumentoAlmacen(body,url){
     console.log(body);
-    return this._http.post(this.URLApiEMail+"/borrarDocumentoOrdenCarga", body)
+    return this._http.post(this.URLApiEMail+"/"+url, body)
+    // return this._http.post(this.URLApiEMail+"/borrarDocumentoOrdenCarga", body)
     
     }
     //Regresa los documentos
-      readDocumentos(body){
+      readDocumentosAlmacen(body, url){
         console.log(body)
         let headers = new HttpHeaders();
         headers = headers.set('Accept','application/pdf');
-        return this._http.post<any>(this.URLApiEMail+"/ObtenerDocumentoOrdenCarga",body,{headers:headers, responseType:'arrayBuffer' as 'json'})
+        return this._http.post<any>(this.URLApiEMail+"/"+url,body,{headers:headers, responseType:'arrayBuffer' as 'json'})
+        // return this._http.post<any>(this.URLApiEMail+"/ObtenerDocumentoOrdenCarga",body,{headers:headers, responseType:'arrayBuffer' as 'json'})
       }
     //Regresa el nombre de los archivos
-    readDirDocuemntos(body){
-      return this._http.post<any>(this.URLApiEMail+"/cargarNombreDocuemntosOrdenCarga",body);
+    readDirDocuemntosAlmacen(body, url){
+      return this._http.post<any>(this.URLApiEMail+"/"+url,body);
+      // return this._http.post<any>(this.URLApiEMail+"/cargarNombreDocuemntosOrdenCarga",body);
     }
 }

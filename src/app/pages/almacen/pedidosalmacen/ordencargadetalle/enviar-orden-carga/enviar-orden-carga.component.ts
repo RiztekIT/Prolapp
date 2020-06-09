@@ -134,7 +134,7 @@ if(this.evidencia==true){
 
     const formData = new FormData();
     formData.append('folio', this.Folio.toString());
-    this.AlmacenEmailService.readDirDocuemntos(formData).subscribe(res=>{
+    this.AlmacenEmailService.readDirDocuemntosAlmacen(formData, 'cargarNombreDocuemntosOrdenCarga').subscribe(res=>{
       // console.log(res);
       this.archivos =[];
       if (res){
@@ -144,7 +144,7 @@ if(this.evidencia==true){
         const formDataDoc = new FormData();
         formDataDoc.append('folio', this.Folio.toString())
         formDataDoc.append('archivo', res[i])
-        this.AlmacenEmailService.readDocumentos(formDataDoc).subscribe(resDoc=>{
+        this.AlmacenEmailService.readDocumentosAlmacen(formDataDoc,'ObtenerDocumentoOrdenCarga').subscribe(resDoc=>{
       //  console.log(resDoc)
        const blob = new Blob([resDoc as BlobPart], { type: 'application/pdf' });
       //  console.log(blob)
@@ -220,7 +220,7 @@ if(this.evidencia==true){
     const formData = new FormData();
     formData.append('folio', this.Folio.toString())
     formData.append('archivo', a)
-    this.AlmacenEmailService.readDocumentos(formData).subscribe(res=>{
+    this.AlmacenEmailService.readDocumentosAlmacen(formData,'ObtenerDocumentoOrdenCarga').subscribe(res=>{
       // console.log(res);
       const blob = new Blob([res as BlobPart], { type: 'application/pdf' });
       let fr = new FileReader();
@@ -242,7 +242,7 @@ if(this.evidencia==true){
      const formData = new FormData();
     formData.append('0',event.addedFiles[i])
     formData.append('folio', this.Folio.toString())
-    this.AlmacenEmailService.saveFile(formData).subscribe(res=>{
+    this.AlmacenEmailService.saveFileAlmacen(formData,'guardarDocumentoOrdenCarga').subscribe(res=>{
 console.log(res);
 this.obtenerDocumentos();
     })
@@ -257,7 +257,7 @@ this.obtenerDocumentos();
         formData.append('name', event)
         formData.append('folio', this.Folio.toString())
         console.log(formData);
-        this.AlmacenEmailService.deleteDocumentoOrdenCarga(formData).subscribe(res => {
+        this.AlmacenEmailService.deleteDocumentoAlmacen(formData,'borrarDocumentoOrdenCarga').subscribe(res => {
           console.log(res)
           this.files.splice(this.files.indexOf(event),1);
           this.obtenerDocumentos();
@@ -311,7 +311,7 @@ this.obtenerDocumentos();
         
         
             
-            this.AlmacenEmailService.sendMessage(formData).subscribe(() => {
+            this.AlmacenEmailService.sendMessageAlmacen(formData).subscribe(() => {
               // this.loading2 = false;
               // this.files = []
               //document.getElementById('cerrarmodal').click();
