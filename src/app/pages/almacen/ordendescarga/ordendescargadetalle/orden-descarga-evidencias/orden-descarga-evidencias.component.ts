@@ -35,6 +35,8 @@ export class OrdenDescargaEvidenciasComponent implements OnInit {
   
     imagePath: SafeResourceUrl;
     imageInfo: ImgInfo[] = [];
+
+    bodega: string;
   
     // public listUM: Array<any> = [];
     // listProducts: Producto[] = [];
@@ -44,17 +46,21 @@ export class OrdenDescargaEvidenciasComponent implements OnInit {
     imagenSeleccionada: boolean;
   
     regresar() {
-      this.router.navigate(['/ordenDescargadetalle']);
-  
-  
+      if(this.bodega == 'PasoTx'){
+        this.router.navigate(['/ordenDescargadetalle']);
+      }else if(this.bodega == 'Chihuahua'){
+        this.router.navigate(['/ordenDescargadetallecuu']);
+      }
     }
   
     //Obtener Folio de Orden Descarga
     ObtenerFolio(id: number) {
       this.ordenDescargaService.getOrdenDescargaID(id).subscribe(dataOC => {
         console.log(dataOC);
+        this.bodega = dataOC[0].Destino;
         this.Folio = dataOC[0].Folio;
         console.log(this.Folio);
+        console.log(this.bodega);
         this.leerDirImagenes();
       })
     }

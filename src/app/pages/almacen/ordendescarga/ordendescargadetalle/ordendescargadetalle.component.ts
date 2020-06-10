@@ -74,6 +74,7 @@ export class OrdendescargadetalleComponent implements OnInit {
 
   evidencia(){
     this.router.navigate(['/ordenDescargaEvidencia']);
+
   }
   onAddTarima(){
     

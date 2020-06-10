@@ -20,39 +20,24 @@
                 <div class="col-md-4 col-0"></div>
                 <div class="col-md-4 col-0"></div>
                 <div class="col-md-4 col-12">
-                    <button class="btn btn-danger" style="float: right;"> Subir Foto
+                    <button class="btn btn-danger" style="float: right;" (click)="evidencia()"> Subir Foto
             <mat-icon> camera_enhance </mat-icon>
+          </button>
+                    <button class="btn btn-danger" style="float: right;" (click)="email()"> Email
+            <mat-icon> alternate_email </mat-icon>
           </button>
                 </div>
             </div>
-            <!-- EJEMPLO DE COMO SE MUESTRAN LAS IMAGENES -->
+            <div class="card-body">
+                <div class="container row" style=" overflow-x: scroll; overflow-y: scroll">
+                    <div class="d-flex flex-wrap ">
+                        <div class="card containercard col-12 col-lg-3 " *ngFor="let image of imageInfo">
+                            <div class="imgcontainer">
+                                <img [src]="image.ImagePath" class="img-fluid img-responsive imgblur">
+                            </div>
+                        </div>
 
-            <div style="display: inline-flex; overflow-x: scroll;">
-
-                <div class=" card col-12 col-md-3 col-lg-2">
-                    <img src="../../../../../assets/images/sacos/8.maltrin GPC azul.png" class="img-fluid">
-                </div>
-                <div class=" card col-12 col-md-3 col-lg-2">
-                    <img src="../../../../../assets/images/sacos/8.maltrin GPC azul.png" class="img-fluid">
-                </div>
-                <div class=" card col-12 col-md-3 col-lg-2">
-                    <img src="../../../../../assets/images/sacos/8.maltrin GPC azul.png" class="img-fluid">
-                </div>
-                <div class=" card col-12 col-md-3 col-lg-2">
-                    <img src="../../../../../assets/images/sacos/8.maltrin GPC azul.png" class="img-fluid">
-                </div>
-                <!-- ejemplos -->
-                <div class=" card col-12 col-md-3 col-lg-2">
-                    <img src="../../../../../assets/images/sacos/8.maltrin GPC azul.png" class="img-fluid">
-                </div>
-                <div class=" card col-12 col-md-3 col-lg-2">
-                    <img src="../../../../../assets/images/sacos/8.maltrin GPC azul.png" class="img-fluid">
-                </div>
-                <div class=" card col-12 col-md-3 col-lg-2">
-                    <img src="../../../../../assets/images/sacos/8.maltrin GPC azul.png" class="img-fluid">
-                </div>
-                <div class=" card col-12 col-md-3 col-lg-2">
-                    <img src="../../../../../assets/images/sacos/8.maltrin GPC azul.png" class="img-fluid">
+                    </div>
                 </div>
             </div>
 
