@@ -12,7 +12,7 @@
                             <span *ngSwitchCase="'Timbrada'" class="label label-light-success">TIMBRADA</span>
                             <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
                             <span *ngSwitchCase="'Cancelada'" class="label label-light-danger">CANCELADA</span>
-                            <span *ngSwitchCase="'Pagada'" class="label label-light-inverse">Pagada</span>
+                            <span *ngSwitchCase="'Pagada'" class="label label-light-inverse">PAGADA</span>
                         </p>
                     </div>
                     <div *ngIf="Estatus == 'Timbrada' && (EstatusNota == 'Timbrada' || EstatusNota == 'NoHay') ; else NoseArma">
@@ -657,6 +657,9 @@
 
                             <button *ngIf="this.Estatus=='Timbrada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='saldar(service.formData)' [disabled]="form.invalid"><i
                         class="mdi mdi-currency-usd btn-lg"></i>Saldar</button>
+
+                            <button *ngIf="this.Estatus=='Pagada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='nosaldar(service.formData)' [disabled]="form.invalid"><i
+                        class="mdi mdi-currency-usd btn-lg"></i>No Saldar</button>
 
 
 
