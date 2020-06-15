@@ -4,7 +4,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-11">
-                        <h2 style="text-align: center;">Detalle de la Orden de Descarga</h2>
+                        <h2 style="text-align: center;">Detalle de la Orden de Descarga Chihuahua</h2>
                     </div>
                     <div class="col-1">
                         <button class="btn btn-primary" type="button" (click)="regresar()">Regresar</button>
@@ -34,45 +34,12 @@
                         <div class="card containercard col-12 col-lg-3 " *ngFor="let image of imageInfo">
                             <div class="imgcontainer">
                                 <img [src]="image.ImagePath" class="img-fluid img-responsive imgblur">
-                                <!-- <button class="btn-danger boton" (click)="deleteImage(image.ImageName)"> -->
-                                <!-- <mat-icon>close</mat-icon> -->
-                                <!-- </button> -->
                             </div>
                         </div>
 
                     </div>
                 </div>
             </div>
-            <!-- EJEMPLO DE COMO SE MUESTRAN LAS IMAGENES -->
-
-            <!-- <div style="display: inline-flex; overflow-x: scroll;"> -->
-
-            <!-- <div class=" card col-12 col-md-3 col-lg-2">
-                    <img src="../../../../../assets/images/sacos/8.maltrin GPC azul.png" class="img-fluid">
-                </div>
-                <div class=" card col-12 col-md-3 col-lg-2">
-                    <img src="../../../../../assets/images/sacos/8.maltrin GPC azul.png" class="img-fluid">
-                </div>
-                <div class=" card col-12 col-md-3 col-lg-2">
-                    <img src="../../../../../assets/images/sacos/8.maltrin GPC azul.png" class="img-fluid">
-                </div>
-                <div class=" card col-12 col-md-3 col-lg-2">
-                    <img src="../../../../../assets/images/sacos/8.maltrin GPC azul.png" class="img-fluid">
-                </div> -->
-            <!-- ejemplos -->
-            <!-- <div class=" card col-12 col-md-3 col-lg-2">
-                    <img src="../../../../../assets/images/sacos/8.maltrin GPC azul.png" class="img-fluid">
-                </div>
-                <div class=" card col-12 col-md-3 col-lg-2">
-                    <img src="../../../../../assets/images/sacos/8.maltrin GPC azul.png" class="img-fluid">
-                </div>
-                <div class=" card col-12 col-md-3 col-lg-2">
-                    <img src="../../../../../assets/images/sacos/8.maltrin GPC azul.png" class="img-fluid">
-                </div>
-                <div class=" card col-12 col-md-3 col-lg-2">
-                    <img src="../../../../../assets/images/sacos/8.maltrin GPC azul.png" class="img-fluid">
-                </div>
-            </div> -->
 
         </div>
     </div>
@@ -84,7 +51,7 @@
                     <div class="card-body">
                         <div class="container row">
                             <h3 class="col-10">TABLA ORDEN TEMPORAL</h3>
-                            <button (click)="onAddTarima()" type="button" class="btn btn-primary col-2" style="float: right;"> <mat-icon>open_in_new</mat-icon> Agregar Tarima</button>
+                            <button (click)="CheckTarima()" type="button" class="btn btn-primary col-2" style="float: right;"> <mat-icon>open_in_new</mat-icon> Agregar Tarima</button>
                         </div>
                         <br>
 

@@ -1,0 +1,53 @@
+<div class="row">
+    <h3>Cargar Orden Carga</h3>
+    <div class="col-12">
+        <div class="container" style="margin-right: 0;">
+            <div class="row">
+                <div class="col-10"></div>
+                <div class="col-2">
+                    <button class="btn btn-primary" type="button" (click)="regresar()">Regresar</button>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <ngx-dropzone (change)="onSelect($event)">
+                    <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                    <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                        <ngx-dropzone-label> {{ f.type }}</ngx-dropzone-label>
+                    </ngx-dropzone-image-preview>
+                </ngx-dropzone>
+                <hr>
+                <div class="text-left text-danger" *ngIf="imagenSeleccionada == false">
+                    No hay ninguna imagen seleccionada.
+                </div>
+            </div>
+        </div>
+        <!-- Imagenes -->
+        <div class="card">
+            <div class="card-body">
+                <div class="container row" style=" overflow-x: scroll; overflow-y: scroll">
+                    <div class="d-flex flex-wrap ">
+                        <div class="card containercard col-12 col-lg-3 " *ngFor="let image of imageInfo">
+                            <div class="imgcontainer">
+                                <img [src]="image.ImagePath" class="img-fluid img-responsive imgblur">
+                                <button class="btn-danger boton" (click)="deleteImage(image.ImageName)">
+                  <mat-icon>close</mat-icon>
+                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="margin-right: 0;">
+                <div class="row">
+                    <div class="col-10"></div>
+                    <div class="col-2">
+                        <button class="btn btn-danger" type="button">Finalizar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>

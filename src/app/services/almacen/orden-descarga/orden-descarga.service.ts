@@ -30,7 +30,6 @@ formDataTarimaDT = new DetalleTarima();
 
 
 
-
   constructor( private http:HttpClient) { }
 
   master = new Array<MasterOrdenDescarga>();
@@ -59,11 +58,20 @@ formDataTarimaDT = new DetalleTarima();
   getDetalleOrdenDescargaIdLoteClave(id: number, lote: string, clave: string): Observable<DetalleOrdenDescarga[]> {
     return this.http.get<DetalleOrdenDescarga[]>(APIUrl + '/OrdenDescarga/DetalleOrdenDescarga/' + id + '/' + lote + '/' + clave);
   }
+
+  //get Orden Descarga por Id
+  getOrdenDescargaID(id:number): Observable<OrdenDescarga>{
+    return this.http.get<OrdenDescarga>(APIUrl + '/OrdenDescarga/GetOrdenDescargaID/'+id);
+  }
   
 
   //Actualizar saldo de DetalleOrdenDescarga por ID
   updateDetalleOrdenDescargaSaldo(id: number, saldo: string) {
     return this.http.put(APIUrl + '/OrdenDescarga/UpdateSaldo/' + id + '/' + saldo, null);
+  }
+
+  UpdateDtODIDLoteFechaCadFechaMFG(id:number, lote: string, fechacad: Date, fechamdf: Date){
+    return this.http.put(APIUrl + '/OrdenDescarga/UpdateDtODIDLoteFechaCadFechaMFG/' + id + '/' + lote + '/' + fechacad + '/' + fechamdf, null);
   }
 
 

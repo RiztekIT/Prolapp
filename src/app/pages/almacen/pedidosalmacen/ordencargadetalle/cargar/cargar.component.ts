@@ -157,7 +157,7 @@ export class CargarComponent implements OnInit {
         formData.append('folio', this.Folio.toString())
         console.log(formData);
         //Eliminar imagen del servidor
-        this.imageService.deleteImagenOrdenCarga(formData).subscribe(res => {
+        this.imageService.deleteImagenServidor(formData,'borrarImagenOrdenCarga').subscribe(res => {
           console.log(res);
           this.leerDirImagenes();
           let imagen = new Imagenes();
@@ -214,7 +214,7 @@ export class CargarComponent implements OnInit {
         formData.append('folio', this.Folio.toString())
         console.log(formData);
         //Guardar la imagen en el servidor
-        this.imageService.saveImagenOrdenCarga(formData).subscribe(res => {
+        this.imageService.saveImagenServidor(formData,'guardarImagenOrdenCarga').subscribe(res => {
           console.log('RESPUESTA')
           console.log(res);
           const imagen = new Imagenes();
@@ -264,7 +264,7 @@ export class CargarComponent implements OnInit {
     this.imageInfo = new Array<ImgInfo>();
     this.files = [];
     console.log(this.imageInfo);
-    this.imageService.readDirImagenes(formData).subscribe(res => {
+    this.imageService.readDirImagenesServidor(formData,'cargarNombreImagenesOrdenCarga').subscribe(res => {
       if (res.length > 0) {
         console.log('Si hay imagenes')
         console.log(res);
@@ -281,7 +281,7 @@ export class CargarComponent implements OnInit {
           formDataImg.append('folio', this.Folio.toString())
           formDataImg.append('archivo', data.ImageName)
           console.log(formDataImg);
-          this.imageService.readImagenes(formDataImg).subscribe(resImagen => {
+          this.imageService.readImagenesServidor(formDataImg,'ObtenerImagenOrdenCarga').subscribe(resImagen => {
             console.log(resImagen);
 
             // var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(resImagen)));
@@ -315,7 +315,7 @@ export class CargarComponent implements OnInit {
     formData.append('folio', this.Folio.toString())
     formData.append('archivo', a)
     console.log(formData);
-    this.imageService.readImagenes(formData).subscribe(res => {
+    this.imageService.readImagenesServidor(formData,'ObtenerImagenOrdenCarga').subscribe(res => {
       console.log(res);
       var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(res)));
       // console.log(base64String);

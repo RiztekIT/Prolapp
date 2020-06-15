@@ -12,7 +12,7 @@
                             <span *ngSwitchCase="'Timbrada'" class="label label-light-success">TIMBRADA</span>
                             <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
                             <span *ngSwitchCase="'Cancelada'" class="label label-light-danger">CANCELADA</span>
-                            <span *ngSwitchCase="'Pagada'" class="label label-light-inverse">Pagada</span>
+                            <span *ngSwitchCase="'Pagada'" class="label label-light-inverse">PAGADA</span>
                         </p>
                     </div>
                     <div *ngIf="Estatus == 'Timbrada' && (EstatusNota == 'Timbrada' || EstatusNota == 'NoHay') ; else NoseArma">
@@ -658,6 +658,11 @@
                             <button *ngIf="this.Estatus=='Timbrada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='saldar(service.formData)' [disabled]="form.invalid"><i
                         class="mdi mdi-currency-usd btn-lg"></i>Saldar</button>
 
+                            <button *ngIf="this.Estatus=='Pagada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='nosaldar(service.formData)' [disabled]="form.invalid"><i
+                        class="mdi mdi-currency-usd btn-lg"></i>No Saldar</button>
+
+
+
 
 
                             <!-- <button type="button" class="btn btn-secondary">No Editable</button> -->
@@ -678,6 +683,8 @@
                                 <button class="btn btn-danger btn-lg" mat-raised-button (click)='timbrar(form)' [disabled]="form.invalid"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
 
                                 <br>
+                                <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml2(service.formData.UUID,service.formData.Folio)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
+                                    PDF</button>
                                 <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button> -->
                                 <!-- <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='prefactura(service.formData.Folio)'><i class="mdi mdi-code-tags btn-lg"></i>Prefactura</button> -->
 

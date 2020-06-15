@@ -1244,7 +1244,15 @@ console.log(data);
         this.service.formData.SelloDigitalCFDI = data.SAT.SelloCFD;
         this.service.formData.NumeroDeSelloSAT = data.SAT.NoCertificadoSAT;
         this.service.formData.RFCdelPAC = 'LSO1306189R5';
-        this.service.formData.Estatus = 'Timbrada';
+
+        if (this.service.formData.MetodoDePago=='PUE'){
+          this.service.formData.Estatus = 'Pagada';
+        }else{
+
+          this.service.formData.Estatus = 'Timbrada';
+        }
+
+        
         this.numfact = data.UUID;
         console.log(this.service.formData);
         this.service.updateFactura(this.service.formData).subscribe(data => {
@@ -1698,7 +1706,8 @@ const dialogConfig = new MatDialogConfig();
 
 this.enviarfact.acuseCancelacion(fact.UUID).subscribe((data:any)=>{
   console.log(data);
-  let resp = JSON.parse(data)
+  // let resp = JSON.parse(data)
+  let resp = data
   console.log(resp.acuse);
   localStorage.setItem('xml',resp.acuse)
   const p = new xml2js.parseString(localStorage.getItem('xml'), { tagNameProcessors: [processors.stripPrefix] }, (err, result) => {
@@ -1780,6 +1789,31 @@ this.enviarfact.acuseCancelacion(fact.UUID).subscribe((data:any)=>{
     // console.log('fact',fact);
     // console.log('service',this.service.formData);
     this.service.formData.Estatus = 'Pagada'
+
+    // console.log('fact',fact);
+    // console.log('service',this.service.formData);
+
+    this.service.updateFactura(this.service.formData).subscribe(res => {
+      // this.resetForm(fact);
+      this.resetForm();
+      this.IniciarTotales();
+      Swal.fire(
+        'Factura Saldada',
+        '',
+        'success'
+      )
+
+    }
+    );
+
+
+  }
+
+  nosaldar(fact){
+
+    // console.log('fact',fact);
+    // console.log('service',this.service.formData);
+    this.service.formData.Estatus = 'Timbrada'
 
     // console.log('fact',fact);
     // console.log('service',this.service.formData);

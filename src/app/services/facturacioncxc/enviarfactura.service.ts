@@ -142,7 +142,7 @@ export class EnviarfacturaService {
   }
 
   acuseCancelacion(uuid){
-    return this.http.get('/api/v3/cfdi33/'+uuid+'/cancel',httpOptions3)
+    return this.http.get('/api/v3/cfdi33/'+uuid+'/cancel',httpOptions)
     /* 
   */
   }
