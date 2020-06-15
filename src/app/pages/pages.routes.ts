@@ -77,8 +77,11 @@ import { PrepararComponent } from './almacen/pedidosalmacen/ordencargadetalle/pr
 import { CargarComponent } from './almacen/pedidosalmacen/ordencargadetalle/cargar/cargar.component';
 import { EnviarOrdenCargaComponent } from './almacen/pedidosalmacen/ordencargadetalle/enviar-orden-carga/enviar-orden-carga.component';
 import { OrdendescargadetalleComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargadetalle.component';
+import { OrdendescargadetallecuuComponent } from './almacen/ordendescargacuu/ordendescargadetallecuu/ordendescargadetallecuu.component';
 import { ProspectoVentasComponent } from './ventas/prospecto-ventas/prospecto-ventas.component';
 import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargatarima/ordendescargatarima.component';
+import { OrdendescargatarimacuuComponent } from './almacen/ordendescargacuu/ordendescargadetallecuu/ordendescargatarimacuu/ordendescargatarimacuu.component';
+import { OrdenDescargaEvidenciasComponent } from './almacen/ordendescarga/ordendescargadetalle/orden-descarga-evidencias/orden-descarga-evidencias.component';
 
 
 
@@ -168,8 +171,11 @@ const pagesRoutes: Routes = [
                 { path: 'ordenCargaCargar', component: CargarComponent },
                 { path: 'ordenCargaEnviar', component: EnviarOrdenCargaComponent },
                 { path: 'ordenDescargadetalle', component: OrdendescargadetalleComponent },
+                { path: 'ordenDescargadetallecuu', component: OrdendescargadetallecuuComponent },
                 { path: 'prospectoVentas', component: ProspectoVentasComponent },
                 { path: 'ordenDescargaTarima', component: OrdendescargatarimaComponent },
+                { path: 'ordenDescargaTarimacuu', component: OrdendescargatarimacuuComponent },
+                { path: 'ordenDescargaEvidencia', component: OrdenDescargaEvidenciasComponent },
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },

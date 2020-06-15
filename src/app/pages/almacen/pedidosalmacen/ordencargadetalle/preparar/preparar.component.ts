@@ -217,7 +217,8 @@ export class PrepararComponent implements OnInit {
     console.log(this.QRdata);
 
     //igualar en 0s el arreglo que se encuentra en el servicio
-    this.ordenTemporalService.preOrdenTemporal = [];
+    // this.ordenTemporalService.preOrdenTemporal = [];
+    this.ordenTemporalService.preOrdenTemporal = new Array<preOrdenTemporal>();
     console.log(this.ordenTemporalService.preOrdenTemporal);
 
 

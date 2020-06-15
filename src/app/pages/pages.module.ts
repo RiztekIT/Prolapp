@@ -225,6 +225,9 @@ import {NgxImageCompressService} from 'ngx-image-compress';
 import { ReportefacturacionfechasComponent } from '../components/cxc/reportefacturacionfechas/reportefacturacionfechas.component';
 import { ReportefacturacionResumenComponent } from '../components/cxc/reportefacturacion-resumen/reportefacturacion-resumen.component';
 import { OrdenDescargaEvidenciasComponent } from './almacen/ordendescarga/ordendescargadetalle/orden-descarga-evidencias/orden-descarga-evidencias.component';
+import { OrdenDescargaEmailComponent } from './almacen/ordendescarga/ordendescargadetalle/orden-descarga-email/orden-descarga-email.component';
+import { OrdendescargadetallecuuComponent } from './almacen/ordendescargacuu/ordendescargadetallecuu/ordendescargadetallecuu.component';
+import { OrdendescargatarimacuuComponent } from './almacen/ordendescargacuu/ordendescargadetallecuu/ordendescargatarimacuu/ordendescargatarimacuu.component';
 
 
 
@@ -385,7 +388,10 @@ import { OrdenDescargaEvidenciasComponent } from './almacen/ordendescarga/ordend
         AcusecancelacionComponent,
         ReportefacturacionfechasComponent,
         ReportefacturacionResumenComponent,
-        OrdenDescargaEvidenciasComponent
+        OrdenDescargaEvidenciasComponent,
+        OrdenDescargaEmailComponent,
+        OrdendescargadetallecuuComponent,
+        OrdendescargatarimacuuComponent
     
     ],
     exports: [
@@ -502,7 +508,8 @@ import { OrdenDescargaEvidenciasComponent } from './almacen/ordendescarga/ordend
         ReportefacturacionResumenComponent,
         ReporteComponent,
         ReporteDllsComponent,
-        ReporteMxnComponent
+        ReporteMxnComponent,
+        OrdenDescargaEmailComponent
         
     ]
 })
