@@ -397,6 +397,17 @@
                                                                 <th class="text-left textoBodyAcomodo "> {{ conceptos.importe | currency }} </th>
                                                             </div>
                                                         </div>
+                                                        <div class="row" *ngIf="conceptos.observaciones">
+                                                            <div class="col-1"></div>
+                                                            <div class="col-1"></div>
+                                                            <div class="col-1"></div>
+                                                            <div class="col-5">
+                                                                <!-- <th class="text-left textoBodyAcomodo "> {{conceptos.observaciones}} </th> -->
+                                                                <textarea rows="5" type="string" class="form-control area" name="cuerpo">{{conceptos.observaciones}}</textarea>
+                                                            </div>
+                                                            <div class="col-2"></div>
+                                                            <div class="col-2"></div>
+                                                        </div>
                                                     </div>
                                                 </tr>
                                             </tbody>

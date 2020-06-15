@@ -500,6 +500,9 @@ import { OrdenDescargaEvidenciasComponent } from './almacen/ordendescarga/ordend
         OrdenDecargaTarimaExistenteComponent,
         ReportefacturacionfechasComponent,
         ReportefacturacionResumenComponent,
+        ReporteComponent,
+        ReporteDllsComponent,
+        ReporteMxnComponent
         
     ]
 })

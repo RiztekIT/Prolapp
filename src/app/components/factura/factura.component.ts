@@ -219,6 +219,7 @@ if(this.moneda === 'MXN'){
       descripcion: conceptos.Producto,
       valorunitario: conceptos.PrecioUnitario,
       importe: conceptos.Importe,
+      observaciones: conceptos.Observaciones
     });
 }
 }else if(this.moneda === 'USD'){
@@ -231,6 +232,7 @@ if(this.moneda === 'MXN'){
       descripcion: conceptos.Producto,
       valorunitario: conceptos.PrecioUnitarioDlls,
       importe: conceptos.ImporteDlls,
+      observaciones: conceptos.Observaciones
     });
 }
 }
