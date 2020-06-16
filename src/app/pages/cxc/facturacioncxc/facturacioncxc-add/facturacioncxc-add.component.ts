@@ -1318,6 +1318,27 @@ console.log(data);
   
   }
 
+  soloPDF(id: string, folio: string){
+    
+    this.loading = true;
+    // document.getElementById('enviaremail').click();
+    
+    const dialogConfig = new MatDialogConfig();
+      // dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = false;
+      dialogConfig.width = "80%";
+      //dialogConfig.height = "80%"
+      
+     
+      this.dialog.open(FacturaComponent, dialogConfig);
+
+      setTimeout(()=>{
+        this.onExportClick(folio);    
+        this.dialog.closeAll();
+        
+       },1000)
+  }
+
   /* Metodo que guarda el xml en el localstorage para usarlo en el pdf */
   dxml2(id: string, folio: string) {
     // this.proceso = 'xml';
