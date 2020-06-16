@@ -30,7 +30,6 @@ formDataTarimaDT = new DetalleTarima();
 
 
 
-
   constructor( private http:HttpClient) { }
 
   master = new Array<MasterOrdenDescarga>();

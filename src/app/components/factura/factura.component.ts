@@ -173,7 +173,7 @@ this.metodoPago = row.MetodoDePago;
 this.lugarExpedicion = row.LugarDeExpedicion;
 this.selloCFDI = row.SelloDigitalCFDI;
 this.rfcE = 'PLA11011243A'
-this.nombreE = 'PRO LACTO INGREDIENTES S DE RL MI DE CV';
+this.nombreE = 'PRO LACTOINGREDIENTES S DE RL MI DE CV';
 this.nombreR = row.Nombre;
 this.rfcR = row.RFC;
 this.usoCFDI = row.UsoCFDI;
@@ -219,6 +219,7 @@ if(this.moneda === 'MXN'){
       descripcion: conceptos.Producto,
       valorunitario: conceptos.PrecioUnitario,
       importe: conceptos.Importe,
+      observaciones: conceptos.Observaciones
     });
 }
 }else if(this.moneda === 'USD'){
@@ -231,6 +232,7 @@ if(this.moneda === 'MXN'){
       descripcion: conceptos.Producto,
       valorunitario: conceptos.PrecioUnitarioDlls,
       importe: conceptos.ImporteDlls,
+      observaciones: conceptos.Observaciones
     });
 }
 }

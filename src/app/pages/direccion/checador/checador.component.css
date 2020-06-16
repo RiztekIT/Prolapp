@@ -58,57 +58,41 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .folio {
     cursor: pointer;
+    padding-right: 10px;
 }
 
-.img-responsive {
-    width: auto;
-    height: 300px;
-    transition: .5s -webkit-filter;
-    transition: .5s filter;
+.btn-danger:hover {
+    color: white;
 }
 
-.imgcontainer {
-    position: relative;
+::ng-deep .mat-cell {
+    overflow: auto;
 }
 
-.imgblur:hover {
-    -webkit-filter: blur(5px);
-    /* Safari 6.0 - 9.0 */
-    filter: blur(5px);
+::ng-deep .mat-header-cell {
+    color: #ffffff;
+    background: #000000;
 }
 
-.boton {
-    display: none;
+
+/* 
+button {
+    padding-left: 10px;
+} */
+
+.color {
+    background-color: rgba(230, 69, 69, 0.596);
 }
 
-.imgcontainer:hover .boton {
-    display: block;
-    position: absolute;
-    top: 5%;
-    left: 80%;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    text-align: center;
+::ng-deep .modal-lg {
+    max-width: 1000px;
 }
 
-@media only screen and (max-width: 800px) {
-    .boton {
-        display: block;
-        position: absolute;
-        top: 5%;
-        left: 80%;
-        font-size: 16px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        text-align: center;
-    }
+.nombre {
+    left: 0px !important
 }
 
-@media (min-width: 1200px) {
-    .container {
-        max-width: 100%;
-    }
+.celdafecha {
+    white-space: nowrap;
+    padding-right: 10px;
 }

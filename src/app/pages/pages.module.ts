@@ -230,6 +230,7 @@ import { OrdenDescargaEmailComponent } from './almacen/ordendescarga/ordendescar
 
 import { OrdendescargadetallecuuComponent } from './almacen/ordendescargacuu/ordendescargadetallecuu/ordendescargadetallecuu.component';
 import { OrdendescargatarimacuuComponent } from './almacen/ordendescargacuu/ordendescargadetallecuu/ordendescargatarimacuu/ordendescargatarimacuu.component';
+import { ChecadorComponent } from './direccion/checador/checador.component';
 
 
 
@@ -393,7 +394,8 @@ import { OrdendescargatarimacuuComponent } from './almacen/ordendescargacuu/orde
         OrdenDescargaEvidenciasComponent,
         OrdenDescargaEmailComponent,
         OrdendescargadetallecuuComponent,
-        OrdendescargatarimacuuComponent
+        OrdendescargatarimacuuComponent,
+        ChecadorComponent
     
     ],
     exports: [
@@ -508,6 +510,9 @@ import { OrdendescargatarimacuuComponent } from './almacen/ordendescargacuu/orde
         OrdenDecargaTarimaExistenteComponent,
         ReportefacturacionfechasComponent,
         ReportefacturacionResumenComponent,
+        ReporteComponent,
+        ReporteDllsComponent,
+        ReporteMxnComponent,
         OrdenDescargaEmailComponent
         
     ]

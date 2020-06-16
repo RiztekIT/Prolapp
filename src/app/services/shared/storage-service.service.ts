@@ -15,7 +15,7 @@ export class StorageServiceService {
     this.localStorageService = localStorage;
     this.currentSession = this.loadSessionData();
   }
-
+  
   setCurrentSession(session: Session): void {
     this.currentSession = session;
     this.localStorageService.setItem('ProlappSession', JSON.stringify(session));

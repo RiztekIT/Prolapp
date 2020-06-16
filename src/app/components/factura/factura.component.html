@@ -388,7 +388,7 @@
                                                                 <th class="text-right textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.claveunidad}} </th>
                                                             </div>
                                                             <div class="col-5">
-                                                                <th class="text-left textoBodyAcomodo"> {{conceptos.descripcion | slice:0:40}} <br> {{conceptos.descripcion | slice:40:70}} </th>
+                                                                <th class="text-left textoBodyAcomodo"> {{conceptos.descripcion | slice:0:41}} <br> {{conceptos.descripcion | slice:41:70}} </th>
                                                             </div>
                                                             <div class="col-2">
                                                                 <th class="text-left textoBodyAcomodo "> {{ conceptos.valorunitario | currency}} </th>
@@ -396,6 +396,17 @@
                                                             <div class="col-2">
                                                                 <th class="text-left textoBodyAcomodo "> {{ conceptos.importe | currency }} </th>
                                                             </div>
+                                                        </div>
+                                                        <div class="row" *ngIf="conceptos.observaciones">
+                                                            <div class="col-1"></div>
+                                                            <div class="col-1"></div>
+                                                            <div class="col-1"></div>
+                                                            <div class="col-5">
+                                                                <th class="text-left textoBodyAcomodo"> {{conceptos.observaciones | slice:0:40}} <br> {{conceptos.observaciones | slice:40:80}} <br> {{conceptos.observaciones | slice:80:120}} <br> {{conceptos.observaciones | slice:120:160}} <br> {{conceptos.observaciones | slice:160:200}} <br> {{conceptos.observaciones | slice:200:240}} <br> {{conceptos.observaciones | slice:240:300}}   </th>                                                            
+                                                                <!-- <textarea rows="5" type="string" class="form-control area" name="cuerpo">{{conceptos.observaciones}}</textarea> -->
+                                                            </div>
+                                                            <div class="col-2"></div>
+                                                            <div class="col-2"></div>
                                                         </div>
                                                     </div>
                                                 </tr>

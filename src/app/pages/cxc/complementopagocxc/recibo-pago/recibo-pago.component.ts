@@ -564,7 +564,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
     { banco: 'HSBC', cuenta:"021150040537518226"},
     { banco: 'HSBC DLLS', cuenta:"021150070030383384"},
     { banco: 'SANTANDER DLLS', cuenta:"014150825007240214"},
-    { banco: 'BANCOMER', cuenta:"012150001119448432"}
+    { banco: 'BANCOMER', cuenta:"012150001119448432"},
+    { banco: 'BANCOMER DLLS', cuenta:"012150001119942475"}
   ]
 
   MonedaSelected(event: any) {
@@ -588,6 +589,9 @@ console.log('NUEVO CFDIIIIIIIIIII');
     }
     if (event.target.selectedOptions[0].text==='BANCOMER'){
       this.service.formData.Cuenta = '012150001119448432'
+    }
+    if (event.target.selectedOptions[0].text==='BANCOMER DLLS'){
+      this.service.formData.Cuenta = '012150001119942475'
     }
   }
 
@@ -888,7 +892,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
 console.log(this.json1);
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
       for (let i = 0; i < this.json1.Conceptos[0].Complemento[0].relacionados.length; i++){
-        if(this.json1.Conceptos[0].Complemento[0].relacionados[i].ImpSaldoInsoluto=='0'){
+        if(this.json1.Conceptos[0].Complemento[0].relacionados[i].ImpSaldoInsoluto=='0.00'){
           this.servicefactura.updatePagadaFactura(this.json1.Conceptos[0].Complemento[0].relacionados[i].IdDocumento).subscribe(data =>{
             console.log(data);
           })

@@ -11,3 +11,7 @@
     width: 100% !important;
     max-width: 1200px;
 } */
+
+.example-full-width {
+    display: initial !important;
+}

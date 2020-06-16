@@ -111,7 +111,7 @@
 
                         <label class="input-group-text text-info">Observaciones: </label>
 
-                        <input placeholder="Observaciones" type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="service.formDataDF.Observaciones">
+                        <input placeholder="Observaciones" type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="service.formDataDF.Observaciones" ng-maxlength="150">
 
                         <div class="text-left text-danger" *ngIf="Observaciones.invalid && Observaciones.touched">
                             Favor de Ingresar Observaciones.

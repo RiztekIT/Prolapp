@@ -1,9 +1,11 @@
-import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, Inject } from '@angular/core';
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
 import { ClientesService } from '../../../services/catalogos/clientes.service';
 import { ReporteMaster } from '../../../Models/cxc/reportecxcmaster-model';
 import * as html2pdf from 'html2pdf.js';
 import { SharedService } from 'src/app/services/service.index';
+import { MAT_DIALOG_DATA } from '@angular/material';
+import { ngxLoadingAnimationTypes } from 'ngx-loading';
 
 @Component({
   selector: 'app-reporte-dlls',
@@ -11,13 +13,14 @@ import { SharedService } from 'src/app/services/service.index';
   styleUrls: ['./reporte-dlls.component.css']
 })
 export class ReporteDllsComponent implements OnInit {
+  public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   IdCliente: any;
 
   IdC: number;
 
   masterArray = new Array<ReporteMaster>();
 
-  constructor(public serviceFactura: FacturaService, public serviceCliente: ClientesService, public sharedService: SharedService) { }
+  constructor(public serviceFactura: FacturaService, public serviceCliente: ClientesService, public sharedService: SharedService, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   con : string| number;
   arrcon: Array<any> = [];
@@ -30,9 +33,169 @@ export class ReporteDllsComponent implements OnInit {
   abono;
   totalsaldo;
   totalabonos;
+  public loading = false;
 
   ngOnInit() {
-    this.getClientes();
+    console.log(this.data);
+    if (this.data.clientes){
+
+      this.getClientes();
+    }else{
+      this.reporteClienteSolo();     
+    }
+  }
+
+  reporteClienteSolo(){
+
+
+    this.serviceCliente.getClientesListIDN().subscribe(data=>{
+      this.loading = true;
+
+      this.IdCliente = data;
+
+      console.log('cliente',data);
+
+
+    
+
+
+
+      // console.log(this.IdCliente);
+
+      this.objconc = []
+
+      this.masterArray = []
+
+      for (let i = 0; i < data.length ; i++){
+
+        console.log(data[i].IdClientes);
+        console.log(this.serviceCliente.Idclienteservicio);
+
+        if(data[i].IdClientes==this.serviceCliente.Idclienteservicio){
+
+
+
+        
+
+
+     this.totaldlls = '0';
+     this.totalmxn = '0';
+     this.totalsaldo = '0';
+     this.totalabonos = '0';
+      // console.log( this.IdCliente[i].IdClientes);
+
+      
+      this.masterArray.push({
+        IdCliente: this.IdCliente[i].IdClientes,
+        Nombre: this.IdCliente[i].Nombre,
+        TotalMXN: '0',
+        TotalDLLS: '0'
+      })
+
+      // this.textoNombre = this.masterArray[0].Nombre.length;
+      // console.log(this.textoNombre);
+
+      this.masterArray[0].Docs =[];
+
+        this.serviceFactura.getReportesU(this.IdCliente[i].IdClientes).subscribe(res=>{
+          this.totaldlls = '0';
+          this.totalmxn = '0';
+          this.totalsaldo = '0';
+     this.totalabonos = '0';
+
+          this.saldo = 0;
+          this.abono = 0;
+          
+          let notacredito;
+          let pagos;
+          if(res.length > 0){
+
+          for( let l = 0; l < res.length; l++){
+
+            if (res[l].Moneda === 'MXN'){
+              if (!res[l].NCTotal){
+
+                notacredito = 0;
+              }else{
+                notacredito = +res[l].NCTotal;
+              }
+            }else if (res[l].Moneda === 'USD'){
+              if (!res[l].NCTotalDlls){
+                
+                notacredito = 0;
+              }else{
+                notacredito = +res[l].NCTotalDlls;
+              }
+            }
+
+              if (!res[l].pagos){
+
+                pagos = 0;
+              }else{
+                pagos = res[l].pagos
+              }
+
+            this.abono = +notacredito + +pagos;
+            // console.log(this.abono);
+            // console.log(+notacredito);
+            // console.log(+pagos);
+            
+            if (res[l].Moneda === 'MXN'){
+
+              this.saldo = +res[l].Total - +this.abono
+
+            }else if (res[l].Moneda === 'USD'){
+              this.saldo = +res[l].TotalDlls - +this.abono
+
+              this.saldo = this.saldo * +res[l].TipoDeCambio;
+
+            }
+            
+
+           
+            console.log(res[l]);
+            // this.masterArray[i].Docs.push(res[l],"abonos:'5");
+            this.masterArray[0].Docs.push({
+              FechaDeExpedicion: res[l].FechaDeExpedicion,
+              FechaVencimiento: res[l].FechaVencimiento,
+              Folio: res[l].Folio,
+              Idcliente: res[l].Idcliente,
+              Moneda: res[l].Moneda,
+              NCTotal: res[l].NCTotal,
+              NCTotalDlls: res[l].NCTotalDlls,
+              Tipo: res[l].Tipo,
+              TipoDeCambio: res[l].TipoDeCambio,
+              Total: res[l].Total,
+              TotalDlls: res[l].TotalDlls,
+              pagos: res[l].pagos,
+              Abonos: this.abono,
+              Saldo: this.saldo
+            })
+            
+            this.totalmxn = (+this.totalmxn + +res[l].Total).toString();
+            this.totaldlls = (+this.totaldlls + +res[l].TotalDlls).toString();  
+            this.totalsaldo = +this.totalsaldo + +this.saldo;
+            this.totalabonos = +this.totalabonos + +this.abono;          
+            this.masterArray[0].TotalMXN = this.totalmxn;
+            this.masterArray[0].TotalDLLS = this.totaldlls;
+            this.masterArray[0].TotalAbonos = this.totalabonos;
+            this.masterArray[0].TotalSaldo = this.totalsaldo;
+
+              this.objconc.push(res[l]);
+
+            }
+          }
+   
+          this.datosArray(this.masterArray);
+        })
+
+        return;
+      }
+      }//fin del for
+      
+      
+    })
+
   }
 
   getClientes(){
@@ -182,6 +345,7 @@ export class ReporteDllsComponent implements OnInit {
         }
       }
       //  console.log(this.arrcon);
+      this.loading = false;
     }
   }
 

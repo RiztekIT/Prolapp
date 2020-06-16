@@ -9,6 +9,14 @@ import { facturaMasterDetalle } from 'src/app/Models/facturacioncxc/facturamaste
 import { FacturacionService } from '../../../services/reportes/facturacion.service';
 import { ReportefacturacionfechasComponent } from '../../../components/cxc/reportefacturacionfechas/reportefacturacionfechas.component';
 import { ReportefacturacionResumenComponent } from '../../../components/cxc/reportefacturacion-resumen/reportefacturacion-resumen.component';
+import { ReporteComponent } from 'src/app/components/cxc/reporte/reporte.component';
+import { ClientesService } from 'src/app/services/catalogos/clientes.service';
+import { FormControl } from '@angular/forms';
+import { Cliente } from 'src/app/Models/catalogos/clientes-model';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
+import { ReporteMxnComponent } from 'src/app/components/cxc/reporte-mxn/reporte-mxn.component';
+import { ReporteDllsComponent } from 'src/app/components/cxc/reporte-dlls/reporte-dlls.component';
 
 
 /* Constante y variables para la transformacion de los meses en los datetimepicker */
@@ -53,14 +61,56 @@ export class ReportescxcComponent implements OnInit {
   fechaInicial = new Date();
   fechaFinal = new Date();
   loading = false;
+  todosClientes = true;
+  myControl = new FormControl();
+  filteredOptions: Observable<any[]>
+  listClientes: Cliente[] = [];
+  options: Cliente[] = [];
+  ClienteNombre: any;
 
-  constructor(public serviceFactura: FacturaService, public sharedService: FacturacionService, private dialog: MatDialog) { }
+
+  constructor(public serviceFactura: FacturaService, public sharedService: FacturacionService, private dialog: MatDialog,public serviceCliente: ClientesService) { }
 
   isVisible: boolean;
   facturas = new facturaMasterDetalle;
   
   ngOnInit() {
     this.isVisible = true;
+    this.obtenerClientes();
+  }
+
+  checkbox(event){
+    this.todosClientes = event.checked;
+    console.log(this.todosClientes);
+  }
+
+  obtenerClientes(){
+    this.serviceCliente.getClientesListIDN().subscribe(data=>{
+      console.log(data);
+      for (let i = 0; i < data.length; i++) {
+        let client = data[i];
+        this.listClientes.push(client);
+        this.options.push(client)
+        this.filteredOptions = this.myControl.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filter(value))
+          );
+      }
+    })
+  }
+
+  _filter(value: any): any {
+     const filterValue = value.toString().toLowerCase();
+    return this.options.filter(option =>
+      option.Nombre.toLowerCase().includes(filterValue) ||
+      option.IdClientes.toString().includes(filterValue));
+  }
+
+  onSelectionChange(cliente: Cliente, event: any) {
+    console.log('OSC',cliente);
+    console.log('OSC',event);
+    this.ClienteNombre = cliente.Nombre;
   }
 
   
@@ -353,6 +403,41 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
               console.log(this.facturas); */
               this.sharedService.generarReporteFacturacionFechas(data,fecha1,fecha2);
             })
+            }
+
+
+            reporteCobranza(){
+              const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "80%";
+    dialogConfig.data = {
+      clientes: this.todosClientes
+    }
+    let dl = this.dialog.open(ReporteComponent, dialogConfig);
+
+            }
+            reporteCobranzaDlls(){
+              const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "80%";
+    dialogConfig.data = {
+      clientes: this.todosClientes
+    }
+    let dl = this.dialog.open(ReporteDllsComponent, dialogConfig);
+
+            }
+            reporteCobranzaMxn(){
+              const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "80%";
+    dialogConfig.data = {
+      clientes: this.todosClientes
+    }
+    let dl = this.dialog.open(ReporteMxnComponent, dialogConfig);
+
             }
 
 
