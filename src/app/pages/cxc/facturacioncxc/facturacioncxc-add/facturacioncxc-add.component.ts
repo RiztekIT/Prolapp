@@ -1106,7 +1106,7 @@ console.log(data);
               Cantidad: data[i].Cantidad,
               ClaveUnidad: data[i].Unidad,
               Unidad: data[i].Unidad,
-              Descripcion: data[i].DescripcionProducto,
+              Descripcion: data[i].DescripcionProducto + ' ' + data[i].Observaciones,
               ValorUnitario: data[i].PrecioUnitario,
               Importe: data[i].Importe,
               Descuento: '0',
