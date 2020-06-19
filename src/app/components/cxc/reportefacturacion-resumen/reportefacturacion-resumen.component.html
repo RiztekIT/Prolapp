@@ -54,6 +54,7 @@
                         <th class="blacktxt bolder ">Fecha</th>
                         <th class="blacktxt bolder">Importe</th>
                         <th class="blacktxt bolder">Moneda</th>
+                        <th class="blacktxt bolder">TC</th>
                         <th class="blacktxt bolder">Estatus</th>
                         <!-- <th></th> -->
                     </tr>
@@ -67,6 +68,7 @@
                         <td *ngIf="fact.Moneda==='MXN'" class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Total | currency}}</td>
                         <td *ngIf="fact.Moneda==='USD'" class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.TotalDlls | currency}}</td>
                         <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Moneda}}</td>
+                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.TipoDeCambio}}</td>
                         <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Estatus}}</td>
                     </tr>
 

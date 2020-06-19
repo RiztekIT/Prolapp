@@ -42,7 +42,7 @@ export class ReportefacturacionResumenComponent implements OnInit {
     console.log(fecha1);
     console.log(fecha2);
     this.serviceFactura.getFacturasFechas(fecha1,fecha2).subscribe(data=>{
-
+console.log(data);
       for (let i=0; i<data.length; i++){
         this.facturas[i] = data[i];
       }
@@ -109,7 +109,7 @@ export class ReportefacturacionResumenComponent implements OnInit {
     margin: [3,0,3,0],
     filename: 'Reporte.pdf',
     image: {type: 'jpeg', quality: 0.5},
-    html2canvas: {scale: 2, logging: true, scrollY: -2, scrollX: -15},
+    html2canvas: {scale: 2, logging: true, scrollY: -2, scrollX: -1},
     jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
     pagebreak:{ avoid: '.pgbreak'}
   };

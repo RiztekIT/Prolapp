@@ -1086,6 +1086,12 @@ onExportClick(folio?: string) {
                 showConfirmButton: false
               });
             });
+            //
+            this.service.cancelarPagoCFDI(this.service.formData.Id).subscribe(data2=>{
+
+              console.log(data2);
+            
+            })
           }
           else if (data2.response === 'error') {
             this.loading = false;
@@ -1102,6 +1108,7 @@ onExportClick(folio?: string) {
     })
 
   }
+
   email(uuid,id){
   localStorage.removeItem('xml'+id);
   localStorage.removeItem('pdf'+id);

@@ -132,6 +132,13 @@ export class ReciboPagoService {
   getPagoCFDIFacturaID(id: number): Observable<any[]> {
     return this.http.get<any[]>(this.APIUrl + '/ReciboPago/PagoCFDIFacturaID/' + id);
   }
+
+  cancelarPagoCFDI(id: number){
+    return this.http.put(this.APIUrl + '/ReciboPago/CancelarPagoCFDI?id='+ id,null);
+  }
+
+
+
   private _listeners = new Subject<any>();
   listen(): Observable<any> {
     return this._listeners.asObservable();

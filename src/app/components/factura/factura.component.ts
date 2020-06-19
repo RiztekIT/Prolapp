@@ -160,7 +160,7 @@ export class FacturaComponent implements OnInit {
 this.certificado = row.Certificado;
 this.serie = row.Serie;
 this.folio = row.Folio;
-//this.folio = '9119';
+// this.folio = '9104';
 this.fecha = row.FechaDeExpedicion;
 this.formaDePago = row.FormaDePago;
 this.nocertificado = row.NumeroDeCertificado;

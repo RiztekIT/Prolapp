@@ -23,6 +23,11 @@ export class ReportefacturacionfechasComponent implements OnInit {
   facturas = new Array<any>();
   isVisible: boolean;
 
+  totalkilos;
+  totalpesos;
+  totaldlls;
+  totalmxn;
+
 
   // masterArray = new Array<ReporteMaster>();
 
@@ -47,6 +52,11 @@ export class ReportefacturacionfechasComponent implements OnInit {
   }
 
   reporteFechasDetallado(){
+
+    this.totalkilos = 0;
+    this.totalpesos = 0;
+    this.totaldlls = 0;
+    this.totalmxn = 0;
     
     // console.log(this.fechaInicial);
     // console.log(this.fechaFinal);
@@ -80,17 +90,28 @@ export class ReportefacturacionfechasComponent implements OnInit {
       for (let i=0; i<data.length; i++ ){
         this.facturas[i] = data[i];
         this.facturas[i].detalle = []
+        if(this.facturas[i].Moneda=='MXN'){
+          this.totalmxn = +this.totalmxn + +this.facturas[i].Total;
+        }else if(this.facturas[i].Moneda=='USD'){
+          this.totaldlls = +this.totaldlls + +this.facturas[i].TotalDlls
+        }
         this.serviceFactura.getDetallesFacturaList(data[i].Id).subscribe(con =>{
           console.log(con);
           for (let l = 0; l <=con.length-1; l++){
+            this.totalkilos = +this.totalkilos + +con[l].Cantidad
+            this.totalpesos = +this.totalpesos + +con[l].Importe
             this.facturas[i].detalle.push(con[l]);
           }
+      //     console.log(this.totalkilos);
+      // console.log(this.totalpesos);
           
           
         })
       }
 
       console.log('antes del service',this.facturas);
+
+      
       // this.facts = this.facturas
       
       
@@ -301,6 +322,23 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
 
     
     worksheet.addRow([])
+
+    let rowpm = worksheet.addRow(['','Total Importe MXN:','',this.totalmxn])
+    let rowpd = worksheet.addRow(['','Total Importe USD:','',this.totaldlls])
+    let rowp = worksheet.addRow(['','Total Importe:','',this.totalpesos])
+    let rowk = worksheet.addRow(['','Total Kilos:','',this.totalkilos])
+
+    let pesosm = rowp.getCell(4)
+      pesosm.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+    let pesosd = rowp.getCell(4)
+      pesosd.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+    let pesos = rowp.getCell(4)
+      pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+  
+      let kilos = rowk.getCell(4)
+      kilos.numFmt = '#,##0.00_ ;-#,##0.00 '
+    worksheet.addRow([])
+
     worksheet.addRow(['','Total de Registros - '+ count]);
 
 
