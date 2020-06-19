@@ -119,6 +119,32 @@
                     <td class="wrap lightback pgbreak"> {{info.TotalDLLS |currency}} </td> -->
                 </tbody>
             </table>
+            <br>
+            <hr>
+            <br>
+            <br>
+            <table>
+                <thead style="border-style: groove">
+
+                    <tr>
+                        <th class="blacktxt bolder">Total Importe MXN:</th>
+                        <th class="blacktxt bolder">{{ totalmxn | currency }}</th>
+                        <th class="blacktxt bolder"></th>
+                        <th class="blacktxt bolder">Total Importe USD: </th>
+                        <th class="blacktxt bolder "> {{ totaldlls | currency }}</th>
+                        <!-- <th></th> -->
+                    </tr>
+                    <tr>
+                        <th class="blacktxt bolder">Total Importe General: </th>
+                        <th class="blacktxt bolder "> {{ totalpesos | currency }}</th>
+                        <th class="blacktxt bolder"></th>
+                        <th class="blacktxt bolder">Total Kilos : </th>
+                        <th class="blacktxt bolder "> {{ totalkilos | number }}</th>
+                        <!-- <th></th> -->
+                    </tr>
+                </thead>
+
+            </table>
 
         </div>
         <!-- <div class="col-2"></div> -->

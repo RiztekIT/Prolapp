@@ -1727,10 +1727,18 @@ const dialogConfig = new MatDialogConfig();
 
 this.enviarfact.acuseCancelacion(fact.UUID).subscribe((data:any)=>{
   console.log(data);
-  // let resp = JSON.parse(data)
+
+
   let resp = data
-  console.log(resp.acuse);
-  localStorage.setItem('xml',resp.acuse)
+  // let resp = JSON.parse(data)
+  if (data.response=='success'){
+    console.log(resp.respuestaapi.acuse);
+    localStorage.setItem('xml',resp.respuestaapi.acuse)
+  }else{
+    console.log(resp.acuse);
+    localStorage.setItem('xml',resp.acuse)
+  }
+  
   const p = new xml2js.parseString(localStorage.getItem('xml'), { tagNameProcessors: [processors.stripPrefix] }, (err, result) => {
     console.log(result);
     let rfcemisor;
