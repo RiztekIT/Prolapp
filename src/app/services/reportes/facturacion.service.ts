@@ -91,7 +91,7 @@ workbook.xlsx.writeBuffer().then((data) => {
   generarReporteFacturacionFechas(datos,fechaini,fechafinal){
     const title = 'PRO LACTOINGREDIENTES S DE RL MI DE CV';
     const subtitle = 'Reporte Facturacion entre Fechas';
-    const header = ["Folio", "Cliente", "Fecha", "Importe", "Moneda", "Estatus"]
+    const header = ["Folio", "Cliente", "Fecha", "Importe", "Moneda","TC", "Estatus"]
     const data = datos;
     console.log('datos service',data);
     let workbook = new Workbook();
@@ -110,7 +110,7 @@ workbook.xlsx.writeBuffer().then((data) => {
       base64: logoBase64,
       extension: 'png',
     });
-    worksheet.addImage(logo, 'E1:F5');
+    worksheet.addImage(logo, 'E1:G6');
     worksheet.mergeCells('A1:D2');
     worksheet.mergeCells('A3:D4');
     worksheet.mergeCells('A5:D5');
@@ -143,10 +143,10 @@ workbook.xlsx.writeBuffer().then((data) => {
 
       if (d.Moneda==='MXN'){
 
-        registro = [d.Folio,d.IdCliente+' - '+d.Nombre,d.FechaDeExpedicion,+d.Total,d.Moneda,d.Estatus];
+        registro = [d.Folio,d.IdCliente+' - '+d.Nombre,d.FechaDeExpedicion,+d.Total,d.Moneda,+d.TipoDeCambio,d.Estatus];
       }
       else if (d.Moneda==='USD'){
-        registro = [d.Folio,d.IdCliente+' - '+d.Nombre,d.FechaDeExpedicion,+d.TotalDlls,d.Moneda,d.Estatus];
+        registro = [d.Folio,d.IdCliente+' - '+d.Nombre,d.FechaDeExpedicion,+d.TotalDlls,d.Moneda,+d.TipoDeCambio,d.Estatus];
       }
 
       if (d.Estatus==='Timbrada'){
@@ -167,6 +167,8 @@ workbook.xlsx.writeBuffer().then((data) => {
       // pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
       let dlls = row.getCell(4);
       dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+      let tc = row.getCell(6);
+      tc.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
       
     }
     );
