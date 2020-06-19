@@ -61,4 +61,11 @@ export class UsuariosServieService {
     return this.http.post(this.APIUrl+ '/usuario/login/',usuario);
     }
 
+    checadas(){
+      return this.http.get(this.APIUrl+'/usuario/login');
+    }
+    checadasfechas(fecha){
+      return this.http.get(this.APIUrl+'/usuario/login/'+fecha);
+    }
+
 }

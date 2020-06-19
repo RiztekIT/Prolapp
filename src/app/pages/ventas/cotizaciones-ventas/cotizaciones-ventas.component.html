@@ -3,13 +3,23 @@
         <div class="card ">
             <div class="card-body">
                 <h2 style="text-align: center;">Cotizaciones</h2>
-                <div fxLayoutAlign="row">
-                    <mat-card style="text-align: right;" class="mat-elevation-z0">
-                        <mat-form-field>
-                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
-                        </mat-form-field>
-                    </mat-card>
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-4">
+                            <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Cotizacion</button>
+                        </div>
+                        <div class="col-8">
+
+                            <mat-card style="text-align: right;" class="mat-elevation-z0">
+                                <mat-form-field>
+                                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                                </mat-form-field>
+                            </mat-card>
+                        </div>
+                    </div>
                 </div>
+
 
                 <div style="overflow:auto;">
 
@@ -185,7 +195,7 @@
                     </mat-paginator>
                 </div>
             </div>
-            <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Cotizacion</button>
+
         </div>
     </div>
 </div>
