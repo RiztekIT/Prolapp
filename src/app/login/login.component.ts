@@ -46,12 +46,12 @@ export class LoginComponent implements OnInit {
       user: {
         IdUsuario: 0,
     Nombre: '',
-    NombreUsuario: '',
+    NombreUsuario: 'IvanTa',
     ApellidoPaterno: '',
     ApellidoMaterno: '',
     Correo: '',
     Telefono: '',
-    Contra: '',
+    Contra: 'Ivan2019',
     FechaUltimoAcceso: ''
       }
     }
@@ -86,12 +86,12 @@ export class LoginComponent implements OnInit {
    this.service.formData = {
     IdUsuario: 0,
     Nombre: '',
-    NombreUsuario: '',
+    NombreUsuario: 'IvanTa',
     ApellidoPaterno: '',
     ApellidoMaterno: '',
     Correo: '',
     Telefono: '',
-    Contra: '',
+    Contra: 'Ivan2019',
     FechaUltimoAcceso: '2019-12-19'
    }
 

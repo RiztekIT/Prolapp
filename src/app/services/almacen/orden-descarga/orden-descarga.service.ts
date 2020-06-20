@@ -74,6 +74,10 @@ formDataTarimaDT = new DetalleTarima();
     return this.http.put(APIUrl + '/OrdenDescarga/UpdateDtODIDLoteFechaCadFechaMFG/' + id + '/' + lote + '/' + fechacad + '/' + fechamdf, null);
   }
 
+  GetODOT(id: number): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetODOT/' + id);
+  }
+
 
   private _listeners = new Subject<any>(); 
         listen(): Observable<any> {

@@ -192,3 +192,7 @@ th {
 .mat-dialog-content {
     max-height: 65vh;
 }
+
+.area {
+    font-size: 10px;
+}

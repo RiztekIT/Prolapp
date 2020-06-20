@@ -9,6 +9,38 @@
         </div>
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
             <mat-card class="mat-elevation-z0">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-4" style="align-self: center">
+
+                            <mat-checkbox class="checkbx" [(checked)]="todosClientes" (change)="checkbox($event)">
+                            </mat-checkbox>
+                            <label class="input-group-text text-info">
+                            Todos Los Clientes
+                        </label>
+                        </div>
+                        <div class="col-8" *ngIf="!todosClientes">
+                            <label class="input-group-text text-info">Seleccionar Cliente</label>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <mat-form-field class="example-full-width">
+                                        <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClienteId" [(ngModel)]="serviceCliente.Idclienteservicio">
+                                        <mat-autocomplete #auto="matAutocomplete">
+                                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChange(option, $event)">
+                                                {{option.IdClientes}} {{option.Nombre}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                    <input type="string" class="form-control" readonly name="ClienteNombre" readonly [(ngModel)]="ClienteNombre">
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <hr>
                 <div class="row">
                     <!--   <br>
                 <div class="col-12">
@@ -20,13 +52,13 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-4 btnalign">
-                                <button class="btn btn-warning" id="abrirpdf" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza</button>
+                                <button class="btn btn-warning" id="abrirpdf" (click)='reporteCobranza()'><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza</button>
                             </div>
                             <div class="col-4 btnalign">
-                                <button class="btn btn-success" id="abrirpdf" data-toggle="modal" data-target="#add-new-event1"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza Dlls</button>
+                                <button class="btn btn-success" id="abrirpdf" (click)="reporteCobranzaDlls()"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza Dlls</button>
                             </div>
                             <div class="col-4 btnalign">
-                                <button class="btn btn-info" id="abrirpdf" data-toggle="modal" data-target="#add-new-event2"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza Mxn</button>
+                                <button class="btn btn-info" id="abrirpdf" (click)="reporteCobranzaMxn()"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza Mxn</button>
                             </div>
                         </div>
                     </div>
@@ -79,7 +111,7 @@
     </div>
 
 
-    <div class="modal fade bs-example-modal-lg show" id="add-new-event">
+    <!-- <div class="modal fade bs-example-modal-lg show" id="add-new-event">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="container row">
@@ -99,29 +131,29 @@
                 <div class="modal0-body ">
 
                     <div id="pdf">
-                        <!-- TOP PAGE LOGO DESCRIPTION-->
-                        <div [style.display]="isVisible ? 'block' : 'none'">
-                            <app-header-reportes></app-header-reportes>
+    
+    <div [style.display]="isVisible ? 'block' : 'none'">
+        <app-header-reportes></app-header-reportes>
 
-                        </div>
-                        <!-- End TOP -->
-                        <div class="content-wrapper">
-                            <app-reporte></app-reporte>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
-                    <button class="btn btn-primary waves-effect waves-light save-category" (click)=" onExportClick()">Descargar</button>
-                    <!-- (click)="onExportClick()" -->
-                </div>
-            </div>
-        </div>
     </div>
+    
+    <div class="content-wrapper">
+        <app-reporte></app-reporte>
+    </div>
+</div>
 
+</div>
 
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+    <button class="btn btn-primary waves-effect waves-light save-category" (click)=" onExportClick()">Descargar</button>
+    
+</div>
+</div>
+</div>
+</div>  -->
+
+    <!-- 
     <div class="modal fade bs-example-modal-lg show" id="add-new-event1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -144,12 +176,12 @@
                 <div class="modal0-body ">
 
                     <div id="pdfdlls">
-                        <!-- TOP PAGE LOGO DESCRIPTION-->
+                        
                         <div [style.display]="isVisible ? 'block' : 'none'">
                             <app-header-reportes></app-header-reportes>
 
                         </div>
-                        <!-- End TOP -->
+                        
                         <div class="content-wrapper">
                             <app-reporte-dlls></app-reporte-dlls>
                         </div>
@@ -161,13 +193,13 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
                     <button class="btn btn-primary waves-effect waves-light save-category" (click)=" onExportClickdlls()">Descargar</button>
-                    <!-- (click)="onExportClick()" -->
+                    
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <div class="modal fade bs-example-modal-lg show" id="add-new-event2">
+    <!--   <div class="modal fade bs-example-modal-lg show" id="add-new-event2">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="container row">
@@ -187,12 +219,12 @@
                 <div class="modal0-body ">
 
                     <div id="pdfmxn">
-                        <!-- TOP PAGE LOGO DESCRIPTION-->
+                        
                         <div [style.display]="isVisible ? 'block' : 'none'">
                             <app-header-reportes></app-header-reportes>
 
                         </div>
-                        <!-- End TOP -->
+                        
                         <div class="content-wrapper">
                             <app-reporte-mxn></app-reporte-mxn>
                         </div>
@@ -204,11 +236,11 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
                     <button class="btn btn-primary waves-effect waves-light save-category" (click)=" onExportClickmxn()">Descargar</button>
-                    <!-- (click)="onExportClick()" -->
+                    
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <hr>
     <!-- <div class="row">

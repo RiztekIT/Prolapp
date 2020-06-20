@@ -44,6 +44,10 @@
     </div>
     <div class="col-2"></div>
 </div> -->
+<div>
+    <app-header-reportes></app-header-reportes>
+
+</div>
 <div class="container">
     <div class="row">
         <div class="col-8"></div>
@@ -53,70 +57,74 @@
         </div>
     </div>
 </div>
-<div class="container row" id="pdfreportemxn">
-    <!-- <div class="col-1"></div> -->
-    <div class="col-11">
+<mat-dialog-content>
+    <div class="container row" id="pdfreportemxn">
+        <!-- <div class="col-1"></div> -->
+        <div class="col-11">
 
 
-        <table class="table-hover">
-            <thead>
-                <tr>
-                    <th class="blacktxt bolder nowrap">ID Cliente</th>
-                    <th class="blacktxt bolder">Nombre</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <!-- <th></th>
+            <table class="table-hover">
+                <thead>
+                    <tr>
+                        <th class="blacktxt bolder nowrap">ID Cliente</th>
+                        <th class="blacktxt bolder">Nombre</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <!-- <th></th>
                         <th></th> -->
-                    <th></th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <th class="blacktxt bolder ">Folio</th>
-                    <!-- <th class="blacktxt bolder ">Tipo</th> -->
-                    <th class="blacktxt bolder nowrap" style="width: ">Fecha Exp </th>
-                    <th class="blacktxt bolder nowrap">Fecha Ven </th>
-                    <th class="blacktxt bolder ">Total MXN</th>
-                    <th class="blacktxt bolder ">Total DLLS</th>
-                    <th class="blacktxt bolder ">Abonos</th>
-                    <th class="blacktxt bolder ">Saldo</th>
-                    <!-- <th class="blacktxt bolder ">Saldo MXN</th> -->
-                    <!-- <th class="blacktxt bolder ">Saldo DLLS</th> -->
-                    <th class="blacktxt bolder ">Mon</th>
-                    <th class="blacktxt bolder ">T.C.</th>
-                </tr>
-            </thead>
-            <tbody *ngFor="let info of arrcon; let i = index">
-                <tr class="pgbreak border3">
-                    <td class="wrap lightback pgbreak"> {{info.IdCliente}} </td>
-                    <!-- <td class="wrap lightback"> {{info.Nombre | slice:0:35}} <br> {{info.Nombre | slice:35:this.textoNombre[i]}} </td> -->
-                    <!-- <td class="wrap lightback"> {{info.Nombre}}</td> -->
-                    <td class="wrap lightback pgbreak" [attr.colspan]="8"> {{info.Nombre}}</td>
-
-                    <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
-                        <td class="pgbreak"> {{info.Folio}} </td>
-                        <!-- <td class="pgbreak"> {{info.Tipo}} </td> -->
-                        <td class="pgbreak texto"> {{info.FechaDeExpedicion| date: 'yyyy/MM/dd'}} </td>
-                        <td class="pgbreak texto"> {{info.FechaVencimiento| date: 'yyyy/MM/dd'}} </td>
-                        <td class="pgbreak texto"> {{info.Total | currency}} </td>
-                        <td class="pgbreak texto"> {{info.TotalDlls | currency }} </td>
-                        <td class="pgbreak texto"> {{info.Abonos | currency }} </td>
-                        <td class="pgbreak texto"> {{info.Saldo | currency }} </td>
-                        <!-- <td class="pgbreak"> </td>
-                            <td class="pgbreak"> </td> -->
-                        <td class="pgbreak texto"> {{info.Moneda}} </td>
-                        <td class="pgbreak texto"> {{info.TipoDeCambio |currency}} </td>
+                        <th></th>
+                        <th></th>
                     </tr>
-                    <td class="wrap lightback pgbreak texto" [attr.colspan]="2"> </td>
-                    <td class="wrap lightback pgbreak"> Total </td>
-                    <td class="wrap lightback pgbreak texto"> {{info.TotalMXN |currency}} </td>
-                    <td class="wrap lightback pgbreak texto"> {{info.TotalDLLS |currency}} </td>
-                    <td class="wrap lightback pgbreak texto"> {{info.TotalAbonos |currency}} </td>
-                    <td class="wrap lightback pgbreak texto"> {{info.TotalSaldo |currency}} </td>
-            </tbody>
-        </table>
+                    <tr>
+                        <th class="blacktxt bolder ">Folio</th>
+                        <!-- <th class="blacktxt bolder ">Tipo</th> -->
+                        <th class="blacktxt bolder nowrap" style="width: ">Fecha Exp </th>
+                        <th class="blacktxt bolder nowrap">Fecha Ven </th>
+                        <th class="blacktxt bolder ">Total MXN</th>
+                        <th class="blacktxt bolder ">Total DLLS</th>
+                        <th class="blacktxt bolder ">Abonos</th>
+                        <th class="blacktxt bolder ">Saldo</th>
+                        <!-- <th class="blacktxt bolder ">Saldo MXN</th> -->
+                        <!-- <th class="blacktxt bolder ">Saldo DLLS</th> -->
+                        <th class="blacktxt bolder ">Mon</th>
+                        <th class="blacktxt bolder ">T.C.</th>
+                    </tr>
+                </thead>
+                <tbody *ngFor="let info of arrcon; let i = index">
+                    <tr class="pgbreak border3">
+                        <td class="wrap lightback pgbreak"> {{info.IdCliente}} </td>
+                        <!-- <td class="wrap lightback"> {{info.Nombre | slice:0:35}} <br> {{info.Nombre | slice:35:this.textoNombre[i]}} </td> -->
+                        <!-- <td class="wrap lightback"> {{info.Nombre}}</td> -->
+                        <td class="wrap lightback pgbreak" [attr.colspan]="8"> {{info.Nombre}}</td>
 
+                        <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
+                            <td class="pgbreak"> {{info.Folio}} </td>
+                            <!-- <td class="pgbreak"> {{info.Tipo}} </td> -->
+                            <td class="pgbreak texto"> {{info.FechaDeExpedicion| date: 'yyyy/MM/dd'}} </td>
+                            <td class="pgbreak texto"> {{info.FechaVencimiento| date: 'yyyy/MM/dd'}} </td>
+                            <td class="pgbreak texto"> {{info.Total | currency}} </td>
+                            <td class="pgbreak texto"> {{info.TotalDlls | currency }} </td>
+                            <td class="pgbreak texto"> {{info.Abonos | currency }} </td>
+                            <td class="pgbreak texto"> {{info.Saldo | currency }} </td>
+                            <!-- <td class="pgbreak"> </td>
+                            <td class="pgbreak"> </td> -->
+                            <td class="pgbreak texto"> {{info.Moneda}} </td>
+                            <td class="pgbreak texto"> {{info.TipoDeCambio |currency}} </td>
+                        </tr>
+                        <td class="wrap lightback pgbreak texto" [attr.colspan]="2"> </td>
+                        <td class="wrap lightback pgbreak"> Total </td>
+                        <td class="wrap lightback pgbreak texto"> {{info.TotalMXN |currency}} </td>
+                        <td class="wrap lightback pgbreak texto"> {{info.TotalDLLS |currency}} </td>
+                        <td class="wrap lightback pgbreak texto"> {{info.TotalAbonos |currency}} </td>
+                        <td class="wrap lightback pgbreak texto"> {{info.TotalSaldo |currency}} </td>
+                </tbody>
+            </table>
+
+        </div>
+        <!-- <div class="col-2"></div> -->
+        <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+        </ngx-loading>
     </div>
-    <!-- <div class="col-2"></div> -->
-</div>
+</mat-dialog-content>

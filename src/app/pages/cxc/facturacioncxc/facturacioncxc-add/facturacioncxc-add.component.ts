@@ -1106,7 +1106,7 @@ console.log(data);
               Cantidad: data[i].Cantidad,
               ClaveUnidad: data[i].Unidad,
               Unidad: data[i].Unidad,
-              Descripcion: data[i].DescripcionProducto,
+              Descripcion: data[i].DescripcionProducto + ' ' + data[i].Observaciones,
               ValorUnitario: data[i].PrecioUnitario,
               Importe: data[i].Importe,
               Descuento: '0',
@@ -1244,7 +1244,15 @@ console.log(data);
         this.service.formData.SelloDigitalCFDI = data.SAT.SelloCFD;
         this.service.formData.NumeroDeSelloSAT = data.SAT.NoCertificadoSAT;
         this.service.formData.RFCdelPAC = 'LSO1306189R5';
-        this.service.formData.Estatus = 'Timbrada';
+
+        if (this.service.formData.MetodoDePago=='PUE'){
+          this.service.formData.Estatus = 'Pagada';
+        }else{
+
+          this.service.formData.Estatus = 'Timbrada';
+        }
+
+        
         this.numfact = data.UUID;
         console.log(this.service.formData);
         this.service.updateFactura(this.service.formData).subscribe(data => {
@@ -1308,6 +1316,27 @@ console.log(data);
        },1000)
     
   
+  }
+
+  soloPDF(id: string, folio: string){
+    
+    this.loading = true;
+    // document.getElementById('enviaremail').click();
+    
+    const dialogConfig = new MatDialogConfig();
+      // dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = false;
+      dialogConfig.width = "80%";
+      //dialogConfig.height = "80%"
+      
+     
+      this.dialog.open(FacturaComponent, dialogConfig);
+
+      setTimeout(()=>{
+        this.onExportClick(folio);    
+        this.dialog.closeAll();
+        
+       },1000)
   }
 
   /* Metodo que guarda el xml en el localstorage para usarlo en el pdf */
@@ -1698,9 +1727,18 @@ const dialogConfig = new MatDialogConfig();
 
 this.enviarfact.acuseCancelacion(fact.UUID).subscribe((data:any)=>{
   console.log(data);
-  let resp = JSON.parse(data)
-  console.log(resp.acuse);
-  localStorage.setItem('xml',resp.acuse)
+
+
+  let resp = data
+  // let resp = JSON.parse(data)
+  if (data.response=='success'){
+    console.log(resp.respuestaapi.acuse);
+    localStorage.setItem('xml',resp.respuestaapi.acuse)
+  }else{
+    console.log(resp.acuse);
+    localStorage.setItem('xml',resp.acuse)
+  }
+  
   const p = new xml2js.parseString(localStorage.getItem('xml'), { tagNameProcessors: [processors.stripPrefix] }, (err, result) => {
     console.log(result);
     let rfcemisor;
@@ -1780,6 +1818,31 @@ this.enviarfact.acuseCancelacion(fact.UUID).subscribe((data:any)=>{
     // console.log('fact',fact);
     // console.log('service',this.service.formData);
     this.service.formData.Estatus = 'Pagada'
+
+    // console.log('fact',fact);
+    // console.log('service',this.service.formData);
+
+    this.service.updateFactura(this.service.formData).subscribe(res => {
+      // this.resetForm(fact);
+      this.resetForm();
+      this.IniciarTotales();
+      Swal.fire(
+        'Factura Saldada',
+        '',
+        'success'
+      )
+
+    }
+    );
+
+
+  }
+
+  nosaldar(fact){
+
+    // console.log('fact',fact);
+    // console.log('service',this.service.formData);
+    this.service.formData.Estatus = 'Timbrada'
 
     // console.log('fact',fact);
     // console.log('service',this.service.formData);

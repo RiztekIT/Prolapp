@@ -8,6 +8,7 @@ import { Tarima } from '../../../Models/almacen/Tarima/tarima-model';
 import { TraspasoTarima } from '../../../Models/almacen/Tarima/traspasoTarima-model';
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { Usuario } from 'src/app/Models/catalogos/usuarios-model';
+import { MasterDetalleTarima } from 'src/app/Models/almacen/OrdenDescarga/cuu/masterDetalleTarima-model';
 
 export const APIUrl = environment.APIUrl;
 
@@ -30,6 +31,8 @@ export class TarimaService {
   //Detalle tarima a traspasar de OrdenCarga
   detalleTarimaOrdenCarga: DetalleTarima;
   QrOrigen: string;
+  
+  masterT = new Array<MasterDetalleTarima>();
 
   //Bodega Origen/Destino
   bodega: string;
@@ -46,16 +49,16 @@ getDetalleTarimaID(id: number): Observable <DetalleTarima[]>{
   return this.http.get<DetalleTarima[]>(APIUrl + '/Tarima/GetDetalleTarimaIDdetalle/'+ id);
 }
   //Obtener Tarima por IdTarima
-getTarimaID(id: number): Observable <Tarima[]>{
-  return this.http.get<Tarima[]>(APIUrl + '/Tarima/GetTarimaID/'+ id);
+getTarimaID(id: number): Observable <any[]>{
+  return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaID/'+ id);
 }
   //Obtener Ultima Tarima
   getUltimaTarima(): Observable <Tarima[]>{
     return this.http.get<Tarima[]>(APIUrl + '/Tarima/GetUltimaTarima');
   }
   //Obtener Tarima por QR code
-  getTarimaQR(qr : string): Observable <Tarima[]>{
-    return this.http.get<Tarima[]>(APIUrl + '/Tarima/GetTarimaQR/'+ qr);
+  getTarimaQR(qr : string): Observable <any[]>{
+    return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaQR/'+ qr);
   }
   //Obtener detalle tarima por IdTarima, claveProducto, lote
   getDetalleTarimaIdClaveLote(id: number, clave: string, lote: string): Observable <DetalleTarima[]>{
@@ -109,11 +112,23 @@ getUsuario(nombreUsuario : string): Observable <Usuario[]>{
   return this.http.get<Usuario[]>(APIUrl + '/usuario/userinfo/'+ nombreUsuario);
 }
 
+GetTarimaDttqr(qr: string): Observable<Tarima[]> {
+  return this.http.get<Tarima[]>(APIUrl + '/Tarima/GetTarimaDttqr/' + qr);
+}
+
   private _listeners = new Subject<any>(); 
       listen(): Observable<any> {
         return this._listeners.asObservable();
       }
       filter(filterBy: string) {
         this._listeners.next(filterBy);
+      }
+      
+  private _listenersDt = new Subject<any>(); 
+      listenDt(): Observable<any> {
+        return this._listenersDt.asObservable();
+      }
+      filterDt(filterBy: string) {
+        this._listenersDt.next(filterBy);
       }
 }
