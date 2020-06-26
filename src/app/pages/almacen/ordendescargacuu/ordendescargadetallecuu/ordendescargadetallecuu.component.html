@@ -50,79 +50,108 @@
                 <div class="col-11">
                     <div class="card-body">
                         <div class="container row">
-                            <h3 class="col-10">TABLA ORDEN TEMPORAL</h3>
+                            <h3>Tarimas Escaneadas</h3>
                             <button (click)="CheckTarima()" type="button" class="btn btn-primary col-2" style="float: right;"> <mat-icon>open_in_new</mat-icon> Agregar Tarima</button>
                         </div>
                         <br>
 
                         <div style="overflow:auto;">
-                            <table mat-table [dataSource]="listDataOrdenTemporal" matSort>
 
-                                <tr mat-header-row *matHeaderRowDef="displayedColumnsOrdenTemporal"></tr>
-                                <tr mat-row *matRowDef="let row; columns: displayedColumnsOrdenTemporal;"></tr>
+                            <table mat-table [dataSource]="listDataScan" matSort class="scrollable" multiTemplateDataRows>
 
-                                <ng-container matColumnDef="QR">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo QR</th>
-                                    <td mat-cell *matCellDef="let elementOT">{{elementOT.QR}}</td>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumnsScan"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsScan;"></tr>
+                                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+
+                                <ng-container matColumnDef="IdTarima">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>IdTarima</th>
+                                    <td class="IdTarima" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                        {{element.IdTarima}} +
+                                        <td>
                                 </ng-container>
-
-                                <ng-container matColumnDef="ClaveProducto">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
-                                    <td mat-cell *matCellDef="let elementOT">{{elementOT.ClaveProducto}}</td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="Producto">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
-                                    <td mat-cell *matCellDef="let elementOT">{{elementOT.Producto}}</td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="Lote">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
-                                    <td mat-cell *matCellDef="let elementOT">{{elementOT.Lote}}</td>
-                                </ng-container>
-
                                 <ng-container matColumnDef="Sacos">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
-                                    <td mat-cell *matCellDef="let elementOT">{{elementOT.Sacos}}</td>
+                                    <td class="Sacos" mat-cell *matCellDef="let element">
+                                        {{element.Sacos}}
+                                        <td>
                                 </ng-container>
-
                                 <ng-container matColumnDef="PesoTotal">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Peso Total</th>
-                                    <td mat-cell *matCellDef="let elementOT">{{elementOT.PesoTotal}}</td>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>PesoTotal</th>
+                                    <td class="PesoTotal" mat-cell *matCellDef="let element">
+                                        {{element.PesoTotal}}
+                                        <td>
                                 </ng-container>
 
-                                <ng-container matColumnDef="FechaCaducidad">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Caducidad</th>
-                                    <td mat-cell *matCellDef="let elementOT">{{elementOT.FechaCaducidad}}</td>
+                                <ng-container matColumnDef="QR">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>QR</th>
+                                    <td class="QR" mat-cell *matCellDef="let element">
+                                        {{element.QR}}
+                                        <td>
+                                </ng-container>
+                                <ng-container matColumnDef="Bodega">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Bodega</th>
+                                    <td class="Bodega" mat-cell *matCellDef="let element">{{element.Bodega}}
+                                        <td>
                                 </ng-container>
 
-                                <ng-container matColumnDef="Comentarios">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Comentarios</th>
-                                    <td mat-cell *matCellDef="let elementOT">{{elementOT.Comentarios}}</td>
-                                </ng-container>
+                                <ng-container matColumnDef="Options" stickyEnd>
+                                    <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                                    <td mat-cell *matCellDef="let row; let i = dataIndex">
 
 
+                                        <button mat-icon-button class="btn btn-dark" (click)="CheckQR(row, i)">
+                              <mat-icon>edit</mat-icon>
+                            </button>
 
-                                <ng-container matColumnDef="Options">
-                                    <th mat-header-cell *matHeaderCellDef>Options</th>
-                                    <td mat-cell *matCellDef="let row; let i = index">
 
-                                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                                    <mat-icon>keyboard_arrow_down</mat-icon>
-                                  </button>
-                                        <mat-menu #menu="matMenu">
-                                            <!--  -->
-                                            <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
-                                                            <mat-icon>edit</mat-icon>
-                                                        </button>
-                                            <!--  -->
-                                            <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdProveedor)">
-                                                                <mat-icon>delete_outline</mat-icon>
-                                                            </button>
-                                        </mat-menu>
                                     </td>
                                 </ng-container>
 
+                                <!-- DETALLES -->
+                                <ng-container matColumnDef="expandedDetail">
+                                    <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsScan.length">
+                                        <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" (click)="expandedElement = 0">
+
+                                            <table width="100%">
+                                                <tr>
+                                                    <!-- <th> #Tarima </th>
+                                                    <th> QR </th> -->
+                                                    <th> Clave Producto </th>
+                                                    <th> Producto </th>
+                                                    <th> Sacos </th>
+                                                    <th> IdDetalleTarima </th>
+                                                    <th> Lote </th>
+                                                    <th> IdProveedor </th>
+                                                    <th> Proveedor </th>
+                                                    <th> PO </th>
+                                                    <th> FechaMFG </th>
+                                                    <th> FechaCaducidad </th>
+                                                    <th> Shipper </th>
+                                                    <th> USDA </th>
+                                                    <th> Pedimento </th>
+                                                </tr>
+                                                <tr *ngFor="let detalle of element.detalleTarima">
+                                                    <!-- <td> {{ detalle.IdTarima2}} </td>
+                                                    <td> {{ detalle.QR}} </td> -->
+                                                    <td> {{ detalle.ClaveProducto}} </td>
+                                                    <td> {{ detalle.Producto}} </td>
+                                                    <td> {{ detalle.Sacos}} </td>
+                                                    <td> {{ detalle.IdDetalleTarima}} </td>
+                                                    <td> {{ detalle.Lote}} </td>
+                                                    <td> {{ detalle.IdProveedor}} </td>
+                                                    <td> {{ detalle.Proveedor}} </td>
+                                                    <td> {{ detalle.PO}} </td>
+                                                    <td> {{ detalle.FechaMFG | date: 'yyyy/MM/dd'}} </td>
+                                                    <td> {{ detalle.FechaCaducidad | date: 'yyyy/MM/dd'}} </td>
+                                                    <td> {{ detalle.Shipper}} </td>
+                                                    <td> {{ detalle.USDA}} </td>
+                                                    <td> {{ detalle.Pedimento}} </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </ng-container>
 
                             </table>
                             <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>

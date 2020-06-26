@@ -767,6 +767,7 @@ export class PrepararComponent implements OnInit {
   traspaso() {
 
     this.tarimaService.trapasoOrdenCarga = false;
+    this.tarimaService.TraspasoDescarga = false;
     //Indicar cual es la bodega de la tarima
     this.tarimaService.bodega = this.bodegaOrigen;
 

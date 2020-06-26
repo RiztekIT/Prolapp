@@ -8,6 +8,8 @@ import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AlmacenEmailService } from '../../../../services/almacen/almacen-email.service';
 import { OrdenDescargaEmailComponent } from '../../ordendescarga/ordendescargadetalle/orden-descarga-email/orden-descarga-email.component';
+import { TarimaService } from '../../../../services/almacen/tarima/tarima.service';
+import { Tarima } from 'src/app/Models/almacen/Tarima/tarima-model';
 
 
 
@@ -21,18 +23,21 @@ export class OrdendescargadetallecuuComponent implements OnInit {
   //Id Orden Carga
   IdOrdenDescarga: number;
   constructor(private service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public router: Router,  private dialog: MatDialog,  public imageService: ImagenService, private _sanitizer: DomSanitizer,
-    public AlmacenEmailService:AlmacenEmailService) {
+    public AlmacenEmailService:AlmacenEmailService, public tarimaService: TarimaService) {
 
-    this.ordenTemporalService.listenOrdenTemporal().subscribe((m: any) => {
-      this.actualizarTablaOrdenTemporal();
-    });
+    // this.ordenTemporalService.listenOrdenTemporal().subscribe((m: any) => {
+    //   this.actualizarTablaOrdenTemporal();
+    // });
   }
 
-  // Tabla Orden Temporal
-  listDataOrdenTemporal: MatTableDataSource<any>;
-  displayedColumnsOrdenTemporal: string[] = ['QR', 'ClaveProducto', 'Producto', 'Lote', 'Sacos', 'PesoTotal', 'FechaCaducidad', 'Comentarios', 'Options'];
-  @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
+  listDataScan: MatTableDataSource<any>;
+  displayedColumnsScan: string[] = ['IdTarima', 'Sacos', 'PesoTotal', 'QR', 'Bodega', 'Options'];
+  isExpansionDetailRowScan = (i: number, row: Object) => row.hasOwnProperty('detailRow');
+  @ViewChild(MatSort, null) sortScan: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginatorScan: MatPaginator;
+  
+  expandedElement: any;
+  bodegaDestino: string;
 
   files: File[] = [];
   imagenes: any[];
@@ -44,9 +49,10 @@ export class OrdendescargadetallecuuComponent implements OnInit {
 
   ngOnInit() {
     this.IdOrdenDescarga = +(localStorage.getItem('IdOrdenDescarga'));
-    this.actualizarTablaOrdenTemporal();
+    // this.actualizarTablaOrdenTemporal();
     console.log(this.service.formData);
     console.log(localStorage.getItem('IdOrdenDescarga'));
+    this.actualizarTablaTarimaEscaneada();
     this.ObtenerFolio(this.IdOrdenDescarga);
   }
 
@@ -54,21 +60,72 @@ export class OrdendescargadetallecuuComponent implements OnInit {
     this.router.navigate(['/ordendescarga']);
   }
 
-  actualizarTablaOrdenTemporal() {
-    this.ordenTemporalService.GetOrdenTemporalIDOD(this.IdOrdenDescarga).subscribe(dataOrdenTemporal => {
-      console.log(dataOrdenTemporal);
-      if (dataOrdenTemporal.length > 0) {
-        console.log('Si hay Movimientos en esta orden de Descarga');
-        this.listDataOrdenTemporal = new MatTableDataSource(dataOrdenTemporal);
-        this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
-        this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
-        this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
-      } else {
-        console.log('No hay Movimientos en esta orden de Descarga');
-        this.listDataOrdenTemporal = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
-        // this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
-        // this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
-        // this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+  // actualizarTablaOrdenTemporal() {
+  //   this.ordenTemporalService.GetOrdenTemporalIDOD(this.IdOrdenDescarga).subscribe(dataOrdenTemporal => {
+  //     console.log(dataOrdenTemporal);
+  //     if (dataOrdenTemporal.length > 0) {
+  //       console.log('Si hay Movimientos en esta orden de Descarga');
+  //       this.listDataOrdenTemporal = new MatTableDataSource(dataOrdenTemporal);
+  //       this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
+  //       this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
+  //       this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+  //     } else {
+  //       console.log('No hay Movimientos en esta orden de Descarga');
+  //       this.listDataOrdenTemporal = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
+  //       // this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
+  //       // this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
+  //       // this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+  //     }
+  //   })
+  // }
+
+  actualizarTablaTarimaEscaneada(){
+    // hardcode
+    this.tarimaService.dataTarima = [];
+    this.tarimaService.dataTarima = new Array<Tarima>();
+    
+  // hardcode
+    this.service.GetODOTQR(1).subscribe(dataID => {
+      console.log(dataID, 'loquetraeODOT');
+      let Teqr = new Tarima();
+      for (let i = 0; i <= dataID.length - 1; i++) {
+        console.log(dataID[i]);
+        this.tarimaService.getTarimaQR(dataID[i].QR).subscribe(dataQR => {
+          // es lo que trae detalle tarima con ese QR
+          console.log(dataQR[0]);
+          let idTarima = dataQR[0].IdTarima
+          // console.log(idTarima);
+
+          
+          if (dataQR[0].Bodega == this.bodegaDestino){
+            Teqr =dataQR[0];
+            this.tarimaService.masterTE.push(Teqr);
+            console.log(Teqr);
+            console.log(dataQR.length );
+            // for (let j = 0; j <= dataQR.length - 1; j++) {
+              console.error('si entro');
+              this.tarimaService.masterTE[i]= dataQR[0];
+              this.tarimaService.masterTE[i].detalleTarima = [];
+              this.tarimaService.getDetalleTarimaID(idTarima).subscribe(res => {
+                console.log(idTarima,'idTarima');
+                console.log(res);
+                console.log(res[i]);
+                for (let l = 0; l <= res.length - 1; l++) {
+                  console.log(res.length);
+                  console.log(res[l]);
+                  this.tarimaService.masterTE[i].detalleTarima.push(res[l]);
+                  console.error(this.tarimaService.masterTE[i].detalleTarima);
+                }
+              })
+            // }
+            console.log(this.tarimaService.masterTE);
+            this.listDataScan = new MatTableDataSource(this.tarimaService.masterTE);
+            this.listDataScan.sort = this.sortScan;
+            this.listDataScan.paginator = this.paginatorScan;
+            this.listDataScan.paginator._intl.itemsPerPageLabel = 'Tarimas por Pagina';        
+          } 
+
+        })
       }
     })
   }
@@ -182,6 +239,7 @@ ObtenerFolio(id: number) {
   evidencia(){
     this.router.navigate(['/ordenDescargaEvidencia']);
   }
+
 
 
 
