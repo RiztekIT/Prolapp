@@ -95,7 +95,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
   }
 
   regresar() {
-    this.router.navigate(['/ordenDescargadetalle']);
+    this.router.navigate(['/ordenDescargadetallecuu']);
   }
 
   actualizarTablaTarima() {
@@ -285,8 +285,8 @@ export class OrdendescargatarimacuuComponent implements OnInit {
     }
   }
 
+  // blur
   CleanFieldQR() {
-    console.log(this.qrleido.lenght);
     if (this.qrleido == null) {
       this.isVisible = false;
       this.isVisibleQR = true;

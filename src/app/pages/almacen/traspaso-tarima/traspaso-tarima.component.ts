@@ -405,11 +405,11 @@ export class TraspasoTarimaComponent implements OnInit {
     
   }
 
-  parametrosTTOD(){
+  // parametrosTTOD(){
 
-    console.log(this.detalleTarimaSelected);
-    this.traspasoTarimaOrdenDescarga(this.tarimaService.idTarimaOrdenDescarga, this.detalleTarimaSelected, this.tarimaService.QrOrigen);
-  }
+  //   console.log(this.detalleTarimaSelected);
+  //   this.traspasoTarimaOrdenDescarga(this.tarimaService.idTarimaOrdenDescarga, this.detalleTarimaSelected, this.tarimaService.QrOrigen);
+  // }
     
 
   //pasarle primero los parametros
@@ -554,7 +554,6 @@ export class TraspasoTarimaComponent implements OnInit {
     this.sacosTraspaso = +dt.Sacos;
     this.cantidadMaximaSacos = +dt.Sacos;
     this.idDetalleTarimaOrigen = dt.IdDetalleTarima;
-    this.parametrosTTOD();
     // }
   }
 

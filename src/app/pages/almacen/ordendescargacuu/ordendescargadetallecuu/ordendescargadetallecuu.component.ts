@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog } from '@angular/material';
 import { ImagenService } from '../../../../services/imagenes/imagen.service';
 import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AlmacenEmailService } from '../../../../services/almacen/almacen-email.service';
 import { OrdenDescargaEmailComponent } from '../../ordendescarga/ordendescargadetalle/orden-descarga-email/orden-descarga-email.component';
@@ -17,7 +18,15 @@ import { Tarima } from 'src/app/Models/almacen/Tarima/tarima-model';
 @Component({
   selector: 'app-ordendescargadetallecuu',
   templateUrl: './ordendescargadetallecuu.component.html',
-  styleUrls: ['./ordendescargadetallecuu.component.css']
+  styleUrls: ['./ordendescargadetallecuu.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      // state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
+      state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class OrdendescargadetallecuuComponent implements OnInit {
   //Id Orden Carga
@@ -29,13 +38,8 @@ export class OrdendescargadetallecuuComponent implements OnInit {
     //   this.actualizarTablaOrdenTemporal();
     // });
   }
+  displayedColumnsVersionScan: string[] = ['IdDetalleTarima, IdTarima, ClaveProducto, Producto, Sacos, PesoxSaco, Lote, IdProveedor, Proveedor, PO, FechaMFG, FechaCaducidad, Shipper, USDA, Pedimento'];
 
-  listDataScan: MatTableDataSource<any>;
-  displayedColumnsScan: string[] = ['IdTarima', 'Sacos', 'PesoTotal', 'QR', 'Bodega', 'Options'];
-  isExpansionDetailRowScan = (i: number, row: Object) => row.hasOwnProperty('detailRow');
-  @ViewChild(MatSort, null) sortScan: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginatorScan: MatPaginator;
-  
   expandedElement: any;
   bodegaDestino: string;
 
@@ -45,6 +49,13 @@ export class OrdendescargadetallecuuComponent implements OnInit {
 
   imagePath: SafeResourceUrl;
   imageInfo: ImgInfo[] = [];
+
+
+  listDataScan: MatTableDataSource<any>;
+  displayedColumnsScan: string[] = ['IdTarima', 'Sacos', 'PesoTotal', 'QR', 'Bodega'];
+  isExpansionDetailRowScan = (i: number, row: Object) => row.hasOwnProperty('detailRow');
+  @ViewChild(MatSort, null) sortScan: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginatorScan: MatPaginator;
 
 
   ngOnInit() {
@@ -79,55 +90,45 @@ export class OrdendescargadetallecuuComponent implements OnInit {
   //   })
   // }
 
-  actualizarTablaTarimaEscaneada(){
-    // hardcode
-    this.tarimaService.dataTarima = [];
-    this.tarimaService.dataTarima = new Array<Tarima>();
-    
-  // hardcode
-    this.service.GetODOTQR(1).subscribe(dataID => {
-      console.log(dataID, 'loquetraeODOT');
-      let Teqr = new Tarima();
-      for (let i = 0; i <= dataID.length - 1; i++) {
-        console.log(dataID[i]);
-        this.tarimaService.getTarimaQR(dataID[i].QR).subscribe(dataQR => {
+  actualizarTablaTarimaEscaneada() {
+console.warn('hello');
+    this.tarimaService.masterTE = new Array<any>();
+    this.tarimaService.masterTE = [];
+
+    this.service.GetODOTTB(1, 'Chihuahua').subscribe(dataQR => {
+      if (dataQR.length > 0) {
+        for (let i = 0; i <= dataQR.length - 1; i++) {
           // es lo que trae detalle tarima con ese QR
           console.log(dataQR[0]);
-          let idTarima = dataQR[0].IdTarima
-          // console.log(idTarima);
+          // if(dataQR[0]){
+          // console.warn(pm);
+          this.tarimaService.masterTE[i] = dataQR[i];
+          this.tarimaService.masterTE[i].detalleTarima = [];
+          this.tarimaService.getDetalleTarimaID(dataQR[i].IdTarima).subscribe(res => {
+            for (let l = 0; l <= res.length - 1; l++) {
+              console.log(l);
+              console.log(res[l]);
+              this.tarimaService.masterTE[i].detalleTarima.push(res[l]);
+            }
+          })
+          this.listDataScan = new MatTableDataSource(this.tarimaService.masterTE);
+          this.listDataScan.sort = this.sortScan;
+          this.listDataScan.paginator = this.paginatorScan;
+          this.listDataScan.paginator._intl.itemsPerPageLabel = 'Tarimas por Pagina';
+          console.log(this.tarimaService.masterTE);
+          // pm++;
+          // }
+        }
+      } else {
+        this.tarimaService.masterTE = [];
+        this.listDataScan = new MatTableDataSource(this.tarimaService.masterTE);
+        this.listDataScan.sort = this.sortScan;
+        this.listDataScan.paginator = this.paginatorScan;
+        this.listDataScan.paginator._intl.itemsPerPageLabel = 'Tarimas por Pagina';
 
-          
-          if (dataQR[0].Bodega == this.bodegaDestino){
-            Teqr =dataQR[0];
-            this.tarimaService.masterTE.push(Teqr);
-            console.log(Teqr);
-            console.log(dataQR.length );
-            // for (let j = 0; j <= dataQR.length - 1; j++) {
-              console.error('si entro');
-              this.tarimaService.masterTE[i]= dataQR[0];
-              this.tarimaService.masterTE[i].detalleTarima = [];
-              this.tarimaService.getDetalleTarimaID(idTarima).subscribe(res => {
-                console.log(idTarima,'idTarima');
-                console.log(res);
-                console.log(res[i]);
-                for (let l = 0; l <= res.length - 1; l++) {
-                  console.log(res.length);
-                  console.log(res[l]);
-                  this.tarimaService.masterTE[i].detalleTarima.push(res[l]);
-                  console.error(this.tarimaService.masterTE[i].detalleTarima);
-                }
-              })
-            // }
-            console.log(this.tarimaService.masterTE);
-            this.listDataScan = new MatTableDataSource(this.tarimaService.masterTE);
-            this.listDataScan.sort = this.sortScan;
-            this.listDataScan.paginator = this.paginatorScan;
-            this.listDataScan.paginator._intl.itemsPerPageLabel = 'Tarimas por Pagina';        
-          } 
-
-        })
       }
     })
+
   }
 
   CheckTarima(){
