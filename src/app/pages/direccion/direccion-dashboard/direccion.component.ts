@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
 import { StorageServiceService } from 'src/app/services/shared/storage-service.service';
+import { MessageService } from '../../../services/message.service';
 
 @Component({
   selector: 'app-direccion',
@@ -9,9 +10,21 @@ import { StorageServiceService } from 'src/app/services/shared/storage-service.s
 })
 export class DireccionComponent implements OnInit {
 
-  constructor(private router: Router, private storageService: StorageServiceService) { }
+  leche;
+
+  constructor(private router: Router, private storageService: StorageServiceService, private messageService: MessageService) { }
 
   ngOnInit() {
+
+    
+
+  }
+
+  leche2(){
+    this.messageService.leche().subscribe(data=>{
+      console.log(data);
+      this.leche = data.title;
+    })
   }
 
 
