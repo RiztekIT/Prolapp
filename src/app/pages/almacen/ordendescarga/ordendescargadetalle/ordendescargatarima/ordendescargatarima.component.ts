@@ -47,6 +47,7 @@ export class OrdendescargatarimaComponent implements OnInit {
   dataODID = new Array<DetalleOrdenDescarga>();
   cantidadMaximaSacos: number;
   sacosCero: boolean;
+  
 
   // qrTarimaExistente
   myControl = new FormControl();
@@ -120,6 +121,9 @@ export class OrdendescargatarimaComponent implements OnInit {
   displayedColumnsOrdenTemporal: string[] = ['QR', 'ClaveProducto', 'Producto', 'Lote', 'Sacos', 'PesoTotal', 'FechaCaducidad', 'Comentarios', 'Options'];
   @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
+
+  //desplegar 
+
 
 
   refreshOrdenDescargaList() {
