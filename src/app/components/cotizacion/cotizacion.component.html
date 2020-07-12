@@ -64,9 +64,11 @@
                             <th scope="row" class="tdnomargin"><img src="../../../assets/images/sacos/7.DairyAmerica-grade A nonfat drymilk.png" alt="Logo" style="height: 40px; width: 40px;"></th>
                             <td>{{conceptos.ClaveProducto}}</td>
                             <td>{{conceptos.Producto}}</td>
-                            <td>{{conceptos.PrecioUnitario}}</td>
+                            <td *ngIf="this.service.formrow.Moneda=='MXN'">{{conceptos.PrecioUnitario | currency}}</td>
+                            <td *ngIf="this.service.formrow.Moneda=='USD'">{{conceptos.PrecioUnitarioDlls | currency}}</td>
                             <td>{{conceptos.Cantidad}}</td>
-                            <td>{{conceptos.Importe | currency}}</td>
+                            <td *ngIf="this.service.formrow.Moneda=='MXN'">{{conceptos.Importe | currency}}</td>
+                            <td *ngIf="this.service.formrow.Moneda=='USD'">{{conceptos.ImporteDlls | currency}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -129,11 +131,9 @@
             <div class="container">
                 <div class="row">
                     <div class="col-8">
-                        <br>
-                        <br>
-                        <br>
 
-                        <p class=" blacktxt nomarginbottomP nowrap" style="font-size: 10px !important; text-align: center;">Para fines informativos y de comparacion, calculado al {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</p>
+
+                        <p class=" blacktxt nomarginbottomP nowrap" style="font-size: 10px !important; text-align: left;">Para fines informativos y de comparacion, calculado al {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</p>
                         <br>
                         <br>
                         <br>

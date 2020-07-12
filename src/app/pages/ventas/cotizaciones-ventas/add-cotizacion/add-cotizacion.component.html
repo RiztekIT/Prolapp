@@ -273,22 +273,72 @@
 
                             <div class="row">
 
-                                <label class="input-group-text text-info">Producto :</label> <br>
-                                <mat-form-field>
-                                    <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl2" [(ngModel)]="ProductoSelect" matInput [matAutocomplete]="autoProducto">
-                                    <mat-autocomplete #autoProducto="matAutocomplete">
-                                        <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.IdProducto" (onSelectionChange)="onSelectionChange2(option, $event)">
-                                            {{option.ClaveProducto}} || {{option.Nombre}}
-                                        </mat-option>
-                                    </mat-autocomplete>
-                                </mat-form-field>
+                                <div class="col-6">
+                                    <label class="input-group-text text-info">Producto :</label> <br>
+                                    <mat-form-field>
+                                        <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl2" [(ngModel)]="ProductoSelect" matInput [matAutocomplete]="autoProducto">
+                                        <mat-autocomplete #autoProducto="matAutocomplete">
+                                            <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.Nombre" (onSelectionChange)="onSelectionChange2(option, $event)">
+                                                {{option.Nombre}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+
+
+                                </div>
+                                <div class="col-6">
+                                    <label class="input-group-text text-info">Marca :</label> <br>
+                                    <mat-form-field>
+                                        <input type="text" placeholder="Seleccionar Marca" aria-label="Number" [formControl]="myControl3" [(ngModel)]="MarcaSelect" matInput [matAutocomplete]="autoMarcaProducto">
+                                        <mat-autocomplete #autoMarcaProducto="matAutocomplete">
+                                            <mat-option *ngFor="let option of filteredOptions3 | async" [value]="option.NombreMarca" (onSelectionChange)="onSelectionChangeMarca(option, $event)">
+                                                {{option.NombreMarca}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div>
+                                <!-- 
+                                    <label class="input-group-text text-info">Nombre :</label>
+                                    <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formProd.Nombre" readonly>
+                                 -->
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col-6">
+                                    <label class="input-group-text text-info">Origen :</label> <br>
+                                    <mat-form-field>
+                                        <input type="text" placeholder="Seleccionar Origen" aria-label="Number" [formControl]="myControl4" [(ngModel)]="OrigenSelect" matInput [matAutocomplete]="autoOrigenProducto">
+                                        <mat-autocomplete #autoOrigenProducto="matAutocomplete">
+                                            <mat-option *ngFor="let option of filteredOptions4 | async" [value]="option.NombreOrigen" (onSelectionChange)="onSelectionChangeOrigen(option, $event)">
+                                                {{option.NombreOrigen}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <label class="input-group-text text-info">Presentacion :</label> <br>
+                                    <mat-form-field>
+                                        <input type="text" placeholder="Seleccionar Presentacion" aria-label="Number" [formControl]="myControl5" [(ngModel)]="PresentacionSelect" matInput [matAutocomplete]="autoPresentacionProducto">
+                                        <mat-autocomplete #autoPresentacionProducto="matAutocomplete">
+                                            <mat-option *ngFor="let option of filteredOptions5 | async" [value]="option.Presentacion" (onSelectionChange)="onSelectionChangePresentacion(option, $event)">
+                                                {{option.Presentacion}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="row">
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12 col-md-6">
-                                            <label class="input-group-text text-info">Nombre :</label>
-                                            <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formProd.Nombre" readonly>
 
-                                            <br>
+
+
                                             <div *ngIf="MonedaBoolean == true; else elseBlockPC">
 
                                                 <label class="input-group-text text-info"> Precio Costo :</label>
@@ -306,11 +356,11 @@
 
 
 
-                                            <label class="input-group-text text-info"> ClaveProducto:</label>
-                                            <input type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="service.formProd.ClaveProducto" readonly>
+                                            <!-- <label class="input-group-text text-info"> ClaveProducto:</label>
+                                            <input type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="service.formProd.ClaveProducto" readonly> -->
 
-                                            <label class="input-group-text text-info"> Stock:</label>
-                                            <input type="text" class="form-control" name="Stock" #Stock="ngModel" [(ngModel)]="service.formProd.Stock" readonly>
+                                            <!-- <label class="input-group-text text-info"> Stock:</label>
+                                            <input type="text" class="form-control" name="Stock" #Stock="ngModel" [(ngModel)]="service.formProd.Stock" readonly> -->
 
                                             <label class="input-group-text text-info"> Descripcion Producto:</label>
                                             <input type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="service.formProd.DescripcionProducto" readonly>
@@ -321,7 +371,7 @@
 
                                         <div class="col-12 col-md-6">
 
-                                            <mat-form-field class="example-full-width">
+                                            <!--  <mat-form-field class="example-full-width">
                                                 <input type="text" autocomplete="off" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formDataDP.Unidad" (focus)="unidadMedida()">
                                                 <mat-autocomplete #autoUnidad="matAutocomplete">
                                                     <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.ClaveSAT">
@@ -329,15 +379,15 @@
                                                     </mat-option>
                                                 </mat-autocomplete>
                                             </mat-form-field>
-
-                                            <label class="input-group-text text-info"> Estatus:</label>
-                                            <input type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formProd.Estatus" readonly>
+ -->
+                                            <!--  <label class="input-group-text text-info"> Estatus:</label>
+                                            <input type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formProd.Estatus" readonly> -->
 
                                             <label class="input-group-text text-info"> IVA:</label>
                                             <input type="text" class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="service.formProd.IVA" readonly>
 
-                                            <label class="input-group-text text-info">Clave SAT :</label>
-                                            <input type="text" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="service.formProd.ClaveSAT" readonly>
+                                            <!--  <label class="input-group-text text-info">Clave SAT :</label>
+                                            <input type="text" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="service.formProd.ClaveSAT" readonly> -->
 
                                             <label class="input-group-text text-info">Observaciones :</label>
                                             <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="service.formDataDP.Observaciones">
@@ -375,6 +425,7 @@
                                         </div>
 
                                         <div *ngIf="Cantidad > 0 && ActualizarDetallePedidoBool == false">
+
                                             <button class="btn btn-dark" (click)="onAddProducto(DetallePedidoForm)">Agregar Producto</button>
                                         </div>
                                         <div *ngIf="ActualizarDetallePedidoBool != false">
@@ -403,10 +454,10 @@
                                                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
                                                             <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}</td>
                                                         </ng-container>
-                                                        <ng-container matColumnDef="ClaveSAT">
+                                                        <!--  <ng-container matColumnDef="ClaveSAT">
                                                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave SAT</th>
                                                             <td mat-cell *matCellDef="let element">{{element.ClaveSAT}}</td>
-                                                        </ng-container>
+                                                        </ng-container> -->
                                                         <ng-container matColumnDef="Producto">
                                                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
                                                             <td mat-cell *matCellDef="let element">{{element.Producto}}</td>
@@ -451,15 +502,61 @@
                                         <!-- Tabla de costos finales -->
 
                                         <div class="container row">
-                                            <div class="col-md-7 col-lg-8">
+                                            <div class="col-2"></div>
+                                            <div class="col-4">
+
+                                                <div *ngIf="this.service.formDataCotizacion.Estatus == 'Guardada'; else elseBlock" style="display: grid">
+                                                    <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
+
+                                                    <br>
+                                                    <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml2(service.formDataCotizacion)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
+                                                      PDF</button>
+                                                    <br>
+
+
+                                                    <!-- <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button> -->
+                                                    <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='email(service.formDataCotizacion)'><i
+                                                        class="mdi mdi-email btn-lg"></i>Enviar</button>
+
+                                                    <br>
+                                                    <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='nuevacoti(service.formDataCotizacion)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-note-multiple btn-lg"></i> Nueva Cotizacion a Partir de Esta </button>
+                                                    <br>
+                                                    <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='nuevaoc(service.formDataCotizacion)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-forward btn-lg"></i> Convertir en Orden de Compra </button>
+
+
+                                                </div>
+                                                <ng-template #elseBlock>
+                                                    <div style="display: grid">
+
+                                                        <br>
+
+                                                        <!-- <button class="btn btn-info btn-lg" mat-raised-button (click)="onSubmit(form)"><i
+                                                  class="mdi mdi-content-save btn-lg"></i>Guardar</button> -->
+
+                                                        <br>
+                                                        <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
+
+                                                        <button class="btn btn-danger btn-lg" mat-raised-button (click)='crearCotizacion()'><i class="mdi mdi-send btn-lg"></i>Guardar y Crear Cotizacion</button>
+
+                                                        <br>
+                                                        <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button> -->
+                                                        <!-- <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='prefactura(service.formData.Folio)'><i class="mdi mdi-code-tags btn-lg"></i>Prefactura</button> -->
+
+                                                        <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+                                                        </ngx-loading>
+                                                    </div>
+                                                </ng-template>
+
+
                                             </div>
-                                            <div class="col-12 col-md-5 col-lg-4">
+                                            <div class="col-2"></div>
+                                            <div class="col-4">
                                                 <br>
                                                 <div class="form-material borderbox">
                                                     <div class="container">
                                                         <div class="row">
 
-                                                            <div *ngIf="MonedaBoolean == true; else elseBlock">
+                                                            <div *ngIf="MonedaBoolean == true; else elseBlockTotales">
 
                                                                 <label class="input-group-text text-info col-12 col-md-6 col-lg-6">SubTotal</label>
                                                                 <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="SubTotal" [ngModel]="MonedaBoolean ==  true ? (subtotal | currency) : (subtotalDlls | currency)">
@@ -472,7 +569,7 @@
 
                                                             </div>
 
-                                                            <ng-template #elseBlock>
+                                                            <ng-template #elseBlockTotales>
 
                                                                 <label class="input-group-text text-info col-12 col-md-6 col-lg-6">SubTotal Dlls</label>
                                                                 <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="SubTotalDlls" [ngModel]="subtotalDlls | currency">
@@ -491,6 +588,9 @@
                                                 </div>
                                             </div>
                                         </div>
+
+
+
                                     </div>
 
 
@@ -509,40 +609,7 @@
 
                                 <div class="col-12 col-lg-4 col-md-4">
 
-                                    <div *ngIf="this.service.formDataCotizacion.Estatus == 'Guardada'; else elseBlock" style="display: grid">
-                                        <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
-
-                                        <br>
-                                        <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml2(service.formDataCotizacion)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
-                                  PDF</button>
-                                        <br>
-
-
-                                        <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button>
-                                        <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='email(service.formDataCotizacion)'><i
-                                    class="mdi mdi-email btn-lg"></i>Enviar</button>
-                                    </div>
-                                    <ng-template #elseBlock>
-                                        <div style="display: grid">
-
-                                            <br>
-
-                                            <!-- <button class="btn btn-info btn-lg" mat-raised-button (click)="onSubmit(form)"><i
-                              class="mdi mdi-content-save btn-lg"></i>Guardar</button> -->
-
-                                            <br>
-                                            <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
-
-                                            <button class="btn btn-danger btn-lg" mat-raised-button (click)='crearCotizacion()'><i class="mdi mdi-send btn-lg"></i>Guardar y Crear Cotizacion</button>
-
-                                            <br>
-                                            <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button> -->
-                                            <!-- <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='prefactura(service.formData.Folio)'><i class="mdi mdi-code-tags btn-lg"></i>Prefactura</button> -->
-
-                                            <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}" [template]="customTemplate">
-                                            </ngx-loading>
-                                        </div>
-                                    </ng-template>
+                                    <!-- Aqui va los botones -->
                                 </div>
 
 

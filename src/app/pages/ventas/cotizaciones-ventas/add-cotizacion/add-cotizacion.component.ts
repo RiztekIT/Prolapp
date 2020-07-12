@@ -28,6 +28,8 @@ import { CotizacionComponent } from 'src/app/components/cotizacion/cotizacion.co
 import { MessageService } from 'src/app/services/message.service';
 import { EmailgeneralComponent } from '../../../../components/email/emailgeneral/emailgeneral.component';
 import * as html2pdf from 'html2pdf.js';
+import { AddsproductosService } from '../../../../services/addsproductos.service';
+import { Cotizacion } from 'src/app/Models/ventas/cotizacion-model';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -56,7 +58,7 @@ export class AddCotizacionComponent implements OnInit {
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasCotizacionService,private _formBuilder: FormBuilder,
     private serviceTipoCambio: TipoCambioService, private serviceProducto: ProductosService, private http: HttpClient, public ServiceUnidad: UnidadMedidaService,
-    private dialog: MatDialog, public serviceDireccion: ClienteDireccionService, public _MessageService: MessageService) { 
+    private dialog: MatDialog, public serviceDireccion: ClienteDireccionService, public _MessageService: MessageService, public addproductos: AddsproductosService) { 
       this.MonedaBoolean = true;
 
       this.serviceDireccion.listen().subscribe((m:any)=>{
@@ -78,7 +80,39 @@ export class AddCotizacionComponent implements OnInit {
   optionsUnidad = ['Pieza'];
   um: boolean;
   ProductoSelect: string;
+  MarcaSelect: string;
+  OrigenSelect:string;
+  clavemarca:string;
+  claveorigen:string;
+  clavepresentacion:string;
+  PresentacionSelect: string;
   Id: number;
+
+  public CotizacionBlanco: Cotizacion = 
+  {
+IdCotizacion: 0,
+IdCliente: 0,
+Nombre: "",
+RFC: "",
+Subtotal: 0,
+Total: 0,
+Descuento: 0,
+SubtotalDlls: 0,
+TotalDlls: 0,
+DescuentoDlls: 0,
+Observaciones: "",
+Vendedor: 0,
+Moneda: "MXN",
+FechaDeExpedicion: new Date(),
+Flete: "Sucursal",
+Folio: 0,
+Telefono: 0,
+Correo:"",
+IdDireccion: 0,
+Estatus: "Creada", 
+TipoDeCambio: 0,
+Vigencia: new Date()
+}
 
 
   ngOnInit() {  
@@ -154,14 +188,23 @@ export class AddCotizacionComponent implements OnInit {
   }
   myControl = new FormControl();
   myControl2 = new FormControl();
+  myControl3 = new FormControl();
+  myControl4 = new FormControl();
+  myControl5 = new FormControl();
   myControlVendedor = new FormControl();
   myControlDireccion = new FormControl();
 
   options: Cliente[] = [];
   options2: Producto[] = [];
+  options3: any[] = []
+  options4: any[] = []
+  options5: any[] = []
 
   filteredOptions: Observable<any[]>;
   filteredOptions2: Observable<any[]>;
+  filteredOptions3: Observable<any[]>;
+  filteredOptions4: Observable<any[]>;
+  filteredOptions5: Observable<any[]>;
   filteredOptionsVendedor: Observable<any[]>;
   filteredOptionsDireccion: Observable<any[]>;
 
@@ -324,6 +367,31 @@ export class AddCotizacionComponent implements OnInit {
       return this.options2.filter(option => option.ClaveProducto.toString().includes(filterValue2) || option.Nombre.toString().includes(filterValue2));
     }
   }
+
+  private _filtermarca(value: any): any[] {
+    // console.clear();
+    // console.log(value);
+    if (typeof (value) == 'string') {
+      const filterValue2 = value.toLowerCase();
+      return this.options3.filter(option => option.NombreMarca.toString().toLowerCase().includes(filterValue2));
+    } 
+  }
+  private _filterorigen(value: any): any[] {
+    // console.clear();
+    // console.log(value);
+    if (typeof (value) == 'string') {
+      const filterValue2 = value.toLowerCase();
+      return this.options4.filter(option => option.NombreOrigen.toString().toLowerCase().includes(filterValue2));
+    } 
+  }
+  private _filterpresentacion(value: any): any[] {
+    // console.clear();
+    // console.log(value);
+    if (typeof (value) == 'string') {
+      const filterValue2 = value.toLowerCase();
+      return this.options5.filter(option => option.Presentacion.toString().toLowerCase().includes(filterValue2));
+    } 
+  }
   
   dropdownRefresh2() {
     this.options2 = [];
@@ -339,6 +407,53 @@ export class AddCotizacionComponent implements OnInit {
           );
       }
     });
+  }
+
+  droddownMarcas(producto){
+    this.options3 = [];
+    this.addproductos.getMarcas(producto).subscribe((marca: any) =>{
+      for (let i=0; i < marca.length; i++){
+        
+        this.options3.push(marca[i])
+        this.filteredOptions3 = this.myControl3.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filtermarca(value))
+          );
+      }
+      
+    })
+  }
+
+  droddownOrigen(){
+    this.options4 = [];
+    this.addproductos.getOrigen().subscribe((origen: any) =>{
+      for (let i=0; i < origen.length; i++){
+        
+        this.options4.push(origen[i])
+        this.filteredOptions4 = this.myControl4.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filterorigen(value))
+          );
+      }
+      
+    })
+  }
+  droddownPresentacion(){
+    this.options5 = [];
+    this.addproductos.getPresentacion().subscribe((Presentacion: any) =>{
+      for (let i=0; i < Presentacion.length; i++){
+        
+        this.options5.push(Presentacion[i])
+        this.filteredOptions5 = this.myControl5.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filterpresentacion(value))
+          );
+      }
+      
+    })
   }
 
   //DropDown de Vendedores
@@ -515,8 +630,30 @@ this.changeDireccion(this.isDireccion);
       }
 
       this.ClaveProducto = this.service.formProd.ClaveProducto;
+      this.droddownMarcas(this.service.formProd.Nombre);
+      this.droddownOrigen();
+      this.droddownPresentacion();
+
+      this.OrigenSelect = 'USA'
+      this.claveorigen = '1'
+      this.PresentacionSelect = '25'
       // console.log(+this.PStock + " STOCKKKK");
     }
+  }
+
+  onSelectionChangeMarca(options2, event: any){
+    this.clavemarca = options2.ClaveMarca
+    this.service.formProd.DescripcionProducto = this.service.formProd.DescripcionProducto + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+  }
+  onSelectionChangeOrigen(options2, event: any){
+    this.claveorigen = options2.ClaveOrigen;
+    this.service.formProd.DescripcionProducto = this.service.formProd.DescripcionProducto + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+
+  }
+  onSelectionChangePresentacion(options2, event: any){
+    this.service.formProd.DescripcionProducto = this.service.formProd.DescripcionProducto + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+    
+
   }
 
   Inicializar(form?: NgForm) {
@@ -662,13 +799,17 @@ onBlurDescuentoDlls() {
 }
 
 listData: MatTableDataSource<any>;
-displayedColumns: string[] = ['ClaveProducto', 'ClaveSAT', 'Producto', 'Cantidad', 'Importe', 'Options'];
+displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Cantidad', 'Importe', 'Options'];
 @ViewChild(MatSort, null) sort: MatSort;
 
 //Iniciar en 0 Valores de los Totales
 IniciarTotales() {
   //Inicializar en 0 el select del producto
   this.ProductoSelect = "";
+  this.MarcaSelect ="";
+  this.OrigenSelect ="";
+  this.PresentacionSelect="";
+
   this.options2 = [];
   this.dropdownRefresh2();
   //Inicializar Vacio el Select De Unidad
@@ -707,23 +848,28 @@ refreshDetallesPedidoList() {
       //Suma Total de importes de detalle pedidos
 
       this.service.GetSumaImporte(this.IdCotizacion).subscribe(data => {
+        console.clear;
         console.log(data);
         // console.clear();
         console.log(this.service.formDataCotizacion);
+
+        console.log(data[0].importe);
+        console.log(data[0].ImporteDlls);
+        
         
         this.descuento = this.service.formDataCotizacion.Descuento;
         this.subtotal = data[0].importe;
         this.total = data[0].importe - this.descuento;
 
         this.descuentoDlls = this.service.formDataCotizacion.DescuentoDlls;
-        this.subtotalDlls = data[0].importeDlls;
-        this.totalDlls = data[0].importeDlls - this.descuentoDlls;
+        this.subtotalDlls = data[0].ImporteDlls;
+        this.totalDlls = data[0].ImporteDlls - this.descuentoDlls;
 
 
-       console.log(this.descuentoDlls);
+    /*    console.log(this.descuentoDlls);
 
         console.log(this.total);
-        console.log(this.totalDlls);
+        console.log(this.totalDlls); */
       })
 
     } else {
@@ -738,8 +884,8 @@ refreshDetallesPedidoList() {
 
 onAddProducto(form: NgForm) {
   this.service.formDataDP.IdCotizacion = this.IdCotizacion;
-  this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto;
-  this.service.formDataDP.Producto = this.service.formProd.Nombre;
+  this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen;
+  this.service.formDataDP.Producto = this.service.formProd.Nombre + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect ;
   this.service.formDataDP.Unidad = this.service.formProd.UnidadMedida;
   this.service.formDataDP.PrecioUnitario = this.ProductoPrecioMXN.toString();
   this.service.formDataDP.PrecioUnitarioDLLS = this.ProductoPrecioDLLS.toString();
@@ -1147,5 +1293,99 @@ email(cotizacion){
  
 
 }
+
+nuevacoti(coti){
+  console.log(coti);
+
+
+  this.service.formDataCotizacion.Estatus = 'Duplicada';
+  
+  this.service.onEditCotizacion(this.service.formDataCotizacion).subscribe(res => {
+    console.log(res);
+  /*   Swal.fire({
+      icon: 'success',
+      title: 'Cotizacion Generada'
+    }) */
+
+  })
+
+
+
+
+  this.service.GetFolio().subscribe(data => {
+    console.log(data[0].Folio);
+    let folio = data[0].Folio;
+    if (folio == "") {
+      folio = 1;
+    } else {
+      folio = +folio + 1;
+    }
+    console.log(folio);
+    this.CotizacionBlanco = coti;
+    this.CotizacionBlanco.FechaDeExpedicion = new Date(),
+    this.CotizacionBlanco.Estatus = 'Guardada'
+    this.CotizacionBlanco.Folio = folio.toString();
+    console.log(this.CotizacionBlanco);
+    //Agregar el nuevo pedido. NECESITA ESTAR DENTRO DEL SUBSCRIBEEEEEEEE :(
+    this.service.addCotizacion(this.CotizacionBlanco).subscribe(res => {
+      console.log(res);
+      //Obtener el pedido que se acaba de generar
+      
+      this.service.getUltimaCotizacion().subscribe(res => {
+        console.log('NUEVO IDCOTIZACION------');
+        console.log(res[0]);
+        console.log('NUEVO IDCOTIZACION------');
+        this.IdCotizacion = res[0].IdCotizacion;
+        // console.log(this.IdPedido);
+        localStorage.setItem('IdCotizacion', this.IdCotizacion.toString());
+        this.router.navigate(['/cotizacionesVentasAdd']);
+
+
+        for (let i=0; i< coti.DetalleCotizacion.length; i++){
+
+          this.service.formDataDP = coti.DetalleCotizacion[i];
+          this.service.formDataDP.IdCotizacion = this.IdCotizacion;
+          console.clear;
+          console.log(this.service.formDataDP.IdCotizacion);
+          this.service.addDetalleCotizacion(this.service.formDataDP).subscribe(res => {
+            // console.log(res);
+            //Restar el Stock
+            // this.RestarStock();
+            // this.IniciarTotales();
+            //form.resetForm();
+            //this.refreshDetallesPedidoList();
+            Swal.fire({
+              icon: 'success',
+              title: 'Cotizacion Duplicada'
+            })
+          })
+        }
+
+      })
+   
+
+  });
+   
+
+  });
+
+}
+
+ObtenerUltimoPedido() {
+  this.service.getUltimaCotizacion().subscribe(res => {
+    console.log('NUEVO IDCOTIZACION------');
+    console.log(res[0]);
+    console.log('NUEVO IDCOTIZACION------');
+    this.IdCotizacion = res[0].IdCotizacion;
+    // console.log(this.IdPedido);
+    localStorage.setItem('IdCotizacion', this.IdCotizacion.toString());
+    this.router.navigate(['/cotizacionesVentasAdd']);
+  })
+}
+
+nuevaoc(coti){
+  console.log(coti);
+}
+
 
 }
