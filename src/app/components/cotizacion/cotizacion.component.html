@@ -21,7 +21,7 @@
                     <!-- logo -->
                     <div class="col-2" style="padding-left: 0;">
                         <div class="card card-outline-inverse">
-                            <img src="../../../assets/images/logoCotizacion.jpg" style="height: 200px; width: 300px;">
+                            <img src="../../../assets/images/logoCotizacion.jpg" style="height: 150px; width: 250px;">
                         </div>
                     </div>
                     <div class="col-5"></div>
@@ -47,21 +47,28 @@
             <!-- End TOP -->
             <!-- ../../../assets/images/sacos/3.DARIGOLDmilk.png -->
             <!-- contenido -->
-            <div style="background-image: url('/assets/images/prolactopngopacidad2.png'); height: 500px; background-size: cover">
+            <div style="background-image: url('/assets/images/prolactopngopacidad2.png'); min-height: 500px; background-size: cover">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">SACO</th>
+                            <!-- <th scope="col">SACO</th> -->
                             <th scope="col">CODIGO</th>
                             <th scope="col">DESCRIPCION</th>
                             <th scope="col">PRECIO</th>
                             <th scope="col">CANTIDAD</th>
                             <th scope="col">TOTAL</th>
                         </tr>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">SACO</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
                     </thead>
                     <tbody *ngFor="let conceptos of arrcon; let i = index">
                         <tr>
-                            <th scope="row" class="tdnomargin"><img src="../../../assets/images/sacos/7.DairyAmerica-grade A nonfat drymilk.png" alt="Logo" style="height: 40px; width: 40px;"></th>
+
                             <td>{{conceptos.ClaveProducto}}</td>
                             <td>{{conceptos.Producto}}</td>
                             <td *ngIf="this.service.formrow.Moneda=='MXN'">{{conceptos.PrecioUnitario | currency}}</td>
@@ -69,6 +76,14 @@
                             <td>{{conceptos.Cantidad}}</td>
                             <td *ngIf="this.service.formrow.Moneda=='MXN'">{{conceptos.Importe | currency}}</td>
                             <td *ngIf="this.service.formrow.Moneda=='USD'">{{conceptos.ImporteDlls | currency}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="row" class="tdnomargin" style="text-align: center; padding-bottom: 10px"><img [src]="srcimageninicial+conceptos.Producto+'.png'" alt="Logo" style="height: 90px; width: 90px; "></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+
                         </tr>
                     </tbody>
                 </table>

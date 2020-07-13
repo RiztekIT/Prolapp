@@ -30,6 +30,8 @@ import { EmailgeneralComponent } from '../../../../components/email/emailgeneral
 import * as html2pdf from 'html2pdf.js';
 import { AddsproductosService } from '../../../../services/addsproductos.service';
 import { Cotizacion } from 'src/app/Models/ventas/cotizacion-model';
+import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
+import { Pedido } from 'src/app/Models/Pedidos/pedido-model';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -55,10 +57,12 @@ export class AddCotizacionComponent implements OnInit {
   public buttonName:any = 'Cliente Nuevo';
 
   dialogbox: any;
+  IdPedido: any;
+  Estatus: string;
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasCotizacionService,private _formBuilder: FormBuilder,
     private serviceTipoCambio: TipoCambioService, private serviceProducto: ProductosService, private http: HttpClient, public ServiceUnidad: UnidadMedidaService,
-    private dialog: MatDialog, public serviceDireccion: ClienteDireccionService, public _MessageService: MessageService, public addproductos: AddsproductosService) { 
+    private dialog: MatDialog, public serviceDireccion: ClienteDireccionService, public _MessageService: MessageService, public addproductos: AddsproductosService, public servicepedido: VentasPedidoService) { 
       this.MonedaBoolean = true;
 
       this.serviceDireccion.listen().subscribe((m:any)=>{
@@ -113,6 +117,34 @@ Estatus: "Creada",
 TipoDeCambio: 0,
 Vigencia: new Date()
 }
+
+public PedidoBlanco: Pedido =
+    {
+      IdPedido: 0,
+      IdCliente: 0,
+      Folio: "",
+      Subtotal: "",
+      Descuento: "",
+      Total: "",
+      Observaciones: "",
+      FechaVencimiento: new Date(),
+      OrdenDeCompra: "",
+      FechaDeEntrega: new Date(),
+      CondicionesDePago: "",
+      Vendedor: "",
+      Estatus: "Creada",
+      Usuario: "",
+      Factura: 0,
+      LugarDeEntrega: "",
+      Moneda: "MXN",
+      Prioridad: "Normal",
+      SubtotalDlls: "",
+      DescuentoDlls:"",
+      TotalDlls:"",
+      Flete: "Sucursal",
+      IdDireccion: 0,
+      FechaDeExpedicion: new Date()
+    }
 
 
   ngOnInit() {  
@@ -642,16 +674,23 @@ this.changeDireccion(this.isDireccion);
   }
 
   onSelectionChangeMarca(options2, event: any){
+    console.log(options2);
     this.clavemarca = options2.ClaveMarca
-    this.service.formProd.DescripcionProducto = this.service.formProd.DescripcionProducto + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+    this.MarcaSelect = options2.NombreMarca
+    
+    this.service.formProd.DescripcionProducto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
   }
   onSelectionChangeOrigen(options2, event: any){
+    console.log(options2);
     this.claveorigen = options2.ClaveOrigen;
-    this.service.formProd.DescripcionProducto = this.service.formProd.DescripcionProducto + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+    this.OrigenSelect = options2.NombreOrigen;
+    this.service.formProd.DescripcionProducto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
 
   }
   onSelectionChangePresentacion(options2, event: any){
-    this.service.formProd.DescripcionProducto = this.service.formProd.DescripcionProducto + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+    console.log(options2);
+    this.PresentacionSelect = options2.Presentacion;
+    this.service.formProd.DescripcionProducto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
     
 
   }
@@ -680,6 +719,7 @@ this.changeDireccion(this.isDireccion);
     this.service.getCotizacionId(this.IdCotizacion).subscribe(data => {
       console.log(data);
       this.service.formDataCotizacion = data[0];
+      this.Estatus = this.service.formDataCotizacion.Estatus;
 
       // //VerificarFlete
       // this.llevaFlete();
@@ -919,6 +959,8 @@ onAddProducto(form: NgForm) {
     })
   })
 
+  this.crearCotizacion()
+
 }
 
 onChangeCantidadP(cantidad: any) {
@@ -1137,6 +1179,29 @@ onDeleteDetalleProducto(dp: DetalleCotizacion) {
 
 }
 
+cerrarCotizacion(){
+
+  this.service.formDataCotizacion.Estatus = 'Cerrada';
+  this.service.formDataCotizacion.Total = this.total;
+  this.service.formDataCotizacion.Subtotal = this.subtotal;
+  this.service.formDataCotizacion.TotalDlls = this.totalDlls;
+  this.service.formDataCotizacion.SubtotalDlls = this.subtotalDlls;
+  
+  console.clear();  
+  console.log(this.service.formDataCotizacion);
+  
+  this.service.onEditCotizacion(this.service.formDataCotizacion).subscribe(res => {
+    console.log(res);
+    Swal.fire({
+      icon: 'success',
+      title: 'Cotizacion Cerrada'
+    })
+    this.Inicializar();
+  })
+
+
+}
+
 crearCotizacion() {
 
   this.service.formDataCotizacion.Estatus = 'Guardada';
@@ -1298,6 +1363,7 @@ nuevacoti(coti){
   console.log(coti);
 
 
+
   this.service.formDataCotizacion.Estatus = 'Duplicada';
   
   this.service.onEditCotizacion(this.service.formDataCotizacion).subscribe(res => {
@@ -1385,7 +1451,93 @@ ObtenerUltimoPedido() {
 
 nuevaoc(coti){
   console.log(coti);
+
+  this.servicepedido.GetFolio().subscribe(data => {
+    // console.log(data[0].Folio);
+    let folio = data[0].Folio;
+    if (folio == "") {
+      folio = 1;
+    } else {
+      folio = +folio + 1;
+    }
+    console.log(folio);
+
+   
+
+    this.PedidoBlanco.IdCliente = coti.IdCliente;
+    this.PedidoBlanco.Subtotal = coti.Subtotal;
+    this.PedidoBlanco.Descuento = coti.Descuento;
+    this.PedidoBlanco.Total = coti.Total;
+    this.PedidoBlanco.Observaciones = coti.Observaciones;
+    this.PedidoBlanco.FechaVencimiento = coti.Vigencia;
+    this.PedidoBlanco.Vendedor = coti.Vendedor;
+    this.PedidoBlanco.Estatus = 'Guardada';
+    this.PedidoBlanco.Moneda = coti.Moneda;
+    this.PedidoBlanco.SubtotalDlls = coti.SubtotalDlls;
+    this.PedidoBlanco.DescuentoDlls = coti.DescuentoDlls;
+    this.PedidoBlanco.TotalDlls = coti.TotalDlls;
+    this.PedidoBlanco.Flete = coti.Flete;
+    this.PedidoBlanco.IdDireccion = coti.IdDireccion;
+    this.PedidoBlanco.FechaDeExpedicion = new Date();
+
+
+
+
+
+
+
+    this.PedidoBlanco.Folio = folio.toString();
+    console.log(this.PedidoBlanco);
+    //Agregar el nuevo pedido. NECESITA ESTAR DENTRO DEL SUBSCRIBEEEEEEEE :(
+    this.servicepedido.addPedido(this.PedidoBlanco).subscribe(res => {
+      console.log(res);
+      //Obtener el pedido que se acaba de generar
+        this.servicepedido.getUltimoPedido().subscribe(res => {
+       // console.log('NUEVO IDPEDIDO------');
+       console.log(res[0]);
+       this.IdPedido = res[0].IdPedido;
+       // console.log('NUEVO IDPEDIDO------');
+       for (let i=0; i< coti.DetalleCotizacion.length; i++){
+        this.servicepedido.formDataDP.IdPedido = this.IdPedido
+        this.servicepedido.formDataDP.ClaveProducto = coti.DetalleCotizacion[0].ClaveProducto;
+        this.servicepedido.formDataDP.Producto = coti.DetalleCotizacion[0].Producto;
+        this.servicepedido.formDataDP.Unidad = coti.DetalleCotizacion[0].Unidad;
+        this.servicepedido.formDataDP.PrecioUnitario = coti.DetalleCotizacion[0].PrecioUnitario;
+        this.servicepedido.formDataDP.PrecioUnitarioDlls = coti.DetalleCotizacion[0].PrecioUnitarioDlls;
+        this.servicepedido.formDataDP.Cantidad = coti.DetalleCotizacion[0].Cantidad;
+        this.servicepedido.formDataDP.Importe = coti.DetalleCotizacion[0].Importe;
+        this.servicepedido.formDataDP.ImporteDlls = coti.DetalleCotizacion[0].ImporteDlls;
+    
+        // console.log(this.service.formDataDP);
+    
+        this.servicepedido.addDetallePedido(this.servicepedido.formDataDP).subscribe(res => {
+          // console.log(res);
+          //Restar el Stock
+          //this.RestarStock();
+          // this.IniciarTotales();
+          //form.resetForm();
+          //this.refreshDetallesPedidoList();
+        /*   Swal.fire({
+            icon: 'success',
+            title: 'Concepto Agregado'
+          }) */
+          
+        })
+       }
+       
+        console.log(this.IdPedido);
+        localStorage.setItem('IdPedido', this.IdPedido.toString());
+        this.router.navigate(['/pedidoventasAdd']);
+
+
+        
+      })
+    });
+  });
 }
+
+
+
 
 
 }

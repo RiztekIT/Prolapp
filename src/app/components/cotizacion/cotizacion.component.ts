@@ -21,9 +21,28 @@ export class CotizacionComponent implements OnInit {
   total:any;
   fechaVencimiento:any;
   defaultpx:number
+  srcimagen;
+  srcimageninicial;
+
+
+  public imagessacos: Array<Object> = [
+    {producto: "LECHE DESCREMADA EN POLVO LH DFA", imagen: "2.DFAMILK.png"},
+    {producto: "LECHE DESCREMADA EN POLVO LH DAIRIGOLD", imagen: "3.DARIGOLDmilk.png"},
+    {producto: "LACTOSA LEPRINO", imagen: "4.Leprino Food-lactose.png"},
+    {producto: "SUERO DESPROTEINIZADO  CRINO", imagen: "5.Premium crino deprotenized whey.png"},
+    {producto: "LECHE DESCREMADA EN POLVO LH CONTINENTAL", imagen: "6.Continental nonfatdrymilk.png"},
+    {producto: "LECHE DESCREMADA EN POLVO LH DAIRY AMERICA", imagen: "7.DairyAmerica-grade A nonfat drymilk.png"},
+    {producto: "MALTODEXTRINA MALLA 110 MALTRIN", imagen: "8.maltrin GPC azul.png"},
+    {producto: "SUERO DULCE LANDO LAKES", imagen: "9.landolakesextragradedrysweetWhey.png"},
+    {producto: "GRASA VEGETAL ACOROMA 39", imagen: "13.grasa vegetal akoroma.png"},
+    {producto: "GRASA VEGETAL EXTRALAC USA 25", imagen: "14.AAKextralac.png"},
+    {producto: "SUERO DULCE KRAFT", imagen: "1.KraftMilk.png"}    
+  ]
 
   ngOnInit() {
     this.ver();
+    // this.srcimagen = '../../../assets/images/sacos/7.DairyAmerica-grade A nonfat drymil.png'
+    this.srcimageninicial = '../../../assets/images/sacos/'
     
   }
 
@@ -85,7 +104,7 @@ onExportClick(Folio?:string) {
   const content: Element = document.getElementById('Cotizacion-PDF');
   const option = {    
     margin: [.5,.5,0,.5],
-    filename: 'F-'+'.pdf',
+    filename: 'C-'+this.service.formrow.Folio+'.pdf',
     image: {type: 'jpeg', quality: 1},
     html2canvas: {scale: 2, logging: true},
     jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
