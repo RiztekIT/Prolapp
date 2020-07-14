@@ -6,6 +6,7 @@ function historialLeche() {
 
 
     request('http://cheesereporter.com/pricenfdmdetails.htm', function(error, response, html) {
+        console.log('hello');
 
         if (!error && response.statusCode == 200) {
             var $ = cheerio.load(html);
@@ -33,13 +34,13 @@ function historialLeche() {
                 preciolecheF = parsedResults[8];
                 diaPrecio = parsedResults[7];
                 console.log(JSON.stringify(diaPrecio) + " " + JSON.stringify(preciolecheF));
-
             } else {
                 preciolecheF = parsedResults[20];
                 diaPrecio = parsedResults[19];
                 console.log(JSON.stringify(diaPrecio) + " " + JSON.stringify(preciolecheF));
 
             }
+
         }
     });
 };
