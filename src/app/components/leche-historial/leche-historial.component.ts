@@ -15,6 +15,7 @@ export class LecheHistorialComponent implements OnInit {
 
   precioLeche:string;
   diaPrecio:string;
+  ultimodiaPrecio:string;
   precioayer:string;
   varianteAyer:string;
   precioL;
@@ -115,6 +116,7 @@ export class LecheHistorialComponent implements OnInit {
     console.log(res);
     this.precioLeche = res[0].PrecioLeche;
     this.diaPrecio = res[0].FechaPrecio;
+    this.ultimodiaPrecio = res[0].FechaPrecio;
     this.varianteAyer = res[0].VarianteDiaAnterior;
     this.diaPrecioD = this.datePipe.transform(this.diaPrecio, 'EEEE');
     this.diaPrecio = this.datePipe.transform(this.diaPrecio, 'yyyy-MM-dd');
@@ -239,6 +241,7 @@ btnActualizarHL(){
 }
 
 changeMat(evento) {
+  this.fechaSelec = new Date();
   this.fechaSelec = evento.target.value;
   this.fechaSelec = this.datePipe.transform(this.fechaSelec, 'yyyy-MM-dd');
   this.fechaSelecd = this.datePipe.transform(this.fechaSelec, 'EEEE');
@@ -257,6 +260,7 @@ changeMat(evento) {
     }).then((result) => {
       this.precioLeche = null;
       this.fechaCaducidadhl = null;
+      this.varianteAyer = null;
       this.diaPrecio = this.fechaSelec;
       this.diaPrecioD = this.fechaSelecd;
       return
@@ -264,7 +268,7 @@ changeMat(evento) {
     })
   } else {
 
-    if (this.diaPrecio <= this.fechaSelec && this.son11 <= '11:00 AM') {
+    if ( this.fechaSelec > this.ultimodiaPrecio && this.son11 <= '11:00 AM') {
       if (this.diacomparar == this.fechaSelec && this.son11 <= '11:00 AM') {
         Swal.fire({
           icon: 'error',
@@ -276,13 +280,15 @@ changeMat(evento) {
         }).then((result) => {
           this.precioLeche = null;
           this.fechaCaducidadhl = null;
+          this.varianteAyer = null;
           this.diaPrecio = this.fechaSelec;
           this.diaPrecioD = this.fechaSelecd;
           return
           
         })
         
-      } else {
+      } 
+      if ( this.fechaSelec > this.ultimodiaPrecio)  {
         
         Swal.fire({
           icon: 'error',
@@ -294,6 +300,7 @@ changeMat(evento) {
         }).then((result) => {
           this.precioLeche = null;
           this.fechaCaducidadhl = null;
+          this.varianteAyer = null;
           this.diaPrecio = this.fechaSelec;
           this.diaPrecioD = this.fechaSelecd;
           return
