@@ -23,4 +23,5 @@ public DescuentoDlls: string;
 public TotalDlls: string;
 public Flete: string;
 public IdDireccion: number;
+public FechaDeExpedicion : Date;
 }
