@@ -20,22 +20,37 @@ export class TarimaService {
   constructor(private http:HttpClient) { }
 
   tarimaData = new Tarima();
+  dataTarima: any;
   tarimaDetalleData = new DetalleTarima();
   tarimaDetalleDOD = new Array<DetalleOrdenDescarga>();
   formDataDrop = new Tarima();
 
   //Tarima proviniente de un traspaso de OrdenCarga
   trapasoOrdenCarga: boolean;
+  //Tarima proviniente de un traspaso de OrdenDescarga
+  trapasoOrdenDescarga: boolean;
   //IdTarima a traspasar;
   idTarimaOrdenCarga: number;
+  //IdTarima a traspasar;
+  idTarimaOrdenDescarga: number;
   //Detalle tarima a traspasar de OrdenCarga
   detalleTarimaOrdenCarga: DetalleTarima;
+  //Detalle tarima a traspasar de OrdenDescarga
+  detalleTarimaOrdenDescarga: DetalleTarima;
   QrOrigen: string;
+  QrDestino: string;
   
-  masterT = new Array<MasterDetalleTarima>();
+  masterT = new Array<any>();
+  // masterT = new Array<any>();
+// master para tarima escaneada
+  masterTE = new Array<any>();
 
   //Bodega Origen/Destino
   bodega: string;
+
+  //Variable para saber si el traspaso es de orden descarga o no
+  TraspasoDescarga:boolean;
+
   getTarima(): Observable <Tarima[]>{
     return this.http.get<Tarima[]>(APIUrl + '/Tarima');
   }
@@ -114,6 +129,10 @@ getUsuario(nombreUsuario : string): Observable <Usuario[]>{
 
 GetTarimaDttqr(qr: string): Observable<Tarima[]> {
   return this.http.get<Tarima[]>(APIUrl + '/Tarima/GetTarimaDttqr/' + qr);
+
+}
+GetTarimaBodegaQR(qr: string, bodega:string): Observable<Tarima[]> {
+  return this.http.get<Tarima[]>(APIUrl + '/Tarima/GetTarimaBodegaQR/'+qr+'/'+bodega);
 }
 
   private _listeners = new Subject<any>(); 
@@ -124,11 +143,19 @@ GetTarimaDttqr(qr: string): Observable<Tarima[]> {
         this._listeners.next(filterBy);
       }
       
-  private _listenersDt = new Subject<any>(); 
+  private _listenerDt = new Subject<any>(); 
       listenDt(): Observable<any> {
-        return this._listenersDt.asObservable();
+        return this._listenerDt.asObservable();
       }
       filterDt(filterBy: string) {
-        this._listenersDt.next(filterBy);
+        this._listenerDt.next(filterBy);
+      }
+
+  private _listenerSc = new Subject<any>(); 
+  listenerScan(): Observable<any> {
+        return this._listenerSc.asObservable();
+      }
+      filterScan(filterBy: string) {
+        this._listenerDt.next(filterBy);
       }
 }

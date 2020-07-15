@@ -5,9 +5,12 @@ import { Router } from '@angular/router';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog } from '@angular/material';
 import { ImagenService } from '../../../../services/imagenes/imagen.service';
 import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AlmacenEmailService } from '../../../../services/almacen/almacen-email.service';
 import { OrdenDescargaEmailComponent } from '../../ordendescarga/ordendescargadetalle/orden-descarga-email/orden-descarga-email.component';
+import { TarimaService } from '../../../../services/almacen/tarima/tarima.service';
+import { Tarima } from 'src/app/Models/almacen/Tarima/tarima-model';
 
 
 
@@ -15,24 +18,30 @@ import { OrdenDescargaEmailComponent } from '../../ordendescarga/ordendescargade
 @Component({
   selector: 'app-ordendescargadetallecuu',
   templateUrl: './ordendescargadetallecuu.component.html',
-  styleUrls: ['./ordendescargadetallecuu.component.css']
+  styleUrls: ['./ordendescargadetallecuu.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      // state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
+      state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+      state('expanded', style({ height: '*' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class OrdendescargadetallecuuComponent implements OnInit {
   //Id Orden Carga
   IdOrdenDescarga: number;
   constructor(private service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public router: Router,  private dialog: MatDialog,  public imageService: ImagenService, private _sanitizer: DomSanitizer,
-    public AlmacenEmailService:AlmacenEmailService) {
+    public AlmacenEmailService:AlmacenEmailService, public tarimaService: TarimaService) {
 
-    this.ordenTemporalService.listenOrdenTemporal().subscribe((m: any) => {
-      this.actualizarTablaOrdenTemporal();
-    });
+    // this.ordenTemporalService.listenOrdenTemporal().subscribe((m: any) => {
+    //   this.actualizarTablaOrdenTemporal();
+    // });
   }
+  displayedColumnsVersionScan: string[] = ['IdDetalleTarima, IdTarima, ClaveProducto, Producto, Sacos, PesoxSaco, Lote, IdProveedor, Proveedor, PO, FechaMFG, FechaCaducidad, Shipper, USDA, Pedimento'];
 
-  // Tabla Orden Temporal
-  listDataOrdenTemporal: MatTableDataSource<any>;
-  displayedColumnsOrdenTemporal: string[] = ['QR', 'ClaveProducto', 'Producto', 'Lote', 'Sacos', 'PesoTotal', 'FechaCaducidad', 'Comentarios', 'Options'];
-  @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
+  expandedElement: any;
+  bodegaDestino: string;
 
   files: File[] = [];
   imagenes: any[];
@@ -42,11 +51,19 @@ export class OrdendescargadetallecuuComponent implements OnInit {
   imageInfo: ImgInfo[] = [];
 
 
+  listDataScan: MatTableDataSource<any>;
+  displayedColumnsScan: string[] = ['IdTarima', 'Sacos', 'PesoTotal', 'QR', 'Bodega'];
+  isExpansionDetailRowScan = (i: number, row: Object) => row.hasOwnProperty('detailRow');
+  @ViewChild(MatSort, null) sortScan: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginatorScan: MatPaginator;
+
+
   ngOnInit() {
     this.IdOrdenDescarga = +(localStorage.getItem('IdOrdenDescarga'));
-    this.actualizarTablaOrdenTemporal();
+    // this.actualizarTablaOrdenTemporal();
     console.log(this.service.formData);
     console.log(localStorage.getItem('IdOrdenDescarga'));
+    this.actualizarTablaTarimaEscaneada();
     this.ObtenerFolio(this.IdOrdenDescarga);
   }
 
@@ -54,23 +71,64 @@ export class OrdendescargadetallecuuComponent implements OnInit {
     this.router.navigate(['/ordendescarga']);
   }
 
-  actualizarTablaOrdenTemporal() {
-    this.ordenTemporalService.GetOrdenTemporalIDOD(this.IdOrdenDescarga).subscribe(dataOrdenTemporal => {
-      console.log(dataOrdenTemporal);
-      if (dataOrdenTemporal.length > 0) {
-        console.log('Si hay Movimientos en esta orden de Descarga');
-        this.listDataOrdenTemporal = new MatTableDataSource(dataOrdenTemporal);
-        this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
-        this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
-        this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+  // actualizarTablaOrdenTemporal() {
+  //   this.ordenTemporalService.GetOrdenTemporalIDOD(this.IdOrdenDescarga).subscribe(dataOrdenTemporal => {
+  //     console.log(dataOrdenTemporal);
+  //     if (dataOrdenTemporal.length > 0) {
+  //       console.log('Si hay Movimientos en esta orden de Descarga');
+  //       this.listDataOrdenTemporal = new MatTableDataSource(dataOrdenTemporal);
+  //       this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
+  //       this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
+  //       this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+  //     } else {
+  //       console.log('No hay Movimientos en esta orden de Descarga');
+  //       this.listDataOrdenTemporal = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
+  //       // this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
+  //       // this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
+  //       // this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+  //     }
+  //   })
+  // }
+
+  actualizarTablaTarimaEscaneada() {
+console.warn('hello');
+    this.tarimaService.masterTE = new Array<any>();
+    this.tarimaService.masterTE = [];
+
+    this.service.GetODOTTB(1, 'Chihuahua').subscribe(dataQR => {
+      if (dataQR.length > 0) {
+        for (let i = 0; i <= dataQR.length - 1; i++) {
+          // es lo que trae detalle tarima con ese QR
+          console.log(dataQR[0]);
+          // if(dataQR[0]){
+          // console.warn(pm);
+          this.tarimaService.masterTE[i] = dataQR[i];
+          this.tarimaService.masterTE[i].detalleTarima = [];
+          this.tarimaService.getDetalleTarimaID(dataQR[i].IdTarima).subscribe(res => {
+            for (let l = 0; l <= res.length - 1; l++) {
+              console.log(l);
+              console.log(res[l]);
+              this.tarimaService.masterTE[i].detalleTarima.push(res[l]);
+            }
+          })
+          this.listDataScan = new MatTableDataSource(this.tarimaService.masterTE);
+          this.listDataScan.sort = this.sortScan;
+          this.listDataScan.paginator = this.paginatorScan;
+          this.listDataScan.paginator._intl.itemsPerPageLabel = 'Tarimas por Pagina';
+          console.log(this.tarimaService.masterTE);
+          // pm++;
+          // }
+        }
       } else {
-        console.log('No hay Movimientos en esta orden de Descarga');
-        this.listDataOrdenTemporal = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
-        // this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
-        // this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
-        // this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+        this.tarimaService.masterTE = [];
+        this.listDataScan = new MatTableDataSource(this.tarimaService.masterTE);
+        this.listDataScan.sort = this.sortScan;
+        this.listDataScan.paginator = this.paginatorScan;
+        this.listDataScan.paginator._intl.itemsPerPageLabel = 'Tarimas por Pagina';
+
       }
     })
+
   }
 
   CheckTarima(){
@@ -182,6 +240,7 @@ ObtenerFolio(id: number) {
   evidencia(){
     this.router.navigate(['/ordenDescargaEvidencia']);
   }
+
 
 
 

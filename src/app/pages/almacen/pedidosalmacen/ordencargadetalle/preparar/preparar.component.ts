@@ -29,6 +29,8 @@ import { preOrdenTemporal } from '../../../../../Models/almacen/OrdenTemporal/pr
 export class PrepararComponent implements OnInit {
   enableScan = false;
   qrleido;
+  isVisible: boolean;
+  isVisibleQR: boolean;
 
 
   constructor(public router: Router, public tarimaService: TarimaService, public ordenCargaService: OrdenCargaService,
@@ -57,6 +59,8 @@ export class PrepararComponent implements OnInit {
 
   ngOnInit() {
     this.IdOrdenCarga = +(localStorage.getItem('IdOrdenCarga'));
+    this.isVisible = false;
+    this.isVisibleQR = true;
     this.showButtonAceptar = false;
     this.showButtonCancelar = false;
     this.MostrarConceptos = false;
@@ -767,6 +771,7 @@ export class PrepararComponent implements OnInit {
   traspaso() {
 
     this.tarimaService.trapasoOrdenCarga = false;
+    this.tarimaService.TraspasoDescarga = false;
     //Indicar cual es la bodega de la tarima
     this.tarimaService.bodega = this.bodegaOrigen;
 
@@ -908,5 +913,20 @@ export class PrepararComponent implements OnInit {
       }
     });
   }
+
+    // blur
+    CleanFieldQR() {
+      if (this.qrleido == null) {
+        this.isVisible = false;
+        this.isVisibleQR = true;
+      }
+  
+    }
+  
+    ActBtn() {
+      this.isVisible = true;
+      this.isVisibleQR = false;
+    }
+  
 
 }

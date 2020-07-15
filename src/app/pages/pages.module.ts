@@ -33,7 +33,7 @@ import { PromesasComponent } from './promesas/promesas.component';
 import { DbcalidadComponent } from './calidad/dbcalidad/dbcalidad.component';
 import { ReportesComponent } from './calidad/reportes/reportes.component';
 import { GraficosComponent } from './calidad/graficos/graficos.component';
-import { CommonModule, CurrencyPipe } from '@angular/common';
+import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { CalendarioComponent } from '../components/calendario/calendario.component';
 import { CalendarioCalidadComponent } from './calidad/calendario-calidad/calendario-calidad.component';
 import { GraficasVentasComponent } from './ventas/graficas-ventas/graficas-ventas.component';
@@ -231,6 +231,7 @@ import { OrdenDescargaEmailComponent } from './almacen/ordendescarga/ordendescar
 import { OrdendescargadetallecuuComponent } from './almacen/ordendescargacuu/ordendescargadetallecuu/ordendescargadetallecuu.component';
 import { OrdendescargatarimacuuComponent } from './almacen/ordendescargacuu/ordendescargadetallecuu/ordendescargatarimacuu/ordendescargatarimacuu.component';
 import { ChecadorComponent } from './direccion/checador/checador.component';
+import { DireccionService } from '../services/direccion/direccion.service';
 
 //import calendario
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -473,6 +474,9 @@ import { ComprasPrincipalComponent } from './compras/compras-principal/compras-p
         OrdenTemporalService,
         NgxImageCompressService,
         CalendarioService,
+        DireccionService,
+        DatePipe
+        
         
     ],
     entryComponents: [

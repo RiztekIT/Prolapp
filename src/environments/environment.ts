@@ -20,6 +20,8 @@ export const environment = {
   //URLS de Produccion
     // APIUrl: 'https://erpprolapp.ddns.net:44361/api',
     // APIUrlEmail: 'https://erpprolapp.ddns.net:3000'
+    //APIUrl: 'https://erpprolapp.ddns.net:44361/api',
+    //APIUrlEmail: 'https://erpprolapp.ddns.net:3000'
 };
 
 /*

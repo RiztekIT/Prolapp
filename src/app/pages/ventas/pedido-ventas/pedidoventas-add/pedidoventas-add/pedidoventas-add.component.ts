@@ -26,6 +26,8 @@ import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { ClienteDireccionService } from '../../../../../services/cliente-direccion/cliente-direccion.service';
 
 import { ClienteDireccionComponent } from '../../../../../components/cliente-direccion/cliente-direccion.component';
+import { VentasCotizacionService } from 'src/app/services/ventas/ventas-cotizacion.service';
+import { AddsproductosService } from 'src/app/services/addsproductos.service';
 //Constantes para obtener tipo de cambio
 const httpOptions = {
   headers: new HttpHeaders({
@@ -49,7 +51,7 @@ export class PedidoventasAddComponent implements OnInit {
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
     private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient, public ServiceUnidad: UnidadMedidaService,
-    public serviceDireccion: ClienteDireccionService, private dialog: MatDialog) {
+    public serviceDireccion: ClienteDireccionService, private dialog: MatDialog, public servicecoti: VentasCotizacionService, public addproductos: AddsproductosService) {
       
     this.MonedaBoolean = true;
 
@@ -73,6 +75,12 @@ export class PedidoventasAddComponent implements OnInit {
   optionsUnidad = ['Pieza'];
   um: boolean;
   ProductoSelect: string;
+  MarcaSelect: string;
+  OrigenSelect:string;
+  clavemarca:string;
+  claveorigen:string;
+  clavepresentacion:string;
+  PresentacionSelect: string;
   Id: number;
 
 
@@ -163,14 +171,23 @@ export class PedidoventasAddComponent implements OnInit {
 
   myControl = new FormControl();
   myControl2 = new FormControl();
+  myControl3 = new FormControl();
+  myControl4 = new FormControl();
+  myControl5 = new FormControl();
   myControlVendedor = new FormControl();
   myControlDireccion = new FormControl();
 
   options: Cliente[] = [];
   options2: Producto[] = [];
+  options3: any[] = []
+  options4: any[] = []
+  options5: any[] = []
 
   filteredOptions: Observable<any[]>;
   filteredOptions2: Observable<any[]>;
+  filteredOptions3: Observable<any[]>;
+  filteredOptions4: Observable<any[]>;
+  filteredOptions5: Observable<any[]>;
   filteredOptionsVendedor: Observable<any[]>;
   filteredOptionsDireccion: Observable<any[]>;
 
@@ -317,6 +334,32 @@ export class PedidoventasAddComponent implements OnInit {
   }
 
 
+  private _filtermarca(value: any): any[] {
+    // console.clear();
+    // console.log(value);
+    if (typeof (value) == 'string') {
+      const filterValue2 = value.toLowerCase();
+      return this.options3.filter(option => option.NombreMarca.toString().toLowerCase().includes(filterValue2));
+    } 
+  }
+  private _filterorigen(value: any): any[] {
+    // console.clear();
+    // console.log(value);
+    if (typeof (value) == 'string') {
+      const filterValue2 = value.toLowerCase();
+      return this.options4.filter(option => option.NombreOrigen.toString().toLowerCase().includes(filterValue2));
+    } 
+  }
+  private _filterpresentacion(value: any): any[] {
+    // console.clear();
+    // console.log(value);
+    if (typeof (value) == 'string') {
+      const filterValue2 = value.toLowerCase();
+      return this.options5.filter(option => option.Presentacion.toString().toLowerCase().includes(filterValue2));
+    } 
+  }
+
+
   dropdownRefresh() {
     this.service.getDepDropDownValues().subscribe(data => {
       for (let i = 0; i < data.length; i++) {
@@ -331,6 +374,53 @@ export class PedidoventasAddComponent implements OnInit {
       }
     });
 
+  }
+
+  droddownMarcas(producto){
+    this.options3 = [];
+    this.addproductos.getMarcas(producto).subscribe((marca: any) =>{
+      for (let i=0; i < marca.length; i++){
+        
+        this.options3.push(marca[i])
+        this.filteredOptions3 = this.myControl3.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filtermarca(value))
+          );
+      }
+      
+    })
+  }
+
+  droddownOrigen(){
+    this.options4 = [];
+    this.addproductos.getOrigen().subscribe((origen: any) =>{
+      for (let i=0; i < origen.length; i++){
+        
+        this.options4.push(origen[i])
+        this.filteredOptions4 = this.myControl4.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filterorigen(value))
+          );
+      }
+      
+    })
+  }
+  droddownPresentacion(){
+    this.options5 = [];
+    this.addproductos.getPresentacion().subscribe((Presentacion: any) =>{
+      for (let i=0; i < Presentacion.length; i++){
+        
+        this.options5.push(Presentacion[i])
+        this.filteredOptions5 = this.myControl5.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filterpresentacion(value))
+          );
+      }
+      
+    })
   }
 
   private _filter2(value: any): any[] {
@@ -565,8 +655,37 @@ this.changeDireccion(this.isDireccion);
       }
 
       this.ClaveProducto = this.service.formProd.ClaveProducto;
+      this.droddownMarcas(this.service.formProd.Nombre);
+      this.droddownOrigen();
+      this.droddownPresentacion();
+
+      this.OrigenSelect = 'USA'
+      this.claveorigen = '1'
+      this.PresentacionSelect = '25'
       console.log(+this.PStock + " STOCKKKK");
     }
+  }
+
+  onSelectionChangeMarca(options2, event: any){
+    console.log(options2);
+    this.clavemarca = options2.ClaveMarca
+    this.MarcaSelect = options2.NombreMarca
+    
+    this.service.formProd.DescripcionProducto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+  }
+  onSelectionChangeOrigen(options2, event: any){
+    console.log(options2);
+    this.claveorigen = options2.ClaveOrigen;
+    this.OrigenSelect = options2.NombreOrigen;
+    this.service.formProd.DescripcionProducto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+
+  }
+  onSelectionChangePresentacion(options2, event: any){
+    console.log(options2);
+    this.PresentacionSelect = options2.Presentacion;
+    this.service.formProd.DescripcionProducto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+    
+
   }
 
 

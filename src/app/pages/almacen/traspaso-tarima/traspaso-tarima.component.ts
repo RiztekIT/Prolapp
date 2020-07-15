@@ -31,26 +31,35 @@ export class TraspasoTarimaComponent implements OnInit {
     console.log(this.ordenTemporalService.traspasoOrdenTemporal);
     this.bodega = this.tarimaService.bodega;
     this.getUserInfo();
-    if(this.tarimaService.trapasoOrdenCarga == true){
-this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.tarimaService.detalleTarimaOrdenCarga, this.tarimaService.QrOrigen);
+    if (this.tarimaService.trapasoOrdenCarga == true) {
+      this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.tarimaService.detalleTarimaOrdenCarga, this.tarimaService.QrOrigen);
     }
-    if(this.ordenTemporalService.traspasoOrdenTemporal == true){
+    // if (this.tarimaService.TraspasoDescarga == true) {
+    //   this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenDescarga, this.tarimaService.detalleTarimaOrdenDescarga, this.tarimaService.QrDestino);
+    // }
+    if (this.ordenTemporalService.traspasoOrdenTemporal == true) {
       console.log(this.tarimaService.idTarimaOrdenCarga);
       console.log(this.ordenTemporalService.ordenTemporalt);
       console.log(this.tarimaService.QrOrigen);
-this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.ordenTemporalService.ordenTemporalt, this.tarimaService.QrOrigen);
+      this.traspasoTarimaOrdenCarga(this.tarimaService.idTarimaOrdenCarga, this.ordenTemporalService.ordenTemporalt, this.tarimaService.QrOrigen);
+      // this.traspasoTarimaOrdenDescarga(this.tarimaService.idTarimaOrdenDescarga, this.ordenTemporalService.ordenTemporalt, this.tarimaService.QrOrigen);
     }
+
+
   }
 
   //Bodega Origen/Destino
   bodega: string;
 
+  //Bodega Origen/Destino
+  bodegaDestinoOD: string;
+
   //CodigoQRLeido
   qrleido;
 
   //Informacion de Usuario Logeado
-IdUsuario: number;
-Usuario: string;
+  IdUsuario: number;
+  Usuario: string;
 
   tarimaIdOrigen: number;
   tarimaIdDestino: number;
@@ -86,16 +95,16 @@ Usuario: string;
 
   onClose() {
     // console.log(this.tarimaService.trapasoOrdenCarga);
-    
-this.dialogbox.close();
+
+    this.dialogbox.close();
 
   }
 
-  getUserInfo(){
+  getUserInfo() {
     let Usersession = JSON.parse(localStorage.getItem('ProlappSession'));
     console.log(Usersession.user);
     let user = Usersession.user;
-    this.tarimaService.getUsuario(user).subscribe(res=>{
+    this.tarimaService.getUsuario(user).subscribe(res => {
       this.Usuario = user;
       this.IdUsuario = res[0].IdUsuario;
     })
@@ -115,15 +124,15 @@ this.dialogbox.close();
 
       console.log(data);
       this.qrleido = data;
-//Verificar en cual input fue activado el lector QR
-      if(target == 'origen'){
-this.tarimaQrOrigen = this.qrleido;
-this.onBlurIdOrigen();
-      }else{
-this.tarimaQrDestino = this.qrleido;
-this.onBlurIdDestino
+      //Verificar en cual input fue activado el lector QR
+      if (target == 'origen') {
+        this.tarimaQrOrigen = this.qrleido;
+        this.onBlurIdOrigen();
+      } else {
+        this.tarimaQrDestino = this.qrleido;
+        this.onBlurIdDestino
       }
-      
+
 
     })
 
@@ -140,83 +149,83 @@ this.onBlurIdDestino
       tarimaInsert.IdTarima = 0;
       tarimaInsert.Sacos = sacosTraspaso.toString();
       tarimaInsert.PesoTotal = (sacosTraspaso * 20).toString();
-      tarimaInsert.Bodega= this.bodega;
+      tarimaInsert.Bodega = this.bodega;
 
       //Generar CODIGO QR
       // let codigoQR = 'gArzGVs';
       let codigoQR = nanoid(7);
-//Verificar si este codigo QR ya existe
-this.tarimaService.getTarimaQR(codigoQR).subscribe(resQR=>{
-  console.log(resQR)
-  if(resQR.length> 0){
-codigoQR = nanoid(7);
-  }
-tarimaInsert.QR = codigoQR;
+      //Verificar si este codigo QR ya existe
+      this.tarimaService.getTarimaQR(codigoQR).subscribe(resQR => {
+        console.log(resQR)
+        if (resQR.length > 0) {
+          codigoQR = nanoid(7);
+        }
+        tarimaInsert.QR = codigoQR;
 
-// tarimaInsert.QR = nanoid(7);
-      // console.clear();
-      console.warn(tarimaInsert.QR);
-
-      
+        // tarimaInsert.QR = nanoid(7);
+        // console.clear();
+        console.warn(tarimaInsert.QR);
 
 
-      console.log(tarimaInsert);
-      console.log(this.detalleTarimaSelected);
-      this.tarimaService.addTarima(tarimaInsert).subscribe(rest => {
-        console.log(rest);
-        //Obtener id new Tarima
-        this.tarimaService.getUltimaTarima().subscribe(dataUT => {
-          console.log(dataUT);
-          
-          this.detalleTarimaSelected.IdTarima = dataUT[0].IdTarima;
-          this.detalleTarimaSelected.Sacos = sacosTraspaso.toString();
-          console.log(this.detalleTarimaSelected);
-          //Agregar detalle Tarima
-          this.tarimaService.addDetalleTarima(this.detalleTarimaSelected).subscribe(resDT => {
-            console.log(resDT);
-            this.tt = new TraspasoTarima();
-            this.tt.IdOrigenTarima = this.tarimaIdOrigen;
-            this.tt.IdDestinoTarima = this.detalleTarimaSelected.IdTarima;
-            this.tt.ClaveProducto = this.detalleTarimaSelected.ClaveProducto;
-            this.tt.Producto = this.detalleTarimaSelected.Producto;
-            this.tt.Lote = this.detalleTarimaSelected.Lote;
-            this.tt.Sacos = sacosTraspaso.toString();
-            this.tt.FechaTraspaso = new Date();
 
-            //Informacion del Usuario que esta traspasando la tarima
-            // this.tt.IdUsuario = 0;
-            // this.tt.Usuario = 'TYSOK';
-            this.tt.IdUsuario = this.IdUsuario;
-            this.tt.Usuario = this.Usuario;
 
-            console.log(this.tt);
-            this.tarimaService.addTraspasoTarima(this.tt).subscribe(resTrasTarima => {
-              console.log(resTrasTarima);
-              this.actualizarTarimaOrigen();
-              // this.onClose();
-            })
+        console.log(tarimaInsert);
+        console.log(this.detalleTarimaSelected);
+        this.tarimaService.addTarima(tarimaInsert).subscribe(rest => {
+          console.log(rest);
+          //Obtener id new Tarima
+          this.tarimaService.getUltimaTarima().subscribe(dataUT => {
+            console.log(dataUT);
+
+            this.detalleTarimaSelected.IdTarima = dataUT[0].IdTarima;
+            this.detalleTarimaSelected.Sacos = sacosTraspaso.toString();
+            console.log(this.detalleTarimaSelected);
+            //Agregar detalle Tarima
+            this.tarimaService.addDetalleTarima(this.detalleTarimaSelected).subscribe(resDT => {
+              console.log(resDT);
+              this.tt = new TraspasoTarima();
+              this.tt.IdOrigenTarima = this.tarimaIdOrigen;
+              this.tt.IdDestinoTarima = this.detalleTarimaSelected.IdTarima;
+              this.tt.ClaveProducto = this.detalleTarimaSelected.ClaveProducto;
+              this.tt.Producto = this.detalleTarimaSelected.Producto;
+              this.tt.Lote = this.detalleTarimaSelected.Lote;
+              this.tt.Sacos = sacosTraspaso.toString();
+              this.tt.FechaTraspaso = new Date();
+
+              //Informacion del Usuario que esta traspasando la tarima
+              // this.tt.IdUsuario = 0;
+              // this.tt.Usuario = 'TYSOK';
+              this.tt.IdUsuario = this.IdUsuario;
+              this.tt.Usuario = this.Usuario;
+
+              console.log(this.tt);
+              this.tarimaService.addTraspasoTarima(this.tt).subscribe(resTrasTarima => {
+                console.log(resTrasTarima);
+                this.actualizarTarimaOrigen();
+                // this.onClose();
+              })
+            });
           });
         });
-      });
-    })
+      })
     } else {
       this.tt = new TraspasoTarima();
-            this.tt.IdOrigenTarima = this.tarimaIdOrigen;
-            this.tt.IdDestinoTarima = this.tarimaIdDestino;
-            this.tt.ClaveProducto = this.detalleTarimaSelected.ClaveProducto;
-            this.tt.Producto = this.detalleTarimaSelected.Producto;
-            this.tt.Lote = this.detalleTarimaSelected.Lote;
-            this.tt.Sacos = this.sacosTraspaso.toString();
-            this.tt.FechaTraspaso = new Date();
-            this.tt.IdUsuario = 0;
-            this.tt.Usuario = 'TYSOK';
-            console.log(this.tt);
-            this.tarimaService.addTraspasoTarima(this.tt).subscribe(resTrasTarima => {
-              console.log(resTrasTarima);
-              this.actualizarTarimaOrigen();
-              this.actualizarTarimaDestino();
-              // this.onClose();
-            })
+      this.tt.IdOrigenTarima = this.tarimaIdOrigen;
+      this.tt.IdDestinoTarima = this.tarimaIdDestino;
+      this.tt.ClaveProducto = this.detalleTarimaSelected.ClaveProducto;
+      this.tt.Producto = this.detalleTarimaSelected.Producto;
+      this.tt.Lote = this.detalleTarimaSelected.Lote;
+      this.tt.Sacos = this.sacosTraspaso.toString();
+      this.tt.FechaTraspaso = new Date();
+      this.tt.IdUsuario = 0;
+      this.tt.Usuario = 'TYSOK';
+      console.log(this.tt);
+      this.tarimaService.addTraspasoTarima(this.tt).subscribe(resTrasTarima => {
+        console.log(resTrasTarima);
+        this.actualizarTarimaOrigen();
+        this.actualizarTarimaDestino();
+        // this.onClose();
+      })
     }
 
     Swal.fire({
@@ -226,11 +235,13 @@ tarimaInsert.QR = codigoQR;
       showCancelButton: false,
       showConfirmButton: false
     });
+    this.tarimaService.listenerScan();
+    this.tarimaService.listenDt();
 
     this.onClose();
 
 
-    
+
   }
 
   actualizarTarimaOrigen() {
@@ -279,24 +290,24 @@ tarimaInsert.QR = codigoQR;
             this.tarimaService.updateDetalleTarimaIdSacos(idTarima, idDetalleTarima, SacosFinaldt.toString()).subscribe(resdt => {
               console.log(resdt);
               // this.onClose();
-              if(this.tarimaService.trapasoOrdenCarga == true){
+              if (this.tarimaService.trapasoOrdenCarga == true) {
                 this.ordenTemporalService.filter(this.tarimaQrOrigen);
-                }
-                if(this.ordenTemporalService.traspasoOrdenTemporal == true){
+              }
+              if (this.ordenTemporalService.traspasoOrdenTemporal == true) {
                 this.ordenTemporalService.filterOrdenTemporal('HOLA DESDE TRASPASO TARIMA');
-                }
+              }
             });
           } else {
             console.log(idDetalleTarima);
             this.tarimaService.deleteDetalleTarima(idDetalleTarima).subscribe(resDelete => {
               console.log(resDelete);
               // this.onClose();
-              if(this.tarimaService.trapasoOrdenCarga == true){
+              if (this.tarimaService.trapasoOrdenCarga == true) {
                 this.ordenTemporalService.filter(this.tarimaQrOrigen);
-                }
-                if(this.ordenTemporalService.traspasoOrdenTemporal == true){
-                  this.ordenTemporalService.filterOrdenTemporal('HOLA DESDE TRASPASO TARIMA');
-                  }
+              }
+              if (this.ordenTemporalService.traspasoOrdenTemporal == true) {
+                this.ordenTemporalService.filterOrdenTemporal('HOLA DESDE TRASPASO TARIMA');
+              }
             });
           }
 
@@ -306,12 +317,12 @@ tarimaInsert.QR = codigoQR;
 
   }
   actualizarTarimaDestino() {
-//Actualizar Tarima Destino
-this.detalleTarimaSelectedDestino = new DetalleTarima();
-this.detalleTarimaSelectedDestino = this.detalleTarimaSelected;
-this.detalleTarimaSelectedDestino.IdTarima = this.tarimaIdDestino;
-this.detalleTarimaSelectedDestino.Sacos = this.sacosTraspaso.toString();
-let idTarima = this.tarimaIdDestino;
+    //Actualizar Tarima Destino
+    this.detalleTarimaSelectedDestino = new DetalleTarima();
+    this.detalleTarimaSelectedDestino = this.detalleTarimaSelected;
+    this.detalleTarimaSelectedDestino.IdTarima = this.tarimaIdDestino;
+    this.detalleTarimaSelectedDestino.Sacos = this.sacosTraspaso.toString();
+    let idTarima = this.tarimaIdDestino;
     let idDetalleTarima;
     let sacosTraspaso = this.sacosTraspaso;
     let clave = this.detalleTarimaSelectedDestino.ClaveProducto;
@@ -344,29 +355,29 @@ let idTarima = this.tarimaIdDestino;
       this.tarimaService.updateTarimaSacosPeso(idTarima, SacosFinalt.toString(), PesoTotal.toString()).subscribe(res => {
         console.log(res);
         //Buscar si existe detalleTarima en la tarima con la misma ClaveProducto y Lote
-this.tarimaService.getDetalleTarimaIdClaveLote(idTarima, clave, lote).subscribe(dataDetalleTarima =>{
-console.log(dataDetalleTarima);
-if(dataDetalleTarima.length > 0){
-  //si existen, actualizar detalle tarima
-  idDetalleTarima = dataDetalleTarima[0].IdDetalleTarima;
-  SacosFinaldt = ((+dataDetalleTarima[0].Sacos) + (sacosTraspaso));
-  console.log(idTarima);
-  console.log(idDetalleTarima);
-  console.log(SacosFinaldt.toString());
-    this.tarimaService.updateDetalleTarimaIdSacos(idTarima, idDetalleTarima, SacosFinaldt.toString()).subscribe(resdt => {
-    console.log(resdt);
-  });
+        this.tarimaService.getDetalleTarimaIdClaveLote(idTarima, clave, lote).subscribe(dataDetalleTarima => {
+          console.log(dataDetalleTarima);
+          if (dataDetalleTarima.length > 0) {
+            //si existen, actualizar detalle tarima
+            idDetalleTarima = dataDetalleTarima[0].IdDetalleTarima;
+            SacosFinaldt = ((+dataDetalleTarima[0].Sacos) + (sacosTraspaso));
+            console.log(idTarima);
+            console.log(idDetalleTarima);
+            console.log(SacosFinaldt.toString());
+            this.tarimaService.updateDetalleTarimaIdSacos(idTarima, idDetalleTarima, SacosFinaldt.toString()).subscribe(resdt => {
+              console.log(resdt);
+            });
 
-}else{
-  //si no, agregar detalle tarima
-  console.log(this.detalleTarimaSelected);
-  this.tarimaService.addDetalleTarima(this.detalleTarimaSelected).subscribe(resDT => {
+          } else {
+            //si no, agregar detalle tarima
+            console.log(this.detalleTarimaSelected);
+            this.tarimaService.addDetalleTarima(this.detalleTarimaSelected).subscribe(resDT => {
 
-  });
-}
-  
-  
-});
+            });
+          }
+
+
+        });
       });
     });
 
@@ -374,52 +385,113 @@ if(dataDetalleTarima.length > 0){
 
   }
 
-  traspasoTarimaOrdenCarga(idTarima: number, detalleTarimaOrigen: any, qr: string){
+
+  traspasoTarimaOrdenCarga(idTarima: number, detalleTarimaOrigen: any, qr: string) {
     this.tarimaIdOrigen = idTarima;
     this.tarimaQrOrigen = qr;
     let ClaveP = detalleTarimaOrigen.ClaveProducto;
     this.DetalleTarimaSelect = ClaveP;
 
-this.dropdownRefreshDetalleTarima(qr);
-console.log(detalleTarimaOrigen);
-//Obtener valores que seran enviados como parametro a detalle tarima origen
-this.tarimaService.getDetalleTarimaIdClaveLote(idTarima, ClaveP, detalleTarimaOrigen.Lote).subscribe( data =>{
-  let detalleTarima = new DetalleTarima();
-  detalleTarima = data[0];
-  console.log(detalleTarima);
-  this.onSelectionChangeDetalleTarimaOrigen(detalleTarima, true);
-})
+    this.dropdownRefreshDetalleTarima(qr);
+    console.log(detalleTarimaOrigen);
+    //Obtener valores que seran enviados como parametro a detalle tarima origen
+
+      this.tarimaService.getDetalleTarimaIdClaveLote(idTarima, ClaveP, detalleTarimaOrigen.Lote).subscribe(data => {
+        let detalleTarima = new DetalleTarima();
+        detalleTarima = data[0];
+        console.log(detalleTarima);
+        this.onSelectionChangeDetalleTarimaOrigen(detalleTarima, true);
+      })
+    
+  }
+
+  // parametrosTTOD(){
+
+  //   console.log(this.detalleTarimaSelected);
+  //   this.traspasoTarimaOrdenDescarga(this.tarimaService.idTarimaOrdenDescarga, this.detalleTarimaSelected, this.tarimaService.QrOrigen);
+  // }
+    
+
+  //pasarle primero los parametros
+  traspasoTarimaOrdenDescarga(idTarima: number, detalleTarimaOrigen: any, qr: string) {
+    this.tarimaIdOrigen = idTarima;
+    this.tarimaQrOrigen = qr;
+    
+
+    let ClaveP = detalleTarimaOrigen.ClaveProducto;
+    this.DetalleTarimaSelect = ClaveP;
+
+    this.dropdownRefreshDetalleTarima(qr);
+    console.log(detalleTarimaOrigen);
+    //Obtener valores que seran enviados como parametro a detalle tarima origen
+    console.log(idTarima);
+    console.log(ClaveP);
+    console.log(detalleTarimaOrigen);
+    this.tarimaService.getDetalleTarimaIdClaveLote(idTarima, ClaveP, detalleTarimaOrigen.Lote).subscribe(data => {
+      let detalleTarima = new DetalleTarima();
+      detalleTarima = data[0];
+      console.log(detalleTarima);
+      this.onSelectionChangeDetalleTarimaOrigen(detalleTarima, true);
+    })
   }
 
   onBlurIdOrigen() {
 
-    this.tarimaService.getTarimaQR(this.tarimaQrOrigen).subscribe( dataTarima =>{
-console.log(dataTarima);
-this.listDetalleTarima = [];
-console.log(this.listDetalleTarima);
-//Inicializar en 0 el dropdown de Detalles Tarima. 
-this.filteredOptionsDetalleTarima = new  Observable<any[]>();
-if(dataTarima.length > 0){
-  
-  if(dataTarima[0].Bodega == 'Transito' || dataTarima[0].Bodega != this.bodega){
-    Swal.fire({
-      icon: 'error',
-      title: 'Error Tarima',
-      text: 'La tarima con el codigo ' + this.tarimaQrOrigen + ' no se encuentra en esta bodega.' 
+    this.tarimaService.getTarimaQR(this.tarimaQrOrigen).subscribe(dataTarima => {
+      console.log(dataTarima);
+      this.listDetalleTarima = [];
+      console.log(this.listDetalleTarima);
+      //Inicializar en 0 el dropdown de Detalles Tarima. 
+      this.filteredOptionsDetalleTarima = new Observable<any[]>();
+
+      // en caso de haber problema, al hacer traspaso en OrdenCarga, comentar este if
+      if (this.tarimaService.TraspasoDescarga != true) {
+
+        if (dataTarima.length > 0) {
+          if (dataTarima[0].Bodega == 'Transito' || dataTarima[0].Bodega != this.bodega) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error Tarima',
+              text: 'La tarima con el codigo ' + this.tarimaQrOrigen + ' no se encuentra en esta bodega.'
+            })
+          } else {
+            this.dropdownRefreshDetalleTarima(this.tarimaQrOrigen);
+          }
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Tarima no existente',
+            text: 'La tarima con el codigo ' + this.tarimaQrOrigen + ' no existe.'
+          })
+          // this.dropdownRefreshDetalleTarima('');
+        }
+      } else {
+
+        if (dataTarima.length > 0) {
+          console.log(dataTarima[0].Bodega);
+          console.log(this.tarimaService.bodega);
+          if (dataTarima[0].Bodega == 'Transito' || dataTarima[0].Bodega != this.tarimaService.bodega) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Error Tarima',
+              text: 'La tarima con el codigo ' + this.tarimaQrOrigen + ' no se encuentra en esta bodega.'
+            })
+          } else {
+            this.dropdownRefreshDetalleTarima(this.tarimaQrOrigen);
+          }
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Tarima no existente',
+            text: 'La tarima con el codigo ' + this.tarimaQrOrigen + ' no existe.'
+          })
+          // this.dropdownRefreshDetalleTarima('');
+        }
+
+      }
+
+
     })
-  }else{
-    this.dropdownRefreshDetalleTarima(this.tarimaQrOrigen);
-  }
-  }else{
-    Swal.fire({
-      icon: 'error',
-      title: 'Tarima no existente',
-      text: 'La tarima con el codigo ' + this.tarimaQrOrigen + ' no existe.' 
-    })
-    // this.dropdownRefreshDetalleTarima('');
-  
-  }
-})
 
 
 
@@ -440,21 +512,21 @@ if(dataTarima.length > 0){
 
   dropdownRefreshDetalleTarima(qr: string) {
     this.listDetalleTarima = [];
-    this.tarimaService.getTarimaQR(qr).subscribe( dataQR =>{
-let tarimaId = dataQR[0].IdTarima;
-this.tarimaIdOrigen = tarimaId;
+    this.tarimaService.getTarimaQR(qr).subscribe(dataQR => {
+      let tarimaId = dataQR[0].IdTarima;
+      this.tarimaIdOrigen = tarimaId;
       this.tarimaService.getDetalleTarimaID(tarimaId).subscribe(dataP => {
         for (let i = 0; i < dataP.length; i++) {
           let product = dataP[i];
           this.listDetalleTarima.push(product)
           this.filteredOptionsDetalleTarima = this.myControlDetalleTarima.valueChanges
-          .pipe(
-            startWith(''),
-            map(value => this._filterDetalleTarima(value))
+            .pipe(
+              startWith(''),
+              map(value => this._filterDetalleTarima(value))
             );
-          }
-        });
+        }
       });
+    });
 
   }
 
@@ -475,30 +547,30 @@ this.tarimaIdOrigen = tarimaId;
 
   onSelectionChangeDetalleTarimaOrigen(dt: DetalleTarima, event: any) {
     // if (event.isUserInput) {
-      console.log(dt);
-      this.detalleTarimaSelected = new DetalleTarima();
-      this.detalleTarimaSelected = dt;
-      this.producto = dt.Producto;
-      this.sacosTraspaso = +dt.Sacos;
-      this.cantidadMaximaSacos = +dt.Sacos;
-      this.idDetalleTarimaOrigen = dt.IdDetalleTarima;
+    console.log(dt);
+    this.detalleTarimaSelected = new DetalleTarima();
+    this.detalleTarimaSelected = dt;
+    this.producto = dt.Producto;
+    this.sacosTraspaso = +dt.Sacos;
+    this.cantidadMaximaSacos = +dt.Sacos;
+    this.idDetalleTarimaOrigen = dt.IdDetalleTarima;
     // }
   }
 
   //metodo que se ejecuta cuando cambia la cantidad de sacos
-  onChangeCantidadSacos(cantidad: any){
+  onChangeCantidadSacos(cantidad: any) {
     // console.log(cantidad);
     let elemHTML: any = document.getElementsByName('sacoTraspaso')[0];
     this.validarCantidad(cantidad);
     elemHTML.value = this.sacosTraspaso;
     console.log(this.sacosTraspaso);
-    
+
   }
 
 
   validarCantidad(cantidad: any) {
     // console.log(cantidad + ' CANTIDAD');
-  this.sacosTraspaso = +cantidad;
+    this.sacosTraspaso = +cantidad;
     // console.log(this.cantidadMaximaSacos);
 
     if (this.sacosTraspaso >= this.cantidadMaximaSacos) {
@@ -517,42 +589,80 @@ this.tarimaIdOrigen = tarimaId;
     this.tarimaDValida = false;
     console.log(qrDestino);
     this.tarimaIdDestino = 0;
-    if(qrDestino != ''){
-console.log('TEXTO');
-this.tarimaService.getTarimaQR(qrDestino).subscribe(dataqr =>{
-  console.log(dataqr);
-  if(dataqr.length > 0){
-    console.log('si entro');
-    if(dataqr[0].Bodega == 'Transito' || dataqr[0].Bodega != this.bodega){
-      Swal.fire({
-        icon: 'error',
-        title: 'Error Tarima',
-        text: 'La tarima con el codigo ' + this.tarimaQrDestino + ' no se encuentra en esta bodega.' 
-      })
-    }else{      
-      this.tarimaIdDestino = dataqr[0].IdTarima;
-      console.log(this.tarimaIdDestino);
-      this.tarimaService.getTarimaID(this.tarimaIdDestino).subscribe(data => {
-        console.log(data);
-        this.tarimaDestino = new Tarima();
-        this.tarimaDestino = data[0];
-        console.log(this.tarimaDestino);
-        this.tarimaDValida = true;
+    if (qrDestino != '') {
+      console.log('TEXTO');
+      this.tarimaService.getTarimaQR(qrDestino).subscribe(dataqr => {
+        console.log(dataqr);
+        //if para saber si el traspaso viene desde descarga o si viene desde carga, ya que funciona diferente
+        if (this.tarimaService.TraspasoDescarga != true) {
+
+          if (dataqr.length > 0) {
+            console.log('si entro');
+            if (dataqr[0].Bodega == 'Transito' || dataqr[0].Bodega != this.bodega) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error Tarima',
+                text: 'La tarima con el codigo ' + this.tarimaQrDestino + ' no se encuentra en esta bodega.'
+              })
+            } else {
+              this.tarimaIdDestino = dataqr[0].IdTarima;
+              console.log(this.tarimaIdDestino);
+              this.tarimaService.getTarimaID(this.tarimaIdDestino).subscribe(data => {
+                console.log(data);
+                this.tarimaDestino = new Tarima();
+                this.tarimaDestino = data[0];
+                console.log(this.tarimaDestino);
+                this.tarimaDValida = true;
+              });
+            }
+          } else {
+            console.log('No existe Tarima Destino');
+            Swal.fire({
+              icon: 'error',
+              title: 'Tarima no existente',
+              text: 'La tarima con el codigo ' + this.tarimaQrDestino + ' no existe.'
+            })
+          }
+        } else {
+
+          if (dataqr.length > 0) {
+            console.log(dataqr[0].Bodega);
+            console.log(this.tarimaService.bodega);
+            console.log('si entro');
+            if (dataqr[0].Bodega == 'Transito' || dataqr[0].Bodega != this.tarimaService.bodega) {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error Tarima',
+                text: 'La tarima con el codigo ' + this.tarimaQrDestino + ' no se encuentra en esta bodega.'
+              })
+            } else {
+              this.tarimaIdDestino = dataqr[0].IdTarima;
+              console.log(this.tarimaIdDestino);
+              this.tarimaService.getTarimaID(this.tarimaIdDestino).subscribe(data => {
+                console.log(data);
+                this.tarimaDestino = new Tarima();
+                this.tarimaDestino = data[0];
+                console.log(this.tarimaDestino);
+                this.tarimaDValida = true;
+              });
+            }
+          } else {
+            console.log('No existe Tarima Destino');
+            Swal.fire({
+              icon: 'error',
+              title: 'Tarima no existente',
+              text: 'La tarima con el codigo ' + this.tarimaQrDestino + ' no existe.'
+            })
+          }
+
+        }
+
+
       });
+    } else {
+      console.log('VACIO');
     }
-    }else{
-    console.log('No existe Tarima Destino');
-    Swal.fire({
-      icon: 'error',
-      title: 'Tarima no existente',
-      text: 'La tarima con el codigo ' + this.tarimaQrDestino + ' no existe.' 
-    })
-  }
-});
-    }else{
-console.log('VACIO');
-    }
- 
+
 
   }
 

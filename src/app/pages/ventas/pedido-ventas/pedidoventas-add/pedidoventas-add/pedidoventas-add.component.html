@@ -244,20 +244,72 @@
                         <mat-step [stepControl]="secondFormGroup">
                             <form #DetallePedidoForm="ngForm">
                                 <ng-template matStepLabel>Producto</ng-template>
-                                <label class="input-group-text text-info">Producto :</label> <br>
-                                <mat-form-field>
-                                    <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl2" [(ngModel)]="ProductoSelect" matInput [matAutocomplete]="autoProducto">
-                                    <mat-autocomplete #autoProducto="matAutocomplete">
-                                        <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.IdProducto" (onSelectionChange)="onSelectionChange2(option, $event)">
-                                            {{option.ClaveProducto}} || {{option.Nombre}}
-                                        </mat-option>
-                                    </mat-autocomplete>
-                                </mat-form-field>
+
+                                <div class="row">
+
+                                    <div class="col-6">
+
+                                        <label class="input-group-text text-info">Producto :</label> <br>
+                                        <mat-form-field>
+                                            <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl2" [(ngModel)]="ProductoSelect" matInput [matAutocomplete]="autoProducto">
+                                            <mat-autocomplete #autoProducto="matAutocomplete">
+                                                <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.Nombre" (onSelectionChange)="onSelectionChange2(option, $event)">
+                                                    {{option.Nombre}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+
+                                    </div>
+
+                                    <div class="col-6">
+                                        <label class="input-group-text text-info">Marca :</label> <br>
+                                        <mat-form-field>
+                                            <input type="text" placeholder="Seleccionar Marca" aria-label="Number" [formControl]="myControl3" [(ngModel)]="MarcaSelect" matInput [matAutocomplete]="autoMarcaProducto">
+                                            <mat-autocomplete #autoMarcaProducto="matAutocomplete">
+                                                <mat-option *ngFor="let option of filteredOptions3 | async" [value]="option.NombreMarca" (onSelectionChange)="onSelectionChangeMarca(option, $event)">
+                                                    {{option.NombreMarca}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-6">
+                                        <label class="input-group-text text-info">Origen :</label> <br>
+                                        <mat-form-field>
+                                            <input type="text" placeholder="Seleccionar Origen" aria-label="Number" [formControl]="myControl4" [(ngModel)]="OrigenSelect" matInput [matAutocomplete]="autoOrigenProducto">
+                                            <mat-autocomplete #autoOrigenProducto="matAutocomplete">
+                                                <mat-option *ngFor="let option of filteredOptions4 | async" [value]="option.NombreOrigen" (onSelectionChange)="onSelectionChangeOrigen(option, $event)">
+                                                    {{option.NombreOrigen}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="input-group-text text-info">Presentacion :</label> <br>
+                                        <mat-form-field>
+                                            <input type="text" placeholder="Seleccionar Presentacion" aria-label="Number" [formControl]="myControl5" [(ngModel)]="PresentacionSelect" matInput [matAutocomplete]="autoPresentacionProducto">
+                                            <mat-autocomplete #autoPresentacionProducto="matAutocomplete">
+                                                <mat-option *ngFor="let option of filteredOptions5 | async" [value]="option.Presentacion" (onSelectionChange)="onSelectionChangePresentacion(option, $event)">
+                                                    {{option.Presentacion}}
+                                                </mat-option>
+                                            </mat-autocomplete>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+
+
+
+
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12 col-md-6">
-                                            <label class="input-group-text text-info">Nombre :</label>
-                                            <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formProd.Nombre" readonly>
+                                            <!-- <label class="input-group-text text-info">Nombre :</label>
+                                            <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formProd.Nombre" readonly> -->
 
                                             <br>
                                             <div *ngIf="MonedaBoolean == true; else elseBlockPC">
@@ -292,14 +344,14 @@
 
                                         <div class="col-12 col-md-6">
 
-                                            <mat-form-field class="example-full-width">
+                                            <!--    <mat-form-field class="example-full-width">
                                                 <input type="text" autocomplete="off" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formDataDP.Unidad" (focus)="unidadMedida()">
                                                 <mat-autocomplete #autoUnidad="matAutocomplete">
                                                     <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.ClaveSAT">
                                                         {{option.ClaveSAT}} {{option.Nombre}}
                                                     </mat-option>
                                                 </mat-autocomplete>
-                                            </mat-form-field>
+                                            </mat-form-field> -->
 
                                             <label class="input-group-text text-info"> Estatus:</label>
                                             <input type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formProd.Estatus" readonly>

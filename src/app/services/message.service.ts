@@ -52,6 +52,11 @@ export class MessageService {
   readDir(body){
     return this._http.post<any>(this.URLApiEMail+"/cargarArchivo2",body);
   }
+
+  leche(){
+    return this._http.post<any>(this.URLApiEMail+"/historicoleche",null);
+
+  }
   // sendMessage2(body,files){
   //   console.log(body);
     
