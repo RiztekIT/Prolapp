@@ -232,10 +232,16 @@ import { OrdendescargadetallecuuComponent } from './almacen/ordendescargacuu/ord
 import { OrdendescargatarimacuuComponent } from './almacen/ordendescargacuu/ordendescargadetallecuu/ordendescargatarimacuu/ordendescargatarimacuu.component';
 import { ChecadorComponent } from './direccion/checador/checador.component';
 
-
-
-
-
+//import calendario
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { AngularCalendarComponent } from '../components/angular-calendar/angular-calendar.component';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { CalendarioService } from '../services/calendario/calendario.service';
+import { AddEditCalendarComponent } from '../components/angular-calendar/add-edit-calendar/add-edit-calendar.component';
+import { EventCalendarComponent } from '../components/angular-calendar/event-calendar/event-calendar.component';
+import { ComprasPrincipalComponent } from './compras/compras-principal/compras-principal.component';
 
 
 @NgModule({
@@ -395,7 +401,11 @@ import { ChecadorComponent } from './direccion/checador/checador.component';
         OrdenDescargaEmailComponent,
         OrdendescargadetallecuuComponent,
         OrdendescargatarimacuuComponent,
-        ChecadorComponent
+        ChecadorComponent,
+        AngularCalendarComponent,
+        AddEditCalendarComponent,
+        EventCalendarComponent,
+        ComprasPrincipalComponent,
     
     ],
     exports: [
@@ -439,7 +449,11 @@ import { ChecadorComponent } from './direccion/checador/checador.component';
         NgxDocViewerModule,
         QRCodeModule,
         BrowserAnimationsModule,
-
+        CommonModule,
+        FormsModule,
+        NgbModalModule,
+        FlatpickrModule.forRoot(),
+        CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
     ],
     providers: [
         UsuariosServieService,
@@ -458,7 +472,7 @@ import { ChecadorComponent } from './direccion/checador/checador.component';
         TarimaService,
         OrdenTemporalService,
         NgxImageCompressService,
-        
+        CalendarioService,
         
     ],
     entryComponents: [
@@ -513,8 +527,12 @@ import { ChecadorComponent } from './direccion/checador/checador.component';
         ReporteComponent,
         ReporteDllsComponent,
         ReporteMxnComponent,
-        OrdenDescargaEmailComponent
+        OrdenDescargaEmailComponent,
+        AddEditCalendarComponent,
+        EventCalendarComponent
+        
         
     ]
 })
 export class PagesModule { }
+

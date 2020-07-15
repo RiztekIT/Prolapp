@@ -101,7 +101,7 @@
                                 <mat-form-field>
                                     <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl2" [(ngModel)]="ProductoSelect" matInput [matAutocomplete]="autoProducto">
                                     <mat-autocomplete #autoProducto="matAutocomplete">
-                                        <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.IdProducto" (onSelectionChange)="onSelectionChange2(option, $event)">
+                                        <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChange2(option, $event)">
                                             {{option.ClaveProducto}} || {{option.Nombre}}
                                         </mat-option>
                                     </mat-autocomplete>
@@ -148,8 +148,19 @@
 
 
                                         </div>
-                                        <button class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompra()" [disabled]="DetallePedidoForm.invalid || !detalleCompra.Unidad">Agregar Producto</button>
-                                        <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
+
+
+
+                                        <div *ngIf="addproducto == true; else elseBlock2">
+                                            <button class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompra()" [disabled]="DetallePedidoForm.invalid || !detalleCompra.Unidad">Agregar Producto</button>
+                                            <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
+                                        </div>
+                                        <ng-template #elseBlock2>
+                                            <button class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompra()" [disabled]="DetallePedidoForm.invalid || !detalleCompra.Unidad">Editar Producto</button>
+                                            <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="Cancelar(DetallePedidoForm)">Cancelar</button>
+                                        </ng-template>
+
+
                                         <div class="container row">
                                             <div class="col-md-7 col-lg-8">
                                             </div>
@@ -253,7 +264,7 @@
                                                     <div class="container">
                                                         <div class="row">
 
-                                                            <div *ngIf="compra.Moneda == 'MXN'; else elseBlock">
+                                                            <div *ngIf="MonedaBoolean == true; else elseBlock">
 
                                                                 <label class="input-group-text text-info col-12 col-md-6 col-lg-6">SubTotal</label>
                                                                 <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="SubTotal" [ngModel]="(compra.Subtotal | currency)">
@@ -299,7 +310,7 @@
                                     <div class="col-12 col-md-4">
                                         <br>
                                         <!-- <button matStepperNext class="btn btn-info btn-md" (click)="crearPedido()">Generar Pedido</button> -->
-                                        <button matStepperNext class="btn btn-info btn-md">Generar Pedido</button>
+                                        <button matStepperNext class="btn btn-info btn-md" (click)="GenerarCompra()">Generar Compra</button>
                                     </div>
                                 </div>
                             </form>

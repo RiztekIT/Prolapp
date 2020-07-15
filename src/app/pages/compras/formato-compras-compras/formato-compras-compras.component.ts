@@ -47,6 +47,12 @@ export class FormatoComprasComprasComponent implements OnInit {
     this.unidadMedida();
     this.iniciarCantidades();
 
+    if(this.compra.Moneda == 'MXN'){
+this.MonedaBoolean = true;
+    }else{
+      this.MonedaBoolean = false;
+    }
+ this.addproducto = true;
     this.descuento = +this.compra.Descuento;
     // this.um = true;
 
@@ -99,6 +105,9 @@ export class FormatoComprasComprasComponent implements OnInit {
   descuento: number;
   subtotal: number;
   total: number
+
+  //Variable para saber si se agrega o edita un producto (true add/ false edit)
+  addproducto: boolean
   
 
     //Tabla de Productos
@@ -135,7 +144,7 @@ export class FormatoComprasComprasComponent implements OnInit {
 
   Regresar() {
     // localStorage.removeItem('IdCompra')
-    this.router.navigate(['/dashboardCompras']);
+    this.router.navigate(['/compras-principal']);
   }
 
   //DropDown de Proveedores
@@ -344,7 +353,7 @@ export class FormatoComprasComprasComponent implements OnInit {
     this.CompraService.getSumatoriaIdCompra(this.IdCompra).subscribe(dataSumatoria=>{
       console.warn(dataSumatoria);
       if(dataSumatoria.length > 0){
-          if(this.compra.Moneda == 'MXN'){
+          if(this.MonedaBoolean == true){
             this.subtotal = dataSumatoria[0].CostoTotal
             this.total = (this.subtotal - +this.compra.Descuento)
 
@@ -354,7 +363,7 @@ export class FormatoComprasComprasComponent implements OnInit {
             this.compra.Subtotal = this.subtotal.toString();
             this.compra.SubtotalDlls = (this.subtotal / +this.compra.TipoCambio).toString();
           }else{
-            this.subtotal = dataSumatoria[0].CostoTotal
+            this.subtotal = dataSumatoria[0].CostoTotalDlls
             this.total = (this.subtotal - +this.compra.Descuento)
 
             this.compra.TotalDlls = this.total.toString();
@@ -399,7 +408,7 @@ export class FormatoComprasComprasComponent implements OnInit {
   }
 
   calcularImporte(){
-    this.importeProducto = this.ProductoPrecio * this.Cantidad;
+    this.importeProducto = +(this.ProductoPrecio * this.Cantidad).toFixed(6);
   }
 
   onChangePrecio(precio: any){
@@ -492,9 +501,23 @@ Swal.fire({
   }
 
   onEditProducto(detalleCompra: DetalleCompra){
+    //Iniciar en 0 las variables de totales, stock y
+    this.iniciarCantidades();
+    this.addproducto = false;
     console.log(detalleCompra);
-  //Iniciar en 0 las variables de totales, stock y
-  this.iniciarCantidades();
+    this.detalleCompra = detalleCompra;
+    this.ProductoSelect = detalleCompra.ClaveProducto;
+
+    this.Cantidad = +this.detalleCompra.Cantidad;
+    this.onChangeCantidadP(this.Cantidad);
+    if(this.MonedaBoolean == true){
+      this.ProductoPrecio = +this.detalleCompra.PrecioUnitario
+      this.onChangePrecio(this.ProductoPrecio);
+      
+    }else{
+      this.ProductoPrecio = +this.detalleCompra.PrecioUnitarioDlls
+      this.onChangePrecio(this.ProductoPrecio);
+    }
 
   // this.ActualizarDetallePedidoBool = true;
   // this.service.formDataDP = dp;
@@ -548,6 +571,61 @@ Swal.fire({
   //   this.onChangeCantidadP(this.Cantidad);
   // })
   }
+
+  onEditDetalleCompra(){
+
+    this.detalleCompra.IdCompra = this.IdCompra;
+    this.detalleCompra.Cantidad = this.Cantidad.toString();
+
+    if(!this.detalleCompra.Observaciones){
+      this.detalleCompra.Observaciones = "";
+    }
+
+    if(this.compra.Moneda == 'MXN'){
+
+this.detalleCompra.CostoTotal = this.importeProducto.toString();
+this.detalleCompra.CostoTotalDlls = ((this.importeProducto)/(+this.compra.TipoCambio)).toFixed(6).toString();
+
+this.detalleCompra.IVADlls = (+this.detalleCompra.IVA / +this.compra.TipoCambio).toFixed(6).toString();
+
+this.detalleCompra.PrecioUnitario = (this.ProductoPrecio).toString();
+this.detalleCompra.PrecioUnitarioDlls = (this.ProductoPrecio / +this.compra.TipoCambio).toFixed(6).toString();
+
+    }else{
+      this.detalleCompra.CostoTotalDlls = this.importeProducto.toString();
+      this.detalleCompra.CostoTotal = ((this.importeProducto)*(+this.compra.TipoCambio)).toFixed(6).toString();
+      
+      this.detalleCompra.IVADlls = (+this.detalleCompra.IVA).toString();
+      this.detalleCompra.IVA = (+this.detalleCompra.IVA * +this.compra.TipoCambio).toFixed(6).toString();
+      
+      this.detalleCompra.PrecioUnitarioDlls = (this.ProductoPrecio).toString();
+      this.detalleCompra.PrecioUnitario = (this.ProductoPrecio * +this.compra.TipoCambio).toFixed(6).toString();
+    }
+    console.log(this.detalleCompra);
+
+this.CompraService.updateDetalleCompra(this.detalleCompra).subscribe(res=>{
+  console.log(res);
+  Swal.fire({
+    title: 'Actualizado',
+    icon: 'success',
+    timer: 1000,
+    showCancelButton: false,
+    showConfirmButton: false
+  });
+  this.refreshDetallesCompra();
+  this.iniciarCantidades();
+  this.addproducto = true;
+})
+  }
+
+  Cancelar(form: NgForm){
+    // form.resetForm();
+    this.iniciarCantidades();
+    this.addproducto = true;
+    //Hay un problema que borra los datos de la tabla
+    //buscar otra manera de no volver a actualizar la tabla
+    this.refreshDetallesCompra();
+  }
   
 onDeleteDetalleProducto(detalleCompra: DetalleCompra){
   Swal.fire({
@@ -579,6 +657,32 @@ onDeleteDetalleProducto(detalleCompra: DetalleCompra){
 
     }
   })
+
+}
+
+GenerarCompra(){
+  console.log(this.compra);
+  //obtener suma de los detalles de la compra MXN y DLLS
+  //actualizar estatus de compra
+  this.compra.Estatus = 'Transito';
+  this.CompraService.updateCompra(this.compra).subscribe(res=>{
+    console.log(res);
+    this.generarOrdenDescarga();
+    Swal.fire({
+      title: 'Compra Generada',
+      icon: 'success',
+      timer: 1000,
+      showCancelButton: false,
+      showConfirmButton: false
+    });
+    this.router.navigate(['/compras-principal']);
+  })
+
+}
+
+generarOrdenDescarga(){
+console.log(this.compra);
+
 
 }
 
