@@ -22,7 +22,7 @@
         "@angular/platform-browser-dynamic": "^8.2.14",
         "@angular/router": "^8.2.14",
         "@auth0/angular-jwt": "^3.0.1",
-        "@ng-bootstrap/ng-bootstrap": "^5.1.4",
+        "@ng-bootstrap/ng-bootstrap": "^5.3.1",
         "@syncfusion/ej2-angular-dropdowns": "^17.4.42",
         "@syncfusion/ej2-dropdowns": "^17.4.42",
         "@zxing/library": "^0.16.0",
