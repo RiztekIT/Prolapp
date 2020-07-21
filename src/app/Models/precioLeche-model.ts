@@ -1,6 +1,6 @@
 export class PrecioLeche {
     IdPrecio: number;
-    LechePrecio: string;
+    PrecioLeche: string;
     VarianteDiaAnterior: string;
     FechaPrecio: string;
 }

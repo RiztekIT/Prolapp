@@ -1,0 +1,89 @@
+<div class="d-flex justify-content-between">
+    <h4>{{accionEvento}} Evento</h4>
+
+    <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
+        <mat-icon>close</mat-icon>
+    </button>
+
+
+</div>
+<hr>
+
+<div style="overflow: auto; height: 450px;">
+
+
+    <form #form="ngForm" autocomplete="off">
+
+        <div class="form-material">
+            <div class="container">
+                <div class="row">
+
+
+                    <div class="col-lg-6">
+
+
+                        <label class="input-group-text text-info ">Titulo</label>
+                        <input required type="text" class="form-control" name="Title" #Title="ngModel" [(ngModel)]="calendarService.formDataDetalleCalendario.Title">
+
+                        <div class="text-left text-danger" *ngIf="Title.invalid && Title.touched">
+                            Favor de Ingresar titulo.
+                        </div>
+                        <label class="input-group-text text-info ">Documento</label>
+                        <input required type="text" class="form-control" name="Documento" #Documento="ngModel" [(ngModel)]="calendarService.formDataDetalleCalendario.Documento">
+
+                        <div class="text-left text-danger" *ngIf="Documento.invalid && Documento.touched">
+                            Favor de Ingresar Documento.
+                        </div>
+                        <label class="input-group-text text-info ">Descripcion</label>
+                        <input required type="text" class="form-control" name="Descripcion" #Descripcion="ngModel" [(ngModel)]="calendarService.formDataDetalleCalendario.Descripcion">
+
+                        <div class="text-left text-danger" *ngIf="Descripcion.invalid && Descripcion.touched">
+                            Favor de Ingresar Descripcion.
+                        </div>
+                        <label class="input-group-text text-info ">Color</label>
+                        <input required type="text" class="form-control" name="Color" #Color="ngModel" [(ngModel)]="calendarService.formDataDetalleCalendario.Color">
+
+                        <div class="text-left text-danger" *ngIf="Color.invalid && Color.touched">
+                            Favor de Ingresar Color.
+                        </div>
+
+
+
+                    </div>
+                    <div class="col-lg-6">
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Folio</label>
+                        <input readonly type="text" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="calendarService.formDataDetalleCalendario.Folio">
+                        <div class="text-left text-danger" *ngIf="Folio.invalid && Folio.touched">
+                            Favor de Ingresar Folio.
+                        </div>
+
+                        <label class="input-group-text text-info ">Inicio Fecha</label>
+                        <input required type="text" mwlFlatpickr dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" [altInput]="true" class="form-control" name="Start" #Start="ngModel" [(ngModel)]="calendarService.formDataDetalleCalendario.Start">
+
+                        <div class="text-left text-danger" *ngIf="Start.invalid && Start.touched">
+                            Favor de Ingresar Inicio fecha.
+                        </div>
+                        <label class="input-group-text text-info ">Fin Fecha</label>
+                        <input required type="text" mwlFlatpickr dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" [altInput]="true" class="form-control" name="Endd" #Endd="ngModel" [(ngModel)]="calendarService.formDataDetalleCalendario.Endd">
+
+                        <div class="text-left text-danger" *ngIf="Endd.invalid && Endd.touched">
+                            Favor de Ingresar Fin fecha.
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <br>
+        <button *ngIf="accionEvento == 'Agregar'" class="btn btn-success" mat-raised-button color="success" type="submit" (click)="agregar(form)" [disabled]="form.invalid">Agregar Evento</button>
+        <button *ngIf="accionEvento == 'Editar'" class="btn btn-success" mat-raised-button color="success" type="submit" (click)="actualizar(form)" [disabled]="form.invalid">Actualizar Evento</button>
+
+    </form>
+
+</div>

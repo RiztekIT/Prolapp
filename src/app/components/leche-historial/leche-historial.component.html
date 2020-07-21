@@ -2,35 +2,126 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h2>Historial Leche</h2>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-8">
+                            <h2>Historial Leche</h2>
+
+                        </div>
+                        <div class="col-4">
+
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <input readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="FechaHL" #FechaCaducidad="ngModel" [(ngModel)]="this.fechaCaducidadhl" (dateChange)="changeMat($event)">
+                            <mat-datepicker #picker1></mat-datepicker>
+
+                        </div>
+
+                        <div class="col-2">
+                            <button class="btn btn-danger" (click)="btnActualizarHL()" [style.display]="isVisiblebtnHL ? 'block' : 'none'">Actualizar</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="bg-theme stats-bar">
                     <div class="row">
-                        <div class="col-lg-3 col-md-4">
-                            <div class="p-20 active">
+                        <div class="col-md-4 col-12">
+                            <div class="p-20 " [ngSwitch]=this.diaPrecioD>
                                 <h6 class="text-white">Dia</h6>
-                                <h3 class="text-white m-b-0">$20.00</h3>
+                                <h3 class="text-white m-b-0" *ngSwitchCase="'Monday'">Lunes</h3>
+                                <h3 class="text-white m-b-0" *ngSwitchCase="'Tuesday'">Martes</h3>
+                                <h3 class="text-white m-b-0" *ngSwitchCase="'Wednesday'">Miercoles</h3>
+                                <h3 class="text-white m-b-0" *ngSwitchCase="'Thursday'">Jueves</h3>
+                                <h3 class="text-white m-b-0" *ngSwitchCase="'Friday'">Viernes</h3>
+                                <!-- <h3 class="text-white m-b-0" *ngSwitchCase="'SATURDAY'">SABADO</h3>
+                                <h3 class="text-white m-b-0" *ngSwitchCase="'SUNDAY'">DOMINGO</h3> -->
+                                <h3 class="text-white m-b-0">{{ this.diaPrecio | date: 'yyyy/MM/dd'}}</h3>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-4">
+                        <div class="col-md-4 col-12 active">
+                            <div class="p-20 ">
+                                <h6 class="text-white">Precio DLLS</h6>
+                                <h3 class="text-white m-b-0">{{this.precioLeche | currency : 'USD' : 'symbol' : '1.4-5'}}</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-12">
                             <div class="p-20">
-                                <h6 class="text-white">Precio</h6>
-                                <h3 class="text-white m-b-0">$19.59</h3>
+                                <h6 class="text-white">Variante Dia Anterior</h6>
+                                <h3 class="text-white m-b-0">{{this.varianteAyer | currency : 'USD' : 'symbol' : '1.4-6'}}</h3>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-4">
+                        <!-- <div class="col-md-3 col-12">
                             <div class="p-20">
                                 <h6 class="text-white">Promedio Semana</h6>
                                 <h3 class="text-white m-b-0">$18.96</h3>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
 
             </div>
+
+            <button class="btn btn-primary" (click)="displayTableHL()">Tabla Historicos</button>
+            <div class="card" [style.display]="isVisible ? 'block' : 'none'">
+                <div class="card-body">
+                    <h2 style="text-align: center;">Historico Leche</h2>
+                    <div fxLayoutAlign="row">
+                        <mat-card style="text-align: right;" class="mat-elevation-z0">
+                            <mat-form-field>
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                            </mat-form-field>
+                        </mat-card>
+                    </div>
+
+                    <div style="overflow:auto;">
+
+                        <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
+                            <ng-container matColumnDef="FechaPrecio" sticky>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>FechaPrecio</th>
+                                <td class="FechaPrecio" mat-cell *matCellDef="let element">{{element.FechaPrecio | date: 'yyyy/MM/dd'}}
+                                    <td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="PrecioLeche">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>PrecioLeche </th>
+                                <td mat-cell *matCellDef="let element">{{element.PrecioLeche | currency : 'USD' : 'symbol' : '1.4-5'}}
+                                    <td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="VarianteDiaAnterior">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>VarianteDiaAnterior</th>
+                                <td mat-cell *matCellDef="let element">{{element.VarianteDiaAnterior}}
+                                    <td>
+                            </ng-container>
+
+                        </table>
+                        <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                        </mat-paginator>
+                    </div>
+                </div>
+                <!-- <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Pedido</button> -->
+            </div>
         </div>
     </div>
 </div>
 
-<div>
-</div>
+
+<!-- <div class="col-lg-3 col-md-4">
+                            <div class="p-20 active" [ngSwitch]=this.myDate>
+                                <h6 class="text-white">Dia</h6>
+                                <h3 class="text-white m-b-0" *ngSwitchCase="'MONDAY'">LUNES</h3>
+                                <h3 class="text-white m-b-0" *ngSwitchCase="'TUESDAY'">MARTES</h3>
+                                <h3 class="text-white m-b-0" *ngSwitchCase="'Wednesday'">MIERCOLES</h3>
+                                <h3 class="text-white m-b-0" *ngSwitchCase="'THURSDAY'">JUEVES</h3>
+                                <h3 class="text-white m-b-0" *ngSwitchCase="'FRIDAY'">VIERNES</h3>
+                                <h3 class="text-white m-b-0" *ngSwitchCase="'SATURDAY'">SABADO</h3>
+                                <h3 class="text-white m-b-0" *ngSwitchCase="'SUNDAY'">DOMINGO</h3>
+                                <h3 class="text-white m-b-0">{{this.myDate | date: 'yyyy/MM/dd'}}</h3>
+                            </div>
+                        </div> -->

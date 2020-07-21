@@ -14,8 +14,9 @@
 
                 <hr>
                 <div class="row">
-                    <div class="col-12 col-md-5">
-                        <!-- <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}} -->
+
+                    <!-- <div class="col-12 col-md-5">
+                        <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}}
                         <div class="input-group">
 
                             <span class="input-group-addon" style="background-color: white;"><i class="btn btn-danger" type="button"
@@ -23,6 +24,20 @@
                   <mat-icon>qr_code</mat-icon>
                 </i></span>
                             <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" (blur)="simularQR(qrleido)">
+                        </div>
+                    </div> -->
+                    <div class="col-12 col-md-5">
+                        <!-- <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}} -->
+                        <div class="input-group">
+
+                            <span [style.display]="isVisibleQR ? 'block' : 'none'" class="input-group-addon" style="background-color: white;"><i class="btn btn-danger" type="button" (click)="escanear()">
+                      <mat-icon>qr_code</mat-icon>
+                    </i></span>
+                            <!-- <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" (blur)="simularQR(qrleido)" (focus)="ActBtn()"> -->
+                            <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" [(ngModel)]="qrleido" (blur)="CleanFieldQR()" (focus)="ActBtn()">
+                            <span [style.display]="isVisible ? 'block' : 'none'" class="input-group-addon" style="background-color: white;"><i class="btn btn-success" type="button" (click)="simularQR(qrleido)">
+                      <mat-icon>qr_code</mat-icon>
+                    </i></span>
                         </div>
                     </div>
                     <div class="col-2">

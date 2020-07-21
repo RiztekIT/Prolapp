@@ -1,0 +1,63 @@
+<div class="d-flex justify-content-between">
+    <h4>Informacion del Evento</h4>
+
+    <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
+        <mat-icon>close</mat-icon>
+    </button>
+
+
+</div>
+<hr>
+
+<div style="overflow: auto; height: 450px;">
+
+
+    <form #form="ngForm" autocomplete="off">
+
+        <div class="form-material">
+            <div class="container">
+                <div class="row">
+
+
+                    <div class="col-lg-6">
+
+
+                        <label class="input-group-text text-info ">Folio</label>
+                        <input readonly type="text" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="calendarService.formDataCompras.Folio">
+
+                        <label class="input-group-text text-info ">Proveedor</label>
+                        <input readonly type="text" class="form-control" name="Proveedor" #Proveedor="ngModel" [(ngModel)]="calendarService.formDataCompras.Proveedor">
+
+                        <label class="input-group-text text-info ">Subtotal</label>
+                        <input readonly type="text" class="form-control" name="Subtotal" #Subtotal="ngModel" [(ngModel)]="calendarService.formDataCompras.Subtotal">
+
+                        <label class="input-group-text text-info ">Total</label>
+                        <input readonly type="text" class="form-control" name="Total" #Total="ngModel" [(ngModel)]="calendarService.formDataCompras.Total">
+
+
+                    </div>
+                    <div class="col-lg-6">
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info ">Estatus</label>
+                        <input readonly type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="calendarService.formDataCompras.Estatus">
+
+                        <label class="input-group-text text-info ">Peso Total</label>
+                        <input readonly type="text" class="form-control" name="PesoTotal" #PesoTotal="ngModel" [(ngModel)]="calendarService.formDataCompras.PesoTotal">
+
+                        <label class="input-group-text text-info ">Observaciones</label>
+                        <input readonly type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="calendarService.formDataCompras.Observaciones">
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <br>
+        <button class="btn btn-success" mat-raised-button color="success" type="submit" (click)="accederEvento()" [disabled]="form.invalid">Acceder a Evento</button>
+        <!-- <button *ngIf="accionEvento == 'Editar'" class="btn btn-success" mat-raised-button color="success" type="submit" (click)="actualizar(form)" [disabled]="form.invalid">Actualizar Evento</button> -->
+
+    </form>
+
+</div>

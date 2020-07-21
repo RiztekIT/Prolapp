@@ -42,3 +42,9 @@ npm i --save exceljs@1.12.0
 
 ## Excel 2
 npm install xlsx --save
+
+## Angular Calendar
+npm install --save angular-calendar date-fns
+npm i @ng-bootstrap/ng-bootstrap  
+npm i angularx-flatpickr   
+npm i flatpickr  

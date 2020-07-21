@@ -77,6 +77,12 @@ formDataTarimaDT = new DetalleTarima();
   GetODOT(id: number): Observable<any[]> {
     return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetODOT/' + id);
   }
+  GetODOTQR(id: number): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetODOTQR/' + id);
+  }
+  GetODOTTB(id: number, bodega:string): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetODOTTB/' + id+'/'+bodega);
+  }
 
 
   private _listeners = new Subject<any>(); 
