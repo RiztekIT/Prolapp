@@ -34,6 +34,7 @@ import { AddClienteComponent } from 'src/app/pages/administracion/catalogos/clie
 import { AcusecancelacionComponent } from 'src/app/components/acusecancelacion/acusecancelacion.component';
 import xml2js from 'xml2js';
 import { processors } from 'xml2js'
+import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 
 /* Headers para el envio de la factura */
 const httpOptions = {
@@ -121,6 +122,8 @@ export class FacturacioncxcAddComponent implements OnInit {
   fileUrl;
   filepdf;
   fechaVenc = new Date();
+  //empresa;
+  listEmpresa;
   a = document.createElement('a');
   public loading = false;
   public loading2 = false;
@@ -128,7 +131,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   constructor(
     public service: FacturaService, private snackBar: MatSnackBar, private dialog: MatDialog,
     private router: Router, public enviarfact: EnviarfacturaService,
-    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService, private tipoCambio: TipoCambioService, public serviceNota: NotaCreditoService) {
+    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService, private tipoCambio: TipoCambioService, public serviceNota: NotaCreditoService, public serviceEmpresa: EmpresaService) {
     this.service.Moneda = 'MXN';
     console.log('Constr ' + this.service.Moneda);
     this.service.formData.Id = +localStorage.getItem('FacturaID')
@@ -182,6 +185,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.IniciarSaldo();
     this.refreshNotaList();
     this.refreshPagoCFDIList();
+    this.listaempresas();
 
     console.log(this.service.SaldoFacturaMXN +' || '+ this.service.SaldoFacturaDLLS);
   }
@@ -230,6 +234,21 @@ export class FacturacioncxcAddComponent implements OnInit {
     // console.log(this.TipoCambioFactura);
 
   }
+
+  listaempresas(){
+    this.serviceEmpresa.getEmpresaList().subscribe(data =>{
+      console.log(data);
+      this.listEmpresa = data;
+      console.clear();
+      console.log(this.enviarfact.empresa);
+      this.enviarfact.empresa = data[0];
+      // this.enviarfact.rfc = data[0].RFC;
+    })
+  }
+
+/*   rfc(){
+    this.enviarfact.saberRFC();
+  } */
 
 
   // INICIO NOTA DE PAGO----------------------------------------------------------------------->

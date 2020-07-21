@@ -3,6 +3,27 @@
         <div class="card">
             <div class="card-body">
 
+                <div>
+                    <label class="input-group-text text-info">Empresa</label>
+                    <select class="form-control" name="Empresa" #Empresa="ngModel" [(ngModel)]="enviarfact.empresa" required>
+                        <option [ngValue]="null" selected disabled>Seleccionar Empresa</option>
+                        <option *ngFor="let e of listEmpresa" [ngValue]="e"> {{e.RazonSocial}} </option>
+                      </select>
+                </div>
+                <!--    <div>
+                    <button (click)='rfc()'>RFC</button>
+                </div> -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
 
                 <div class="d-flex justify-content-between">
                     <h2>Generar Factura</h2>
@@ -15,6 +36,7 @@
                             <span *ngSwitchCase="'Pagada'" class="label label-light-inverse">PAGADA</span>
                         </p>
                     </div>
+
                     <div *ngIf="Estatus == 'Timbrada' && (EstatusNota == 'Timbrada' || EstatusNota == 'NoHay') ; else NoseArma">
                         <button class="mt-2" mat-raised-button (click)="GenerarNota()" color="primary">Generar Nota Credito</button>
                     </div>
@@ -685,7 +707,7 @@
                                 <br>
                                 <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml2(service.formData.UUID,service.formData.Folio)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
                                     PDF</button>
-                                    <br>
+                                <br>
                                 <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='soloPDF(service.formData.UUID,service.formData.Folio)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Descargar
                                     PDF</button>
                                 <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button> -->
