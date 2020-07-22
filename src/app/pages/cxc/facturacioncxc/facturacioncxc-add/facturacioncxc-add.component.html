@@ -5,7 +5,13 @@
 
 
                 <div class="d-flex justify-content-between">
-                    <h2>Generar Factura</h2>
+                    <div *ngIf="clienteLogin == 'true'; else elseBlockPU">
+                        <h2>Detalles Factura</h2>
+                    </div>
+                    <ng-template #elseBlockPU>
+                        <h2>Generar Factura</h2>
+
+                    </ng-template>
                     <div>
                         Estatus:
                         <p [ngSwitch]=Estatus>
@@ -15,7 +21,7 @@
                             <span *ngSwitchCase="'Pagada'" class="label label-light-inverse">PAGADA</span>
                         </p>
                     </div>
-                    <div *ngIf="Estatus == 'Timbrada' && (EstatusNota == 'Timbrada' || EstatusNota == 'NoHay') ; else NoseArma">
+                    <div [style.display]="clienteLogin ? 'none' : 'block' " *ngIf="Estatus == 'Timbrada' && (EstatusNota == 'Timbrada' || EstatusNota == 'NoHay') ; else NoseArma">
                         <button class="mt-2" mat-raised-button (click)="GenerarNota()" color="primary">Generar Nota Credito</button>
                     </div>
                     <ng-template #NoseArma>
@@ -288,7 +294,7 @@
                                 </h3>
                             </div>
                             <div class="col-4"></div>
-                            <div class="col-4">
+                            <div [style.display]="clienteLogin ? 'none' : 'block'" class="col-4">
                                 <button color="primary" class="btn btn-lg" mat-raised-button (click)="onAddProducto()"><i
                                         class="mdi mdi-plus btn-lg"></i>Agregar Producto</button>
                             </div>
@@ -645,7 +651,7 @@
                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml2(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
                       PDF</button>
                             <br>
-                            <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='cancelar(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
+                            <button [style.display]="clienteLogin ? 'none' : 'block'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='cancelar(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
                         class="mdi mdi-candle btn-lg"></i>Cancelar</button>
                             <br>
                             <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button>
@@ -655,10 +661,10 @@
                             <button *ngIf="this.Estatus=='Cancelada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='acuse(service.formData)' [disabled]="form.invalid"><i
                         class="mdi mdi-download btn-lg"></i>Descargar Acuse</button>
 
-                            <button *ngIf="this.Estatus=='Timbrada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='saldar(service.formData)' [disabled]="form.invalid"><i
+                            <button [style.display]="clienteLogin ? 'none' : 'block'" *ngIf="this.Estatus=='Timbrada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='saldar(service.formData)' [disabled]="form.invalid"><i
                         class="mdi mdi-currency-usd btn-lg"></i>Saldar</button>
 
-                            <button *ngIf="this.Estatus=='Pagada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='nosaldar(service.formData)' [disabled]="form.invalid"><i
+                            <button [style.display]="clienteLogin ? 'none' : 'block'" *ngIf="this.Estatus=='Pagada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='nosaldar(service.formData)' [disabled]="form.invalid"><i
                         class="mdi mdi-currency-usd btn-lg"></i>No Saldar</button>
 
 
@@ -685,7 +691,7 @@
                                 <br>
                                 <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml2(service.formData.UUID,service.formData.Folio)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
                                     PDF</button>
-                                    <br>
+                                <br>
                                 <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='soloPDF(service.formData.UUID,service.formData.Folio)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Descargar
                                     PDF</button>
                                 <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button> -->

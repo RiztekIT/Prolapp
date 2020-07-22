@@ -144,7 +144,7 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-12 col-md-6">
-                                            <div *ngIf="ClienteSeleccionado == true">
+                                            <div *ngIf="ClienteSeleccionado == true" [style.display]="clienteLogin ? 'none' : 'block'">
                                                 <label class="input-group-text text-info">Otra Direccion:</label>
                                                 <mat-checkbox #checkboxDireccion [(checked)]="isDireccion" (change)='changeDireccion(checkboxDireccion.checked)'></mat-checkbox>
                                             </div>
@@ -397,10 +397,10 @@
                                             </div>
                                         </div>
 
-                                        <div *ngIf="Cantidad > 0 && ActualizarDetallePedidoBool == false">
+                                        <div [style.display]="clienteLogin ? 'none' : 'block'" *ngIf="Cantidad > 0 && ActualizarDetallePedidoBool == false">
                                             <button class="btn btn-dark" (click)="onAddProducto(DetallePedidoForm)">Agregar Producto</button>
                                         </div>
-                                        <div *ngIf="ActualizarDetallePedidoBool != false">
+                                        <div [style.display]="clienteLogin ? 'none' : 'block'" *ngIf="ActualizarDetallePedidoBool != false">
                                             <button class="btn btn-dark" (click)="OnEditDetallePedidodp(DetallePedidoForm)">Actualizar Producto</button>
                                             <button class="btn btn-dark" (click)="Cancelar(DetallePedidoForm)">Cancelar</button>
 
@@ -450,16 +450,16 @@
                                                         <ng-container matColumnDef="Options">
                                                             <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
                                                             <td mat-cell *matCellDef="let row">
-                                                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                                                <button [style.display]="clienteLogin ? 'none' : 'block'" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                                                 <mat-icon>keyboard_arrow_down</mat-icon>
                                               </button>
                                                                 <mat-menu #menu="matMenu">
                                                                     <!--  -->
-                                                                    <button mat-icon-button class="btn btn-dark" (click)="OnEditProducto(row)">
+                                                                    <button [style.display]="clienteLogin ? 'none' : 'block'" mat-icon-button class="btn btn-dark" (click)="OnEditProducto(row)">
                                                   <mat-icon>edit</mat-icon>
                                                 </button>
                                                                     <!--  -->
-                                                                    <button mat-icon-button class="btn btn-danger" (click)="onDeleteDetalleProducto(row)">
+                                                                    <button [style.display]="clienteLogin ? 'none' : 'block'" mat-icon-button class="btn btn-danger" (click)="onDeleteDetalleProducto(row)">
                                                   <mat-icon>delete_outline</mat-icon>
                                                 </button>
                                                                 </mat-menu>
@@ -527,7 +527,7 @@
                                     <div class="col-4"></div>
                                     <div class="col-12 col-md-4">
                                         <br>
-                                        <button matStepperNext class="btn btn-info btn-md" (click)="crearPedido()">Generar Pedido</button>
+                                        <button [style.display]="clienteLogin ? 'none' : 'block'" matStepperNext class="btn btn-info btn-md" (click)="crearPedido()">Generar Pedido</button>
                                     </div>
 
                                 </div>

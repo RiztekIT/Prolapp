@@ -82,6 +82,11 @@ import { ProspectoVentasComponent } from './ventas/prospecto-ventas/prospecto-ve
 import { OrdendescargatarimaComponent } from './almacen/ordendescarga/ordendescargadetalle/ordendescargatarima/ordendescargatarima.component';
 import { OrdendescargatarimacuuComponent } from './almacen/ordendescargacuu/ordendescargadetallecuu/ordendescargatarimacuu/ordendescargatarimacuu.component';
 import { OrdenDescargaEvidenciasComponent } from './almacen/ordendescarga/ordendescargadetalle/orden-descarga-evidencias/orden-descarga-evidencias.component';
+import { ClienteComponent } from './cliente/cliente.component';
+import { FacturacionclienteComponent } from './cliente/facturacion/facturacioncliente/facturacioncliente.component';
+import { OrdendecompraclienteComponent } from './cliente/ordendecompra/ordendecompracliente/ordendecompracliente.component';
+import { ComplementodepagoclienteComponent } from './cliente/complementodepago/complementodepagocliente/complementodepagocliente.component';
+import { LoginClienteComponent } from '../login-cliente/login-cliente.component';
 
 
 
@@ -176,6 +181,11 @@ const pagesRoutes: Routes = [
                 { path: 'ordenDescargaTarima', component: OrdendescargatarimaComponent },
                 { path: 'ordenDescargaTarimacuu', component: OrdendescargatarimacuuComponent },
                 { path: 'ordenDescargaEvidencia', component: OrdenDescargaEvidenciasComponent },
+                { path: 'cliente', component: ClienteComponent },
+                { path: 'facturacion', component: FacturacionclienteComponent },
+                { path: 'ordendecompra', component: OrdendecompraclienteComponent },
+                { path: 'complementodepago', component: ComplementodepagoclienteComponent },
+                // { path: 'logincliente', component: LoginClienteComponent },
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },

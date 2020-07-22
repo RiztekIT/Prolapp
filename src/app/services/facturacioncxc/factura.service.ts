@@ -50,6 +50,7 @@ export class FacturaService {
   getFacturasListCLiente(): Observable <any[]> {
     return this.http.get<[]>(this.APIUrl + '/Factura/FacturaCliente');
   }
+
   //Obtener Lista de Detalles Factura
   getDetallesFacturaList(id: number): Observable <DetalleFactura[]> {
     return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura/DetalleFactura/'+ id);
@@ -185,4 +186,13 @@ listen2(): Observable<any> {
 filter2(filterBy: string) {
   this._listeners2.next(filterBy);
 }
+
+
+
+
+//Cliente login
+getFacturasListCLienteid(id: number): Observable <any[]> {
+  return this.http.get<[]>(this.APIUrl + '/cliente/factura/'+ id);
+}
+
 }

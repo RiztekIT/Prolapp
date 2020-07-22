@@ -169,4 +169,10 @@ export class VentasPedidoService {
   filter(filterBy: string) {
     this._listeners.next(filterBy);
   }
+
+  // cliente login
+  //Get Pedido por IdPedido
+  getPedidoclienteId(id: number): Observable <any[]>{
+    return this.http.get<any []>(this.APIUrl + '/cliente/ordencompra/' + id);
+  }
 }
