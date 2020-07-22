@@ -237,10 +237,16 @@ import { FacturacionclienteComponent } from './cliente/facturacion/facturacioncl
 import { OrdendecompraclienteComponent } from './cliente/ordendecompra/ordendecompracliente/ordendecompracliente.component';
 import { ComplementodepagoclienteComponent } from './cliente/complementodepago/complementodepagocliente/complementodepagocliente.component';
 
-
-
-
-
+//import calendario
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { AngularCalendarComponent } from '../components/angular-calendar/angular-calendar.component';
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { CalendarioService } from '../services/calendario/calendario.service';
+import { AddEditCalendarComponent } from '../components/angular-calendar/add-edit-calendar/add-edit-calendar.component';
+import { EventCalendarComponent } from '../components/angular-calendar/event-calendar/event-calendar.component';
+import { ComprasPrincipalComponent } from './compras/compras-principal/compras-principal.component';
 
 
 @NgModule({
@@ -404,7 +410,11 @@ import { ComplementodepagoclienteComponent } from './cliente/complementodepago/c
         ClienteComponent,
         FacturacionclienteComponent,
         OrdendecompraclienteComponent,
-        ComplementodepagoclienteComponent
+        ComplementodepagoclienteComponent,
+        AngularCalendarComponent,
+        AddEditCalendarComponent,
+        EventCalendarComponent,
+        ComprasPrincipalComponent,
     
     ],
     exports: [
@@ -448,7 +458,11 @@ import { ComplementodepagoclienteComponent } from './cliente/complementodepago/c
         NgxDocViewerModule,
         QRCodeModule,
         BrowserAnimationsModule,
-
+        CommonModule,
+        FormsModule,
+        NgbModalModule,
+        FlatpickrModule.forRoot(),
+        CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
     ],
     providers: [
         UsuariosServieService,
@@ -467,6 +481,7 @@ import { ComplementodepagoclienteComponent } from './cliente/complementodepago/c
         TarimaService,
         OrdenTemporalService,
         NgxImageCompressService,
+        CalendarioService,
         DireccionService,
         DatePipe
         
@@ -524,8 +539,12 @@ import { ComplementodepagoclienteComponent } from './cliente/complementodepago/c
         ReporteComponent,
         ReporteDllsComponent,
         ReporteMxnComponent,
-        OrdenDescargaEmailComponent
+        OrdenDescargaEmailComponent,
+        AddEditCalendarComponent,
+        EventCalendarComponent
+        
         
     ]
 })
 export class PagesModule { }
+

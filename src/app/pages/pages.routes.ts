@@ -87,6 +87,8 @@ import { FacturacionclienteComponent } from './cliente/facturacion/facturacioncl
 import { OrdendecompraclienteComponent } from './cliente/ordendecompra/ordendecompracliente/ordendecompracliente.component';
 import { ComplementodepagoclienteComponent } from './cliente/complementodepago/complementodepagocliente/complementodepagocliente.component';
 import { LoginClienteComponent } from '../login-cliente/login-cliente.component';
+import { AngularCalendarComponent } from '../components/angular-calendar/angular-calendar.component';
+import { ComprasPrincipalComponent } from './compras/compras-principal/compras-principal.component';
 
 
 
@@ -186,6 +188,8 @@ const pagesRoutes: Routes = [
                 { path: 'ordendecompra', component: OrdendecompraclienteComponent },
                 { path: 'complementodepago', component: ComplementodepagoclienteComponent },
                 // { path: 'logincliente', component: LoginClienteComponent },
+                { path: 'angularCalendar', component: AngularCalendarComponent },
+                { path: 'compras-principal', component: ComprasPrincipalComponent },
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },
