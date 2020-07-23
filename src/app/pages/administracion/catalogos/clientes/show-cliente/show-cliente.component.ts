@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import { ClienteDireccionComponent } from '../../../../../components/cliente-direccion/cliente-direccion.component';
 import { ClienteDireccionService } from '../../../../../services/cliente-direccion/cliente-direccion.service';
+import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 
 
 @Component({
@@ -23,13 +24,14 @@ export class ShowClienteComponent implements OnInit {
   listData: MatTableDataSource<any>;
   displaytt: any;
   myOptions: any;
+  listEmpresa;
   //displayedColumns : string [] = [ 'ClaveCliente', 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado',  'NumeroExterior','Estatus', 'LimiteDeCredito', 'DiasDeCredito', 'Vendedor', 'Options'];
   displayedColumns : string [] = [ 'ClaveCliente', 'Nombre', 'RFC', 'RazonSocial', 'Contacto', 'Telefono', 'Correo' ,'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(private service:ClientesService, private dialog: MatDialog, private snackBar: MatSnackBar, public apicliente: EnviarfacturaService,
-    public serviceDireccion: ClienteDireccionService) {
+    public serviceDireccion: ClienteDireccionService, public serviceEmpresa: EmpresaService) {
 
     this.service.listen().subscribe((m:any)=>{
       console.log(m);
@@ -41,6 +43,7 @@ export class ShowClienteComponent implements OnInit {
 
   ngOnInit() {
     this.refreshClientesList();
+    this.listaempresas();
   }
 
   refreshClientesList() {
@@ -80,6 +83,21 @@ export class ShowClienteComponent implements OnInit {
 //    }
 //  }
 
+  }
+
+  listaempresas(){
+    this.serviceEmpresa.getEmpresaList().subscribe(data =>{
+      console.log(data);
+      this.listEmpresa = data;
+      console.clear();
+      console.log(this.apicliente.empresa);
+      this.apicliente.empresa = data[0];
+      // this.enviarfact.rfc = data[0].RFC;
+    })
+  }
+
+  rfc(){
+    this.apicliente.saberRFC();
   }
 
   onDelete( id:number){

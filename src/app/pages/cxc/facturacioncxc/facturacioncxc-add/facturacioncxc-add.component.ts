@@ -176,6 +176,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   ngOnInit() {
     // this.idFactura();
     // console.log(this.IdFactura);
+    this.listaempresas();
     this.resetForm();
     this.setfacturatimbre();
     this.dropdownRefresh();
@@ -185,7 +186,6 @@ export class FacturacioncxcAddComponent implements OnInit {
     this.IniciarSaldo();
     this.refreshNotaList();
     this.refreshPagoCFDIList();
-    this.listaempresas();
 
     console.log(this.service.SaldoFacturaMXN +' || '+ this.service.SaldoFacturaDLLS);
   }
@@ -236,19 +236,27 @@ export class FacturacioncxcAddComponent implements OnInit {
   }
 
   listaempresas(){
+    console.log('Empresa antes if',this.enviarfact.empresa);
+    if (typeof this.enviarfact.empresa=== undefined){
+      console.log('Entra');
+      this.enviarfact.empresa = localStorage.getItem('Empresa')
+      this.service.rfcempresa = this.enviarfact.empresa.RFC;
+    }
+
     this.serviceEmpresa.getEmpresaList().subscribe(data =>{
       console.log(data);
       this.listEmpresa = data;
-      console.clear();
+      // console.clear();
       console.log(this.enviarfact.empresa);
-      this.enviarfact.empresa = data[0];
+  //    this.enviarfact.empresa = data[0];
       // this.enviarfact.rfc = data[0].RFC;
     })
+
   }
 
-/*   rfc(){
+  rfc(){
     this.enviarfact.saberRFC();
-  } */
+  }
 
 
   // INICIO NOTA DE PAGO----------------------------------------------------------------------->
@@ -1049,8 +1057,15 @@ CFDISumatoria(){
   /* Metodo para reinciar el form o iniciarlo con datos dependiendo del folio*/
   resetForm(form?: NgForm) {
     // console.log(this.IdFactura);
-
-
+    console.log('Empresa antes if',typeof(this.enviarfact.empresa));
+    if (typeof (this.enviarfact.empresa)=== "undefined"){
+      console.log('Entra');
+      this.enviarfact.empresa = JSON.parse(localStorage.getItem('Empresa'))
+      this.service.rfcempresa = this.enviarfact.empresa.RFC;
+    }
+console.log('formdata',this.service.formData);
+console.log('RFC',this.service.rfcempresa);
+console.log('EMPRESA',this.enviarfact.empresa);
     this.service.getFacturaId(this.service.formData.Id).subscribe(res => {
       console.log(res[0]);
 
@@ -1221,7 +1236,14 @@ console.log(data);
     this.service.formData.Estatus = 'Guardada';
     this.service.formData.Version = '3.3';
     //this.service.formData.Serie = '5628';
-    this.service.formData.Serie = '386447';
+    if (this.enviarfact.empresa.RFC==='PLA11011243A'){
+
+      this.service.formData.Serie = '386447';
+    }
+    else if (this.enviarfact.empresa.RFC==='AIN140101ME3'){
+      
+      this.service.formData.Serie = '407289';
+    }
     
     if (this.service.formData.Moneda == 'USD') {
       this.service.formData.TipoDeCambio = this.Cdolar;
