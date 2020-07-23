@@ -247,6 +247,7 @@ import { CalendarioService } from '../services/calendario/calendario.service';
 import { AddEditCalendarComponent } from '../components/angular-calendar/add-edit-calendar/add-edit-calendar.component';
 import { EventCalendarComponent } from '../components/angular-calendar/event-calendar/event-calendar.component';
 import { ComprasPrincipalComponent } from './compras/compras-principal/compras-principal.component';
+import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/trackingcliente.component';
 
 
 @NgModule({
@@ -415,6 +416,7 @@ import { ComprasPrincipalComponent } from './compras/compras-principal/compras-p
         AddEditCalendarComponent,
         EventCalendarComponent,
         ComprasPrincipalComponent,
+        TrackingclienteComponent,
     
     ],
     exports: [

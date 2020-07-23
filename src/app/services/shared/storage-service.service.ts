@@ -33,8 +33,15 @@ export class StorageServiceService {
     return this.currentSession;
   }
   removeCurrentSession(): void {
-    this.localStorageService.removeItem('ProlappSession');
+    if (localStorage.getItem("inicioCliente") == 'true') {
+      
+      this.localStorageService.removeItem('ProlappSessionCliente');
+    } else {
+      
+      this.localStorageService.removeItem('ProlappSession');
+    }
     this.currentSession = null;
+    this.currentSessionCliente = null;
    
   }
   getCurrentUser(): Usuario {
@@ -42,7 +49,13 @@ export class StorageServiceService {
     return (session && session.user) ? session.user : null;
   };
   isAuthenticated(): boolean {    
-    return (this.getCurrentToken() != null) ? true : false;
+    if (localStorage.getItem("inicioCliente") == 'true') {
+      return (this.getCurrentTokenCliente() != null) ? true : false;
+
+    }else{
+      return (this.getCurrentToken() != null) ? true : false;
+
+    }
   };
   getCurrentToken(): string {
     var session = this.getCurrentSession();
@@ -89,7 +102,7 @@ export class StorageServiceService {
     return (this.getCurrentTokenCliente() != null) ? true : false;
   };
   getCurrentTokenCliente(): string {
-    var session = this.getCurrentSession();
+    var session = this.getCurrentSessionCliente();
     console.log(session);
     
     return (session && session.token) ? session.token : null;

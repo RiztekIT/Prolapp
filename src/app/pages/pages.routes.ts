@@ -89,6 +89,7 @@ import { ComplementodepagoclienteComponent } from './cliente/complementodepago/c
 import { LoginClienteComponent } from '../login-cliente/login-cliente.component';
 import { AngularCalendarComponent } from '../components/angular-calendar/angular-calendar.component';
 import { ComprasPrincipalComponent } from './compras/compras-principal/compras-principal.component';
+import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/trackingcliente.component';
 
 
 
@@ -187,6 +188,7 @@ const pagesRoutes: Routes = [
                 { path: 'facturacion', component: FacturacionclienteComponent },
                 { path: 'ordendecompra', component: OrdendecompraclienteComponent },
                 { path: 'complementodepago', component: ComplementodepagoclienteComponent },
+                { path: 'trackingcliente', component: TrackingclienteComponent },
                 // { path: 'logincliente', component: LoginClienteComponent },
                 { path: 'angularCalendar', component: AngularCalendarComponent },
                 { path: 'compras-principal', component: ComprasPrincipalComponent },
