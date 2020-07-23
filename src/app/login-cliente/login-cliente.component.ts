@@ -63,13 +63,13 @@ console.log(form.value.RFC);
      sessionCliente.token = data.toString();
      if (data!='Error') {
        console.log(sessionCliente);
+       var inicioCliente = true;
+       localStorage.setItem("inicioCliente", inicioCliente.toString());
        localStorage.setItem("ClienteId", sessionCliente.user.ID.toString());
        localStorage.getItem("ClienteId")
        console.log('localStorage.getItem("ClienteId"): ', localStorage.getItem("ClienteId"));
       this.storageServce.setCurrentSessionCliente(sessionCliente);
       // variable para saber que se inicio session como cliente y no como usuario
-      var inicioCliente = true;
-localStorage.setItem("inicioCliente", inicioCliente.toString());
       this.router.navigate(['/cliente']);
      }
      else {
@@ -98,7 +98,9 @@ localStorage.setItem("inicioCliente", inicioCliente.toString());
   }
 
   borrar(){
-    this.storageServce.logoutCliente();
+    localStorage.removeItem('ProlappSessionCliente');
+    localStorage.removeItem('ClienteId');
+    localStorage.removeItem('inicioCliente');
   }
 
 }

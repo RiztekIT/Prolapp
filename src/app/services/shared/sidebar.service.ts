@@ -156,34 +156,17 @@ export class SidebarService {
   sessionCliente: any
 
   constructor(private http:HttpClient,public service: ClientesService,private datePipe: DatePipe, private storageServce: StorageServiceService) { 
-    
+    this.menu = [];
     this.sessionCliente = localStorage.getItem("inicioCliente");
-    console.log('localStorage.getItem("inicioCliente");: ', localStorage.getItem("inicioCliente"));
+    console.log('this.sessionCliente = localStorage.getItem("inicioCliente"): ', this.sessionCliente = localStorage.getItem("inicioCliente"));
+    if (this.sessionCliente == 'true') {
+    this.getMenucliente();
+    } else {
     this.getMenu();
+  }
     
   }
   getMenu() {
-
-
-    if (this.sessionCliente == 'true') {
-      this.menu = [
-        {
-          titulo: 'Cliente',
-          icono: 'account_circle',
-          submenu: [
-            { titulo: 'Facturacion', url: '/facturacion' },
-            { titulo: 'Orden de Compra', url: '/ordendecompra' },
-            { titulo: 'Tracking', url: '/tracking' },
-            { titulo: 'Complemento de Pago', url: '/complementodepago' },
-            // { titulo: 'Facturacion', url: '/catalogos' },
-            // { titulo: 'Orden de Compra', url: '/permisos' },
-          ],
-          url: '/cliente',
-        },
-      ]
-      init_plugins();
-    } else {
-      console.log('entro else');
     return this.http.get(APIUrl + '/Menu/1').subscribe((data:any)=>{
       console.log(data);
       this.menu = [];
@@ -214,27 +197,45 @@ export class SidebarService {
               "url": submenu[j].url
             }
           }
-
-
-        
-
-
-
         })
-
-
-
-
-       
       }
-      
-     
+      console.warn(this.menu);
       // console.log(this.menu);
       init_plugins();
 
     });
   }
-  }
+  
+
+
+getMenucliente(){
+
+  this.menu = [
+    {
+      titulo: 'Cliente',
+      icono: 'account_circle',
+      submenu: [
+        { titulo: 'Facturacion', url: '/facturacion' },
+        { titulo: 'Orden de Compra', url: '/ordendecompra' },
+        { titulo: 'Tracking', url: '/trackingcliente' },
+        { titulo: 'Complemento de Pago', url: '/complementodepago' },
+        // { titulo: 'Facturacion', url: '/catalogos' },
+        // { titulo: 'Orden de Compra', url: '/permisos' },
+      ],
+      url: '/cliente',
+    },
+  ]
+  console.warn(this.menu);
+
+  init_plugins();
+}
+
+
+
+
+
+
+
   //funcionando con un solo usuario
 //   getMenu() {
 
