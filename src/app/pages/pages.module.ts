@@ -232,6 +232,10 @@ import { OrdendescargadetallecuuComponent } from './almacen/ordendescargacuu/ord
 import { OrdendescargatarimacuuComponent } from './almacen/ordendescargacuu/ordendescargadetallecuu/ordendescargatarimacuu/ordendescargatarimacuu.component';
 import { ChecadorComponent } from './direccion/checador/checador.component';
 import { DireccionService } from '../services/direccion/direccion.service';
+import { ClienteComponent } from './cliente/cliente.component';
+import { FacturacionclienteComponent } from './cliente/facturacion/facturacioncliente/facturacioncliente.component';
+import { OrdendecompraclienteComponent } from './cliente/ordendecompra/ordendecompracliente/ordendecompracliente.component';
+import { ComplementodepagoclienteComponent } from './cliente/complementodepago/complementodepagocliente/complementodepagocliente.component';
 
 //import calendario
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -403,6 +407,10 @@ import { ComprasPrincipalComponent } from './compras/compras-principal/compras-p
         OrdendescargadetallecuuComponent,
         OrdendescargatarimacuuComponent,
         ChecadorComponent,
+        ClienteComponent,
+        FacturacionclienteComponent,
+        OrdendecompraclienteComponent,
+        ComplementodepagoclienteComponent,
         AngularCalendarComponent,
         AddEditCalendarComponent,
         EventCalendarComponent,

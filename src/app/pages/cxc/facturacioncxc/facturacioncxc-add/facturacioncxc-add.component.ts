@@ -121,6 +121,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   xmlparam;
   fileUrl;
   filepdf;
+  clienteLogin;
   fechaVenc = new Date();
   //empresa;
   listEmpresa;
@@ -174,6 +175,9 @@ export class FacturacioncxcAddComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(localStorage.getItem("inicioCliente"));
+this.clienteLogin = localStorage.getItem("inicioCliente");
+console.log('this.clienteLogin: ', this.clienteLogin);
     // this.idFactura();
     // console.log(this.IdFactura);
     this.listaempresas();
@@ -982,7 +986,15 @@ CFDISumatoria(){
 
   /* Metodo para regresar a la pantalla anterior */
   Regresar() {
-    this.router.navigateByUrl('/facturacionCxc');
+    console.log(this.clienteLogin);
+    if (this.clienteLogin == 'true') {
+      console.log('soy true');
+      this.router.navigateByUrl('/facturacion');
+      
+    } else {
+      console.log('soy false');      
+      this.router.navigateByUrl('/facturacionCxc');
+    }
   }
 
   /* Editar detalle factura */

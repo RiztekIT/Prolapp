@@ -90,6 +90,7 @@ export class ReciboPagoComponent implements OnInit {
   folioparam;
   xmlparam;
   idparam;
+  clienteLogin;
   json1 = new pagoTimbre();
   conceptos : any;
   fecha2;
@@ -122,6 +123,8 @@ export class ReciboPagoComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(localStorage.getItem("inicioCliente"));
+    this.clienteLogin = localStorage.getItem("inicioCliente");
     this.CleanPagoCFDI();
     this.Inicializar();
     this.RP();
@@ -746,7 +749,13 @@ console.log('NUEVO CFDIIIIIIIIIII');
   Regresar() {
     //Remover el IdRecibo el local storage
     localStorage.removeItem('IdRecibo');
-    this.router.navigateByUrl('/complementopagoCxc');
+    if (this.clienteLogin == 'true') {
+      this.router.navigateByUrl('/complementodepago');
+      
+    } else {
+      
+      this.router.navigateByUrl('/complementopagoCxc');
+    }
   }
 
   //Metodo Disparado al momento de hacer submit el cual recibe los valors del form como parametro

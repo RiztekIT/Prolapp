@@ -8,7 +8,6 @@ import { StorageServiceService } from '../services/shared/storage-service.servic
 import { Session } from '../Models/session-model';
 
 
-
 declare function init_plugins();
 
 @Component({
@@ -96,5 +95,6 @@ export class LoginComponent implements OnInit {
    }
 
   }
+
 
 }

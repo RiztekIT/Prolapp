@@ -88,10 +88,12 @@ export class PedidoventasAddComponent implements OnInit {
   clavepresentacion:string;
   PresentacionSelect: string;
   Id: number;
+  clienteLogin;
 
 
   ngOnInit() {
-
+    console.log(localStorage.getItem("inicioCliente"));
+    this.clienteLogin = localStorage.getItem("inicioCliente");
     this.Inicializar();
     this.dropdownRefresh();
     this.dropdownRefreshVendedor();
@@ -171,7 +173,14 @@ export class PedidoventasAddComponent implements OnInit {
 
   Regresar() {
     localStorage.removeItem('IdPedido');
-    this.router.navigateByUrl('/pedidosVentas');
+    console.log(this.clienteLogin);
+    if (this.clienteLogin == 'true') {
+      console.log('soy true');
+      this.router.navigateByUrl('/ordendecompra');
+      
+    } else {
+      this.router.navigateByUrl('/pedidosVentas');
+    }
   }
 
 

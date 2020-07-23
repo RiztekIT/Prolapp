@@ -67,6 +67,7 @@ export class FacturaService {
     }
     
   }
+
   //Obtener Lista de Detalles Factura
   getDetallesFacturaList(id: number): Observable <DetalleFactura[]> {
     if (this.rfcempresa==='PLA11011243A'){
@@ -384,4 +385,13 @@ listen2(): Observable<any> {
 filter2(filterBy: string) {
   this._listeners2.next(filterBy);
 }
+
+
+
+
+//Cliente login
+getFacturasListCLienteid(id: number): Observable <any[]> {
+  return this.http.get<[]>(this.APIUrl + '/cliente/factura/'+ id);
+}
+
 }

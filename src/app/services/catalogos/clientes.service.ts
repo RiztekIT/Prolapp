@@ -6,6 +6,7 @@ import {Observable } from 'rxjs';
 
 import {Subject} from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ClienteLogin } from '../../Models/ClienteLogin/clienteLogin-model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class ClientesService {
 
   constructor(private http:HttpClient) { }
   formData = new Cliente();
+  formDatalogin = new ClienteLogin();
   formDataV: Vendedor;
   prospEstatus = "";
   Idclienteservicio;
@@ -75,4 +77,16 @@ export class ClientesService {
   filter(filterBy: string) {
     this._listeners.next(filterBy);
   }
+
+
+  getLogin(cliente: ClienteLogin) {
+    return this.http.post(this.APIUrl+ '/cliente/login/',cliente);
+    }
+    checadas():Observable <any[]>{
+      return this.http.get<any[]>(this.APIUrl+'/cliente/login');
+    }
+
+    getIDCLienteRFC(rfc: string): Observable <Cliente[]> {
+      return this.http.get<Cliente[]>(this.APIUrl + '/cliente/rfc/'+ rfc);
+    }
 }
