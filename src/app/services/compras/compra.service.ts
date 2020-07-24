@@ -21,13 +21,14 @@ export class CompraService {
   constructor(private http: HttpClient) { }
 
     //form data para guardar los datos de Compras
-    formData = new Compras;
-    //form data para guardar los datos de los detalles de compras
+    formData = new Compras();
+    //form data para guardar los datos de los detalles de )compras
     formDataDC:DetalleCompra;
     //Id Compra
     IdCompra: number;
     //Master donde se guardara el master 
     master = new Array<MasterCompra>();
+
 
 //Obtener Compras
     getComprasList(): Observable<Compras[]> {

@@ -15,6 +15,22 @@ import { Producto } from 'src/app/Models/catalogos/productos-model';
 import { UnidadMedidaService } from '../../../services/unidadmedida/unidad-medida.service';
 import { ProductosService } from '../../../services/catalogos/productos.service';
 import { DetalleCompra } from '../../../Models/Compras/detalleCompra-model';
+import { OrdenDescarga } from '../../../Models/almacen/OrdenDescarga/ordenDescarga-model';
+import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
+import { OrdenDescargaService } from '../../../services/almacen/orden-descarga/orden-descarga.service';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { AddsproductosService } from '../../../services/addsproductos.service';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Bmx-Token': 'd83c7088f2823be9f29cc124cf95dc37056de37c340da5477a09ca1ee91a80a6',
+    'Access-Control-Allow-Origin': 'http://localhost:4200',
+    'Content-Type': 'application/json;charset=UTF-8',
+    'Access-Control-Allow-Headers': 'Bmx-Token, Accept, Accept-Encoding, Content-Type, Origin',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS'
+
+  })
+}
 
 @Component({
   selector: 'app-formato-compras-compras',
@@ -25,7 +41,8 @@ import { DetalleCompra } from '../../../Models/Compras/detalleCompra-model';
 export class FormatoComprasComprasComponent implements OnInit {
 
   constructor(public router: Router, private _formBuilder: FormBuilder, private currencyPipe: CurrencyPipe, public CompraService: CompraService,
-     public proveedorService: ProveedoresService, public ServiceUnidad: UnidadMedidaService, public ServiceProducto: ProductosService) { 
+     public proveedorService: ProveedoresService, public ServiceUnidad: UnidadMedidaService, public ServiceProducto: ProductosService, 
+     public ordenDescargaService: OrdenDescargaService, private http: HttpClient, public addproductos: AddsproductosService) { 
        this.MonedaBoolean = true;
      }
 
@@ -45,13 +62,9 @@ export class FormatoComprasComprasComponent implements OnInit {
     this.dropdownRefreshProveedor();
     this.dropdownRefresh2();
     this.unidadMedida();
+    this.tipoDeCambio();
     this.iniciarCantidades();
 
-    if(this.compra.Moneda == 'MXN'){
-this.MonedaBoolean = true;
-    }else{
-      this.MonedaBoolean = false;
-    }
  this.addproducto = true;
     this.descuento = +this.compra.Descuento;
     // this.um = true;
@@ -93,6 +106,32 @@ this.MonedaBoolean = true;
   Cantidad:number
   ProductoPrecio: number;
 
+  formProd = new Producto();
+
+  //Valores Marca
+  MarcaSelect: string;
+  clavemarca:string;
+  myControl3 = new FormControl();
+  options3: any[] = []
+  filteredOptions3: Observable<any[]>;
+
+  //Valores Origen
+  OrigenSelect:string;
+  claveorigen:string;
+  myControl4 = new FormControl();
+  filteredOptions4: Observable<any[]>;
+  options4: any[] = []
+  //Valores presentacion
+  PresentacionSelect: string;
+  clavepresentacion:string;
+  myControl5 = new FormControl();
+  filteredOptions5: Observable<any[]>;
+  options5: any[] = []
+
+
+  
+  
+
   detalleCompra: DetalleCompra;
 
   //Variable para saber si la moneda es MXN (TRUE) / USD (FALSE)
@@ -108,6 +147,11 @@ this.MonedaBoolean = true;
 
   //Variable para saber si se agrega o edita un producto (true add/ false edit)
   addproducto: boolean
+//variable para saber el total de sacos en la compra
+totalSacos: number;
+//variable para saber el peso total de la compra
+pesoTotal: number;
+
   
 
     //Tabla de Productos
@@ -127,6 +171,15 @@ this.MonedaBoolean = true;
   //variable para verificar si el producto lleva IVA.
   LlevaIVA: boolean;
 
+  //Variables del precio tipo de cambio
+  oldTipoCambio: number;
+  newTipoCambio: number;
+
+  //Variable par averificar si cambio el tipo de cambio
+  tipoCambioChanged: boolean;
+
+
+
   //Metodo para obtener el IdCompra
   obtenerIdCompra() {
     this.IdCompra = +localStorage.getItem('IdCompra');
@@ -134,9 +187,15 @@ this.MonedaBoolean = true;
 
   //Metodo para Inicializar/Obtener Valores de Esta compra
   obtenerInformacionCompra() {
-    this.compra = new Compras;
+    this.compra = new Compras();
     this.CompraService.getComprasId(this.IdCompra).subscribe(dataCompra => {
       this.compra = dataCompra[0];
+      this.oldTipoCambio = +this.compra.TipoCambio;
+    if(this.compra.Moneda == 'MXN'){
+      this.MonedaBoolean = true;
+          }else{
+            this.MonedaBoolean = false;
+          }
       console.log(this.compra);
     })
   }
@@ -211,6 +270,97 @@ this.MonedaBoolean = true;
 
   }
 
+  droddownMarcas(producto){
+    this.options3 = [];
+    this.addproductos.getMarcas(producto).subscribe((marca: any) =>{
+      for (let i=0; i < marca.length; i++){
+        
+        this.options3.push(marca[i])
+        this.filteredOptions3 = this.myControl3.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filtermarca(value))
+          );
+      }
+      
+    })
+  }
+
+  private _filtermarca(value: any): any[] {
+    if (typeof (value) == 'string') {
+      const filterValue2 = value.toLowerCase();
+      return this.options3.filter(option => option.NombreMarca.toString().toLowerCase().includes(filterValue2));
+    } 
+  }
+
+  droddownOrigen(){
+    this.options4 = [];
+    this.addproductos.getOrigen().subscribe((origen: any) =>{
+      for (let i=0; i < origen.length; i++){
+        
+        this.options4.push(origen[i])
+        this.filteredOptions4 = this.myControl4.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filterorigen(value))
+          );
+      }
+      
+    })
+  }
+  private _filterorigen(value: any): any[] {
+    // console.clear();
+    // console.log(value);
+    if (typeof (value) == 'string') {
+      const filterValue2 = value.toLowerCase();
+      return this.options4.filter(option => option.NombreOrigen.toString().toLowerCase().includes(filterValue2));
+    } 
+  }
+  droddownPresentacion(){
+    this.options5 = [];
+    this.addproductos.getPresentacion().subscribe((Presentacion: any) =>{
+      for (let i=0; i < Presentacion.length; i++){
+        
+        this.options5.push(Presentacion[i])
+        this.filteredOptions5 = this.myControl5.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filterpresentacion(value))
+          );
+      }
+      
+    })
+  }
+
+  private _filterpresentacion(value: any): any[] {
+    // console.clear();
+    // console.log(value);
+    if (typeof (value) == 'string') {
+      const filterValue2 = value.toLowerCase();
+      return this.options5.filter(option => option.Presentacion.toString().toLowerCase().includes(filterValue2));
+    } 
+  }
+
+  onSelectionChangeMarca(options2, event: any){
+    console.log(options2);
+    this.clavemarca = options2.ClaveMarca
+    this.MarcaSelect = options2.NombreMarca
+    // this.service.formProd.DescripcionProducto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+  }
+  onSelectionChangeOrigen(options2, event: any){
+    console.log(options2);
+    this.claveorigen = options2.ClaveOrigen;
+    this.OrigenSelect = options2.NombreOrigen;
+    // this.service.formProd.DescripcionProducto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+
+  }
+  onSelectionChangePresentacion(options2, event: any){
+    console.log(options2);
+    this.PresentacionSelect = options2.Presentacion;
+    // this.service.formProd.DescripcionProducto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+  
+  }
+
   onSelectionChange2(options2: Producto, event: any) {
     if (event.isUserInput) {
       // this.service.formProd = options2;
@@ -226,6 +376,13 @@ this.MonedaBoolean = true;
       let iva = (+options2.PrecioVenta * 1.16)
       this.detalleCompra.IVA = iva.toString();
       }
+      this.droddownMarcas(this.detalleCompra.Producto);
+      this.droddownOrigen();
+      this.droddownPresentacion();
+
+      this.OrigenSelect = 'USA'
+      this.claveorigen = '1'
+      this.PresentacionSelect = '25'
       // this.PStock = this.service.formProd.Stock;
       // this.ProductoPrecio = +this.service.formProd.PrecioVenta;
       //asignar el valor inicial en caso de que la moneda este declarada en USD
@@ -293,6 +450,7 @@ this.MonedaBoolean = true;
     // console.log(this.service.Moneda);
   }
 
+  detalleCompras: DetalleCompra[];
   refreshDetallesCompra() {
     // this.IniciarTotales();
 
@@ -300,9 +458,18 @@ this.MonedaBoolean = true;
       console.log('------------------------');
       console.log(data);
       //Verificar si hay datos en la tabla
+      this.totalSacos = 0;
+      this.pesoTotal = 0;
       if (data.length > 0) {
+        for (let i = 0; i < data.length; i++) {
+          //Obtener el total de sacos
+          this.totalSacos = this.totalSacos + +data[i].Cantidad;
+          this.pesoTotal = ((+data[i].PesoxSaco)*(+data[i].Cantidad)) + this.pesoTotal; 
+        }
+        
         this.valores = true;
         (<HTMLInputElement>document.getElementById("Moneda")).disabled = true;
+        this.detalleCompras = data;
         this.listData = new MatTableDataSource(data);
         this.listData.sort = this.sort;
         this.sumatoriaTotales();
@@ -331,8 +498,20 @@ this.MonedaBoolean = true;
         (<HTMLInputElement>document.getElementById("Moneda")).disabled = false;
         this.listData = new MatTableDataSource(data);
         this.listData.sort = this.sort;
+        this.total = 0;
+        this.subtotal =0;
+        this.compra.TotalDlls = "0";
+        this.compra.Total = "0";
+        this.compra.SubtotalDlls = "0";
+        this.compra.Subtotal = "0";
         console.log('No hay valores');
       }
+      console.log('PESO TOTALLLL');
+      console.log(this.pesoTotal);
+      console.log(this.totalSacos);
+      this.compra.PesoTotal = this.pesoTotal.toString();
+      this.compra.SacosTotales = this.totalSacos.toString();
+      console.log('PESO TOTALLLL');
     })
   }
 
@@ -346,12 +525,15 @@ this.MonedaBoolean = true;
     this.Cantidad = 0;
     this.ProductoPrecio = 0;
     this.ProductoSelect="";
+    this.OrigenSelect = ''
+      this.claveorigen = ''
+      this.PresentacionSelect = ''
     this.detalleCompra = new DetalleCompra();
   }
   sumatoriaTotales(){
     //Query para realizar una sumatoria de los Detalles Compra
     this.CompraService.getSumatoriaIdCompra(this.IdCompra).subscribe(dataSumatoria=>{
-      console.warn(dataSumatoria);
+      console.warn(dataSumatoria[0]);
       if(dataSumatoria.length > 0){
           if(this.MonedaBoolean == true){
             this.subtotal = dataSumatoria[0].CostoTotal
@@ -462,6 +644,9 @@ this.compra.DescuentoDlls = ((this.descuento) / (+this.compra.TipoCambio)).toStr
   onAddDetalleCompra(){
     this.detalleCompra.IdCompra = this.IdCompra;
     this.detalleCompra.Cantidad = this.Cantidad.toString();
+    this.detalleCompra.ClaveProducto = this.detalleCompra.ClaveProducto + this.clavemarca + this.claveorigen;
+    this.detalleCompra.Producto = this.detalleCompra.Producto + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect;
+    this.detalleCompra.PesoxSaco = this.PresentacionSelect;
 
     if(!this.detalleCompra.Observaciones){
       this.detalleCompra.Observaciones = "";
@@ -487,6 +672,9 @@ this.detalleCompra.PrecioUnitarioDlls = (this.ProductoPrecio / +this.compra.Tipo
       this.detalleCompra.PrecioUnitarioDlls = (this.ProductoPrecio).toString();
       this.detalleCompra.PrecioUnitario = (this.ProductoPrecio * +this.compra.TipoCambio).toFixed(6).toString();
     }
+
+
+
     console.log(this.detalleCompra);
 
     this.CompraService.addDetalleCompra(this.detalleCompra).subscribe(res=>{
@@ -500,6 +688,105 @@ Swal.fire({
     });
   }
 
+  onAddDetalleCompraAdministrativa(){
+console.log('Agregando DETALLE ADMINISTRATIVO');
+this.detalleCompra.IdCompra = this.IdCompra;
+    this.detalleCompra.Cantidad = this.Cantidad.toString();
+    this.detalleCompra.ClaveProducto = "";
+    this.detalleCompra.Observaciones = "";
+    this.detalleCompra.IVA = "";
+    this.detalleCompra.IVADlls = "";
+    this.detalleCompra.Unidad = "";
+    this.detalleCompra.PesoxSaco = "";
+
+    if(this.compra.Moneda == 'MXN'){
+
+this.detalleCompra.CostoTotal = this.importeProducto.toString();
+this.detalleCompra.CostoTotalDlls = ((this.importeProducto)/(+this.compra.TipoCambio)).toFixed(6).toString();
+
+// this.detalleCompra.IVADlls = (+this.detalleCompra.IVA / +this.compra.TipoCambio).toFixed(6).toString();
+
+this.detalleCompra.PrecioUnitario = (this.ProductoPrecio).toString();
+this.detalleCompra.PrecioUnitarioDlls = (this.ProductoPrecio / +this.compra.TipoCambio).toFixed(6).toString();
+
+    }else{
+      this.detalleCompra.CostoTotalDlls = this.importeProducto.toString();
+      this.detalleCompra.CostoTotal = ((this.importeProducto)*(+this.compra.TipoCambio)).toFixed(6).toString();
+      
+      // this.detalleCompra.IVADlls = (+this.detalleCompra.IVA).toString();
+      // this.detalleCompra.IVA = (+this.detalleCompra.IVA * +this.compra.TipoCambio).toFixed(6).toString();
+      
+      this.detalleCompra.PrecioUnitarioDlls = (this.ProductoPrecio).toString();
+      this.detalleCompra.PrecioUnitario = (this.ProductoPrecio * +this.compra.TipoCambio).toFixed(6).toString();
+    }
+
+
+
+    console.log(this.detalleCompra);
+
+    this.CompraService.addDetalleCompra(this.detalleCompra).subscribe(res=>{
+console.log(res);
+this.refreshDetallesCompra();
+this.iniciarCantidades();
+Swal.fire({
+  icon: 'success',
+  title: 'Producto Agregado'
+})
+    });
+}
+onEditDetalleCompraAdministrativa(){
+  console.log('EDITANDO DETALLE ADMINISTRATIVO');
+  this.detalleCompra.IdCompra = this.IdCompra;
+    this.detalleCompra.Cantidad = this.Cantidad.toString();
+    this.detalleCompra.ClaveProducto = "";
+    this.detalleCompra.Observaciones = "";
+    this.detalleCompra.IVA = "";
+    this.detalleCompra.IVADlls = "";
+    this.detalleCompra.Unidad = "";
+    this.detalleCompra.PesoxSaco = "";
+
+    if(this.compra.Moneda == 'MXN'){
+
+this.detalleCompra.CostoTotal = this.importeProducto.toString();
+this.detalleCompra.CostoTotalDlls = ((this.importeProducto)/(+this.compra.TipoCambio)).toFixed(6).toString();
+
+// this.detalleCompra.IVADlls = (+this.detalleCompra.IVA / +this.compra.TipoCambio).toFixed(6).toString();
+
+this.detalleCompra.PrecioUnitario = (this.ProductoPrecio).toString();
+this.detalleCompra.PrecioUnitarioDlls = (this.ProductoPrecio / +this.compra.TipoCambio).toFixed(6).toString();
+
+    }else{
+      this.detalleCompra.CostoTotalDlls = this.importeProducto.toString();
+      this.detalleCompra.CostoTotal = ((this.importeProducto)*(+this.compra.TipoCambio)).toFixed(6).toString();
+      
+      // this.detalleCompra.IVADlls = (+this.detalleCompra.IVA).toString();
+      // this.detalleCompra.IVA = (+this.detalleCompra.IVA * +this.compra.TipoCambio).toFixed(6).toString();
+      
+      this.detalleCompra.PrecioUnitarioDlls = (this.ProductoPrecio).toString();
+      this.detalleCompra.PrecioUnitario = (this.ProductoPrecio * +this.compra.TipoCambio).toFixed(6).toString();
+    }
+    console.log(this.detalleCompra);
+
+this.CompraService.updateDetalleCompra(this.detalleCompra).subscribe(res=>{
+  console.log(res);
+  Swal.fire({
+    title: 'Actualizado',
+    icon: 'success',
+    timer: 1000,
+    showCancelButton: false,
+    showConfirmButton: false
+  });
+  this.refreshDetallesCompra();
+  this.iniciarCantidades();
+  this.addproducto = true;
+})
+  }
+GenerarCompraAdministrativa(){
+  console.log('GENERANDO COMPRA ADMINISTRATIVA DETALLE ADMINISTRATIVO');
+  console.log(this.compra);
+  
+}
+
   onEditProducto(detalleCompra: DetalleCompra){
     //Iniciar en 0 las variables de totales, stock y
     this.iniciarCantidades();
@@ -507,9 +794,26 @@ Swal.fire({
     console.log(detalleCompra);
     this.detalleCompra = detalleCompra;
     this.ProductoSelect = detalleCompra.ClaveProducto;
+    this.PresentacionSelect = detalleCompra.PesoxSaco;
 
     this.Cantidad = +this.detalleCompra.Cantidad;
     this.onChangeCantidadP(this.Cantidad);
+
+    if(this.compra.Estatus != 'Administrativa'){
+      this.droddownMarcas(this.detalleCompra.Producto);
+      this.droddownOrigen();
+      this.droddownPresentacion();
+      //VALORES HARDCODEADOS//
+      //VALORES HARDCODEADOS//
+      this.OrigenSelect = 'USA'
+      this.claveorigen = '1'
+      // this.PresentacionSelect = '25'
+      //VALORES HARDCODEADOS//
+      //VALORES HARDCODEADOS//
+      //VALORES HARDCODEADOS//
+    }
+
+
     if(this.MonedaBoolean == true){
       this.ProductoPrecio = +this.detalleCompra.PrecioUnitario
       this.onChangePrecio(this.ProductoPrecio);
@@ -576,6 +880,7 @@ Swal.fire({
 
     this.detalleCompra.IdCompra = this.IdCompra;
     this.detalleCompra.Cantidad = this.Cantidad.toString();
+    this.detalleCompra.PesoxSaco = this.PresentacionSelect;
 
     if(!this.detalleCompra.Observaciones){
       this.detalleCompra.Observaciones = "";
@@ -644,7 +949,6 @@ onDeleteDetalleProducto(detalleCompra: DetalleCompra){
         console.log(res);
         console.log('//////////////////////////////////////////////////////');
         this.refreshDetallesCompra();
-
         Swal.fire({
           title: 'Borrado',
           icon: 'success',
@@ -660,30 +964,295 @@ onDeleteDetalleProducto(detalleCompra: DetalleCompra){
 
 }
 
-GenerarCompra(){
-  console.log(this.compra);
-  //obtener suma de los detalles de la compra MXN y DLLS
-  //actualizar estatus de compra
-  this.compra.Estatus = 'Transito';
-  this.CompraService.updateCompra(this.compra).subscribe(res=>{
-    console.log(res);
-    this.generarOrdenDescarga();
-    Swal.fire({
-      title: 'Compra Generada',
-      icon: 'success',
-      timer: 1000,
-      showCancelButton: false,
-      showConfirmButton: false
-    });
-    this.router.navigate(['/compras-principal']);
+
+tipoDeCambio() {
+  let hora = new Date().getHours();
+  let fechahoy = new Date();
+  let fechaayer = new Date();
+
+
+  fechaayer.setDate(fechahoy.getDate() - 1)
+  let diaayer = new Date(fechaayer).getDate();
+  let mesayer = new Date(fechaayer).getMonth();
+  let añoayer = new Date(fechaayer).getFullYear();
+  let diasemana = new Date(fechahoy).getDay();
+
+  let i;
+  if (hora > 11) {
+    i = 2;
+  } else {
+    i = 1;
+  }
+  this.traerApi().subscribe(data => {
+    let l;
+
+    l = data.bmx.series[0].datos.length;
+    // console.log(i);
+    // console.log(l);
+    // console.log(data.bmx.series[0].datos.length);
+    // console.log(data.bmx.series[0].datos[l-i].dato);
+
+
+    this.newTipoCambio = data.bmx.series[0].datos[l - i].dato;
+    console.log('------CAMBIO------');
+    console.log(this.newTipoCambio);
+    this.cambioTipoCambio();
+    console.log('------CAMBIO------');
   })
 
 }
 
-generarOrdenDescarga(){
+traerApi(): Observable<any> {
+
+  return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
+
+}
+
+
+//metodo para checar si cambio el tipo de cambio
+cambioTipoCambio(){
+  console.log(this.oldTipoCambio);
+  console.log(this.newTipoCambio);
+  if(+this.oldTipoCambio != +this.newTipoCambio){
+console.log('Cambio el tipo de Cambio');
+this.tipoCambioChanged = true;
+}else{
+  console.log('El tipo de cambio es el mismo');
+  this.tipoCambioChanged = false;
+  }
+}
+
+
+//Calcular los importes y precios en dado caso que el tipo de cambio haya cambiado
+calculosTipoCambio(estado: string, accion: string){
+
+  console.log(this.newTipoCambio);
+  console.log(this.MonedaBoolean);
+  console.log(estado);
+  console.log(accion);
+
+  // let subtotal = 0;
+  // let total = 0;
+  // let descuento = this.descuento;
+  //MONEDA MXN
+  if(this.MonedaBoolean == true){
+    //recorrer arreglo e ir actualizando el detalle de compra
+    for (let i = 0; i < this.detalleCompras.length; i++) {
+      console.log(this.detalleCompras[i]);
+     let dc = this.detalleCompras[i];
+     dc.CostoTotalDlls = (+dc.CostoTotal / +this.newTipoCambio).toFixed(6).toString();
+     dc.PrecioUnitarioDlls = (+dc.PrecioUnitario / +this.newTipoCambio).toFixed(6).toString();
+     dc.IVADlls = (+dc.IVA / +this.newTipoCambio).toFixed(6).toString();
+    //  subtotal = (subtotal + +dc.CostoTotalDlls);
+    //  descuento = (descuento / +this.newTipoCambio);
+    console.log(dc);
+     this.CompraService.updateDetalleCompra(dc).subscribe(res=>{
+       console.log(res);
+     })
+    }
+    //actualizar totales en la compra
+    // total = (subtotal) + (iva) - (descuento);
+    // console.log(subtotal);
+    // console.log(iva);
+    // console.log(descuento);
+    // console.log(total);
+    this.compra.TotalDlls = (+this.compra.Total * +this.newTipoCambio).toString();
+    this.compra.SubtotalDlls = (+this.compra.Subtotal * +this.newTipoCambio).toString();
+    this.compra.DescuentoDlls = (+this.compra.Descuento * +this.newTipoCambio).toString();
+    console.log(this.compra);
+
+  }else{
+    //MONEDA USD
+    //recorrer arreglo e ir actualizando el detalle de compra
+    for (let i = 0; i < this.detalleCompras.length; i++) {
+      console.log(this.detalleCompras[i]);
+      let dc = this.detalleCompras[i];
+     dc.CostoTotal = (+dc.CostoTotalDlls * +this.newTipoCambio).toFixed(6).toString();
+     dc.PrecioUnitario = (+dc.PrecioUnitarioDlls * +this.newTipoCambio).toFixed(6).toString();
+     dc.IVA = (+dc.IVADlls * +this.newTipoCambio).toFixed(6).toString();
+     console.log(dc);
+     this.CompraService.updateDetalleCompra(dc).subscribe(res=>{
+       console.log(res);
+     })
+    }
+    //actulizar totales compra
+    this.compra.Total = (+this.compra.TotalDlls / +this.newTipoCambio).toString();
+    this.compra.Subtotal = (+this.compra.SubtotalDlls / +this.newTipoCambio).toString();
+    this.compra.Descuento = (+this.compra.DescuentoDlls / +this.newTipoCambio).toString();
+    // console.log(this.compra);
+  }
+
+  //Actualizar compra
+  console.log(this.compra);
+  this.compra.TipoCambio = this.newTipoCambio.toString();
+  this.updateCompra(estado, accion);
+}
+
+
+//para generar la compra debe de haber ya valores en detalleCompras
+GenerarCompra(){
+  if(this.tipoCambioChanged == true){
+    if(this.compra.Estatus == 'Administrativa'){
+      this.calculosTipoCambio('Administrativa', 'Generada');
+    }else{
+      this.calculosTipoCambio('Transito', 'Generada');
+    }
+    // this.updateCompra('Transito','Generada');
+  }else{
+    if(this.compra.Estatus == 'Administrativa'){
+      this.updateCompra('Administrativa','Generada');
+    }else{
+      
+      this.updateCompra('Transito','Generada');
+    }
+  }
+  
+}
+
+updateCompra(estatus: string, texto: string){
 console.log(this.compra);
+  //actualizar estatus de compra
+  this.compra.Estatus = estatus;
+  
+  this.CompraService.updateCompra(this.compra).subscribe(res=>{
+    // console.log(res);
+    if(estatus == 'Transito'){
+      console.log('GENERAR ORDEN DESCARGA');
+      this.generarOrdenDescarga();
+    }
+    Swal.fire({
+      title: 'Compra '+texto,
+      icon: 'success',
+      timer: 1000,
+      showCancelButton: false,
+     showConfirmButton: false
+    });
+    // this.router.navigate(['/compras-principal']);
+  })
+}
 
+guardarCompra(){
+  if(this.valores == true){
+    if(this.tipoCambioChanged == true){
+      //Advertir que el tipo de cambio no es el mismo
+      Swal.fire({
+        title: 'El tipo de cambio ha cambiado',
+        text:'Se actualizaran los importes al nuevo tipo de cambio. ¿Deseas continuar?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Continuar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value) {
+          this.calculosTipoCambio('Guardada', 'Guardada');
+          // this.updateCompra('Guardada','Guardada');
+            Swal.fire({
+              title: 'Importes Actualizados',
+              icon: 'success',
+              timer: 1000,
+              showCancelButton: false,
+              showConfirmButton: false
+            });
+        }
+      })
+    }else{
+      this.updateCompra('Guardada','Guardada');
+    }
+  }else{
+    console.log('No hay valores');
+    this.updateCompra('Guardada','Guardada');
+  }
+}
 
+od: OrdenDescarga;
+dod: DetalleOrdenDescarga;
+
+generarOrdenDescarga(){
+
+console.log(this.compra);
+console.log(this.detalleCompras);
+console.log(this.totalSacos);
+ this.od = new OrdenDescarga();
+ this.dod = new DetalleOrdenDescarga();
+
+this.ordenDescargaService.getFolioOrdenDescarga().subscribe(resFolio=>{
+// console.log(resFolio);
+  //Generar automaticamente el Folio de Orden Descarga
+  this.od.Folio = +resFolio;
+  // console.log(this.od.Folio);
+  this.od.FechaLlegada = new Date('10/10/10');
+  //buscar la manera de ingresar las fechas en blanco
+  this.od.IdProveedor = this.compra.IdProveedor;
+  this.od.Proveedor = this.compra.Proveedor;
+  this.od.PO = this.compra.PO.toString();
+  this.od.Fletera = '';
+  this.od.Caja = '';
+  this.od.Sacos = this.totalSacos.toString();
+  this.od.Kg = this.compra.PesoTotal;
+  this.od.Chofer = '';
+  this.od.Origen = 'EUA';
+  this.od.Destino = 'PasoTx';
+  this.od.Observaciones = '';
+  //Con que estatus se generara?
+  this.od.Estatus = 'Creada';
+  //Fechas y usuario
+  this.od.FechaInicioDescarga = new Date('10/10/10');
+  this.od.FechaFinalDescarga = new Date('10/10/10');
+  this.od.FechaExpedicion = new Date('10/10/10');
+  this.od.IdUsuario = 1;
+  this.od.Usuario = 'UsuarioDefault';
+  
+  console.log(this.od);
+  this.ordenDescargaService.addOrdenDescarga(this.od).subscribe(res=>{
+    //  console.log(res);
+    //traer el id generado
+    this.ordenDescargaService.getUltimoIdOrdenDescarga().subscribe(ultimoId=>{
+      console.log(ultimoId);
+      
+      //Agregar detalle orden Descarga
+      for (let i = 0; i < this.detalleCompras.length; i++) {
+        // console.log(this.detalleCompras[i]);
+        this.dod.IdOrdenDescarga = ultimoId;
+        this.dod.ClaveProducto = this.detalleCompras[i].ClaveProducto;
+        this.dod.Producto = this.detalleCompras[i].Producto;
+        this.dod.Sacos = this.detalleCompras[i].Cantidad;
+        //Verificar el peso x saco
+        this.dod.PesoxSaco = this.detalleCompras[i].PesoxSaco;
+        //segun yo no se conoce el lote.
+        this.dod.Lote = '';
+        this.dod.IdProveedor = this.od.IdProveedor;
+        this.dod.Proveedor = this.od.Proveedor;
+        //duda sobre las fechas
+        this.dod.FechaMFG = new Date('10/10/10');
+        this.dod.FechaCaducidad = new Date('10/10/10');
+        //duda sobre el shipper
+        this.dod.Shipper = '';
+        //duda USDA
+        this.dod.USDA = '';
+        //duda pedimento
+        this.dod.Pedimento = '';
+        this.dod.Saldo = this.detalleCompras[i].Cantidad;
+        
+        console.log(this.dod);
+        
+        this.ordenDescargaService.addDetalleOrdenDescarga(this.dod).subscribe(resDetalle=>{
+          console.log(resDetalle);
+        })
+      }
+      
+      //GENERAR NOTIFICACION
+      //GENERAR NOTIFICACION
+      //GENERAR NOTIFICACION
+      //GENERAR NOTIFICACION
+      //GENERAR NOTIFICACION
+      //GENERAR NOTIFICACION
+      
+    })
+  })
+});
+  
 }
 
 

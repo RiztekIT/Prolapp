@@ -4,6 +4,7 @@ export class DetalleCompra{
     ClaveProducto: string
     Producto: string
     Cantidad: string
+    PesoxSaco: string
     PrecioUnitario: string
     CostoTotal: string
     IVA: string

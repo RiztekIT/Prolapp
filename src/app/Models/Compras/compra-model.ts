@@ -13,6 +13,7 @@ export class Compras{
     Observaciones: string
     TipoCambio: string
     CondicionesPago: string
+    SacosTotales: string
     PesoTotal: string
     Estatus: string
     Factura: number
