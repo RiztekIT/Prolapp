@@ -1110,9 +1110,9 @@ GenerarCompra(){
 }
 
 updateCompra(estatus: string, texto: string){
-console.log(this.compra);
   //actualizar estatus de compra
   this.compra.Estatus = estatus;
+  console.log(this.compra);
   
   this.CompraService.updateCompra(this.compra).subscribe(res=>{
     // console.log(res);
@@ -1146,7 +1146,13 @@ guardarCompra(){
         cancelButtonText: 'Cancelar'
       }).then((result) => {
         if (result.value) {
-          this.calculosTipoCambio('Guardada', 'Guardada');
+          if(this.compra.Estatus == 'Administrativa'){
+
+            this.calculosTipoCambio('Administrativa', 'Guardada');
+          }else{
+
+            this.calculosTipoCambio('Guardada', 'Guardada');
+          }
           // this.updateCompra('Guardada','Guardada');
             Swal.fire({
               title: 'Importes Actualizados',
@@ -1158,11 +1164,26 @@ guardarCompra(){
         }
       })
     }else{
-      this.updateCompra('Guardada','Guardada');
+      
+      if(this.compra.Estatus == 'Administrativa'){
+        this.updateCompra('Administrativa','Guardada');
+
+      }else{
+
+        this.updateCompra('Guardada','Guardada');
+      }
     }
   }else{
     console.log('No hay valores');
-    this.updateCompra('Guardada','Guardada');
+    
+    if(this.compra.Estatus == 'Administrativa'){
+      this.updateCompra('Administrativa','Guardada');
+console.log('COMPRA ADMINISTRATIVA');
+}else{
+  
+  console.log('COMPRA NORMAL');
+      this.updateCompra('Guardada','Guardada');
+    }
   }
 }
 
