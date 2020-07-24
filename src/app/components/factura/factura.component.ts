@@ -7,6 +7,7 @@ import { Parser } from '@angular/compiler/src/ml_parser/parser';
 import { Prefactura } from 'src/app/Models/facturacioncxc/prefactura-model';
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 
 
 // export interface parametros{
@@ -31,7 +32,7 @@ export class FacturaComponent implements OnInit {
 
   @Input() xmlparametros;
 
-  constructor(private _http: HttpClient, private sanitizer: DomSanitizer, public service: FacturaService, public dialogRef: MatDialogRef<FacturaComponent>) {
+  constructor(private _http: HttpClient, private sanitizer: DomSanitizer, public service: FacturaService, public dialogRef: MatDialogRef<FacturaComponent>, public enviarfact: EnviarfacturaService) {
     this.QRsize = 125;
     // assign a value
     this.myAngularxQrCode = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.asp?id=28c751ac-b6f3-4293-b35e-9ce78b4eb4b8&re=CIN960904FQ2&rr=CUOA880131Q85&tt=0000002578.930000&fe=nfsuQW==';
@@ -172,8 +173,12 @@ this.tipoDeComprobante = row.Tipo;
 this.metodoPago = row.MetodoDePago;
 this.lugarExpedicion = row.LugarDeExpedicion;
 this.selloCFDI = row.SelloDigitalCFDI;
-this.rfcE = 'PLA11011243A'
-this.nombreE = 'PRO LACTOINGREDIENTES S DE RL MI DE CV';
+
+if (this.enviarfact.empresa.RFC)
+//this.rfcE = 'PLA11011243A'
+//this.nombreE = 'PRO LACTOINGREDIENTES S DE RL MI DE CV';
+this.rfcE = this.enviarfact.empresa.RFC;
+this.nombreE = this.enviarfact.empresa.RazonSocial;
 this.nombreR = row.Nombre;
 this.rfcR = row.RFC;
 this.usoCFDI = row.UsoCFDI;

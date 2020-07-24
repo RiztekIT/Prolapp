@@ -34,6 +34,7 @@ import { AddClienteComponent } from 'src/app/pages/administracion/catalogos/clie
 import { AcusecancelacionComponent } from 'src/app/components/acusecancelacion/acusecancelacion.component';
 import xml2js from 'xml2js';
 import { processors } from 'xml2js'
+import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 
 /* Headers para el envio de la factura */
 const httpOptions = {
@@ -120,7 +121,10 @@ export class FacturacioncxcAddComponent implements OnInit {
   xmlparam;
   fileUrl;
   filepdf;
+  clienteLogin;
   fechaVenc = new Date();
+  //empresa;
+  listEmpresa;
   a = document.createElement('a');
   public loading = false;
   public loading2 = false;
@@ -128,7 +132,7 @@ export class FacturacioncxcAddComponent implements OnInit {
   constructor(
     public service: FacturaService, private snackBar: MatSnackBar, private dialog: MatDialog,
     private router: Router, public enviarfact: EnviarfacturaService,
-    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService, private tipoCambio: TipoCambioService, public serviceNota: NotaCreditoService) {
+    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService, private tipoCambio: TipoCambioService, public serviceNota: NotaCreditoService, public serviceEmpresa: EmpresaService) {
     this.service.Moneda = 'MXN';
     console.log('Constr ' + this.service.Moneda);
     this.service.formData.Id = +localStorage.getItem('FacturaID')
@@ -171,8 +175,12 @@ export class FacturacioncxcAddComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(localStorage.getItem("inicioCliente"));
+this.clienteLogin = localStorage.getItem("inicioCliente");
+console.log('this.clienteLogin: ', this.clienteLogin);
     // this.idFactura();
     // console.log(this.IdFactura);
+    this.listaempresas();
     this.resetForm();
     this.setfacturatimbre();
     this.dropdownRefresh();
@@ -229,6 +237,29 @@ export class FacturacioncxcAddComponent implements OnInit {
     // this.TipoCambioFactura = +this.service.formData.TipoDeCambio;
     // console.log(this.TipoCambioFactura);
 
+  }
+
+  listaempresas(){
+    console.log('Empresa antes if',this.enviarfact.empresa);
+    if (typeof this.enviarfact.empresa=== undefined){
+      console.log('Entra');
+      this.enviarfact.empresa = localStorage.getItem('Empresa')
+      this.service.rfcempresa = this.enviarfact.empresa.RFC;
+    }
+
+    this.serviceEmpresa.getEmpresaList().subscribe(data =>{
+      console.log(data);
+      this.listEmpresa = data;
+      // console.clear();
+      console.log(this.enviarfact.empresa);
+  //    this.enviarfact.empresa = data[0];
+      // this.enviarfact.rfc = data[0].RFC;
+    })
+
+  }
+
+  rfc(){
+    this.enviarfact.saberRFC();
   }
 
 
@@ -955,7 +986,15 @@ CFDISumatoria(){
 
   /* Metodo para regresar a la pantalla anterior */
   Regresar() {
-    this.router.navigateByUrl('/facturacionCxc');
+    console.log(this.clienteLogin);
+    if (this.clienteLogin == 'true') {
+      console.log('soy true');
+      this.router.navigateByUrl('/facturacion');
+      
+    } else {
+      console.log('soy false');      
+      this.router.navigateByUrl('/facturacionCxc');
+    }
   }
 
   /* Editar detalle factura */
@@ -1030,8 +1069,15 @@ CFDISumatoria(){
   /* Metodo para reinciar el form o iniciarlo con datos dependiendo del folio*/
   resetForm(form?: NgForm) {
     // console.log(this.IdFactura);
-
-
+    console.log('Empresa antes if',typeof(this.enviarfact.empresa));
+    if (typeof (this.enviarfact.empresa)=== "undefined"){
+      console.log('Entra');
+      this.enviarfact.empresa = JSON.parse(localStorage.getItem('Empresa'))
+      this.service.rfcempresa = this.enviarfact.empresa.RFC;
+    }
+console.log('formdata',this.service.formData);
+console.log('RFC',this.service.rfcempresa);
+console.log('EMPRESA',this.enviarfact.empresa);
     this.service.getFacturaId(this.service.formData.Id).subscribe(res => {
       console.log(res[0]);
 
@@ -1202,7 +1248,14 @@ console.log(data);
     this.service.formData.Estatus = 'Guardada';
     this.service.formData.Version = '3.3';
     //this.service.formData.Serie = '5628';
-    this.service.formData.Serie = '386447';
+    if (this.enviarfact.empresa.RFC==='PLA11011243A'){
+
+      this.service.formData.Serie = '386447';
+    }
+    else if (this.enviarfact.empresa.RFC==='AIN140101ME3'){
+      
+      this.service.formData.Serie = '407289';
+    }
     
     if (this.service.formData.Moneda == 'USD') {
       this.service.formData.TipoDeCambio = this.Cdolar;

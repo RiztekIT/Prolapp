@@ -3,271 +3,303 @@
         <div class="card">
             <div class="card-body">
 
-
-                <div class="d-flex justify-content-between">
-                    <h2>Generar Factura</h2>
-                    <div>
-                        Estatus:
-                        <p [ngSwitch]=Estatus>
-                            <span *ngSwitchCase="'Timbrada'" class="label label-light-success">TIMBRADA</span>
-                            <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
-                            <span *ngSwitchCase="'Cancelada'" class="label label-light-danger">CANCELADA</span>
-                            <span *ngSwitchCase="'Pagada'" class="label label-light-inverse">PAGADA</span>
-                        </p>
-                    </div>
-                    <div *ngIf="Estatus == 'Timbrada' && (EstatusNota == 'Timbrada' || EstatusNota == 'NoHay') ; else NoseArma">
-                        <button class="mt-2" mat-raised-button (click)="GenerarNota()" color="primary">Generar Nota Credito</button>
-                    </div>
-                    <ng-template #NoseArma>
-
-                    </ng-template>
-                    <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary"><i class=""></i>Regresar</button>
+                <div>
+                    <label class="input-group-text text-info">Empresa: </label>
+                    <br>
+                    <label class="input-group-text text-info">{{ enviarfact.empresa.RazonSocial }}</label>
+                    <!-- <select class="form-control" name="Empresa" #Empresa="ngModel" [(ngModel)]="enviarfact.empresa" required>
+                        <option [ngValue]="null" selected disabled>Seleccionar Empresa</option>
+                        <option *ngFor="let e of listEmpresa" [ngValue]="e"> {{e.RazonSocial}} </option>
+                      </select>
                 </div>
-                <hr>
+                <div>
+                    <button (click)='rfc()'>RFC</button>
+                </div> -->
 
 
 
 
-                <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    <div id="div1" class="form-material">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <label class="input-group-text text-info">Cliente a Facturar</label>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div *ngIf="clienteLogin == 'true'; else elseBlockPU">
+                        <h2>Detalles Factura</h2>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <ng-template #elseBlockPU>
+                            <h2>Generar Factura</h2>
+
+                        </ng-template>
+                        <div>
+                            Estatus:
+                            <p [ngSwitch]=Estatus>
+                                <span *ngSwitchCase="'Timbrada'" class="label label-light-success">TIMBRADA</span>
+                                <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
+                                <span *ngSwitchCase="'Cancelada'" class="label label-light-danger">CANCELADA</span>
+                                <span *ngSwitchCase="'Pagada'" class="label label-light-inverse">PAGADA</span>
+                            </p>
+                        </div>
+
+                        <div *ngIf="Estatus == 'Timbrada' && (EstatusNota == 'Timbrada' || EstatusNota == 'NoHay') ; else NoseArma">
+                            <button class="mt-2" mat-raised-button (click)="GenerarNota()" color="primary">Generar Nota Credito</button>
+                        </div>
+                        <ng-template #NoseArma>
+
+                        </ng-template>
+                        <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary"><i class=""></i>Regresar</button>
+                    </div>
+                    <hr>
 
 
 
-                                    <!-- <select id="div2" class="form-control" name="ClienteId" #ClienteId="ngModel" [(ngModel)]="service.formData.IdCliente" required>
+
+                    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+
+                        <div id="div1" class="form-material">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label class="input-group-text text-info">Cliente a Facturar</label>
+
+
+
+                                        <!-- <select id="div2" class="form-control" name="ClienteId" #ClienteId="ngModel" [(ngModel)]="service.formData.IdCliente" required>
                     <option [ngValue]="null" disabled>Choose your profile</option>
                     <option *ngFor="let dl of listClientes" [ngValue]="dl.IdClientes">
                       {{dl.Nombre}}
                     </option>
                   </select> -->
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <mat-form-field class="example-full-width">
-                                                <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClienteId" [(ngModel)]="service.formData.IdCliente">
-                                                <mat-autocomplete #auto="matAutocomplete">
-                                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChange(option, $event)">
-                                                        {{option.IdClientes}} {{option.Nombre}}
-                                                    </mat-option>
-                                                </mat-autocomplete>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-4">
-                                            <button color="primary" class="btn btn-lg" type="button" mat-raised-button (click)="nuevoCliente()"><i
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <mat-form-field class="example-full-width">
+                                                    <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClienteId" [(ngModel)]="service.formData.IdCliente">
+                                                    <mat-autocomplete #auto="matAutocomplete">
+                                                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChange(option, $event)">
+                                                            {{option.IdClientes}} {{option.Nombre}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-4">
+                                                <button color="primary" class="btn btn-lg" type="button" mat-raised-button (click)="nuevoCliente()"><i
                                 class="mdi mdi-plus btn-lg"></i>Nuevo</button>
+                                            </div>
                                         </div>
-                                    </div>
 
 
 
-                                    <!------------------------------------------------------------------------------------------>
-                                    <!-- <input style="display: none" type="string" [(ngModel)]="ClienteNombre"> -->
-                                    <input type="string" class="form-control" readonly name="ClienteNombre" readonly [(ngModel)]="ClienteNombre">
-                                    <!------------------------------------------------------------------------------------------->
+                                        <!------------------------------------------------------------------------------------------>
+                                        <!-- <input style="display: none" type="string" [(ngModel)]="ClienteNombre"> -->
+                                        <input type="string" class="form-control" readonly name="ClienteNombre" readonly [(ngModel)]="ClienteNombre">
+                                        <!------------------------------------------------------------------------------------------->
 
-                                    <label style="display: none" class="input-group-text text-info">Serie</label>
+                                        <label style="display: none" class="input-group-text text-info">Serie</label>
 
-                                    <input style="display: none" type="string" class="form-control" name="Serie" #Serie="ngModel" [(ngModel)]="service.formData.Serie">
+                                        <input style="display: none" type="string" class="form-control" name="Serie" #Serie="ngModel" [(ngModel)]="service.formData.Serie">
 
-                                    <div style="display: none" class="text-left text-danger" *ngIf="Serie.invalid && Serie.touched">
-                                        Favor de Ingresar Serie
-                                    </div>
-                                    <!----------------------------------------------------------------------------------------------->
+                                        <div style="display: none" class="text-left text-danger" *ngIf="Serie.invalid && Serie.touched">
+                                            Favor de Ingresar Serie
+                                        </div>
+                                        <!----------------------------------------------------------------------------------------------->
 
-                                    <label class="input-group-text text-info">Uso CFDI</label>
+                                        <label class="input-group-text text-info">Uso CFDI</label>
 
-                                    <select class="form-control" name="UsoDelCFDI" #UsoDelCFDI="ngModel" [(ngModel)]="service.formData.UsoDelCFDI" required>
+                                        <select class="form-control" name="UsoDelCFDI" #UsoDelCFDI="ngModel" [(ngModel)]="service.formData.UsoDelCFDI" required>
                     <option [ngValue]="null" selected disabled>Seleccionar CFDI</option>
                     <option *ngFor="let dl of listCFDI" [ngValue]="dl.UsoDelCFDI"> {{dl.text}} </option>
                   </select>
 
-                                    <div class="text-left text-danger" *ngIf="UsoDelCFDI.invalid && UsoDelCFDI.touched">
-                                        Favor de Seleccionar CFDI
-                                    </div>
-                                    <!--               -------------------------------------------------------                                       -->
+                                        <div class="text-left text-danger" *ngIf="UsoDelCFDI.invalid && UsoDelCFDI.touched">
+                                            Favor de Seleccionar CFDI
+                                        </div>
+                                        <!--               -------------------------------------------------------                                       -->
 
-                                    <label class="input-group-text text-info">Metodo Pago</label>
+                                        <label class="input-group-text text-info">Metodo Pago</label>
 
-                                    <select class="form-control" name="MetodoDePago" #MetodoDePago="ngModel" [(ngModel)]="service.formData.MetodoDePago" required>
+                                        <select class="form-control" name="MetodoDePago" #MetodoDePago="ngModel" [(ngModel)]="service.formData.MetodoDePago" required>
                     <option [ngValue]="null" selected disabled>Seleccionar Metodo Pago</option>
                     <option *ngFor="let dl of listMP" [ngValue]="dl.MetodoDePago"> {{dl.text}} </option>
                   </select>
 
-                                    <div class="text-left text-danger" *ngIf="MetodoDePago.invalid && MetodoDePago.touched">
-                                        Favor de Ingresar Metodo de Pago
-                                    </div>
-                                    <!--               -------------------------------------------------------                                       -->
+                                        <div class="text-left text-danger" *ngIf="MetodoDePago.invalid && MetodoDePago.touched">
+                                            Favor de Ingresar Metodo de Pago
+                                        </div>
+                                        <!--               -------------------------------------------------------                                       -->
 
-                                    <label class="input-group-text text-info">Forma de Pago</label>
+                                        <label class="input-group-text text-info">Forma de Pago</label>
 
-                                    <select class="form-control" name="FormaDePago" #FormaDePago="ngModel" [(ngModel)]="service.formData.FormaDePago" required>
+                                        <select class="form-control" name="FormaDePago" #FormaDePago="ngModel" [(ngModel)]="service.formData.FormaDePago" required>
                     <option [ngValue]="null" selected disabled>Seleccionar Forma Pago</option>
                     <option *ngFor="let dl of listFP" [ngValue]="dl.FormaDePago"> {{dl.text}} </option>
                   </select>
 
-                                    <div class="text-left text-danger" *ngIf="FormaDePago.invalid && FormaDePago.touched">
-                                        Favor de Ingresar Forma de Pago
+                                        <div class="text-left text-danger" *ngIf="FormaDePago.invalid && FormaDePago.touched">
+                                            Favor de Ingresar Forma de Pago
+                                        </div>
+                                        <!--               -------------------------------------------------------                                       -->
+
+
+                                        <label style="display: none" class="input-group-text text-info">Subtotal</label>
+
+                                        <input style="display: none" type="string" class="form-control" name="Subtotal" #Subtotal="ngModel" [(ngModel)]="service.formData.Subtotal">
+
+                                        <div style="display: none" class="text-left text-danger" *ngIf="Subtotal.invalid && Subtotal.touched">
+                                            Favor de Ingresar Subtotal
+                                        </div>
+                                        <!--               -------------------------------------------------------                                       -->
+
+                                        <label style="display: none" class="input-group-text text-info">Impuestos Trasladados</label>
+
+                                        <input style="display: none" type="string" class="form-control" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [(ngModel)]="service.formData.ImpuestosTrasladados">
+
+                                        <div style="display: none" class="text-left text-danger" *ngIf="ImpuestosTrasladados.invalid && ImpuestosTrasladados.touched">
+                                            Favor de Ingresar Impuestos Trasladados
+                                        </div>
+                                        <!--               -------------------------------------------------------                                       -->
+
+                                        <label style="display: none" class="input-group-text text-info">Total</label>
+
+                                        <input style="display: none" type="string" class="form-control" name="Total" #Total="ngModel" [(ngModel)]="service.formData.Total">
+
+                                        <div style="display: none" class="text-left text-danger" *ngIf="Total.invalid && Total.touched">
+                                            Favor de Ingresar Total
+                                        </div>
+
+                                        <label class="input-group-text text-info">Fecha Expedicion</label>
+
+                                        <mat-datepicker-toggle [for]="picker1"></mat-datepicker-toggle>
+                                        <input readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="FechaDeExpedicion" #FechaDeExpedicion="ngModel" [(ngModel)]="service.formData.FechaDeExpedicion">
+                                        <mat-datepicker #picker1></mat-datepicker>
+
+                                        <div class="text-left text-danger" *ngIf="FechaDeExpedicion.invalid && FechaDeExpedicion.touched">
+                                            Favor de Ingresar Fecha Expedicion
+                                        </div>
+                                        <!--               -------------------------------------------------------                                       -->
+
+                                        <label class="input-group-text text-info">Fecha Vencimiento</label>
+
+                                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <input readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="FechaVencimiento" #FechaVencimiento="ngModel" [(ngModel)]="service.formData.FechaVencimiento">
+                                        <mat-datepicker #picker2></mat-datepicker>
+
+                                        <div class="text-left text-danger" *ngIf="FechaVencimiento.invalid && FechaVencimiento.touched">
+                                            Favor de Ingresar Fecha Vencimiento
+                                        </div>
+                                        <!--               -------------------------------------------------------                                       -->
+
+
+
                                     </div>
-                                    <!--               -------------------------------------------------------                                       -->
 
 
-                                    <label style="display: none" class="input-group-text text-info">Subtotal</label>
+                                    <div class="col-lg-6">
+                                        <label class="input-group-text text-info">Fecha Entrega</label>
 
-                                    <input style="display: none" type="string" class="form-control" name="Subtotal" #Subtotal="ngModel" [(ngModel)]="service.formData.Subtotal">
+                                        <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                        <input readonly="readonly" required [matDatepicker]="picker3" type="text" class="form-control" name="FechaDeEntrega" #FechaDeEntrega="ngModel" [(ngModel)]="service.formData.FechaDeEntrega">
+                                        <mat-datepicker #picker3></mat-datepicker>
 
-                                    <div style="display: none" class="text-left text-danger" *ngIf="Subtotal.invalid && Subtotal.touched">
-                                        Favor de Ingresar Subtotal
-                                    </div>
-                                    <!--               -------------------------------------------------------                                       -->
+                                        <div class="text-left text-danger" *ngIf="FechaDeEntrega.invalid && FechaDeEntrega.touched">
+                                            Favor de Ingresar Fecha Entrega
+                                        </div>
+                                        <!--               -------------------------------------------------------                                       -->
+                                        <label class="input-group-text text-info">Folio</label>
 
-                                    <label style="display: none" class="input-group-text text-info">Impuestos Trasladados</label>
+                                        <input readonly="readonly" required minlength="2" type="number" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="service.formData.Folio">
 
-                                    <input style="display: none" type="string" class="form-control" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [(ngModel)]="service.formData.ImpuestosTrasladados">
-
-                                    <div style="display: none" class="text-left text-danger" *ngIf="ImpuestosTrasladados.invalid && ImpuestosTrasladados.touched">
-                                        Favor de Ingresar Impuestos Trasladados
-                                    </div>
-                                    <!--               -------------------------------------------------------                                       -->
-
-                                    <label style="display: none" class="input-group-text text-info">Total</label>
-
-                                    <input style="display: none" type="string" class="form-control" name="Total" #Total="ngModel" [(ngModel)]="service.formData.Total">
-
-                                    <div style="display: none" class="text-left text-danger" *ngIf="Total.invalid && Total.touched">
-                                        Favor de Ingresar Total
-                                    </div>
-
-                                    <label class="input-group-text text-info">Fecha Expedicion</label>
-
-                                    <mat-datepicker-toggle [for]="picker1"></mat-datepicker-toggle>
-                                    <input readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="FechaDeExpedicion" #FechaDeExpedicion="ngModel" [(ngModel)]="service.formData.FechaDeExpedicion">
-                                    <mat-datepicker #picker1></mat-datepicker>
-
-                                    <div class="text-left text-danger" *ngIf="FechaDeExpedicion.invalid && FechaDeExpedicion.touched">
-                                        Favor de Ingresar Fecha Expedicion
-                                    </div>
-                                    <!--               -------------------------------------------------------                                       -->
-
-                                    <label class="input-group-text text-info">Fecha Vencimiento</label>
-
-                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                                    <input readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="FechaVencimiento" #FechaVencimiento="ngModel" [(ngModel)]="service.formData.FechaVencimiento">
-                                    <mat-datepicker #picker2></mat-datepicker>
-
-                                    <div class="text-left text-danger" *ngIf="FechaVencimiento.invalid && FechaVencimiento.touched">
-                                        Favor de Ingresar Fecha Vencimiento
-                                    </div>
-                                    <!--               -------------------------------------------------------                                       -->
+                                        <div class="text-left text-danger" *ngIf="Folio.invalid && Folio.touched">
+                                            Favor de Ingresar Folio
+                                        </div>
+                                        <!--               -------------------------------------------------------                                       -->
 
 
+                                        <label class="input-group-text text-info">Moneda</label>
 
-                                </div>
-
-
-                                <div class="col-lg-6">
-                                    <label class="input-group-text text-info">Fecha Entrega</label>
-
-                                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-                                    <input readonly="readonly" required [matDatepicker]="picker3" type="text" class="form-control" name="FechaDeEntrega" #FechaDeEntrega="ngModel" [(ngModel)]="service.formData.FechaDeEntrega">
-                                    <mat-datepicker #picker3></mat-datepicker>
-
-                                    <div class="text-left text-danger" *ngIf="FechaDeEntrega.invalid && FechaDeEntrega.touched">
-                                        Favor de Ingresar Fecha Entrega
-                                    </div>
-                                    <!--               -------------------------------------------------------                                       -->
-                                    <label class="input-group-text text-info">Folio</label>
-
-                                    <input readonly="readonly" required minlength="2" type="number" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="service.formData.Folio">
-
-                                    <div class="text-left text-danger" *ngIf="Folio.invalid && Folio.touched">
-                                        Favor de Ingresar Folio
-                                    </div>
-                                    <!--               -------------------------------------------------------                                       -->
-
-
-                                    <label class="input-group-text text-info">Moneda</label>
-
-                                    <select class="form-control" name="Moneda" #Moneda="ngModel" (change)="MonedaSelected($event)" [(ngModel)]="service.formData.Moneda" required>
+                                        <select class="form-control" name="Moneda" #Moneda="ngModel" (change)="MonedaSelected($event)" [(ngModel)]="service.formData.Moneda" required>
                                         <option [ngValue]="null" selected disabled>Seleccionar Moneda</option>
                                         <option *ngFor="let dl of listMoneda" [ngValue]="dl.Moneda"> {{dl.Moneda}} </option>
                                     </select>
 
-                                    <!-- <input required minlength="2" type="string" class="form-control" name="Moneda" #Moneda="ngModel" [(ngModel)]="service.formData.Moneda"> -->
+                                        <!-- <input required minlength="2" type="string" class="form-control" name="Moneda" #Moneda="ngModel" [(ngModel)]="service.formData.Moneda"> -->
 
-                                    <div class="text-left text-danger" *ngIf="Moneda.invalid && Moneda.touched">
-                                        Favor de Ingresar Moneda
+                                        <div class="text-left text-danger" *ngIf="Moneda.invalid && Moneda.touched">
+                                            Favor de Ingresar Moneda
+                                        </div>
+                                        <!--               -------------------------------------------------------                                       -->
+
+                                        <label class="input-group-text text-info">Orden De Compra</label>
+
+                                        <input type="string" class="form-control" name="OrdenDeCompra" #OrdenDeCompra="ngModel" [(ngModel)]="service.formData.OrdenDeCompra">
+
+                                        <div class="text-left text-danger" *ngIf="OrdenDeCompra.invalid && OrdenDeCompra.touched">
+                                            Favor de Ingresar Orden De Compra
+                                        </div>
+                                        <!--               -------------------------------------------------------                                       -->
+
+
+                                        <label class="input-group-text text-info">Observaciones</label>
+
+                                        <input type="string" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="service.formData.Observaciones">
+
+                                        <div class="text-left text-danger" *ngIf="Observaciones.invalid && Observaciones.touched">
+                                            Favor de Ingresar Observaciones
+                                        </div>
+                                        <!--               -------------------------------------------------------                                       -->
+
+                                        <label style="display: none" class="input-group-text text-info">Tipo De Cambio</label>
+
+                                        <input style="display: none" type="string" class="form-control" name="TipoDeCambio" #TipoDeCambio="ngModel" [(ngModel)]="service.formData.TipoDeCambio">
+
+                                        <div style="display: none" class="text-left text-danger" *ngIf="TipoDeCambio.invalid && TipoDeCambio.touched">
+                                            Favor de Ingresar Tipo De Cambio
+                                        </div>
+                                        <!--               -------------------------------------------------------                                       -->
+
+                                        <label class="input-group-text text-info">Condiciones De Pago</label>
+
+                                        <input type="string" class="form-control" name="CondicionesDePago" #CondicionesDePago="ngModel" [(ngModel)]="service.formData.CondicionesDePago">
+
+                                        <div class="text-left text-danger" *ngIf="CondicionesDePago.invalid && CondicionesDePago.touched">
+                                            Favor de Ingresar Condiciones De Pago
+                                        </div>
+                                        <!--               -------------------------------------------------------                                       -->
+
+                                        <label class="input-group-text text-info">Vendedor</label>
+
+                                        <input type="string" class="form-control" name="Vendedor" #Vendedor="ngModel" [(ngModel)]="service.formData.Vendedor">
+
+                                        <div class="text-left text-danger" *ngIf="Vendedor.invalid && Vendedor.touched">
+                                            Favor de Ingresar Vendedor
+                                        </div>
+                                        <!--               -------------------------------------------------------                                       -->
+
+
+
+
                                     </div>
-                                    <!--               -------------------------------------------------------                                       -->
 
-                                    <label class="input-group-text text-info">Orden De Compra</label>
-
-                                    <input type="string" class="form-control" name="OrdenDeCompra" #OrdenDeCompra="ngModel" [(ngModel)]="service.formData.OrdenDeCompra">
-
-                                    <div class="text-left text-danger" *ngIf="OrdenDeCompra.invalid && OrdenDeCompra.touched">
-                                        Favor de Ingresar Orden De Compra
-                                    </div>
-                                    <!--               -------------------------------------------------------                                       -->
-
-
-                                    <label class="input-group-text text-info">Observaciones</label>
-
-                                    <input type="string" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="service.formData.Observaciones">
-
-                                    <div class="text-left text-danger" *ngIf="Observaciones.invalid && Observaciones.touched">
-                                        Favor de Ingresar Observaciones
-                                    </div>
-                                    <!--               -------------------------------------------------------                                       -->
-
-                                    <label style="display: none" class="input-group-text text-info">Tipo De Cambio</label>
-
-                                    <input style="display: none" type="string" class="form-control" name="TipoDeCambio" #TipoDeCambio="ngModel" [(ngModel)]="service.formData.TipoDeCambio">
-
-                                    <div style="display: none" class="text-left text-danger" *ngIf="TipoDeCambio.invalid && TipoDeCambio.touched">
-                                        Favor de Ingresar Tipo De Cambio
-                                    </div>
-                                    <!--               -------------------------------------------------------                                       -->
-
-                                    <label class="input-group-text text-info">Condiciones De Pago</label>
-
-                                    <input type="string" class="form-control" name="CondicionesDePago" #CondicionesDePago="ngModel" [(ngModel)]="service.formData.CondicionesDePago">
-
-                                    <div class="text-left text-danger" *ngIf="CondicionesDePago.invalid && CondicionesDePago.touched">
-                                        Favor de Ingresar Condiciones De Pago
-                                    </div>
-                                    <!--               -------------------------------------------------------                                       -->
-
-                                    <label class="input-group-text text-info">Vendedor</label>
-
-                                    <input type="string" class="form-control" name="Vendedor" #Vendedor="ngModel" [(ngModel)]="service.formData.Vendedor">
-
-                                    <div class="text-left text-danger" *ngIf="Vendedor.invalid && Vendedor.touched">
-                                        Favor de Ingresar Vendedor
-                                    </div>
-                                    <!--               -------------------------------------------------------                                       -->
-
-
-
+                                    <!-- Aqui van los botones -->
 
                                 </div>
-
-                                <!-- Aqui van los botones -->
-
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
 
-                <!--               -------------------------------------------------------                                       -->
-                <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------->
+                    <!--               -------------------------------------------------------                                       -->
+                    <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------->
 
-                <hr>
+                    <hr>
 
-                <mat-divider></mat-divider>
-                <br>
-                <!-- <div class="row">
+                    <mat-divider></mat-divider>
+                    <br>
+                    <!-- <div class="row">
                     <div class="col-4"></div>
                     <div class="col-4">
                         <button class="btn btn-lg" mat-raised-button (click)="onAddProducto()"><i
@@ -278,205 +310,205 @@
 
                 <hr>
                 <br> -->
-                <!-- <div class="card-body"> -->
-                <div id="div2" class="form-material mat-elevation-z5">
-                    <div class="card card-header">
-                        <div class="row">
-                            <div class="col-4">
-                                <h3 class="bolder blacktxt text-center">
-                                    Productos
-                                </h3>
-                            </div>
-                            <div class="col-4"></div>
-                            <div class="col-4">
-                                <button color="primary" class="btn btn-lg" mat-raised-button (click)="onAddProducto()"><i
+                    <!-- <div class="card-body"> -->
+                    <div id="div2" class="form-material mat-elevation-z5">
+                        <div class="card card-header">
+                            <div class="row">
+                                <div class="col-4">
+                                    <h3 class="bolder blacktxt text-center">
+                                        Productos
+                                    </h3>
+                                </div>
+                                <div class="col-4"></div>
+                                <div [style.display]="clienteLogin ? 'none' : 'block'" class="col-4">
+                                    <button color="primary" class="btn btn-lg" mat-raised-button (click)="onAddProducto()"><i
                                         class="mdi mdi-plus btn-lg"></i>Agregar Producto</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- <div class="mat-elevation-z8"> -->
+                        <!-- <div style="overflow:auto;"> -->
+                        <div class="container">
+
+
+
+                            <div>
+                                <table style="width: 100% " mat-table [dataSource]="listData" matSort>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                    <ng-container matColumnDef="ClaveProducto">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
+                                        <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="ClaveSAT">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave SAT</th>
+                                        <td mat-cell *matCellDef="let element">{{element.ClaveSAT}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Producto">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                                        <td mat-cell *matCellDef="let element">{{element.Producto}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Cantidad">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
+                                        <td mat-cell *matCellDef="let element">{{element.Cantidad | number: '1.0-2' }}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="PrecioUnitario" *ngIf="this.service.Moneda=='MXN'">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>P. Unitario</th>
+                                        <td mat-cell *matCellDef="let element">{{element.PrecioUnitario | currency}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Precio" *ngIf="this.service.Moneda=='MXN'">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
+                                        <td mat-cell *matCellDef="let element">{{element.Importe | currency}}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="PrecioUnitario" *ngIf="this.service.Moneda=='USD'">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>P. Unitario</th>
+                                        <td mat-cell *matCellDef="let element">{{element.PrecioUnitarioDlls | currency}}</td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Precio" *ngIf="this.service.Moneda=='USD'">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
+                                        <td mat-cell *matCellDef="let element">{{element.ImporteDlls | currency}}</td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Options">
+                                        <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
+                                        <td mat-cell *matCellDef="let row">
+                                            <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock1">
+                                                <button type="button" class="btn btn-secondary">No Editable</button>
+                                            </div>
+                                            <ng-template #elseBlock1>
+
+                                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <mat-icon>keyboard_arrow_down</mat-icon>
+                      </button>
+                                                <mat-menu #menu="matMenu">
+                                                    <!--  -->
+                                                    <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                                                    <!--  -->
+                                                    <button mat-icon-button class="btn btn-danger" (click)="onDelete(row.IdDetalle)">
+                          <mat-icon>delete_outline</mat-icon>
+                        </button>
+                                                </mat-menu>
+                                            </ng-template>
+                                        </td>
+                                    </ng-container>
+                                </table>
                             </div>
                         </div>
 
                     </div>
-
-                    <!-- <div class="mat-elevation-z8"> -->
-                    <!-- <div style="overflow:auto;"> -->
-                    <div class="container">
+                    <!-- </div> -->
 
 
+                    <mat-divider></mat-divider>
+                    <!-- TABLA NOTA DE CREDITO  -->
 
-                        <div>
-                            <table style="width: 100% " mat-table [dataSource]="listData" matSort>
+                    <!-- <div class="card-body" *ngIf="Estatus == 'Timbrada' && EstatusNota !== 'NoHay'"> -->
+                    <div id="div2" class="form-material mat-elevation-z5" *ngIf="Estatus == 'Timbrada' && EstatusNota !== 'NoHay'">
+                        <div class="card card-header">
+                            <h3 class="bolder blacktxt text-center">
+                                Notas de Credito
+                            </h3>
+                        </div>
 
-                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <!-- <div class="mat-elevation-z8" *ngIf="Estatus == 'Timbrada' && EstatusNota !== 'NoHay'">
+                <div class="mat-elevation-z8">
+                    <div style="overflow: auto;"> -->
+                        <div class="container">
 
-                                <ng-container matColumnDef="ClaveProducto">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
-                                    <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}</td>
-                                </ng-container>
-                                <ng-container matColumnDef="ClaveSAT">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave SAT</th>
-                                    <td mat-cell *matCellDef="let element">{{element.ClaveSAT}}</td>
-                                </ng-container>
-                                <ng-container matColumnDef="Producto">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
-                                    <td mat-cell *matCellDef="let element">{{element.Producto}}</td>
-                                </ng-container>
-                                <ng-container matColumnDef="Cantidad">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
-                                    <td mat-cell *matCellDef="let element">{{element.Cantidad | number: '1.0-2' }}</td>
-                                </ng-container>
 
-                                <ng-container matColumnDef="PrecioUnitario" *ngIf="this.service.Moneda=='MXN'">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>P. Unitario</th>
-                                    <td mat-cell *matCellDef="let element">{{element.PrecioUnitario | currency}}</td>
-                                </ng-container>
-                                <ng-container matColumnDef="Precio" *ngIf="this.service.Moneda=='MXN'">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
-                                    <td mat-cell *matCellDef="let element">{{element.Importe | currency}}</td>
+                            <table mat-table [dataSource]="listData2" matSort class="scrollable" multiTemplateDataRows>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns2;" class="example-element-row" matRipple [class.example-expanded-row]="expandedElement2 == row"></tr>
+                                <tr mat-row *matRowDef="let row; columns: ['expandedDetail2']" class="example-detail-row">
+                                </tr>
+
+
+                                <ng-container matColumnDef="Folio">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>FOLIO</th>
+                                    <td class="folio" mat-cell *matCellDef="let element2" (click)="expandedElement2 = element2">
+                                        {{element2.Folio}} *</td>
                                 </ng-container>
 
-                                <ng-container matColumnDef="PrecioUnitario" *ngIf="this.service.Moneda=='USD'">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>P. Unitario</th>
-                                    <td mat-cell *matCellDef="let element">{{element.PrecioUnitarioDlls | currency}}</td>
+                                <ng-container matColumnDef="Nombre">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CLIENTE</th>
+                                    <td mat-cell *matCellDef="let element">{{element.IdCliente}}</td>
                                 </ng-container>
-                                <ng-container matColumnDef="Precio" *ngIf="this.service.Moneda=='USD'">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
-                                    <td mat-cell *matCellDef="let element">{{element.ImporteDlls | currency}}</td>
+
+                                <ng-container matColumnDef="FechaDeExpedicion">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA EXPEDICION</th>
+                                    <td mat-cell *matCellDef="let element">{{element.FechaDeExpedicion }}</td>
                                 </ng-container>
+
+                                <ng-container matColumnDef="Subtotal">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>SUBTOTAL MXN/USD</th>
+                                    <td mat-cell *matCellDef="let element">{{element.Subtotal}}/{{element.SubtotalDlls}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="ImpuestosTrasladadosDlls">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>IVA MXN/USD</th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{element.ImpuestosTrasladados}}/{{element.ImpuestosTrasladadosDlls}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Total">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>TOTAL MXN/USD</th>
+                                    <td mat-cell *matCellDef="let element">{{element.Total}}/{{element.TotalDlls}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Estatus">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
+                                    <td mat-cell *matCellDef="let element2" [ngSwitch]=element2.Estatus>
+                                        <span *ngSwitchCase="'Timbrada'" class="label label-light-success">TIMBRADA</span>
+                                        <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
+                                        <span *ngSwitchCase="'Creada'" class="label label-light-danger">CREADA</span>
+                                    </td>
+                                </ng-container>
+
+
 
                                 <ng-container matColumnDef="Options">
                                     <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
                                     <td mat-cell *matCellDef="let row">
-                                        <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock1">
-                                            <button type="button" class="btn btn-secondary">No Editable</button>
-                                        </div>
-                                        <ng-template #elseBlock1>
-
-                                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                        <mat-icon>keyboard_arrow_down</mat-icon>
-                      </button>
-                                            <mat-menu #menu="matMenu">
-                                                <!--  -->
-                                                <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
-                          <mat-icon>edit</mat-icon>
-                        </button>
-                                                <!--  -->
-                                                <button mat-icon-button class="btn btn-danger" (click)="onDelete(row.IdDetalle)">
-                          <mat-icon>delete_outline</mat-icon>
-                        </button>
-                                            </mat-menu>
-                                        </ng-template>
-                                    </td>
-                                </ng-container>
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
-                <!-- </div> -->
 
 
-                <mat-divider></mat-divider>
-                <!-- TABLA NOTA DE CREDITO  -->
-
-                <!-- <div class="card-body" *ngIf="Estatus == 'Timbrada' && EstatusNota !== 'NoHay'"> -->
-                <div id="div2" class="form-material mat-elevation-z5" *ngIf="Estatus == 'Timbrada' && EstatusNota !== 'NoHay'">
-                    <div class="card card-header">
-                        <h3 class="bolder blacktxt text-center">
-                            Notas de Credito
-                        </h3>
-                    </div>
-
-                    <!-- <div class="mat-elevation-z8" *ngIf="Estatus == 'Timbrada' && EstatusNota !== 'NoHay'">
-                <div class="mat-elevation-z8">
-                    <div style="overflow: auto;"> -->
-                    <div class="container">
-
-
-                        <table mat-table [dataSource]="listData2" matSort class="scrollable" multiTemplateDataRows>
-
-                            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedColumns2;" class="example-element-row" matRipple [class.example-expanded-row]="expandedElement2 == row"></tr>
-                            <tr mat-row *matRowDef="let row; columns: ['expandedDetail2']" class="example-detail-row">
-                            </tr>
-
-
-                            <ng-container matColumnDef="Folio">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>FOLIO</th>
-                                <td class="folio" mat-cell *matCellDef="let element2" (click)="expandedElement2 = element2">
-                                    {{element2.Folio}} *</td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="Nombre">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>CLIENTE</th>
-                                <td mat-cell *matCellDef="let element">{{element.IdCliente}}</td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="FechaDeExpedicion">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA EXPEDICION</th>
-                                <td mat-cell *matCellDef="let element">{{element.FechaDeExpedicion }}</td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="Subtotal">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>SUBTOTAL MXN/USD</th>
-                                <td mat-cell *matCellDef="let element">{{element.Subtotal}}/{{element.SubtotalDlls}}</td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="ImpuestosTrasladadosDlls">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>IVA MXN/USD</th>
-                                <td mat-cell *matCellDef="let element">
-                                    {{element.ImpuestosTrasladados}}/{{element.ImpuestosTrasladadosDlls}}</td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="Total">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>TOTAL MXN/USD</th>
-                                <td mat-cell *matCellDef="let element">{{element.Total}}/{{element.TotalDlls}}</td>
-                            </ng-container>
-
-                            <ng-container matColumnDef="Estatus">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>ESTADO</th>
-                                <td mat-cell *matCellDef="let element2" [ngSwitch]=element2.Estatus>
-                                    <span *ngSwitchCase="'Timbrada'" class="label label-light-success">TIMBRADA</span>
-                                    <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
-                                    <span *ngSwitchCase="'Creada'" class="label label-light-danger">CREADA</span>
-                                </td>
-                            </ng-container>
-
-
-
-                            <ng-container matColumnDef="Options">
-                                <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
-                                <td mat-cell *matCellDef="let row">
-
-
-                                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
 
                     <mat-icon>keyboard_arrow_down</mat-icon>
                                  </button>
 
-                                    <mat-menu #menu="matMenu">
+                                        <mat-menu #menu="matMenu">
 
-                                        <button *ngIf="row.Estatus == 'Guardada'" title="Editar/Ver" mat-icon-button class="btn btn-dark" (click)="onVerNC(row)">
+                                            <button *ngIf="row.Estatus == 'Guardada'" title="Editar/Ver" mat-icon-button class="btn btn-dark" (click)="onVerNC(row)">
                       <mat-icon>edit</mat-icon>
                                  </button>
 
-                                        <!-- Eliminar -->
-                                        <button *ngIf="row.Estatus == 'Guardada'" mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteNC(row)">
+                                            <!-- Eliminar -->
+                                            <button *ngIf="row.Estatus == 'Guardada'" mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteNC(row)">
                       <mat-icon>delete_outline</mat-icon>
                     </button>
-                                        <!-- Ver Nota Credito -->
-                                        <button *ngIf="row.Estatus == 'Timbrada' || row.Estatus == 'Cancelada'" title="Editar/Ver" mat-icon-button class="btn btn-dark" (click)="onVerNC(row)">
+                                            <!-- Ver Nota Credito -->
+                                            <button *ngIf="row.Estatus == 'Timbrada' || row.Estatus == 'Cancelada'" title="Editar/Ver" mat-icon-button class="btn btn-dark" (click)="onVerNC(row)">
                         <mat-icon>remove_red_eye</mat-icon>
                                    </button>
-                                        <!-- Timbrada -->
-                                        <button *ngIf="row.Estatus == 'Timbrada'" mat-icon-button class="btn btn-danger" color="warn" (click)="CancelarNota(row)">
+                                            <!-- Timbrada -->
+                                            <button *ngIf="row.Estatus == 'Timbrada'" mat-icon-button class="btn btn-danger" color="warn" (click)="CancelarNota(row)">
                       <mat-icon>cancel</mat-icon>
                     </button>
 
-                                    </mat-menu>
-                                </td>
-                            </ng-container>
+                                        </mat-menu>
+                                    </td>
+                                </ng-container>
 
-                            <!-- <ng-container matColumnDef="expandedDetail2">
+                                <!-- <ng-container matColumnDef="expandedDetail2">
                                     <td mat-cell *matCellDef="let element2" [attr.colspan]="displayedColumns2.length">
                                         
                                         <div class="example-element-detail" [@detailExpand2]="element2 == expandedElement2 ? 'expanded' : 'collapsed'" *ngIf="element2.DetalleNotaCredito.length > 0" (click)="expandedElement2 = 0">
@@ -499,136 +531,136 @@
                                                 </tr>
                                             </table> -->
 
-                            <!-- </table> -->
+                                <!-- </table> -->
 
-                            <ng-container matColumnDef="expandedDetail2">
-                                <td mat-cell *matCellDef="let element2" [attr.colspan]="displayedColumns2.length">
-                                    <!-- <mat-header-cell *matHeaderCellDef mat-sort-header>CONCEPTOS</mat-header-cell> -->
-                                    <div class="example-element-detail" [@detailExpand2]="element2 == expandedElement2 ? 'expanded' : 'collapsed'" *ngIf="element2.DetalleNotaCredito.length > 0" (click)="expandedElement2 = 0">
-                                        <!-- <table mat-table [dataSource]="element.detalle"> -->
-                                        <table width="100%">
+                                <ng-container matColumnDef="expandedDetail2">
+                                    <td mat-cell *matCellDef="let element2" [attr.colspan]="displayedColumns2.length">
+                                        <!-- <mat-header-cell *matHeaderCellDef mat-sort-header>CONCEPTOS</mat-header-cell> -->
+                                        <div class="example-element-detail" [@detailExpand2]="element2 == expandedElement2 ? 'expanded' : 'collapsed'" *ngIf="element2.DetalleNotaCredito.length > 0" (click)="expandedElement2 = 0">
+                                            <!-- <table mat-table [dataSource]="element.detalle"> -->
+                                            <table width="100%">
 
-                                            <tr>
-                                                <th> Clave Producto </th>
-                                                <th> Producto </th>
-                                                <th> Cantidad </th>
-                                                <th> Precio Unitario </th>
-                                                <th> Importe </th>
-                                            </tr>
-                                            <tr *ngFor="let detalle of element2.DetalleNotaCredito">
-                                                <td> {{detalle.ClaveProducto}} </td>
-                                                <td> {{detalle.Producto}} </td>
-                                                <td> {{detalle.Cantidad }} </td>
-                                                <td> {{detalle.PrecioUnitario }} </td>
-                                                <td> {{detalle.Importe }} </td>
-                                            </tr>
-                                        </table>
+                                                <tr>
+                                                    <th> Clave Producto </th>
+                                                    <th> Producto </th>
+                                                    <th> Cantidad </th>
+                                                    <th> Precio Unitario </th>
+                                                    <th> Importe </th>
+                                                </tr>
+                                                <tr *ngFor="let detalle of element2.DetalleNotaCredito">
+                                                    <td> {{detalle.ClaveProducto}} </td>
+                                                    <td> {{detalle.Producto}} </td>
+                                                    <td> {{detalle.Cantidad }} </td>
+                                                    <td> {{detalle.PrecioUnitario }} </td>
+                                                    <td> {{detalle.Importe }} </td>
+                                                </tr>
+                                            </table>
 
-                                        <!-- </table> -->
+                                            <!-- </table> -->
 
-                                    </div>
+                                        </div>
+                                    </td>
+                                </ng-container>
+
+
+                            </table>
+                            <!-- <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                        </mat-paginator> -->
+                            <!-- </div>
+                </div>>
+                </div> -->
+
+                        </div>
+                        <!-- </div> -->
+                    </div>
+                    <!-- </div> -->
+
+                </div>
+
+                <!--  TABLA NOTA CREDITO -->
+                <mat-divider></mat-divider>
+                <br>
+
+
+
+                <!-- INICIO  TABLA PAGOS CFDI -->
+
+                <div *ngIf="PagoCFDI == true" style="overflow:auto;" class="form-material mat-elevation-z5">
+
+                    <div class="card card-header">
+                        <h3 class="bolder blacktxt text-center">
+                            Pagos CFDI
+                        </h3>
+                    </div>
+
+                    <div class="container">
+
+                        <table mat-table [dataSource]="listDataPagosCFDI" matSort>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsPagosCFDI"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsPagosCFDI;"></tr>
+
+                            <ng-container matColumnDef="IdReciboPago">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>ID Recibo</th>
+                                <td mat-cell *matCellDef="let element">{{element.IdReciboPago}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="FechaPago">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Pago</th>
+                                <td mat-cell *matCellDef="let element">{{element.FechaPago}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="Cantidad">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
+                                <td mat-cell *matCellDef="let element">{{element.Cantidad | currency}}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="Estado">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                                <td mat-cell *matCellDef="let element">{{element.Estado}}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Options">
+                                <th mat-header-cell *matHeaderCellDef>Options</th>
+                                <td mat-cell *matCellDef="let row">
+
+                                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              </button>
+                                    <mat-menu #menu="matMenu">
+                                        <!--  -->
+                                        <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                        <mat-icon>edit</mat-icon>
+                                    </button> -->
+                                        <!--  -->
+                                        <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdProveedor)">
+                                            <mat-icon>delete_outline</mat-icon>
+                                        </button> -->
+                                    </mat-menu>
                                 </td>
                             </ng-container>
 
 
                         </table>
-                        <!-- <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
-                        </mat-paginator> -->
-                        <!-- </div>
-                </div>>
-                </div> -->
-
+                        <!-- <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons> -->
+                        <!-- </mat-paginator> -->
                     </div>
-                    <!-- </div> -->
                 </div>
-                <!-- </div> -->
 
-            </div>
-
-            <!--  TABLA NOTA CREDITO -->
-            <mat-divider></mat-divider>
-            <br>
+                <!-- FIN TABLA PAGOS CFDI -->
+                <mat-divider></mat-divider>
+                <br>
+                <hr>
 
 
-
-            <!-- INICIO  TABLA PAGOS CFDI -->
-
-            <div *ngIf="PagoCFDI == true" style="overflow:auto;" class="form-material mat-elevation-z5">
-
-                <div class="card card-header">
-                    <h3 class="bolder blacktxt text-center">
-                        Pagos CFDI
-                    </h3>
-                </div>
+                <!-- Totales -->
 
                 <div class="container">
-
-                    <table mat-table [dataSource]="listDataPagosCFDI" matSort>
-
-                        <tr mat-header-row *matHeaderRowDef="displayedColumnsPagosCFDI"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumnsPagosCFDI;"></tr>
-
-                        <ng-container matColumnDef="IdReciboPago">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID Recibo</th>
-                            <td mat-cell *matCellDef="let element">{{element.IdReciboPago}}</td>
-                        </ng-container>
-                        <ng-container matColumnDef="FechaPago">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Pago</th>
-                            <td mat-cell *matCellDef="let element">{{element.FechaPago}}</td>
-                        </ng-container>
-                        <ng-container matColumnDef="Cantidad">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
-                            <td mat-cell *matCellDef="let element">{{element.Cantidad | currency}}</td>
-                        </ng-container>
-                        <ng-container matColumnDef="Estado">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
-                            <td mat-cell *matCellDef="let element">{{element.Estado}}</td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="Options">
-                            <th mat-header-cell *matHeaderCellDef>Options</th>
-                            <td mat-cell *matCellDef="let row">
-
-                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                <mat-icon>keyboard_arrow_down</mat-icon>
-              </button>
-                                <mat-menu #menu="matMenu">
-                                    <!--  -->
-                                    <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
-                                        <mat-icon>edit</mat-icon>
-                                    </button> -->
-                                    <!--  -->
-                                    <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdProveedor)">
-                                            <mat-icon>delete_outline</mat-icon>
-                                        </button> -->
-                                </mat-menu>
-                            </td>
-                        </ng-container>
+                    <div class="row">
+                        <div class="col-2 col-lg-2 col-md-2">
 
 
-                    </table>
-                    <!-- <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons> -->
-                    <!-- </mat-paginator> -->
-                </div>
-            </div>
+                        </div>
 
-            <!-- FIN TABLA PAGOS CFDI -->
-            <mat-divider></mat-divider>
-            <br>
-            <hr>
-
-
-            <!-- Totales -->
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-2 col-lg-2 col-md-2">
-
-
-                    </div>
-
-                    <div class="col-12 col-lg-4 col-md-4">
-                        <!-- <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock2">
+                        <div class="col-12 col-lg-4 col-md-4">
+                            <!-- <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock2">
                             
                         </div>
                         <ng-template #elseBlock2>
@@ -637,164 +669,164 @@
                         <br>
                         <br> -->
 
-                        <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada' || this.Estatus=='Pagada'; else elseBlock" style="display: grid">
-                            <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
-                            <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
+                            <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada' || this.Estatus=='Pagada'; else elseBlock" style="display: grid">
+                                <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
+                                <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
                         class="mdi mdi-code-tags btn-lg"></i>XML / PDF</button>
-                            <br>
-                            <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml2(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
+                                <br>
+                                <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml2(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
                       PDF</button>
-                            <br>
-                            <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='cancelar(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
+                                <br>
+                                <button [style.display]="clienteLogin ? 'none' : 'block'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='cancelar(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
                         class="mdi mdi-candle btn-lg"></i>Cancelar</button>
-                            <br>
-                            <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button>
-                            <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='email(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
+                                <br>
+                                <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button>
+                                <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='email(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
                         class="mdi mdi-email btn-lg"></i>Enviar</button>
-                            <br>
-                            <button *ngIf="this.Estatus=='Cancelada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='acuse(service.formData)' [disabled]="form.invalid"><i
+                                <br>
+                                <button *ngIf="this.Estatus=='Cancelada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='acuse(service.formData)' [disabled]="form.invalid"><i
                         class="mdi mdi-download btn-lg"></i>Descargar Acuse</button>
 
-                            <button *ngIf="this.Estatus=='Timbrada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='saldar(service.formData)' [disabled]="form.invalid"><i
+                                <button [style.display]="clienteLogin ? 'none' : 'block'" *ngIf="this.Estatus=='Timbrada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='saldar(service.formData)' [disabled]="form.invalid"><i
                         class="mdi mdi-currency-usd btn-lg"></i>Saldar</button>
 
-                            <button *ngIf="this.Estatus=='Pagada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='nosaldar(service.formData)' [disabled]="form.invalid"><i
+                                <button [style.display]="clienteLogin ? 'none' : 'block'" *ngIf="this.Estatus=='Pagada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='nosaldar(service.formData)' [disabled]="form.invalid"><i
                         class="mdi mdi-currency-usd btn-lg"></i>No Saldar</button>
 
 
 
 
 
-                            <!-- <button type="button" class="btn btn-secondary">No Editable</button> -->
-                            <!-- <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+                                <!-- <button type="button" class="btn btn-secondary">No Editable</button> -->
+                                <!-- <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
                             </ngx-loading> -->
-                        </div>
-                        <ng-template #elseBlock>
-                            <div style="display: grid">
-                                <!-- <button class="btn btn-info btn-lg" mat-raised-button (click)="onAddProducto()"><i
+                            </div>
+                            <ng-template #elseBlock>
+                                <div style="display: grid">
+                                    <!-- <button class="btn btn-info btn-lg" mat-raised-button (click)="onAddProducto()"><i
                   class="mdi mdi-plus btn-lg"></i>Agregar Producto</button> -->
-                                <br>
+                                    <br>
 
-                                <button class="btn btn-info btn-lg" mat-raised-button (click)="onSubmit(form)"><i
+                                    <button class="btn btn-info btn-lg" mat-raised-button (click)="onSubmit(form)"><i
                   class="mdi mdi-content-save btn-lg"></i>Guardar</button>
 
-                                <br>
-                                <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
-                                <button class="btn btn-danger btn-lg" mat-raised-button (click)='timbrar(form)' [disabled]="form.invalid"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
+                                    <br>
+                                    <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
+                                    <button class="btn btn-danger btn-lg" mat-raised-button (click)='timbrar(form)' [disabled]="form.invalid"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
 
-                                <br>
-                                <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml2(service.formData.UUID,service.formData.Folio)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
+                                    <br>
+                                    <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml2(service.formData.UUID,service.formData.Folio)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
                                     PDF</button>
                                     <br>
-                                <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='soloPDF(service.formData.UUID,service.formData.Folio)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Descargar
+                                    <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='soloPDF(service.formData.UUID,service.formData.Folio)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Descargar
                                     PDF</button>
-                                <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button> -->
-                                <!-- <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='prefactura(service.formData.Folio)'><i class="mdi mdi-code-tags btn-lg"></i>Prefactura</button> -->
+                                    <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button> -->
+                                    <!-- <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='prefactura(service.formData.Folio)'><i class="mdi mdi-code-tags btn-lg"></i>Prefactura</button> -->
 
-                                <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}" [template]="customTemplate">
-                                </ngx-loading>
-                            </div>
-                        </ng-template>
-                    </div>
+                                    <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}" [template]="customTemplate">
+                                    </ngx-loading>
+                                </div>
+                            </ng-template>
+                        </div>
 
 
 
-                    <div class="col-2 col-lg-2 col-md-2"></div>
-                    <!-- Totales en Pesos -->
-                    <div class="col-12 col-lg-4 col-md-4" *ngIf="this.service.Moneda=='MXN'">
-                        <div class="form-material borderbox">
-                            <div class="container">
-                                <div class="row">
+                        <div class="col-2 col-lg-2 col-md-2"></div>
+                        <!-- Totales en Pesos -->
+                        <div class="col-12 col-lg-4 col-md-4" *ngIf="this.service.Moneda=='MXN'">
+                            <div class="form-material borderbox">
+                                <div class="container">
+                                    <div class="row">
 
-                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Subtotal</label>
-                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Subtotal" #Subtotal="ngModel" [ngModel]="service.formData.Subtotal | currency">
+                                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Subtotal</label>
+                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Subtotal" #Subtotal="ngModel" [ngModel]="service.formData.Subtotal | currency">
 
-                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Impuestos Trasladados</label>
-                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [ngModel]="service.formData.ImpuestosTrasladados | currency">
+                                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Impuestos Trasladados</label>
+                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [ngModel]="service.formData.ImpuestosTrasladados | currency">
 
-                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Saldo</label>
-                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Saldo" #Saldo="ngModel" [ngModel]="this.service.SaldoFacturaMXN | currency">
+                                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Saldo</label>
+                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Saldo" #Saldo="ngModel" [ngModel]="this.service.SaldoFacturaMXN | currency">
 
-                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
-                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="service.formData.Total | currency">
+                                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
+                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="service.formData.Total | currency">
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Fin de totales en Pesos -->
-                    <!-- Totales en Dolares -->
+                        <!-- Fin de totales en Pesos -->
+                        <!-- Totales en Dolares -->
 
-                    <div class="col-12 col-lg-4 col-md-4" *ngIf="this.service.Moneda=='USD'">
-                        <div class="form-material borderbox">
-                            <div class="container">
-                                <div class="row">
+                        <div class="col-12 col-lg-4 col-md-4" *ngIf="this.service.Moneda=='USD'">
+                            <div class="form-material borderbox">
+                                <div class="container">
+                                    <div class="row">
 
-                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Subtotal</label>
-                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Subtotal" #Subtotal="ngModel" [ngModel]="service.formData.SubtotalDlls | currency">
+                                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Subtotal</label>
+                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Subtotal" #Subtotal="ngModel" [ngModel]="service.formData.SubtotalDlls | currency">
 
-                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Impuestos Trasladados</label>
-                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [ngModel]="service.formData.ImpuestosTrasladadosDlls | currency">
+                                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Impuestos Trasladados</label>
+                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [ngModel]="service.formData.ImpuestosTrasladadosDlls | currency">
 
-                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Saldo</label>
-                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Saldo" #Saldo="ngModel" [ngModel]="this.service.SaldoFacturaDLLS | currency">
+                                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Saldo</label>
+                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Saldo" #Saldo="ngModel" [ngModel]="this.service.SaldoFacturaDLLS | currency">
 
-                                    <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
-                                    <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="service.formData.TotalDlls | currency">
+                                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
+                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="service.formData.TotalDlls | currency">
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Fin Totales en Dolares -->
+                        <!-- Fin Totales en Dolares -->
 
 
 
-                </div>
-            </div>
-
-
-
-            <br>
-            <mat-divider></mat-divider>
-
-
-
-
-
-            <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------->
-
-            <div class="row animated fadeIn fadeOut" *ngIf="this.proceso == 'Timbrando'">
-                <div class="col-sm-12">
-                    <div class="alert alert-info text-center">
-                        <strong> Timbrando </strong>
-                        <br>
-                        <i class="fa fa-refresh fa-spin fa-2x"></i>
-                        <br>
                     </div>
                 </div>
-            </div>
-            <div class="row animated fadeIn fadeOut" *ngIf="this.proceso == 'xml'">
-                <div class="col-sm-12">
-                    <div class="alert alert-info text-center">
-                        <strong> Generando Archivos </strong>
-                        <br>
-                        <i class="fa fa-refresh fa-spin fa-2x"></i>
-                        <br>
+
+
+
+                <br>
+                <mat-divider></mat-divider>
+
+
+
+
+
+                <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------->
+
+                <div class="row animated fadeIn fadeOut" *ngIf="this.proceso == 'Timbrando'">
+                    <div class="col-sm-12">
+                        <div class="alert alert-info text-center">
+                            <strong> Timbrando </strong>
+                            <br>
+                            <i class="fa fa-refresh fa-spin fa-2x"></i>
+                            <br>
+                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="row animated fadeIn fadeOut" *ngIf="this.proceso == 'xml'">
+                    <div class="col-sm-12">
+                        <div class="alert alert-info text-center">
+                            <strong> Generando Archivos </strong>
+                            <br>
+                            <i class="fa fa-refresh fa-spin fa-2x"></i>
+                            <br>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- </div> -->
+                <!-- </div> -->
+            </div>
         </div>
+        <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}" [template]="customTemplate">
+        </ngx-loading>
     </div>
-    <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}" [template]="customTemplate">
-    </ngx-loading>
-</div>
 
 
 
-<!-- <div>
+    <!-- <div>
     <button (click)="enviar()"> Facturar </button>
     <h1> {{ estatusfact }} </h1>
 
@@ -804,9 +836,9 @@
 </div> -->
 
 
-<!-- Aqui va el PDF -->
+    <!-- Aqui va el PDF -->
 
-<!-- <div class="modal fade bs-example-modal-lg show" id="add-new-event">
+    <!-- <div class="modal fade bs-example-modal-lg show" id="add-new-event">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
          
@@ -821,29 +853,29 @@
     </div>
 </div> -->
 
-<!-- cargando -->
-<ng-template #customTemplate>
-    <div class="col-12">
-        <h3>
-            Enviando
-        </h3>
-    </div>
-</ng-template>
-
-<div class="modal fade bs-example-modal-lg show" id="cargando" style="overflow: hidden">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <button id="cerrarmodal" type="button" [hidden]="true" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
-
-
+    <!-- cargando -->
+    <ng-template #customTemplate>
+        <div class="col-12">
+            <h3>
+                Enviando
+            </h3>
         </div>
+    </ng-template>
+
+    <div class="modal fade bs-example-modal-lg show" id="cargando" style="overflow: hidden">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <button id="cerrarmodal" type="button" [hidden]="true" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+
+
+            </div>
+        </div>
+
     </div>
 
-</div>
 
-
-<!-- <div class="modal fade bs-example-modal-xl" id="modalcorreo">
+    <!-- <div class="modal fade bs-example-modal-xl" id="modalcorreo">
     <div class="modal-dialog modal-xl modal-dialogenviar">
         <div class="modal-content">
 

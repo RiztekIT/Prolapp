@@ -117,7 +117,7 @@ else{
         this.dialog.open(EnviarOrdenCargaComponent, dialogConfig);
 
   }
-  terminar(){
+   terminar(){
   }
 
   regresar(){

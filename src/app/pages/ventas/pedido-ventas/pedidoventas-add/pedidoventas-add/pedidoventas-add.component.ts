@@ -28,6 +28,10 @@ import { ClienteDireccionService } from '../../../../../services/cliente-direcci
 import { ClienteDireccionComponent } from '../../../../../components/cliente-direccion/cliente-direccion.component';
 import { VentasCotizacionService } from 'src/app/services/ventas/ventas-cotizacion.service';
 import { AddsproductosService } from 'src/app/services/addsproductos.service';
+import { ReporteEmisionComponent } from 'src/app/components/reporte-emision/reporte-emision.component';
+import { MessageService } from 'src/app/services/message.service';
+import { EmailgeneralComponent } from 'src/app/components/email/emailgeneral/emailgeneral.component';
+import * as html2pdf from 'html2pdf.js';
 //Constantes para obtener tipo de cambio
 const httpOptions = {
   headers: new HttpHeaders({
@@ -51,7 +55,7 @@ export class PedidoventasAddComponent implements OnInit {
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
     private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient, public ServiceUnidad: UnidadMedidaService,
-    public serviceDireccion: ClienteDireccionService, private dialog: MatDialog, public servicecoti: VentasCotizacionService, public addproductos: AddsproductosService) {
+    public serviceDireccion: ClienteDireccionService, private dialog: MatDialog, public servicecoti: VentasCotizacionService, public addproductos: AddsproductosService, public _MessageService: MessageService) {
       
     this.MonedaBoolean = true;
 
@@ -69,6 +73,8 @@ export class PedidoventasAddComponent implements OnInit {
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
 
+  EstatusOC: string;
+
   //valores de unidad
   filteredOptionsUnidad: Observable<any[]>;
   myControlUnidad = new FormControl();
@@ -82,10 +88,12 @@ export class PedidoventasAddComponent implements OnInit {
   clavepresentacion:string;
   PresentacionSelect: string;
   Id: number;
+  clienteLogin;
 
 
   ngOnInit() {
-
+    console.log(localStorage.getItem("inicioCliente"));
+    this.clienteLogin = localStorage.getItem("inicioCliente");
     this.Inicializar();
     this.dropdownRefresh();
     this.dropdownRefreshVendedor();
@@ -165,7 +173,14 @@ export class PedidoventasAddComponent implements OnInit {
 
   Regresar() {
     localStorage.removeItem('IdPedido');
-    this.router.navigateByUrl('/pedidosVentas');
+    console.log(this.clienteLogin);
+    if (this.clienteLogin == 'true') {
+      console.log('soy true');
+      this.router.navigateByUrl('/ordendecompra');
+      
+    } else {
+      this.router.navigateByUrl('/pedidosVentas');
+    }
   }
 
 
@@ -715,6 +730,8 @@ this.changeDireccion(this.isDireccion);
     this.service.getPedidoId(this.IdPedido).subscribe(data => {
       console.log(data);
       this.service.formDataPedido = data[0];
+      this.EstatusOC = this.service.formDataPedido.Estatus;
+      // console.log(this.Estatus);
 
       //VerificarFlete
       this.llevaFlete();
@@ -1249,6 +1266,114 @@ this.isFactura = true;
       this.service.filter('Register click');
     }
     )
+  }
+
+  cerrarPedido(){
+    this.service.formDataPedido.Estatus = 'Cerrada';
+
+    this.service.formDataPedido.Total = this.total;
+    this.service.formDataPedido.Subtotal = this.subtotal;
+    this.service.formDataPedido.TotalDlls = this.totalDlls;
+    this.service.formDataPedido.SubtotalDlls = this.subtotalDlls;
+
+    console.log(this.service.formDataPedido);
+    this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Pedido Cerrado'
+      })
+      this.Inicializar();
+    }
+    )
+  }
+
+  convertirPedido(){
+
+  }
+
+  enviarPedido(){
+    
+    this.service.formt = JSON.parse(localStorage.getItem('pedidopdf'));
+    let pedido = this.service.formt;
+
+    console.log(pedido);
+
+ 
+    // document.getElementById('enviaremail2').click();
+  
+    // this.folioparam = folio;
+    // this.idparam = id;
+    this._MessageService.correo = 'ivan.talamantes@live.com';
+    this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
+    this._MessageService.asunto = 'Envio Orden de Compra ' + pedido.Folio;
+    this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + pedido.Folio;
+    this._MessageService.nombre = 'ProlactoIngredientes';
+
+    this.service.formt = JSON.parse(localStorage.getItem('pedidopdf'));
+    
+    // console.log();
+    const dialogConfig2 = new MatDialogConfig();
+    dialogConfig2.disableClose = false;
+    dialogConfig2.autoFocus = true;
+    dialogConfig2.width="70%";
+    let dialogFact = this.dialog.open(ReporteEmisionComponent, dialogConfig2);
+    
+  
+  
+    
+  
+    setTimeout(()=>{
+  
+      // this.xmlparam = folio;
+        const content: Element = document.getElementById('element-to-PDF');
+        const option = {
+          margin: [0, 0, 0, 0],
+          filename: 'Orden de Compra-' + pedido.Folio + '.pdf',
+          image: { type: 'jpeg', quality: 1 },
+          html2canvas: { scale: 2, logging: true, scrollY: 0 },
+          jsPDF: { format: 'letter', orientation: 'portrait' },
+        };
+        html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
+          localStorage.setItem('pdfcorreo'+pedido.Folio, pdfAsString);
+          this.statusparam=true;          
+          console.log(this.statusparam);                
+        })
+        dialogFact.close()
+        
+      },1000)
+  
+    const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = false;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width = "90%";
+        dialogConfig.data = {
+          foliop: pedido.Folio,
+           cliente: pedido.Nombre,
+          status: true,
+          tipo: 'Pedido'
+        }
+        this.dialog.open(EmailgeneralComponent, dialogConfig);
+  
+   
+  
+  
+  }
+
+
+  verPDF(){
+    // console.log(this.service.formDataPedido);
+    console.log(this.service.formData);
+    console.log(this.service.formDataDP);
+    console.log(this.service.formDataPedido);
+    console.log(this.service.formProd);
+    this.service.formt = JSON.parse(localStorage.getItem('pedidopdf'));
+    console.log(this.service.formt)
+    // console.log();
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(ReporteEmisionComponent, dialogConfig);
   }
 
 }

@@ -147,4 +147,13 @@ export class ReciboPagoService {
     this._listeners.next(filterBy);
   }
 
+
+
+  // recibo de pago cliente login
+
+    //Obtener Recibo por IdRecibo
+    getReciboClienteId(id: number): Observable<any[]> {
+      return this.http.get<any[]>(this.APIUrl + '/cliente/complementodepago/' + id);
+    }
+
 }

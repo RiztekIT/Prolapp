@@ -89,7 +89,7 @@ data.forEach((d) => {
   d.Docs.forEach((docs)=>{
 
     let fechaexp = docs.FechaDeExpedicion.substring(0,10);
-    let fechavenc = docs.FechaDeExpedicion.substring(0,10);
+    let fechavenc = docs.FechaVencimiento.substring(0,10);
 
     let registro2 = [docs.Folio,fechaexp,fechavenc,+docs.Total,+docs.TotalDlls,+docs.Abonos,+docs.Saldo,docs.Moneda,+docs.TipoDeCambio]
     let row2 = worksheet.addRow(registro2);

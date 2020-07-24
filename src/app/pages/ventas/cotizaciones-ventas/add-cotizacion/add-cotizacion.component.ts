@@ -1336,7 +1336,7 @@ email(cotizacion){
         jsPDF: { format: 'letter', orientation: 'portrait' },
       };
       html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
-        localStorage.setItem('pdfcotizacion'+cotizacion.Folio, pdfAsString);
+        localStorage.setItem('pdfcorreo'+cotizacion.Folio, pdfAsString);
         this.statusparam=true;          
         console.log(this.statusparam);                
       })
@@ -1351,7 +1351,8 @@ email(cotizacion){
       dialogConfig.data = {
         foliop: cotizacion.Folio,
          cliente: cotizacion.Nombre,
-        status: true
+        status: true,
+        tipo: 'Cotizacion'
       }
       this.dialog.open(EmailgeneralComponent, dialogConfig);
 

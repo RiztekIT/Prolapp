@@ -30,21 +30,36 @@ export class HeaderComponent implements OnInit {
   // readonly rootURL = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF63528/datos/oportuno"
   rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
   Cdolar: string;
+  clienteLogin;
   public usuario: Usuario;
   public user;
 
   constructor(private http : HttpClient, private storageService: StorageServiceService, private tipoCambio:TipoCambioService) { }
 
   ngOnInit() {
+    console.log(localStorage.getItem("inicioCliente"));
+  this.clienteLogin = localStorage.getItem("inicioCliente");
     this.tipoDeCambio();
     this.usuario = this.storageService.getCurrentUser();
     this.getUsuario();
   }
 
   getUsuario(){
+    
+    if (this.clienteLogin == 'true') {
+      let u = JSON.parse(localStorage.getItem('ProlappSessionCliente'));
+      console.log(JSON.parse(localStorage.getItem('ProlappSessionCliente')));
+      this.user = u.user.RFC;
+      console.log('this.user : ', this.user );
+      
+    } else {
+
     let u = JSON.parse(localStorage.getItem('ProlappSession'));
     console.log(JSON.parse(localStorage.getItem('ProlappSession')));
     this.user = u.user;
+
+    }
+    
   }
 
 
@@ -93,7 +108,13 @@ if (hora>10){
   }
 
   cerrarSesion(){
-    this.storageService.logout();
+    if (this.clienteLogin == 'true') {
+      this.storageService.logoutCliente();
+      
+    } else {
+      
+      this.storageService.logout();
+    }
   }
 
 

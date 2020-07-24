@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
+import { ClientesService } from '../catalogos/clientes.service';
+import { DatePipe } from '@angular/common';
+import { StorageServiceService } from './storage-service.service';
 
 export const APIUrl = environment.APIUrl;
 declare function init_plugins();
@@ -150,17 +153,22 @@ export class SidebarService {
     }
   ]; */
 
-  
+  sessionCliente: any
 
-  constructor(private http:HttpClient) { 
+  constructor(private http:HttpClient,public service: ClientesService,private datePipe: DatePipe, private storageServce: StorageServiceService) { 
+    this.menu = [];
+    this.sessionCliente = localStorage.getItem("inicioCliente");
+    console.log('this.sessionCliente = localStorage.getItem("inicioCliente"): ', this.sessionCliente = localStorage.getItem("inicioCliente"));
+    if (this.sessionCliente == 'true') {
+    this.getMenucliente();
+    } else {
     this.getMenu();
+  }
     
   }
-
-
   getMenu() {
     return this.http.get(APIUrl + '/Menu/1').subscribe((data:any)=>{
-      // console.log(data);
+      console.log(data);
       this.menu = [];
       
       for (let i=0; i< data.length; i++){
@@ -189,26 +197,98 @@ export class SidebarService {
               "url": submenu[j].url
             }
           }
+        })
+      }
+      console.warn(this.menu);
+      // console.log(this.menu);
+      init_plugins();
+
+    });
+  }
+  
+
+
+getMenucliente(){
+
+  this.menu = [
+    {
+      titulo: 'Cliente',
+      icono: 'account_circle',
+      submenu: [
+        { titulo: 'Facturacion', url: '/facturacion' },
+        { titulo: 'Orden de Compra', url: '/ordendecompra' },
+        { titulo: 'Tracking', url: '/trackingcliente' },
+        { titulo: 'Complemento de Pago', url: '/complementodepago' },
+        // { titulo: 'Facturacion', url: '/catalogos' },
+        // { titulo: 'Orden de Compra', url: '/permisos' },
+      ],
+      url: '/cliente',
+    },
+  ]
+  console.warn(this.menu);
+
+  init_plugins();
+}
+
+
+
+
+
+
+
+  //funcionando con un solo usuario
+//   getMenu() {
+
+//     return this.http.get(APIUrl + '/Menu/1').subscribe((data:any)=>{
+//       console.log(data);
+//       this.menu = [];
+      
+//       for (let i=0; i< data.length; i++){
+//         this.menu[i] = {
+//           "titulo":data[i].titulo,
+//           "icono":data[i].icono,
+//           "url":data[i].url
+//         }
+      
+//         this.menu[i].submenu = [];
+// // console.log(this.menu);
+        
+
+//         // console.log(data[i].idmenu);
+//         // console.log(this.menu);
+//         // this.menu[i].submenu
+//         this.http.get(APIUrl+ '/Menu/Submenu/1/'+data[i].idmenu).subscribe((submenu:any)=>{
+//           // console.log(data[i].idmenu);
+//           // console.log(submenu);
+//           this.submenu = [];
+
+//           this.menu[i].submenu = []
+//           for (let j=0; j< submenu.length; j++){
+//             this.menu[i].submenu[j] = {
+//               "titulo" : submenu[j].titulo,
+//               "url": submenu[j].url
+//             }
+//           }
 
 
         
 
 
 
-        })
+//         })
 
 
 
 
        
-      }
+//       }
       
      
-      // console.log(this.menu);
-      init_plugins();
+//       // console.log(this.menu);
+//       init_plugins();
 
-    });
-  }
+//     });
+//   }
 
 
   // public loadScript() { 

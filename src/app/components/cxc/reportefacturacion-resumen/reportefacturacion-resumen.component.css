@@ -148,3 +148,7 @@ th {
 .border2 {
     border-top-style: dotted;
 }
+
+.font {
+    font-size: 12px !important;
+}

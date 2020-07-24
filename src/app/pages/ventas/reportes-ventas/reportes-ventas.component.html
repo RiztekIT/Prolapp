@@ -1,101 +1,80 @@
-<h3 class="text-muted m-t-10 m-b-0">Reportes de Ventas</h3>
-<div class="accordion" id="accordionExample">
-    <div class="card">
-        <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                Reporte de Ventas - Cliente
-              </button>
-            </h2>
-        </div>
-
-        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+<div class="row">
+    <div class="col-12">
+        <div class="card">
             <div class="card-body">
 
-                <h4 class="card-title"> Ventas por Cliente</h4>
-                <!-- <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6> -->
-                <div class="table-responsive m-t-40">
-                    <table id="example" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Cliente</th>
-                                <th>Cantidad</th>
-                                <th>Fecha</th>
-                                <th>Estatus</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let incidencia of ReporteVentas">
-                                <td>{{ incidencia.id }}</td>
-                                <td>{{ incidencia.cliente }}</td>
-                                <td>{{ incidencia.cantidad }}</td>
-                                <td>{{ incidencia.fecha }}</td>
-                                <td>{{ incidencia.estatus }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <h2 style="text-align: center;">Reportes de Ventas</h2>
 
+
+                <div class="card-header" id="headingOne">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                Reportes de Cotizaciones
+                              </button>
+                    </h2>
                 </div>
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                    <mat-card class="mat-elevation-z0">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-4" style="align-self: center">
+
+                                    <mat-checkbox class="checkbx" [(checked)]="todosClientes" (change)="checkbox($event)">
+                                    </mat-checkbox>
+                                    <label class="input-group-text text-info">
+                                                Todos Los Clientes
+                                            </label>
+                                </div>
+                                <div class="col-8" *ngIf="!todosClientes">
+                                    <label class="input-group-text text-info">Seleccionar Cliente</label>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <mat-form-field class="example-full-width">
+                                                <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClienteId" [(ngModel)]="serviceCliente.Idclienteservicio">
+                                                <mat-autocomplete #auto="matAutocomplete">
+                                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChange(option, $event)">
+                                                        {{option.IdClientes}} {{option.Nombre}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                            <input type="string" class="form-control" readonly name="ClienteNombre" readonly [(ngModel)]="ClienteNombre">
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <!--   <br>
+                                    <div class="col-12">
+                                        <h2 class="h1-responsive" style="text-align: center;"> Reportes de Cobranza </h2>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <br> -->
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-4 btnalign">
+                                        <button class="btn btn-warning" id="abrirpdf" (click)='reporteCobranza()'><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cotizaciones</button>
+                                    </div>
+                                    <!--   <div class="col-4 btnalign">
+                                        <button class="btn btn-success" id="abrirpdf" (click)="reporteCobranzaDlls()"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza Dlls</button>
+                                    </div>
+                                    <div class="col-4 btnalign">
+                                        <button class="btn btn-info" id="abrirpdf" (click)="reporteCobranzaMxn()"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza Mxn</button>
+                                    </div> -->
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </mat-card>
+                </div>
+
             </div>
         </div>
-
-
-
-
-
-
-    </div>
-
-
-
-
-    <div class="card">
-        <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapsetwo" aria-expanded="false" aria-controls="collapsetwo">
-                    Reporte de Ventas - Producto
-                  </button>
-            </h2>
-        </div>
-
-        <div id="collapsetwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-            <div class="card-body">
-
-                <h4 class="card-title"> Ventas por Producto</h4>
-                <!-- <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6> -->
-                <div class="table-responsive m-t-40">
-                    <table class="display nowrap table table-hover table-striped table-bordered tablauno" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Producto</th>
-                                <th>Precio</th>
-                                <th>Fecha</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let incidencia of ReporteVentas">
-                                <td>{{ incidencia.id }}</td>
-                                <td>{{ incidencia.producto }}</td>
-                                <td>{{ incidencia.precio }}</td>
-                                <td>{{ incidencia.fecha }}</td>
-
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        </div>
-
-
-
-
-
-
     </div>
 </div>
-
-
-<app-graficas-ventas></app-graficas-ventas>
