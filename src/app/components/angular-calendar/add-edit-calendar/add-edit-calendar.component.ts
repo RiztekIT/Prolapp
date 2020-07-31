@@ -38,23 +38,32 @@ export class AddEditCalendarComponent implements OnInit {
     this.calendarService.formDataDetalleCalendario.ResizableBeforeStart = 0;
     this.calendarService.formDataDetalleCalendario.ResizableBeforeEnd = 0;
     this.calendarService.formDataDetalleCalendario.AllDay = 0
-    this.calendarService.formDataDetalleCalendario.Start = new Date();
-    this.calendarService.formDataDetalleCalendario.Endd = new Date();
+    // this.calendarService.formDataDetalleCalendario.Start = new Date();
+    // this.calendarService.formDataDetalleCalendario.Endd = new Date();
     console.log(this.calendarService.formDataDetalleCalendario);
-     switch (this.origenCalendario) {
-      case ('Compras'):
-        console.log('EDITANDO EVENTO COMPRAS');
+    Swal.fire({
+      title: 'Actualizado',
+      icon: 'success',
+      timer: 1000,
+      showCancelButton: false,
+      showConfirmButton: false
+    });
+    //  switch (this.origenCalendario) {
+      // case ('Compras'):
+        // console.log('EDITANDO EVENTO COMPRAS');
         this.calendarService.editDetalleCalendario(this.calendarService.formDataDetalleCalendario).subscribe(res=>{
+         
           console.log(res);
           this.onClose();
         })
-        break;
-      case ('Almacen'):
-        break;
-      default:
-        break;
-    }
+    //     break;
+    //   case ('Almacen'):
+    //     break;
+    //   default:
+    //     break;
+    // }
   }
+  
   agregar(form:NgForm){
     this.calendarService.formDataDetalleCalendario.Draggable = 0;
     this.calendarService.formDataDetalleCalendario.ResizableBeforeStart = 0;
@@ -62,36 +71,47 @@ export class AddEditCalendarComponent implements OnInit {
     this.calendarService.formDataDetalleCalendario.AllDay = 0;
     this.calendarService.formDataDetalleCalendario.IdCalendario = this.calendarService.IdCalendario;
     console.log(this.calendarService.formDataDetalleCalendario);
-     switch (this.origenCalendario) {
-      case ('Compras'):
-        console.log('AGREANDO EVENTO A COMPRAS');     
+    Swal.fire({
+      title: 'Evento Generado',
+      icon: 'success',
+      timer: 1000,
+      showCancelButton: false,
+     showConfirmButton: false
+    });
+    //  switch (this.origenCalendario) {
+    //   case ('Compras'):
+    //     console.log('AGREANDO EVENTO A COMPRAS');     
         this.calendarService.addDetalleCalendario(this.calendarService.formDataDetalleCalendario).subscribe(res=>{
           console.log(res);
           this.onClose();
         })
-        break;
-      case ('Almacen'):
-        break;
-      default:
-        break;
-    }
+        // break;
+      // case ('Almacen'):
+        // break;
+      // default:
+        // break;
+    // }
+   
   }
 
   onClose(){
-    switch (this.origenCalendario) {
-    case ('Compras'):
-      console.log('CARGANDO CALENDARIO COMPRAS');
-      this.calendarService.filter('Compras');
-      this.dialogbox.close();
-      break;
-    case ('Almacen'):
-      console.log('CARGANDO CALENDARIO ALMACEN');
-      this.calendarService.filter('Almacen');
-      this.dialogbox.close();
-      break;
-    default:
-      break;
-  }
+    console.log('Accediendo a Calendario ' + this.origenCalendario);
+    this.calendarService.filter(this.origenCalendario);
+    this.dialogbox.close();
+  //   switch (this.origenCalendario) {
+  //   case ('Compras'):
+  //     console.log('CARGANDO CALENDARIO COMPRAS');
+  //     this.calendarService.filter('Compras');
+  //     this.dialogbox.close();
+  //     break;
+  //   case ('Almacen'):
+  //     console.log('CARGANDO CALENDARIO ALMACEN');
+  //     this.calendarService.filter('Almacen');
+  //     this.dialogbox.close();
+  //     break;
+  //   default:
+  //     break;
+  // }
   }
 
 }

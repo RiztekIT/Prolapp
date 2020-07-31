@@ -22,7 +22,7 @@
                     <div class="col-lg-6">
 
 
-                        <label class="input-group-text text-info ">Titulo</label>
+                        <label class="input-group-text text-info">Titulo</label>
                         <input required type="text" class="form-control" name="Title" #Title="ngModel" [(ngModel)]="calendarService.formDataDetalleCalendario.Title">
 
                         <div class="text-left text-danger" *ngIf="Title.invalid && Title.touched">
@@ -41,7 +41,7 @@
                             Favor de Ingresar Descripcion.
                         </div>
                         <label class="input-group-text text-info ">Color</label>
-                        <input required type="text" class="form-control" name="Color" #Color="ngModel" [(ngModel)]="calendarService.formDataDetalleCalendario.Color">
+                        <input required type="color" class="form-control" name="Color" #Color="ngModel" [(ngModel)]="calendarService.formDataDetalleCalendario.Color">
 
                         <div class="text-left text-danger" *ngIf="Color.invalid && Color.touched">
                             Favor de Ingresar Color.

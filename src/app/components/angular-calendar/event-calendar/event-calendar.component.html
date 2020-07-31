@@ -25,6 +25,28 @@
                         <label class="input-group-text text-info ">Folio</label>
                         <input readonly type="text" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="calendarService.formDataCompras.Folio">
 
+                        <label class="input-group-text text-info ">Titulo</label>
+                        <input readonly type="text" class="form-control" name="Titulo" #Titulo="ngModel" [(ngModel)]="calendarService.eventoInfo.title">
+
+                        <label class="input-group-text text-info ">Documento</label>
+                        <input readonly type="text" class="form-control" name="Documento" #Documento="ngModel" [(ngModel)]="calendarService.eventoInfo.documento">
+
+                        <label class="input-group-text text-info ">Descripcion</label>
+                        <input readonly type="text" class="form-control" name="Descripcion" #Descripcion="ngModel" [(ngModel)]="calendarService.eventoInfo.descripcion">
+
+                        <label class="input-group-text text-info ">Estatus</label>
+                        <input readonly type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="calendarService.formDataCompras.Estatus">
+
+
+
+                    </div>
+                    <div class="col-lg-6">
+                        <!--               -------------------------------------------------------                                       -->
+
+
+                        <label class="input-group-text text-info ">Peso Total</label>
+                        <input readonly type="text" class="form-control" name="PesoTotal" #PesoTotal="ngModel" [(ngModel)]="calendarService.formDataCompras.PesoTotal">
+
                         <label class="input-group-text text-info ">Proveedor</label>
                         <input readonly type="text" class="form-control" name="Proveedor" #Proveedor="ngModel" [(ngModel)]="calendarService.formDataCompras.Proveedor">
 
@@ -33,17 +55,6 @@
 
                         <label class="input-group-text text-info ">Total</label>
                         <input readonly type="text" class="form-control" name="Total" #Total="ngModel" [(ngModel)]="calendarService.formDataCompras.Total">
-
-
-                    </div>
-                    <div class="col-lg-6">
-                        <!--               -------------------------------------------------------                                       -->
-
-                        <label class="input-group-text text-info ">Estatus</label>
-                        <input readonly type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="calendarService.formDataCompras.Estatus">
-
-                        <label class="input-group-text text-info ">Peso Total</label>
-                        <input readonly type="text" class="form-control" name="PesoTotal" #PesoTotal="ngModel" [(ngModel)]="calendarService.formDataCompras.PesoTotal">
 
                         <label class="input-group-text text-info ">Observaciones</label>
                         <input readonly type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="calendarService.formDataCompras.Observaciones">
