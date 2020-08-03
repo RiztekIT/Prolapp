@@ -1254,7 +1254,7 @@ console.log(data);
     }
     else if (this.enviarfact.empresa.RFC==='AIN140101ME3'){
       
-      this.service.formData.Serie = '407289';
+      this.service.formData.Serie = '420126';
     }
     
     if (this.service.formData.Moneda == 'USD') {
