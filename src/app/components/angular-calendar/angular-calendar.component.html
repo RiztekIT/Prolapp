@@ -7,13 +7,13 @@
     <div class="col-md-4">
         <div class="btn-group">
             <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
-                Previous
+                Anterior
             </div>
             <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
-                Today
+                Hoy
             </div>
             <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
-                Next
+                Siguiente
             </div>
         </div>
     </div>
@@ -23,13 +23,13 @@
     <div class="col-md-4">
         <div class="btn-group">
             <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
-                Month
+                Mes
             </div>
             <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
-                Week
+                Semana
             </div>
             <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
-                Day
+                Dia
             </div>
         </div>
     </div>
@@ -60,12 +60,12 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Primary color</th>
+                <th>Titulo</th>
+                <th>Color</th>
                 <!-- <th>Secondary color</th> -->
-                <th>Starts at</th>
-                <th>Ends at</th>
-                <th>Remove</th>
+                <th>Empieza el:</th>
+                <th>Termina el:</th>
+                <th>Remover</th>
             </tr>
         </thead>
 
