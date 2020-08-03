@@ -20,6 +20,7 @@ import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/deta
 import { OrdenDescargaService } from '../../../services/almacen/orden-descarga/orden-descarga.service';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AddsproductosService } from '../../../services/addsproductos.service';
+import { CalendarioService } from '../../../services/calendario/calendario.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -42,7 +43,7 @@ export class FormatoComprasComprasComponent implements OnInit {
 
   constructor(public router: Router, private _formBuilder: FormBuilder, private currencyPipe: CurrencyPipe, public CompraService: CompraService,
      public proveedorService: ProveedoresService, public ServiceUnidad: UnidadMedidaService, public ServiceProducto: ProductosService, 
-     public ordenDescargaService: OrdenDescargaService, private http: HttpClient, public addproductos: AddsproductosService) { 
+     public ordenDescargaService: OrdenDescargaService, private http: HttpClient, public addproductos: AddsproductosService, public CalendarioService: CalendarioService) { 
        this.MonedaBoolean = true;
      }
 
@@ -64,6 +65,7 @@ export class FormatoComprasComprasComponent implements OnInit {
     this.unidadMedida();
     this.tipoDeCambio();
     this.iniciarCantidades();
+    
 
  this.addproducto = true;
     this.descuento = +this.compra.Descuento;
@@ -191,6 +193,7 @@ pesoTotal: number;
     this.CompraService.getComprasId(this.IdCompra).subscribe(dataCompra => {
       this.compra = dataCompra[0];
       this.oldTipoCambio = +this.compra.TipoCambio;
+      
     if(this.compra.Moneda == 'MXN'){
       this.MonedaBoolean = true;
           }else{
@@ -1223,7 +1226,10 @@ this.ordenDescargaService.getFolioOrdenDescarga().subscribe(resFolio=>{
   this.od.FechaFinalDescarga = new Date('10/10/10');
   this.od.FechaExpedicion = new Date('10/10/10');
   this.od.IdUsuario = 1;
-  this.od.Usuario = 'UsuarioDefault';
+  let usuario: any
+  usuario = localStorage.getItem('ProlappSession');
+  usuario = JSON.parse(usuario);
+  this.od.Usuario = usuario.user;
   
   console.log(this.od);
   this.ordenDescargaService.addOrdenDescarga(this.od).subscribe(res=>{
@@ -1262,7 +1268,9 @@ this.ordenDescargaService.getFolioOrdenDescarga().subscribe(resFolio=>{
           console.log(resDetalle);
         })
       }
-      
+
+      //GENERAR EVENTO
+      this.generarEventoCalendario(this.compra.Folio);
       //GENERAR NOTIFICACION
       //GENERAR NOTIFICACION
       //GENERAR NOTIFICACION
@@ -1274,6 +1282,34 @@ this.ordenDescargaService.getFolioOrdenDescarga().subscribe(resFolio=>{
   })
 });
   
+}
+
+generarEventoCalendario(folio){
+  console.log(this.compra);
+  //idcalendario, folio, documento, descripcion, inicio, fin, titulo, color, allday, rezi ,rezi, dragga
+  console.log(this.CalendarioService.DetalleCalendarioData);
+  //Obtener el id del calendario que le corresponde al usuario y al modulo
+  let usuario: any
+  usuario = localStorage.getItem('ProlappSession');
+  usuario = JSON.parse(usuario);
+  console.log(usuario.user);
+  this.CalendarioService.getCalendarioComprasUsuarioModulo(usuario.user, 'Compras').subscribe(res=>{
+    console.log(res);
+    this.CalendarioService.DetalleCalendarioData.IdCalendario = res[0].IdCalendario;
+    //el folio corresponde con la Orden/Documento que se genera junto con el evento.
+    this.CalendarioService.DetalleCalendarioData.Folio = folio;
+    this.CalendarioService.DetalleCalendarioData.Documento = 'OrdenCompra';
+    this.CalendarioService.DetalleCalendarioData.Descripcion = 'Evento Orden de Compra con Folio: '+folio;
+    //Las fechas van a variar dependiendo en el modulo en el que se encuentre
+    this.CalendarioService.DetalleCalendarioData.Start = this.compra.FechaElaboracion;
+    this.CalendarioService.DetalleCalendarioData.Endd = this.compra.FechaPromesa;
+    this.CalendarioService.DetalleCalendarioData.Title = 'Orden de Compra';
+    this.CalendarioService.DetalleCalendarioData.Color = '#0fd8e6';
+    console.log(this.CalendarioService.DetalleCalendarioData);
+    this.CalendarioService.addDetalleCalendario(this.CalendarioService.DetalleCalendarioData).subscribe(resAdd=>{
+      console.log(resAdd);
+    })
+  })
 }
 
 
