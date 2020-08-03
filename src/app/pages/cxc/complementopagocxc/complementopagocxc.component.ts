@@ -14,6 +14,7 @@ import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import { MessageService } from 'src/app/services/message.service';
 import { EmailComponent } from 'src/app/components/email/email/email.component';
+import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 
 
 @Component({
@@ -33,7 +34,7 @@ export class ComplementopagocxcComponent implements OnInit {
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
   
-  constructor(private service: ReciboPagoService, private router: Router, private dialog: MatDialog, public enviarfact: EnviarfacturaService, public _MessageService: MessageService) {
+  constructor(private service: ReciboPagoService, private router: Router, private dialog: MatDialog, public enviarfact: EnviarfacturaService, public _MessageService: MessageService, public serviceEmpresa: EmpresaService) {
     
     this.service.listen().subscribe((m: any) => {
       // this.refreshReciboPagoList();
@@ -43,7 +44,7 @@ export class ComplementopagocxcComponent implements OnInit {
   }
   
   ngOnInit() {
-    
+    this.listaempresas()
     this.refreshReciboPagoList();
     // this.detallesFactura();
     // this.Folio();
@@ -63,6 +64,7 @@ export class ComplementopagocxcComponent implements OnInit {
   fileUrl;
   xmlparam;
   expandedElement: any;
+  listEmpresa;
   detalle = new Array<PagoCFDI>();
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
 
@@ -70,9 +72,23 @@ export class ComplementopagocxcComponent implements OnInit {
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
+  listaempresas(){
+    this.serviceEmpresa.getEmpresaList().subscribe(data =>{
+      console.log(data);
+      this.listEmpresa = data;
+      
+      console.log(this.enviarfact.empresa);
+      this.enviarfact.empresa = data[0];
+      this.service.rfcempresa = this.enviarfact.empresa.RFC;
+      // this.enviarfact.rfc = data[0].RFC;
+    })
+  }
+
+
   //Obtener lista de Recibo de pagos y pagos de CFDI 
   refreshReciboPagoList() {
     this.loadtable = true;
+    this.listData = new MatTableDataSource();
     this.service.deleteReciboCreado().subscribe(data=>{
 
     this.service.getReciboPagoClienteList().subscribe(data => {
@@ -84,12 +100,13 @@ export class ComplementopagocxcComponent implements OnInit {
           for (let l = 0; l <= res.length - 1; l++) {
             this.service.master[i].pagoCFDI.push(res[l]);
           }
+          this.listData = new MatTableDataSource(this.service.master);
+          this.listData.sort = this.sort;
+          this.listData.paginator = this.paginator;
+          this.listData.paginator._intl.itemsPerPageLabel = 'Recibos de Pago por Pagina';
         });
       }
-      this.listData = new MatTableDataSource(this.service.master);
-      this.listData.sort = this.sort;
-      this.listData.paginator = this.paginator;
-      this.listData.paginator._intl.itemsPerPageLabel = 'Recibos de Pago por Pagina';
+     
       this.loadtable = false;
       // console.log(this.service.master);
     });
@@ -106,6 +123,23 @@ export class ComplementopagocxcComponent implements OnInit {
   //Obtener lista de PagosCFDI
   getPagosCFDIList() {
 
+  }
+
+  cambioEmpresa(event){
+    
+
+    this.enviarfact.empresa = event;
+      this.service.rfcempresa = event.RFC;
+      localStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
+
+      console.clear();
+      console.log(this.enviarfact.empresa);
+      console.log(this.service.rfcempresa);
+
+      //this.refreshFacturaList();
+      // this.detallesFactura();
+      //this.Folio();
+      this.refreshReciboPagoList();
   }
 
   //Generar Recibo Pago en Blanco

@@ -17,6 +17,7 @@ export class EventCalendarComponent implements OnInit {
   ngOnInit() {
     this.procedencia = this.calendarService.origen;
     console.log(this.procedencia);
+    console.log(this.calendarService.eventoInfo);
   }
 
   procedencia: string;

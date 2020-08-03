@@ -9,7 +9,16 @@
                         <div class="col-4">
                             <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Cotizacion</button>
                         </div>
-                        <div class="col-8">
+                        <div class="col-3">
+
+                            <label class="input-group-text text-info">Estatus</label>
+                            <select class="form-control" name="EstatusS" #EstatusS="ngModel" id="EstatusS" (change)="estatusCambio($event)" [(ngModel)]="estatusSelect">
+                                        <option [ngValue]="null" selected disabled>Seleccionar Estatus</option>
+                                        <option *ngFor="let dl of listEstatus" [ngValue]="dl.Estatus"> {{dl.Estatus}} </option>
+                                    </select>
+
+                        </div>
+                        <div class="col-5">
 
                             <mat-card style="text-align: right;" class="mat-elevation-z0">
                                 <mat-form-field>
@@ -17,6 +26,7 @@
                                 </mat-form-field>
                             </mat-card>
                         </div>
+
                     </div>
                 </div>
 

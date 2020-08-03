@@ -31,6 +31,7 @@ import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { AddEditCalendarComponent } from './add-edit-calendar/add-edit-calendar.component';
 import { EventCalendarComponent } from './event-calendar/event-calendar.component';
 import { CompraService } from '../../services/compras/compra.service';
+import Swal from 'sweetalert2';
 
 const colors: any = {
   red: {
@@ -55,18 +56,21 @@ const colors: any = {
 export class AngularCalendarComponent implements OnInit {
 
   constructor(private modal: NgbModal, private calendarioService: CalendarioService, private dialog: MatDialog, public comprasService: CompraService) {
-    
-    this.calendarioService.listen().subscribe((procedencia:any)=>{
+
+    this.calendarioService.listen().subscribe((procedencia: any) => {
       // console.log(procedencia);   
-        this.verificarProcedencia(procedencia);
-      });
+      this.usuario = localStorage.getItem('ProlappSession');
+      this.usuario = JSON.parse(this.usuario);
+      this.verificarProcedencia(procedencia);
+    });
 
   }
-  
+
   ngOnInit() {
   }
 
-  
+
+  usuario: any;
 
   //arreglo de eventos
   events: CalendarEvent[] = []
@@ -78,78 +82,144 @@ export class AngularCalendarComponent implements OnInit {
   idCalendario: number;
 
 
-  verificarProcedencia( moduloProcedencia: string ){
-console.warn(moduloProcedencia);
+  verificarProcedencia(moduloProcedencia: string) {
+    console.warn(moduloProcedencia);
 
-switch(moduloProcedencia){
-case ('Compras'):
-  console.log('VIENE DE COMPRAS');
-  this.procedencia = 'Compras'
-  this.cargarCalendarioCompras(moduloProcedencia);
-  break;
-  case ('Almacen'):
-    this.procedencia = 'Almacen'
-    console.log('VIENE DE ALMACEN');
-    break;
-    default:
-      this.procedencia = 'ninguno'
-      console.log('Ninguno corresponde');
-      break;
+    switch (moduloProcedencia) {
+      case ('Compras'):
+        console.log('VIENE DE COMPRAS');
+        this.procedencia = 'Compras';
+        this.cargarCalendario(moduloProcedencia);
+        break;
+      case ('Almacen'):
+        this.procedencia = 'Almacen';
+        this.cargarCalendario(moduloProcedencia);
+        console.log('VIENE DE ALMACEN');
+        break;
+      case ('Calidad'):
+        this.procedencia = 'Calidad';
+        this.cargarCalendario(moduloProcedencia);
+        console.log('VIENE DE Calidad');
+        break;
+      case ('Cxc'):
+        this.procedencia = 'Cxc';
+        this.cargarCalendario(moduloProcedencia);
+        console.log('VIENE DE Cxc');
+        break;
+      case ('CxP'):
+        this.procedencia = 'CxP';
+        this.cargarCalendario(moduloProcedencia);
+        console.log('VIENE DE CxP');
+        break;
+      case ('Direccion'):
+        this.procedencia = 'Direccion';
+        this.cargarCalendario(moduloProcedencia);
+        console.log('VIENE DE Direccion');
+        break;
+      case ('Importacion'):
+        this.procedencia = 'Importacion';
+        this.cargarCalendario(moduloProcedencia);
+        console.log('VIENE DE Importacion');
+        break;
+      case ('Trafico'):
+        this.procedencia = 'Trafico';
+        this.cargarCalendario(moduloProcedencia);
+        console.log('VIENE DE Trafico');
+        break;
+      case ('Ventas'):
+        this.procedencia = 'Ventas';
+        this.cargarCalendario(moduloProcedencia);
+        console.log('VIENE DE Ventas');
+        break;
+      default:
+        this.procedencia = 'ninguno'
+        console.log('Ninguno corresponde');
+        break;
 
-}
+    }
 
   }
 
-   
+
 
   //Obtener informacion Calendario Compras
-  cargarCalendarioCompras(modulo: string){
-    this.calendarioService.getCalendarioCompras(modulo).subscribe(dataCalendario=>{
-      this.idCalendario = +dataCalendario[0].IdCalendario;
-      console.log('----------------ID CALENDARIO-----------');
-      console.log(this.idCalendario);
-      console.log(dataCalendario);
-      this.events = []; 
-      this.calendarioService.getDetallesCalendarioId(dataCalendario[0].IdCalendario).subscribe(dataDC=>{
-      this.events2 = [];
-
-        for (let i = 0; i < dataDC.length; i++) {
-      //     //objeto eveto
-        let event: any;
-          event = [];
-      //   event.id = dataDC[i].IdDetalleCalendario;
-      //   event.start = startOfDay(new Date());
-      //   // event.start = startOfDay(dataDC[i].Start);
-      //   // this.event.start = dataDC[i].Start;
-      //   // this.event.end = dataDC[i].Endd;
-      //   // event.end = endOfDay(dataDC[i].Endd);
-      //   event.end = endOfDay(new Date());
-      //  event.title = dataDC[i].Title;
-      //   //Obtener el color
-      //   let color = dataDC[i].Color
-      //   //Poner correctamente el color 
-      //   event.color = colors.yellow;
-      //   event.actions = this.actions;
-      //   console.log(dataDC);
-      //   //hacer push al arreglo de objetos 'Eventos'
-      //   this.events2[i] = event;
-///////////////
-        event.id = dataDC[i].IdDetalleCalendario;
-        event.start= startOfDay(new Date());
-        event.end= endOfDay(new Date());
-        event.title=dataDC[i].Title;
-        event.color = colors.yellow;
-        event.actions= this.actions;
-
-        this.events.push(event);
-         this.refresh.next();
+  cargarCalendario(modulo: string) {
+    console.log('USUARIO');
+    console.log(this.usuario.user);
+    console.log(modulo);
+    console.log('USUARIO');
+    // let usuario = 'Ramon';
+    this.calendarioService.getCalendarioComprasUsuarioModulo(this.usuario.user, modulo).subscribe(dataCalendario => {
+      if (dataCalendario.length > 0) {
+        this.idCalendario = +dataCalendario[0].IdCalendario;
+        console.log('----------------ID CALENDARIO-----------');
+        console.log(this.idCalendario);
+        console.log(dataCalendario);
 
 
-///////////////
+        this.events = [];
+        this.events2 = [];
+        this.calendarioService.getDetallesCalendarioId(dataCalendario[0].IdCalendario).subscribe(dataDC => {
 
-        }  
-        console.log(this.events);    
-      })
+          for (let i = 0; i < dataDC.length; i++) {
+            //     //objeto eveto
+            let event: any;
+            event = [];
+            let colorBD: any = {
+              color: {
+                primary: dataDC[i].Color,
+                secondary: dataDC[i].Color,
+              }
+            };
+            console.log('************************');
+            event.start = startOfDay(new Date(dataDC[i].Start));
+            event.end = endOfDay(new Date(dataDC[i].Endd));
+            //fecha actual
+            let fa = new Date().getMonth();
+            //fecha inicial
+            let fi = event.start.getMonth();
+            //fecha final
+            let ff = event.end.getMonth();
+            console.log(fa + 'fa');
+            console.log(fi + 'fi');
+            console.log(ff + 'ff');
+            event.id = dataDC[i].IdDetalleCalendario;
+            event.title = dataDC[i].Title;
+            event.color = colorBD.color;
+            event.actions = this.actions;
+            event.folio = dataDC[i].Folio;
+            event.documento = dataDC[i].Documento;
+            event.descripcion = dataDC[i].Descripcion;
+            if (fa == fi) {
+              console.log('Hacer el push a eventos');
+              this.events2.push(event);
+            } else if (fi < fa && ff >= fa) {
+              console.log('fecha inicial menor y fecha final mayor o igual');
+              this.events2.push(event);
+            }
+
+
+            console.log('************************');
+
+
+
+            this.events.push(event);
+
+            this.refresh.next();
+
+
+            ///////////////
+
+          }
+          console.log(this.events);
+        })
+      } else {
+        console.log('Calendario Invalido');
+        this.events = [];
+        this.events2 = [];
+        this.refresh.next();
+      }
+
     })
     // this.events = [
     //   {
@@ -168,8 +238,8 @@ case ('Compras'):
     //   }
     // ];
 
-  
-    
+
+
   }
 
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
@@ -192,7 +262,7 @@ case ('Compras'):
       a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         console.log(event);
-        this.calendarioService.getDetallesCalendarioIdDetalle(+event.id).subscribe(dataDC=>{
+        this.calendarioService.getDetallesCalendarioIdDetalle(+event.id).subscribe(dataDC => {
           console.log(dataDC);
           this.calendarioService.formDataDetalleCalendario = new detalleCalendario();
           this.calendarioService.formDataDetalleCalendario = dataDC[0];
@@ -201,7 +271,7 @@ case ('Compras'):
           const dialogConfig = new MatDialogConfig();
           dialogConfig.disableClose = true;
           dialogConfig.autoFocus = true;
-          dialogConfig.width="70%";
+          dialogConfig.width = "70%";
           this.dialog.open(AddEditCalendarComponent, dialogConfig);
         })
       },
@@ -211,26 +281,90 @@ case ('Compras'):
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
         console.log(event);
-        //Elimina el evento del arreglo eventos
-        this.calendarioService.deleteDetalleCalendario(+event.id).subscribe(res=>{
-          console.log(res);
-          this.events = this.events.filter((iEvent) => iEvent !== event);
-          switch (this.procedencia) {
-            case ('Compras'):
-              console.log('CARGANDO CALENDARIO COMPRAS');
-                this.cargarCalendarioCompras('Compras');
-              break;
-            case ('Almacen'):
-              console.log('CARGANDO CALENDARIO ALMACEN');
-              break;
-            default:
-              break;
+        Swal.fire({
+          title: '¿Segur@ de Borrar Evento?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Borrar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.value) {
+            //Elimina el evento del arreglo eventos
+            this.calendarioService.deleteDetalleCalendario(+event.id).subscribe(res => {
+              console.log(res);
+              Swal.fire({
+                title: 'Borrado',
+                icon: 'success',
+                timer: 1500,
+                showCancelButton: false,
+                showConfirmButton: false
+
+              });
+              this.events = this.events.filter((iEvent) => iEvent !== event);
+              // this.events2 = this.events2.filter((iEvent) => iEvent !== event);
+              this.cargarCalendario(this.procedencia);
+              // switch (this.procedencia) {
+              //   case ('Compras'):
+              //     console.log('CARGANDO CALENDARIO COMPRAS');
+              //     this.cargarCalendario('Compras');
+              //     break;
+              //   case ('Almacen'):
+              //     console.log('CARGANDO CALENDARIO ALMACEN');
+              //     break;
+              //   default:
+              //     break;
+              // }
+            })
+            // this.handleEvent('Deleted', event);
+
           }
         })
-        // this.handleEvent('Deleted', event);
+
       },
     },
   ];
+
+
+  actualizarEvento(event: any) {
+    console.log('Actualizar campo evento', event);
+    console.log(event.color.primary);
+    console.log(event.color.secondary);
+    let evento = new detalleCalendario();
+    evento.IdDetalleCalendario = event.id;
+    evento.IdCalendario = this.idCalendario;
+    evento.Folio = event.folio;
+    evento.Documento = event.documento;
+    evento.Descripcion = event.descripcion;
+    evento.Title = event.title;
+    evento.Draggable = 0;
+    evento.ResizableBeforeStart = 0;
+    evento.ResizableBeforeEnd = 0;
+    evento.AllDay = 0
+    evento.Start = event.start;
+    evento.Endd = event.end;
+    // evento.Start = new Date();
+    // evento.Endd = new Date();
+    evento.Color = event.color.primary.toString();
+    console.log(evento);
+    // switch (this.procedencia) {
+    //   case ('Compras'):
+        //     console.log('EDITANDO EVENTO COMPRAS');
+        this.calendarioService.editDetalleCalendario(evento).subscribe(res => {
+          // this.refresh.next();
+          this.cargarCalendario(this.procedencia);
+          console.log(res);
+          //       this.onClose();
+        })
+    //     break;
+    //   case ('Almacen'):
+    //     break;
+    //   default:
+    //     break;
+    // }
+  }
+
 
   refresh: Subject<any> = new Subject();
 
@@ -324,18 +458,19 @@ case ('Compras'):
     // this.modalData = { event, action };
     // this.modal.open(this.modalContent, { size: 'lg' });
     console.log(event);
-    this.calendarioService.getDetallesCalendarioIdDetalle(+event.id).subscribe(dataDC=>{
+    this.calendarioService.eventoInfo = event;
+    this.calendarioService.getDetallesCalendarioIdDetalle(+event.id).subscribe(dataDC => {
       console.log(dataDC);
       let folio = dataDC[0].Folio;
       switch (this.procedencia) {
         case ('Compras'):
           console.log('CARGANDO CALENDARIO COMPRAS');
-            this.comprasService.getComprasFolio(folio).subscribe(dataCompras=>{
-console.log(dataCompras);
-this.calendarioService.formDataCompras = dataCompras[0];
-this.calendarioService.origen = 'Compras';
-this.abrirModalEvent();
-            })
+          this.comprasService.getComprasFolio(folio).subscribe(dataCompras => {
+            console.log(dataCompras);
+            this.calendarioService.formDataCompras = dataCompras[0];
+            this.calendarioService.origen = 'Compras';
+            this.abrirModalEvent();
+          })
           break;
         case ('Almacen'):
           console.log('CARGANDO CALENDARIO ALMACEN');
@@ -348,11 +483,11 @@ this.abrirModalEvent();
     })
   }
 
-  abrirModalEvent(){
+  abrirModalEvent() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width="70%";
+    dialogConfig.width = "70%";
     this.dialog.open(EventCalendarComponent, dialogConfig);
   }
   //Agregar nueva FECHA
@@ -380,12 +515,12 @@ this.abrirModalEvent();
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width="70%";
+    dialogConfig.width = "70%";
     this.dialog.open(AddEditCalendarComponent, dialogConfig);
 
 
 
-//Agregar Calendario (MOVER A MODAL)
+    //Agregar Calendario (MOVER A MODAL)
     // let detaCalen = new detalleCalendario(); 
     // console.log(this.idCalendario);
     // detaCalen.IdCalendario = this.idCalendario;
@@ -418,27 +553,68 @@ this.abrirModalEvent();
     // }
 
   }
-//ELIMINAR EVENTO/FECHA DE LA TABLA
+  //ELIMINAR EVENTO/FECHA DE LA TABLA
   deleteEvent(eventToDelete: CalendarEvent) {
-    //elimina el evento del arreglo eventos
-    console.log(eventToDelete);
-    this.calendarioService.deleteDetalleCalendario(+eventToDelete.id).subscribe(res=>{
-      console.log(res);
-      this.events = this.events.filter((event) => event !== eventToDelete);
-      
-    switch (this.procedencia) {
-      case ('Compras'):
-        console.log('CARGANDO CALENDARIO COMPRAS');
-          this.cargarCalendarioCompras('Compras');
-        break;
-      case ('Almacen'):
-        console.log('CARGANDO CALENDARIO ALMACEN');
-        break;
-      default:
-        break;
-    }
-      
+
+    Swal.fire({
+      title: '¿Segur@ de Borrar Evento?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        //Elimina el evento del arreglo eventos
+        this.calendarioService.deleteDetalleCalendario(+eventToDelete.id).subscribe(res => {
+          console.log(res);
+          this.events = this.events.filter((event) => event !== eventToDelete);
+          Swal.fire({
+            title: 'Borrado',
+            icon: 'success',
+            timer: 1500,
+            showCancelButton: false,
+            showConfirmButton: false
+
+          });
+          // switch (this.procedencia) {
+          //   case ('Compras'):
+          //     console.log('CARGANDO CALENDARIO COMPRAS');
+          //     this.cargarCalendarioCompras('Compras');
+          //     break;
+          //   case ('Almacen'):
+          //     console.log('CARGANDO CALENDARIO ALMACEN');
+          //     break;
+          //   default:
+          //     break;
+          // }
+          this.cargarCalendario(this.procedencia);
+        })
+        // this.handleEvent('Deleted', event);
+
+      }
     })
+
+    //elimina el evento del arreglo eventos
+    // console.log(eventToDelete);
+    // this.calendarioService.deleteDetalleCalendario(+eventToDelete.id).subscribe(res=>{
+    //   console.log(res);
+    //   this.events = this.events.filter((event) => event !== eventToDelete);
+
+    // switch (this.procedencia) {
+    //   case ('Compras'):
+    //     console.log('CARGANDO CALENDARIO COMPRAS');
+    //       this.cargarCalendarioCompras('Compras');
+    //     break;
+    //   case ('Almacen'):
+    //     console.log('CARGANDO CALENDARIO ALMACEN');
+    //     break;
+    //   default:
+    //     break;
+    // }
+
+    // })
   }
 
   setView(view: CalendarView) {

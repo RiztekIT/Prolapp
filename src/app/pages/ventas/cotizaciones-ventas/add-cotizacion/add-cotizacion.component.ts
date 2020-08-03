@@ -152,9 +152,9 @@ public PedidoBlanco: Pedido =
     this.Inicializar();
     this.dropdownRefresh();
     this.dropdownRefreshVendedor();
-    this.dropdownRefresh2();
+    // this.dropdownRefresh2();
     this.refreshDetallesPedidoList();
-    this.IniciarTotales();
+    // this.IniciarTotales();
     this.tipoDeCambio();
     this.service.formProd = new Producto();
 
@@ -1452,6 +1452,7 @@ ObtenerUltimoPedido() {
 
 nuevaoc(coti){
   console.log(coti);
+  this.cerrarCotizacion();
 
   this.servicepedido.GetFolio().subscribe(data => {
     // console.log(data[0].Folio);

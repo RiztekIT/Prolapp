@@ -40,6 +40,7 @@ export class CotizacionesVentasComponent implements OnInit {
   emailmodalstatus = false;
   folio: number;
   fileUrl;
+  estatusSelect = 'Todos';
   public loading2 = false;
 
   constructor( public router: Router, private dialog: MatDialog, public _MessageService: MessageService, private service: VentasCotizacionService, private service2: VentasPedidoService) {
@@ -54,6 +55,25 @@ export class CotizacionesVentasComponent implements OnInit {
   ngOnInit() {
     this.refreshCotizacionesList();
   }
+
+  estatusCambio(event){
+this.estatusSelect = event.target.selectedOptions[0].text;
+console.log(this.estatusSelect);
+if (this.estatusSelect==='Todos'){
+  this.applyFilter2('')
+}else {
+
+  this.applyFilter2(this.estatusSelect)
+}
+
+  }
+
+  public listEstatus: Array<Object> = [
+    { Estatus: 'Todos' },
+    { Estatus: 'Guardada' },
+    { Estatus: 'Cerrada' },
+    { Estatus: 'Duplicada' }
+  ];
 
   IdCotizacion: any;
   
@@ -107,6 +127,14 @@ export class CotizacionesVentasComponent implements OnInit {
   applyFilter(filtervalue: string) {
     this.listData.filterPredicate = (data, filter: string) => {
       return data.Nombre.toString().toLowerCase().includes(filter) || data.IdCotizacion.toString().includes(filter);
+    };
+    this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+
+  }
+
+  applyFilter2(filtervalue: string) {
+    this.listData.filterPredicate = (data, filter: string) => {
+      return data.Estatus.toString().toLowerCase().includes(filter);
     };
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
 

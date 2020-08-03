@@ -221,28 +221,28 @@
 
 
 
-                                            <div *ngIf="addproducto == true; else elseBlock2">
-                                                <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompra()" [disabled]="DetallePedidoForm.invalid || !detalleCompra.Unidad">Agregar Producto</button>
-                                                <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
-                                                <button *ngIf="this.compra.Estatus == 'Administrativa'" class="btn btn-success" type="submit" (click)="onAddDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Agregar Producto</button>
-                                                <button *ngIf="this.compra.Estatus == 'Administrativa' && this.detalleCompra.Producto" class="btn btn-primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
-                                                <!-- <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompra()" [disabled]="DetallePedidoForm.invalid || !detalleCompra.Unidad">Agregar Producto</button>
-                                                <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
-                                                <button *ngIf="this.compra.Estatus == 'Administrativa'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Agregar Producto</button>
-                                                <button *ngIf="this.compra.Estatus == 'Administrativa' && this.detalleCompra.Producto" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button> -->
-                                            </div>
-                                            <ng-template #elseBlock2>
-                                                <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompra()" [disabled]="DetallePedidoForm.invalid || !detalleCompra.Unidad">Editar Producto</button>
-                                                <button *ngIf="this.compra.Estatus == 'Administrativa'" class="btn btn-success" type="submit" (click)="onEditDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Editar Producto</button>
-                                                <!-- <button *ngIf="this.compra.Estatus == 'Administrativa'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Editar Producto</button> -->
-
-                                                <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="Cancelar(DetallePedidoForm)">Cancelar</button>
-                                                <button *ngIf="this.compra.Estatus == 'Administrativa' && this.detalleCompra.Producto" class="btn btn-danger" type="submit" (click)="Cancelar(DetallePedidoForm)">Cancelar</button>
-                                            </ng-template>
 
 
-                                            <div class="container row">
+                                            <div class="container row" style="margin-top: 5px;">
                                                 <div class="col-md-7 col-lg-8">
+                                                    <div *ngIf="addproducto == true; else elseBlock2">
+                                                        <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompra()" [disabled]="DetallePedidoForm.invalid || !detalleCompra.Unidad">Agregar Producto</button>
+                                                        <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
+                                                        <button *ngIf="this.compra.Estatus == 'Administrativa'" class="btn btn-success" type="submit" (click)="onAddDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid" style="margin-right: 5px">Agregar Producto</button>
+                                                        <button *ngIf="this.compra.Estatus == 'Administrativa' && this.detalleCompra.Producto" class="btn btn-primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
+                                                        <!-- <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompra()" [disabled]="DetallePedidoForm.invalid || !detalleCompra.Unidad">Agregar Producto</button>
+                                                        <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
+                                                        <button *ngIf="this.compra.Estatus == 'Administrativa'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Agregar Producto</button>
+                                                        <button *ngIf="this.compra.Estatus == 'Administrativa' && this.detalleCompra.Producto" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button> -->
+                                                    </div>
+                                                    <ng-template #elseBlock2>
+                                                        <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompra()" [disabled]="DetallePedidoForm.invalid || !detalleCompra.Unidad">Editar Producto</button>
+                                                        <button *ngIf="this.compra.Estatus == 'Administrativa'" class="btn btn-success" type="submit" (click)="onEditDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Editar Producto</button>
+                                                        <!-- <button *ngIf="this.compra.Estatus == 'Administrativa'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Editar Producto</button> -->
+
+                                                        <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="Cancelar(DetallePedidoForm)">Cancelar</button>
+                                                        <button *ngIf="this.compra.Estatus == 'Administrativa' && this.detalleCompra.Producto" class="btn btn-danger" type="submit" (click)="Cancelar(DetallePedidoForm)">Cancelar</button>
+                                                    </ng-template>
                                                 </div>
                                                 <div class="col-12 col-md-5 col-lg-4">
                                                     <div class="form-material borderbox">
@@ -397,7 +397,7 @@
                                                             <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button> -->
                                                             <button *ngIf="this.compra.Estatus == 'Guardada' || this.compra.Estatus == 'Administrativa'" class="btn btn-danger btn-lg" mat-raised-button (click)='guardarCompra()'><i class="mdi mdi-send btn-lg"></i>Guardar</button>
                                                             <br>
-                                                            <button *ngIf="this.compra.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button type="button" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-note-multiple btn-lg"></i> Duplicar </button>
+                                                            <button *ngIf="this.compra.Estatus == 'Guardada'" class="btn btn-info btn-lg" type="button" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-note-multiple btn-lg"></i> Duplicar </button>
                                                             <br>
 
                                                             <button class="btn btn-info btn-lg" mat-raised-button type="button" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
@@ -407,6 +407,7 @@
                                                             <br>
                                                             <button *ngIf="this.compra.Estatus == 'Guardada' && this.valores == true" class="btn btn-danger btn-lg" mat-raised-button (click)='GenerarCompra()'><i class="mdi mdi-send btn-lg"></i>Generar Compra</button>
                                                             <button *ngIf="this.compra.Estatus == 'Administrativa' && this.valores == true" class="btn btn-danger btn-lg" mat-raised-button (click)='GenerarCompra()'><i class="mdi mdi-send btn-lg"></i>Generar Compra</button>
+                                                            <button *ngIf="this.compra.Estatus == 'Administrativa' && this.valores != true" style="visibility: hidden;" class="btn btn-danger btn-lg" mat-raised-button><i class="mdi mdi-send btn-lg"></i>SOLO PRUEBA</button>
                                                             <br>
                                                             <button *ngIf="this.compra.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button type="button" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-forward btn-lg"></i> Convertir </button>
                                                             <br>
