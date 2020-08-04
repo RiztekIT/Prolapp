@@ -87,6 +87,7 @@ export const APP_DATE_FORMATS =
 })
 export class ReciboPagoComponent implements OnInit {
   banco;
+  banco2;
   folioparam;
   xmlparam;
   idparam;
@@ -570,6 +571,10 @@ console.log('NUEVO CFDIIIIIIIIIII');
     { banco: 'BANCOMER', cuenta:"012150001119448432"},
     { banco: 'BANCOMER DLLS', cuenta:"012150001119942475"}
   ]
+  public listbancos2: Array<Object> = [
+    { banco: 'BANORTE', cuenta:"072150004619216703"}
+    
+  ]
 
   MonedaSelected(event: any) {
     this.Moneda = event.target.selectedOptions[0].text;
@@ -596,6 +601,13 @@ console.log('NUEVO CFDIIIIIIIIIII');
     if (event.target.selectedOptions[0].text==='BANCOMER DLLS'){
       this.service.formData.Cuenta = '012150001119942475'
     }
+  }
+
+  BancoSelected2(event:any){
+    if (event.target.selectedOptions[0].text==='BANORTE'){
+      this.service.formData.Cuenta = '072150004619216703'
+    }
+    
   }
 
   //Forma Pago

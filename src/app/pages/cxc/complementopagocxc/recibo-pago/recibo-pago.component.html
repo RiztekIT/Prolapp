@@ -131,12 +131,20 @@
                                             Favor de Ingresar Cuenta
                                         </div>
                                     </div> -->
-                                        <div class="col-12">
+                                        <div *ngIf="servicetimbrado.empresa.RFC=='PLA11011243A'" class="col-12">
                                             <label class="input-group-text text-info">Banco</label>
 
                                             <select class="form-control" name="Banco" #Banco="ngModel" (change)="BancoSelected($event)" [(ngModel)]="banco" required>
                                                 <option [ngValue]="null" selected disabled>Seleccionar Banco</option>
                                                 <option *ngFor="let banco of listbancos" [ngValue]="banco.banco"> {{banco.banco}} </option>
+                                            </select>
+                                        </div>
+                                        <div *ngIf="servicetimbrado.empresa.RFC=='AIN140101ME3'" class="col-12">
+                                            <label class="input-group-text text-info">Banco</label>
+
+                                            <select class="form-control" name="Banco2" #Banco2="ngModel" (change)="BancoSelected2($event)" [(ngModel)]="banco2" required>
+                                                <option [ngValue]="null" selected disabled>Seleccionar Banco</option>
+                                                <option *ngFor="let banco of listbancos2" [ngValue]="banco.banco"> {{banco.banco}} </option>
                                             </select>
                                         </div>
                                     </div>

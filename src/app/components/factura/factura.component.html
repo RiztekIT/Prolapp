@@ -18,7 +18,7 @@
                             <div class="card-body">
                             </div> -->
 
-                                <img src="../../../assets/images/ProLactoLogo.png" class="logo">
+                                <img [src]=logo class="logo">
 
                             </div>
                         </div>
@@ -29,7 +29,7 @@
                             <p class="text-center blacktxt "><span class="bolder">R.F.C.:</span> {{rfcE}} </p>
                             <p class="text-center blacktxt">Calle: J. Matias de Anchondo No. 207, Col. San Felipe, CP: 31203, Chihuahua, Chihuahua, México
                             </p>
-                            <p class=" text-center"><span class="linkp bolder">www.prolactoingredientes.com.mx</span> </p>
+                            <!--<p class=" text-center"><span class="linkp bolder">www.prolactoingredientes.com.mx</span> </p>-->
 
                         </div>
                         <!-- factura folio -->
@@ -46,7 +46,7 @@
                                         <div class="container">
                                             <div class="row">
                                                 <div class="col-6 col-6">
-                                                    <h5 class="text-right bolder blacktxt"> B </h5>
+                                                    <h5 class="text-right bolder blacktxt"> {{seriefactura}} </h5>
                                                 </div>
                                                 <div class="col-6 col-6">
                                                     <h5 class="text-left bolder blacktxt"> {{folio}} </h5>
@@ -302,7 +302,7 @@
                                             <!-- ************************************************************** -->
                                             <div class="col-lg-8 col-md-8 col-12">
                                                 <div class="containter textoBodyAcomodo">
-                                                    <div class="row">
+                                                    <div *ngIf="rfcE==='PLA11011243A'" class="row">
                                                         <!--  -->
                                                         <div class="col-lg-3 col-md-3 col-3 no-padding-bottom nowrap">
                                                             <p class="bolder nowrap text-let textoBodyAcomodo nomarginbottomP">Santander</p>
@@ -336,6 +336,30 @@
                                                         </div>
                                                         <div class="col-lg-1 col-md-1 col-1"></div>
                                                     </div>
+
+                                                    <div *ngIf="rfcE==='AIN140101ME3'" class="row">
+                                                        <!--  -->
+                                                        <div class="col-lg-3 col-md-3 col-3 no-padding-bottom nowrap">
+                                                            <p class="bolder nowrap text-let textoBodyAcomodo nomarginbottomP">Banorte</p>
+                                                            
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-2 no-padding-bottom nowrap">
+                                                            <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">0461921670</p>
+                                                            
+                                                        </div>
+                                                        <div class="col-lg-1 col-md-1 col-1"></div>
+                                                        <div class="col-lg-1 col-md-1 col-1 no-padding-bottom nowrap">
+                                                            <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">CLABE</p>
+                                                            
+                                                        </div>
+                                                        <div class="col-lg-1 col-md-1 col-1"></div>
+                                                        <div class="col-lg-2 col-md-2 col-2 no-padding-bottom nowrap">
+                                                            <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">072150004619216703</p>
+                                                            
+                                                        </div>
+                                                        <div class="col-lg-1 col-md-1 col-1"></div>
+                                                    </div>
+
                                                 </div>
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-2"></div>
