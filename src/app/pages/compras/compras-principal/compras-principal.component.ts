@@ -12,6 +12,7 @@ import { DetalleCompra } from '../../../Models/Compras/detalleCompra-model';
 import { CompraService } from '../../../services/compras/compra.service';
 import { Compras } from 'src/app/Models/Compras/compra-model';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { ComprasPdfComponent } from '../../../components/compras-reporte/compras-pdf.component';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -54,7 +55,7 @@ export class ComprasPrincipalComponent implements OnInit {
 //Variable que guarda el tipo de cambio
 TipoCambio: string;
 
-constructor(public router: Router,private service:CompraService, private dialog: MatDialog, private http: HttpClient) {
+constructor(public router: Router,private service:CompraService, private dialog: MatDialog, private http: HttpClient, public CompraService: CompraService,) {
 
     // this.service.listen().subscribe((m:any)=>{
     //   console.log(m);
@@ -237,6 +238,20 @@ console.log(this.compraBlanco);
     // Estatus
 
   }
+
+  
+openrep(row){
+
+  console.log(row);
+  this.CompraService.formt = row
+  // console.log();
+  const dialogConfig = new MatDialogConfig();
+  dialogConfig.disableClose = false;
+  dialogConfig.autoFocus = true;
+  dialogConfig.width="70%";
+  this.dialog.open(ComprasPdfComponent, dialogConfig);
+
+}
 
   //Generar Compra Administrativa
 

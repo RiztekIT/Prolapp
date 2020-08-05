@@ -29,17 +29,17 @@
                             Favor de Ingresar titulo.
                         </div>
                         <label class="input-group-text text-info ">Documento</label>
-                        <input required type="text" class="form-control" name="Documento" #Documento="ngModel" [(ngModel)]="calendarService.formDataDetalleCalendario.Documento">
+                        <input type="text" class="form-control" name="Documento" #Documento="ngModel" [(ngModel)]="calendarService.formDataDetalleCalendario.Documento">
 
-                        <div class="text-left text-danger" *ngIf="Documento.invalid && Documento.touched">
+                        <!-- <div class="text-left text-danger" *ngIf="Documento.invalid && Documento.touched">
                             Favor de Ingresar Documento.
-                        </div>
+                        </div> -->
                         <label class="input-group-text text-info ">Descripcion</label>
-                        <input required type="text" class="form-control" name="Descripcion" #Descripcion="ngModel" [(ngModel)]="calendarService.formDataDetalleCalendario.Descripcion">
+                        <input type="text" class="form-control" name="Descripcion" #Descripcion="ngModel" [(ngModel)]="calendarService.formDataDetalleCalendario.Descripcion">
 
-                        <div class="text-left text-danger" *ngIf="Descripcion.invalid && Descripcion.touched">
+                        <!-- <div class="text-left text-danger" *ngIf="Descripcion.invalid && Descripcion.touched">
                             Favor de Ingresar Descripcion.
-                        </div>
+                        </div> -->
                         <label class="input-group-text text-info ">Color</label>
                         <input required type="color" class="form-control" name="Color" #Color="ngModel" [(ngModel)]="calendarService.formDataDetalleCalendario.Color">
 

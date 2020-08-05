@@ -509,6 +509,7 @@ export class AngularCalendarComponent implements OnInit {
     // ];
 
     this.calendarioService.formDataDetalleCalendario = new detalleCalendario();
+    this.calendarioService.formDataDetalleCalendario.Color = '#271616';
     this.calendarioService.accionEvento = 'Agregar';
     this.calendarioService.origen = this.procedencia;
     this.calendarioService.IdCalendario = this.idCalendario;
