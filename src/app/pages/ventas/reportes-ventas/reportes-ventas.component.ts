@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ClientesService } from 'src/app/services/catalogos/clientes.service';
+import { Observable } from 'rxjs';
+import { Cliente } from 'src/app/Models/catalogos/clientes-model';
+import { startWith, map } from 'rxjs/operators';
 
 declare function btn_table();
 
@@ -10,6 +15,13 @@ declare function btn_table();
 })
 export class ReportesVentasComponent implements OnInit {
 
+  todosClientes = true;
+  myControl = new FormControl();
+  filteredOptions: Observable<any[]>
+  listClientes: Cliente[] = [];
+  options: Cliente[] = [];
+  ClienteNombre: any;
+/* 
   ReporteVentas: any = [
     {
       id: '1',
@@ -28,12 +40,51 @@ export class ReportesVentasComponent implements OnInit {
       estatus: 'Resuelta',
       precio: '$ 48751'
     }
-  ];
+  ]; */
 
-  constructor() { }
+  constructor(public serviceCliente: ClientesService) { }
 
   ngOnInit() {
     btn_table();
+    this.obtenerClientes();
+
+  }
+
+  obtenerClientes(){
+    this.serviceCliente.getClientesListIDN().subscribe(data=>{
+      console.log(data);
+      for (let i = 0; i < data.length; i++) {
+        let client = data[i];
+        this.listClientes.push(client);
+        this.options.push(client)
+        this.filteredOptions = this.myControl.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filter(value))
+          );
+      }
+    })
+  }
+
+  _filter(value: any): any {
+    const filterValue = value.toString().toLowerCase();
+   return this.options.filter(option =>
+     option.Nombre.toLowerCase().includes(filterValue) ||
+     option.IdClientes.toString().includes(filterValue));
+ }
+
+  checkbox(event){
+    this.todosClientes = event.checked;
+    console.log(this.todosClientes);
+  }
+
+  onSelectionChange(cliente: Cliente, event: any) {
+    console.log('OSC',cliente);
+    console.log('OSC',event);
+    this.ClienteNombre = cliente.Nombre;
+  }
+
+  reporteCobranza(){
 
   }
 

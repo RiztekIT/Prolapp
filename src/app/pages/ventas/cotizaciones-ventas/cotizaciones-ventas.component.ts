@@ -40,7 +40,7 @@ export class CotizacionesVentasComponent implements OnInit {
   emailmodalstatus = false;
   folio: number;
   fileUrl;
-  estatusSelect = 'Todos';
+  estatusSelect;
   public loading2 = false;
 
   constructor( public router: Router, private dialog: MatDialog, public _MessageService: MessageService, private service: VentasCotizacionService, private service2: VentasPedidoService) {
@@ -57,7 +57,8 @@ export class CotizacionesVentasComponent implements OnInit {
   }
 
   estatusCambio(event){
-this.estatusSelect = event.target.selectedOptions[0].text;
+    // console.log(event);
+this.estatusSelect = event.value;
 console.log(this.estatusSelect);
 if (this.estatusSelect==='Todos'){
   this.applyFilter2('')

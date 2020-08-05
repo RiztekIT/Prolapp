@@ -14,7 +14,10 @@
                             <span *ngSwitchCase="'Duplicada'" class="label label-light-inverse">DUPLICADA</span>
                         </p>
                     </div>
-                    <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button>
+                    <!-- <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button> -->
+                    <button mat-fab (click)="Regresar()" class="btncoti">
+                            <mat-icon>undo</mat-icon>
+                          </button>
                 </div>
                 <hr>
 
