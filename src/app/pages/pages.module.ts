@@ -248,6 +248,7 @@ import { AddEditCalendarComponent } from '../components/angular-calendar/add-edi
 import { EventCalendarComponent } from '../components/angular-calendar/event-calendar/event-calendar.component';
 import { ComprasPrincipalComponent } from './compras/compras-principal/compras-principal.component';
 import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/trackingcliente.component';
+import { ComprasPdfComponent } from '../components/compras-reporte/compras-pdf.component';
 
 
 @NgModule({
@@ -417,6 +418,7 @@ import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/tra
         EventCalendarComponent,
         ComprasPrincipalComponent,
         TrackingclienteComponent,
+        ComprasPdfComponent,
     
     ],
     exports: [
@@ -543,7 +545,8 @@ import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/tra
         ReporteMxnComponent,
         OrdenDescargaEmailComponent,
         AddEditCalendarComponent,
-        EventCalendarComponent
+        EventCalendarComponent,
+        ComprasPdfComponent
         
         
     ]

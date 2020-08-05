@@ -24,6 +24,9 @@ export class ProveedoresService {
   getProveedoresList(): Observable <Proveedor[]> {
     return this.http.get<Proveedor[]>(this.APIUrl + '/proveedor');
   }
+  getProveedorId(id: number): Observable <Proveedor[]> {
+    return this.http.get<Proveedor[]>(this.APIUrl + '/proveedor/getProveedorId/'+id);
+  }
 
   addProveedor(proveedor: Proveedor) {
     return this.http.post(this.APIUrl + '/proveedor', proveedor);

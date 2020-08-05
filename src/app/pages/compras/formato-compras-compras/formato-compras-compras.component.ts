@@ -1284,6 +1284,8 @@ this.ordenDescargaService.getFolioOrdenDescarga().subscribe(resFolio=>{
   
 }
 
+
+
 generarEventoCalendario(folio){
   console.log(this.compra);
   //idcalendario, folio, documento, descripcion, inicio, fin, titulo, color, allday, rezi ,rezi, dragga
