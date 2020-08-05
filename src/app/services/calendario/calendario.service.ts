@@ -61,6 +61,18 @@ export class CalendarioService {
   getDetallesCalendarioIdDetalle(id:number): Observable<detalleCalendario[]>{
     return this.http.get<detalleCalendario[]>(APIUrl + '/calendario/getDetalleCalendarioIdDetalle/'+id);
   }
+  //Obtener Calendario JOIN Proceso
+  getCalendarioProceso(id: number, modulo: string, proceso:string): Observable<any[]>{
+    return this.http.get<any[]>(APIUrl + '/calendario/getCalendarioProceso/'+id+'/'+modulo+'/'+proceso);
+  }
+  //Obtener Usuario por ID
+  getUsuarioId(id: number): Observable<any[]>{
+    return this.http.get<any[]>(APIUrl + '/calendario/getCalendarioUsuarioId/'+id);
+  }
+  //agregar Calendario
+  addCalendario(calendario: Calendario){
+    return this.http.post(APIUrl + '/calendario', calendario);
+  }
   //agregar detalle Calendario
   addDetalleCalendario(detalle: detalleCalendario){
     return this.http.post(APIUrl + '/calendario/AddDetalleCalendario', detalle);
