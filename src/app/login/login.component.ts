@@ -6,6 +6,7 @@ import { UsuariosServieService } from '../services/catalogos/usuarios-servie.ser
 import { MatSnackBar } from '@angular/material';
 import { StorageServiceService } from '../services/shared/storage-service.service';
 import { Session } from '../Models/session-model';
+import { SidebarService } from '../services/shared/sidebar.service';
 
 
 declare function init_plugins();
@@ -17,7 +18,7 @@ declare function init_plugins();
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public router: Router, public service: UsuariosServieService, private snackBar: MatSnackBar, private storageServce: StorageServiceService) { }
+  constructor(public router: Router, public service: UsuariosServieService, private snackBar: MatSnackBar, private storageServce: StorageServiceService, public sidebarservice: SidebarService) { }
 
   token;
 
@@ -64,6 +65,7 @@ export class LoginComponent implements OnInit {
      session.token = data.toString();
      if (data!='Error') {
       this.storageServce.setCurrentSession(session)
+      this.sidebarservice.getMenu();
       this.router.navigate(['/direccion']);
      }
      else {

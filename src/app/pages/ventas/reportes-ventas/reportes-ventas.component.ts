@@ -21,6 +21,8 @@ export class ReportesVentasComponent implements OnInit {
   listClientes: Cliente[] = [];
   options: Cliente[] = [];
   ClienteNombre: any;
+  fecha1;
+  fecha2;
 /* 
   ReporteVentas: any = [
     {
@@ -86,6 +88,12 @@ export class ReportesVentasComponent implements OnInit {
 
   reporteCobranza(){
 
+  }
+
+  reporteFacturacionVentas(){
+    console.log('object');
+    console.log(this.fecha1)
+    console.log(this.fecha2)
   }
 
 }
