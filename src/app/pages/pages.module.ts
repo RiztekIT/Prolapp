@@ -249,6 +249,7 @@ import { EventCalendarComponent } from '../components/angular-calendar/event-cal
 import { ComprasPrincipalComponent } from './compras/compras-principal/compras-principal.component';
 import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/trackingcliente.component';
 import { ComprasPdfComponent } from '../components/compras-reporte/compras-pdf.component';
+import { ReportefechasfacturacionVentasComponent } from '../components/ventas/reportefechasfacturacion/reportefechasfacturacion.component';
 
 
 @NgModule({
@@ -419,6 +420,7 @@ import { ComprasPdfComponent } from '../components/compras-reporte/compras-pdf.c
         ComprasPrincipalComponent,
         TrackingclienteComponent,
         ComprasPdfComponent,
+        ReportefechasfacturacionVentasComponent
     
     ],
     exports: [
@@ -547,7 +549,8 @@ import { ComprasPdfComponent } from '../components/compras-reporte/compras-pdf.c
         OrdenDescargaEmailComponent,
         AddEditCalendarComponent,
         EventCalendarComponent,
-        ComprasPdfComponent
+        ComprasPdfComponent,
+        ReportefechasfacturacionVentasComponent
         
         
     ]

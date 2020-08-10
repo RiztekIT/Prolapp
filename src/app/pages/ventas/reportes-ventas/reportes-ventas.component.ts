@@ -4,6 +4,9 @@ import { ClientesService } from 'src/app/services/catalogos/clientes.service';
 import { Observable } from 'rxjs';
 import { Cliente } from 'src/app/Models/catalogos/clientes-model';
 import { startWith, map } from 'rxjs/operators';
+import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
+import { ReportefechasfacturacionVentasComponent } from 'src/app/components/ventas/reportefechasfacturacion/reportefechasfacturacion.component';
+import { MatDialog, MatDialogConfig, MatSnackBar, MatDivider, MAT_DATE_LOCALE } from '@angular/material';
 
 declare function btn_table();
 
@@ -21,8 +24,9 @@ export class ReportesVentasComponent implements OnInit {
   listClientes: Cliente[] = [];
   options: Cliente[] = [];
   ClienteNombre: any;
-  fecha1;
-  fecha2;
+  fecha1 = new Date();
+  fecha2 = new Date();
+  facturas = new Array<any>();
 /* 
   ReporteVentas: any = [
     {
@@ -44,7 +48,7 @@ export class ReportesVentasComponent implements OnInit {
     }
   ]; */
 
-  constructor(public serviceCliente: ClientesService) { }
+  constructor(public serviceCliente: ClientesService, public serviceFactura: FacturaService, private dialog: MatDialog) { }
 
   ngOnInit() {
     btn_table();
@@ -90,10 +94,19 @@ export class ReportesVentasComponent implements OnInit {
 
   }
 
-  reporteFacturacionVentas(){
-    console.log('object');
-    console.log(this.fecha1)
-    console.log(this.fecha2)
+
+  abrirReporteFactutacionVentas(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "80%";
+    dialogConfig.data = {
+    fecha1: this.fecha1,
+    fecha2: this.fecha2,
+    }
+    let dl = this.dialog.open(ReportefechasfacturacionVentasComponent, dialogConfig);
   }
+
+ 
 
 }

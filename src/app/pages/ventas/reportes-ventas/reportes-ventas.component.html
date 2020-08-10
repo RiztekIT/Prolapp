@@ -5,7 +5,7 @@
 
                 <h2 style="text-align: center;">Reportes de Ventas</h2>
 
-                <div class="card-header" id="headingOne">
+                <div class="card-header" id="headingOne" style="border: ridge;">
                     <h2 class="mb-0">
                         <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                     Reportes de Ventas
@@ -13,10 +13,10 @@
                     </h2>
                 </div>
 
-                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" style="border: ridge;">
                     <div class="container">
                         <br>
-                        <div class="row" style="padding: 20px; border: ridge">
+                        <div class="row">
                             <div class="col-12">
                                 <h3> Reporte de Facturas - Vendedor</h3>
                             </div>
@@ -41,7 +41,7 @@
                                 </div>
                             </div>
                             <div class="col-4" style="align-self: center">
-                                <button class="btn btn-info" mat-raised-button (click)='reporteFacturacionVentas()'><i class="mdi mdi-file-outline btn-lg"></i>Generar Reporte</button>
+                                <button class="btn btn-info" mat-raised-button (click)='abrirReporteFactutacionVentas()'><i class="mdi mdi-file-outline btn-lg"></i>Generar Reporte</button>
                             </div>
 
                         </div>
