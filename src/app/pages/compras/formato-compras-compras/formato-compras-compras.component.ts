@@ -5,7 +5,7 @@ import { Observable, Subscriber } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { CurrencyPipe } from '@angular/common';
-import { MatTableDataSource, MatSort } from '@angular/material';
+import { MatTableDataSource, MatSort,  MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
 import { CompraService } from '../../../services/compras/compra.service';
 import { Compras } from 'src/app/Models/Compras/compra-model';
 import { ProveedoresService } from '../../../services/catalogos/proveedores.service';
@@ -21,6 +21,7 @@ import { OrdenDescargaService } from '../../../services/almacen/orden-descarga/o
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AddsproductosService } from '../../../services/addsproductos.service';
 import { CalendarioService } from '../../../services/calendario/calendario.service';
+import { ComprasPdfComponent } from '../../../components/compras-reporte/compras-pdf.component';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -43,7 +44,7 @@ export class FormatoComprasComprasComponent implements OnInit {
 
   constructor(public router: Router, private _formBuilder: FormBuilder, private currencyPipe: CurrencyPipe, public CompraService: CompraService,
      public proveedorService: ProveedoresService, public ServiceUnidad: UnidadMedidaService, public ServiceProducto: ProductosService, 
-     public ordenDescargaService: OrdenDescargaService, private http: HttpClient, public addproductos: AddsproductosService, public CalendarioService: CalendarioService) { 
+     public ordenDescargaService: OrdenDescargaService, private http: HttpClient, public addproductos: AddsproductosService, private dialog: MatDialog, public CalendarioService: CalendarioService) { 
        this.MonedaBoolean = true;
      }
 
@@ -1282,6 +1283,20 @@ this.ordenDescargaService.getFolioOrdenDescarga().subscribe(resFolio=>{
   })
 });
   
+}
+
+openrep(){
+
+  
+  this.CompraService.formt = this.compra;
+  this.CompraService.formt.detalleCompra = this.detalleCompras;
+  //  console.log(this.CompraService.formt);
+  const dialogConfig = new MatDialogConfig();
+  dialogConfig.disableClose = false;
+  dialogConfig.autoFocus = true;
+  dialogConfig.width="70%";
+  this.dialog.open(ComprasPdfComponent, dialogConfig);
+
 }
 
 
