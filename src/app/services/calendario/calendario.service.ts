@@ -11,6 +11,7 @@ export const APIUrl = environment.APIUrl;
 @Injectable({
   providedIn: 'root'
 })
+
 export class CalendarioService {
 
   constructor(private http:HttpClient) { }
@@ -22,12 +23,35 @@ export class CalendarioService {
   formDataCalendario = new Calendario();
   formDataDetalleCalendario: detalleCalendario;
 
+  DetalleCalendarioData :  detalleCalendario = {
+    IdDetalleCalendario: 0,
+    IdCalendario : 0,
+    Folio : 0,
+    Documento: '',
+    Descripcion: '',
+    Start: new Date(),
+    Endd: new Date(),
+    Title: '',
+    Color:'',
+    AllDay: 0,
+    ResizableBeforeEnd: 0,
+    ResizableBeforeStart: 0,
+    Draggable: 0 
+  }
+
+  //variable para guardar la informacion del evento
+  eventoInfo: any;
+
   //objeto tipo compras
   formDataCompras: Compras;
 
   //Obtener Calendario por Modulo
   getCalendarioCompras(modulo: string): Observable <Calendario[]> {
     return this.http.get<Calendario[]>(APIUrl + '/calendario/getCalendarioModulo/'+modulo);
+  }
+  //Obtener Calendario por Usuario y Modulo
+  getCalendarioComprasUsuarioModulo(usuario: string, modulo: string): Observable <Calendario[]> {
+    return this.http.get<Calendario[]>(APIUrl + '/calendario/getCalendarioUsuarioModulo/'+usuario+'/'+modulo);  
   }
   //Obtener DetallesCalendario por IdCalendario
   getDetallesCalendarioId(id:number): Observable<detalleCalendario[]>{
@@ -36,6 +60,18 @@ export class CalendarioService {
   //Obtener DetallesCalendario por IdDetalleCalendario
   getDetallesCalendarioIdDetalle(id:number): Observable<detalleCalendario[]>{
     return this.http.get<detalleCalendario[]>(APIUrl + '/calendario/getDetalleCalendarioIdDetalle/'+id);
+  }
+  //Obtener Calendario JOIN Proceso
+  getCalendarioProceso(id: number, modulo: string, proceso:string): Observable<any[]>{
+    return this.http.get<any[]>(APIUrl + '/calendario/getCalendarioProceso/'+id+'/'+modulo+'/'+proceso);
+  }
+  //Obtener Usuario por ID
+  getUsuarioId(id: number): Observable<any[]>{
+    return this.http.get<any[]>(APIUrl + '/calendario/getCalendarioUsuarioId/'+id);
+  }
+  //agregar Calendario
+  addCalendario(calendario: Calendario){
+    return this.http.post(APIUrl + '/calendario', calendario);
   }
   //agregar detalle Calendario
   addDetalleCalendario(detalle: detalleCalendario){

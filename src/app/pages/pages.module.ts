@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule } from '@angular/material';
+import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule, MatToolbarModule } from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
@@ -232,6 +232,10 @@ import { OrdendescargadetallecuuComponent } from './almacen/ordendescargacuu/ord
 import { OrdendescargatarimacuuComponent } from './almacen/ordendescargacuu/ordendescargadetallecuu/ordendescargatarimacuu/ordendescargatarimacuu.component';
 import { ChecadorComponent } from './direccion/checador/checador.component';
 import { DireccionService } from '../services/direccion/direccion.service';
+import { ClienteComponent } from './cliente/cliente.component';
+import { FacturacionclienteComponent } from './cliente/facturacion/facturacioncliente/facturacioncliente.component';
+import { OrdendecompraclienteComponent } from './cliente/ordendecompra/ordendecompracliente/ordendecompracliente.component';
+import { ComplementodepagoclienteComponent } from './cliente/complementodepago/complementodepagocliente/complementodepagocliente.component';
 
 //import calendario
 import { CalendarModule, DateAdapter } from 'angular-calendar';
@@ -243,6 +247,9 @@ import { CalendarioService } from '../services/calendario/calendario.service';
 import { AddEditCalendarComponent } from '../components/angular-calendar/add-edit-calendar/add-edit-calendar.component';
 import { EventCalendarComponent } from '../components/angular-calendar/event-calendar/event-calendar.component';
 import { ComprasPrincipalComponent } from './compras/compras-principal/compras-principal.component';
+import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/trackingcliente.component';
+import { ComprasPdfComponent } from '../components/compras-reporte/compras-pdf.component';
+import { ReportefechasfacturacionVentasComponent } from '../components/ventas/reportefechasfacturacion/reportefechasfacturacion.component';
 
 
 @NgModule({
@@ -403,10 +410,17 @@ import { ComprasPrincipalComponent } from './compras/compras-principal/compras-p
         OrdendescargadetallecuuComponent,
         OrdendescargatarimacuuComponent,
         ChecadorComponent,
+        ClienteComponent,
+        FacturacionclienteComponent,
+        OrdendecompraclienteComponent,
+        ComplementodepagoclienteComponent,
         AngularCalendarComponent,
         AddEditCalendarComponent,
         EventCalendarComponent,
         ComprasPrincipalComponent,
+        TrackingclienteComponent,
+        ComprasPdfComponent,
+        ReportefechasfacturacionVentasComponent
     
     ],
     exports: [
@@ -454,7 +468,8 @@ import { ComprasPrincipalComponent } from './compras/compras-principal/compras-p
         FormsModule,
         NgbModalModule,
         FlatpickrModule.forRoot(),
-        CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
+        CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+        MatToolbarModule
     ],
     providers: [
         UsuariosServieService,
@@ -533,7 +548,9 @@ import { ComprasPrincipalComponent } from './compras/compras-principal/compras-p
         ReporteMxnComponent,
         OrdenDescargaEmailComponent,
         AddEditCalendarComponent,
-        EventCalendarComponent
+        EventCalendarComponent,
+        ComprasPdfComponent,
+        ReportefechasfacturacionVentasComponent
         
         
     ]

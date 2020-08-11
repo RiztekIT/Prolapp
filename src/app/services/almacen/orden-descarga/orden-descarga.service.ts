@@ -63,11 +63,27 @@ formDataTarimaDT = new DetalleTarima();
   getOrdenDescargaID(id:number): Observable<OrdenDescarga>{
     return this.http.get<OrdenDescarga>(APIUrl + '/OrdenDescarga/GetOrdenDescargaID/'+id);
   }
+  //get ultimo id Orden Descarga 
+  getUltimoIdOrdenDescarga(): Observable<any>{
+    return this.http.get<any>(APIUrl + '/OrdenDescarga/GetUltimoIdOrdenDescarga');
+  }
+  //get folio y sumarle 1
+  getFolioOrdenDescarga(): Observable<any>{
+    return this.http.get<any>(APIUrl + '/OrdenDescarga/OrdenDescargaFolio');
+  }
   
 
   //Actualizar saldo de DetalleOrdenDescarga por ID
   updateDetalleOrdenDescargaSaldo(id: number, saldo: string) {
     return this.http.put(APIUrl + '/OrdenDescarga/UpdateSaldo/' + id + '/' + saldo, null);
+  }
+  //Agregar Orden Descarga
+  addOrdenDescarga(od: OrdenDescarga) {
+    return this.http.post(APIUrl + '/OrdenDescarga', od);
+  }
+  //Agregar Orden Descarga
+  addDetalleOrdenDescarga(dod: DetalleOrdenDescarga) {
+    return this.http.post(APIUrl + '/OrdenDescarga/AddDetalleOrdenDescarga', dod);
   }
 
   UpdateDtODIDLoteFechaCadFechaMFG(id:number, lote: string, fechacad: Date, fechamdf: Date){

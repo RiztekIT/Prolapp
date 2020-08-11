@@ -59,11 +59,32 @@ export class PedidoVentasComponent implements OnInit {
 
   }
 
+  estatusCambio(event){
+    // console.log(event);
+this.estatusSelect = event.value;
+console.log(this.estatusSelect);
+if (this.estatusSelect==='Todos'){
+  this.applyFilter2('')
+}else {
+
+  this.applyFilter2(this.estatusSelect)
+}
+
+  }
+
+  public listEstatus: Array<Object> = [
+    { Estatus: 'Todos' },
+    { Estatus: 'Guardada' },
+    { Estatus: 'Cerrada' },
+    
+  ];
+  
+  estatusSelect;
   IdPedido: any;
   MasterDetalle = new Array<pedidoMaster>();
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['IdPedido', 'Nombre', 'Folio', 'Subtotal', 'Descuento', 'Total', 'Observaciones', 'FechaVencimiento', 'OrdenDeCompra', 'FechaDeEntrega', 'CondicionesDePago', 'Vendedor', 'Estatus', 'Usuario',  'LugarDeEntrega', 'Moneda', 'Prioridad', 'Flete', 'Options'];
+  displayedColumns: string[] = ['Folio', 'Nombre', 'Subtotal', 'Total', 'FechaDeExpedicion', 'Estatus',  'Options'];
   
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Cantidad'];
 
@@ -145,7 +166,7 @@ export class PedidoVentasComponent implements OnInit {
   //Get the Folio and verify if it comes empty( in this case it will be set to 1) otherwise, it will be added 1 to not repeat the same Folio among the Pedidos
   ObtenerFolio() {
     this.service.GetFolio().subscribe(data => {
-      // console.log(data[0].Folio);
+      console.log(data[0].Folio);
       let folio = data[0].Folio;
       if (folio == "") {
         folio = 1;
@@ -187,10 +208,11 @@ export class PedidoVentasComponent implements OnInit {
   //editar pedido, llenar los formdata de donde se obtendra la informacion en el otro componente.
   //Abrir la sig pagina donde se editara el pedido
   onEdit(pedido: Pedido) {
-
+    // this.service.formt = pedido;
     this.service.formDataPedido = pedido;
     this.service.IdCliente = pedido.IdCliente;
     let Id = pedido.IdPedido;
+    localStorage.setItem('pedidopdf',JSON.stringify(pedido))
     localStorage.setItem('IdPedido', Id.toString());
     this.router.navigate(['/pedidoventasAdd']);
   }
@@ -331,6 +353,13 @@ email(id?: string, folio?:string){
   applyFilter(filtervalue: string) {
     this.listData.filterPredicate = (data, filter: string) => {
       return data.Nombre.toString().toLowerCase().includes(filter) || data.IdPedido.toString().includes(filter);
+    };
+    this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+
+  }
+  applyFilter2(filtervalue: string) {
+    this.listData.filterPredicate = (data, filter: string) => {
+      return data.Estatus.toString().toLowerCase().includes(filter);
     };
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
 

@@ -1,3 +1,24 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div>
+                    <label class="input-group-text text-info">Empresa</label>
+                    <select class="form-control" name="Empresa" #Empresa="ngModel" [(ngModel)]="enviarfact.empresa" required (ngModelChange)='cambioEmpresa($event)'>
+                                <option [ngValue]="null" selected disabled>Seleccionar Empresa</option>
+                                <option *ngFor="let e of listEmpresa" [ngValue]="e"> {{e.RazonSocial}} </option>
+                              </select>
+                </div>
+                <!--    <div>
+                            <button (click)='rfc()'>RFC</button>
+                        </div> -->
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="card">
     <div class="card">
         <div class="card-header" id="headingOne">

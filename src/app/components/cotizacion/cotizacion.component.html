@@ -54,7 +54,7 @@
                             <!-- <th scope="col">SACO</th> -->
                             <th scope="col">CODIGO</th>
                             <th scope="col">DESCRIPCION</th>
-                            <th scope="col">PRECIO</th>
+                            <th scope="col">PRECIO UNITARIO</th>
                             <th scope="col">CANTIDAD</th>
                             <th scope="col">TOTAL</th>
                         </tr>
@@ -79,7 +79,7 @@
                         </tr>
                         <tr>
                             <th scope="col"></th>
-                            <th scope="row" class="tdnomargin" style="text-align: center; padding-bottom: 10px"><img [src]="srcimageninicial+conceptos.Producto+'.png'" alt="Logo" style="height: 90px; width: 90px; "></th>
+                            <th scope="row" class="tdnomargin" style="text-align: center; padding-bottom: 10px"><img [src]="srcimageninicial+conceptos.imagen+'.png'" alt="Logo" style="height: 90px; width: 90px; "></th>
                             <th scope="col"></th>
                             <th scope="col"></th>
                             <th scope="col"></th>
@@ -118,20 +118,26 @@
                     <div class="col-12">
                         <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Vigencia: <span style="font-weight: 100;">{{this.service.formrow.Vigencia | date: 'yyyy/MM/dd'}}</span></p>
                     </div>
+                    <div class="col-12">
+                        <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Tipo de Flete: <span style="font-weight: 100;">{{this.service.formrow.Flete}}</span></p>
+                    </div>
+                    <div class="col-12">
+                        <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;"><span style="font-weight: 100;">{{this.service.formrow.Observaciones}}</span></p>
+                    </div>
                 </div>
                 <div class="col-4 container row">
                     <div class="col-6">
-                        <h4 class=" blacktxt nomarginbottomP">Sub Total</h4>
+                        <h4 class=" blacktxt nomarginbottomP">Subtotal</h4>
                     </div>
                     <div class="col-6">
                         <p class=" blacktxt nomarginbottomP">{{this.service.formrow.Subtotal | currency}}</p>
                     </div>
-                    <div class="col-6">
+                    <!--   <div class="col-6">
                         <h4 class=" blacktxt nomarginbottomP">IVA</h4>
                     </div>
                     <div class="col-6">
                         <p class=" blacktxt nomarginbottomP">***</p>
-                    </div>
+                    </div> -->
                     <div class="line"></div>
                     <div class="col-6">
                         <h4 class=" blacktxt nomarginbottomP">Total</h4>

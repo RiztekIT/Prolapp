@@ -12,6 +12,7 @@ import { DetalleCompra } from '../../../Models/Compras/detalleCompra-model';
 import { CompraService } from '../../../services/compras/compra.service';
 import { Compras } from 'src/app/Models/Compras/compra-model';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { ComprasPdfComponent } from '../../../components/compras-reporte/compras-pdf.component';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -54,7 +55,7 @@ export class ComprasPrincipalComponent implements OnInit {
 //Variable que guarda el tipo de cambio
 TipoCambio: string;
 
-constructor(public router: Router,private service:CompraService, private dialog: MatDialog, private http: HttpClient) {
+constructor(public router: Router,private service:CompraService, private dialog: MatDialog, private http: HttpClient, public CompraService: CompraService,) {
 
     // this.service.listen().subscribe((m:any)=>{
     //   console.log(m);
@@ -186,8 +187,8 @@ Folio: +"",
 PO : "",
 IdProveedor : +"",
 Proveedor : "",
-Subtotal :"",
-Total:"",
+Subtotal :"0",
+Total:"0",
 Descuento:"0",
 ImpuestosRetenidos:"",
 ImpuestosTrasladados:"",
@@ -195,6 +196,7 @@ Moneda:"MXN",
 Observaciones:"",
 TipoCambio:"",
 CondicionesPago:"",
+SacosTotales: "",
 PesoTotal:"",
 Estatus:"Creada",
 Factura: +"",
@@ -203,16 +205,17 @@ FechaElaboracion : new Date(),
 FechaPromesa : new Date(),
 FechaEntrega : new Date(),
 Comprador:"",
-SubtotalDlls: "",
-TotalDlls: "",
+SubtotalDlls: "0",
+TotalDlls: "0",
 DescuentoDlls: "0",
 ImpuestosTrasladadosDlls: ""
   }
 
+  //Generar una compra de materia prima
   onAdd(){
     this.service.getNewFolio().subscribe(res=>{
       console.log(res); 
-      let dateString = '2000-01-01T00:00:00' 
+      let dateString = '1900-01-01T00:00:00' 
       let newDate = new Date(dateString);
       this.compraBlanco.Folio = +res;
       this.compraBlanco.FechaEntrega = newDate;
@@ -221,6 +224,50 @@ ImpuestosTrasladadosDlls: ""
 
 
 console.log(this.compraBlanco);
+
+      this.service.addCompra(this.compraBlanco).subscribe(res=>{
+        console.log(res);
+        this.service.getUltimoIdCompra().subscribe(res=>{
+          console.log(res);
+          localStorage.setItem('IdCompra', res.toString())
+          this.router.navigate(['/formatoCompras']);
+        })
+    })
+    })
+    // generarFolio
+    // Estatus
+
+  }
+
+  
+openrep(row){
+
+  console.log(row);
+  // this.CompraService.formt = row
+  // // console.log();
+  // const dialogConfig = new MatDialogConfig();
+  // dialogConfig.disableClose = false;
+  // dialogConfig.autoFocus = true;
+  // dialogConfig.width="70%";
+  // this.dialog.open(ComprasPdfComponent, dialogConfig);
+
+}
+
+  //Generar Compra Administrativa
+
+ onAddCompraAdministrativa(){
+    this.service.getNewFolio().subscribe(res=>{
+      console.log(res); 
+      let dateString = '1900-01-01T00:00:00';
+      let newDate = new Date(dateString);
+      this.compraBlanco.Folio = +res;
+      this.compraBlanco.FechaEntrega = newDate;
+      this.compraBlanco.FechaPromesa = newDate;
+      this.compraBlanco.TipoCambio = this.TipoCambio;
+      this.compraBlanco.Estatus = 'Administrativa';
+
+
+console.log(this.compraBlanco);   
 
       this.service.addCompra(this.compraBlanco).subscribe(res=>{
         console.log(res);

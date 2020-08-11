@@ -3,7 +3,8 @@
         <div class="card ">
             <div class="card-body">
                 <h2 style="text-align: center;">Compras</h2>
-                <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Nueva Compra</button>
+                <button class="btn btn-primary" (click)="onAdd()" style="margin-right: 5px;">Compra Materia Prima</button>
+                <button class="btn btn-danger" (click)="onAddCompraAdministrativa()">Compra Administrativa</button>
 
                 <div fxLayoutAlign="row">
                     <mat-card style="text-align: right;" class="mat-elevation-z0">
@@ -86,6 +87,10 @@
                                     <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="onDelete(row)">
                                                 <mat-icon>delete</mat-icon>
                                             </button>
+                                    <!--  -->
+                                    <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
+                                        <mat-icon>visibility</mat-icon>
+                                    </button>
                                     <!--  -->
                                     <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
                                                 <mat-icon>visibility</mat-icon>

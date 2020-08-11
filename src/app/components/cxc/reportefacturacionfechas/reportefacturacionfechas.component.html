@@ -75,7 +75,7 @@
                         <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.IdCliente}} </td>
                         <!-- <td class="wrap lightback"> {{info.Nombre | slice:0:35}} <br> {{info.Nombre | slice:35:this.textoNombre[i]}} </td> -->
                         <!-- <td class="wrap lightback"> {{info.Nombre}}</td> -->
-                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Nombre}}</td>
+                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Nombre | slice:0:50}}</td>
                         <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Folio}}</td>
                         <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</td>
                         <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.FechaVencimiento | date: 'yyyy/MM/dd'}}</td>

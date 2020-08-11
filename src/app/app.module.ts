@@ -23,6 +23,10 @@ import { CalendarioComponent } from './components/cxc/calendario/calendario.comp
 import { ScannerComponent } from './components/scanner/scanner.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { EmailgeneralComponent } from './components/email/emailgeneral/emailgeneral.component';
+import { LoginClienteComponent } from './login-cliente/login-cliente.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+
 
 
 // import { AcusecancelacionComponent } from './components/acusecancelacion/acusecancelacion.component';
@@ -49,6 +53,7 @@ import { EmailgeneralComponent } from './components/email/emailgeneral/emailgene
     CalendarioComponent,
     // CotizacionpedidoComponent,
     ScannerComponent,
+    LoginClienteComponent,
     
     // AcusecancelacionComponent,
     
@@ -68,7 +73,8 @@ import { EmailgeneralComponent } from './components/email/emailgeneral/emailgene
     ServiceModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ZXingScannerModule
+    ZXingScannerModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     // NgbModule
   ],
   bootstrap: [AppComponent],

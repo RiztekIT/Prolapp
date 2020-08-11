@@ -152,9 +152,9 @@ public PedidoBlanco: Pedido =
     this.Inicializar();
     this.dropdownRefresh();
     this.dropdownRefreshVendedor();
-    this.dropdownRefresh2();
+    // this.dropdownRefresh2();
     this.refreshDetallesPedidoList();
-    this.IniciarTotales();
+    // this.IniciarTotales();
     this.tipoDeCambio();
     this.service.formProd = new Producto();
 
@@ -651,8 +651,9 @@ this.changeDireccion(this.isDireccion);
     console.log(this.ClienteSeleccionado);
   }
 
-  onSelectionChange2(options2: Producto, event: any) {
-    if (event.isUserInput) {
+  onSelectionChange2(options2: Producto, event?: any) {
+    console.log(event);
+    // if (event.isUserInput) {
       this.service.formProd = options2;
       // this.PStock = this.service.formProd.Stock;
       this.ProductoPrecio = +this.service.formProd.PrecioVenta;
@@ -670,10 +671,10 @@ this.changeDireccion(this.isDireccion);
       this.claveorigen = '1'
       this.PresentacionSelect = '25'
       // console.log(+this.PStock + " STOCKKKK");
-    }
+    // }
   }
 
-  onSelectionChangeMarca(options2, event: any){
+  onSelectionChangeMarca(options2, event?: any){
     console.log(options2);
     this.clavemarca = options2.ClaveMarca
     this.MarcaSelect = options2.NombreMarca
@@ -976,26 +977,36 @@ onChangeCantidadP(cantidad: any) {
 
 //On change Precio
 onChangePrecio(precio: any) {
-  console.log(precio);
-  let elemHTML: any = document.getElementsByName('PrecioCosto')[0];
-  // //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
-  elemHTML.value = +this.ProductoPrecio;
-  this.calcularImportePedido();
+  if (this.MonedaBoolean){
+
+    console.log(precio);
+    let elemHTML: any = document.getElementsByName('PrecioCosto')[0];
+    // //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
+    elemHTML.value = +this.ProductoPrecio;
+    this.calcularImportePedido();
+  }
 }
 onChangePrecioDlls(precioDlls: any) {
-  console.log(precioDlls);
-  let elemHTML: any = document.getElementsByName('PrecioCostoDlls')[0];
-  // //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
-  elemHTML.value = +this.ProductoPrecioDLLS;
-  this.calcularImportePedido();
+  if (!this.MonedaBoolean){
+
+    console.log(precioDlls);
+    let elemHTML: any = document.getElementsByName('PrecioCostoDlls')[0];
+    // //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
+    elemHTML.value = +this.ProductoPrecioDLLS;
+    this.calcularImportePedido();
+  }
 }
 OnEditProducto(dp: DetalleCotizacion) {
   //Iniciar en 0 las variables de totales, stock y
   this.IniciarTotales();
+  let clavep;
+  clavep = dp.ClaveProducto.substr(0,2);
 
   this.ActualizarDetallePedidoBool = true;
   this.service.formDataDP = dp;
-  this.service.GetProductoDetalleCotizacion(dp.ClaveProducto, dp.IdDetalleCotizacion).subscribe(data => {
+  this.service.GetProductoDetalleCotizacion(clavep, dp.IdDetalleCotizacion).subscribe(data => {
+
+    console.log(data);
 
     // if (this.service.formDataPedido.Moneda == 'MXN') {
     //   this.importeP = data[0].Importe;
@@ -1014,19 +1025,31 @@ OnEditProducto(dp: DetalleCotizacion) {
       this.ProductoPrecio = data[0].PrecioUnitario;
     } else {
       this.importePDLLS = data[0].ImporteDlls;
-      this.ProductoPrecio = data[0].PrecioUnitarioDlls;
+      this.ProductoPrecioDLLS = data[0].PrecioUnitarioDlls;
     }
 
-    this.ProductoSelect = data[0].IdProducto;
+    this.droddownMarcas(data[0].Nombre);
+      this.droddownOrigen();
+      this.droddownPresentacion();
+
+    // this.ProductoSelect = data[0].IdProducto;
+    this.service.formProd.ClaveProducto = data[0].ClaveProducto1;
+    this.clavemarca = data[0].ClaveMarca;
+    this.claveorigen = data[0].ClaveOrigen;
+    console.log(this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen);
+    this.ProductoSelect = data[0].Nombre
+    this.MarcaSelect = data[0].NombreMarca;
+    this.OrigenSelect = data[0].NombreOrigen;
+    this.PresentacionSelect = '25'
     this.service.formProd.Nombre = data[0].Nombre;
     // this.ProductoPrecio = data[0].PrecioUnitario;
     // this.ProductoPrecioDLLS = data[0].PrecioUnitarioDlls;
     this.Cantidad = data[0].Cantidad;
     this.service.formDataCotizacion.Moneda;
-    this.service.formProd.ClaveProducto = data[0].ClaveProducto;
+    // this.service.formProd.ClaveProducto = data[0].ClaveProducto;
     // this.service.formDataDP.Unidad = data[0].Unidad;
     // this.service.formProd.Stock = data[0].Stock;
-    this.service.formProd.DescripcionProducto = data[0].DescripcionProducto;
+    this.service.formProd.DescripcionProducto = data[0].Producto;
     this.service.formProd.Estatus = data[0].Estatus;
     this.service.formProd.IVA = data[0].IVA;
     this.service.formProd.ClaveSAT = data[0].ClaveSAT;
@@ -1049,11 +1072,18 @@ OnEditProducto(dp: DetalleCotizacion) {
 OnEditDetallePedidodp(form: NgForm) {
   console.clear();
 
+  
+ console.log(this.service.formProd.Nombre + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect);
+ console.log(this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen);
+
+
+
 
   this.service.formDataDP.IdCotizacion = this.IdCotizacion;
-  this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto;
-  this.service.formDataDP.Producto = this.service.formProd.Nombre;
+  this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen;
+  this.service.formDataDP.Producto = this.service.formProd.Nombre + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect ;
   this.service.formDataDP.Unidad = this.service.formProd.UnidadMedida;
+  //this.onSelectionChange2(this.service.formDataDP.Producto);
   this.service.formDataDP.PrecioUnitario = this.ProductoPrecioMXN.toString();
   this.service.formDataDP.PrecioUnitarioDLLS = this.ProductoPrecioDLLS.toString();
   this.service.formDataDP.Cantidad = this.Cantidad.toString();
@@ -1336,7 +1366,7 @@ email(cotizacion){
         jsPDF: { format: 'letter', orientation: 'portrait' },
       };
       html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
-        localStorage.setItem('pdfcotizacion'+cotizacion.Folio, pdfAsString);
+        localStorage.setItem('pdfcorreo'+cotizacion.Folio, pdfAsString);
         this.statusparam=true;          
         console.log(this.statusparam);                
       })
@@ -1351,7 +1381,8 @@ email(cotizacion){
       dialogConfig.data = {
         foliop: cotizacion.Folio,
          cliente: cotizacion.Nombre,
-        status: true
+        status: true,
+        tipo: 'Cotizacion'
       }
       this.dialog.open(EmailgeneralComponent, dialogConfig);
 
@@ -1451,6 +1482,7 @@ ObtenerUltimoPedido() {
 
 nuevaoc(coti){
   console.log(coti);
+  this.cerrarCotizacion();
 
   this.servicepedido.GetFolio().subscribe(data => {
     // console.log(data[0].Folio);

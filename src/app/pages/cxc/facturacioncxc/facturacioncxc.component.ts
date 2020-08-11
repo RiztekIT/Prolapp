@@ -22,6 +22,7 @@ import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.
 import { EmailComponent } from 'src/app/components/email/email/email.component';
 import { FacturaComponent } from 'src/app/components/factura/factura.component';
 import { ComppagoComponent } from '../comppago/comppago/comppago.component';
+import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 
 
 @Component({
@@ -57,6 +58,7 @@ export class FacturacioncxcComponent implements OnInit {
   xmlparam;
   expandedElement: any;
   detalle = new Array<DetalleFactura>();
+  listEmpresa;
   public loading2 = false;
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
   a = document.createElement('a');
@@ -64,7 +66,7 @@ export class FacturacioncxcComponent implements OnInit {
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private service:FacturaService, private dialog: MatDialog, private snackBar: MatSnackBar, private router:Router, public enviarfact: EnviarfacturaService, public _MessageService: MessageService,public servicerecibo: ReciboPagoService) {
+  constructor(private service:FacturaService, private dialog: MatDialog, private snackBar: MatSnackBar, private router:Router, public enviarfact: EnviarfacturaService, public _MessageService: MessageService,public servicerecibo: ReciboPagoService, public serviceEmpresa: EmpresaService) {
   
     this.service.listen2().subscribe((m:any)=>{
       // console.log(m);
@@ -75,11 +77,41 @@ export class FacturacioncxcComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.service.rfcempresa = 'PLA11011243A'
+    this.listaempresas()
     this.refreshFacturaList();
     // this.detallesFactura();
     this.Folio();
     //this.ObtenerUltimaFactura();
     // this.listData.connect();
+  }
+
+  listaempresas(){
+    this.serviceEmpresa.getEmpresaList().subscribe(data =>{
+      console.log(data);
+      this.listEmpresa = data;
+      
+      console.log(this.enviarfact.empresa);
+      this.enviarfact.empresa = data[0];
+      this.service.rfcempresa = this.enviarfact.empresa.RFC;
+      // this.enviarfact.rfc = data[0].RFC;
+    })
+  }
+
+  cambioEmpresa(event){
+    
+
+    this.enviarfact.empresa = event;
+      this.service.rfcempresa = event.RFC;
+      localStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
+
+      //console.clear();
+      console.log(this.enviarfact.empresa);
+      console.log(this.service.rfcempresa);
+
+      this.refreshFacturaList();
+      // this.detallesFactura();
+      this.Folio();
   }
 
 
@@ -137,6 +169,9 @@ export class FacturacioncxcComponent implements OnInit {
 /* Metodo para traer todas las facturas */
   refreshFacturaList() {
 this.loadtable = true;
+this.listData = new MatTableDataSource();
+this.service.master = [];
+
     this.service.deleteFacturaCreada().subscribe(data=>{
       console.log(data);
       
@@ -144,7 +179,7 @@ this.loadtable = true;
 
   
     this.service.getFacturasListCLiente().subscribe(data => {
-
+console.log(data)
       for (let i = 0; i <= data.length-1; i++){
         this.service.master[i] = data[i]
         this.service.master[i].detalle = [];
@@ -155,6 +190,7 @@ this.loadtable = true;
             for (let l = 0; l <=res.length-1; l++){
               this.service.master[i].detalle.push(res[l]);
             }
+            
             this.listData = new MatTableDataSource(this.service.master);
             this.listData.sort = this.sort;    
             this.listData.paginator = this.paginator;

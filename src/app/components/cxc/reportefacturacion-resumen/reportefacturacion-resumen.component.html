@@ -62,14 +62,14 @@
                 </thead>
                 <tbody *ngFor="let fact of facturas; let i = index">
                     <tr class="pgbreak border3">
-                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Folio}} </td>
-                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.IdCliente}} - {{fact.Nombre}}</td>
-                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</td>
-                        <td *ngIf="fact.Moneda==='MXN'" class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Total | currency}}</td>
-                        <td *ngIf="fact.Moneda==='USD'" class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.TotalDlls | currency}}</td>
-                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Moneda}}</td>
-                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.TipoDeCambio}}</td>
-                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Estatus}}</td>
+                        <td class="wrap lightback pgbreak font" [attr.colspan]="1"> {{fact.Folio}} </td>
+                        <td class="wrap lightback pgbreak font" [attr.colspan]="1"> {{fact.IdCliente}} - {{fact.Nombre}}</td>
+                        <td class="wrap lightback pgbreak font" [attr.colspan]="1"> {{fact.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</td>
+                        <td *ngIf="fact.Moneda==='MXN'" class="wrap lightback pgbreak font" [attr.colspan]="1"> {{fact.Total | currency}}</td>
+                        <td *ngIf="fact.Moneda==='USD'" class="wrap lightback pgbreak font" [attr.colspan]="1"> {{fact.TotalDlls | currency}}</td>
+                        <td class="wrap lightback pgbreak font " [attr.colspan]="1"> {{fact.TipoDeCambio}}</td>
+                        <td class="wrap lightback pgbreak font " [attr.colspan]="1"> {{fact.Moneda}}</td>
+                        <td class="wrap lightback pgbreak font " [attr.colspan]="1"> {{fact.Estatus}}</td>
                     </tr>
 
                     <!--      <td class="wrap lightback pgbreak" [attr.colspan]="2"> </td>

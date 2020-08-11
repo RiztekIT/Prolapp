@@ -90,6 +90,7 @@ export class ReciboPagoComponent implements OnInit {
   folioparam;
   xmlparam;
   idparam;
+  clienteLogin;
   json1 = new pagoTimbre();
   conceptos : any;
   fecha2;
@@ -106,7 +107,7 @@ export class ReciboPagoComponent implements OnInit {
 
   
 
-  constructor(public _MessageService: MessageService,public service: ReciboPagoService, private router: Router, private dialog: MatDialog,private tipoCambio:TipoCambioService,private currencyPipe: CurrencyPipe,private servicetimbrado:EnviarfacturaService, public servicefolios: FoliosService, public servicefactura: FacturaService,private http : HttpClient ) {
+  constructor(public _MessageService: MessageService,public service: ReciboPagoService, private router: Router, private dialog: MatDialog,private tipoCambio:TipoCambioService,private currencyPipe: CurrencyPipe,public servicetimbrado:EnviarfacturaService, public servicefolios: FoliosService, public servicefactura: FacturaService,private http : HttpClient ) {
     this.service.listen().subscribe((m:any)=>{
       // console.log(m);
       this.refreshPagoCFDITList();
@@ -122,6 +123,8 @@ export class ReciboPagoComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(localStorage.getItem("inicioCliente"));
+    this.clienteLogin = localStorage.getItem("inicioCliente");
     this.CleanPagoCFDI();
     this.Inicializar();
     this.RP();
@@ -746,7 +749,13 @@ console.log('NUEVO CFDIIIIIIIIIII');
   Regresar() {
     //Remover el IdRecibo el local storage
     localStorage.removeItem('IdRecibo');
-    this.router.navigateByUrl('/complementopagoCxc');
+    if (this.clienteLogin == 'true') {
+      this.router.navigateByUrl('/complementodepago');
+      
+    } else {
+      
+      this.router.navigateByUrl('/complementopagoCxc');
+    }
   }
 
   //Metodo Disparado al momento de hacer submit el cual recibe los valors del form como parametro
@@ -815,7 +824,15 @@ console.log('NUEVO CFDIIIIIIIIIII');
     this.json1.TipoCfdi = 'pago';
     this.json1.UsoCFDI = "P01";
     //this.json1.Serie = "6390";
-     this.json1.Serie = "358668";
+     
+     if (this.servicetimbrado.empresa.RFC==='PLA11011243A'){
+
+      this.json1.Serie = "358668";
+    }
+    else if (this.servicetimbrado.empresa.RFC==='AIN140101ME3'){
+      
+      this.json1.Serie = "358668";
+    }
     this.json1.Moneda = 'XXX';
     console.log(this.json1.Receptor.UID);
 // console.log(this.conceptos);

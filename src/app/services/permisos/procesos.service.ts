@@ -40,6 +40,9 @@ export class ProcesoService {
   GetProcesoNombre(area: any, id: number): Observable <any[]>{
     return this.http.get<any>(this.APIUrl + '/proceso/ProcesoNombre/' + area + '/'+ id);
    }
+  GetProcesoIdProceso(id: number): Observable <Proceso[]>{
+    return this.http.get<Proceso[]>(this.APIUrl + '/proceso/ProcesoIdProceso/'+ id);
+   }
 
    GetProcesoPrivilegio(id:number): Observable <Proceso[]>{
     return this.http.get<any>(this.APIUrl + '/proceso/ProcesoPrivilegio/' + id);

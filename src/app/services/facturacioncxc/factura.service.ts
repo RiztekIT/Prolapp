@@ -33,6 +33,8 @@ export class FacturaService {
    Cliente;
    saldos = new Saldos();
    tipoCambioPago;
+   rfcempresa = 'PLA11011243A';
+   
 
    SaldoFacturaMXN: number;
    SaldoFacturaDLLS: number;
@@ -45,97 +47,260 @@ export class FacturaService {
 
   //Obtener lista de Facturas
   getFacturasList(): Observable <Factura[]> {
-    return this.http.get<Factura[]>(this.APIUrl + '/Factura');
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.get<Factura[]>(this.APIUrl + '/Factura');  
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.get<Factura[]>(this.APIUrl + '/Factura2');  
+    }
+
+    
   }
   getFacturasListCLiente(): Observable <any[]> {
-    return this.http.get<[]>(this.APIUrl + '/Factura/FacturaCliente');
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.get<[]>(this.APIUrl + '/Factura/FacturaCliente');
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.get<[]>(this.APIUrl + '/Factura2/FacturaCliente');
+    }
+    
   }
+
   //Obtener Lista de Detalles Factura
   getDetallesFacturaList(id: number): Observable <DetalleFactura[]> {
-    return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura/DetalleFactura/'+ id);
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura/DetalleFactura/'+ id);
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura2/DetalleFactura/'+ id);
+    }
+    
   }
   
   getDetallesFactura(): Observable <DetalleFactura[]> {
-    return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura/DetalleFactura/');
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura/DetalleFactura/');
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura2/DetalleFactura/');
+    }
+    
   }
 
   getDetallesFacturaListProducto(id: number): Observable<any[]> {
-    return this.http.get<any[]>(this.APIUrl + '/Factura/DetalleFacturaProducto/'+ id);
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.get<any[]>(this.APIUrl + '/Factura/DetalleFacturaProducto/'+ id);
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.get<any[]>(this.APIUrl + '/Factura2/DetalleFacturaProducto/'+ id);
+    }
+    
   }
 //Join Tabla Factura con Cliente
   getFacturasClienteID(id:number): Observable<any[]>{
-    return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaCliente/'+id)
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaCliente/'+id)
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.get<any[]>(this.APIUrl+ '/Factura2/FacturaCliente/'+id)
+    }
+    
   }
   getFacturasClienteFolio(id:string): Observable<any[]>{
-    return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaClienteFolio/'+id)
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaClienteFolio/'+id)
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.get<any[]>(this.APIUrl+ '/Factura2/FacturaClienteFolio/'+id)
+    }
+    
   }
 
   
   //Obtener los datos del Cliente en base a una factura
   
   getFacturaClienteID(id:number): Observable<any[]>{
-    return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaClienteID/'+id)
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaClienteID/'+id)
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.get<any[]>(this.APIUrl+ '/Factura2/FacturaClienteID/'+id)
+    }
+    
   }
   //Obtener ultima factura Creada
   getUltimaFactura(): Observable<any> {
-    return this.http.get<Factura[]>(this.APIUrl + '/Factura/UltimaFactura');
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.get<Factura[]>(this.APIUrl + '/Factura/UltimaFactura');
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.get<Factura[]>(this.APIUrl + '/Factura2/UltimaFactura');
+    }
+    
   }
   //Obtener Factura por Id
   getFacturaId(id:number): Observable<any> {
+    if (this.rfcempresa==='PLA11011243A'){
 
+      return this.http.get<Factura[]>(this.APIUrl + '/Factura/Id/' + id);
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.get<Factura[]>(this.APIUrl + '/Factura2/Id/' + id);
+    }
       
-    return this.http.get<Factura[]>(this.APIUrl + '/Factura/Id/' + id);
+    
   }
 
   //Obtener factura entre fechas
   getFacturasFechas(fechaini,fechafinal){
-    return this.http.get<any[]>(this.APIUrl + '/Factura/FacturaFechas/' + fechaini+ '/' + fechafinal);
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.get<any[]>(this.APIUrl + '/Factura/FacturaFechas/' + fechaini+ '/' + fechafinal);
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.get<any[]>(this.APIUrl + '/Factura2/FacturaFechas/' + fechaini+ '/' + fechafinal);
+    }
+    
   }
   //Obtener el ultimo Folio
   getFolio(): Observable<any>{
-    return this.http.get<Factura[]>(this.APIUrl+'/Factura/Folio');
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.get<Factura[]>(this.APIUrl+'/Factura/Folio');
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.get<Factura[]>(this.APIUrl+'/Factura2/Folio');
+    }
+    
   }
   //Eliminar Factura y sus Detalles de Factura
   deleteFactura(id:number) {
-    return this.http.delete(this.APIUrl + '/Factura/' + id);
+
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.delete(this.APIUrl + '/Factura/' + id);
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.delete(this.APIUrl + '/Factura2/' + id);
+    }
+    
   }
   deleteFacturaCreada() {
-    return this.http.delete(this.APIUrl + '/Factura/DeleteFacturaCreada');
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.delete(this.APIUrl + '/Factura/DeleteFacturaCreada');
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.delete(this.APIUrl + '/Factura2/DeleteFacturaCreada');
+    }
+    
   }
   // Eliminar detalle factura
   deleteDetalleFactura(id:number) {
-    return this.http.delete(this.APIUrl + '/Factura/DeleteDetalleFactura/' + id);
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.delete(this.APIUrl + '/Factura/DeleteDetalleFactura/' + id);
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.delete(this.APIUrl + '/Factura2/DeleteDetalleFactura/' + id);
+    }
+    
   }
   //Insertar nueva factura
   addFactura(factura: Factura) {
-    return this.http.post(this.APIUrl + '/Factura', factura);
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.post(this.APIUrl + '/Factura', factura);
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.post(this.APIUrl + '/Factura2', factura);
+    }
+    
   }
  //Insertar Detalle Factura
  addDetalleFactura(detalleFactura: DetalleFactura) {
-   return this.http.post(this.APIUrl + '/Factura/InsertDetalleFactura', detalleFactura);
+  if (this.rfcempresa==='PLA11011243A'){
+
+    return this.http.post(this.APIUrl + '/Factura/InsertDetalleFactura', detalleFactura);
+  }
+  else if (this.rfcempresa=='AIN140101ME3'){
+    return this.http.post(this.APIUrl + '/Factura2/InsertDetalleFactura', detalleFactura);
+  }
+   
   }
   //Editar Factura
   updateFactura(factura: Factura) {
-  return this.http.put(this.APIUrl+ '/Factura', factura);
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.put(this.APIUrl+ '/Factura', factura);
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.put(this.APIUrl+ '/Factura2', factura);
+    }
+  
 }
 updateCancelarFactura(id: number) {
-  return this.http.put(this.APIUrl+ '/Factura/Cancelar/' + id, null);
+  if (this.rfcempresa==='PLA11011243A'){
+
+    return this.http.put(this.APIUrl+ '/Factura/Cancelar/' + id, null);
+  }
+  else if (this.rfcempresa=='AIN140101ME3'){
+    return this.http.put(this.APIUrl+ '/Factura2/Cancelar/' + id, null);
+  }
+
 }
 
 updatePagadaFactura(id: String) {
-  return this.http.put(this.APIUrl+ '/Factura/Pagada/' + id, null);
+  if (this.rfcempresa==='PLA11011243A'){
+
+    return this.http.put(this.APIUrl+ '/Factura/Pagada/' + id, null);
+  }
+  else if (this.rfcempresa=='AIN140101ME3'){
+    return this.http.put(this.APIUrl+ '/Factura2/Pagada/' + id, null);
+  }
+  
 }
   //Editar Detalle Factura
   updateDetalleFactura(detalleFactura: DetalleFactura) {
-  return this.http.put(this.APIUrl+ '/Factura/UpdateDetalleFactura', detalleFactura);
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.put(this.APIUrl+ '/Factura/UpdateDetalleFactura', detalleFactura);
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.put(this.APIUrl+ '/Factura2/UpdateDetalleFactura', detalleFactura);
+    }
+  
 }
 //Obtener Productos
 getProductos(): Observable<any>{
-  return this.http.get<Producto[]>(this.APIUrl + '/Factura/getProductos');
+  if (this.rfcempresa==='PLA11011243A'){
+
+    return this.http.get<Producto[]>(this.APIUrl + '/Factura/getProductos');
+  }
+  else if (this.rfcempresa=='AIN140101ME3'){
+    return this.http.get<Producto[]>(this.APIUrl + '/Factura2/getProductos');
+  }
+  
 }
 //Obtener Clientes de la Base de Datos
 getDepDropDownValues(): Observable<any>{
-  return this.http.get<Cliente[]>(this.APIUrl+'/cliente/Facturar');
+  if (this.rfcempresa==='PLA11011243A'){
+
+    return this.http.get<Cliente[]>(this.APIUrl+'/cliente/Facturar');
+  }
+  else if (this.rfcempresa=='AIN140101ME3'){
+    return this.http.get<Cliente[]>(this.APIUrl+'/cliente/Facturar2');
+  }
+  
 }
 //Obtener Vendedor de la Base de Datos
 getvendedor(id:number): Observable<any>{
@@ -144,22 +309,57 @@ getvendedor(id:number): Observable<any>{
 
 //Obtener Reportes
 getReportes(id: number): Observable<any>{
-  return this.http.get<any[]>(this.APIUrl + '/Factura/Reporte/' + id)
+  if (this.rfcempresa==='PLA11011243A'){
+
+    return this.http.get<any[]>(this.APIUrl + '/Factura/Reporte/' + id)
+  }
+  else if (this.rfcempresa=='AIN140101ME3'){
+    return this.http.get<any[]>(this.APIUrl + '/Factura2/Reporte/' + id)
+  }
+  
 }
 getReportesU(id: number): Observable<any>{
-  return this.http.get<any[]>(this.APIUrl + '/Factura/ReporteU/' + id)
+  if (this.rfcempresa==='PLA11011243A'){
+
+    return this.http.get<any[]>(this.APIUrl + '/Factura/ReporteU/' + id)
+  }
+  else if (this.rfcempresa=='AIN140101ME3'){
+    return this.http.get<any[]>(this.APIUrl + '/Factura2/ReporteU/' + id)
+  }
+  
 }
 getReportesM(id: number): Observable<any>{
-  return this.http.get<any[]>(this.APIUrl + '/Factura/ReporteM/' + id)
+  if (this.rfcempresa==='PLA11011243A'){
+
+    return this.http.get<any[]>(this.APIUrl + '/Factura/ReporteM/' + id)
+  }
+  else if (this.rfcempresa=='AIN140101ME3'){
+    return this.http.get<any[]>(this.APIUrl + '/Factura2/ReporteM/' + id)
+  }
+  
 }
 
 //Obtener JOIN Recibo pago-> PAgoCFDI por ID Factura
 getPagosCFDI(id: number): Observable<any>{
-  return this.http.get<any[]>(this.APIUrl + '/Factura/PagoCFDI/' + id)
+  if (this.rfcempresa==='PLA11011243A'){
+
+    return this.http.get<any[]>(this.APIUrl + '/Factura/PagoCFDI/' + id)
+  }
+  else if (this.rfcempresa=='AIN140101ME3'){
+    return this.http.get<any[]>(this.APIUrl + '/Factura2/PagoCFDI/' + id)
+  }
+  
 }
 
 addSaldos(saldo: Saldos){
-  return this.http.post(this.APIUrl + '/Saldos', saldo)
+  if (this.rfcempresa==='PLA11011243A'){
+
+    return this.http.post(this.APIUrl + '/Saldos', saldo)
+  }
+  else if (this.rfcempresa=='AIN140101ME3'){
+    return this.http.post(this.APIUrl + '/Saldos', saldo)
+  }
+  
 }
 
 getSaldos(): Observable<any>{
@@ -185,4 +385,36 @@ listen2(): Observable<any> {
 filter2(filterBy: string) {
   this._listeners2.next(filterBy);
 }
+
+
+
+
+//Cliente login
+getFacturasListCLienteid(id: number): Observable <any[]> {
+  return this.http.get<[]>(this.APIUrl + '/cliente/factura/'+ id);
+}
+
+
+getFacturasFechasVentas(fechaini,fechafinal){
+  if (this.rfcempresa==='PLA11011243A'){
+
+    return this.http.get<any[]>(this.APIUrl + '/ReporteVentas/Fechas/' + fechaini+ '/' + fechafinal);
+  }
+  else if (this.rfcempresa=='AIN140101ME3'){
+    return this.http.get<any[]>(this.APIUrl + '/ReporteVentas/Fechas/' + fechaini+ '/' + fechafinal);
+  }
+  
+}
+
+getDetallesFacturaListVentas(id: number): Observable <DetalleFactura[]> {
+  if (this.rfcempresa==='PLA11011243A'){
+
+    return this.http.get<DetalleFactura[]>(this.APIUrl + '/ReporteVentas/DetalleFactura/'+ id);
+  }
+  else if (this.rfcempresa=='AIN140101ME3'){
+    return this.http.get<DetalleFactura[]>(this.APIUrl + '/ReporteVentas/DetalleFactura/'+ id);
+  }
+  
+}
+
 }
