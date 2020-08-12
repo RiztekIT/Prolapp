@@ -48,3 +48,6 @@ npm install --save angular-calendar date-fns
 npm i @ng-bootstrap/ng-bootstrap  
 npm i angularx-flatpickr   
 npm i flatpickr  
+
+## Angular Service worker
+npm i @angular/service-worker
