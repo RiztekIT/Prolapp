@@ -23,6 +23,7 @@ export class CotizacionComponent implements OnInit {
   defaultpx:number
   srcimagen;
   srcimageninicial;
+  imagenproducto;
 
 
   public imagessacos: Array<Object> = [
@@ -39,6 +40,8 @@ export class CotizacionComponent implements OnInit {
     {producto: "SUERO DULCE KRAFT", imagen: "1.KraftMilk.png"}    
   ]
 
+  
+
   ngOnInit() {
     this.ver();
     // this.srcimagen = '../../../assets/images/sacos/7.DairyAmerica-grade A nonfat drymil.png'
@@ -50,6 +53,130 @@ export class CotizacionComponent implements OnInit {
     this.dialogbox.close();
 }
 
+nombreimagen(clave:string){
+
+  let nombreproducto;
+  let marcaproducto;
+
+  let claven;
+  let clavem;
+
+  this.imagenproducto = '';
+
+  claven = clave.substr(0,2);
+  clavem = clave.substr(2,1);
+
+  switch (claven){
+    case '01': nombreproducto = 'LECHE DESCREMADA EN POLVO LH';
+    break;
+    case '02': nombreproducto = 'LECHE DESCREMADA EN POLVO MH';
+    break;
+    case '03': nombreproducto = 'SUERO DULCE';
+    break;
+    case '04': nombreproducto = 'SUERO DESPROTEINIZADO';
+    break;
+    case '05': nombreproducto = 'SUERO DESMINERALIZADO';
+    break;
+    case '06': nombreproducto = 'LACTOSA';
+    break;
+    case '07': nombreproducto = 'MALTODEXTRINA MALLA 110';
+    break;
+    case '08': nombreproducto = 'MALTODEXTRINA MALLA 120';
+    break;
+    case '09': nombreproducto = 'MALTODEXTRINA MALLA 130';
+    break;
+    case '10': nombreproducto = 'SOLIDOS DE MANTEQUILLA';
+    break;
+    case '11': nombreproducto = 'MPC 70';
+    break;
+    case '12': nombreproducto = 'GRASA VEGETAL';
+    break;
+    case '13': nombreproducto = 'GRASA BUTIRICA';
+    break;
+    case '14': nombreproducto = 'PRODUCTO LACTEO COMBINADO';
+    break;
+    case '15': nombreproducto = 'LECHE ENTERA';
+    break;
+    case '16': nombreproducto = 'PERMEATO DE SUERO';
+    break;
+    case '17': nombreproducto = 'PERMEATO DE LECHE';
+    break;
+    case '18': nombreproducto = 'CASEINA ACIDA';
+    break;
+    case '19': nombreproducto = 'CASEINA RENINA';
+    break;
+
+  }
+
+  this.imagenproducto = nombreproducto;
+
+  switch (clavem){
+    case 'A': marcaproducto='DAIRY AMERICA';
+    break;
+case 'B': marcaproducto='KRAFT';
+break;
+case 'C': marcaproducto='CRINO';
+break;
+case 'D': marcaproducto='RENNY PICOT';
+break;
+case 'E': marcaproducto='AGROPUR';
+break;
+case 'F': marcaproducto='MALTRIN';
+break;
+case 'G': marcaproducto='EXTRALAC';
+break;
+case 'H': marcaproducto='FONTERRA';
+break;
+case 'I': marcaproducto='PRO LACTOINGREDIENTES';
+break;
+case 'J': marcaproducto='FRANKLIN';
+break;
+case 'K': marcaproducto='IDAHO';
+break;
+case 'L': marcaproducto='NEW ZEALAND';
+break;
+case 'M': marcaproducto='LONE STAR';
+break;
+case 'N': marcaproducto='LEPRINO';
+break;
+case 'O': marcaproducto='LAND O LAKES';
+break;
+case 'P': marcaproducto='DFA';
+break;
+case 'Q': marcaproducto='ACOROMA 39';
+break;
+case 'R': marcaproducto='BONGARDS';
+break;
+case 'S': marcaproducto='CONTINENTAL';
+break;
+case 'T': marcaproducto='LANDO LAKES';
+break;
+case 'U': marcaproducto='LYYN';
+break;
+case 'V': marcaproducto='GRASSLAND';
+break;
+case 'W': marcaproducto='TATUA';
+break;
+case 'X': marcaproducto='DARIGOLD';
+break;
+case 'Y': marcaproducto='CDI';
+break;
+case 'Z': marcaproducto='DAIRIGOLD';
+break;
+case 'AA': marcaproducto='MURRAY';
+break;
+case 'AB': marcaproducto='AMPY ';
+break;
+case 'AC': marcaproducto='CAYUGA';
+break;
+  }
+
+  this.imagenproducto = this.imagenproducto + ' ' + marcaproducto;
+
+  
+  return this.imagenproducto
+
+}
 
 ver(){
   
@@ -70,7 +197,8 @@ ver(){
       Cantidad: conceptos.Cantidad,
       Importe: conceptos.Importe,
       ImporteDlls: conceptos.ImporteDlls,
-      Observaciones: conceptos.Observaciones,    
+      Observaciones: conceptos.Observaciones,
+      imagen: this.nombreimagen(conceptos.ClaveProducto)    
        
      });
 
@@ -83,6 +211,8 @@ ver(){
       // console.log(this.con,"contador");
       // console.log(this.defaultpx,"pixeles");
   }
+
+  console.log(this.arrcon);
 
 
 //si se agregan direcciones, usar esta seccion

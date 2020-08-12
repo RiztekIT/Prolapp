@@ -9,6 +9,7 @@ import { Session } from '../Models/session-model';
 import { sessionCliente } from '../Models/ClienteLogin/sessionCliente-model';
 import { ClientesService } from 'src/app/services/catalogos/clientes.service'
 import { ClienteLogin } from '../Models/ClienteLogin/clienteLogin-model';
+import { SidebarService } from 'src/app/services/service.index';
 
 declare function init_plugins();
 
@@ -19,7 +20,7 @@ declare function init_plugins();
 })
 export class LoginClienteComponent implements OnInit {
 
-  constructor(public router: Router, public service: ClientesService, private snackBar: MatSnackBar, private storageServce: StorageServiceService) { }
+  constructor(public router: Router, public service: ClientesService, private snackBar: MatSnackBar, private storageServce: StorageServiceService, public siderbarservice: SidebarService) { }
 
   token;
 
@@ -70,6 +71,7 @@ console.log(form.value.RFC);
        console.log('localStorage.getItem("ClienteId"): ', localStorage.getItem("ClienteId"));
       this.storageServce.setCurrentSessionCliente(sessionCliente);
       // variable para saber que se inicio session como cliente y no como usuario
+      this.siderbarservice.getMenucliente();
       this.router.navigate(['/cliente']);
      }
      else {

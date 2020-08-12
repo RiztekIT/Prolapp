@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule } from '@angular/material';
+import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule, MatToolbarModule } from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
@@ -250,6 +250,7 @@ import { ComprasPrincipalComponent } from './compras/compras-principal/compras-p
 import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/trackingcliente.component';
 import { ComprasPdfComponent } from '../components/compras-reporte/compras-pdf.component';
 import { DocumentacionComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-compras-importacion.component';
+import { ReportefechasfacturacionVentasComponent } from '../components/ventas/reportefechasfacturacion/reportefechasfacturacion.component';
 
 
 @NgModule({
@@ -421,6 +422,7 @@ import { DocumentacionComprasImportacionComponent } from './importacion/document
         TrackingclienteComponent,
         ComprasPdfComponent,
         DocumentacionComprasImportacionComponent,
+        ReportefechasfacturacionVentasComponent,
     
     ],
     exports: [
@@ -468,7 +470,8 @@ import { DocumentacionComprasImportacionComponent } from './importacion/document
         FormsModule,
         NgbModalModule,
         FlatpickrModule.forRoot(),
-        CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
+        CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+        MatToolbarModule
     ],
     providers: [
         UsuariosServieService,
@@ -548,7 +551,8 @@ import { DocumentacionComprasImportacionComponent } from './importacion/document
         OrdenDescargaEmailComponent,
         AddEditCalendarComponent,
         EventCalendarComponent,
-        ComprasPdfComponent
+        ComprasPdfComponent,
+        ReportefechasfacturacionVentasComponent
         
         
     ]

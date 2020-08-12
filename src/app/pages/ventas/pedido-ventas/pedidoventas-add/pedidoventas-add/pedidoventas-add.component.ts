@@ -102,6 +102,7 @@ export class PedidoventasAddComponent implements OnInit {
     // this.IniciarTotales();
     this.tipoDeCambio();
     this.service.formProd = new Producto();
+    
 
 
 
@@ -766,8 +767,29 @@ this.changeDireccion(this.isDireccion);
           this.ChecarClienteSeleccionado();
         });
       }
+      this.nodes();
     });
     console.log(this.IdPedido);
+
+
+   
+  }
+
+  nodes(){
+    if (this.service.formDataPedido.Estatus === 'Cerrada') {
+      let nodes = document.getElementById('step1').getElementsByTagName('*');
+      for (let i = 0; i < nodes.length; i++) {
+        nodes[i].setAttribute('disabled', 'true')
+      }
+       nodes = document.getElementById('step2').getElementsByTagName('*');
+      for (let i = 0; i < nodes.length; i++) {
+        nodes[i].setAttribute('disabled', 'true')
+      }
+       nodes = document.getElementById('step3').getElementsByTagName('*');
+      for (let i = 0; i < nodes.length; i++) {
+        nodes[i].setAttribute('disabled', 'true')
+      }
+    }
   }
 
 
@@ -834,7 +856,7 @@ this.changeDireccion(this.isDireccion);
 
   //Tabla de Productos
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['ClaveProducto', 'ClaveSAT', 'Producto', 'Cantidad', 'Importe', 'Options'];
+  displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Cantidad', 'Importe', 'Options'];
   @ViewChild(MatSort, null) sort: MatSort;
 
 

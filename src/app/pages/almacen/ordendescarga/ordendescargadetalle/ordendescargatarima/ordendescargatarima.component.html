@@ -36,19 +36,22 @@
 
                             <ng-container matColumnDef="ClaveProducto">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>ClaveProducto</th>
-                                <td class="ClaveProducto" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                <td class="ClaveProducto" mat-cell *matCellDef="let element">
+                                    <!-- </td> (click)="expandedElement = element"> -->
                                     {{element.ClaveProducto}}
                                     <td>
                             </ng-container>
                             <ng-container matColumnDef="Producto">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
-                                <td class="Producto" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                <td class="Producto" mat-cell *matCellDef="let element">
+                                    <!-- </td> (click)="expandedElement = element"> -->
                                     {{element.Producto}}
                                     <td>
                             </ng-container>
                             <ng-container matColumnDef="Sacos">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
-                                <td class="Sacos" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                <td class="Sacos" mat-cell *matCellDef="let element">
+                                    <!-- </td> (click)="expandedElement = element"> -->
                                     {{element.Sacos}}
                                     <td>
                             </ng-container>
@@ -61,18 +64,19 @@
 
                             <ng-container matColumnDef="Saldo">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo</th>
-                                <td class="Saldo" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                <td class="Saldo" mat-cell *matCellDef="let element">
+                                    <!-- </td> (click)="expandedElement = element"> -->
                                     {{element.Saldo}}
                                     <td>
                             </ng-container>
                             <ng-container matColumnDef="Lote">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
-                                <td class="Lote" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Lote}}
+                                <td class="Lote" mat-cell *matCellDef="let element">{{element.Lote}}
                                     <td>
                             </ng-container>
                             <ng-container matColumnDef="Comentarios">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Comentarios</th>
-                                <td class="Comentarios" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                <td class="Comentarios" mat-cell *matCellDef="let element">
                                     {{element.Comentarios}}
                                     <td>
                             </ng-container>
@@ -161,43 +165,50 @@
 
                             <ng-container matColumnDef="ClaveProducto">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>ClaveProducto</th>
-                                <td class="ClaveProducto" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                <td class="ClaveProducto" mat-cell *matCellDef="let element">
+                                    <!-- </td> (click)="expandedElement = element"> -->
                                     {{element.ClaveProducto}}
                                     <td>
                             </ng-container>
                             <ng-container matColumnDef="Producto">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
-                                <td class="Producto" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                <td class="Producto" mat-cell *matCellDef="let element">
+                                    <!-- </td> (click)="expandedElement = element"> -->
                                     {{element.Producto}}
                                     <td>
                             </ng-container>
                             <ng-container matColumnDef="Sacos">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
-                                <td class="Sacos" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                <td class="Sacos" mat-cell *matCellDef="let element">
+                                    <!-- </td> (click)="expandedElement = element"> -->
                                     {{element.Sacos}}
                                     <td>
                             </ng-container>
                             <ng-container matColumnDef="SacosIngresados">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>SacosIngresados</th>
-                                <td class="SacosIngresados" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                <td class="SacosIngresados" mat-cell *matCellDef="let element">
+                                    <!-- </td> (click)="expandedElement = element"> -->
                                     {{element.SacosIngresados}}
                                     <td>
                             </ng-container>
                             <ng-container matColumnDef="Lote">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
-                                <td class="Lote" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                <td class="Lote" mat-cell *matCellDef="let element">
+                                    <!-- </td> (click)="expandedElement = element"> -->
                                     {{element.Lote}}
                                     <td>
                             </ng-container>
                             <ng-container matColumnDef="FechaCaducidad">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>fechaCaducidad</th>
-                                <td class="fechaCaducidad" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                <td class="fechaCaducidad" mat-cell *matCellDef="let element">
+                                    <!-- </td> (click)="expandedElement = element"> -->
                                     {{element.FechaCaducidad | date: 'yyyy-MM-dd' }}
                                     <td>
                             </ng-container>
                             <ng-container matColumnDef="FechaMFG">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>fechaMFG</th>
-                                <td class="fechaMFG" mat-cell *matCellDef="let element" (click)="expandedElement = element">
+                                <td class="fechaMFG" mat-cell *matCellDef="let element">
+                                    <!-- </td> (click)="expandedElement = element"> -->
                                     {{element.FechaMFG | date: 'yyyy-MM-dd' }}
                                     <td>
                             </ng-container>
