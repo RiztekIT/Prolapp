@@ -478,4 +478,10 @@ else{
 
   }
 
+  resettipoDocumentoSeleccionado(){
+    console.log(this.tipoDocumentoSeleccionado)
+    this.tipoDocumentoSeleccionado = '';
+    console.log(this.tipoDocumentoSeleccionado)
+  }
+
 }

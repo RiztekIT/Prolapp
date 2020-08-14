@@ -37,15 +37,17 @@
 
                                                 </div>
                                                 <div class="col-2">
+
+                                                    <button *ngIf="folioOrdenDescarga > 0" mat-icon-button class="btn btn-danger" color="warn" (click)="clearFolio()">
+                                                        <mat-icon>clear</mat-icon>
+                                                    </button>
                                                     <button mat-icon-button class="btncoti" color="warn" style="padding-bottom: 0px; margin-bottom: 0px; margin-top: 30px;" (click)="obtenerOrdenesDescargaDetalles(folioOrdenDescarga)">
-                                                    <mat-icon>search</mat-icon>
-                                                </button>
+                                                        <mat-icon>search</mat-icon>
+                                                    </button>
+
 
                                                 </div>
                                             </div>
-                                            <button *ngIf="folioOrdenDescarga > 0" mat-icon-button class="btn btn-danger" color="warn" (click)="clearFolio()">
-                                                <mat-icon>clear</mat-icon>
-                                            </button>
 
                                             <table mat-table [dataSource]="listDataDetalles" matSort>
 
@@ -113,11 +115,12 @@
                                         <br>
                                         <hr>
                                     </div>
+
                                     <!-- TABLA DE DETALLES SELECCIONADOS -->
                                     <div class="col-12 col-md-6">
 
                                         <label class="input-group-text text-info">Tipo de Documento:</label>
-                                        <mat-form-field>
+                                        <mat-form-field *ngIf="!tipoDocumentoSeleccionado">
                                             <input type="text" placeholder="Seleccionar Documento" aria-label="Number" [formControl]="myControlTipoDocumento" [(ngModel)]="tipoDocumentoSeleccionado" matInput [matAutocomplete]="autoTipoDocumento">
                                             <mat-autocomplete #autoTipoDocumento="matAutocomplete">
                                                 <mat-option *ngFor="let option of listTipoDocumentos" [value]="option.Tipo" (onSelectionChange)="onSelectionChangeTipoDocumento(option, $event)">
@@ -126,8 +129,14 @@
                                             </mat-autocomplete>
                                         </mat-form-field>
                                         <div *ngIf="tipoDocumentoSeleccionado">
+
                                             <label class="input-group-text text-info">Ingresar {{tipoDocumentoSeleccionado}}:</label>
-                                            <input type="text" class="form-control" name="TipoDocumento" #TipoDocumento="ngModel" [(ngModel)]="stringDocumentoSeleccionado">
+                                            <div class="input-container">
+                                                <input type="text" class="form-control input-field" name="TipoDocumento" #TipoDocumento="ngModel" [(ngModel)]="stringDocumentoSeleccionado">
+                                                <button mat-icon-button class="btn btn-danger" color="warn" (click)="resettipoDocumentoSeleccionado()">
+                                                    <mat-icon>cancel</mat-icon>
+                                                </button>
+                                            </div>
                                         </div>
 
 
@@ -189,6 +198,7 @@
                                         <br>
                                         <hr>
                                     </div>
+
                                     <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
                                     <div class="col-12 col-md-6">
                                         <p style="font-weight: 400; margin-top: 10px;">Archivos:</p>
