@@ -1333,7 +1333,7 @@ this.isFactura = true;
         Origen: 'Chihuahua',
         Destino: this.service.formData.Estado,
         Observaciones: '',
-        Estatus: 'Transito',
+        Estatus: 'Creada',
         FechaInicioCarga: new Date('10/10/10'),
         FechaFinalCarga: new Date('10/10/10'),
         FechaExpedicion: new Date(),
