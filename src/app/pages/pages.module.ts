@@ -251,6 +251,8 @@ import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/tra
 import { ComprasPdfComponent } from '../components/compras-reporte/compras-pdf.component';
 import { ReportefechasfacturacionVentasComponent } from '../components/ventas/reportefechasfacturacion/reportefechasfacturacion.component';
 import { NotificacionespushService } from '../services/shared/notificacionespush.service';
+import { OrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/orden-carga-trafico.component';
+import { EditOrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/edit-orden-carga-trafico/edit-orden-carga-trafico.component';
 
 
 @NgModule({
@@ -420,8 +422,8 @@ import { NotificacionespushService } from '../services/shared/notificacionespush
         EventCalendarComponent,
         ComprasPrincipalComponent,
         TrackingclienteComponent,
-        ComprasPdfComponent,
-        ReportefechasfacturacionVentasComponent
+        OrdenCargaTraficoComponent,
+        EditOrdenCargaTraficoComponent
     
     ],
     exports: [
@@ -551,8 +553,7 @@ import { NotificacionespushService } from '../services/shared/notificacionespush
         OrdenDescargaEmailComponent,
         AddEditCalendarComponent,
         EventCalendarComponent,
-        ComprasPdfComponent,
-        ReportefechasfacturacionVentasComponent
+        EditOrdenCargaTraficoComponent
         
         
     ]

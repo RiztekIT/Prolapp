@@ -264,14 +264,14 @@ console.log(this.compraBlanco);
   
 openrep(row){
 
-  console.log(row);
-  // this.CompraService.formt = row
-  // // console.log();
-  // const dialogConfig = new MatDialogConfig();
-  // dialogConfig.disableClose = false;
-  // dialogConfig.autoFocus = true;
-  // dialogConfig.width="70%";
-  // this.dialog.open(ComprasPdfComponent, dialogConfig);
+  // console.log(row);
+  this.CompraService.formt = row
+  // console.log();
+  const dialogConfig = new MatDialogConfig();
+  dialogConfig.disableClose = false;
+  dialogConfig.autoFocus = true;
+  dialogConfig.width="70%";
+  this.dialog.open(ComprasPdfComponent, dialogConfig);
 
 }
 
