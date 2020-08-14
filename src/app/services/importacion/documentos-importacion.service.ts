@@ -24,6 +24,8 @@ export class DocumentosImportacionService {
   //Se asigna al agregar documemnto
   folioOrdenDescarga: number;
 
+  fileUrl: any;
+
   //Obtener Documentos
  getDocumentos(): Observable <Documento[]>{
   return this.http.get<Documento[]>(APIUrl + '/Documentos');
@@ -37,8 +39,8 @@ getOrdenesDescargadas(): Observable <OrdenDescarga[]>{
   return this.http.get<OrdenDescarga[]>(APIUrl + '/Documentos/GetOrdenesDescargadas');
 }
 //Obtener detalle Orden Descarga por IdOrdenDescarga
-getDetalleOrdenDescargaId(id: number): Observable <DetalleOrdenDescarga[]>{
-  return this.http.get<DetalleOrdenDescarga[]>(APIUrl + '/Documentos/GetDetalleODId/'+id);
+getDetalleOrdenDescargaId(id: number): Observable <any[]>{
+  return this.http.get<any[]>(APIUrl + '/Documentos/GetDetalleODId/'+id);
 }
 //Obtener Orden Descarga por Folio y estus Descargada
 getOrdenDescargaFolio(folio: number): Observable <OrdenDescarga[]>{
@@ -80,6 +82,23 @@ updateDocumento(documento: Documento) {
   //Borrar documento por tipo, folio y nombre
   deleteDocumentoTFN(documento: Documento) {
     return this.http.post(APIUrl + '/Documentos/BorrarDocumentoTFN', documento);
+  }
+
+  //Borrar Documento por Folio, Modulo, tipo, nombre documento e iddetalle
+  borrarDocumentoFMTDID(documento: Documento) {
+  return this.http.post(APIUrl + '/Documentos/BorrarDocumentoFMTDID', documento);
+}
+  //get documento por Folio, Modulo, Tipo, Nombre documento e iddetalle
+  getDocumentoFMTDID(documento: Documento):Observable<any[]> {
+  return this.http.post<any[]>(APIUrl + '/Documentos/GetDocumentoFMTDID', documento);
+}
+//Update USDA
+updateUSDA(usda: string, id: number) {
+  return this.http.put(APIUrl+ '/Documentos/updateUsda/'+usda+'/'+id, null);
+  }
+//Update pedimento
+updatePedimento(pedimento: string, id: number) {
+  return this.http.put(APIUrl+ '/Documentos/updatePedimento/'+pedimento+'/'+id, null);
   }
 
   /******************** MANAGE SERVER'S DOCUMENTS ***********************/

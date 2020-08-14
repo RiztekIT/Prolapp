@@ -256,6 +256,7 @@ import { NotificacionespushService } from '../services/shared/notificacionespush
 import { OrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/orden-carga-trafico.component';
 import { EditOrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/edit-orden-carga-trafico/edit-orden-carga-trafico.component';
 import { DocumentacionComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-compras-importacion.component';
+import { DocumentacionImportacionVisorDocumentosComponent } from './importacion/documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
 
 
 @NgModule({
@@ -431,7 +432,8 @@ import { DocumentacionComprasImportacionComponent } from './importacion/document
         DocumentacionFormularioComprasImportacionComponent,
         DocumentacionFormularioImportacionComponent,
         OrdenCargaTraficoComponent,
-        EditOrdenCargaTraficoComponent
+        EditOrdenCargaTraficoComponent,
+        DocumentacionImportacionVisorDocumentosComponent
     
     ],
     exports: [
@@ -561,7 +563,8 @@ import { DocumentacionComprasImportacionComponent } from './importacion/document
         OrdenDescargaEmailComponent,
         AddEditCalendarComponent,
         EventCalendarComponent,
-        EditOrdenCargaTraficoComponent
+        EditOrdenCargaTraficoComponent,
+        DocumentacionImportacionVisorDocumentosComponent
         
         
     ]

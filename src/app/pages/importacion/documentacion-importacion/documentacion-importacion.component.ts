@@ -40,6 +40,8 @@ export class DocumentacionImportacionComponent implements OnInit {
 
   arrOrdenDescarga: any;
 
+  arrDetalleOrdenDescarga: any
+
   //Obtiene Ordenes Descargadas.
   obtenerOrdenDescargaDocumentos() {
     this.arrOrdenDescarga = this.documentosService.getOrdenesDescargadas();
@@ -48,32 +50,34 @@ export class DocumentacionImportacionComponent implements OnInit {
       this.documentosService.master = []
       if (data.length > 0) {
         // console.log('Si hay datos');
-        let detalleOrdenDescarga = new Array<any>();
+        // let detalleOrdenDescarga = new Array<any>();
         for (let i = 0; i <= data.length - 1; i++) {
+          this.documentosService.master[i] = data[i];
+          this.documentosService.master[i].detalleDocumento = [];
         this.documentosService.getDetalleOrdenDescargaId(data[i].IdOrdenDescarga).subscribe(dataOD => {
-          // console.log(dataOD);
-          detalleOrdenDescarga = dataOD;
-          // console.log(detalleOrdenDescarga);
-            this.documentosService.master[i] = data[i];
-            this.documentosService.master[i].detalleDocumento = [];
-            for (let l = 0; l <= detalleOrdenDescarga.length - 1; l++) {
-              // console.log(l);
-              // console.log( detalleOrdenDescarga[l]);
-              let joinDescargaDocumento = detalleOrdenDescarga[l];
-              this.documentosService.getJoinDodD(detalleOrdenDescarga[l].IdDetalleOrdenDescarga, detalleOrdenDescarga[l].ClaveProducto).subscribe(dataJoin => {
-                // console.log(dataJoin);
+          console.log(dataOD);
+          // detalleOrdenDescarga = dataOD;
+          for (let l = 0; l < dataOD.length; l++) {
+            // console.log(l);
+            // console.log( detalleOrdenDescarga[l]);
+            let joinDescargaDocumento = dataOD[l];
+            // console.log(detalleOrdenDescarga[l]);
+            console.log(dataOD[l]);
+             this.arrDetalleOrdenDescarga = this.documentosService.getJoinDodD(dataOD[l].IdDetalleOrdenDescarga, dataOD[l].ClaveProducto);
+             this.arrDetalleOrdenDescarga.subscribe(dataJoin => {
+                console.log(dataJoin);
                 // console.log(joinDescargaDocumento);
                 if (dataJoin.length > 0) {
                   joinDescargaDocumento.Documento = true;
-          // console.log('si hay documento');
+          console.log('si hay documento');
         } else {
                   joinDescargaDocumento.Documento = false;
-          // console.log('no hay documento');
+          console.log('no hay documento');
                 }
                 this.documentosService.master[i].detalleDocumento.push(joinDescargaDocumento);
                 this.listData = new MatTableDataSource(this.documentosService.master);
                 this.listData.sort = this.sort;
-                this.listData.paginator = this.paginator;
+                // this.listData.paginator = this.paginator;
         //         // console.log(this.documentosService.master);
               })
             }
