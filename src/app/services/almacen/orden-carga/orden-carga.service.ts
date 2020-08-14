@@ -62,6 +62,10 @@ export class OrdenCargaService {
     return this.http.get<DetalleOrdenCarga[]>(APIUrl + '/OrdenCarga/DetalleOrdenCarga/' + id + '/' + lote + '/' + clave);
   }
 
+  getUltimoFolio(): Observable<any> {
+    return this.http.get(APIUrl + '/OrdenCarga/UltimoFolio/');
+  }
+
   updateOrdenCarga(ordencarga: OrdenCarga) {
     return this.http.put(APIUrl + '/OrdenCarga', ordencarga);
   }
@@ -71,6 +75,12 @@ export class OrdenCargaService {
   addOrdenCarga(ordencarga: OrdenCarga) {
     return this.http.post(APIUrl + '/OrdenCarga', ordencarga)
   }
+
+  addDetalleOrdenCarga(detalleOC: DetalleOrdenCarga){
+    return this.http.post(APIUrl + '/OrdenCarga/AddDetalleOrdenCarga', detalleOC)
+  }
+
+  
   deleteOrdenCarga(id: number) {
     return this.http.delete(APIUrl + '/OrdenCarga/BorrarOrdenCarga/' + id)
   }

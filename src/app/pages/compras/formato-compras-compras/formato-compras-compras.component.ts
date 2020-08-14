@@ -86,6 +86,7 @@ export class FormatoComprasComprasComponent implements OnInit {
   // thirdFormGroup: FormGroup;
 
   //Dropdowns
+  options: Proveedor[] = [];
   myControlProveedor = new FormControl();
   filteredOptionsProveedor: Observable<any[]>;
   //Lista de Proveedores
@@ -159,6 +160,7 @@ pesoTotal: number;
 
     //Tabla de Productos
     listData: MatTableDataSource<any>;
+    
     displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Cantidad', 'CostoTotal', 'Options'];
     @ViewChild(MatSort, null) sort: MatSort;
 
@@ -217,7 +219,7 @@ pesoTotal: number;
       for (let i = 0; i < data.length; i++) {
         let Proveedor = data[i];
         this.listProveedores.push(Proveedor);
-        // this.options.push(Proveedor)
+        this.options.push(Proveedor)
         this.filteredOptionsProveedor = this.myControlProveedor.valueChanges
           .pipe(
             startWith(''),
@@ -229,10 +231,13 @@ pesoTotal: number;
   }
   //Filtro Dropdown Proveedores
   private _filterProveedor(value: any): any[] {
-    const filterValue = value.toString().toLowerCase();
-    return this.listProveedores.filter(option =>
-      option.Nombre.toLowerCase().includes(filterValue) ||
-      option.IdProveedor.toString().includes(filterValue));
+    if (typeof value !=='undefined'){
+
+      const filterValue = value.toString().toLowerCase();
+      return this.listProveedores.filter(option =>
+        option.Nombre.toLowerCase().includes(filterValue) ||
+        option.IdProveedor.toString().includes(filterValue));
+    }
   }
 
   onSelectionChangeProveedor(options: Proveedor, event: any) {
@@ -1113,6 +1118,11 @@ GenerarCompra(){
   
 }
 
+updateprueba(){
+  this.updateCompra('Guardada','Generada');
+  console.log(this.compra);
+}
+
 updateCompra(estatus: string, texto: string){
   //actualizar estatus de compra
   this.compra.Estatus = estatus;
@@ -1124,6 +1134,7 @@ updateCompra(estatus: string, texto: string){
       console.log('GENERAR ORDEN DESCARGA');
       this.generarOrdenDescarga();
     }
+    this.obtenerInformacionCompra();
     Swal.fire({
       title: 'Compra '+texto,
       icon: 'success',
@@ -1202,35 +1213,38 @@ console.log(this.totalSacos);
  this.od = new OrdenDescarga();
  this.dod = new DetalleOrdenDescarga();
 
+
+ this.od.FechaLlegada = this.compra.FechaPromesa;
+ //buscar la manera de ingresar las fechas en blanco
+ this.od.IdProveedor = this.compra.IdProveedor;
+ this.od.Proveedor = this.compra.Proveedor;
+ /* this.od.PO = this.compra.PO.toString(); */
+ this.od.PO = this.compra.PO;
+ this.od.Fletera = '';
+ this.od.Caja = '';
+ // this.od.Sacos = this.totalSacos.toString();
+ this.od.Sacos = this.totalSacos.toString();
+ this.od.Kg = this.compra.PesoTotal;
+ this.od.Chofer = '';
+ this.od.Origen = 'EUA';
+ this.od.Destino = 'PasoTx';
+ this.od.Observaciones = '';
+ //Con que estatus se generara?
+ this.od.Estatus = 'Transito';
+ //Fechas y usuario
+ this.od.FechaInicioDescarga = new Date('10/10/10');
+ this.od.FechaFinalDescarga = new Date('10/10/10');
+ this.od.FechaExpedicion = new Date();
+ this.od.IdUsuario = 1;
+ let usuario: any
+ usuario = localStorage.getItem('ProlappSession');
+ usuario = JSON.parse(usuario);
+ this.od.Usuario = usuario.user;
 this.ordenDescargaService.getFolioOrdenDescarga().subscribe(resFolio=>{
-// console.log(resFolio);
+console.log(resFolio);
   //Generar automaticamente el Folio de Orden Descarga
   this.od.Folio = +resFolio;
   // console.log(this.od.Folio);
-  this.od.FechaLlegada = new Date('10/10/10');
-  //buscar la manera de ingresar las fechas en blanco
-  this.od.IdProveedor = this.compra.IdProveedor;
-  this.od.Proveedor = this.compra.Proveedor;
-  this.od.PO = this.compra.PO.toString();
-  this.od.Fletera = '';
-  this.od.Caja = '';
-  this.od.Sacos = this.totalSacos.toString();
-  this.od.Kg = this.compra.PesoTotal;
-  this.od.Chofer = '';
-  this.od.Origen = 'EUA';
-  this.od.Destino = 'PasoTx';
-  this.od.Observaciones = '';
-  //Con que estatus se generara?
-  this.od.Estatus = 'Creada';
-  //Fechas y usuario
-  this.od.FechaInicioDescarga = new Date('10/10/10');
-  this.od.FechaFinalDescarga = new Date('10/10/10');
-  this.od.FechaExpedicion = new Date('10/10/10');
-  this.od.IdUsuario = 1;
-  let usuario: any
-  usuario = localStorage.getItem('ProlappSession');
-  usuario = JSON.parse(usuario);
-  this.od.Usuario = usuario.user;
   
   console.log(this.od);
   this.ordenDescargaService.addOrdenDescarga(this.od).subscribe(res=>{
@@ -1249,7 +1263,7 @@ this.ordenDescargaService.getFolioOrdenDescarga().subscribe(resFolio=>{
         //Verificar el peso x saco
         this.dod.PesoxSaco = this.detalleCompras[i].PesoxSaco;
         //segun yo no se conoce el lote.
-        this.dod.Lote = '';
+        this.dod.Lote = '0';
         this.dod.IdProveedor = this.od.IdProveedor;
         this.dod.Proveedor = this.od.Proveedor;
         //duda sobre las fechas
@@ -1320,13 +1334,79 @@ generarEventoCalendario(folio){
     //Las fechas van a variar dependiendo en el modulo en el que se encuentre
     this.CalendarioService.DetalleCalendarioData.Start = this.compra.FechaElaboracion;
     this.CalendarioService.DetalleCalendarioData.Endd = this.compra.FechaPromesa;
-    this.CalendarioService.DetalleCalendarioData.Title = 'Orden de Compra';
+    this.CalendarioService.DetalleCalendarioData.Title = 'Orden de Compra ' + folio;
     this.CalendarioService.DetalleCalendarioData.Color = '#0fd8e6';
     console.log(this.CalendarioService.DetalleCalendarioData);
     this.CalendarioService.addDetalleCalendario(this.CalendarioService.DetalleCalendarioData).subscribe(resAdd=>{
       console.log(resAdd);
     })
   })
+  this.CalendarioService.getCalendarioComprasUsuarioModulo(usuario.user, 'Almacen').subscribe(res=>{
+    console.log(res);
+    this.CalendarioService.DetalleCalendarioData.IdCalendario = res[0].IdCalendario;
+    //el folio corresponde con la Orden/Documento que se genera junto con el evento.
+    this.CalendarioService.DetalleCalendarioData.Folio = folio;
+    this.CalendarioService.DetalleCalendarioData.Documento = 'OrdenCompra';
+    this.CalendarioService.DetalleCalendarioData.Descripcion = 'Evento Orden de Compra con Folio: '+folio;
+    //Las fechas van a variar dependiendo en el modulo en el que se encuentre
+    this.CalendarioService.DetalleCalendarioData.Start = this.compra.FechaPromesa;
+    this.CalendarioService.DetalleCalendarioData.Endd = this.compra.FechaPromesa;
+    this.CalendarioService.DetalleCalendarioData.Title = 'Orden de Compra ' + folio;
+    this.CalendarioService.DetalleCalendarioData.Color = '#0fd8e6';
+    console.log(this.CalendarioService.DetalleCalendarioData);
+    this.CalendarioService.addDetalleCalendario(this.CalendarioService.DetalleCalendarioData).subscribe(resAdd=>{
+      console.log(resAdd);
+    })
+  })
+}
+
+
+
+movimiento(){
+
+  let movimiento;
+  let clavep;
+
+/*   movimiento = {
+    IdMovimiento:0,
+    ClaveProducto:'prieba',
+    Producto:'Prueba',
+    Marca:'PruabMarca',
+    Origen:'Origen',
+    Presentacion:'PResentacion',
+    Tipo:'Entrada',
+  } */
+
+
+
+  console.log(this.listData.data);
+
+  for (let i=0; i<this.listData.data.length;i++){
+
+
+    
+  clavep = this.listData.data[i].ClaveProducto.substr(0,2);
+
+    movimiento = {
+      IdMovimiento:0,
+      ClaveProducto:this.listData.data[i].ClaveProducto,
+      Producto:this.listData.data[i].Producto,
+      Marca:'',
+      Origen:'',
+      Presentacion:'',
+      Tipo:'Entrada',
+      Cantidad:this.listData.data[i].Cantidad,
+    }
+
+    console.log(movimiento);
+    /* this.addproductos.insertarMovimiento(movimiento).subscribe(data=>{
+      console.log(data);
+    }) */
+
+  }
+
+
+
 }
 
 
