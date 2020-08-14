@@ -250,9 +250,13 @@ import { ComprasPrincipalComponent } from './compras/compras-principal/compras-p
 import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/trackingcliente.component';
 import { ComprasPdfComponent } from '../components/compras-reporte/compras-pdf.component';
 import { ReportefechasfacturacionVentasComponent } from '../components/ventas/reportefechasfacturacion/reportefechasfacturacion.component';
+import { DocumentacionFormularioComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-formulario-compras-importacion/documentacion-formulario-compras-importacion.component';
+import { DocumentacionFormularioImportacionComponent } from './importacion/documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
 import { NotificacionespushService } from '../services/shared/notificacionespush.service';
 import { OrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/orden-carga-trafico.component';
 import { EditOrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/edit-orden-carga-trafico/edit-orden-carga-trafico.component';
+import { DocumentacionComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-compras-importacion.component';
+import { DocumentacionImportacionVisorDocumentosComponent } from './importacion/documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
 
 
 @NgModule({
@@ -422,8 +426,14 @@ import { EditOrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/ed
         EventCalendarComponent,
         ComprasPrincipalComponent,
         TrackingclienteComponent,
+        ComprasPdfComponent,
+        DocumentacionComprasImportacionComponent,
+        ReportefechasfacturacionVentasComponent,
+        DocumentacionFormularioComprasImportacionComponent,
+        DocumentacionFormularioImportacionComponent,
         OrdenCargaTraficoComponent,
-        EditOrdenCargaTraficoComponent
+        EditOrdenCargaTraficoComponent,
+        DocumentacionImportacionVisorDocumentosComponent
     
     ],
     exports: [
@@ -553,7 +563,8 @@ import { EditOrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/ed
         OrdenDescargaEmailComponent,
         AddEditCalendarComponent,
         EventCalendarComponent,
-        EditOrdenCargaTraficoComponent
+        EditOrdenCargaTraficoComponent,
+        DocumentacionImportacionVisorDocumentosComponent
         
         
     ]
