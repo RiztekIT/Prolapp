@@ -182,7 +182,7 @@
                                                 <label class="input-group-text text-info">Cliente :</label> <br>
 
                                                 <mat-form-field>
-                                                    <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="service.formData.IdClientes" name="IdClientes">
+                                                    <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="this.service.formData.IdClientes" name="IdClientes">
                                                     <mat-autocomplete #auto="matAutocomplete">
                                                         <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (blur)="onBlurCliente()" (onSelectionChange)="onSelectionChange(option, $event)">
                                                             {{option.IdClientes}} {{option.Nombre}}
@@ -546,7 +546,8 @@
                                                                 <br>
                                                                 <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button (click)="cerrarPedido()"><i class="mdi mdi-lock btn-lg"></i>Cerrar</button>
                                                                 <br>
-                                                                <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button (click)="convertirPedido()"><i class="mdi mdi-forward btn-lg"></i>Convertir</button>
+                                                                <button class="btn btn-info btn-lg" mat-raised-button (click)="convertirPedido()"><i class="mdi mdi-forward btn-lg"></i>Convertir</button>
+                                                                <!-- <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button (click)="convertirPedido()"><i class="mdi mdi-forward btn-lg"></i>Convertir</button> -->
                                                             </div>
 
                                                         </div>

@@ -2,55 +2,24 @@
     <div class="col-12">
         <div class="card ">
             <div class="card-body">
-                <h1 style="text-align: center;">Orden de Descarga</h1>
-
+                <h2 style="text-align: center;">Orden de Carga</h2>
 
                 <div class="container">
-
                     <div class="row">
 
-
-                        <div class="col-md-3 col-sm-12" style="display: grid; justify-content: center">
-
+                        <div class="col-4">
+                            <!-- <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Cotizacion</button> -->
                         </div>
-                        <div class="col-md-3 col-sm-12" style="display: grid">
+                        <div class="col-8">
 
-                            <!-- <label class="input-group-text text-info">Estatus</label> -->
-                            <mat-form-field>
-                                <mat-label> Estatus </mat-label>
-                                <!--  class="form-control" name="EstatusS" #EstatusS="ngModel" id="EstatusS" -->
-                                <mat-select (selectionChange)="estatusCambio($event)" [(ngModel)]="estatusSelect">
-                                    <!-- <mat-option [value]="" selected disabled>Seleccionar Estatus</mat-option> -->
-                                    <mat-option *ngFor="let dl of listEstatus" [value]="dl.Estatus"> {{dl.Estatus}} </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-
+                            <mat-card style="text-align: right;" class="mat-elevation-z0">
+                                <mat-form-field>
+                                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                                </mat-form-field>
+                            </mat-card>
                         </div>
-                        <div class="col-md-6 col-sm-12" style="display: grid">
-
-                            <!-- <mat-card style="text-align: right; " class="mat-elevation-z0"> -->
-                            <mat-form-field style="display: block">
-                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
-                            </mat-form-field>
-                            <!-- </mat-card> -->
-
-                        </div>
-
                     </div>
-
                 </div>
-
-
-                <!-- 
-                <div fxLayoutAlign="row">
-                    <mat-card style="text-align: right;" class="mat-elevation-z0">
-                        <mat-form-field>
-                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
-                        </mat-form-field>
-                    </mat-card>
-                </div> -->
-
-                <hr>
 
                 <div style="overflow:auto;">
 
@@ -61,32 +30,30 @@
                         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 
 
-                        <ng-container matColumnDef="Folio" sticky>
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio</th>
+                        <ng-container matColumnDef="Folio">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Folio</th>
                             <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Folio}} +
                                 <td>
                         </ng-container>
 
-                        <ng-container matColumnDef="PO">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>PO</th>
-                            <td mat-cell *matCellDef="let element">{{element.PO}}
+                        <ng-container matColumnDef="FechaEnvio">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Envio</th>
+                            <td mat-cell *matCellDef="let element">{{element.FechaEnvio | date: 'yyyy/MM/dd'}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Cliente">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cliente</th>
+                            <td mat-cell *matCellDef="let element">{{element.Cliente}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="IdPedido">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Pedido</th>
+                            <td mat-cell *matCellDef="let element">{{element.IdPedido}}
 
                             </td>
                         </ng-container>
-
-                        <ng-container matColumnDef="FechaLlegada">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Llegada </th>
-                            <td mat-cell *matCellDef="let element">{{element.FechaLlegada | date: 'yyyy/MM/dd'}}
-                                <td>
-                        </ng-container>
-
-                        <ng-container matColumnDef="Proveedor">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Proveedor</th>
-                            <td mat-cell *matCellDef="let element">{{element.Proveedor}}
-                                <td>
-                        </ng-container>
-
-
 
                         <ng-container matColumnDef="Fletera">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Fletera</th>
@@ -94,7 +61,7 @@
                             </td>
                         </ng-container>
 
-                        <!--  <ng-container matColumnDef="Caja">
+                        <ng-container matColumnDef="Caja">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Caja</th>
                             <td mat-cell *matCellDef="let element">{{element.Caja}}
                             </td>
@@ -104,13 +71,13 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
                             <td mat-cell *matCellDef="let element">{{element.Sacos}}
                             </td>
-                        </ng-container> -->
+                        </ng-container>
 
-                        <!--      <ng-container matColumnDef="Kg">
+                        <ng-container matColumnDef="Kg">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
                             <td mat-cell *matCellDef="let element">{{element.Kg}}
                             </td>
-                        </ng-container> -->
+                        </ng-container>
 
                         <ng-container matColumnDef="Origen">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Origen</th>
@@ -124,19 +91,12 @@
                             </td>
                         </ng-container>
 
-                        <!--   <ng-container matColumnDef="Estatus">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
-                            <td mat-cell *matCellDef="let element">{{element.Estatus}}
-                            </td>
-                        </ng-container> -->
-
                         <ng-container matColumnDef="Estatus">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
                             <td mat-cell *matCellDef="let element" [ngSwitch]=element.Estatus>
-                                <span *ngSwitchCase="'Guardada'" class="label label-light-success">GUARDADA</span>
-                                <span *ngSwitchCase="'Descargada'" class="label label-light-info">DESCARGADA</span>
-                                <span *ngSwitchCase="'Proceso'" class="label label-light-primary">PROCESO</span>
-                                <span *ngSwitchCase="'Transito'" class="label label-light-inverse">TRANSITO</span>
+                                <span *ngSwitchCase="'Enviada'" class="label label-light-success">ENVIADA</span>
+                                <span *ngSwitchCase="'Terminada'" class="label label-light-info">TERMINADA</span>
+                                <!-- <span *ngSwitchCase="'Duplicada'" class="label label-light-danger">DUPLICADA</span> -->
                             </td>
                         </ng-container>
 
@@ -145,8 +105,8 @@
                             <td mat-cell *matCellDef="let row">
 
                                 <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                                    <mat-icon>keyboard_arrow_down</mat-icon>
-                                </button>
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                  </button>
                                 <mat-menu #menu="matMenu">
                                     <!--  -->
                                     <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
@@ -156,9 +116,6 @@
                                                 <mat-icon>visibility</mat-icon>
                                             </button>
                                     <!--  -->
-                                    <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
-                                                <mat-icon>visibility</mat-icon>
-                                            </button> -->
                                     <!--  -->
                                     <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
                                     <button title="Enviar Correo" mat-icon-button class="btn btn-dark" (click)="email()">
@@ -174,8 +131,8 @@
 
                         <!-- DETALLES ORDEN CARGA -->
                         <ng-container matColumnDef="expandedDetail">
-                            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsVersion.length">
-                                <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" (click)="expandedElement = 0">
+                            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                                <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="element.detalleOrdenCarga.length > 0" (click)="expandedElement = 0">
 
                                     <table width="100%">
                                         <tr>
@@ -185,24 +142,14 @@
                                             <th> Producto </th>
                                             <th> Sacos </th>
                                             <th> Lote </th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
                                         </tr>
-                                        <tr *ngFor="let detalle of element.detalleOrdenDescarga">
+                                        <tr *ngFor="let detalle of element.detalleOrdenCarga">
                                             <!-- <td> {{detalle.IdTarima2}} </td>
                                             <td> {{detalle.QR}} </td> -->
                                             <td> {{detalle.ClaveProducto}} </td>
                                             <td> {{detalle.Producto}} </td>
                                             <td> {{ detalle.Sacos}} </td>
                                             <td> {{ detalle.Lote}} </td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -221,16 +168,16 @@
 </div>
 
 
-<!-- <div class="modal fade bs-example-modal-lg show" id="cargando">
+<div class="modal fade bs-example-modal-lg show" id="cargando">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
-            <button id="cerrarmodal" type="button" [hidden]="true" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
-            <app-email [foliop]="folioparam" [idp]="idparam"></app-email>
+            <!-- <button id="cerrarmodal" type="button" [hidden]="true" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+            <app-email [foliop]="folioparam" [idp]="idparam"></app-email> -->
 
 
         </div>
-    </div> -->
-<!-- <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+    </div>
+    <!-- <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
     </ngx-loading> -->
-<!-- </div> -->
+</div>

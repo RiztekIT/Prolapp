@@ -54,6 +54,7 @@ export class ComprasPrincipalComponent implements OnInit {
 
 //Variable que guarda el tipo de cambio
 TipoCambio: string;
+estatusSelect;
 
 constructor(public router: Router,private service:CompraService, private dialog: MatDialog, private http: HttpClient, public CompraService: CompraService,) {
 
@@ -68,6 +69,27 @@ constructor(public router: Router,private service:CompraService, private dialog:
 
     this.obtenerCompras();
     this.tipoDeCambio();
+  }
+
+  public listEstatus: Array<Object> = [
+    { Estatus: 'Todos' },
+    { Estatus: 'Guardada' },
+    { Estatus: 'Transito' },
+    { Estatus: 'Finalizada' },
+    { Estatus: 'Administrativa' }
+  ];
+
+  estatusCambio(event){
+    // console.log(event);
+this.estatusSelect = event.value;
+console.log(this.estatusSelect);
+if (this.estatusSelect==='Todos'){
+  this.applyFilter2('')
+}else {
+
+  this.applyFilter2(this.estatusSelect)
+}
+
   }
 
 
@@ -219,7 +241,7 @@ ImpuestosTrasladadosDlls: ""
       let newDate = new Date(dateString);
       this.compraBlanco.Folio = +res;
       this.compraBlanco.FechaEntrega = newDate;
-      this.compraBlanco.FechaPromesa = newDate;
+      // this.compraBlanco.FechaPromesa = newDate;
       this.compraBlanco.TipoCambio = this.TipoCambio;
 
 
@@ -285,5 +307,13 @@ console.log(this.compraBlanco);
 
   applyFilter(filtervalue: string){  
     this.listData.filter= filtervalue.trim().toLocaleLowerCase();  
+  }
+  applyFilter2(filtervalue: string){  
+    // this.listData.filter= filtervalue.trim().toLocaleLowerCase(); 
+    
+    this.listData.filterPredicate = (data, filter: string) => {
+      return data.Estatus.toString().toLowerCase().includes(filter);
+    };
+    this.listData.filter = filtervalue.trim().toLocaleLowerCase();
   }
 }

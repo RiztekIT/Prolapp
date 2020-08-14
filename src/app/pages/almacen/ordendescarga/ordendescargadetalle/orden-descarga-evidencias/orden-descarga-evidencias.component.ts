@@ -46,6 +46,7 @@ export class OrdenDescargaEvidenciasComponent implements OnInit {
     imagenSeleccionada: boolean;
   
     regresar() {
+      console.log(this.bodega);
       if(this.bodega == 'PasoTx'){
         this.router.navigate(['/ordenDescargadetalle']);
       }else if(this.bodega == 'Chihuahua'){

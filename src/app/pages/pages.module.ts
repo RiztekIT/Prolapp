@@ -249,10 +249,13 @@ import { EventCalendarComponent } from '../components/angular-calendar/event-cal
 import { ComprasPrincipalComponent } from './compras/compras-principal/compras-principal.component';
 import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/trackingcliente.component';
 import { ComprasPdfComponent } from '../components/compras-reporte/compras-pdf.component';
-import { DocumentacionComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-compras-importacion.component';
 import { ReportefechasfacturacionVentasComponent } from '../components/ventas/reportefechasfacturacion/reportefechasfacturacion.component';
 import { DocumentacionFormularioComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-formulario-compras-importacion/documentacion-formulario-compras-importacion.component';
 import { DocumentacionFormularioImportacionComponent } from './importacion/documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
+import { NotificacionespushService } from '../services/shared/notificacionespush.service';
+import { OrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/orden-carga-trafico.component';
+import { EditOrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/edit-orden-carga-trafico/edit-orden-carga-trafico.component';
+import { DocumentacionComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-compras-importacion.component';
 
 
 @NgModule({
@@ -427,6 +430,8 @@ import { DocumentacionFormularioImportacionComponent } from './importacion/docum
         ReportefechasfacturacionVentasComponent,
         DocumentacionFormularioComprasImportacionComponent,
         DocumentacionFormularioImportacionComponent,
+        OrdenCargaTraficoComponent,
+        EditOrdenCargaTraficoComponent
     
     ],
     exports: [
@@ -496,7 +501,8 @@ import { DocumentacionFormularioImportacionComponent } from './importacion/docum
         NgxImageCompressService,
         CalendarioService,
         DireccionService,
-        DatePipe
+        DatePipe,
+        NotificacionespushService
         
         
     ],
@@ -555,8 +561,7 @@ import { DocumentacionFormularioImportacionComponent } from './importacion/docum
         OrdenDescargaEmailComponent,
         AddEditCalendarComponent,
         EventCalendarComponent,
-        ComprasPdfComponent,
-        ReportefechasfacturacionVentasComponent
+        EditOrdenCargaTraficoComponent
         
         
     ]

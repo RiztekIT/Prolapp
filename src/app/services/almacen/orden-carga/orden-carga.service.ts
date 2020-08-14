@@ -62,6 +62,10 @@ export class OrdenCargaService {
     return this.http.get<DetalleOrdenCarga[]>(APIUrl + '/OrdenCarga/DetalleOrdenCarga/' + id + '/' + lote + '/' + clave);
   }
 
+  getUltimoFolio(): Observable<any> {
+    return this.http.get(APIUrl + '/OrdenCarga/UltimoFolio/');
+  }
+
   updateOrdenCarga(ordencarga: OrdenCarga) {
     return this.http.put(APIUrl + '/OrdenCarga', ordencarga);
   }
