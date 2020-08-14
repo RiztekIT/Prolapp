@@ -1032,15 +1032,12 @@ export class OrdendescargatarimaComponent implements OnInit {
   }
 
   dropdownRefresh() {
-    console.log('no');
     this.Tarimaservice.getTarima().subscribe(data => {
-      console.log(data);
       for (let i = 0; i < data.length; i++) {
         let Qr = data[i];
         this.listQR.push(Qr);
         this.options.push(Qr)
         this.filteredOptions = this.myControl.valueChanges
-
           .pipe(
             startWith(''),
             map(value => this._filter(value))

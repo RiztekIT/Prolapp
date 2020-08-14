@@ -248,6 +248,8 @@ import { AddEditCalendarComponent } from '../components/angular-calendar/add-edi
 import { EventCalendarComponent } from '../components/angular-calendar/event-calendar/event-calendar.component';
 import { ComprasPrincipalComponent } from './compras/compras-principal/compras-principal.component';
 import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/trackingcliente.component';
+import { OrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/orden-carga-trafico.component';
+import { EditOrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/edit-orden-carga-trafico/edit-orden-carga-trafico.component';
 
 
 @NgModule({
@@ -417,6 +419,8 @@ import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/tra
         EventCalendarComponent,
         ComprasPrincipalComponent,
         TrackingclienteComponent,
+        OrdenCargaTraficoComponent,
+        EditOrdenCargaTraficoComponent
     
     ],
     exports: [
@@ -543,7 +547,8 @@ import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/tra
         ReporteMxnComponent,
         OrdenDescargaEmailComponent,
         AddEditCalendarComponent,
-        EventCalendarComponent
+        EventCalendarComponent,
+        EditOrdenCargaTraficoComponent
         
         
     ]

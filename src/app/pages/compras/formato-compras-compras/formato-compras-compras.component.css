@@ -25,3 +25,7 @@
 .row {
     margin-left: 0 !important;
 }
+
+.btn-success {
+    background-color: #28a745;
+}

@@ -90,6 +90,7 @@ import { LoginClienteComponent } from '../login-cliente/login-cliente.component'
 import { AngularCalendarComponent } from '../components/angular-calendar/angular-calendar.component';
 import { ComprasPrincipalComponent } from './compras/compras-principal/compras-principal.component';
 import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/trackingcliente.component';
+import { OrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/orden-carga-trafico.component';
 
 
 
@@ -192,6 +193,7 @@ const pagesRoutes: Routes = [
                 // { path: 'logincliente', component: LoginClienteComponent },
                 { path: 'angularCalendar', component: AngularCalendarComponent },
                 { path: 'compras-principal', component: ComprasPrincipalComponent },
+                { path: 'ordencargatrafico', component: OrdenCargaTraficoComponent },
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },
