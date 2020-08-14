@@ -14,6 +14,11 @@
                         </mat-form-field>
                     </mat-card>
                 </div>
+                <div fxLayoutAlign="row">
+                    <mat-card style="text-align: left;" class="mat-elevation-z0">
+                        <button (click)="accederDocumentos()">Agregar Documentos</button>
+                    </mat-card>
+                </div>
 
                 <div style="overflow:auto;">
 
@@ -68,6 +73,9 @@
                   </button>
                                 <mat-menu #menu="matMenu">
                                     <!--  -->
+                                    <button title="documentos" mat-icon-button class="btn btn-dark" (click)="accederDocumentos(row.Folio)">
+                                                <mat-icon>note_add</mat-icon>
+                                            </button>
                                     <!-- <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
                                                 <mat-icon>edit</mat-icon>
                                             </button> -->

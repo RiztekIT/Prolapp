@@ -10,6 +10,7 @@ import { DetalleCompra } from '../../Models/Compras/detalleCompra-model';
 import { DetalleOrdenDescarga } from '../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 
 export const APIUrl = environment.APIUrl;
+export const URLApiEMail = environment.APIUrlEmail;
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,9 @@ export class DocumentosImportacionService {
   constructor(private http:HttpClient) { }
 
   master = new Array<any>();
+
+  //Se asigna al agregar documemnto
+  folioOrdenDescarga: number;
 
   //Obtener Documentos
  getDocumentos(): Observable <Documento[]>{
@@ -35,6 +39,10 @@ getOrdenesDescargadas(): Observable <OrdenDescarga[]>{
 //Obtener detalle Orden Descarga por IdOrdenDescarga
 getDetalleOrdenDescargaId(id: number): Observable <DetalleOrdenDescarga[]>{
   return this.http.get<DetalleOrdenDescarga[]>(APIUrl + '/Documentos/GetDetalleODId/'+id);
+}
+//Obtener Orden Descarga por Folio y estus Descargada
+getOrdenDescargaFolio(folio: number): Observable <OrdenDescarga[]>{
+  return this.http.get<OrdenDescarga[]>(APIUrl + '/Documentos/GetOrdenDescargaFolio/'+folio);
 }
 //Obtener Documento por Folio, Tipo y Modulo
 getDocumentoFolioTipoModulo(folio: number, tipo: string, modulo: string):Observable<Documento[]>{
@@ -73,6 +81,38 @@ updateDocumento(documento: Documento) {
   deleteDocumentoTFN(documento: Documento) {
     return this.http.post(APIUrl + '/Documentos/BorrarDocumentoTFN', documento);
   }
+
+  /******************** MANAGE SERVER'S DOCUMENTS ***********************/
+
+//Guardar Archivos en el servidor
+saveFileServer(body, url){
+  console.log(body);
+  return this.http.post(URLApiEMail+"/"+url, body)
+  // return this._http.post(this.URLApiEMail+"/guardarDocumentoOrdenCarga", body)
+}
+
+//borrar Documento
+deleteDocumentoServer(body,url){
+  console.log(body);
+  return this.http.post(URLApiEMail+"/"+url, body)
+  // return this._http.post(this.URLApiEMail+"/borrarDocumentoOrdenCarga", body)
+  
+  }
+  //Regresa los documentos
+    readDocumentosServer(body, url){
+      console.log(body)
+      let headers = new HttpHeaders();
+      headers = headers.set('Accept','application/pdf');
+      return this.http.post<any>(URLApiEMail+"/"+url,body,{headers:headers, responseType:'arrayBuffer' as 'json'})
+      // return this._http.post<any>(this.URLApiEMail+"/ObtenerDocumentoOrdenCarga",body,{headers:headers, responseType:'arrayBuffer' as 'json'})
+    }
+  //Regresa el nombre de los archivos
+  readDirDocuemntosServer(body, url){
+    return this.http.post<any>(URLApiEMail+"/"+url,body);
+    // return this._http.post<any>(this.URLApiEMail+"/cargarNombreDocuemntosOrdenCarga",body);
+  }
+
+  /******************** MANAGE SERVER'S DOCUMENTS ***********************/
 
 
 

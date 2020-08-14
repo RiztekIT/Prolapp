@@ -90,6 +90,8 @@ import { LoginClienteComponent } from '../login-cliente/login-cliente.component'
 import { AngularCalendarComponent } from '../components/angular-calendar/angular-calendar.component';
 import { ComprasPrincipalComponent } from './compras/compras-principal/compras-principal.component';
 import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/trackingcliente.component';
+import { DocumentacionFormularioImportacionComponent } from './importacion/documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
+import { DocumentacionFormularioComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-formulario-compras-importacion/documentacion-formulario-compras-importacion.component';
 
 
 
@@ -192,6 +194,9 @@ const pagesRoutes: Routes = [
                 // { path: 'logincliente', component: LoginClienteComponent },
                 { path: 'angularCalendar', component: AngularCalendarComponent },
                 { path: 'compras-principal', component: ComprasPrincipalComponent },
+                { path: 'documentacion-importacion', component: DocumentacionImportacionComponent },
+                { path: 'documentacion-formulario-importacion', component: DocumentacionFormularioImportacionComponent },
+                { path: 'documentacion-formulario-compras-importacion', component: DocumentacionFormularioComprasImportacionComponent },
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },

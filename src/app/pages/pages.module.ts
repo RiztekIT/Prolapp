@@ -251,6 +251,8 @@ import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/tra
 import { ComprasPdfComponent } from '../components/compras-reporte/compras-pdf.component';
 import { DocumentacionComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-compras-importacion.component';
 import { ReportefechasfacturacionVentasComponent } from '../components/ventas/reportefechasfacturacion/reportefechasfacturacion.component';
+import { DocumentacionFormularioComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-formulario-compras-importacion/documentacion-formulario-compras-importacion.component';
+import { DocumentacionFormularioImportacionComponent } from './importacion/documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
 
 
 @NgModule({
@@ -423,6 +425,8 @@ import { ReportefechasfacturacionVentasComponent } from '../components/ventas/re
         ComprasPdfComponent,
         DocumentacionComprasImportacionComponent,
         ReportefechasfacturacionVentasComponent,
+        DocumentacionFormularioComprasImportacionComponent,
+        DocumentacionFormularioImportacionComponent,
     
     ],
     exports: [
