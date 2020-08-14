@@ -18,7 +18,7 @@ import { OrdenDescargaEmailComponent } from './orden-descarga-email/orden-descar
 export class OrdendescargadetalleComponent implements OnInit {
   //Id Orden Carga
   IdOrdenDescarga: number;
-  constructor(private service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public router: Router,  private dialog: MatDialog,  public imageService: ImagenService, private _sanitizer: DomSanitizer,
+  constructor(public service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public router: Router,  private dialog: MatDialog,  public imageService: ImagenService, private _sanitizer: DomSanitizer,
     public AlmacenEmailService:AlmacenEmailService){
 
     this.ordenTemporalService.listenOrdenTemporal().subscribe((m: any) => {
@@ -43,8 +43,9 @@ export class OrdendescargadetalleComponent implements OnInit {
 
   ngOnInit() {
     this.IdOrdenDescarga = +(localStorage.getItem('IdOrdenDescarga'));
+    this.service.formData = JSON.parse(localStorage.getItem('OrdenDescarga')); 
+    console.log(this.service.formData, 'formdata');
     this.actualizarTablaOrdenTemporal();
-    console.log(this.service.formData);
     console.log(localStorage.getItem('IdOrdenDescarga'));
     this.ObtenerFolio(this.IdOrdenDescarga);
   }

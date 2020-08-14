@@ -81,6 +81,11 @@ formDataTarimaDT = new DetalleTarima();
   addOrdenDescarga(od: OrdenDescarga) {
     return this.http.post(APIUrl + '/OrdenDescarga', od);
   }
+
+  updateOrdenDescarga(od: OrdenDescarga) {
+    return this.http.put(APIUrl + '/OrdenDescarga', od);
+  }
+
   //Agregar Orden Descarga
   addDetalleOrdenDescarga(dod: DetalleOrdenDescarga) {
     return this.http.post(APIUrl + '/OrdenDescarga/AddDetalleOrdenDescarga', dod);

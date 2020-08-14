@@ -7,7 +7,7 @@
 
 .img-responsive {
     width: auto;
-    height: 300px;
+    /* height: 300px; */
     transition: .5s -webkit-filter;
     transition: .5s filter;
 }
@@ -50,10 +50,27 @@
         border-radius: 5px;
         text-align: center;
     }
+    .img-responsive {
+        width: auto;
+        height: 300px;
+        transition: .5s -webkit-filter;
+        transition: .5s filter;
+    }
 }
 
 @media (min-width: 1200px) {
     .container {
         max-width: 100%;
     }
+    .img-responsive {
+        width: auto;
+        /* height: 300px; */
+        transition: .5s -webkit-filter;
+        transition: .5s filter;
+    }
+}
+
+.btncoti {
+    background-color: #000000;
+    color: white
 }

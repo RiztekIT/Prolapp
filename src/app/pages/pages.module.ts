@@ -250,6 +250,7 @@ import { ComprasPrincipalComponent } from './compras/compras-principal/compras-p
 import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/trackingcliente.component';
 import { ComprasPdfComponent } from '../components/compras-reporte/compras-pdf.component';
 import { ReportefechasfacturacionVentasComponent } from '../components/ventas/reportefechasfacturacion/reportefechasfacturacion.component';
+import { NotificacionespushService } from '../services/shared/notificacionespush.service';
 
 
 @NgModule({
@@ -490,7 +491,8 @@ import { ReportefechasfacturacionVentasComponent } from '../components/ventas/re
         NgxImageCompressService,
         CalendarioService,
         DireccionService,
-        DatePipe
+        DatePipe,
+        NotificacionespushService
         
         
     ],

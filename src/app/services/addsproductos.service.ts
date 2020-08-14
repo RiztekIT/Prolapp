@@ -26,4 +26,8 @@ export class AddsproductosService {
     return this.http.get(this.APIUrl + '/addproductos/presentacionproductos/')
     
   }
+
+  insertarMovimiento(movimiento){
+    return this.http.post(this.APIUrl + '/Producto/Movimiento',movimiento)
+  }
 }

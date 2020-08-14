@@ -28,8 +28,9 @@ import { OrdenDescarga } from '../../../Models/almacen/OrdenDescarga/ordenDescar
 export class OrdendescargaComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['Folio', 'FechaLlegada', 'Proveedor', 'PO', 'Fletera', 'Caja', 'Sacos', 'Kg', 'Origen', 'Destino', 'Estatus', 'Options'];
-  displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Sacos', 'Lote'];
+  //displayedColumns: string[] = ['Folio', 'FechaLlegada', 'Proveedor', 'PO', 'Fletera', 'Caja', 'Sacos', 'Kg', 'Origen', 'Destino', 'Estatus', 'Options'];
+  displayedColumns: string[] = ['Folio', 'PO', 'FechaLlegada', 'Proveedor', 'Fletera','Origen','Destino','Estatus','Options'];
+  displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Sacos', 'Lote','','','','',''];
   expandedElement: any;
   detalle = new Array<DetalleOrdenDescarga>();
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
@@ -37,6 +38,7 @@ export class OrdendescargaComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   arrOrdenDescarga: any;
+  estatusSelect;
 
   constructor(public router: Router, private service: OrdenDescargaService, private dialog: MatDialog) {
     this.service.listen().subscribe((m: any) => {
@@ -48,6 +50,29 @@ export class OrdendescargaComponent implements OnInit {
   ngOnInit() {
     this.refreshOrdenDescargaList();
   }
+
+  estatusCambio(event){
+    // console.log(event);
+this.estatusSelect = event.value;
+console.log(this.estatusSelect);
+if (this.estatusSelect==='Todos'){
+  this.applyFilter2('')
+}else {
+
+  this.applyFilter2(this.estatusSelect)
+}
+
+  }
+
+  public listEstatus: Array<Object> = [
+    { Estatus: 'Todos' },
+    { Estatus: 'Guardada' },
+    { Estatus: 'Descargada' },
+    { Estatus: 'Proceso' },
+    { Estatus: 'Transito' }
+  ];
+
+
 
   refreshOrdenDescargaList() {
     this.arrOrdenDescarga = this.service.getOrdenDescargaList();
@@ -78,6 +103,14 @@ export class OrdendescargaComponent implements OnInit {
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
   }
 
+  applyFilter2(filtervalue: string) {
+    this.listData.filterPredicate = (data, filter: string) => {
+      return data.Estatus.toString().toLowerCase().includes(filter);
+    };
+    this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+
+  }
+
   openrep(row) {
 
     this.service.formrow = row;
@@ -95,7 +128,8 @@ export class OrdendescargaComponent implements OnInit {
     this.service.formData = ordenDescarga;
     this.service.formData.IdOrdenDescarga = ordenDescarga.IdOrdenDescarga;
     localStorage.setItem('IdOrdenDescarga', this.service.formData.IdOrdenDescarga.toString())
-    console.clear();
+    localStorage.setItem('OrdenDescarga', JSON.stringify(this.service.formData) )
+    /* console.clear(); */
     console.log(this.service.formData);
     console.log(localStorage.getItem('IdOrdenDescarga'));
 

@@ -32,6 +32,7 @@ import { ReporteEmisionComponent } from 'src/app/components/reporte-emision/repo
 import { MessageService } from 'src/app/services/message.service';
 import { EmailgeneralComponent } from 'src/app/components/email/emailgeneral/emailgeneral.component';
 import * as html2pdf from 'html2pdf.js';
+import { OrdenCargaService } from '../../../../../services/almacen/orden-carga/orden-carga.service';
 //Constantes para obtener tipo de cambio
 const httpOptions = {
   headers: new HttpHeaders({
@@ -55,7 +56,7 @@ export class PedidoventasAddComponent implements OnInit {
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
     private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient, public ServiceUnidad: UnidadMedidaService,
-    public serviceDireccion: ClienteDireccionService, private dialog: MatDialog, public servicecoti: VentasCotizacionService, public addproductos: AddsproductosService, public _MessageService: MessageService) {
+    public serviceDireccion: ClienteDireccionService, private dialog: MatDialog, public servicecoti: VentasCotizacionService, public addproductos: AddsproductosService, public _MessageService: MessageService, public serviceordencarga: OrdenCargaService) {
       
     this.MonedaBoolean = true;
 
@@ -1291,7 +1292,92 @@ this.isFactura = true;
   }
 
   cerrarPedido(){
+
+    let ordencarga;
+    let sacos;
+    let kg;
+    let user;
+    user = JSON.parse( localStorage.getItem('ProlappSession')).user;
     this.service.formDataPedido.Estatus = 'Cerrada';
+
+    this.service.formDataPedido.Total = this.total;
+    this.service.formDataPedido.Subtotal = this.subtotal;
+    this.service.formDataPedido.TotalDlls = this.totalDlls;
+    this.service.formDataPedido.SubtotalDlls = this.subtotalDlls;
+
+    this.serviceordencarga.getUltimoFolio().subscribe(data=>{
+
+      console.log(data[0].Folio);
+
+      sacos = 0;
+
+      for (let i=0; i< this.listData.data.length;i++){
+        sacos = sacos + +this.listData.data[i].Cantidad;
+      }
+
+      kg = sacos * 25;
+
+      ordencarga= {
+  
+        IdOrdenCarga: 0,
+        Folio: data[0].Folio,
+        FechaEnvio: new Date(),
+        IdCliente: this.service.formDataPedido.IdCliente,
+        Cliente: this.service.formData.Nombre,
+        IdPedido: this.service.formDataPedido.IdPedido,
+        Fletera: '0',
+        Caja: '0',
+        Sacos: sacos,
+        Kg: kg,
+        Chofer: '',
+        Origen: 'Chihuahua',
+        Destino: this.service.formData.Estado,
+        Observaciones: '',
+        Estatus: 'Transito',
+        FechaInicioCarga: new Date('10/10/10'),
+        FechaFinalCarga: new Date('10/10/10'),
+        FechaExpedicion: new Date(),
+        IdUsuario: '0',
+        Usuario: user
+      }
+
+      console.log(ordencarga);
+
+      this.serviceordencarga.addOrdenCarga(ordencarga).subscribe(data=>{
+
+        console.log(this.service.formDataPedido);
+        this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Pedido Cerrado'
+          })
+    
+    
+          this.Inicializar();
+    
+        }
+        )
+
+
+      })
+    })
+
+
+
+
+
+
+
+  
+  }
+
+  convertirPedido(){
+
+    console.log(this.service.formDataPedido,'Pedidos');
+    console.log(this.service.formData,'Cliente');
+    console.log(this.listData.data,'Producto');
+
+    this.service.formDataPedido.Estatus = 'Guardada';
 
     this.service.formDataPedido.Total = this.total;
     this.service.formDataPedido.Subtotal = this.subtotal;
@@ -1304,12 +1390,11 @@ this.isFactura = true;
         icon: 'success',
         title: 'Pedido Cerrado'
       })
-      this.Inicializar();
+
+
+
     }
     )
-  }
-
-  convertirPedido(){
 
   }
 
