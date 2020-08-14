@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { Observable, Subscriber } from 'rxjs';
 import { DocumentosImportacionService } from '../../../services/importacion/documentos-importacion.service';
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
+import { mergeMap, last, scan } from 'rxjs/operators';
 
 @Component({
   selector: 'app-documentacion-importacion',
@@ -40,12 +41,11 @@ export class DocumentacionImportacionComponent implements OnInit {
 
   arrOrdenDescarga: any;
 
-  arrDetalleOrdenDescarga: any
+ 
 
   //Obtiene Ordenes Descargadas.
   obtenerOrdenDescargaDocumentos() {
-    this.arrOrdenDescarga = this.documentosService.getOrdenesDescargadas();
-    this.arrOrdenDescarga.subscribe(data => {
+  this.documentosService.getOrdenesDescargadas().subscribe(data => {
       // console.log(data);
       this.documentosService.master = []
       if (data.length > 0) {
@@ -54,35 +54,36 @@ export class DocumentacionImportacionComponent implements OnInit {
         for (let i = 0; i <= data.length - 1; i++) {
           this.documentosService.master[i] = data[i];
           this.documentosService.master[i].detalleDocumento = [];
-        this.documentosService.getDetalleOrdenDescargaId(data[i].IdOrdenDescarga).subscribe(dataOD => {
-          console.log(dataOD);
-          // detalleOrdenDescarga = dataOD;
-          for (let l = 0; l < dataOD.length; l++) {
-            // console.log(l);
-            // console.log( detalleOrdenDescarga[l]);
-            let joinDescargaDocumento = dataOD[l];
-            // console.log(detalleOrdenDescarga[l]);
-            console.log(dataOD[l]);
-             this.arrDetalleOrdenDescarga = this.documentosService.getJoinDodD(dataOD[l].IdDetalleOrdenDescarga, dataOD[l].ClaveProducto);
-             this.arrDetalleOrdenDescarga.subscribe(dataJoin => {
+
+          this.documentosService.getDetalleOrdenDescargaId(data[i].IdOrdenDescarga).subscribe(dataOD => {
+            // console.log(dataOD);
+            // detalleOrdenDescarga = dataOD;
+            dataOD.forEach(element => {
+              // console.log(l);
+              // console.log( detalleOrdenDescarga[l]);
+              // let joinDescargaDocumento = dataOD[l];
+              let joinDescargaDocumento = element;
+              // console.log(detalleOrdenDescarga[l]);
+              console.log(element);
+               this.documentosService.getJoinDodD(element.IdDetalleOrdenDescarga, element.ClaveProducto).subscribe(dataJoin => {
                 console.log(dataJoin);
-                // console.log(joinDescargaDocumento);
+              //   // console.log(joinDescargaDocumento);
                 if (dataJoin.length > 0) {
                   joinDescargaDocumento.Documento = true;
-          console.log('si hay documento');
-        } else {
+                  console.log('si hay documento');
+                } else {
                   joinDescargaDocumento.Documento = false;
-          console.log('no hay documento');
+                  console.log('no hay documento');
                 }
                 this.documentosService.master[i].detalleDocumento.push(joinDescargaDocumento);
                 this.listData = new MatTableDataSource(this.documentosService.master);
                 this.listData.sort = this.sort;
                 // this.listData.paginator = this.paginator;
-        //         // console.log(this.documentosService.master);
+                //         // console.log(this.documentosService.master);
               })
-            }
+          });
           })
-          }
+        }
       } else {
         this.listData = new MatTableDataSource(this.documentosService.master);
         this.listData.sort = this.sort;
@@ -95,11 +96,11 @@ export class DocumentacionImportacionComponent implements OnInit {
   }
 
   //puede llegar como parametro el idDetalleOrdenDescarga
-  accederDocumentos(folio?:number){
+  accederDocumentos(folio?: number) {
     console.log(folio);
-    if(folio){
+    if (folio) {
       this.documentosService.folioOrdenDescarga = folio;
-    }else{
+    } else {
       this.documentosService.folioOrdenDescarga = null;
 
     }
