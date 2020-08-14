@@ -75,6 +75,12 @@ export class OrdenCargaService {
   addOrdenCarga(ordencarga: OrdenCarga) {
     return this.http.post(APIUrl + '/OrdenCarga', ordencarga)
   }
+
+  addDetalleOrdenCarga(detalleOC: DetalleOrdenCarga){
+    return this.http.post(APIUrl + '/OrdenCarga/AddDetalleOrdenCarga', detalleOC)
+  }
+
+  
   deleteOrdenCarga(id: number) {
     return this.http.delete(APIUrl + '/OrdenCarga/BorrarOrdenCarga/' + id)
   }

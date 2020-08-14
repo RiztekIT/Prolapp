@@ -1294,6 +1294,7 @@ this.isFactura = true;
   cerrarPedido(){
 
     let ordencarga;
+    let detordencarga;
     let sacos;
     let kg;
     let user;
@@ -1343,7 +1344,44 @@ this.isFactura = true;
 
       console.log(ordencarga);
 
+     
+
+
+
       this.serviceordencarga.addOrdenCarga(ordencarga).subscribe(data=>{
+
+        console.log(data);
+
+        for (let i=0; i< this.listData.data.length;i++){
+       
+          detordencarga = {
+    
+            IdDetalleOrdenCarga:0,
+            IdOrdenCarga:0,
+            ClaveProducto:this.listData.data[i].ClaveProducto,
+        Producto:this.listData.data[i].Producto,
+        Sacos:this.listData.data[i].Cantidad,
+        PesoxSaco:'25',
+        Lote:'0',
+        IdProveedor:'0',
+        Proveedor:'0',
+        PO:'0',
+        FechaMFG:new Date('10/10/10'),
+        FechaCaducidad:new Date('10/10/10'),
+        Shipper:'0',
+        USDA:'0',
+        Pedimento:'0',
+        Saldo:this.listData.data[i].Cantidad,
+          }
+
+          this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data=>{
+            console.log(data);
+          })
+          
+      
+        }
+
+        
 
         console.log(this.service.formDataPedido);
         this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
