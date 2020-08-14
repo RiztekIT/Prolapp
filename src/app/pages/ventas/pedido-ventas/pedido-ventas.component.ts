@@ -59,6 +59,27 @@ export class PedidoVentasComponent implements OnInit {
 
   }
 
+  estatusCambio(event){
+    // console.log(event);
+this.estatusSelect = event.value;
+console.log(this.estatusSelect);
+if (this.estatusSelect==='Todos'){
+  this.applyFilter2('')
+}else {
+
+  this.applyFilter2(this.estatusSelect)
+}
+
+  }
+
+  public listEstatus: Array<Object> = [
+    { Estatus: 'Todos' },
+    { Estatus: 'Guardada' },
+    { Estatus: 'Cerrada' },
+    
+  ];
+  
+  estatusSelect;
   IdPedido: any;
   MasterDetalle = new Array<pedidoMaster>();
 
@@ -332,6 +353,13 @@ email(id?: string, folio?:string){
   applyFilter(filtervalue: string) {
     this.listData.filterPredicate = (data, filter: string) => {
       return data.Nombre.toString().toLowerCase().includes(filter) || data.IdPedido.toString().includes(filter);
+    };
+    this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+
+  }
+  applyFilter2(filtervalue: string) {
+    this.listData.filterPredicate = (data, filter: string) => {
+      return data.Estatus.toString().toLowerCase().includes(filter);
     };
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
 

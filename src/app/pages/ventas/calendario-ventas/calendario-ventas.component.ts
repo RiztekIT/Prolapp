@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { CalendarioService } from '../../../services/calendario/calendario.service';
 
 @Component({
   selector: 'app-calendario-ventas',
@@ -6,10 +8,13 @@ import { Component, OnInit } from '@angular/core';
   styles: []
 })
 export class CalendarioVentasComponent implements OnInit {
-
-  constructor() { }
-
+  constructor(public router: Router, public calendarioService:CalendarioService) { 
+    
+    
+  }
+  
   ngOnInit() {
+    this.calendarioService.filter('Ventas');
   }
 
 }

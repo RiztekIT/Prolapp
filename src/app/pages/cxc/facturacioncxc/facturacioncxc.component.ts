@@ -105,7 +105,7 @@ export class FacturacioncxcComponent implements OnInit {
       this.service.rfcempresa = event.RFC;
       localStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
 
-      console.clear();
+      //console.clear();
       console.log(this.enviarfact.empresa);
       console.log(this.service.rfcempresa);
 
@@ -170,6 +170,7 @@ export class FacturacioncxcComponent implements OnInit {
   refreshFacturaList() {
 this.loadtable = true;
 this.listData = new MatTableDataSource();
+this.service.master = [];
 
     this.service.deleteFacturaCreada().subscribe(data=>{
       console.log(data);
@@ -178,7 +179,7 @@ this.listData = new MatTableDataSource();
 
   
     this.service.getFacturasListCLiente().subscribe(data => {
-
+console.log(data)
       for (let i = 0; i <= data.length-1; i++){
         this.service.master[i] = data[i]
         this.service.master[i].detalle = [];
@@ -189,6 +190,7 @@ this.listData = new MatTableDataSource();
             for (let l = 0; l <=res.length-1; l++){
               this.service.master[i].detalle.push(res[l]);
             }
+            
             this.listData = new MatTableDataSource(this.service.master);
             this.listData.sort = this.sort;    
             this.listData.paginator = this.paginator;

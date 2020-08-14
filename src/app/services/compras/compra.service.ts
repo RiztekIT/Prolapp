@@ -19,7 +19,8 @@ export const APIUrl = environment.APIUrl;
 export class CompraService {
 
   constructor(private http: HttpClient) { }
-
+  //objeto para guardar datos del pdf
+    formt: any;
     //form data para guardar los datos de Compras
     formData = new Compras();
     //form data para guardar los datos de los detalles de )compras

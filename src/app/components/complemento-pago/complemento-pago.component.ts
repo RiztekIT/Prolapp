@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.service';
 import * as html2pdf from 'html2pdf.js';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class ComplementoPagoComponent implements OnInit {
   
   // constructor(public dialogbox: MatDialogRef<ComplementoPagoComponent>, public router: Router, private _formBuilder: FormBuilder, 
   constructor(public router: Router, private _formBuilder: FormBuilder, public dialogbox: MatDialogRef<ComplementoPagoComponent>, private dialog: MatDialog,
-    public service: ReciboPagoService) { 
+    public service: ReciboPagoService, public enviarfact: EnviarfacturaService) { 
       this.QRsize = 125;
       // assign a value to QR
       this.myAngularxQrCode = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.asp?id=28c751ac-b6f3-4293-b35e-9ce78b4eb4b8&re=CIN960904FQ2&rr=CUOA880131Q85&tt=0000002578.930000&fe=nfsuQW==';
@@ -30,6 +31,8 @@ export class ComplementoPagoComponent implements OnInit {
   arrcon: Array<any> = [];
 
   objconc: any; 
+  rfcE: string;
+  nombreE: string;
 
   SaldoAnterior: any;
 
@@ -64,6 +67,8 @@ export class ComplementoPagoComponent implements OnInit {
       this.rfcBanco = 'BBA830831LJ2'
     }
 
+    this.rfcE = this.enviarfact.empresa.RFC;
+    this.nombreE = this.enviarfact.empresa.RazonSocial;
 
     this.objconc = this.service.formt.pagoCFDI;
 

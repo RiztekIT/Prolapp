@@ -17,6 +17,8 @@ import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { ReporteMxnComponent } from 'src/app/components/cxc/reporte-mxn/reporte-mxn.component';
 import { ReporteDllsComponent } from 'src/app/components/cxc/reporte-dlls/reporte-dlls.component';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 
 
 /* Constante y variables para la transformacion de los meses en los datetimepicker */
@@ -67,16 +69,45 @@ export class ReportescxcComponent implements OnInit {
   listClientes: Cliente[] = [];
   options: Cliente[] = [];
   ClienteNombre: any;
+  listEmpresa;
 
 
-  constructor(public serviceFactura: FacturaService, public sharedService: FacturacionService, private dialog: MatDialog,public serviceCliente: ClientesService) { }
+  constructor(public serviceFactura: FacturaService, public sharedService: FacturacionService, private dialog: MatDialog,public serviceCliente: ClientesService, public enviarfact: EnviarfacturaService, public serviceEmpresa: EmpresaService) { }
 
   isVisible: boolean;
   facturas = new facturaMasterDetalle;
   
   ngOnInit() {
     this.isVisible = true;
+    this.listaempresas();
     this.obtenerClientes();
+  }
+
+
+  listaempresas(){
+    this.serviceEmpresa.getEmpresaList().subscribe(data =>{
+      console.log(data);
+      this.listEmpresa = data;
+      
+      console.log(this.enviarfact.empresa);
+      this.enviarfact.empresa = data[0];
+      this.serviceFactura.rfcempresa = this.enviarfact.empresa.RFC;
+      // this.enviarfact.rfc = data[0].RFC;
+    })
+  }
+
+  cambioEmpresa(event){
+    
+
+    this.enviarfact.empresa = event;
+      this.serviceFactura.rfcempresa = event.RFC;
+      localStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
+
+      console.clear();
+      console.log(this.enviarfact.empresa);
+      console.log(this.serviceFactura.rfcempresa);
+
+
   }
 
   checkbox(event){

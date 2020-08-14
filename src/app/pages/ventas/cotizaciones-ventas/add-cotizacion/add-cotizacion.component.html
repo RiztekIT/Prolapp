@@ -5,7 +5,7 @@
 
                 <div class="d-flex justify-content-between">
 
-                    <h2 class="text-muted m-t-10 m-b-0">Generar Orden de Compra</h2>
+                    <h2 class="text-muted m-t-10 m-b-0">Generar Cotizacion</h2>
                     <div>
                         Estatus:
                         <p [ngSwitch]=Estatus>
@@ -14,7 +14,10 @@
                             <span *ngSwitchCase="'Duplicada'" class="label label-light-inverse">DUPLICADA</span>
                         </p>
                     </div>
-                    <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button>
+                    <!-- <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button> -->
+                    <button mat-fab (click)="Regresar()" class="btncoti">
+                            <mat-icon>undo</mat-icon>
+                          </button>
                 </div>
                 <hr>
 
@@ -335,6 +338,8 @@
 
                             <div class="container">
 
+                                <!-- <div *ngIf="ActualizarDetallePedidoBool != true"> -->
+
                                 <div class="row">
 
                                     <div class="col-6">
@@ -392,7 +397,11 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
-
+                                <!-- </div> -->
+                                <!--    <div *ngIf="ActualizarDetallePedidoBool != false">
+                                    <label class="input-group-text text-info"> Descripcion Producto:</label>
+                                    <input type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="service.formProd.DescripcionProducto" readonly>
+                                </div> -->
 
 
 
@@ -629,8 +638,8 @@
                                                         <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button> -->
                                                         <!-- <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='prefactura(service.formData.Folio)'><i class="mdi mdi-code-tags btn-lg"></i>Prefactura</button> -->
 
-                                                        <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
-                                                        </ngx-loading>
+                                                        <!--     <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+                                                        </ngx-loading> -->
                                                     </div>
                                                 </ng-template>
 

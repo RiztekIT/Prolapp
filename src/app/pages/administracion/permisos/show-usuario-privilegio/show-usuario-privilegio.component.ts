@@ -7,6 +7,8 @@ import { MatDialog, MatDialogConfig } from '@angular/material';
 import { UsuariosServieService } from 'src/app/services/catalogos/usuarios-servie.service';
 import { procesoMasterDetalle } from '../../../../Models/procesomaster-model';
 import { Privilegio } from '../../../../Models/privilegio-model';
+import { CalendarioService } from '../../../../services/calendario/calendario.service';
+import { Calendario } from '../../../../Models/calendario/calendario-model';
 
 
 
@@ -22,7 +24,8 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
   id:number;
   PermisoBool :boolean;
 
-  constructor(public service: ProcesoService, private service2:UsuariosServieService, public dialogbox: MatDialogRef<ShowUsuarioPrivilegioComponent>, private dialog: MatDialog) {
+  constructor(public service: ProcesoService, private service2:UsuariosServieService, public dialogbox: MatDialogRef<ShowUsuarioPrivilegioComponent>,
+     private dialog: MatDialog, public CalendarioService: CalendarioService) {
 
 
   }
@@ -70,9 +73,35 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
   }
 
 onAdd(f,i){
+  // console.log(f, i);
   this.service.PermisoPost(f,i).subscribe(res =>{
+    //Obtener nombre de usuario
+    this.CalendarioService.getUsuarioId(f).subscribe(usuarioId=>{
+      // console.log(usuarioId[0]);
+      //Verificar si ya existe un calendario para ese usuario en ese modulo en especifico
+      this.service.GetProcesoIdProceso(i).subscribe(proc=>{
+        // console.log(proc[0]);
+        this.CalendarioService.getCalendarioProceso(usuarioId[0].NombreUsuario, proc[0].Area, proc[0].NombreProceso).subscribe(resCalendario=>{
+          // console.log(resCalendario);
+          if(resCalendario.length>0){
+            // console.log('YA EXISTE CALENDARIO USUARIO');
+          }else{
+            // console.log('NO EXISTE CALENDARIO USUARIO');
+        let calendario = new Calendario();
+        calendario.Modulo = proc[0].Area;
+        calendario.NombreCalendario = proc[0].Area;
+        calendario.NombreUsuario = usuarioId[0].NombreUsuario;
+        this.CalendarioService.addCalendario(calendario).subscribe(resCa=>{
+          // console.log(resCa);
+        })
+          }
+        });
+      });
+    });
+    //si no existe, se crea
+    //si existe, no pasa nada
     this.refreshProcesosList();
-  })
+  });
 }
 
 

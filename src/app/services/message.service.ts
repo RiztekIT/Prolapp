@@ -57,6 +57,10 @@ export class MessageService {
     return this._http.post<any>(this.URLApiEMail+"/historicoleche",null);
 
   }
+
+  notpush(){
+    return this._http.post<any>(this.URLApiEMail+"/notpush",null);
+  }
   // sendMessage2(body,files){
   //   console.log(body);
     

@@ -1,0 +1,32 @@
+.input-group-text {
+    background-color: white !important;
+    border: 0 !important;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+    background-color: white !important;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+    background-color: white !important;
+}
+
+.text-info {
+    color: #398bf7 !important
+}
+
+.form label {
+    font-weight: 400 !important;
+}
+
+.form-control:disabled,
+.form-control[readonly] {
+    background-color: #ffffff !important;
+    opacity: 1;
+}
+
+.input-group-text .text-info {
+    background-color: #ffffff !important;
+}

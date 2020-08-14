@@ -1,0 +1,98 @@
+<div class="container">
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4">
+            <button (click)="exportarXLS()" class="btn btn-success"> <i class="mdi mdi-file-excel-box" ></i> Excel </button>
+            <button (click)="exportarPDF()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
+            <!-- <button (click)="Aumentar()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> Aumentar Tamaño </button>
+            <button (click)="Disminuir()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> Disminuir Tamaño </button> -->
+        </div>
+    </div>
+</div>
+
+<mat-dialog-content>
+    <div class="container">
+        <div class="row">
+            <!-- logo -->
+            <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                <div class="card card-outline-inverse">
+                    <!-- <div class="card-header">
+                            <h6 class="m-b-0 text-white">Logo</h6>
+                        </div>
+                        <div class="card-body">
+                        </div> -->
+
+                    <img src="../../../assets/images/ProLactoLogo.png" class="logo">
+
+                </div>
+            </div>
+            <!-- descripcion -->
+            <div class="col-9">
+                <h5 class="blacktxt bolder"> PROLACTO INGREDIENTES S DE RL MI DE CV
+                </h5>
+                <p class="blacktxt bolder nomarginbottomP"><span class="bolder">R.F.C.:</span>PLA11011243A
+                </p>
+                <p class="blacktxt bolder nomarginbottomP"> Calle: J. Matias de Anchondo No. 207, Col. San Felipe, CP: 31203, Chihuahua, Chihuahua, México
+                </p>
+                <div class="container row">
+                    <div class="col-8 pl-0">
+                        <p class="blacktxt bolder nomarginbottomP">Lugar de Expedicion <span>Calle: <i>Jose Matias de Anchondo, CP. 31203</i></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End TOP -->
+
+    <div class="container row" id="pdf2">
+        <!-- <div class="col-1"></div> -->
+        <div class="col-11">
+
+
+            <table class="table-hover">
+                <thead>
+                    <tr>
+                        <th class="blacktxt bolder">Fecha</th>
+                        <th class="blacktxt bolder ">Folio</th>
+                        <th class="blacktxt bolder">Fecha de Pago</th>
+                        <th class="blacktxt bolder">Cliente</th>
+                        <th class="blacktxt bolder">Cantidad</th>
+                        <th class="blacktxt bolder">Producto</th>
+                        <th class="blacktxt bolder">Costo</th>
+                        <th class="blacktxt bolder">Vendedor</th>
+                        <!-- <th></th> -->
+                    </tr>
+
+
+                </thead>
+                <tbody *ngFor="let fact of facturas; let i = index">
+                    <tr class="pgbreak border3" [style.font-size]="tamletra+'px'">
+                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.FechaDeExpedicion | date: 'yyyy/MM/dd'}} </td>
+                        <!-- <td class="wrap lightback"> {{info.Nombre | slice:0:35}} <br> {{info.Nombre | slice:35:this.textoNombre[i]}} </td> -->
+                        <!-- <td class="wrap lightback"> {{info.Nombre}}</td> -->
+                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Folio}}</td>
+                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.FechaPago | date: 'yyyy/MM/dd'}}</td>
+                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Nombre}}</td>
+                        <td class="wrap lightback pgbreak" style="text-align: end;" [attr.colspan]="1"> {{fact.Cantidad | number}}</td>
+                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Producto}}</td>
+                        <td class="wrap lightback pgbreak" style="text-align: end;" [attr.colspan]="1"> {{fact.PrecioUnitarioDlls | currency}}</td>
+                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Vendedor}}</td>
+                    </tr>
+
+                    <!--      <td class="wrap lightback pgbreak" [attr.colspan]="2"> </td>
+                    <td class="wrap lightback pgbreak"> Total </td>
+                    <td class="wrap lightback pgbreak"> {{info.TotalMXN |currency}} </td>
+                    <td class="wrap lightback pgbreak"> {{info.TotalDLLS |currency}} </td> -->
+                </tbody>
+            </table>
+            <br>
+            <hr>
+            <br>
+            <br>
+
+
+        </div>
+        <!-- <div class="col-2"></div> -->
+    </div>
+</mat-dialog-content>

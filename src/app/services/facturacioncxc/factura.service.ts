@@ -33,7 +33,7 @@ export class FacturaService {
    Cliente;
    saldos = new Saldos();
    tipoCambioPago;
-   rfcempresa;
+   rfcempresa = 'PLA11011243A';
    
 
    SaldoFacturaMXN: number;
@@ -392,6 +392,29 @@ filter2(filterBy: string) {
 //Cliente login
 getFacturasListCLienteid(id: number): Observable <any[]> {
   return this.http.get<[]>(this.APIUrl + '/cliente/factura/'+ id);
+}
+
+
+getFacturasFechasVentas(fechaini,fechafinal){
+  if (this.rfcempresa==='PLA11011243A'){
+
+    return this.http.get<any[]>(this.APIUrl + '/ReporteVentas/Fechas/' + fechaini+ '/' + fechafinal);
+  }
+  else if (this.rfcempresa=='AIN140101ME3'){
+    return this.http.get<any[]>(this.APIUrl + '/ReporteVentas/Fechas/' + fechaini+ '/' + fechafinal);
+  }
+  
+}
+
+getDetallesFacturaListVentas(id: number): Observable <DetalleFactura[]> {
+  if (this.rfcempresa==='PLA11011243A'){
+
+    return this.http.get<DetalleFactura[]>(this.APIUrl + '/ReporteVentas/DetalleFactura/'+ id);
+  }
+  else if (this.rfcempresa=='AIN140101ME3'){
+    return this.http.get<DetalleFactura[]>(this.APIUrl + '/ReporteVentas/DetalleFactura/'+ id);
+  }
+  
 }
 
 }

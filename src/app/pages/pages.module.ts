@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule } from '@angular/material';
+import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule, MatToolbarModule } from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
@@ -468,7 +468,8 @@ import { EditOrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/ed
         FormsModule,
         NgbModalModule,
         FlatpickrModule.forRoot(),
-        CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
+        CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+        MatToolbarModule
     ],
     providers: [
         UsuariosServieService,
