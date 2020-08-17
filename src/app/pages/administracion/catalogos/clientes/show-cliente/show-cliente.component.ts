@@ -46,6 +46,10 @@ export class ShowClienteComponent implements OnInit {
     this.listaempresas();
   }
 
+  estatusCambio(event){
+    
+  }
+
   refreshClientesList() {
 
     this.service.getClientesContactoList().subscribe(data => {

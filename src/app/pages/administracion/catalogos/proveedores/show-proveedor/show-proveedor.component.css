@@ -11,10 +11,29 @@ td {
     color: white;
 }
 
+::ng-deep .mat-cell {
+    overflow: auto;
+}
+
+::ng-deep .mat-header-cell {
+    color: #ffffff;
+    background: #000000;
+}
+
 button {
     margin-left: 10px;
 }
 
 table {
     width: 100%;
+}
+
+.btn-prolacto {
+    background-color: black;
+    color: white
+}
+
+.btn-prolacto:hover {
+    background-color: white;
+    color: black
 }

@@ -1,3 +1,12 @@
+td {
+    padding: 5px !important;
+}
+
+::ng-deep .mat-sort-header-container {
+    display: flex;
+    justify-content: center;
+}
+
 .btn-danger:hover {
     color: white;
 }
@@ -11,16 +20,20 @@
     background: #000000;
 }
 
-
-/* 
 button {
-    padding-left: 10px;
-} */
+    margin-left: 10px;
+}
 
 table {
     width: 100%;
 }
 
-.color {
-    background-color: rgba(230, 69, 69, 0.596);
+.btn-prolacto {
+    background-color: black;
+    color: white
+}
+
+.btn-prolacto:hover {
+    background-color: white;
+    color: black
 }
