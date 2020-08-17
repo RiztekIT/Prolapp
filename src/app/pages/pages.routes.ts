@@ -93,6 +93,7 @@ import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/tra
 import { DocumentacionFormularioImportacionComponent } from './importacion/documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
 import { DocumentacionFormularioComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-formulario-compras-importacion/documentacion-formulario-compras-importacion.component';
 import { OrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/orden-carga-trafico.component';
+import { DocumentacionComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-compras-importacion.component';
 
 
 
@@ -196,6 +197,7 @@ const pagesRoutes: Routes = [
                 { path: 'angularCalendar', component: AngularCalendarComponent },
                 { path: 'compras-principal', component: ComprasPrincipalComponent },
                 { path: 'documentacion-importacion', component: DocumentacionImportacionComponent },
+                { path: 'documentacionComprasImportacion', component: DocumentacionComprasImportacionComponent },
                 { path: 'documentacion-formulario-importacion', component: DocumentacionFormularioImportacionComponent },
                 { path: 'documentacion-formulario-compras-importacion', component: DocumentacionFormularioComprasImportacionComponent },
                 { path: 'ordencargatrafico', component: OrdenCargaTraficoComponent },
