@@ -17,7 +17,7 @@ import { ComprasPdfComponent } from '../../../components/compras-reporte/compras
 const httpOptions = {
   headers: new HttpHeaders({
     'Bmx-Token': 'd83c7088f2823be9f29cc124cf95dc37056de37c340da5477a09ca1ee91a80a6',
-    'Access-Control-Allow-Origin': 'http://localhost:4200',
+    //'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json;charset=UTF-8',
     'Access-Control-Allow-Headers': 'Bmx-Token, Accept, Accept-Encoding, Content-Type, Origin',
     'Access-Control-Allow-Methods': 'GET, OPTIONS'

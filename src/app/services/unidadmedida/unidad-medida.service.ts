@@ -15,7 +15,7 @@ const httpUnidadMedidaSAT = {
   headers: new HttpHeaders({
     'F-Api-Key':'JDJ5JDEwJDdRdWdpL05PMW5qb2M0c3BmdXpSZC5SdFVDd0JTT2RCeHguQ2FEdUZud0JNSXFoOC5DR25x',
     'F-Secret-Key':'JDJ5JDEwJHJ0ZWRaRVhNU3cwQ1B2VzRZc2ZaRWV5c3ZNTWs3WFhoZThOOFg0YkdmQUZsQWc3UzQxZ25t',
-    'Access-Control-Allow-Origin': 'http://192.168.1.180:4200',
+    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json;charset=UTF-8',
     'Access-Control-Allow-Headers': 'F-Secret-Key,Accept, Accept-Encoding, Content-Type',
     'Access-Control-Allow-Methods': 'GET, OPTIONS'

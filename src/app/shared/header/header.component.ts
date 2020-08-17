@@ -4,12 +4,13 @@ import { Observable } from 'rxjs';
 import { StorageServiceService } from 'src/app/services/shared/storage-service.service';
 import { Usuario } from 'src/app/Models/catalogos/usuarios-model';
 import { TipoCambioService } from '../../services/tipo-cambio.service';
+import { from } from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
     // 'Bmx-Token': '19b7c18b48291872e37dbfd89ee7e4ea26743de4777741f90b79059950c34544',
     'Bmx-Token': '410db2afc39118c6917da0778cf81b6becdf5614dabd10b92815768bc0a87e26',
-    'Access-Control-Allow-Origin': 'http://localhost:4200',
+    // 'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json;charset=UTF-8',
     'Access-Control-Allow-Headers': 'Bmx-Token, Accept, Accept-Encoding, Content-Type, Origin',
     'Access-Control-Allow-Methods': 'GET, OPTIONS'
@@ -28,7 +29,8 @@ const httpOptions = {
 export class HeaderComponent implements OnInit {
   // parche: string = 'https://cors-anywhere.herokuapp.com/'
   // readonly rootURL = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF63528/datos/oportuno"
-  rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
+  // rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
+  rootURL = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF63528/datos/"
   Cdolar: string;
   clienteLogin;
   public usuario: Usuario;
@@ -103,7 +105,7 @@ if (hora>10){
 
   traerApi(): Observable<any>{
 
-    return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
+    return this.http.get("https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
 
   }
 
