@@ -187,7 +187,7 @@ export class SidebarService {
         // this.menu[i].submenu
         this.http.get(APIUrl+ '/Menu/Submenu/1/'+data[i].idmenu).subscribe((submenu:any)=>{
           // console.log(data[i].idmenu);
-          // console.log(submenu);
+          console.log(submenu);
           this.submenu = [];
 
           this.menu[i].submenu = []
@@ -200,7 +200,8 @@ export class SidebarService {
         })
       }
       // console.warn(this.menu);
-      // console.log(this.menu);
+      console.log(this.menu);
+      console.log(this.submenu);
       init_plugins();
 
     });

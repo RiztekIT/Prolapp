@@ -27,22 +27,22 @@
                             <div class="container">
                                 <div class="row">
                                     <!-- TABLA DETALLES ORDEN DESCARGA -->
-                                    <div class="col-12 col-md-6">
+                                    <div class="col-12 col-lg-6">
                                         <div style="overflow:auto;">
                                             <div class="container row" style="padding-bottom: 20px;">
 
-                                                <div class="col-10">
+                                                <div class="col-8">
                                                     <label class="input-group-text text-info">Buscar por Folio:</label>
                                                     <input type="number" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="folioOrdenDescarga" (ngModelChange)="onChangeFolio($event)">
 
                                                 </div>
-                                                <div class="col-2">
+                                                <div class="col-4">
 
-                                                    <button *ngIf="folioOrdenDescarga > 0" mat-icon-button class="btn btn-danger" color="warn" (click)="clearFolio()">
-                                                        <mat-icon>clear</mat-icon>
-                                                    </button>
                                                     <button mat-icon-button class="btncoti" color="warn" style="padding-bottom: 0px; margin-bottom: 0px; margin-top: 30px;" (click)="obtenerOrdenesDescargaDetalles(folioOrdenDescarga)">
                                                         <mat-icon>search</mat-icon>
+                                                    </button>
+                                                    <button *ngIf="folioOrdenDescarga > 0" mat-icon-button class="btn btn-danger" color="warn" (click)="clearFolio()">
+                                                        <mat-icon>clear</mat-icon>
                                                     </button>
 
 
@@ -117,7 +117,7 @@
                                     </div>
 
                                     <!-- TABLA DE DETALLES SELECCIONADOS -->
-                                    <div class="col-12 col-md-6">
+                                    <div class="col-12 col-lg-6">
 
                                         <label class="input-group-text text-info">Tipo de Documento:</label>
                                         <mat-form-field *ngIf="!tipoDocumentoSeleccionado">
@@ -200,7 +200,7 @@
                                     </div>
 
                                     <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
-                                    <div class="col-12 col-md-6">
+                                    <div class="col-12 col-lg-6">
                                         <p style="font-weight: 400; margin-top: 10px;">Archivos:</p>
                                         <div style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
                                             <div *ngFor="let a of archivos">
@@ -210,7 +210,7 @@
                                         </div>
                                     </div>
                                     <!-- DROPZONE DE DOCUMENTOS -->
-                                    <div class="col-12 col-md-6">
+                                    <div class="col-12 col-lg-6">
                                         <p style="font-weight: 400; margin-top: 10px;">Dropzone:</p>
                                         <ngx-dropzone [disabled]="productosExistentes == false || stringDocumentoSeleccionado.length == 0" (change)="onSelect($event)">
                                             <!-- <ngx-dropzone (change)="onSelect($event)"> -->
@@ -223,9 +223,14 @@
                                 </div>
 
 
+                                <div class="row">
+                                    <div class="col-8"></div>
+                                    <div class="col-4">
+                                        <button style="float: right; margin-top: 20px;" [disabled]="productosExistentes == false || stringDocumentoSeleccionado.length == 0 || files.length == 0" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentos()">Agregar Documentos</button>
 
+                                    </div>
 
-                                <button [disabled]="productosExistentes == false || stringDocumentoSeleccionado.length == 0 || files.length == 0" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentos()">Agregar Documentos</button>
+                                </div>
                             </div>
                         </div>
                     </div>
