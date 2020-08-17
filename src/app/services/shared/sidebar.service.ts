@@ -201,7 +201,6 @@ export class SidebarService {
       }
       // console.warn(this.menu);
       console.log(this.menu);
-      console.log(this.submenu);
       init_plugins();
 
     });
