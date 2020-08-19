@@ -325,19 +325,70 @@ export class CargarComponent implements OnInit {
   }
 
   finalizar() {
+    this.ordenCargaService.getOCID(this.IdOrdenCarga).subscribe(res => { 
+      console.clear();
+      console.log(res);
+      if (res[0].Chofer) {
+        if (res[0].Estatus == 'Preparada') {
+          this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(resq => {
+            console.log(resq)
+            this.router.navigate(['/ordencargadetalle']);
+          })
+        }
+        this.router.navigate(['/ordencargadetalle']);
+      } else{
 
-    //Verificar si el estatus va en orden
-    this.ordenCargaService.getOCID(this.IdOrdenCarga).subscribe(res => {
-      if (res[0].Estatus == 'Preparada') {
-        this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(res => {
-          console.log(res)
-          this.router.navigate(['/ordencargadetalle']);
+        Swal.fire({
+          title: 'Ingresar Nombre de Chofer',
+          icon: 'warning',
+          input: 'text',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Ingresar',
+        }).then((result) => {
+          if (result.value) {
+           console.log(result.value);
+    
+               let Chofer = result.value.toString();
+               this.ordenCargaService.updatedetalleOrdenCargaChofer(this.IdOrdenCarga, Chofer).subscribe(resc =>{
+                 console.log('resc: ', resc);
+               })
+             if (res[0].Estatus == 'Preparada') {
+              this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(rese => {
+                console.log(rese)
+                this.router.navigate(['/ordencargadetalle']);
+              })
+            }
+            this.router.navigate(['/ordencargadetalle']);
+             
+    
+            
+            
+            
+            
+          }
         })
+
+
       }
-      this.router.navigate(['/ordencargadetalle']);
-    });
-  }
+    })
 
 
 
+  //   //Verificar si el estatus va en orden
+  //   this.ordenCargaService.getOCID(this.IdOrdenCarga).subscribe(res => {
+  //     if (res[0].Estatus == 'Preparada') {
+  //       this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(res => {
+  //         console.log(res)
+  //         this.router.navigate(['/ordencargadetalle']);
+  //       })
+  //     }
+  //     this.router.navigate(['/ordencargadetalle']);
+  //   });
+  // }
+
+
+
+}
 }

@@ -6,11 +6,15 @@
             <div class="row">
                 <div class="col-11">
                     <h2 style="text-align: center;">Detalle de la Orden de Carga</h2>
-                    <h4>Estatus: {{estatusOC}}</h4>
+                    <h4>Estatus:
+                        <span class="label label-light-warning">{{estatusOC}}</span>
+                    </h4>
                 </div>
                 <div class="col-1">
 
-                    <button class="btn btn-danger" type="button" (click)="onClose()">X</button>
+                    <button mat-fab (click)="onClose()" class="btncoti">
+                            <mat-icon>undo</mat-icon>
+                          </button>
                 </div>
             </div>
         </div>
@@ -91,6 +95,7 @@
             </div>
         </div>
         <hr>
+        <!-- <form #form="ngForm" autocomplete="off"> -->
         <div class="form-material">
             <div class="container">
                 <div class="row">
@@ -114,17 +119,21 @@
                         <input type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="this.traficoService.formDatafactura.Estatus" readonly>
                     </div>
 
-                    <button class="btn btn-success" [disabled]="this.traficoService.formDatafactura.Estatus== 'Capturada'" (click)="updateFacturaFlete()">Guardar</button>
+                    <div class="container row">
+                        <div class="col-9">
+
+                        </div>
+                        <div class="col-3">
+
+                            <button class="btn btn-success" mat-raised-button type="button" [disabled]="this.traficoService.formDatafactura.Estatus== 'Capturada' " (click)="updateFacturaFlete()">Guardar</button>
+                        </div>
+                    </div>
 
 
                 </div>
             </div>
         </div>
-
-
-
-
-
+        <!-- </form> -->
 
 
     </div>

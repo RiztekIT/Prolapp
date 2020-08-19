@@ -85,11 +85,25 @@
                             <div class="col-md-4 col-12">
                                 <h3 class="text-muted m-t-10 m-b-0">Tabla Tarimas Creadas</h3>
                             </div>
-                            <div class="col-md-4 col-12"></div>
+                            <div class="col-md-4 col-12">
+
+                            </div>
                             <div class="col-md-4 col-12">
                                 <button class="btncoti" mat-fab style="float: right;" (click)="onAddTarima()">
             <mat-icon> open_in_new </mat-icon>
           </button>
+                                <div *ngIf="ShowBuscar == false; else elseBlockPU">
+                                    <button class="btncoti" mat-fab style="float: right; margin-right: 15px" (click)="BuscarTarimaQR()">
+                <mat-icon> search</mat-icon>
+              </button>
+
+                                </div>
+                                <ng-template #elseBlockPU>
+
+                                    <button class="btncl" mat-fab style="float: right; margin-right: 15px" (click)="CloseBuscar()">
+                                            <mat-icon> close</mat-icon>
+                                          </button>
+                                </ng-template>
                             </div>
                         </div>
                     </div>
@@ -101,13 +115,32 @@
                     <!--      <div class="card">
                     <div class="card-body"> -->
                     <div class="container row">
-                        <div class="col-11">
+                        <div class="col-12">
                             <div class="card-body">
                                 <!--   <div class="container row">
                                         <h3 class="col-10">TABLA ORDEN TEMPORAL</h3>
                                         <button (click)="onAddTarima()" type="button" class="btn btn-primary col-2" style="float: right;"> <mat-icon>open_in_new</mat-icon> Agregar Tarima</button>
                                     </div> -->
                                 <br>
+                                <div [style.display]="ShowBuscar ? 'block' : 'none'">
+                                    <div class="container row">
+                                        <div class="col-4">
+                                            <mat-form-field style="width: 100%">
+                                                <input type="text" placeholder="Seleccionar QR de Tarima" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="Tarimaservice.formDataDrop.QR" name="QR">
+                                                <mat-autocomplete #auto="matAutocomplete">
+                                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.QR" (blur)="onBlurQR()" (onSelectionChange)="onSelectionChange(option, $event)">
+                                                        <b>   {{option.QR}}  </b>
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+
+                                        </div>
+                                        <div class="col-4">
+                                            <button style="margin-top: 15px;" class="btn btn-info btn-lg" [style.display]="qrsearch ? 'block' : 'none'" mat-raised-button type="button" (click)="QRmodal()">Imprimir QR</button>
+
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div style="overflow:auto;">
                                     <table mat-table [dataSource]="listDataOrdenTemporal" matSort>
@@ -165,6 +198,10 @@
                                     <mat-icon>keyboard_arrow_down</mat-icon>
                                   </button>
                                                 <mat-menu #menu="matMenu">
+
+                                                    <button title="Imprimir QR" mat-icon-button class="btn btn-dark" (click)="rowqr(row)">
+                                                        <mat-icon>qr_code</mat-icon>
+                                                      </button>
                                                     <!--  -->
                                                     <!--     <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
                                                             <mat-icon>edit</mat-icon>
