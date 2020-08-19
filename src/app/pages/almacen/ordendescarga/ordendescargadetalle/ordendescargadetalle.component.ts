@@ -9,6 +9,13 @@ import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { AlmacenEmailService } from '../../../../services/almacen/almacen-email.service';
 import { OrdenDescargaEmailComponent } from './orden-descarga-email/orden-descarga-email.component';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Tarima } from 'src/app/Models/almacen/Tarima/tarima-model';
+import { startWith, map } from 'rxjs/operators';
+import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
+import { QrComponent } from 'src/app/components/qr/qr.component';
+import { OrdenTemporal } from 'src/app/Models/almacen/OrdenTemporal/ordenTemporal-model';
 
 @Component({
   selector: 'app-ordendescargadetalle',
@@ -18,7 +25,7 @@ import { OrdenDescargaEmailComponent } from './orden-descarga-email/orden-descar
 export class OrdendescargadetalleComponent implements OnInit {
   //Id Orden Carga
   IdOrdenDescarga: number;
-  constructor(public service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public router: Router,  private dialog: MatDialog,  public imageService: ImagenService, private _sanitizer: DomSanitizer,
+  constructor(public service: OrdenDescargaService,public Tarimaservice: TarimaService, public ordenTemporalService: OrdenTemporalService, public router: Router,  private dialog: MatDialog,  public imageService: ImagenService, private _sanitizer: DomSanitizer,
     public AlmacenEmailService:AlmacenEmailService){
 
     this.ordenTemporalService.listenOrdenTemporal().subscribe((m: any) => {
@@ -39,10 +46,20 @@ export class OrdendescargadetalleComponent implements OnInit {
   imagePath: SafeResourceUrl;
   imageInfo: ImgInfo[] = [];
 
+  ShowBuscar: boolean;
+  myControl = new FormControl();
+  filteredOptions: Observable<any[]>;
+  listQR: Tarima[] = [];
+  options: Tarima[] = [];
+
+  qrsearch;
+
 
 
   ngOnInit() {
+    this.ShowBuscar = false;
     this.IdOrdenDescarga = +(localStorage.getItem('IdOrdenDescarga'));
+    console.log('this.IdOrdenDescarga: ', this.IdOrdenDescarga);
     this.service.formData = JSON.parse(localStorage.getItem('OrdenDescarga')); 
     console.log(this.service.formData, 'formdata');
     this.actualizarTablaOrdenTemporal();
@@ -57,20 +74,36 @@ export class OrdendescargadetalleComponent implements OnInit {
   actualizarTablaOrdenTemporal() {
     this.ordenTemporalService.GetOrdenTemporalIDOD(this.IdOrdenDescarga).subscribe(dataOrdenTemporal => {
       console.log(dataOrdenTemporal);
-      if (dataOrdenTemporal.length > 0) {
-        console.log('Si hay Movimientos en esta orden de Descarga');
-        this.listDataOrdenTemporal = new MatTableDataSource(dataOrdenTemporal);
-        this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
-        this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
-        this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
-      } else {
-        console.log('No hay Movimientos en esta orden de Descarga');
-        this.listDataOrdenTemporal = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
-        // this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
-        // this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
-        // this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+      if (this.ShowBuscar == false){
+        if (dataOrdenTemporal.length > 0) {
+          console.log('Si hay Movimientos en esta orden de Descarga');
+          this.listDataOrdenTemporal = new MatTableDataSource(dataOrdenTemporal);
+          this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
+          this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
+          this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+        } else {
+          console.log('No hay Movimientos en esta orden de Descarga');
+          this.listDataOrdenTemporal = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
+          // this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
+          // this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
+          // this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+        }
+      } else{
+        console.log("buscar true");
+        console.log(this.ShowBuscar);
+        console.log(this.qrsearch,'actualizar')
+        this.ordenTemporalService.GetOrdenTemporalIdqrOD(this.IdOrdenDescarga, this.qrsearch).subscribe(qrvalue => {
+          console.log(qrvalue);
+          this.listDataOrdenTemporal = new MatTableDataSource(qrvalue);
+          this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
+          this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
+          this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+        })
       }
+
     })
+
+
   }
 
   evidencia(){
@@ -183,8 +216,87 @@ ObtenerFolio(id: number) {
 
   }
 
+  BuscarTarimaQR(){
+    this.ShowBuscar = true;
+    this.dropdownRefresh();
+    // const dialogConfig = new MatDialogConfig();
+    // dialogConfig.disableClose = true;
+    // dialogConfig.autoFocus = true;
+    // dialogConfig.height = "90%";
+  
+    // this.dialog.open(OrdenDescargaEmailComponent, dialogConfig);
+
+  }
+
+  CloseBuscar(){
+    this.ShowBuscar = false;
+    this.qrsearch = "";
+    this.actualizarTablaOrdenTemporal();
+  }
 
 
+  // qr
+  private _filter(value: any): any[] {
+    console.log(value);
+this.qrsearch = value;
+console.log(this.qrsearch,"filtro");
+    const filterValue = value.toString().toLowerCase();
+    return this.options.filter(option =>
+      option.QR.toLowerCase().includes(filterValue));
+  }
+
+  dropdownRefresh() {
+    this.Tarimaservice.getTarima().subscribe(data => {
+      for (let i = 0; i < data.length; i++) {
+        let Qr = data[i];
+        this.listQR.push(Qr);
+        this.options.push(Qr)
+        this.filteredOptions = this.myControl.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filter(value))
+          );
+      }
+    });
+
+  }
+
+  //on blur se usa para que en caso de modificar el filtro no se borre el dato que esta dentro del select, limpia el arreglo y lo vuelve a llenar desde DB
+  onBlurQR() {
+    console.log('blur');
+    console.log(this.qrsearch,'blur');
+    this.listQR = [];
+    this.options = [];
+    // this.dropdownRefresh();
+    this.actualizarTablaOrdenTemporal();
+  }
+
+  onSelectionChange(options: Tarima, event: any) {
+    if (event.isUserInput) {
+      this.Tarimaservice.formDataDrop = options;
+    }
+  }
+
+  QRmodal(){
+
+    localStorage.setItem("QRtarima", this.qrsearch)
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(QrComponent, dialogConfig);
+  }
+
+  rowqr(row: OrdenTemporal){
+    console.log(row);
+    this.qrsearch = row.QR
+ localStorage.setItem("QRtarima", this.qrsearch);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(QrComponent, dialogConfig);
+  }
 
 
 

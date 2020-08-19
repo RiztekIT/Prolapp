@@ -18,6 +18,7 @@ import { OrdenCargaConceptoComponent } from '../../../pedidosalmacen/ordencargad
 import { OrdenDescargaConceptoComponent } from 'src/app/components/almacen/orden-descarga/ordendescargadetalle/ordendescargatarima/orden-descarga-concepto/orden-descarga-concepto.component';
 import { OrdenDecargaTarimaExistenteComponent } from '../../../../../components/almacen/orden-descarga/ordendescargadetalle/ordendescargatarima/orden-decarga-tarima-existente/orden-decarga-tarima-existente.component';
 import { map, startWith } from 'rxjs/operators';
+import { QrComponent } from 'src/app/components/qr/qr.component';
 
 
 
@@ -56,6 +57,8 @@ export class OrdendescargatarimaComponent implements OnInit {
   options: Tarima[] = [];
   POTSTE: any;
   show: boolean;
+
+  QRtarima;
 
 
 
@@ -658,6 +661,9 @@ let saldo = 0;
         TarimaTemp.QR = nanoid(7);
         TarimaTemp.Bodega = 'ELP';
         console.log(TarimaTemp, "TARIMA");
+// asignar valor a la variable de QR previamente creado
+        this.QRtarima = TarimaTemp.QR
+        localStorage.setItem("QRtarima", this.QRtarima);
 
         this.Tarimaservice.addTarima(TarimaTemp).subscribe(resAdd => {
           console.log(resAdd);
@@ -750,8 +756,35 @@ let saldo = 0;
           }
         })
       })
+
+      console.log(this.QRtarima);
+      
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width="70%";
+      this.dialog.open(QrComponent, dialogConfig);
+
+      
+      // Swal.fire({
+      //   title: 'Tarima Creada Correctamente',
+      //   icon: 'success',
+      //   text: 'QR: ' + this.QRtarima,
+      // });
       //fin de la insercion
+
     }
+  }
+
+  QRmodal(row: OrdenTemporal){
+    console.log(row);
+    this.QRtarima = row.QR
+ localStorage.setItem("QRtarima", this.QRtarima);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(QrComponent, dialogConfig);
   }
 
   // no regresa el saldo
@@ -1059,7 +1092,6 @@ let saldo = 0;
 
   // qr
   private _filter(value: any): any[] {
-    // Causa problema al borrar el codigo
     console.log(value);
 
     console.log(this.Tarimaservice.formDataDrop);
