@@ -246,7 +246,7 @@ console.log(this.qrsearch,"filtro");
   }
 
   dropdownRefresh() {
-    this.Tarimaservice.getTarima().subscribe(data => {
+    this.service.GetQROD(this.IdOrdenDescarga).subscribe(data => {
       for (let i = 0; i < data.length; i++) {
         let Qr = data[i];
         this.listQR.push(Qr);

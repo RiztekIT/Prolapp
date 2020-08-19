@@ -11,11 +11,18 @@
     </div>
 
     <div id="QR-PDF" class="card-body" style="text-align: center;">
-        <qrcode [qrdata]=QRtarima [width]=566></qrcode>
-        <!-- <ngx-qrcode qrc-element-type="url" [qrc-value]="QRString"></ngx-qrcode> -->
-        <!-- cambia el qr string que esta en el TS -->
-        <h4><strong> Codigo QR: </strong></h4>
-        <h1><strong>{{QRtarima}}</strong></h1>
+        <div class="row container">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <qrcode [qrdata]=QRtarima [size]=QRsize></qrcode>
+                <!-- <ngx-qrcode qrc-element-type="url" [qrc-value]="QRString"></ngx-qrcode> -->
+                <!-- cambia el qr string que esta en el TS -->
+                <h4><strong> Codigo QR: </strong></h4>
+                <h1><strong>{{QRtarima}}</strong></h1>
+
+            </div>
+            <div class="col-2"></div>
+        </div>
     </div>
     <div style="text-align: center;">
         <button style="margin-right: 10px;" class="btn btn-danger btn-lg" mat-raised-button type="button">
