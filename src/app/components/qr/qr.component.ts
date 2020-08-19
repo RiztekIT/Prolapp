@@ -17,6 +17,7 @@ QRsize:number;
 
   ngOnInit() {
     console.clear();
+    this.QRsize = 566;
     this.QRtarima = localStorage.getItem("QRtarima");
     console.log('this.QRtarima: ', this.QRtarima);
   }

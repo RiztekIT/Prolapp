@@ -34,6 +34,7 @@ npm install nanoid
 
 ## NGX-DROPZONE-WRAPPER
 npm i ngx-dropzone-wrapper
+
 ## Compresor de imagen
 npm i ngx-image-compress
 
@@ -51,3 +52,6 @@ npm i flatpickr
 
 ## Angular Service worker
 npm i @angular/service-worker
+
+## QR Scanner
+npm i @zxing/ngx-scanner@latest --save
