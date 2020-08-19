@@ -1,0 +1,35 @@
+<div style="height: 90vh;">
+    <div class="container row">
+        <div class="col-11"></div>
+
+        <div class="col-1">
+
+            <button mat-fab (click)="onClose()" class="btncoti">
+                <mat-icon>undo</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div id="QR-PDF" class="card-body" style="text-align: center;">
+        <div class="row container">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <qrcode [qrdata]=QRtarima [size]=QRsize></qrcode>
+                <!-- <ngx-qrcode qrc-element-type="url" [qrc-value]="QRString"></ngx-qrcode> -->
+                <!-- cambia el qr string que esta en el TS -->
+                <h4><strong> Codigo QR: </strong></h4>
+                <h1><strong>{{QRtarima}}</strong></h1>
+
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
+    <div style="text-align: center;">
+        <button style="margin-right: 10px;" class="btn btn-danger btn-lg" mat-raised-button type="button">
+            Cancelar
+        </button>
+        <button style="margin-left: 10px;" class="btn btn-success btn-lg" (click)="onExportClick()" mat-raised-button type="button">
+            Imprimir
+        </button>
+    </div>
+</div>

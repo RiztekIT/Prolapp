@@ -13,7 +13,7 @@ declare function editTableJS();
 @Component({
   selector: 'app-catalogos',
   templateUrl: './catalogos.component.html',
-  styles: []
+  styleUrls: ['./catalogos.component.css']  
 })
 export class CatalogosComponent implements OnInit {
   

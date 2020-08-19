@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule, MatToolbarModule } from '@angular/material';
+import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule, MatToolbarModule, MatTabsModule } from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
@@ -257,6 +257,7 @@ import { OrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/orden-
 import { EditOrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/edit-orden-carga-trafico/edit-orden-carga-trafico.component';
 import { DocumentacionComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-compras-importacion.component';
 import { DocumentacionImportacionVisorDocumentosComponent } from './importacion/documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
+import { QrComponent } from '../components/qr/qr.component';
 
 
 @NgModule({
@@ -433,7 +434,8 @@ import { DocumentacionImportacionVisorDocumentosComponent } from './importacion/
         DocumentacionFormularioImportacionComponent,
         OrdenCargaTraficoComponent,
         EditOrdenCargaTraficoComponent,
-        DocumentacionImportacionVisorDocumentosComponent
+        DocumentacionImportacionVisorDocumentosComponent,
+        QrComponent
     
     ],
     exports: [
@@ -482,7 +484,8 @@ import { DocumentacionImportacionVisorDocumentosComponent } from './importacion/
         NgbModalModule,
         FlatpickrModule.forRoot(),
         CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
-        MatToolbarModule
+        MatToolbarModule,
+        MatTabsModule
     ],
     providers: [
         UsuariosServieService,
@@ -564,7 +567,8 @@ import { DocumentacionImportacionVisorDocumentosComponent } from './importacion/
         AddEditCalendarComponent,
         EventCalendarComponent,
         EditOrdenCargaTraficoComponent,
-        DocumentacionImportacionVisorDocumentosComponent
+        DocumentacionImportacionVisorDocumentosComponent,
+        QrComponent,
         
         
     ]

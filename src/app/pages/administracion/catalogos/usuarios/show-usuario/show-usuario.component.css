@@ -27,3 +27,13 @@ button {
 table {
     width: 100%;
 }
+
+.btn-prolacto {
+    background-color: black;
+    color: white
+}
+
+.btn-prolacto:hover {
+    background-color: white;
+    color: black
+}

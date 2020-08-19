@@ -96,6 +96,10 @@ export class OrdenCargaService {
   getDireccionesCliente(id: number): Observable<ClienteDireccion[]> {
     return this.http.get<ClienteDireccion[]>(APIUrl + '/Pedido/DireccionCliente/' + id);
   }
+//agregar chofer a una OC ya creada
+  updatedetalleOrdenCargaChofer(Id: number, Chofer: string) {
+    return this.http.put(APIUrl + '/OrdenCarga/ChoferDetalle/' + Id + '/' + Chofer, null);
+  }
 
   /* *************************************************** */
   /* *************************************************** */
