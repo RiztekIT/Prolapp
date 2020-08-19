@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material';
 
 
 declare function steps();
@@ -49,10 +50,18 @@ export class EmbarqueImportacionComponent implements OnInit {
 ];
 
   constructor(public router: Router) { }
+  listData: MatTableDataSource<any>;
+  displayedColumns: string[] = ['Folio', 'Nombre', 'Subtotal', 'Total', 'Moneda', 'FechaDeExpedicion', 'Estatus','Options'];
 
   ngOnInit() {
-    steps();
-    upload();
+  }
+
+  applyFilter(filtervalue: string) {
+    this.listData.filterPredicate = (data, filter: string) => {
+      return data.Nombre.toString().toLowerCase().includes(filter) || data.IdCotizacion.toString().includes(filter);
+    };
+    this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+
   }
 
 }

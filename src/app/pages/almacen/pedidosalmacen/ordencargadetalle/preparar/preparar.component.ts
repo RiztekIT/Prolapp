@@ -216,8 +216,8 @@ export class PrepararComponent implements OnInit {
     // this.QRdata.IdTarima = 0;
     // this.QRdata.Sacos = '150';
     // this.QRdata.PesoTotal = '3000'; 
-    this.QRdata.QR = 'ab4rwB-';
-    // this.QRdata.QR = qrleido;
+    //this.QRdata.QR = 'ab4rwB-';
+     this.QRdata.QR = qrleido;
     console.log(this.QRdata);
 
     //igualar en 0s el arreglo que se encuentra en el servicio
