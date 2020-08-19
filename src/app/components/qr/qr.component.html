@@ -11,7 +11,7 @@
     </div>
 
     <div id="QR-PDF" class="card-body" style="text-align: center;">
-        <qrcode [qrdata]=QRtarima [width]=566></qrcode>
+        <qrcode [qrdata]=QRtarima [size]=566></qrcode>
         <!-- <ngx-qrcode qrc-element-type="url" [qrc-value]="QRString"></ngx-qrcode> -->
         <!-- cambia el qr string que esta en el TS -->
         <h4><strong> Codigo QR: </strong></h4>
@@ -22,7 +22,13 @@
             Cancelar
         </button>
         <button style="margin-left: 10px;" class="btn btn-success btn-lg" (click)="onExportClick()" mat-raised-button type="button">
+            PDF
+        </button>
+        <button style="margin-left: 10px;" class="btn btn-success btn-lg" printSectionId="QR-PDF" ngxPrint mat-raised-button type="button">
             Imprimir
         </button>
     </div>
+    <br>
+    <br>
+    <br>
 </div>

@@ -258,6 +258,7 @@ import { EditOrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/ed
 import { DocumentacionComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-compras-importacion.component';
 import { DocumentacionImportacionVisorDocumentosComponent } from './importacion/documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
 import { QrComponent } from '../components/qr/qr.component';
+import {NgxPrintModule} from 'ngx-print';
 
 
 @NgModule({
@@ -485,7 +486,8 @@ import { QrComponent } from '../components/qr/qr.component';
         FlatpickrModule.forRoot(),
         CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
         MatToolbarModule,
-        MatTabsModule
+        MatTabsModule,
+        NgxPrintModule
     ],
     providers: [
         UsuariosServieService,
