@@ -1,1 +1,33 @@
-<p>documentosalmacen works!</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+
+
+
+                <mat-tab-group color="#2d5b9e" animationDuration="0ms" mat-align-tabs="end">
+
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">person_pin_circle</mat-icon>
+                            Documentos Aduanales
+                        </ng-template>
+                        <app-documentacion-importacion></app-documentacion-importacion>
+                    </mat-tab>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">person_pin_circle</mat-icon>
+                            Documentos Certificados
+                        </ng-template>
+                        <app-documentacion-compras-importacion></app-documentacion-compras-importacion>
+                    </mat-tab>
+
+                </mat-tab-group>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
