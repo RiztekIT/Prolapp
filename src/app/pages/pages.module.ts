@@ -259,7 +259,7 @@ import { DocumentacionComprasImportacionComponent } from './importacion/document
 import { DocumentacionImportacionVisorDocumentosComponent } from './importacion/documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
 import { QrComponent } from '../components/qr/qr.component';
 import { IncidenciaAlmacenComponent } from '../components/almacen/incidencia-almacen/incidencia-almacen.component';
-
+import {NgxPrintModule} from 'ngx-print';
 
 
 @NgModule({
@@ -488,7 +488,8 @@ import { IncidenciaAlmacenComponent } from '../components/almacen/incidencia-alm
         FlatpickrModule.forRoot(),
         CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
         MatToolbarModule,
-        MatTabsModule
+        MatTabsModule,
+        NgxPrintModule
     ],
     providers: [
         UsuariosServieService,

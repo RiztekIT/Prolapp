@@ -11,7 +11,7 @@
 <hr>
 
 
-<div style="overflow: auto; height: 450px;">
+<div>
 
 
     <!-- <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off"> -->
@@ -23,10 +23,7 @@
                 <div class="row">
                     <div class="col-lg-12">
 
-                        <label class="input-group-text text-info">Folio Documento</label>
-                        <input required type="text" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="incidenciasService.incidenciaObject.FolioProcedencia">
-                        <!-- <input  type="text" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="incidenciasService.incidenciaObject.Folio" (blur)="onBlurFolio()"> -->
-                        <br>
+
 
                         <label class="input-group-text text-info">Procedencia:</label>
                         <mat-form-field>
@@ -37,6 +34,10 @@
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
+                        <br>
+                        <label class="input-group-text text-info">Folio Documento</label>
+                        <input required type="text" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="incidenciasService.incidenciaObject.FolioProcedencia" (blur)="obtenerInformacionOrden(incidenciasService.incidenciaObject.Procedencia)">
+                        <!-- <input  type="text" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="incidenciasService.incidenciaObject.Folio" (blur)="onBlurFolio()"> -->
                         <br>
 
                         <label class="input-group-text text-info">Producto :</label> <br>
@@ -91,6 +92,40 @@
                         <!-- <mat-checkbox #checkboxnT [(checked)]="nuevaTarima" (change)='changeNuevaTarima(checkboxnT.checked)'></mat-checkbox> -->
 
                     </div>
+
+
+                    <div class="form-material mat-elevation-z5">
+                        <div class="card-body">
+                            <ngx-dropzone [disabled]="form.invalid || procedenciaSeleccionada.length == 0 || detalleSeleccionado.length == 0 || tipoIncidenciaSeleccionada.length == 0 || estatusSeleccionado.length == 0" (change)="onSelect($event)">
+                                <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                                <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                                    <ngx-dropzone-label> {{ f.type }}</ngx-dropzone-label>
+                                </ngx-dropzone-image-preview>
+                            </ngx-dropzone>
+                            <!-- <hr> -->
+                            <div class="text-left text-danger" *ngIf="imagenSeleccionada == false">
+                                No hay ninguna imagen seleccionada.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row fotos">
+                        <!-- <div class="row" style=" overflow-x: scroll; overflow-y: scroll"> -->
+                        <div class="d-flex flex-wrap ">
+                            <div class="card containercard col-12 col-lg-3 " *ngFor="let image of imageInfo">
+                                <div class="imgcontainer">
+                                    <img [src]="image.ImagePath" class="img-fluid img-responsive imgblur">
+                                    <button class="btn-danger boton" (click)="deleteImage(image.ImageName)">
+      <mat-icon>close</mat-icon>
+    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
                 </div>
                 <br>
                 <button class="btn btn-success" mat-raised-button color="success" (click)="guardarIncidencia()" [disabled]="form.invalid || procedenciaSeleccionada.length == 0 || detalleSeleccionado.length == 0 || tipoIncidenciaSeleccionada.length == 0 || estatusSeleccionado.length == 0">Generar Incidencia</button>

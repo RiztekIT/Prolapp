@@ -63,18 +63,36 @@ getListOrdenCargaId(id: number): Observable <any[]>{
 getListOrdenDescargaId(id: number): Observable <any[]>{
   return this.http.get<any[]>(APIUrl + '/Incidencias/GetListOrdenesDescargaId/'+id);
 }
+//Obtener detalleOrdenCarga Id / Iddetalle
+getDetalleOrdenCargaIddetalle(id: number, iddetalle:number): Observable <any[]>{
+  return this.http.get<any[]>(APIUrl + '/Incidencias/GetDetalleCargaIdDetalle/'+id+'/'+iddetalle);
+}
+//Obtener detalleOrdenDescarga Id / Iddetalle
+getDetalleOrdenDescargaIddetalle(id: number, iddetalle:number): Observable <any[]>{
+  return this.http.get<any[]>(APIUrl + '/Incidencias/GetDetalleDescargaIdDetalle/'+id+'/'+iddetalle);
+}
+
 
 //Insert Incidencia
 addIncidencia(incidencia: Incidencias) {
   return this.http.post(APIUrl + '/incidencias', incidencia);
 }
-//Update Documento
-updateDocumento(incidencia: Incidencias) {
+//Update Incidencia
+updateIncidencia(incidencia: Incidencias) {
   return this.http.put(APIUrl+ '/incidencias', incidencia);
   }
   //Eliminar Incidencia por IdIncidencia
   deleteIncidencia(id: number){
-    return this.http.delete(APIUrl+ '/Documentos/BorrarIncidencia/' + id);
+    return this.http.delete(APIUrl+ '/Incidencias/BorrarIncidencia/' + id);
   }
+
+  private _listeners = new Subject<any>(); 
+  listen(): Observable<any> {
+    return this._listeners.asObservable();
+  }
+  filter(filterBy: string) {
+    this._listeners.next(filterBy);
+  }
+
 
 }

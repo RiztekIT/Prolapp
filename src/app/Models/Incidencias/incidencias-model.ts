@@ -4,7 +4,7 @@ export class Incidencias {
     FolioProcedencia: number
     TipoIncidencia: string
     Procedencia: string
-    IdDetalle: string 
+    IdDetalle: number 
     Cantidad: string
     Estatus: string 
     FechaElaboracion: Date

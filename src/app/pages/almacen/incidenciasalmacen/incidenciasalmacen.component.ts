@@ -14,7 +14,15 @@ import { IncidenciaAlmacenComponent } from '../../../components/almacen/incidenc
 })
 export class IncidenciasalmacenComponent implements OnInit {
 
-  constructor(public router: Router, public incidenciasService: IncidenciasService,  private dialog: MatDialog,) { }
+  constructor(public router: Router, public incidenciasService: IncidenciasService,  private dialog: MatDialog,) {
+
+    this.incidenciasService.listen().subscribe((m:any)=>{
+      // console.log(m);
+      this.obtenerIncidenciasOrdenCarga();
+      this.obtenerIncidenciasOrdenDescarga();
+      });
+
+   }
 
   ngOnInit() {
     this.obtenerIncidenciasOrdenCarga();
