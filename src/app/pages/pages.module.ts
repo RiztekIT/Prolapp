@@ -258,6 +258,8 @@ import { EditOrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/ed
 import { DocumentacionComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-compras-importacion.component';
 import { DocumentacionImportacionVisorDocumentosComponent } from './importacion/documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
 import { QrComponent } from '../components/qr/qr.component';
+import { EvidenciasOCComponent } from './calidad/evidencias/evidencias-oc/evidencias-oc.component';
+import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/evidencias-od.component';
 
 
 @NgModule({
@@ -435,7 +437,9 @@ import { QrComponent } from '../components/qr/qr.component';
         OrdenCargaTraficoComponent,
         EditOrdenCargaTraficoComponent,
         DocumentacionImportacionVisorDocumentosComponent,
-        QrComponent
+        QrComponent,
+        EvidenciasOCComponent,
+        EvidenciasODComponent
     
     ],
     exports: [

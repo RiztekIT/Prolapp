@@ -94,7 +94,8 @@ import { DocumentacionFormularioImportacionComponent } from './importacion/docum
 import { DocumentacionFormularioComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-formulario-compras-importacion/documentacion-formulario-compras-importacion.component';
 import { OrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/orden-carga-trafico.component';
 import { DocumentacionComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-compras-importacion.component';
-
+import { EvidenciasOCComponent } from './calidad/evidencias/evidencias-oc/evidencias-oc.component';
+import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/evidencias-od.component';
 
 
 
@@ -201,6 +202,8 @@ const pagesRoutes: Routes = [
                 { path: 'documentacion-formulario-importacion', component: DocumentacionFormularioImportacionComponent },
                 { path: 'documentacion-formulario-compras-importacion', component: DocumentacionFormularioComprasImportacionComponent },
                 { path: 'ordencargatrafico', component: OrdenCargaTraficoComponent },
+                { path: 'evidenciasoc', component: EvidenciasOCComponent },
+                { path: 'evidenciasod', component: EvidenciasODComponent },
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },

@@ -87,4 +87,6 @@ updateImagen(imagen: Imagenes) {
           }
 
       //Conectar con el servidor NODEJS para guardar, obtener Imagen(es)
+
+      
 }

@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <h3 class="text-muted m-t-10 m-b-0">Evidencias Orden Descarga</h3>
+                    <div>
+                        <h4>Folio: <strong>{{FolioOD}}</strong></h4>
+                    </div>
+                    <div>
+                        <p>Origen: <strong>{{OrigenOD}}</strong></p>
+                    </div>
+                    <div>
+                        <p>Destino: <strong>{{DestinoOD}}</strong></p>
+                    </div>
+                    <div>
+                        Estatus:
+                        <p [ngSwitch]=estatusOD>
+                            <span *ngSwitchCase="'Descargada'" class="label label-light-info">DESCARGADA</span>
+                            <span *ngSwitchCase="'Proceso'" class="label label-light-danger">PROCESO</span>
+                            <span *ngSwitchCase="'Transito'" class="label label-light-info">TRANSITO</span>
+
+                            <!-- <span *ngSwitchCase="'Cargada'" class="label label-light-inverse">CARGADA</span>
+                                                                <span *ngSwitchCase="'Terminada'" class="label label-light-inverse">TERMINADA</span> -->
+                        </p>
+
+
+                    </div>
+                    <!-- <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button> -->
+                    <button mat-fab (click)="regresar()" class="btncoti">
+            <mat-icon>undo</mat-icon>
+          </button>
+
+                </div>
+
+                <hr>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="container row">
+                            <div class="card containercard col-12 col-lg-3" *ngFor="let image of imageInfo">
+                                <div class="imgcontainer">
+                                    <img [src]="image.ImagePath" class="img-fluid img-responsive ">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
