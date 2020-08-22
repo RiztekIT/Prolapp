@@ -260,6 +260,8 @@ import { DocumentacionImportacionVisorDocumentosComponent } from './importacion/
 import { QrComponent } from '../components/qr/qr.component';
 import { EvidenciasOCComponent } from './calidad/evidencias/evidencias-oc/evidencias-oc.component';
 import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/evidencias-od.component';
+import { IncidenciaAlmacenComponent } from '../components/almacen/incidencia-almacen/incidencia-almacen.component';
+import {NgxPrintModule} from 'ngx-print';
 
 
 @NgModule({
@@ -439,7 +441,8 @@ import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/eviden
         DocumentacionImportacionVisorDocumentosComponent,
         QrComponent,
         EvidenciasOCComponent,
-        EvidenciasODComponent
+        EvidenciasODComponent,
+        IncidenciaAlmacenComponent,
     
     ],
     exports: [
@@ -489,7 +492,8 @@ import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/eviden
         FlatpickrModule.forRoot(),
         CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
         MatToolbarModule,
-        MatTabsModule
+        MatTabsModule,
+        NgxPrintModule
     ],
     providers: [
         UsuariosServieService,
@@ -573,7 +577,7 @@ import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/eviden
         EditOrdenCargaTraficoComponent,
         DocumentacionImportacionVisorDocumentosComponent,
         QrComponent,
-        
+        IncidenciaAlmacenComponent,
         
     ]
 })

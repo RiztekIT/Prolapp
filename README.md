@@ -55,3 +55,6 @@ npm i @angular/service-worker
 
 ## QR Scanner
 npm i @zxing/ngx-scanner@latest --save
+
+## NGX PRINT
+npm i ngx-print

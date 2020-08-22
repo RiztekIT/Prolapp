@@ -24,6 +24,8 @@ export class DocumentosImportacionService {
   //Se asigna al agregar documemnto
   folioOrdenDescarga: number;
 
+  folioCompras: number;
+
   fileUrl: any;
 
   //Obtener Documentos
@@ -46,6 +48,10 @@ getDetalleOrdenDescargaId(id: number): Observable <any[]>{
 getOrdenDescargaFolio(folio: number): Observable <OrdenDescarga[]>{
   return this.http.get<OrdenDescarga[]>(APIUrl + '/Documentos/GetOrdenDescargaFolio/'+folio);
 }
+//Obtener Compra por Folio y estatus Terminada
+getCompraFolio(folio: number): Observable <Compras[]>{
+  return this.http.get<Compras[]>(APIUrl + '/Documentos/GetCompraFolio/'+folio);
+}
 //Obtener Documento por Folio, Tipo y Modulo
 getDocumentoFolioTipoModulo(folio: number, tipo: string, modulo: string):Observable<Documento[]>{
   return this.http.get<Documento[]>(APIUrl + '/Documentos/GetDocumentoFolioTipo/'+folio+'/'+tipo+'/'+modulo);
@@ -59,8 +65,8 @@ getComprasTerminadas(): Observable <Compras[]>{
   return this.http.get<Compras[]>(APIUrl + '/Documentos/GetComprasTerminadas');
 }
 //Obtener detalleCompras por IdCompra
-getDetalleCompraId(id: number): Observable <DetalleCompra[]>{
-  return this.http.get<DetalleCompra[]>(APIUrl + '/Documentos/GetDetalleCompraId/'+id);
+getDetalleCompraId(id: number): Observable <any[]>{
+  return this.http.get<any[]>(APIUrl + '/Documentos/GetDetalleCompraId/'+id);
 }
 //Obtener Join Compras Terminadas con Documento
 getJoinDcD(id: number, clave: string):Observable<any[]>{

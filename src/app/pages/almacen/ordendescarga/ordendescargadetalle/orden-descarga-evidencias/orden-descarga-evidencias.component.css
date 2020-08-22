@@ -52,7 +52,7 @@
     }
     .img-responsive {
         width: auto;
-        height: 300px;
+        /* height: 300px; */
         transition: .5s -webkit-filter;
         transition: .5s filter;
     }
@@ -67,6 +67,10 @@
         /* height: 300px; */
         transition: .5s -webkit-filter;
         transition: .5s filter;
+    }
+    .fotos {
+        overflow-x: scroll;
+        /* overflow-y: scroll */
     }
 }
 

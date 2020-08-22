@@ -32,7 +32,8 @@ export class DocumentacionImportacionComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
   displayedColumns: string[] = ['Folio', 'PO', 'Sacos', 'Fletera', 'Origen', 'FechaDescarga', 'Options'];
-  displayedColumnsVersion: string[] = ['ClaveProducto', 'Sacos', 'Lote', 'USDA', 'Pedimento', 'Documentos'];
+  // displayedColumnsVersion: string[] = ['ClaveProducto', 'Sacos', 'Lote', 'USDA', 'Pedimento', 'Documentos'];
+  displayedColumnsVersion: string[] = ['ClaveProducto', 'Sacos', 'Lote', 'USDA', 'Pedimento'];
   expandedElement: any;
   detalle = new Array<any>();
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
@@ -62,25 +63,26 @@ export class DocumentacionImportacionComponent implements OnInit {
               // console.log(l);
               // console.log( detalleOrdenDescarga[l]);
               // let joinDescargaDocumento = dataOD[l];
+              // console.log(element);
               let joinDescargaDocumento = element;
+              console.log(joinDescargaDocumento);
               // console.log(detalleOrdenDescarga[l]);
-              console.log(element);
-               this.documentosService.getJoinDodD(element.IdDetalleOrdenDescarga, element.ClaveProducto).subscribe(dataJoin => {
-                console.log(dataJoin);
-              //   // console.log(joinDescargaDocumento);
-                if (dataJoin.length > 0) {
-                  joinDescargaDocumento.Documento = true;
-                  console.log('si hay documento');
-                } else {
-                  joinDescargaDocumento.Documento = false;
-                  console.log('no hay documento');
-                }
+              //  this.documentosService.getJoinDodD(element.IdDetalleOrdenDescarga, element.ClaveProducto).subscribe(dataJoin => {
+              //   console.log(dataJoin);
+              // //   // console.log(joinDescargaDocumento);
+              //   if (dataJoin.length > 0) {              
+              //     joinDescargaDocumento.Documento = true;
+              //     console.log('si hay documento');                  
+              //   } else {
+              //     joinDescargaDocumento.Documento = false;
+              //     console.log('no hay documento');
+              //   }
                 this.documentosService.master[i].detalleDocumento.push(joinDescargaDocumento);
                 this.listData = new MatTableDataSource(this.documentosService.master);
                 this.listData.sort = this.sort;
                 // this.listData.paginator = this.paginator;
                 //         // console.log(this.documentosService.master);
-              })
+              // })
           });
           })
         }

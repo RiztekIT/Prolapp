@@ -1,0 +1,143 @@
+<div class="d-flex justify-content-between m-2">
+    <h4>Generar Incidencia</h4>
+
+    <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+</button>
+
+
+</div>
+
+<hr>
+
+
+<div>
+
+
+    <!-- <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off"> -->
+    <form #form="ngForm" autocomplete="off">
+
+
+        <div class="form-material">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+
+
+
+                        <label class="input-group-text text-info">Procedencia:</label>
+                        <mat-form-field>
+                            <input type="text" placeholder="Seleccionar Procedencia" aria-label="Number" [formControl]="myControlProcedencia" [(ngModel)]="incidenciasService.incidenciaObject.Procedencia" matInput [matAutocomplete]="autoProcedencia">
+                            <mat-autocomplete #autoProcedencia="matAutocomplete">
+                                <mat-option *ngFor="let option of listProcedencias" [value]="option.procedencia" (onSelectionChange)="onSelectionChangeProcedencia(option.procedencia, $event)">
+                                    {{option.procedencia}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <br>
+                        <label class="input-group-text text-info">Folio Documento</label>
+                        <input required type="text" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="incidenciasService.incidenciaObject.FolioProcedencia" (blur)="obtenerInformacionOrden(incidenciasService.incidenciaObject.Procedencia)">
+                        <!-- <input  type="text" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="incidenciasService.incidenciaObject.Folio" (blur)="onBlurFolio()"> -->
+                        <br>
+
+                        <label class="input-group-text text-info">Producto :</label> <br>
+                        <mat-form-field>
+                            <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControlDetalles" [(ngModel)]="detalleSeleccionado" matInput [matAutocomplete]="autoProducto">
+                            <mat-autocomplete #autoProducto="matAutocomplete">
+                                <mat-option required *ngFor="let option of filteredOptionsDetalles | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChangeDetalle(option, $event)">
+                                    {{option.ClaveProducto}} || {{option.Producto}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <br>
+                        <label class="input-group-text text-info">Tipo Incidencia:</label>
+                        <mat-form-field>
+                            <input type="text" placeholder="Seleccionar Incidencia" aria-label="Number" [formControl]="myControlTipoIncidencia" [(ngModel)]="tipoIncidenciaSeleccionada" matInput [matAutocomplete]="autoTipoIncidencia">
+                            <mat-autocomplete #autoTipoIncidencia="matAutocomplete">
+                                <mat-option required *ngFor="let option of listTipoIncidencia" [value]="option.tipo" (onSelectionChange)="onSelectionChangeTipoIncidencia(option, $event)">
+                                    {{option.tipo}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <br>
+                        <label class="input-group-text text-info">Estatus:</label>
+                        <mat-form-field>
+                            <input type="text" placeholder="Seleccionar Estatus" aria-label="Number" [formControl]="myControlEstatus" [(ngModel)]="estatusSeleccionado" matInput [matAutocomplete]="autoEstatus">
+                            <mat-autocomplete #autoEstatus="matAutocomplete">
+                                <mat-option required *ngFor="let option of listEstatus" [value]="option.estado">
+                                    {{option.estado}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <br>
+                        <!-- <label class="input-group-text text-info">Producto</label> -->
+                        <!-- <input readonly="readonly" type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="producto"> -->
+
+
+
+                        <label class="input-group-text text-info">Cantidad Sacos</label>
+                        <input required type="number" class="form-control" name="cantidadSacos" #cantidadSacos="ngModel" (ngModelChange)="onChangeCantidadSacos($event)" [(ngModel)]="Cantidad">
+
+                        <label class="input-group-text text-info">Observaciones</label>
+                        <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="incidenciasService.incidenciaObject.Observaciones">
+
+                        <!-- <label class="input-group-text text-info">Sacos</label>
+                            <input required type="number" class="form-control" name="Sacos" [(ngModel)]="cantidadSacos"> -->
+                        <!-- 
+                                <div class="text-left text-danger" *ngIf="Sacos.invalid && Sacos.touched">
+                                    Favor de Ingresar un valor.
+                                </div> -->
+
+                        <!-- <label class="input-group-text text-info">Nueva Tarima?</label> -->
+                        <!-- <mat-checkbox #checkboxnT [(checked)]="nuevaTarima" (change)='changeNuevaTarima(checkboxnT.checked)'></mat-checkbox> -->
+
+                    </div>
+
+
+                    <div class="form-material mat-elevation-z5">
+                        <div class="card-body">
+                            <ngx-dropzone [disabled]="form.invalid || procedenciaSeleccionada.length == 0 || detalleSeleccionado.length == 0 || tipoIncidenciaSeleccionada.length == 0 || estatusSeleccionado.length == 0" (change)="onSelect($event)">
+                                <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                                <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                                    <ngx-dropzone-label> {{ f.type }}</ngx-dropzone-label>
+                                </ngx-dropzone-image-preview>
+                            </ngx-dropzone>
+                            <!-- <hr> -->
+                            <div class="text-left text-danger" *ngIf="imagenSeleccionada == false">
+                                No hay ninguna imagen seleccionada.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row fotos">
+                        <!-- <div class="row" style=" overflow-x: scroll; overflow-y: scroll"> -->
+                        <div class="d-flex flex-wrap ">
+                            <div class="card containercard col-12 col-lg-3 " *ngFor="let image of imageInfo">
+                                <div class="imgcontainer">
+                                    <img [src]="image.ImagePath" class="img-fluid img-responsive imgblur">
+                                    <button class="btn-danger boton" (click)="deleteImage(image.ImageName)">
+      <mat-icon>close</mat-icon>
+    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <br>
+                <button class="btn btn-success" mat-raised-button color="success" (click)="guardarIncidencia()" [disabled]="form.invalid || procedenciaSeleccionada.length == 0 || detalleSeleccionado.length == 0 || tipoIncidenciaSeleccionada.length == 0 || estatusSeleccionado.length == 0">Generar Incidencia</button>
+                <!-- <div *ngIf="this.tarimaDValida == true">
+          
+                </div>
+                <div *ngIf="this.tarimaDValida == false && this.nuevaTarima == true">
+                  
+                    <button class="btn btn-success" mat-raised-button color="success" (click)="onSubmit()" [disabled]="form.invalid">Traspasar</button>
+                </div> -->
+                <br>
+            </div>
+        </div>
+    </form>
+</div>

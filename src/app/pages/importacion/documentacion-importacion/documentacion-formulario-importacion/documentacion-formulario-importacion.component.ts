@@ -254,10 +254,11 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
               this.seleccionados = []
               this.listDataDetalles = new MatTableDataSource(this.seleccionados);
               this.listDataSeleccionados = new MatTableDataSource(this.seleccionados);
-              this.clearFolio();
+              // this.clearFolio();
               this.clearTipoDocumento();
               this.events = [];
               this.files = [];
+              this.archivos = [];
               Swal.fire({
                 title: 'Documentos Guardados',
                 icon: 'success',
@@ -275,10 +276,11 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
                   this.seleccionados = []
                   this.listDataDetalles = new MatTableDataSource(this.seleccionados);
                   this.listDataSeleccionados = new MatTableDataSource(this.seleccionados);
-                  this.clearFolio();
+                  // this.clearFolio();
                   this.clearTipoDocumento();
                   this.events = [];
                   this.files = [];
+                  this.archivos = [];
                   Swal.fire({
                     title: 'Documentos Guardados',
                     icon: 'success',
