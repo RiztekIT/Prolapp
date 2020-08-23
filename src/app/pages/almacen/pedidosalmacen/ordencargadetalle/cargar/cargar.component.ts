@@ -8,6 +8,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
 import Swal from 'sweetalert2';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
 
 @Component({
   selector: 'app-cargar',
@@ -332,6 +333,7 @@ export class CargarComponent implements OnInit {
         if (res[0].Estatus == 'Preparada') {
           this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(resq => {
             console.log(resq)
+            
             this.router.navigate(['/ordencargadetalle']);
           })
         }

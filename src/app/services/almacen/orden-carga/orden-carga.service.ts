@@ -57,6 +57,9 @@ export class OrdenCargaService {
   getOrdenCargaIDList(id: number): Observable<DetalleOrdenCarga[]> {
     return this.http.get<DetalleOrdenCarga[]>(APIUrl + '/OrdenCarga/MasterID/' + id);
   }
+  getOrdenCargaIDList2(id: number): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/OrdenCarga/ordenCargaTemporal/' + id);
+  }
   //Obtener Detalle Orden Carga por ID Orden Carga, LOTE y Clave Producto
   getDetalleOrdenCargaIdLoteClave(id: number, lote: string, clave: string): Observable<DetalleOrdenCarga[]> {
     return this.http.get<DetalleOrdenCarga[]>(APIUrl + '/OrdenCarga/DetalleOrdenCarga/' + id + '/' + lote + '/' + clave);

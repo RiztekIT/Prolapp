@@ -75,10 +75,9 @@ if (this.estatusSelect==='Todos'){
 
   public listEstatus: Array<Object> = [
     { Estatus: 'Todos' },
-    { Estatus: 'Guardada' },
-    { Estatus: 'Descargada' },
-    { Estatus: 'Proceso' },
-    { Estatus: 'Transito' }
+    { Estatus: 'Creada' },
+    { Estatus: 'Preparada' },
+    { Estatus: 'Cargada' }    
   ];
 
   applyFilter2(filtervalue: string) {

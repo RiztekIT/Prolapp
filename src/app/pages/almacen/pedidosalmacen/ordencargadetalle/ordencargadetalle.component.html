@@ -8,12 +8,15 @@
                     <h3 class="text-muted m-t-10 m-b-0">Detalle de la Orden de Carga</h3>
                     <div>
                         Estatus:
-                        <p [ngSwitch]=estatusOC>
-                            <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
-                            <span *ngSwitchCase="'Preparada'" class="label label-light-danger">PREPARADA</span>
+                        <p [ngSwitch]=this.service.formData.Estatus>
+                            <span *ngSwitchCase="'Creada'" class="label label-light-success">CREADA</span>
+                            <span *ngSwitchCase="'Preparada'" class="label label-light-info">PREPARADA</span>
                             <span *ngSwitchCase="'Cargada'" class="label label-light-inverse">CARGADA</span>
                             <span *ngSwitchCase="'Terminada'" class="label label-light-inverse">TERMINADA</span>
+
                         </p>
+
+
 
 
                     </div>
@@ -165,7 +168,7 @@
                                     <div style="display: grid;" class="col-0 col-md-4">
                                         <br>
                                     </div>
-                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="estatusOC == 'Creada'|| estatusOC == 'Preparada' || estatusOC == 'Cargada' || estatusOC == 'Enviada'|| estatusOC == 'Terminada'">
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Creada'">
                                         <button id="PrepararCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
                                         <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="preparar()">Preparar</button>
                                         <!-- <p><button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="preparar()"><mat-icon>undo</mat-icon>Preparar</button></p> -->
@@ -174,17 +177,17 @@
 
                                         <br>
                                     </div>
-                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="estatusOC == 'Creada'|| estatusOC == 'Preparada' || estatusOC == 'Cargada' ||  estatusOC == 'Enviada'|| estatusOC == 'Terminada'">
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Preparada' ">
                                         <button id="CargarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
                                         <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="cargar()">Cargar</button>
                                         <br>
                                     </div>
-                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="estatusOC == 'Creada'|| estatusOC == 'Cargada'|| estatusOC == 'Enviada' || estatusOC == 'Terminada'">
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' || estatusOC == 'Terminada'">
                                         <button id="EnviarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
                                         <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="enviar()">Enviar</button>
                                         <br>
                                     </div>
-                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="estatusOC == 'Creada'|| estatusOC == 'Enviada' || estatusOC == 'Terminada'">
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada'">
                                         <button id="TerminarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
                                         <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="terminar()">Terminar</button>
                                         <br>

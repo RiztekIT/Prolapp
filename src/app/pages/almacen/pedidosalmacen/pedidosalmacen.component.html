@@ -123,9 +123,18 @@
                             </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="Estatus">
+                        <!--    <ng-container matColumnDef="Estatus">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
                             <td mat-cell *matCellDef="let element">{{element.Estatus}}
+                            </td>
+                        </ng-container> -->
+
+                        <ng-container matColumnDef="Estatus">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                            <td mat-cell *matCellDef="let element" [ngSwitch]=element.Estatus>
+                                <span *ngSwitchCase="'Creada'" class="label label-light-success">CREADA</span>
+                                <span *ngSwitchCase="'Preparada'" class="label label-light-info">PREPARADA</span>
+                                <span *ngSwitchCase="'Cargada'" class="label label-light-inverse">CARGADA</span>
                             </td>
                         </ng-container>
 

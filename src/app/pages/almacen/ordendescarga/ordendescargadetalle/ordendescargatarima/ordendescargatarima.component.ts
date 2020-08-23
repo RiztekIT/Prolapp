@@ -659,7 +659,7 @@ let saldo = 0;
         TarimaTemp.Sacos = sacosTarima.toString();
         TarimaTemp.PesoTotal = PesoTotalTarima.toString();
         TarimaTemp.QR = nanoid(7);
-        TarimaTemp.Bodega = 'ELP';
+        TarimaTemp.Bodega = 'PasoTx';
         console.log(TarimaTemp, "TARIMA");
 // asignar valor a la variable de QR previamente creado
         this.QRtarima = TarimaTemp.QR

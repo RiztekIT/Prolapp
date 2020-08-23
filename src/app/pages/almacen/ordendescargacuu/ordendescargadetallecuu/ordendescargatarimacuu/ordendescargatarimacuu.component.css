@@ -59,3 +59,13 @@ tr.example-element-row:not(.example-expanded-row):active {
 .folio {
     cursor: pointer;
 }
+
+.btncoti {
+    background-color: #000000;
+    color: white
+}
+
+.btncoti:hover {
+    background-color: white;
+    color: black;
+}

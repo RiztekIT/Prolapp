@@ -17,6 +17,7 @@ import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
 import { QrComponent } from 'src/app/components/qr/qr.component';
 import { OrdenTemporal } from 'src/app/Models/almacen/OrdenTemporal/ordenTemporal-model';
 
+
 @Component({
   selector: 'app-ordendescargadetalle',
   templateUrl: './ordendescargadetalle.component.html',
