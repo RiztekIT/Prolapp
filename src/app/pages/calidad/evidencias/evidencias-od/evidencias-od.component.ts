@@ -22,28 +22,32 @@ DestinoOD: string;
 
  files: File[] = [];
  imagenes: any[];
+ filesIncidencias: File[] = [];
+ imagenesIncidencia: any[];
  Folio: number;
 
  imagePath: SafeResourceUrl;
  imageInfo: ImgInfo[] = [];
+ imageIncidenciaInfo: ImgInfo[] = [];
 
-  constructor(public router: Router, private _sanitizer: DomSanitizer ,public imageService: ImagenService, private OrdenDescargaService: OrdenDescargaService) { }
+  constructor(public router: Router, private _sanitizer: DomSanitizer ,public imageService: ImagenService, public OrdenDescargaService: OrdenDescargaService) { }
 
   ngOnInit() {
     this.IdOrdenDescarga = +(localStorage.getItem('evidenciaOD'));
+    
     this.getOrdenDescarga();
     this.ObtenerFolio(this.IdOrdenDescarga);
   }
 
   getOrdenDescarga(){
     this.OrdenDescargaService.getOrdenDescargaID(this.IdOrdenDescarga).subscribe( data=> {
-      console.log(data)
+      // console.log(data)
           this.OrdenDescargaService.formData = data[0];
           this.estatusOD = data[0].Estatus;
           this.FolioOD = data[0].Folio;
           this.OrigenOD = data[0].Origen;
           this.DestinoOD = data[0].Destino;
-          console.log(this.estatusOD);
+          // console.log(this.estatusOD);
     });
   }
 
@@ -54,11 +58,27 @@ DestinoOD: string;
 //Obtener Folio de Orden Descarga
 ObtenerFolio(id: number) {
   this.OrdenDescargaService.getOrdenDescargaID(id).subscribe(dataOD => {
-    console.log(dataOD);
+    // console.log(dataOD);
     this.Folio = dataOD[0].Folio;
-    console.log(this.Folio);
+    // console.log(this.Folio);
     this.leerDirImagenes();
+    this.obtenerDetallesOrden(id, dataOD[0].Folio);
   })
+}
+
+obtenerDetallesOrden(id: number, folio: number){
+
+  this.OrdenDescargaService.getOrdenDescargaIDList(id).subscribe(dataDescarga=>{
+    console.log(dataDescarga);
+    if(dataDescarga.length>0){
+      for (let i = 0; i < dataDescarga.length; i++) {
+        this.obtenerIncidencias('OrdenDescarga', dataDescarga[i].IdDetalleOrdenDescarga, folio);
+      }
+    }else{
+      // console.log('No hay detalles');
+    }
+  })
+
 }
 
   leerDirImagenes() {
@@ -68,26 +88,26 @@ ObtenerFolio(id: number) {
     this.imagenes = [];
     this.imageInfo = new Array<ImgInfo>();
     this.files = [];
-    console.log(this.imageInfo);
+    // console.log(this.imageInfo);
     this.imageService.readDirImagenesServidor(formData,'cargarNombreImagenesOrdenDescarga').subscribe(res => {
       if(res){
       if (res.length > 0) {
-        console.log('Si hay imagenes')
-        console.log(res);
+        // console.log('Si hay imagenes')
+        // console.log(res);
         
         for (let i = 0; i < res.length; i++) {
           this.imagenes.push(res[i]);
           let data = new ImgInfo;
           data.ImageName = res[i];
-          console.log(data.ImageName);
+          // console.log(data.ImageName);
   
           //Traer la imagen del servidor
           const formDataImg = new FormData();
           formDataImg.append('folio', this.Folio.toString())
           formDataImg.append('archivo', data.ImageName)
-          console.log(formDataImg);
+          // console.log(formDataImg);
           this.imageService.readImagenesServidor(formDataImg,'ObtenerImagenOrdenDescarga').subscribe(resImagen => {
-            console.log(resImagen);
+            // console.log(resImagen);
   
             let TYPED_ARRAY = new Uint8Array(resImagen);
             const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
@@ -96,21 +116,79 @@ ObtenerFolio(id: number) {
             let base64String = btoa(STRING_CHAR);
   
             data.ImagePath = this._sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + base64String);
-            console.log(data.ImagePath);
+            // console.log(data.ImagePath);
   
-            console.log(data);
+            // console.log(data);
             this.imageInfo.push(data)
           })
         }
-        console.log(this.imageInfo)
+        // console.log(this.imageInfo)
   
       } else {
-        console.log('No hay imagenes')
+        // console.log('No hay imagenes')
       }
     }
     })
   
   }
+
+  //Metodo para obtener el nombre de las imagenes y posteriormente traerse la imagen del servidor
+obtenerIncidencias(tipo: string, IdDetalle: number, folio : number) {
+console.log('ID DETALLE VALIDO');
+ //Obtener nombre de la imagen del servidor
+ const formData = new FormData();
+ formData.append('folio', folio.toString())
+ formData.append('modulo', 'Incidencias')
+ formData.append('tipo', tipo)
+ formData.append('id', IdDetalle.toString())
+ this.imagenesIncidencia = [];
+ this.imageIncidenciaInfo = new Array<ImgInfo>();
+ this.filesIncidencias = [];
+ console.log(this.imageInfo);
+ this.imageService.readDirImagenesServidor(formData,'cargarIncidenciasNombreImagenes').subscribe(res => {
+   console.log(res);
+   if (res) {
+     console.log('Si hay imagenes')
+     console.log(res);
+     for (let i = 0; i < res.length; i++) {
+       this.imagenesIncidencia.push(res[i]);
+       let data = new ImgInfo;
+       data.ImageName = res[i];
+
+       //Traer la imagen del servidor
+       const formDataImg = new FormData();
+       formDataImg.append('folio', folio.toString())
+       formDataImg.append('archivo', data.ImageName)
+       formDataImg.append('modulo', 'Incidencias')
+       formDataImg.append('tipo', tipo)
+       formDataImg.append('id', IdDetalle.toString())
+       console.log(formDataImg);
+       this.imageService.readImagenesServidor(formDataImg,'ObtenerIncidenciasImagen').subscribe(resImagen => {
+         console.log(resImagen);
+
+         // var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(resImagen)));
+         // data.ImagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + base64String);
+
+         let TYPED_ARRAY = new Uint8Array(resImagen);
+         const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
+           return data + String.fromCharCode(byte);
+         }, '');
+         let base64String = btoa(STRING_CHAR);
+
+         data.ImagePath = this._sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + base64String);
+
+         console.log(data);
+         this.imageIncidenciaInfo.push(data)
+       })
+     }
+     console.log(this.imageIncidenciaInfo)
+
+   } else {
+     console.log('No hay imagenes')
+   }
+ })
+  }
+
 
 
   // download() {

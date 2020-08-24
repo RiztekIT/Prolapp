@@ -23,10 +23,13 @@ export class EvidenciasOCComponent implements OnInit {
 
  files: File[] = [];
  imagenes: any[];
+ filesIncidencias: File[] = [];
+ imagenesIncidencia: any[];
  Folio: number;
 
  imagePath: SafeResourceUrl;
  imageInfo: ImgInfo[] = [];
+ imageIncidenciaInfo: ImgInfo[] = [];
 
   constructor(public router: Router, public service: OrdenCargaService, private _sanitizer: DomSanitizer ,public imageService: ImagenService,) { }
 
@@ -39,14 +42,14 @@ export class EvidenciasOCComponent implements OnInit {
  //Obtener informacion Orden Carga
  getOrdenCarga(){
   this.service.getOCID(this.IdOrdenCarga).subscribe( data=> {
-    console.log(data)
+    // console.log(data)
         this.service.formData = data[0];
         this.estatusOC = data[0].Estatus;
         this.FolioOC = data[0].Folio;
         this.OrigenOC = data[0].Origen;
         this.DestinoOC = data[0].Destino;
         
-        console.log(this.estatusOC);
+        // console.log(this.estatusOC);
   });
 }
   
@@ -58,11 +61,27 @@ regresar(){
 //Obtener Folio de Orden Descarga
 ObtenerFolio(id: number) {
   this.service.getOCID(id).subscribe(dataOC => {
-    console.log(dataOC);
+    // console.log(dataOC);
     this.Folio = dataOC[0].Folio;
-    console.log(this.Folio);
+    // console.log(this.Folio);
     this.leerDirImagenes();
+    this.obtenerDetallesOrden(id, dataOC[0].Folio);
   })
+}
+
+obtenerDetallesOrden(id: number, folio: number){
+
+  this.service.getOrdenCargaIDList(id).subscribe(dataCarga=>{
+    // console.log(dataCarga);
+    if(dataCarga.length>0){
+      for (let i = 0; i < dataCarga.length; i++) {
+        this.obtenerIncidencias('OrdenCarga', dataCarga[i].IdDetalleOrdenCarga, folio);
+      }
+    }else{
+      // console.log('No hay detalles');
+    }
+  })
+
 }
 
   leerDirImagenes() {
@@ -72,13 +91,13 @@ ObtenerFolio(id: number) {
     this.imagenes = [];
     this.imageInfo = new Array<ImgInfo>();
     this.files = [];
-    console.log(this.imageInfo);
+    // console.log(this.imageInfo);
     this.imageService.readDirImagenesServidor(formData,'cargarNombreImagenesOrdenCarga').subscribe(res => {
       if(res){
-        console.log('111111111111111111111111111111');
+        // console.log('111111111111111111111111111111');
       if (res.length > 0) {
-        console.log('Si hay imagenes')
-        console.log(res);
+        // console.log('Si hay imagenes')
+        // console.log(res);
         
         for (let i = 0; i < res.length; i++) {
           this.imagenes.push(res[i]);
@@ -89,9 +108,9 @@ ObtenerFolio(id: number) {
           const formDataImg = new FormData();
           formDataImg.append('folio', this.Folio.toString())
           formDataImg.append('archivo', data.ImageName)
-          console.log(formDataImg);
+          // console.log(formDataImg);
           this.imageService.readImagenesServidor(formDataImg,'ObtenerImagenOrdenCarga').subscribe(resImagen => {
-            console.log(resImagen);
+            // console.log(resImagen);
   
             let TYPED_ARRAY = new Uint8Array(resImagen);
             const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
@@ -101,20 +120,77 @@ ObtenerFolio(id: number) {
   
             data.ImagePath = this._sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + base64String);
   
-            console.log(data);
+            // console.log(data);
             this.imageInfo.push(data)
           })
         }
-        console.log(this.imageInfo)
+        // console.log(this.imageInfo)
   
       } else {
-        console.log('No hay imagenes')
+        // console.log('No hay imagenes')
       }
     }
-    console.log('nel no ta entrando');
+    // console.log('nel no ta entrando');
     })
   
   }
+
+   //Metodo para obtener el nombre de las imagenes y posteriormente traerse la imagen del servidor
+obtenerIncidencias(tipo: string, IdDetalle: number, folio : number) {
+  // console.log('ID DETALLE VALIDO');
+   //Obtener nombre de la imagen del servidor
+   const formData = new FormData();
+   formData.append('folio', folio.toString())
+   formData.append('modulo', 'Incidencias')
+   formData.append('tipo', tipo)
+   formData.append('id', IdDetalle.toString())
+   this.imagenesIncidencia = [];
+   this.imageIncidenciaInfo = new Array<ImgInfo>();
+   this.filesIncidencias = [];
+  //  console.log(this.imageInfo);
+   this.imageService.readDirImagenesServidor(formData,'cargarIncidenciasNombreImagenes').subscribe(res => {
+    //  console.log(res);
+     if (res) {
+      //  console.log('Si hay imagenes')
+      //  console.log(res);
+       for (let i = 0; i < res.length; i++) {
+         this.imagenesIncidencia.push(res[i]);
+         let data = new ImgInfo;
+         data.ImageName = res[i];
+  
+         //Traer la imagen del servidor
+         const formDataImg = new FormData();
+         formDataImg.append('folio', folio.toString())
+         formDataImg.append('archivo', data.ImageName)
+         formDataImg.append('modulo', 'Incidencias')
+         formDataImg.append('tipo', tipo)
+         formDataImg.append('id', IdDetalle.toString())
+        //  console.log(formDataImg);
+         this.imageService.readImagenesServidor(formDataImg,'ObtenerIncidenciasImagen').subscribe(resImagen => {
+          //  console.log(resImagen);
+  
+           // var base64String = btoa(String.fromCharCode.apply(null, new Uint8Array(resImagen)));
+           // data.ImagePath = this._sanitizer.bypassSecurityTrustResourceUrl('data:image/jpeg;base64,' + base64String);
+  
+           let TYPED_ARRAY = new Uint8Array(resImagen);
+           const STRING_CHAR = TYPED_ARRAY.reduce((data, byte) => {
+             return data + String.fromCharCode(byte);
+           }, '');
+           let base64String = btoa(STRING_CHAR);
+  
+           data.ImagePath = this._sanitizer.bypassSecurityTrustUrl('data:image/jpg;base64,' + base64String);
+  
+          //  console.log(data);
+           this.imageIncidenciaInfo.push(data)
+         })
+       }
+      //  console.log(this.imageIncidenciaInfo)
+  
+     } else {
+      //  console.log('No hay imagenes')
+     }
+   })
+    }
 
   descargar(name){
  
