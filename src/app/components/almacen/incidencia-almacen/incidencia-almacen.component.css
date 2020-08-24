@@ -1,0 +1,113 @@
+.borderbox {
+    border: 3px solid grey;
+    padding: 10px;
+}
+
+::ng-deep .mat-form-field {
+    width: 100% !important;
+}
+
+.mat-dialog-content {
+    max-height: 90vh;
+}
+
+::ng-deep .swal2-container {
+    z-index: 2000;
+}
+
+.img-responsive {
+    width: auto;
+    /* height: 300px; */
+    transition: .5s -webkit-filter;
+    transition: .5s filter;
+}
+
+.imgcontainer {
+    position: relative;
+}
+
+.imgblur:hover {
+    -webkit-filter: blur(5px);
+    /* Safari 6.0 - 9.0 */
+    filter: blur(5px);
+}
+
+.boton {
+    display: none;
+}
+
+.imgcontainer:hover .boton {
+    display: block;
+    position: absolute;
+    top: 5%;
+    left: 80%;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+
+@media only screen and (max-width: 800px) {
+    .boton {
+        display: block;
+        position: absolute;
+        top: 5%;
+        left: 80%;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        text-align: center;
+    }
+    .img-responsive {
+        width: auto;
+        /* height: 300px; */
+        transition: .5s -webkit-filter;
+        transition: .5s filter;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 100%;
+    }
+    .img-responsive {
+        width: auto;
+        /* height: 300px; */
+        transition: .5s -webkit-filter;
+        transition: .5s filter;
+    }
+    .fotos {
+        overflow-x: scroll;
+        /* overflow-y: scroll */
+    }
+}
+
+.btncoti {
+    background-color: #000000;
+    color: white
+}
+
+::ng-deep .mat-form-field {
+    width: 100% !important;
+}
+
+::ng-deep .mat-header-cell {
+    color: #ffffff;
+    background: #000000;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+    opacity: 0.03 !important;
+    background-color: #005691!important;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: #005691;
+}
+
+.row {
+    margin-left: 0 !important;
+}

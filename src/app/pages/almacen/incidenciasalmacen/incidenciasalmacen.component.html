@@ -2,7 +2,6 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-
                 <h1 style="text-align: center;">Incidencias</h1>
                 <div class="container">
                     <div class="row">
@@ -11,22 +10,23 @@
                                     <mat-icon>note_add</mat-icon>
                                   </button>
                         </div>
-
-                        <!-- <div class="col-md-6 col-sm-12" style="display: grid">
-                            <mat-form-field>
-                                <input matInput (keyup)="applyFilterOrdenDescarga($event.target.value)" placeholder="Buscar">
-                            </mat-form-field>
-                        </div> -->
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="card">
             <h2>Orden Carga</h2>
-            <div class="col-md-6 col-sm-12" style="display: grid">
-                <mat-form-field>
-                    <input matInput (keyup)="applyFilterOrdenCarga($event.target.value)" placeholder="Buscar">
-                </mat-form-field>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12" style="display: grid">
+                        <mat-card style="text-align: right;" class="mat-elevation-z0">
+                            <mat-form-field>
+                                <input matInput (keyup)="applyFilterOrdenCarga($event.target.value)" placeholder="Buscar">
+                            </mat-form-field>
+                        </mat-card>
+                    </div>
+                </div>
             </div>
             <div class="card-body">
                 <div style="overflow:auto;">
@@ -80,21 +80,9 @@
                     <mat-icon>keyboard_arrow_down</mat-icon>
                   </button>
                                 <mat-menu #menu="matMenu">
-                                    <!--  -->
                                     <button title="documentos" mat-icon-button class="btn btn-dark" (click)="accederIncidencia(row)">
                                                 <mat-icon>note_add</mat-icon>
                                             </button>
-                                    <!-- <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
-                                                <mat-icon>edit</mat-icon>
-                                            </button> -->
-                                    <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="onDelete(row)">
-                                                <mat-icon>delete</mat-icon>
-                                            </button> -->
-                                    <!--  -->
-                                    <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
-                                        <mat-icon>visibility</mat-icon>
-                                    </button> -->
-
                                 </mat-menu>
                             </td>
                         </ng-container>
@@ -170,17 +158,6 @@
                                     <button title="documentos" mat-icon-button class="btn btn-dark" (click)="accederIncidencia(row)">
                                                 <mat-icon>note_add</mat-icon>
                                             </button>
-                                    <!-- <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
-                                                <mat-icon>edit</mat-icon>
-                                            </button> -->
-                                    <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="onDelete(row)">
-                                                <mat-icon>delete</mat-icon>
-                                            </button> -->
-                                    <!--  -->
-                                    <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
-                                        <mat-icon>visibility</mat-icon>
-                                    </button> -->
-
                                 </mat-menu>
                             </td>
                         </ng-container>
@@ -188,9 +165,6 @@
                     <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
                     </mat-paginator>
                 </div>
-
-
-
             </div>
         </div>
     </div>
