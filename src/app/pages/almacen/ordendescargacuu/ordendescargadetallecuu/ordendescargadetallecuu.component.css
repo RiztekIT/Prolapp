@@ -112,3 +112,13 @@ tr.example-element-row:not(.example-expanded-row):active {
         max-width: 100%;
     }
 }
+
+.btncoti {
+    background-color: #000000;
+    color: white
+}
+
+.btncl {
+    background-color: #ff0000;
+    color: white
+}

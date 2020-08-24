@@ -60,12 +60,23 @@ tr.example-element-row:not(.example-expanded-row):active {
     cursor: pointer;
 }
 
-.btncoti {
-    background-color: #000000;
-    color: white
+
+/* CSS to change Default/'Accent' color */
+
+::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+    background-color: black;
+    /*replace with your color*/
 }
 
-.btncoti:hover {
-    background-color: white;
-    color: black;
+ ::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+    background-color: lightgrey;
+    /*replace with your color*/
+}
+
+ ::ng-deep .mat-slide-toggle-thumb {
+    background-color: lightgrey;
+}
+
+ ::ng-deep .mat-slide-toggle-bar {
+    background-color: black;
 }

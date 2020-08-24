@@ -258,6 +258,8 @@ import { EditOrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/ed
 import { DocumentacionComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-compras-importacion.component';
 import { DocumentacionImportacionVisorDocumentosComponent } from './importacion/documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
 import { QrComponent } from '../components/qr/qr.component';
+import { EvidenciasOCComponent } from './calidad/evidencias/evidencias-oc/evidencias-oc.component';
+import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/evidencias-od.component';
 import { IncidenciaAlmacenComponent } from '../components/almacen/incidencia-almacen/incidencia-almacen.component';
 import {NgxPrintModule} from 'ngx-print';
 
@@ -438,6 +440,8 @@ import {NgxPrintModule} from 'ngx-print';
         EditOrdenCargaTraficoComponent,
         DocumentacionImportacionVisorDocumentosComponent,
         QrComponent,
+        EvidenciasOCComponent,
+        EvidenciasODComponent,
         IncidenciaAlmacenComponent,
     
     ],

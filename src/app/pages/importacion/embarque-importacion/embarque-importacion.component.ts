@@ -118,6 +118,7 @@ if (this.bodegaSelect==='Todos'){
       this.listData.paginator = this.paginator;
       this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
       this.applyFilter2('PasoTx');
+      this.bodegaSelect = 'PasoTx';
     })
   }
 

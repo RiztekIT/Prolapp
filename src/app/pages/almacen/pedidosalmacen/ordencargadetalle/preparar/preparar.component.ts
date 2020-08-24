@@ -241,7 +241,7 @@ export class PrepararComponent implements OnInit {
           //Verificar que esta tarima no haaya sido escaneada previamente en esta orden de carga
           this.ordenTemporalService.GetOrdenTemporalIdTarima(idTarima).subscribe(resOT => {
             console.log(resOT);
-            if (resOT.length > 0) {
+            if (resOT[0].IdOrdenCarga != 0) {
               console.log('Esta tarima ya fue ESCANEADA');
               Swal.fire({
                 icon: 'error',
