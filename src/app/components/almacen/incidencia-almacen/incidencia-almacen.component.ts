@@ -358,8 +358,8 @@ console.log('ID DETALLE VALIDO');
        formDataImg.append('folio', this.incidenciasService.incidenciaObject.FolioProcedencia.toString())
        formDataImg.append('archivo', data.ImageName)
        formDataImg.append('modulo', 'Incidencias')
- formDataImg.append('tipo', tipo)
- formDataImg.append('id', this.IdDetalle.toString())
+       formDataImg.append('tipo', tipo)
+       formDataImg.append('id', this.IdDetalle.toString())
        console.log(formDataImg);
        this.imageService.readImagenesServidor(formDataImg,'ObtenerIncidenciasImagen').subscribe(resImagen => {
          console.log(resImagen);
