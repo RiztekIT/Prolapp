@@ -578,6 +578,7 @@ import {NgxPrintModule} from 'ngx-print';
         DocumentacionImportacionVisorDocumentosComponent,
         QrComponent,
         IncidenciaAlmacenComponent,
+        InventariosalmacenComponent
         
     ]
 })
