@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { OrdenTemporalService } from '../../services/almacen/orden-temporal/orden-temporal.service';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 
+
 @Component({
   selector: 'app-tracking-pedido',
   templateUrl: './tracking-pedido.component.html',
@@ -10,7 +11,8 @@ import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 export class TrackingPedidoComponent implements OnInit {
 
 
-
+  @ViewChild(MatSort, null) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(public ordenTemporalService: OrdenTemporalService) { 
  
@@ -20,8 +22,7 @@ export class TrackingPedidoComponent implements OnInit {
   fecha2;
   displayedColumns: string[] = ['Folio','Origen', 'Destino', 'Estatus','Fecha'];
   listData: MatTableDataSource<any>;
-  @ViewChild(MatSort, null) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
   private intervalUpdate: any = null;
 
   ngOnInit() {
@@ -32,14 +33,22 @@ export class TrackingPedidoComponent implements OnInit {
       this.listData.connect();
       }); */
 
-      this.intervalUpdate = setInterval(function(){
+      this.fecha1 = new Date();
+      this.fecha2 = new Date();
+      this.fecha2.setDate(this.fecha1.getDate() + 1)
+      
+
+   /*    this.intervalUpdate = setInterval(function(){
         this.getPedidos();
-       }.bind(this), 500);
+       }.bind(this), 500); */
   }
 
 
 getPedidos(){
 
+
+  this.listData = new MatTableDataSource();
+  let datos = []
     let fecha1;
     let fecha2;
   
@@ -61,13 +70,15 @@ getPedidos(){
     fecha2 = anio2 + '-' + mes2 + '-' + dia2
 
     this.ordenTemporalService.GetTracking(fecha1,fecha2).subscribe(data=>{
+      datos = data;
       
       console.log(data);
       
-      this.listData = new MatTableDataSource(data);
+      this.listData = new MatTableDataSource(datos);
+      console.log(this.listData);
                 this.listData.sort = this.sort;
-                /* this.listData.paginator = this.paginator;
-                this.listData.paginator._intl.itemsPerPageLabel = 'Pedidos por Pagina'; */
+                this.listData.paginator = this.paginator;
+                this.listData.paginator._intl.itemsPerPageLabel = 'Pedidos por Pagina';
     })
   }
 
