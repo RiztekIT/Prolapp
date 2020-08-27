@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import { OrdenCarga } from '../../../Models/almacen/OrdenCarga/ordencarga.model';
-import {Observable } from 'rxjs';
+import {Observable, BehaviorSubject } from 'rxjs';
 import {Subject} from 'rxjs';
 import { OrdenTemporal } from '../../../Models/almacen/OrdenTemporal/ordenTemporal-model';
 import { environment } from 'src/environments/environment';
@@ -82,6 +82,9 @@ GetOrdenTemporalIdqr(id: number, qr: string): Observable <OrdenTemporal[]>{
 GetOrdenTemporalIdqrOD(id: number, qr: string): Observable <OrdenTemporal[]>{
   return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIdqrOD/'+ id + '/' + qr);
 }
+GetTracking(fechaini,fechafinal): Observable <OrdenTemporal[]>{
+  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/tracking/' + fechaini+ '/' + fechafinal);
+}
 
 deleteOrdenTemporal(id:number){
   return this.http.delete(APIUrl + '/OrdenTemporal/BorrarOrdenTemporal/' + id)
@@ -90,7 +93,7 @@ deleteOrdenTemporal(id:number){
 
 
 
-  private _listeners = new Subject<any>(); 
+  public _listeners = new BehaviorSubject<any>(1); 
       listen(): Observable<any> {
         return this._listeners.asObservable();
       }

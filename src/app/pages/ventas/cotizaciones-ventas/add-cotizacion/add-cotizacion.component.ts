@@ -32,6 +32,7 @@ import { AddsproductosService } from '../../../../services/addsproductos.service
 import { Cotizacion } from 'src/app/Models/ventas/cotizacion-model';
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
 import { Pedido } from 'src/app/Models/Pedidos/pedido-model';
+import { InventariosalmacenComponent } from 'src/app/pages/almacen/inventariosalmacen/inventariosalmacen.component';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -1566,6 +1567,18 @@ nuevaoc(coti){
       })
     });
   });
+}
+
+
+inventarios(detalle){
+
+  const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "90%";
+     
+      this.dialog.open(InventariosalmacenComponent, dialogConfig);
+
 }
 
 

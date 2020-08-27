@@ -473,9 +473,16 @@
                                         <br>
                                         <div class="container row">
                                             <div class="col-md-7 col-lg-8">
-                                                <div *ngIf="ActualizarDetallePedidoBool != true">
+                                                <div *ngIf="ActualizarDetallePedidoBool != true" class="row">
+                                                    <div class="col-6">
 
-                                                    <button class="btn btn-dark" (click)="onAddProducto(DetallePedidoForm)">Agregar Producto</button>
+                                                        <button class="btn btn-dark" (click)="onAddProducto(DetallePedidoForm)">Agregar Producto</button>
+                                                    </div>
+                                                    <div class="col-6">
+
+                                                        <button class="btn btn-dark" (click)="inventarios(DetallePedidoForm)">Ver Inventarios</button>
+                                                    </div>
+
                                                 </div>
                                                 <div *ngIf="ActualizarDetallePedidoBool != false">
                                                     <button class="btn btn-dark" (click)="OnEditDetallePedidodp(DetallePedidoForm)">Actualizar Producto</button>

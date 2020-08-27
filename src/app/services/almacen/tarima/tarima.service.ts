@@ -143,6 +143,14 @@ updateBodegaTarima(bodega:string, qr:string) {
   return this.http.put(APIUrl+ '/Tarima/UpdateBodega/'+bodega+'/'+qr,null);
   }
 
+  getProductos(){
+    return this.http.get<any[]>(APIUrl + '/Producto');
+  }
+
+  GetTarimaProducto(producto: string, bodega: string): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaProducto?producto='+ producto+ '&bodega='+bodega);
+  }
+
   private _listeners = new Subject<any>(); 
       listen(): Observable<any> {
         return this._listeners.asObservable();

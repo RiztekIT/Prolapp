@@ -32,7 +32,8 @@ export class EvidenciasComponent implements OnInit {
   detalle = new Array<DetalleOrdenCarga>();
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
   @ViewChild(MatSort, null) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  
 
   arrOrdenCarga: any;
 
@@ -82,12 +83,14 @@ export class EvidenciasComponent implements OnInit {
     this.show = false;
     this.toggletype = "Orden de Carga";
     this.refreshOrdenCargaList();
-    this.refreshOrdenDescargaList();
+    this.refreshOrdenDescargaList(); 
 
   }
 
   refreshOrdenCargaList() {
     this.arrOrdenCarga = this.service.getOrdenCargaList();
+    this.listData = new MatTableDataSource();
+    
     this.arrOrdenCarga.subscribe(data => {
       console.log(data);
       for (let i = 0; i <= data.length - 1; i++) {
@@ -98,13 +101,17 @@ export class EvidenciasComponent implements OnInit {
           for (let l = 0; l <= res.length - 1; l++) {
             this.service.master[i].detalleOrdenCarga.push(res[l]);
           }
+          
         });
       }
+      
       console.log(this.service.master);
-      this.listData = new MatTableDataSource(data);
+      this.listData = new MatTableDataSource(this.service.master);
+      console.log(this.listData);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
-      this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Carga por Pagina';
+      this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Carga por Pagina'
+      //this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Carga por Pagina';
     })
     // this.service.getOrdenCargaList().subscribe(data => {
     //   console.log(data);

@@ -33,6 +33,7 @@ import { MessageService } from 'src/app/services/message.service';
 import { EmailgeneralComponent } from 'src/app/components/email/emailgeneral/emailgeneral.component';
 import * as html2pdf from 'html2pdf.js';
 import { OrdenCargaService } from '../../../../../services/almacen/orden-carga/orden-carga.service';
+import { OrdenTemporalService } from 'src/app/services/almacen/orden-temporal/orden-temporal.service';
 //Constantes para obtener tipo de cambio
 const httpOptions = {
   headers: new HttpHeaders({
@@ -56,7 +57,7 @@ export class PedidoventasAddComponent implements OnInit {
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
     private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient, public ServiceUnidad: UnidadMedidaService,
-    public serviceDireccion: ClienteDireccionService, private dialog: MatDialog, public servicecoti: VentasCotizacionService, public addproductos: AddsproductosService, public _MessageService: MessageService, public serviceordencarga: OrdenCargaService) {
+    public serviceDireccion: ClienteDireccionService, private dialog: MatDialog, public servicecoti: VentasCotizacionService, public addproductos: AddsproductosService, public _MessageService: MessageService, public serviceordencarga: OrdenCargaService, public ordenTemporalService: OrdenTemporalService) {
       
     this.MonedaBoolean = true;
 
@@ -1390,7 +1391,8 @@ this.isFactura = true;
             title: 'Pedido Cerrado'
           })
     
-    
+    //
+    this.ordenTemporalService._listeners.next('Orden')
           this.Inicializar();
     
         }
