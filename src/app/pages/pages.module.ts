@@ -590,7 +590,8 @@ import { PagoComisionesComponent } from './cxp/pagoscxp/pago-comisiones/pago-com
         DocumentacionImportacionVisorDocumentosComponent,
         QrComponent,
         IncidenciaAlmacenComponent,
-        InventariosalmacenComponent
+        InventariosalmacenComponent,
+        PagoDocumentoComponent
         
     ]
 })

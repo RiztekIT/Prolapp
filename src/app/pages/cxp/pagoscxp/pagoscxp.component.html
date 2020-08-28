@@ -9,7 +9,7 @@
                             <mat-icon class="example-tab-icon">person_pin_circle</mat-icon>
                             C. Administrativas
                         </ng-template>
-                        <app-pago-compra-adm (agregarPago)="onAddPago($event)"></app-pago-compra-adm>
+                        <app-pago-compra-adm (agregarPago)="onAccederPago('CompraAdministrativa',$event,null)"></app-pago-compra-adm>
                         <hr>
 
                         <div class="row">
@@ -99,7 +99,7 @@
                                             <mat-icon>keyboard_arrow_down</mat-icon>
                                           </button>
                                                         <mat-menu #menu="matMenu">
-                                                            <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onAddPago(row)">
+                                                            <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onAccederPago('CompraAdministrativa',null, row )">
                                                                         <mat-icon>edit</mat-icon>
                                                                     </button>
                                                         </mat-menu>
@@ -120,7 +120,7 @@
                             <mat-icon class="example-tab-icon">construction</mat-icon>
                             C. Materia Prima
                         </ng-template>
-                        <app-pago-compra-mat (agregarPago)="onAddPago($event)"></app-pago-compra-mat>
+                        <app-pago-compra-mat (agregarPago)="onAccederPago($event)"></app-pago-compra-mat>
                         <hr>
 
                         <div class="row">
@@ -210,7 +210,7 @@
                                             <mat-icon>keyboard_arrow_down</mat-icon>
                                           </button>
                                                         <mat-menu #menu="matMenu">
-                                                            <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onAddPago(row)">
+                                                            <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onAccederPago(row)">
                                                                         <mat-icon>edit</mat-icon>
                                                                     </button>
                                                         </mat-menu>
@@ -231,7 +231,7 @@
                             <mat-icon class="example-tab-icon">engineering</mat-icon>
                             Fletera
                         </ng-template>
-                        <app-pago-fletera (agregarPago)="onAddPago($event)"></app-pago-fletera>
+                        <app-pago-fletera (agregarPago)="onAccederPago($event)"></app-pago-fletera>
                         <hr>
 
                         <div class="row">
@@ -321,7 +321,7 @@
                                             <mat-icon>keyboard_arrow_down</mat-icon>
                                           </button>
                                                         <mat-menu #menu="matMenu">
-                                                            <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onAddPago(row)">
+                                                            <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onAccederPago(row)">
                                                                         <mat-icon>edit</mat-icon>
                                                                     </button>
                                                         </mat-menu>
@@ -432,7 +432,7 @@
                                             <mat-icon>keyboard_arrow_down</mat-icon>
                                           </button>
                                                         <mat-menu #menu="matMenu">
-                                                            <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onAddPago(row)">
+                                                            <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onAccederPago(row)">
                                                                         <mat-icon>edit</mat-icon>
                                                                     </button>
                                                         </mat-menu>
@@ -453,7 +453,7 @@
                             <mat-icon class="example-tab-icon">person_pin</mat-icon>
                             Comisiones
                         </ng-template>
-                        <app-pago-comisiones (agregarPago)="onAddPago($event)"></app-pago-comisiones>
+                        <app-pago-comisiones (agregarPago)="onAccederPago($event)"></app-pago-comisiones>
                         <hr>
 
                         <div class="row">
@@ -543,7 +543,7 @@
                                             <mat-icon>keyboard_arrow_down</mat-icon>
                                           </button>
                                                         <mat-menu #menu="matMenu">
-                                                            <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onAddPago(row)">
+                                                            <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onAccederPago(row)">
                                                                         <mat-icon>edit</mat-icon>
                                                                     </button>
                                                         </mat-menu>

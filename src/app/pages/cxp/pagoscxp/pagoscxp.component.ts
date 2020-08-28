@@ -96,9 +96,11 @@ this.pagosService.getPagoTipo(this.arregloTipoDocumentos[i].TipoDocumento).subsc
 
   }
 
-  onAddPago(objetoModulo: any){
+  onAccederPago(modulo:string, objetoModulo?: any, pago?:any){
     console.log('ABRIR MODAL PARA GENERAR EL PAGO');
-console.log(objetoModulo);
+    console.log(modulo);
+    console.log(objetoModulo);
+    console.log(pago);
   }
 
   applyFilter(filtervalue: string,tipoDocumento: string ){  
