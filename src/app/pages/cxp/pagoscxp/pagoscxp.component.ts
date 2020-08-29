@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angu
 import {MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar, MatDialogConfig} from '@angular/material';
 import {MatSort} from '@angular/material/sort';
 import { PagoscxpService } from '../../../services/cuentasxpagar/pagoscxp.service';
+import { Pagos } from '../../../Models/Pagos/pagos-model';
+import { PagoDocumentoComponent } from './pago-documento/pago-documento.component';
 
 @Component({
   selector: 'app-pagoscxp',
@@ -10,7 +12,11 @@ import { PagoscxpService } from '../../../services/cuentasxpagar/pagoscxp.servic
 })
 export class PagoscxpComponent implements OnInit {
 
-  constructor(public pagosService: PagoscxpService) { }
+  constructor(public pagosService: PagoscxpService , private dialog: MatDialog) {
+    this.pagosService.listen().subscribe((m:any)=>{
+      this.obtenerPagos();
+      });
+   }
 
   ngOnInit() {
     this.obtenerPagos();
@@ -101,6 +107,63 @@ this.pagosService.getPagoTipo(this.arregloTipoDocumentos[i].TipoDocumento).subsc
     console.log(modulo);
     console.log(objetoModulo);
     console.log(pago);
+    this.pagosService.modulo = modulo;
+    this.pagosService.objetoModulo = {};
+    this.pagosService.objetoPago = <Pagos>{};
+    if(pago){
+      console.log('SE LE PICO A EL PAGO');
+      this.pagosService.objetoPago = pago;
+      this.pagosService.nuevoPago = false;
+      switch (modulo) {
+        case ('CAdministrativa'):
+          this.pagosService.getCompraFolio(pago.FolioDocumento).subscribe(resC=>{
+            console.log(resC);
+            this.pagosService.objetoModulo = resC[0];
+            this.abrirModal();
+          });
+          break;
+        case ('CMateriaPrima'):
+          this.pagosService.getCompraFolio(pago.FolioDocumento).subscribe(resCM=>{
+            console.log(resCM);
+            this.pagosService.objetoModulo = resCM[0];
+            this.abrirModal();
+          });
+          break;
+        case ('Flete'):
+          this.pagosService.getFacturaFleteId(pago.FolioDocumento).subscribe(resFlete=>{
+            console.log(resFlete);
+            this.pagosService.objetoModulo = resFlete[0];
+            this.abrirModal();
+          });
+          break;
+        case ('Comision'):
+          this.pagosService.getComisionFolio(pago.FolioDocumento).subscribe(resComi=>{
+            console.log(resComi);
+            this.pagosService.objetoModulo = resComi[0];
+            this.abrirModal();
+          });  
+          break;
+        case ('Nomina'):
+          
+          break;
+        default:
+          break;
+      }
+    }else{
+      console.log('SE LE PICO AL MODULO');
+      this.pagosService.objetoModulo = objetoModulo;
+      this.pagosService.nuevoPago = true;
+      this.abrirModal();
+    }    
+  }
+
+  abrirModal(){
+ //abrir modal
+ const dialogConfig = new MatDialogConfig();
+ dialogConfig.disableClose = true;
+ dialogConfig.autoFocus = true;
+ dialogConfig.height = "90%";
+ this.dialog.open(PagoDocumentoComponent, dialogConfig);
   }
 
   applyFilter(filtervalue: string,tipoDocumento: string ){  

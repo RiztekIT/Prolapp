@@ -17,6 +17,16 @@ export class PagoscxpService {
 
   constructor(private http:HttpClient) { }
 
+  //variable para saber el modulo
+  modulo: string;
+
+  objetoModulo: any;
+
+  objetoPago: Pagos;
+
+  //saber si es un nuevo pago (true), (flase) se editara
+  nuevoPago: boolean;
+
 //Obtener Pagos
  getPagos(): Observable <Pagos[]>{
   return this.http.get<Pagos[]>(APIUrl + '/Pagos');
@@ -43,8 +53,8 @@ addPago(pagos: Pagos) {
   return this.http.post(APIUrl + '/Pagos', pagos);
 }
 //Update Pago
-updatePago(pago: Pagos) {
-  return this.http.put(APIUrl+ '/Pagoss', Pagos);
+updatePago(pagos: Pagos) {
+  return this.http.put(APIUrl+ '/Pagos', pagos);
   }
   //Eliminar Pago por IdPago
   deletePago(id: number){
@@ -82,6 +92,29 @@ getComisionesEstatus(estado: string): Observable <Pedido[]>{
   return this.http.get<Pedido[]>(APIUrl + '/Pagos/GetComisionesEstado/'+estado);
 }
 
+//Get Compra Folio
+getCompraFolio(folio:number): Observable <Compras[]>{
+  return this.http.get<Compras[]>(APIUrl + '/Pagos/GetCompraFolio/'+folio);
+}
+
+//Gel Flete Id
+getFacturaFleteId(id:number): Observable <FacturaFlete[]>{
+  return this.http.get<FacturaFlete[]>(APIUrl + '/Pagos/GetFleteId/'+id);
+}
+//Get Comision Folio
+getComisionFolio(folio:number): Observable <Pedido[]>{
+  return this.http.get<Pedido[]>(APIUrl + '/Pagos/GetPedidoFolio/'+folio);
+}
+
 
   //*******  MODULOS RELACIONADOS A PAGOS *******// 
+
+  private _listeners = new Subject<any>(); 
+  listen(): Observable<any> {
+    return this._listeners.asObservable();
+  }
+  filter(filterBy: string) {
+    this._listeners.next(filterBy);
+  }
+
 }

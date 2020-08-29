@@ -1,1 +1,201 @@
-<p>pago-documento works!</p>
+<div class="card" style="height: 80vh;">
+    <div class="card-body">
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-11">
+                    <h2 style="text-align: center;">Pago</h2>
+                    <h4>Estatus:
+                        <!-- <span class="label label-light-warning">{{estatusOC}}</span> -->
+                    </h4>
+                </div>
+                <div class="col-1">
+
+                    <button mat-fab (click)="onClose()" class="btncoti">
+                            <mat-icon>undo</mat-icon>
+                          </button>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="form-material">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-12 col-md-6">
+
+                        <div [ngSwitch]=this.pagoService.modulo>
+                            <div *ngSwitchCase="'CAdministrativa'">
+                                <label class="input-group-text text-info txt"> Folio: </label>
+                                <input type="text" class="form-control" name="FolioCAdministrativa" #FolioCAdministrativa="ngModel" [(ngModel)]="pagoService.objetoModulo.Folio" readonly>
+
+                                <label class="input-group-text text-info txt"> PO: </label>
+                                <input type="text" class="form-control" name="POCAdministrativa" #POCAdministrativa="ngModel" [(ngModel)]="pagoService.objetoModulo.PO" readonly>
+
+                                <label class="input-group-text text-info txt"> Proveedor: </label>
+                                <input type="text" class="form-control" name="ProveedorCAdministrativa" #ProveedorCAdministrativa="ngModel" [(ngModel)]="pagoService.objetoModulo.Proveedor" readonly>
+                            </div>
+                            <div *ngSwitchCase="'CMateriaPrima'">
+
+                                <label class="input-group-text text-info txt"> Folio: </label>
+                                <input type="text" class="form-control" name="FolioCMateriaPrima" #FolioCMateriaPrima="ngModel" [(ngModel)]="pagoService.objetoModulo.Folio" readonly>
+
+                                <label class="input-group-text text-info txt"> PO: </label>
+                                <input type="text" class="form-control" name="POCMateriaPrima" #POCMateriaPrima="ngModel" [(ngModel)]="pagoService.objetoModulo.PO" readonly>
+
+                                <label class="input-group-text text-info txt"> Proveedor: </label>
+                                <input type="text" class="form-control" name="ProveedorCMateriaPrima" #ProveedorCMateriaPrima="ngModel" [(ngModel)]="pagoService.objetoModulo.Proveedor" readonly>
+
+                            </div>
+                            <div *ngSwitchCase="'Flete'">
+
+                                <label class="input-group-text text-info txt"> Fletera: </label>
+                                <input type="text" class="form-control" name="Fletera" #Fletera="ngModel" [(ngModel)]="pagoService.objetoModulo.Fletera" readonly>
+
+                                <label class="input-group-text text-info txt"> Factura: </label>
+                                <input type="text" class="form-control" name="Factura" #Factura="ngModel" [(ngModel)]="pagoService.objetoModulo.Factura" readonly>
+
+                            </div>
+                            <div *ngSwitchCase="'Comision'">
+
+                                <label class="input-group-text text-info txt"> Folio: </label>
+                                <input type="text" class="form-control" name="FolioComision" #FolioComision="ngModel" [(ngModel)]="pagoService.objetoModulo.Folio" readonly>
+
+                                <label class="input-group-text text-info txt"> Flete: </label>
+                                <input type="text" class="form-control" name="FleteComision" #FleteComision="ngModel" [(ngModel)]="pagoService.objetoModulo.Flete" readonly>
+
+                                <label class="input-group-text text-info txt"> Prioridad: </label>
+                                <input type="text" class="form-control" name="PrioridadComision" #PrioridadComision="ngModel" [(ngModel)]="pagoService.objetoModulo.Prioridad" readonly>
+
+
+                            </div>
+                            <div *ngSwitchCase="'Nomina'">
+
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    <div class="col-12 col-md-6">
+
+                        <div [ngSwitch]=this.pagoService.modulo>
+                            <div *ngSwitchCase="'CAdministrativa'">
+
+                                <label class="input-group-text text-info txt"> Estado: </label>
+                                <input type="text" class="form-control" name="EstatusCAdministrativa" #EstatusCAdministrativa="ngModel" [(ngModel)]="pagoService.objetoModulo.Estatus" readonly>
+
+
+                                <label class="input-group-text text-info txt"> Total: </label>
+                                <input type="text" class="form-control" name="TotalCAdministrativa" #TotalCAdministrativa="ngModel" [(ngModel)]="pagoService.objetoModulo.Total" readonly>
+
+                            </div>
+                            <div *ngSwitchCase="'CMateriaPrima'">
+
+                                <label class="input-group-text text-info txt"> Estado: </label>
+                                <input type="text" class="form-control" name="EstatusCMateriaPrima" #EstatusCMateriaPrima="ngModel" [(ngModel)]="pagoService.objetoModulo.Estatus" readonly>
+
+
+                                <label class="input-group-text text-info txt"> Total: </label>
+                                <input type="text" class="form-control" name="TotalCMateriaPrima" #TotalCMateriaPrima="ngModel" [(ngModel)]="pagoService.objetoModulo.Total" readonly>
+
+                            </div>
+                            <div *ngSwitchCase="'Flete'">
+
+                                <label class="input-group-text text-info txt"> Estado: </label>
+                                <input type="text" class="form-control" name="EstatusFlete" #EstatusFlete="ngModel" [(ngModel)]="pagoService.objetoModulo.Estatus" readonly>
+
+                                <label class="input-group-text text-info txt"> Total: </label>
+                                <input type="text" class="form-control" name="TotalEstatus" #TotalEstatus="ngModel" [(ngModel)]="pagoService.objetoModulo.Total" readonly>
+
+                            </div>
+                            <div *ngSwitchCase="'Comision'">
+
+                                <label class="input-group-text text-info txt"> Estado: </label>
+                                <input type="text" class="form-control" name="EstatusComision" #EstatusComision="ngModel" [(ngModel)]="pagoService.objetoModulo.Estatus" readonly>
+
+                                <label class="input-group-text text-info txt"> Total: </label>
+                                <input type="text" class="form-control" name="TotalComision" #TotalComision="ngModel" [(ngModel)]="pagoService.objetoModulo.Total" readonly>
+
+                            </div>
+                            <div *ngSwitchCase="'Nomina'">
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+        <hr>
+        <form #form="ngForm" autocomplete="off">
+            <div class="form-material">
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-12 col-md-6">
+                            <label class="input-group-text text-info"> Folio: </label>
+                            <input readonly type="text" class="form-control" name="FolioPag" #FolioPag="ngModel" [(ngModel)]="this.FolioPago">
+
+                            <label class="input-group-text text-info txt"> Folio Documento: </label>
+                            <input readonly type="text" class="form-control" name="FolioDocumento" #FolioDocumento="ngModel" [(ngModel)]="this.FolioModulo">
+
+
+                            <label class="input-group-text text-info txt"> Tipo Documento: </label>
+                            <input readonly type="text" class="form-control" name="TipoDocumento" #TipoDocumento="ngModel" [(ngModel)]="pagoService.modulo">
+
+                            <label class="input-group-text text-info txt"> Cantidad: </label>
+                            <input required type="number" class="form-control" name="CantidadPago" #CantidadPago="ngModel" (ngModelChange)="onChangeCantidad($event)" [(ngModel)]="Cantidad">
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label class="input-group-text text-info txt"> Cuenta Origen: </label>
+                            <input required type="text" class="form-control" name="CuentaOrigen" #CuentaOrigen="ngModel" [(ngModel)]="pagoService.objetoPago.CuentaOrigen">
+
+
+                            <label class="input-group-text text-info txt"> Cuenta Destino: </label>
+                            <input required type="text" class="form-control" name="CuentaDestino" #CuentaDestino="ngModel" [(ngModel)]="pagoService.objetoPago.CuentaDestino">
+
+                            <label class="input-group-text text-info">Fecha Pago:</label>
+                            <mat-datepicker-toggle matSuffix [for]="pickerPago"></mat-datepicker-toggle>
+                            <input required type="text" readonly="readonly" [matDatepicker]="pickerPago" class="form-control" name="FechaPagos" #FechaPagos="ngModel" [(ngModel)]="pagoService.objetoPago.FechaPago">
+                            <!-- <input type="text" readonly="readonly" [matDatepicker]="pickerPago" class="form-control" name="FechaPagozzz" #FechaPagozzz="ngModel" [(ngModel)]="pagoService.objetoPago.FechaPago"> -->
+                            <mat-datepicker #pickerPago></mat-datepicker>
+
+                            <!-- <label class="input-group-text text-info">Fecha Elaboracion:</label>
+                            <mat-datepicker-toggle matSuffix [for]="pickerElaboracion"></mat-datepicker-toggle>
+                            <input type="text" readonly="readonly" [matDatepicker]="pickerElaboracion" class="form-control" name="FechaElaboracion" #FechaElaboracion="ngModel" [(ngModel)]="pagoService.objetoPago.FechaPago">
+                            <mat-datepicker #pickerElaboracion></mat-datepicker> -->
+
+                            <label class="input-group-text text-info txt"> Observaciones: </label>
+                            <input required type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="pagoService.objetoPago.Observaciones">
+
+                        </div>
+
+                        <div class="container row">
+                            <div class="col-9">
+
+                            </div>
+                            <div class="col-3">
+                                <button *ngIf="pagoService.nuevoPago == true" [disabled]="form.invalid" class="btn btn-success" mat-raised-button type="button" (click)="newPago()">Generar Pago</button>
+                                <button *ngIf="pagoService.nuevoPago == false" [disabled]="form.invalid" class="btn btn-success" mat-raised-button type="button" (click)="updatePago()">Actualizar Pago</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+</div>
