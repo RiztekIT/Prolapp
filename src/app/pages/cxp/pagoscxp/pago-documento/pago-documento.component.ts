@@ -1,3 +1,5 @@
+import { NgForm, FormControl } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { PagoscxpService } from '../../../../services/cuentasxpagar/pagoscxp.service';
@@ -40,6 +42,11 @@ export class PagoDocumentoComponent implements OnInit {
       console.log(newFolio);
       this.FolioPago = +newFolio;
     })
+  }
+
+  ver(){
+    console.log(this.pagoService.objetoPago);
+
   }
 
   //On change Cantidad

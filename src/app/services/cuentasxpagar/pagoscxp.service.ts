@@ -41,9 +41,12 @@ getPagoId(id: number): Observable <Pagos[]>{
 getPagoFolio(folio: number): Observable <Pagos[]>{
   return this.http.get<Pagos[]>(APIUrl + '/Pagos/GetPagoFolio/'+folio);
 }
-getPagoTipo(tipo: string): Observable <Pagos[]>{
-  return this.http.get<Pagos[]>(APIUrl + '/Pagos/GetPagoTipo/'+tipo);
+getPagoTipo(tipo: string): Observable <any[]>{
+  return this.http.get<any[]>(APIUrl + '/Pagos/GetPagoTipo/'+tipo);
 }
+/* getPagoTipo(tipo: string): Observable <Pagos[]>{
+  return this.http.get<Pagos[]>(APIUrl + '/Pagos/GetPagoTipo/'+tipo);
+} */
 getPagoFolioTipo(folio:number, tipo: string): Observable <Pagos[]>{
   return this.http.get<Pagos[]>(APIUrl + '/Pagos/GetPagoFolioTipo/'+folio+'/'+tipo);
 }

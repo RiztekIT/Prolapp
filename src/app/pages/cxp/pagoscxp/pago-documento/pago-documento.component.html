@@ -166,9 +166,11 @@
 
                             <label class="input-group-text text-info">Fecha Pago:</label>
                             <mat-datepicker-toggle matSuffix [for]="pickerPago"></mat-datepicker-toggle>
-                            <input required type="text" readonly="readonly" [matDatepicker]="pickerPago" class="form-control" name="FechaPagos" #FechaPagos="ngModel" [(ngModel)]="pagoService.objetoPago.FechaPago">
+                            <input required type="text" readonly="readonly" [matDatepicker]="pickerPago" class="form-control" name="FechaPago" #FechaPago="ngModel" [(ngModel)]="this.pagoService.objetoPago.FechaPago">
                             <!-- <input type="text" readonly="readonly" [matDatepicker]="pickerPago" class="form-control" name="FechaPagozzz" #FechaPagozzz="ngModel" [(ngModel)]="pagoService.objetoPago.FechaPago"> -->
                             <mat-datepicker #pickerPago></mat-datepicker>
+
+                            <button (click)="ver()">ver</button>
 
                             <!-- <label class="input-group-text text-info">Fecha Elaboracion:</label>
                             <mat-datepicker-toggle matSuffix [for]="pickerElaboracion"></mat-datepicker-toggle>
