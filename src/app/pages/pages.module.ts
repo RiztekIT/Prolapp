@@ -264,6 +264,12 @@ import { IncidenciaAlmacenComponent } from '../components/almacen/incidencia-alm
 import {NgxPrintModule} from 'ngx-print';
 import { MercanciaComponent } from './almacen/mercancia/mercancia.component';
 
+import { PagoDocumentoComponent } from './cxp/pagoscxp/pago-documento/pago-documento.component';
+import { PagoCompraAdmComponent } from './cxp/pagoscxp/pago-compra-adm/pago-compra-adm.component';
+import { PagoCompraMatComponent } from './cxp/pagoscxp/pago-compra-mat/pago-compra-mat.component';
+import { PagoFleteraComponent } from './cxp/pagoscxp/pago-fletera/pago-fletera.component';
+import { PagoNominaComponent } from './cxp/pagoscxp/pago-nomina/pago-nomina.component';
+import { PagoComisionesComponent } from './cxp/pagoscxp/pago-comisiones/pago-comisiones.component';
 
 
 @NgModule({
@@ -446,6 +452,12 @@ import { MercanciaComponent } from './almacen/mercancia/mercancia.component';
         EvidenciasODComponent,
         IncidenciaAlmacenComponent,
         MercanciaComponent,
+        PagoDocumentoComponent,
+        PagoCompraAdmComponent,
+        PagoCompraMatComponent,
+        PagoFleteraComponent,
+        PagoNominaComponent,
+        PagoComisionesComponent,
     
     ],
     exports: [
@@ -582,7 +594,8 @@ import { MercanciaComponent } from './almacen/mercancia/mercancia.component';
         QrComponent,
         IncidenciaAlmacenComponent,
         InventariosalmacenComponent,
-        MercanciaComponent
+        MercanciaComponent,
+        PagoDocumentoComponent
         
     ]
 })
