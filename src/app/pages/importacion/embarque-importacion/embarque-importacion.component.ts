@@ -111,6 +111,7 @@ if (this.bodegaSelect==='Todos'){
   }
 
   obtenerTarimas(){
+    this.listData = new MatTableDataSource();
     this.serviceTarima.GetTarimaBodega().subscribe(data=>{
       console.log(data,'obtner tarimas');
       this.listData = new MatTableDataSource(data);

@@ -113,7 +113,8 @@
                                             <th> Clave </th>
                                             <th> Producto </th>
                                             <th> Lote </th>
-                                            <th> Sacos </th>
+                                            <th> Sacos Fisicos</th>
+                                            <th> Sacos Disponibles</th>
                                         </tr>
                                         <tr *ngFor="let detalle of element.detalle">
                                             <td> {{detalle.Bodega}} </td>
@@ -121,6 +122,7 @@
                                             <td> {{detalle.Producto }} </td>
                                             <td> {{detalle.Lote}} </td>
                                             <td> {{detalle.Sacos}} </td>
+                                            <td> {{detalle.SacosD}} </td>
                                         </tr>
                                     </table>
 

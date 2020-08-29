@@ -92,6 +92,34 @@
 
 
                 </div>
+                <div class="container row">
+                    <div class="col-12">
+                        <h4>Actualizar Estatus del Pedido
+                            <span class="label label-light-warning">Estatus Actual - {{this.tarimaService.tarimaTrafico.Bodega}}</span>
+                        </h4>
+                    </div>
+                    <div *ngIf="this.tarimaService.tarimaTrafico.Bodega!='Terminada'" class="col-9">
+
+                        <mat-form-field>
+                            <mat-label> Estatus </mat-label>
+                            <!--  class="form-control" name="EstatusS" #EstatusS="ngModel" id="EstatusS" -->
+                            <mat-select (selectionChange)="estatusCambio($event)" [(ngModel)]="estatusSelect">
+                                <!-- <mat-option [value]="" selected disabled>Seleccionar Estatus</mat-option> -->
+                                <mat-option *ngFor="let dl of listEstatus" [value]="dl.Estatus"> {{dl.Estatus}} </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <label *ngIf="this.estatusSelect=='Transito'" class="input-group-text text-info"> Ubicacion: </label>
+                        <input *ngIf="this.estatusSelect=='Transito'" type="text" class="form-control" name="Ubicacion" #Ubicacion="ngModel" [(ngModel)]="UbicacionEstatus">
+
+
+                    </div>
+                    <div *ngIf="this.tarimaService.tarimaTrafico.Bodega!='Terminada'" class="col-3">
+
+                        <button class="btn btn-success" mat-raised-button type="button" (click)="actualizarEstatus()">Actualizar Estatus</button>
+
+                    </div>
+                </div>
             </div>
         </div>
         <hr>
@@ -125,7 +153,8 @@
                         </div>
                         <div class="col-3">
 
-                            <button class="btn btn-success" mat-raised-button type="button" [disabled]="this.traficoService.formDatafactura.Estatus== 'Capturada' " (click)="updateFacturaFlete()">Guardar</button>
+                            <button class="btn btn-success" mat-raised-button type="button" *ngIf="this.traficoService.formDatafactura.Estatus== 'Pendiente' " (click)="updateFacturaFlete()">Guardar Flete</button>
+                            <button class="btn btn-success" mat-raised-button type="button" *ngIf="this.traficoService.formDatafactura.Estatus== 'Capturada' " (click)="updateFacturaFlete2()">Guardar</button>
                         </div>
                     </div>
 

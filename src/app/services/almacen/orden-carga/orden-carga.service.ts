@@ -43,6 +43,7 @@ export class OrdenCargaService {
   //Obtener orden de carga por ID
   getOrdenCargaID(id: number): Observable<OrdenCarga[]> {
     return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga/' + id);
+    
   }
 
   getOCID(id: number): Observable<OrdenCarga[]> {

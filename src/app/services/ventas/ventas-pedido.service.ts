@@ -175,4 +175,8 @@ export class VentasPedidoService {
   getPedidoclienteId(id: number): Observable <any[]>{
     return this.http.get<any []>(this.APIUrl + '/cliente/ordencompra/' + id);
   }
+
+  getProducto(clave){
+    return this.http.get<any []>(this.APIUrl + '/producto/NombreProducto?clave=' + clave);
+  }
 }

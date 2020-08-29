@@ -34,7 +34,7 @@ export class PedidoTraficoComponent implements OnInit {
 
   ngOnInit() {
     this.refreshPedidoList();
-    footablePedidosTrafico();
+    
   }
 
   MasterDetalle = new Array<pedidoMaster>();
