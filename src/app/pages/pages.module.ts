@@ -262,6 +262,7 @@ import { EvidenciasOCComponent } from './calidad/evidencias/evidencias-oc/eviden
 import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/evidencias-od.component';
 import { IncidenciaAlmacenComponent } from '../components/almacen/incidencia-almacen/incidencia-almacen.component';
 import {NgxPrintModule} from 'ngx-print';
+import { AddfordwardComponent } from './cxp/forwardscxp/addfordward/addfordward.component';
 
 
 @NgModule({
@@ -443,6 +444,7 @@ import {NgxPrintModule} from 'ngx-print';
         EvidenciasOCComponent,
         EvidenciasODComponent,
         IncidenciaAlmacenComponent,
+        AddfordwardComponent,
     
     ],
     exports: [
@@ -578,7 +580,8 @@ import {NgxPrintModule} from 'ngx-print';
         DocumentacionImportacionVisorDocumentosComponent,
         QrComponent,
         IncidenciaAlmacenComponent,
-        InventariosalmacenComponent
+        InventariosalmacenComponent,
+        AddfordwardComponent,
         
     ]
 })
