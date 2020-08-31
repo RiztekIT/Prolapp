@@ -55,6 +55,9 @@ export class OrdenCargaTraficoService {
   updateFacturaFlete(facturaflete: FacturaFlete) {
     return this.http.post(this.APIUrl + '/FacturaFlete', facturaflete);
   }
+  updateFacturaFlete2(facturaflete: FacturaFlete) {
+    return this.http.post(this.APIUrl + '/FacturaFlete/Actualizar', facturaflete);
+  }
 
   
 

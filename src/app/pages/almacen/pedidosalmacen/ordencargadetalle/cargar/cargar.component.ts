@@ -325,19 +325,35 @@ export class CargarComponent implements OnInit {
     })
   }
 
+
   finalizar() {
+
+    let Oc;
     this.ordenCargaService.getOCID(this.IdOrdenCarga).subscribe(res => { 
       console.clear();
       console.log(res);
+      Oc= res[0];
+      Oc.FechaFinalCarga = new Date();
       if (res[0].Chofer) {
         if (res[0].Estatus == 'Preparada') {
           this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(resq => {
             console.log(resq)
+
             
-            this.router.navigate(['/ordencargadetalle']);
+
+  this.ordenCargaService.updateOrdenCarga(Oc).subscribe(res=>{
+console.log(res);
+this.router.navigate(['/ordencargadetalle']);
+  })
+
+            
+            
           })
         }
-        this.router.navigate(['/ordencargadetalle']);
+        this.ordenCargaService.updateOrdenCarga(Oc).subscribe(res=>{
+          console.log(res);
+          this.router.navigate(['/ordencargadetalle']);
+            })
       } else{
 
         Swal.fire({
@@ -359,10 +375,16 @@ export class CargarComponent implements OnInit {
              if (res[0].Estatus == 'Preparada') {
               this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(rese => {
                 console.log(rese)
-                this.router.navigate(['/ordencargadetalle']);
+                this.ordenCargaService.updateOrdenCarga(Oc).subscribe(res=>{
+                  console.log(res);
+                  this.router.navigate(['/ordencargadetalle']);
+                    })
               })
             }
-            this.router.navigate(['/ordencargadetalle']);
+            this.ordenCargaService.updateOrdenCarga(Oc).subscribe(res=>{
+              console.log(res);
+              this.router.navigate(['/ordencargadetalle']);
+                })
              
     
             

@@ -102,10 +102,12 @@ IdOrdenCarga: number;
     this.router.navigate(['/ordenCargaPreparar']);
   }
   cargar(){
+    let Oc;
 
     this.service.getOCID(this.IdOrdenCarga).subscribe(data=>{
 console.log(data)
-if(data[0].Fletera == '' || data[0].Caja == ''){
+Oc= data[0];
+if(data[0].Fletera == '0' || data[0].Caja == '0'){
   Swal.fire({
     title: 'Error',
     text:'Favor de asignar Fletera y/o Caja',
@@ -115,10 +117,36 @@ if(data[0].Fletera == '' || data[0].Caja == ''){
   });
 }
 else{
-  this.router.navigate(['/ordenCargaCargar']);
+  Oc.FechaInicioCarga = new Date();
+
+  this.service.updateOrdenCarga(Oc).subscribe(res=>{
+console.log(res);
+    this.router.navigate(['/ordenCargaCargar']);
+  })
+
+
     }
     });
   }
+
+  salida(){
+    let Oc;
+    this.service.getOCID(this.IdOrdenCarga).subscribe(data=>{
+      console.log(data)
+Oc= data[0];
+
+Oc.Estatus = 'Cargada'
+    
+    this.service.updateOrdenCarga(Oc).subscribe(res=>{
+      console.log(res);
+      this.getOrdenCarga();
+        })
+      })
+  }
+
+
+
+
   enviar(){
    
     this.AlmacenEmailService.correo='ivan.talamantes@live.com';
@@ -140,7 +168,25 @@ else{
      console.log(this.service.formData,'1');
      console.log(this.listData,'2');
 
-     this.generarOrdenDescarga();
+     if (this.service.formData.Destino=='Chihuahua'){
+
+       this.generarOrdenDescarga();
+     }else {
+      this.service.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Terminada').subscribe(rese => {
+
+        Swal.fire({
+          title: 'Terminada',
+          icon: 'success',
+          timer: 1000,
+          showCancelButton: false,
+          showConfirmButton: false
+        });
+
+        this.getOrdenCarga();
+
+      })
+     }
+
 
 
      
@@ -239,7 +285,10 @@ dod: DetalleOrdenDescarga;
               console.log(resDetalle);
 
               //
-              
+              this.service.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Terminada').subscribe(rese => {
+                console.log(rese)/* 
+                this.router.navigate(['/ordencargadetalle']); */
+             
 
 
                 Swal.fire({
@@ -249,6 +298,10 @@ dod: DetalleOrdenDescarga;
                   showCancelButton: false,
                   showConfirmButton: false
                 });
+
+                this.getOrdenCarga();
+
+              })
                 
               
             })

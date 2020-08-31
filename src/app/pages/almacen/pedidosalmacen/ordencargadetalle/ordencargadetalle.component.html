@@ -177,9 +177,14 @@
 
                                         <br>
                                     </div>
-                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Preparada' ">
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Preparada' && (this.service.formData.Fletera!='Sucursal' || this.service.formData.Fletera!='Local' || this.service.formData.Fletera!='Paqueteria')">
                                         <button id="CargarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
                                         <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="cargar()">Cargar</button>
+                                        <br>
+                                    </div>
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Preparada' && (this.service.formData.Fletera=='Sucursal' || this.service.formData.Fletera=='Local' || this.service.formData.Fletera=='Paqueteria')">
+                                        <button id="CargarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
+                                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="salida()">Salida</button>
                                         <br>
                                     </div>
                                     <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' || estatusOC == 'Terminada'">

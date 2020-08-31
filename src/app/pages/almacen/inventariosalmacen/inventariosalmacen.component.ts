@@ -31,6 +31,7 @@ export class InventariosalmacenComponent implements OnInit {
   master;
   expandedElement: any;
   bodegaSelect;
+  
 
   public listBodega: Array<Object> = [
     
@@ -67,7 +68,7 @@ export class InventariosalmacenComponent implements OnInit {
   obtenerProductos(bodega){
     let contador = 0;
     
-    this.master = [];
+    this.serviceTarima.master = [];
     let sacostotales;
     
     this.serviceTarima.getProductos().subscribe((data:any)=>{
@@ -82,13 +83,51 @@ export class InventariosalmacenComponent implements OnInit {
           console.log(datadet);
           if (datadet.length>0){
             sacostotales = 0;
+            this.serviceTarima.master[contador] = data[l];
+            //this.serviceTarima.master[contador].detalle = datadet;
             for (let i=0; i<datadet.length;i++){
 
               sacostotales = sacostotales + +datadet[i].Sacos;
+
+              datadet[i].SacosD = +datadet[i].Sacos;
+
+
+              this.serviceTarima.GetTarimaProductoD(datadet[i].Producto,datadet[i].Lote).subscribe(datas=>{
+                console.log(datas,'datas');
+                // console.log(contador,'c2');
+                // console.log(this.serviceTarima.master[contador],'2');
+                // console.log(this.master[contador].detalle[j].SacosD,'2');
+                // console.log(this.serviceTarima.master[contador].detalle[i].SacosD,'3');
+                if (datas.length>0){
+
+                  for (let d=0; d<datas.length;d++){
+
+                    datadet[i].SacosD = datadet[i].SacosD - +datas[d].Sacos
+                  }
+
+                }else{
+                  datadet[i].SacosD = datadet[i].SacosD
+                }
+              }) 
+
+
             }
-            this.master[contador] = data[l];
-            this.master[contador].Stock = sacostotales;
-            this.master[contador].detalle = datadet;
+            this.serviceTarima.master[contador].detalle = datadet;
+            this.serviceTarima.master[contador].Stock = sacostotales;
+            
+            
+
+           /*  for (let j=0; j<datadet.length;j++ ){
+
+              this.serviceTarima.master[contador].detalle[j].SacosD = this.serviceTarima.master[contador].detalle[j].Sacos;
+              
+
+
+
+            } */
+            // console.log(this.master[contador].detalle,'1'); 
+
+          /*   */
             
          /*    for (let i:0; i< datadet.length;i++){
               this.master[contador].detalle[i].push(datadet[i]);
@@ -96,10 +135,11 @@ export class InventariosalmacenComponent implements OnInit {
             contador++;
           }
 
+          
 
           
-                console.log(this.master);
-                this.listData = new MatTableDataSource(this.master);
+                console.log(this.serviceTarima.master);
+                this.listData = new MatTableDataSource(this.serviceTarima.master);
                 this.listData.sort = this.sort;
                 this.listData.paginator = this.paginator;
                 this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
@@ -107,11 +147,25 @@ export class InventariosalmacenComponent implements OnInit {
 
       }
 
+      
+
+
+              // console.log(contador,'c1');
+            /*   */
+
     
 
       //this.applyFilter2('PasoTx');
       
     })
+    // for (let m=0; m<this.serviceTarima.master.length;m++){
+    //   for(let d=0;d<this.serviceTarima.master[m].detalle.length;d++){
+       
+
+    //   }
+    // }
+
+    // console.log(this.serviceTarima.master,'m1');
 
   }
 

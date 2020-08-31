@@ -75,6 +75,9 @@ GetOrdenTemporalIDOD(id: number): Observable <OrdenTemporal[]>{
 GetOrdenTemporalIdTarima(id: number): Observable <OrdenTemporal[]>{
   return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIdTarima/'+ id);
 }
+GetOrdenTemporalIdTarimaOC(id: number, oc: number): Observable <OrdenTemporal[]>{
+  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIdTarimaOC/'+ id+ '/'+oc);
+}
 //Obtener Orden Temporal por ID carga y qr
 GetOrdenTemporalIdqr(id: number, qr: string): Observable <OrdenTemporal[]>{
   return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIdqr/'+ id + '/' + qr);

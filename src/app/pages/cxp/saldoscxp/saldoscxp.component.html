@@ -1,1 +1,6 @@
-<p>saldoscxp works!</p>
+<input type="file" (change)="onChange($event.target.files)">
+
+<div>
+    <h3>File Content</h3>
+    <pre> {{fileContent}} </pre>
+</div>

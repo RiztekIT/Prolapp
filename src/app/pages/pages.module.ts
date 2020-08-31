@@ -263,6 +263,14 @@ import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/eviden
 import { IncidenciaAlmacenComponent } from '../components/almacen/incidencia-almacen/incidencia-almacen.component';
 import {NgxPrintModule} from 'ngx-print';
 import { AddfordwardComponent } from './cxp/forwardscxp/addfordward/addfordward.component';
+import { MercanciaComponent } from './almacen/mercancia/mercancia.component';
+
+import { PagoDocumentoComponent } from './cxp/pagoscxp/pago-documento/pago-documento.component';
+import { PagoCompraAdmComponent } from './cxp/pagoscxp/pago-compra-adm/pago-compra-adm.component';
+import { PagoCompraMatComponent } from './cxp/pagoscxp/pago-compra-mat/pago-compra-mat.component';
+import { PagoFleteraComponent } from './cxp/pagoscxp/pago-fletera/pago-fletera.component';
+import { PagoNominaComponent } from './cxp/pagoscxp/pago-nomina/pago-nomina.component';
+import { PagoComisionesComponent } from './cxp/pagoscxp/pago-comisiones/pago-comisiones.component';
 
 
 @NgModule({
@@ -445,6 +453,13 @@ import { AddfordwardComponent } from './cxp/forwardscxp/addfordward/addfordward.
         EvidenciasODComponent,
         IncidenciaAlmacenComponent,
         AddfordwardComponent,
+        MercanciaComponent,
+        PagoDocumentoComponent,
+        PagoCompraAdmComponent,
+        PagoCompraMatComponent,
+        PagoFleteraComponent,
+        PagoNominaComponent,
+        PagoComisionesComponent,
     
     ],
     exports: [
@@ -582,6 +597,8 @@ import { AddfordwardComponent } from './cxp/forwardscxp/addfordward/addfordward.
         IncidenciaAlmacenComponent,
         InventariosalmacenComponent,
         AddfordwardComponent,
+        MercanciaComponent,
+        PagoDocumentoComponent
         
     ]
 })

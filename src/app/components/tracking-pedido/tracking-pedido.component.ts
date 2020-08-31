@@ -38,17 +38,17 @@ export class TrackingPedidoComponent implements OnInit {
       this.fecha2.setDate(this.fecha1.getDate() + 1)
       
 
-   /*    this.intervalUpdate = setInterval(function(){
+      this.intervalUpdate = setInterval(function(){
         this.getPedidos();
-       }.bind(this), 500); */
+       }.bind(this), 500);
   }
 
 
 getPedidos(){
 
 
-  this.listData = new MatTableDataSource();
-  let datos = []
+  /* this.listData = new MatTableDataSource(); */
+  
     let fecha1;
     let fecha2;
   
@@ -70,12 +70,11 @@ getPedidos(){
     fecha2 = anio2 + '-' + mes2 + '-' + dia2
 
     this.ordenTemporalService.GetTracking(fecha1,fecha2).subscribe(data=>{
-      datos = data;
+      
       
       console.log(data);
       
-      this.listData = new MatTableDataSource(datos);
-      console.log(this.listData);
+      this.listData = new MatTableDataSource(data);
                 this.listData.sort = this.sort;
                 this.listData.paginator = this.paginator;
                 this.listData.paginator._intl.itemsPerPageLabel = 'Pedidos por Pagina';

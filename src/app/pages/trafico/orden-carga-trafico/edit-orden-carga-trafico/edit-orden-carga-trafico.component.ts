@@ -19,6 +19,7 @@ import { OrdenCargaTraficoService } from '../../../../services/trafico/orden-car
 // import { Facturaflete } from 'src/app/Models/trafico/facturaflete-model';
 import { FacturaFlete } from '../../../../Models/trafico/facturaflete-model';
 import { facturafletedata } from '../../../../Models/trafico/facturafletedata-model';
+import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
 
 @Component({
   selector: 'app-edit-orden-carga-trafico',
@@ -28,6 +29,7 @@ import { facturafletedata } from '../../../../Models/trafico/facturafletedata-mo
 export class EditOrdenCargaTraficoComponent implements OnInit {
 
   IdOrdenCarga: number;
+  IDFactFletera: number;
   listData: MatTableDataSource<any>;
   displayedColumns: string[] = ['IdTarima', 'QR', 'ClaveProducto', 'Producto', 'Sacos', 'Lote', 'Proveedor', 'PO', 'FechaMFG', 'FechaCaducidad', 'Shipper', 'USDA', 'Pedimento'];
   @ViewChild(MatSort, null) sort: MatSort;
@@ -43,12 +45,22 @@ export class EditOrdenCargaTraficoComponent implements OnInit {
 
   filteredOptions: Observable<any[]>;
   listFleteras: Fleteras[] = [];
+
+  estatusSelect;
+
+  public listEstatus: Array<Object> = [
+    { Estatus: 'Transito' },
+    { Estatus: 'Terminada' }    
+  ];
+
+  UbicacionEstatus;
+  Tarima;
   
 
 
 
 
-  constructor(public router: Router, private datePipe: DatePipe,  public dialogRef: MatDialogRef<EditOrdenCargaTraficoComponent>, private dialog: MatDialog, public traficoService: OrdenCargaTraficoService, public ordencargaservice: OrdenCargaService) {
+  constructor(public router: Router, private datePipe: DatePipe,  public dialogRef: MatDialogRef<EditOrdenCargaTraficoComponent>, private dialog: MatDialog, public traficoService: OrdenCargaTraficoService, public ordencargaservice: OrdenCargaService, public tarimaService: TarimaService) {
 
     this.ordencargaservice.listen().subscribe((m: any) => {
       console.log(m);
@@ -63,6 +75,7 @@ export class EditOrdenCargaTraficoComponent implements OnInit {
     this.traficoService.formDatafactura= new FacturaFlete();
     this.getOrdenCarga();
     this.getFacturaFleteValues();
+    this.getTarimaId();
     // this.dropdownRefresh();
   }
 
@@ -122,8 +135,18 @@ export class EditOrdenCargaTraficoComponent implements OnInit {
     this.ordencargaservice.getOCID(this.IdOrdenCarga).subscribe(data => {
       console.log(data);
       this.traficoService.formData = data[0];
+      this.traficoService.formrow.Nombre = this.traficoService.formData.Fletera;
       this.estatusOC = data[0].Estatus;
-    });
+    }); 
+  }
+
+  getTarimaId(){
+
+    this.tarimaService.GetTarimaOC(this.IdOrdenCarga).subscribe(tar=>{
+      console.log(tar);
+      this.tarimaService.tarimaTrafico = tar[0];
+    })
+
   }
 
   onClose() {
@@ -149,6 +172,7 @@ export class EditOrdenCargaTraficoComponent implements OnInit {
       if (ress.length != 0) {
         this.traficoService.formDatafactura = ress[0];
         this.traficoService.formDatafactura.Estatus = ress[0].Estatus
+        this.IDFactFletera = ress[0].IDFacturaFlete;
       }else{
         this.traficoService.formDatafactura.Estatus = "Pendiente"
       }
@@ -183,6 +207,64 @@ export class EditOrdenCargaTraficoComponent implements OnInit {
       this.dialogRef.close();
     })
 
+
+  }
+  updateFacturaFlete2(){
+    //this.UpdateOrdenCargaTrafico();
+
+    let ff = new facturafletedata();
+
+    ff.IDFacturaFlete = this.IDFactFletera;
+
+    ff.Factura = this.traficoService.formDatafactura.Factura;
+    ff.Fletera = this.traficoService.formrow.Nombre;
+    ff.IVA = this.traficoService.formDatafactura.IVA;
+    ff.Subtotal = this.traficoService.formDatafactura.Subtotal;
+    ff.Total = this.traficoService.formDatafactura.Total;
+    ff.IDOrdenCarga = this.traficoService.formData.IdOrdenCarga;
+    ff.IDPedido = this.traficoService.formData.IdPedido;
+    ff.Estatus = "Terminada"
+
+    console.log(ff);
+
+
+    // console.log(this.traficoService.formDatafactura);
+
+
+    this.traficoService.updateFacturaFlete2(ff).subscribe(resx => {
+      console.log(resx);
+
+      localStorage.removeItem('FormDataOrdenCarga');
+      this.ordencargaservice.filter('Register click');
+      this.dialogRef.close();
+    })
+
+
+  }
+
+
+  actualizarEstatus(){
+
+    if (this.estatusSelect=='Transito'){
+
+      this.tarimaService.tarimaTrafico.Bodega='Transito -'+this.UbicacionEstatus
+    }else{
+      
+      this.tarimaService.tarimaTrafico.Bodega='Terminada';
+    }
+
+
+    console.log(this.tarimaService.tarimaTrafico);
+
+
+    this.tarimaService.updateTarima(this.tarimaService.tarimaTrafico).subscribe(data=>{
+      console.log(data);
+    })
+
+  }
+
+  estatusCambio(event){
+    this.estatusSelect = event.value;
 
   }
 

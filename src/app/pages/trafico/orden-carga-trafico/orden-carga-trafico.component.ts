@@ -31,7 +31,7 @@ export class OrdenCargaTraficoComponent implements OnInit {
   
   // INICIO VARIABLES TABLA ORDEN CARGA
   listData: MatTableDataSource<any>;
-  displayedColumns: string [] = ['Folio', 'FechaEnvio', 'Cliente', 'IdPedido', 'Fletera', 'Caja', 'Sacos', 'Kg', 'Origen' , 'Destino', 'Estatus', 'Options'];
+  displayedColumns: string [] = ['Folio', 'FechaEnvio', 'Cliente', 'IdPedido', 'Fletera', 'Origen' , 'Destino', 'Estatus', 'Options'];
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Sacos', 'Lote'];
   expandedElement: any;
   detalle = new Array<DetalleOrdenCarga>();

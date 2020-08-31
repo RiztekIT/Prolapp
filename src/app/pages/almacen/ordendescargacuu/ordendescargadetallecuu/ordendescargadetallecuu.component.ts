@@ -240,7 +240,20 @@ ObtenerFolio(id: number) {
   }
 
   evidencia(){
-    this.router.navigate(['/ordenDescargaEvidencia']);
+
+    let Od;
+
+    Od = this.service.formData;
+
+    Od.FechaInicioDescarga = new Date();
+
+    this.service.updateOrdenDescarga(Od).subscribe(data=>{
+      console.log(data);
+      this.router.navigate(['/ordenDescargaEvidencia']);
+    })
+
+    //fechas
+   
   }
 
 

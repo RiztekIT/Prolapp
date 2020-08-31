@@ -483,6 +483,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
           this.ordenDescargaService.formData.Estatus = 'Descargada'
         console.log(this.ordenDescargaService.formData);
         this.updateOrdenDescarga(this.ordenDescargaService.formData,'Descargada');
+        this.router.navigate(['/ordenDescargadetallecuu']);
         }
         //this.updateOrdenDescarga(this.service.formData,'Descargada');
 
@@ -511,6 +512,7 @@ let saldo = 0;
 
   updateOrdenDescarga(od,estatus){
     od.Estatus=estatus
+    od.FechaFinalDescarga = new Date();
     this.ordenDescargaService.updateOrdenDescarga(od).subscribe(data=>{
       console.log(data,'update od '+estatus);
     })

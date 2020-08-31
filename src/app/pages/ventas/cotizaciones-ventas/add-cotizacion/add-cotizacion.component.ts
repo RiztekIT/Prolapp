@@ -1532,14 +1532,14 @@ nuevaoc(coti){
        // console.log('NUEVO IDPEDIDO------');
        for (let i=0; i< coti.DetalleCotizacion.length; i++){
         this.servicepedido.formDataDP.IdPedido = this.IdPedido
-        this.servicepedido.formDataDP.ClaveProducto = coti.DetalleCotizacion[0].ClaveProducto;
-        this.servicepedido.formDataDP.Producto = coti.DetalleCotizacion[0].Producto;
-        this.servicepedido.formDataDP.Unidad = coti.DetalleCotizacion[0].Unidad;
-        this.servicepedido.formDataDP.PrecioUnitario = coti.DetalleCotizacion[0].PrecioUnitario;
-        this.servicepedido.formDataDP.PrecioUnitarioDlls = coti.DetalleCotizacion[0].PrecioUnitarioDlls;
-        this.servicepedido.formDataDP.Cantidad = coti.DetalleCotizacion[0].Cantidad;
-        this.servicepedido.formDataDP.Importe = coti.DetalleCotizacion[0].Importe;
-        this.servicepedido.formDataDP.ImporteDlls = coti.DetalleCotizacion[0].ImporteDlls;
+        this.servicepedido.formDataDP.ClaveProducto = coti.DetalleCotizacion[i].ClaveProducto;
+        this.servicepedido.formDataDP.Producto = coti.DetalleCotizacion[i].Producto;
+        this.servicepedido.formDataDP.Unidad = coti.DetalleCotizacion[i].Unidad;
+        this.servicepedido.formDataDP.PrecioUnitario = coti.DetalleCotizacion[i].PrecioUnitario;
+        this.servicepedido.formDataDP.PrecioUnitarioDlls = coti.DetalleCotizacion[i].PrecioUnitarioDlls;
+        this.servicepedido.formDataDP.Cantidad = coti.DetalleCotizacion[i].Cantidad;
+        this.servicepedido.formDataDP.Importe = coti.DetalleCotizacion[i].Importe;
+        this.servicepedido.formDataDP.ImporteDlls = coti.DetalleCotizacion[i].ImporteDlls;
     
         // console.log(this.service.formDataDP);
     

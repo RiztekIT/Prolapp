@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
   // parche: string = 'https://cors-anywhere.herokuapp.com/'
   // readonly rootURL = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF63528/datos/oportuno"
   // rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
-  rootURL = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF63528/datos/"
+  rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
   Cdolar: string;
   clienteLogin;
   public usuario: Usuario;
@@ -105,7 +105,7 @@ if (hora>10){
 
   traerApi(): Observable<any>{
 
-    return this.http.get("https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
+    return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
 
   }
 
