@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule, MatToolbarModule, MatTabsModule } from '@angular/material';
+import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule, MatToolbarModule, MatTabsModule, MatProgressBarModule } from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
@@ -508,7 +508,8 @@ import { PagoComisionesComponent } from './cxp/pagoscxp/pago-comisiones/pago-com
         CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
         MatToolbarModule,
         MatTabsModule,
-        NgxPrintModule
+        NgxPrintModule,
+        MatProgressBarModule,
     ],
     providers: [
         UsuariosServieService,
