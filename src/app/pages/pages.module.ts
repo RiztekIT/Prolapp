@@ -262,6 +262,7 @@ import { EvidenciasOCComponent } from './calidad/evidencias/evidencias-oc/eviden
 import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/evidencias-od.component';
 import { IncidenciaAlmacenComponent } from '../components/almacen/incidencia-almacen/incidencia-almacen.component';
 import {NgxPrintModule} from 'ngx-print';
+import { AddfordwardComponent } from './cxp/forwardscxp/addfordward/addfordward.component';
 import { MercanciaComponent } from './almacen/mercancia/mercancia.component';
 
 import { PagoDocumentoComponent } from './cxp/pagoscxp/pago-documento/pago-documento.component';
@@ -452,6 +453,7 @@ import { AddExpedienteComponent } from './administracion/expediente/add-expedien
         EvidenciasOCComponent,
         EvidenciasODComponent,
         IncidenciaAlmacenComponent,
+        AddfordwardComponent,
         MercanciaComponent,
         PagoDocumentoComponent,
         PagoCompraAdmComponent,
@@ -596,6 +598,7 @@ import { AddExpedienteComponent } from './administracion/expediente/add-expedien
         QrComponent,
         IncidenciaAlmacenComponent,
         InventariosalmacenComponent,
+        AddfordwardComponent,
         MercanciaComponent,
         PagoDocumentoComponent,
         AddExpedienteComponent
