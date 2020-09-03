@@ -301,23 +301,6 @@ onAddDocumentos() {
   
     }
 
-    // descargar(documento: any) {
-    //   const content: Element = document.getElementById('element-to-PDF');
-    //   const option = {    
-    //     margin: [.5,0,0,0],
-    //     filename: documento.name,
-    //     image: {type: 'jpeg', quality: 1},
-    //     html2canvas: {scale: 2, logging: true},
-    //     jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
-    //     pagebreak:{ avoid: '.pgbreak'}
-    //   };
-    
-    //   html2pdf()
-    //  .from(content)
-    //  .set(option)
-    //  .save();
-    // }
-
         //Leer archivo/documento del Servidor
         leerArchivos(a) {
           // console.log(a);
