@@ -21,6 +21,7 @@ terminado;
 valor;
 contador;
 total;
+valido;
   constructor() { }
 
   ngOnInit() {
@@ -97,8 +98,11 @@ total;
     const p = new xml2js.parseString(xml, { tagNameProcessors: [processors.stripPrefix] }, (err, result) => {
 
       // console.log(result.Comprobante.Receptor[0].$.Nombre);
-      // console.log(result);/*  */
-      this.empleados.push(result)
+      console.log(result);/*  */
+      if (result.Comprobante.$.TipoDeComprobante=='N'){
+
+        this.empleados.push(result)
+      }
 
  /*      console.log(this.contador);
       console.log(this.total); */
@@ -125,7 +129,7 @@ excel(){
   let registropatronal;
   const title = 'RK-XML';
     const subtitle = 'Lectura de XML Nominas';
-    const header1 = ["No. Emp", "Nombre", "RFC", "CURP", "NSS","Fecha Alta", "Departamento","Puesto","S.B.C.","S.D.I."]     
+    const header1 = ["No. Emp", "Nombre", "RFC", "CURP", "NSS","Fecha Alta", "Departamento","Puesto","S.B.C.","S.D.I.","Periodicidad"]     
     const header21 = ["Fecha Pago","Fecha Inicial", "Fecha Final","Dias Pago", "Total Percepciones", "Total Deducciones","Registro Patronal", "UUID"]     
     const data = this.empleados;
     let workbook = new Workbook();
@@ -157,7 +161,7 @@ excel(){
 
     
 
-    let h2 = [d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumEmpleado,d.Comprobante.Receptor[0].$.Nombre,d.Comprobante.Receptor[0].$.Rfc,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Curp,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumSeguridadSocial,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.FechaInicioRelLaboral,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Departamento,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Puesto,+d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.SalarioBaseCotApor,+d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.SalarioDiarioIntegrado]
+    let h2 = [d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumEmpleado,d.Comprobante.Receptor[0].$.Nombre,d.Comprobante.Receptor[0].$.Rfc,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Curp,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumSeguridadSocial,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.FechaInicioRelLaboral,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Departamento,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Puesto,+d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.SalarioBaseCotApor,+d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.SalarioDiarioIntegrado, d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.PeriodicidadPago]
     let rowh = worksheet.addRow(h2);
 
     let headerRow2 = worksheet.addRow(header21);
@@ -173,7 +177,7 @@ excel(){
       cell.font = { color : {argb: 'FFFFFF'} }
     });
 
-    if (d.Comprobante.Complemento[0].Nomina[0].Emisor){
+    if (d.Comprobante.Complemento[0].Nomina[0].Emisor && d.Comprobante.Complemento[0].Nomina[0].Emisor[0].$){
       registropatronal = d.Comprobante.Complemento[0].Nomina[0].Emisor[0].$.RegistroPatronal
     }else{
       registropatronal = '';
@@ -293,7 +297,7 @@ excelresumen(){
   let registropatronal
   const title = 'RK-XML';
   const subtitle = 'Lectura de XML Nominas';
-  const header1 = ["No. Emp", "Nombre", "RFC", "CURP", "NSS","Fecha Alta", "Departamento","Puesto","S.B.C.","S.D.I.","Fecha Pago","Fecha Inicial", "Fecha Final","Dias Pago", "Total Percepciones", "Total Deducciones","Registro Patronal","Contrato","Sindicalizado","Jornada","Regimen","Cuenta", "UUID"]   
+  const header1 = ["No. Emp", "Nombre", "RFC", "CURP", "NSS","Fecha Alta", "Departamento","Puesto","S.B.C.","S.D.I.","Fecha Pago","Fecha Inicial", "Fecha Final","Dias Pago", "Total Percepciones", "Total Deducciones","Registro Patronal","Contrato","Sindicalizado","Jornada","Regimen","Cuenta","Periodicidad", "UUID"]   
 
   const data = this.empleados;
   let workbook = new Workbook();
@@ -322,13 +326,13 @@ excelresumen(){
   });
   // worksheet.addRow([]);
 
-  if (d.Comprobante.Complemento[0].Nomina[0].Emisor){
+  if (d.Comprobante.Complemento[0].Nomina[0].Emisor && d.Comprobante.Complemento[0].Nomina[0].Emisor[0].$){
     registropatronal = d.Comprobante.Complemento[0].Nomina[0].Emisor[0].$.RegistroPatronal
   }else{
     registropatronal = '';
   }
 
-  let h2 = [d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumEmpleado,d.Comprobante.Receptor[0].$.Nombre,d.Comprobante.Receptor[0].$.Rfc,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Curp,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumSeguridadSocial,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.FechaInicioRelLaboral,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Departamento,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Puesto,+d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.SalarioBaseCotApor,+d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.SalarioDiarioIntegrado,d.Comprobante.Complemento[0].Nomina[0].$.FechaPago,d.Comprobante.Complemento[0].Nomina[0].$.FechaInicialPago,d.Comprobante.Complemento[0].Nomina[0].$.FechaFinalPago,d.Comprobante.Complemento[0].Nomina[0].$.NumDiasPagados,d.Comprobante.Complemento[0].Nomina[0].$.TotalPercepciones,d.Comprobante.Complemento[0].Nomina[0].$.TotalDeducciones,registropatronal,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.TipoContrato,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Sindicalizado,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.TipoJornada,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.TipoRegimen,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.CuentaBancaria,d.Comprobante.Complemento[0].TimbreFiscalDigital[0].$.UUID]  
+  let h2 = [d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumEmpleado,d.Comprobante.Receptor[0].$.Nombre,d.Comprobante.Receptor[0].$.Rfc,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Curp,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumSeguridadSocial,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.FechaInicioRelLaboral,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Departamento,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Puesto,+d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.SalarioBaseCotApor,+d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.SalarioDiarioIntegrado,d.Comprobante.Complemento[0].Nomina[0].$.FechaPago,d.Comprobante.Complemento[0].Nomina[0].$.FechaInicialPago,d.Comprobante.Complemento[0].Nomina[0].$.FechaFinalPago,d.Comprobante.Complemento[0].Nomina[0].$.NumDiasPagados,d.Comprobante.Complemento[0].Nomina[0].$.TotalPercepciones,d.Comprobante.Complemento[0].Nomina[0].$.TotalDeducciones,registropatronal,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.TipoContrato,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Sindicalizado,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.TipoJornada,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.TipoRegimen,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.CuentaBancaria,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.PeriodicidadPago,d.Comprobante.Complemento[0].TimbreFiscalDigital[0].$.UUID]  
   let rowh = worksheet.addRow(h2);
 
   

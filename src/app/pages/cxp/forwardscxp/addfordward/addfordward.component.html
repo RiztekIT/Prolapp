@@ -18,13 +18,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
-
+                        <label class="input-group-text text-info">Fecha Cierre</label>
                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                         <input readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="FechaCierre" #FechaCierre="ngModel" [(ngModel)]="ForwardsService.formDataForwards.FechaCierre" (dateChange)="changeMat($event)">
                         <mat-datepicker #picker1></mat-datepicker>
 
                         <!--               -------------------------------------------------------                                       -->
-
+                        <label class="input-group-text text-info">Fecha de Pago</label>
                         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                         <input readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="FechaPago" #FechaPago="ngModel" [(ngModel)]="ForwardsService.formDataForwards.FechaPago" (dateChange1)="changeMat1($event)">
                         <mat-datepicker #picker2></mat-datepicker>

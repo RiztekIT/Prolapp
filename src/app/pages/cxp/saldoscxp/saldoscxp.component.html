@@ -112,6 +112,7 @@
                                             <th class="blacktxt bolder">Puesto</th>
                                             <th class="blacktxt bolder">S.B.C.</th>
                                             <th class="blacktxt bolder">S.D.I.</th>
+                                            <th class="blacktxt bolder">Periodicidad</th>
                                             <!-- <th></th> -->
                                         </tr>
 
@@ -132,6 +133,7 @@
                                             <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Puesto}} </td>
                                             <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.SalarioBaseCotApor}} </td>
                                             <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.SalarioDiarioIntegrado}} </td>
+                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.PeriodicidadPago}} </td>
 
                                         </tr>
                                         <tr>
@@ -157,7 +159,7 @@
                                                             <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].$.NumDiasPagados}} </td>
                                                             <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].$.TotalPercepciones}} </td>
                                                             <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].$.TotalDeducciones}} </td>
-                                                            <td *ngIf='e.Comprobante.Complemento[0].Nomina[0].Emisor' class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].Emisor[0].$.RegistroPatronal}} </td>
+                                                            <td *ngIf='e.Comprobante.Complemento[0].Nomina[0].Emisor && e.Comprobante.Complemento[0].Nomina[0].Emisor[0].$' class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].Emisor[0].$.RegistroPatronal}} </td>
                                                             <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].TimbreFiscalDigital[0].$.UUID}} </td>
                                                         </tr>
                                                     </tbody>
