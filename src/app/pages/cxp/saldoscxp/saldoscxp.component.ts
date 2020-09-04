@@ -374,4 +374,190 @@ excelresumen(){
 
 }
 
+
+exceldetallado(){
+
+
+  let registropatronal;
+  const title = 'RK-XML';
+    const subtitle = 'Lectura de XML Nominas';
+    const header1 = ["No. Emp", "Nombre", "RFC", "CURP", "NSS","Fecha Alta", "Departamento","Puesto","S.B.C.","S.D.I.","Periodicidad"]     
+    const header21 = ["Fecha Pago","Fecha Inicial", "Fecha Final","Dias Pago", "Total Percepciones", "Total Deducciones","Registro Patronal", "UUID"]     
+    const data = this.empleados;
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('XML NOMINAS');
+    worksheet.mergeCells('A1:D1');
+    let titleRow = worksheet.addRow([title]);
+    titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
+    worksheet.mergeCells('A2:D2');
+    let subtitleRow = worksheet.addRow([subtitle])
+    subtitleRow.font = { name: 'Comic Sans MS', family: 4, size: 12 };
+    worksheet.addRow([]);
+    let count = 0;
+    let header2 = ['No. Empleado','Nombre','RFC','Clave','Tipo','Percepciones','Gravado','Exento','No. Empleado','Nombre','RFC','Clave','Tipo','Deducciones','','']
+    let rowh2 = worksheet.addRow(header2);
+    data.forEach((d) => {
+      count = count +1;
+  /*   let headerRow = worksheet.addRow(header1);
+    headerRow.eachCell((cell, number) => {
+      
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color : {argb: 'FFFFFF'} }
+    }); */
+  
+    // worksheet.addRow([]);
+
+    
+/* 
+    let h2 = [d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumEmpleado,d.Comprobante.Receptor[0].$.Nombre,d.Comprobante.Receptor[0].$.Rfc,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Curp,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumSeguridadSocial,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.FechaInicioRelLaboral,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Departamento,d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Puesto,+d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.SalarioBaseCotApor,+d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.SalarioDiarioIntegrado, d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.PeriodicidadPago]
+    let rowh = worksheet.addRow(h2);
+
+    let headerRow2 = worksheet.addRow(header21);
+    headerRow2.eachCell((cell, number) => {
+      
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color : {argb: 'FFFFFF'} }
+    }); */
+
+    /* if (d.Comprobante.Complemento[0].Nomina[0].Emisor && d.Comprobante.Complemento[0].Nomina[0].Emisor[0].$){
+      registropatronal = d.Comprobante.Complemento[0].Nomina[0].Emisor[0].$.RegistroPatronal
+    }else{
+      registropatronal = '';
+    } */
+
+    //h2 = [d.Comprobante.Complemento[0].Nomina[0].$.FechaPago,d.Comprobante.Complemento[0].Nomina[0].$.FechaInicialPago,d.Comprobante.Complemento[0].Nomina[0].$.FechaFinalPago,d.Comprobante.Complemento[0].Nomina[0].$.NumDiasPagados,d.Comprobante.Complemento[0].Nomina[0].$.TotalPercepciones,d.Comprobante.Complemento[0].Nomina[0].$.TotalDeducciones,registropatronal,d.Comprobante.Complemento[0].TimbreFiscalDigital[0].$.UUID]
+    //rowh = worksheet.addRow(h2);
+
+
+   
+
+    let f;
+
+    if ((d.Comprobante.Complemento[0].Nomina[0].Percepciones) && (d.Comprobante.Complemento[0].Nomina[0].Deducciones)){
+
+      if(d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion.length>=d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion.length){
+        f = d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion.length;
+      }else{
+        f = d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion.length
+      }
+    }else if (d.Comprobante.Complemento[0].Nomina[0].Percepciones){
+      f = d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion.length;
+    }else{
+      f = d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion.length
+    }
+
+    for (let r=0; r<f; r++){
+      let registro = [];
+
+      if (d.Comprobante.Complemento[0].Nomina[0].Percepciones){
+
+      
+if (r<=d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion.length-1){
+
+  registro[1]=d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumEmpleado;
+  registro[2]=d.Comprobante.Receptor[0].$.Nombre;
+  registro[3]=d.Comprobante.Receptor[0].$.Rfc;
+  registro[4]=d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion[r].$.Clave;
+  registro[5]=d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion[r].$.TipoPercepcion;
+  registro[6]=d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion[r].$.Concepto;
+  registro[7]=+d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion[r].$.ImporteGravado;
+  registro[8]=+d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion[r].$.ImporteExento;
+}
+}
+
+if (d.Comprobante.Complemento[0].Nomina[0].Deducciones){
+
+
+
+if (r<=d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion.length-1){
+  registro[9]=d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumEmpleado;
+  registro[10]=d.Comprobante.Receptor[0].$.Nombre;
+  registro[11]=d.Comprobante.Receptor[0].$.Rfc;
+  registro[12]=d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion[r].$.Clave;
+  registro[13]=d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion[r].$.TipoDeduccion;
+  registro[14]=d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion[r].$.Concepto;
+  registro[15]=+d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion[r].$.Importe;
+
+}
+}
+
+      // for (let p=0; p<d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion.length;p++){
+        
+      // }
+      // for (let de=0; de<d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion.length;de++){
+        
+        
+      // }
+    
+      
+      let row = worksheet.addRow(registro);
+      let dlls = row.getCell(7);
+      dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+      dlls = row.getCell(8);
+      dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+      // worksheet.addRow([]);
+      dlls = row.getCell(13);
+      dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+      // worksheet.addRow([]);
+      /* dlls = row.getCell(5);
+      dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+       */// worksheet.addRow([]);
+
+    }
+    
+
+   
+    
+
+
+
+    
+
+    
+      
+    })
+
+
+
+    worksheet.addRow(['','Total de Registros - '+ count]);
+
+
+    
+    worksheet.getColumn(1).width = 25;
+    worksheet.getColumn(2).width = 30;
+    worksheet.getColumn(3).width = 15;
+    worksheet.getColumn(4).width = 20;
+    worksheet.getColumn(5).width = 15;
+    worksheet.getColumn(6).width = 10;
+    worksheet.getColumn(7).width = 20;
+    worksheet.getColumn(8).width = 15;
+    worksheet.getColumn(9).width = 20;
+    worksheet.getColumn(10).width = 20;
+    worksheet.getColumn(11).width = 20;
+    worksheet.getColumn(12).width = 20;
+    worksheet.getColumn(13).width = 20;
+    worksheet.getColumn(14).width = 20;
+    worksheet.getColumn(15).width = 20;
+
+
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, 'XMLNominas Detallado- Riztek.xlsx');
+    });
+
+
+}
+
 }

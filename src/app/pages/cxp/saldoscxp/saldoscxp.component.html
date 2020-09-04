@@ -14,7 +14,7 @@
 
 
                 <h1>RK - XML</h1>
-
+                <!-- Inicio de Cambios -->
                 <div class="row">
                     <div class="col-12">
                         <div class="form-material mat-elevation-z5">
@@ -22,7 +22,7 @@
 
                                 <div class="row">
 
-                                    <div class="col-8">
+                                    <div class="col-6">
 
                                         <div class="card-body">
                                             <ngx-dropzone (change)="onSelect($event)">
@@ -48,6 +48,11 @@
                                         <button [disabled]='terminado' mat-fab (click)="excelresumen()" class="btncoti">
                             <mat-icon>cloud_download</mat-icon> 
                         </button>Resumen
+                                    </div>
+                                    <div class="col-2" style="align-self: center; text-align: center;">
+                                        <button [disabled]='terminado' mat-fab (click)="exceldetallado()" class="btncoti">
+                            <mat-icon>cloud_download</mat-icon> 
+                        </button>Resumen Totales
                                     </div>
                                 </div>
 
@@ -253,7 +258,7 @@
                     </div>
                 </div>
 
-
+                <!-- Fin de Cambios -->
             </div>
         </div>
     </div>
