@@ -89,6 +89,7 @@ export class ComplementopagocxcComponent implements OnInit {
   refreshReciboPagoList() {
     this.loadtable = true;
     this.listData = new MatTableDataSource();
+    this.service.master = []
     this.service.deleteReciboCreado().subscribe(data=>{
 
     this.service.getReciboPagoClienteList().subscribe(data => {

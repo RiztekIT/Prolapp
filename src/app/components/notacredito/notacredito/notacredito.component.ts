@@ -8,6 +8,7 @@ import { Prefactura } from 'src/app/Models/facturacioncxc/prefactura-model';
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
 import { NotaCreditoService } from 'src/app/services/cuentasxcobrar/NotasCreditocxc/notaCredito.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 
 declare function cantidad(n);
 export interface parametros{
@@ -25,8 +26,9 @@ export class NotacreditoComponent implements OnInit {
   @Input() param;
   myAngularxQrCode: string;
   QRsize:number;
+  logo;
   
-  constructor(private _http: HttpClient, private sanitizer: DomSanitizer, public service: FacturaService, public servicenc: NotaCreditoService, public dialogRef: MatDialogRef<NotacreditoComponent>, @Inject(MAT_DIALOG_DATA) public data: parametros) {
+  constructor(private _http: HttpClient, private sanitizer: DomSanitizer, public service: FacturaService, public servicenc: NotaCreditoService, public dialogRef: MatDialogRef<NotacreditoComponent>, @Inject(MAT_DIALOG_DATA) public data: parametros, public enviarfact: EnviarfacturaService) {
     this.QRsize = 125;
     // assign a value to QR
     this.myAngularxQrCode = 'https://verificacfdi.facturaelectronica.sat.gob.mx/default.asp?id=28c751ac-b6f3-4293-b35e-9ce78b4eb4b8&re=CIN960904FQ2&rr=CUOA880131Q85&tt=0000002578.930000&fe=nfsuQW==';
@@ -157,6 +159,10 @@ export class NotacreditoComponent implements OnInit {
       this.noCertificadoSAT = result.Comprobante.Complemento[0].TimbreFiscalDigital[0].$.NoCertificadoSAT;
       this.iva = result.Comprobante.Impuestos[0].Traslados[0].Traslado[0].$.Importe;
       this.selloSAT = result.Comprobante.Complemento[0].TimbreFiscalDigital[0].$.SelloSAT;
+
+      this.rfcE = this.enviarfact.empresa.RFC;
+    this.nombreE = this.enviarfact.empresa.RazonSocial;
+    this.logo = '../../../assets/images/'+this.rfcE+'.png'
 
 
       this.objconc = result.Comprobante.Conceptos[0].Concepto;

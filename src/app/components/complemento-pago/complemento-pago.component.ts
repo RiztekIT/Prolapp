@@ -18,6 +18,7 @@ export class ComplementoPagoComponent implements OnInit {
   myAngularxQrCode: string;
   QRsize:number;
   rfcBanco;
+  logo;
   
   // constructor(public dialogbox: MatDialogRef<ComplementoPagoComponent>, public router: Router, private _formBuilder: FormBuilder, 
   constructor(public router: Router, private _formBuilder: FormBuilder, public dialogbox: MatDialogRef<ComplementoPagoComponent>, private dialog: MatDialog,
@@ -69,6 +70,7 @@ export class ComplementoPagoComponent implements OnInit {
 
     this.rfcE = this.enviarfact.empresa.RFC;
     this.nombreE = this.enviarfact.empresa.RazonSocial;
+    this.logo = '../../../assets/images/'+this.rfcE+'.png'
 
     this.objconc = this.service.formt.pagoCFDI;
 

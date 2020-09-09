@@ -494,7 +494,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
         this.SaldoF = +factura.Total;
         this.IdFactura = factura.Id;
       }
-      if(factura.Moneda==='USD'){
+            if(factura.Moneda==='USD'){
         console.log('NUEVO PAGO CFDI');
         this.TotalF = +factura.TotalDlls;
         this.SaldoF = +factura.TotalDlls;
@@ -572,7 +572,10 @@ console.log('NUEVO CFDIIIIIIIIIII');
     { banco: 'BANCOMER DLLS', cuenta:"012150001119942475"}
   ]
   public listbancos2: Array<Object> = [
-    { banco: 'BANORTE', cuenta:"072150004619216703"}
+    { banco: 'BANORTE', cuenta:"072150004619216703"},
+    { banco: 'SANTANDER', cuenta:"014150655081955339"},
+    { banco: 'BANORTE DLLS', cuenta:"072150011196871531"},
+    { banco: 'SANTANDER DLLS', cuenta:"014150825009889589"}
     
   ]
 
@@ -606,6 +609,15 @@ console.log('NUEVO CFDIIIIIIIIIII');
   BancoSelected2(event:any){
     if (event.target.selectedOptions[0].text==='BANORTE'){
       this.service.formData.Cuenta = '072150004619216703'
+    }
+    if (event.target.selectedOptions[0].text==='SANTANDER'){
+      this.service.formData.Cuenta = '014150655081955339'
+    }
+    if (event.target.selectedOptions[0].text==='BANORTE DLLS'){
+      this.service.formData.Cuenta = '072150011196871531'
+    }
+    if (event.target.selectedOptions[0].text==='SANTANDER DLLS'){
+      this.service.formData.Cuenta = '014150825009889589'
     }
     
   }
@@ -843,7 +855,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
     }
     else if (this.servicetimbrado.empresa.RFC==='AIN140101ME3'){
       
-      this.json1.Serie = "358668";
+      this.json1.Serie = "421147";
     }
     this.json1.Moneda = 'XXX';
     console.log(this.json1.Receptor.UID);
@@ -968,17 +980,29 @@ console.log(this.json1);
     let dia;
     let dia2;
     let mes;
+    let mes2;
     let año;
     let hora;
     let min;
     let seg;
+    let diaf;
     
     let fecha = new Date(date);
 
-    
-    dia = `${days[fecha.getDate()]}`;
-    dia2 = `${days[fecha.getDate()+1]}`;
+    if ((fecha.getDate()+1)>31){
+      diaf = 1;
+      mes2 = `${months[fecha.getMonth()+1]}`;
+    }else{
+      diaf = fecha.getDate()+1
+      mes2 = `${months[fecha.getMonth()]}`;
+    }
+
+
+
     mes = `${months[fecha.getMonth()]}`;
+    dia = `${days[fecha.getDate()]}`;
+    dia2 = `${days[diaf]}`;
+    
     año = fecha.getFullYear();
     hora = fecha.getHours();
     min = fecha.getMinutes();
@@ -992,7 +1016,7 @@ console.log(this.json1);
     console.log(fecha);
     console.log(this.fecha2);
 
-    this.fechaapi = año + '-' + mes + '-' + dia2
+    this.fechaapi = año + '-' + mes2 + '-' + dia2
     console.log(this.service.formData.Moneda)
 
     if(this.service.formData.Moneda==='USD'){
