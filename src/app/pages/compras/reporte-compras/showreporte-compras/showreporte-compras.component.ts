@@ -3,6 +3,7 @@ import * as html2pdf from 'html2pdf.js';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { CompraService } from '../../../../services/compras/compra.service';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+import { SharedService } from '../../../../services/shared/shared.service';
 
 @Component({
   selector: 'app-showreporte-compras',
@@ -12,7 +13,7 @@ import { ngxLoadingAnimationTypes } from 'ngx-loading';
 export class ShowreporteComprasComponent implements OnInit {
 
 
-  constructor(public comprasService: CompraService, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(public comprasService: CompraService, @Inject(MAT_DIALOG_DATA) public data: any, public sharedService: SharedService) { }
 
   ngOnInit() {
     this.reporteProveedor = this.data;
@@ -311,7 +312,8 @@ export class ShowreporteComprasComponent implements OnInit {
   }
 
   exportarXLS() {
-    // this.sharedService.generarExcelCobranza(this.arrcon);
+    console.log('export a excel');
+    this.sharedService.generarExcelReporteCompras(this.arrcon);
   }
 
   exportarPDF(){
