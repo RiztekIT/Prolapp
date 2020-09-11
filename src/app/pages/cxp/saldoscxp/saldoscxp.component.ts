@@ -6,6 +6,7 @@ import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 import Swal from 'sweetalert2';
 
+
 @Component({
   selector: 'app-saldoscxp',
   templateUrl: './saldoscxp.component.html',
@@ -22,6 +23,8 @@ valor;
 contador;
 total;
 valido;
+
+deviceinfo;
   constructor() { }
 
   ngOnInit() {
@@ -387,14 +390,15 @@ exceldetallado(){
     let workbook = new Workbook();
     let worksheet = workbook.addWorksheet('XML NOMINAS');
     worksheet.mergeCells('A1:D1');
-    let titleRow = worksheet.addRow([title]);
-    titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
-    worksheet.mergeCells('A2:D2');
-    let subtitleRow = worksheet.addRow([subtitle])
-    subtitleRow.font = { name: 'Comic Sans MS', family: 4, size: 12 };
-    worksheet.addRow([]);
+    // let titleRow = worksheet.addRow([title]);
+    // titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
+    // worksheet.mergeCells('A2:D2');
+    // let subtitleRow = worksheet.addRow([subtitle])
+    // subtitleRow.font = { name: 'Comic Sans MS', family: 4, size: 12 };
+    // worksheet.addRow([]);
     let count = 0;
-    let header2 = ['No. Empleado','Nombre','RFC','Clave','Tipo','Percepciones','Gravado','Exento','No. Empleado','Nombre','RFC','Clave','Tipo','Deducciones','','']
+    let header2 = ['No. Empleado','Nombre','RFC','Clave','Tipo','Percepciones/Deduccion','Gravado','Exento',"Fecha Pago","Fecha Inicial", "Fecha Final"]
+    // let header2 = ['No. Empleado','Nombre','RFC','Clave','Tipo','Percepciones/Deduccion','Gravado','Exento',"Fecha Pago","Fecha Inicial", "Fecha Final",'No. Empleado','Nombre','RFC','Clave','Tipo','Deducciones','Importe',"Fecha Pago","Fecha Inicial", "Fecha Final"]
     let rowh2 = worksheet.addRow(header2);
     data.forEach((d) => {
       count = count +1;
@@ -446,7 +450,7 @@ exceldetallado(){
     let f;
 
     if ((d.Comprobante.Complemento[0].Nomina[0].Percepciones) && (d.Comprobante.Complemento[0].Nomina[0].Deducciones)){
-
+/* 
       if(d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion.length>=d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion.length){
         f = d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion.length;
       }else{
@@ -456,66 +460,55 @@ exceldetallado(){
       f = d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion.length;
     }else{
       f = d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion.length
-    }
+    } */
 
-    for (let r=0; r<f; r++){
-      let registro = [];
-
-      if (d.Comprobante.Complemento[0].Nomina[0].Percepciones){
-
-      
-if (r<=d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion.length-1){
-
-  registro[1]=d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumEmpleado;
-  registro[2]=d.Comprobante.Receptor[0].$.Nombre;
-  registro[3]=d.Comprobante.Receptor[0].$.Rfc;
-  registro[4]=d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion[r].$.Clave;
-  registro[5]=d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion[r].$.TipoPercepcion;
-  registro[6]=d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion[r].$.Concepto;
-  registro[7]=+d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion[r].$.ImporteGravado;
-  registro[8]=+d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion[r].$.ImporteExento;
-}
-}
-
-if (d.Comprobante.Complemento[0].Nomina[0].Deducciones){
-
-
-
-if (r<=d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion.length-1){
-  registro[9]=d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumEmpleado;
-  registro[10]=d.Comprobante.Receptor[0].$.Nombre;
-  registro[11]=d.Comprobante.Receptor[0].$.Rfc;
-  registro[12]=d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion[r].$.Clave;
-  registro[13]=d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion[r].$.TipoDeduccion;
-  registro[14]=d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion[r].$.Concepto;
-  registro[15]=+d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion[r].$.Importe;
-
-}
-}
-
-      // for (let p=0; p<d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion.length;p++){
-        
-      // }
-      // for (let de=0; de<d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion.length;de++){
-        
-        
-      // }
+    let registro = [];
     
-      
-      let row = worksheet.addRow(registro);
-      let dlls = row.getCell(7);
-      dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-      dlls = row.getCell(8);
-      dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-      // worksheet.addRow([]);
-      dlls = row.getCell(13);
-      dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-      // worksheet.addRow([]);
-      /* dlls = row.getCell(5);
-      dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-       */// worksheet.addRow([]);
+    if (d.Comprobante.Complemento[0].Nomina[0].Percepciones){
+      for (let r=0;r<d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion.length;r++){
+        registro[1]=d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumEmpleado;
+        registro[2]=d.Comprobante.Receptor[0].$.Nombre;
+        registro[3]=d.Comprobante.Receptor[0].$.Rfc;
+        registro[4]=d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion[r].$.Clave;
+        registro[5]=d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion[r].$.TipoPercepcion;
+        registro[6]=d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion[r].$.Concepto;
+        registro[7]=+d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion[r].$.ImporteGravado;
+        registro[8]=+d.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion[r].$.ImporteExento;
+        registro[9]=d.Comprobante.Complemento[0].Nomina[0].$.FechaPago;
+        registro[10]=d.Comprobante.Complemento[0].Nomina[0].$.FechaInicialPago;
+        registro[11]=d.Comprobante.Complemento[0].Nomina[0].$.FechaFinalPago;
+        let row = worksheet.addRow(registro);
+        let dlls = row.getCell(7);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row.getCell(8);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'        
+      }
 
     }
+
+    if (d.Comprobante.Complemento[0].Nomina[0].Deducciones){
+      for (let r=0;r<d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion.length;r++){
+        registro[1]=d.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumEmpleado;
+        registro[2]=d.Comprobante.Receptor[0].$.Nombre;
+        registro[3]=d.Comprobante.Receptor[0].$.Rfc;
+        registro[4]=d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion[r].$.Clave;
+        registro[5]=d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion[r].$.TipoDeduccion;
+        registro[6]=d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion[r].$.Concepto;
+        registro[7]=+d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion[r].$.Importe;
+        registro[8]='';
+        registro[9]=d.Comprobante.Complemento[0].Nomina[0].$.FechaPago;
+        registro[10]=d.Comprobante.Complemento[0].Nomina[0].$.FechaInicialPago;
+        registro[11]=d.Comprobante.Complemento[0].Nomina[0].$.FechaFinalPago;
+        let row = worksheet.addRow(registro);
+        let dlls = row.getCell(7);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row.getCell(8);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'    
+      }
+    }
+
+    
+
     
 
    
@@ -526,7 +519,7 @@ if (r<=d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion.length-1)
     
 
     
-      
+  }
     })
 
 
@@ -550,6 +543,9 @@ if (r<=d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion.length-1)
     worksheet.getColumn(13).width = 20;
     worksheet.getColumn(14).width = 20;
     worksheet.getColumn(15).width = 20;
+    worksheet.getColumn(16).width = 20;
+    worksheet.getColumn(17).width = 20;
+    worksheet.getColumn(18).width = 20;
 
 
     workbook.xlsx.writeBuffer().then((data) => {
@@ -558,6 +554,13 @@ if (r<=d.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion.length-1)
     });
 
 
+}
+
+device(){
+
+/*   this.deviceinfo = this.deviceService.getDeviceInfo();
+  console.clear();
+console.log(this.deviceinfo); */
 }
 
 }

@@ -272,6 +272,7 @@ import { PagoFleteraComponent } from './cxp/pagoscxp/pago-fletera/pago-fletera.c
 import { PagoNominaComponent } from './cxp/pagoscxp/pago-nomina/pago-nomina.component';
 import { PagoComisionesComponent } from './cxp/pagoscxp/pago-comisiones/pago-comisiones.component';
 import { AddExpedienteComponent } from './administracion/expediente/add-expediente/add-expediente.component';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 
 @NgModule({
@@ -535,7 +536,8 @@ import { AddExpedienteComponent } from './administracion/expediente/add-expedien
         CalendarioService,
         DireccionService,
         DatePipe,
-        NotificacionespushService
+        NotificacionespushService,
+        DeviceDetectorService
         
         
     ],
