@@ -272,6 +272,7 @@ import { PagoFleteraComponent } from './cxp/pagoscxp/pago-fletera/pago-fletera.c
 import { PagoNominaComponent } from './cxp/pagoscxp/pago-nomina/pago-nomina.component';
 import { PagoComisionesComponent } from './cxp/pagoscxp/pago-comisiones/pago-comisiones.component';
 import { AddExpedienteComponent } from './administracion/expediente/add-expediente/add-expediente.component';
+import { ShowreporteComprasComponent } from './compras/reporte-compras/showreporte-compras/showreporte-compras.component';
 
 
 @NgModule({
@@ -462,6 +463,7 @@ import { AddExpedienteComponent } from './administracion/expediente/add-expedien
         PagoNominaComponent,
         PagoComisionesComponent,
         AddExpedienteComponent,
+        ShowreporteComprasComponent,
     
     ],
     exports: [
@@ -601,7 +603,8 @@ import { AddExpedienteComponent } from './administracion/expediente/add-expedien
         AddfordwardComponent,
         MercanciaComponent,
         PagoDocumentoComponent,
-        AddExpedienteComponent
+        AddExpedienteComponent,
+        ShowreporteComprasComponent
         
     ]
 })
