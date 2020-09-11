@@ -32,6 +32,8 @@ export class AddExpedienteComponent implements OnInit {
 
 
   IdCliente: number
+
+  tipoDocumento: string = "";
     //******************** VARIABLES DOCUMENTOS (API, DROPZONE) ********************//
 
   //guardar arreglo de documentos del dropzone
@@ -192,7 +194,7 @@ onAddDocumentos() {
       documento.IdDetalle = this.IdCliente;
       documento.Modulo = 'Administracion';
       documento.Tipo = 'Expediente';
-      documento.ClaveProducto = this.clienteService.objetoCliente.RFC;
+      documento.ClaveProducto = this.tipoDocumento;
       documento.NombreDocumento = event[i].name;
       documento.Path =  'Documentos/expedientes/'+this.IdCliente+'/'+ event[i].name;
       documento.Observaciones = "";

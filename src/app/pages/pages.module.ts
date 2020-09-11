@@ -273,6 +273,7 @@ import { PagoNominaComponent } from './cxp/pagoscxp/pago-nomina/pago-nomina.comp
 import { PagoComisionesComponent } from './cxp/pagoscxp/pago-comisiones/pago-comisiones.component';
 import { AddExpedienteComponent } from './administracion/expediente/add-expediente/add-expediente.component';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { ShowreporteComprasComponent } from './compras/reporte-compras/showreporte-compras/showreporte-compras.component';
 
 
 @NgModule({
@@ -463,6 +464,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
         PagoNominaComponent,
         PagoComisionesComponent,
         AddExpedienteComponent,
+        ShowreporteComprasComponent,
     
     ],
     exports: [
@@ -604,7 +606,8 @@ import { DeviceDetectorService } from 'ngx-device-detector';
         AddfordwardComponent,
         MercanciaComponent,
         PagoDocumentoComponent,
-        AddExpedienteComponent
+        AddExpedienteComponent,
+        ShowreporteComprasComponent
         
     ]
 })

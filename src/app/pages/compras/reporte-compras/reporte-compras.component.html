@@ -1,101 +1,155 @@
-<h3 class="text-muted m-t-10 m-b-0">Reportes de Compras</h3>
-<div class="accordion" id="accordionExample">
-    <div class="card">
-        <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                Compras - Cliente
-              </button>
-            </h2>
-        </div>
-
-        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+<div class="row">
+    <div class="col-12">
+        <div class="card">
             <div class="card-body">
+                <div class="card mat-elevation-z8">
+                    <div class="card-body">
 
-                <h4 class="card-title"> Ventas por Cliente</h4>
-                <!-- <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6> -->
-                <div class="table-responsive m-t-40">
-                    <table id="example" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Cliente</th>
-                                <th>Cantidad</th>
-                                <th>Fecha</th>
-                                <th>Estatus</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let incidencia of ReporteCompras">
-                                <td>{{ incidencia.id }}</td>
-                                <td>{{ incidencia.cliente }}</td>
-                                <td>{{ incidencia.cantidad }}</td>
-                                <td>{{ incidencia.fecha }}</td>
-                                <td>{{ incidencia.estatus }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
 
+
+                        <div class="d-flex justify-content-between">
+
+                            <h3 class="text-muted m-t-10 m-b-0">Reportes Compras</h3>
+                        </div>
+                        <hr>
+
+
+
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                Reportes de Compras
+                                              </button>
+                            </h2>
+                        </div>
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <mat-card>
+
+                                <div class="col-2">
+                                </div>
+                                <div class="col-8">
+                                    <label class="input-group-text text-info">Tipo de Compra:</label>
+                                    <select class="form-control" name="compraTipo" #compraTipo="ngModel" id="compraTipo" (change)="tipoReporteSelected($event)" [(ngModel)]="tipoCompra">
+                                                                                <option [ngValue]="null" selected disabled>Seleccionar Tipo Compra</option>
+                                                                                <option *ngFor="let dl of listTipoCompras" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                                                            </select>
+                                </div>
+                                <div class="col-2">
+                                </div>
+
+                                <hr>
+
+                                <div class="col-4" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedEstatus" (change)="onChangeEstatus()" [disabled]="disabledEstatus">
+                                            Filtrar por Estatus de Compra
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div class="col-8" *ngIf="checkedEstatus == true">
+                                    <label class="input-group-text text-info">Seleccionar Estatus</label>
+
+                                    <select class="form-control" name="estatuss" #estatuss="ngModel" id="estatuss" (change)="changeEstatus($event)" [(ngModel)]="estatusCompra">
+                                                                <option [ngValue]="null" selected disabled>Seleccionar Estatus Compra</option>
+                                                                <option *ngFor="let dl of listEstatus" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                                            </select>
+
+                                </div>
+
+                                <hr>
+
+                                <div class="col-4" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedProveedores" (change)="onChangeTodosProveedores()" [disabled]="disabled">
+                                            Todos los Proveedores
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div class="col-8" *ngIf="checkedProveedores == false">
+                                    <label class="input-group-text text-info">Seleccionar Proveedor</label>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <mat-form-field class="example-full-width">
+                                                <input type="text" placeholder="Seleccionar Proveedor" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="proveedorId" [(ngModel)]="IdProveedor">
+                                                <mat-autocomplete #auto="matAutocomplete">
+                                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdProveedor" (onSelectionChange)="onSelectionChange(option, $event)">
+                                                        {{option.IdProveedor}} {{option.Nombre}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                            <input type="string" class="form-control" readonly name="nombreProveedor" readonly [(ngModel)]="ProveedroNombre">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <section class="example-section">
+                                    <mat-slide-toggle class="example-margin" [color]="color" [checked]="checked" (change)="onChangePorFecha()" [disabled]="disabled">
+                                        Filtrar por Fechas
+                                    </mat-slide-toggle>
+                                </section>
+                                <div *ngIf="checked == true" class="row">
+                                    <div class="col-2">
+
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Inicial </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="fechaInicial" [(ngModel)]="fechaInicial">
+                                            <mat-datepicker #picker1></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Final </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="fechaFinal" [(ngModel)]="fechaFinal">
+                                            <mat-datepicker #picker2></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-2">
+
+                                    </div>
+                                    <!-- <div class="col-4">
+                                                                <button (click)="abrirReporte()" class="btn btn-info">Abrir Reporte</button>
+                                                                <button (click)="abrirReporteResumen()" class="btn btn-info"> Reporte Resumen</button>
+                                                            </div> -->
+                                </div>
+
+                                <hr>
+
+
+
+
+
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checked == true && !fechaInicial && !fechaFinal) || (checkedProveedores == false && !ProveedroNombre) || (checkedEstatus == true && !estatusCompra)" class="btn btn-warning" id="abrirpdf" (click)="abrirReporte('ALL')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Compras</button>
+
+                                        </div>
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checked == true && !fechaInicial && !fechaFinal) || (checkedProveedores == false && !ProveedroNombre) || (checkedEstatus == true && !estatusCompra)" class="btn btn-success" id="abrirpdf" (click)="abrirReporte('DLLS')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Compras Dlls</button>
+
+                                        </div>
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checked == true && !fechaInicial && !fechaFinal) || (checkedProveedores == false && !ProveedroNombre) || (checkedEstatus == true && !estatusCompra)" class="btn btn-info" id="abrirpdf" (click)="abrirReporte('MXN')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Compras Mxn</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </mat-card>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-    </div>
-
-
-
-
-    <div class="card">
-        <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapsetwo" aria-expanded="false" aria-controls="collapsetwo">
-                   Compras - Producto
-                  </button>
-            </h2>
-        </div>
-
-        <div id="collapsetwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-            <div class="card-body">
-
-                <h4 class="card-title"> Ventas por Producto</h4>
-                <!-- <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6> -->
-                <div class="table-responsive m-t-40">
-                    <table class="display nowrap table table-hover table-striped table-bordered tablauno" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Producto</th>
-                                <th>Precio de Compra</th>
-                                <th>Fecha</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let incidencia of ReporteCompras">
-                                <td>{{ incidencia.id }}</td>
-                                <td>{{ incidencia.producto }}</td>
-                                <td>{{ incidencia.precio }}</td>
-                                <td>{{ incidencia.fecha }}</td>
-
-                            </tr>
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        </div>
-
-
-
-
-
-
     </div>
 </div>
-
-
-<app-graficas-compras></app-graficas-compras>
