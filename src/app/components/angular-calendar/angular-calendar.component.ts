@@ -76,10 +76,14 @@ export class AngularCalendarComponent implements OnInit {
       this.usuario = JSON.parse(this.usuario);
       this.verificarProcedencia(procedencia);
     });
+ 
 
   }
 
+  db;
+
   ngOnInit() {
+  
   }
 
 

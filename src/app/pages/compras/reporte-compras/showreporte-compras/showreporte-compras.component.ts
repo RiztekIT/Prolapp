@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 import { CompraService } from '../../../../services/compras/compra.service';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import { SharedService } from '../../../../services/shared/shared.service';
+import { CalendarioService } from 'src/app/services/calendario/calendario.service';
 
 @Component({
   selector: 'app-showreporte-compras',
@@ -20,6 +21,7 @@ export class ShowreporteComprasComponent implements OnInit {
     console.log(this.reporteProveedor);
     this.moneda = this.reporteProveedor.moneda;
     this.identificarTipoDeReporte(this.reporteProveedor.unsoloproveedor);
+
     //Obtener reporte Proveedor(es)
   }
 
@@ -97,6 +99,7 @@ export class ShowreporteComprasComponent implements OnInit {
       }
     
   }
+
 
   //filtro por IdProveedor y Tipo Compra (Administrativa, MateriaPrima)
   filtroGeneral(numero, data, tipoReporte){

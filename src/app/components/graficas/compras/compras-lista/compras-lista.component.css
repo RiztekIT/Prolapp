@@ -64,12 +64,3 @@ tr.example-element-row:not(.example-expanded-row):active {
     background-color: #000000;
     color: white
 }
-
-[class^=col] {
-    display: flex;
-    flex-direction: column;
-}
-
-[class^=col] div {
-    flex-grow: 1
-}

@@ -45,7 +45,7 @@
         "html2pdf.js": "^0.9.1",
         "js2xmlparser": "^4.0.0",
         "nanoid": "^3.1.5",
-        "ng2-charts": "^2.3.0",
+        "ng2-charts": "^2.4.1",
         "ng2-file-upload": "^1.4.0",
         "ng2-imageupload": "^1.4.2",
         "ng2-qrcode-reader": "0.0.1",

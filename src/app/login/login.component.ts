@@ -123,7 +123,8 @@ this.dispositivo = JSON.stringify(this.deviceinfo)
     Correo: '',
     Telefono: '',
     Contra: 'Ivan2019',
-    FechaUltimoAcceso: '2019-12-19'
+    FechaUltimoAcceso: '2019-12-19',
+    Dispositivo:''
    }
 
   }

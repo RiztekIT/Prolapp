@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule, MatToolbarModule, MatTabsModule, MatProgressBarModule } from '@angular/material';
+import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule, MatToolbarModule, MatTabsModule, MatProgressBarModule, MatButtonToggleModule } from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
@@ -26,7 +26,7 @@ import { PagesComponent } from './pages.component';
 import { SharedModule } from '../shared/shared.module';
 import { PAGES_ROUTES } from './pages.routes';
 import { IngrementadorComponent } from '../components/ingrementador/ingrementador.component';
-import { ChartsModule } from 'ng2-charts';
+import { ChartsModule, ThemeService } from 'ng2-charts';
 import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromesasComponent } from './promesas/promesas.component';
@@ -274,6 +274,11 @@ import { PagoComisionesComponent } from './cxp/pagoscxp/pago-comisiones/pago-com
 import { AddExpedienteComponent } from './administracion/expediente/add-expediente/add-expediente.component';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { ShowreporteComprasComponent } from './compras/reporte-compras/showreporte-compras/showreporte-compras.component';
+import { TotalesComponent } from '../components/graficas/compras/totales/totales.component';
+import { ProductosTotalesComponent } from '../components/graficas/compras/productos-totales/productos-totales.component';
+import { ComprasMesesComponent } from '../components/graficas/compras/compras-meses/compras-meses.component';
+import { ComprasListaComponent } from '../components/graficas/compras/compras-lista/compras-lista.component';
+
 
 
 @NgModule({
@@ -465,6 +470,10 @@ import { ShowreporteComprasComponent } from './compras/reporte-compras/showrepor
         PagoComisionesComponent,
         AddExpedienteComponent,
         ShowreporteComprasComponent,
+        TotalesComponent,
+        ProductosTotalesComponent,
+        ComprasMesesComponent,
+        ComprasListaComponent,
     
     ],
     exports: [
@@ -517,6 +526,7 @@ import { ShowreporteComprasComponent } from './compras/reporte-compras/showrepor
         MatTabsModule,
         NgxPrintModule,
         MatProgressBarModule,
+        MatButtonToggleModule
     ],
     providers: [
         UsuariosServieService,
@@ -539,7 +549,8 @@ import { ShowreporteComprasComponent } from './compras/reporte-compras/showrepor
         DireccionService,
         DatePipe,
         NotificacionespushService,
-        DeviceDetectorService
+        DeviceDetectorService,
+        ThemeService
         
         
     ],
@@ -607,7 +618,8 @@ import { ShowreporteComprasComponent } from './compras/reporte-compras/showrepor
         MercanciaComponent,
         PagoDocumentoComponent,
         AddExpedienteComponent,
-        ShowreporteComprasComponent
+        ShowreporteComprasComponent,
+        ComprasPdfComponent
         
     ]
 })

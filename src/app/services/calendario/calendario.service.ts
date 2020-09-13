@@ -90,9 +90,11 @@ export class CalendarioService {
   listen(): Observable<any> {
     return this._listeners.asObservable();
   }
+
   filter(filterBy: string) {
     this._listeners.next(filterBy);
   }
+
 
 
 }

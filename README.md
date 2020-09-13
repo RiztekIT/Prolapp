@@ -58,3 +58,7 @@ npm i @zxing/ngx-scanner@latest --save
 
 ## NGX PRINT
 npm i ngx-print
+
+## Graficas
+npm install chart.js --save
+npm install --save ng2-charts

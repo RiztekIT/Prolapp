@@ -1,6 +1,70 @@
-<app-stock></app-stock>
+<div class="row row-eq-height">
+    <div class="col-md-6 col-12" id="compras">
+
+        <div class="card" style=" background-color: white;">
 
 
+
+            <app-compras-totales></app-compras-totales>
+
+
+        </div>
+
+    </div>
+    <!-- <div class="col-md-2"></div> -->
+    <div class="col-md-6 col-12" [ngStyle]="{'height':altura+'px'}">
+
+
+        <div class="card" style="overflow-x: hidden;overflow-y: auto;  background-color: white;">
+
+
+
+            <app-compras-lista></app-compras-lista>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+
+<br>
+
+<div class="row">
+    <div class="col-md-12 col-12">
+
+
+        <app-compras-meses></app-compras-meses>
+    </div>
+
+</div>
+<br>
+<div class="row">
+
+
+
+
+    <div class="col-md-12 col-12">
+
+        <div class="card">
+            <div class="card-body">
+                <app-ccalendario></app-ccalendario>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<!-- <app-stock></app-stock> -->
+
+
+<!-- 
 <div class="row">
     <div class="col-lg-3">
         <div class="card">
@@ -54,4 +118,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
