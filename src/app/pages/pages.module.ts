@@ -278,6 +278,7 @@ import { TotalesComponent } from '../components/graficas/compras/totales/totales
 import { ProductosTotalesComponent } from '../components/graficas/compras/productos-totales/productos-totales.component';
 import { ComprasMesesComponent } from '../components/graficas/compras/compras-meses/compras-meses.component';
 import { ComprasListaComponent } from '../components/graficas/compras/compras-lista/compras-lista.component';
+import { ProductosinventariosComponent } from '../components/graficas/almacen/productosinventarios/productosinventarios.component';
 
 
 
@@ -474,6 +475,7 @@ import { ComprasListaComponent } from '../components/graficas/compras/compras-li
         ProductosTotalesComponent,
         ComprasMesesComponent,
         ComprasListaComponent,
+        ProductosinventariosComponent,
     
     ],
     exports: [

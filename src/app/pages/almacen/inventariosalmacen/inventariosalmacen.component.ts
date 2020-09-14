@@ -179,3 +179,4 @@ this.obtenerProductos(this.bodegaSelect)
   }
 
 }
+
