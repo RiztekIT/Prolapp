@@ -179,6 +179,34 @@ export class VentasCotizacionService {
 
 
 
+  // *******************   REPORTES COTIZACION ************************* //
+
+    //obtener lista de Clientes
+    //acceder al metodo getDepDropDownValues
+
+    //Obtener Cliente por Id
+    //Acceder al metodo getCliente
+
+    //Obtener reporte Cotizacion por cliente ID
+    getReporteClienteId(id: number):Observable<any[]>{
+      return this.http.get<any[]>(this.APIUrl + '/reportes/CotizacionesJoinCliente/'+id);
+    }
+//obtener reporte Cotizacion por cliente ID y por estatus de la cotizacion
+    getReporteClienteIdEstatus(id:number, estatus:string):Observable<any[]>{
+      return this.http.get<any[]>(this.APIUrl + '/reportes/ReporteCotizacionesClienteEstatus/'+id+'/'+estatus);
+    }
+//obtener reporte cotizacion por Fecha Inicial / final y  cliente ID
+    getReporteFechasClienteId(fechaini, fechafinal, id:number):Observable<any[]>{
+      return this.http.get<any[]>(this.APIUrl + '/reportes/CotizacionesFechasCliente/'+fechaini+'/'+fechafinal+'/'+id);
+    }
+//obtener reporte cotizacion por Fecha Inicial / final ,  cliente ID y estatus
+    getReporteFechasClienteIdEstatus(fechaini, fechafinal, id:number, estatus: string):Observable<any[]>{
+      return this.http.get<any[]>(this.APIUrl + '/reportes/CotizacionesFechasClienteEstatus/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
+    }
+
+  // *******************   REPORTES COTIZACION ************************* //
+
+
   private _listeners = new Subject<any>();
   listen(): Observable<any> {
     return this._listeners.asObservable();

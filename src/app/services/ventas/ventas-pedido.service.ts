@@ -170,6 +170,36 @@ export class VentasPedidoService {
     this._listeners.next(filterBy);
   }
 
+
+
+// *******************   REPORTES PEDIDOS ************************* //
+
+    //obtener lista de Clientes
+    //acceder al metodo getDepDropDownValues
+
+    //Obtener Cliente por Id
+    //Acceder al metodo getCliente
+
+    //Obtener reporte Pedido por cliente ID
+    getReporteClienteId(id: number):Observable<any[]>{
+      return this.http.get<any[]>(this.APIUrl + '/reportes/PedidoClienteId/'+id);
+    }
+//obtener reporte pedido por cliente ID y por estatus
+    getReporteClienteIdEstatus(id:number, estatus:string):Observable<any[]>{
+      return this.http.get<any[]>(this.APIUrl + '/reportes/ReportePedidosClienteEstatus/'+id+'/'+estatus);
+    }
+//obtener reporte pedido por Fecha Inicial / final y  cliente ID
+    getReporteFechasClienteId(fechaini, fechafinal, id:number):Observable<any[]>{
+      return this.http.get<any[]>(this.APIUrl + '/reportes/PedidoFechas/'+fechaini+'/'+fechafinal+'/'+id);
+    }
+//obtener reporte pedido por Fecha Inicial / final ,  cliente ID y estatus
+    getReporteFechasClienteIdEstatus(fechaini, fechafinal, id:number, estatus: string):Observable<any[]>{
+      return this.http.get<any[]>(this.APIUrl + '/reportes/PedidoFechasClienteEstatus/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
+    }
+
+  // *******************   REPORTES PEDIDOS ************************* //
+
+
   // cliente login
   //Get Pedido por IdPedido
   getPedidoclienteId(id: number): Observable <any[]>{
