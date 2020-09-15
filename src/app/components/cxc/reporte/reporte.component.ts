@@ -202,7 +202,6 @@ export class ReporteComponent implements OnInit {
     })
 
   }
-
   getClientes(){
 
     this.serviceCliente.getClientesListIDN().subscribe(data=>{
