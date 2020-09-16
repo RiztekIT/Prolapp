@@ -8,6 +8,7 @@ import { MatDialog, MatDialogConfig, MatSnackBar, MatDivider, MAT_DATE_LOCALE } 
 import { PedidoService } from '../../../services/pedidos/pedido.service';
 import { VentasCotizacionService } from '../../../services/ventas/ventas-cotizacion.service';
 import {ThemePalette} from '@angular/material/core';
+import { ShowreporteVentasComponent } from './showreporte-ventas/showreporte-ventas.component';
 
 declare function btn_table();
 
@@ -257,7 +258,8 @@ IdCliente = this.CotizacionIdCliente;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "80%";
     dialogConfig.data = {
-      unsoloproveedor: unCliente,
+      modulo: modulo,
+      unsolocliente: unCliente,
       moneda: moneda,
       idCliente: IdCliente,
       filtradoFecha: filtrarFecha,
@@ -267,7 +269,7 @@ IdCliente = this.CotizacionIdCliente;
       tipoEstatus: tipoEstatus
       
     }
-    // this.dialog.open(, dialogConfig);
+    this.dialog.open( ShowreporteVentasComponent, dialogConfig);
 
   }
 }
