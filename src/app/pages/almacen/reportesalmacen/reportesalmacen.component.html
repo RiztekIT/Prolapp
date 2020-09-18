@@ -36,7 +36,7 @@
                                 <div class="col-8" *ngIf="checkedEstatusOrdenCarga == true">
                                     <label class="input-group-text text-info">Seleccionar Estatus</label>
 
-                                    <select class="form-control" name="estatuss" #estatuss="ngModel" id="estatuss" (change)="onChangeEstatusOrdenCarga($event)" [(ngModel)]="estatusOrdenCarga">
+                                    <select class="form-control" name="estatuss" #estatuss="ngModel" id="estatuss" (change)="changeEstatusOrdenCarga($event)" [(ngModel)]="estatusOrdenCarga">
                                                                 <option [ngValue]="null" selected disabled>Seleccionar Estatus Orden Carga</option>
                                                                 <option *ngFor="let dl of listEstatusOrdenCarga" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
                                                             </select>
@@ -449,7 +449,7 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-4 btnalign">
-                                            <button [disabled]="(checkedBodegaInventario == true && !bodegaInventario) || (checkedProductosInventario == true && !InventarioProductoNombre)" class="btn btn-warning" id="abrirpdf" (click)="abrirReporte('Traspaso')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Inventario</button>
+                                            <button [disabled]="(checkedBodegaInventario == true && !bodegaInventario) || (checkedProductosInventario == false && !InventarioProductoNombre)" class="btn btn-warning" id="abrirpdf" (click)="abrirReporte('Inventario')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Inventario</button>
 
                                         </div>
                                         <!-- <div class="col-4 btnalign">

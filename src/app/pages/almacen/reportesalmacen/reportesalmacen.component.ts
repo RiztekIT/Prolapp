@@ -295,7 +295,7 @@ export class ReportesalmacenComponent implements OnInit {
     }
   }
   //cuando se selecciona un estatus OrdenCarga
-  changeEstatusCotizacion(event){
+  changeEstatusOrdenCarga(event){
     console.log(event);
     this.estatusOrdenCarga = event.target.selectedOptions[0].text;
   }
@@ -353,7 +353,7 @@ IdClienteProveedor = this.OrdenCargaIdCliente;
     tipoEstatusBodega = this.estatusOrdenCarga; 
   }
 
-}else if ('OrdenDescarga'){
+}else if (modulo ==  'OrdenDescarga'){
   IdClienteProveedor = this.OrdenDescargaIdProveedor;
   if(this.checkedFechasOrdenDescarga == true){
     // console.log('SE FILTRA POR FECHA');
@@ -372,8 +372,10 @@ IdClienteProveedor = this.OrdenCargaIdCliente;
     estatusBodega = true;
     tipoEstatusBodega = this.estatusOrdenDescarga; 
   }
-}else if ('Traspaso'){
+}else if (modulo == 'Traspaso'){
   IdClienteProveedor = 0;
+  // SIEMPRE ES UN SOLO CLIENTE EN TRASPASO
+        unClienteProveedor = true;
   if(this.checkedFechasTraspaso == true){
     // console.log('SE FILTRA POR FECHA');
       fechaStart = this.fechaInicialTraspaso;
@@ -382,19 +384,17 @@ IdClienteProveedor = this.OrdenCargaIdCliente;
   }else{
     filtrarFecha = false;
   }
-// SIEMPRE ES UN SOLO CLIENTE EN TRASPASO
-      unClienteProveedor = true;
 
   if(this.checkedEstatusTraspaso == true){
     estatusBodega = true;
     tipoEstatusBodega = this.estatusTraspaso; 
   }
-}else if ('Inventario'){
+}else if (modulo == 'Inventario'){
   ClaveProducto = this.InventarioClaveProducto;
     //Los inventarios no se filtran por fecha
     filtrarFecha = false;
 
-  if(this.checkedProductosInventario == false){
+  if(this.checkedProductosInventario == true){
     // console.log(this.checkedProveedores);
     // console.log('SE FILTRA POR PROVEEDORES');
       unClienteProveedor = true;

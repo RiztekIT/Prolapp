@@ -256,7 +256,7 @@ IdCliente = this.CotizacionIdCliente;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "80%";
+    dialogConfig.width = "50%";
     dialogConfig.data = {
       modulo: modulo,
       unsolocliente: unCliente,

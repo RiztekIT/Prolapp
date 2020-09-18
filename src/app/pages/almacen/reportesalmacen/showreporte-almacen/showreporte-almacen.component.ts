@@ -55,12 +55,20 @@ export class ShowreporteAlmacenComponent implements OnInit {
     //asignar valores del Reporte
     this.reporteFechas = this.ReporteInformacion.filtradoFecha;
     this.reporteEstatus = this.ReporteInformacion.estatus;
+    let bodega = this.ReporteInformacion.tipoEstatusBodega;
     switch (modulo) {
-      case ('OrdenCarga' || 'Traspaso'):
+      case ('OrdenCarga'):
+        console.log(modulo);
           if(unCliente == true){
-              this.getunCliente(modulo, this.ReporteInformacion.idClienteProveedor);
+              this.getunCliente( this.ReporteInformacion.idClienteProveedor);
           }else{
               this.getClientes();
+          }
+        break;
+      case ('Traspaso'):
+        console.log(modulo);
+          if(unCliente == true){
+              this.obtenerReporteTraspaso(1, this.ReporteInformacion.idClienteProveedor);
           }
         break;
       case ('OrdenDescarga'):
@@ -71,19 +79,26 @@ export class ShowreporteAlmacenComponent implements OnInit {
       }
           break;
           case('Inventario'):
-
+          if(unCliente == true){
+            //Una sola bodega
+            this.getReporteUnaBodega(bodega);
+        }else{
+            //Todas las bodegas
+            this.getReporteBodegas();
+          }
           break;
+        
     }
   }
 
- getunCliente(modulo, id){
-  console.log('Un CLiente', modulo, id);
+ getunCliente( id){
+  console.log('Un CLiente', id);
   this.cotizacionService.GetCliente(id).subscribe((dataCliente) => {
-    if(modulo == 'OrdenCarga'){
+    // if(modulo == 'OrdenCarga'){
       this.obtenerReporteOrdenCarga(dataCliente.length, dataCliente);
-    }else if(modulo == 'Traspaso'){
-      this.obtenerReportesTraspaso(dataCliente.length, dataCliente);
-    }
+    // }else if(modulo == 'Traspaso'){
+    //   this.obtenerReportesTraspaso(dataCliente.length, dataCliente);
+    // }
   });
  }
 
@@ -108,48 +123,569 @@ getProveedores(){
   })
 }
 
+getReporteUnaBodega(bodega:string){
+    let contador = 0;
+    this.serviceTarima.master = [];
+    let sacostotales;
+    this.serviceTarima.getProductos().subscribe((data:any)=>{
+      console.log(data,'obtner tarimas');
+      for (let l=0; l<data.length; l++){
+        console.log(data[l].Nombre);
+        this.serviceTarima.GetTarimaProducto(data[l].Nombre,bodega).subscribe(datadet =>{
+          console.log(datadet);
+          if (datadet.length>0){
+            sacostotales = 0;
+            this.serviceTarima.master[contador] = data[l];
+            for (let i=0; i<datadet.length;i++){
+              sacostotales = sacostotales + +datadet[i].Sacos;
+              datadet[i].SacosD = +datadet[i].Sacos;
+              this.serviceTarima.GetTarimaProductoD(datadet[i].Producto,datadet[i].Lote).subscribe(datas=>{
+                console.log(datas,'datas');
+                if (datas.length>0){
+                  for (let d=0; d<datas.length;d++){
+
+                    datadet[i].SacosD = datadet[i].SacosD - +datas[d].Sacos
+                  }
+
+                }else{
+                  datadet[i].SacosD = datadet[i].SacosD
+                }
+                this.serviceTarima.master[contador].detalle = datadet;
+                this.serviceTarima.master[contador].Stock = sacostotales;
+                console.log(this.serviceTarima.master);
+              }) 
+            }
+            contador++;
+          }
+                // this.arrcon = this.serviceTarima.master;
+                // console.log(this.arrcon);
+        })
+
+      }
+     
+    })
+  }
+
+getReporteBodegas(){
+
+}
+
 
 obtenerReporteOrdenCarga(numero: number, data: any) {
   this.arrcon = [];
   // ningun filtro
   if (this.reporteFechas == false && this.reporteEstatus == false) {
-    // this.filtroGeneralOrdenCarga(numero, data);
+    this.filtroGeneralOrdenCarga(numero, data);
   }
   //buscar reporte por Fechas
   else if (this.reporteFechas == true && this.reporteEstatus == false) {
-    // this.filtroFechaOrdenCarga(numero, data, this.ReporteInformacion.fechaInicial, this.ReporteInformacion.fechaFinal);
+    this.filtroFechaOrdenCarga(numero, data, this.ReporteInformacion.fechaInicial, this.ReporteInformacion.fechaFinal);
   }
   //buscar reporte por Estatus 
   else if (this.reporteFechas == false && this.reporteEstatus == true) {
-    // this.filtroEstatusOrdenCarga(numero, data, this.ReporteInformacion.tipoEstatus);
+    this.filtroEstatusOrdenCarga(numero, data, this.ReporteInformacion.tipoEstatus);
   }
   //buscar reporte por  Estatus y por Fechas
   else if (this.reporteFechas == true && this.reporteEstatus == true) {
-    // this.filtroEstatusFechaOrdenCarga(numero, data, this.ReporteInformacion.fechaInicial, this.ReporteInformacion.fechaFinal, this.ReporteInformacion.tipoEstatus);
+    this.filtroEstatusFechaOrdenCarga(numero, data, this.ReporteInformacion.fechaInicial, this.ReporteInformacion.fechaFinal, this.ReporteInformacion.tipoEstatus);
+  }
+}
+ //filtro por Id Cliente
+ filtroGeneralOrdenCarga(numero, data) {
+
+  console.log('FILTRO GENERAL');
+  for (let i = 0; i < numero; i++) {
+    this.arrcon[i] = data[i];
+    this.arrcon[i].Docs = [];
+    //Obtener Reportes por Id Cliente
+    this.ocService
+      .getReporteClienteId(data[i].IdClientes)
+      .subscribe((dataReporte) => {
+        if (dataReporte.length > 0) {
+          console.log(dataReporte);
+          this.iniciarTotales();
+          for (let l = 0; l < dataReporte.length; l++) {
+            this.sacos = this.sacos + +dataReporte[l].Sacos;
+            this.kg = this.kg + +dataReporte[l].Kg;
+            this.arrcon[i].Docs.push(dataReporte[l]);
+          }
+          this.arrcon[i].Sacos = this.sacos;
+          this.arrcon[i].Kg = this.kg;
+        } else {
+          this.iniciarTotales();
+        }
+      });
+  }
+}
+//Filtro por IdCliente y por Las Fechas 
+filtroFechaOrdenCarga(numero, data, fechaInicial, fechaFinal) {
+
+  console.log('FILTRO FECHA IDCLIENTE');
+  let fecha1;
+  let fecha2;
+
+  let dia = fechaInicial.getDate();
+  let mes = fechaInicial.getMonth() + 1;
+  let anio = fechaInicial.getFullYear();
+  fecha1 = anio + '-' + mes + '-' + dia
+
+  let dia2 = fechaFinal.getDate();
+  let mes2 = fechaFinal.getMonth() + 1;
+  let anio2 = fechaFinal.getFullYear();
+  fecha2 = anio2 + '-' + mes2 + '-' + dia2
+
+  for (let i = 0; i < numero; i++) {
+    this.arrcon[i] = data[i];
+    this.arrcon[i].Docs = [];
+    //Obtener Reportes por Id Cliente
+    this.ocService.getReporteFechasClienteId(fecha1, fecha2, data[i].IdClientes).subscribe(dataReporte => {
+      if (dataReporte.length > 0) {
+        console.log(dataReporte);
+        this.iniciarTotales();
+        for (let l = 0; l < dataReporte.length; l++) {
+          this.sacos = this.sacos + +dataReporte[l].Sacos;
+          this.kg = this.kg + +dataReporte[l].Kg;
+          this.arrcon[i].Docs.push(dataReporte[l]);
+        }
+        this.arrcon[i].Sacos = this.sacos;
+        this.arrcon[i].Kg = this.kg;
+      } else {
+        this.iniciarTotales();
+      }
+    })
+  }
+}
+//Filtro por IdCliente y Estatus
+filtroEstatusOrdenCarga(numero, data, estatus) {
+  console.log('FILTRO ESTATUS ID CLIENTE');
+  for (let i = 0; i < numero; i++) {
+    this.arrcon[i] = data[i];
+    this.arrcon[i].Docs = [];
+    //Obtener Reportes por Id Cliente
+    this.ocService.getReporteClienteIdEstatus(data[i].IdClientes, estatus).subscribe(dataReporte => {
+      if (dataReporte.length > 0) {
+        console.log(dataReporte);
+        this.iniciarTotales();
+        for (let l = 0; l < dataReporte.length; l++) {
+          this.sacos = this.sacos + +dataReporte[l].Sacos;
+          this.kg = this.kg + +dataReporte[l].Kg;
+          this.arrcon[i].Docs.push(dataReporte[l]);
+        }
+        this.arrcon[i].Sacos = this.sacos;
+        this.arrcon[i].Kg = this.kg;
+      } else {
+        this.iniciarTotales();
+      }
+    })
   }
 }
 
-obtenerReportesTraspaso(numero: number, data:any){
+//Filtro por IdProveedor, Tipo de Compra (Materia Prima), por Las Fechas y Estatus de la Compra 
+filtroEstatusFechaOrdenCarga(numero, data, fechaInicial, fechaFinal, estatus) {
+
+  console.log('FILTRO TODO');
+
+  let fecha1;
+  let fecha2;
+
+  let dia = fechaInicial.getDate();
+  let mes = fechaInicial.getMonth() + 1;
+  let anio = fechaInicial.getFullYear();
+  fecha1 = anio + '-' + mes + '-' + dia
+
+  let dia2 = fechaFinal.getDate();
+  let mes2 = fechaFinal.getMonth() + 1;
+  let anio2 = fechaFinal.getFullYear();
+  fecha2 = anio2 + '-' + mes2 + '-' + dia2
+
+  for (let i = 0; i < numero; i++) {
+    this.arrcon[i] = data[i];
+    this.arrcon[i].Docs = [];
+    //Obtener Reportes por Id Cliente
+    this.ocService.getReporteFechasClienteIdEstatus(fecha1, fecha2, data[i].IdClientes, estatus).subscribe(dataReporte => {
+      if (dataReporte.length > 0) {
+        console.log(dataReporte);
+        this.iniciarTotales();
+        for (let l = 0; l < dataReporte.length; l++) {
+          this.sacos = this.sacos + +dataReporte[l].Sacos;
+          this.kg = this.kg + +dataReporte[l].Kg;
+          this.arrcon[i].Docs.push(dataReporte[l]);
+        }
+        this.arrcon[i].Sacos = this.sacos;
+        this.arrcon[i].Kg = this.kg;
+      } else {
+        this.iniciarTotales();
+      }
+    })
+  }
+}
+
+obtenerReporteTraspaso(numero: number, id: any) {
+  this.arrcon = [];
   // ningun filtro
   if (this.reporteFechas == false && this.reporteEstatus == false) {
-    // this.filtroGeneralOrdenCarga(numero, data);
+    this.filtroGeneralTraspaso(numero, id);
   }
   //buscar reporte por Fechas
   else if (this.reporteFechas == true && this.reporteEstatus == false) {
-    // this.filtroFechaOrdenCarga(numero, data, this.ReporteInformacion.fechaInicial, this.ReporteInformacion.fechaFinal);
+    this.filtroFechaTraspaso(numero, id, this.ReporteInformacion.fechaInicial, this.ReporteInformacion.fechaFinal);
   }
   //buscar reporte por Estatus 
   else if (this.reporteFechas == false && this.reporteEstatus == true) {
-    // this.filtroEstatusOrdenCarga(numero, data, this.ReporteInformacion.tipoEstatus);
+    this.filtroEstatusTraspaso(numero, id, this.ReporteInformacion.tipoEstatus);
   }
   //buscar reporte por  Estatus y por Fechas
   else if (this.reporteFechas == true && this.reporteEstatus == true) {
-    // this.filtroEstatusFechaOrdenCarga(numero, data, this.ReporteInformacion.fechaInicial, this.ReporteInformacion.fechaFinal, this.ReporteInformacion.tipoEstatus);
+    this.filtroEstatusFechaTraspaso(numero, id, this.ReporteInformacion.fechaInicial, this.ReporteInformacion.fechaFinal, this.ReporteInformacion.tipoEstatus);
+  }
+}
+ //filtro por Id Cliente
+ filtroGeneralTraspaso(numero, id) {
+
+  type MyArrayType = Array<{IdClientes: number, Nombre: string}>;
+
+const arr: MyArrayType = [
+    {IdClientes: 0, Nombre: 'Traspaso'}
+];
+
+  console.log('FILTRO GENERAL');
+  for (let i = 0; i < numero; i++) {
+
+    this.arrcon[i] = arr[0];
+    this.arrcon[i].Docs = [];
+    //Obtener Reportes por Id Cliente
+    this.ocService
+      .getReporteClienteId(id)
+      .subscribe((dataReporte) => {
+        if (dataReporte.length > 0) {
+          console.log(dataReporte);
+          this.iniciarTotales();
+          for (let l = 0; l < dataReporte.length; l++) {
+            this.sacos = this.sacos + +dataReporte[l].Sacos;
+            this.kg = this.kg + +dataReporte[l].Kg;
+            this.arrcon[i].Docs.push(dataReporte[l]);
+          }
+          this.arrcon[i].Sacos = this.sacos;
+          this.arrcon[i].Kg = this.kg;
+        } else {
+          this.iniciarTotales();
+        }
+        console.log(this.arrcon);
+      });
+  }
+}
+//Filtro por IdCliente y por Las Fechas 
+filtroFechaTraspaso(numero, id, fechaInicial, fechaFinal) {
+
+  type MyArrayType = Array<{IdClientes: number, Nombre: string}>;
+
+  const arr: MyArrayType = [
+      {IdClientes: 0, Nombre: 'Traspaso'}
+  ];
+
+  console.log('FILTRO FECHA IDCLIENTE');
+  let fecha1;
+  let fecha2;
+
+  let dia = fechaInicial.getDate();
+  let mes = fechaInicial.getMonth() + 1;
+  let anio = fechaInicial.getFullYear();
+  fecha1 = anio + '-' + mes + '-' + dia
+
+  let dia2 = fechaFinal.getDate();
+  let mes2 = fechaFinal.getMonth() + 1;
+  let anio2 = fechaFinal.getFullYear();
+  fecha2 = anio2 + '-' + mes2 + '-' + dia2
+
+  for (let i = 0; i < numero; i++) {
+    this.arrcon[i] = arr[0];
+    this.arrcon[i].Docs = [];
+    //Obtener Reportes por Id Cliente
+    this.ocService.getReporteFechasClienteId(fecha1, fecha2, id).subscribe(dataReporte => {
+      if (dataReporte.length > 0) {
+        console.log(dataReporte);
+        this.iniciarTotales();
+        for (let l = 0; l < dataReporte.length; l++) {
+          this.sacos = this.sacos + +dataReporte[l].Sacos;
+          this.kg = this.kg + +dataReporte[l].Kg;
+          this.arrcon[i].Docs.push(dataReporte[l]);
+        }
+        this.arrcon[i].Sacos = this.sacos;
+        this.arrcon[i].Kg = this.kg;
+      } else {
+        this.iniciarTotales();
+      }
+    })
+  }
+}
+//Filtro por IdCliente y Estatus
+filtroEstatusTraspaso(numero, id, estatus) {
+  type MyArrayType = Array<{IdClientes: number, Nombre: string}>;
+
+  const arr: MyArrayType = [
+      {IdClientes: 0, Nombre: 'Traspaso'}
+  ];
+  console.log('FILTRO ESTATUS ID CLIENTE');
+  for (let i = 0; i < numero; i++) {
+    this.arrcon[i] = arr[0];
+    this.arrcon[i].Docs = [];
+    //Obtener Reportes por Id Cliente
+    this.ocService.getReporteClienteIdEstatus(id, estatus).subscribe(dataReporte => {
+      if (dataReporte.length > 0) {
+        console.log(dataReporte);
+        this.iniciarTotales();
+        for (let l = 0; l < dataReporte.length; l++) {
+          this.sacos = this.sacos + +dataReporte[l].Sacos;
+          this.kg = this.kg + +dataReporte[l].Kg;
+          this.arrcon[i].Docs.push(dataReporte[l]);
+        }
+        this.arrcon[i].Sacos = this.sacos;
+        this.arrcon[i].Kg = this.kg;
+      } else {
+        this.iniciarTotales();
+      }
+    })
   }
 }
 
+//Filtro por IdProveedor, Tipo de Compra (Materia Prima), por Las Fechas y Estatus de la Compra 
+filtroEstatusFechaTraspaso(numero, id, fechaInicial, fechaFinal, estatus) {
+
+  type MyArrayType = Array<{IdClientes: number, Nombre: string}>;
+
+  const arr: MyArrayType = [
+      {IdClientes: 0, Nombre: 'Traspaso'}
+  ];
+
+  console.log('FILTRO TODO');
+
+  let fecha1;
+  let fecha2;
+
+  let dia = fechaInicial.getDate();
+  let mes = fechaInicial.getMonth() + 1;
+  let anio = fechaInicial.getFullYear();
+  fecha1 = anio + '-' + mes + '-' + dia
+
+  let dia2 = fechaFinal.getDate();
+  let mes2 = fechaFinal.getMonth() + 1;
+  let anio2 = fechaFinal.getFullYear();
+  fecha2 = anio2 + '-' + mes2 + '-' + dia2
+
+  for (let i = 0; i < numero; i++) {
+    this.arrcon[i] = arr[0];
+    this.arrcon[i].Docs = [];
+    //Obtener Reportes por Id Cliente
+    this.ocService.getReporteFechasClienteIdEstatus(fecha1, fecha2, id, estatus).subscribe(dataReporte => {
+      if (dataReporte.length > 0) {
+        console.log(dataReporte);
+        this.iniciarTotales();
+        for (let l = 0; l < dataReporte.length; l++) {
+          this.sacos = this.sacos + +dataReporte[l].Sacos;
+          this.kg = this.kg + +dataReporte[l].Kg;
+          this.arrcon[i].Docs.push(dataReporte[l]);
+        }
+        this.arrcon[i].Sacos = this.sacos;
+        this.arrcon[i].Kg = this.kg;
+      } else {
+        this.iniciarTotales();
+      }
+    })
+  }
+}
+
+
+
 obtenerReporteOrdenDescarga(numero: number, data:any){
+  this.arrcon = [];
+  // ningun filtro
+  if (this.reporteFechas == false && this.reporteEstatus == false) {
+    this.filtroGeneralOrdenDescarga(numero, data);
+  }
+  //buscar reporte por Fechas
+  else if (this.reporteFechas == true && this.reporteEstatus == false) {
+    this.filtroFechaOrdenDescarga(numero, data, this.ReporteInformacion.fechaInicial, this.ReporteInformacion.fechaFinal);
+  }
+  //buscar reporte por Estatus 
+  else if (this.reporteFechas == false && this.reporteEstatus == true) {
+    this.filtroEstatusOrdenDescarga(numero, data, this.ReporteInformacion.tipoEstatus);
+  }
+  //buscar reporte por  Estatus y por Fechas
+  else if (this.reporteFechas == true && this.reporteEstatus == true) {
+    this.filtroEstatusFechaOrdenDescarga(numero, data, this.ReporteInformacion.fechaInicial, this.ReporteInformacion.fechaFinal, this.ReporteInformacion.tipoEstatus);
+  }
+}
+
+
+ //filtro por Id Proeveedor
+ filtroGeneralOrdenDescarga(numero, data) {
+
+  console.log('FILTRO GENERAL');
+  for (let i = 0; i < numero; i++) {
+    this.arrcon[i] = data[i];
+    this.arrcon[i].Docs = [];
+    //Obtener Reportes por Id Proveedor
+    this.odService
+      .getReporteProveedorId(data[i].IdProveedor)
+      .subscribe((dataReporte) => {
+        console.log(dataReporte);
+        if (dataReporte.length > 0) {
+          this.iniciarTotales();
+          for (let l = 0; l < dataReporte.length; l++) {
+            this.sacos = this.sacos + +dataReporte[l].Sacos;
+            this.kg = this.kg + +dataReporte[l].Kg;
+            this.arrcon[i].Docs.push(dataReporte[l]);
+          }
+          this.arrcon[i].Sacos = this.sacos;
+          this.arrcon[i].Kg = this.kg;
+        } else {
+          this.iniciarTotales();
+        }
+      });
+  }
+}
+//Filtro por IdProveedor y por Las Fechas 
+filtroFechaOrdenDescarga(numero, data, fechaInicial, fechaFinal) {
+
+  console.log('FILTRO FECHA IDProveedor');
+  let fecha1;
+  let fecha2;
+
+  let dia = fechaInicial.getDate();
+  let mes = fechaInicial.getMonth() + 1;
+  let anio = fechaInicial.getFullYear();
+  fecha1 = anio + '-' + mes + '-' + dia
+
+  let dia2 = fechaFinal.getDate();
+  let mes2 = fechaFinal.getMonth() + 1;
+  let anio2 = fechaFinal.getFullYear();
+  fecha2 = anio2 + '-' + mes2 + '-' + dia2
+
+  for (let i = 0; i < numero; i++) {
+    this.arrcon[i] = data[i];
+    this.arrcon[i].Docs = [];
+    //Obtener Reportes por Id Proveedor
+    this.odService.getReporteFechasProveedorId(fecha1, fecha2, data[i].IdProveedor).subscribe(dataReporte => {
+      console.log(dataReporte);
+      if (dataReporte.length > 0) {
+        this.iniciarTotales();
+        for (let l = 0; l < dataReporte.length; l++) {
+          this.sacos = this.sacos + +dataReporte[l].Sacos;
+          this.kg = this.kg + +dataReporte[l].Kg;
+          this.arrcon[i].Docs.push(dataReporte[l]);
+        }
+        this.arrcon[i].Sacos = this.sacos;
+        this.arrcon[i].Kg = this.kg;
+      } else {
+        this.iniciarTotales();
+      }
+    })
+  }
+}
+//Filtro por IdProveedor y Estatus
+filtroEstatusOrdenDescarga(numero, data, estatus) {
+  console.log('FILTRO ESTATUS ID Proveedor');
+  for (let i = 0; i < numero; i++) {
+    this.arrcon[i] = data[i];
+    this.arrcon[i].Docs = [];
+    //Obtener Reportes por Id Proveedor
+    this.odService.getReporteProveedorIdEstatus(data[i].IdProveedor, estatus).subscribe(dataReporte => {
+      console.log(dataReporte);
+      if (dataReporte.length > 0) {
+        this.iniciarTotales();
+        for (let l = 0; l < dataReporte.length; l++) {
+          this.sacos = this.sacos + +dataReporte[l].Sacos;
+          this.kg = this.kg + +dataReporte[l].Kg;
+          this.arrcon[i].Docs.push(dataReporte[l]);
+        }
+        this.arrcon[i].Sacos = this.sacos;
+        this.arrcon[i].Kg = this.kg;
+      } else {
+        this.iniciarTotales();
+      }
+    })
+  }
+}
+
+//Filtro por IdProveedor, Tipo de Compra (Materia Prima), por Las Fechas y Estatus de la Compra 
+filtroEstatusFechaOrdenDescarga(numero, data, fechaInicial, fechaFinal, estatus) {
+
+  console.log('FILTRO TODO');
+
+  let fecha1;
+  let fecha2;
+
+  let dia = fechaInicial.getDate();
+  let mes = fechaInicial.getMonth() + 1;
+  let anio = fechaInicial.getFullYear();
+  fecha1 = anio + '-' + mes + '-' + dia
+
+  let dia2 = fechaFinal.getDate();
+  let mes2 = fechaFinal.getMonth() + 1;
+  let anio2 = fechaFinal.getFullYear();
+  fecha2 = anio2 + '-' + mes2 + '-' + dia2
+
+  for (let i = 0; i < numero; i++) {
+    this.arrcon[i] = data[i];
+    this.arrcon[i].Docs = [];
+    //Obtener Reportes por Id Proveedor
+    this.odService.getReporteFechasProveedorIdEstatus(fecha1, fecha2, data[i].IdProveedor, estatus).subscribe(dataReporte => {
+      console.log(dataReporte);
+      if (dataReporte.length > 0) {
+        this.iniciarTotales();
+        for (let l = 0; l < dataReporte.length; l++) {
+          this.sacos = this.sacos + +dataReporte[l].Sacos;
+          this.kg = this.kg + +dataReporte[l].Kg;
+          this.arrcon[i].Docs.push(dataReporte[l]);
+        }
+        this.arrcon[i].Sacos = this.sacos;
+        this.arrcon[i].Kg = this.kg;
+      } else {
+        this.iniciarTotales();
+      }
+    })
+  }
+}
+
+exportarXLS() {
+  console.log('export a excel');
+  // if(this.ReporteInformacion.modulo == 'Cotizacion'){
+  //   this.sharedService.generarExcelReporteVentasCotizaciones(this.arrcon);
+    
+  // }else if(this.ReporteInformacion.modulo == 'Pedido'){
+  // this.sharedService.generarExcelReporteVentasPedidos(this.arrcon);
+  // }
+}
+
+exportarPDF() {
+  setTimeout(() => {
+    // setTimeout(this.onExportClick,5)
+    const content: Element = document.getElementById('pdfreporte');
+    const option = {
+      margin: [3, 0, 3, .5],
+      filename: 'Reporte.pdf',
+      image: { type: 'jpeg', quality: 0.5 },
+      html2canvas: { scale: 2, logging: true, scrollY: -2, scrollX: -15 },
+      jsPDF: { unit: 'cm', format: 'letter', orientation: 'portrait' },
+      pagebreak: { avoid: '.pgbreak' }
+    };
+
+    html2pdf().from(content).set(option).toPdf().get('pdf').then(function (pdf) {
+      let variableFormato = new formatoReporte();
+      // console.log(variableFormato);
+      var totalPages = pdf.internal.getNumberOfPages();
+      pdf.setFontSize(10);
+      pdf.setTextColor(70);
+      for (var i = 1; i <= totalPages; i++) {
+        pdf.setPage(i);
+        pdf.addImage(variableFormato.header, "PNG", -3, 0, 25, 3)
+        pdf.text('Pro lactoIngredientes S. de R.L. M.I. de C.V.', 1, 26);
+        pdf.addImage(variableFormato.footer, "PNG", 18, 25, 2, 2);
+      }
+    }).save();
+  }, 1000);
+  setTimeout(() => { }, 1000);
 
 }
-  
+
 }

@@ -1,1 +1,122 @@
-<p>showreporte-almacen works!</p>
+<div>
+    <app-header-reportes></app-header-reportes>
+
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4">
+            <button (click)="exportarXLS()" class="btn btn-success"> <i class="mdi mdi-file-excel-box" ></i> Excel </button>
+            <button (click)="exportarPDF()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
+        </div>
+    </div>
+</div>
+<mat-dialog-content>
+    <div class="container row" id="pdfreporte">
+        <div class="col-11">
+
+
+            <table class="table-hover" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th *ngIf="ReporteInformacion.modulo == 'OrdenCarga'|| ReporteInformacion.modulo == 'Traspaso'" class="blacktxt bolder nowrap">ID Cliente</th>
+                        <th *ngIf="ReporteInformacion.modulo == 'OrdenDescarga'" class="blacktxt bolder nowrap">ID Proveedor</th>
+                        <th class="blacktxt bolder">Nombre</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso' || ReporteInformacion.modulo == 'OrdenDescarga'">
+                        <th class="text-center blacktxt bolder ">Folio</th>
+                        <th class="text-center blacktxt bolder nowrap">Fecha Exp </th>
+                        <th *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso'" class="text-center blacktxt bolder nowrap">Fecha Inicio C. </th>
+                        <th *ngIf="ReporteInformacion.modulo == 'OrdenDescarga'" class="text-center blacktxt bolder nowrap">Fecha Inicio D. </th>
+                        <th *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso'" class="text-center blacktxt bolder nowrap">Fecha Final C. </th>
+                        <th *ngIf="ReporteInformacion.modulo == 'OrdenDescarga'" class="text-center blacktxt bolder nowrap">Fecha Final D. </th>
+                        <th *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso'" class="text-center blacktxt bolder nowrap">Fecha Envio </th>
+                        <th class="text-center blacktxt bolder nowrap">Fecha Llegada </th>
+                        <th class="text-center blacktxt bolder ">Fletera</th>
+                        <th class="text-center blacktxt bolder ">Caja</th>
+                        <th class="text-center blacktxt bolder ">Sacos</th>
+                        <th class="text-center blacktxt bolder ">Kg</th>
+                        <th class="text-center blacktxt bolder ">Origen</th>
+                        <th class="text-center blacktxt bolder ">Destino</th>
+                        <th class="text-center blacktxt bolder ">Chofer</th>
+                        <th class="text-center blacktxt bolder ">Usuario</th>
+                    </tr>
+                    <!-- <tr *ngIf="ReporteInformacion.modulo == 'Pedido'">
+                        <th class="blacktxt bolder ">Folio</th>
+                        <th class="blacktxt bolder nowrap">Fecha Exp </th>
+                        <th class="blacktxt bolder nowrap">Fecha Ven </th>
+                        <th class="blacktxt bolder nowrap">Fecha Entr </th>
+                        <th *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="blacktxt bolder ">Total MXN</th>
+                        <th *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="blacktxt bolder ">Total DLLS</th>
+                        <th class="blacktxt bolder ">Flete</th>
+                        <th class="blacktxt bolder ">Mon</th>
+                    </tr> -->
+                </thead>
+                <ng-container *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso'|| ReporteInformacion.modulo == 'OrdenDescarga'">
+                    <tbody *ngFor="let info of arrcon; let i = index">
+                        <tr class="pgbreak border3">
+                            <td class="wrap lightback pgbreak"> {{info.IdClientes}} </td>
+                            <td class="wrap lightback pgbreak" [attr.colspan]="6"> {{info.Nombre}}</td>
+                            <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
+                                <td class="text-center pgbreak"> {{info.Folio}} </td>
+                                <td class="text-center pgbreak texto"> {{info.FechaExpedicion| date: 'yyyy/MM/dd'}} </td>
+                                <td *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso'" class="text-center pgbreak texto"> {{info.FechaInicioCarga| date: 'yyyy/MM/dd'}} </td>
+                                <td *ngIf="ReporteInformacion.modulo == 'OrdenDescarga' " class="text-center pgbreak texto"> {{info.FechaInicioDescarga| date: 'yyyy/MM/dd'}} </td>
+                                <td *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso'" class="text-center pgbreak texto"> {{info.FechaFinalCarga| date: 'yyyy/MM/dd'}} </td>
+                                <td *ngIf="ReporteInformacion.modulo == 'OrdenDescarga' " class="text-center pgbreak texto"> {{info.FechaFinalDescarga| date: 'yyyy/MM/dd'}} </td>
+                                <td *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso'" class="text-center pgbreak texto"> {{info.FechaEnvio| date: 'yyyy/MM/dd'}} </td>
+                                <td *ngIf="ReporteInformacion.modulo == 'OrdenDescarga'" class="text-center pgbreak texto"> {{info.FechaLlegada| date: 'yyyy/MM/dd'}} </td>
+                                <td class="pgbreak texto text-center"> {{info.Fletera}} </td>
+                                <td class="pgbreak texto text-center"> {{info.Caja }} </td>
+                                <td class="text-center pgbreak texto"> {{info.Sacos}} </td>
+                                <td class="text-center pgbreak texto"> {{info.Kg}} </td>
+                                <td class="text-center pgbreak texto"> {{info.Origen}} </td>
+                                <td class="text-center pgbreak texto"> {{info.Destino}} </td>
+                                <td class="text-center pgbreak texto"> {{info.Chofer}} </td>
+                                <td class="text-center pgbreak texto"> {{info.Usuario}} </td>
+                            </tr>
+                            <td class="wrap lightback pgbreak " [attr.colspan]="2"> </td>
+                            <td class="wrap lightback pgbreak text-center"> Total </td>
+                            <td class="wrap lightback pgbreak text-center"> {{info.Sacos}} </td>
+                            <td class="wrap lightback pgbreak text-center"> {{info.Kg}} </td>
+
+                    </tbody>
+                </ng-container>
+                <!-- <ng-container *ngIf="ReporteInformacion.modulo == 'Pedido'">
+                    <tbody *ngFor="let info of arrcon; let i = index">
+                        <tr class="pgbreak border3">
+                            <td class="wrap lightback pgbreak"> {{info.IdClientes}} </td>
+                            <td class="wrap lightback pgbreak" [attr.colspan]="6"> {{info.Nombre}}</td>
+                            <td class="wrap lightback pgbreak" [attr.colspan]="3"> {{info.RFC}}</td>
+
+
+                            <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
+                                <td class=" text-center pgbreak"> {{info.Folio}} </td>
+                                <td class=" text-center pgbreak texto"> {{info.FechaDeExpedicion| date: 'yyyy/MM/dd'}} </td>
+                                <td class=" text-center pgbreak texto"> {{info.FechaVencimiento| date: 'yyyy/MM/dd'}} </td>
+                                <td class=" text-center pgbreak texto"> {{info.FechaDeEntrega| date: 'yyyy/MM/dd'}} </td>
+                                <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="pgbreak texto text-center "> {{info.Total | currency}} </td>
+                                <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="pgbreak texto text-center "> {{info.TotalDlls | currency }} </td>
+                                <td class="text-center pgbreak texto"> {{info.Flete}} </td>
+                                <td class="text-center pgbreak texto"> {{info.Moneda}} </td>
+                            </tr>
+                            <td class="wrap lightback pgbreak " [attr.colspan]="2"> </td>
+                            <td class="wrap lightback pgbreak text-center"> Total </td>
+                            <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="wrap lightback pgbreak text-center"> {{info.TotalMXN |currency}} </td>
+                            <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="wrap lightback pgbreak text-center"> {{info.TotalDLLS |currency}} </td>
+
+                    </tbody>
+                </ng-container> -->
+            </table>
+
+        </div>
+        <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+        </ngx-loading>
+    </div>
+</mat-dialog-content>
