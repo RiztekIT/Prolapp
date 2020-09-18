@@ -54,7 +54,7 @@
                         <td class="wrap lightback pgbreak"> {{info.IdClientes}} </td>
                         <td class="wrap lightback pgbreak" [attr.colspan]="8"> {{info.Nombre}}</td>
                         <td class="wrap lightback pgbreak" [attr.colspan]="8"> {{info.RFC}}</td>
-                        <div *ngIf="ReporteInformacion.modulo == 'Cotizacion'">
+                        <ng-container *ngIf="ReporteInformacion.modulo == 'Cotizacion'">
                             <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
                                 <td class="pgbreak"> {{info.Folio}} </td>
                                 <td class="pgbreak texto"> {{info.FechaDeExpedicion| date: 'yyyy/MM/dd'}} </td>
@@ -65,8 +65,8 @@
                                 <td class="pgbreak texto"> {{info.Moneda}} </td>
                                 <td class="pgbreak texto"> {{info.TipoDeCambio |currency}} </td>
                             </tr>
-                        </div>
-                        <div *ngIf="ReporteInformacion.modulo == 'Pedido'">
+                        </ng-container>
+                        <!-- <div *ngIf="ReporteInformacion.modulo == 'Pedido'">
                             <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
                                 <td class="pgbreak"> {{info.Folio}} </td>
                                 <td class="pgbreak texto"> {{info.FechaDeExpedicion| date: 'yyyy/MM/dd'}} </td>
@@ -77,7 +77,7 @@
                                 <td class="pgbreak texto"> {{info.Flete}} </td>
                                 <td class="pgbreak texto"> {{info.Moneda}} </td>
                             </tr>
-                        </div>
+                        </div> -->
                         <td class="wrap lightback pgbreak texto" [attr.colspan]="2"> </td>
                         <td class="wrap lightback pgbreak"> Total </td>
                         <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="wrap lightback pgbreak texto"> {{info.TotalMXN |currency}} </td>

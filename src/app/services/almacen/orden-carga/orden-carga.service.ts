@@ -108,6 +108,27 @@ export class OrdenCargaService {
   /* *************************************************** */
   /* *************************************************** */
 
+  // *******************   REPORTES  ************************* //
+
+    //Obtener reporte por cliente ID
+    getReporteClienteId(id: number):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenCargaCliente/'+id);
+    }
+//obtener reporte  por cliente ID y por estatus
+    getReporteClienteIdEstatus(id:number, estatus:string):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenCargaClienteEstatus/'+id+'/'+estatus);
+    }
+//obtener reporte  por Fecha Inicial / final y  cliente ID
+    getReporteFechasClienteId(fechaini, fechafinal, id:number):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenCargaFechaCliente/'+fechaini+'/'+fechafinal+'/'+id);
+    }
+//obtener reporte  por Fecha Inicial / final ,  cliente ID y estatus
+    getReporteFechasClienteIdEstatus(fechaini, fechafinal, id:number, estatus: string):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenCargaFechaClienteEstatus/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
+    }
+
+  // *******************   REPORTES  ************************* //
+
   private _listeners = new Subject<any>();
   listen(): Observable<any> {
     return this._listeners.asObservable();

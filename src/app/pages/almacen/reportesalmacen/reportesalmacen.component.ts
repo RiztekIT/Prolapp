@@ -7,9 +7,12 @@ import { startWith, map } from 'rxjs/operators';
 import { MatDialog, MatDialogConfig, MatSnackBar, MatDivider, MAT_DATE_LOCALE } from '@angular/material';
 import {ThemePalette} from '@angular/material/core';
 import { OrdenCargaService } from '../../../services/almacen/orden-carga/orden-carga.service';
-import { OrdenDescarga } from '../../../Models/almacen/OrdenDescarga/ordenDescarga-model';
 import { ProveedoresService } from '../../../services/catalogos/proveedores.service';
 import { Proveedor } from '../../../Models/catalogos/proveedores-model';
+import { OrdenDescargaService } from '../../../services/almacen/orden-descarga/orden-descarga.service';
+import { Producto } from '../../../Models/catalogos/productos-model';
+import { ProductosService } from '../../../services/catalogos/productos.service';
+import { ShowreporteAlmacenComponent } from './showreporte-almacen/showreporte-almacen.component';
 
 
 @Component({
@@ -20,11 +23,12 @@ import { Proveedor } from '../../../Models/catalogos/proveedores-model';
 
 export class ReportesalmacenComponent implements OnInit {
 
-  constructor(public serviceCliente: ClientesService, public proveedorService: ProveedoresService,  private dialog: MatDialog, public ocService: OrdenCargaService, public odService: OrdenDescarga) { }
+  constructor(public serviceCliente: ClientesService, public proveedorService: ProveedoresService, public productoService: ProductosService, private dialog: MatDialog, public ocService: OrdenCargaService, public odService: OrdenDescargaService) { }
 
   ngOnInit() {
     this.obtenerClientes();
     this.obtenerProveedores();
+    this.obtenerProductos();
      }
 
      //Fechas de reportes a ser filtradas
@@ -42,7 +46,9 @@ export class ReportesalmacenComponent implements OnInit {
  color: ThemePalette = 'accent';
  checkedFechasOrdenCarga = false;
  disabledFechasOrdenCarga = false;
+
  checkedClientesOrdenCarga = true;
+
  checkedEstatusOrdenCarga = false;
  disabledEstatusOrdenCarga = true;
  
@@ -59,6 +65,12 @@ export class ReportesalmacenComponent implements OnInit {
    checkedProveedorOrdenDescarga = true;
    checkedEstatusOrdenDescarga = false;
    disabledEstatusOrdenDescarga = true;
+
+  //  Variable para Filtrar por Producto / bodega Inventario
+   checkedProductosInventario = true;
+
+   checkedBodegaInventario = false;
+   disabledBodegaInventario = true;
  
  
    //variable estatus de Orden Carga (creada, preparada, cargada, envidada, transito, terminada)
@@ -69,6 +81,10 @@ export class ReportesalmacenComponent implements OnInit {
 
    //variable estatus de la Orden Descarga (creda, proceso, descargada, transito,)
    estatusOrdenDescarga: string;
+
+   //variable bodega
+
+   bodegaInventario: string;
  
 
    //variables dropdown clientes Orden Carga
@@ -84,6 +100,14 @@ export class ReportesalmacenComponent implements OnInit {
    optionsOrdenDescarga: Proveedor[] = [];
    OrdenDescargaProveedorNombre: any;
    OrdenDescargaIdProveedor: number;
+
+   //variables dropdown productos Inventario
+   myControlInventario = new FormControl();
+   filteredOptionsInventario: Observable<any[]>
+   optionsInventario: Producto[] = [];
+   InventarioProductoNombre: any;
+   InventarioClaveProducto: string;
+   InventarioLoteProducto: string;
  
  
    //Lista de Estatus Orden Carga / Traspaso
@@ -102,6 +126,13 @@ export class ReportesalmacenComponent implements OnInit {
      { tipo: 'Proceso' },
      { tipo: 'Transito' },
      { tipo: 'Descargada' }
+   ];
+
+   //Lista de Bodegas Inventario
+   public listBodegasInventario: Array<Object> = [
+     { tipo: 'PasoTx' },
+     { tipo: 'Chihuahua' },
+     { tipo: 'Transito' }
    ];
 
      obtenerClientes(){
@@ -147,6 +178,28 @@ export class ReportesalmacenComponent implements OnInit {
         option.IdProveedor.toString().includes(filterValue));
     }
 
+    obtenerProductos(){
+      this.productoService.getProductosList().subscribe(dataProd=>{
+        console.log(dataProd);
+        for (let i = 0; i < dataProd.length; i++) {
+          let producto = dataProd[i];
+          this.optionsInventario.push(producto)
+          this.filteredOptionsInventario = this.myControlInventario.valueChanges
+            .pipe(
+              startWith(''),
+              map(value => this._filterInventario(value))
+            );
+        }
+      })
+    }
+
+    _filterInventario(value: any): any {
+      const filterValue = value.toString().toLowerCase();
+     return this.optionsInventario.filter(option =>
+       option.Nombre.toLowerCase().includes(filterValue) ||
+       option.ClaveProducto.toString().includes(filterValue));
+   }
+
     //Al filtrar por fecha
     onChangePorFechaOrdenCarga(){
       if(this.checkedFechasOrdenCarga == true){
@@ -179,6 +232,11 @@ export class ReportesalmacenComponent implements OnInit {
           console.log(cliente);
         this.OrdenDescargaProveedorNombre = cliente.Nombre;
       }
+      onSelectionChangeProductoInventario(prod: Producto, event: any){
+        console.log(prod);
+        this.InventarioProductoNombre = prod.Nombre;
+        this.InventarioClaveProducto = prod.ClaveProducto;
+      }
 
       //Al filtrar cliente
       onChangeTodosClientesOrdenCarga(){
@@ -193,6 +251,13 @@ export class ReportesalmacenComponent implements OnInit {
           this.checkedProveedorOrdenDescarga = false;
         }else{
           this.checkedProveedorOrdenDescarga = true;
+        }
+      }
+      onChangeTodosProductosInventario(){
+        if(this.checkedProductosInventario == true){
+          this.checkedProductosInventario = false;
+        }else{
+          this.checkedProductosInventario = true;
         }
       }
 
@@ -221,6 +286,14 @@ export class ReportesalmacenComponent implements OnInit {
       this.checkedEstatusOrdenDescarga = true;
     }
   }
+      //cuando se filtarara por bodega Inventario
+  onChangeBodegaInventario(){
+    if(this.checkedBodegaInventario == true){
+      this.checkedBodegaInventario = false;
+    }else{
+      this.checkedBodegaInventario = true;
+    }
+  }
   //cuando se selecciona un estatus OrdenCarga
   changeEstatusCotizacion(event){
     console.log(event);
@@ -236,9 +309,128 @@ export class ReportesalmacenComponent implements OnInit {
     console.log(event);
     this.estatusOrdenDescarga = event.target.selectedOptions[0].text;
   }
+//cuando se selecciona una bodega Inventario
+  changeBodegaInventario(event){
+    console.log(event);
+    this.bodegaInventario = event.target.selectedOptions[0].text;
+  }
 
   abrirReporte(modulo){
+
+
+    console.log(modulo);
+
+    //Variables generales
+    let filtrarFecha: boolean;
+    let fechaStart = new Date();
+    let fechaEnd = new Date();
+
+    let estatusBodega: boolean = false;
+    let tipoEstatusBodega: string = '';
+
+    let unClienteProveedor: boolean = false;
+    let IdClienteProveedor: number;
+
+    let ClaveProducto: string = '';
+
+if(modulo == 'OrdenCarga'){
+IdClienteProveedor = this.OrdenCargaIdCliente;
+  if(this.checkedFechasOrdenCarga == true){
+    // console.log('SE FILTRA POR FECHA');
+      fechaStart = this.fechaInicialOrdenCarga;
+      fechaEnd = this.fechaFinalOrdenCarga;
+      filtrarFecha = true;
+  }else{
+    filtrarFecha = false;
+  }
+  if(this.checkedClientesOrdenCarga == false){
+    // console.log(this.checkedProveedores);
+    // console.log('SE FILTRA POR PROVEEDORES');
+      unClienteProveedor = true;
+  }
+  if(this.checkedEstatusOrdenCarga == true){
+    estatusBodega = true;
+    tipoEstatusBodega = this.estatusOrdenCarga; 
+  }
+
+}else if ('OrdenDescarga'){
+  IdClienteProveedor = this.OrdenDescargaIdProveedor;
+  if(this.checkedFechasOrdenDescarga == true){
+    // console.log('SE FILTRA POR FECHA');
+      fechaStart = this.fechaInicialOrdenDescarga;
+      fechaEnd = this.fechaFinalOrdenDescarga;
+      filtrarFecha = true;
+  }else{
+    filtrarFecha = false;
+  }
+  if(this.checkedProveedorOrdenDescarga == false){
+    // console.log(this.checkedProveedores);
+    // console.log('SE FILTRA POR PROVEEDORES');
+      unClienteProveedor = true;
+  }
+  if(this.checkedEstatusOrdenDescarga == true){
+    estatusBodega = true;
+    tipoEstatusBodega = this.estatusOrdenDescarga; 
+  }
+}else if ('Traspaso'){
+  IdClienteProveedor = 0;
+  if(this.checkedFechasTraspaso == true){
+    // console.log('SE FILTRA POR FECHA');
+      fechaStart = this.fechaInicialTraspaso;
+      fechaEnd = this.fechaFinalTraspaso;
+      filtrarFecha = true;
+  }else{
+    filtrarFecha = false;
+  }
+// SIEMPRE ES UN SOLO CLIENTE EN TRASPASO
+      unClienteProveedor = true;
+
+  if(this.checkedEstatusTraspaso == true){
+    estatusBodega = true;
+    tipoEstatusBodega = this.estatusTraspaso; 
+  }
+}else if ('Inventario'){
+  ClaveProducto = this.InventarioClaveProducto;
+    //Los inventarios no se filtran por fecha
+    filtrarFecha = false;
+
+  if(this.checkedProductosInventario == false){
+    // console.log(this.checkedProveedores);
+    // console.log('SE FILTRA POR PROVEEDORES');
+      unClienteProveedor = true;
+  }
+  if(this.checkedBodegaInventario == true){
+    estatusBodega = true;
+    tipoEstatusBodega = this.bodegaInventario; 
+  }
+}
     
+// console.log('TipoReporte', tipoReporte);
+// console.log('UnProveedor?', unProveedor);
+// console.log('MONEDA:', moneda);
+// console.log('IDPROVE', this.IdProveedor);
+// console.log('FiltrarFEcha?', this.checked);
+// console.log('FiltrarEstatus', estatus);
+// console.log('TipoEstatus', tipoEstatus);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "80%";
+    dialogConfig.data = {
+      modulo: modulo,
+      unsolocliente: unClienteProveedor,
+      idClienteProveedor: IdClienteProveedor,
+      claveProduto: ClaveProducto,
+      filtradoFecha: filtrarFecha,
+      fechaInicial: fechaStart,
+      fechaFinal: fechaEnd,
+      estatus: estatusBodega,
+      tipoEstatus: tipoEstatusBodega
+      
+    }
+    this.dialog.open( ShowreporteAlmacenComponent, dialogConfig);
+
+
   }
      
 }

@@ -109,6 +109,29 @@ export class OrdenDescargaService {
   }
 
 
+  
+  // *******************   REPORTES  ************************* //
+
+    //Obtener reporte por Proveedor ID
+    getReporteProveedorId(id: number):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenDescargaProveedor/'+id);
+    }
+//obtener reporte  por Proveedor ID y por estatus
+    getReporteProveedorIdEstatus(id:number, estatus:string):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdeDescargaProveedorEstatus/'+id+'/'+estatus);
+    }
+//obtener reporte  por Fecha Inicial / final y  Proveedor ID
+    getReporteFechasProveedorId(fechaini, fechafinal, id:number):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenDescargaFechaProveedor/'+fechaini+'/'+fechafinal+'/'+id);
+    }
+//obtener reporte  por Fecha Inicial / final ,  Proveedor ID y estatus
+    getReporteFechasProveedorIdEstatus(fechaini, fechafinal, id:number, estatus: string):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenDescargaFechaProveedorEstatus/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
+    }
+
+  // *******************   REPORTES  ************************* //
+
+
   private _listeners = new Subject<any>();
   listen(): Observable<any> {
     return this._listeners.asObservable();
