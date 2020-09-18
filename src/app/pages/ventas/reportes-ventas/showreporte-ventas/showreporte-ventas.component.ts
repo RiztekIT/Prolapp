@@ -395,7 +395,7 @@ export class ShowreporteVentasComponent implements OnInit {
       // setTimeout(this.onExportClick,5)
       const content: Element = document.getElementById('pdfreporte');
       const option = {
-        margin: [3, 0, 3, 0],
+        margin: [3, 0, 3, .5],
         filename: 'Reporte.pdf',
         image: { type: 'jpeg', quality: 0.5 },
         html2canvas: { scale: 2, logging: true, scrollY: -2, scrollX: -15 },
