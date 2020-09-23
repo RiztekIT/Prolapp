@@ -280,6 +280,7 @@ import { ComprasMesesComponent } from '../components/graficas/compras/compras-me
 import { ComprasListaComponent } from '../components/graficas/compras/compras-lista/compras-lista.component';
 import { ProductosinventariosComponent } from '../components/graficas/almacen/productosinventarios/productosinventarios.component';
 import { ShowreporteVentasComponent } from './ventas/reportes-ventas/showreporte-ventas/showreporte-ventas.component';
+import { ShowreporteAlmacenComponent } from './almacen/reportesalmacen/showreporte-almacen/showreporte-almacen.component';
 
 
 
@@ -478,6 +479,7 @@ import { ShowreporteVentasComponent } from './ventas/reportes-ventas/showreporte
         ComprasListaComponent,
         ProductosinventariosComponent,
         ShowreporteVentasComponent,
+        ShowreporteAlmacenComponent,
     
     ],
     exports: [
@@ -624,7 +626,8 @@ import { ShowreporteVentasComponent } from './ventas/reportes-ventas/showreporte
         AddExpedienteComponent,
         ShowreporteComprasComponent,
         ComprasPdfComponent,
-        ShowreporteVentasComponent
+        ShowreporteVentasComponent,
+        ShowreporteAlmacenComponent
         
     ]
 })

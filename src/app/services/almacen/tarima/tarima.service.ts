@@ -152,9 +152,16 @@ updateBodegaTarima(bodega:string, qr:string) {
   getProductos(){
     return this.http.get<any[]>(APIUrl + '/Producto');
   }
+  
+  getProductoClave(producto){
+    return this.http.get<any[]>(APIUrl + '/Tarima/GetProductoClaveProducto/'+producto);
+  }
 
   GetTarimaProducto(producto: string, bodega: string): Observable<any[]> {
     return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaProducto?producto='+ producto+ '&bodega='+bodega);
+  }
+  GetTarimaProductoAllBodegas(producto: string): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaProductoAllBodegas/'+producto);
   }
   GetTarimaProductoD(producto: string, lote: string): Observable<any[]> {
     return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaProductoD?producto='+ producto+'&lote='+lote);
