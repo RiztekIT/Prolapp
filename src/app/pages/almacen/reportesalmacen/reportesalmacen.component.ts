@@ -391,10 +391,12 @@ IdClienteProveedor = this.OrdenCargaIdCliente;
   }
 }else if (modulo == 'Inventario'){
   ClaveProducto = this.InventarioClaveProducto;
+console.log(ClaveProducto);
+
     //Los inventarios no se filtran por fecha
     filtrarFecha = false;
 
-  if(this.checkedProductosInventario == true){
+  if(this.checkedProductosInventario == false){
     // console.log(this.checkedProveedores);
     // console.log('SE FILTRA POR PROVEEDORES');
       unClienteProveedor = true;
