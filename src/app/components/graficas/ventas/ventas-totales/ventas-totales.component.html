@@ -1,0 +1,76 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h2 style="text-align: start;">Pedidos por Cliente</h2>
+
+
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <mat-button-toggle-group #group="matButtonToggleGroup">
+                            <mat-button-toggle value="Dolares" aria-label="Text align left" (change)='cambioPedido($event)'>
+                                <mat-icon>attach_money </mat-icon>
+                            </mat-button-toggle>
+                            <mat-button-toggle value="Pesos" aria-label="Text align center" (change)='cambioPedido($event)'>
+                                <mat-icon>monetization_on</mat-icon>
+                            </mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <mat-slide-toggle class="example-margin btncoti" [(ngModel)]="checkedPedido" (change)='tipoClientePedido($event)'>
+                            Todos los Clientes
+                        </mat-slide-toggle>
+
+                        <mat-select *ngIf="!checkedPedido">
+                            <mat-option *ngFor="let cliente of listaClientesPedido" [value]="cliente" (onSelectionChange)='reporteClientePedido($event)'>{{cliente.Nombre}}</mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+                <div style="display: block">
+                    <canvas baseChart [datasets]="barChartDataPedido" [colors]="lineChartColors" [labels]="barChartLabelsPedido" [options]="barChartOptionsPedido" [legend]="barChartLegendPedido" [chartType]="barChartTypePedido">
+                        </canvas>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h2 style="text-align: start;">Cotizaciones por Cliente</h2>
+
+
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <mat-button-toggle-group #group="matButtonToggleGroup">
+                            <mat-button-toggle value="Dolares" aria-label="Text align left" (change)='cambioCotizacion($event)'>
+                                <mat-icon>attach_money </mat-icon>
+                            </mat-button-toggle>
+                            <mat-button-toggle value="Pesos" aria-label="Text align center" (change)='cambioCotizacion($event)'>
+                                <mat-icon>monetization_on</mat-icon>
+                            </mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <mat-slide-toggle class="example-margin btncoti" [(ngModel)]="checkedCotizacion" (change)='tipoClienteCotizacion($event)'>
+                            Todos los Clientes
+                        </mat-slide-toggle>
+                        <mat-select *ngIf="!checkedCotizacion">
+                            <mat-option *ngFor="let cliente of listaClientesCotizacion" [value]="cliente" (onSelectionChange)='reporteClienteCotizacion($event)'>{{cliente.Nombre}}</mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+                <div style="display: block">
+                    <canvas baseChart [datasets]="barChartDataCotizacion" [colors]="lineChartColors" [labels]="barChartLabelsCotizacion" [options]="barChartOptionsCotizacion" [legend]="barChartLegendCotizacion" [chartType]="barChartTypeCotizacion">
+                        </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
