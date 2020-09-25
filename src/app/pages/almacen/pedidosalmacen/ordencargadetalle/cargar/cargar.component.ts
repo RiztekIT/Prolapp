@@ -22,6 +22,7 @@ export class CargarComponent implements OnInit {
 
   ngOnInit() {
     this.IdOrdenCarga = +localStorage.getItem('IdOrdenCarga');
+    console.log(this.IdOrdenCarga);
     this.ObtenerFolio(this.IdOrdenCarga);
 
   }
@@ -266,6 +267,7 @@ export class CargarComponent implements OnInit {
     this.files = [];
     console.log(this.imageInfo);
     this.imageService.readDirImagenesServidor(formData,'cargarNombreImagenesOrdenCarga').subscribe(res => {
+      console.log(res);
       if (res.length > 0) {
         console.log('Si hay imagenes')
         console.log(res);
@@ -369,11 +371,16 @@ this.router.navigate(['/ordencargadetalle']);
            console.log(result.value);
     
                let Chofer = result.value.toString();
+               Oc.Chofer= Chofer;
+               console.log(this.IdOrdenCarga);
                this.ordenCargaService.updatedetalleOrdenCargaChofer(this.IdOrdenCarga, Chofer).subscribe(resc =>{
                  console.log('resc: ', resc);
                })
+               console.log(Oc);
              if (res[0].Estatus == 'Preparada') {
+              
               this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(rese => {
+                Oc.Estatus = 'Cargada';
                 console.log(rese)
                 this.ordenCargaService.updateOrdenCarga(Oc).subscribe(res=>{
                   console.log(res);

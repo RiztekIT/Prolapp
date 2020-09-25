@@ -755,15 +755,16 @@ let saldo = 0;
             })
           }
         })
+        console.log(this.QRtarima);
+        
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width="70%";
+        this.dialog.open(QrComponent, dialogConfig);
       })
 
-      console.log(this.QRtarima);
-      
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width="70%";
-      this.dialog.open(QrComponent, dialogConfig);
+
 
       
       // Swal.fire({

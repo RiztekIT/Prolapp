@@ -13,7 +13,7 @@ export class ReportesImportacionComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    subirArchivosImport();
+    // subirArchivosImport();
     // Dropify();
   }
 

@@ -920,6 +920,7 @@ export class PrepararComponent implements OnInit {
       }
     });
   }
+  
 
     // blur
     CleanFieldQR() {

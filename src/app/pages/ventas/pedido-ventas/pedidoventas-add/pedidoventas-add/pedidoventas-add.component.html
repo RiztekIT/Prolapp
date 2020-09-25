@@ -578,8 +578,8 @@
                                                             <br>
                                                             <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button (click)="cerrarPedido()"><i class="mdi mdi-lock btn-lg"></i>Cerrar</button>
                                                             <br>
-                                                            <button class="btn btn-info btn-lg" mat-raised-button (click)="convertirPedido()"><i class="mdi mdi-forward btn-lg"></i>Convertir</button>
-                                                            <!-- <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button (click)="convertirPedido()"><i class="mdi mdi-forward btn-lg"></i>Convertir</button> -->
+                                                            <!-- <button class="btn btn-info btn-lg" mat-raised-button (click)="convertirPedido()"><i class="mdi mdi-forward btn-lg"></i>Convertir</button> -->
+                                                            <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button (click)="convertirPedido()"><i class="mdi mdi-forward btn-lg"></i>Convertir</button>
                                                         </div>
 
                                                     </div>
