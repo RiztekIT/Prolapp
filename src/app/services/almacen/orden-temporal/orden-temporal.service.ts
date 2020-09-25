@@ -88,6 +88,9 @@ GetOrdenTemporalIdqrOD(id: number, qr: string): Observable <OrdenTemporal[]>{
 GetTracking(fechaini,fechafinal): Observable <OrdenTemporal[]>{
   return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/tracking/' + fechaini+ '/' + fechafinal);
 }
+GetTrackingCliente(fechaini,fechafinal,id): Observable <OrdenTemporal[]>{
+  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/trackingCliente/' + fechaini+ '/' + fechafinal+ '/' + id);
+}
 
 deleteOrdenTemporal(id:number){
   return this.http.delete(APIUrl + '/OrdenTemporal/BorrarOrdenTemporal/' + id)

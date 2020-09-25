@@ -4,8 +4,8 @@
 }
 
 ::ng-deep .mat-header-cell {
-    color: #ffffff !important;
-    background: #000000 !important;
+    color: #ffffff;
+    background: #000000;
 }
 
 table {
@@ -58,25 +58,4 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .folio {
     cursor: pointer;
-}
-
-.btncoti {
-    background-color: white;
-    color: black
-}
-
-.btncoti:hover {
-    background-color: black;
-    color: white;
-}
-
-::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
-    /* opacity: 0.03 !important; */
-    background-color: black!important;
-    /* background-color: #005691!important; */
-}
-
-::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
-::ng-deep .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
-    background-color: black !important;
 }

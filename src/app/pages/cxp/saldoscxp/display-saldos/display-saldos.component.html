@@ -1,0 +1,170 @@
+<div class="container row">
+
+    <div class="col-12">
+        <h4 style="display: block;">Saldo de Cuenta</h4>
+
+    </div>
+</div>
+<div class="container row form-material">
+    <div class="col-2">
+
+        <label class="input-group-text text-info">IdCliente</label>
+        <input readonly type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="this.saldoData.data.IdCliente">
+
+    </div>
+
+    <div class="col-6">
+        <label class="input-group-text text-info">Nombre</label>
+        <input readonly type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="this.saldoData.data.Nombre">
+
+    </div>
+    <div class="col-2"></div>
+    <div class="col-2">
+        <button style="float: right;" mat-button class="btn btn-danger" color="warn" (click)="onClose()">
+            <mat-icon>close</mat-icon>
+          </button>
+
+    </div>
+</div>
+
+<hr>
+
+
+<div style="overflow: auto; height: 450px;">
+
+
+    <form #form="ngForm">
+
+
+        <div class="form-material">
+            <div class="container">
+
+                <div class="container row">
+                    <div class="col-6">
+
+
+
+                        <label class="input-group-text text-info">TotalMXN</label>
+                        <input readonly type="text" class="form-control" name="TotalMXN" #TotalMXN="ngModel" [(ngModel)]="this.saldoData.data.TotalMXN">
+
+                        <label class="input-group-text text-info">TotalDLLS</label>
+                        <input readonly type="text" class="form-control" name="TotalDLLS" #TotalDLLS="ngModel" [(ngModel)]="this.saldoData.data.TotalDLLS">
+
+                    </div>
+                    <div class="col-lg-6">
+                        <label class="input-group-text text-info">TotalAbonos</label>
+                        <input readonly type="text" class="form-control" name="TotalAbonos" #TotalAbonos="ngModel" [(ngModel)]="this.saldoData.data.TotalAbonos">
+
+                        <label class="input-group-text text-info">TotalSaldo</label>
+                        <input readonly type="email" class="form-control" name="TotalSaldo" #TotalSaldo="ngModel" [(ngModel)]="this.saldoData.data.TotalSaldo">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <hr>
+
+    <div style="overflow:auto;">
+
+        <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
+
+            <tr class="text-center" mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <ng-container matColumnDef="Folio">
+                <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Folio</th>
+                <td class="text-center" mat-cell *matCellDef="let element">{{element.Folio}}
+
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Abonos">
+                <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Abonos</th>
+                <td class="text-center" mat-cell *matCellDef="let element">{{element.Abonos | currency}}
+                    <td class="text-center">
+            </ng-container>
+
+
+
+            <ng-container matColumnDef="Moneda">
+                <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Moneda</th>
+                <td class="text-center" mat-cell *matCellDef="let element">{{element.Moneda}}
+
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="NCTotal">
+                <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>NCTotal</th>
+                <td class="text-center" mat-cell *matCellDef="let element">{{element.NCTotal | currency}}
+
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="NCTotalDlls">
+                <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>NCTotalDlls</th>
+                <td class="text-center" mat-cell *matCellDef="let element">{{element.NCTotalDlls | currency}}
+
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Saldo">
+                <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Saldo</th>
+                <td class="text-center" mat-cell *matCellDef="let element">{{element.Saldo | currency}}
+
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Tipo">
+                <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
+                <td class="text-center" mat-cell *matCellDef="let element">{{element.Tipo}}
+
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="TipoDeCambio">
+                <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>TipoDeCambio</th>
+                <td class="text-center" mat-cell *matCellDef="let element">{{element.TipoDeCambio | currency}}
+
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Total">
+                <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
+                <td class="text-center" mat-cell *matCellDef="let element">{{element.Total | currency}}
+
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="TotalDlls">
+                <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>TotalDlls</th>
+                <td class="text-center" mat-cell *matCellDef="let element">{{element.TotalDlls | currency}}
+
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="pagos">
+                <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>Pagos</th>
+                <td class="text-center" mat-cell *matCellDef="let element">{{element.pagos | currency}}
+
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="FechaDeExpedicion">
+                <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>FechaDeExpedicion</th>
+                <td class="text-center" mat-cell *matCellDef="let element">{{element.FechaDeExpedicion | date: 'yyyy-MM-dd'}}
+
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="FechaVencimiento">
+                <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header>FechaVencimiento</th>
+                <td class="text-center" mat-cell *matCellDef="let element">{{element.FechaVencimiento | date: 'yyyy-MM-dd'}}
+
+                </td>
+            </ng-container>
+        </table>
+        <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+        </mat-paginator>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h2 style="text-align: start;">Pedidos por Mes</h2>
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <mat-button-toggle-group #group="matButtonToggleGroup">
+                            <mat-button-toggle value="Dolares" aria-label="Text align left" (change)='cambioPedido($event)'>
+                                <mat-icon>attach_money </mat-icon>
+                            </mat-button-toggle>
+                            <mat-button-toggle value="Pesos" aria-label="Text align center" (change)='cambioPedido($event)'>
+                                <mat-icon>monetization_on</mat-icon>
+                            </mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </div>
+
+                </div>
+                <div style="display: block">
+                    <canvas baseChart [datasets]="barChartDataPedido" [colors]="lineChartColors" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                        </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h2 style="text-align: start;">Cotizaciones por Mes</h2>
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <mat-button-toggle-group #group="matButtonToggleGroup">
+                            <mat-button-toggle value="Dolares" aria-label="Text align left" (change)='cambioCotizacion($event)'>
+                                <mat-icon>attach_money </mat-icon>
+                            </mat-button-toggle>
+                            <mat-button-toggle value="Pesos" aria-label="Text align center" (change)='cambioCotizacion($event)'>
+                                <mat-icon>monetization_on</mat-icon>
+                            </mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </div>
+
+                </div>
+                <div style="display: block">
+                    <canvas baseChart [datasets]="barChartDataCotizacion" [colors]="lineChartColors" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                        </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
