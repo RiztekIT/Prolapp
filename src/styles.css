@@ -31,8 +31,8 @@ body {
 }
 
 ::ng-deep .mat-header-cell {
-    color: #ffffff;
-    background: #000000;
+    color: #ffffff !important;
+    background: #000000 !important;
 }
 
 .modal-backdrop {

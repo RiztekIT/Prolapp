@@ -1,265 +1,183 @@
-<!-- <input type="file" (change)="onChange($event.target.files)"> -->
-
-<!-- <div>
-    <h3>File Content</h3>
-    <pre> {{fileContent}} </pre>
-</div> -->
-
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
 
+                <h1 style="text-align: center;">Saldos de Cuentas</h1>
 
 
+                <div class="container">
 
-                <h1>RK - XML</h1>
-                <!-- Inicio de Cambios -->
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-material mat-elevation-z5">
-                            <div class="card-body">
-
-                                <div class="row">
-
-                                    <div class="col-6">
-
-                                        <div class="card-body">
-                                            <ngx-dropzone (change)="onSelect($event)">
-                                                <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
-                                                <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
-                                                    <ngx-dropzone-label> {{ f.type }}</ngx-dropzone-label>
-                                                </ngx-dropzone-image-preview>
-                                            </ngx-dropzone>
-                                            <!-- <hr> -->
-                                            <!--  <div class="text-left text-danger" *ngIf="imagenSeleccionada == false">
-                                    No hay ninguna imagen seleccionada.
-                                </div> -->
-                                        </div>
+                    <div class="row">
 
 
-                                    </div>
-                                    <div class="col-2" style="align-self: center; text-align: center;">
-                                        <button [disabled]='terminado' mat-fab (click)="excel()" class="btncoti">
-                            <mat-icon>cloud_download</mat-icon> 
-                        </button>Detallado
-                                    </div>
-                                    <div class="col-2" style="align-self: center; text-align: center;">
-                                        <button [disabled]='terminado' mat-fab (click)="excelresumen()" class="btncoti">
-                            <mat-icon>cloud_download</mat-icon> 
-                        </button>Resumen
-                                    </div>
-                                    <div class="col-2" style="align-self: center; text-align: center;">
-                                        <button [disabled]='terminado' mat-fab (click)="exceldetallado()" class="btncoti">
-                            <mat-icon>cloud_download</mat-icon> 
-                        </button>Resumen Totales
-                                    </div>
-                                </div>
+                        <div class="col-md-3 col-sm-12" style="display: grid; justify-content: center">
 
-                            </div>
                         </div>
+                        <div class="col-md-3 col-sm-12" style="display: grid">
+
+                            <!-- <label class="input-group-text text-info">Estatus</label>
+                            <mat-form-field>
+                                <mat-label> Estatus </mat-label>
+                             class="form-control" name="EstatusS" #EstatusS="ngModel" id="EstatusS" -->
+                            <!-- <mat-select (selectionChange)="estatusCambio($event)" [(ngModel)]="estatusSelect">
+                                <mat-option [value]="" selected disabled>Seleccionar Estatus</mat-option> -->
+                            <!-- <mat-option *ngFor="let dl of listEstatus" [value]="dl.Estatus"> {{dl.Estatus}} </mat-option>
+                                </mat-select>
+                            </mat-form-field> -->
+
+                        </div>
+                        <div class="col-md-6 col-sm-12" style="display: grid">
+
+                            <!-- <mat-card style="text-align: right; " class="mat-elevation-z0"> -->
+                            <mat-form-field style="display: block">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                            </mat-form-field>
+                            <!-- </mat-card> -->
+
+                        </div>
+
                     </div>
+
                 </div>
+
+
+                <!-- 
+                <div fxLayoutAlign="row">
+                    <mat-card style="text-align: right;" class="mat-elevation-z0">
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                        </mat-form-field>
+                    </mat-card>
+                </div> -->
 
                 <hr>
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
+                <div style="overflow:auto;">
+
+                    <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 
 
-                                <div class="row">
-                                    <mat-progress-bar mode="determinate" [value]="valor"></mat-progress-bar>
+                        <ng-container matColumnDef="IdCliente" sticky>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>IdCliente</th>
+                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.IdCliente}} +
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Nombre">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                            <td mat-cell *matCellDef="let element">{{element.Nombre}}
+
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TotalAbonos">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>TotalAbonos</th>
+                            <td mat-cell *matCellDef="let element">{{element.TotalAbonos | currency}}
+
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TotalDLLS">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>TotalDLLS</th>
+                            <td mat-cell *matCellDef="let element">{{element.TotalDLLS | currency}}
+
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TotalMXN">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>TotalMXN</th>
+                            <td mat-cell *matCellDef="let element">{{element.TotalMXN | currency}}
+
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TotalSaldo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>TotalSaldo</th>
+                            <td mat-cell *matCellDef="let element">{{element.TotalSaldo | currency}}
+
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Options" stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                            <td mat-cell *matCellDef="let row">
+
+                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                    <mat-icon>keyboard_arrow_down</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <!--  -->
+                                    <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                                <mat-icon>edit</mat-icon>
+                                            </button>
+                                    <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
+                                                <mat-icon>visibility</mat-icon>
+                                            </button> -->
+                                    <!--  -->
+                                    <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
+                                                <mat-icon>visibility</mat-icon>
+                                            </button> -->
+                                    <!--  -->
+                                    <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
+                                    <button title="Enviar Correo" mat-icon-button class="btn btn-dark" (click)="email()">
+                                                <mat-icon>alternate_email</mat-icon>
+                                              </button> -->
+                                    <!--  -->
+                                    <!-- <button title="Eliminar" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
+                                                    <mat-icon>delete_outline</mat-icon>
+                                                </button> -->
+                                </mat-menu>
+                            </td>
+                        </ng-container>
+
+
+                        <!-- DETALLES -->
+                        <ng-container matColumnDef="expandedDetail">
+                            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsVersion.length">
+                                <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" (click)="expandedElement = 0">
+
+                                    <table width="100%">
+                                        <tr>
+                                            <th>Folio</th>
+                                            <th>FechaDeExpedicion</th>
+                                            <th>FechaVencimiento</th>
+                                            <th>Total</th>
+                                            <th>TotalDlls</th>
+                                            <th>Abonos</th>
+                                            <th>Saldo</th>
+                                            <th>Moneda</th>
+                                            <th>TipoDeCambio</th>
+                                        </tr>
+                                        <tr *ngFor="let Docs of element.Docs">
+                                            <td> {{Docs.Folio}} </td>
+                                            <td> {{Docs.FechaDeExpedicion | date: 'yyyy-MM-dd'}} </td>
+                                            <td> {{Docs.FechaVencimiento | date: 'yyyy-MM-dd'}} </td>
+                                            <td> {{Docs.Total | currency}} </td>
+                                            <td> {{Docs.TotalDlls | currency}} </td>
+                                            <td> {{Docs.Abonos | currency}} </td>
+                                            <td> {{Docs.Saldo | currency}} </td>
+                                            <td> {{Docs.Moneda}} </td>
+                                            <td> {{Docs.TipoDeCambio | currency}} </td>
+                                        </tr>
+                                    </table>
                                 </div>
+                            </td>
+                        </ng-container>
+                        <!-- DETALLES -->
 
-                            </div>
-                        </div>
-                    </div>
+                    </table>
+                    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                    </mat-paginator>
                 </div>
-
-
-
-
-                <div *ngIf='!terminado' class="row" style="overflow: scroll;">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <!--     <div class="row">
-                    <div class="col-4">
-                        <h2> Nombre </h2>
-                    </div>
-                    <div class="col-4">
-                        <h2> RFC </h2>
-                    </div>
-                    <div class="col-4">
-                        <h2> Importe Total </h2>
-                    </div>
-                </div>
-
-                <div *ngFor="let e of empleados" class="row">
-
-                    <div class="col-4">{{e.Comprobante.Receptor[0].$.Nombre}}</div>
-                    <div class="col-4">{{e.Comprobante.Receptor[0].$.Rfc}}</div>
-                    <div class="col-4">{{e.Comprobante.$.Total}}</div>
-                </div> -->
-
-                                <table class="table-hover border3" *ngFor="let e of empleados; let i = index">
-                                    <thead>
-                                        <tr>
-                                            <th class="blacktxt bolder">No. Emp.</th>
-                                            <th class="blacktxt bolder">Nombre</th>
-                                            <th class="blacktxt bolder">RFC</th>
-                                            <th class="blacktxt bolder ">CURP</th>
-                                            <th class="blacktxt bolder">NSS</th>
-                                            <th class="blacktxt bolder">Fecha de Alta</th>
-                                            <th class="blacktxt bolder">Departamento</th>
-                                            <th class="blacktxt bolder">Puesto</th>
-                                            <th class="blacktxt bolder">S.B.C.</th>
-                                            <th class="blacktxt bolder">S.D.I.</th>
-                                            <th class="blacktxt bolder">Periodicidad</th>
-                                            <!-- <th></th> -->
-                                        </tr>
-
-
-
-
-                                    </thead>
-                                    <tbody>
-
-                                        <tr class="pgbreak border3">
-                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumEmpleado}} </td>
-                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Receptor[0].$.Nombre}} </td>
-                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Receptor[0].$.Rfc}} </td>
-                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Curp}} </td>
-                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.NumSeguridadSocial}} </td>
-                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.FechaInicioRelLaboral | date: 'yyyy/MM/dd'}} </td>
-                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Departamento}} </td>
-                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.Puesto}} </td>
-                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.SalarioBaseCotApor}} </td>
-                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.SalarioDiarioIntegrado}} </td>
-                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].Receptor[0].$.PeriodicidadPago}} </td>
-
-                                        </tr>
-                                        <tr>
-                                            <td [attr.colspan]="10">
-                                                <table class="table-hover" style="width: 100%">
-                                                    <thead>
-                                                        <tr>
-                                                            <th class="blacktxt bolder">Fecha Pago</th>
-                                                            <th class="blacktxt bolder">Fecha Inicial</th>
-                                                            <th class="blacktxt bolder">Fecha Final</th>
-                                                            <th class="blacktxt bolder">Dias de Pago</th>
-                                                            <th class="blacktxt bolder">Total Percepciones</th>
-                                                            <th class="blacktxt bolder">Total Deducciones</th>
-                                                            <th *ngIf='e.Comprobante.Complemento[0].Nomina[0].Emisor' class="blacktxt bolder">Registro Patronal</th>
-                                                            <th class="blacktxt bolder">UUID</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].$.FechaPago}} </td>
-                                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].$.FechaInicialPago}} </td>
-                                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].$.FechaFinalPago}} </td>
-                                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].$.NumDiasPagados}} </td>
-                                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].$.TotalPercepciones}} </td>
-                                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].$.TotalDeducciones}} </td>
-                                                            <td *ngIf='e.Comprobante.Complemento[0].Nomina[0].Emisor && e.Comprobante.Complemento[0].Nomina[0].Emisor[0].$' class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].Nomina[0].Emisor[0].$.RegistroPatronal}} </td>
-                                                            <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{e.Comprobante.Complemento[0].TimbreFiscalDigital[0].$.UUID}} </td>
-                                                        </tr>
-                                                    </tbody>
-
-                                                </table>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-
-                                            <td [attr.colspan]="5">
-                                                <table class="table-hover" style="width: 100%">
-                                                    <thead style="border-bottom: solid;">
-                                                        <tr>
-                                                            <th class="blacktxt bolder" [attr.colspan]="2">Percepciones</th>
-
-                                                            <!-- <th class="blacktxt bolder" [attr.colspan]="1">{{e.Comprobante.Complemento[0].Nomina[0].Percepciones[0].$.TotalSueldos}}</th> -->
-                                                            <th class="blacktxt bolder" [attr.colspan]="2">Deducciones</th>
-                                                            <!-- <th class="blacktxt bolder" [attr.colspan]="1">{{e.Comprobante.Complemento[0].Nomina[0].Deducciones[0].$.TotalSueldos}}</th> -->
-                                                            <!-- <th class="blacktxt bolder" [attr.colspan]="e.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion.length">Percepciones</th>
-                                            <th class="blacktxt bolder" [attr.colspan]="e.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion.length">Deducciones</th> -->
-                                                        </tr>
-                                                        <!--    <tr>
-                                                            <th></th>
-                                                            <th class="blacktxt bolder" [attr.colspan]="1">Gravado</th>
-                                                            <th class="blacktxt bolder" [attr.colspan]="1">Exento</th>
-                                                        </tr> -->
-
-                                                    </thead>
-
-                                                    <tbody>
-                                                        <td *ngIf="e.Comprobante.Complemento[0].Nomina[0].Percepciones" style="vertical-align: top;">
-                                                            <tr>
-                                                                <th></th>
-                                                                <th></th>
-                                                                <th class="blacktxt bolder" [attr.colspan]="1">Gravado</th>
-                                                                <th></th>
-                                                                <th class="blacktxt bolder" [attr.colspan]="1">Exento</th>
-                                                            </tr>
-
-                                                            <tr *ngFor="let p of e.Comprobante.Complemento[0].Nomina[0].Percepciones[0].Percepcion; let i of index">
-                                                                <td class="blacktxt bolder ">{{p.$.Concepto}}</td>
-                                                                <td></td>
-                                                                <td class="blacktxt bolder ">{{p.$.ImporteGravado}}</td>
-                                                                <td></td>
-                                                                <td class="blacktxt bolder ">{{p.$.ImporteExento}}</td>
-                                                            </tr>
-                                                        </td>
-                                                        <td></td>
-                                                        <td *ngIf="e.Comprobante.Complemento[0].Nomina[0].Deducciones" style="vertical-align: top;">
-                                                            <tr *ngFor="let d of e.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion; let ii of index">
-                                                                <td class="blacktxt bolder ">{{d.$.Concepto}}</td>
-                                                                <td></td>
-                                                                <td class="blacktxt bolder ">{{d.$.Importe}}</td>
-
-
-                                                            </tr>
-                                                        </td>
-
-                                                        <!--    <tr *ngFor="let d of e.Comprobante.Complemento[0].Nomina[0].Deducciones[0].Deduccion; let ii of index" class="pgbreak border3">
-                                            <td class="blacktxt bolder ">{{d.$.Concepto}}</td>
-                                            <td class="blacktxt bolder ">{{d.$.Importe}}</td>
-
-
-                                        </tr> -->
-
-
-                                                    </tbody>
-
-
-
-
-
-                                                </table>
-
-
-
-
-                                            </td>
-
-
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Fin de Cambios -->
             </div>
+
+
+
         </div>
     </div>
 </div>

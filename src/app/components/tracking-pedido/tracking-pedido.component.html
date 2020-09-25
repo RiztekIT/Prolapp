@@ -95,7 +95,7 @@
 
                         <ng-container matColumnDef="Fecha">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Expedicion</th>
-                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.FechaDeExpedicion}}
+                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.FechaDeExpedicion | date: 'yyy/MM/dd h:mm a' }}
                                 <td>
                         </ng-container>
                         <!--  <tbody>
