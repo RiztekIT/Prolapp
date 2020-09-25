@@ -281,7 +281,7 @@ import { ComprasListaComponent } from '../components/graficas/compras/compras-li
 import { ProductosinventariosComponent } from '../components/graficas/almacen/productosinventarios/productosinventarios.component';
 import { ShowreporteVentasComponent } from './ventas/reportes-ventas/showreporte-ventas/showreporte-ventas.component';
 import { ShowreporteAlmacenComponent } from './almacen/reportesalmacen/showreporte-almacen/showreporte-almacen.component';
-import { DisplaySaldosComponent } from './cxp/saldoscxp/display-saldos/display-saldos.component';
+import { DisplaySaldosComponent } from './cxc/saldoscxc/display-saldos/display-saldos.component';
 import { VentasTotalesComponent } from '../components/graficas/ventas/ventas-totales/ventas-totales.component';
 import { VentasMesesComponent } from '../components/graficas/ventas/ventas-meses/ventas-meses.component';
 
