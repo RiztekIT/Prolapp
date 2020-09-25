@@ -392,7 +392,6 @@ export class SharedService {
     });
   }
 
-
   //***** Reportes Compras  *****//
 
   //***** Reportes Ventas  *****//
@@ -516,7 +515,6 @@ export class SharedService {
       fs.saveAs(blob, 'ReporteVentasCotizacion.xlsx');
     });
   }
-
 
   // --------- Cotizaciones ------- //
 
@@ -642,8 +640,401 @@ public generarExcelReporteVentasPedidos(datos) {
 }
 
   // --------- Pedidos ------- //
-
+  
   //***** Reportes Ventas  *****//
+  
+  //***** Reportes Almacen  *****//
+  
+  // --------- Orden Carga ------- //
+
+  public generarExcelReporteAlmacenOrdenCarga(datos, modulo) {
+  let titulo;
+  let hojaWorksheet;
+  let guardarComo;
+    if(modulo == 'OrdenCarga'){
+    titulo = 'Reporte Almacen Orden Carga';
+    hojaWorksheet = 'Orden Carga';
+    guardarComo = 'ReporteAlmacenOrdenCarga.xlsx';
+  }else if(modulo == 'Traspaso'){
+    titulo = 'Reporte Almacen Traspaso';
+    hojaWorksheet = 'Traspaso'
+    guardarComo = 'ReporteAlmacenTraspaso.xlsx';
+    
+    }
+    const title = titulo;
+    const header = ["ID Cliente", "Cliente"]
+    const header1 = ["Folio", "Fecha de Expedicion", "Fecha Inicio Carga", "Fecha Final Carga", "Fecha Envio", "Fletera", "Caja", "Sacos", "Kg", "Origen", "Destino", "Chofer", "Usuario"]
+    const data = datos;
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet(hojaWorksheet);
+    let titleRow = worksheet.addRow([title]);
+    titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    let subTitleRow = worksheet.addRow(['Fecha :', new Date()]);
+    const logoBase64 = this.logobase64;
+    let logo = workbook.addImage({
+      base64: logoBase64,
+      extension: 'png',
+    });
+    worksheet.addImage(logo, 'F1:H5');
+    worksheet.mergeCells('A1:E4');
+    let headerRow = worksheet.addRow(header);
+    headerRow.eachCell((cell, number) => {
+  
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color: { argb: 'FFFFFF' } }
+    });
+    let headerRow1 = worksheet.addRow(header1);
+    headerRow1.eachCell((cell, number) => {
+  
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color: { argb: 'FFFFFF' } }
+    });
+    worksheet.mergeCells('B6:I6');
+  
+    console.log(data);
+    const dat: any[] = Array.of(data);
+    console.log(dat);
+  
+    data.forEach((d) => {
+      console.log(d);
+      let registro = [d.IdClientes, d.Nombre];
+      console.log(registro);
+      let row = worksheet.addRow(registro);
+  
+      let sacos = 0;
+      let kg = 0;
+  
+  
+      d.Docs.forEach((docs) => {
+  
+        let fechaExp= docs.FechaExpedicion.substring(0, 10);
+        let fechaInicio = docs.FechaInicioCarga.substring(0, 10);
+        let fechaFinal = docs.FechaFinalCarga.substring(0, 10);
+        let fechaEnvio = docs.FechaEnvio.substring(0, 10);
+  
+        let registro2 = [docs.Folio, fechaExp, fechaInicio, fechaFinal,fechaEnvio, docs.Fletera, docs.Caja, +docs.Sacos, +docs.Kg, docs.Origen, docs.Destino, docs.Chofer, docs.Usuario]
+        let row2 = worksheet.addRow(registro2);
+        sacos = sacos + +docs.Sacos;
+        kg = kg + +docs.Kg;
+  
+  
+        let pesos = row2.getCell(4);
+        pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        let dlls = row2.getCell(5);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row2.getCell(6);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row2.getCell(7);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row2.getCell(9);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+      })
+  
+      let suma = ['', '', 'Total', sacos, kg]
+      let sumarow = worksheet.addRow(suma);
+      let totalformat = sumarow.getCell(4);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(5);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(6);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(7);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+  
+  
+  
+  
+  
+  
+    }
+    );
+  
+  
+    worksheet.getColumn(2).width = 15;
+    worksheet.getColumn(3).width = 15;
+    worksheet.getColumn(4).width = 15;
+    worksheet.getColumn(5).width = 15;
+    worksheet.getColumn(6).width = 15;
+    worksheet.getColumn(7).width = 15;
+  
+  
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      
+      fs.saveAs(blob, guardarComo);
+    });
+  }
+  
+
+  // --------- Orden Carga ------- //
+
+  // --------- Orden Descarga ------- //
+
+public generarExcelReporteAlmacenOrdenDescarga(datos){
+  const title = 'Reporte Almacen Orden Descarga';
+    const header = ["ID Proveedor", "Proveedor"]
+    const header1 = ["Folio", "Fecha de Expedicion", "Fecha Inicio Descarga", "Fecha Final Descarga", "Fecha Llegada", "Fletera", "Caja", "Sacos", "Kg", "Origen", "Destino", "Chofer", "Usuario"]
+    const data = datos;
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Orden Descarga');
+    let titleRow = worksheet.addRow([title]);
+    titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    let subTitleRow = worksheet.addRow(['Fecha :', new Date()]);
+    const logoBase64 = this.logobase64;
+    let logo = workbook.addImage({
+      base64: logoBase64,
+      extension: 'png',
+    });
+    worksheet.addImage(logo, 'F1:H5');
+    worksheet.mergeCells('A1:E4');
+    let headerRow = worksheet.addRow(header);
+    headerRow.eachCell((cell, number) => {
+  
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color: { argb: 'FFFFFF' } }
+    });
+    let headerRow1 = worksheet.addRow(header1);
+    headerRow1.eachCell((cell, number) => {
+  
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color: { argb: 'FFFFFF' } }
+    });
+    worksheet.mergeCells('B6:I6');
+  
+    console.log(data);
+    const dat: any[] = Array.of(data);
+    console.log(dat);
+  
+    data.forEach((d) => {
+      console.log(d);
+      let registro = [d.IdProveedor, d.Nombre];
+      console.log(registro);
+      let row = worksheet.addRow(registro);
+  
+      let sacos = 0;
+      let kg = 0;
+  
+  
+      d.Docs.forEach((docs) => {
+  
+        let fechaExp= docs.FechaExpedicion.substring(0, 10);
+        let fechaInicio = docs.FechaInicioDescarga.substring(0, 10);
+        let fechaFinal = docs.FechaFinalDescarga.substring(0, 10);
+        let fechaLlegada = docs.FechaLlegada.substring(0, 10);
+  
+        let registro2 = [docs.Folio, fechaExp, fechaInicio, fechaFinal,fechaLlegada, docs.Fletera, docs.Caja, +docs.Sacos, +docs.Kg, docs.Origen, docs.Destino, docs.Chofer, docs.Usuario]
+        let row2 = worksheet.addRow(registro2);
+        sacos = sacos + +docs.Sacos;
+        kg = kg + +docs.Kg;
+  
+  
+        let pesos = row2.getCell(4);
+        pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        let dlls = row2.getCell(5);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row2.getCell(6);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row2.getCell(7);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row2.getCell(9);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+      })
+  
+      let suma = ['', '', 'Total', sacos, kg]
+      let sumarow = worksheet.addRow(suma);
+      let totalformat = sumarow.getCell(4);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(5);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(6);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(7);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+  
+  
+  
+  
+  
+  
+    }
+    );
+  
+  
+    worksheet.getColumn(2).width = 15;
+    worksheet.getColumn(3).width = 15;
+    worksheet.getColumn(4).width = 15;
+    worksheet.getColumn(5).width = 15;
+    worksheet.getColumn(6).width = 15;
+    worksheet.getColumn(7).width = 15;
+  
+  
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, 'ReporteAlmacenOrdenDescarga.xlsx');
+    });
+}
+
+  // --------- Orden Descarga ------- //
+
+  // --------- Traspaso ------- //
+
+
+
+  // --------- Traspaso ------- //
+
+  // --------- Inventario ------- //
+
+  public generarExcelReporteAlmacenInventario(datos){
+    const title = 'Reporte Almacen Inventario';
+    const header = [""]
+    const header1 = ["ID", "Proveedor", "QR", "Clave Producto", "Lote", "Fecha Caducidad", "Fecha MFG", "Sacos", "Peso Saco", "Peso Total"]
+    const data = datos;
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Inventario');
+    let titleRow = worksheet.addRow([title]);
+    titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    let subTitleRow = worksheet.addRow(['Fecha :', new Date()]);
+    const logoBase64 = this.logobase64;
+    let logo = workbook.addImage({
+      base64: logoBase64,
+      extension: 'png',
+    });
+    worksheet.addImage(logo, 'F1:H5');
+    worksheet.mergeCells('A1:E4');
+    let headerRow = worksheet.addRow(header);
+    headerRow.eachCell((cell, number) => {
+  
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color: { argb: 'FFFFFF' } }
+    });
+    let headerRow1 = worksheet.addRow(header1);
+    headerRow1.eachCell((cell, number) => {
+  
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color: { argb: 'FFFFFF' } }
+    });
+    worksheet.mergeCells('B6:I6');
+  
+    console.log(data);
+    const dat: any[] = Array.of(data);
+    console.log(dat);
+  let sacos = 0;
+  let kg= 0;
+    data.forEach((d) => {
+      console.log(d);
+      // let registro = [d.IdProveedor, d.Nombre];
+      // console.log(registro);
+      // let row = worksheet.addRow(registro);
+  
+      d.detalle.forEach((docs) => {
+  
+        let fechaCad= docs.FechaCaducidad.substring(0, 10);
+        let fechaMFG = docs.FechaMFG.substring(0, 10);
+  
+        let registro2 = [docs.IdProveedor, docs.Proveedor, docs.QR, docs.ClaveProducto, docs.Lote, fechaCad, fechaMFG, +docs.Sacos1, +docs.PesoxSaco, docs.SacoDetalle]
+        let row2 = worksheet.addRow(registro2);
+
+        sacos = sacos + +docs.Sacos1;
+
+        kg = kg + +docs.SacoDetalle;
+  
+  
+        let pesos = row2.getCell(4);
+        pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        let dlls = row2.getCell(5);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row2.getCell(6);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row2.getCell(7);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row2.getCell(9);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+      })
+  
+      
+  
+  
+  
+  
+  
+  
+    }
+    );
+    let suma = ['', '', 'Total', sacos, kg]
+      let sumarow = worksheet.addRow(suma);
+      let totalformat = sumarow.getCell(4);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(5);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(6);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(7);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+  
+  
+    worksheet.getColumn(2).width = 15;
+    worksheet.getColumn(3).width = 15;
+    worksheet.getColumn(4).width = 15;
+    worksheet.getColumn(5).width = 15;
+    worksheet.getColumn(6).width = 15;
+    worksheet.getColumn(7).width = 15;
+  
+  
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, 'ReporteAlmacenInventario.xlsx');
+    });
+  }
+
+  // --------- Inventario ------- //
+
+
+    //***** Reportes Almacen  *****//
 
 
   //-------------------------- Reportes --------------------------- //

@@ -11,6 +11,7 @@ import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
 import { ClientesService } from '../../../../services/catalogos/clientes.service';
 import { ProveedoresService } from '../../../../services/catalogos/proveedores.service';
 import { VentasCotizacionService } from '../../../../services/ventas/ventas-cotizacion.service';
+import { resolve } from 'url';
 
 @Component({
   selector: 'app-showreporte-almacen',
@@ -55,7 +56,15 @@ export class ShowreporteAlmacenComponent implements OnInit {
     //asignar valores del Reporte
     this.reporteFechas = this.ReporteInformacion.filtradoFecha;
     this.reporteEstatus = this.ReporteInformacion.estatus;
-    let bodega = this.ReporteInformacion.tipoEstatusBodega;
+
+
+    let unaBodega = this.ReporteInformacion.estatus;
+    let bodega = this.ReporteInformacion.tipoEstatus;
+
+    let claveProducto = this.ReporteInformacion.claveProduto;
+
+    // console.log(this.ReporteInformacion.tipoEstatus);
+    console.log(claveProducto);
     switch (modulo) {
       case ('OrdenCarga'):
         console.log(modulo);
@@ -79,12 +88,12 @@ export class ShowreporteAlmacenComponent implements OnInit {
       }
           break;
           case('Inventario'):
-          if(unCliente == true){
+          if(unaBodega == true){
             //Una sola bodega
-            this.getReporteUnaBodega(bodega);
+            this.getReporteUnaBodega(bodega, unCliente, claveProducto);
         }else{
             //Todas las bodegas
-            this.getReporteBodegas();
+            this.getReporteBodegas(unCliente, claveProducto);
           }
           break;
         
@@ -123,50 +132,176 @@ getProveedores(){
   })
 }
 
-getReporteUnaBodega(bodega:string){
-    let contador = 0;
-    this.serviceTarima.master = [];
-    let sacostotales;
-    this.serviceTarima.getProductos().subscribe((data:any)=>{
-      console.log(data,'obtner tarimas');
-      for (let l=0; l<data.length; l++){
-        console.log(data[l].Nombre);
-        this.serviceTarima.GetTarimaProducto(data[l].Nombre,bodega).subscribe(datadet =>{
-          console.log(datadet);
-          if (datadet.length>0){
-            sacostotales = 0;
-            this.serviceTarima.master[contador] = data[l];
-            for (let i=0; i<datadet.length;i++){
-              sacostotales = sacostotales + +datadet[i].Sacos;
-              datadet[i].SacosD = +datadet[i].Sacos;
-              this.serviceTarima.GetTarimaProductoD(datadet[i].Producto,datadet[i].Lote).subscribe(datas=>{
-                console.log(datas,'datas');
-                if (datas.length>0){
-                  for (let d=0; d<datas.length;d++){
+// private getTranslations(keys: string[]): Promise<any> {
+//   return new Promise((resolve, reject) => {
+//     this.translateSvc.get(keys).subscribe(success => {
+//       resolve(success);
+//     });
+//   });
+// }
 
-                    datadet[i].SacosD = datadet[i].SacosD - +datas[d].Sacos
-                  }
+// return new Promise((resolve, reject)=>{
+//   this.serviceTarima.getProductos().subscribe((data:any)=>{
+//    //  resolve(data);
+//    //  console.log(data,'obtner tarimas');
+//     resolve(this.obtenerProductos(bodega, data));      
+//   })
+// })
 
-                }else{
-                  datadet[i].SacosD = datadet[i].SacosD
-                }
-                this.serviceTarima.master[contador].detalle = datadet;
-                this.serviceTarima.master[contador].Stock = sacostotales;
-                console.log(this.serviceTarima.master);
-              }) 
-            }
-            contador++;
-          }
-                // this.arrcon = this.serviceTarima.master;
-                // console.log(this.arrcon);
-        })
+getReporteUnaBodega(bodega:string, unProducto, clave){
+  console.log('UNA BODEGA');
 
+  if(unProducto == true){
+    // console.log('UN SOLO PRODUCTO');
+    // console.log(clave);
+
+    this.serviceTarima.getProductoClave(clave).subscribe(data=>{
+      console.log(data);
+      this.obtenerInformacionReporteUnaBodega(data, bodega);
+    })
+    
+    }else{
+      console.log('MUCHOS PRODUCTOS');
+      
+      this.serviceTarima.getProductos().subscribe((data:any)=>{
+        // console.log(data,'obtner tarimas');
+        this.obtenerInformacionReporteUnaBodega(data, bodega);
+
+      })
       }
-     
+  
+
+  }
+  
+sacostotales: number = 0;
+pesototal: number = 0;
+
+obtenerInformacionReporteUnaBodega(data, bodega){
+  let contador = 0;
+    
+  this.serviceTarima.master = [];
+  // let sacostotales;
+  // let pesototal;
+  let pesoporTarimaP;
+  for (let l=0; l<data.length; l++){
+    console.log(data[l].Nombre);
+    
+    this.serviceTarima.GetTarimaProducto(data[l].Nombre, bodega).subscribe(datadet =>{
+      console.log(datadet);
+      if (datadet.length>0){
+        pesoporTarimaP= 0;
+        this.serviceTarima.master[contador] = data[l];
+        for (let i=0; i<datadet.length;i++){
+
+          
+          datadet[i].SacosD = +datadet[i].Sacos;
+          
+          pesoporTarimaP = ((+datadet[i].Sacos1) * (+datadet[i].PesoxSaco));
+          this.pesototal = this.pesototal + pesoporTarimaP;
+          this.sacostotales = this.sacostotales + +datadet[i].Sacos1;
+
+          datadet[i].SacoDetalle = pesoporTarimaP;
+
+
+          this.serviceTarima.GetTarimaProductoD(datadet[i].Producto,datadet[i].Lote).subscribe(datas=>{
+            console.log(datas,'datas');
+            if (datas.length>0){
+
+              for (let d=0; d<datas.length;d++){
+
+                datadet[i].SacosD = datadet[i].SacosD - +datas[d].Sacos
+                datadet[i].SacoDetalle = datadet[i].SacoDetalle - +datas[d].Sacos
+              }
+
+            }else{
+              datadet[i].SacosD = datadet[i].SacosD
+              datadet[i].SacoDetalle = datadet[i].SacoDetalle
+            }
+          }) 
+        }
+        this.serviceTarima.master[contador].detalle = datadet;
+        // this.serviceTarima.master[contador].pesoEnTotal = pesototal;
+        // this.serviceTarima.master[contador].Stock = sacostotales;
+        contador++;
+      }
+      this.arrcon = this.serviceTarima.master;
+      console.log(this.arrcon);
     })
   }
+}
+obtenerInformacionReporteBodegas(data){
+  let contador = 0;
+    
+    this.serviceTarima.master = [];
+    let pesoporTarimaP;
+  for (let l=0; l<data.length; l++){
+    console.log(data[l].Nombre);
+    
+    this.serviceTarima.GetTarimaProductoAllBodegas(data[l].Nombre).subscribe(datadet =>{
+      console.log(datadet);
+      if (datadet.length>0){
+        pesoporTarimaP= 0;
+        this.serviceTarima.master[contador] = data[l];
+        for (let i=0; i<datadet.length;i++){
 
-getReporteBodegas(){
+          
+          datadet[i].SacosD = +datadet[i].Sacos;
+          
+          pesoporTarimaP = ((+datadet[i].Sacos1) * (+datadet[i].PesoxSaco));
+          this.pesototal = this.pesototal + pesoporTarimaP;
+          this.sacostotales = this.sacostotales + +datadet[i].Sacos1;
+
+          datadet[i].SacoDetalle = pesoporTarimaP;
+
+
+          this.serviceTarima.GetTarimaProductoD(datadet[i].Producto,datadet[i].Lote).subscribe(datas=>{
+            console.log(datas,'datas');
+            if (datas.length>0){
+
+              for (let d=0; d<datas.length;d++){
+
+                datadet[i].SacosD = datadet[i].SacosD - +datas[d].Sacos
+                datadet[i].SacoDetalle = datadet[i].SacoDetalle - +datas[d].Sacos
+              }
+
+            }else{
+              datadet[i].SacosD = datadet[i].SacosD
+              datadet[i].SacoDetalle = datadet[i].SacoDetalle
+            }
+          }) 
+        }
+        this.serviceTarima.master[contador].detalle = datadet;
+        // this.serviceTarima.master[contador].pesoEnTotal = pesototal;
+        // this.serviceTarima.master[contador].Stock = sacostotales;
+        contador++;
+      }
+      this.arrcon = this.serviceTarima.master;
+      console.log(this.arrcon);
+    })
+  } 
+}
+  
+
+getReporteBodegas(unProducto, clave){
+console.log('GET iNFO TODAS LAS BODEGAS');
+
+
+    if(unProducto == true){
+      console.log('UN SOLO PRODUCTO');
+      console.log(clave);
+      this.serviceTarima.getProductoClave(clave).subscribe(data=>{
+        this.obtenerInformacionReporteBodegas(data);
+      })
+      
+      }else{
+        console.log('MUCHOS PRODUCTOS');
+        this.serviceTarima.getProductos().subscribe((data:any)=>{
+          console.log(data,'obtner tarimas');
+         this.obtenerInformacionReporteBodegas(data);
+        })
+        
+        }
+    
 
 }
 
@@ -649,12 +784,15 @@ filtroEstatusFechaOrdenDescarga(numero, data, fechaInicial, fechaFinal, estatus)
 
 exportarXLS() {
   console.log('export a excel');
-  // if(this.ReporteInformacion.modulo == 'Cotizacion'){
-  //   this.sharedService.generarExcelReporteVentasCotizaciones(this.arrcon);
-    
-  // }else if(this.ReporteInformacion.modulo == 'Pedido'){
-  // this.sharedService.generarExcelReporteVentasPedidos(this.arrcon);
-  // }
+  if(this.ReporteInformacion.modulo == 'OrdenCarga'){
+    this.sharedService.generarExcelReporteAlmacenOrdenCarga(this.arrcon, 'OrdenCarga');    
+  }else if(this.ReporteInformacion.modulo == 'OrdenDescarga'){
+    this.sharedService.generarExcelReporteAlmacenOrdenDescarga(this.arrcon);
+  }else if(this.ReporteInformacion.modulo == 'Inventario'){
+    this.sharedService.generarExcelReporteAlmacenInventario(this.arrcon);
+  }else if(this.ReporteInformacion.modulo == 'Traspaso'){
+    this.sharedService.generarExcelReporteAlmacenOrdenCarga(this.arrcon, 'Traspaso');    
+  }
 }
 
 exportarPDF() {

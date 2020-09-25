@@ -21,7 +21,7 @@
                     <tr>
                         <th *ngIf="ReporteInformacion.modulo == 'OrdenCarga'|| ReporteInformacion.modulo == 'Traspaso'" class="blacktxt bolder nowrap">ID Cliente</th>
                         <th *ngIf="ReporteInformacion.modulo == 'OrdenDescarga'" class="blacktxt bolder nowrap">ID Proveedor</th>
-                        <th class="blacktxt bolder">Nombre</th>
+                        <th *ngIf="ReporteInformacion.modulo != 'Inventario'" class="blacktxt bolder">Nombre</th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -37,7 +37,7 @@
                         <th *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso'" class="text-center blacktxt bolder nowrap">Fecha Final C. </th>
                         <th *ngIf="ReporteInformacion.modulo == 'OrdenDescarga'" class="text-center blacktxt bolder nowrap">Fecha Final D. </th>
                         <th *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso'" class="text-center blacktxt bolder nowrap">Fecha Envio </th>
-                        <th class="text-center blacktxt bolder nowrap">Fecha Llegada </th>
+                        <th *ngIf="ReporteInformacion.modulo == 'OrdenDescarga'" class="text-center blacktxt bolder nowrap">Fecha Llegada </th>
                         <th class="text-center blacktxt bolder ">Fletera</th>
                         <th class="text-center blacktxt bolder ">Caja</th>
                         <th class="text-center blacktxt bolder ">Sacos</th>
@@ -47,16 +47,18 @@
                         <th class="text-center blacktxt bolder ">Chofer</th>
                         <th class="text-center blacktxt bolder ">Usuario</th>
                     </tr>
-                    <!-- <tr *ngIf="ReporteInformacion.modulo == 'Pedido'">
-                        <th class="blacktxt bolder ">Folio</th>
-                        <th class="blacktxt bolder nowrap">Fecha Exp </th>
-                        <th class="blacktxt bolder nowrap">Fecha Ven </th>
-                        <th class="blacktxt bolder nowrap">Fecha Entr </th>
-                        <th *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="blacktxt bolder ">Total MXN</th>
-                        <th *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="blacktxt bolder ">Total DLLS</th>
-                        <th class="blacktxt bolder ">Flete</th>
-                        <th class="blacktxt bolder ">Mon</th>
-                    </tr> -->
+                    <tr *ngIf="ReporteInformacion.modulo == 'Inventario'">
+                        <th class="blacktxt bolder ">ID</th>
+                        <th class="blacktxt bolder ">Proveedor</th>
+                        <th class="blacktxt bolder ">QR</th>
+                        <th class="blacktxt bolder ">Clave P.</th>
+                        <th class="blacktxt bolder ">Lote</th>
+                        <th class="blacktxt bolder nowrap">Fecha Cad</th>
+                        <th class="blacktxt bolder nowrap">Fecha MFG</th>
+                        <th class="blacktxt bolder nowrap">Sacos</th>
+                        <th class="blacktxt bolder ">Peso Saco</th>
+                        <th class="blacktxt bolder ">Peso Total</th>
+                    </tr>
                 </thead>
                 <ng-container *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso'|| ReporteInformacion.modulo == 'OrdenDescarga'">
                     <tbody *ngFor="let info of arrcon; let i = index">
@@ -82,37 +84,44 @@
                                 <td class="text-center pgbreak texto"> {{info.Usuario}} </td>
                             </tr>
                             <td class="wrap lightback pgbreak " [attr.colspan]="2"> </td>
-                            <td class="wrap lightback pgbreak text-center"> Total </td>
-                            <td class="wrap lightback pgbreak text-center"> {{info.Sacos}} </td>
-                            <td class="wrap lightback pgbreak text-center"> {{info.Kg}} </td>
+                            <td class="wrap lightback pgbreak text-center"> Totales </td>
+                            <td class="wrap lightback pgbreak text-center"> Sacos: {{info.Sacos}} </td>
+                            <td class="wrap lightback pgbreak text-center"> Peso: {{info.Kg}} Kg </td>
 
                     </tbody>
                 </ng-container>
-                <!-- <ng-container *ngIf="ReporteInformacion.modulo == 'Pedido'">
+                <ng-container *ngIf="ReporteInformacion.modulo == 'Inventario'">
                     <tbody *ngFor="let info of arrcon; let i = index">
                         <tr class="pgbreak border3">
-                            <td class="wrap lightback pgbreak"> {{info.IdClientes}} </td>
-                            <td class="wrap lightback pgbreak" [attr.colspan]="6"> {{info.Nombre}}</td>
-                            <td class="wrap lightback pgbreak" [attr.colspan]="3"> {{info.RFC}}</td>
+                            <!-- <td class="wrap lightback pgbreak"> {{info.detalle.IdProveedor}} </td> -->
+                            <!-- <td class="wrap lightback pgbreak" [attr.colspan]="6"> {{info.detalle.Proveedor}}</td> -->
 
 
-                            <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
-                                <td class=" text-center pgbreak"> {{info.Folio}} </td>
-                                <td class=" text-center pgbreak texto"> {{info.FechaDeExpedicion| date: 'yyyy/MM/dd'}} </td>
-                                <td class=" text-center pgbreak texto"> {{info.FechaVencimiento| date: 'yyyy/MM/dd'}} </td>
-                                <td class=" text-center pgbreak texto"> {{info.FechaDeEntrega| date: 'yyyy/MM/dd'}} </td>
-                                <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="pgbreak texto text-center "> {{info.Total | currency}} </td>
-                                <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="pgbreak texto text-center "> {{info.TotalDlls | currency }} </td>
-                                <td class="text-center pgbreak texto"> {{info.Flete}} </td>
-                                <td class="text-center pgbreak texto"> {{info.Moneda}} </td>
+                            <tr *ngFor="let info of arrcon[i].detalle" class="pgbreak">
+                                <td class=" text-center pgbreak"> {{info.IdProveedor}} </td>
+                                <td class=" text-center pgbreak"> {{info.Proveedor}} </td>
+                                <td class=" text-center pgbreak"> {{info.QR}} </td>
+                                <td class=" text-center pgbreak"> {{info.ClaveProducto}} </td>
+                                <td class=" text-center pgbreak"> {{info.Lote}} </td>
+                                <td class=" text-center pgbreak texto"> {{info.FechaCaducidad| date: 'yyyy/MM/dd'}} </td>
+                                <td class=" text-center pgbreak texto"> {{info.FechaMFG| date: 'yyyy/MM/dd'}} </td>
+                                <td class=" text-center pgbreak"> {{info.Sacos1}} </td>
+                                <td class=" text-center pgbreak"> {{info.PesoxSaco}} </td>
+                                <td class=" text-center pgbreak"> {{info.SacoDetalle}} </td>
+                                <!-- <td class=" text-center pgbreak texto"> {{info.FechaDeEntrega| date: 'yyyy/MM/dd'}} </td> -->
+                                <!-- <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="pgbreak texto text-center "> {{info.Total | currency}} </td> -->
+                                <!-- <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="pgbreak texto text-center "> {{info.TotalDlls | currency }} </td> -->
+                                <!-- <td class="text-center pgbreak texto"> {{info.Flete}} </td> -->
+                                <!-- <td class="text-center pgbreak texto"> {{info.Moneda}} </td> -->
                             </tr>
-                            <td class="wrap lightback pgbreak " [attr.colspan]="2"> </td>
-                            <td class="wrap lightback pgbreak text-center"> Total </td>
-                            <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="wrap lightback pgbreak text-center"> {{info.TotalMXN |currency}} </td>
-                            <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="wrap lightback pgbreak text-center"> {{info.TotalDLLS |currency}} </td>
+                            <!-- <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="wrap lightback pgbreak text-center"> {{info.TotalDLLS |currency}} </td> -->
 
                     </tbody>
-                </ng-container> -->
+                    <td class="wrap lightback pgbreak " [attr.colspan]="2"> </td>
+                    <td class="wrap lightback pgbreak text-center"> Totales </td>
+                    <td class="wrap lightback pgbreak text-center"> Sacos: {{sacostotales}} </td>
+                    <td class="wrap lightback pgbreak text-center"> Peso: {{pesototal}} Kg</td>
+                </ng-container>
             </table>
 
         </div>
