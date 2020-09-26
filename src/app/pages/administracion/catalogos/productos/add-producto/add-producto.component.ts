@@ -76,6 +76,7 @@ public listUM: Array<any> = [];
       DescripcionProducto: '',
       Estatus: '',
       UnidadMedida: '',
+      CodigoBarras: '',
       IVA: '',
       ClaveSAT: '',
       Categoria: ''
@@ -96,14 +97,16 @@ public listUM: Array<any> = [];
       this.service.formData.IVA = '0';
     }
     // console.log(this.service.formData.IVA);
+    console.log( this.service.formData);
     this.service.addProducto(this.service.formData).subscribe(res => {
-      this.resetForm(form);
+      console.log(res);
       Swal.fire({
         icon: 'success',
         title: 'Producto Agregado',
       })
     }
     );
+    this.resetForm(form);
   }
 
 
