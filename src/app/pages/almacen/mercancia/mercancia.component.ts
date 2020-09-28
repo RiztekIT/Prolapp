@@ -7,6 +7,7 @@ import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-ca
 export interface parametros{
   bodega: string,
   productos: [],
+  tipo:string;
         
 }
 
@@ -30,6 +31,8 @@ export class MercanciaComponent implements OnInit {
   productos = [];
   seleccionados = [];
 
+  seleccionManual;
+
   constructor(public serviceTarima: TarimaService, public serviceordencarga: OrdenCargaService,public dialogRef: MatDialogRef<MercanciaComponent>,@Inject(MAT_DIALOG_DATA) public data: parametros) { }
 
   ngOnInit() {
@@ -37,11 +40,16 @@ export class MercanciaComponent implements OnInit {
     this.obtenerTarimas();
 
     this.listData2 = new MatTableDataSource(this.data.productos);
+
     
-
+    
+    
     this.aceptar=true;
-
+    
     this.iniciarProductos()
+    this.seleccionManual = this.data.tipo;
+
+   
 
 
     
@@ -144,10 +152,56 @@ console.log(this.contador);
       console.log(this.listData.data[0].ClaveProducto);
       //this.applyFilter(this.listData2.data[0].ClaveProducto);
       this.bodegaSelect = 'Chihuahua';
+
+      if (!this.seleccionManual){
+        console.clear();
+        this.seleccionAutomatica();
+      }
       
       
 
     })
+  }
+
+  seleccionAutomatica(){
+    /* console.log(this.listData2.data);
+    console.log(this.selection.selected);
+    console.log(this.listData.filteredData); */
+    console.log(this.seleccionManual);
+
+    for(let i=0; i<this.listData2.data.length;i++){
+      for(let j=0; j<this.listData.filteredData.length;j++){
+        if (this.listData2.data[i].ClaveProducto==this.listData.filteredData[j].ClaveProducto){
+
+          this.selection.selected.push(this.listData.filteredData[j])
+
+        }
+      }
+
+    }
+
+    this.seleccionados = [];
+    for (let i=0; i<this.selection.selected.length;i++){
+
+      this.seleccionados.push({
+        ClaveProducto:this.selection.selected[i].ClaveProducto,
+        Producto:this.selection.selected[i].Producto,        
+      })
+
+    }
+
+    this.validarProductos();
+
+    console.log(this.selection);
+    console.log(this.aceptar);
+
+    if (!this.aceptar){
+      this.seleccionar()
+    }else{
+      console.log('No cerrar');
+
+    }
+
   }
 
 

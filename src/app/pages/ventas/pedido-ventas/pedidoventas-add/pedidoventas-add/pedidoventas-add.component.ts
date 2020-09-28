@@ -93,6 +93,8 @@ export class PedidoventasAddComponent implements OnInit {
   Id: number;
   clienteLogin;
 
+  seleccionManual;
+
 
   ngOnInit() {
     console.log(localStorage.getItem("inicioCliente"));
@@ -105,6 +107,8 @@ export class PedidoventasAddComponent implements OnInit {
     // this.IniciarTotales();
     this.tipoDeCambio();
     this.service.formProd = new Producto();
+
+    this.seleccionManual=false;
     
 
 
@@ -567,6 +571,13 @@ changeDireccion(checkbox: any) {
   }
 }
 
+changeSeleccion(event){
+  /* console.log(event); */
+  this.seleccionManual = event.checked
+  /* console.log(this.seleccionManual); */
+
+}
+
 //Metodo que se ejecutara cuando se seleccione alguna direccion
 onSelectionChangeDireccion(options: ClienteDireccion, event: any) {
   if (event.isUserInput) {
@@ -680,7 +691,7 @@ this.changeDireccion(this.isDireccion);
 
       this.OrigenSelect = 'USA'
       this.claveorigen = '1'
-      this.PresentacionSelect = '25'
+      this.PresentacionSelect = '25 Kg'
       console.log(+this.PStock + " STOCKKKK");
     }
   }
@@ -997,10 +1008,10 @@ this.isFactura = true;
     this.service.formDataDP.Importe = this.importeP.toString();
     this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
 
-    // console.log(this.service.formDataDP);
+    console.log(this.service.formDataDP);
 
     this.service.addDetallePedido(this.service.formDataDP).subscribe(res => {
-      // console.log(res);
+      console.log('DETALLE',res);
       //Restar el Stock
      // this.RestarStock();
       // this.IniciarTotales();
@@ -1313,7 +1324,8 @@ this.isFactura = true;
 
     dialogConfig.data = {
       bodega: 'Chihuahua',
-      productos: this.listData.data
+      productos: this.listData.data,
+      tipo: this.seleccionManual
       }
    
     let mercanciadl = this.dialog.open(MercanciaComponent, dialogConfig);

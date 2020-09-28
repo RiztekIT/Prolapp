@@ -670,7 +670,7 @@ this.changeDireccion(this.isDireccion);
 
       this.OrigenSelect = 'USA'
       this.claveorigen = '1'
-      this.PresentacionSelect = '25'
+      this.PresentacionSelect = '25 Kg'
       // console.log(+this.PStock + " STOCKKKK");
     // }
   }
@@ -925,6 +925,7 @@ refreshDetallesPedidoList() {
 }
 
 onAddProducto(form: NgForm) {
+console.log(this.PresentacionSelect);
   this.service.formDataDP.IdCotizacion = this.IdCotizacion;
   this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen;
   this.service.formDataDP.Producto = this.service.formProd.Nombre + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect ;
@@ -946,7 +947,7 @@ onAddProducto(form: NgForm) {
   this.service.formDataCotizacion.Vigencia = this.Vigencia;
   
 
-  // console.log(this.service.formDataDP);
+   console.log('DETALLE a AGREGAR',this.service.formDataDP);
 
   this.service.addDetalleCotizacion(this.service.formDataDP).subscribe(res => {
     // console.log(res);
@@ -1041,7 +1042,7 @@ OnEditProducto(dp: DetalleCotizacion) {
     this.ProductoSelect = data[0].Nombre
     this.MarcaSelect = data[0].NombreMarca;
     this.OrigenSelect = data[0].NombreOrigen;
-    this.PresentacionSelect = '25'
+    this.PresentacionSelect = '25 Kg'
     this.service.formProd.Nombre = data[0].Nombre;
     // this.ProductoPrecio = data[0].PrecioUnitario;
     // this.ProductoPrecioDLLS = data[0].PrecioUnitarioDlls;
@@ -1241,7 +1242,7 @@ crearCotizacion() {
   this.service.formDataCotizacion.TotalDlls = this.totalDlls;
   this.service.formDataCotizacion.SubtotalDlls = this.subtotalDlls;
   
-  console.clear();  
+  // console.clear();  
   console.log(this.service.formDataCotizacion);
   
   this.service.onEditCotizacion(this.service.formDataCotizacion).subscribe(res => {

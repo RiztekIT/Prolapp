@@ -402,6 +402,11 @@
                                                                 <label class="input-group-text text-info"> IVA:</label>
                                                                 <input type="text" class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="service.formProd.IVA" readonly>
 
+                                                                <label class="input-group-text text-info">Seleccion Manual</label>
+                                                                <mat-checkbox [(checked)]="seleccionManual" (change)='changeSeleccion($event)'></mat-checkbox>
+
+
+
                                                                 <!--  <label class="input-group-text text-info">Clave SAT :</label>
                                                                 <input type="text" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="service.formProd.ClaveSAT" readonly>
 
@@ -579,7 +584,7 @@
                                                             <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button (click)="cerrarPedido()"><i class="mdi mdi-lock btn-lg"></i>Cerrar</button>
                                                             <br>
                                                             <!-- <button class="btn btn-info btn-lg" mat-raised-button (click)="convertirPedido()"><i class="mdi mdi-forward btn-lg"></i>Convertir</button> -->
-                                                            <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button (click)="convertirPedido()"><i class="mdi mdi-forward btn-lg"></i>Convertir</button>
+                                                            <!-- <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button (click)="convertirPedido()"><i class="mdi mdi-forward btn-lg"></i>Convertir</button> -->
                                                         </div>
 
                                                     </div>
