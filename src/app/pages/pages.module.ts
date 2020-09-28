@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule } from '@angular/material';
+import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule, MatToolbarModule, MatTabsModule, MatProgressBarModule, MatButtonToggleModule } from '@angular/material';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
@@ -26,7 +26,7 @@ import { PagesComponent } from './pages.component';
 import { SharedModule } from '../shared/shared.module';
 import { PAGES_ROUTES } from './pages.routes';
 import { IngrementadorComponent } from '../components/ingrementador/ingrementador.component';
-import { ChartsModule } from 'ng2-charts';
+import { ChartsModule, ThemeService } from 'ng2-charts';
 import { GraficoDonaComponent } from '../components/grafico-dona/grafico-dona.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromesasComponent } from './promesas/promesas.component';
@@ -248,6 +248,43 @@ import { AddEditCalendarComponent } from '../components/angular-calendar/add-edi
 import { EventCalendarComponent } from '../components/angular-calendar/event-calendar/event-calendar.component';
 import { ComprasPrincipalComponent } from './compras/compras-principal/compras-principal.component';
 import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/trackingcliente.component';
+import { ComprasPdfComponent } from '../components/compras-reporte/compras-pdf.component';
+import { ReportefechasfacturacionVentasComponent } from '../components/ventas/reportefechasfacturacion/reportefechasfacturacion.component';
+import { DocumentacionFormularioComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-formulario-compras-importacion/documentacion-formulario-compras-importacion.component';
+import { DocumentacionFormularioImportacionComponent } from './importacion/documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
+import { NotificacionespushService } from '../services/shared/notificacionespush.service';
+import { OrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/orden-carga-trafico.component';
+import { EditOrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/edit-orden-carga-trafico/edit-orden-carga-trafico.component';
+import { DocumentacionComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-compras-importacion.component';
+import { DocumentacionImportacionVisorDocumentosComponent } from './importacion/documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
+import { QrComponent } from '../components/qr/qr.component';
+import { EvidenciasOCComponent } from './calidad/evidencias/evidencias-oc/evidencias-oc.component';
+import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/evidencias-od.component';
+import { IncidenciaAlmacenComponent } from '../components/almacen/incidencia-almacen/incidencia-almacen.component';
+import {NgxPrintModule} from 'ngx-print';
+import { AddfordwardComponent } from './cxp/forwardscxp/addfordward/addfordward.component';
+import { MercanciaComponent } from './almacen/mercancia/mercancia.component';
+
+import { PagoDocumentoComponent } from './cxp/pagoscxp/pago-documento/pago-documento.component';
+import { PagoCompraAdmComponent } from './cxp/pagoscxp/pago-compra-adm/pago-compra-adm.component';
+import { PagoCompraMatComponent } from './cxp/pagoscxp/pago-compra-mat/pago-compra-mat.component';
+import { PagoFleteraComponent } from './cxp/pagoscxp/pago-fletera/pago-fletera.component';
+import { PagoNominaComponent } from './cxp/pagoscxp/pago-nomina/pago-nomina.component';
+import { PagoComisionesComponent } from './cxp/pagoscxp/pago-comisiones/pago-comisiones.component';
+import { AddExpedienteComponent } from './administracion/expediente/add-expediente/add-expediente.component';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { ShowreporteComprasComponent } from './compras/reporte-compras/showreporte-compras/showreporte-compras.component';
+import { TotalesComponent } from '../components/graficas/compras/totales/totales.component';
+import { ProductosTotalesComponent } from '../components/graficas/compras/productos-totales/productos-totales.component';
+import { ComprasMesesComponent } from '../components/graficas/compras/compras-meses/compras-meses.component';
+import { ComprasListaComponent } from '../components/graficas/compras/compras-lista/compras-lista.component';
+import { ProductosinventariosComponent } from '../components/graficas/almacen/productosinventarios/productosinventarios.component';
+import { ShowreporteVentasComponent } from './ventas/reportes-ventas/showreporte-ventas/showreporte-ventas.component';
+import { ShowreporteAlmacenComponent } from './almacen/reportesalmacen/showreporte-almacen/showreporte-almacen.component';
+import { DisplaySaldosComponent } from './cxc/saldoscxc/display-saldos/display-saldos.component';
+import { VentasTotalesComponent } from '../components/graficas/ventas/ventas-totales/ventas-totales.component';
+import { VentasMesesComponent } from '../components/graficas/ventas/ventas-meses/ventas-meses.component';
+
 
 
 @NgModule({
@@ -417,6 +454,38 @@ import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/tra
         EventCalendarComponent,
         ComprasPrincipalComponent,
         TrackingclienteComponent,
+        ComprasPdfComponent,
+        DocumentacionComprasImportacionComponent,
+        ReportefechasfacturacionVentasComponent,
+        DocumentacionFormularioComprasImportacionComponent,
+        DocumentacionFormularioImportacionComponent,
+        OrdenCargaTraficoComponent,
+        EditOrdenCargaTraficoComponent,
+        DocumentacionImportacionVisorDocumentosComponent,
+        QrComponent,
+        EvidenciasOCComponent,
+        EvidenciasODComponent,
+        IncidenciaAlmacenComponent,
+        AddfordwardComponent,
+        MercanciaComponent,
+        PagoDocumentoComponent,
+        PagoCompraAdmComponent,
+        PagoCompraMatComponent,
+        PagoFleteraComponent,
+        PagoNominaComponent,
+        PagoComisionesComponent,
+        AddExpedienteComponent,
+        ShowreporteComprasComponent,
+        TotalesComponent,
+        ProductosTotalesComponent,
+        ComprasMesesComponent,
+        ComprasListaComponent,
+        ProductosinventariosComponent,
+        ShowreporteVentasComponent,
+        ShowreporteAlmacenComponent,
+        DisplaySaldosComponent,
+        VentasTotalesComponent,
+        VentasMesesComponent,
     
     ],
     exports: [
@@ -464,7 +533,12 @@ import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/tra
         FormsModule,
         NgbModalModule,
         FlatpickrModule.forRoot(),
-        CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
+        CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+        MatToolbarModule,
+        MatTabsModule,
+        NgxPrintModule,
+        MatProgressBarModule,
+        MatButtonToggleModule
     ],
     providers: [
         UsuariosServieService,
@@ -485,7 +559,10 @@ import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/tra
         NgxImageCompressService,
         CalendarioService,
         DireccionService,
-        DatePipe
+        DatePipe,
+        NotificacionespushService,
+        DeviceDetectorService,
+        ThemeService
         
         
     ],
@@ -543,8 +620,21 @@ import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/tra
         ReporteMxnComponent,
         OrdenDescargaEmailComponent,
         AddEditCalendarComponent,
-        EventCalendarComponent
-        
+        EventCalendarComponent,
+        EditOrdenCargaTraficoComponent,
+        DocumentacionImportacionVisorDocumentosComponent,
+        QrComponent,
+        IncidenciaAlmacenComponent,
+        InventariosalmacenComponent,
+        AddfordwardComponent,
+        MercanciaComponent,
+        PagoDocumentoComponent,
+        AddExpedienteComponent,
+        ShowreporteComprasComponent,
+        ComprasPdfComponent,
+        ShowreporteVentasComponent,
+        ShowreporteAlmacenComponent,
+        DisplaySaldosComponent
         
     ]
 })

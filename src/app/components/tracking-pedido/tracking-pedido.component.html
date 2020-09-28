@@ -3,12 +3,58 @@
         <div class="card">
             <div class="card-body">
 
-                <h2>Tracking</h2>
+                <div class="row">
 
-                <h4 class="card-title">Historial de pedidos</h4>
-                <div class="table-responsive m-t-40">
-                    <table class="table stylish-table">
-                        <thead>
+                    <div class="col-3">
+
+
+                        <h2>Tracking</h2>
+
+                        <h4 class="card-title">Historial de pedidos</h4>
+                    </div>
+
+
+
+
+                    <div class="col-3">
+                        <mat-form-field>
+                            <mat-label> Fecha Inicial </mat-label>
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <input matInput readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="fechaInicial" [(ngModel)]="this.fecha1">
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field>
+                            <mat-label> Fecha Final </mat-label>
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <input matInput readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="fechaFinal" [(ngModel)]="this.fecha2">
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-3">
+                        <!-- <button (click)='getPedidos()'>Generar</button> -->
+                        <!--    <button (click)='tiemporeal()'>obs</button>
+                        <button (click)='subsc()'>subs</button> -->
+                    </div>
+
+
+
+
+
+                </div>
+
+
+
+
+                <div style="overflow:auto;">
+                    <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows class="table stylish-table">
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                        <!-- <thead>
                             <tr>
                                 <th colspan="2">ID Pedido</th>
                                 <th>Origen</th>
@@ -16,8 +62,43 @@
                                 <th>Estado</th>
                                 <th>Hora Llegada</th>
                             </tr>
-                        </thead>
-                        <tbody>
+                        </thead> -->
+
+
+                        <ng-container matColumnDef="Folio">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio</th>
+                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Folio}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Origen">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Origen</th>
+                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Origen}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Destino">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Destino</th>
+                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Destino}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Estatus">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                            <td mat-cell *matCellDef="let element" [ngSwitch]=element.Estatus1>
+                                <span *ngSwitchCase="'Creada'" class="label label-light-success">CREADA</span>
+                                <span *ngSwitchCase="'Preparada'" class="label label-light-info">PREPARADA</span>
+                                <span *ngSwitchCase="'Cargada'" class="label label-light-inverse">CARGADA</span>
+                                <span *ngSwitchCase="'Terminada'" class="label label-light-inverse">FINALIZADA</span>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Fecha">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Expedicion</th>
+                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.FechaDeExpedicion | date: 'yyy/MM/dd h:mm a' }}
+                                <td>
+                        </ng-container>
+                        <!--  <tbody>
                             <tr>
                                 <td>1</td>
                                 <td style="width:50px;"><span class="round">CUU</span></td>
@@ -58,8 +139,10 @@
                                 <td><span class="label label-light-primary">EN TRANSITO</span></td>
                                 <td>8:00 pm</td>
                             </tr>
-                        </tbody>
+                        </tbody> -->
                     </table>
+                    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                    </mat-paginator>
                 </div>
 
             </div>

@@ -59,13 +59,17 @@ expandedElement: any;
   }
 
   refreshFacturaList(){
+    
+this.service.master = [];
     console.log(this.idCliente);
     this.service.getFacturasListCLienteid(this.idCliente).subscribe(data => {
 console.log(data);
+console.log(data.length);
 
       for (let i = 0; i <= data.length-1; i++){
         this.service.master[i] = data[i]
         this.service.master[i].detalle = [];
+        console.log('this.service.master: ', this.service.master);
         if (data[i].IdCliente != 1){
           
           this.service.getDetallesFacturaList(data[i].Id).subscribe(res => {
@@ -73,6 +77,7 @@ console.log(data);
             for (let l = 0; l <=res.length-1; l++){
               this.service.master[i].detalle.push(res[l]);
             }
+            console.log('this.service.master: ', this.service.master);
             this.listData = new MatTableDataSource(this.service.master);
             this.listData.sort = this.sort;    
             this.listData.paginator = this.paginator;

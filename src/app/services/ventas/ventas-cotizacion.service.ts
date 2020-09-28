@@ -20,7 +20,7 @@ const httpOptions2 = {
     'F-Api-Key': 'JDJ5JDEwJDdRdWdpL05PMW5qb2M0c3BmdXpSZC5SdFVDd0JTT2RCeHguQ2FEdUZud0JNSXFoOC5DR25x',
     // 'F-Secret-Key':'JDJ5JDEwJGhVemxJbXUyTzhUREVTTEVvODkySk91aEI4a3Y0Rjhqd3ltWHo0a0QyTktTdkhldEp2c29X',
     'F-Secret-Key': 'JDJ5JDEwJHJ0ZWRaRVhNU3cwQ1B2VzRZc2ZaRWV5c3ZNTWs3WFhoZThOOFg0YkdmQUZsQWc3UzQxZ25t',
-    'Access-Control-Allow-Origin': 'http://192.168.1.180:4200',
+    'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json;charset=UTF-8',
     'Access-Control-Allow-Headers': 'F-Secret-Key,Accept, Accept-Encoding, Content-Type',
     'Access-Control-Allow-Methods': 'GET, OPTIONS'
@@ -177,6 +177,34 @@ export class VentasCotizacionService {
     return this.http.put(this.APIUrl + '/Cotizacion/UpdateProspecto', prospecto);
   }
 
+
+
+  // *******************   REPORTES COTIZACION ************************* //
+
+    //obtener lista de Clientes
+    //acceder al metodo getDepDropDownValues
+
+    //Obtener Cliente por Id
+    //Acceder al metodo getCliente
+
+    //Obtener reporte Cotizacion por cliente ID
+    getReporteClienteId(id: number):Observable<any[]>{
+      return this.http.get<any[]>(this.APIUrl + '/reportes/CotizacionesJoinCliente/'+id);
+    }
+//obtener reporte Cotizacion por cliente ID y por estatus de la cotizacion
+    getReporteClienteIdEstatus(id:number, estatus:string):Observable<any[]>{
+      return this.http.get<any[]>(this.APIUrl + '/reportes/ReporteCotizacionesClienteEstatus/'+id+'/'+estatus);
+    }
+//obtener reporte cotizacion por Fecha Inicial / final y  cliente ID
+    getReporteFechasClienteId(fechaini, fechafinal, id:number):Observable<any[]>{
+      return this.http.get<any[]>(this.APIUrl + '/reportes/CotizacionesFechasCliente/'+fechaini+'/'+fechafinal+'/'+id);
+    }
+//obtener reporte cotizacion por Fecha Inicial / final ,  cliente ID y estatus
+    getReporteFechasClienteIdEstatus(fechaini, fechafinal, id:number, estatus: string):Observable<any[]>{
+      return this.http.get<any[]>(this.APIUrl + '/reportes/CotizacionesFechasClienteEstatus/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
+    }
+
+  // *******************   REPORTES COTIZACION ************************* //
 
 
   private _listeners = new Subject<any>();

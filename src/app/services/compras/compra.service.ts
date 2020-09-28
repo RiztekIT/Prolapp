@@ -19,7 +19,8 @@ export const APIUrl = environment.APIUrl;
 export class CompraService {
 
   constructor(private http: HttpClient) { }
-
+  //objeto para guardar datos del pdf
+    formt: any;
     //form data para guardar los datos de Compras
     formData = new Compras();
     //form data para guardar los datos de los detalles de )compras
@@ -81,6 +82,37 @@ getSumatoriaIdCompra(id: number):Observable<any[]>{
     updateDetalleCompra(dcompra:DetalleCompra) {
       return this.http.put(APIUrl + '/Compras/EditDetalleCompra',dcompra);
     }
+
+    //  ------------ REPORTES ------------------  //
+
+    //obtener lista de proveedores
+    getProveedoresList():Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/proveedor');
+    }
+
+    //Obtener Proveedor por Id
+    getProveedorId(id: number):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/proveedor/getProveedorId/'+id);
+    }
+
+    //Obtener reporte compras por proveedor ID
+    getReporteProveedorId(id: number):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/ReporteCompras/'+id);
+    }
+//obtener reporte compras por proveedor ID y por estatus de la compra
+    getReporteProveedorIdEstatus(id:number, estatus:string):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/ReporteComprasStatus/'+id+'/'+estatus);
+    }
+//obtener reporte compras por Fecha Inicial / final y  proveedor ID
+    getReporteFechasProveedorId(fechaini, fechafinal, id:number):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/ComprasFechas/'+fechaini+'/'+fechafinal+'/'+id);
+    }
+//obtener reporte compras por Fecha Inicial / final ,  proveedor ID y estatus
+    getReporteFechasProveedorIdEstatus(fechaini, fechafinal, id:number, estatus: string):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/ComprasFechas/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
+    }
+
+    //  ------------ REPORTES ------------------  //
 
   private _listeners = new Subject<any>();
   listen(): Observable<any> {

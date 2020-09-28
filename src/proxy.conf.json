@@ -1,0 +1,25 @@
+{
+    "/SieAPIRest/*": {
+        "target": "https://www.banxico.org.mx",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+    "/api/v3/*": {
+        "target": "https://factura.com ",
+        "secure": false,
+        "changeOrigin": true
+    },
+
+
+
+    "/api/v1/*": {
+        "target": "https://factura.com ",
+        "secure": false,
+        "changeOrigin": true
+    }
+
+
+
+
+}

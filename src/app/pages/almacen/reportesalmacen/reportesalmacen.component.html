@@ -1,1 +1,474 @@
-<p>reportesalmacen works!</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="card mat-elevation-z8">
+                    <div class="card-body">
+
+
+
+                        <div class="d-flex justify-content-between">
+
+                            <h3 class="text-muted m-t-10 m-b-0">Reportes Almacen</h3>
+                        </div>
+                        <hr>
+
+
+
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                Reportes Orden Carga
+                                              </button>
+                            </h2>
+                        </div>
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <mat-card>
+
+                                <div class="col-4" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedEstatusOrdenCarga" (change)="onChangeEstatusOrdenCarga()">
+                                            Filtrar por Estatus de Orden Carga
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div class="col-8" *ngIf="checkedEstatusOrdenCarga == true">
+                                    <label class="input-group-text text-info">Seleccionar Estatus</label>
+
+                                    <select class="form-control" name="estatuss" #estatuss="ngModel" id="estatuss" (change)="changeEstatusOrdenCarga($event)" [(ngModel)]="estatusOrdenCarga">
+                                                                <option [ngValue]="null" selected disabled>Seleccionar Estatus Orden Carga</option>
+                                                                <option *ngFor="let dl of listEstatusOrdenCarga" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                                            </select>
+
+                                </div>
+
+                                <hr>
+
+                                <div class="col-4" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedClientesOrdenCarga" (change)="onChangeTodosClientesOrdenCarga()">
+                                            Todos los Clientes
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div class="col-8" *ngIf="checkedClientesOrdenCarga == false">
+                                    <label class="input-group-text text-info">Seleccionar Cliente</label>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <mat-form-field class="example-full-width">
+                                                <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControlOrdenCarga" matInput [matAutocomplete]="auto" name="clienteId" [(ngModel)]="OrdenCargaIdCliente">
+                                                <mat-autocomplete #auto="matAutocomplete">
+                                                    <mat-option *ngFor="let option of filteredOptionsOrdenCarga | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChangeOrdenCarga(option, $event)">
+                                                        {{option.IdCliente}} {{option.Nombre}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                            <input type="string" class="form-control" readonly name="clienteNombre" readonly [(ngModel)]="OrdenCargaClienteNombre">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="col-4" style="align-self: center">
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedFechasOrdenCarga" (change)="onChangePorFechaOrdenCarga()">
+                                            Filtrar por Fechas
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div *ngIf="checkedFechasOrdenCarga == true" class="row">
+                                    <div class="col-2">
+
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Inicial </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="fechaInicial" [(ngModel)]="fechaInicialOrdenCarga">
+                                            <mat-datepicker #picker1></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Final </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="fechaFinal" [(ngModel)]="fechaFinalOrdenCarga">
+                                            <mat-datepicker #picker2></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-2">
+
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusOrdenCarga == true && !estatusOrdenCarga) || (checkedFechasOrdenCarga == true && (!fechaInicialOrdenCarga || !fechaFinalOrdenCarga) || (checkedClientesOrdenCarga == false && !OrdenCargaClienteNombre))" class="btn btn-warning"
+                                                id="abrirpdf" (click)="abrirReporte('OrdenCarga')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Orden Carga</button>
+
+                                        </div>
+                                        <!-- <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusOrdenCarga == true && !estatusOrdenCarga) || (checkedFechasOrdenCarga == true && (!fechaInicialOrdenCarga || !fechaFinalOrdenCarga) || (checkedClientesOrdenCarga == false && !OrdenCargaClienteNombre))" class="btn btn-success"
+                                                id="abrirpdf" (click)="abrirReporte('DLLS', 'OrdenCarga')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Orden Carga Dlls</button>
+
+                                        </div>
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusOrdenCarga == true && !estatusOrdenCarga) || (checkedFechasOrdenCarga == true && (!fechaInicialOrdenCarga || !fechaFinalOrdenCarga) || (checkedClientesOrdenCarga == false && !OrdenCargaClienteNombre))" class="btn btn-info"
+                                                id="abrirpdf" (click)="abrirReporte('MXN', 'OrdenCarga')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Orden Carga Mxn</button>
+
+                                        </div> -->
+                                    </div>
+                                </div>
+
+                            </mat-card>
+                        </div>
+                        <br>
+                        <!-- REPORTE Orden Descarga -------------------------------------------------------------------------------------------- -->
+                        <div class="card-header" id="headingTwo">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                Reportes Orden Descarga
+                                              </button>
+                            </h2>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample2">
+                            <mat-card>
+
+                                <div class="col-4" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedEstatusOrdenDescarga" (change)="onChangeEstatusOrdenDescarga()">
+                                            Filtrar por Estatus de Orden Descarga
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div class="col-8" *ngIf="checkedEstatusOrdenDescarga == true">
+                                    <label class="input-group-text text-info">Seleccionar Estatus</label>
+
+                                    <select class="form-control" name="estatusss" #estatusss="ngModel" id="estatusss" (change)="changeEstatusOrdenDescarga($event)" [(ngModel)]="estatusOrdenDescarga">
+                                                                <option [ngValue]="null" selected disabled>Seleccionar Estatus Orden Descarga</option>
+                                                                <option *ngFor="let dl of listEstatusOrdenDescarga" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                                            </select>
+
+                                </div>
+
+                                <hr>
+
+                                <div class="col-4" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedProveedorOrdenDescarga" (change)="onChangeTodosProveedorOrdenDescarga()">
+                                            Todos los Proveedores
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div class="col-8" *ngIf="checkedProveedorOrdenDescarga == false">
+                                    <label class="input-group-text text-info">Seleccionar Proveedor</label>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <mat-form-field class="example-full-width">
+                                                <input type="text" placeholder="Seleccionar Proveedor" aria-label="Number" [formControl]="myControlOrdenDescarga" matInput [matAutocomplete]="autoOrdenDescarga" name="proveedorOCId" [(ngModel)]="OrdenDescargaIdProveedor">
+                                                <mat-autocomplete #autoOrdenDescarga="matAutocomplete">
+                                                    <mat-option *ngFor="let option of filteredOptionsOrdenDescarga | async" [value]="option.IdProveedor" (onSelectionChange)="onSelectionChangeOrdenDescarga(option, $event)">
+                                                        {{option.IdProveedor}} {{option.Nombre}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                            <input type="string" class="form-control" readonly name="proveedorNombreOD" readonly [(ngModel)]="OrdenDescargaProveedorNombre">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="col-4" style="align-self: center">
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedFechasOrdenDescarga" (change)="onChangePorFechaOrdenDescarga()">
+                                            Filtrar por Fechas
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div *ngIf="checkedFechasOrdenDescarga == true" class="row">
+                                    <div class="col-2">
+
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Inicial </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker3" type="text" class="form-control" name="fechaInicialOD" [(ngModel)]="fechaInicialOrdenDescarga">
+                                            <mat-datepicker #picker3></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Final </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker4" type="text" class="form-control" name="fechaFinalOD" [(ngModel)]="fechaFinalOrdenDescarga">
+                                            <mat-datepicker #picker4></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-2">
+
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusOrdenDescarga == true && !estatusOrdenDescarga) || (checkedFechasOrdenDescarga == true && (!fechaInicialOrdenDescarga || !fechaFinalOrdenDescarga) || (checkedProveedorOrdenDescarga == false && !OrdenDescargaProveedorNombre))"
+                                                class="btn btn-warning" id="abrirpdf" (click)="abrirReporte('OrdenDescarga')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Orden Descarga</button>
+
+                                        </div>
+                                        <!-- <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-success" id="abrirpdf" (click)="abrirReporte('DLLS', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido Dlls</button>
+
+                                        </div>
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-info" id="abrirpdf" (click)="abrirReporte('MXN', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido Mxn</button>
+
+                                        </div> -->
+                                    </div>
+                                </div>
+
+                            </mat-card>
+                        </div>
+                        <br>
+                        <!-- REPORTE Traspaso -------------------------------------------------------------------------------------------- -->
+                        <div class="card-header" id="headingThree">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                Reportes Traspaso
+                                              </button>
+                            </h2>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample3">
+                            <mat-card>
+
+                                <div class="col-4" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedEstatusTraspaso" (change)="onChangeEstatusTraspaso()">
+                                            Filtrar por Estatus de Traspaso
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div class="col-8" *ngIf="checkedEstatusTraspaso == true">
+                                    <label class="input-group-text text-info">Seleccionar Estatus</label>
+
+                                    <select class="form-control" name="estatusss" #estatusss="ngModel" id="estatusss" (change)="changeEstatusTraspaso($event)" [(ngModel)]="estatusTraspaso">
+                                                                <option [ngValue]="null" selected disabled>Seleccionar Estatus Traspaso</option>
+                                                                <option *ngFor="let dl of listEstatusOrdenCarga" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                                            </select>
+
+                                </div>
+
+                                <hr>
+
+                                <!-- <div class="col-4" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedProveedorOrdenDescarga" (change)="onChangeTodosProveedorOrdenDescarga()">
+                                            Todos los Proveedores
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div class="col-8" *ngIf="checkedProveedorOrdenDescarga == false">
+                                    <label class="input-group-text text-info">Seleccionar Proveedor</label>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <mat-form-field class="example-full-width">
+                                                <input type="text" placeholder="Seleccionar Proveedor" aria-label="Number" [formControl]="myControlOrdenDescarga" matInput [matAutocomplete]="autoOrdenDescarga" name="proveedorOCId" [(ngModel)]="OrdenDescargaIdProveedor">
+                                                <mat-autocomplete #autoOrdenDescarga="matAutocomplete">
+                                                    <mat-option *ngFor="let option of filteredOptionsOrdenDescarga | async" [value]="option.IdProveedor" (onSelectionChange)="onSelectionChangeOrdenDescarga(option, $event)">
+                                                        {{option.IdProveedor}} {{option.Nombre}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                            <input type="string" class="form-control" readonly name="proveedorNombreOD" readonly [(ngModel)]="OrdenDescargaProveedorNombre">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <hr> -->
+                                <div class="col-4" style="align-self: center">
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedFechasTraspaso" (change)="onChangePorFechaTraspaso()">
+                                            Filtrar por Fechas
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div *ngIf="checkedFechasTraspaso == true" class="row">
+                                    <div class="col-2">
+
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Inicial </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker3" type="text" class="form-control" name="fechaInicialOD" [(ngModel)]="fechaInicialTraspaso">
+                                            <mat-datepicker #picker3></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Final </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker4" type="text" class="form-control" name="fechaFinalOD" [(ngModel)]="fechaFinalTraspaso">
+                                            <mat-datepicker #picker4></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-2">
+
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusTraspaso == true && !estatusTraspaso) || (checkedFechasTraspaso == true && (!fechaInicialTraspaso || !fechaFinalTraspaso))" class="btn btn-warning" id="abrirpdf" (click)="abrirReporte('Traspaso')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Traspaso</button>
+
+                                        </div>
+                                        <!-- <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-success" id="abrirpdf" (click)="abrirReporte('DLLS', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido Dlls</button>
+
+                                        </div>
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-info" id="abrirpdf" (click)="abrirReporte('MXN', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido Mxn</button>
+
+                                        </div> -->
+                                    </div>
+                                </div>
+
+                            </mat-card>
+                        </div>
+                        <br>
+                        <!-- REPORTE Inventario -------------------------------------------------------------------------------------------- -->
+                        <div class="card-header" id="headingFour">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        Reportes Inventario
+                      </button>
+                            </h2>
+                        </div>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample4">
+                            <mat-card>
+
+                                <div class="col-4" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedBodegaInventario" (change)="onChangeBodegaInventario()">
+                                            Filtrar por Bodega Inventario
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div class="col-8" *ngIf="checkedBodegaInventario == true">
+                                    <label class="input-group-text text-info">Seleccionar Bodega</label>
+
+                                    <select class="form-control" name="estatussss" #estatusss="ngModel" id="estatussss" (change)="changeBodegaInventario($event)" [(ngModel)]="bodegaInventario">
+                                        <option [ngValue]="null" selected disabled>Seleccionar Bodega</option>
+                                        <option *ngFor="let dl of listBodegasInventario" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                    </select>
+
+                                </div>
+
+                                <hr>
+
+                                <div class="col-4" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedProductosInventario" (change)="onChangeTodosProductosInventario()">
+                                            Todos los Productos
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div class="col-8" *ngIf="checkedProductosInventario == false">
+                                    <label class="input-group-text text-info">Seleccionar Producto</label>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <mat-form-field class="example-full-width">
+                                                <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControlInventario" matInput [matAutocomplete]="autoInventario" name="claveprod" [(ngModel)]="InventarioClaveProducto">
+                                                <mat-autocomplete #autoInventario="matAutocomplete">
+                                                    <mat-option *ngFor="let option of filteredOptionsInventario | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChangeProductoInventario(option, $event)">
+                                                        {{option.ClaveProducto}} | {{option.Nombre}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                            <input type="string" class="form-control" readonly name="producto" readonly [(ngModel)]="InventarioProductoNombre">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <hr>
+                                <!-- <div class="col-4" style="align-self: center">
+            <section class="example-section">
+                <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedFechasTraspaso" (change)="onChangePorFechaTraspaso()">
+                    Filtrar por Fechas
+                </mat-slide-toggle>
+            </section>
+        </div>
+        <div *ngIf="checkedFechasTraspaso == true" class="row">
+            <div class="col-2">
+
+            </div>
+            <div class="col-4">
+                <mat-form-field>
+                    <mat-label> Fecha Inicial </mat-label>
+                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                    <input matInput readonly="readonly" required [matDatepicker]="picker3" type="text" class="form-control" name="fechaInicialOD" [(ngModel)]="fechaInicialTraspaso">
+                    <mat-datepicker #picker3></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-4">
+                <mat-form-field>
+                    <mat-label> Fecha Final </mat-label>
+                    <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                    <input matInput readonly="readonly" required [matDatepicker]="picker4" type="text" class="form-control" name="fechaFinalOD" [(ngModel)]="fechaFinalTraspaso">
+                    <mat-datepicker #picker4></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-2">
+
+            </div>
+        </div> -->
+
+                                <!-- <hr> -->
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedBodegaInventario == true && !bodegaInventario) || (checkedProductosInventario == false && !InventarioProductoNombre)" class="btn btn-warning" id="abrirpdf" (click)="abrirReporte('Inventario')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Inventario</button>
+
+                                        </div>
+                                        <!-- <div class="col-4 btnalign">
+                    <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-success" id="abrirpdf" (click)="abrirReporte('DLLS', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido Dlls</button>
+
+                </div>
+                <div class="col-4 btnalign">
+                    <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-info" id="abrirpdf" (click)="abrirReporte('MXN', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido Mxn</button>
+
+                </div> -->
+                                    </div>
+                                </div>
+
+                            </mat-card>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

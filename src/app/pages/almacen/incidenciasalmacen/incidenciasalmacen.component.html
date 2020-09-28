@@ -1,1 +1,181 @@
-<p>incidenciasalmacen works!</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h1 style="text-align: center;">Incidencias</h1>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12" style="display: block; justify-content: center">
+                            <button style="margin-right: 15px;" title="Generar Incidencia" mat-fab (click)="accederIncidencia()" class="btncoti">
+                <mat-icon>note_add</mat-icon>
+              </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 style="text-align: center;">Orden Carga</h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7 col-sm-12"></div>
+                    <div class="col-md-5 col-sm-12">
+
+                        <mat-card style="text-align: right;" class="mat-elevation-z0">
+                            <mat-form-field>
+                                <input matInput (keyup)="applyFilterOrdenCarga($event.target.value)" placeholder="Buscar">
+                            </mat-form-field>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="overflow:auto;">
+
+                    <table mat-table [dataSource]="listDataOrdenCarga" matSort class="scrollable" multiTemplateDataRows>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsOrdenCarga"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsOrdenCarga;"></tr>
+
+                        <ng-container matColumnDef="Folio">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Folio</th>
+                            <td class="folio" mat-cell *matCellDef="let element">{{element.Folio}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TipoIncidencia">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Incidencia</th>
+                            <td mat-cell *matCellDef="let element">{{element.TipoIncidencia}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Estatus">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                            <td mat-cell *matCellDef="let element">{{element.Estatus}}
+
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="FechaElaboracion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Elaboracion</th>
+                            <td mat-cell *matCellDef="let element">{{element.FechaElaboracion | date: 'yyyy/MM/dd'}}
+                                <td>
+                        </ng-container>
+                        <ng-container matColumnDef="FechaFinalizacion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Finalizacion</th>
+                            <td mat-cell *matCellDef="let element">{{element.FechaFinalizacion | date: 'yyyy/MM/dd'}}
+                                <td>
+                        </ng-container>
+                        <ng-container matColumnDef="Observaciones">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Observaciones</th>
+                            <td mat-cell *matCellDef="let element">{{element.Observaciones}}
+                            </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="Options" stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                            <td mat-cell *matCellDef="let row">
+
+                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
+                                <mat-menu #menu="matMenu">
+                                    <button title="documentos" mat-icon-button class="btn btn-dark" (click)="accederIncidencia(row)">
+                    <mat-icon>note_add</mat-icon>
+                  </button>
+                                </mat-menu>
+                            </td>
+                        </ng-container>
+                    </table>
+                    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+
+
+
+            </div>
+        </div>
+        <div class="card">
+            <h2 style="text-align: center;">Orden Descarga</h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7 col-sm-12"></div>
+                    <div class="col-md-5 col-sm-12">
+
+                        <mat-card style="text-align: right;" class="mat-elevation-z0">
+                            <mat-form-field>
+                                <input matInput (keyup)="applyFilterOrdenDescarga($event.target.value)" placeholder="Buscar">
+                            </mat-form-field>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="overflow:auto;">
+
+                    <table mat-table [dataSource]="listDataOrdenDescarga" matSort class="scrollable" multiTemplateDataRows>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsOrdenDescarga"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsOrdenDescarga;"></tr>
+
+                        <ng-container matColumnDef="Folio">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Folio</th>
+                            <td class="folio" mat-cell *matCellDef="let element">{{element.Folio}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TipoIncidencia">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Incidencia</th>
+                            <td mat-cell *matCellDef="let element">{{element.TipoIncidencia}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Estatus">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                            <td mat-cell *matCellDef="let element">{{element.Estatus}}
+
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="FechaElaboracion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Elaboracion</th>
+                            <td mat-cell *matCellDef="let element">{{element.FechaElaboracion | date: 'yyyy/MM/dd'}}
+                                <td>
+                        </ng-container>
+                        <ng-container matColumnDef="FechaFinalizacion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Finalizacion</th>
+                            <td mat-cell *matCellDef="let element">{{element.FechaFinalizacion | date: 'yyyy/MM/dd'}}
+                                <td>
+                        </ng-container>
+                        <ng-container matColumnDef="Observaciones">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Observaciones</th>
+                            <td mat-cell *matCellDef="let element">{{element.Observaciones}}
+                            </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="Options" stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                            <td mat-cell *matCellDef="let row">
+
+                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
+                                <mat-menu #menu="matMenu">
+                                    <!--  -->
+                                    <button title="documentos" mat-icon-button class="btn btn-dark" (click)="accederIncidencia(row)">
+                    <mat-icon>note_add</mat-icon>
+                  </button>
+                                </mat-menu>
+                            </td>
+                        </ng-container>
+                    </table>
+                    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

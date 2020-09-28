@@ -34,6 +34,7 @@ npm install nanoid
 
 ## NGX-DROPZONE-WRAPPER
 npm i ngx-dropzone-wrapper
+
 ## Compresor de imagen
 npm i ngx-image-compress
 
@@ -48,3 +49,19 @@ npm install --save angular-calendar date-fns
 npm i @ng-bootstrap/ng-bootstrap  
 npm i angularx-flatpickr   
 npm i flatpickr  
+
+## Angular Service worker
+npm i @angular/service-worker
+
+## QR Scanner
+npm i @zxing/ngx-scanner@latest --save
+
+## NGX PRINT
+npm i ngx-print
+
+## Graficas
+npm install chart.js --save
+npm install --save ng2-charts
+
+## Detector de Dispositivos Version 2.0.0
+npm i ngx-device-detector

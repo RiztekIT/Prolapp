@@ -14,7 +14,10 @@
                             <span *ngSwitchCase="'Duplicada'" class="label label-light-inverse">DUPLICADA</span>
                         </p>
                     </div>
-                    <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button>
+                    <!-- <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button> -->
+                    <button mat-fab (click)="Regresar()" class="btncoti">
+                            <mat-icon>undo</mat-icon>
+                          </button>
                 </div>
                 <hr>
 
@@ -335,6 +338,8 @@
 
                             <div class="container">
 
+                                <!-- <div *ngIf="ActualizarDetallePedidoBool != true"> -->
+
                                 <div class="row">
 
                                     <div class="col-6">
@@ -392,7 +397,11 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
-
+                                <!-- </div> -->
+                                <!--    <div *ngIf="ActualizarDetallePedidoBool != false">
+                                    <label class="input-group-text text-info"> Descripcion Producto:</label>
+                                    <input type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="service.formProd.DescripcionProducto" readonly>
+                                </div> -->
 
 
 
@@ -464,9 +473,15 @@
                                         <br>
                                         <div class="container row">
                                             <div class="col-md-7 col-lg-8">
-                                                <div *ngIf="ActualizarDetallePedidoBool != true">
+                                                <div *ngIf="ActualizarDetallePedidoBool != true" class="row">
+                                                    <div class="col-6">
 
-                                                    <button class="btn btn-dark" (click)="onAddProducto(DetallePedidoForm)">Agregar Producto</button>
+                                                        <button class="btn btn-dark" (click)="onAddProducto(DetallePedidoForm)">Agregar Producto</button>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <button class="btn btn-dark" (click)="inventarios(DetallePedidoForm)">Ver Inventarios</button>
+                                                    </div>
+
                                                 </div>
                                                 <div *ngIf="ActualizarDetallePedidoBool != false">
                                                     <button class="btn btn-dark" (click)="OnEditDetallePedidodp(DetallePedidoForm)">Actualizar Producto</button>
@@ -629,8 +644,8 @@
                                                         <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button> -->
                                                         <!-- <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='prefactura(service.formData.Folio)'><i class="mdi mdi-code-tags btn-lg"></i>Prefactura</button> -->
 
-                                                        <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
-                                                        </ngx-loading>
+                                                        <!--     <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+                                                        </ngx-loading> -->
                                                     </div>
                                                 </ng-template>
 

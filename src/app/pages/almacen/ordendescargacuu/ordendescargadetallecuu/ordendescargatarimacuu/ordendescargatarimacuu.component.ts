@@ -88,6 +88,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
     this.isVisibleQR = true;
     this.tarimaService.TraspasoDescarga = false;
     this.IdOrdenDescarga = +(localStorage.getItem('IdOrdenDescarga'));
+    this.ordenDescargaService.formData = JSON.parse(localStorage.getItem('OrdenDescarga'))
     this.obtenerBodegaOrigen();
     this.obtenerBodegaDestino();
     this.actualizarTablaTarima();
@@ -106,7 +107,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
     // console.log(dataID, 'loquetraeODOT');
     // let pm = 0
     // console.log(dataID[i]);
-    this.ordenDescargaService.GetODOTTB(1, 'PasoTx').subscribe(dataQR => {
+    this.ordenDescargaService.GetODOTTB(this.IdOrdenDescarga, 'PasoTx').subscribe(dataQR => {
       if (dataQR.length > 0) {
         for (let i = 0; i <= dataQR.length - 1; i++) {
           // es lo que trae detalle tarima con ese QR
@@ -148,7 +149,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
     this.tarimaService.masterTE = new Array<any>();
     this.tarimaService.masterTE = [];
 
-    this.ordenDescargaService.GetODOTTB(1, 'Chihuahua').subscribe(dataQR => {
+    this.ordenDescargaService.GetODOTTB(this.IdOrdenDescarga, 'Chihuahua').subscribe(dataQR => {
       if (dataQR.length > 0) {
         for (let i = 0; i <= dataQR.length - 1; i++) {
           // es lo que trae detalle tarima con ese QR
@@ -264,7 +265,32 @@ export class OrdendescargatarimacuuComponent implements OnInit {
         TQR.Bodega = "Chihuahua"
 
         this.tarimaService.updateTarima(TQR).subscribe(res => {
-          this.actualizarTablaTarimaEscaneada();
+
+          this.tarimaService.getDetalleTarimaID(dataQR[0].IdTarima).subscribe(data => {
+
+            for (let i = 0; i <= data.length - 1; i++) {
+
+              let ordenTemp = new OrdenTemporal();
+
+              ordenTemp.IdOrdenTemporal = 0;
+              ordenTemp.IdTarima = dataQR[0].IdTarima;
+              ordenTemp.IdOrdenCarga = 0;
+              ordenTemp.IdOrdenDescarga = this.IdOrdenDescarga;
+              ordenTemp.QR = dataQR[0].QR
+              ordenTemp.ClaveProducto = data[i].ClaveProducto;
+              ordenTemp.Lote = data[i].Lote;
+              ordenTemp.Sacos = data[i].Sacos;
+              ordenTemp.Producto = data[i].Producto;
+              ordenTemp.PesoTotal = ((+data[i].Sacos) * (+data[i].PesoxSaco)).toString();
+              // ordenTemp.PesoTotal = ((+this.ordenTemporalService.preOrdenTemporalOD[i].SacosIngresados) * (+this.dataODID[i].PesoxSaco)).toString();
+              ordenTemp.FechaCaducidad = data[i].FechaCaducidad;
+              ordenTemp.Comentarios = '';
+              console.log(ordenTemp, 'ordentemp´final');
+
+         this.ordenTemporalService.addOrdenTemporal(ordenTemp).subscribe(DataOT => {
+            console.log(DataOT);
+
+            this.actualizarTablaTarimaEscaneada();
           this.actualizarTablaTarima();
           console.log(res);
           Swal.fire({
@@ -277,6 +303,18 @@ export class OrdendescargatarimacuuComponent implements OnInit {
             // text1: 'Bodega: '+ TQR.Bodega
 
           })
+
+           })
+
+
+            }
+
+          })
+            
+
+        
+
+          
         })
       })
 
@@ -304,7 +342,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
   //Metodo para obtener la bodega origen hardcode
   obtenerBodegaOrigen() {
     console.log(this.IdOrdenDescarga);
-    this.ordenDescargaService.getOrdenDescargaID(1).subscribe(data => {
+    this.ordenDescargaService.getOrdenDescargaID(this.IdOrdenDescarga).subscribe(data => {
       this.bodegaOrigen = data[0].Origen;
       console.log(this.bodegaOrigen);
     })
@@ -314,9 +352,9 @@ export class OrdendescargatarimacuuComponent implements OnInit {
   //Metodo para obtener la bodega Destino hardcode
   obtenerBodegaDestino() {
     console.log(this.IdOrdenDescarga);
-    this.ordenDescargaService.getOrdenDescargaID(1).subscribe(data => {
+    this.ordenDescargaService.getOrdenDescargaID(this.IdOrdenDescarga).subscribe(data => {
       this.bodegaDestino = data[0].Destino;
-      console.log(this.bodegaOrigen);
+      console.log(this.bodegaDestino);
     })
 
   }
@@ -416,4 +454,68 @@ export class OrdendescargatarimacuuComponent implements OnInit {
     })
   }
 
+
+  finalizar(){
+
+    //this.ordenDescargaService.formData.Estatus = 'Descargada'
+        console.log(this.ordenDescargaService.formData);
+        console.log(this.listDataScan.data);
+
+        let sacos;
+        let sacos2;
+        let saldo;
+        sacos=0;
+        sacos2=0;
+        saldo=1;
+        
+        for (let i=0; i<this.listDataScan.data.length; i++ ){
+          sacos2 = sacos2 + +this.listDataScan.data[i].Sacos;
+        }
+
+        console.log(this.ordenDescargaService.formData.Sacos);
+        console.log(sacos2);
+        
+        saldo = +this.ordenDescargaService.formData.Sacos - sacos2;
+
+
+
+        if (saldo==0){
+          this.ordenDescargaService.formData.Estatus = 'Descargada'
+        console.log(this.ordenDescargaService.formData);
+        this.updateOrdenDescarga(this.ordenDescargaService.formData,'Descargada');
+        this.router.navigate(['/ordenDescargadetallecuu']);
+        }
+        //this.updateOrdenDescarga(this.service.formData,'Descargada');
+
+    /*  let productos = this.listData.data;
+    // let productos = this.ordenTemporalService.preOrdenTemporalOD
+
+    console.log(this.listData.data,'finalizarORdne');
+
+let saldo = 0;
+    for (let i =0; i<productos.length;i++){
+
+      saldo = saldo + +this.listData.data[i].Saldo
+      if(saldo==0){
+        this.service.formData.Estatus = 'Descargada'
+        console.log(this.service.formData);
+        this.updateOrdenDescarga(this.service.formData,'Descargada');
+      }
+
+
+
+    } */
+
+
+    
+  }
+
+  updateOrdenDescarga(od,estatus){
+    od.Estatus=estatus
+    od.FechaFinalDescarga = new Date();
+    this.ordenDescargaService.updateOrdenDescarga(od).subscribe(data=>{
+      console.log(data,'update od '+estatus);
+    })
+    
+  }
 }

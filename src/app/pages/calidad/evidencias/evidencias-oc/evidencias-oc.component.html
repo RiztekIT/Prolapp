@@ -1,0 +1,78 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between">
+
+                    <h3 class="text-muted m-t-10 m-b-0">Evidencias Orden de Carga</h3>
+                    <div>
+                        <h4>Folio: <strong>{{FolioOC}}</strong></h4>
+                    </div>
+                    <div>
+                        <p>Origen: <strong>{{OrigenOC}}</strong></p>
+                    </div>
+                    <div>
+                        <p>Destino: <strong>{{DestinoOC}}</strong></p>
+                    </div>
+                    <div>
+                        Estatus:
+                        <p [ngSwitch]=estatusOC>
+                            <span *ngSwitchCase="'Transito'" class="label label-light-info">TRANSITO</span>
+                            <span *ngSwitchCase="'Preparada'" class="label label-light-danger">PREPARADA</span>
+                            <span *ngSwitchCase="'Cargada'" class="label label-light-inverse">CARGADA</span>
+                            <span *ngSwitchCase="'Terminada'" class="label label-light-inverse">TERMINADA</span>
+                            <span *ngSwitchCase="'Enviada'" class="label label-light-inverse">ENVIADA</span>
+                        </p>
+
+
+                    </div>
+                    <!-- <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button> -->
+                    <button mat-fab (click)="regresar()" class="btncoti">
+                        <mat-icon>undo</mat-icon>
+                      </button>
+
+                </div>
+                <hr>
+
+                <div class="card">
+
+                    <h2 style="text-align: center;">Evidencias</h2>
+                    <div class="card-body">
+                        <div class="container row">
+                            <div class="card containercard col-12 col-lg-3" *ngFor="let image of imageInfo">
+                                <div class="imgcontainer">
+                                    <img [src]="image.ImagePath" class="img-fluid img-responsive ">
+                                    <button class="btn-info boton" (click)="descargar(image)">
+                                        <mat-icon>get_app</mat-icon>
+                                      </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <hr>
+                <div class="card">
+                    <h2 style="text-align: center;">Incidencias</h2>
+                    <div class="card-body">
+                        <div class="container row">
+                            <div class="card containercard col-12 col-lg-3" *ngFor="let image of imageIncidenciaInfo">
+                                <div class="imgcontainer">
+                                    <img [src]="image.ImagePath" class="img-fluid img-responsive ">
+                                    <button class="btn-info boton" (click)="descargar(image)">
+                                        <mat-icon>get_app</mat-icon>
+                                      </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

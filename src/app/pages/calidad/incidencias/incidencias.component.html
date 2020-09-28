@@ -1,171 +1,180 @@
-<h3 class="text-muted m-t-10 m-b-0">Incidencias de Calidad</h3>
-<br>
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-
-                <div class="card-body wizard-content">
-                    <h4 class="card-title">Crear Incidencia</h4>
-                    <!-- <h6 class="card-subtitle">You can find the <a href="http://www.jquery-steps.com" target="_blank">offical website</a></h6> -->
-                    <form [routerLink]="['/incidencias']" class="tab-wizard wizard-circle">
-                        <!-- Step 1 -->
-                        <h6>Incidencia</h6>
-                        <section>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="firstName1">Cliente</label>
-                                        <input type="text" class="form-control" id="firstName1"> </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="emailAddress1">Numero de PO</label>
-                                        <input type="email" class="form-control" id="emailAddress1"> </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="location1">Tipo de Incidencia</label>
-                                        <select class="custom-select form-control" id="location1" name="location">
-                                            <option value="">Merma</option>
-                                            <option value="Amsterdam">Reparacion</option>
-                                            <option value="Berlin">Devolucion</option>
-                                            <!-- <option value="Frankfurt">Dubai</option> -->
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="date1">Fecha:</label>
-                                        <input type="date" class="form-control" id="date1"> </div>
-                                </div>
-                            </div>
-                        </section>
-                        <!-- Step 2 -->
-                        <h6>Producto</h6>
-                        <section>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="jobTitle1">Producto:</label>
-                                        <input type="text" class="form-control" id="jobTitle1"> </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="videoUrl1">Lote:</label>
-                                        <input type="text" class="form-control" id="videoUrl1">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="shortDescription1">Descripcion de la incidencia</label>
-                                        <textarea name="shortDescription" id="shortDescription1" rows="6" class="form-control"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        <!-- Step 3 -->
-                        <h6>Informacion</h6>
-                        <section>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="int1"> Lugar: </label>
-                                        <input type="text" class="form-control" id="int1"> </div>
-                                    <div class="form-group">
-                                        <label for="intType1">Tipo de Seguimiento</label>
-                                        <select class="custom-select form-control" id="intType1" placeholder="Type to search cities" name="intType1">
-                                            <option value="Banquet">Proveedor</option>
-                                            <option value="Fund Raiser">Venta</option>
-                                            <option value="Dinner Party">Cliente</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="jobTitle2">Usuario:</label>
-                                        <input type="date" class="form-control" id="jobTitle2">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="Location1">Tracking:</label>
-                                        <select class="custom-select form-control" id="Location1" name="location">
-                                            <option value="">Llegando a Almacen</option>
-                                            <option value="India">Saliendo de almacen</option>
-                                            <option value="USA">Transito</option>
-                                            <option value="Dubai">Llegando con Cliente</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                        <!-- step 4 -->
-                        <h6>Evidencias</h6>
-                        <section>
-                            <div class="row">
-                                <div class="col-md-12">
-
-
-
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h4 class="card-title">Evidencias</h4>
-                                            <!-- <h6 class="card-subtitle">For multiple file upload put class <code>.dropzone</code> to form.</h6> -->
-                                            <form action="#" class="dropzone">
-                                                <div class="fallback">
-                                                    <input name="file" type="file" multiple />
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-
-
-
-                                </div>
-                            </div>
-                        </section>
-                    </form>
+                <h1 style="text-align: center;">Incidencias</h1>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12" style="display: block; justify-content: center">
+                            <button style="margin-right: 15px;" title="Generar Incidencia" mat-fab (click)="accederIncidencia()" class="btncoti">
+                <mat-icon>note_add</mat-icon>
+              </button>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 style="text-align: center;">Orden Carga</h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7 col-sm-12"></div>
+                    <div class="col-md-5 col-sm-12">
+
+                        <mat-card style="text-align: right;" class="mat-elevation-z0">
+                            <mat-form-field>
+                                <input matInput (keyup)="applyFilterOrdenCarga($event.target.value)" placeholder="Buscar">
+                            </mat-form-field>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div style="overflow:auto;">
+
+                    <table mat-table [dataSource]="listDataOrdenCarga" matSort class="scrollable" multiTemplateDataRows>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsOrdenCarga"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsOrdenCarga;"></tr>
+
+                        <ng-container matColumnDef="Folio">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Folio</th>
+                            <td class="folio" mat-cell *matCellDef="let element">{{element.Folio}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TipoIncidencia">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Incidencia</th>
+                            <td mat-cell *matCellDef="let element">{{element.TipoIncidencia}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Estatus">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                            <td mat-cell *matCellDef="let element">{{element.Estatus}}
+
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="FechaElaboracion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Elaboracion</th>
+                            <td mat-cell *matCellDef="let element">{{element.FechaElaboracion | date: 'yyyy/MM/dd'}}
+                                <td>
+                        </ng-container>
+                        <ng-container matColumnDef="FechaFinalizacion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Finalizacion</th>
+                            <td mat-cell *matCellDef="let element">{{element.FechaFinalizacion | date: 'yyyy/MM/dd'}}
+                                <td>
+                        </ng-container>
+                        <ng-container matColumnDef="Observaciones">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Observaciones</th>
+                            <td mat-cell *matCellDef="let element">{{element.Observaciones}}
+                            </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="Options" stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                            <td mat-cell *matCellDef="let row">
+
+                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
+                                <mat-menu #menu="matMenu">
+                                    <button title="documentos" mat-icon-button class="btn btn-dark" (click)="accederIncidencia(row)">
+                    <mat-icon>note_add</mat-icon>
+                  </button>
+                                </mat-menu>
+                            </td>
+                        </ng-container>
+                    </table>
+                    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+
+
 
             </div>
         </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-12">
         <div class="card">
-            <div class="card-body">
+            <h2 style="text-align: center;">Orden Descarga</h2>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7 col-sm-12"></div>
+                    <div class="col-md-5 col-sm-12">
 
-                <h4 class="card-title">Incidencias por Cliente</h4>
-                <!-- <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6> -->
-                <div class="table-responsive m-t-40">
-                    <table id="example" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Cliente</th>
-                                <th>Tipo</th>
-                                <th>Fecha</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let incidencia of incidenciasCliente">
-                                <td>{{ incidencia.id }}</td>
-                                <td>{{ incidencia.cliente }}</td>
-                                <td>{{ incidencia.tipo }}</td>
-                                <td>{{ incidencia.fecha }}</td>
-                                <td>{{ incidencia.status }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
+                        <mat-card style="text-align: right;" class="mat-elevation-z0">
+                            <mat-form-field>
+                                <input matInput (keyup)="applyFilterOrdenDescarga($event.target.value)" placeholder="Buscar">
+                            </mat-form-field>
+                        </mat-card>
+                    </div>
                 </div>
+            </div>
+            <div class="card-body">
+                <div style="overflow:auto;">
 
+                    <table mat-table [dataSource]="listDataOrdenDescarga" matSort class="scrollable" multiTemplateDataRows>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsOrdenDescarga"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsOrdenDescarga;"></tr>
+
+                        <ng-container matColumnDef="Folio">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Folio</th>
+                            <td class="folio" mat-cell *matCellDef="let element">{{element.Folio}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TipoIncidencia">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Incidencia</th>
+                            <td mat-cell *matCellDef="let element">{{element.TipoIncidencia}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Estatus">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                            <td mat-cell *matCellDef="let element">{{element.Estatus}}
+
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="FechaElaboracion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Elaboracion</th>
+                            <td mat-cell *matCellDef="let element">{{element.FechaElaboracion | date: 'yyyy/MM/dd'}}
+                                <td>
+                        </ng-container>
+                        <ng-container matColumnDef="FechaFinalizacion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Finalizacion</th>
+                            <td mat-cell *matCellDef="let element">{{element.FechaFinalizacion | date: 'yyyy/MM/dd'}}
+                                <td>
+                        </ng-container>
+                        <ng-container matColumnDef="Observaciones">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Observaciones</th>
+                            <td mat-cell *matCellDef="let element">{{element.Observaciones}}
+                            </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="Options" stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                            <td mat-cell *matCellDef="let row">
+
+                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
+                                <mat-menu #menu="matMenu">
+                                    <!--  -->
+                                    <button title="documentos" mat-icon-button class="btn btn-dark" (click)="accederIncidencia(row)">
+                    <mat-icon>note_add</mat-icon>
+                  </button>
+                                </mat-menu>
+                            </td>
+                        </ng-container>
+                    </table>
+                    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                    </mat-paginator>
+                </div>
             </div>
         </div>
     </div>

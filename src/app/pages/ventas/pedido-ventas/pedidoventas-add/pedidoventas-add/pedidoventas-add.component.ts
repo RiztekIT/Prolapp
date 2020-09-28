@@ -32,11 +32,14 @@ import { ReporteEmisionComponent } from 'src/app/components/reporte-emision/repo
 import { MessageService } from 'src/app/services/message.service';
 import { EmailgeneralComponent } from 'src/app/components/email/emailgeneral/emailgeneral.component';
 import * as html2pdf from 'html2pdf.js';
+import { OrdenCargaService } from '../../../../../services/almacen/orden-carga/orden-carga.service';
+import { OrdenTemporalService } from 'src/app/services/almacen/orden-temporal/orden-temporal.service';
+import { MercanciaComponent } from 'src/app/pages/almacen/mercancia/mercancia.component';
 //Constantes para obtener tipo de cambio
 const httpOptions = {
   headers: new HttpHeaders({
     'Bmx-Token': 'd83c7088f2823be9f29cc124cf95dc37056de37c340da5477a09ca1ee91a80a6',
-    'Access-Control-Allow-Origin': 'http://localhost:4200',
+    //'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json;charset=UTF-8',
     'Access-Control-Allow-Headers': 'Bmx-Token, Accept, Accept-Encoding, Content-Type, Origin',
     'Access-Control-Allow-Methods': 'GET, OPTIONS'
@@ -55,7 +58,7 @@ export class PedidoventasAddComponent implements OnInit {
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
     private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient, public ServiceUnidad: UnidadMedidaService,
-    public serviceDireccion: ClienteDireccionService, private dialog: MatDialog, public servicecoti: VentasCotizacionService, public addproductos: AddsproductosService, public _MessageService: MessageService) {
+    public serviceDireccion: ClienteDireccionService, private dialog: MatDialog, public servicecoti: VentasCotizacionService, public addproductos: AddsproductosService, public _MessageService: MessageService, public serviceordencarga: OrdenCargaService, public ordenTemporalService: OrdenTemporalService) {
       
     this.MonedaBoolean = true;
 
@@ -102,6 +105,7 @@ export class PedidoventasAddComponent implements OnInit {
     // this.IniciarTotales();
     this.tipoDeCambio();
     this.service.formProd = new Producto();
+    
 
 
 
@@ -766,8 +770,29 @@ this.changeDireccion(this.isDireccion);
           this.ChecarClienteSeleccionado();
         });
       }
+      this.nodes();
     });
     console.log(this.IdPedido);
+
+
+   
+  }
+
+  nodes(){
+    if (this.service.formDataPedido.Estatus === 'Cerrada') {
+      let nodes = document.getElementById('step1').getElementsByTagName('*');
+      for (let i = 0; i < nodes.length; i++) {
+        nodes[i].setAttribute('disabled', 'true')
+      }
+       nodes = document.getElementById('step2').getElementsByTagName('*');
+      for (let i = 0; i < nodes.length; i++) {
+        nodes[i].setAttribute('disabled', 'true')
+      }
+       nodes = document.getElementById('step3').getElementsByTagName('*');
+      for (let i = 0; i < nodes.length; i++) {
+        nodes[i].setAttribute('disabled', 'true')
+      }
+    }
   }
 
 
@@ -834,7 +859,7 @@ this.changeDireccion(this.isDireccion);
 
   //Tabla de Productos
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['ClaveProducto', 'ClaveSAT', 'Producto', 'Cantidad', 'Importe', 'Options'];
+  displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Cantidad', 'Importe', 'Options'];
   @ViewChild(MatSort, null) sort: MatSort;
 
 
@@ -961,8 +986,10 @@ this.isFactura = true;
 
   onAddProducto(form: NgForm) {
     this.service.formDataDP.IdPedido = this.IdPedido;
-    this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto;
-    this.service.formDataDP.Producto = this.service.formProd.Nombre;
+    //this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto;
+    this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen;
+    //this.service.formDataDP.Producto = this.service.formProd.Nombre;
+    this.service.formDataDP.Producto = this.service.formProd.Nombre + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect ;
     this.service.formDataDP.Unidad = this.service.formProd.UnidadMedida;
     this.service.formDataDP.PrecioUnitario = this.ProductoPrecioMXN.toString();
     this.service.formDataDP.PrecioUnitarioDlls = this.ProductoPrecioDLLS.toString();
@@ -975,9 +1002,9 @@ this.isFactura = true;
     this.service.addDetallePedido(this.service.formDataDP).subscribe(res => {
       // console.log(res);
       //Restar el Stock
-      this.RestarStock();
+     // this.RestarStock();
       // this.IniciarTotales();
-      form.resetForm();
+      //form.resetForm();
       this.refreshDetallesPedidoList();
       Swal.fire({
         icon: 'success',
@@ -1021,7 +1048,7 @@ this.isFactura = true;
   onChangeCantidadP(cantidad: any) {
     console.log(cantidad);
     let elemHTML: any = document.getElementsByName('Cantidad')[0];
-    this.validarStock(cantidad);
+    //this.validarStock(cantidad);
     elemHTML.value = this.Cantidad;
     //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
     this.calcularImportePedido();
@@ -1269,7 +1296,178 @@ this.isFactura = true;
   }
 
   cerrarPedido(){
-    this.service.formDataPedido.Estatus = 'Cerrada';
+
+    let ordencarga;
+    let detordencarga;
+    let sacos;
+    let kg;
+    let user;
+    user = JSON.parse( localStorage.getItem('ProlappSession')).user;
+    
+
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "90%";
+
+    dialogConfig.data = {
+      bodega: 'Chihuahua',
+      productos: this.listData.data
+      }
+   
+    let mercanciadl = this.dialog.open(MercanciaComponent, dialogConfig);
+    let d=1;
+
+    mercanciadl.afterClosed().subscribe(data=>{
+
+      console.log(data);
+      
+
+
+      if (typeof data != 'undefined'){
+
+        this.service.formDataPedido.Estatus = 'Cerrada';
+        
+
+    this.service.formDataPedido.Total = this.total;
+    this.service.formDataPedido.Subtotal = this.subtotal;
+    this.service.formDataPedido.TotalDlls = this.totalDlls;
+    this.service.formDataPedido.SubtotalDlls = this.subtotalDlls;
+
+
+        let productos = data.selected;
+        let fletera;
+    
+    this.serviceordencarga.getUltimoFolio().subscribe(data=>{
+
+      console.log(data[0].Folio);
+      if (this.service.formDataPedido.Flete=='Foraneo'){
+
+        fletera='0';
+      }else{
+        fletera=this.service.formDataPedido.Flete;
+      }
+
+
+      sacos = 0;
+
+      for (let i=0; i< this.listData.data.length;i++){
+        sacos = sacos + +this.listData.data[i].Cantidad;
+      }
+
+      kg = sacos * 25;
+
+      ordencarga= {
+  
+        IdOrdenCarga: 0,
+        Folio: data[0].Folio,
+        FechaEnvio: new Date(),
+        IdCliente: this.service.formDataPedido.IdCliente,
+        Cliente: this.service.formData.Nombre,
+        IdPedido: this.service.formDataPedido.IdPedido,
+        Fletera: fletera,
+        Caja: '0',
+        Sacos: sacos,
+        Kg: kg,
+        Chofer: '',
+        Origen: 'Chihuahua',
+        Destino: this.service.formData.Estado,
+        Observaciones: '',
+        Estatus: 'Creada',
+        FechaInicioCarga: new Date('10/10/10'),
+        FechaFinalCarga: new Date('10/10/10'),
+        FechaExpedicion: new Date(),
+        IdUsuario: '0',
+        Usuario: user
+      }
+
+      console.log(ordencarga);
+
+     
+
+
+
+      this.serviceordencarga.addOrdenCarga(ordencarga).subscribe(data=>{
+
+        console.log(data);
+
+        for (let i=0; i< productos.length;i++){
+       
+          detordencarga = {
+    
+            IdDetalleOrdenCarga:0,
+            IdOrdenCarga:0,
+            ClaveProducto:productos[i].ClaveProducto,
+        Producto:productos[i].Producto,
+        Sacos:this.listData.data[i].Cantidad,
+        PesoxSaco:productos[i].PesoxSaco,
+        Lote:productos[i].Lote,
+        IdProveedor:productos[i].IdProveedor,
+        Proveedor:productos[i].Proveedor,
+        PO:productos[i].PO,
+        FechaMFG:productos[i].FechaMFG,
+        FechaCaducidad:productos[i].FechaCaducidad,
+        Shipper:productos[i].Shipper,
+        USDA:productos[i].USDA,
+        Pedimento:productos[i].Pedimento,
+        Saldo:this.listData.data[i].Cantidad,
+          }
+
+          this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data=>{
+            
+            console.log(data);
+          })
+          
+      
+        }
+
+        
+
+        console.log(this.service.formDataPedido);
+        this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Pedido Cerrado'
+          })
+    
+    //
+    //this.ordenTemporalService._listeners.next('Orden')
+          this.Inicializar();
+    
+        }
+        )
+
+
+      })
+    })
+
+  }
+
+
+    //
+  
+
+
+
+  })
+
+
+
+
+
+
+
+  
+  }
+
+  convertirPedido(){
+
+    console.log(this.service.formDataPedido,'Pedidos');
+    console.log(this.service.formData,'Cliente');
+    console.log(this.listData.data,'Producto');
+
+    this.service.formDataPedido.Estatus = 'Guardada';
 
     this.service.formDataPedido.Total = this.total;
     this.service.formDataPedido.Subtotal = this.subtotal;
@@ -1282,12 +1480,11 @@ this.isFactura = true;
         icon: 'success',
         title: 'Pedido Cerrado'
       })
-      this.Inicializar();
+
+
+
     }
     )
-  }
-
-  convertirPedido(){
 
   }
 
@@ -1374,6 +1571,63 @@ this.isFactura = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
     this.dialog.open(ReporteEmisionComponent, dialogConfig);
+  }
+
+  agregarProductos(){
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "90%";
+
+    dialogConfig.data = {
+      bodega: 'Chihuahua',
+      productos: this.listData.data
+      }
+   
+    let mercanciadl = this.dialog.open(MercanciaComponent, dialogConfig);
+    let d=1;
+
+    mercanciadl.afterClosed().subscribe(data=>{
+      console.log(data);
+
+      
+      this.service.getProducto(data.selected[0].ClaveProducto).subscribe(prod =>{
+        console.log(prod);
+        this.service.formProd = prod[0]
+        this.service.formProd.ClaveProducto = data.selected[0].ClaveProducto;
+        this.service.formProd.Nombre = data.selected[0].Producto;
+        this.service.formProd.DescripcionProducto = data.selected[0].Producto;
+      })
+      
+      
+    })
+
+  }
+
+  agregarProducto(){
+    this.service.formDataDP.IdPedido = this.IdPedido;
+    this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto;
+    this.service.formDataDP.Producto = this.service.formProd.Nombre;
+    this.service.formDataDP.Unidad = this.service.formProd.UnidadMedida;
+    this.service.formDataDP.PrecioUnitario = this.ProductoPrecioMXN.toString();
+    this.service.formDataDP.PrecioUnitarioDlls = this.ProductoPrecioDLLS.toString();
+    this.service.formDataDP.Cantidad = this.Cantidad.toString();
+    this.service.formDataDP.Importe = this.importeP.toString();
+    this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
+
+    // console.log(this.service.formDataDP);
+
+    this.service.addDetallePedido(this.service.formDataDP).subscribe(res => {
+      // console.log(res);
+      //Restar el Stock
+      
+      this.refreshDetallesPedidoList();
+      Swal.fire({
+        icon: 'success',
+        title: 'Concepto Agregado'
+      })
+    })
   }
 
 }

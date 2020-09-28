@@ -62,6 +62,7 @@ export class ReportefacturacionfechasComponent implements OnInit {
     this.totaldlls = 0;
     this.totalmxn = 0;
     
+    
     // console.log(this.fechaInicial);
     // console.log(this.fechaFinal);
     let fecha1;

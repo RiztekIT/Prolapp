@@ -38,9 +38,12 @@ export class PrepararComponent implements OnInit {
 
     //Actualiza la tabla visualizacion cuando se hace un traspaso
     this.ordenTemporalService.listen().subscribe((m: any) => {
-      console.log(m);
-      this.simularQR(m);
-      this.tarimaService.trapasoOrdenCarga = false;
+      if(m!=1){
+
+        console.log(m);
+        this.simularQR(m);
+        this.tarimaService.trapasoOrdenCarga = false;
+      }
     });
 
     //Actualiza Tabla Orden Temporal
@@ -53,6 +56,9 @@ export class PrepararComponent implements OnInit {
       }
       this.actualizarTablaOrdenTemporal();
     });
+
+
+    console.log('preparando');
 
   }
 
@@ -200,7 +206,7 @@ export class PrepararComponent implements OnInit {
   //Metodo para obtener la bodega origen
   obtenerBodegaOrigen() {
     console.log(this.IdOrdenCarga);
-    this.ordenCargaService.getOrdenCargaID(this.IdOrdenCarga).subscribe(data => {
+    this.ordenCargaService.getOCID(this.IdOrdenCarga).subscribe(data => {
       this.bodegaOrigen = data[0].Origen;
       console.log(this.bodegaOrigen);
     })
@@ -216,8 +222,8 @@ export class PrepararComponent implements OnInit {
     // this.QRdata.IdTarima = 0;
     // this.QRdata.Sacos = '150';
     // this.QRdata.PesoTotal = '3000'; 
-    this.QRdata.QR = 'ab4rwB-';
-    // this.QRdata.QR = qrleido;
+    //this.QRdata.QR = 'ab4rwB-';
+     this.QRdata.QR = qrleido;
     console.log(this.QRdata);
 
     //igualar en 0s el arreglo que se encuentra en el servicio
@@ -239,9 +245,10 @@ export class PrepararComponent implements OnInit {
 
 
           //Verificar que esta tarima no haaya sido escaneada previamente en esta orden de carga
-          this.ordenTemporalService.GetOrdenTemporalIdTarima(idTarima).subscribe(resOT => {
+          this.ordenTemporalService.GetOrdenTemporalIdTarimaOC(idTarima, this.IdOrdenCarga).subscribe(resOT => {
             console.log(resOT);
-            if (resOT.length > 0) {
+        
+            if (resOT.length>0) {
               console.log('Esta tarima ya fue ESCANEADA');
               Swal.fire({
                 icon: 'error',
@@ -913,6 +920,7 @@ export class PrepararComponent implements OnInit {
       }
     });
   }
+  
 
     // blur
     CleanFieldQR() {

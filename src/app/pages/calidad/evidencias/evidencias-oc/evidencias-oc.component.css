@@ -1,0 +1,62 @@
+.custom-button {
+    min-width: 100px;
+    max-width: 100px;
+}
+
+.btncoti {
+    background-color: #000000;
+    color: white
+}
+
+.img-responsive {
+    width: auto;
+    height: 300px;
+    transition: .5s -webkit-filter;
+    transition: .5s filter;
+}
+
+.imgcontainer {
+    position: relative;
+}
+
+.imgblur:hover {
+    -webkit-filter: blur(5px);
+    /* Safari 6.0 - 9.0 */
+    filter: blur(5px);
+}
+
+.boton {
+    display: none;
+}
+
+.imgcontainer:hover .boton {
+    display: block;
+    position: absolute;
+    top: 5%;
+    left: 80%;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+
+@media only screen and (max-width: 800px) {
+    .boton {
+        display: block;
+        position: absolute;
+        top: 5%;
+        left: 80%;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        text-align: center;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 100%;
+    }
+}

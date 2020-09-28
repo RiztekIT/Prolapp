@@ -8,6 +8,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
 import Swal from 'sweetalert2';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
 
 @Component({
   selector: 'app-cargar',
@@ -21,6 +22,7 @@ export class CargarComponent implements OnInit {
 
   ngOnInit() {
     this.IdOrdenCarga = +localStorage.getItem('IdOrdenCarga');
+    console.log(this.IdOrdenCarga);
     this.ObtenerFolio(this.IdOrdenCarga);
 
   }
@@ -265,6 +267,7 @@ export class CargarComponent implements OnInit {
     this.files = [];
     console.log(this.imageInfo);
     this.imageService.readDirImagenesServidor(formData,'cargarNombreImagenesOrdenCarga').subscribe(res => {
+      console.log(res);
       if (res.length > 0) {
         console.log('Si hay imagenes')
         console.log(res);
@@ -324,20 +327,99 @@ export class CargarComponent implements OnInit {
     })
   }
 
+
   finalizar() {
 
-    //Verificar si el estatus va en orden
-    this.ordenCargaService.getOCID(this.IdOrdenCarga).subscribe(res => {
-      if (res[0].Estatus == 'Preparada') {
-        this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(res => {
-          console.log(res)
+    let Oc;
+    this.ordenCargaService.getOCID(this.IdOrdenCarga).subscribe(res => { 
+      console.clear();
+      console.log(res);
+      Oc= res[0];
+      Oc.FechaFinalCarga = new Date();
+      if (res[0].Chofer) {
+        if (res[0].Estatus == 'Preparada') {
+          this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(resq => {
+            console.log(resq)
+
+            
+
+  this.ordenCargaService.updateOrdenCarga(Oc).subscribe(res=>{
+console.log(res);
+this.router.navigate(['/ordencargadetalle']);
+  })
+
+            
+            
+          })
+        }
+        this.ordenCargaService.updateOrdenCarga(Oc).subscribe(res=>{
+          console.log(res);
           this.router.navigate(['/ordencargadetalle']);
+            })
+      } else{
+
+        Swal.fire({
+          title: 'Ingresar Nombre de Chofer',
+          icon: 'warning',
+          input: 'text',
+          showCancelButton: false,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Ingresar',
+        }).then((result) => {
+          if (result.value) {
+           console.log(result.value);
+    
+               let Chofer = result.value.toString();
+               Oc.Chofer= Chofer;
+               console.log(this.IdOrdenCarga);
+               this.ordenCargaService.updatedetalleOrdenCargaChofer(this.IdOrdenCarga, Chofer).subscribe(resc =>{
+                 console.log('resc: ', resc);
+               })
+               console.log(Oc);
+             if (res[0].Estatus == 'Preparada') {
+              
+              this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(rese => {
+                Oc.Estatus = 'Cargada';
+                console.log(rese)
+                this.ordenCargaService.updateOrdenCarga(Oc).subscribe(res=>{
+                  console.log(res);
+                  this.router.navigate(['/ordencargadetalle']);
+                    })
+              })
+            }
+            this.ordenCargaService.updateOrdenCarga(Oc).subscribe(res=>{
+              console.log(res);
+              this.router.navigate(['/ordencargadetalle']);
+                })
+             
+    
+            
+            
+            
+            
+          }
         })
+
+
       }
-      this.router.navigate(['/ordencargadetalle']);
-    });
-  }
+    })
 
 
 
+  //   //Verificar si el estatus va en orden
+  //   this.ordenCargaService.getOCID(this.IdOrdenCarga).subscribe(res => {
+  //     if (res[0].Estatus == 'Preparada') {
+  //       this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(res => {
+  //         console.log(res)
+  //         this.router.navigate(['/ordencargadetalle']);
+  //       })
+  //     }
+  //     this.router.navigate(['/ordencargadetalle']);
+  //   });
+  // }
+
+
+
+}
 }

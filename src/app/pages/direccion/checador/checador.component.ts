@@ -11,7 +11,7 @@ export class ChecadorComponent implements OnInit {
 
   constructor(public usuarioservice: UsuariosServieService) { }
 
-  displayedColumns : string [] = ['Usuario', 'Fecha', 'Token'];
+  displayedColumns : string [] = ['Usuario', 'Fecha', 'Dispositivo'];
   listData: MatTableDataSource<any>;
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;

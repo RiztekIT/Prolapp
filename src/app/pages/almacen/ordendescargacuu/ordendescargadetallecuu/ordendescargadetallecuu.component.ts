@@ -31,7 +31,7 @@ import { Tarima } from 'src/app/Models/almacen/Tarima/tarima-model';
 export class OrdendescargadetallecuuComponent implements OnInit {
   //Id Orden Carga
   IdOrdenDescarga: number;
-  constructor(private service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public router: Router,  private dialog: MatDialog,  public imageService: ImagenService, private _sanitizer: DomSanitizer,
+  constructor(public service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public router: Router,  private dialog: MatDialog,  public imageService: ImagenService, private _sanitizer: DomSanitizer,
     public AlmacenEmailService:AlmacenEmailService, public tarimaService: TarimaService) {
 
     // this.ordenTemporalService.listenOrdenTemporal().subscribe((m: any) => {
@@ -61,6 +61,8 @@ export class OrdendescargadetallecuuComponent implements OnInit {
   ngOnInit() {
     this.IdOrdenDescarga = +(localStorage.getItem('IdOrdenDescarga'));
     // this.actualizarTablaOrdenTemporal();
+    console.log('this.IdOrdenDescarga: ', this.IdOrdenDescarga);
+    this.service.formData = JSON.parse(localStorage.getItem('OrdenDescarga')); 
     console.log(this.service.formData);
     console.log(localStorage.getItem('IdOrdenDescarga'));
     this.actualizarTablaTarimaEscaneada();
@@ -90,12 +92,12 @@ export class OrdendescargadetallecuuComponent implements OnInit {
   //   })
   // }
 
-  actualizarTablaTarimaEscaneada() {
+actualizarTablaTarimaEscaneada() {
 console.warn('hello');
     this.tarimaService.masterTE = new Array<any>();
     this.tarimaService.masterTE = [];
 
-    this.service.GetODOTTB(1, 'Chihuahua').subscribe(dataQR => {
+    this.service.GetODOTTB(this.IdOrdenDescarga, 'Chihuahua').subscribe(dataQR => {
       if (dataQR.length > 0) {
         for (let i = 0; i <= dataQR.length - 1; i++) {
           // es lo que trae detalle tarima con ese QR
@@ -238,7 +240,20 @@ ObtenerFolio(id: number) {
   }
 
   evidencia(){
-    this.router.navigate(['/ordenDescargaEvidencia']);
+
+    let Od;
+
+    Od = this.service.formData;
+
+    Od.FechaInicioDescarga = new Date();
+
+    this.service.updateOrdenDescarga(Od).subscribe(data=>{
+      console.log(data);
+      this.router.navigate(['/ordenDescargaEvidencia']);
+    })
+
+    //fechas
+   
   }
 
 

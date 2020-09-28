@@ -90,7 +90,12 @@ import { LoginClienteComponent } from '../login-cliente/login-cliente.component'
 import { AngularCalendarComponent } from '../components/angular-calendar/angular-calendar.component';
 import { ComprasPrincipalComponent } from './compras/compras-principal/compras-principal.component';
 import { TrackingclienteComponent } from './cliente/tracking/trackingcliente/trackingcliente.component';
-
+import { DocumentacionFormularioImportacionComponent } from './importacion/documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
+import { DocumentacionFormularioComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-formulario-compras-importacion/documentacion-formulario-compras-importacion.component';
+import { OrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/orden-carga-trafico.component';
+import { DocumentacionComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-compras-importacion.component';
+import { EvidenciasOCComponent } from './calidad/evidencias/evidencias-oc/evidencias-oc.component';
+import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/evidencias-od.component';
 
 
 
@@ -192,6 +197,13 @@ const pagesRoutes: Routes = [
                 // { path: 'logincliente', component: LoginClienteComponent },
                 { path: 'angularCalendar', component: AngularCalendarComponent },
                 { path: 'compras-principal', component: ComprasPrincipalComponent },
+                { path: 'documentacion-importacion', component: DocumentacionImportacionComponent },
+                { path: 'documentacionComprasImportacion', component: DocumentacionComprasImportacionComponent },
+                { path: 'documentacion-formulario-importacion', component: DocumentacionFormularioImportacionComponent },
+                { path: 'documentacion-formulario-compras-importacion', component: DocumentacionFormularioComprasImportacionComponent },
+                { path: 'ordencargatrafico', component: OrdenCargaTraficoComponent },
+                { path: 'evidenciasoc', component: EvidenciasOCComponent },
+                { path: 'evidenciasod', component: EvidenciasODComponent },
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },

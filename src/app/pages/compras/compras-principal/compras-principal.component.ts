@@ -12,11 +12,12 @@ import { DetalleCompra } from '../../../Models/Compras/detalleCompra-model';
 import { CompraService } from '../../../services/compras/compra.service';
 import { Compras } from 'src/app/Models/Compras/compra-model';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { ComprasPdfComponent } from '../../../components/compras-reporte/compras-pdf.component';
 
 const httpOptions = {
   headers: new HttpHeaders({
     'Bmx-Token': 'd83c7088f2823be9f29cc124cf95dc37056de37c340da5477a09ca1ee91a80a6',
-    'Access-Control-Allow-Origin': 'http://localhost:4200',
+    //'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json;charset=UTF-8',
     'Access-Control-Allow-Headers': 'Bmx-Token, Accept, Accept-Encoding, Content-Type, Origin',
     'Access-Control-Allow-Methods': 'GET, OPTIONS'
@@ -53,8 +54,9 @@ export class ComprasPrincipalComponent implements OnInit {
 
 //Variable que guarda el tipo de cambio
 TipoCambio: string;
+estatusSelect;
 
-constructor(public router: Router,private service:CompraService, private dialog: MatDialog, private http: HttpClient) {
+constructor(public router: Router,private service:CompraService, private dialog: MatDialog, private http: HttpClient, public CompraService: CompraService,) {
 
     // this.service.listen().subscribe((m:any)=>{
     //   console.log(m);
@@ -67,6 +69,27 @@ constructor(public router: Router,private service:CompraService, private dialog:
 
     this.obtenerCompras();
     this.tipoDeCambio();
+  }
+
+  public listEstatus: Array<Object> = [
+    { Estatus: 'Todos' },
+    { Estatus: 'Guardada' },
+    { Estatus: 'Transito' },
+    { Estatus: 'Finalizada' },
+    { Estatus: 'Administrativa' }
+  ];
+
+  estatusCambio(event){
+    // console.log(event);
+this.estatusSelect = event.value;
+console.log(this.estatusSelect);
+if (this.estatusSelect==='Todos'){
+  this.applyFilter2('')
+}else {
+
+  this.applyFilter2(this.estatusSelect)
+}
+
   }
 
 
@@ -218,7 +241,7 @@ ImpuestosTrasladadosDlls: ""
       let newDate = new Date(dateString);
       this.compraBlanco.Folio = +res;
       this.compraBlanco.FechaEntrega = newDate;
-      this.compraBlanco.FechaPromesa = newDate;
+      // this.compraBlanco.FechaPromesa = newDate;
       this.compraBlanco.TipoCambio = this.TipoCambio;
 
 
@@ -237,6 +260,20 @@ console.log(this.compraBlanco);
     // Estatus
 
   }
+
+  
+openrep(row){
+
+  // console.log(row);
+  this.CompraService.formt = row
+  // console.log();
+  const dialogConfig = new MatDialogConfig();
+  dialogConfig.disableClose = false;
+  dialogConfig.autoFocus = true;
+  dialogConfig.width="70%";
+  this.dialog.open(ComprasPdfComponent, dialogConfig);
+
+}
 
   //Generar Compra Administrativa
 
@@ -270,5 +307,13 @@ console.log(this.compraBlanco);
 
   applyFilter(filtervalue: string){  
     this.listData.filter= filtervalue.trim().toLocaleLowerCase();  
+  }
+  applyFilter2(filtervalue: string){  
+    // this.listData.filter= filtervalue.trim().toLocaleLowerCase(); 
+    
+    this.listData.filterPredicate = (data, filter: string) => {
+      return data.Estatus.toString().toLowerCase().includes(filter);
+    };
+    this.listData.filter = filtervalue.trim().toLocaleLowerCase();
   }
 }

@@ -1,0 +1,106 @@
+<div>
+    <app-header-reportes></app-header-reportes>
+
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4">
+            <button (click)="exportarXLS()" class="btn btn-success"> <i class="mdi mdi-file-excel-box" ></i> Excel </button>
+            <button (click)="exportarPDF()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
+        </div>
+    </div>
+</div>
+<mat-dialog-content>
+    <div class="container row" id="pdfreporte">
+        <div class="col-11">
+
+
+            <table class="table-hover" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="blacktxt bolder nowrap">ID Cliente</th>
+                        <th class="blacktxt bolder">Nombre</th>
+                        <th class="blacktxt bolder">RFC</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr *ngIf="ReporteInformacion.modulo == 'Cotizacion'">
+                        <th class="text-center blacktxt bolder ">Folio</th>
+                        <th class="text-center blacktxt bolder nowrap">Fecha Exp </th>
+                        <th class="text-center blacktxt bolder nowrap">Fecha Vig </th>
+                        <th *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="blacktxt bolder text-center">Total MXN</th>
+                        <th *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="blacktxt bolder text-center">Total DLLS</th>
+                        <th class="text-center blacktxt bolder ">Flete</th>
+                        <th class="text-center blacktxt bolder ">Mon</th>
+                        <th class="text-center blacktxt bolder ">T.C.</th>
+                    </tr>
+                    <tr *ngIf="ReporteInformacion.modulo == 'Pedido'">
+                        <th class="blacktxt bolder ">Folio</th>
+                        <th class="blacktxt bolder nowrap">Fecha Exp </th>
+                        <th class="blacktxt bolder nowrap">Fecha Ven </th>
+                        <th class="blacktxt bolder nowrap">Fecha Entr </th>
+                        <th *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="blacktxt bolder ">Total MXN</th>
+                        <th *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="blacktxt bolder ">Total DLLS</th>
+                        <th class="blacktxt bolder ">Flete</th>
+                        <th class="blacktxt bolder ">Mon</th>
+                    </tr>
+                </thead>
+                <ng-container *ngIf="ReporteInformacion.modulo == 'Cotizacion'">
+                    <tbody *ngFor="let info of arrcon; let i = index">
+                        <tr class="pgbreak border3">
+                            <td class="wrap lightback pgbreak"> {{info.IdClientes}} </td>
+                            <td class="wrap lightback pgbreak" [attr.colspan]="6"> {{info.Nombre}}</td>
+                            <td class="wrap lightback pgbreak" [attr.colspan]="3"> {{info.RFC}}</td>
+                            <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
+                                <td class="text-center pgbreak"> {{info.Folio}} </td>
+                                <td class="text-center pgbreak texto"> {{info.FechaDeExpedicion| date: 'yyyy/MM/dd'}} </td>
+                                <td class="text-center pgbreak texto"> {{info.Vigencia| date: 'yyyy/MM/dd'}} </td>
+                                <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="pgbreak texto text-center"> {{info.Total | currency}} </td>
+                                <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="pgbreak texto text-center"> {{info.TotalDlls | currency }} </td>
+                                <td class="text-center pgbreak texto"> {{info.Flete}} </td>
+                                <td class="text-center pgbreak texto"> {{info.Moneda}} </td>
+                                <td class="text-center pgbreak texto"> {{info.TipoDeCambio |currency}} </td>
+                            </tr>
+                            <td class="wrap lightback pgbreak " [attr.colspan]="2"> </td>
+                            <td class="wrap lightback pgbreak text-center"> Total </td>
+                            <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="wrap lightback pgbreak text-center"> {{info.TotalMXN |currency}} </td>
+                            <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="wrap lightback pgbreak text-center"> {{info.TotalDLLS |currency}} </td>
+
+                    </tbody>
+                </ng-container>
+                <ng-container *ngIf="ReporteInformacion.modulo == 'Pedido'">
+                    <tbody *ngFor="let info of arrcon; let i = index">
+                        <tr class="pgbreak border3">
+                            <td class="wrap lightback pgbreak"> {{info.IdClientes}} </td>
+                            <td class="wrap lightback pgbreak" [attr.colspan]="6"> {{info.Nombre}}</td>
+                            <td class="wrap lightback pgbreak" [attr.colspan]="3"> {{info.RFC}}</td>
+
+
+                            <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
+                                <td class=" text-center pgbreak"> {{info.Folio}} </td>
+                                <td class=" text-center pgbreak texto"> {{info.FechaDeExpedicion| date: 'yyyy/MM/dd'}} </td>
+                                <td class=" text-center pgbreak texto"> {{info.FechaVencimiento| date: 'yyyy/MM/dd'}} </td>
+                                <td class=" text-center pgbreak texto"> {{info.FechaDeEntrega| date: 'yyyy/MM/dd'}} </td>
+                                <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="pgbreak texto text-center "> {{info.Total | currency}} </td>
+                                <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="pgbreak texto text-center "> {{info.TotalDlls | currency }} </td>
+                                <td class="text-center pgbreak texto"> {{info.Flete}} </td>
+                                <td class="text-center pgbreak texto"> {{info.Moneda}} </td>
+                            </tr>
+                            <td class="wrap lightback pgbreak " [attr.colspan]="2"> </td>
+                            <td class="wrap lightback pgbreak text-center"> Total </td>
+                            <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="wrap lightback pgbreak text-center"> {{info.TotalMXN |currency}} </td>
+                            <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="wrap lightback pgbreak text-center"> {{info.TotalDLLS |currency}} </td>
+
+                    </tbody>
+                </ng-container>
+            </table>
+
+        </div>
+        <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+        </ngx-loading>
+    </div>
+</mat-dialog-content>

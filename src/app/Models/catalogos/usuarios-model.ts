@@ -8,5 +8,6 @@ export class Usuario {
     Telefono: string;
     Contra: string;
     FechaUltimoAcceso: string;
+    Dispositivo: string;
 
 }

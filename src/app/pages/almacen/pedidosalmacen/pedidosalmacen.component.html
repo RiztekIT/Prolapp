@@ -2,14 +2,56 @@
     <div class="col-12">
         <div class="card ">
             <div class="card-body">
-                <h2 style="text-align: center;">Orden de Carga</h2>
+
+
+                <h1 style="text-align: center;">Orden de Carga</h1>
+
+                <div class="container">
+
+                    <div class="row">
+
+                        <div class="col-md-3 col-sm-12" style="display: grid; justify-content: center">
+
+                        </div>
+
+                        <div class="col-md-3 col-sm-12" style="display: grid">
+
+                            <!-- <label class="input-group-text text-info">Estatus</label> -->
+                            <mat-form-field>
+                                <mat-label> Estatus </mat-label>
+                                <!--  class="form-control" name="EstatusS" #EstatusS="ngModel" id="EstatusS" -->
+                                <mat-select (selectionChange)="estatusCambio($event)" [(ngModel)]="estatusSelect">
+                                    <!-- <mat-option [value]="" selected disabled>Seleccionar Estatus</mat-option> -->
+                                    <mat-option *ngFor="let dl of listEstatus" [value]="dl.Estatus"> {{dl.Estatus}} </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+                        <div class="col-md-6 col-sm-12" style="display: grid">
+
+                            <!-- <mat-card style="text-align: right; " class="mat-elevation-z0"> -->
+                            <mat-form-field style="display: block">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                            </mat-form-field>
+                            <!-- </mat-card> -->
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- 
                 <div fxLayoutAlign="row">
                     <mat-card style="text-align: right;" class="mat-elevation-z0">
                         <mat-form-field>
                             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
                         </mat-form-field>
                     </mat-card>
-                </div>
+                </div> -->
+
 
                 <div style="overflow:auto;">
 
@@ -21,7 +63,7 @@
 
 
                         <ng-container matColumnDef="Folio" sticky>
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Folio</th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio</th>
                             <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Folio}} +
                                 <td>
                         </ng-container>
@@ -57,7 +99,7 @@
                             </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="Sacos">
+                        <!--   <ng-container matColumnDef="Sacos">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
                             <td mat-cell *matCellDef="let element">{{element.Sacos}}
                             </td>
@@ -67,7 +109,7 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
                             <td mat-cell *matCellDef="let element">{{element.Kg}}
                             </td>
-                        </ng-container>
+                        </ng-container> -->
 
                         <ng-container matColumnDef="Origen">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Origen</th>
@@ -81,9 +123,19 @@
                             </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="Estatus">
+                        <!--    <ng-container matColumnDef="Estatus">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
                             <td mat-cell *matCellDef="let element">{{element.Estatus}}
+                            </td>
+                        </ng-container> -->
+
+                        <ng-container matColumnDef="Estatus">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                            <td mat-cell *matCellDef="let element" [ngSwitch]=element.Estatus>
+                                <span *ngSwitchCase="'Creada'" class="label label-light-success">CREADA</span>
+                                <span *ngSwitchCase="'Preparada'" class="label label-light-info">PREPARADA</span>
+                                <span *ngSwitchCase="'Cargada'" class="label label-light-inverse">CARGADA</span>
+                                <span *ngSwitchCase="'Terminada'" class="label label-light-warning">TERMINADA</span>
                             </td>
                         </ng-container>
 

@@ -43,6 +43,7 @@ export class OrdenCargaService {
   //Obtener orden de carga por ID
   getOrdenCargaID(id: number): Observable<OrdenCarga[]> {
     return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga/' + id);
+    
   }
 
   getOCID(id: number): Observable<OrdenCarga[]> {
@@ -57,9 +58,16 @@ export class OrdenCargaService {
   getOrdenCargaIDList(id: number): Observable<DetalleOrdenCarga[]> {
     return this.http.get<DetalleOrdenCarga[]>(APIUrl + '/OrdenCarga/MasterID/' + id);
   }
+  getOrdenCargaIDList2(id: number): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/OrdenCarga/ordenCargaTemporal/' + id);
+  }
   //Obtener Detalle Orden Carga por ID Orden Carga, LOTE y Clave Producto
   getDetalleOrdenCargaIdLoteClave(id: number, lote: string, clave: string): Observable<DetalleOrdenCarga[]> {
     return this.http.get<DetalleOrdenCarga[]>(APIUrl + '/OrdenCarga/DetalleOrdenCarga/' + id + '/' + lote + '/' + clave);
+  }
+
+  getUltimoFolio(): Observable<any> {
+    return this.http.get(APIUrl + '/OrdenCarga/UltimoFolio/');
   }
 
   updateOrdenCarga(ordencarga: OrdenCarga) {
@@ -71,6 +79,12 @@ export class OrdenCargaService {
   addOrdenCarga(ordencarga: OrdenCarga) {
     return this.http.post(APIUrl + '/OrdenCarga', ordencarga)
   }
+
+  addDetalleOrdenCarga(detalleOC: DetalleOrdenCarga){
+    return this.http.post(APIUrl + '/OrdenCarga/AddDetalleOrdenCarga', detalleOC)
+  }
+
+  
   deleteOrdenCarga(id: number) {
     return this.http.delete(APIUrl + '/OrdenCarga/BorrarOrdenCarga/' + id)
   }
@@ -86,9 +100,34 @@ export class OrdenCargaService {
   getDireccionesCliente(id: number): Observable<ClienteDireccion[]> {
     return this.http.get<ClienteDireccion[]>(APIUrl + '/Pedido/DireccionCliente/' + id);
   }
+//agregar chofer a una OC ya creada
+  updatedetalleOrdenCargaChofer(Id: number, Chofer: string) {
+    return this.http.put(APIUrl + '/OrdenCarga/ChoferDetalle/' + Id + '/' + Chofer, null);
+  }
 
   /* *************************************************** */
   /* *************************************************** */
+
+  // *******************   REPORTES  ************************* //
+
+    //Obtener reporte por cliente ID
+    getReporteClienteId(id: number):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenCargaCliente/'+id);
+    }
+//obtener reporte  por cliente ID y por estatus
+    getReporteClienteIdEstatus(id:number, estatus:string):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenCargaClienteEstatus/'+id+'/'+estatus);
+    }
+//obtener reporte  por Fecha Inicial / final y  cliente ID
+    getReporteFechasClienteId(fechaini, fechafinal, id:number):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenCargaFechaCliente/'+fechaini+'/'+fechafinal+'/'+id);
+    }
+//obtener reporte  por Fecha Inicial / final ,  cliente ID y estatus
+    getReporteFechasClienteIdEstatus(fechaini, fechafinal, id:number, estatus: string):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenCargaFechaClienteEstatus/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
+    }
+
+  // *******************   REPORTES  ************************* //
 
   private _listeners = new Subject<any>();
   listen(): Observable<any> {

@@ -6,6 +6,8 @@ import { UsuariosServieService } from '../services/catalogos/usuarios-servie.ser
 import { MatSnackBar } from '@angular/material';
 import { StorageServiceService } from '../services/shared/storage-service.service';
 import { Session } from '../Models/session-model';
+import { SidebarService } from '../services/shared/sidebar.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 
 declare function init_plugins();
@@ -17,15 +19,26 @@ declare function init_plugins();
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public router: Router, public service: UsuariosServieService, private snackBar: MatSnackBar, private storageServce: StorageServiceService) { }
+  constructor(public router: Router, public service: UsuariosServieService, private snackBar: MatSnackBar, private storageServce: StorageServiceService, public sidebarservice: SidebarService, private deviceService: DeviceDetectorService) { }
 
   token;
+  deviceinfo;
+  dispositivo;
 
   ngOnInit() {
 
     init_plugins();
     this.resetForm();
+    this.obtenerdevice();
 
+  }
+
+  obtenerdevice(){
+    this.deviceinfo = this.deviceService.getDeviceInfo();
+  console.clear();
+console.log(this.deviceinfo);
+// this.dispositivo = '||'+this.deviceinfo.browser+'||'+this.deviceinfo.browser_version+'||'+this.deviceinfo.device+'||'+this.deviceinfo.os+'||'+this.deviceinfo.os_version+'||'+this.deviceinfo.userAgent;
+this.dispositivo = JSON.stringify(this.deviceinfo)
   }
 
   // ingresar(){
@@ -39,6 +52,8 @@ export class LoginComponent implements OnInit {
   autentificar(form: NgForm){
     console.log(form.value);
     let session: Session;
+    console.log(this.dispositivo);
+    let usuarioentrar: Usuario
 
     session = {
       token:'',
@@ -51,19 +66,36 @@ export class LoginComponent implements OnInit {
     Correo: '',
     Telefono: '',
     Contra: 'Ivan2019',
-    FechaUltimoAcceso: ''
+    FechaUltimoAcceso: '',
+    Dispositivo:this.dispositivo
       }
     }
 
+    usuarioentrar = {
+      IdUsuario: 0,
+      Nombre: '',
+      NombreUsuario: form.value.NombreUsuario,
+      ApellidoPaterno: '',
+      ApellidoMaterno: '',
+      Correo: '',
+      Telefono: '',
+      Contra: form.value.Contra,
+      FechaUltimoAcceso: '',
+      Dispositivo: this.dispositivo,
+    }
+
+
+
     
 
-    this.service.getLogin(form.value).subscribe(data => {
+    this.service.getLogin(usuarioentrar).subscribe(data => {
      
      console.log(data);
      session.user = form.value.NombreUsuario;
      session.token = data.toString();
      if (data!='Error') {
       this.storageServce.setCurrentSession(session)
+      this.sidebarservice.getMenu();
       this.router.navigate(['/direccion']);
      }
      else {
@@ -91,7 +123,8 @@ export class LoginComponent implements OnInit {
     Correo: '',
     Telefono: '',
     Contra: 'Ivan2019',
-    FechaUltimoAcceso: '2019-12-19'
+    FechaUltimoAcceso: '2019-12-19',
+    Dispositivo:''
    }
 
   }

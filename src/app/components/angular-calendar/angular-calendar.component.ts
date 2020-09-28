@@ -26,12 +26,19 @@ import {
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
+  CalendarDateFormatter,
 } from 'angular-calendar';
 import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { AddEditCalendarComponent } from './add-edit-calendar/add-edit-calendar.component';
 import { EventCalendarComponent } from './event-calendar/event-calendar.component';
 import { CompraService } from '../../services/compras/compra.service';
 import Swal from 'sweetalert2';
+import { CustomDateFormatter } from './custom-date-formatter.provider';
+
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es'; // to register french
+
+registerLocaleData(localeEs);
 
 const colors: any = {
   red: {
@@ -50,6 +57,12 @@ const colors: any = {
 @Component({
   selector: 'app-angular-calendar',
   templateUrl: './angular-calendar.component.html',
+  providers: [
+    {
+      provide: CalendarDateFormatter,
+      useClass: CustomDateFormatter
+    }
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./angular-calendar.component.css']
 })
@@ -63,10 +76,14 @@ export class AngularCalendarComponent implements OnInit {
       this.usuario = JSON.parse(this.usuario);
       this.verificarProcedencia(procedencia);
     });
+ 
 
   }
 
+  db;
+
   ngOnInit() {
+  
   }
 
 
@@ -509,6 +526,7 @@ export class AngularCalendarComponent implements OnInit {
     // ];
 
     this.calendarioService.formDataDetalleCalendario = new detalleCalendario();
+    this.calendarioService.formDataDetalleCalendario.Color = '#271616';
     this.calendarioService.accionEvento = 'Agregar';
     this.calendarioService.origen = this.procedencia;
     this.calendarioService.IdCalendario = this.idCalendario;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
-import {Observable } from 'rxjs';
-import {Subject} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Subject } from 'rxjs';
 import { OrdenDescarga } from '../../../Models/almacen/OrdenDescarga/ordenDescarga-model';
 import { MasterOrdenDescarga } from 'src/app/Models/almacen/OrdenDescarga/masterOrdenDescarga-model';
 import { MasterDetalleOrdenDescarga } from 'src/app/Models/almacen/OrdenDescarga/masterDetalleOrdenDescarga-model';
@@ -23,35 +23,35 @@ export const APIUrl = environment.APIUrl;
 })
 export class OrdenDescargaService {
 
-//form data que se llena con los datos de tarima
-formDataTarima = new Tarima();
-//form data que se llena con los datos de detalle tarima
-formDataTarimaDT = new DetalleTarima();
+  //form data que se llena con los datos de tarima
+  formDataTarima = new Tarima();
+  //form data que se llena con los datos de detalle tarima
+  formDataTarimaDT = new DetalleTarima();
 
 
 
-  constructor( private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
   master = new Array<MasterOrdenDescarga>();
   formrow: any;
   formData: any;
-  formDTOD = new DetalleOrdenDescarga(); 
+  formDTOD = new DetalleOrdenDescarga();
 
 
-  getOrdenDescargaList(): Observable <OrdenDescarga[]> {
+  getOrdenDescargaList(): Observable<OrdenDescarga[]> {
     return this.http.get<OrdenDescarga[]>(APIUrl + '/OrdenDescarga');
   }
 
   //trae los DOD dependiendo del ID de OD
-  getOrdenDescargaIDList(id: number): Observable <DetalleOrdenDescarga[]>{
-    return this.http.get<DetalleOrdenDescarga[]>(APIUrl + '/OrdenDescarga/MasterID/'+ id);
+  getOrdenDescargaIDList(id: number): Observable<DetalleOrdenDescarga[]> {
+    return this.http.get<DetalleOrdenDescarga[]>(APIUrl + '/OrdenDescarga/MasterID/' + id);
   }
 
   getDetalleOrdenDescarga(): Observable<any> {
     return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetDetalleOrdenDescarga');
   }
 
-  OnEditDetalleOrdenDescarga(dtod: DetalleOrdenDescarga){
+  OnEditDetalleOrdenDescarga(dtod: DetalleOrdenDescarga) {
     return this.http.put(APIUrl + '/OrdenDescarga/UpdateDetalleOrdenDescarga', dtod)
   }
 
@@ -60,18 +60,18 @@ formDataTarimaDT = new DetalleTarima();
   }
 
   //get Orden Descarga por Id
-  getOrdenDescargaID(id:number): Observable<OrdenDescarga>{
-    return this.http.get<OrdenDescarga>(APIUrl + '/OrdenDescarga/GetOrdenDescargaID/'+id);
+  getOrdenDescargaID(id: number): Observable<OrdenDescarga> {
+    return this.http.get<OrdenDescarga>(APIUrl + '/OrdenDescarga/GetOrdenDescargaID/' + id);
   }
   //get ultimo id Orden Descarga 
-  getUltimoIdOrdenDescarga(): Observable<any>{
+  getUltimoIdOrdenDescarga(): Observable<any> {
     return this.http.get<any>(APIUrl + '/OrdenDescarga/GetUltimoIdOrdenDescarga');
   }
   //get folio y sumarle 1
-  getFolioOrdenDescarga(): Observable<any>{
+  getFolioOrdenDescarga(): Observable<any> {
     return this.http.get<any>(APIUrl + '/OrdenDescarga/OrdenDescargaFolio');
   }
-  
+
 
   //Actualizar saldo de DetalleOrdenDescarga por ID
   updateDetalleOrdenDescargaSaldo(id: number, saldo: string) {
@@ -81,12 +81,17 @@ formDataTarimaDT = new DetalleTarima();
   addOrdenDescarga(od: OrdenDescarga) {
     return this.http.post(APIUrl + '/OrdenDescarga', od);
   }
+
+  updateOrdenDescarga(od: OrdenDescarga) {
+    return this.http.put(APIUrl + '/OrdenDescarga', od);
+  }
+
   //Agregar Orden Descarga
   addDetalleOrdenDescarga(dod: DetalleOrdenDescarga) {
     return this.http.post(APIUrl + '/OrdenDescarga/AddDetalleOrdenDescarga', dod);
   }
 
-  UpdateDtODIDLoteFechaCadFechaMFG(id:number, lote: string, fechacad: Date, fechamdf: Date){
+  UpdateDtODIDLoteFechaCadFechaMFG(id: number, lote: string, fechacad: Date, fechamdf: Date) {
     return this.http.put(APIUrl + '/OrdenDescarga/UpdateDtODIDLoteFechaCadFechaMFG/' + id + '/' + lote + '/' + fechacad + '/' + fechamdf, null);
   }
 
@@ -96,24 +101,50 @@ formDataTarimaDT = new DetalleTarima();
   GetODOTQR(id: number): Observable<any[]> {
     return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetODOTQR/' + id);
   }
-  GetODOTTB(id: number, bodega:string): Observable<any[]> {
-    return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetODOTTB/' + id+'/'+bodega);
+  GetODOTTB(id: number, bodega: string): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetODOTTB/' + id + '/' + bodega);
+  }
+  GetQROD(id: number): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetQROD/' + id);
   }
 
 
-  private _listeners = new Subject<any>(); 
-        listen(): Observable<any> {
-          return this._listeners.asObservable();
-        }
-        filter(filterBy: string) {
-          this._listeners.next(filterBy);
-        }
+  
+  // *******************   REPORTES  ************************* //
 
-        private _listenersOrdenTemporal = new Subject<any>(); 
-        listenOrdenTemporal(): Observable<any> {
-          return this._listenersOrdenTemporal.asObservable();
-        }
-        filterOrdenTemporal(filterBy: string) {
-          this._listenersOrdenTemporal.next(filterBy);
-        }
+    //Obtener reporte por Proveedor ID
+    getReporteProveedorId(id: number):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenDescargaProveedor/'+id);
+    }
+//obtener reporte  por Proveedor ID y por estatus
+    getReporteProveedorIdEstatus(id:number, estatus:string):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdeDescargaProveedorEstatus/'+id+'/'+estatus);
+    }
+//obtener reporte  por Fecha Inicial / final y  Proveedor ID
+    getReporteFechasProveedorId(fechaini, fechafinal, id:number):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenDescargaFechaProveedor/'+fechaini+'/'+fechafinal+'/'+id);
+    }
+//obtener reporte  por Fecha Inicial / final ,  Proveedor ID y estatus
+    getReporteFechasProveedorIdEstatus(fechaini, fechafinal, id:number, estatus: string):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenDescargaFechaProveedorEstatus/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
+    }
+
+  // *******************   REPORTES  ************************* //
+
+
+  private _listeners = new Subject<any>();
+  listen(): Observable<any> {
+    return this._listeners.asObservable();
+  }
+  filter(filterBy: string) {
+    this._listeners.next(filterBy);
+  }
+
+  private _listenersOrdenTemporal = new Subject<any>();
+  listenOrdenTemporal(): Observable<any> {
+    return this._listenersOrdenTemporal.asObservable();
+  }
+  filterOrdenTemporal(filterBy: string) {
+    this._listenersOrdenTemporal.next(filterBy);
+  }
 }

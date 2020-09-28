@@ -1,7 +1,32 @@
-<div class="col-12">
-    <div class="card">
-        <div class="card-body">
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
 
+                <div class="d-flex justify-content-between">
+
+                    <h3 class="text-muted m-t-10 m-b-0">Detalle de la Orden de Carga</h3>
+                    <div>
+                        Estatus:
+                        <p [ngSwitch]=this.service.formData.Estatus>
+                            <span *ngSwitchCase="'Creada'" class="label label-light-success">CREADA</span>
+                            <span *ngSwitchCase="'Preparada'" class="label label-light-info">PREPARADA</span>
+                            <span *ngSwitchCase="'Cargada'" class="label label-light-inverse">CARGADA</span>
+                            <span *ngSwitchCase="'Terminada'" class="label label-light-inverse">TERMINADA</span>
+
+                        </p>
+
+
+
+
+                    </div>
+                    <!-- <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button> -->
+                    <button mat-fab (click)="regresar()" class="btncoti">
+                        <mat-icon>undo</mat-icon>
+                      </button>
+
+                </div>
+                <!-- 
 
             <div class="container">
                 <div class="row">
@@ -14,149 +39,178 @@
                         <button class="btn btn-primary" type="button" (click)="regresar()">Regresar</button>
                     </div>
                 </div>
-            </div>
-            <br>
-            <br>
-            <br>
-            <div class="form-material">
+            </div> -->
+                <br>
+                <hr>
+                <br>
 
-                <div class="container">
-                    <div class="row">
+                <div class="col-12 mat-elevation-z5">
+                    <div class="card">
+                        <div class="card-body">
 
-                        <div class="col-6 col-md-6">
+                            <div class="form-material">
 
-                            <label class="input-group-text text-info txt"> Fletera: </label>
-                            <input type="text" class="form-control" name="Fletera" #Fletera="ngModel" [(ngModel)]="service.formData.Fletera" readonly>
-                        </div>
-                        <div class="col-6 col-md-6">
+                                <div class="container">
+                                    <div class="row">
 
-                            <label class="input-group-text text-info"> Numero de Caja: </label>
-                            <input type="text" class="form-control" name="NumCaja" #NumCaja="ngModel" [(ngModel)]="service.formData.Caja" readonly>
+                                        <div class="col-6 col-md-6">
 
-                        </div>
+                                            <label class="input-group-text text-info txt"> Fletera: </label>
+                                            <input type="text" class="form-control" name="Fletera" #Fletera="ngModel" [(ngModel)]="service.formData.Fletera" readonly>
+                                        </div>
+                                        <div class="col-6 col-md-6">
 
+                                            <label class="input-group-text text-info"> Numero de Caja: </label>
+                                            <input type="text" class="form-control" name="NumCaja" #NumCaja="ngModel" [(ngModel)]="service.formData.Caja" readonly>
 
-                    </div>
-                </div>
-            </div>
-            <br>
-            <hr>
-            <div style="overflow:auto;">
-
-                <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
-
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                        </div>
 
 
-                    <ng-container matColumnDef="IdTarima">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>IdTarima</th>
-                        <td mat-cell *matCellDef="let element">{{element.IdTarima}}
-                            <td>
-                    </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <div style="overflow:auto;">
 
-                    <ng-container matColumnDef="QR">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>QR</th>
-                        <td mat-cell *matCellDef="let element">{{element.QR}}
-                            <td>
-                    </ng-container>
+                                <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
 
-                    <ng-container matColumnDef="ClaveProducto">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
-                        <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}
-                            <td>
-                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-                    <ng-container matColumnDef="Producto">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
-                        <td mat-cell *matCellDef="let element">{{element.Producto}}
-                        </td>
-                    </ng-container>
 
-                    <ng-container matColumnDef="Sacos">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
-                        <td mat-cell *matCellDef="let element">{{element.Sacos}}
-                        </td>
-                    </ng-container>
+                                    <ng-container matColumnDef="IdTarima">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>IdTarima</th>
+                                        <td mat-cell *matCellDef="let element">{{element.IdTarima}}
+                                            <td>
+                                    </ng-container>
 
-                    <ng-container matColumnDef="Lote">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
-                        <td mat-cell *matCellDef="let element">{{element.Lote}}
-                        </td>
-                    </ng-container>
+                                    <ng-container matColumnDef="QR">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>QR</th>
+                                        <td mat-cell *matCellDef="let element">{{element.QR}}
+                                            <td>
+                                    </ng-container>
 
-                    <ng-container matColumnDef="Proveedor">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Proveedor</th>
-                        <td mat-cell *matCellDef="let element">{{element.Proveedor}}</td>
-                    </ng-container>
+                                    <ng-container matColumnDef="ClaveProducto">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
+                                        <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}
+                                            <td>
+                                    </ng-container>
 
-                    <ng-container matColumnDef="PO">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>PO</th>
-                        <td mat-cell *matCellDef="let element">{{element.PO}}
-                        </td>
-                    </ng-container>
+                                    <ng-container matColumnDef="Producto">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                                        <td mat-cell *matCellDef="let element">{{element.Producto}}
+                                        </td>
+                                    </ng-container>
 
-                    <ng-container matColumnDef="FechaMFG">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha MFG</th>
-                        <td mat-cell *matCellDef="let element">{{element.FechaMFG | date: "yyyy-MM-dd"}}
-                        </td>
-                    </ng-container>
+                                    <ng-container matColumnDef="Sacos">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
+                                        <td mat-cell *matCellDef="let element">{{element.Sacos}}
+                                        </td>
+                                    </ng-container>
 
-                    <ng-container matColumnDef="FechaCaducidad">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Caducidad</th>
-                        <td mat-cell *matCellDef="let element">{{element.FechaCaducidad | date: "yyyy-MM-dd"}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Bodega">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Bodega</th>
-                        <td mat-cell *matCellDef="let element">{{element.Bodega}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="USDA">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>USDA</th>
-                        <td mat-cell *matCellDef="let element">{{element.USDA}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Shipper">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Shipper</th>
-                        <td mat-cell *matCellDef="let element">{{element.Shipper}}
-                        </td>
-                    </ng-container>
-                    <ng-container matColumnDef="Pedimento">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Pedimento</th>
-                        <td mat-cell *matCellDef="let element">{{element.Pedimento}}
-                        </td>
-                    </ng-container>
+                                    <ng-container matColumnDef="Lote">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                                        <td mat-cell *matCellDef="let element">{{element.Lote}}
+                                        </td>
+                                    </ng-container>
 
-                </table>
+                                    <ng-container matColumnDef="Proveedor">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Proveedor</th>
+                                        <td mat-cell *matCellDef="let element">{{element.Proveedor}}</td>
+                                    </ng-container>
 
-            </div>
-            <br>
-            <br>
-            <div class="container" style="margin-right: 0;">
-                <div class="row">
-                    <div class="col-0 col-md-4"></div>
-                    <div class="col-12 col-md-2" *ngIf="estatusOC == 'Creada'|| estatusOC == 'Preparada' || estatusOC == 'Cargada' || estatusOC == 'Enviada'|| estatusOC == 'Terminada'">
-                        <button id="PrepararCarga" [hidden]="true" class="btn btn-info btn-md" data-toggle="modal"></button>
-                        <p><button class="btn btn-info custom-button" type="button" (click)="preparar()">Preparar</button></p>
-                    </div>
-                    <div class="col-12 col-md-2" *ngIf="estatusOC == 'Preparada' || estatusOC == 'Cargada' ||  estatusOC == 'Enviada'|| estatusOC == 'Terminada'">
-                        <button id="CargarCarga" [hidden]="true" class="btn btn-info btn-md" data-toggle="modal"></button>
-                        <p><button class="btn btn-info custom-button" type="button" (click)="cargar()">Cargar</button></p>
-                    </div>
-                    <div class="col-12 col-md-2" *ngIf="estatusOC == 'Cargada'|| estatusOC == 'Enviada' || estatusOC == 'Terminada'">
-                        <button id="EnviarCarga" [hidden]="true" class="btn btn-info btn-md" data-toggle="modal"></button>
-                        <p><button class="btn btn-info custom-button" type="button" (click)="enviar()">Enviar</button></p>
-                    </div>
-                    <div class="col-12 col-md-2" *ngIf="estatusOC == 'Enviada' || estatusOC == 'Terminada'">
-                        <button id="TerminarCarga" [hidden]="true" class="btn btn-info btn-md" data-toggle="modal"></button>
-                        <p><button class="btn btn-danger custom-button" type="button" (click)="terminar()">Terminar</button></p>
-                    </div>
-                    <!-- <div class="col-2" *ngIf="service.formData.Estatus == 'Terminada';" style="display: grid">
+                                    <ng-container matColumnDef="PO">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>PO</th>
+                                        <td mat-cell *matCellDef="let element">{{element.PO}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="FechaMFG">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha MFG</th>
+                                        <td mat-cell *matCellDef="let element">{{element.FechaMFG | date: "yyyy-MM-dd"}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="FechaCaducidad">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Caducidad</th>
+                                        <td mat-cell *matCellDef="let element">{{element.FechaCaducidad | date: "yyyy-MM-dd"}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Bodega">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Bodega</th>
+                                        <td mat-cell *matCellDef="let element">{{element.Bodega}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="USDA">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>USDA</th>
+                                        <td mat-cell *matCellDef="let element">{{element.USDA}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Shipper">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Shipper</th>
+                                        <td mat-cell *matCellDef="let element">{{element.Shipper}}
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="Pedimento">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Pedimento</th>
+                                        <td mat-cell *matCellDef="let element">{{element.Pedimento}}
+                                        </td>
+                                    </ng-container>
+
+                                </table>
+
+                            </div>
+                            <br>
+                            <br>
+                            <div class="container" style="margin-right: 0;">
+                                <div class="row">
+                                    <div style="display: grid;" class="col-0 col-md-4">
+                                        <br>
+                                    </div>
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Creada'">
+                                        <button id="PrepararCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
+                                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="preparar()">Preparar</button>
+                                        <!-- <p><button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="preparar()"><mat-icon>undo</mat-icon>Preparar</button></p> -->
+
+
+
+                                        <br>
+                                    </div>
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Preparada' && (this.service.formData.Fletera!='Sucursal' || this.service.formData.Fletera!='Local' || this.service.formData.Fletera!='Paqueteria')">
+                                        <button id="CargarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
+                                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="cargar()">Cargar</button>
+                                        <br>
+                                    </div>
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Preparada' && (this.service.formData.Fletera=='Sucursal' || this.service.formData.Fletera=='Local' || this.service.formData.Fletera=='Paqueteria')">
+                                        <button id="CargarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
+                                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="salida()">Salida</button>
+                                        <br>
+                                    </div>
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' || estatusOC == 'Terminada'">
+                                        <button id="EnviarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
+                                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="enviar()">Enviar</button>
+                                        <br>
+                                    </div>
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada'">
+                                        <button id="TerminarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
+                                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="terminar()">Terminar</button>
+                                        <br>
+                                    </div>
+                                    <!-- <div class="col-2" *ngIf="service.formData.Estatus == 'Terminada';" style="display: grid">
                         <button [hidden]="true" class="btn btn-info btn-md" data-toggle="modal"></button>
                         <button class="btn btn-info btn-lg" type="button" (click)="regresar()">Regresar</button>
                     </div> -->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
+
+
+
+
             </div>
         </div>
     </div>

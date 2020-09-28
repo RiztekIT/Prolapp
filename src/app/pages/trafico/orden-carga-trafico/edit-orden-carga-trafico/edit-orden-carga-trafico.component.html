@@ -1,0 +1,169 @@
+<div class="card" style="height: 80vh;">
+    <div class="card-body">
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-11">
+                    <h2 style="text-align: center;">Detalle de la Orden de Carga</h2>
+                    <h4>Estatus:
+                        <span class="label label-light-warning">{{estatusOC}}</span>
+                    </h4>
+                </div>
+                <div class="col-1">
+
+                    <button mat-fab (click)="onClose()" class="btncoti">
+                            <mat-icon>undo</mat-icon>
+                          </button>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="form-material">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-12 col-md-4">
+                        <!-- onblur no estaba funcionando por eso se puso como click -->
+                        <mat-form-field (click)="onBlurQR()">
+                            <input type="text" placeholder="Seleccionar Fletera" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="traficoService.formrow.Nombre" name="Fletera">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.Nombre" (onSelectionChange)="onSelectionChange(option, $event)">
+                                    {{option.IdFletera}} {{option.Nombre}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <br>
+
+                        <label class="input-group-text text-info"> Numero de Caja: </label>
+                        <input type="text" class="form-control" name="NumCaja" #NumCaja="ngModel" [(ngModel)]="traficoService.formData.Caja">
+
+                        <label class="input-group-text text-info txt"> Chofer: </label>
+                        <input type="text" class="form-control" name="Chofer" #Chofer="ngModel" [(ngModel)]="traficoService.formData.Chofer" readonly>
+
+                        <label class="input-group-text text-info txt"> Cliente: </label>
+                        <input type="text" class="form-control" name="Cliente" #Cliente="ngModel" [(ngModel)]="traficoService.formData.Cliente" readonly>
+
+
+
+                    </div>
+                    <div class="col-12 col-md-4">
+
+                        <label class="input-group-text text-info"> KG: </label>
+                        <input type="text" class="form-control" name="KG" #KG="ngModel" [(ngModel)]="traficoService.formData.Kg" readonly>
+
+                        <label class="input-group-text text-info"> Origen: </label>
+                        <input type="text" class="form-control" name="Origen" #Origen="ngModel" [(ngModel)]="traficoService.formData.Origen" readonly>
+
+                        <label class="input-group-text text-info txt"> Destino: </label>
+                        <input type="text" class="form-control" name="Destino" #Destino="ngModel" [(ngModel)]="traficoService.formData.Destino" readonly>
+
+                        <label class="input-group-text text-info"> Sacos: </label>
+                        <input type="text" class="form-control" name="Sacos" #Sacos="ngModel" [(ngModel)]="traficoService.formData.Sacos" readonly>
+
+
+
+                    </div>
+                    <div class="col-12 col-md-4">
+
+
+
+                        <label class="input-group-text text-info txt"> FechaExpedicion: </label>
+                        <input type="text" class="form-control" name="FechaExpedicion" #FechaExpedicion="ngModel" [(ngModel)]="traficoService.formData.FechaExpedicion" readonly>
+
+                        <label class="input-group-text text-info txt"> FechaEnvio: </label>
+                        <input type="text" class="form-control" name="FechaEnvio" #FechaEnvio="ngModel" [(ngModel)]="traficoService.formData.FechaEnvio" readonly>
+
+                        <label class="input-group-text text-info"> FechaInicioCarga: </label>
+                        <input type="text" class="form-control" name="FechaInicioCarga" #FechaInicioCarga="ngModel" [(ngModel)]="traficoService.formData.FechaInicioCarga" readonly>
+
+
+                        <label class="input-group-text text-info txt"> FechaFinalCarga: </label>
+                        <input type="text" class="form-control" name="FechaFinalCarga" #FechaFinalCarga="ngModel" [(ngModel)]="traficoService.formData.FechaFinalCarga" readonly>
+
+                        <label class="input-group-text text-info"> Observaciones: </label>
+                        <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="traficoService.formData.Observaciones" readonly>
+
+
+                    </div>
+
+
+
+                </div>
+                <div class="container row">
+                    <div class="col-12">
+                        <h4>Actualizar Estatus del Pedido
+                            <span class="label label-light-warning">Estatus Actual - {{this.tarimaService.tarimaTrafico.Bodega}}</span>
+                        </h4>
+                    </div>
+                    <div *ngIf="this.tarimaService.tarimaTrafico.Bodega!='Terminada'" class="col-9">
+
+                        <mat-form-field>
+                            <mat-label> Estatus </mat-label>
+                            <!--  class="form-control" name="EstatusS" #EstatusS="ngModel" id="EstatusS" -->
+                            <mat-select (selectionChange)="estatusCambio($event)" [(ngModel)]="estatusSelect">
+                                <!-- <mat-option [value]="" selected disabled>Seleccionar Estatus</mat-option> -->
+                                <mat-option *ngFor="let dl of listEstatus" [value]="dl.Estatus"> {{dl.Estatus}} </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <label *ngIf="this.estatusSelect=='Transito'" class="input-group-text text-info"> Ubicacion: </label>
+                        <input *ngIf="this.estatusSelect=='Transito'" type="text" class="form-control" name="Ubicacion" #Ubicacion="ngModel" [(ngModel)]="UbicacionEstatus">
+
+
+                    </div>
+                    <div *ngIf="this.tarimaService.tarimaTrafico.Bodega!='Terminada'" class="col-3">
+
+                        <button class="btn btn-success" mat-raised-button type="button" (click)="actualizarEstatus()">Actualizar Estatus</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <!-- <form #form="ngForm" autocomplete="off"> -->
+        <div class="form-material">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-12 col-md-6">
+                        <label class="input-group-text text-info"> Factura: </label>
+                        <input type="text" class="form-control" name="Factura" #Factura="ngModel" [(ngModel)]="this.traficoService.formDatafactura.Factura">
+
+                        <label class="input-group-text text-info txt"> Subtotal: </label>
+                        <input type="text" class="form-control" name="Subtotal" #Subtotal="ngModel" [(ngModel)]="this.traficoService.formDatafactura.Subtotal">
+
+                        <label class="input-group-text text-info txt"> IVA: </label>
+                        <input type="text" class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="this.traficoService.formDatafactura.IVA">
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                        <label class="input-group-text text-info txt"> Total: </label>
+                        <input type="text" class="form-control" name="Total" #Total="ngModel" [(ngModel)]="this.traficoService.formDatafactura.Total">
+
+                        <label class="input-group-text text-info txt"> Estatus: </label>
+                        <input type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="this.traficoService.formDatafactura.Estatus" readonly>
+                    </div>
+
+                    <div class="container row">
+                        <div class="col-9">
+
+                        </div>
+                        <div class="col-3">
+
+                            <button class="btn btn-success" mat-raised-button type="button" *ngIf="this.traficoService.formDatafactura.Estatus== 'Pendiente' " (click)="updateFacturaFlete()">Guardar Flete</button>
+                            <button class="btn btn-success" mat-raised-button type="button" *ngIf="this.traficoService.formDatafactura.Estatus== 'Capturada' " (click)="updateFacturaFlete2()">Guardar</button>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <!-- </form> -->
+
+
+    </div>
+</div>

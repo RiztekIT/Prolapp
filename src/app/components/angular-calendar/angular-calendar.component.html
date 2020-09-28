@@ -1,46 +1,49 @@
-<link href="https://unpkg.com/bootstrap-css-only@4.4.1/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="https://unpkg.com/bootstrap-css-only@4.4.1/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://unpkg.com/@fortawesome/fontawesome-free@5.13.0/css/all.css" rel="stylesheet">
 <link href="https://unpkg.com/angular-calendar@0.28.16/css/angular-calendar.css" rel="stylesheet">
-<link href="https://unpkg.com/flatpickr@4.6.3/dist/flatpickr.css" rel="stylesheet">
+<link href="https://unpkg.com/flatpickr@4.6.3/dist/flatpickr.css" rel="stylesheet"> -->
+
+<link href="https://unpkg.com/angular-calendar@0.28.16/css/angular-calendar.css" rel="stylesheet">
 
 <div class="row text-center">
     <div class="col-md-4">
         <div class="btn-group">
             <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
-                Previous
+                Anterior
             </div>
             <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
-                Today
+                Hoy
             </div>
             <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
-                Next
+                Siguiente
             </div>
         </div>
     </div>
     <div class="col-md-4">
-        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+        <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'es' }}</h3>
     </div>
     <div class="col-md-4">
         <div class="btn-group">
             <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
-                Month
+                Mes
             </div>
             <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
-                Week
+                Semana
             </div>
             <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
-                Day
+                Dia
             </div>
         </div>
     </div>
 </div>
 <br />
 <div [ngSwitch]="view">
-    <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+    <mwl-calendar-month-view locale="es" *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)" (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-month-view>
-    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+    <mwl-calendar-week-view locale="es" *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-week-view>
-    <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+    <mwl-calendar-day-view locale="es" *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
     </mwl-calendar-day-view>
 </div>
 
@@ -60,12 +63,12 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Title</th>
-                <th>Primary color</th>
+                <th>Titulo</th>
+                <th>Color</th>
                 <!-- <th>Secondary color</th> -->
-                <th>Starts at</th>
-                <th>Ends at</th>
-                <th>Remove</th>
+                <th>Empieza el:</th>
+                <th>Termina el:</th>
+                <th>Remover</th>
             </tr>
         </thead>
 

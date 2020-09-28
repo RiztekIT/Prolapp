@@ -4,25 +4,39 @@
             <div class="card-body">
 
                 <div>
-                    <label class="input-group-text text-info">Empresa</label>
+                    <!--   <label class="input-group-text text-info">Empresa</label>
                     <select class="form-control" name="Empresa" #Empresa="ngModel" [(ngModel)]="apicliente.empresa" required>
                             <option [ngValue]="null" selected disabled>Seleccionar Empresa</option>
                             <option *ngFor="let e of listEmpresa" [ngValue]="e"> {{e.RazonSocial}} </option>
-                          </select>
+                          </select> -->
+
+
+                    <mat-form-field style="width: 100%;">
+                        <mat-label> Empresa </mat-label>
+                        <!--  class="form-control" name="EstatusS" #EstatusS="ngModel" id="EstatusS" -->
+                        <mat-select (selectionChange)="estatusCambio($event)" [(ngModel)]="apicliente.empresa">
+                            <!-- <mat-option [value]="" selected disabled>Seleccionar Estatus</mat-option> -->
+                            <mat-option *ngFor="let e of listEmpresa" [value]="e"> {{e.RazonSocial}} </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+
+
                 </div>
                 <div>
-                    <button (click)='rfc()'>RFC</button>
+                    <!-- <button (click)='rfc()'>RFC</button> -->
                 </div>
 
             </div>
         </div>
     </div>
 </div>
-
 <mat-card class="mat-elevation-z0">
-    <div class="row">
+
+    <div class="row" style="align-items: center;">
         <div class="col-4">
-            <button class="btn btn-primary" (click)="onAdd()" color="primary"><i class="mdi mdi-plus btn-lg"></i>Nuevo Cliente</button>
+            <button style="width: 100%;" mat-raised-button class="btn btn-prolacto btn-lg" (click)="onAdd()"><mat-icon class="example-tab-icon">add_circle</mat-icon></button>
+
             <!-- <button class="btn btn-primary" (click)="crearapi()" color="primary"><i class="mdi mdi-plus btn-lg"></i>Crear Clientes</button> -->
         </div>
         <div class="col-4"></div>
@@ -36,6 +50,8 @@
     </div>
 
 </mat-card>
+
+<hr>
 
 
 <div id='dvi1' style="overflow:auto;">
@@ -187,6 +203,8 @@
     <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
     </mat-paginator>
 </div>
+
+
 <br>
 
 <!-- <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Agregar Cliente</button> -->

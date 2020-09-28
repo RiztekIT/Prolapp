@@ -1,0 +1,121 @@
+<div class="d-flex justify-content-between">
+    <h4 class="text-inverse">Agregar Forward</h4>
+
+    <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
+        <mat-icon>close</mat-icon>
+    </button>
+
+
+</div>
+<hr>
+
+<div style="overflow: auto; height: 450px;">
+
+
+    <form #form="ngForm" autocomplete="off">
+
+        <div class="form-material">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label class="input-group-text text-info">Fecha Cierre</label>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <input readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="FechaCierre" #FechaCierre="ngModel" [(ngModel)]="ForwardsService.formDataForwards.FechaCierre" (dateChange)="changeMat($event)">
+                        <mat-datepicker #picker1></mat-datepicker>
+
+                        <!--               -------------------------------------------------------                                       -->
+                        <label class="input-group-text text-info">Fecha de Pago</label>
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <input readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="FechaPago" #FechaPago="ngModel" [(ngModel)]="ForwardsService.formDataForwards.FechaPago" (dateChange1)="changeMat1($event)">
+                        <mat-datepicker #picker2></mat-datepicker>
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">TipoCambio</label>
+                        <input required minlength="1" placeholder="TipoCambio" type="text" class="form-control" name="TipoCambio" #TipoCambio="ngModel" [(ngModel)]="ForwardsService.formDataForwards.TipoCambio" (ngModelChange)="onChangeTipoCambio($event)">
+
+                        <div class="text-left text-danger" *ngIf="TipoCambio.invalid && TipoCambio.touched">
+                            Favor de Ingresar TipoCambio
+                        </div>
+                        <!--               -------------------------------------------------------                                       -->
+                        <label class="input-group-text text-info">CantidadDlls</label>
+                        <input required minlength="1" placeholder="CantidadDlls" type="text" class="form-control" name="CantidadDlls" #CantidadDlls="ngModel" [(ngModel)]="ForwardsService.formDataForwards.CantidadDlls" (ngModelChange)="onChangeCantidadMXN($event)">
+
+                        <div class="text-left text-danger" *ngIf="CantidadDlls.invalid && CantidadDlls.touched">
+                            Favor de Ingresar CantidadDlls
+                        </div>
+
+                        <!--               -------------------------------------------------------                                       -->
+                        <label class="input-group-text text-info">CantidadMXN</label>
+                        <input required minlength="1" readonly placeholder="Escribe CantidadMXN aqui" type="text" class="form-control" name="CantidadMXN" #CantidadMXN="ngModel" [(ngModel)]="ForwardsService.formDataForwards.CantidadMXN">
+
+                        <div class="text-left text-danger" *ngIf="CantidadMXN.invalid && CantidadMXN.touched">
+                            Favor de Ingresar CantidadMXN
+                        </div>
+
+                    </div>
+                    <!--               -------------------------------------------------------                                       -->
+                    <div class="col-lg-6">
+                        <label class="input-group-text text-info">Garantia</label>
+                        <input required minlength="1" placeholder="Escribe la Garantia aqui" type="Garantia" class="form-control" name="Garantia" #Garantia="ngModel" [(ngModel)]="ForwardsService.formDataForwards.Garantia" (ngModelChange)="onChangeGarantia($event)">
+
+                        <div class="text-left text-danger" *ngIf="Garantia.invalid && Garantia.touched">
+                            Favor de Ingresar Garantia Valida
+                        </div>
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">GarantiaPagada</label>
+                        <input required minlength="1" placeholder="" type="text" class="form-control" name="GarantiaPagada" #GarantiaPagada="ngModel" [(ngModel)]="ForwardsService.formDataForwards.GarantiaPagada" (ngModelChange)="onChangeGarantiaPagada($event)">
+
+                        <div class="text-left text-danger" *ngIf="GarantiaPagada.invalid && GarantiaPagada.touched">
+                            Favor de Ingresar GarantiaPagada
+                        </div>
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">CantidadPendiente</label>
+                        <input required minlength="1" placeholder="" type="text" class="form-control" name="CantidadPendiente" #CantidadPendiente="ngModel" readonly [(ngModel)]="ForwardsService.formDataForwards.CantidadPendiente">
+
+                        <div class="text-left text-danger" *ngIf="CantidadPendiente.invalid && CantidadPendiente.touched">
+                            Favor de Ingresar CantidadPendiente
+                        </div>
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Destino</label>
+                        <input required minlength="2" placeholder="" type="text" class="form-control" name="Destino" #Destino="ngModel" [(ngModel)]="ForwardsService.formDataForwards.Destino">
+
+                        <div class="text-left text-danger" *ngIf="Destino.invalid && Destino.touched">
+                            Favor de Ingresar Destino
+                        </div>
+                        <!--               -------------------------------------------------------                                       -->
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Promedio</label>
+                        <input required minlength="1" placeholder="" type="text" class="form-control" name="Promedio" #Promedio="ngModel" [(ngModel)]="ForwardsService.formDataForwards.Promedio">
+
+                        <div class="text-left text-danger" *ngIf="Promedio.invalid && Promedio.touched">
+                            Favor de Ingresar Promedio
+                        </div>
+                        <!--               -------------------------------------------------------                                       -->
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Estatus</label>
+                        <input required minlength="2" placeholder="" type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="ForwardsService.formDataForwards.Estatus">
+
+                        <div class="text-left text-danger" *ngIf="Estatus.invalid && Estatus.touched">
+                            Favor de Ingresar Estatus
+                        </div>
+                        <!--               -------------------------------------------------------                                       -->
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <button class="btn btn-success" mat-raised-button color="success" type="button" (click)="onEdit(form)" [disabled]="form.invalid">Agregar Forward</button>
+
+    </form>
+
+</div>

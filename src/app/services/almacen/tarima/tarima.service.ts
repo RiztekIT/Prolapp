@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient} from '@angular/common/http';
-import {Observable } from 'rxjs';
+import { Observable, observable } from 'rxjs';
 import {Subject} from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { DetalleTarima } from '../../../Models/almacen/Tarima/detalleTarima-model';
@@ -24,6 +24,9 @@ export class TarimaService {
   tarimaDetalleData = new DetalleTarima();
   tarimaDetalleDOD = new Array<DetalleOrdenDescarga>();
   formDataDrop = new Tarima();
+  tarimaTrafico;
+
+  master;
 
   //Tarima proviniente de un traspaso de OrdenCarga
   trapasoOrdenCarga: boolean;
@@ -134,6 +137,35 @@ GetTarimaDttqr(qr: string): Observable<Tarima[]> {
 GetTarimaBodegaQR(qr: string, bodega:string): Observable<Tarima[]> {
   return this.http.get<Tarima[]>(APIUrl + '/Tarima/GetTarimaBodegaQR/'+qr+'/'+bodega);
 }
+GetTarimaOC(idoc): Observable<Tarima[]> {
+  return this.http.get<Tarima[]>(APIUrl + '/Tarima/TarimaOC/'+idoc);
+}
+
+GetTarimaBodega(): Observable<any[]> {
+  return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaBodega');
+}
+
+updateBodegaTarima(bodega:string, qr:string) {
+  return this.http.put(APIUrl+ '/Tarima/UpdateBodega/'+bodega+'/'+qr,null);
+  }
+
+  getProductos(){
+    return this.http.get<any[]>(APIUrl + '/Producto');
+  }
+  
+  getProductoClave(producto){
+    return this.http.get<any[]>(APIUrl + '/Tarima/GetProductoClaveProducto/'+producto);
+  }
+
+  GetTarimaProducto(producto: string, bodega: string): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaProducto?producto='+ producto+ '&bodega='+bodega);
+  }
+  GetTarimaProductoAllBodegas(producto: string): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaProductoAllBodegas/'+producto);
+  }
+  GetTarimaProductoD(producto: string, lote: string): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaProductoD?producto='+ producto+'&lote='+lote);
+  }
 
   private _listeners = new Subject<any>(); 
       listen(): Observable<any> {

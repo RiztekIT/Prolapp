@@ -2,78 +2,260 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
+                <div class="card mat-elevation-z8">
+                    <div class="card-body">
 
-                <h2 style="text-align: center;">Reportes de Ventas</h2>
 
 
-                <div class="card-header" id="headingOne">
-                    <h2 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                Reportes de Cotizaciones
-                              </button>
-                    </h2>
-                </div>
-                <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                    <mat-card class="mat-elevation-z0">
-                        <div class="container">
-                            <div class="row">
+                        <div class="d-flex justify-content-between">
+
+                            <h3 class="text-muted m-t-10 m-b-0">Reportes Ventas</h3>
+                        </div>
+                        <hr>
+
+
+
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                Reportes Cotizaciones
+                                              </button>
+                            </h2>
+                        </div>
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <mat-card>
+
+                                <!-- <div class="col-2">
+                                </div>
+                                <div class="col-8">
+                                    <label class="input-group-text text-info">Tipo de Compra:</label>
+                                    <select class="form-control" name="compraTipo" #compraTipo="ngModel" id="compraTipo" (change)="tipoReporteSelected($event)" [(ngModel)]="tipoCompra">
+                                                                                <option [ngValue]="null" selected disabled>Seleccionar Tipo Compra</option>
+                                                                                <option *ngFor="let dl of listTipoCompras" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                                                            </select>
+                                </div>
+                                <div class="col-2">
+                                </div>
+
+                                <hr> -->
+
                                 <div class="col-4" style="align-self: center">
 
-                                    <mat-checkbox class="checkbx" [(checked)]="todosClientes" (change)="checkbox($event)">
-                                    </mat-checkbox>
-                                    <label class="input-group-text text-info">
-                                                Todos Los Clientes
-                                            </label>
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedEstatusCotizacion" (change)="onChangeEstatusCotizacion()">
+                                            Filtrar por Estatus de Cotizacion
+                                        </mat-slide-toggle>
+                                    </section>
                                 </div>
-                                <div class="col-8" *ngIf="!todosClientes">
+                                <div class="col-8" *ngIf="checkedEstatusCotizacion == true">
+                                    <label class="input-group-text text-info">Seleccionar Estatus</label>
+
+                                    <select class="form-control" name="estatuss" #estatuss="ngModel" id="estatuss" (change)="changeEstatusCotizacion($event)" [(ngModel)]="estatusCotizacion">
+                                                                <option [ngValue]="null" selected disabled>Seleccionar Estatus Cotizacion</option>
+                                                                <option *ngFor="let dl of listEstatusCotizacion" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                                            </select>
+
+                                </div>
+
+                                <hr>
+
+                                <div class="col-4" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedClientesCotizacion" (change)="onChangeTodosClientesCotizacion()">
+                                            Todos los Clientes
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div class="col-8" *ngIf="checkedClientesCotizacion == false">
                                     <label class="input-group-text text-info">Seleccionar Cliente</label>
 
                                     <div class="row">
                                         <div class="col-12">
                                             <mat-form-field class="example-full-width">
-                                                <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClienteId" [(ngModel)]="serviceCliente.Idclienteservicio">
+                                                <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControlCotizacion" matInput [matAutocomplete]="auto" name="proveedorId" [(ngModel)]="CotizacionIdCliente">
                                                 <mat-autocomplete #auto="matAutocomplete">
-                                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChange(option, $event)">
-                                                        {{option.IdClientes}} {{option.Nombre}}
+                                                    <mat-option *ngFor="let option of filteredOptionsCotizacion | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChangeCotizacion(option, $event)">
+                                                        {{option.IdCliente}} {{option.Nombre}}
                                                     </mat-option>
                                                 </mat-autocomplete>
                                             </mat-form-field>
-                                            <input type="string" class="form-control" readonly name="ClienteNombre" readonly [(ngModel)]="ClienteNombre">
+                                            <input type="string" class="form-control" readonly name="clienteNombre" readonly [(ngModel)]="CotizacionClienteNombre">
                                         </div>
 
                                     </div>
+                                </div>
+                                <hr>
+                                <div class="col-4" style="align-self: center">
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedFechasCotizacion" (change)="onChangePorFechaCotizacion()">
+                                            Filtrar por Fechas
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div *ngIf="checkedFechasCotizacion == true" class="row">
+                                    <div class="col-2">
+
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Inicial </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="fechaInicial" [(ngModel)]="fechaInicialCotizacion">
+                                            <mat-datepicker #picker1></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Final </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="fechaFinal" [(ngModel)]="fechaFinalCotizacion">
+                                            <mat-datepicker #picker2></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-2">
+
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusCotizacion == true && !estatusCotizacion) || (checkedFechasCotizacion == true && (!fechaInicialCotizacion || !fechaFinalCotizacion) || (checkedClientesCotizacion == false && !CotizacionClienteNombre))" class="btn btn-warning"
+                                                id="abrirpdf" (click)="abrirReporte('ALL', 'Cotizacion')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cotizacion</button>
+
+                                        </div>
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusCotizacion == true && !estatusCotizacion) || (checkedFechasCotizacion == true && (!fechaInicialCotizacion || !fechaFinalCotizacion) || (checkedClientesCotizacion == false && !CotizacionClienteNombre))" class="btn btn-success"
+                                                id="abrirpdf" (click)="abrirReporte('DLLS', 'Cotizacion')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cotizacion Dlls</button>
+
+                                        </div>
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusCotizacion == true && !estatusCotizacion) || (checkedFechasCotizacion == true && (!fechaInicialCotizacion || !fechaFinalCotizacion) || (checkedClientesCotizacion == false && !CotizacionClienteNombre))" class="btn btn-info"
+                                                id="abrirpdf" (click)="abrirReporte('MXN', 'Cotizacion')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cotizacion Mxn</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </mat-card>
+                        </div>
+                        <br>
+                        <!-- REPORTE PEDIDOS -------------------------------------------------------------------------------------------- -->
+                        <div class="card-header" id="headingTwo">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                Reportes Pedidos
+                                              </button>
+                            </h2>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample2">
+                            <mat-card>
+
+                                <div class="col-4" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedEstatusPedido" (change)="onChangeEstatusPedido()">
+                                            Filtrar por Estatus de Pedido
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div class="col-8" *ngIf="checkedEstatusPedido == true">
+                                    <label class="input-group-text text-info">Seleccionar Estatus</label>
+
+                                    <select class="form-control" name="estatusss" #estatusss="ngModel" id="estatusss" (change)="changeEstatusPedido($event)" [(ngModel)]="estatusPedido">
+                                                                <option [ngValue]="null" selected disabled>Seleccionar Estatus Pedido</option>
+                                                                <option *ngFor="let dl of listEstatusPedido" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                                            </select>
 
                                 </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <!--   <br>
-                                    <div class="col-12">
-                                        <h2 class="h1-responsive" style="text-align: center;"> Reportes de Cobranza </h2>
-                                    </div>
-                                    <br>
-                                    <br>
-                                    <br> -->
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-4 btnalign">
-                                        <button class="btn btn-warning" id="abrirpdf" (click)='reporteCobranza()'><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cotizaciones</button>
-                                    </div>
-                                    <!--   <div class="col-4 btnalign">
-                                        <button class="btn btn-success" id="abrirpdf" (click)="reporteCobranzaDlls()"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza Dlls</button>
-                                    </div>
-                                    <div class="col-4 btnalign">
-                                        <button class="btn btn-info" id="abrirpdf" (click)="reporteCobranzaMxn()"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza Mxn</button>
-                                    </div> -->
+
+                                <hr>
+
+                                <div class="col-4" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedClientesPedido" (change)="onChangeTodosClientesPedido()">
+                                            Todos los Clientes
+                                        </mat-slide-toggle>
+                                    </section>
                                 </div>
-                            </div>
+                                <div class="col-8" *ngIf="checkedClientesPedido == false">
+                                    <label class="input-group-text text-info">Seleccionar Cliente</label>
 
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <mat-form-field class="example-full-width">
+                                                <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControlPedido" matInput [matAutocomplete]="autoPedido" name="proveedorPedidoId" [(ngModel)]="PedidoIdCliente">
+                                                <mat-autocomplete #autoPedido="matAutocomplete">
+                                                    <mat-option *ngFor="let option of filteredOptionsPedido | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChangePedido(option, $event)">
+                                                        {{option.IdCliente}} {{option.Nombre}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                            <input type="string" class="form-control" readonly name="clienteNombrePedido" readonly [(ngModel)]="PedidoClienteNombre">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="col-4" style="align-self: center">
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedFechasPedido" (change)="onChangePorFechaPedido()">
+                                            Filtrar por Fechas
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div *ngIf="checkedFechasPedido == true" class="row">
+                                    <div class="col-2">
+
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Inicial </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker3" type="text" class="form-control" name="fechaInicialPedido" [(ngModel)]="fechaInicialPedido">
+                                            <mat-datepicker #picker3></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Final </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker4" type="text" class="form-control" name="fechaFinalPedido" [(ngModel)]="fechaFinalPedido">
+                                            <mat-datepicker #picker4></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-2">
+
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-warning" id="abrirpdf" (click)="abrirReporte('ALL', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido</button>
+
+                                        </div>
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-success" id="abrirpdf" (click)="abrirReporte('DLLS', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido Dlls</button>
+
+                                        </div>
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-info" id="abrirpdf" (click)="abrirReporte('MXN', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido Mxn</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </mat-card>
                         </div>
-
-                    </mat-card>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>

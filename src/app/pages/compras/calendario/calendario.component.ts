@@ -15,6 +15,7 @@ export class CalendarioCComponent implements OnInit {
   
   ngOnInit() {
     this.calendarioService.filter('Compras');
+    
   }
   calendario(){
     // this.router.navigate(['/angularCalendar']);

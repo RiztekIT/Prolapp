@@ -18,6 +18,7 @@ import { OrdenCargaConceptoComponent } from '../../../pedidosalmacen/ordencargad
 import { OrdenDescargaConceptoComponent } from 'src/app/components/almacen/orden-descarga/ordendescargadetalle/ordendescargatarima/orden-descarga-concepto/orden-descarga-concepto.component';
 import { OrdenDecargaTarimaExistenteComponent } from '../../../../../components/almacen/orden-descarga/ordendescargadetalle/ordendescargatarima/orden-decarga-tarima-existente/orden-decarga-tarima-existente.component';
 import { map, startWith } from 'rxjs/operators';
+import { QrComponent } from 'src/app/components/qr/qr.component';
 
 
 
@@ -57,6 +58,8 @@ export class OrdendescargatarimaComponent implements OnInit {
   POTSTE: any;
   show: boolean;
 
+  QRtarima;
+
 
 
   preOrdenTemporalSacos: preOrdenTemporalODSacos;
@@ -88,8 +91,14 @@ export class OrdendescargatarimaComponent implements OnInit {
   }
   ngOnInit() {
     this.IdOrdenDescarga = +(localStorage.getItem('IdOrdenDescarga'));
+
+    this.service.formData = JSON.parse(localStorage.getItem('OrdenDescarga')); 
+    console.log(this.service.formData);
+
+    
     this.refreshOrdenDescargaList();
     this.actualizarTablaOrdenTemporal();
+    this.updateOrdenDescarga(this.service.formData,'Proceso');
     //igualar en 0s el arreglo que se encuentra en el servicio
     this.ordenTemporalService.preOrdenTemporalOD = [];
     console.log(this.ordenTemporalService.preOrdenTemporalOD);
@@ -98,15 +107,47 @@ export class OrdendescargatarimaComponent implements OnInit {
     this.sacosCero = true;
     this.preOrdenTemporalSacos = new preOrdenTemporalODSacos();
     this.show = false;
+    
   }
 
   regresar() {
     this.router.navigate(['/ordenDescargadetalle']);
   }
 
+  updateOrdenDescarga(od,estatus){
+    od.Estatus=estatus
+    this.service.updateOrdenDescarga(od).subscribe(data=>{
+      console.log(data,'update od '+estatus);
+    })
+    
+  }
+
+  finalizarOrden(){
+
+    let productos = this.listData.data;
+    // let productos = this.ordenTemporalService.preOrdenTemporalOD
+
+    console.log(this.listData.data,'finalizarORdne');
+
+let saldo = 0;
+    for (let i =0; i<productos.length;i++){
+
+      saldo = saldo + +this.listData.data[i].Saldo
+      if(saldo==0){
+        this.service.formData.Estatus = 'Descargada'
+        console.log(this.service.formData);
+        this.updateOrdenDescarga(this.service.formData,'Descargada');
+      }
+
+
+
+    }
+
+  }
+
   //tabla visualizacion
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Sacos', 'Saldo', 'Lote', 'Comentarios', 'Options'];
+  displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Sacos', 'Saldo', 'Options'];
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -175,6 +216,7 @@ export class OrdendescargatarimaComponent implements OnInit {
           this.listData.sort = this.sort;
           this.listData.paginator = this.paginator;
           this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Descarga por Pagina';
+          this.finalizarOrden()
 
 
 
@@ -376,7 +418,7 @@ export class OrdendescargatarimaComponent implements OnInit {
 
   }
 
-  addSacos(form: NgForm) {
+  addSacos(form?: NgForm) {
     this.dropdownRefresh();
 
     console.log(this.ordenTemporalService.preOrdenTemporalSacos, 'prueba doble');
@@ -495,7 +537,7 @@ export class OrdendescargatarimaComponent implements OnInit {
   }
 
   ingresoSacos() {
-    console.clear();
+    /* console.clear(); */
     // this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresadosTotales = (+this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Sacos - +this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Saldo).toString()
     if (this.InputComentarios == '' || this.InputComentarios == null) {
       console.log('comentario if');
@@ -617,8 +659,11 @@ export class OrdendescargatarimaComponent implements OnInit {
         TarimaTemp.Sacos = sacosTarima.toString();
         TarimaTemp.PesoTotal = PesoTotalTarima.toString();
         TarimaTemp.QR = nanoid(7);
-        TarimaTemp.Bodega = 'ELP';
+        TarimaTemp.Bodega = 'PasoTx';
         console.log(TarimaTemp, "TARIMA");
+// asignar valor a la variable de QR previamente creado
+        this.QRtarima = TarimaTemp.QR
+        localStorage.setItem("QRtarima", this.QRtarima);
 
         this.Tarimaservice.addTarima(TarimaTemp).subscribe(resAdd => {
           console.log(resAdd);
@@ -710,9 +755,37 @@ export class OrdendescargatarimaComponent implements OnInit {
             })
           }
         })
+        console.log(this.QRtarima);
+        
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width="70%";
+        this.dialog.open(QrComponent, dialogConfig);
       })
+
+
+
+      
+      // Swal.fire({
+      //   title: 'Tarima Creada Correctamente',
+      //   icon: 'success',
+      //   text: 'QR: ' + this.QRtarima,
+      // });
       //fin de la insercion
+
     }
+  }
+
+  QRmodal(row: OrdenTemporal){
+    console.log(row);
+    this.QRtarima = row.QR
+ localStorage.setItem("QRtarima", this.QRtarima);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(QrComponent, dialogConfig);
   }
 
   // no regresa el saldo
@@ -1020,7 +1093,6 @@ export class OrdendescargatarimaComponent implements OnInit {
 
   // qr
   private _filter(value: any): any[] {
-    // Causa problema al borrar el codigo
     console.log(value);
 
     console.log(this.Tarimaservice.formDataDrop);
@@ -1032,15 +1104,12 @@ export class OrdendescargatarimaComponent implements OnInit {
   }
 
   dropdownRefresh() {
-    console.log('no');
     this.Tarimaservice.getTarima().subscribe(data => {
-      console.log(data);
       for (let i = 0; i < data.length; i++) {
         let Qr = data[i];
         this.listQR.push(Qr);
         this.options.push(Qr)
         this.filteredOptions = this.myControl.valueChanges
-
           .pipe(
             startWith(''),
             map(value => this._filter(value))

@@ -31,7 +31,8 @@ export class AddUsuarioComponent implements OnInit {
       Correo: '',
       Telefono: '',
       Contra: '',
-      FechaUltimoAcceso: '2016/09/14'
+      FechaUltimoAcceso: '2016/09/14',
+      Dispositivo:'',
     }
   }
 

@@ -10,6 +10,7 @@ export class Producto {
     Estatus: string;
     UnidadMedida: string;
     IVA: string;
+    CodigoBarras: string;
     ClaveSAT: string;
     Categoria: string;
 

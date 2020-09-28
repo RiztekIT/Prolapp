@@ -2,9 +2,9 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <h2>Catalogos</h2>
-                <div class="card">
-                    <!-- Nav tabs -->
+                <h1>Catalogos</h1>
+                <!--  <div class="card">
+                    
                     <ul class="nav nav-tabs profile-tab" role="tablist">
                         <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#usuarios" role="tab" aria-expanded="true">Usuarios</a> </li>
                         <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#productos" role="tab" aria-expanded="false">Productos</a> </li>
@@ -12,9 +12,9 @@
                         <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#clientes" role="tab" aria-expanded="false">Clientes</a> </li>
                         <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#vendedores" role="tab" aria-expanded="false">Vendedores</a> </li>
                     </ul>
-                    <!-- Tab panes -->
+                    
                     <div class="tab-content">
-                        <!--Usuarios tab-->
+                    
                         <div class="tab-pane active" id="usuarios" role="tabpanel">
                             <div class="card">
                                 <div class="card-body">
@@ -26,7 +26,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Productos tab-->
+                    
                         <div class="tab-pane" id="productos" role="tabpanel">
                             <div class="card">
                                 <div class="card-body">
@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Proveedores tab-->
+                    
                         <div class="tab-pane" id="proveedores" role="tabpanel">
                             <div class="card">
                                 <div class="card-body">
@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Clientes tab-->
+                    
                         <div class="tab-pane" id="clientes" role="tabpanel">
                             <div class="card">
                                 <div class="card-body">
@@ -65,7 +65,46 @@
 
 
                     </div>
-                </div>
+                </div> -->
+
+
+                <mat-tab-group color="#2d5b9e" animationDuration="0ms" mat-align-tabs="end">
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">person_pin_circle</mat-icon>
+                            Usuarios
+                        </ng-template>
+                        <app-show-usuario></app-show-usuario>
+                    </mat-tab>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">construction</mat-icon>
+                            Productos
+                        </ng-template>
+                        <app-show-producto></app-show-producto>
+                    </mat-tab>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">engineering</mat-icon>
+                            Proveedores
+                        </ng-template>
+                        <app-show-proveedor></app-show-proveedor>
+                    </mat-tab>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">people</mat-icon>
+                            Clientes
+                        </ng-template>
+                        <app-show-cliente></app-show-cliente>
+                    </mat-tab>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">person_pin</mat-icon>
+                            Vendedores
+                        </ng-template>
+                        <app-show-vendedor></app-show-vendedor>
+                    </mat-tab>
+                </mat-tab-group>
 
 
             </div>

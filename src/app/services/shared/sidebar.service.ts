@@ -158,7 +158,7 @@ export class SidebarService {
   constructor(private http:HttpClient,public service: ClientesService,private datePipe: DatePipe, private storageServce: StorageServiceService) { 
     this.menu = [];
     this.sessionCliente = localStorage.getItem("inicioCliente");
-    console.log('this.sessionCliente = localStorage.getItem("inicioCliente"): ', this.sessionCliente = localStorage.getItem("inicioCliente"));
+    // console.log('this.sessionCliente = localStorage.getItem("inicioCliente"): ', this.sessionCliente = localStorage.getItem("inicioCliente"));
     if (this.sessionCliente == 'true') {
     this.getMenucliente();
     } else {
@@ -168,7 +168,7 @@ export class SidebarService {
   }
   getMenu() {
     return this.http.get(APIUrl + '/Menu/1').subscribe((data:any)=>{
-      console.log(data);
+      // console.log(data);
       this.menu = [];
       
       for (let i=0; i< data.length; i++){
@@ -199,7 +199,7 @@ export class SidebarService {
           }
         })
       }
-      console.warn(this.menu);
+      // console.warn(this.menu);
       // console.log(this.menu);
       init_plugins();
 
@@ -225,7 +225,7 @@ getMenucliente(){
       url: '/cliente',
     },
   ]
-  console.warn(this.menu);
+  // console.warn(this.menu);
 
   init_plugins();
 }

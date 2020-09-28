@@ -1,0 +1,250 @@
+.borderbox {
+    border: 3px solid grey;
+    padding: 10px;
+}
+
+::ng-deep .mat-form-field {
+    width: 100% !important;
+}
+
+.mat-dialog-content {
+    max-height: 90vh;
+}
+
+::ng-deep .swal2-container {
+    z-index: 2000;
+}
+
+.img-responsive {
+    width: auto;
+    /* height: 300px; */
+    transition: .5s -webkit-filter;
+    transition: .5s filter;
+}
+
+.imgcontainer {
+    position: relative;
+}
+
+.imgblur:hover {
+    -webkit-filter: blur(5px);
+    /* Safari 6.0 - 9.0 */
+    filter: blur(5px);
+}
+
+.boton {
+    display: none;
+}
+
+.imgcontainer:hover .boton {
+    display: block;
+    position: absolute;
+    top: 5%;
+    left: 80%;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+
+@media only screen and (max-width: 800px) {
+    .boton {
+        display: block;
+        position: absolute;
+        top: 5%;
+        left: 80%;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        text-align: center;
+    }
+    .img-responsive {
+        width: auto;
+        /* height: 300px; */
+        transition: .5s -webkit-filter;
+        transition: .5s filter;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 100%;
+    }
+    .img-responsive {
+        width: auto;
+        /* height: 300px; */
+        transition: .5s -webkit-filter;
+        transition: .5s filter;
+    }
+    .fotos {
+        overflow-x: scroll;
+        /* overflow-y: scroll */
+    }
+}
+
+.btncoti {
+    background-color: #000000;
+    color: white
+}
+
+::ng-deep .mat-form-field {
+    width: 100% !important;
+}
+
+::ng-deep .mat-header-cell {
+    color: #ffffff;
+    background: #000000;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+    opacity: 0.03 !important;
+    background-color: #005691!important;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: #005691;
+}
+
+.row {
+    margin-left: 0 !important;
+}
+
+.btn-danger:hover {
+    color: #ffffff;
+    background: #ff0000;
+}
+
+::ng-deep .mat-header-cell {
+    color: #ffffff;
+    background: #000000;
+}
+
+table {
+    width: 100%;
+}
+
+tr.example-detail-row {
+    height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+    background: #f5f5f5;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+}
+
+.example-element-row td {
+    border-bottom-width: 0;
+}
+
+.example-element-detail {
+    overflow: hidden;
+    display: flex;
+}
+
+.example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+}
+
+.example-element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+}
+
+.example-element-description {
+    padding: 16px;
+}
+
+.example-element-description-attribution {
+    opacity: 0.5;
+}
+
+.folio {
+    cursor: pointer;
+}
+
+.img-responsive {
+    width: auto;
+    /* height: 300px; */
+    transition: .5s -webkit-filter;
+    transition: .5s filter;
+}
+
+.imgcontainer {
+    position: relative;
+}
+
+.imgblur:hover {
+    -webkit-filter: blur(5px);
+    /* Safari 6.0 - 9.0 */
+    filter: blur(5px);
+}
+
+.boton {
+    display: none;
+}
+
+.imgcontainer:hover .boton {
+    display: block;
+    position: absolute;
+    top: 5%;
+    left: 80%;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+
+@media only screen and (max-width: 800px) {
+    .boton {
+        display: block;
+        position: absolute;
+        top: 5%;
+        left: 80%;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        text-align: center;
+    }
+    .img-responsive {
+        width: auto;
+        height: 300px;
+        transition: .5s -webkit-filter;
+        transition: .5s filter;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 100%;
+    }
+    .img-responsive {
+        width: 500px;
+        /* height: 300px; */
+        transition: .5s -webkit-filter;
+        transition: .5s filter;
+    }
+}
+
+.btncoti {
+    background-color: #000000;
+    color: white
+}
+
+.btncl {
+    background-color: #ff0000;
+    color: white
+}

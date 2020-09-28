@@ -15,3 +15,13 @@ txt {
     min-width: 100px;
     max-width: 100px;
 }
+
+.btncoti {
+    background-color: #000000;
+    color: white
+}
+
+.btncoti:hover {
+    background-color: white;
+    color: black
+}

@@ -1,1 +1,194 @@
-<p>forwardscxp works!</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h1 style="text-align: center;">Forwards</h1>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-12" style="display: block; justify-content: center">
+                            <button style="margin-right: 15px;" title="Generar Incidencia" mat-fab (click)="onAdd()" class="btncoti">
+                <mat-icon>note_add</mat-icon>
+              </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+
+                    <div class="row">
+
+                        <div class="col-md-3 col-sm-12" style="display: grid; justify-content: center">
+
+                        </div>
+                        <div class="col-md-3 col-sm-12" style="display: grid">
+
+                            <!-- <label class="input-group-text text-info">Estatus</label> -->
+                            <mat-form-field>
+                                <mat-label> Estatus </mat-label>
+                                <!--  class="form-control" name="EstatusS" #EstatusS="ngModel" id="EstatusS" -->
+                                <mat-select (selectionChange)="estatusCambio($event)" [(ngModel)]="estatusSelect">
+                                    <!-- <mat-option [value]="" selected disabled>Seleccionar Estatus</mat-option> -->
+                                    <mat-option *ngFor="let dl of listEstatus" [value]="dl.Estatus"> {{dl.Estatus}} </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+                        <div class="col-md-6 col-sm-12" style="display: grid">
+
+                            <!-- <mat-card style="text-align: right; " class="mat-elevation-z0"> -->
+                            <mat-form-field style="display: block">
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                            </mat-form-field>
+                            <!-- </mat-card> -->
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- 
+                <div fxLayoutAlign="row">
+                    <mat-card style="text-align: right;" class="mat-elevation-z0">
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                        </mat-form-field>
+                    </mat-card>
+                </div> -->
+
+                <hr>
+
+                <div style="overflow:auto;">
+
+                    <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
+                        <ng-container matColumnDef="IdForward">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>IdForward</th>
+                            <td class="IdForward" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.IdForward}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="FechaCierre">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>FechaCierre </th>
+                            <td mat-cell *matCellDef="let element">{{element.FechaCierre | date: 'yyyy/MM/dd'}}
+                                <td>
+                        </ng-container>
+                        <ng-container matColumnDef="FechaPago">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>FechFechaPagoaCierre </th>
+                            <td mat-cell *matCellDef="let element">{{element.FechaPago | date: 'yyyy/MM/dd'}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="CantidadDlls">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>CantidadDlls</th>
+                            <td mat-cell *matCellDef="let element">{{element.CantidadDlls}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TipoCambio">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>TipoCambio</th>
+                            <td mat-cell *matCellDef="let element">{{element.TipoCambio}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="CantidadMXN">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>CantidadMXN</th>
+                            <td mat-cell *matCellDef="let element">{{element.CantidadMXN}}
+                            </td>
+                        </ng-container>
+                        <!-- <ng-container matColumnDef="Garantia">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Garantia</th>
+                            <td mat-cell *matCellDef="let element">{{element.Garantia}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="GarantiaPagada">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>GarantiaPagada</th>
+                            <td mat-cell *matCellDef="let element">{{element.GarantiaPagada}}
+                            </td>
+                        </ng-container> -->
+                        <ng-container matColumnDef="CantidadPendiente">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>CantidadPendiente</th>
+                            <td mat-cell *matCellDef="let element">{{element.CantidadPendiente}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Destino">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Destino</th>
+                            <td mat-cell *matCellDef="let element">{{element.Destino}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Promedio">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Promedio</th>
+                            <td mat-cell *matCellDef="let element">{{element.Promedio}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Estatus">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                            <td mat-cell *matCellDef="let element" [ngSwitch]=element.Estatus>
+                                <span *ngSwitchCase="'Cotizado'" class="label label-light-success">COTIZADO</span>
+                                <span *ngSwitchCase="'Comprado'" class="label label-light-info">COMPRADO</span>
+                                <span *ngSwitchCase="'Finalizado'" class="label label-light-primary">FINALIZADO</span>
+
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Options" stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                            <td mat-cell *matCellDef="let row">
+
+                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                   <mat-icon>keyboard_arrow_down</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <!--  -->
+                                    <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                                <mat-icon>edit</mat-icon>
+                                            </button>
+                                    <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
+                                                <mat-icon>visibility</mat-icon>
+                                            </button> -->
+                                    <!--  -->
+
+                                    <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
+                                    <button title="Enviar Correo" mat-icon-button class="btn btn-dark" (click)="email()">
+                                                <mat-icon>alternate_email</mat-icon>
+                                              </button> -->
+                                    <!--  -->
+                                    <!-- <button title="Eliminar" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
+                                                    <mat-icon>delete_outline</mat-icon>
+                                                </button> -->
+                                </mat-menu>
+                            </td>
+                        </ng-container>
+
+
+                    </table>
+                    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Pedido</button> -->
+</div>
+
+
+<!-- <div class="modal fade bs-example-modal-lg show" id="cargando">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <button id="cerrarmodal" type="button" [hidden]="true" class="btn btn-secondary waves-effect" data-dismiss="modal">Cerrar</button>
+            <app-email [foliop]="folioparam" [idp]="idparam"></app-email>
+
+
+        </div>
+    </div> -->
+<!-- <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+    </ngx-loading> -->
+<!-- </div> -->

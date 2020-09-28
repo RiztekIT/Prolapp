@@ -30,7 +30,7 @@ export class PedidosalmacenComponent implements OnInit {
 
   // INICIO VARIABLES TABLA ORDEN CARGA
   listData: MatTableDataSource<any>;
-  displayedColumns: string [] = ['Folio', 'FechaEnvio', 'Cliente', 'IdPedido', 'Fletera', 'Caja', 'Sacos', 'Kg', 'Origen' , 'Destino', 'Estatus', 'Options'];
+  displayedColumns: string [] = ['Folio', 'FechaEnvio', 'Cliente', 'IdPedido', 'Fletera', 'Caja',  'Origen' , 'Destino', 'Estatus', 'Options'];
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Sacos', 'Lote'];
   expandedElement: any;
   detalle = new Array<DetalleOrdenCarga>();
@@ -40,6 +40,7 @@ export class PedidosalmacenComponent implements OnInit {
 
 
  arrOrdenCarga: any;
+ estatusSelect;
 
 // FIN VARIABLES TABLA ORDEN CARGA
 
@@ -56,6 +57,36 @@ export class PedidosalmacenComponent implements OnInit {
 
     this.refreshOrdenCargaList();
     
+  }
+
+  estatusCambio(event){
+    // console.log(event);
+this.estatusSelect = event.value;
+console.log(this.estatusSelect);
+if (this.estatusSelect==='Todos'){
+  this.applyFilter2('')
+}else {
+
+  this.applyFilter2(this.estatusSelect)
+}
+
+  }
+
+
+  public listEstatus: Array<Object> = [
+    { Estatus: 'Todos' },
+    { Estatus: 'Creada' },
+    { Estatus: 'Preparada' },
+    { Estatus: 'Cargada' },    
+    { Estatus: 'Terminada' }    
+  ];
+
+  applyFilter2(filtervalue: string) {
+    this.listData.filterPredicate = (data, filter: string) => {
+      return data.Estatus.toString().toLowerCase().includes(filter);
+    };
+    this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+
   }
 
   refreshOrdenCargaList(){
@@ -87,6 +118,7 @@ console.log(data);
   onEdit(ordencarga: OrdenCarga){
     console.log(ordencarga)
     localStorage.setItem('IdOrdenCarga', ordencarga.IdOrdenCarga.toString())
+    localStorage.setItem('OrdenCarga', JSON.stringify(ordencarga.IdOrdenCarga))
     this.router.navigate(['/ordencargadetalle']);
   }
 

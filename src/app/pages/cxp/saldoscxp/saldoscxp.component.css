@@ -1,0 +1,229 @@
+.btn-danger:hover {
+    color: #ffffff;
+    background: #ff0000;
+}
+
+::ng-deep .mat-header-cell {
+    color: #ffffff;
+    background: #000000;
+}
+
+table {
+    width: 100%;
+}
+
+tr.example-detail-row {
+    height: 0;
+}
+
+tr.example-element-row:not(.example-expanded-row):hover {
+    background: #f5f5f5;
+}
+
+tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+}
+
+.example-element-row td {
+    border-bottom-width: 0;
+}
+
+.example-element-detail {
+    overflow: hidden;
+    display: flex;
+}
+
+.example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+}
+
+.example-element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+}
+
+.example-element-description {
+    padding: 16px;
+}
+
+.example-element-description-attribution {
+    opacity: 0.5;
+}
+
+.folio {
+    cursor: pointer;
+}
+
+
+/* body {
+    color: #000000 !important;
+}
+
+.blacktxt {
+    color: #000000;
+}
+
+.bolder {
+    font-weight: 900;
+}
+
+p {
+    font-size: 12px !important;
+    color: #000000 !important;
+}
+
+p>.nomarginbottomP {
+    font-size: 12px !important;
+    margin-bottom: 0px;
+}
+
+.nomarginbottomP {
+    margin-bottom: 0px;
+}
+
+.text-center {
+    margin-bottom: 0px;
+}
+
+h6 {
+    line-height: 1px;
+    font-size: 10px;
+}
+
+.containerborder {
+    border: 1px solid black;
+}
+
+.col-lg-12 {
+    padding-right: 1px;
+    padding-left: 20px;
+}
+
+.col-sm-6 {
+    padding-right: 1px;
+    padding-left: 20px;
+}
+
+.col-lg-6 {
+    padding-right: 1px;
+    padding-left: 1px;
+}
+
+.col-lg-7 {
+    padding-bottom: 0px;
+}
+
+th {
+    font-size: 10px;
+}
+
+.bordeTopBottom {
+    width: 100%;
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
+}
+
+.card-body { */
+
+
+/* padding-bottom: -20px;
+    padding-top: 0rem; */
+
+
+/* padding: 0rem;
+}
+
+.card {
+    margin-bottom: 10px;
+}
+
+.logo {
+    max-height: 100px;
+}
+
+.col-lg-12 .col-md-12 {
+    padding-left: 0px;
+    margin-left: 0px;
+}
+
+.pgbreak {
+    page-break-before: auto;
+}
+
+.bottomR {
+    margin-top: 0px;
+    margin-bottom: 24px !important;
+}
+
+.wrapper {
+    padding-top: 50%;
+}
+
+.overflow {
+    overflow: scroll;
+}
+
+.wrap {
+    white-space: nowrap;
+}
+
+.table {
+    width: 100%;
+}
+
+td {
+    font-size: 16px !important;
+    padding: 5px;
+}
+
+th {
+    font-size: 16px;
+}
+
+.blacktxt {
+    color: #000000;
+    font-size: 12px !important;
+}
+
+.bolder {
+    font-weight: 900; */
+
+
+/* padding: 12px; */
+
+
+/* }
+
+.lightback {
+    background-color: #f5f5f5;
+}
+
+.sinpadding {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+::ng-deep .modal-lg {
+    max-width: 850px;
+}
+
+.border3 {
+    border-top-style: double !important;
+    color: black;
+    border-bottom: double;
+}
+
+.border2 {
+    border-top-style: dotted;
+}
+
+.btncoti {
+    background-color: #000000;
+    color: white
+} */

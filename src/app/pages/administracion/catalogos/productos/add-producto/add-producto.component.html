@@ -62,6 +62,13 @@
                             Favor de Ingresar Stock
                         </div>
                         <!--               -------------------------------------------------------                                       -->
+                        <!--               -------------------------------------------------------                                       -->
+                        <label class="input-group-text text-info">Codigo de Barras</label>
+                        <input required minlength="2" type="text" class="form-control" placeholder="Escribe el CodigoBarras" name="CodigoBarras" #CodigoBarras="ngModel" [(ngModel)]="service.formData.CodigoBarras">
+                        <div class="text-left text-danger" *ngIf="CodigoBarras.invalid && CodigoBarras.touched">
+                            Favor de Ingresar CodigoBarras
+                        </div>
+                        <!--               -------------------------------------------------------                                       -->
 
                     </div>
                     <div class="col-lg-6">
