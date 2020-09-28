@@ -284,6 +284,7 @@ import { ShowreporteAlmacenComponent } from './almacen/reportesalmacen/showrepor
 import { DisplaySaldosComponent } from './cxc/saldoscxc/display-saldos/display-saldos.component';
 import { VentasTotalesComponent } from '../components/graficas/ventas/ventas-totales/ventas-totales.component';
 import { VentasMesesComponent } from '../components/graficas/ventas/ventas-meses/ventas-meses.component';
+import { DocumentosComponent } from './almacen/inventariosalmacen/documentos/documentos.component';
 
 
 
@@ -486,6 +487,7 @@ import { VentasMesesComponent } from '../components/graficas/ventas/ventas-meses
         DisplaySaldosComponent,
         VentasTotalesComponent,
         VentasMesesComponent,
+        DocumentosComponent,
     
     ],
     exports: [
@@ -634,7 +636,8 @@ import { VentasMesesComponent } from '../components/graficas/ventas/ventas-meses
         ComprasPdfComponent,
         ShowreporteVentasComponent,
         ShowreporteAlmacenComponent,
-        DisplaySaldosComponent
+        DisplaySaldosComponent,
+        DocumentosComponent
         
     ]
 })
