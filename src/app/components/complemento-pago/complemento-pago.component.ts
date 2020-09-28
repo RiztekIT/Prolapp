@@ -42,6 +42,7 @@ export class ComplementoPagoComponent implements OnInit {
   codigopostal;
   ciudad
   estado;
+  numeroint
 
   ngOnInit() {
     this.ver();
@@ -82,6 +83,7 @@ export class ComplementoPagoComponent implements OnInit {
   this.codigopostal = this.enviarfact.empresa.CP
   this.ciudad = this.enviarfact.empresa.Ciudad
   this.estado = this.enviarfact.empresa.Estado
+  this.numeroint = this.enviarfact.empresa.NumeroInterior
     this.logo = '../../../assets/images/'+this.rfcE+'.png'
 
     this.objconc = this.service.formt.pagoCFDI;

@@ -86,6 +86,7 @@ export class FacturaComponent implements OnInit {
   codigopostal;
   ciudad
   estado;
+  numeroint;
 
   // Por Definir
   vendedor: string;
@@ -195,6 +196,7 @@ this.calle = this.enviarfact.empresa.Calle
   this.codigopostal = this.enviarfact.empresa.CP
   this.ciudad = this.enviarfact.empresa.Ciudad
   this.estado = this.enviarfact.empresa.Estado
+  this.numeroint = this.enviarfact.empresa.NumeroInterior
 this.nombreR = row.Nombre;
 this.rfcR = row.RFC;
 this.usoCFDI = row.UsoCFDI;
