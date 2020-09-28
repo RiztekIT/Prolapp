@@ -90,6 +90,7 @@ export class ComplementopagocxcComponent implements OnInit {
   refreshReciboPagoList() {
     this.loadtable = true;
     this.listData = new MatTableDataSource();
+    this.service.master = []
     this.service.deleteReciboCreado().subscribe(data=>{
 
     this.service.getReciboPagoClienteList().subscribe(data => {
@@ -130,6 +131,8 @@ export class ComplementopagocxcComponent implements OnInit {
     
 
     this.enviarfact.empresa = event;
+    this.enviarfact.rfc = event.RFC;
+    this.servicefactura.rfcempresa=event.RFC;
       this.service.rfcempresa = event.RFC;
       this.servicefactura.rfcempresa = event.RFC;
       localStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))

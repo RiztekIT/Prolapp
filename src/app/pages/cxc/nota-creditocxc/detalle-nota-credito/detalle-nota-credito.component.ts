@@ -358,7 +358,15 @@ this.refreshTablaDetalles();
     this.service.formData.Tipo = 'Egreso';
     this.service.formData.Estatus = 'Guardada';
     this.service.formData.Ver = '1.1';
-    this.service.formData.Serie = '315384';
+    
+    if (this.enviarfact.empresa.RFC==='PLA11011243A'){
+
+      this.service.formData.Serie = '315384';
+    }
+    else if (this.enviarfact.empresa.RFC==='AIN140101ME3'){
+      
+      this.service.formData.Serie = '407292';
+    }
     //this.service.formData.Serie = '5631';
     this.crearJson();
     this.service.updateNotaCredito(this.service.formData).subscribe(res=>{
@@ -661,7 +669,7 @@ this.refreshTablaDetalles();
   dxml2(uuid, folio){
     // this.proceso = 'xml';
     this.xmlparam = folio
-    let xml = 'http://devfactura.in/api/v3/cfdi33/' + uuid + '/xml';
+    let xml = 'https://factura.com/api/v3/cfdi33/' + uuid + '/xml';
     this.enviarfact.xml(uuid).subscribe(data => {
       localStorage.removeItem('xml' + folio)
       localStorage.setItem('xml' + folio, data)

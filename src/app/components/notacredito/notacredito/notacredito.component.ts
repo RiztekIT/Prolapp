@@ -26,6 +26,7 @@ export class NotacreditoComponent implements OnInit {
   @Input() param;
   myAngularxQrCode: string;
   QRsize:number;
+  logo;
   
   constructor(private _http: HttpClient, private sanitizer: DomSanitizer, public service: FacturaService, public servicenc: NotaCreditoService, public dialogRef: MatDialogRef<NotacreditoComponent>, @Inject(MAT_DIALOG_DATA) public data: parametros, public enviarfact: EnviarfacturaService) {
     this.QRsize = 125;
@@ -170,6 +171,9 @@ export class NotacreditoComponent implements OnInit {
   this.codigopostal = this.enviarfact.empresa.CP
   this.ciudad = this.enviarfact.empresa.Ciudad
   this.estado = this.enviarfact.empresa.Estado
+      this.rfcE = this.enviarfact.empresa.RFC;
+    this.nombreE = this.enviarfact.empresa.RazonSocial;
+    this.logo = '../../../assets/images/'+this.rfcE+'.png'
 
 
       this.objconc = result.Comprobante.Conceptos[0].Concepto;

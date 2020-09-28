@@ -4,7 +4,8 @@
         <div class="col-8"></div>
         <div class="col-4">
             <button (click)="exportarXLS()" class="btn btn-success"> <i class="mdi mdi-file-excel-box" ></i> Excel </button>
-            <button (click)="exportarPDF()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
+            <button *ngIf="this.enviarfact.empresa.RFC=='PLA11011243A'" (click)="exportarPDF()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
+            <button *ngIf="this.enviarfact.empresa.RFC=='AIN140101ME3'" (click)="exportarPDFAbarrotodo()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
         </div>
     </div>
 </div>
@@ -20,21 +21,22 @@
                         <div class="card-body">
                         </div> -->
 
-                    <img src="../../../assets/images/ProLactoLogo.png" class="logo">
+                    <!-- <img src="../../../assets/images/ProLactoLogo.png" class="logo">-->
+                    <img [src]=logo class="logo">
 
                 </div>
             </div>
             <!-- descripcion -->
             <div class="col-9">
-                <h5 class="blacktxt bolder"> PROLACTO INGREDIENTES S DE RL MI DE CV
+                <h5 class="blacktxt bolder"> {{nombreE}}
                 </h5>
-                <p class="blacktxt bolder nomarginbottomP"><span class="bolder">R.F.C.:</span>PLA11011243A
+                <p class="blacktxt bolder nomarginbottomP"><span class="bolder">R.F.C.:</span>{{rfcE}}
                 </p>
-                <p class="blacktxt bolder nomarginbottomP"> Calle: J. Matias de Anchondo No. 207, Col. San Felipe, CP: 31203, Chihuahua, Chihuahua, México
+                <p class="blacktxt bolder nomarginbottomP"> Calle: Fernando Montes de OCa No. 4505, Col. Nombre de Dios, CP: 31150, Chihuahua, Chihuahua, México
                 </p>
                 <div class="container row">
                     <div class="col-8 pl-0">
-                        <p class="blacktxt bolder nomarginbottomP">Lugar de Expedicion <span>Calle: <i>Jose Matias de Anchondo, CP. 31203</i></span>
+                        <p class="blacktxt bolder nomarginbottomP">Lugar de Expedicion <span>Calle: <i>Fernando Montes de Oca, CP. 31150</i></span>
                         </p>
                     </div>
                 </div>

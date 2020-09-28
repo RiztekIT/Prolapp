@@ -28,6 +28,9 @@ export class FacturaComponent implements OnInit {
 
   myAngularxQrCode: string;
   QRsize:number;
+  //logo = '../../../assets/images/ProLactoLogo.png'
+  logo;
+  seriefactura;
 
 
   @Input() xmlparametros;
@@ -207,6 +210,12 @@ this.noCertificadoSAT = row.NumeroDeSelloSAT;
 this.iva = row.ImpuestosTrasladados;
 this.RetIva = row.ImpuestosRetenidos;
 this.selloSAT = row.SelloDigitalSAT;
+this.logo = '../../../assets/images/'+this.rfcE+'.png'
+if (this.rfcE==='PLA11011243A'){
+this.seriefactura = 'B'
+}else if(this.rfcE==='AIN140101ME3') {
+  this.seriefactura = 'W'
+}
 
 
 this.objconc = row.detalle;

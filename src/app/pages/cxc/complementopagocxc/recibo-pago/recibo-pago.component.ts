@@ -28,6 +28,8 @@ import { ComplementoPagoComponent } from 'src/app/components/complemento-pago/co
 import { MessageService } from 'src/app/services/message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EmailComponent } from 'src/app/components/email/email/email.component';
+import { NotaCreditoService } from 'src/app/services/cuentasxcobrar/NotasCreditocxc/notaCredito.service';
+import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 // import { MatDialogRef } from '@angular/material';
 
 const httpOptions = {
@@ -87,6 +89,7 @@ export const APP_DATE_FORMATS =
 })
 export class ReciboPagoComponent implements OnInit {
   banco;
+  banco2;
   folioparam;
   xmlparam;
   idparam;
@@ -107,7 +110,7 @@ export class ReciboPagoComponent implements OnInit {
 
   
 
-  constructor(public _MessageService: MessageService,public service: ReciboPagoService, private router: Router, private dialog: MatDialog,private tipoCambio:TipoCambioService,private currencyPipe: CurrencyPipe,public servicetimbrado:EnviarfacturaService, public servicefolios: FoliosService, public servicefactura: FacturaService,private http : HttpClient ) {
+  constructor(public _MessageService: MessageService,public service: ReciboPagoService, private router: Router, private dialog: MatDialog,private tipoCambio:TipoCambioService,private currencyPipe: CurrencyPipe,public servicetimbrado:EnviarfacturaService, public servicefolios: FoliosService, public servicefactura: FacturaService,private http : HttpClient, public notacreditService: NotaCreditoService ) {
     this.service.listen().subscribe((m:any)=>{
       // console.log(m);
       this.refreshPagoCFDITList();
@@ -123,6 +126,7 @@ export class ReciboPagoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.service.rfcempresa = this.servicefactura.rfcempresa
     console.log(localStorage.getItem("inicioCliente"));
     this.clienteLogin = localStorage.getItem("inicioCliente");
     this.CleanPagoCFDI();
@@ -131,6 +135,8 @@ export class ReciboPagoComponent implements OnInit {
     this.dropdownRefresh();
     this.refreshPagoCFDITList();
     this.setpagoTimbre();
+    console.log(this.servicefactura.rfcempresa)
+    
     // this.tCambio();
     
     // this.tipoDeCambio();
@@ -472,45 +478,93 @@ console.log('NUEVO CFDIIIIIIIIIII');
   }
 
   onSelectionChange2(factura: any, event: any, i: any) {
-    console.log(factura);
-    console.log(event);
-    console.log(i);
     if (event.isUserInput) {
-    //  console.log(event);
-    //  console.log(i);
-    //   console.log(factura);
-    this.index = i;
-    
-      if( factura.IdCliente == 0 || !factura.IdCliente){
-        console.log('PAGOS CFDI EXISTENTES');
-        this.TotalF = +factura.Total;
-        this.SaldoF = +factura.Saldo;
-        this.IdFactura = factura.Id;
-      }else{
+
+    this.notacreditService.getNotaCreditoFacturaID(factura.Id).subscribe(data=>{
+      console.clear();
+      console.log(data)
+      console.log(factura);
+      console.log(event);
+      console.log(i);
+      this.index = i;
+
+      let notascreditototal = 0;
+      let notascreditototaldlls = 0;
+      if (data.length>0){
+
         if(factura.Moneda==='MXN'){
-        console.log('NUEVO PAGO CFDI');
-        this.TotalF = +factura.Total;
-        this.SaldoF = +factura.Total;
-        this.IdFactura = factura.Id;
-      }
-      if(factura.Moneda==='USD'){
-        console.log('NUEVO PAGO CFDI');
-        this.TotalF = +factura.TotalDlls;
-        this.SaldoF = +factura.TotalDlls;
-        this.IdFactura = factura.Id;
-      }
+          for (let j=0;j<data.length; j++){
+            notascreditototal = +notascreditototal + +data[i].Total;
+            
+          }
+        }else if(factura.Moneda==='USD'){
+          notascreditototal = +notascreditototal + +data[i].TotalDlls;
+        }
+
+        
+
+        if( factura.IdCliente == 0 || !factura.IdCliente){
+          console.log('PAGOS CFDI EXISTENTES');
+          this.TotalF = +factura.Total;
+          this.SaldoF = +factura.Saldo - +notascreditototal;
+          this.IdFactura = factura.Id;
+        }else{
+          if(factura.Moneda==='MXN'){
+          console.log('NUEVO PAGO CFDI');
+          this.TotalF = +factura.Total;
+          this.SaldoF = +factura.Total - +notascreditototal;
+          this.IdFactura = factura.Id;
+        }
+              if(factura.Moneda==='USD'){
+          console.log('NUEVO PAGO CFDI');
+          this.TotalF = +factura.TotalDlls;
+          this.SaldoF = +factura.TotalDlls - +notascreditototal;
+          this.IdFactura = factura.Id;
+        }
+  
+        }
+
+
+
+      }else{
+
+        if( factura.IdCliente == 0 || !factura.IdCliente){
+          console.log('PAGOS CFDI EXISTENTES');
+          this.TotalF = +factura.Total;
+          this.SaldoF = +factura.Saldo;
+          this.IdFactura = factura.Id;
+        }else{
+          if(factura.Moneda==='MXN'){
+          console.log('NUEVO PAGO CFDI');
+          this.TotalF = +factura.Total;
+          this.SaldoF = +factura.Total;
+          this.IdFactura = factura.Id;
+        }
+              if(factura.Moneda==='USD'){
+          console.log('NUEVO PAGO CFDI');
+          this.TotalF = +factura.TotalDlls;
+          this.SaldoF = +factura.TotalDlls;
+          this.IdFactura = factura.Id;
+        }
+  
+        }
 
       }
+     
    
+     
+      
+      
+      console.log(this.TotalF);
+      this.TotalFFormat = this.currencyPipe.transform(this.TotalF)
+      console.log(this.TotalFFormat);
+      this.SaldoFFormat = this.currencyPipe.transform(this.SaldoF)
+  
+      
+   
+    })
 
-    console.log(this.TotalF);
-
-    this.TotalFFormat = this.currencyPipe.transform(this.TotalF)
-    console.log(this.TotalFFormat);
-    this.SaldoFFormat = this.currencyPipe.transform(this.SaldoF)
-
-    
-    }
+  }
   }
 
 
@@ -570,6 +624,13 @@ console.log('NUEVO CFDIIIIIIIIIII');
     { banco: 'BANCOMER', cuenta:"012150001119448432"},
     { banco: 'BANCOMER DLLS', cuenta:"012150001119942475"}
   ]
+  public listbancos2: Array<Object> = [
+    { banco: 'BANORTE', cuenta:"072150004619216703"},
+    { banco: 'SANTANDER', cuenta:"014150655081955339"},
+    { banco: 'BANORTE DLLS', cuenta:"072150011196871531"},
+    { banco: 'SANTANDER DLLS', cuenta:"014150825009889589"}
+    
+  ]
 
   MonedaSelected(event: any) {
     this.Moneda = event.target.selectedOptions[0].text;
@@ -596,6 +657,22 @@ console.log('NUEVO CFDIIIIIIIIIII');
     if (event.target.selectedOptions[0].text==='BANCOMER DLLS'){
       this.service.formData.Cuenta = '012150001119942475'
     }
+  }
+
+  BancoSelected2(event:any){
+    if (event.target.selectedOptions[0].text==='BANORTE'){
+      this.service.formData.Cuenta = '072150004619216703'
+    }
+    if (event.target.selectedOptions[0].text==='SANTANDER'){
+      this.service.formData.Cuenta = '014150655081955339'
+    }
+    if (event.target.selectedOptions[0].text==='BANORTE DLLS'){
+      this.service.formData.Cuenta = '072150011196871531'
+    }
+    if (event.target.selectedOptions[0].text==='SANTANDER DLLS'){
+      this.service.formData.Cuenta = '014150825009889589'
+    }
+    
   }
 
   //Forma Pago
@@ -831,7 +908,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
     }
     else if (this.servicetimbrado.empresa.RFC==='AIN140101ME3'){
       
-      this.json1.Serie = "358668";
+      this.json1.Serie = "421147";
     }
     this.json1.Moneda = 'XXX';
     console.log(this.json1.Receptor.UID);
@@ -919,6 +996,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
 console.log(this.json1);
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
       for (let i = 0; i < this.json1.Conceptos[0].Complemento[0].relacionados.length; i++){
+        console.log(this.json1.Conceptos[0].Complemento[0].relacionados[i].ImpSaldoInsoluto);
         if(this.json1.Conceptos[0].Complemento[0].relacionados[i].ImpSaldoInsoluto=='0.00'){
           this.servicefactura.updatePagadaFactura(this.json1.Conceptos[0].Complemento[0].relacionados[i].IdDocumento).subscribe(data =>{
             console.log(data);
@@ -966,17 +1044,29 @@ console.log(this.json1);
     let dia;
     let dia2;
     let mes;
+    let mes2;
     let año;
     let hora;
     let min;
     let seg;
+    let diaf;
     
     let fecha = new Date(date);
 
-    
-    dia = `${days[fecha.getDate()]}`;
-    dia2 = `${days[fecha.getDate()+1]}`;
+    if ((fecha.getDate()+1)>31){
+      diaf = 1;
+      mes2 = `${months[fecha.getMonth()+1]}`;
+    }else{
+      diaf = fecha.getDate()+1
+      mes2 = `${months[fecha.getMonth()]}`;
+    }
+
+
+
     mes = `${months[fecha.getMonth()]}`;
+    dia = `${days[fecha.getDate()]}`;
+    dia2 = `${days[diaf]}`;
+    
     año = fecha.getFullYear();
     hora = fecha.getHours();
     min = fecha.getMinutes();
@@ -990,7 +1080,7 @@ console.log(this.json1);
     console.log(fecha);
     console.log(this.fecha2);
 
-    this.fechaapi = año + '-' + mes + '-' + dia2
+    this.fechaapi = año + '-' + mes2 + '-' + dia2
     console.log(this.service.formData.Moneda)
 
     if(this.service.formData.Moneda==='USD'){

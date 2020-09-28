@@ -438,6 +438,7 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
 
 
             reporteCobranza(){
+              console.log(this.enviarfact.empresa)
               const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;

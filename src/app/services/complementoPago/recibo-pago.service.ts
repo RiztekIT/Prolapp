@@ -27,6 +27,7 @@ export class ReciboPagoService {
 
   //Saldo de la Factura
   SaldoFactura: number;
+  //rfcempresa = 'PLA11011243A';
   rfcempresa = 'PLA11011243A';
 
   // formDataDF: DetalleFactura;
