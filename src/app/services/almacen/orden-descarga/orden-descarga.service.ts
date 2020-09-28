@@ -72,6 +72,15 @@ export class OrdenDescargaService {
     return this.http.get<any>(APIUrl + '/OrdenDescarga/OrdenDescargaFolio');
   }
 
+  borrarOD(id): Observable<any>{
+    return this.http.delete(APIUrl + '/OrdenDescarga/BorrarOrdenDescarga/'+id);
+  }
+  borrarDetallesOD(id): Observable<any>{
+    return this.http.delete(APIUrl + '/OrdenDescarga/BorrarDetalleOrdenDescarga/'+id);
+  }
+
+  
+
 
   //Actualizar saldo de DetalleOrdenDescarga por ID
   updateDetalleOrdenDescargaSaldo(id: number, saldo: string) {
