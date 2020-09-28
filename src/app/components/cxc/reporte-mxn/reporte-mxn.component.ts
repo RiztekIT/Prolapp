@@ -6,6 +6,7 @@ import * as html2pdf from 'html2pdf.js';
 import { SharedService } from 'src/app/services/service.index';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 
 @Component({
   selector: 'app-reporte-mxn',
@@ -21,7 +22,7 @@ export class ReporteMxnComponent implements OnInit {
 
   masterArray = new Array<ReporteMaster>();
 
-  constructor(public serviceFactura: FacturaService, public serviceCliente: ClientesService,public sharedService: SharedService, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(public serviceFactura: FacturaService, public serviceCliente: ClientesService,public sharedService: SharedService, @Inject(MAT_DIALOG_DATA) public data: any,public enviarfact: EnviarfacturaService) { }
 
   con : string| number;
   arrcon: Array<any> = [];

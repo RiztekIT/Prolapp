@@ -15,6 +15,7 @@ import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfact
 import { MessageService } from 'src/app/services/message.service';
 import { EmailComponent } from 'src/app/components/email/email/email.component';
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
+import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
 
 
 @Component({
@@ -34,7 +35,7 @@ export class ComplementopagocxcComponent implements OnInit {
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
   
-  constructor(private service: ReciboPagoService, private router: Router, private dialog: MatDialog, public enviarfact: EnviarfacturaService, public _MessageService: MessageService, public serviceEmpresa: EmpresaService) {
+  constructor(private service: ReciboPagoService, private router: Router, private dialog: MatDialog, public enviarfact: EnviarfacturaService, public _MessageService: MessageService, public serviceEmpresa: EmpresaService,  public servicefactura: FacturaService) {
     
     this.service.listen().subscribe((m: any) => {
       // this.refreshReciboPagoList();
@@ -130,6 +131,8 @@ export class ComplementopagocxcComponent implements OnInit {
     
 
     this.enviarfact.empresa = event;
+    this.enviarfact.rfc = event.RFC;
+    this.servicefactura.rfcempresa=event.RFC;
       this.service.rfcempresa = event.RFC;
       localStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
 

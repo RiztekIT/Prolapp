@@ -6,6 +6,7 @@ import { SharedService } from '../../../services/shared/shared.service';
 import * as html2pdf from 'html2pdf.js';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import { MAT_DIALOG_DATA } from '@angular/material';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 
 
 @Component({
@@ -26,7 +27,7 @@ export class ReporteComponent implements OnInit {
 
   isVisible: boolean;
 
-  constructor(public serviceFactura: FacturaService, public serviceCliente: ClientesService, public sharedService: SharedService, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(public serviceFactura: FacturaService, public serviceCliente: ClientesService, public sharedService: SharedService, @Inject(MAT_DIALOG_DATA) public data: any, public enviarfact: EnviarfacturaService) { }
 
   con : string| number;
   arrcon: Array<any> = [];
@@ -418,7 +419,7 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
   this.isVisible = false;
   setTimeout(() => {  
   // setTimeout(this.onExportClick,5)
-  const content: Element = document.getElementById('pdfreportemxn');
+  const content: Element = document.getElementById('pdfreporte');
   const option = {    
     margin: [3,0,3,0],
     filename: 'Reporte.pdf',
