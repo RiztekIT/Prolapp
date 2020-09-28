@@ -35,6 +35,12 @@ export class ComplementoPagoComponent implements OnInit {
   nombreE: string;
 
   SaldoAnterior: any;
+  calle;
+  numeroext;
+  colonia;
+  codigopostal;
+  ciudad
+  estado;
 
   ngOnInit() {
     this.ver();
@@ -69,6 +75,12 @@ export class ComplementoPagoComponent implements OnInit {
 
     this.rfcE = this.enviarfact.empresa.RFC;
     this.nombreE = this.enviarfact.empresa.RazonSocial;
+    this.calle = this.enviarfact.empresa.Calle
+  this.numeroext = this.enviarfact.empresa.NumeroExterior
+  this.colonia = this.enviarfact.empresa.Colonia
+  this.codigopostal = this.enviarfact.empresa.CP
+  this.ciudad = this.enviarfact.empresa.Ciudad
+  this.estado = this.enviarfact.empresa.Estado
 
     this.objconc = this.service.formt.pagoCFDI;
 

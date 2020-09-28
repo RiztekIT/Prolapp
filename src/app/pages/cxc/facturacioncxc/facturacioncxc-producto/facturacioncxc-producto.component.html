@@ -89,7 +89,7 @@
                             </div>
 
 
-                            <label class="input-group-text text-info">Cantidad DLLS: </label>
+                            <label class="input-group-text text-info">Cantidad: </label>
                             <input required minlength="1" placeholder="Ingresar Cantidad" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad" (ngModelChange)="sumar()" (blur)="formatoDlls()">
 
                             <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">

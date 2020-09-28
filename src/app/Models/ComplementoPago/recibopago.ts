@@ -19,4 +19,5 @@ export class ReciboPago {
     NoSelloSAT: string;
     RFCPAC: string;
     Estatus: string;
+    folio: string;
 }

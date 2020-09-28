@@ -743,13 +743,15 @@ CFDISumatoria(){
     const filterValue = value.toString().toLowerCase();
     return this.options.filter(option =>
       option.Nombre.toLowerCase().includes(filterValue) ||
-      option.IdClientes.toString().includes(filterValue));
+      option.ClaveCliente.toString().includes(filterValue));
   }
 
   /* Metodo que se dispara al seleccionar clientes */
   onSelectionChange(cliente: Cliente, event: any) {
     console.log(event);
     if (event.isUserInput) {
+
+      /* this.service.formData.IdCliente = cliente.id */
 
       this.fechaVenc = new Date(this.service.formData.FechaDeExpedicion)
       console.log(this.fechaVenc);
@@ -1297,6 +1299,8 @@ console.log(data);
         this.service.formData.SelloDigitalCFDI = data.SAT.SelloCFD;
         this.service.formData.NumeroDeSelloSAT = data.SAT.NoCertificadoSAT;
         this.service.formData.RFCdelPAC = 'LSO1306189R5';
+        this.service.formData.Serie = data.INV.Serie;
+        this.service.formData.Folio = data.INV.Folio;
 
         if (this.service.formData.MetodoDePago=='PUE'){
           this.service.formData.Estatus = 'Pagada';

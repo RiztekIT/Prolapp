@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogConfig } from '@angular/material';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -14,6 +14,11 @@ import { NotaCreditoMaster } from 'src/app/Models/nota-credito/notaCreditoMaster
 import { MessageService } from '../../../services/message.service';
 import { ThrowStmt } from '@angular/compiler';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+import { NotacreditoComponent } from 'src/app/components/notacredito/notacredito/notacredito.component';
+import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
+import { EmpresaService } from 'src/app/services/empresas/empresa.service';
+import * as html2pdf from 'html2pdf.js';
 
 
 
@@ -34,6 +39,9 @@ export class NotaCreditocxcComponent implements OnInit {
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   loadtable = true;
   listData: MatTableDataSource<any>;
+  xmlparam;
+  fileUrl;
+  listEmpresa;
 
   displayedColumns : string [] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Subtotal', 'ImpuestosTrasladadosDlls', 'Total', 'Estado', 'Options'];
   displayedColumnsVersion : string [] = ['ClaveProducto'];
@@ -44,7 +52,7 @@ export class NotaCreditocxcComponent implements OnInit {
   a = document.createElement('a');
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  constructor(private service: NotaCreditoService, private dialog: MatDialog, private snackbar: MatSnackBar, private router: Router, public _MessageService: MessageService ) { 
+  constructor(private service: NotaCreditoService, private dialog: MatDialog, private snackbar: MatSnackBar, private router: Router, public _MessageService: MessageService,public enviarfact: EnviarfacturaService, private serviceFactura:FacturaService, public serviceEmpresa: EmpresaService) { 
     // this.service.listen().subscribe((m:any)=>{
     //   this.refreshNotaList();
     // });
@@ -52,6 +60,8 @@ export class NotaCreditocxcComponent implements OnInit {
 
 
   ngOnInit() {
+    this.serviceFactura.rfcempresa = 'PLA11011243A'
+    this.listaempresas()
     this.refreshNotaList();
   }
 
@@ -145,4 +155,133 @@ export class NotaCreditocxcComponent implements OnInit {
     };
     this.listData.filter= filtervalue.trim().toLocaleLowerCase();
   }
+
+  verPDF(row){
+    console.log(row);
+    let folio = row.Folio;
+    let uuid = row.UUID
+
+    this.xmlparam = row.Folio
+    let xml = 'http://devfactura.in/api/v3/cfdi33/' + uuid + '/xml';
+    this.enviarfact.xml(uuid).subscribe(data => {
+      localStorage.removeItem('xml' + folio)
+      localStorage.setItem('xml' + folio, data)
+      const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+      this.fileUrl = window.URL.createObjectURL(blob);
+      this.a.href = this.fileUrl;
+      this.a.target = '_blank';
+      this.a.download = 'F-' + folio + '.xml';
+      document.body.appendChild(this.a);
+      // this.resetForm();
+      
+      const dialogConfig = new MatDialogConfig();
+      // dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = false;
+      dialogConfig.width = "100%";
+      dialogConfig.height = "80%"
+      dialogConfig.data =  {
+        param : folio
+      }
+      
+     
+      this.dialog.open(NotacreditoComponent, dialogConfig);
+      return this.fileUrl;
+    });
+
+
+  }
+
+  cambioEmpresa(event){
+    
+
+    this.enviarfact.empresa = event;
+      this.serviceFactura.rfcempresa = event.RFC;
+      localStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
+
+      //console.clear();
+      console.log(this.enviarfact.empresa);
+      console.log(this.serviceFactura.rfcempresa);
+
+      this.refreshNotaList();
+  }
+
+  listaempresas(){
+    this.serviceEmpresa.getEmpresaList().subscribe(data =>{
+      console.log(data);
+      this.listEmpresa = data;
+      
+      console.log(this.enviarfact.empresa);
+      this.enviarfact.empresa = data[0];
+      this.serviceFactura.rfcempresa = this.enviarfact.empresa.RFC;
+      // this.enviarfact.rfc = data[0].RFC;
+    })
+  }
+
+  descargarPDF(row){
+
+    let uuid = row.UUID;
+    let folio = row.Folio;
+
+  
+    console.log(uuid);
+    console.log(folio);
+    console.log(this.service.formData);
+
+    /* this.loading = true; */
+    // document.getElementById('enviaremail').click();
+    let xml = 'http://devfactura.in/api/v3/cfdi33/' + uuid + '/xml';
+    this.enviarfact.xml(uuid).subscribe(data => {
+      localStorage.setItem('xml' + folio, data)
+      const blob = new Blob([data as BlobPart], { type: 'application/xml' });
+      this.fileUrl = window.URL.createObjectURL(blob);
+      this.a.href = this.fileUrl;
+      this.a.target = '_blank';
+      this.a.download = 'F-' + folio + '.xml';
+      document.body.appendChild(this.a);
+      this.a.click();
+      const dialogConfig = new MatDialogConfig();
+      // dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = false;
+      dialogConfig.width = "100%";
+      dialogConfig.height = "80%";
+      dialogConfig.data =  {
+        param : folio
+      }
+      
+     
+      this.dialog.open(NotacreditoComponent, dialogConfig);
+
+      setTimeout(()=>{
+        this.onExportClick(folio);    
+        this.dialog.closeAll();
+        // this.loading = false;
+        
+       },1000)
+    });
+
+    
+ 
+
+  
+  }
+
+  onExportClick(folio?: string) {
+    // this.proceso = 'xml';
+    // document.getElementById('element-to-PDFNC').style.zIndex = "1";
+    const content: Element = document.getElementById('element-to-PDFNC');
+    const option = {
+      margin: [.5,.5,.5,0],
+      filename: 'F-' + folio + '.pdf',
+      image: { type: 'jpeg', quality: 1 },
+      html2canvas: {scale: 2, logging: true, scrollY: -2, scrollX: -15},
+      jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
+      pagebreak:{ avoid: '.pgbreak'}
+      
+    };
+
+    html2pdf().from(content).set(option).save(); 
+    // this.proceso = '';
+  }
+
+ 
 }

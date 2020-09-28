@@ -77,6 +77,13 @@ export class FacturaComponent implements OnInit {
   monedaT: string;
   claveCliente: number;
 
+  calle;
+  numeroext;
+  colonia;
+  codigopostal;
+  ciudad
+  estado;
+
   // Por Definir
   vendedor: string;
   ordenCompra: string;
@@ -179,6 +186,12 @@ if (this.enviarfact.empresa.RFC)
 //this.nombreE = 'PRO LACTOINGREDIENTES S DE RL MI DE CV';
 this.rfcE = this.enviarfact.empresa.RFC;
 this.nombreE = this.enviarfact.empresa.RazonSocial;
+this.calle = this.enviarfact.empresa.Calle
+  this.numeroext = this.enviarfact.empresa.NumeroExterior
+  this.colonia = this.enviarfact.empresa.Colonia
+  this.codigopostal = this.enviarfact.empresa.CP
+  this.ciudad = this.enviarfact.empresa.Ciudad
+  this.estado = this.enviarfact.empresa.Estado
 this.nombreR = row.Nombre;
 this.rfcR = row.RFC;
 this.usoCFDI = row.UsoCFDI;

@@ -379,6 +379,7 @@ this.refreshTablaDetalles();
         this.service.formData.NumeroDeSelloSAT = data.SAT.NoCertificadoSAT;
         this.service.formData.RFCDelPAC = 'LSO1306189R5';
         this.service.formData.Estatus = 'Timbrada';
+        this.service.formData.Folio = data.INV.Folio;
         // this.numfact = data.UUID;
         console.log(this.service.formData);
         this.service.updateNotaCredito(this.service.formData).subscribe(data => {

@@ -379,6 +379,7 @@
 
                                         <!-- <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
                                     </ngx-loading> -->
+                                        <button [disabled]="Saldo > 0" class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="crearJSON()"><i class="mdi mdi-send btn-lg"></i>JSON</button>
                                     </div>
                                     <ng-template #elseBlock>
                                         <div style="display: grid">

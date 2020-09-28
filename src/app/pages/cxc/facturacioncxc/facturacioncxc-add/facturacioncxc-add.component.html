@@ -79,10 +79,10 @@
                                         <div class="row">
                                             <div class="col-8">
                                                 <mat-form-field class="example-full-width">
-                                                    <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClienteId" [(ngModel)]="service.formData.IdCliente">
+                                                    <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClaveCliente" [(ngModel)]="service.ClaveCliente">
                                                     <mat-autocomplete #auto="matAutocomplete">
-                                                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChange(option, $event)">
-                                                            {{option.IdClientes}} {{option.Nombre}}
+                                                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.ClaveCliente" (onSelectionChange)="onSelectionChange(option, $event)">
+                                                            {{option.ClaveCliente}} {{option.Nombre}}
                                                         </mat-option>
                                                     </mat-autocomplete>
                                                 </mat-form-field>
@@ -411,7 +411,7 @@
                     <!-- TABLA NOTA DE CREDITO  -->
 
                     <!-- <div class="card-body" *ngIf="Estatus == 'Timbrada' && EstatusNota !== 'NoHay'"> -->
-                    <div id="div2" class="form-material mat-elevation-z5" *ngIf="Estatus == 'Timbrada' && EstatusNota !== 'NoHay'">
+                    <div id="div2" class="form-material mat-elevation-z5" *ngIf="(Estatus == 'Timbrada' || Estatus == 'Pagada' ) && EstatusNota !== 'NoHay'">
                         <div class="card card-header">
                             <h3 class="bolder blacktxt text-center">
                                 Notas de Credito

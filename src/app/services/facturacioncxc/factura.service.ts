@@ -34,6 +34,7 @@ export class FacturaService {
    saldos = new Saldos();
    tipoCambioPago;
    rfcempresa = 'PLA11011243A';
+   ClaveCliente;
    
 
    SaldoFacturaMXN: number;

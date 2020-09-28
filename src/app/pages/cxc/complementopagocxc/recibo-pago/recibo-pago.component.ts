@@ -872,6 +872,14 @@ console.log('NUEVO CFDIIIIIIIIIII');
     //  console.log(relacionados);
     console.clear();
      console.log(JSON.stringify(this.json1));
+
+     if(this.json1.Conceptos[0].Complemento[0].relacionados[0].ImpSaldoInsoluto=='0.00'){
+       console.log(this.json1.Conceptos[0].Complemento[0].relacionados[0].IdDocumento);
+      this.servicefactura.updatePagadaFactura(this.json1.Conceptos[0].Complemento[0].relacionados[0].IdDocumento).subscribe(data =>{
+        console.log(data);
+      })
+
+     }
     
 
     
@@ -904,6 +912,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
         this.service.formData.NoSelloSAT =data.SAT.NoCertificadoSAT;
         this.service.formData.RFCPAC ='LSO1306189R5';
         this.service.formData.Estatus ='Timbrada';
+        this.service.formData.folio = data.INV.Folio;
+        
         this.Estatus = this.service.formData.Estatus;
 
 console.log(this.json1);
