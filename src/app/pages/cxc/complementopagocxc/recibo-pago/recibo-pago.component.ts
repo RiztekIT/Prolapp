@@ -404,7 +404,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
            this.Saldo = +this.service.formData.Cantidad - this.Saldo;
           //  console.log('SI HAY VALORES');
           //  console.log(this.service.formData.IdCliente);
-           (<HTMLInputElement> document.getElementById("ClienteId")).disabled = true;
+           (<HTMLInputElement> document.getElementById("ClaveCliente")).disabled = true;
           //  console.log(data);
            this.listData = new MatTableDataSource(data);
            this.listData.sort = this.sort;
@@ -453,6 +453,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
       console.log(this.service.formData);
       //Limpiar arreglo de Facturas dependiendo del cliente
       this.options2 = [];
+      this.service.formData.IdCliente = cliente.Idcliente;
       this.dropdownRefresh2(this.service.formData.IdCliente);
       this.json1.Receptor.UID = cliente.IdApi;
       this.ClienteNombre = cliente.Nombre;

@@ -62,10 +62,10 @@
                                     <label class="input-group-text text-info">Cliente</label>
                                     <br>
                                     <mat-form-field class="example-full-width">
-                                        <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" id="ClienteId" (blur)="onBlurCliente()" name="ClienteId" [(ngModel)]="service.formData.IdCliente">
+                                        <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" id="ClaveCliente" (blur)="onBlurCliente()" name="ClaveCliente" [(ngModel)]="service.ClaveCliente">
                                         <mat-autocomplete #auto="matAutocomplete">
-                                            <mat-option style="width: 2000px;" *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChange(option, $event)">
-                                                {{option.IdClientes}} {{option.Nombre}}
+                                            <mat-option style="width: 2000px;" *ngFor="let option of filteredOptions | async" [value]="option.ClaveCliente" (onSelectionChange)="onSelectionChange(option, $event)">
+                                                {{option.ClaveCliente}} {{option.Nombre}}
                                             </mat-option>
                                         </mat-autocomplete>
                                     </mat-form-field>

@@ -34,6 +34,7 @@ export class ReciboPagoService {
   // formDataP: Producto;
   IdReciboPago: number;
   master = new Array<ReciboPagoMasterPagoCFDI>();
+  ClaveCliente;
   // Moneda: string;
   //Total de Recibo de Pago
   // Total: any;
