@@ -286,6 +286,7 @@ import { VentasTotalesComponent } from '../components/graficas/ventas/ventas-tot
 import { VentasMesesComponent } from '../components/graficas/ventas/ventas-meses/ventas-meses.component';
 import { BodegasComponent } from './administracion/catalogos/bodegas/bodegas.component';
 import { AEBodegaComponent } from './administracion/catalogos/bodegas/aebodega/aebodega.component';
+import { DocumentosComponent } from './almacen/inventariosalmacen/documentos/documentos.component';
 
 
 
@@ -490,6 +491,7 @@ import { AEBodegaComponent } from './administracion/catalogos/bodegas/aebodega/a
         VentasMesesComponent,
         BodegasComponent,
         AEBodegaComponent,
+        DocumentosComponent,
     
     ],
     exports: [
@@ -640,6 +642,7 @@ import { AEBodegaComponent } from './administracion/catalogos/bodegas/aebodega/a
         ShowreporteAlmacenComponent,
         DisplaySaldosComponent,
         AEBodegaComponent,
+        DocumentosComponent
         
     ]
 })

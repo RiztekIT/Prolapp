@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialogConfig, MatDialog } from '@angular/material';
 import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
 import { trigger, state, transition, animate, style } from '@angular/animations';
+import { DocumentosComponent } from './documentos/documentos.component';
 
 @Component({
   selector: 'app-inventariosalmacen',
@@ -18,7 +19,7 @@ import { trigger, state, transition, animate, style } from '@angular/animations'
 })
 export class InventariosalmacenComponent implements OnInit {
 
-  constructor(public serviceTarima: TarimaService) { 
+  constructor(public serviceTarima: TarimaService, private dialog: MatDialog) { 
    
   }
   @ViewChild(MatSort, null) sort: MatSort;
@@ -174,6 +175,25 @@ export class InventariosalmacenComponent implements OnInit {
 this.bodegaSelect = event.value;
 console.log(this.bodegaSelect);
 this.obtenerProductos(this.bodegaSelect)
+
+
+  }
+
+
+  obtenerDocumentos(detalle){
+    console.log(detalle);
+    this.serviceTarima.getTarimaCompra(detalle.IdTarima).subscribe(resp=>{
+      console.log('RESPUESTA',resp);
+
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "90%";
+  
+     this.serviceTarima.compra = resp[0];
+     
+      let mercanciadl = this.dialog.open(DocumentosComponent, dialogConfig);
+    })
 
 
   }
