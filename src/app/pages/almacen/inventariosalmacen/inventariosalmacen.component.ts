@@ -3,6 +3,8 @@ import { MatTableDataSource, MatPaginator, MatSort, MatDialogConfig, MatDialog }
 import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import { DocumentosComponent } from './documentos/documentos.component';
+import { BodegasService } from '../../../services/catalogos/bodegas.service';
+import { Bodega } from '../../../Models/catalogos/bodegas-model';
 
 @Component({
   selector: 'app-inventariosalmacen',
@@ -19,7 +21,8 @@ import { DocumentosComponent } from './documentos/documentos.component';
 })
 export class InventariosalmacenComponent implements OnInit {
 
-  constructor(public serviceTarima: TarimaService, private dialog: MatDialog) { 
+  constructor(public serviceTarima: TarimaService, private dialog: MatDialog,
+    private bodegaservice: BodegasService) { 
    
   }
   @ViewChild(MatSort, null) sort: MatSort;
@@ -34,22 +37,16 @@ export class InventariosalmacenComponent implements OnInit {
   bodegaSelect;
   
 
-  public listBodega: Array<Object> = [
-    
-    { Bodega: 'PasoTx' },
-    { Bodega: 'Chihuahua' },
-    { Bodega: 'Transito' },    
-    
-  ];
+  public listBodega: Array<any> = [];
   
   
-
+  
   ngOnInit() {
+    this.getbodegas()
     this.bodegaSelect = 'PasoTx';
     this.obtenerProductos(this.bodegaSelect)
-    
   }
-
+  
   applyFilter(filtervalue: string) {
     this.listData.filterPredicate = (data, filter: string) => {
       return data.Nombre.toString().toLowerCase().includes(filter) || data.ClaveProducto.toString().includes(filter);
@@ -57,15 +54,28 @@ export class InventariosalmacenComponent implements OnInit {
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
 
   }
-
+  
   applyFilter2(filtervalue: string) {
     this.listData.filterPredicate = (data, filter: string) => {
       return data.Bodega.toString().toLowerCase().includes(filter);
     };
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
-
+    
   }
 
+  getbodegas(){
+    this.bodegaservice.getBodegasList().subscribe(res => {
+      console.clear();
+      console.log(res);
+      console.log(res[0].Origen);
+      for (let i = 0; i <= res.length -1; i++) {
+        let b = res[i].Origen
+        this.listBodega.push(b)
+      }
+
+    })
+  }
+  
   obtenerProductos(bodega){
     let contador = 0;
     
@@ -74,7 +84,7 @@ export class InventariosalmacenComponent implements OnInit {
     
     this.serviceTarima.getProductos().subscribe((data:any)=>{
       console.log(data,'obtner tarimas');
-
+      
       for (let l=0; l<data.length; l++){
         console.log(data[l].Nombre);
         
