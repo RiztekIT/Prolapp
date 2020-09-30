@@ -30,6 +30,8 @@ export class CompraService {
     //Master donde se guardara el master 
     master = new Array<MasterCompra>();
 
+    compra;
+
 
 //Obtener Compras
     getComprasList(): Observable<Compras[]> {

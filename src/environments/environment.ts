@@ -9,8 +9,8 @@ export const environment = {
   // APIUrl: 'http://74.208.251.38:44361/api',
 // export const APIUrl = "https://localhost:44361/api";
   // APIUrlEmail: 'http://74.208.251.38:3000'
-  //APIUrl: 'http://riztekserver.ddns.net:44361/api',
-  //APIUrlEmail: 'http://riztekserver.ddns.net:3000'
+  // APIUrl: 'http://riztekserver.ddns.net:44361/api',
+  // APIUrlEmail: 'http://riztekserver.ddns.net:3000'
   //APIUrl: 'https://erpprolapp.ddns.net:44361/api',
   //APIUrlEmail: 'https://erpprolapp.ddns.net:3000'
   // APIUrlEmail: 'http://riztekserver.ddns.net:3000'

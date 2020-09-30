@@ -1,0 +1,58 @@
+<div class="d-flex justify-content-between">
+    <h4 class="text-inverse">{{tipo}} Bodega</h4>
+
+    <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
+            <mat-icon>close</mat-icon>
+        </button>
+
+
+</div>
+<hr>
+
+<div style="overflow: auto; height: 450px;">
+
+
+    <form #form="ngForm" autocomplete="off">
+
+        <div class="form-material">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+
+                        <!--               -------------------------------------------------------                                       -->
+                        <label class="input-group-text text-info">Nombre</label>
+                        <input minlength="2" placeholder="Escribe el nombre" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="BodegaService.formData.Nombre">
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+
+
+                        <label class="input-group-text text-info">Direccion</label>
+                        <input minlength="5" type="text" placeholder="Escribe el Direccion" class="form-control" name="Direccion" #Direccion="ngModel" [(ngModel)]="BodegaService.formData.Direccion">
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+
+                    </div>
+                    <div class="col-lg-6">
+
+
+                        <label class="input-group-text text-info">Origen</label>
+                        <input minlength="2" type="text" placeholder="Escribe la Origen" class="form-control" name="Origen" #Origen="ngModel" [(ngModel)]="BodegaService.formData.Origen">
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <button class="mt-4" mat-raised-button color="primary" (click)="BotonAE()" [disabled]="form.invalid">{{tipo}} Bodega</button>
+
+    </form>
+
+</div>

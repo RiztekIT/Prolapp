@@ -1,0 +1,85 @@
+<mat-card class="mat-elevation-z0">
+
+    <div class="row" style="align-items: center;">
+        <div class="col-4">
+            <button style="width: 100%;" mat-raised-button class="btn btn-prolacto btn-lg" (click)="AEBodega('Agregar')"><mat-icon class="example-tab-icon">add_circle</mat-icon></button>
+
+            <!-- <button class="btn btn-primary" (click)="crearapi()" color="primary"><i class="mdi mdi-plus btn-lg"></i>Crear Clientes</button> -->
+        </div>
+        <div class="col-4"></div>
+        <div class="col-4">
+            <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+            </mat-form-field>
+        </div>
+
+
+    </div>
+
+</mat-card>
+
+<hr>
+
+
+<div id='dvi1' style="overflow:auto;">
+
+    <table mat-table [dataSource]="listData" matSort>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr class="text-center" mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
+
+        <ng-container matColumnDef="IdBodega">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>IdBodega</th>
+            <td mat-cell *matCellDef="let element">{{element.IdBodega}}
+                <td>
+        </ng-container>
+
+        <ng-container matColumnDef="Nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+            <td mat-cell *matCellDef="let element">{{element.Nombre}}
+                <td>
+        </ng-container>
+
+        <ng-container matColumnDef="Direccion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Direccion</th>
+            <td mat-cell *matCellDef="let element">{{element.Direccion}}
+                <td>
+        </ng-container>
+
+        <ng-container matColumnDef="Origen">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Origen</th>
+            <td mat-cell *matCellDef="let element">{{element.Origen}}
+                <td>
+        </ng-container>
+
+        <ng-container matColumnDef="Options">
+            <th mat-header-cell *matHeaderCellDef>Options</th>
+            <td mat-cell *matCellDef="let row">
+
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                  </button>
+                <mat-menu #menu="matMenu">
+
+                    <button mat-icon-button class="btn btn-success" color="warning" (click)="AEBodega('Editar', row)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <!--  -->
+                    <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdBodega)">
+                                                    <mat-icon>delete_outline</mat-icon>
+                                                </button>
+                </mat-menu>
+            </td>
+        </ng-container>
+
+    </table>
+    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+    </mat-paginator>
+</div>
+
+
+<br>
+
+<!-- <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Agregar Cliente</button> -->

@@ -291,6 +291,9 @@ import { AlmacenInventariosTotalesComponent } from '../components/graficas/almac
 import { AlmacenOrdenCargaMesesComponent } from '../components/graficas/almacen/almacen-orden-carga-meses/almacen-orden-carga-meses.component';
 import { AlmacenOrdenDescargaMesesComponent } from '../components/graficas/almacen/almacen-orden-descarga-meses/almacen-orden-descarga-meses.component';
 import { AlmacenTraspasoMesesComponent } from '../components/graficas/almacen/almacen-traspaso-meses/almacen-traspaso-meses.component';
+import { BodegasComponent } from './administracion/catalogos/bodegas/bodegas.component';
+import { AEBodegaComponent } from './administracion/catalogos/bodegas/aebodega/aebodega.component';
+import { DocumentosComponent } from './almacen/inventariosalmacen/documentos/documentos.component';
 
 
 
@@ -500,6 +503,9 @@ import { AlmacenTraspasoMesesComponent } from '../components/graficas/almacen/al
         AlmacenOrdenCargaMesesComponent,
         AlmacenOrdenDescargaMesesComponent,
         AlmacenTraspasoMesesComponent,
+        BodegasComponent,
+        AEBodegaComponent,
+        DocumentosComponent,
     
     ],
     exports: [
@@ -648,7 +654,9 @@ import { AlmacenTraspasoMesesComponent } from '../components/graficas/almacen/al
         ComprasPdfComponent,
         ShowreporteVentasComponent,
         ShowreporteAlmacenComponent,
-        DisplaySaldosComponent
+        DisplaySaldosComponent,
+        AEBodegaComponent,
+        DocumentosComponent
         
     ]
 })

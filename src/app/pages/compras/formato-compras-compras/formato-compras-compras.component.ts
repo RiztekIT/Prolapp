@@ -1208,6 +1208,7 @@ dod: DetalleOrdenDescarga;
 generarOrdenDescarga(){
 
 console.log(this.compra);
+this.CompraService.compra = this.compra;
 console.log(this.detalleCompras);
 console.log(this.totalSacos);
  this.od = new OrdenDescarga();
@@ -1244,6 +1245,8 @@ this.ordenDescargaService.getFolioOrdenDescarga().subscribe(resFolio=>{
 console.log(resFolio);
   //Generar automaticamente el Folio de Orden Descarga
   this.od.Folio = +resFolio;
+
+
   // console.log(this.od.Folio);
   
   console.log(this.od);
@@ -1252,6 +1255,15 @@ console.log(resFolio);
     //traer el id generado
     this.ordenDescargaService.getUltimoIdOrdenDescarga().subscribe(ultimoId=>{
       console.log(ultimoId);
+      this.CompraService.compra.Ver = ultimoId;
+
+      console.log(this.CompraService.compra);
+    
+      this.CompraService.updateCompra(this.CompraService.compra).subscribe(res=>{
+        console.log(res);
+        
+        
+      })
       
       //Agregar detalle orden Descarga
       for (let i = 0; i < this.detalleCompras.length; i++) {
@@ -1406,6 +1418,54 @@ movimiento(){
   }
 
 
+
+}
+
+cancelar(){
+  console.log(this.compra);
+  console.log(this.listData.data);
+  this.compra.Estatus = 'Guardada'
+  this.CompraService.compra = this.compra
+
+  Swal.fire({
+    title: '¿Segur@ de Borrar Compra?',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Borrar',
+    cancelButtonText: 'Cancelar'
+  }).then((result) => {
+    if (result.value) {
+      //Borrar todos los detalles compra
+
+      this.CompraService.updateCompra(this.compra).subscribe(res=>{
+        console.log(res);
+        this.obtenerInformacionCompra();
+        this.borrarOrden(this.CompraService.compra);
+      })
+    
+        Swal.fire({
+          title: 'Borrado',
+          icon: 'success',
+          timer: 1000,
+          showCancelButton: false,
+          showConfirmButton: false
+        });
+    }
+  })
+
+ 
+
+}
+
+borrarOrden(compra){
+  console.log(compra);
+  this.ordenDescargaService.borrarOD(compra.Ver).subscribe(data=>{
+    this.ordenDescargaService.borrarDetallesOD(compra.Ver).subscribe(dat=>{
+      console.log(data);
+    })
+  })
 
 }
 
