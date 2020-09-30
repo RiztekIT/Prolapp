@@ -96,6 +96,10 @@ import { OrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/orden-
 import { DocumentacionComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-compras-importacion.component';
 import { EvidenciasOCComponent } from './calidad/evidencias/evidencias-oc/evidencias-oc.component';
 import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/evidencias-od.component';
+import { DocumentosAlmacenComponent } from '../documentos/documentos.component';
+import { DocumentosclienteComponent } from '../documentoscliente/documentoscliente.component';
+
+
 
 
 
@@ -203,14 +207,17 @@ const pagesRoutes: Routes = [
                 { path: 'documentacion-formulario-compras-importacion', component: DocumentacionFormularioComprasImportacionComponent },
                 { path: 'ordencargatrafico', component: OrdenCargaTraficoComponent },
                 { path: 'evidenciasoc', component: EvidenciasOCComponent },
-                { path: 'evidenciasod', component: EvidenciasODComponent },
+                { path: 'evidenciasod', component: EvidenciasODComponent },   
+                             
+                
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
                 { path: '#/register', redirectTo: '/register', pathMatch: 'full' },
                 { path: '', redirectTo: '/login', pathMatch: 'full' },
             ]
         },
-
+                       
+      
 ];
 
 export const PAGES_ROUTES = RouterModule.forChild( pagesRoutes );

@@ -172,6 +172,22 @@ export class VentasPedidoService {
 
 
 
+  // *******************   VALIDACION ************************* //
+
+  getValidacion(token):Observable<any[]>{
+    return this.http.get<any[]>(this.APIUrl + '/Pedido/ValidarOC/'+token);
+  }
+
+  addValidacion(validacion){
+    return this.http.post(this.APIUrl + '/Pedido/ValidarOC/',validacion);
+  }
+  updateValidacion(validacion){
+    return this.http.put(this.APIUrl + '/Pedido/ValidarOC/',validacion);
+  }
+
+
+
+
 // *******************   REPORTES PEDIDOS ************************* //
 
     //obtener lista de Clientes

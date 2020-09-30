@@ -288,6 +288,7 @@ import { DocumentosComponent } from './almacen/inventariosalmacen/documentos/doc
 
 
 
+
 @NgModule({
     declarations: [
         PagesComponent,
@@ -540,7 +541,8 @@ import { DocumentosComponent } from './almacen/inventariosalmacen/documentos/doc
         MatTabsModule,
         NgxPrintModule,
         MatProgressBarModule,
-        MatButtonToggleModule
+        MatButtonToggleModule,
+        
     ],
     providers: [
         UsuariosServieService,

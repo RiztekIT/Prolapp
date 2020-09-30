@@ -35,6 +35,9 @@ import * as html2pdf from 'html2pdf.js';
 import { OrdenCargaService } from '../../../../../services/almacen/orden-carga/orden-carga.service';
 import { OrdenTemporalService } from 'src/app/services/almacen/orden-temporal/orden-temporal.service';
 import { MercanciaComponent } from 'src/app/pages/almacen/mercancia/mercancia.component';
+import { nanoid } from 'nanoid';
+import * as uuid from 'uuid';
+import { Location } from '@angular/common';
 //Constantes para obtener tipo de cambio
 const httpOptions = {
   headers: new HttpHeaders({
@@ -53,13 +56,14 @@ const httpOptions = {
   templateUrl: './pedidoventas-add.component.html',
   styleUrls: ['./pedidoventas-add.component.css']
 })
+
 export class PedidoventasAddComponent implements OnInit {
   dialogbox: any;
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
     private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient, public ServiceUnidad: UnidadMedidaService,
-    public serviceDireccion: ClienteDireccionService, private dialog: MatDialog, public servicecoti: VentasCotizacionService, public addproductos: AddsproductosService, public _MessageService: MessageService, public serviceordencarga: OrdenCargaService, public ordenTemporalService: OrdenTemporalService) {
-      
+    public serviceDireccion: ClienteDireccionService, private dialog: MatDialog, public servicecoti: VentasCotizacionService, public addproductos: AddsproductosService, public _MessageService: MessageService, public serviceordencarga: OrdenCargaService, public ordenTemporalService: OrdenTemporalService, public location: Location) {
+    
     this.MonedaBoolean = true;
 
 
@@ -70,7 +74,12 @@ export class PedidoventasAddComponent implements OnInit {
   }
 
 
+  
 
+
+url;
+
+html;
   isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -97,6 +106,8 @@ export class PedidoventasAddComponent implements OnInit {
 
 
   ngOnInit() {
+    console.log(this.service.formData);
+   
     console.log(localStorage.getItem("inicioCliente"));
     this.clienteLogin = localStorage.getItem("inicioCliente");
     this.Inicializar();
@@ -834,7 +845,7 @@ this.changeDireccion(this.isDireccion);
     this.service.formDataPedido.Estatus = 'Guardada';
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
       this.refreshDetallesPedidoList();
-      console.clear();
+      /* console.clear(); */
       console.log(res);
       console.log(this.descuento,'descuentoMXN');
       console.log(this.descuentoDlls,'descuentoDLLS');
@@ -847,7 +858,7 @@ this.changeDireccion(this.isDireccion);
     this.service.formDataPedido.Estatus = 'Guardada';
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
       this.refreshDetallesPedidoList();
-      console.clear();
+      // console.clear();
       console.log(res);
       console.log(this.descuentoDlls,'DescuentoDLLS');
       console.log(this.descuento,'DescuentoMXN');
@@ -1156,7 +1167,7 @@ this.isFactura = true;
   }
 
   OnEditDetallePedidodp(form: NgForm) {
-    console.clear();
+    // console.clear();
 
 
     this.service.formDataDP.IdPedido = this.IdPedido;
@@ -1187,7 +1198,7 @@ this.isFactura = true;
     } else {
       console.log('NUEVO PRODUCTO');
 
-      console.clear();
+      // console.clear();
       console.log(this.CantidadP.toString());
       console.log(this.ClaveP.toString());
       console.log(this.service.formDataDP.IdDetallePedido);
@@ -1386,7 +1397,7 @@ this.isFactura = true;
         Origen: 'Chihuahua',
         Destino: this.service.formData.Estado,
         Observaciones: '',
-        Estatus: 'Creada',
+        Estatus: 'Sin Validar',
         FechaInicioCarga: new Date('10/10/10'),
         FechaFinalCarga: new Date('10/10/10'),
         FechaExpedicion: new Date(),
@@ -1425,6 +1436,8 @@ this.isFactura = true;
         Pedimento:productos[i].Pedimento,
         Saldo:this.listData.data[i].Cantidad,
           }
+
+          console.log(detordencarga);
 
           this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data=>{
             
@@ -1640,6 +1653,381 @@ this.isFactura = true;
         title: 'Concepto Agregado'
       })
     })
+  }
+
+
+  enviarPedidoAuto(){
+    
+    this.service.formt = JSON.parse(localStorage.getItem('pedidopdf'));
+    let pedido = this.service.formt;
+
+    console.log(pedido);
+
+ 
+    // document.getElementById('enviaremail2').click();
+  
+    // this.folioparam = folio;
+    // this.idparam = id;
+    this._MessageService.correo = 'ivan.talamantes@live.com';
+    this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
+    this._MessageService.asunto = 'Envio Orden de Compra ' + pedido.Folio;
+    this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + pedido.Folio;
+    this._MessageService.nombre = 'ProlactoIngredientes';
+
+    this.service.formt = JSON.parse(localStorage.getItem('pedidopdf'));
+    
+    // console.log();
+    const dialogConfig2 = new MatDialogConfig();
+    dialogConfig2.disableClose = false;
+    dialogConfig2.autoFocus = true;
+    dialogConfig2.width="70%";
+    let dialogFact = this.dialog.open(ReporteEmisionComponent, dialogConfig2);
+    
+  
+  
+    
+  
+  
+      // this.xmlparam = folio;
+        const content: Element = document.getElementById('element-to-PDF');
+        const option = {
+          margin: [0, 0, 0, 0],
+          filename: 'Orden de Compra-' + pedido.Folio + '.pdf',
+          image: { type: 'jpeg', quality: 1 },
+          html2canvas: { scale: 2, logging: true, scrollY: 0 },
+          jsPDF: { format: 'letter', orientation: 'portrait' },
+        };
+        html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
+          localStorage.setItem('pdfcorreo', pdfAsString);
+          this.statusparam=true;          
+          console.log(this.statusparam); 
+                  
+        })
+        
+        
+        
+        setTimeout(()=>{
+          dialogFact.close()
+    /*   dialogFact.afterClosed().subscribe(data=>{ */
+
+
+
+
+
+
+
+
+this.llenarhtml();
+
+        const formData = new FormData();
+        formData.append('nombre', this._MessageService.nombre)
+        
+        formData.append('email', this._MessageService.correo+','+this._MessageService.cco)
+        // formData.append('mensaje', this._MessageService.cuerpo)
+        formData.append('mensaje', this.service.formData.Nombre)
+        formData.append('folio', this.service.formt.Folio)
+        formData.append('asunto', this._MessageService.asunto)
+        formData.append('pdf', localStorage.getItem('pdfcorreo'))
+        formData.append('html',this.html)
+        // formData.append('xml', localStorage.getItem('xml'+this.data.foliop))
+      
+        console.log(formData);
+        
+        
+            
+            this._MessageService.enviarCorreo(formData).subscribe((resp) => {
+        /*       this.loading2 = false;
+              this.files = [] */
+              //document.getElementById('cerrarmodal').click();
+              console.log(resp);
+              Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
+            });      
+
+    /*   }) */
+  },3000)
+
+  
+  /*   const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = false;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width = "90%";
+        dialogConfig.data = {
+          foliop: pedido.Folio,
+           cliente: pedido.Nombre,
+          status: true,
+          tipo: 'Pedido'
+        }
+        this.dialog.open(EmailgeneralComponent, dialogConfig); */
+  
+   
+  
+  
+  }
+
+
+  crearValidacion(){
+    console.log(this.service.formDataPedido);
+
+    let validacion = {
+      idvalidarordencompra:0,
+      idordencompra: this.service.formDataPedido.IdPedido,
+      folioordencompra: this.service.formDataPedido.Folio,
+      fechaenvio: new Date(),
+      estatus: 'Sin Validar',
+      fechavalidacion: new Date(10-10-10),
+      token: uuid.v4()
+    }
+
+    console.log(validacion);
+
+    this.url = 'https://192.168.1.199:4200/#/documento/'+validacion.token
+
+    this.service.addValidacion(validacion).subscribe(resp=>{
+      console.log(resp);
+      this.enviarPedidoAuto()
+    })
+
+ 
+  }
+
+
+  llenarhtml(){
+    this.html = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+  <html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  
+  <head>
+      <script src="https://kit.fontawesome.com/c30d3b68be.js" crossorigin="anonymous"></script>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  
+      <title>Pro LactoIngredientes</title>
+  
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  </head>
+  
+  </html>
+  
+  <body style="margin: 0; padding: 0;">
+  
+      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+  
+          <tr>
+  
+              <td>
+  
+                  <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+  
+                      <tr>
+  
+  
+                          <td align="center" bgcolor="#000000" style="padding: 20px 0 30px 0;">
+                              <img src='data:image/png;base64,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'
+                                style="height: 150px; width: 150px;">
+                              <h1 style="color: #ffffff">Pro LactoIngredientes - Orden de Compra</h1>
+  
+                          </td>
+  
+                      </tr>
+  
+                      <tr>
+  
+                          <td bgcolor="#ffffff" style="padding: 40px 30px 40px 30px;">
+  
+                              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+  
+                                  <tr>
+  
+                                      <td style="color: #153643; font-family: Arial, sans-serif; font-size: 24px;">
+  
+                                          Cliente: `+this.service.formData.Nombre+`
+  
+                                      </td>
+  
+                                  </tr>
+  
+                                  <tr>
+  
+                                      <td style="padding: 20px 0 30px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
+  
+                                          Enviamos la siguiente orden de compra, favor de validarla para continuar con el proceso con el siguiente enlace
+
+                                          <a href="`+this.url+`" target="_blank" > Validacion de la Orden de Compra </a>
+  
+                                      </td>
+  
+                                  </tr>
+  
+                                  <tr>
+  
+                                      <td>
+  
+                                          <table border="0" cellpadding="0" cellspacing="0" width="100%">
+  
+                                              <tr>
+  
+                                                  <td width="260" valign="top">
+  
+                                                      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+  
+                                                          <tr>
+  
+                                                              <td>
+  
+                                                                  <h1>Principios</h1>
+  
+                                                              </td>
+  
+                                                          </tr>
+  
+                                                          <tr>
+  
+                                                              <td style="padding: 25px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
+  
+                                                                  Los principios fundamentales de Pro Lactoingredientes son: calidad ante todo y satisfacción total del cliente. Estamos convencidos que para que esto sea posible debemos aplicar una gestión basada en la excelencia, innovación, honestidad, mejora continua,
+                                                                  y compromiso como valores corporativos de referencia.
+  
+  
+  
+                                                                  <br>1.- Asegurar que los productos y servicios cumplen con la satisfacción exigida por nuestros clientes.
+  
+                                                                  <br>2.- Conocer las necesidades y expectativas de los clientes para ofrecer un servicio personalizado.
+  
+                                                                  <br>3.- Asegurar el cumplimiento de los compromisos legales y normativas para garantizar la calidad de los productos que comercializamos.
+  
+                                                                  <br>4.- Optimizar el funcionamiento de los procesos a través de la calidad y la eficiencia.
+  
+                                                                  <br>5.- Promover un entorno positivo de desarrollo, participación y de formación con los empleados.
+  
+                                                                  <br>6.- Asegurar que esta política es difundida, entendida y aceptada por la Organización, con el fin de que contribuya al logro de los compromisos establecidos.
+  
+                                                              </td>
+  
+                                                          </tr>
+  
+                                                      </table>
+  
+                                                  </td>
+  
+                                                  <td style="font-size: 0; line-height: 0;" width="20">
+  
+                                                      &nbsp;
+  
+                                                  </td>
+  
+                                                  <td width="260" valign="top">
+  
+                                                      <table border="0" cellpadding="0" cellspacing="0" width="100%">
+  
+                                                          <tr>
+  
+                                                              <td>
+  
+                                                                  <h1>Politica de Calidad</h1>
+  
+                                                              </td>
+  
+                                                          </tr>
+  
+                                                          <tr>
+  
+                                                              <td style="padding: 25px 0 0 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
+  
+                                                                  Comercializar únicamente productos que reúnan los requerimientos de calidad establecidos en las normas sanitarias de instituciones nacionales e internacionales. Recibir y enviar todos los productos que se comercializan debidamente respaldados con los
+                                                                  documentos que permitan garantizar a nuestros clientes el origen y la calidad de los mismos. Basar nuestros servicios en un sustento de seriedad y responsabilidad por parte de directivos
+                                                                  y colaboradores.
+  
+                                                              </td>
+  
+                                                          </tr>
+  
+                                                      </table>
+  
+                                                  </td>
+  
+                                              </tr>
+  
+                                          </table>
+  
+                                      </td>
+  
+                                  </tr>
+  
+                              </table>
+  
+                          </td>
+  
+                      </tr>
+  
+                      <tr>
+  
+                          <td bgcolor="#000000" style="padding: 30px 30px 30px 30px;">
+  
+                              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+  
+                                  <tr>
+  
+                                      <td style="color: #ffffff; font-family: Arial, sans-serif; font-size: 14px;">
+  
+                                          &reg; Pro LactoIngredientes<br/>
+  
+  
+  
+                                      </td>
+  
+                                      <td align="right" style="color: #ffffff">
+  
+                                          <table border="0" cellpadding="0" cellspacing="0">
+  
+                                              <tr>
+  
+                                                  <td>
+  
+                                                      <a href="http://www.twitter.com/">
+  
+                                                          <i class="fa fa-twitter-square" style="color: #ffffff"></i>
+  
+                                                      </a>
+  
+                                                  </td>
+  
+                                                  <td style="font-size: 0; line-height: 0;" width="20">&nbsp;</td>
+  
+                                                  <td>
+  
+                                                      <a href="http://www.facebook.com/">
+  
+                                                          <i class="fa fa-facebook-square" style="color: #ffffff"></i>
+  
+                                                      </a>
+  
+                                                  </td>
+  
+                                              </tr>
+  
+                                          </table>
+  
+                                      </td>
+  
+                                  </tr>
+  
+                              </table>
+  
+                          </td>
+  
+                      </tr>
+  
+                  </table>
+  
+      </table>
+  
+      </td>
+  
+      </tr>
+  
+      </table>
+  
+  </body>`
   }
 
 }

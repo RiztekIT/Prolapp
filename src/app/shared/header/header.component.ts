@@ -60,6 +60,11 @@ export class HeaderComponent implements OnInit {
     // console.log(JSON.parse(localStorage.getItem('ProlappSession')));
     this.user = u.user;
 
+    this.storageService.getUserAuth(this.user).subscribe(usuario=>{
+      console.log(usuario);
+      localStorage.setItem('userAuth',JSON.stringify(usuario[0]))
+    })
+
     }
     
   }

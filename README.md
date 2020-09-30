@@ -65,3 +65,6 @@ npm install --save ng2-charts
 
 ## Detector de Dispositivos Version 2.0.0
 npm i ngx-device-detector@2.0.0
+
+## UUID
+npm install uuid

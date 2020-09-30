@@ -24,6 +24,7 @@ export class CotizacionComponent implements OnInit {
   srcimagen;
   srcimageninicial;
   imagenproducto;
+  telefonousuario
 
 
   public imagessacos: Array<Object> = [
@@ -46,6 +47,9 @@ export class CotizacionComponent implements OnInit {
     this.ver();
     // this.srcimagen = '../../../assets/images/sacos/7.DairyAmerica-grade A nonfat drymil.png'
     this.srcimageninicial = '../../../assets/images/sacos/'
+
+    this.telefonousuario = JSON.parse(localStorage.getItem('userAuth')).Telefono
+
     
   }
 
