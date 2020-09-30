@@ -137,4 +137,14 @@ export class OrdenCargaService {
     this._listeners.next(filterBy);
   }
 
+
+// Subject / Metodo para Actualizar los dashboard TOTALES
+  private _actualizarTotales = new Subject<any>();
+  listenTotales(): Observable<any> {
+    return this._actualizarTotales.asObservable();
+  }
+  filterTotales(estatusModulos) {
+    this._actualizarTotales.next(estatusModulos);
+  }
+
 }
