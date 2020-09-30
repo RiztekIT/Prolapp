@@ -23,11 +23,11 @@
 
                             <!-- <label class="input-group-text text-info">Estatus</label> -->
                             <mat-form-field>
-                                <mat-label> Bodega </mat-label>
+                                <mat-label> {{bodegaSelect}} </mat-label>
 
                                 <mat-select (selectionChange)="bodegaCambio($event)" [(ngModel)]="bodegaSelect">
 
-                                    <mat-option *ngFor="let dl of listBodega" [value]="dl.Bodega"> {{dl.Bodega}} </mat-option>
+                                    <mat-option *ngFor="let dl of listBodega" [value]="dl"> {{dl}} </mat-option>
                                 </mat-select>
                             </mat-form-field>
 

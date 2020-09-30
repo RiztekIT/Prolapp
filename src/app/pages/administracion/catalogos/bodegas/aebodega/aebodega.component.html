@@ -21,21 +21,17 @@
 
                         <!--               -------------------------------------------------------                                       -->
                         <label class="input-group-text text-info">Nombre</label>
-                        <input required minlength="2" placeholder="Escribe el nombre" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="BodegaService.formData.Nombre">
+                        <input minlength="2" placeholder="Escribe el nombre" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="BodegaService.formData.Nombre">
 
-                        <div class="text-left text-danger" *ngIf="Nombre.invalid && Nombre.touched">
-                            Favor de Ingresar Nombre
-                        </div>
+
                         <!--               -------------------------------------------------------                                       -->
 
 
 
                         <label class="input-group-text text-info">Direccion</label>
-                        <input required minlength="5" type="text" placeholder="Escribe el Direccion" class="form-control" name="Direccion" #Direccion="ngModel" [(ngModel)]="BodegaService.formData.Direccion">
+                        <input minlength="5" type="text" placeholder="Escribe el Direccion" class="form-control" name="Direccion" #Direccion="ngModel" [(ngModel)]="BodegaService.formData.Direccion">
 
-                        <div class="text-left text-danger" *ngIf="Direccion.invalid && Direccion.touched">
-                            Favor de Ingresar Direccion
-                        </div>
+
                         <!--               -------------------------------------------------------                                       -->
 
 
@@ -44,11 +40,9 @@
 
 
                         <label class="input-group-text text-info">Origen</label>
-                        <input required minlength="2" type="text" placeholder="Escribe la Origen" class="form-control" name="Origen" #Origen="ngModel" [(ngModel)]="BodegaService.formData.Origen">
+                        <input minlength="2" type="text" placeholder="Escribe la Origen" class="form-control" name="Origen" #Origen="ngModel" [(ngModel)]="BodegaService.formData.Origen">
 
-                        <div class="text-left text-danger" *ngIf="Origen.invalid && Origen.touched">
-                            Favor de Ingresar Origen
-                        </div>
+
                         <!--               -------------------------------------------------------                                       -->
 
                     </div>

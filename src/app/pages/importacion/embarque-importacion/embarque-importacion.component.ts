@@ -5,6 +5,7 @@ import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import Swal from 'sweetalert2';
 import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
+import { BodegasService } from 'src/app/services/catalogos/bodegas.service';
 
 
 declare function steps();
@@ -55,15 +56,18 @@ export class EmbarqueImportacionComponent implements OnInit {
 ];
 
 public listBodega: Array<Object> = [
-  { Bodega: 'Todos' },
-  { Bodega: 'PasoTx' },
-  { Bodega: 'Chihuahua' },
-  { Bodega: 'Transito' },
+  // { Bodega: 'Todos' },
+  // { Bodega: 'PasoTx' },
+  // { Bodega: 'Chihuahua' },
+  // { Bodega: 'Transito' },
   
 ];
 
 
-  constructor(public router: Router, public serviceTarima: TarimaService, public serviceordencarga: OrdenCargaService) { }
+  constructor(public router: Router, public serviceTarima: TarimaService, 
+    public serviceordencarga: OrdenCargaService,
+    private bodegaservice: BodegasService) { }
+    
   listData: MatTableDataSource<any>;
   listData2: MatTableDataSource<any>;
   displayedColumns: string[] = ['select','Bodega', 'Clave','Producto','Lote', 'Fecha Caducidad', 'Cantidad'];
@@ -76,7 +80,7 @@ public listBodega: Array<Object> = [
   inicio=true;
 
   ngOnInit() {
-    
+    this.getbodegas();
     this.obtenerTarimas();
     
   }
@@ -92,6 +96,19 @@ if (this.bodegaSelect==='Todos'){
   this.applyFilter2(this.bodegaSelect)
 }
 
+  }
+
+  getbodegas(){
+    this.bodegaservice.getBodegasList().subscribe(res => {
+      console.clear();
+      console.log(res);
+      console.log(res[0].Origen);
+      for (let i = 0; i <= res.length -1; i++) {
+        let b = res[i].Origen
+        this.listBodega.push(b)
+      }
+
+    })
   }
 
   applyFilter(filtervalue: string) {
