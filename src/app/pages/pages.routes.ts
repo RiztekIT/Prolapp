@@ -96,8 +96,7 @@ import { OrdenCargaTraficoComponent } from './trafico/orden-carga-trafico/orden-
 import { DocumentacionComprasImportacionComponent } from './importacion/documentacion-compras-importacion/documentacion-compras-importacion.component';
 import { EvidenciasOCComponent } from './calidad/evidencias/evidencias-oc/evidencias-oc.component';
 import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/evidencias-od.component';
-import { DocumentosAlmacenComponent } from '../documentos/documentos.component';
-import { DocumentosclienteComponent } from '../documentoscliente/documentoscliente.component';
+// import { DocumentosclienteComponent } from '../documentoscliente/documentoscliente.component';
 
 
 
