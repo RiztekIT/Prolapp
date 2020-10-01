@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
+import { VentasPedidoService } from '../services/ventas/ventas-pedido.service';
+declare function init_plugins();
 
 @Component({
   selector: 'app-documentoscliente',
@@ -8,11 +10,19 @@ import { ActivatedRoute } from '@angular/router'
 })
 export class DocumentosclienteComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private aroute: ActivatedRoute, public pedidoSVC: VentasPedidoService) { }
   token;
 
   ngOnInit() {
-    this.token = this.route.snapshot.paramMap.get('token');
+    init_plugins();
+    this.token = this.aroute.snapshot.paramMap.get('token')
+    this.getOC();
+  }
+
+  getOC(){
+    this.pedidoSVC.getValidacion(this.token).subscribe(data=>{
+      console.log(data);
+    })
   }
 
 }

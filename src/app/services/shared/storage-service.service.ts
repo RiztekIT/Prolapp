@@ -17,6 +17,7 @@ export class StorageServiceService {
   private currentSession : Session = null;
   private currentSessionCliente : sessionCliente = null;
   readonly APIUrl = environment.APIUrl;
+  currentUser;
   
   constructor(private router: Router,private http : HttpClient) { 
     this.localStorageService = localStorage;

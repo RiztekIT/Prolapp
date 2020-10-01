@@ -98,7 +98,8 @@ export class VentasPedidoService {
  //get Direcciones en base a ID CLIENTE
  getDireccionID(id: number): Observable<ClienteDireccion[]> {
   return this.http.get<ClienteDireccion[]>(this.APIUrl + '/Pedido/DireccionID/' + id);
-}   
+}  
+
 
   //Get Unidades De Medida
   unidadMedida(): Observable<any>{

@@ -79,8 +79,8 @@ export class ComplementopagocxcComponent implements OnInit {
       this.listEmpresa = data;
       
       console.log(this.enviarfact.empresa);
-      this.enviarfact.empresa = data[0];
-      this.service.rfcempresa = this.enviarfact.empresa.RFC;
+     /*  this.enviarfact.empresa = data[0];
+      this.service.rfcempresa = this.enviarfact.empresa.RFC; */
       // this.enviarfact.rfc = data[0].RFC;
     })
   }

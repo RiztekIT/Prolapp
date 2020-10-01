@@ -20,14 +20,17 @@ export class LoginguardGuard implements CanActivate {
       return true;
     }
 
+   /*  console.log(this.location.path())
+
     if (this.location.path()=='/documento'){
-      this.router.navigate(['/documento']);
+      this.router.navigate(['/register']);
       return false;
-    }
+    } */
     /* if (next.url.indexOf('documento') !== -1) { return true; } */
   
     // not logged in so redirect to login page
     this.router.navigate(['/login']);
+    /* this.router.navigate(['/documento/:token']); */
     return false;
   }
   }

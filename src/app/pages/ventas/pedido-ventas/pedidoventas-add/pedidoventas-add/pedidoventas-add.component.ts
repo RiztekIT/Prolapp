@@ -120,6 +120,7 @@ html;
     this.service.formProd = new Producto();
 
     this.seleccionManual=false;
+    this.getValidacion();
     
 
 
@@ -1451,6 +1452,8 @@ this.isFactura = true;
 
         console.log(this.service.formDataPedido);
         this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+          this.crearValidacion();
+
           Swal.fire({
             icon: 'success',
             title: 'Pedido Cerrado'
@@ -1788,6 +1791,12 @@ this.llenarhtml();
     })
 
  
+  }
+
+  getValidacion(){
+    this.url = 'https://192.168.1.199:4200/#/documento/2b2bbdf6-94e5-4c23-ad8f-b93e5dcec13d';
+    console.log(this.url)
+    /* this.service.getValidacion() */
   }
 
 

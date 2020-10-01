@@ -11,11 +11,16 @@ import { DocumentosclienteComponent } from './documentoscliente/documentosclient
 
 
 const appRoutes: Routes = [
-    { path: 'documento/:token', component: DocumentosclienteComponent },  
     
-    { path: 'login', component: LoginComponent },
-    { path: 'logincliente', component: LoginClienteComponent },
-    { path: 'register', component: RegisterComponent },    
+    
+
+        { path: 'documento/:token', component: DocumentosclienteComponent },  
+        
+        { path: 'login', component: LoginComponent },
+        { path: 'logincliente', component: LoginClienteComponent },
+        { path: 'register', component: RegisterComponent },    
+    
+
     
     { path: '**', component: NopagefoundComponent }
 ];

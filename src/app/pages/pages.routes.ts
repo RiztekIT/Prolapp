@@ -212,10 +212,11 @@ const pagesRoutes: Routes = [
                 
 
                 { path: '#/calendario_calidad', redirectTo: '/register', pathMatch: 'full' },
-                { path: '#/register', redirectTo: '/register', pathMatch: 'full' },
+                // { path: '#/register', redirectTo: '/register', pathMatch: 'full' },
                 { path: '', redirectTo: '/login', pathMatch: 'full' },
             ]
         },
+        
                        
       
 ];

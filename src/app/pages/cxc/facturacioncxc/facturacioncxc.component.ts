@@ -77,8 +77,9 @@ export class FacturacioncxcComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.service.rfcempresa = 'PLA11011243A'
+    /* this.service.rfcempresa = 'PLA11011243A'*/
     this.listaempresas()
+    console.log(this.enviarfact.empresa);
     this.refreshFacturaList();
     // this.detallesFactura();
     this.Folio();
@@ -92,8 +93,8 @@ export class FacturacioncxcComponent implements OnInit {
       this.listEmpresa = data;
       
       console.log(this.enviarfact.empresa);
-      this.enviarfact.empresa = data[0];
-      this.service.rfcempresa = this.enviarfact.empresa.RFC;
+      // this.enviarfact.empresa = data[0];
+      // this.service.rfcempresa = this.enviarfact.empresa.RFC;
       // this.enviarfact.rfc = data[0].RFC;
     })
   }

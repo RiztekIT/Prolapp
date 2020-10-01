@@ -32,7 +32,7 @@
             <ul class="navbar-nav mr-auto ">
                 <!-- This is  -->
                 <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a></li>
-                <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i>      Pro lactoIngredientes S. de R.L. M.I. de C.V. </a></li>
+                <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i>      {{this.serviceEmpresa.empresaActual.RazonSocial}} </a></li>
                 <li class="nav-item hidden-sm-down"></li>
 
             </ul>
@@ -121,7 +121,7 @@
                                     <div class="u-img"><img src="assets/images/users/1.jpg" alt="user"></div>
                                     <div class="u-text">
                                         <h4>{{user}}</h4>
-                                        <p class="text-muted">javiermartinez@prolactoingredientes.com.mx</p><a routerLink="/profile" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a></div>
+                                        <p class="text-muted">{{this.storageService.currentUser.Correo}}</p><a routerLink="/profile" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a></div>
                                 </div>
                             </li>
                             <li role="separator" class="divider"></li>
