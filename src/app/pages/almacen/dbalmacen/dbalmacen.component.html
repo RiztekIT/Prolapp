@@ -169,16 +169,18 @@
         </div>
     </div>
 
+
     <div class="row row-eq-height">
         <div class="col-md-6 col-12" id="almacen">
             <div class="card" style=" background-color: white;">
-                <app-compras-totales></app-compras-totales>
+                <app-almacen-inventarios-totales></app-almacen-inventarios-totales>
             </div>
         </div>
 
         <div class="col-md-6 col-12" [ngStyle]="{'height':altura+'px'}">
             <div class="card" style="overflow-x: hidden;overflow-y: auto;  background-color: white;">
-                <app-pedido-ventas></app-pedido-ventas>
+                <!-- <app-pedido-ventas></app-pedido-ventas> -->
+                <app-inventariosalmacen></app-inventariosalmacen>
             </div>
         </div>
     </div>
@@ -187,7 +189,7 @@
 
     <div class="row">
         <div class="col-md-12 col-12">
-            <app-compras-meses></app-compras-meses>
+            <app-almacen-inventarios-meses></app-almacen-inventarios-meses>
         </div>
     </div>
 </div>

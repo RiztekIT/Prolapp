@@ -294,6 +294,7 @@ import { AlmacenTraspasoMesesComponent } from '../components/graficas/almacen/al
 import { BodegasComponent } from './administracion/catalogos/bodegas/bodegas.component';
 import { AEBodegaComponent } from './administracion/catalogos/bodegas/aebodega/aebodega.component';
 import { DocumentosComponent } from './almacen/inventariosalmacen/documentos/documentos.component';
+import { AlmacenInventariosMesesComponent } from '../components/graficas/almacen/almacen-inventarios-meses/almacen-inventarios-meses.component';
 
 
 
@@ -506,6 +507,7 @@ import { DocumentosComponent } from './almacen/inventariosalmacen/documentos/doc
         BodegasComponent,
         AEBodegaComponent,
         DocumentosComponent,
+        AlmacenInventariosMesesComponent,
     
     ],
     exports: [
