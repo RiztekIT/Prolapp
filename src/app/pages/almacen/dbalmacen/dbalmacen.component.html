@@ -1,1 +1,208 @@
-<app-productosinventarios></app-productosinventarios>
+<div class="row">
+    <div class="col-md-3 col-12">
+        <div class="card">
+            <div class="card-body">
+
+
+                <h4 style="text-align: center;">Orden Carga</h4>
+                <hr>
+                <section class="example-section">
+                    <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedOrdenCarga" (change)="onChangeOrdenCarga()" [disabled]="disabledOrdenCarga">
+                        Dashboard Orden Carga
+                    </mat-slide-toggle>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-12">
+        <div class="card">
+            <div class="card-body">
+
+
+                <h4 style="text-align: center;">Orden Descarga</h4>
+                <hr>
+                <section class="example-section">
+                    <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedOrdenDescarga" (change)="onChangeOrdenDescarga()" [disabled]="disabledOrdenDescarga">
+                        Dashboard Orden Descarga
+                    </mat-slide-toggle>
+                </section>
+
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-12">
+        <div class="card">
+            <div class="card-body">
+
+
+                <h4 style="text-align: center;">Traspaso</h4>
+                <hr>
+                <section class="example-section">
+                    <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedTraspaso" (change)="onChangeTraspaso()" [disabled]="disabledTraspaso">
+                        Dashboard Traspaso
+                    </mat-slide-toggle>
+                </section>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-12">
+        <div class="card">
+            <div class="card-body">
+
+
+                <h4 style="text-align: center;">Inventario</h4>
+                <hr>
+                <section class="example-section">
+                    <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedInventario" (change)="onChangeInventario()" [disabled]="disabledInventario">
+                        Dashboard Inventario
+                    </mat-slide-toggle>
+                </section>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<!-- ORDEN CARGA -->
+<div *ngIf="checkedOrdenCarga == true">
+    <div class="card">
+        <div class="card-body">
+            <h2 style="text-align: center;">Orden Carga</h2>
+        </div>
+    </div>
+
+    <div class="row row-eq-height">
+        <div class="col-md-6 col-12" id="almacen">
+            <div class="card" style=" background-color: white;">
+                <app-almacen-totales></app-almacen-totales>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-12" [ngStyle]="{'height':altura+'px'}">
+            <div class="card" style="overflow-x: hidden;overflow-y: auto;  background-color: white;">
+                <app-pedidosalmacen></app-pedidosalmacen>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-12 col-12">
+            <app-almacen-orden-carga-meses></app-almacen-orden-carga-meses>
+        </div>
+    </div>
+</div>
+<!-- ORDEN DESCARGA -->
+<div *ngIf="checkedOrdenDescarga == true">
+    <div class="card">
+        <div class="card-body">
+            <h2 style="text-align: center;">Orden Descarga</h2>
+        </div>
+    </div>
+
+    <div class="row row-eq-height">
+        <div class="col-md-6 col-12" id="almacen">
+            <div class="card" style=" background-color: white;">
+                <app-almacen-orden-descarga-totales></app-almacen-orden-descarga-totales>
+
+            </div>
+        </div>
+
+        <div class="col-md-6 col-12" [ngStyle]="{'height':altura+'px'}">
+            <div class="card" style="overflow-x: hidden;overflow-y: auto;  background-color: white;">
+                <app-ordendescarga></app-ordendescarga>
+
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-12 col-12">
+            <app-almacen-orden-descarga-meses></app-almacen-orden-descarga-meses>
+        </div>
+    </div>
+</div>
+<!-- TRASPASO -->
+<div *ngIf="checkedTraspaso == true">
+    <div class="card">
+        <div class="card-body">
+            <h2 style="text-align: center;">Traspaso</h2>
+        </div>
+    </div>
+
+    <div class="row row-eq-height">
+        <div class="col-md-6 col-12" id="almacen">
+            <div class="card" style=" background-color: white;">
+                <app-almacen-traspaso-totales></app-almacen-traspaso-totales>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-12" [ngStyle]="{'height':altura+'px'}">
+            <div class="card" style="overflow-x: hidden;overflow-y: auto;  background-color: white;">
+                <app-importacionesalmacen></app-importacionesalmacen>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-12 col-12">
+            <app-almacen-traspaso-meses></app-almacen-traspaso-meses>
+        </div>
+    </div>
+</div>
+<!-- Inventario -->
+<div *ngIf="checkedInventario == true">
+    <div class="card">
+        <div class="card-body">
+            <h2 style="text-align: center;">Inventario</h2>
+        </div>
+    </div>
+
+
+    <div class="row row-eq-height">
+        <div class="col-md-6 col-12" id="almacen">
+            <div class="card" style=" background-color: white;">
+                <app-almacen-inventarios-totales></app-almacen-inventarios-totales>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-12" [ngStyle]="{'height':altura+'px'}">
+            <div class="card" style="overflow-x: hidden;overflow-y: auto;  background-color: white;">
+                <!-- <app-pedido-ventas></app-pedido-ventas> -->
+                <app-inventariosalmacen></app-inventariosalmacen>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-12 col-12">
+            <app-almacen-inventarios-meses></app-almacen-inventarios-meses>
+        </div>
+    </div>
+</div>
+
+<!-- <app-productosinventarios></app-productosinventarios> -->
+<br>
+
+<div class="row">
+    <div class="col-md-12 col-12">
+        <div class="card">
+            <div class="card-body">
+                <app-calendarioalmacen></app-calendarioalmacen>
+            </div>
+        </div>
+    </div>
+</div>

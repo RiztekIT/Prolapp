@@ -168,6 +168,12 @@ updateBodegaTarima(bodega:string, qr:string) {
   GetTarimaProductoD(producto: string, lote: string): Observable<any[]> {
     return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaProductoD?producto='+ producto+'&lote='+lote);
   }
+  GetSumatoriaAllBodegas(): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/Tarima/GetSumatoriaAllBodegas');
+  }
+  GetSumatoriaBodega(bodega: string): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/Tarima/GetSumatoriaBodega/'+bodega);
+  }
   
 
   getTarimaCompra(id): Observable <any[]>{

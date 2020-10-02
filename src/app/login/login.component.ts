@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
 
   obtenerdevice(){
     this.deviceinfo = this.deviceService.getDeviceInfo();
-  console.clear();
+  //console.clear();
 console.log(this.deviceinfo);
 // this.dispositivo = '||'+this.deviceinfo.browser+'||'+this.deviceinfo.browser_version+'||'+this.deviceinfo.device+'||'+this.deviceinfo.os+'||'+this.deviceinfo.os_version+'||'+this.deviceinfo.userAgent;
 this.dispositivo = JSON.stringify(this.deviceinfo)
