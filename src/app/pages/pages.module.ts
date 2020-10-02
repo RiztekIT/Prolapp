@@ -281,7 +281,7 @@ import { ComprasListaComponent } from '../components/graficas/compras/compras-li
 import { ProductosinventariosComponent } from '../components/graficas/almacen/productosinventarios/productosinventarios.component';
 import { ShowreporteVentasComponent } from './ventas/reportes-ventas/showreporte-ventas/showreporte-ventas.component';
 import { ShowreporteAlmacenComponent } from './almacen/reportesalmacen/showreporte-almacen/showreporte-almacen.component';
-import { DisplaySaldosComponent } from './cxc/saldoscxc/display-saldos/display-saldos.component';
+
 import { VentasTotalesComponent } from '../components/graficas/ventas/ventas-totales/ventas-totales.component';
 import { VentasMesesComponent } from '../components/graficas/ventas/ventas-meses/ventas-meses.component';
 import { AlmacenTotalesComponent } from '../components/graficas/almacen/almacen-totales/almacen-totales.component';
@@ -295,6 +295,8 @@ import { BodegasComponent } from './administracion/catalogos/bodegas/bodegas.com
 import { AEBodegaComponent } from './administracion/catalogos/bodegas/aebodega/aebodega.component';
 import { DocumentosComponent } from './almacen/inventariosalmacen/documentos/documentos.component';
 import { AlmacenInventariosMesesComponent } from '../components/graficas/almacen/almacen-inventarios-meses/almacen-inventarios-meses.component';
+import { DisplaySaldosComponent } from './cxc/saldoscxc/display-saldos/display-saldos.component';
+import { DisplaySaldosComponentp } from './cxp/saldoscxp/display-saldos/display-saldos.component';
 
 
 
@@ -508,6 +510,7 @@ import { AlmacenInventariosMesesComponent } from '../components/graficas/almacen
         AEBodegaComponent,
         DocumentosComponent,
         AlmacenInventariosMesesComponent,
+        DisplaySaldosComponentp
     
     ],
     exports: [
@@ -658,7 +661,8 @@ import { AlmacenInventariosMesesComponent } from '../components/graficas/almacen
         ShowreporteAlmacenComponent,
         DisplaySaldosComponent,
         AEBodegaComponent,
-        DocumentosComponent
+        DocumentosComponent,
+        DisplaySaldosComponentp
         
     ]
 })
