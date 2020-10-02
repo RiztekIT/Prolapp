@@ -27,6 +27,9 @@ export class UsuariosServieService {
   getUsuariosList(): Observable <Usuario[]> {
     return this.http.get<Usuario[]>(this.APIUrl + '/usuario');
   }
+  getUsuarioNombreU(usuario: string): Observable <Usuario[]> {
+    return this.http.get<Usuario[]>(this.APIUrl + '/usuario/userinfo/' + usuario);
+  }
 
   addUsuario(usuario: Usuario) {
     return this.http.post(this.APIUrl + '/usuario', usuario);
