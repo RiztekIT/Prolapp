@@ -7,7 +7,7 @@ import { ngxLoadingAnimationTypes } from "ngx-loading";
   templateUrl: './display-saldos.component.html',
   styleUrls: ['./display-saldos.component.css']
 })
-export class DisplaySaldosComponent implements OnInit {
+export class DisplaySaldosComponentp implements OnInit {
 
 
   listData: MatTableDataSource<any>;
@@ -20,7 +20,7 @@ export class DisplaySaldosComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogbox: MatDialogRef<DisplaySaldosComponent>,
+    public dialogbox: MatDialogRef<DisplaySaldosComponentp>,
     
     ) { }
 

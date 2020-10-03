@@ -67,19 +67,19 @@
 
                         <ng-container matColumnDef="Folio">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio</th>
-                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Folio}}
+                            <td class="folio" mat-cell *matCellDef="let element" >{{element.Folio}}
                                 <td>
                         </ng-container>
 
                         <ng-container matColumnDef="Origen">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Origen</th>
-                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Origen}}
+                            <td class="folio" mat-cell *matCellDef="let element" >{{element.Origen}}
                                 <td>
                         </ng-container>
 
                         <ng-container matColumnDef="Destino">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Destino</th>
-                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Destino}}
+                            <td class="folio" mat-cell *matCellDef="let element" >{{element.Destino}}
                                 <td>
                         </ng-container>
 
@@ -95,7 +95,7 @@
 
                         <ng-container matColumnDef="Fecha">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Expedicion</th>
-                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.FechaDeExpedicion | date: 'yyy/MM/dd h:mm a' }}
+                            <td class="folio" mat-cell *matCellDef="let element" >{{element.FechaDeExpedicion | date: 'yyy/MM/dd h:mm a' }}
                                 <td>
                         </ng-container>
                         <!--  <tbody>

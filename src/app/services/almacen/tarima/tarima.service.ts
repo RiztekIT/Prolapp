@@ -54,6 +54,8 @@ export class TarimaService {
   //Variable para saber si el traspaso es de orden descarga o no
   TraspasoDescarga:boolean;
 
+  compra;
+
   getTarima(): Observable <Tarima[]>{
     return this.http.get<Tarima[]>(APIUrl + '/Tarima');
   }
@@ -165,6 +167,17 @@ updateBodegaTarima(bodega:string, qr:string) {
   }
   GetTarimaProductoD(producto: string, lote: string): Observable<any[]> {
     return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaProductoD?producto='+ producto+'&lote='+lote);
+  }
+  GetSumatoriaAllBodegas(): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/Tarima/GetSumatoriaAllBodegas');
+  }
+  GetSumatoriaBodega(bodega: string): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/Tarima/GetSumatoriaBodega/'+bodega);
+  }
+  
+
+  getTarimaCompra(id): Observable <any[]>{
+    return this.http.get<any[]>(APIUrl + '/Tarima/GetCompraTarima/'+id);
   }
 
   private _listeners = new Subject<any>(); 

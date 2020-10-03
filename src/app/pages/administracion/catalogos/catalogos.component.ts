@@ -8,6 +8,7 @@ declare function EditableTableCatalogosComponent();
 declare function EditableTableCatalogosComponent2();
 declare function EditableTableCatalogosComponent3();
 declare function EditableTableCatalogosComponent4();
+declare function EditableTableCatalogosComponent5();
 declare function editTableJS();
 
 @Component({
@@ -34,6 +35,7 @@ export class CatalogosComponent implements OnInit {
     // EditableTableCatalogosComponent2();
     EditableTableCatalogosComponent3();
     EditableTableCatalogosComponent4();
+    // EditableTableCatalogosComponent5();
     editTableJS();
   }
 

@@ -1,0 +1,43 @@
+table {
+    width: 100%;
+}
+
+td {
+    padding: 5px !important;
+}
+
+::ng-deep .mat-sort-header-container {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-danger:hover {
+    color: white;
+}
+
+::ng-deep .mat-cell {
+    overflow: auto;
+}
+
+::ng-deep .mat-header-cell {
+    color: #ffffff;
+    background: #000000;
+}
+
+button {
+    margin-left: 10px;
+}
+
+table {
+    width: 100%;
+}
+
+.btn-prolacto {
+    background-color: black;
+    color: white
+}
+
+.btn-prolacto:hover {
+    background-color: white;
+    color: black
+}
