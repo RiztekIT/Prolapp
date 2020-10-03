@@ -91,7 +91,7 @@ export class ReportefacturacionfechasComponent implements OnInit {
     // this.facts = [];
 
 
-    this.serviceFactura.getFacturasFechas(fecha1,fecha2).subscribe(data=>{
+    this.serviceFactura.getFacturasFechas2(fecha1,fecha2).subscribe(data=>{
       
       
       console.log('subscribe 1',data);
