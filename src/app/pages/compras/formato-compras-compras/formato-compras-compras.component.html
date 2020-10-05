@@ -226,7 +226,7 @@
 
 
                                                             <div class="col-12 col-md-6" *ngIf="this.compra.Estatus != 'Administrativa'">
-                                                                <label class="input-group-text text-info">Unidad Medida :</label> <br>
+                                                                <!--  <label class="input-group-text text-info">Unidad Medida :</label> <br>
                                                                 <mat-form-field class="example-full-width">
                                                                     <input type="text" autocomplete="off" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="detalleCompra.Unidad" (focus)="unidadMedida()">
                                                                     <mat-autocomplete #autoUnidad="matAutocomplete">
@@ -234,7 +234,7 @@
                                                                             {{option.ClaveSAT}} {{option.Nombre}}
                                                                         </mat-option>
                                                                     </mat-autocomplete>
-                                                                </mat-form-field>
+                                                                </mat-form-field> -->
 
                                                                 <label class="input-group-text text-info"> IVA:</label>
                                                                 <input type="text" class="form-control" name="IVA" #IVA="ngModel" [ngModel]="(detalleCompra.IVA | currency)" readonly>
@@ -252,7 +252,7 @@
                                                             <div class="container row" style="margin-top: 5px;">
                                                                 <div class="col-md-7 col-lg-8">
                                                                     <div *ngIf="addproducto == true; else elseBlock2">
-                                                                        <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompra()" [disabled]="DetallePedidoForm.invalid || !detalleCompra.Unidad">Agregar Producto</button>
+                                                                        <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompra()">Agregar Producto</button>
                                                                         <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
                                                                         <button *ngIf="this.compra.Estatus == 'Administrativa'" class="btn btn-success" type="submit" (click)="onAddDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid" style="margin-right: 5px">Agregar Producto</button>
                                                                         <button *ngIf="this.compra.Estatus == 'Administrativa' && this.detalleCompra.Producto" class="btn btn-primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
@@ -262,7 +262,7 @@
                                                         <button *ngIf="this.compra.Estatus == 'Administrativa' && this.detalleCompra.Producto" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button> -->
                                                                     </div>
                                                                     <ng-template #elseBlock2>
-                                                                        <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompra()" [disabled]="DetallePedidoForm.invalid || !detalleCompra.Unidad">Editar Producto</button>
+                                                                        <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompra()">Editar Producto</button>
                                                                         <button *ngIf="this.compra.Estatus == 'Administrativa'" class="btn btn-success" type="submit" (click)="onEditDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Editar Producto</button>
                                                                         <!-- <button *ngIf="this.compra.Estatus == 'Administrativa'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Editar Producto</button> -->
 
@@ -428,7 +428,7 @@
 
                                                                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="openrep()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>VerPDF</button>
                                                                             <br>
-                                                                            <button *ngIf="this.compra.Estatus == 'Transito'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)="cancelar()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-send btn-lg"></i>Cancelar</button>
+                                                                            <button *ngIf="this.compra.Estatus == 'Transito'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)="cancelar()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Cancelar</button>
                                                                             <!-- <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="movimiento()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Insertar Movimiento</button>
                                                                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="updateprueba()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Insertar Movimiento</button> -->
 

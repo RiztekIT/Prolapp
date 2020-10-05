@@ -391,7 +391,7 @@ pesoTotal: number;
 
       this.OrigenSelect = 'USA'
       this.claveorigen = '1'
-      this.PresentacionSelect = '25'
+      this.PresentacionSelect = '25 Kg'
       // this.PStock = this.service.formProd.Stock;
       // this.ProductoPrecio = +this.service.formProd.PrecioVenta;
       //asignar el valor inicial en caso de que la moneda este declarada en USD

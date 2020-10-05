@@ -36,6 +36,8 @@ export class VentasPedidoService {
 
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
 
+  pedidoCliente;
+
 
   formt: any;
   formData= new Cliente();
@@ -99,6 +101,10 @@ export class VentasPedidoService {
  getDireccionID(id: number): Observable<ClienteDireccion[]> {
   return this.http.get<ClienteDireccion[]>(this.APIUrl + '/Pedido/DireccionID/' + id);
 }  
+
+updateOrdenCarga(id){
+  return this.http.get(this.APIUrl + '/Pedido/OrdenCarga/' + id);
+}
 
 
   //Get Unidades De Medida

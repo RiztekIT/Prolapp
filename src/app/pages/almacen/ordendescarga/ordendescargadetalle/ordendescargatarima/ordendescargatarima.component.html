@@ -81,8 +81,8 @@
                                                     {{element.Producto}}
                                                     <td>
                                             </ng-container>
-                                            <ng-container matColumnDef="Sacos">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
+                                            <ng-container matColumnDef="Kg">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
                                                 <td class="Sacos" mat-cell *matCellDef="let element">
                                                     <!-- </td> (click)="expandedElement = element"> -->
                                                     {{element.Sacos}}
@@ -147,7 +147,7 @@
 
                                             <div class="row">
                                                 <div class="col-md-6 col-12">
-                                                    <label class="input-group-text text-info">Sacos:</label>
+                                                    <label class="input-group-text text-info">Kg:</label>
                                                     <input type="number" class="form-control" name="Sacos" #Sacos="ngModel" [(ngModel)]="this.cantidadSacos" (ngModelChange)="onChangeCantidadSacos($event)">
                                                 </div>
                                                 <div class="col-md-6 col-12">
@@ -239,15 +239,15 @@
                                                     {{element.Producto}}
                                                     <td>
                                             </ng-container>
-                                            <ng-container matColumnDef="Sacos">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
+                                            <ng-container matColumnDef="Kg">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
                                                 <td class="Sacos" mat-cell *matCellDef="let element">
                                                     <!-- </td> (click)="expandedElement = element"> -->
                                                     {{element.Sacos}}
                                                     <td>
                                             </ng-container>
-                                            <ng-container matColumnDef="SacosIngresados">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>SacosIngresados</th>
+                                            <ng-container matColumnDef="KgIngresados">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg ingresados</th>
                                                 <td class="SacosIngresados" mat-cell *matCellDef="let element">
                                                     <!-- </td> (click)="expandedElement = element"> -->
                                                     {{element.SacosIngresados}}
@@ -414,15 +414,15 @@
                                                 <td mat-cell *matCellDef="let elementOT">{{elementOT.Lote}}</td>
                                             </ng-container>
 
-                                            <ng-container matColumnDef="Sacos">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
+                                            <ng-container matColumnDef="Kg">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
                                                 <td mat-cell *matCellDef="let elementOT">{{elementOT.Sacos}}</td>
                                             </ng-container>
 
-                                            <ng-container matColumnDef="PesoTotal">
+                                            <!--  <ng-container matColumnDef="PesoTotal">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Peso Total</th>
                                                 <td mat-cell *matCellDef="let elementOT">{{elementOT.PesoTotal}}</td>
-                                            </ng-container>
+                                            </ng-container> -->
 
                                             <ng-container matColumnDef="FechaCaducidad">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Caducidad</th>

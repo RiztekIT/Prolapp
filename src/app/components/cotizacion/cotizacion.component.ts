@@ -4,6 +4,7 @@ import * as html2pdf from 'html2pdf.js';
 import { MessageService } from 'src/app/services/message.service';
 import { VentasCotizacionService } from '../../services/ventas/ventas-cotizacion.service';
 import { DetalleCotizacion } from '../../Models/ventas/detalleCotizacion-model';
+import { EmpresaService } from '../../services/empresas/empresa.service';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { DetalleCotizacion } from '../../Models/ventas/detalleCotizacion-model';
 })
 export class CotizacionComponent implements OnInit {
 
-  constructor(public dialogbox: MatDialogRef<CotizacionComponent>, public _MessageService: MessageService, public service: VentasCotizacionService) { }
+  constructor(public dialogbox: MatDialogRef<CotizacionComponent>, public _MessageService: MessageService, public service: VentasCotizacionService, public empresaSVC: EmpresaService) { }
 
   con : string| number;
   arrcon: Array<any> = [];
@@ -25,6 +26,7 @@ export class CotizacionComponent implements OnInit {
   srcimageninicial;
   imagenproducto;
   telefonousuario
+  logo;
 
 
   public imagessacos: Array<Object> = [
@@ -49,6 +51,8 @@ export class CotizacionComponent implements OnInit {
     this.srcimageninicial = '../../../assets/images/sacos/'
 
     this.telefonousuario = JSON.parse(localStorage.getItem('userAuth')).Telefono
+
+    this.logo = '../../../assets/images/'+this.empresaSVC.empresaActual.RFC+'.png'
 
     
   }

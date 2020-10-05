@@ -147,19 +147,19 @@ let saldo = 0;
 
   //tabla visualizacion
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Sacos', 'Saldo', 'Options'];
+  displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Kg', 'Saldo', 'Options'];
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   //tabla Sacos Ingresados
   listDataSacosIngresados: MatTableDataSource<any>;
-  displayedColumnsSacosIngresados: string[] = ['ClaveProducto', 'Producto', 'Sacos', 'SacosIngresados', 'Lote', 'FechaCaducidad', 'FechaMFG', 'Options'];
+  displayedColumnsSacosIngresados: string[] = ['ClaveProducto', 'Producto', 'Kg', 'KgIngresados', 'Lote', 'FechaCaducidad', 'FechaMFG', 'Options'];
   @ViewChild(MatSort, null) sortSacosIngresados: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorSacosIngresados: MatPaginator;
 
   // Tabla Orden Temporal
   listDataOrdenTemporal: MatTableDataSource<any>;
-  displayedColumnsOrdenTemporal: string[] = ['QR', 'ClaveProducto', 'Producto', 'Lote', 'Sacos', 'PesoTotal', 'FechaCaducidad', 'Comentarios', 'Options'];
+  displayedColumnsOrdenTemporal: string[] = ['QR', 'ClaveProducto', 'Producto', 'Lote', 'Kg',  'FechaCaducidad', 'Comentarios', 'Options'];
   @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
 

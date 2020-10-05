@@ -26,22 +26,23 @@
                                     <div class="card-body">
                                     </div> -->
 
-                            <img src="../../../assets/images/ProLactoLogo.png" class="logo">
+                            <img [src]=logo class="logo">
 
                         </div>
                     </div>
                     <!-- descripcion -->
                     <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                        <h5 class="blacktxt bolder"> PROLACTO INGREDIENTES S DE RL MI DE CV
+                        <h5 class="blacktxt bolder"> {{nombreE}}
                         </h5>
-                        <p class="blacktxt bolder nomarginbottomP"><span class="bolder">R.F.C.:</span>PLA11011243A
+                        <p class="blacktxt bolder nomarginbottomP"><span class="bolder">R.F.C.:</span>{{rfcE}}
                         </p>
-                        <p class="blacktxt bolder nomarginbottomP"> Calle: J. Matias de Anchondo No. 207, Col. San Felipe, CP: 31203, Chihuahua, Chihuahua, México
+                        <p class="blacktxt bolder nomarginbottomP"> Calle: {{calle}} No. {{numeroext}} Int. {{numeroint}}, Col. {{colonia}}, CP: {{codigopostal}}, {{ciudad}}, {{estado}}, México
+
                         </p>
                         <div class="container row">
                             <div class="col-8 pl-0">
                                 <p class="blacktxt bolder nomarginbottomP">Lugar de Expedicion: <br>
-                                    <span>Calle: <i>Jose Matias de Anchondo, CP. 31203</i></span>
+                                    <span>Calle: <i>{{calle}} No. {{numeroext}} Int. {{numeroint}}, Col. {{colonia}}, CP: {{codigopostal}}</i></span>
                                 </p>
                             </div>
                             <div class="col-4 mt-2">

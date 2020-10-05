@@ -22,6 +22,10 @@ export class DocumentosclienteComponent implements OnInit {
   getOC(){
     this.pedidoSVC.getValidacion(this.token).subscribe(data=>{
       console.log(data);
+      this.pedidoSVC.pedidoCliente = data[0];
+      this.pedidoSVC.updateOrdenCarga(this.pedidoSVC.pedidoCliente.IdPedido).subscribe(resp=>{
+        console.log(resp);
+      })
     })
   }
 

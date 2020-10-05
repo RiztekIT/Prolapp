@@ -129,7 +129,6 @@ export class DocumentacionFormularioComprasImportacionComponent implements OnIni
   obtenerCompraDetalles(folio: number) {
     console.log(folio);
     if (folio>=0) {
-
       this.documentosService.getCompraFolio(folio).subscribe(dataC => {
         console.log(dataC);
         if (dataC.length > 0) {
