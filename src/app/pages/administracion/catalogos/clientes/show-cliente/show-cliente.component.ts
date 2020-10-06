@@ -13,6 +13,11 @@ import { ClienteDireccionComponent } from '../../../../../components/cliente-dir
 import { ClienteDireccionService } from '../../../../../services/cliente-direccion/cliente-direccion.service';
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 
+//Registro de eventos
+import { DatePipe } from '@angular/common';
+import { UsuariosServieService } from '../../../../../services/catalogos/usuarios-servie.service';
+import { EventosService } from '../../../../../services/eventos/eventos.service';
+import { Evento } from '../../../../../Models/eventos/evento-model';
 
 @Component({
   selector: 'app-show-cliente',
@@ -20,7 +25,8 @@ import { EmpresaService } from 'src/app/services/empresas/empresa.service';
   styleUrls: ['./show-cliente.component.css']
 })
 export class ShowClienteComponent implements OnInit {
-
+  
+  usuariosesion;
   listData: MatTableDataSource<any>;
   displaytt: any;
   myOptions: any;
@@ -30,8 +36,15 @@ export class ShowClienteComponent implements OnInit {
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private service:ClientesService, private dialog: MatDialog, private snackBar: MatSnackBar, public apicliente: EnviarfacturaService,
-    public serviceDireccion: ClienteDireccionService, public serviceEmpresa: EmpresaService) {
+  constructor(private service:ClientesService, 
+    private dialog: MatDialog, 
+    private snackBar: MatSnackBar, 
+    public apicliente: EnviarfacturaService,
+    public serviceDireccion: ClienteDireccionService, 
+    public serviceEmpresa: EmpresaService,
+    private usuarioService: UsuariosServieService,
+    private datePipe: DatePipe,
+    private eventosService: EventosService,) {
 
     this.service.listen().subscribe((m:any)=>{
       console.log(m);
@@ -42,6 +55,7 @@ export class ShowClienteComponent implements OnInit {
    
 
   ngOnInit() {
+    this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     this.refreshClientesList();
     this.listaempresas();
   }
@@ -104,7 +118,7 @@ export class ShowClienteComponent implements OnInit {
     this.apicliente.saberRFC();
   }
 
-  onDelete( id:number){
+  onDelete( id:number, movimiento?){
     //console.log(id);
     Swal.fire({
       title: '¿Seguro de Borrar el Cliente?',
@@ -117,6 +131,7 @@ export class ShowClienteComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.service.deleteCliente(id).subscribe(res => {
+        this.movimiento(movimiento)
           this.refreshClientesList();
           Swal.fire({
             title: 'Borrado',
@@ -132,6 +147,27 @@ export class ShowClienteComponent implements OnInit {
 
   }
 
+  movimiento(movimiento){
+    // let event = new Array<Evento>();
+    let u = this.usuariosesion.user
+    let fecha = new Date();
+    
+    let evento = new Evento();
+    this.usuarioService.getUsuarioNombreU(u).subscribe(res => {
+    let idU=res[0].IdUsuario
+
+    evento.IdUsuario = idU
+    evento.Autorizacion = '0'
+    evento.Fecha = this.datePipe.transform(fecha, 'yyyy-MM-dd, h:mm:ss a');
+    evento.Movimiento = movimiento
+    
+    console.log(evento);
+    this.eventosService.addEvento(evento).subscribe(respuesta =>{
+      console.log(respuesta);
+    })
+    })
+  }
+
   //Abrir Modal para agregar Direccion(es) a cierto cliente
   onAddDireccionCliente(idCliente: number){
     this.serviceDireccion.IdCliente = idCliente;
@@ -142,13 +178,16 @@ export class ShowClienteComponent implements OnInit {
     this.dialog.open(ClienteDireccionComponent, dialogConfig);
   }
 
-  onAdd(){
+  onAdd(movimiento?){
     this.service.formData = new Cliente();
 
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
+    dialogConfig.data = {
+      movimiento: movimiento
+    }
     this.dialog.open(AddClienteComponent, dialogConfig);
 
 
@@ -205,13 +244,16 @@ export class ShowClienteComponent implements OnInit {
 })
   }
 
-  onEdit(cliente: Cliente){
+  onEdit(cliente: Cliente,movimiento?){
 // console.log(usuario);
 this.service.formData = cliente;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
+    dialogConfig.data = {
+      movimiento: movimiento
+    }
     this.dialog.open(EditClienteComponent, dialogConfig);
   }
 

@@ -8,6 +8,16 @@ import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfact
 import { startWith, map } from 'rxjs/operators';
 import { UnidadMedidaService } from '../../../../../services/unidadmedida/unidad-medida.service';
 
+
+//evento
+import {Inject} from '@angular/core';
+import {MAT_DIALOG_DATA } from "@angular/material";
+import { UsuariosServieService } from '../../../../../services/catalogos/usuarios-servie.service';
+import { EventosService } from '../../../../../services/eventos/eventos.service';
+import { Evento } from 'src/app/Models/eventos/evento-model';
+import { DatePipe } from '@angular/common';
+
+
 @Component({
   selector: 'app-add-producto',
   templateUrl: './add-producto.component.html',
@@ -15,19 +25,31 @@ import { UnidadMedidaService } from '../../../../../services/unidadmedida/unidad
 export class AddProductoComponent implements OnInit {
   myControlUnidad = new FormControl();
   filteredOptionsUnidad: Observable<any[]>;
+  BodegaInfo
+  movimiento
+  usuariosesion
   //Clave Unidad
 public listUM: Array<any> = [];
 
   constructor(public dialogbox: MatDialogRef<AddProductoComponent>,
-    public service: ProductosService, private snackBar: MatSnackBar,public enviarfact: EnviarfacturaService, public ServiceUnidad: UnidadMedidaService) { }
+    public service: ProductosService, 
+    private snackBar: MatSnackBar,
+    public enviarfact: EnviarfacturaService, 
+    public ServiceUnidad: UnidadMedidaService,
+    private usuarioService: UsuariosServieService,
+    private datePipe: DatePipe,
+    private eventosService: EventosService,
+    @Inject(MAT_DIALOG_DATA) public data: any, ) { }
 
-  ngOnInit() {
+  ngOnInit() {    
+  this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
+  this.BodegaInfo = this.data;
+  this.movimiento = this.BodegaInfo.movimiento
     this.resetForm();
     this.unidadMedida();
 
     
   }
-
   unidadMedida(){
     // this.listUM = [];
     // this.enviarfact.unidadMedida().subscribe(data=>{
@@ -100,6 +122,7 @@ public listUM: Array<any> = [];
     console.log( this.service.formData);
     this.service.addProducto(this.service.formData).subscribe(res => {
       console.log(res);
+      this.movimientos(this.movimiento)
       Swal.fire({
         icon: 'success',
         title: 'Producto Agregado',
@@ -109,5 +132,25 @@ public listUM: Array<any> = [];
     this.resetForm(form);
   }
 
+  movimientos(movimiento){
+    // let event = new Array<Evento>();
+    let u = this.usuariosesion.user
+    let fecha = new Date();
+    
+    let evento = new Evento();
+    this.usuarioService.getUsuarioNombreU(u).subscribe(res => {
+    let idU=res[0].IdUsuario
+
+    evento.IdUsuario = idU
+    evento.Autorizacion = '0'
+    evento.Fecha = this.datePipe.transform(fecha, 'yyyy-MM-dd, h:mm:ss a');
+    evento.Movimiento = movimiento
+    
+    console.log(evento);
+    this.eventosService.addEvento(evento).subscribe(respuesta =>{
+      console.log(respuesta);
+    })
+    })
+  }
 
 }
