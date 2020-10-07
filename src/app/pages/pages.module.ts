@@ -294,6 +294,7 @@ import { AlmacenTraspasoMesesComponent } from '../components/graficas/almacen/al
 import { BodegasComponent } from './administracion/catalogos/bodegas/bodegas.component';
 import { AEBodegaComponent } from './administracion/catalogos/bodegas/aebodega/aebodega.component';
 import { DocumentosComponent } from './almacen/inventariosalmacen/documentos/documentos.component';
+import { AlmacenInventariosMesesComponent } from '../components/graficas/almacen/almacen-inventarios-meses/almacen-inventarios-meses.component';
 import { DisplaySaldosComponent } from './cxc/saldoscxc/display-saldos/display-saldos.component';
 import { DisplaySaldosComponentp } from './cxp/saldoscxp/display-saldos/display-saldos.component';
 
@@ -509,6 +510,7 @@ import { DisplaySaldosComponentp } from './cxp/saldoscxp/display-saldos/display-
         BodegasComponent,
         AEBodegaComponent,
         DocumentosComponent,
+        AlmacenInventariosMesesComponent,
         DisplaySaldosComponentp
     
     ],

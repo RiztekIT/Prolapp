@@ -184,7 +184,7 @@ console.log(data)
       for (let i = 0; i <= data.length-1; i++){
         this.service.master[i] = data[i]
         this.service.master[i].detalle = [];
-        if (data[i].IdCliente != 1){
+        if (data[i].IdCliente != 0){
           
           this.service.getDetallesFacturaList(data[i].Id).subscribe(res => {
             this.service.master[i].detalle.pop();
