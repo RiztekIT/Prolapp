@@ -5,6 +5,12 @@ import { Bodega } from '../../../../../Models/catalogos/bodegas-model';
 import { Form, NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
 
+
+import { DatePipe } from '@angular/common';
+import { UsuariosServieService } from '../../../../../services/catalogos/usuarios-servie.service';
+import { EventosService } from '../../../../../services/eventos/eventos.service';
+import { Evento } from '../../../../../Models/eventos/evento-model';
+
 @Component({
   selector: 'app-aebodega',
   templateUrl: './aebodega.component.html',
@@ -15,16 +21,24 @@ export class AEBodegaComponent implements OnInit {
   BodegaInfo;
   tipoAE;
   tipo;
+  movimiento;
+  usuariosesion;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any, 
     public BodegaService: BodegasService,
     public dialogbox: MatDialogRef<AEBodegaComponent>,
+    private usuarioService: UsuariosServieService,
+    private datePipe: DatePipe,
+    private eventosService: EventosService,
     ) { }
 
   ngOnInit() {
+    
+    this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     this.BodegaInfo = this.data;
     this.tipoAE = this.BodegaInfo.tipo
+    this.movimiento = this.BodegaInfo.movimiento
 
     this.tipo = this.tipoAE;
 
@@ -59,6 +73,9 @@ if(tipoAE == 'Editar'){
       console.log('this.BodegaService.formData: ', this.BodegaService.formData);
       this.BodegaService.editBodega(this.BodegaService.formData).subscribe(res=> {
         console.log(res);
+
+        this.movimientos(this.movimiento)
+
       })
       Swal.fire({
         title: 'Bodega Actualizada',
@@ -71,6 +88,8 @@ if(tipoAE == 'Editar'){
       this.BodegaService.formData.IdBodega = 0;
       this.BodegaService.addBodega(this.BodegaService.formData).subscribe(res=> {
         console.log(res);
+
+        this.movimientos(this.movimiento)
       })
       
       Swal.fire({
@@ -103,6 +122,26 @@ if(tipoAE == 'Editar'){
     
   }
 
+  movimientos(movimiento){
+    // let event = new Array<Evento>();
+    let u = this.usuariosesion.user
+    let fecha = new Date();
+    
+    let evento = new Evento();
+    this.usuarioService.getUsuarioNombreU(u).subscribe(res => {
+    let idU=res[0].IdUsuario
+
+    evento.IdUsuario = idU
+    evento.Autorizacion = '0'
+    evento.Fecha = this.datePipe.transform(fecha, 'yyyy-MM-dd, h:mm:ss a');
+    evento.Movimiento = movimiento
+    
+    console.log(evento);
+    this.eventosService.addEvento(evento).subscribe(respuesta =>{
+      console.log(respuesta);
+    })
+    })
+  }
 
 
 }

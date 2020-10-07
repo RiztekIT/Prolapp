@@ -1055,7 +1055,10 @@ console.log(this.json1);
     
     let fecha = new Date(date);
 
-    if ((fecha.getDate()+1)>31){
+    if (((fecha.getDate()+1)==31) && ((fecha.getMonth()==1) || (fecha.getMonth()==3) || (fecha.getMonth()==5) || (fecha.getMonth()==8) || (fecha.getMonth()==10))){
+      diaf = 1;
+      mes2 = `${months[fecha.getMonth()+1]}`;
+    }else if ((fecha.getDate()+1)==32){
       diaf = 1;
       mes2 = `${months[fecha.getMonth()+1]}`;
     }else{
