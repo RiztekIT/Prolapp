@@ -282,6 +282,14 @@ export class PrepararComponent implements OnInit {
                     console.log(this.QRDetalledata);
 
                     console.log(this.IdOrdenCarga, this.QRDetalledata[i].Lote, this.QRDetalledata[i].ClaveProducto);
+
+
+
+
+                    // DESDE AQUI VERFICAR LOS DATOS QUE SERAN INGRESADOS POR EL USUARIO
+
+
+                    
                     //Verificar match de detalle tarima con detalle Orden Carga
                     this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, this.QRDetalledata[i].Lote, this.QRDetalledata[i].ClaveProducto).subscribe(dataOrdenCarga => {
                       console.log(dataOrdenCarga);

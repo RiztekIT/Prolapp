@@ -1,0 +1,68 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h2 style="text-align: start;">Incidencias</h2>
+
+
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <mat-button-toggle-group #group="matButtonToggleGroup">
+                            <mat-button-toggle value="OrdenCarga" aria-label="Text align left" (change)='cambioIncidencia($event)'>
+                                <mat-icon>attach_money </mat-icon>
+                            </mat-button-toggle>
+                            <mat-button-toggle value="OrdenDescarga" aria-label="Text align center" (change)='cambioIncidencia($event)'>
+                                <mat-icon>monetization_on</mat-icon>
+                            </mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </div>
+                    <!-- <div class="col-md-6 col-12">
+                        <mat-slide-toggle class="example-margin btncoti" [(ngModel)]="checkedPedido" (change)='tipoClientePedido($event)'>
+                            Todos los Clientes
+                        </mat-slide-toggle>
+
+                        <mat-select *ngIf="!checkedPedido">
+                            <mat-option *ngFor="let cliente of listaClientesPedido" [value]="cliente" (onSelectionChange)='reporteClientePedido($event)'>{{cliente.Nombre}}</mat-option>
+                        </mat-select>
+                    </div> -->
+                </div>
+                <div style="display: block">
+                    <canvas baseChart [datasets]="barChartDataIncidencia" [colors]="lineChartColors" [labels]="barChartLabelsIncidencia" [options]="barChartOptionsIncidencia" [legend]="barChartLegendIncidencia" [chartType]="barChartTypeIncidencia">
+                        </canvas>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <hr>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h2 style="text-align: start;">Evidencias</h2>
+
+
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <mat-button-toggle-group #group="matButtonToggleGroup">
+                            <mat-button-toggle value="Dolares" aria-label="Text align left" (change)='cambioEvidencia($event)'>
+                                <mat-icon>attach_money </mat-icon>
+                            </mat-button-toggle>
+                            <mat-button-toggle value="Pesos" aria-label="Text align center" (change)='cambioEvidencia($event)'>
+                                <mat-icon>monetization_on</mat-icon>
+                            </mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </div>
+                </div>
+                <div style="display: block">
+                    <canvas baseChart [datasets]="barChartDataEvidencia" [colors]="lineChartColors" [labels]="barChartLabelsEvidencia" [options]="barChartOptionsEvidencia" [legend]="barChartLegendEvidencia" [chartType]="barChartTypeEvidencia">
+                        </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
