@@ -10,7 +10,8 @@ import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/deta
 import { Usuario } from 'src/app/Models/catalogos/usuarios-model';
 import { MasterDetalleTarima } from 'src/app/Models/almacen/OrdenDescarga/cuu/masterDetalleTarima-model';
 
-export const APIUrl = environment.APIUrl;
+// export const APIUrl = environment.APIUrl;
+export const APIUrl = 'https://localhost:44361/api';
 
 @Injectable({
   providedIn: 'root'
@@ -179,6 +180,34 @@ updateBodegaTarima(bodega:string, qr:string) {
   getTarimaCompra(id): Observable <any[]>{
     return this.http.get<any[]>(APIUrl + '/Tarima/GetCompraTarima/'+id);
   }
+
+
+  //Actualizacion Almacen 
+
+  //Obtener Informacion Producto en base a Clave, Lote y Bodega
+  GetGetProductoInformacionBodega(ClaveProducto: string, Lote: string, bodega: string): Observable <DetalleTarima[]>{
+    return this.http.get<DetalleTarima[]>(APIUrl + '/Tarima/GetProductoInformacionBodega/'+ClaveProducto+'/'+Lote+'/'+bodega);
+  }
+
+  //Update campos detalle tarima
+updateDetalleTarimaSacosPesoTarimasBodega(dt: DetalleTarima) {
+  return this.http.put(APIUrl+ '/Tarima/UpdateDetalleTarimaSacosPesoTarimasBodega', dt);
+  }
+
+  //Obtener Ultimo Detalle Tarima 
+  getUltimoDetalleTarima(){
+    return this.http.get<any[]>(APIUrl + '/Tarima/GetUltimoDetalleTarima');
+  }
+
+  //Obtener Detalle Tarima por Bodega 
+  getDetalleTarimaBodega(bodega: string){
+    return this.http.get<any[]>(APIUrl + '/Tarima/GetDetalleTarimaBodega/'+bodega);
+  }
+  //Actualizar Detalle Tarima por Bodega 
+  getUpdateDetalleTarimaBodega(id: number, bodega: string){
+    return this.http.get<any[]>(APIUrl + '/Tarima/UpdateDetalleTarimaBodega/'+id+'/'+bodega);
+  }
+
 
   private _listeners = new Subject<any>(); 
       listen(): Observable<any> {

@@ -72,7 +72,7 @@ export class OrdenDescargaConceptoComponent implements OnInit {
     let ordenTempEt = new OrdenTemporal();
 
     ordenTempEt.IdOrdenTemporal = this.ordenTemporalService.ordenTemporalDataOD.IdOrdenTemporal;
-    ordenTempEt.IdTarima = this.ordenTemporalService.ordenTemporalDataOD.IdTarima;
+    ordenTempEt.IdDetalleTarima = this.ordenTemporalService.ordenTemporalDataOD.IdDetalleTarima;
     ordenTempEt.IdOrdenCarga = this.ordenTemporalService.ordenTemporalDataOD.IdOrdenCarga;
     ordenTempEt.IdOrdenDescarga = this.ordenTemporalService.ordenTemporalDataOD.IdOrdenDescarga;
     ordenTempEt.QR = this.ordenTemporalService.ordenTemporalDataOD.QR;
@@ -88,7 +88,7 @@ export class OrdenDescargaConceptoComponent implements OnInit {
     this.ordenTemporalService.updateOrdenTemporal(ordenTempEt).subscribe(res => {
       console.log(res);
 
-      this.ordenTemporalService.GetOrdenTemporalIdTarima(this.ordenTemporalService.ordenTemporalDataOD.IdTarima).subscribe(dataOTT =>{
+      this.ordenTemporalService.GetOrdenTemporalIdTarima(this.ordenTemporalService.ordenTemporalDataOD.IdDetalleTarima).subscribe(dataOTT =>{
         console.log(dataOTT,'OT por IDdeTarima');
 
         for(let i= 0; i <= dataOTT.length -1; i++){
@@ -97,7 +97,7 @@ export class OrdenDescargaConceptoComponent implements OnInit {
         }
         console.log(this.pesototalTarima,'peso de tarima','funciona');
         console.log(this.sacostotalesTarima,'sacos de tarima','funciona');
-this.tarimaService.updateTarimaSacosPeso(this.ordenTemporalService.ordenTemporalDataOD.IdTarima, this.sacostotalesTarima, this.pesototalTarima).subscribe(dataUptsacos => {
+this.tarimaService.updateTarimaSacosPeso(this.ordenTemporalService.ordenTemporalDataOD.IdDetalleTarima, this.sacostotalesTarima, this.pesototalTarima).subscribe(dataUptsacos => {
 console.log(dataUptsacos);
       
       // this.tarimaService.getTarimaID(this.ordenTemporalService.ordenTemporalDataOD.IdTarima).subscribe(resDataTarima => {

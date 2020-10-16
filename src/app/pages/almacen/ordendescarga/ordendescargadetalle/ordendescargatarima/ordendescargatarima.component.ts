@@ -680,10 +680,10 @@ let saldo = 0;
               console.log(this.ordenTemporalService.preOrdenTemporalSacos);
 
               DetalleTarimaTemp.IdDetalleTarima = 0;
-              DetalleTarimaTemp.IdTarima = IdTarimaDt;
+              DetalleTarimaTemp.IdDetalleTarima = IdTarimaDt;
               DetalleTarimaTemp.ClaveProducto = POTS[i].ClaveProducto;
               DetalleTarimaTemp.Producto = POTS[i].Producto;
-              DetalleTarimaTemp.Sacos = POTS[i].SacosIngresados;
+              DetalleTarimaTemp.SacosTotales = POTS[i].SacosIngresados;
               DetalleTarimaTemp.PesoxSaco = POTS[i].PesoxSaco;
               DetalleTarimaTemp.Lote = POTS[i].Lote;
               DetalleTarimaTemp.IdProveedor = POTS[i].IdProveedor;
@@ -705,7 +705,7 @@ let saldo = 0;
               let ordenTemp = new OrdenTemporal();
 
               ordenTemp.IdOrdenTemporal = 1;
-              ordenTemp.IdTarima = IdTarimaDt;
+              ordenTemp.IdDetalleTarima = IdTarimaDt;
               ordenTemp.IdOrdenCarga = 0;
               ordenTemp.IdOrdenDescarga = this.IdOrdenDescarga;
               ordenTemp.QR = TarimaTemp.QR;
@@ -793,7 +793,7 @@ let saldo = 0;
     console.log(row, "row");
     let Lote = row.Lote;
     let ClaveProducto = row.ClaveProducto;
-    let IdTarimaOD = row.IdTarima;
+    let IdTarimaOD = row.IdDetalleTarima;
     let undoQR = row.QR;
     Swal.fire({
       title: '¿Seguro de Borrar Ingreso(s)?',
@@ -810,13 +810,13 @@ let saldo = 0;
         console.log(undoQR);
         this.ordenTemporalService.GetOrdenTemporalIdqrOD(this.IdOrdenDescarga, undoQR).subscribe(dataOt => {
           console.log(dataOt);
-          let idtarima = dataOt[0].IdTarima;
+          let idtarima = dataOt[0].IdDetalleTarima;
           //Actualizar Saldos a su estado original
           for (let l = 0; l <= dataOt.length - 1; l++) {
             let SaldoActual;
             let SaldoFinal;
             let Sacos = +dataOt[l].Sacos;
-            let idtarima = dataOt[l].IdTarima;
+            let idtarima = dataOt[l].IdDetalleTarima;
             this.service.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga, dataOt[l].Lote, dataOt[l].ClaveProducto).subscribe(dataDetalle => {
               console.log(dataDetalle);
               SaldoActual = +dataDetalle[0].Saldo;
@@ -843,7 +843,7 @@ let saldo = 0;
                   this.Tarimaservice.getTarimaID(idtarima).subscribe(resDataTarima => {
                     this.Tarimaservice.getDetalleTarimaIdClaveLote(IdTarimaOD, ClaveProducto, Lote).subscribe(resDTTIDCL => {
                       console.log(resDTTIDCL[0]);
-                      this.Tarimaservice.getDetalleTarimaID(resDTTIDCL[0].IdTarima).subscribe(resDataTarimadt => {
+                      this.Tarimaservice.getDetalleTarimaID(resDTTIDCL[0].IdDetalleTarima).subscribe(resDataTarimadt => {
                         console.log(resDataTarimadt, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
                         console.log(resDataTarimadt[0]);
                         let delDTT = resDataTarimadt[0].IdDetalleTarima;
@@ -897,7 +897,7 @@ let saldo = 0;
     console.log(ot, 'OT');
     let Lote = ot.Lote;
     let ClaveProducto = ot.ClaveProducto;
-    let IdTarimaOD = ot.IdTarima;
+    let IdTarimaOD = ot.IdDetalleTarima;
     let sacosTup = ot.Sacos;
     let posicionborrar = posicion;
     console.log(posicionborrar, 'Posicion a borrar');
@@ -950,14 +950,14 @@ let saldo = 0;
                       console.log(idTarimaUpt, ClaveProducto, Lote, 'id,cp,L');
                       this.Tarimaservice.getDetalleTarimaIdClaveLote(idTarimaUpt, ClaveProducto, Lote).subscribe(resDTTIDCL => {
                         console.log(resDTTIDCL[0]);
-                        this.Tarimaservice.getDetalleTarimaID(resDTTIDCL[0].IdTarima).subscribe(resDataTarimadt => {
+                        this.Tarimaservice.getDetalleTarimaID(resDTTIDCL[0].IdDetalleTarima).subscribe(resDataTarimadt => {
                           console.log(resDataTarimadt, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
                       console.log(resDataTarimadt[0]);
                       let delDTT = resDataTarimadt[0].IdDetalleTarima;
                       console.log(delDTT);
                       this.Tarimaservice.deleteDetalleTarima(delDTT).subscribe(resDOD => {
                         console.log(resDOD);
-                        this.Tarimaservice.getDetalleTarimaID(resDataTarimadt[0].IdTarima).subscribe(resdetallet => {
+                        this.Tarimaservice.getDetalleTarimaID(resDataTarimadt[0].IdDetalleTarima).subscribe(resdetallet => {
                           if (resdetallet.length == 0) {
                             this.Tarimaservice.deleteTarima(IdTarimaOD).subscribe(resDeleteTarima => {
                               console.log(resDeleteTarima);
@@ -1169,10 +1169,10 @@ let saldo = 0;
 
           PesoTotalTarima = ((+this.POTSTE[i].SacosIngresados) * (+this.POTSTE[i].PesoxSaco))
 
-          Dt.IdTarima = idTarima;
+          Dt.IdDetalleTarima = idTarima;
           Dt.ClaveProducto = this.POTSTE[i].ClaveProducto;
           Dt.Producto = this.POTSTE[i].Producto;
-          Dt.Sacos = this.POTSTE[i].SacosIngresados;
+          Dt.SacosTotales = this.POTSTE[i].SacosIngresados;
           Dt.PesoxSaco = this.POTSTE[i].PesoxSaco;
           Dt.Lote = this.POTSTE[i].Lote;
           Dt.IdProveedor = this.POTSTE[i].IdProveedor;
@@ -1183,7 +1183,7 @@ let saldo = 0;
           Dt.USDA = this.POTSTE[i].USDA;
           Dt.Pedimento = this.POTSTE[i].Pedimento;
           DTTE.push(Dt);
-          sacosOT = (+sacosOT + +DTTE[i].Sacos)
+          sacosOT = (+sacosOT + +DTTE[i].SacosTotales)
           // pesoTotalOT =( +pesoTotalOT + +this.POTSTE[i].PesoTotal)
           pesoTotalOT = (+pesoTotalOT + +PesoTotalTarima)
         }
@@ -1206,7 +1206,7 @@ let saldo = 0;
               let ordenTempTE = new OrdenTemporal();
 
               ordenTempTE.IdOrdenTemporal = 1;
-              ordenTempTE.IdTarima = idTarima;
+              ordenTempTE.IdDetalleTarima = idTarima;
               ordenTempTE.IdOrdenCarga = 0;
               //cambiar esta chingadera
               ordenTempTE.IdOrdenDescarga = 1;

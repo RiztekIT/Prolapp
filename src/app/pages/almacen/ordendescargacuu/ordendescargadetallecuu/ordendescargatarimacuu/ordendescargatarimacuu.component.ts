@@ -273,15 +273,15 @@ export class OrdendescargatarimacuuComponent implements OnInit {
               let ordenTemp = new OrdenTemporal();
 
               ordenTemp.IdOrdenTemporal = 0;
-              ordenTemp.IdTarima = dataQR[0].IdTarima;
+              ordenTemp.IdDetalleTarima = dataQR[0].IdTarima;
               ordenTemp.IdOrdenCarga = 0;
               ordenTemp.IdOrdenDescarga = this.IdOrdenDescarga;
               ordenTemp.QR = dataQR[0].QR
               ordenTemp.ClaveProducto = data[i].ClaveProducto;
               ordenTemp.Lote = data[i].Lote;
-              ordenTemp.Sacos = data[i].Sacos;
+              ordenTemp.Sacos = data[i].SacosTotales;
               ordenTemp.Producto = data[i].Producto;
-              ordenTemp.PesoTotal = ((+data[i].Sacos) * (+data[i].PesoxSaco)).toString();
+              ordenTemp.PesoTotal = ((+data[i].SacosTotales) * (+data[i].PesoxSaco)).toString();
               // ordenTemp.PesoTotal = ((+this.ordenTemporalService.preOrdenTemporalOD[i].SacosIngresados) * (+this.dataODID[i].PesoxSaco)).toString();
               ordenTemp.FechaCaducidad = data[i].FechaCaducidad;
               ordenTemp.Comentarios = '';
@@ -400,7 +400,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
     this.tarimaService.trapasoOrdenDescarga = false;
     this.ordenTemporalService.ordenTemporalt = new OrdenTemporal();
     this.ordenTemporalService.ordenTemporalt = row;
-    this.tarimaService.idTarimaOrdenDescarga = row.IdTarima;
+    this.tarimaService.idTarimaOrdenDescarga = row.IdDetalleTarima;
     this.tarimaService.QrOrigen = row.QR;
     //Indicar cual es la bodega de la tarima
     this.tarimaService.bodega = this.bodegaDestino;
