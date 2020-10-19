@@ -197,7 +197,8 @@ let saldo = 0;
           DOD.Sacos = this.dataODID[i].Sacos
           DOD.Lote = this.dataODID[i].Lote
           DOD.Saldo = this.dataODID[i].Saldo
-          DOD.PesoTotal = ((+DOD.Sacos) * (+this.dataODID[i].PesoxSaco)).toString();
+          //DOD.PesoTotal = ((+DOD.Sacos) * (+this.dataODID[i].PesoxSaco)).toString();
+          DOD.PesoTotal = (DOD.Sacos);
           DOD.FechaCaducidad = this.dataODID[i].FechaCaducidad;
           DOD.KilogramosIngresados = '';
           DOD.Comentarios = 'NA';
@@ -671,7 +672,7 @@ Producto: this.ordenTemporalService.preOrdenTemporalSacos[i].Producto,
 SacosTotales: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,
 PesoxSaco: this.ordenTemporalService.preOrdenTemporalSacos[i].PesoxSaco,
 Lote: this.ordenTemporalService.preOrdenTemporalSacos[i].Lote,
-PesoTotal: this.ordenTemporalService.preOrdenTemporalSacos[i].PesoTotal,
+PesoTotal: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,
 SacosxTarima: '',
 TarimasTotales: '',
 Bodega: this.service.formData.Destino,
@@ -705,7 +706,7 @@ Estatus: 'Creada',
   Lote: this.ordenTemporalService.preOrdenTemporalSacos[i].Lote,
   Sacos: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,
   Producto: this.ordenTemporalService.preOrdenTemporalSacos[i].Producto,
-  PesoTotal: this.ordenTemporalService.preOrdenTemporalSacos[i].PesoTotal,
+  PesoTotal: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,
   FechaCaducidad: this.ordenTemporalService.preOrdenTemporalSacos[i].FechaCaducidad,
   Comentarios: '',
       }

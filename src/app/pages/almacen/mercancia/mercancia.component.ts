@@ -58,6 +58,7 @@ export class MercanciaComponent implements OnInit {
   public listBodega: Array<Object> = [
     // { Bodega: 'Todos' },
     { Bodega: 'PasoTx' },
+    { Bodega: 'San Diego' },
     { Bodega: 'Chihuahua' },
     // { Bodega: 'Transito' },
     
@@ -154,7 +155,7 @@ console.log(this.contador);
       this.bodegaSelect = 'Chihuahua';
 
       if (!this.seleccionManual){
-        console.clear();
+        //console.clear();
         this.seleccionAutomatica();
       }
       

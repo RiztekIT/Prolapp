@@ -1345,7 +1345,7 @@ this.isFactura = true;
 
     mercanciadl.afterClosed().subscribe(data=>{
 
-      console.log(data);
+      console.log(data, 'AFTERCLOSED');
       
 
 
@@ -1478,7 +1478,7 @@ this.isFactura = true;
 
 
 
-  })
+  })/* CERRAR el subscribe del afterclosed */
 
 
 

@@ -232,7 +232,7 @@ if (this.bodegaSelect==='Todos'){
     console.log(row);
     
     Swal.fire({
-      title: 'Ingresar Numero de Sacos',
+      title: 'Ingresar Kg',
       icon: 'info',
       input: 'text',
       inputValue: row.Sacos,
@@ -242,7 +242,7 @@ if (this.bodegaSelect==='Todos'){
       confirmButtonText: 'Aceptar',
     }).then((result) => {
       console.log(result);
-      row.Sacos = result.value
+      row.SacosTotales = result.value
     /*   this.detalletraspaso.push({
         "Bodega": row.Bodega,
 "ClaveProducto" :  row.ClaveProducto,
@@ -301,10 +301,10 @@ if (this.bodegaSelect==='Todos'){
       sacos = 0;
 
       for (let i=0; i< this.listData2.data.length;i++){
-        sacos = sacos + +this.listData2.data[i].Sacos;
+        sacos = sacos + +this.listData2.data[i].SacosTotales;
+        kg = sacos * +this.listData2.data[i].PesoxSaco;
       }
 
-      kg = sacos * 25;
 
       ordencarga= {
   
@@ -319,7 +319,7 @@ if (this.bodegaSelect==='Todos'){
         Sacos: sacos,
         Kg: kg,
         Chofer: '',
-        Origen: 'PasoTx',
+        Origen: this.bodegaSelect,
         Destino: 'Chihuahua',
         Observaciones: '',
         Estatus: 'Creada',
@@ -348,8 +348,8 @@ if (this.bodegaSelect==='Todos'){
             IdOrdenCarga:0,
             ClaveProducto:this.listData2.data[i].ClaveProducto,
         Producto:this.listData2.data[i].Producto,
-        Sacos:this.listData2.data[i].Sacos,
-        PesoxSaco:'25',
+        Sacos:this.listData2.data[i].SacosTotales,
+        PesoxSaco:this.listData2.data[i].PesoxSaco,
         Lote:this.listData2.data[i].Lote,
         IdProveedor:this.listData2.data[i].IdProveedor,
         Proveedor:this.listData2.data[i].Proveedor,
@@ -359,7 +359,7 @@ if (this.bodegaSelect==='Todos'){
         Shipper:this.listData2.data[i].Shipper,
         USDA:this.listData2.data[i].USDA,
         Pedimento:this.listData2.data[i].Pedimento,
-        Saldo:this.listData2.data[i].Sacos,
+        Saldo:this.listData2.data[i].SacosTotales,
           }
 
           this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data=>{
