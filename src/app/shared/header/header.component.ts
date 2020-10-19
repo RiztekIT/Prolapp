@@ -32,8 +32,8 @@ const httpOptions = {
 })
 export class HeaderComponent implements OnInit {
   // parche: string = 'https://cors-anywhere.herokuapp.com/'
-   readonly rootURL = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF63528/datos/oportuno"
-  // rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
+  // readonly rootURL = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF63528/datos/oportuno"
+   rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
   //rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
   Cdolar: string;
   clienteLogin;
