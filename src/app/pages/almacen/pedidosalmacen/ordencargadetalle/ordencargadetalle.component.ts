@@ -25,7 +25,7 @@ export class OrdencargadetalleComponent implements OnInit {
 
 IdOrdenCarga: number;
   listData: MatTableDataSource<any>;
-  displayedColumns: string [] = ['IdTarima','QR','ClaveProducto', 'Producto', 'Sacos', 'Lote', 'Proveedor', 'PO', 'FechaMFG', 'FechaCaducidad', 'Shipper', 'USDA', 'Pedimento'];
+  displayedColumns: string [] = ['ClaveProducto', 'Producto', 'Kilogramos', 'Lote', 'Proveedor', 'PO', 'FechaMFG', 'FechaCaducidad', 'Shipper', 'USDA', 'Pedimento'];
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   

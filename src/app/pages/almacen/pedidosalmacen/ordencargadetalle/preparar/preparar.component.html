@@ -38,6 +38,32 @@
 
                 <div class="row">
 
+                    <div class="container" style="margin-right: 0;">
+                        <div class="row">
+                            <div class="col-md-6 col-12" style="display: grid">
+                                <!-- <label class="input-group-text text-info">Producto:</label> -->
+                                <!-- <label class="input-group-text text-info">Producto:</label> <br> -->
+                                <mat-form-field>
+                                    <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControlProductos" [(ngModel)]="detalleSeleccionado" matInput [matAutocomplete]="autoProducto">
+                                    <mat-autocomplete #autoProducto="matAutocomplete">
+                                        <mat-option required *ngFor="let option of filteredOptionsProductos | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChangeProducto(option, $event)">
+                                            {{option.ClaveProducto}} || {{option.Producto}} || Lote: {{option.Lote}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-2 col-12" style="display: grid">
+                                <input readonly placeholder="Clave Producto" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="ClaveProductoIngresado">
+                            </div>
+                            <div class="col-md-2 col-12" style="display: grid">
+                                <input readonly placeholder="Lote" class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="LoteProductoIngresado">
+                            </div>
+                            <div class="col-md-2 col-12" style="display: grid">
+                                <button [disabled]="!ClaveProductoIngresado || !LoteProductoIngresado" class="btn btn-primary" type="button" (click)="IngresarProducto(ClaveProductoIngresado, LoteProductoIngresado)">Ingresar Producto</button>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- <div class="col-12 col-md-5">
                         <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}}
                         <div class="input-group">
@@ -49,29 +75,53 @@
                             <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" (blur)="simularQR(qrleido)">
                         </div>
                     </div> -->
-                    <div class="col-12 col-md-5">
-                        <!-- <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}} -->
-                        <div class="input-group">
+                    <!-- <div class="col-12 col-md-5">
+                        <label class="input-group-text text-info">Producto:</label> <br> -->
+                    <!-- <mat-form-field>
+                            <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControlDetalles" [(ngModel)]="detalleSeleccionado" matInput [matAutocomplete]="autoProducto">
+                            <mat-autocomplete #autoProducto="matAutocomplete">
+                                <mat-option required *ngFor="let option of filteredOptionsDetalles | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChangeDetalle(option, $event)">
+                                    {{option.ClaveProducto}} || {{option.Producto}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field> -->
+                    <!-- </div>
+                    <div class="col-12 col-md-5"> -->
+                    <!-- <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}} -->
 
+                    <!-- 
                             <span [style.display]="isVisibleQR ? 'block' : 'none'" class="input-group-addon" style="background-color: white;"><i class="btn btn-danger" type="button" (click)="escanear()">
                       <mat-icon>qr_code</mat-icon>
-                    </i></span>
-                            <!-- <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" (blur)="simularQR(qrleido)" (focus)="ActBtn()"> -->
-                            <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" [(ngModel)]="qrleido" (blur)="CleanFieldQR()" (focus)="ActBtn()">
+                    </i></span> -->
+                    <!-- <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" (blur)="simularQR(qrleido)" (focus)="ActBtn()"> -->
+                    <!-- <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" [(ngModel)]="qrleido" (blur)="CleanFieldQR()" (focus)="ActBtn()">
                             <span [style.display]="isVisible ? 'block' : 'none'" class="input-group-addon" style="background-color: white;"><i class="btn btn-success" type="button" (click)="simularQR(qrleido)">
                       <mat-icon>qr_code</mat-icon>
-                    </i></span>
-                        </div>
-                    </div>
-                    <div class="col-2">
+                    </i></span> -->
 
-                        <!-- <zxing-scanner (camerasFound)="camaras($event)" [enable]="enableScan" (scanSuccess)='escaner($event)'></zxing-scanner> -->
+
+
+
+                    <!-- <label class="input-group-text text-info">Clave Producto:</label> -->
+                    <!-- <input placeholder="Ingresar Clave Producto" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="ClaveProductoIngresado">
+
                     </div>
-                    <div class="col-12 col-md-5">
-                        <p style="font-weight: 400; margin-bottom: 0;"> QR Leido: </p>
-                        <input class="form-control" readonly name="QRleido" #QRleido="ngModel" [(ngModel)]="qrleido">
-                        <!-- <button class="btn btn-primary" type="button" (click)="cerrarescaner()">Cerrar ESCANER</button> -->
+
+                    <div class="col-12 col-md-5"> -->
+                    <!-- <p style="font-weight: 400; margin-bottom: 0;"> QR Leido: </p>
+                        <input class="form-control" readonly name="QRleido" #QRleido="ngModel" [(ngModel)]="qrleido"> -->
+                    <!-- <button class="btn btn-primary" type="button" (click)="cerrarescaner()">Cerrar ESCANER</button> -->
+                    <!-- <label class="input-group-text text-info">Lote:</label> -->
+                    <!-- <input placeholder="Ingresar Lote" class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="LoteProductoIngresado">
+
+
+
                     </div>
+
+                    <div class="col-2">
+                        <button [disabled]="!ClaveProductoIngresado || !LoteProductoIngresado" class="btn btn-primary" type="button" (click)="IngresarProducto(ClaveProductoIngresado, LoteProductoIngresado)">Ingresar Producto</button> -->
+                    <!-- <zxing-scanner (camerasFound)="camaras($event)" [enable]="enableScan" (scanSuccess)='escaner($event)'></zxing-scanner> -->
+                    <!-- </div> -->
                 </div>
 
 
@@ -99,7 +149,7 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
                             <!-- style="background-color: red;" -->
                             <td mat-cell *matCellDef="let element">
-                                <div *ngIf="element.productoValido == false; else elseBlock" style="background-color: red;">
+                                <div *ngIf="element.productoValido == false; else elseBlock" style="background-color: blue;">
                                     {{element.ClaveProducto}}
                                 </div>
                                 <ng-template #elseBlock>
@@ -122,18 +172,18 @@
                         </ng-container>
 
                         <ng-container matColumnDef="Sacos">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
-                            <td mat-cell *matCellDef="let element">{{element.Sacos}}</td>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Kilogramos</th>
+                            <td mat-cell *matCellDef="let element">{{element.PesoTotal}} Kg</td>
                         </ng-container>
 
                         <ng-container matColumnDef="sacosSobra">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos Sobrantes</th>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Kilogramos Sobrantes</th>
                             <td mat-cell *matCellDef="let element">
-                                <div *ngIf="element.sacosSobra > 0; else elseBlockSobra" style="background-color: red;">
-                                    {{element.sacosSobra}}
+                                <div *ngIf="element.sacosSobra > 0; else elseBlockSobra" style="background-color: green;">
+                                    {{element.sacosSobra}} Kg
                                 </div>
                                 <ng-template #elseBlockSobra>
-                                    {{element.sacosSobra}}
+                                    {{element.sacosSobra}} Kg
                                 </ng-template>
                             </td>
                         </ng-container>
@@ -154,18 +204,21 @@
                                 <!--  -->
                                 <div *ngIf="row.productoValido == false; else elseBlock">
 
-                                    <button mat-icon-button class="btn btn-success" color="black" (click)="traspasoOrdenCarga(row)">
+                                    <!-- <button mat-icon-button class="btn btn-success" color="black" (click)="traspasoOrdenCarga(row)">
                     <mat-icon>redo</mat-icon>
-                  </button>
+                  </button> -->
                                 </div>
                                 <ng-template #elseBlock>
                                     <!-- {{element.ClaveProducto}} -->
                                     <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
                     <mat-icon>edit</mat-icon>
                   </button>
-                                    <button mat-icon-button class="btn btn-success" color="dark" (click)="traspasoOrdenCarga(row)">
-                    <mat-icon>redo</mat-icon>
+                                    <button mat-icon-button class="btn btn-red" (click)="eliminarProductoTablaIngreso(row)">
+                    <mat-icon>clear</mat-icon>
                   </button>
+                                    <!-- <button mat-icon-button class="btn btn-success" color="dark" (click)="traspasoOrdenCarga(row)">
+                    <mat-icon>redo</mat-icon>
+                  </button> -->
                                 </ng-template>
                                 <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
                                                             <mat-icon>edit</mat-icon>
@@ -213,30 +266,30 @@
                         <tr mat-header-row *matHeaderRowDef="displayedColumnsOrdenTemporal"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumnsOrdenTemporal;"></tr>
 
-                        <ng-container matColumnDef="Options1">
+                        <!-- <ng-container matColumnDef="Options1">
                             <th mat-header-cell *matHeaderCellDef>Options</th>
-                            <td mat-cell *matCellDef="let row; let i = index">
+                            <td mat-cell *matCellDef="let row; let i = index"> -->
 
-                                <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                        <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                                     <mat-icon>keyboard_arrow_down</mat-icon>
                                   </button> -->
-                                <!-- <mat-menu #menu="matMenu"> -->
-                                <!--  -->
-                                <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
+                        <!-- <mat-menu #menu="matMenu"> -->
+                        <!--  -->
+                        <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
                                                             <mat-icon>edit</mat-icon>
                                                         </button> -->
-                                <!--  -->
-                                <button mat-icon-button class="btn btn-danger" color="warn" (click)="regresarConceptos(row)">
+                        <!--  -->
+                        <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="regresarConceptos(row)">
                   <mat-icon>undo</mat-icon>
-                </button>
-                                <!-- </mat-menu> -->
-                            </td>
-                        </ng-container>
+                </button> -->
+                        <!-- </mat-menu> -->
+                        <!-- </td> -->
+                        <!-- </ng-container> -->
 
-                        <ng-container matColumnDef="QR">
+                        <!-- <ng-container matColumnDef="QR">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo QR</th>
                             <td mat-cell *matCellDef="let elementOT">{{elementOT.QR}}</td>
-                        </ng-container>
+                        </ng-container> -->
 
                         <ng-container matColumnDef="ClaveProducto">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
@@ -252,15 +305,15 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
                             <td mat-cell *matCellDef="let elementOT">{{elementOT.Lote}}</td>
                         </ng-container>
-
+                        <!-- 
                         <ng-container matColumnDef="Sacos">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
                             <td mat-cell *matCellDef="let elementOT">{{elementOT.Sacos}}</td>
-                        </ng-container>
+                        </ng-container> -->
 
                         <ng-container matColumnDef="PesoTotal">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Peso Total</th>
-                            <td mat-cell *matCellDef="let elementOT">{{elementOT.PesoTotal}}</td>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Kilogramos</th>
+                            <td mat-cell *matCellDef="let elementOT">{{elementOT.PesoTotal}} Kg</td>
                         </ng-container>
 
                         <ng-container matColumnDef="FechaCaducidad">
@@ -286,10 +339,13 @@
                                                             <mat-icon>edit</mat-icon>
                                                         </button> -->
                                 <!--  -->
-                                <button mat-icon-button class="btn btn-success" color="dark" (click)="traspasoOrdenCargaTemporal(row)">
+                                <!-- <button mat-icon-button class="btn btn-success" color="dark" (click)="traspasoOrdenCargaTemporal(row)">
                   <mat-icon>redo</mat-icon>
-                </button>
+                </button> -->
                                 <!-- </mat-menu> -->
+                                <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteOrdenTemporal(row)">
+                                            <mat-icon>delete_outline</mat-icon>
+                                        </button>
                             </td>
                         </ng-container>
 
@@ -332,7 +388,7 @@
 
                             <ng-container matColumnDef="Saldo">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo</th>
-                                <td mat-cell *matCellDef="let elementOT">{{elementOT.Saldo}}</td>
+                                <td mat-cell *matCellDef="let elementOT">{{elementOT.Saldo}} Kg</td>
                             </ng-container>
 
                             <!-- <ng-container matColumnDef="Options">
@@ -352,8 +408,8 @@
                                             <mat-icon>delete_outline</mat-icon>
                                         </button> -->
                             <!-- </mat-menu> -->
-                            <!-- </td> -->
-                            <!-- </ng-container> -->
+                            <!-- </td>
+                            </ng-container> -->
 
 
                         </table>
@@ -365,17 +421,17 @@
                 <!-- <hr> -->
                 <div class="container" style="margin-right: 0;">
                     <div class="row">
-                        <div class="col-md-3 col-12" style="display: grid">
+                        <div class="col-md-4 col-12" style="display: grid">
                             <button *ngIf="MostrarConceptos == false" class="btn btn-info btn-lg" mat-raised-button type="button" (click)="conceptosFaltantes()"><mat-icon>pending</mat-icon> Faltantes</button>
                             <button *ngIf="MostrarConceptos == true" class="btn btn-info btn-lg" mat-raised-button type="button" (click)="ocultarConceptosFaltantes()"><mat-icon>arrow_drop_down_circle</mat-icon> Ocultar Tabla</button>
                         </div>
-                        <div class="col-md-3 col-12" style="display: grid">
+                        <!-- <div class="col-md-3 col-12" style="display: grid">
                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="traspaso()"><mat-icon>sync_alt</mat-icon> Traspasar</button>
-                        </div>
-                        <div class="col-md-3 col-12" style="display: grid">
+                        </div> -->
+                        <div class="col-md-4 col-12" style="display: grid">
                             <button lass="btn btn-info btn-lg" mat-raised-button type="button" (click)="pdf()"><mat-icon>picture_as_pdf</mat-icon> PDF</button>
                         </div>
-                        <div class="col-md-3 col-12" style="display: grid">
+                        <div class="col-md-4 col-12" style="display: grid">
                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="finalizar()"><mat-icon>done_all</mat-icon> Finalizar</button>
                         </div>
                     </div>

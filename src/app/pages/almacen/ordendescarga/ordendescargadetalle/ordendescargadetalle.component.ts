@@ -47,7 +47,7 @@ export class OrdendescargadetalleComponent implements OnInit {
   imagePath: SafeResourceUrl;
   imageInfo: ImgInfo[] = [];
 
-  ShowBuscar: boolean;
+  // ShowBuscar: boolean;
   myControl = new FormControl();
   filteredOptions: Observable<any[]>;
   listQR: Tarima[] = [];
@@ -58,7 +58,7 @@ export class OrdendescargadetalleComponent implements OnInit {
 
 
   ngOnInit() {
-    this.ShowBuscar = false;
+    // this.ShowBuscar = false;
     this.IdOrdenDescarga = +(localStorage.getItem('IdOrdenDescarga'));
     console.log('this.IdOrdenDescarga: ', this.IdOrdenDescarga);
     this.service.formData = JSON.parse(localStorage.getItem('OrdenDescarga')); 
@@ -75,7 +75,7 @@ export class OrdendescargadetalleComponent implements OnInit {
   actualizarTablaOrdenTemporal() {
     this.ordenTemporalService.GetOrdenTemporalIDOD(this.IdOrdenDescarga).subscribe(dataOrdenTemporal => {
       console.log(dataOrdenTemporal);
-      if (this.ShowBuscar == false){
+      // if (this.ShowBuscar == false){
         if (dataOrdenTemporal.length > 0) {
           console.log('Si hay Movimientos en esta orden de Descarga');
           this.listDataOrdenTemporal = new MatTableDataSource(dataOrdenTemporal);
@@ -89,18 +89,18 @@ export class OrdendescargadetalleComponent implements OnInit {
           // this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
           // this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
         }
-      } else{
-        console.log("buscar true");
-        console.log(this.ShowBuscar);
-        console.log(this.qrsearch,'actualizar')
-        this.ordenTemporalService.GetOrdenTemporalIdqrOD(this.IdOrdenDescarga, this.qrsearch).subscribe(qrvalue => {
-          console.log(qrvalue);
-          this.listDataOrdenTemporal = new MatTableDataSource(qrvalue);
-          this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
-          this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
-          this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
-        })
-      }
+      // } else{
+      //   console.log("buscar true");
+      //   console.log(this.ShowBuscar);
+      //   console.log(this.qrsearch,'actualizar')
+      //   this.ordenTemporalService.GetOrdenTemporalIdqrOD(this.IdOrdenDescarga, this.qrsearch).subscribe(qrvalue => {
+      //     console.log(qrvalue);
+      //     this.listDataOrdenTemporal = new MatTableDataSource(qrvalue);
+      //     this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
+      //     this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;
+      //     this.listDataOrdenTemporal.paginator._intl.itemsPerPageLabel = 'Conceptos por Pagina';
+      //   })
+      // }
 
     })
 
@@ -217,23 +217,23 @@ ObtenerFolio(id: number) {
 
   }
 
-  BuscarTarimaQR(){
-    this.ShowBuscar = true;
-    this.dropdownRefresh();
-    // const dialogConfig = new MatDialogConfig();
-    // dialogConfig.disableClose = true;
-    // dialogConfig.autoFocus = true;
-    // dialogConfig.height = "90%";
+  // BuscarTarimaQR(){
+  //   this.ShowBuscar = true;
+  //   this.dropdownRefresh();
+  //   // const dialogConfig = new MatDialogConfig();
+  //   // dialogConfig.disableClose = true;
+  //   // dialogConfig.autoFocus = true;
+  //   // dialogConfig.height = "90%";
   
-    // this.dialog.open(OrdenDescargaEmailComponent, dialogConfig);
+  //   // this.dialog.open(OrdenDescargaEmailComponent, dialogConfig);
 
-  }
+  // }
 
-  CloseBuscar(){
-    this.ShowBuscar = false;
-    this.qrsearch = "";
-    this.actualizarTablaOrdenTemporal();
-  }
+  // CloseBuscar(){
+  //   this.ShowBuscar = false;
+  //   this.qrsearch = "";
+  //   this.actualizarTablaOrdenTemporal();
+  // }
 
 
   // qr

@@ -130,10 +130,10 @@ export class OrdenDecargaTarimaExistenteComponent implements OnInit {
 
           PesoTotalTarima = ((+this.POTSTE[i].SacosIngresados) * (+this.POTSTE[i].PesoxSaco))
 
-          Dt.IdTarima = idTarima;
+          Dt.IdDetalleTarima = idTarima;
           Dt.ClaveProducto = this.POTSTE[i].ClaveProducto;
           Dt.Producto = this.POTSTE[i].Producto;
-          Dt.Sacos = this.POTSTE[i].SacosIngresados;
+          Dt.SacosTotales = this.POTSTE[i].SacosIngresados;
           Dt.PesoxSaco = this.POTSTE[i].PesoxSaco;
           Dt.Lote = this.POTSTE[i].Lote;
           Dt.IdProveedor = this.POTSTE[i].IdProveedor;
@@ -144,7 +144,7 @@ export class OrdenDecargaTarimaExistenteComponent implements OnInit {
           Dt.USDA = this.POTSTE[i].USDA;
           Dt.Pedimento = this.POTSTE[i].Pedimento;
           DTTE.push(Dt);
-          sacosOT = (+sacosOT + +DTTE[i].Sacos)
+          sacosOT = (+sacosOT + +DTTE[i].SacosTotales)
           // pesoTotalOT =( +pesoTotalOT + +this.POTSTE[i].PesoTotal)
           pesoTotalOT = (+pesoTotalOT + +PesoTotalTarima)
         }
@@ -167,7 +167,7 @@ export class OrdenDecargaTarimaExistenteComponent implements OnInit {
               let ordenTempTE = new OrdenTemporal();
 
               ordenTempTE.IdOrdenTemporal = 1;
-              ordenTempTE.IdTarima = idTarima;
+              ordenTempTE.IdDetalleTarima = idTarima;
               ordenTempTE.IdOrdenCarga = 0;
               //cambiar esta chingadera
               ordenTempTE.IdOrdenDescarga = 1;

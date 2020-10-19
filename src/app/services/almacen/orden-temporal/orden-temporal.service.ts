@@ -25,7 +25,7 @@ export class OrdenTemporalService {
    //Tabla previsualizacion OD
    preOrdenTemporalOD = new Array<preOrdenTemporalOD>();
    //Tabla previsualizacion OD
-   preOrdenTemporalSacos = new Array<preOrdenTemporalODSacos>();
+   preOrdenTemporalSacos = new Array<any>();
    //Posicion del arreglo a editar
    posicionOrdenTemporal: number;
    //Posicion del arreglo a editar en OD
