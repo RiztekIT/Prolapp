@@ -22,6 +22,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AddsproductosService } from '../../../services/addsproductos.service';
 import { CalendarioService } from '../../../services/calendario/calendario.service';
 import { ComprasPdfComponent } from '../../../components/compras-reporte/compras-pdf.component';
+import { BodegasService } from 'src/app/services/catalogos/bodegas.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -44,7 +45,7 @@ export class FormatoComprasComprasComponent implements OnInit {
 
   constructor(public router: Router, private _formBuilder: FormBuilder, private currencyPipe: CurrencyPipe, public CompraService: CompraService,
      public proveedorService: ProveedoresService, public ServiceUnidad: UnidadMedidaService, public ServiceProducto: ProductosService, 
-     public ordenDescargaService: OrdenDescargaService, private http: HttpClient, public addproductos: AddsproductosService, private dialog: MatDialog, public CalendarioService: CalendarioService) { 
+     public ordenDescargaService: OrdenDescargaService, private http: HttpClient, public addproductos: AddsproductosService, private dialog: MatDialog, public CalendarioService: CalendarioService, private bodegaservice: BodegasService) { 
        this.MonedaBoolean = true;
      }
 
@@ -66,6 +67,7 @@ export class FormatoComprasComprasComponent implements OnInit {
     this.unidadMedida();
     this.tipoDeCambio();
     this.iniciarCantidades();
+    this.getbodegas()
     
 
  this.addproducto = true;
@@ -131,6 +133,9 @@ export class FormatoComprasComprasComponent implements OnInit {
   myControl5 = new FormControl();
   filteredOptions5: Observable<any[]>;
   options5: any[] = []
+
+  bodegaSelect;
+  public listBodega: Array<any> = [];
 
 
   
@@ -205,6 +210,31 @@ pesoTotal: number;
       console.log(this.compra);
     })
   }
+
+  bodegaCambio(event){
+    // console.log(event);
+this.bodegaSelect = event.value;
+console.log(this.bodegaSelect);
+/* this.obtenerProductos(this.bodegaSelect) */
+
+
+}
+
+getbodegas(){
+  this.bodegaservice.getBodegasList().subscribe(res => {
+    console.clear();
+    console.log(res);
+    console.log(res[0].Origen);
+    for (let i = 0; i <= res.length -1; i++) {
+      let b = res[i].Origen
+      if (b!='Transito'){
+
+        this.listBodega.push(b)
+      }
+    }
+
+  })
+}
 
 
   Regresar() {
@@ -472,8 +502,11 @@ pesoTotal: number;
       if (data.length > 0) {
         for (let i = 0; i < data.length; i++) {
           //Obtener el total de sacos
-          this.totalSacos = this.totalSacos + +data[i].Cantidad;
-          this.pesoTotal = ((+data[i].PesoxSaco)*(+data[i].Cantidad)) + this.pesoTotal; 
+          /* this.pesoTotal = ((+data[i].PesoxSaco)*(+data[i].Cantidad)) + this.pesoTotal; 
+          this.totalSacos = this.totalSacos + +data[i].Cantidad; */
+          this.pesoTotal = +this.pesoTotal + +data[i].Cantidad;
+          this.totalSacos = +this.pesoTotal / +data[i].PesoxSaco;
+          
         }
         
         this.valores = true;
@@ -578,7 +611,7 @@ pesoTotal: number;
     // console.log(cantidad);
     let elemHTML: any = document.getElementsByName('Cantidad')[0];
     this.validarCantidad(cantidad);
-    elemHTML.value = this.Cantidad;
+    /* elemHTML.value = this.Cantidad; */
     //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
     // this.calcularImportePedido();
     console.log(this.Cantidad);
@@ -603,9 +636,10 @@ pesoTotal: number;
   }
 
   onChangePrecio(precio: any){
+    console.log(precio);
     let elemHTML: any = document.getElementsByName('PrecioUnitario')[0];
     this.validarPrecio(precio);
-    elemHTML.value = this.ProductoPrecio;
+    /* elemHTML.value = this.ProductoPrecio; */
     console.log(this.ProductoPrecio);
     this.calcularImporte();
     if(this.LlevaIVA == true){
@@ -617,7 +651,7 @@ pesoTotal: number;
   validarPrecio(precio: any) {
     // console.log(cantidad + ' CANTIDAD');
   this.ProductoPrecio = +precio;
-    if (this.ProductoPrecio <= 0) {
+    if (this.ProductoPrecio < 0) {
       this.ProductoPrecio = 0;
     }
     if (precio == null) {
@@ -655,7 +689,15 @@ this.compra.DescuentoDlls = ((this.descuento) / (+this.compra.TipoCambio)).toStr
     this.detalleCompra.Cantidad = this.Cantidad.toString();
     this.detalleCompra.ClaveProducto = this.detalleCompra.ClaveProducto + this.clavemarca + this.claveorigen;
     this.detalleCompra.Producto = this.detalleCompra.Producto + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect;
-    this.detalleCompra.PesoxSaco = this.PresentacionSelect;
+    if (this.PresentacionSelect=='25 Kg'){
+      this.detalleCompra.PesoxSaco = '25';
+    }else  if (this.PresentacionSelect=='50 Kg'){
+      this.detalleCompra.PesoxSaco = '50';
+    }else  if (this.PresentacionSelect=='1000 Kg'){
+      this.detalleCompra.PesoxSaco = '1000';
+    }else  if (this.PresentacionSelect=='22.68 Lb'){
+      this.detalleCompra.PesoxSaco = '22.68';
+    }
 
     if(!this.detalleCompra.Observaciones){
       this.detalleCompra.Observaciones = "";
@@ -889,7 +931,16 @@ GenerarCompraAdministrativa(){
 
     this.detalleCompra.IdCompra = this.IdCompra;
     this.detalleCompra.Cantidad = this.Cantidad.toString();
-    this.detalleCompra.PesoxSaco = this.PresentacionSelect;
+    if (this.PresentacionSelect=='25 Kg'){
+      this.detalleCompra.PesoxSaco = '25';
+    }else  if (this.PresentacionSelect=='50 Kg'){
+      this.detalleCompra.PesoxSaco = '50';
+    }else  if (this.PresentacionSelect=='1000 Kg'){
+      this.detalleCompra.PesoxSaco = '1000';
+    }else  if (this.PresentacionSelect=='22.68 Lb'){
+      this.detalleCompra.PesoxSaco = '22.68';
+    }
+    /* this.detalleCompra.PesoxSaco = this.PresentacionSelect; */
 
     if(!this.detalleCompra.Observaciones){
       this.detalleCompra.Observaciones = "";
@@ -1228,7 +1279,7 @@ console.log(this.totalSacos);
  this.od.Kg = this.compra.PesoTotal;
  this.od.Chofer = '';
  this.od.Origen = 'EUA';
- this.od.Destino = 'PasoTx';
+ this.od.Destino = this.bodegaSelect;
  this.od.Observaciones = '';
  //Con que estatus se generara?
  this.od.Estatus = 'Transito';
