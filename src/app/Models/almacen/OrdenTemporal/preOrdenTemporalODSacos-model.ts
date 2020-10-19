@@ -19,6 +19,7 @@ export class preOrdenTemporalODSacos {
     KilogramosIngresados: string;
     KilogramosIngresadosTotales: string;
     posicionArreglo: number;
+    NumeroFactura:string;
 
     //para detalletarima
 

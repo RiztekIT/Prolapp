@@ -5,7 +5,7 @@
 
                 <div class="d-flex justify-content-between">
 
-                    <h2 class="text-muted m-t-10 m-b-0">Tarimas</h2>
+                    <h2 class="text-muted m-t-10 m-b-0">Orden de Descarga</h2>
                     <div>
                         <!--   Estatus:
                         <p [ngSwitch]=Estatus>
@@ -81,8 +81,8 @@
                                                     {{element.Producto}}
                                                     <td>
                                             </ng-container>
-                                            <ng-container matColumnDef="Sacos">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Kilogramos</th>
+                                            <ng-container matColumnDef="Kg">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
                                                 <td class="Sacos" mat-cell *matCellDef="let element">
                                                     <!-- </td> (click)="expandedElement = element"> -->
                                                     {{element.Sacos}} Kg
@@ -139,9 +139,13 @@
                                         <div class="form-material">
                                             <div class="row">
 
-                                                <div class="col-12">
+                                                <div class="col-8">
                                                     <label class="input-group-text text-info">Producto:</label>
                                                     <input type="text" readonly class="form-control" name="NombreProd" #NombreProd="ngModel" [(ngModel)]="this.NombreProducto">
+                                                </div>
+                                                <div class="col-4">
+                                                    <label class="input-group-text text-info">Factura:</label>
+                                                    <input type="text" class="form-control" name="NombreProd" #NombreProd="ngModel" [(ngModel)]="this.numerofactura">
                                                 </div>
                                             </div>
 
@@ -243,16 +247,16 @@
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
                                                 <td class="Sacos" mat-cell *matCellDef="let element">
                                                     <!-- </td> (click)="expandedElement = element"> -->
-                                                    {{element.Sacos}}
+                                                    {{element.KilogramosIngresados}}
                                                     <td>
                                             </ng-container>
-                                            <ng-container matColumnDef="KgIngresados">
+                                            <!--      <ng-container matColumnDef="KgIngresados">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg ingresados</th>
                                                 <td class="SacosIngresados" mat-cell *matCellDef="let element">
-                                                    <!-- </td> (click)="expandedElement = element"> -->
+                                                    
                                                     {{element.SacosIngresados}}
                                                     <td>
-                                            </ng-container>
+                                            </ng-container> -->
                                             <ng-container matColumnDef="Lote">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
                                                 <td class="Lote" mat-cell *matCellDef="let element">
@@ -345,7 +349,7 @@
 
                                     <div class="col-md-4 col-12" style="text-align:end;">
 
-                                        <button [disabled]="!this.listDataSacosIngresados" mat-raised-button class="btn btn-info btn-lg btncoti" (click)="onAddTarimaOT()">
+                                        <button [disabled]="!this.listDataSacosIngresados" mat-raised-button class="btn btn-info btn-lg btncoti" (click)="agregarProductos()">
                             <mat-icon>done</mat-icon> Agregar Producto(s)
                         </button>
 
@@ -369,7 +373,7 @@
                                     <div class="row">
                                         <div class="col-md-4 col-12">
                                             <h3 class="bolder blacktxt text-center">
-                                                Tarimas Creadas
+                                                Producto Ingresado
                                             </h3>
                                         </div>
                                         <div class="col-4"></div>
@@ -416,7 +420,7 @@
 
                                             <ng-container matColumnDef="Kg">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
-                                                <td mat-cell *matCellDef="let elementOT">{{elementOT.Sacos}}</td>
+                                                <td mat-cell *matCellDef="let elementOT">{{elementOT.KilogramosIngresados}}</td>
                                             </ng-container>
 
                                             <!--  <ng-container matColumnDef="PesoTotal">
