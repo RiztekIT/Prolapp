@@ -98,9 +98,9 @@ export class InventariosalmacenComponent implements OnInit {
             //this.serviceTarima.master[contador].detalle = datadet;
             for (let i=0; i<datadet.length;i++){
 
-              sacostotales = sacostotales + +datadet[i].Sacos;
+              sacostotales = sacostotales + +datadet[i].SacosTotales;
 
-              datadet[i].SacosD = +datadet[i].Sacos;
+              datadet[i].SacosD = +datadet[i].SacosTotales;
 
 
               this.serviceTarima.GetTarimaProductoD(datadet[i].Producto,datadet[i].Lote).subscribe(datas=>{

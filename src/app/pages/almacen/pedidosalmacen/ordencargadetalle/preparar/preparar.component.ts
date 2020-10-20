@@ -295,6 +295,7 @@ export class PrepararComponent implements OnInit {
 let productoValido: boolean = true;
 
     //Verificara que no exista el producto en la tabla
+    console.log(this.ordenTemporalService.preOrdenTemporal);
     for (let l = 0; l <= this.ordenTemporalService.preOrdenTemporal.length - 1; l++) {
     if((Lote == this.ordenTemporalService.preOrdenTemporal[l].Lote) && (ClaveProducto == this.ordenTemporalService.preOrdenTemporal[l].ClaveProducto)){
       Swal.fire({
@@ -359,7 +360,8 @@ let productoValido: boolean = true;
               oT.QR = this.QRdata.QR;
               oT.ClaveProducto = ClaveProducto;
               oT.Lote = Lote;
-              oT.Sacos = ((+kgIngreso) / (+prodInfo[0].PesoxSaco)).toString();
+              oT.Sacos = (kgIngreso).toString();
+              /* oT.Sacos = ((+kgIngreso) / (+prodInfo[0].PesoxSaco)).toString(); */
               // oT.Sacos = sacosIngreso.toString();
               // oT.Sacos =  this.QRDetalledata[i].Sacos;
               oT.Producto = prodInfo[0].Producto;
@@ -799,7 +801,7 @@ let productoValido: boolean = true;
           // detalleTarimaNueva.PesoTotal = ((+detalleTarimaNueva.SacosTotales) * (+detalleTarimaNueva.PesoxSaco)).toString();
           // detalleTarimaNueva.SacosTotales = Sacos
           // detalleTarimaNueva.PesoTotal = ((+Sacos) * (+dataDetalleTarima[0].PesoxSaco)).toString();
-          detalleTarimaNueva.Bodega = 'Chihuahua';
+          detalleTarimaNueva.Bodega = this.bodegaOrigen;
           detalleTarimaNueva.Estatus = 'Creada';
           // detalleTarimaNueva.TarimasTotales  COMO CALCULAR TARIMAS TOTALES ??
 

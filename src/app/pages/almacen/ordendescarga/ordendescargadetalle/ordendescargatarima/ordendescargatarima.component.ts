@@ -157,7 +157,7 @@ let saldo = 0;
 
   // Tabla Orden Temporal
   listDataOrdenTemporal: MatTableDataSource<any>;
-  displayedColumnsOrdenTemporal: string[] = ['QR', 'ClaveProducto', 'Producto', 'Lote', 'Kg',  'FechaCaducidad', 'Comentarios', 'Options'];
+  displayedColumnsOrdenTemporal: string[] = ['ClaveProducto', 'Producto', 'Lote', 'Kg',  'FechaCaducidad', 'Comentarios', 'Options'];
   @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
 
@@ -197,7 +197,8 @@ let saldo = 0;
           DOD.Sacos = this.dataODID[i].Sacos
           DOD.Lote = this.dataODID[i].Lote
           DOD.Saldo = this.dataODID[i].Saldo
-          DOD.PesoTotal = ((+DOD.Sacos) * (+this.dataODID[i].PesoxSaco)).toString();
+          //DOD.PesoTotal = ((+DOD.Sacos) * (+this.dataODID[i].PesoxSaco)).toString();
+          DOD.PesoTotal = (DOD.Sacos);
           DOD.FechaCaducidad = this.dataODID[i].FechaCaducidad;
           DOD.KilogramosIngresados = '';
           DOD.Comentarios = 'NA';
@@ -326,7 +327,7 @@ let saldo = 0;
     this.preOrdenTemporalSacos = oTSacos;
     /* this.preOrdenTemporalSacos.KilogramosIngresadosTotales = oTSacos.SacosIngresadosTotales; */
 
-    for (let i = 0; i <= this.ordenTemporalService.preOrdenTemporalSacos.length - 1; i++) {
+  /*   for (let i = 0; i <= this.ordenTemporalService.preOrdenTemporalSacos.length - 1; i++) {
       if (this.ordenTemporalService.preOrdenTemporalSacos[i].ClaveProducto == this.preOrdenTemporalSacos.ClaveProducto && this.ordenTemporalService.preOrdenTemporalSacos[i].Lote == this.preOrdenTemporalSacos.Lote) {
         Swal.fire({
           title: 'Producto Ya ingresado.',
@@ -336,7 +337,7 @@ let saldo = 0;
         });
         return
       }
-    }
+    } */
     // console.log(this.preOrdenTemporalSacos);
     // this.ordenTemporalService.preOrdenTemporalSacos.push(oTSacos);
     // console.log(this.ordenTemporalService.preOrdenTemporalSacos);
@@ -539,6 +540,7 @@ let saldo = 0;
 
     // }
     console.log(this.ordenTemporalService.preOrdenTemporalSacos);
+    this.agregarProductos();
   }
 
   ingresoSacos() {
@@ -582,11 +584,11 @@ let saldo = 0;
   }
 
   ActualizarOrdenTemporalSI() {
-    this.ordenTemporalService.preOrdenTemporalSacos = []
+   /*  this.ordenTemporalService.preOrdenTemporalSacos = []
     this.listDataSacosIngresados = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalSacos);
     this.listData.sort = this.sort;
     this.listData.paginator = this.paginator;
-    this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+    this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina'; */
   }
 
 
@@ -671,7 +673,7 @@ Producto: this.ordenTemporalService.preOrdenTemporalSacos[i].Producto,
 SacosTotales: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,
 PesoxSaco: this.ordenTemporalService.preOrdenTemporalSacos[i].PesoxSaco,
 Lote: this.ordenTemporalService.preOrdenTemporalSacos[i].Lote,
-PesoTotal: this.ordenTemporalService.preOrdenTemporalSacos[i].PesoTotal,
+PesoTotal: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,
 SacosxTarima: '',
 TarimasTotales: '',
 Bodega: this.service.formData.Destino,
@@ -705,7 +707,7 @@ Estatus: 'Creada',
   Lote: this.ordenTemporalService.preOrdenTemporalSacos[i].Lote,
   Sacos: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,
   Producto: this.ordenTemporalService.preOrdenTemporalSacos[i].Producto,
-  PesoTotal: this.ordenTemporalService.preOrdenTemporalSacos[i].PesoTotal,
+  PesoTotal: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,
   FechaCaducidad: this.ordenTemporalService.preOrdenTemporalSacos[i].FechaCaducidad,
   Comentarios: '',
       }
