@@ -12,6 +12,10 @@ import { TraspasoTarimaComponent } from '../../../traspaso-tarima/traspaso-tarim
 import { OrdenTemporalService } from 'src/app/services/almacen/orden-temporal/orden-temporal.service';
 import { OrdenTemporal } from 'src/app/Models/almacen/OrdenTemporal/ordenTemporal-model';
 import { MasterDetalleTarima } from 'src/app/Models/almacen/OrdenDescarga/cuu/masterDetalleTarima-model';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
+import { element } from 'protractor';
 
 
 @Component({
@@ -28,6 +32,40 @@ import { MasterDetalleTarima } from 'src/app/Models/almacen/OrdenDescarga/cuu/ma
   ],
 })
 export class OrdendescargatarimacuuComponent implements OnInit {
+  
+  constructor(public router: Router, public tarimaService: TarimaService, public ordenDescargaService: OrdenDescargaService, private dialog: MatDialog, public ordenTemporalService: OrdenTemporalService) {
+    // this.tarimaService.listenDt().subscribe((m: any) => {
+    //   console.log(m);
+    //   this.actualizarTablaTarima();
+    // });
+
+    this.tarimaService.listenerScan().subscribe((m: any) => {
+      console.log(m);
+      this.actualizarTablaTarimaEscaneada();
+    });
+
+
+    //Actualiza la tabla visualizacion cuando se hace un traspaso
+    // this.ordenTemporalService.listen().subscribe((m: any) => {
+    //   console.log(m);
+    //   this.simularQR(m);
+    //   this.tarimaService.trapasoOrdenDescarga = false;
+    // });
+  }
+
+
+  ngOnInit() {
+    this.isVisible = false;
+    this.isVisibleQR = true;
+    this.tarimaService.TraspasoDescarga = false;
+    this.IdOrdenDescarga = +(localStorage.getItem('IdOrdenDescarga'));
+    this.ordenDescargaService.formData = JSON.parse(localStorage.getItem('OrdenDescarga'))
+    this.obtenerBodegaOrigen();
+    this.obtenerBodegaDestino();
+    // this.actualizarTablaTarima();
+    this.actualizarTablaTarimaEscaneada();
+    this.dropdownRefreshProductos();
+  }
   IdOrdenDescarga: number;
   displayedColumnsVersion: string[] = ['IdDetalleTarima, IdTarima, ClaveProducto, Producto, Sacos, PesoxSaco, Lote, IdProveedor, Proveedor, PO, FechaMFG, FechaCaducidad, Shipper, USDA, Pedimento'];
   displayedColumnsVersionScan: string[] = ['IdDetalleTarima, IdTarima, ClaveProducto, Producto, Sacos, PesoxSaco, Lote, IdProveedor, Proveedor, PO, FechaMFG, FechaCaducidad, Shipper, USDA, Pedimento'];
@@ -50,8 +88,8 @@ export class OrdendescargatarimacuuComponent implements OnInit {
 
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['IdTarima', 'Sacos', 'PesoTotal', 'QR', 'Bodega'];
-  isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
+  // displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Lote', 'Kg', 'Saldo', 'Bodega', 'Borrar'];
+  displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Lote', 'Kg', 'Saldo', 'KgSobrantes', 'Bodega', 'Borrar'];
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -61,85 +99,178 @@ export class OrdendescargatarimacuuComponent implements OnInit {
   @ViewChild(MatSort, null) sortScan: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorScan: MatPaginator;
 
+  //Dropdown Productos
+  myControlProductos = new FormControl();
+  filteredOptionsProductos: Observable<any[]>;
+  optionsProductos: any[] = [];
+  detalleSeleccionado: string = "";
 
-  constructor(public router: Router, public tarimaService: TarimaService, public ordenDescargaService: OrdenDescargaService, private dialog: MatDialog, public ordenTemporalService: OrdenTemporalService) {
-    this.tarimaService.listenDt().subscribe((m: any) => {
-      console.log(m);
-      this.actualizarTablaTarima();
-    });
+  //Variables donde se guardaran los Valores que el usuario ingresara (Producto)
+  ClaveProductoIngresado: string;
+  LoteProductoIngresado: string;
 
-    this.tarimaService.listenerScan().subscribe((m: any) => {
-      console.log(m);
-      this.actualizarTablaTarimaEscaneada();
-    });
+  //Informacion del Producto Ingresado
+  ProductoIngresado: any;
 
-
-    //Actualiza la tabla visualizacion cuando se hace un traspaso
-    this.ordenTemporalService.listen().subscribe((m: any) => {
-      console.log(m);
-      this.simularQR(m);
-      this.tarimaService.trapasoOrdenDescarga = false;
-    });
-  }
-
-
-  ngOnInit() {
-    this.isVisible = false;
-    this.isVisibleQR = true;
-    this.tarimaService.TraspasoDescarga = false;
-    this.IdOrdenDescarga = +(localStorage.getItem('IdOrdenDescarga'));
-    this.ordenDescargaService.formData = JSON.parse(localStorage.getItem('OrdenDescarga'))
-    this.obtenerBodegaOrigen();
-    this.obtenerBodegaDestino();
-    this.actualizarTablaTarima();
-    this.actualizarTablaTarimaEscaneada();
-  }
+  //Arreglo con la Informacion de los productos Ingresados (Todavia no han sido registrados en el sistema)
+  arrayProductosIngresados = new Array<any>();
 
   regresar() {
     this.router.navigate(['/ordenDescargadetallecuu']);
   }
 
-  actualizarTablaTarima() {
+  dropdownRefreshProductos() {
+    this.optionsProductos = new Array<any[]>();
+    this.filteredOptionsProductos = new Observable<any[]>();
+    this.ordenDescargaService.getOrdenDescargaIDList(this.IdOrdenDescarga).subscribe(dataDOD=>{
+      dataDOD.forEach(element => { 
+            this.obtenerInformacionProducto(element);          
+        });
+    });
+  }
 
-    // this.tarimaService.masterT = new Array<MasterDetalleTarima>();
-    this.tarimaService.masterT = [];
-    // this.ordenDescargaService.GetODOTQR(1).subscribe(dataID => {
-    // console.log(dataID, 'loquetraeODOT');
-    // let pm = 0
-    // console.log(dataID[i]);
-    this.ordenDescargaService.GetODOTTB(this.IdOrdenDescarga, 'PasoTx').subscribe(dataQR => {
-      if (dataQR.length > 0) {
-        for (let i = 0; i <= dataQR.length - 1; i++) {
-          // es lo que trae detalle tarima con ese QR
-          console.log(dataQR[0]);
-          // if(dataQR[0]){
-          // console.warn(pm);
-          this.tarimaService.masterT[i] = dataQR[i];
-          this.tarimaService.masterT[i].detalleTarima = [];
-          this.tarimaService.getDetalleTarimaID(dataQR[i].IdTarima).subscribe(res => {
-            for (let l = 0; l <= res.length - 1; l++) {
-              console.log(l);
-              console.log(res[l]);
-              this.tarimaService.masterT[i].detalleTarima.push(res[l]);
-            }
-          })
-          this.listData = new MatTableDataSource(this.tarimaService.masterT);
-          this.listData.sort = this.sort;
-          this.listData.paginator = this.paginator;
-          this.listData.paginator._intl.itemsPerPageLabel = 'Tarimas por Pagina';
-          console.log(this.tarimaService.masterT);
-          // pm++;
-          // }
+  obtenerInformacionProducto(element:any){
+    console.log(element);
+    this.tarimaService.getDetalleTarimaClaveLoteBodega(element.ClaveProducto, element.Lote, 'Transito').subscribe(dataP => {
+      console.log(dataP);
+      for (let i = 0; i < dataP.length; i++) {
+        let product = dataP[i];
+        product.Saldo = element.Saldo;
+        // product.NuevoSaldo = ((+product.Saldo) - (+dataP[i].PesoTotal)).toString();
+
+          this.optionsProductos.push(product)
+          this.filteredOptionsProductos = this.myControlProductos.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filterProductos(value))
+            );
+        
+      
+        
+       
         }
-      } else {
-        this.tarimaService.masterT = [];
-        this.listData = new MatTableDataSource(this.tarimaService.masterT);
-        this.listData.sort = this.sort;
-        this.listData.paginator = this.paginator;
-        this.listData.paginator._intl.itemsPerPageLabel = 'Tarimas por Pagina';
-      }
-    })
+      });
+  }
+
+  private _filterProductos(value: any): any[] {
+    if (typeof (value) == 'string') {
+      const filterValue2 = value.toLowerCase();
+      return this.optionsProductos.filter(option => option.ClaveProducto.toString().toLowerCase().includes(filterValue2) || option.Producto.toString().toLowerCase().includes(filterValue2));
+    } else if (typeof (value) == 'number') {
+      const filterValue2 = value.toString();
+      return this.optionsProductos.filter(option => option.ClaveProducto.toString().includes(filterValue2) || option.Producto.toString().includes(filterValue2));
+    }
+
+
+  }
+
+  onSelectionChangeProducto(options: any, event: any) {
+    if (event.isUserInput) {
+      console.log(options);
+      console.log(event);
+      this.detalleSeleccionado = options.ClaveProducto;
+      this.ClaveProductoIngresado = options.ClaveProducto;
+      this.LoteProductoIngresado = options.Lote;
+      this.ProductoIngresado = options;
+    }
+  }
+
+  deleteProductoIngresado(prodInfo){
+    console.log(prodInfo);
+    this.arrayProductosIngresados.splice(this.ordenTemporalService.preOrdenTemporal.indexOf(prodInfo), 1);
+    this.listData = new MatTableDataSource(this.arrayProductosIngresados);
+    this.listData.sort = this.sort;
+    this.listData.paginator = this.paginator;
+    this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+  }
+
+  clearCamposIngresados(){
+    this.ClaveProductoIngresado = "";
+    this.LoteProductoIngresado = "";
+    this.ProductoIngresado = "";
+    this.detalleSeleccionado = "";
+  }
+
+  actualizarTablaTarima(informacionProducto) {
+console.log(informacionProducto);
+
+let productoValido = true;
+console.log(+informacionProducto.NuevoSaldo);
+if(+informacionProducto.Saldo > 0){
+
+  this.arrayProductosIngresados.forEach(element => {
+    if((informacionProducto.ClaveProducto == element.ClaveProducto)&&(informacionProducto.Lote == element.Lote)){
+      Swal.fire({
+        icon: 'error',
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer: 1200,
+        title: 'Producto ya Ingresado',
+        text: 'El Producto ya ha sido ingresado.'
+      })
+      productoValido = false;
+    }  
+  });
+  if(productoValido == true){
+    this.arrayProductosIngresados.push(informacionProducto);
+    this.listData = new MatTableDataSource(this.arrayProductosIngresados);
+    this.listData.sort = this.sort;
+    this.listData.paginator = this.paginator;
+    this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+    this.clearCamposIngresados(); 
+  }
+}else{
+  Swal.fire({
+    icon: 'error',
+    showCancelButton: false,
+    showConfirmButton: false,
+    timer: 1200,
+    title: 'Producto Ya Descargado',
+    text: 'El Producto ya ha sido descargado.'
+  })
+}
+
+
+
+    // // this.tarimaService.masterT = new Array<MasterDetalleTarima>();
+    // this.tarimaService.masterT = [];
+    // // this.ordenDescargaService.GetODOTQR(1).subscribe(dataID => {
+    // // console.log(dataID, 'loquetraeODOT');
+    // // let pm = 0
+    // // console.log(dataID[i]);
+    // this.ordenDescargaService.GetODOTTB(this.IdOrdenDescarga, 'PasoTx').subscribe(dataQR => {
+    //   if (dataQR.length > 0) {
+    //     for (let i = 0; i <= dataQR.length - 1; i++) {
+    //       // es lo que trae detalle tarima con ese QR
+    //       console.log(dataQR[0]);
+    //       // if(dataQR[0]){
+    //       // console.warn(pm);
+    //       this.tarimaService.masterT[i] = dataQR[i];
+    //       this.tarimaService.masterT[i].detalleTarima = [];
+    //       this.tarimaService.getDetalleTarimaID(dataQR[i].IdTarima).subscribe(res => {
+    //         for (let l = 0; l <= res.length - 1; l++) {
+    //           console.log(l);
+    //           console.log(res[l]);
+    //           this.tarimaService.masterT[i].detalleTarima.push(res[l]);
+    //         }
+    //       })
+    //       this.listData = new MatTableDataSource(this.tarimaService.masterT);
+    //       this.listData.sort = this.sort;
+    //       this.listData.paginator = this.paginator;
+    //       this.listData.paginator._intl.itemsPerPageLabel = 'Tarimas por Pagina';
+    //       console.log(this.tarimaService.masterT);
+    //       // pm++;
+    //       // }
+    //     }
+    //   } else {
+    //     this.tarimaService.masterT = [];
+    //     this.listData = new MatTableDataSource(this.tarimaService.masterT);
+    //     this.listData.sort = this.sort;
+    //     this.listData.paginator = this.paginator;
+    //     this.listData.paginator._intl.itemsPerPageLabel = 'Tarimas por Pagina';
+    //   }
     // })
+    // // })
   }
 
 
@@ -217,7 +348,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
 
       console.log(data);
       this.qrleido = data;
-      this.simularQR(this.qrleido);
+      // this.simularQR(this.qrleido);
 
     })
 
@@ -232,10 +363,11 @@ export class OrdendescargatarimacuuComponent implements OnInit {
 
   }
 
-  simularQR(qrleido: string) {
+  //Descargar Producto (llegaran como parametro la informacion del producto ingresado por el usuario)
+  descargarProducto(ClaveProducto, Lote) {
     // hardcode
     this.QRdata = new Tarima();
-    this.QRdata.QR = qrleido;
+    // this.QRdata.QR = qrleido;
     // this.qrleido = '7AzEQFo';
     // this.QRdata.QR = '7AzEQFo';
 
@@ -291,7 +423,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
             console.log(DataOT);
 
             this.actualizarTablaTarimaEscaneada();
-          this.actualizarTablaTarima();
+          // this.actualizarTablaTarima();
           console.log(res);
           Swal.fire({
             icon: 'success',
@@ -435,7 +567,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
 
           this.tarimaService.updateTarima(TQR).subscribe(res => {
             console.log(res);
-            this.actualizarTablaTarima();
+            // this.actualizarTablaTarima();
             this.actualizarTablaTarimaEscaneada();
             Swal.fire({
               icon: 'success',
@@ -518,4 +650,15 @@ let saldo = 0;
     })
     
   }
+
+
+  Ingresar(){
+    
+  }
+
+
+
+
+
+
 }

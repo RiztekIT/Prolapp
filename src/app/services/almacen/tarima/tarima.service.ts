@@ -10,8 +10,8 @@ import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/deta
 import { Usuario } from 'src/app/Models/catalogos/usuarios-model';
 import { MasterDetalleTarima } from 'src/app/Models/almacen/OrdenDescarga/cuu/masterDetalleTarima-model';
 
-export const APIUrl = environment.APIUrl;
-// export const APIUrl = 'https://localhost:44361/api';
+// export const APIUrl = environment.APIUrl;
+export const APIUrl = 'https://localhost:44361/api';
 
 @Injectable({
   providedIn: 'root'
@@ -202,6 +202,10 @@ updateDetalleTarimaSacosPesoTarimasBodega(dt: DetalleTarima) {
   //Obtener Detalle Tarima por Bodega 
   getDetalleTarimaBodega(bodega: string){
     return this.http.get<any[]>(APIUrl + '/Tarima/GetDetalleTarimaBodega/'+bodega);
+  }
+  //Obtener Detalle Tarima por Bodega 
+  getDetalleTarimaClaveLoteBodega(Clave: string, Lote: string, bodega: string){
+    return this.http.get<any[]>(APIUrl + '/Tarima/GetDetalleTarimaClaveLoteBodega/'+Clave+'/'+Lote+'/'+bodega);
   }
   //Actualizar Detalle Tarima por Bodega 
   getUpdateDetalleTarimaBodega(id: number, bodega: string){

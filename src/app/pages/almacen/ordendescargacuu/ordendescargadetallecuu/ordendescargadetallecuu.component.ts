@@ -52,10 +52,12 @@ export class OrdendescargadetallecuuComponent implements OnInit {
 
 
   listDataScan: MatTableDataSource<any>;
-  displayedColumnsScan: string[] = ['IdTarima', 'Sacos', 'PesoTotal', 'QR', 'Bodega'];
+  displayedColumnsScan: string[] = ['ClaveProducto', 'Producto', 'Lote', 'Kilogramos', 'FechaCaducidad', 'Comentarios'];
   isExpansionDetailRowScan = (i: number, row: Object) => row.hasOwnProperty('detailRow');
   @ViewChild(MatSort, null) sortScan: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorScan: MatPaginator;
+
+  dataOrdenTemporal: any;
 
 
   ngOnInit() {
@@ -94,42 +96,54 @@ export class OrdendescargadetallecuuComponent implements OnInit {
 
 actualizarTablaTarimaEscaneada() {
 console.warn('hello');
-    this.tarimaService.masterTE = new Array<any>();
-    this.tarimaService.masterTE = [];
 
-    this.service.GetODOTTB(this.IdOrdenDescarga, 'Chihuahua').subscribe(dataQR => {
-      if (dataQR.length > 0) {
-        for (let i = 0; i <= dataQR.length - 1; i++) {
-          // es lo que trae detalle tarima con ese QR
-          console.log(dataQR[0]);
-          // if(dataQR[0]){
-          // console.warn(pm);
-          this.tarimaService.masterTE[i] = dataQR[i];
-          this.tarimaService.masterTE[i].detalleTarima = [];
-          this.tarimaService.getDetalleTarimaID(dataQR[i].IdTarima).subscribe(res => {
-            for (let l = 0; l <= res.length - 1; l++) {
-              console.log(l);
-              console.log(res[l]);
-              this.tarimaService.masterTE[i].detalleTarima.push(res[l]);
-            }
-          })
-          this.listDataScan = new MatTableDataSource(this.tarimaService.masterTE);
-          this.listDataScan.sort = this.sortScan;
-          this.listDataScan.paginator = this.paginatorScan;
-          this.listDataScan.paginator._intl.itemsPerPageLabel = 'Tarimas por Pagina';
-          console.log(this.tarimaService.masterTE);
-          // pm++;
-          // }
+    this.ordenTemporalService.GetOrdenTemporalIDOD(this.IdOrdenDescarga).subscribe(dataOrdenTemporal => {
+      console.log(dataOrdenTemporal);
+      this.dataOrdenTemporal = [];
+      if(dataOrdenTemporal.length>0){
+          this.dataOrdenTemporal = dataOrdenTemporal;
+          console.log(this.dataOrdenTemporal);
         }
-      } else {
-        this.tarimaService.masterTE = [];
-        this.listDataScan = new MatTableDataSource(this.tarimaService.masterTE);
-        this.listDataScan.sort = this.sortScan;
-        this.listDataScan.paginator = this.paginatorScan;
-        this.listDataScan.paginator._intl.itemsPerPageLabel = 'Tarimas por Pagina';
-
-      }
+        this.listDataScan = new MatTableDataSource(this.dataOrdenTemporal);
+ this.listDataScan.sort = this.sortScan;
+ this.listDataScan.paginator = this.paginatorScan;
+ this.listDataScan.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
     })
+
+
+    // this.service.GetODOTTB(this.IdOrdenDescarga, 'Chihuahua').subscribe(dataQR => {
+    //   // if (dataQR.length > 0) {
+    //     // for (let i = 0; i <= dataQR.length - 1; i++) {
+    //       // es lo que trae detalle tarima con ese QR
+    //       console.log(dataQR[0]);
+    //       // if(dataQR[0]){
+    //       // console.warn(pm);
+    //       this.tarimaService.masterTE[i] = dataQR[i];
+    //       this.tarimaService.masterTE[i].detalleTarima = [];
+    //       this.tarimaService.getDetalleTarimaID(dataQR[i].IdTarima).subscribe(res => {
+    //         for (let l = 0; l <= res.length - 1; l++) {
+    //           console.log(l);
+    //           console.log(res[l]);
+    //           this.tarimaService.masterTE[i].detalleTarima.push(res[l]);
+    //         }
+    //       })
+    //       this.listDataScan = new MatTableDataSource(this.tarimaService.masterTE);
+    //       this.listDataScan.sort = this.sortScan;
+    //       this.listDataScan.paginator = this.paginatorScan;
+    //       this.listDataScan.paginator._intl.itemsPerPageLabel = 'Tarimas por Pagina';
+    //       console.log(this.tarimaService.masterTE);
+    //       // pm++;
+    //       // }
+    //     }
+    // //   } else {
+    // //     this.tarimaService.masterTE = [];
+    // //     this.listDataScan = new MatTableDataSource(this.tarimaService.masterTE);
+    // //     this.listDataScan.sort = this.sortScan;
+    // //     this.listDataScan.paginator = this.paginatorScan;
+    // //     this.listDataScan.paginator._intl.itemsPerPageLabel = 'Tarimas por Pagina';
+
+    // //   }
+    // // })
 
   }
 

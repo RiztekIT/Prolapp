@@ -140,27 +140,6 @@ export class PrepararComponent implements OnInit {
       console.log(dataP);
       for (let i = 0; i < dataP.length; i++) {
         let product = dataP[i];
-        // //Obtener Datos de la tabla pre Orden Temporal para no poder ingresar mas de 1 vez el mismo producto
-        // if (this.ordenTemporalService.preOrdenTemporal.length > 0) {
-        //   for (let l = 0; l < this.ordenTemporalService.preOrdenTemporal.length; l++) {
-        //     console.log(product);
-        //     console.log(product.Lote);
-        //     console.log(this.ordenTemporalService.preOrdenTemporal[l].Lote);
-        //     console.log(product.ClaveProducto);
-        //     console.log(this.ordenTemporalService.preOrdenTemporal[l].ClaveProducto);
-        //     if ((product.Lote == this.ordenTemporalService.preOrdenTemporal[l].Lote) && (product.ClaveProducto == this.ordenTemporalService.preOrdenTemporal[l].ClaveProducto)) {
-        //       console.log('No Ingresar Producto');
-        //     } else {
-        //       console.log('Ingresar Producto');
-        //       this.optionsProductos.push(product)
-        //       this.filteredOptionsProductos = this.myControlProductos.valueChanges
-        //         .pipe(
-        //           startWith(''),
-        //           map(value => this._filterProductos(value))
-        //         );
-        //     }
-        //   }
-        // } else {
           this.optionsProductos.push(product)
           this.filteredOptionsProductos = this.myControlProductos.valueChanges
             .pipe(
