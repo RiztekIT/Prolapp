@@ -203,7 +203,7 @@
                             <hr>
 
 
-                            <div class="form-material mat-elevation-z5">
+                            <!--          <div class="form-material mat-elevation-z5">
 
                                 <div class="card card-header">
                                     <div class="row">
@@ -232,49 +232,43 @@
                                             <ng-container matColumnDef="ClaveProducto">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>ClaveProducto</th>
                                                 <td class="ClaveProducto" mat-cell *matCellDef="let element">
-                                                    <!-- </td> (click)="expandedElement = element"> -->
+                                                    
                                                     {{element.ClaveProducto}}
                                                     <td>
                                             </ng-container>
                                             <ng-container matColumnDef="Producto">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
                                                 <td class="Producto" mat-cell *matCellDef="let element">
-                                                    <!-- </td> (click)="expandedElement = element"> -->
+                                                    
                                                     {{element.Producto}}
                                                     <td>
                                             </ng-container>
                                             <ng-container matColumnDef="Kg">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
                                                 <td class="Sacos" mat-cell *matCellDef="let element">
-                                                    <!-- </td> (click)="expandedElement = element"> -->
+                                                    
                                                     {{element.KilogramosIngresados}}
                                                     <td>
                                             </ng-container>
-                                            <!--      <ng-container matColumnDef="KgIngresados">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg ingresados</th>
-                                                <td class="SacosIngresados" mat-cell *matCellDef="let element">
-                                                    
-                                                    {{element.SacosIngresados}}
-                                                    <td>
-                                            </ng-container> -->
+                                        
                                             <ng-container matColumnDef="Lote">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
                                                 <td class="Lote" mat-cell *matCellDef="let element">
-                                                    <!-- </td> (click)="expandedElement = element"> -->
+                                                    
                                                     {{element.Lote}}
                                                     <td>
                                             </ng-container>
                                             <ng-container matColumnDef="FechaCaducidad">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>fechaCaducidad</th>
                                                 <td class="fechaCaducidad" mat-cell *matCellDef="let element">
-                                                    <!-- </td> (click)="expandedElement = element"> -->
+                                                    
                                                     {{element.FechaCaducidad | date: 'yyyy-MM-dd' }}
                                                     <td>
                                             </ng-container>
                                             <ng-container matColumnDef="FechaMFG">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>fechaMFG</th>
                                                 <td class="fechaMFG" mat-cell *matCellDef="let element">
-                                                    <!-- </td> (click)="expandedElement = element"> -->
+                                                    
                                                     {{element.FechaMFG | date: 'yyyy-MM-dd' }}
                                                     <td>
                                             </ng-container>
@@ -303,12 +297,7 @@
 
 
                                     <div class="col-md-8 col-12">
-                                        <!-- <div class="form-material">
-                        <button class="btn btn-info" (click)="onAddTarimaExistenteOT()">
-              <mat-icon>done_all</mat-icon> Añadir a Tarima
-            </button>
-                    </div> -->
-                                        <!-- <mat-slide-toggle (click)="toggle()">Tarima Existente</mat-slide-toggle> -->
+                            
                                         <div *ngIf="this.show == false; else elseBlock">
                                         </div>
                                         <ng-template #elseBlock>
@@ -342,9 +331,7 @@
 
 
                                     </div>
-                                    <!--   <div class="col-md-4 col-12">
-
-                                    </div> -->
+              
                                     <br>
 
                                     <div class="col-md-4 col-12" style="text-align:end;">
@@ -362,7 +349,8 @@
 
 
 
-                            </div>
+                            </div> -->
+                            <!-- hasta aqui -->
 
 
                             <hr>
@@ -398,10 +386,10 @@
                                             <tr mat-header-row *matHeaderRowDef="displayedColumnsOrdenTemporal"></tr>
                                             <tr mat-row *matRowDef="let row; columns: displayedColumnsOrdenTemporal;"></tr>
 
-                                            <ng-container matColumnDef="QR">
+                                            <!--    <ng-container matColumnDef="QR">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo QR</th>
                                                 <td mat-cell *matCellDef="let elementOT">{{elementOT.QR}}</td>
-                                            </ng-container>
+                                            </ng-container> -->
 
                                             <ng-container matColumnDef="ClaveProducto">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
@@ -420,7 +408,7 @@
 
                                             <ng-container matColumnDef="Kg">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
-                                                <td mat-cell *matCellDef="let elementOT">{{elementOT.KilogramosIngresados}}</td>
+                                                <td mat-cell *matCellDef="let elementOT">{{elementOT.Sacos}}</td>
                                             </ng-container>
 
                                             <!--  <ng-container matColumnDef="PesoTotal">
