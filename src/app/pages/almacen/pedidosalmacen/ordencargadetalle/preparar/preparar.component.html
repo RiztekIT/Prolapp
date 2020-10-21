@@ -36,14 +36,14 @@
 
                 <hr>
 
-                <div class="row">
+                <!-- <div class="row">
 
                     <div class="container" style="margin-right: 0;">
                         <div class="row">
-                            <div class="col-md-6 col-12" style="display: grid">
-                                <!-- <label class="input-group-text text-info">Producto:</label> -->
-                                <!-- <label class="input-group-text text-info">Producto:</label> <br> -->
-                                <mat-form-field>
+                            <div class="col-md-6 col-12" style="display: grid"> -->
+                <!-- <label class="input-group-text text-info">Producto:</label> -->
+                <!-- <label class="input-group-text text-info">Producto:</label> <br> -->
+                <!-- <mat-form-field>
                                     <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControlProductos" [(ngModel)]="detalleSeleccionado" matInput [matAutocomplete]="autoProducto">
                                     <mat-autocomplete #autoProducto="matAutocomplete">
                                         <mat-option required *ngFor="let option of filteredOptionsProductos | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChangeProducto(option, $event)">
@@ -63,8 +63,45 @@
                             </div>
                         </div>
                     </div>
+                </div> -->
+                <div class="form-material mat-elevation-z5">
+                    <div class="container">
 
-                    <!-- <div class="col-12 col-md-5">
+
+                        <div class="row">
+                            <div class="col-10">
+                                <div class="container" style="margin-right: 0;">
+                                    <div class="row">
+                                        <div class="col-md-7 col-12" style="display: grid">
+                                            <mat-form-field>
+                                                <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControlProductos" [(ngModel)]="detalleSeleccionado" matInput [matAutocomplete]="autoProducto">
+                                                <mat-autocomplete #autoProducto="matAutocomplete">
+                                                    <mat-option required *ngFor="let option of filteredOptionsProductos | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChangeProducto(option, $event)">
+                                                        {{option.ClaveProducto}} || {{option.Producto}} || Lote: {{option.Lote}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col-md-3 col-12" style="display: grid">
+                                            <input readonly placeholder="Clave Producto" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="ClaveProductoIngresado">
+                                        </div>
+                                        <div class="col-md-2 col-12" style="display: grid">
+                                            <input readonly placeholder="Lote" class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="LoteProductoIngresado">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col-12 col-md-2" style="padding-left: 0;">
+                                <button [disabled]="!ClaveProductoIngresado || !LoteProductoIngresado" class="btn btncoti btn-lg mt-3 mr-3" mat-raised-button type="button" (click)="IngresarProducto(ClaveProductoIngresado, LoteProductoIngresado)">Ingresar Producto</button>
+                                <!-- <button [disabled]="!ClaveProductoIngresado || !LoteProductoIngresado" class="btn btn-primary" type="button" (click)="IngresarProducto(ClaveProductoIngresado, LoteProductoIngresado)">Ingresar Producto</button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="col-12 col-md-5">
                         <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}}
                         <div class="input-group">
 
@@ -75,9 +112,9 @@
                             <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" (blur)="simularQR(qrleido)">
                         </div>
                     </div> -->
-                    <!-- <div class="col-12 col-md-5">
+                <!-- <div class="col-12 col-md-5">
                         <label class="input-group-text text-info">Producto:</label> <br> -->
-                    <!-- <mat-form-field>
+                <!-- <mat-form-field>
                             <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControlDetalles" [(ngModel)]="detalleSeleccionado" matInput [matAutocomplete]="autoProducto">
                             <mat-autocomplete #autoProducto="matAutocomplete">
                                 <mat-option required *ngFor="let option of filteredOptionsDetalles | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChangeDetalle(option, $event)">
@@ -85,16 +122,16 @@
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field> -->
-                    <!-- </div>
+                <!-- </div>
                     <div class="col-12 col-md-5"> -->
-                    <!-- <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}} -->
+                <!-- <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}} -->
 
-                    <!-- 
+                <!-- 
                             <span [style.display]="isVisibleQR ? 'block' : 'none'" class="input-group-addon" style="background-color: white;"><i class="btn btn-danger" type="button" (click)="escanear()">
                       <mat-icon>qr_code</mat-icon>
                     </i></span> -->
-                    <!-- <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" (blur)="simularQR(qrleido)" (focus)="ActBtn()"> -->
-                    <!-- <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" [(ngModel)]="qrleido" (blur)="CleanFieldQR()" (focus)="ActBtn()">
+                <!-- <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" (blur)="simularQR(qrleido)" (focus)="ActBtn()"> -->
+                <!-- <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" [(ngModel)]="qrleido" (blur)="CleanFieldQR()" (focus)="ActBtn()">
                             <span [style.display]="isVisible ? 'block' : 'none'" class="input-group-addon" style="background-color: white;"><i class="btn btn-success" type="button" (click)="simularQR(qrleido)">
                       <mat-icon>qr_code</mat-icon>
                     </i></span> -->
@@ -102,17 +139,17 @@
 
 
 
-                    <!-- <label class="input-group-text text-info">Clave Producto:</label> -->
-                    <!-- <input placeholder="Ingresar Clave Producto" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="ClaveProductoIngresado">
+                <!-- <label class="input-group-text text-info">Clave Producto:</label> -->
+                <!-- <input placeholder="Ingresar Clave Producto" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="ClaveProductoIngresado">
 
                     </div>
 
                     <div class="col-12 col-md-5"> -->
-                    <!-- <p style="font-weight: 400; margin-bottom: 0;"> QR Leido: </p>
+                <!-- <p style="font-weight: 400; margin-bottom: 0;"> QR Leido: </p>
                         <input class="form-control" readonly name="QRleido" #QRleido="ngModel" [(ngModel)]="qrleido"> -->
-                    <!-- <button class="btn btn-primary" type="button" (click)="cerrarescaner()">Cerrar ESCANER</button> -->
-                    <!-- <label class="input-group-text text-info">Lote:</label> -->
-                    <!-- <input placeholder="Ingresar Lote" class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="LoteProductoIngresado">
+                <!-- <button class="btn btn-primary" type="button" (click)="cerrarescaner()">Cerrar ESCANER</button> -->
+                <!-- <label class="input-group-text text-info">Lote:</label> -->
+                <!-- <input placeholder="Ingresar Lote" class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="LoteProductoIngresado">
 
 
 
@@ -120,9 +157,8 @@
 
                     <div class="col-2">
                         <button [disabled]="!ClaveProductoIngresado || !LoteProductoIngresado" class="btn btn-primary" type="button" (click)="IngresarProducto(ClaveProductoIngresado, LoteProductoIngresado)">Ingresar Producto</button> -->
-                    <!-- <zxing-scanner (camerasFound)="camaras($event)" [enable]="enableScan" (scanSuccess)='escaner($event)'></zxing-scanner> -->
-                    <!-- </div> -->
-                </div>
+                <!-- <zxing-scanner (camerasFound)="camaras($event)" [enable]="enableScan" (scanSuccess)='escaner($event)'></zxing-scanner> -->
+                <!-- </div> -->
 
 
                 <!-- <div class="scanner-shell" [hidden]="!hasDevices"> -->

@@ -1,5 +1,18 @@
 # Prolapp
 
+# Comentarios
+
+  // ! Notas Importantes 
+  // ?  
+  // Codigo que no se usa
+  // ^ Comentarios alt+94
+  // & Parametros requeridos
+  // ~
+  // todo
+  // // Comentarios internos
+
+  EXTENSION: parth2031.coloured-comments
+
 # NPM IMPORTANT COMMANDS:
 
 ## ANGULAR MATERIAL
