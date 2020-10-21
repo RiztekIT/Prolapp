@@ -59,54 +59,51 @@
                     <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
 
 
-                        <!--     <ng-container matColumnDef="select">
-                            <th mat-header-cell *matHeaderCellDef>
-                                <mat-checkbox class="btncoti" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
-                                </mat-checkbox>
-                            </th>
-                            <td mat-cell *matCellDef="let row">
-                                <mat-checkbox class="btncoti" (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" (change)="toggle(row)" [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
-                                </mat-checkbox>
-                            </td>
-                        </ng-container> -->
-
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-
-
-
+                        <!-- <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr> -->
 
 
                         <ng-container matColumnDef="Clave">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave</th>
-                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.ClaveProducto}} +
+                            <td class="folio" mat-cell *matCellDef="let element">{{element.ClaveProducto}}
                                 <td>
                         </ng-container>
 
 
                         <ng-container matColumnDef="Producto">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
-                            <td mat-cell *matCellDef="let element">{{element.Nombre }}
+                            <td mat-cell *matCellDef="let element">{{element.Producto }}
 
                             </td>
                         </ng-container>
 
+                        <ng-container matColumnDef="Lote">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                            <td mat-cell *matCellDef="let element">{{element.Lote }}
 
+                            </td>
+                        </ng-container>
 
+                        <ng-container matColumnDef="PesoTotal">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Peso Total</th>
+                            <td mat-cell *matCellDef="let element">{{element.PesoTotal}} Kg
+                            </td>
+                        </ng-container>
 
-                        <ng-container matColumnDef="Cantidad">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
-                            <td mat-cell *matCellDef="let element">{{element.Stock}}
+                        <ng-container matColumnDef="Documentos">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ver Documentos</th>
+                            <td mat-cell *matCellDef="let element">
+                                <button mat-icon-button class="btn btn-dark" (click)="obtenerDocumentos(element)"><mat-icon>plagiarism</mat-icon></button>
                             </td>
                         </ng-container>
 
 
-                        <ng-container matColumnDef="expandedDetail">
+                        <!-- <ng-container matColumnDef="expandedDetail">
                             <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-                                <!-- <mat-header-cell *matHeaderCellDef mat-sort-header>CONCEPTOS</mat-header-cell> -->
+                              
                                 <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="element.detalle.length > 0">
-                                    <!-- <table mat-table [dataSource]="element.detalle"> -->
+                            
                                     <table width="100%">
 
                                         <tr>
@@ -126,30 +123,17 @@
                                             <td> {{detalle.SacosTotales}} </td>
                                             <td> {{detalle.SacosD}} </td>
                                             <td> <button mat-icon-button class="btn btn-dark" (click)="obtenerDocumentos(detalle)">
-                                                <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu"> -->
+                                      
                                                 <mat-icon>plagiarism</mat-icon>
-                                                <!-- <mat-icon>keyboard_arrow_down</mat-icon> -->
+        
                                               </button> </td>
 
                                         </tr>
                                     </table>
 
-
-
-
-                                    <!-- <ng-container matColumnDef="ClaveProducto">
-                                    <th mat-header-cell *matHeaderCellDef> Clave Producto </th>
-                                    <td mat-cell *matCellDef="let element">{{element.detalle.Importe}} </td>
-
-                                </ng-container> -->
-                                    <!-- <tr mat-header-row *matHeaderRowDef="displayedColumnsVersion"></tr> -->
-                                    <!-- <tr mat-row *matRowDef="let row; columns: displayedColumnsVersion;"></tr> -->
-
-                                    <!-- </table> -->
-
                                 </div>
                             </td>
-                        </ng-container>
+                        </ng-container> -->
 
 
 
