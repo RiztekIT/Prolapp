@@ -10,8 +10,8 @@ import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/deta
 import { Usuario } from 'src/app/Models/catalogos/usuarios-model';
 import { MasterDetalleTarima } from 'src/app/Models/almacen/OrdenDescarga/cuu/masterDetalleTarima-model';
 
-// export const APIUrl = environment.APIUrl;
-export const APIUrl = 'https://localhost:44361/api';
+export const APIUrl = environment.APIUrl;
+// export const APIUrl = 'https://localhost:44361/api';
 
 @Injectable({
   providedIn: 'root'
