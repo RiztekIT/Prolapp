@@ -27,6 +27,8 @@ export class DocumentosComponent implements OnInit {
 
     console.log(this.serviceTarima.compra);
 
+    console.log('%c%s', 'color: #00a3cc', 'IMPRIMIR COLORRRRR');
+
     this.obtenerDocumentos(this.serviceTarima.compra.Folio, this.serviceTarima.compra.IdDetalleCompra)
 
   }

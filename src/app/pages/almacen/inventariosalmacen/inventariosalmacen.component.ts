@@ -30,7 +30,7 @@ export class InventariosalmacenComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
   
-  displayedColumns: string[] = ['Clave','Producto', 'Cantidad'];
+  displayedColumns: string[] = ['Clave','Producto', 'Lote', 'PesoTotal', 'Documentos'];
 
   master;
   expandedElement: any;
@@ -49,7 +49,7 @@ export class InventariosalmacenComponent implements OnInit {
   
   applyFilter(filtervalue: string) {
     this.listData.filterPredicate = (data, filter: string) => {
-      return data.Nombre.toString().toLowerCase().includes(filter) || data.ClaveProducto.toString().includes(filter);
+      return data.Producto.toString().toLowerCase().includes(filter) || data.ClaveProducto.toString().includes(filter);
     };
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
 
@@ -75,110 +75,122 @@ export class InventariosalmacenComponent implements OnInit {
 
     })
   }
-  
+
   obtenerProductos(bodega){
-    let contador = 0;
-    
     this.serviceTarima.master = [];
     let sacostotales;
+    this.serviceTarima.getDetalleTarimaBodegaOrdenado(bodega).subscribe(dataDT=>{
+      console.log(dataDT);
+      this.listData = new MatTableDataSource(dataDT);
+      this.listData.sort = this.sort;
+      this.listData.paginator = this.paginator;
+      this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+    })
+  }
+  
+  // obtenerProducto(bodega){
+  //   let contador = 0;
     
-    this.serviceTarima.getProductos().subscribe((data:any)=>{
-      console.log(data,'obtner tarimas');
+  //   this.serviceTarima.master = [];
+  //   let sacostotales;
+    
+  //   this.serviceTarima.getProductos().subscribe((data:any)=>{
+  //     console.log(data,'obtner tarimas');
       
-      for (let l=0; l<data.length; l++){
-        console.log(data[l].Nombre);
+  //     for (let l=0; l<data.length; l++){
+  //       console.log(data[l].Nombre);
         
-        this.serviceTarima.GetTarimaProducto(data[l].Nombre,bodega).subscribe(datadet =>{
-          //this.master[contador] = []
+  //       this.serviceTarima.GetTarimaProducto(data[l].Nombre,bodega).subscribe(datadet =>{
+  //         //this.master[contador] = []
           
-          console.log(datadet);
-          if (datadet.length>0){
-            sacostotales = 0;
-            this.serviceTarima.master[contador] = data[l];
-            //this.serviceTarima.master[contador].detalle = datadet;
-            for (let i=0; i<datadet.length;i++){
+  //         console.log(datadet);
+  //         if (datadet.length>0){
+  //           sacostotales = 0;
+  //           this.serviceTarima.master[contador] = data[l];
+  //           //this.serviceTarima.master[contador].detalle = datadet;
+  //           for (let i=0; i<datadet.length;i++){
 
-              sacostotales = sacostotales + +datadet[i].SacosTotales;
+  //             sacostotales = sacostotales + +datadet[i].SacosTotales;
 
-              datadet[i].SacosD = +datadet[i].SacosTotales;
-
-
-              this.serviceTarima.GetTarimaProductoD(datadet[i].Producto,datadet[i].Lote).subscribe(datas=>{
-                console.log(datas,'datas');
-                // console.log(contador,'c2');
-                // console.log(this.serviceTarima.master[contador],'2');
-                // console.log(this.master[contador].detalle[j].SacosD,'2');
-                // console.log(this.serviceTarima.master[contador].detalle[i].SacosD,'3');
-                if (datas.length>0){
-
-                  for (let d=0; d<datas.length;d++){
-
-                    datadet[i].SacosD = datadet[i].SacosD - +datas[d].Sacos
-                  }
-
-                }else{
-                  datadet[i].SacosD = datadet[i].SacosD
-                }
-              }) 
+  //             datadet[i].SacosD = +datadet[i].SacosTotales;
 
 
-            }
-            this.serviceTarima.master[contador].detalle = datadet;
-            this.serviceTarima.master[contador].Stock = sacostotales;
+  //             this.serviceTarima.GetTarimaProductoD(datadet[i].Producto,datadet[i].Lote).subscribe(datas=>{
+  //               console.log(datas,'datas');
+  //               // console.log(contador,'c2');
+  //               // console.log(this.serviceTarima.master[contador],'2');
+  //               // console.log(this.master[contador].detalle[j].SacosD,'2');
+  //               // console.log(this.serviceTarima.master[contador].detalle[i].SacosD,'3');
+  //               if (datas.length>0){
+
+  //                 for (let d=0; d<datas.length;d++){
+
+  //                   datadet[i].SacosD = datadet[i].SacosD - +datas[d].Sacos
+  //                 }
+
+  //               }else{
+  //                 datadet[i].SacosD = datadet[i].SacosD
+  //               }
+  //             }) 
+
+
+  //           }
+  //           this.serviceTarima.master[contador].detalle = datadet;
+  //           this.serviceTarima.master[contador].Stock = sacostotales;
             
             
 
-           /*  for (let j=0; j<datadet.length;j++ ){
+  //          /*  for (let j=0; j<datadet.length;j++ ){
 
-              this.serviceTarima.master[contador].detalle[j].SacosD = this.serviceTarima.master[contador].detalle[j].Sacos;
+  //             this.serviceTarima.master[contador].detalle[j].SacosD = this.serviceTarima.master[contador].detalle[j].Sacos;
               
 
 
 
-            } */
-            // console.log(this.master[contador].detalle,'1'); 
+  //           } */
+  //           // console.log(this.master[contador].detalle,'1'); 
 
-          /*   */
+  //         /*   */
             
-         /*    for (let i:0; i< datadet.length;i++){
-              this.master[contador].detalle[i].push(datadet[i]);
-            } */
-            contador++;
-          }
+  //        /*    for (let i:0; i< datadet.length;i++){
+  //             this.master[contador].detalle[i].push(datadet[i]);
+  //           } */
+  //           contador++;
+  //         }
 
           
 
           
-                console.log(this.serviceTarima.master);
-                this.listData = new MatTableDataSource(this.serviceTarima.master);
-                this.listData.sort = this.sort;
-                this.listData.paginator = this.paginator;
-                this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
-        })
+  //               console.log(this.serviceTarima.master);
+  //               this.listData = new MatTableDataSource(this.serviceTarima.master);
+  //               this.listData.sort = this.sort;
+  //               this.listData.paginator = this.paginator;
+  //               this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+  //       })
 
-      }
+  //     }
 
       
 
 
-              // console.log(contador,'c1');
-            /*   */
+  //             // console.log(contador,'c1');
+  //           /*   */
 
     
 
-      //this.applyFilter2('PasoTx');
+  //     //this.applyFilter2('PasoTx');
       
-    })
-    // for (let m=0; m<this.serviceTarima.master.length;m++){
-    //   for(let d=0;d<this.serviceTarima.master[m].detalle.length;d++){
+  //   })
+  //   // for (let m=0; m<this.serviceTarima.master.length;m++){
+  //   //   for(let d=0;d<this.serviceTarima.master[m].detalle.length;d++){
        
 
-    //   }
-    // }
+  //   //   }
+  //   // }
 
-    // console.log(this.serviceTarima.master,'m1');
+  //   // console.log(this.serviceTarima.master,'m1');
 
-  }
+  // }
 
   bodegaCambio(event){
        // console.log(event);
@@ -190,20 +202,31 @@ this.obtenerProductos(this.bodegaSelect)
   }
 
 
+
   obtenerDocumentos(detalle){
     console.log(detalle);
-    this.serviceTarima.getTarimaCompra(detalle.IdTarima).subscribe(resp=>{
-      console.log('RESPUESTA',resp);
+    // this.serviceTarima.getTarimaCompra(detalle.IdTarima).subscribe(resp=>{
+      // console.log('RESPUESTA',resp);
 
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = false;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = "90%";
-  
-     this.serviceTarima.compra = resp[0];
-     
-      let mercanciadl = this.dialog.open(DocumentosComponent, dialogConfig);
-    })
+      this.serviceTarima.getJOINCompraDetalleTarima(detalle.IdDetalleTarima).subscribe(resp=>{
+        
+        this.serviceTarima.compra = resp[0];
+
+        //^ Metodo para obtener la informacion de los detalles de la compra. Se utilizara en el componente Documentos para obtener los documentos.
+        this.serviceTarima.GetDetalleCompraIdClave(resp[0].IdCompra, resp[0].ClaveProducto).subscribe(res=>{
+
+          this.serviceTarima.compra.IdDetalleCompra = res[0].IdDetalleCompra;
+
+          const dialogConfig = new MatDialogConfig();
+          dialogConfig.disableClose = false;
+          dialogConfig.autoFocus = true;
+          dialogConfig.width = "90%";
+          
+          
+          let mercanciadl = this.dialog.open(DocumentosComponent, dialogConfig);
+        }) 
+      })
+    // })
 
 
   }
