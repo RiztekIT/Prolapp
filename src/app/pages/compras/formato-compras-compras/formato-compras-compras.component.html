@@ -239,15 +239,15 @@
 
 
                                                             <div class="col-12 col-md-6" *ngIf="this.compra.Estatus != 'Administrativa'">
-                                                                <!--  <label class="input-group-text text-info">Unidad Medida :</label> <br>
+                                                                <label class="input-group-text text-info">Unidad Medida :</label> <br>
                                                                 <mat-form-field class="example-full-width">
                                                                     <input type="text" autocomplete="off" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="detalleCompra.Unidad" (focus)="unidadMedida()">
                                                                     <mat-autocomplete #autoUnidad="matAutocomplete">
-                                                                        <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.ClaveSAT">
+                                                                        <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.Nombre">
                                                                             {{option.ClaveSAT}} {{option.Nombre}}
                                                                         </mat-option>
                                                                     </mat-autocomplete>
-                                                                </mat-form-field> -->
+                                                                </mat-form-field>
 
                                                                 <label class="input-group-text text-info"> IVA:</label>
                                                                 <input type="text" class="form-control" name="IVA" #IVA="ngModel" [ngModel]="(detalleCompra.IVA | currency)" readonly>

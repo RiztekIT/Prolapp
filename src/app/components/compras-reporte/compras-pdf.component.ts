@@ -6,6 +6,11 @@ import * as html2pdf from 'html2pdf.js';
 import { ProveedoresService } from '../../services/catalogos/proveedores.service';
 import { Proveedor } from '../../Models/catalogos/proveedores-model';
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
+
+
+declare function cantidad(n);
+
+
 @Component({
   selector: 'app-compras-pdf',
   templateUrl: './compras-pdf.component.html',
@@ -25,6 +30,8 @@ this.ver();
 
   con : string| number;
     arrcon: Array<any> = [];
+    unidad: Array<any> = [];
+    TotalProducto: Array<any> = [];
   
     objconc: any; 
     
@@ -37,6 +44,8 @@ this.ver();
     ciudad;
     estado;
     numeroint;
+    textnum: string;
+  total: string;
 
   onClose() {
     this.dialogbox.close();
@@ -85,6 +94,7 @@ this.ComprasService.formt.RFC = dataP[0].RFC
     this.objconc = this.ComprasService.formt.detalleCompra;
     
     this.arrcon = [];
+    this.unidad = []
     for (this.con in this.objconc){
       var conceptos = this.objconc[this.con];
       this.arrcon.push({
@@ -103,7 +113,13 @@ this.ComprasService.formt.RFC = dataP[0].RFC
         CostoTotalDlls: conceptos.CostoTotalDlls,
         IVADlls: conceptos.IVADlls,
       });
+      // ^ Guarda la unidad para cada producto, que luego se desplegara en el pfd
+      this.unidad[this.con] = conceptos.Unidad;
+      this.TotalProducto[this.con] = conceptos.Cantidad * conceptos.PrecioUnitario;
     }
+    this.total = this.ComprasService.formt.Total
+    this.textnum = cantidad(this.total);
+    console.log('this.unidad : ', this.unidad );
     // console.log(this.arrcon);
     
     

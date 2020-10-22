@@ -55,18 +55,19 @@ export class ComprasPrincipalComponent implements OnInit {
 //Variable que guarda el tipo de cambio
 TipoCambio: string;
 estatusSelect;
+hola = 'hola'
 
 constructor(public router: Router,private service:CompraService, private dialog: MatDialog, private http: HttpClient, public CompraService: CompraService,) {
-
-    // this.service.listen().subscribe((m:any)=>{
+  
+  // this.service.listen().subscribe((m:any)=>{
     //   console.log(m);
     //   this.refreshOrdenCargaList();
     //   });
-
-   }
-
+    
+  }
+  
   ngOnInit() {
-
+    
     this.obtenerCompras();
     this.tipoDeCambio();
   }
@@ -263,8 +264,8 @@ console.log(this.compraBlanco);
 
   
 openrep(row){
-
-  // console.log(row);
+console.clear();
+  console.log(row);
   this.CompraService.formt = row
   // console.log();
   const dialogConfig = new MatDialogConfig();

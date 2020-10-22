@@ -454,10 +454,11 @@ getbodegas(){
       this.ServiceUnidad.GetUnidadesMedida().subscribe(data => {
         this.listUM = data;
         this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
-          .pipe(
-            startWith(''),
-            map(value => this._filterUnidad(value))
+        .pipe(
+          startWith(''),
+          map(value => this._filterUnidad(value))
           );
+          console.log('this.myControlUnidad.valueChanges: ', this.myControlUnidad.valueChanges);
         this.um = false;
       })
 
