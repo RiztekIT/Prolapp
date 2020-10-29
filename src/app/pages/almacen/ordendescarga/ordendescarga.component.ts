@@ -69,7 +69,8 @@ if (this.estatusSelect==='Todos'){
     { Estatus: 'Guardada' },
     { Estatus: 'Descargada' },
     { Estatus: 'Proceso' },
-    { Estatus: 'Transito' }
+    { Estatus: 'Transito' },
+    { Estatus: 'Sin Validar' }    
   ];
 
 

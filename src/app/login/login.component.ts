@@ -96,6 +96,7 @@ this.dispositivo = JSON.stringify(this.deviceinfo)
      if (data!='Error') {
       this.storageServce.setCurrentSession(session)
       this.sidebarservice.getMenu();
+      
       this.router.navigate(['/direccion']);
      }
      else {

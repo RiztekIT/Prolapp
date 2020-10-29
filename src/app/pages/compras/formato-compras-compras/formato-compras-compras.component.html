@@ -50,21 +50,21 @@
                                                             <label class="input-group-text text-info">Folio:</label>
                                                             <input type="text" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="compra.Folio" readonly>
 
-                                                            <label class="input-group-text text-info">Proveedor:</label>
+
                                                             <mat-form-field>
-                                                                <input type="text" placeholder="Seleccionar Proveedor" aria-label="Number" [formControl]="myControlProveedor" [(ngModel)]="compra.IdProveedor" matInput [matAutocomplete]="autoProveedor">
-                                                                <mat-autocomplete #autoProveedor="matAutocomplete">
-                                                                    <mat-option *ngFor="let option of filteredOptionsProveedor | async" [value]="option.IdProveedor" (onSelectionChange)="onSelectionChangeProveedor(option, $event)">
-                                                                        {{option.IdProveedor}} {{option.Nombre}}
-                                                                    </mat-option>
-                                                                </mat-autocomplete>
+                                                                <label class="input-group-text text-info">Destino:</label>
+                                                                <mat-label> {{bodegaSelect}} </mat-label>
+
+                                                                <mat-select (selectionChange)="bodegaCambio($event)" [(ngModel)]="bodegaSelect" name="bodegaSelect">
+
+                                                                    <mat-option *ngFor="let dl of listBodega" [value]="dl"> {{dl}} </mat-option>
+                                                                </mat-select>
                                                             </mat-form-field>
-                                                            <input readonly placeholder="Proveedor No seleccionado" type="text" class="form-control" [(ngModel)]="compra.Proveedor" name="first">
 
 
-                                                            <label class="input-group-text text-info">Descuento:</label>
+                                                            <!--  <label class="input-group-text text-info">Descuento:</label>
                                                             <input type="number" class="form-control" name="Descuento" #Descuento="ngModel" [(ngModel)]="descuento" (ngModelChange)="onChangeDescuento($event)">
-
+ -->
                                                             <label class="input-group-text text-info">Fecha Elaboracion:</label>
                                                             <mat-datepicker-toggle matSuffix [for]="pickerElaboracion"></mat-datepicker-toggle>
                                                             <input type="text" readonly="readonly" [matDatepicker]="pickerElaboracion" class="form-control" name="FechaElaboracion" #FechaElaboracion="ngModel" [(ngModel)]="compra.FechaElaboracion">
@@ -76,8 +76,22 @@
                                                 <option *ngFor="let dl of listMoneda" [ngValue]="dl.Moneda"> {{dl.Moneda}} </option>
                                             </select>
 
+                                                            <label class="input-group-text text-info">Tipo Cambio:</label>
+                                                            <input type="text" class="form-control" name="TipoCambio" #TipoCambio="ngModel" [(ngModel)]="compra.TipoCambio">
+
+
                                                         </div>
                                                         <div class="col-6">
+                                                            <label class="input-group-text text-info">Proveedor:</label>
+                                                            <mat-form-field>
+                                                                <input type="text" placeholder="Seleccionar Proveedor" aria-label="Number" [formControl]="myControlProveedor" [(ngModel)]="compra.IdProveedor" matInput [matAutocomplete]="autoProveedor">
+                                                                <mat-autocomplete #autoProveedor="matAutocomplete">
+                                                                    <mat-option *ngFor="let option of filteredOptionsProveedor | async" [value]="option.IdProveedor" (onSelectionChange)="onSelectionChangeProveedor(option, $event)">
+                                                                        {{option.IdProveedor}} {{option.Nombre}}
+                                                                    </mat-option>
+                                                                </mat-autocomplete>
+                                                            </mat-form-field>
+                                                            <input readonly placeholder="Proveedor No seleccionado" type="text" class="form-control" [(ngModel)]="compra.Proveedor" name="first">
                                                             <label class="input-group-text text-info">Orden de Compra:</label>
                                                             <input type="text" class="form-control" name="OrdendeCompra" #OrdendeCompra="ngModel" [(ngModel)]="compra.PO">
 
@@ -86,9 +100,10 @@
                                                             <input type="text" readonly="readonly" [matDatepicker]="picker2" class="form-control" name="FechaPromesa" #FechaPromesa="ngModel" [(ngModel)]="compra.FechaPromesa">
                                                             <mat-datepicker #picker2></mat-datepicker>
 
-                                                            <label class="input-group-text text-info">Fecha de Entrega:</label>
+                                                            <!--  <label class="input-group-text text-info">Fecha de Entrega:</label>
 
                                                             <input type="text" readonly="readonly" class="form-control" name="FechaDeEntrega" #FechaDeEntrega="ngModel" [(ngModel)]="compra.FechaEntrega">
+                                  -->
                                                             <!-- <mat-datepicker #picker2></mat-datepicker> -->
                                                             <!-- 
                                             <label class="input-group-text text-info">Condiciones De Pago:</label>
@@ -97,8 +112,6 @@
                                                             <label class="input-group-text text-info">Observaciones:</label>
                                                             <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="compra.Observaciones">
 
-                                                            <label class="input-group-text text-info">Tipo Cambio:</label>
-                                                            <input type="text" class="form-control" name="TipoCambio" #TipoCambio="ngModel" [(ngModel)]="compra.TipoCambio">
 
 
                                                         </div>
@@ -213,7 +226,7 @@
 
                                                                 <br>
 
-                                                                <label class="input-group-text text-info"> Cantidad:</label>
+                                                                <label class="input-group-text text-info"> Kg:</label>
                                                                 <input required [disabled]="!detalleCompra.Producto" type="number" class="form-control" name="Cantidad" [(ngModel)]="Cantidad" (ngModelChange)="onChangeCantidadP($event)">
 
                                                                 <!-- 
@@ -230,7 +243,7 @@
                                                                 <mat-form-field class="example-full-width">
                                                                     <input type="text" autocomplete="off" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="detalleCompra.Unidad" (focus)="unidadMedida()">
                                                                     <mat-autocomplete #autoUnidad="matAutocomplete">
-                                                                        <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.ClaveSAT">
+                                                                        <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.Nombre">
                                                                             {{option.ClaveSAT}} {{option.Nombre}}
                                                                         </mat-option>
                                                                     </mat-autocomplete>
@@ -252,7 +265,7 @@
                                                             <div class="container row" style="margin-top: 5px;">
                                                                 <div class="col-md-7 col-lg-8">
                                                                     <div *ngIf="addproducto == true; else elseBlock2">
-                                                                        <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompra()" [disabled]="DetallePedidoForm.invalid || !detalleCompra.Unidad">Agregar Producto</button>
+                                                                        <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompra()">Agregar Producto</button>
                                                                         <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
                                                                         <button *ngIf="this.compra.Estatus == 'Administrativa'" class="btn btn-success" type="submit" (click)="onAddDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid" style="margin-right: 5px">Agregar Producto</button>
                                                                         <button *ngIf="this.compra.Estatus == 'Administrativa' && this.detalleCompra.Producto" class="btn btn-primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
@@ -262,7 +275,7 @@
                                                         <button *ngIf="this.compra.Estatus == 'Administrativa' && this.detalleCompra.Producto" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button> -->
                                                                     </div>
                                                                     <ng-template #elseBlock2>
-                                                                        <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompra()" [disabled]="DetallePedidoForm.invalid || !detalleCompra.Unidad">Editar Producto</button>
+                                                                        <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompra()">Editar Producto</button>
                                                                         <button *ngIf="this.compra.Estatus == 'Administrativa'" class="btn btn-success" type="submit" (click)="onEditDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Editar Producto</button>
                                                                         <!-- <button *ngIf="this.compra.Estatus == 'Administrativa'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Editar Producto</button> -->
 
@@ -428,7 +441,7 @@
 
                                                                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="openrep()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>VerPDF</button>
                                                                             <br>
-                                                                            <button *ngIf="this.compra.Estatus == 'Transito'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)="cancelar()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-send btn-lg"></i>Cancelar</button>
+                                                                            <button *ngIf="this.compra.Estatus == 'Transito'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)="cancelar()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Cancelar</button>
                                                                             <!-- <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="movimiento()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Insertar Movimiento</button>
                                                                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="updateprueba()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Insertar Movimiento</button> -->
 

@@ -1,6 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { SettingsService } from 'src/app/services/service.index';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
+import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.service';
+import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 
 @Component({
   selector: 'app-account-settings',
@@ -8,11 +12,14 @@ import { SettingsService } from 'src/app/services/service.index';
   styles: []
 })
 export class AccountSettingsComponent implements OnInit {
+  listEmpresa;
 
-  constructor(public _ajustes: SettingsService ) { }
+  constructor(public _ajustes: SettingsService,public enviarfact: EnviarfacturaService,public servicefactura: FacturaService, public serviceEmpresa: EmpresaService,private recibopagoSVC: ReciboPagoService ) { }
 
   ngOnInit() {
     this.colocarCheck();
+    this.listaempresas();
+    this.obtenerEmpresa();
   }
 
   cambiarColor(tema: string , link: any){
@@ -47,6 +54,55 @@ export class AccountSettingsComponent implements OnInit {
 
       }
     }  
+  }
+
+  cambioEmpresa(event){
+    
+
+    this.enviarfact.empresa = event;
+    this.serviceEmpresa.empresaActual = event;
+    this.enviarfact.rfc = event.RFC;
+    this.servicefactura.rfcempresa=event.RFC;
+      this.recibopagoSVC.rfcempresa = event.RFC;
+      this.servicefactura.rfcempresa = event.RFC;
+      this.recibopagoSVC.rfcempresa = event.RFC
+      localStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
+
+      console.clear();
+      console.log(this.enviarfact.empresa);
+      console.log(this.recibopagoSVC.rfcempresa);
+
+      //this.refreshFacturaList();
+      // this.detallesFactura();
+      //this.Folio();
+      // this.refreshReciboPagoList();
+  }
+
+  obtenerEmpresa(){
+    let empresa = JSON.parse(localStorage.getItem('Empresa'));
+    console.log(empresa);
+
+    this.enviarfact.empresa = empresa;
+    this.enviarfact.rfc = empresa.RFC;
+    this.servicefactura.rfcempresa=empresa.RFC;
+      this.recibopagoSVC.rfcempresa = empresa.RFC;
+      this.servicefactura.rfcempresa = empresa.RFC;
+      this.recibopagoSVC.rfcempresa = empresa.RFC
+      this.serviceEmpresa.empresaActual = empresa;
+
+
+  }
+
+  listaempresas(){
+    this.serviceEmpresa.getEmpresaList().subscribe(data =>{
+      console.log(data);
+      this.listEmpresa = data;
+      
+      console.log(this.enviarfact.empresa);
+      this.enviarfact.empresa = data[0];
+      this.recibopagoSVC.rfcempresa = this.enviarfact.empresa.RFC;
+      // this.enviarfact.rfc = data[0].RFC;
+    })
   }
 
 }

@@ -1,7 +1,7 @@
 export class OrdenTemporal {
 
 IdOrdenTemporal: number;
-IdTarima: number;
+IdDetalleTarima: number;
 IdOrdenCarga: number;
 IdOrdenDescarga: number;
 QR: string;

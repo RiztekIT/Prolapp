@@ -14,16 +14,18 @@
         <div class="card">
             <div class="card-body">
 
-                <div>
+                <!--     <div>
                     <label class="input-group-text text-info">Empresa</label>
                     <select class="form-control" name="Empresa" #Empresa="ngModel" [(ngModel)]="enviarfact.empresa" required (ngModelChange)='cambioEmpresa($event)'>
                             <option [ngValue]="null" selected disabled>Seleccionar Empresa</option>
                             <option *ngFor="let e of listEmpresa" [ngValue]="e"> {{e.RazonSocial}} </option>
                           </select>
                 </div>
-                <!--    <div>
-                        <button (click)='rfc()'>RFC</button>
-                    </div> -->
+             -->
+
+                <label class="input-group-text text-info">Empresa: </label>
+                <br>
+                <label class="input-group-text text-info">{{ enviarfact.empresa.RazonSocial }}</label>
 
             </div>
         </div>

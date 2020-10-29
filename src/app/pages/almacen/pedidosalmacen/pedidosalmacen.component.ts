@@ -78,7 +78,8 @@ if (this.estatusSelect==='Todos'){
     { Estatus: 'Creada' },
     { Estatus: 'Preparada' },
     { Estatus: 'Cargada' },    
-    { Estatus: 'Terminada' }    
+    { Estatus: 'Terminada' },        
+    { Estatus: 'Sin Validar' },        
   ];
 
   applyFilter2(filtervalue: string) {

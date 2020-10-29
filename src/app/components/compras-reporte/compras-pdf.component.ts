@@ -5,6 +5,12 @@ import { Router } from '@angular/router';
 import * as html2pdf from 'html2pdf.js';
 import { ProveedoresService } from '../../services/catalogos/proveedores.service';
 import { Proveedor } from '../../Models/catalogos/proveedores-model';
+import { EmpresaService } from 'src/app/services/empresas/empresa.service';
+
+
+declare function cantidad(n);
+
+
 @Component({
   selector: 'app-compras-pdf',
   templateUrl: './compras-pdf.component.html',
@@ -12,8 +18,10 @@ import { Proveedor } from '../../Models/catalogos/proveedores-model';
 })
 export class ComprasPdfComponent implements OnInit {
 
+  logo;
+
   constructor(public ComprasService: CompraService, public dialogbox: MatDialogRef<ComprasPdfComponent>, public router: Router,
-    public ProveedorService: ProveedoresService) { }
+    public ProveedorService: ProveedoresService, public empresaSVC: EmpresaService) { }
 
   ngOnInit() {
 // console.log(this.ComprasService.formt);
@@ -22,15 +30,39 @@ this.ver();
 
   con : string| number;
     arrcon: Array<any> = [];
+    unidad: Array<any> = [];
+    TotalProducto: Array<any> = [];
   
     objconc: any; 
-
+    
+    rfcE;
+  nombreE;
+  calle;
+    numeroext;
+    colonia;
+    codigopostal;
+    ciudad;
+    estado;
+    numeroint;
+    textnum: string;
+  total: string;
 
   onClose() {
     this.dialogbox.close();
 }
 
 ver(){
+
+  this.logo = '../../../assets/images/'+this.empresaSVC.empresaActual.RFC+'.png'
+  this.rfcE = this.empresaSVC.empresaActual.RFC;
+this.nombreE = this.empresaSVC.empresaActual.RazonSocial;
+this.calle = this.empresaSVC.empresaActual.Calle
+  this.numeroext = this.empresaSVC.empresaActual.NumeroExterior
+  this.colonia = this.empresaSVC.empresaActual.Colonia
+  this.codigopostal = this.empresaSVC.empresaActual.CP
+  this.ciudad = this.empresaSVC.empresaActual.Ciudad
+  this.estado = this.empresaSVC.empresaActual.Estado
+  this.numeroint = this.empresaSVC.empresaActual.NumeroInterior
 
   //Obtener datos del proveedor
   this.ProveedorService.getProveedorId(this.ComprasService.formt.IdProveedor).subscribe(dataP=>{
@@ -62,6 +94,7 @@ this.ComprasService.formt.RFC = dataP[0].RFC
     this.objconc = this.ComprasService.formt.detalleCompra;
     
     this.arrcon = [];
+    this.unidad = []
     for (this.con in this.objconc){
       var conceptos = this.objconc[this.con];
       this.arrcon.push({
@@ -80,7 +113,13 @@ this.ComprasService.formt.RFC = dataP[0].RFC
         CostoTotalDlls: conceptos.CostoTotalDlls,
         IVADlls: conceptos.IVADlls,
       });
+      // ^ Guarda la unidad para cada producto, que luego se desplegara en el pfd
+      this.unidad[this.con] = conceptos.Unidad;
+      this.TotalProducto[this.con] = conceptos.Cantidad * conceptos.PrecioUnitario;
     }
+    this.total = this.ComprasService.formt.Total
+    this.textnum = cantidad(this.total);
+    console.log('this.unidad : ', this.unidad );
     // console.log(this.arrcon);
     
     

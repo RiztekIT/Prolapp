@@ -5,6 +5,10 @@ import { StorageServiceService } from 'src/app/services/shared/storage-service.s
 import { Usuario } from 'src/app/Models/catalogos/usuarios-model';
 import { TipoCambioService } from '../../services/tipo-cambio.service';
 import { from } from 'rxjs';
+import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.service';
+import { EmpresaService } from 'src/app/services/empresas/empresa.service';
+import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -36,10 +40,11 @@ export class HeaderComponent implements OnInit {
   public usuario: Usuario;
   public user;
 
-  constructor(private http : HttpClient, private storageService: StorageServiceService, private tipoCambio:TipoCambioService) { }
+  constructor(private http : HttpClient, public storageService: StorageServiceService, private tipoCambio:TipoCambioService, public enviarfact: EnviarfacturaService,public servicefactura: FacturaService,private service: ReciboPagoService, public serviceEmpresa: EmpresaService,private recibopagoSVC: ReciboPagoService) { }
 
   ngOnInit() {
     // console.log(localStorage.getItem("inicioCliente"));
+    this.obtenerEmpresa();
   this.clienteLogin = localStorage.getItem("inicioCliente");
     this.tipoDeCambio();
     this.usuario = this.storageService.getCurrentUser();
@@ -60,8 +65,46 @@ export class HeaderComponent implements OnInit {
     // console.log(JSON.parse(localStorage.getItem('ProlappSession')));
     this.user = u.user;
 
+    this.storageService.getUserAuth(this.user).subscribe(usuario=>{
+      localStorage.setItem('userAuth',JSON.stringify(usuario[0]))
+      this.storageService.currentUser = usuario[0];
+      console.log(this.storageService.currentUser);
+    })
+
     }
     
+  }
+
+  obtenerEmpresa(){
+    let empresa = JSON.parse(localStorage.getItem('Empresa'));
+    if (empresa=[]){
+      console.log('vacio');
+      empresa = {
+        'CP': 31150,
+        'Calle': "Fernando Montes de Oca",
+        'Ciudad': "Chihuahua",
+        'Colonia': "Nombre de Dios",
+        'Estado': "Chihuahua",
+        'Foto': "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAB4AA",
+        'IdEmpresa': 20089,
+        'NumeroExterior': 3903,
+        'NumeroInterior': 4,
+        'Pais': "Mexico",
+        'RFC': "AIN140101ME3",
+        'RazonSocial': "ABARROTODO INSTITUCIONAL S. DE R.L. M.I.",
+        'Regimen': "General de leyes",
+      }
+    }
+    console.log(empresa);
+this.serviceEmpresa.empresaActual = empresa;
+    this.enviarfact.empresa = empresa;
+    this.enviarfact.rfc = empresa.RFC;
+    this.servicefactura.rfcempresa=empresa.RFC;
+      // this.service.rfcempresa = empresa.RFC;
+      this.servicefactura.rfcempresa = empresa.RFC;
+      this.recibopagoSVC.rfcempresa = empresa.RFC
+
+
   }
 
 

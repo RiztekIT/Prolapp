@@ -26,6 +26,10 @@ import { EmailgeneralComponent } from './components/email/emailgeneral/emailgene
 import { LoginClienteComponent } from './login-cliente/login-cliente.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+// import { DocumentosclienteComponent } from './documentoscliente/documentoscliente.component';
+import { DocumentosclienteComponent } from './documentoscliente/documentoscliente.component';
+
+
 
 
 
@@ -51,9 +55,11 @@ import { environment } from '../environments/environment';
 
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
+    
     LoginComponent,
     RegisterComponent,
     SaldosComponent,
@@ -61,6 +67,8 @@ import { environment } from '../environments/environment';
     // CotizacionpedidoComponent,
     ScannerComponent,
     LoginClienteComponent,
+    DocumentosclienteComponent
+    
     
     
     
@@ -81,8 +89,9 @@ import { environment } from '../environments/environment';
   imports: [
     BrowserModule,
     APP_ROUTES,
+    /* DocumentosclienteModule, */
     PagesModule,
-    FormsModule,
+    FormsModule,    
     ServiceModule,
     HttpClientModule,
     BrowserAnimationsModule,

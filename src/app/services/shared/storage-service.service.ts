@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Usuario } from 'src/app/Models/catalogos/usuarios-model';
 import { sessionCliente } from '../../Models/ClienteLogin/sessionCliente-model';
 import { ClienteLogin } from '../../Models/ClienteLogin/clienteLogin-model';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +13,13 @@ import { ClienteLogin } from '../../Models/ClienteLogin/clienteLogin-model';
 export class StorageServiceService {
 
   inicioCliente:boolean;
-
   private localStorageService;
   private currentSession : Session = null;
   private currentSessionCliente : sessionCliente = null;
+  readonly APIUrl = environment.APIUrl;
+  currentUser;
   
-  constructor(private router: Router) { 
+  constructor(private router: Router,private http : HttpClient) { 
     this.localStorageService = localStorage;
     this.currentSession = this.loadSessionData();
   }
@@ -36,9 +39,11 @@ export class StorageServiceService {
     if (localStorage.getItem("inicioCliente") == 'true') {
       
       this.localStorageService.removeItem('ProlappSessionCliente');
+      localStorage.clear();
     } else {
       
       this.localStorageService.removeItem('ProlappSession');
+      localStorage.clear();
     }
     this.currentSession = null;
     this.currentSessionCliente = null;
@@ -68,6 +73,10 @@ export class StorageServiceService {
     
     this.router.navigate(['/login']);
 
+  }
+
+  getUserAuth(user){
+    return this.http.get(this.APIUrl + '/usuario/userinfo/'+user)
   }
 
   //login para clientes

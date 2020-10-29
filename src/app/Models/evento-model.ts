@@ -1,4 +1,4 @@
-export class Evento {
+export class Eventoooo {
     IdEvento: number;
     IdUsuario: number;
     Movimiento: string;

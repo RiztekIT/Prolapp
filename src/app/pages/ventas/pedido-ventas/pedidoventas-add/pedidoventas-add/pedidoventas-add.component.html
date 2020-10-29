@@ -565,18 +565,30 @@
                                             <!-- Tabla de costos finales -->
 
                                             <div class="container row">
-                                                <div class="col-8">
+                                                <div class="col-md-8">
                                                     <div class="container row">
-                                                        <div class="col-6" style="display: grid">
+                                                        <div class="col-md-6 col-12" style="display: grid">
                                                             <br>
                                                             <button class="btn btn-info btn-lg" mat-raised-button matStepperPrevious><i class="mdi mdi-arrow-left-bold-circle btn-lg"></i>Atras</button>
                                                             <br>
                                                             <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada' || this.service.formDataPedido.Estatus == 'Cerrada'" class="btn btn-info btn-lg" mat-raised-button (click)="verPDF()"><i class="mdi mdi-file-pdf btn-lg"></i>Ver PDF</button>
                                                             <br>
                                                             <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada' || this.service.formDataPedido.Estatus == 'Cerrada'" class="btn btn-info btn-lg" mat-raised-button (click)="enviarPedido()"><i class="mdi mdi-email btn-lg"></i>Enviar</button>
+                                                            <br>
+                                                            <!-- <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada' || this.service.formDataPedido.Estatus == 'Cerrada'" class="btn btn-info btn-lg" mat-raised-button (click)="enviarPedidoAuto()"><i class="mdi mdi-email btn-lg"></i>Enviar Auto</button> -->
+                                                            <br>
+                                                            <!-- <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada' || this.service.formDataPedido.Estatus == 'Cerrada'" class="btn btn-info btn-lg" mat-raised-button (click)="crearValidacion()"><i class="mdi mdi-email btn-lg"></i>Validacion</button> -->
+                                                            <br>
+                                                            <!-- <button class="btn btn-info btn-lg" mat-raised-button><i class="mdi mdi-email btn-lg" ></i>Whatsapp<a href='https://api.whatsapp.com/send?phone=526146068648&text={{this.url}}'></a></button> -->
+
+                                                            <!--   <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada' || this.service.formDataPedido.Estatus == 'Cerrada'" class="btn btn-info btn-lg" mat-raised-button><i class="mdi mdi-email btn-lg"></i>
+                                                                <a href='https://api.whatsapp.com/send?phone=526146068648&text={{this.url}}' target="_blank"> Whatsapp</a>
+                                                            </button> -->
+
+
                                                         </div>
                                                         <!-- <div class="col-4"></div> -->
-                                                        <div class="col-6" style="display: grid">
+                                                        <div class="col-md-6 col-12" style="display: grid">
                                                             <br>
                                                             <!-- <button matStepperNext class="btn btn-info btn-md" (click)="crearPedido()">Generar Pedido</button> -->
                                                             <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada' || this.service.formDataPedido.Estatus == 'Creada'" class="btn btn-info btn-lg" mat-raised-button (click)="crearPedido()"><i class="mdi mdi-send btn-lg"></i>Guardar</button>
@@ -589,7 +601,7 @@
 
                                                     </div>
                                                 </div>
-                                                <div class="col-4">
+                                                <div class="col-md-4 col-12">
                                                     <br>
                                                     <div class="form-material borderbox">
                                                         <div class="container">

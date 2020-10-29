@@ -16,9 +16,10 @@ export class preOrdenTemporalODSacos {
     sacosSobra: string;
     productoValido: boolean;
     Saldo: string;
-    SacosIngresados: string;
-    SacosIngresadosTotales: string;
+    KilogramosIngresados: string;
+    KilogramosIngresadosTotales: string;
     posicionArreglo: number;
+    NumeroFactura:string;
 
     //para detalletarima
 

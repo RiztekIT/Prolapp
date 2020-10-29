@@ -2,6 +2,27 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
+
+                <div>
+                    <label class="input-group-text text-info">Empresa</label>
+                    <select class="form-control" name="Empresa" #Empresa="ngModel" [(ngModel)]="this.enviarfact.empresa" required (ngModelChange)='cambioEmpresa($event)'>
+                                <option [ngValue]="null" selected disabled>Seleccionar Empresa</option>
+                                <option *ngFor="let e of listEmpresa" [ngValue]="e"> {{e.RazonSocial}} </option>
+                              </select>
+                </div>
+                <!--    <div>
+                            <button (click)='rfc()'>RFC</button>
+                        </div> -->
+
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
                 <h4 class="card-title"> Temas </h4>
                 <hr>
                 <div class="r-panel-body">

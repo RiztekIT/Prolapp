@@ -1,5 +1,18 @@
 # Prolapp
 
+# Comentarios
+
+  // ! Notas Importantes 
+  // ?  
+  // Codigo que no se usa
+  // ^ Comentarios alt+94
+  // & Parametros requeridos
+  // ~
+  // todo
+  // // Comentarios internos
+
+  EXTENSION: parth2031.coloured-comments
+
 # NPM IMPORTANT COMMANDS:
 
 ## ANGULAR MATERIAL
@@ -65,3 +78,6 @@ npm install --save ng2-charts
 
 ## Detector de Dispositivos Version 2.0.0
 npm i ngx-device-detector@2.0.0
+
+## UUID
+npm install uuid

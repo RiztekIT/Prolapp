@@ -1,11 +1,14 @@
 export class DetalleTarima {
 IdDetalleTarima: number;
-IdTarima: number;
 ClaveProducto: string;
 Producto: string;
-Sacos: string;
+SacosTotales: string;
 PesoxSaco: string;
 Lote: string;
+PesoTotal: string;
+SacosxTarima: string;
+TarimasTotales: string;
+Bodega: string;
 IdProveedor: number;
 Proveedor: string;
 PO: string;
@@ -14,4 +17,5 @@ FechaCaducidad: Date;
 Shipper: string;
 USDA: string;
 Pedimento: string;
+Estatus: string;
 }

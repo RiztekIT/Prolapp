@@ -36,6 +36,8 @@ export class VentasPedidoService {
 
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
 
+  pedidoCliente;
+
 
   formt: any;
   formData= new Cliente();
@@ -98,7 +100,12 @@ export class VentasPedidoService {
  //get Direcciones en base a ID CLIENTE
  getDireccionID(id: number): Observable<ClienteDireccion[]> {
   return this.http.get<ClienteDireccion[]>(this.APIUrl + '/Pedido/DireccionID/' + id);
-}   
+}  
+
+updateOrdenCarga(id){
+  return this.http.get(this.APIUrl + '/Pedido/OrdenCarga/' + id);
+}
+
 
   //Get Unidades De Medida
   unidadMedida(): Observable<any>{
@@ -169,6 +176,22 @@ export class VentasPedidoService {
   filter(filterBy: string) {
     this._listeners.next(filterBy);
   }
+
+
+
+  // *******************   VALIDACION ************************* //
+
+  getValidacion(token):Observable<any[]>{
+    return this.http.get<any[]>(this.APIUrl + '/Pedido/ValidarOC/'+token);
+  }
+
+  addValidacion(validacion){
+    return this.http.post(this.APIUrl + '/Pedido/ValidarOC/',validacion);
+  }
+  updateValidacion(validacion){
+    return this.http.put(this.APIUrl + '/Pedido/ValidarOC/',validacion);
+  }
+
 
 
 

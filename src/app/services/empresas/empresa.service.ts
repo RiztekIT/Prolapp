@@ -18,6 +18,8 @@ export class EmpresaService {
 
   constructor(private http:HttpClient) { }
 
+  empresaActual;
+
   formData = new Empresa();
 
   EmpresaFoto: Empresa;

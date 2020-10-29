@@ -8,6 +8,11 @@ import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { AddUsuarioComponent } from '../add-usuario/add-usuario.component';
 import { EditUsuarioComponent } from '../edit-usuario/edit-usuario.component';
 
+//Registro de eventos
+import { DatePipe } from '@angular/common';
+import { EventosService } from '../../../../../services/eventos/eventos.service';
+import { Evento } from '../../../../../Models/eventos/evento-model';
+
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,13 +21,18 @@ import Swal from 'sweetalert2';
   styleUrls: ['./show-usuario.component.css'],
 })
 export class ShowUsuarioComponent implements OnInit {
-
+  
+  usuariosesion
   listData: MatTableDataSource<any>;
   displayedColumns : string [] = [ 'Nombre', 'Usuario', 'ApellidoPaterno', 'ApellidoMaterno', 'Correo', 'Telefono', 'Contraseña', 'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private service:UsuariosServieService, private dialog: MatDialog, private snackBar: MatSnackBar) {
+  constructor(private service:UsuariosServieService, 
+    private dialog: MatDialog, 
+    private snackBar: MatSnackBar,
+    private datePipe: DatePipe,
+    private eventosService: EventosService,) {
 
     this.service.listen().subscribe((m:any)=>{
       console.log(m);
@@ -32,6 +42,8 @@ export class ShowUsuarioComponent implements OnInit {
    }
 
   ngOnInit() {
+    
+    this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     this.refreshUsuariosList();
   }
 
@@ -47,7 +59,7 @@ export class ShowUsuarioComponent implements OnInit {
 
   }
 
-  onDelete( id:number){
+  onDelete( id:number, movimiento?){
     //console.log(id);
     Swal.fire({
       title: '¿Seguro de Borrar Usuario?',
@@ -60,6 +72,8 @@ export class ShowUsuarioComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.service.deleteUsuario(id).subscribe(res => {
+          
+        this.movimiento(movimiento)
           this.refreshUsuariosList();
     
           Swal.fire({
@@ -73,37 +87,63 @@ export class ShowUsuarioComponent implements OnInit {
       }
     })
 
-
+    
     // if ( confirm('Are you sure to delete?')) {
-    //   this.service.deleteUsuario(id).subscribe(res => {
-    //   this.refreshUsuariosList();
-    //   this.snackBar.open(res.toString(), '', {
-    //     duration: 3000,
-    //     verticalPosition: 'top'
-    //   });
+      //   this.service.deleteUsuario(id).subscribe(res => {
+        //   this.refreshUsuariosList();
+        //   this.snackBar.open(res.toString(), '', {
+          //     duration: 3000,
+          //     verticalPosition: 'top'
+          //   });
+          
+          //   });
+          // }
+          
+        }
+        
+      movimiento(movimiento){
+        // let event = new Array<Evento>();
+        let u = this.usuariosesion.user
+        let fecha = new Date();
+        
+        let evento = new Evento();
+        this.service.getUsuarioNombreU(u).subscribe(res => {
+        let idU=res[0].IdUsuario
+    
+        evento.IdUsuario = idU
+        evento.Autorizacion = '0'
+        evento.Fecha = this.datePipe.transform(fecha, 'yyyy-MM-dd, h:mm:ss a');
+        evento.Movimiento = movimiento
+        
+        console.log(evento);
+        this.eventosService.addEvento(evento).subscribe(respuesta =>{
+          console.log(respuesta);
+        })
+        })
+      }
 
-    //   });
-    // }
-
-  }
-
-  onAdd(){
+  onAdd(movimiento?){
 
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
+    dialogConfig.data = {
+      movimiento: movimiento
+    }
     this.dialog.open(AddUsuarioComponent, dialogConfig);
 
   }
 
-  onEdit(usuario: Usuario){
+  onEdit(usuario: Usuario,movimiento?){
 // console.log(usuario);
 this.service.formData = usuario;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width="70%";
+    dialogConfig.width="70%";dialogConfig.data = {
+      movimiento: movimiento
+    }
     this.dialog.open(EditUsuarioComponent, dialogConfig);
   }
 

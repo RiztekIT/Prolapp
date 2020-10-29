@@ -21,7 +21,8 @@
                     <!-- logo -->
                     <div class="col-2" style="padding-left: 0;">
                         <div class="card card-outline-inverse">
-                            <img [src]="'assets/images/logoCotizacion.jpg'" style="height: 150px; width: 250px;">
+                            <!-- <img [src]="'assets/images/logoCotizacion.jpg'" style="height: 150px; width: 250px;"> -->
+                            <img [src]=logo style="height: 150px; width: 250px;">
                         </div>
                     </div>
                     <div class="col-5"></div>
@@ -164,7 +165,7 @@
 
                     <div class="col-4" style="color: white; text-align: end">
 
-                        <h3 style="color: white"> <i class="fa fa-phone"></i> 52 (614) 2629931 </h3>
+                        <h3 style="color: white"> <i class="fa fa-phone"></i> {{telefonousuario}}</h3>
                         <!-- <div class="card card-outline-inverse">
                             <img src="../../../assets/images/footerCotizacion.jpg" style="height: 200px; width: 300px;">
                         </div> -->
@@ -172,9 +173,13 @@
                     <div class="col-1">
                         <h3 style="color: white"> | </h3>
                     </div>
-                    <div class="col-7" style="color: white; text-align:start">
+                    <div *ngIf="this.empresaSVC.empresaActual.RFC=='PLA11011243A'" class="col-7" style="color: white; text-align:start">
 
                         <h3 style="color: white"><i class="fa fa-globe"></i> www.prolactoingredientes.com.mx </h3>
+                    </div>
+                    <div *ngIf="this.empresaSVC.empresaActual.RFC=='AIN140101ME3'" class="col-7" style="color: white; text-align:start">
+
+                        <h3 style="color: white"><i class="fa fa-globe"></i> www.abarrotodo.com </h3>
                     </div>
                 </div>
             </div>

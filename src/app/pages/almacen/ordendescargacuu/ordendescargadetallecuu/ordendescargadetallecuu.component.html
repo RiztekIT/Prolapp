@@ -10,7 +10,7 @@
                     <div>
                         Estatus:
                         <p [ngSwitch]=this.service.formData.Estatus>
-                            <span *ngSwitchCase="'Guardada'" class="label label-light-sucess">GUARDADA</span>
+                            <span *ngSwitchCase="'Guardada'" class="label label-light-success">GUARDADA</span>
                             <span *ngSwitchCase="'Proceso'" class="label label-light-primary">PROCESO</span>
                             <span *ngSwitchCase="'Descargada'" class="label label-light-info">DESCARGADA</span>
                             <span *ngSwitchCase="'Transito'" class="label label-light-inverse">TRANSITO</span>
@@ -101,14 +101,14 @@
 
                         <div class="row">
                             <div class="col-md-4 col-12">
-                                <h3 class="text-muted m-t-10 m-b-0">Tabla Tarimas Escaneadas</h3>
+                                <h3 class="text-muted m-t-10 m-b-0">Productos Descargados</h3>
                             </div>
                             <div class="col-md-4 col-12">
 
                             </div>
                             <div class="col-md-4 col-12">
                                 <button class="btncoti" mat-fab style="float: right;" (click)="CheckTarima()">
-<mat-icon> open_in_new </mat-icon>
+<mat-icon> arrow_circle_down </mat-icon>
 </button>
                                 <!--  <div *ngIf="ShowBuscar == false; else elseBlockPU">
                         <button class="btncoti" mat-fab style="float: right; margin-right: 15px" (click)="BuscarTarimaQR()">
@@ -139,41 +139,47 @@
 
                                         <tr mat-header-row *matHeaderRowDef="displayedColumnsScan"></tr>
                                         <tr mat-row *matRowDef="let row; columns: displayedColumnsScan;"></tr>
-                                        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                                        <!-- <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr> -->
 
 
-                                        <ng-container matColumnDef="IdTarima">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>IdTarima</th>
-                                            <td class="IdTarima" mat-cell *matCellDef="let element" (click)="expandedElement = element">
-                                                {{element.IdTarima}} +
+                                        <ng-container matColumnDef="ClaveProducto">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>ClaveProducto</th>
+                                            <td class="ClaveProducto" mat-cell *matCellDef="let element">
+                                                {{element.ClaveProducto}}
                                                 <td>
                                         </ng-container>
-                                        <ng-container matColumnDef="Sacos">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
-                                            <td class="Sacos" mat-cell *matCellDef="let element">
-                                                {{element.Sacos}}
+                                        <ng-container matColumnDef="Producto">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                                            <td class="Producto" mat-cell *matCellDef="let element">
+                                                {{element.Producto}}
                                                 <td>
                                         </ng-container>
-                                        <ng-container matColumnDef="PesoTotal">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>PesoTotal</th>
-                                            <td class="PesoTotal" mat-cell *matCellDef="let element">
-                                                {{element.PesoTotal}}
-                                                <td>
-                                        </ng-container>
-
-                                        <ng-container matColumnDef="QR">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>QR</th>
-                                            <td class="QR" mat-cell *matCellDef="let element">
-                                                {{element.QR}}
-                                                <td>
-                                        </ng-container>
-                                        <ng-container matColumnDef="Bodega">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Bodega</th>
-                                            <td class="Bodega" mat-cell *matCellDef="let element">{{element.Bodega}}
+                                        <ng-container matColumnDef="Lote">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                                            <td class="Lote" mat-cell *matCellDef="let element">
+                                                {{element.Lote}}
                                                 <td>
                                         </ng-container>
 
-                                        <ng-container matColumnDef="Traspaso" stickyEnd>
+                                        <ng-container matColumnDef="Kilogramos">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Kilogramos</th>
+                                            <td class="Kilogramos" mat-cell *matCellDef="let element">
+                                                {{element.PesoTotal}} Kg
+                                                <td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="FechaCaducidad">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>FechaCaducidad</th>
+                                            <td class="FechaCaducidad" mat-cell *matCellDef="let element">{{element.FechaCaducidad | date: 'yyyy/MM/dd'}}
+                                                <td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Comentarios">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Comentarios</th>
+                                            <td class="Comentarios" mat-cell *matCellDef="let element">
+                                                {{element.Comentarios}}
+                                                <td>
+                                        </ng-container>
+
+                                        <!-- <ng-container matColumnDef="Traspaso" stickyEnd>
                                             <th mat-header-cell *matHeaderCellDef>Traspaso</th>
                                             <td mat-cell *matCellDef="let row; let i = dataIndex">
 
@@ -192,21 +198,20 @@
 
                                                 <button mat-icon-button class="btn btn-danger" color="warn">
                                         <mat-icon>cancel</mat-icon>
-                                      </button>
+                                      </button> -->
 
 
-                                            </td>
-                                        </ng-container>
+                                        <!-- </td> -->
+                                        <!-- </ng-container> -->
 
                                         <!-- DETALLES -->
-                                        <ng-container matColumnDef="expandedDetail">
+                                        <!-- <ng-container matColumnDef="expandedDetail">
                                             <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumnsScan.length">
                                                 <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" (click)="expandedElement = 0">
 
                                                     <table width="100%">
                                                         <tr>
-                                                            <!-- <th> #Tarima </th>
-                                                <th> QR </th> -->
+
                                                             <th> Clave Producto </th>
                                                             <th> Producto </th>
                                                             <th> Sacos </th>
@@ -220,8 +225,7 @@
                                                             <th> Pedimento </th>
                                                         </tr>
                                                         <tr *ngFor="let detalle of element.detalleTarima">
-                                                            <!-- <td> {{ detalle.IdTarima2}} </td>
-                                                <td> {{ detalle.QR}} </td> -->
+
                                                             <td> {{ detalle.ClaveProducto}} </td>
                                                             <td> {{ detalle.Producto}} </td>
                                                             <td> {{ detalle.Sacos}} </td>
@@ -237,7 +241,7 @@
                                                     </table>
                                                 </div>
                                             </td>
-                                        </ng-container>
+                                        </ng-container> -->
 
                                     </table>
                                     <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>

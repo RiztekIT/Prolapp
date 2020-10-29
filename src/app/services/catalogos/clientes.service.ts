@@ -55,8 +55,11 @@ objetoCliente = new Cliente();
     return this.http.post(this.APIUrl + '/vendedor', vendedor);
  }
 
+//  deleteCliente(id:number) {
+//    return this.http.delete(this.APIUrl + '/cliente/' + id);
+//  }
  deleteCliente(id:number) {
-   return this.http.delete(this.APIUrl + '/cliente/' + id);
+   return this.http.delete(this.APIUrl + '/cliente/DeleteCliente/' + id);
  }
 
  deleteVendedor(id:number) {

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { ClientesService } from '../../../../../services/catalogos/clientes.service';
 import { NgForm, FormControl } from '@angular/forms';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import Swal from 'sweetalert2';
+import {MAT_DIALOG_DATA } from "@angular/material";
 
 import { map, startWith } from 'rxjs/operators';
 
@@ -15,6 +16,13 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Cliente } from 'src/app/Models/catalogos/clientes-model';
 import { VentasCotizacionService } from '../../../../../services/ventas/ventas-cotizacion.service';
 
+//Registro de eventos
+import { DatePipe } from '@angular/common';
+import { UsuariosServieService } from '../../../../../services/catalogos/usuarios-servie.service';
+import { EventosService } from '../../../../../services/eventos/eventos.service';
+import { Evento } from 'src/app/Models/eventos/evento-model';
+
+
 @Component({
   selector: 'app-add-cliente',
   templateUrl: './add-cliente.component.html',
@@ -22,12 +30,24 @@ import { VentasCotizacionService } from '../../../../../services/ventas/ventas-c
 })
 export class AddClienteComponent implements OnInit {
 
-  constructor(public dialogbox: MatDialogRef<AddClienteComponent>, public router: Router,
-    public service: ClientesService, public service2: VentasCotizacionService, private snackBar: MatSnackBar, public apicliente: EnviarfacturaService, private _formBuilder: FormBuilder) { }
+  constructor(public dialogbox: MatDialogRef<AddClienteComponent>, 
+    public router: Router,
+    public service: ClientesService, 
+    public service2: VentasCotizacionService, 
+    private snackBar: MatSnackBar, 
+    public apicliente: EnviarfacturaService, 
+    private _formBuilder: FormBuilder,
+    private usuarioService: UsuariosServieService,
+    private datePipe: DatePipe,
+    private eventosService: EventosService,
+    @Inject(MAT_DIALOG_DATA) public data: any, ) { }
 
   ngOnInit() {
     // console.log(this.service2.formprosp);
     // this.service.formData = new Cliente();
+    this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
+    this.BodegaInfo = this.data;
+    this.movimiento = this.BodegaInfo.movimiento
     this.resetForm();
     this.dropdownRefresh();  
   }
@@ -89,6 +109,9 @@ export class AddClienteComponent implements OnInit {
   options: Vendedor[] = [];
   filteredOptions: Observable<any[]>;
   myControl = new FormControl();
+  usuariosesion;
+  movimiento;
+  BodegaInfo;
 
   private _filter(value: any): any[] {
     console.log(value);
@@ -161,8 +184,8 @@ export class AddClienteComponent implements OnInit {
     this.resetForm();
   }
 
-  onSubmit(form: NgForm) {
-
+  onSubmit(form: NgForm, ) {
+this.movimiento;
     let email;
     let rfc;
     let razon;
@@ -192,6 +215,8 @@ export class AddClienteComponent implements OnInit {
         this.service.addCliente(this.service.formData).subscribe(res => {
           console.log(res);
           
+        this.movimientos(this.movimiento)
+          
           Swal.fire({
             icon: 'success',
             title: 'Cliente Agregado',
@@ -217,6 +242,31 @@ export class AddClienteComponent implements OnInit {
     
     
   }
+
+  	
+  movimientos(movimiento){
+    // let event = new Array<Evento>();
+    let u = this.usuariosesion.user
+    let fecha = new Date();
+    
+    let evento = new Evento();
+    this.usuarioService.getUsuarioNombreU(u).subscribe(res => {
+    let idU=res[0].IdUsuario
+
+    evento.IdUsuario = idU
+    evento.Autorizacion = '0'
+    evento.Fecha = this.datePipe.transform(fecha, 'yyyy-MM-dd, h:mm:ss a');
+    evento.Movimiento = movimiento
+    
+    console.log(evento);
+    this.eventosService.addEvento(evento).subscribe(respuesta =>{
+      console.log(respuesta);
+    })
+    })
+  }
+
+
+  
   // onSubmit(form: NgForm) {
   //   //
   //   let email;

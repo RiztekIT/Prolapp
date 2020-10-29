@@ -297,6 +297,9 @@ import { DocumentosComponent } from './almacen/inventariosalmacen/documentos/doc
 import { AlmacenInventariosMesesComponent } from '../components/graficas/almacen/almacen-inventarios-meses/almacen-inventarios-meses.component';
 import { DisplaySaldosComponent } from './cxc/saldoscxc/display-saldos/display-saldos.component';
 import { DisplaySaldosComponentp } from './cxp/saldoscxp/display-saldos/display-saldos.component';
+import { CalidadTotalesComponent } from '../components/graficas/calidad/calidad-totales/calidad-totales.component';
+import { CalidadMesesComponent } from '../components/graficas/calidad/calidad-meses/calidad-meses.component';
+
 
 
 
@@ -510,7 +513,9 @@ import { DisplaySaldosComponentp } from './cxp/saldoscxp/display-saldos/display-
         AEBodegaComponent,
         DocumentosComponent,
         AlmacenInventariosMesesComponent,
-        DisplaySaldosComponentp
+        DisplaySaldosComponentp,
+        CalidadTotalesComponent,
+        CalidadMesesComponent
     
     ],
     exports: [
@@ -563,7 +568,8 @@ import { DisplaySaldosComponentp } from './cxp/saldoscxp/display-saldos/display-
         MatTabsModule,
         NgxPrintModule,
         MatProgressBarModule,
-        MatButtonToggleModule
+        MatButtonToggleModule,
+        
     ],
     providers: [
         UsuariosServieService,
