@@ -693,6 +693,9 @@
                                 <button [style.display]="clienteLogin ? 'none' : 'block'" *ngIf="this.Estatus=='Pagada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='nosaldar(service.formData)' [disabled]="form.invalid"><i
                         class="mdi mdi-currency-usd btn-lg"></i>No Saldar</button>
 
+                        <button [style.display]="clienteLogin ? 'none' : 'block'" *ngIf="this.Estatus=='Pagada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='crearjsonfactura(service.formData.Id)' [disabled]="form.invalid"><i
+                            class="mdi mdi-currency-usd btn-lg"></i>JSON</button>
+
 
 
 

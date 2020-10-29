@@ -15,6 +15,7 @@ import { NotaCredito } from '../../../../Models/nota-credito/notaCredito-model';
 import { MessageService } from 'src/app/services/message.service';
 import { NotacreditoComponent } from '../../../../components/notacredito/notacredito/notacredito.component';
 import { EmailComponent } from 'src/app/components/email/email/email.component';
+import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-detalle-nota-credito',
@@ -601,7 +602,7 @@ this.refreshTablaDetalles();
         }
         // cadena = JSON.stringify(this.json1);
       
-    
+    console.log(this.json1)
     // return cadena;
   }
 

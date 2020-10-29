@@ -199,7 +199,7 @@ this.calle = this.enviarfact.empresa.Calle
   this.numeroint = this.enviarfact.empresa.NumeroInterior
 this.nombreR = row.Nombre;
 this.rfcR = row.RFC;
-this.usoCFDI = row.UsoCFDI;
+this.usoCFDI = row.UsoDelCFDI;
 this.regimen = '601';
 this.cantidad = row.detalle[0].Cantidad;
 this.claveUnidad = row.detalle[0].ClaveProducto;
@@ -209,7 +209,7 @@ this.valorUnitario = row.detalle[0].PrecioUnitario;
 this.importeConcepto = row.detalle[0].Importe;
 this.uuid = row.UUID;
 this.noCertificadoSAT = row.NumeroDeSelloSAT;
-this.iva = row.ImpuestosTrasladados;
+
 this.RetIva = row.ImpuestosRetenidos;
 this.selloSAT = row.SelloDigitalSAT;
 this.logo = '../../../assets/images/'+this.rfcE+'.png'
@@ -228,12 +228,14 @@ switch (this.moneda) {
     this.total = row.Total;
     this.subtotal = row.Subtotal;
     this.textnum = cantidad(this.total);
+    this.iva = row.ImpuestosTrasladados;
     break;
   case "USD":
     this.monedaT = "USD"
     this.total = row.TotalDlls;
     this.subtotal = row.SubtotalDlls;
     this.textnum = cantidad(this.total);
+    this.iva = row.ImpuestosTrasladadosDlls;
 }
 
 this.arrcon = [];
