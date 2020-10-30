@@ -33,6 +33,7 @@ export class DetalleNotaCreditoComponent implements OnInit {
 
   ngOnInit() {
     this.Inicializar();
+    this.PUlectura = true;
 
     this.filteredOptionsDetalles = this.myControlDetalle.valueChanges
       .pipe(
@@ -46,6 +47,7 @@ export class DetalleNotaCreditoComponent implements OnInit {
 
   folioparam;
 idparam;
+PUlectura
 
    listData: MatTableDataSource<any>;
   displayedColumns : string [] = [ 'ClaveProducto', 'Producto', 'Cantidad', 'PrecioUnitario', 'Precio', 'Options'];
@@ -185,6 +187,23 @@ ObtenerDetalles(){
           console.log(this.service.DetalleFactura);
         })
       }
+      this.service.DetalleFactura.push({
+        Cantidad: "1",
+ClaveProducto: "SERV010",
+ClaveSAT: "81121606",
+IdDetalle: 0,
+IdFactura: this.service.formData.IdFactura,
+Importe: "0.0000",
+ImporteDlls: "0.0000",
+ImporteIVA: "0.0000",
+ImporteIVADlls: "0.0000",
+Observaciones: "",
+PrecioUnitario: "0.0000",
+PrecioUnitarioDlls: "0.0000",
+Producto: "DIFERENCIA EN PRECIO",
+TextoExtra: "",
+Unidad: ""
+      })
          this.listDetalle = this.service.DetalleFactura;
          
       this.filteredOptionsDetalles = this.myControlDetalle.valueChanges
@@ -222,9 +241,28 @@ onSelectionChange(detalle: DetalleNotaCredito, event: any){
     this.CantidadDetalle = +detalle.Cantidad;
     this.CantidadOriginal = +detalle.Cantidad;
     console.log(this.ProductoSelect);
+    if(detalle.ClaveProducto=='SERV010'){
+      this.PUlectura = false;
+    }
   }
 
 }
+
+/* Cantidad: "500"
+ClaveProducto: "LDP002"
+ClaveSAT: "50131704"
+IdDetalle: 50642
+IdFactura: 50553
+Importe: "30500.0000"
+ImporteDlls: "1441.0720"
+ImporteIVA: "0.0000"
+ImporteIVADlls: "0.0000"
+Observaciones: ""
+PrecioUnitario: "61.0000"
+PrecioUnitarioDlls: "2.8821"
+Producto: "LECHE DESCREMADA NFLH DAIRY AMERICA"
+TextoExtra: ""
+Unidad: */
 
 onChangeCantidad(Cantidad: any){
  

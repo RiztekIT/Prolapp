@@ -1824,7 +1824,12 @@ this.enviarfact.acuseCancelacion(fact.UUID).subscribe((data:any)=>{
     fechahorasolicitud = result.Acuse.$.Fecha;
     fechahoracancel = result.Acuse.$.Fecha;
     foliofiscal = result.Acuse.Folios[0].UUID[0];
-    estatus = 'Cancelado';
+    if (result.Acuse.Folios[0].EstatusUUID[0]=='201'){
+      estatus='Cancelado'
+    }else{
+      estatus='Estimado cliente se ha enviado la solicitud de cancelación al receptor'
+    }
+    // estatus = resp.message;
     sellodigitalsat = result.Acuse.Signature[0].SignatureValue[0]
 
 

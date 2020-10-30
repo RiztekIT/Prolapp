@@ -44,6 +44,8 @@
                                 </mat-autocomplete>
                             </mat-form-field>
 
+
+
                             <label class="input-group-text text-info ">Clave Producto:</label>
                             <input required readonly type="text " class="form-control " name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="service.DetalleformData.ClaveProducto ">
 
@@ -72,7 +74,7 @@
                             <div *ngIf="service.Moneda == 'MXN'">
 
                                 <label class="input-group-text text-info ">Precio Unitario:</label>
-                                <input readonly type="text " class="form-control " name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.DetalleformData.PrecioUnitario">
+                                <input [readonly]="PUlectura" type="text " class="form-control " name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.DetalleformData.PrecioUnitario" (ngModelChange)="onChangeCantidad(CantidadDetalle)">
 
                                 <label class="input-group-text text-info ">Importe:</label>
                                 <input readonly type="text " class="form-control " name="Importe " #Importe="ngModel" [(ngModel)]="service.DetalleformData.Importe">
@@ -200,7 +202,7 @@
                     </div>
                     <div class="col-8" style="display: grid" *ngIf="service.Timbrada == false">
                         <button class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="onTimbrar()"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
-                      <!-- <button class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="crearJson()"><i class="mdi mdi-send btn-lg"></i>JSON</button> -->
+                        <!-- <button class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="crearJson()"><i class="mdi mdi-send btn-lg"></i>JSON</button> -->
                     </div>
                     <div class="col-2">
 
