@@ -148,7 +148,7 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
         } else {
           Swal.fire({
             title: 'Error',
-            text: 'Favor de Verificar el Estatus',
+            text: 'No existe Orden de Descarga',
             icon: 'error',
             timer: 1000,
             showCancelButton: false,
