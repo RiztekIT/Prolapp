@@ -693,7 +693,7 @@
                                 <button [style.display]="clienteLogin ? 'none' : 'block'" *ngIf="this.Estatus=='Pagada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='nosaldar(service.formData)' [disabled]="form.invalid"><i
                         class="mdi mdi-currency-usd btn-lg"></i>No Saldar</button>
 
-                        <button [style.display]="clienteLogin ? 'none' : 'block'" *ngIf="this.Estatus=='Pagada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='crearjsonfactura(service.formData.Id)' [disabled]="form.invalid"><i
+                                <button [style.display]="clienteLogin ? 'none' : 'block'" *ngIf="this.Estatus=='Pagada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='crearjsonfactura(service.formData.Id)' [disabled]="form.invalid"><i
                             class="mdi mdi-currency-usd btn-lg"></i>JSON</button>
 
 
@@ -743,6 +743,15 @@
 
                                         <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Subtotal</label>
                                         <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Subtotal" #Subtotal="ngModel" [ngModel]="service.formData.Subtotal | currency">
+
+                                        <!--  <mat-form-field style="width: 100%;">
+                                            <mat-label>Subtotal</mat-label>
+                                            <input matInput style="text-align: right;" type="number" class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Subtotal" #Subtotal="ngModel" [ngModel]="service.formData.Subtotal">
+
+                                            <span matPrefix>$&nbsp;</span>
+
+                                        </mat-form-field> -->
+                                        <!-- <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Subtotal" #Subtotal="ngModel" [ngModel]="service.formData.Subtotal | currency"> -->
 
                                         <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Impuestos Trasladados</label>
                                         <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImpuestosTrasladados" #ImpuestosTrasladados="ngModel" [ngModel]="service.formData.ImpuestosTrasladados | currency">
