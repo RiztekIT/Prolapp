@@ -28,7 +28,13 @@ const httpOptions = {
   styleUrls: ['./facturacioncxc-edit-producto.component.css']
 })
 export class FacturacioncxcEditProductoComponent implements OnInit {
+
+  precioUDLLS: number;
+
   um: boolean;
+  CONIVA
+  Total;
+  TotalDlls;
   IVA;
   IdFactura: any;
   myControl = new FormControl();
@@ -37,6 +43,7 @@ export class FacturacioncxcEditProductoComponent implements OnInit {
   listProductos: Producto[] = [];
 
   rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
+  
   
   myControlUnidad = new FormControl();
   optionsUnidad = ['Pieza'];
@@ -59,7 +66,9 @@ public listUM: Array<any> = [];
 
   ngOnInit() {
     this.obtenerProductos();
-    // this.unidadMedida();
+    console.log(this.service.formDataDF);
+
+
 
 
     this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
@@ -74,6 +83,21 @@ public listUM: Array<any> = [];
 
       this.tipoDeCambio();
       this.um = true;
+
+      console.log(this.service.formDataDF.ImporteIVA);
+      console.log(this.service.formDataDF.ImporteIVADlls);
+
+      if ((this.service.formDataDF.ImporteIVA=='0.0000') || (this.service.formDataDF.ImporteIVADlls=='0.0000')){
+        this.IVA = '0'
+        this.CONIVA = false;
+      }else if ((this.service.formDataDF.ImporteIVA!='0.0000') || (this.service.formDataDF.ImporteIVADlls!='0.0000')){
+        this.IVA = '0.16'
+        this.CONIVA = true;
+      }
+
+      console.log(this.CONIVA);
+      
+    
       
 
   }
@@ -161,18 +185,26 @@ public listUM: Array<any> = [];
 
   }
   onSelectionChange(options:Producto){
-    
+    console.log('onseleccion');
     
       this.service.formDataDF.Producto = options.Nombre;
       this.service.formDataDF.ClaveSAT = options.ClaveSAT;
       this.service.formDataDF.Unidad = options.UnidadMedida;
       this.IVA = options.IVA;
+      if (this.IVA=='0.16'){
+        this.CONIVA = true;
+      } else if (this.IVA=='0'){
+        this.CONIVA = false;
+      }
       this.sumar();
   }
 
   tipoDeCambio(){
     this.traerApi().subscribe(data => {
       this.Cdolar = data.bmx.series[0].datos[0].dato;
+      console.log(this.Cdolar);
+      this.sumar();
+      this.formato();
       
     })
   }
@@ -221,6 +253,7 @@ if (diasemana == 6 || diasemana == 0){
   }
 }
     // console.log(this.http.get(this.rootURL, httpOptions));
+    console.log(this.rootURL);
     
     return this.http.get(this.rootURL, httpOptions)
 
@@ -243,10 +276,13 @@ if (diasemana == 6 || diasemana == 0){
     // this.service.formDataDF.ImporteIVADlls = parseFloat(this.IVA).toFixed(4);
     this.service.formDataDF.ImporteIVA = (suma * parseFloat(this.IVA)).toFixed(4);
     this.service.formDataDF.ImporteIVADlls = (parseFloat(this.service.formDataDF.ImporteDlls) * parseFloat(this.IVA)).toFixed(4);
-    
+    this.Total = +this.service.formDataDF.Importe + +this.service.formDataDF.ImporteIVA
+    this.TotalDlls = +this.service.formDataDF.ImporteDlls + +this.service.formDataDF.ImporteIVADlls
     // console.log(this.Cdolar);
     // console.log(this.service.formDataDF.PrecioUnitarioDlls);
     // console.log(this.service.formDataDF.ImporteDlls);
+
+    
     
 
 
@@ -264,16 +300,57 @@ if (diasemana == 6 || diasemana == 0){
     console.log(this.IVA);
     this.service.formDataDF.ImporteIVADlls = (suma * parseFloat(this.IVA)).toFixed(4);
     this.service.formDataDF.ImporteIVA = (parseFloat(this.service.formDataDF.Importe) * parseFloat(this.IVA)).toFixed(4);
+    this.Total = +this.service.formDataDF.Importe + +this.service.formDataDF.ImporteIVA
+    this.TotalDlls = +this.service.formDataDF.ImporteDlls + +this.service.formDataDF.ImporteIVADlls
     // this.service.formDataDF.ImporteIVADlls = parseFloat(this.IVA).toFixed(4);
     // this.service.formDataDF.ImporteIVA =  parseFloat(this.IVA).toFixed(4);
     console.log(this.service.formDataDF.PrecioUnitario);
     console.log(this.service.formDataDF.Importe);
     }
+
+    
     
   }
 
+  quitarPonerIVA(event){
+
+    console.log(event);
+    console.log(this.CONIVA);
+
+    if (this.CONIVA){
+      this.IVA = '0'
+    }else{
+      this.IVA = '0.16'
+    }
+
+    this.CONIVA = !this.CONIVA
+    this.sumar();
+    this.formato();
+
+  /*   if (this.IVA){
+      this.IVA = !this.IVA;
+      
+    }else{
+      this.IVA = !this.IVA;
+      
+    }
+
+    this.sumar(); */
+
+
+  }
+
   formato(){
-    const preciounitario = <HTMLInputElement>document.getElementById('precioUnitario');
+
+    this.service.formDataDF.PrecioUnitario = (+this.service.formDataDF.PrecioUnitario).toFixed(4)
+    this.service.formDataDF.Importe = (+this.service.formDataDF.Importe).toFixed(4)
+    this.service.formDataDF.ImporteIVA = (+this.service.formDataDF.ImporteIVA).toFixed(4)
+    this.Total = (+this.Total).toFixed(4)
+    this.service.formDataDF.PrecioUnitarioDlls = (+this.service.formDataDF.PrecioUnitarioDlls).toFixed(4)
+    this.service.formDataDF.ImporteDlls = (+this.service.formDataDF.ImporteDlls).toFixed(4)
+    this.service.formDataDF.ImporteIVADlls = (+this.service.formDataDF.ImporteIVADlls).toFixed(4)
+    this.TotalDlls = (+this.TotalDlls).toFixed(4)
+   /*  const preciounitario = <HTMLInputElement>document.getElementById('precioUnitario');
     const importe = <HTMLInputElement>document.getElementById('importe');
     const iva = <HTMLInputElement>document.getElementById('iva');
     console.log(this.service.formDataDF.Importe);
@@ -297,7 +374,7 @@ if (diasemana == 6 || diasemana == 0){
   }else{
     iva.value = '$0.00';
 
-    }
+    } */
 
   }
 

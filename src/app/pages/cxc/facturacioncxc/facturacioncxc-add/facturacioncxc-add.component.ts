@@ -1145,9 +1145,17 @@ console.log(data);
 
       this.json1.EnviarCorreo = false;
       this.service.getDetallesFacturaListProducto(id).subscribe(data => {
+        console.log('PRODUCTOS',data)
+        let IVAproducto = '0';
         this.json1.Conceptos.pop();
         if (this.json1.Moneda == 'MXN') {
           for (let i = 0; i < data.length; i++) {
+            if (data[i].ImporteIVA=='0.0000'){
+              IVAproducto = '0';
+
+            }else{
+              IVAproducto = '0.16'
+            }
             this.json1.Conceptos.push({
               ClaveProdServ: data[i].ClaveSAT,
               NoIdentificacion: data[i].ClaveProducto,
@@ -1166,8 +1174,8 @@ console.log(data);
                   Base: data[i].Importe,
                   Impuesto: '002',
                   TipoFactor: 'Tasa',
-                  TasaOCuota: data[i].IVA,
-                  Importe: ((parseFloat(data[i].Importe) * parseFloat(data[i].IVA)).toFixed(6)).toString()
+                  TasaOCuota: IVAproducto,
+                  Importe: ((parseFloat(data[i].Importe) * parseFloat(IVAproducto)).toFixed(6)).toString()
                 }]
               },
               NumeroPedimento: "",
@@ -1181,6 +1189,12 @@ console.log(data);
         }
         else if (this.json1.Moneda == 'USD') {
           for (let i = 0; i < data.length; i++) {
+            if (data[i].ImporteIVADlls=='0.0000'){
+              IVAproducto = '0';
+
+            }else{
+              IVAproducto = '0.16'
+            }
             this.json1.Conceptos.push({
               ClaveProdServ: data[i].ClaveSAT,
               NoIdentificacion: data[i].ClaveProducto,
@@ -1199,8 +1213,8 @@ console.log(data);
                   Base: data[i].ImporteDlls,
                   Impuesto: '002',
                   TipoFactor: 'Tasa',
-                  TasaOCuota: data[i].IVA,
-                  Importe: ((parseFloat(data[i].ImporteDlls) * parseFloat(data[i].IVA)).toFixed(6)).toString()
+                  TasaOCuota: IVAproducto,
+                  Importe: ((parseFloat(data[i].ImporteDlls) * parseFloat(IVAproducto)).toFixed(6)).toString()
                 }]
               },
               NumeroPedimento: "",
@@ -1212,6 +1226,7 @@ console.log(data);
         }
         cadena = JSON.stringify(this.json1);
         this.enviar(cadena);
+        console.log(this.json1)
       })
     });
     return cadena;
@@ -1809,7 +1824,12 @@ this.enviarfact.acuseCancelacion(fact.UUID).subscribe((data:any)=>{
     fechahorasolicitud = result.Acuse.$.Fecha;
     fechahoracancel = result.Acuse.$.Fecha;
     foliofiscal = result.Acuse.Folios[0].UUID[0];
-    estatus = 'Cancelado';
+    if (result.Acuse.Folios[0].EstatusUUID[0]=='201'){
+      estatus='Cancelado'
+    }else{
+      estatus='Estimado cliente se ha enviado la solicitud de cancelación al receptor'
+    }
+    // estatus = resp.message;
     sellodigitalsat = result.Acuse.Signature[0].SignatureValue[0]
 
 

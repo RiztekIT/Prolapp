@@ -496,11 +496,13 @@ console.log('NUEVO CFDIIIIIIIIIII');
 
         if(factura.Moneda==='MXN'){
           for (let j=0;j<data.length; j++){
-            notascreditototal = +notascreditototal + +data[i].Total;
+            notascreditototal = +notascreditototal + +data[j].Total;
             
           }
         }else if(factura.Moneda==='USD'){
-          notascreditototal = +notascreditototal + +data[i].TotalDlls;
+          for (let j=0;j<data.length; j++){
+          notascreditototal = +notascreditototal + +data[j].TotalDlls;
+          }
         }
 
         
