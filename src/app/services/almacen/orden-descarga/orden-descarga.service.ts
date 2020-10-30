@@ -116,31 +116,31 @@ export class OrdenDescargaService {
   GetQROD(id: number): Observable<any[]> {
     return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetQROD/' + id);
   }
-
-
+  
+  
   
   // *******************   REPORTES  ************************* //
-
-    //Obtener reporte por Proveedor ID
-    getReporteProveedorId(id: number):Observable<any[]>{
-      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenDescargaProveedor/'+id);
-    }
-//obtener reporte  por Proveedor ID y por estatus
-    getReporteProveedorIdEstatus(id:number, estatus:string):Observable<any[]>{
-      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdeDescargaProveedorEstatus/'+id+'/'+estatus);
-    }
-//obtener reporte  por Fecha Inicial / final y  Proveedor ID
-    getReporteFechasProveedorId(fechaini, fechafinal, id:number):Observable<any[]>{
-      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenDescargaFechaProveedor/'+fechaini+'/'+fechafinal+'/'+id);
-    }
-//obtener reporte  por Fecha Inicial / final ,  Proveedor ID y estatus
-    getReporteFechasProveedorIdEstatus(fechaini, fechafinal, id:number, estatus: string):Observable<any[]>{
-      return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenDescargaFechaProveedorEstatus/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
-    }
-
+  
+  //Obtener reporte por Proveedor ID
+  getReporteProveedorId(id: number):Observable<any[]>{
+    return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenDescargaProveedor/'+id);
+  }
+  //obtener reporte  por Proveedor ID y por estatus
+  getReporteProveedorIdEstatus(id:number, estatus:string):Observable<any[]>{
+    return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdeDescargaProveedorEstatus/'+id+'/'+estatus);
+  }
+  //obtener reporte  por Fecha Inicial / final y  Proveedor ID
+  getReporteFechasProveedorId(fechaini, fechafinal, id:number):Observable<any[]>{
+    return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenDescargaFechaProveedor/'+fechaini+'/'+fechafinal+'/'+id);
+  }
+  //obtener reporte  por Fecha Inicial / final ,  Proveedor ID y estatus
+  getReporteFechasProveedorIdEstatus(fechaini, fechafinal, id:number, estatus: string):Observable<any[]>{
+    return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenDescargaFechaProveedorEstatus/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
+  }
+  
   // *******************   REPORTES  ************************* //
-
-
+  
+  
   private _listeners = new Subject<any>();
   listen(): Observable<any> {
     return this._listeners.asObservable();
@@ -148,7 +148,7 @@ export class OrdenDescargaService {
   filter(filterBy: string) {
     this._listeners.next(filterBy);
   }
-
+  
   private _listenersOrdenTemporal = new Subject<any>();
   listenOrdenTemporal(): Observable<any> {
     return this._listenersOrdenTemporal.asObservable();
@@ -156,4 +156,14 @@ export class OrdenDescargaService {
   filterOrdenTemporal(filterBy: string) {
     this._listenersOrdenTemporal.next(filterBy);
   }
+  
+  // *******************   COMPRAS  ************************* //
+  
+  GetODDOD(id: number): Observable<any[]> {
+    return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetODDOD/' + id);
+  }
+
+
+
+
 }
