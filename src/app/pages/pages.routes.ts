@@ -97,6 +97,7 @@ import { DocumentacionComprasImportacionComponent } from './importacion/document
 import { EvidenciasOCComponent } from './calidad/evidencias/evidencias-oc/evidencias-oc.component';
 import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/evidencias-od.component';
 // import { DocumentosclienteComponent } from '../documentoscliente/documentoscliente.component';
+import { HistorialComprasComponent } from './compras/historial-compras/historial-compras.component';
 
 
 
@@ -207,6 +208,7 @@ const pagesRoutes: Routes = [
                 { path: 'ordencargatrafico', component: OrdenCargaTraficoComponent },
                 { path: 'evidenciasoc', component: EvidenciasOCComponent },
                 { path: 'evidenciasod', component: EvidenciasODComponent },   
+                { path: 'compras-historial', component: HistorialComprasComponent },   
                              
                 
 
