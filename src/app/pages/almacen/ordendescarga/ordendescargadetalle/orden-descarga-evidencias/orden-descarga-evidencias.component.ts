@@ -47,7 +47,7 @@ export class OrdenDescargaEvidenciasComponent implements OnInit {
   
     regresar() {
       console.log(this.bodega);
-      if(this.bodega == 'PasoTx'){
+      if(this.bodega != 'Chihuahua'){
         this.router.navigate(['/ordenDescargadetalle']);
       }else if(this.bodega == 'Chihuahua'){
         this.router.navigate(['/ordenDescargadetallecuu']);

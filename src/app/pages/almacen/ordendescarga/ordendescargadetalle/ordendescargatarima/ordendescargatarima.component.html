@@ -156,7 +156,7 @@
                                                 </div>
                                                 <div class="col-md-6 col-12">
                                                     <label class="input-group-text text-info">Lote:</label>
-                                                    <input type="number" required class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="this.lote">
+                                                    <input type="text" required class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="this.lote">
                                                 </div>
                                                 <!--     <div class="col-md-6 col-12">
                                                 <label class="input-group-text text-info">Comentarios:</label>
@@ -166,6 +166,14 @@
                                             </div>
                                             <div class="row">
 
+
+                                                <div class="col-md-6 col-12">
+                                                    <label class="input-group-text text-info">Fecha de Manufactura</label>
+
+                                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                                    <input readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="FechaMFG" #FechaMFG="ngModel" [(ngModel)]="this.fechaMFG" (dateChange)="changeMat($event)">
+                                                    <mat-datepicker #picker2></mat-datepicker>
+                                                </div>
                                                 <div class="col-md-6 col-12">
                                                     <label class="input-group-text text-info">Fecha de Caducidad</label>
 
@@ -174,13 +182,6 @@
                                                     <mat-datepicker #picker1></mat-datepicker>
 
 
-                                                </div>
-                                                <div class="col-md-6 col-12">
-                                                    <label class="input-group-text text-info">Fecha MFG</label>
-
-                                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                                                    <input readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="FechaMFG" #FechaMFG="ngModel" [(ngModel)]="this.fechaMFG" (dateChange)="changeMat($event)">
-                                                    <mat-datepicker #picker2></mat-datepicker>
                                                 </div>
                                             </div>
                                         </div>

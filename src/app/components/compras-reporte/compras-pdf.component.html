@@ -41,12 +41,12 @@
                         </p>
                         <div class="container row">
                             <div class="col-8 pl-0">
-                                <p class="blacktxt bolder nomarginbottomP">Lugar de Expedicion: <br>
+                                <!--   <p class="blacktxt bolder nomarginbottomP">Lugar de Expedicion: <br>
                                     <span>Calle: <i>{{calle}} No. {{numeroext}} Int. {{numeroint}}, Col. {{colonia}}, CP: {{codigopostal}}</i></span>
-                                </p>
+                                </p> -->
                             </div>
                             <div class="col-4 mt-2">
-                                <p class="blacktxt bolder nomarginbottomP">Orden de Compra:
+                                <p class="blacktxt bolder nomarginbottomP">PO:
                                     <span> {{ComprasService.formt.PO}} </span>
                                 </p>
                             </div>
@@ -56,7 +56,7 @@
                     <div class="col-lg-3 col-md-3 col-sm-3 col-3">
                         <div class="card card-outline-inverse borderContainer">
                             <div class="card-body">
-                                <h5 class="text-center bolder blacktxt">Pedido No. : </h5>
+                                <h5 class="text-center bolder blacktxt">Orden de Compra : </h5>
                                 <!-- cambia POR FAVOR QUE ESTA COSA NO SE ACOMODA -->
                                 <div>
                                     <h5 class="text-center bolder blacktxt"> {{ComprasService.formt.Folio}} </h5>
@@ -86,7 +86,7 @@
                                         , {{ComprasService.formt.Ciudad}} , {{ComprasService.formt.Estado}}
                                         <span class="bolder"> RFC: </span> {{ComprasService.formt.RFC}}
                                     </p>
-                                    <p class="bolder blacktxt nomarginbottomP">Comprador: <span> {{ComprasService.formt.Comprador}} </span></p>
+                                    <!-- <p class="bolder blacktxt nomarginbottomP">Comprador: <span> {{ComprasService.formt.Comprador}} </span></p> -->
                                     <!-- <p class="bolder blacktxt nomarginbottomP">Enviar a: <span> {{service.formt.LugarDeEntrega}} </span> -->
                                     <!-- </p> -->
                                 </div>
@@ -175,9 +175,9 @@
                         <p class="bolder nomarginbottomP">OBSERVACIONES DE PEDIDO:</p>
                         <p style="margin-bottom: 0;"> {{ComprasService.formt.Observaciones}} </p>
                         <p class="nomarginbottomP blacktxt">
-                            <p>Entregar en Calle: {{calle}} No. {{numeroext}} Int. {{numeroint}}, Col. {{colonia}}, CP: {{codigopostal}}, {{ciudad}}, {{estado}}, México
+                            <!--   <p>Entregar en Calle: {{calle}} No. {{numeroext}} Int. {{numeroint}}, Col. {{colonia}}, CP: {{codigopostal}}, {{ciudad}}, {{estado}}, México
 
-                            </p>
+                            </p> -->
                     </div>
                 </div>
 
@@ -254,7 +254,7 @@
 
 
                 <!-- firma recibido -->
-                <div class="pgbreak">
+                <!--        <div class="pgbreak">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-3">
                         </div>
@@ -265,10 +265,10 @@
                         <div class="col-lg-3 col-md-3 col-3">
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- pagaré -->
-                <div class="col-lg-12 col-md-12 col-12">
+                <!--      <div class="col-lg-12 col-md-12 col-12">
                     <div class="card card-outline-inverse pgbreak">
                         <div class="card-body">
                             <div class="containerborder">
@@ -278,14 +278,14 @@
                                 {{ComprasService.formt.FechaEntrega | date}} </span>. Debo (emos) y Pagare (emos) incondicionalmente a la orden de PRO LACTOINGREDIENTES, S DE RL MI DE CV, en esta ciudad o en cualquier otra en que se me (nos) requiera
                                         el importe de la mercancía que ampara este documento. Por la cantidad de <span> {{ComprasService.formt.Total |currency}}
                                 ( {{ComprasService.formt.TotalDlls | currency:'USD':'code'}} )</span></p>
-                                    <!-- cambia -->
+                                    
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="col-lg-12 col-md-12 col-12">
+                <!--     <div class="col-lg-12 col-md-12 col-12">
                     <div class="card card-outline-inverse pgbreak">
                         <div class="card-body">
                             <div class="containerborder">
@@ -300,7 +300,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
 

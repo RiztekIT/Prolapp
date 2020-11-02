@@ -1152,6 +1152,10 @@ calculosTipoCambio(estado: string, accion: string){
 
 //para generar la compra debe de haber ya valores en detalleCompras
 GenerarCompra(){
+if(typeof this.bodegaSelect != 'undefined'){
+
+ 
+
   if(this.tipoCambioChanged == true){
     if(this.compra.Estatus == 'Administrativa'){
       this.calculosTipoCambio('Administrativa', 'Generada');
@@ -1167,7 +1171,8 @@ GenerarCompra(){
       this.updateCompra('Transito','Generada');
     }
   }
-  
+  console.log(this.bodegaSelect);
+}
 }
 
 updateprueba(){
