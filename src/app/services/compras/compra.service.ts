@@ -105,22 +105,22 @@ getSumatoriaIdCompra(id: number):Observable<any[]>{
     getReporteProveedorId(id: number):Observable<any[]>{
       return this.http.get<any[]>(APIUrl + '/reportes/ReporteCompras/'+id);
     }
-//obtener reporte compras por proveedor ID y por estatus de la compra
+    //obtener reporte compras por proveedor ID y por estatus de la compra
     getReporteProveedorIdEstatus(id:number, estatus:string):Observable<any[]>{
       return this.http.get<any[]>(APIUrl + '/reportes/ReporteComprasStatus/'+id+'/'+estatus);
     }
-//obtener reporte compras por Fecha Inicial / final y  proveedor ID
+    //obtener reporte compras por Fecha Inicial / final y  proveedor ID
     getReporteFechasProveedorId(fechaini, fechafinal, id:number):Observable<any[]>{
       return this.http.get<any[]>(APIUrl + '/reportes/ComprasFechas/'+fechaini+'/'+fechafinal+'/'+id);
     }
-//obtener reporte compras por Fecha Inicial / final ,  proveedor ID y estatus
+    //obtener reporte compras por Fecha Inicial / final ,  proveedor ID y estatus
     getReporteFechasProveedorIdEstatus(fechaini, fechafinal, id:number, estatus: string):Observable<any[]>{
       return this.http.get<any[]>(APIUrl + '/reportes/ComprasFechas/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
     }
 
-    //!  ------------ REPORTES ------------------  //
-
-// ^ get compras que esten relacionadas con OD
+    //!  ------------ Historial ------------------  //
+    
+    // ^ get compras que esten relacionadas con OD
     getComprasHistorialList(): Observable<any[]> {
       return this.http.get<any[]>(APIUrl + '/Compras/GetComprasHistorial');
     }
@@ -128,6 +128,17 @@ getSumatoriaIdCompra(id: number):Observable<any[]>{
     getComprasFecha(fecha, fecha1): Observable<Compras[]> {
       return this.http.get<Compras[]>(APIUrl + '/compras/GetComprasFecha/'+fecha+'/'+fecha1);
     }
+    
+    //Obtener reporte compras por proveedor ID
+    GetComprasODDIdProveedor(id: number):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/compras/GetComprasODDIdProveedor/'+id);
+    }
+
+    //Obtener reporte compras por Estatus
+    GetComprasODDEstatus(estatus: string):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/compras/GetComprasODDEstatus/'+estatus);
+    }
+
 
 
 

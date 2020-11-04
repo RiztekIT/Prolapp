@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CompraService } from '../../services/compras/compra.service';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 import * as html2pdf from 'html2pdf.js';
 import { ProveedoresService } from '../../services/catalogos/proveedores.service';
@@ -19,11 +19,19 @@ declare function cantidad(n);
 export class ComprasPdfComponent implements OnInit {
 
   logo;
+  OrigenConsulta: string
+  datosODH;
 
   constructor(public ComprasService: CompraService, public dialogbox: MatDialogRef<ComprasPdfComponent>, public router: Router,
-    public ProveedorService: ProveedoresService, public empresaSVC: EmpresaService) { }
+    public ProveedorService: ProveedoresService, public empresaSVC: EmpresaService,
+    @Inject(MAT_DIALOG_DATA) public data: any,) { }
 
   ngOnInit() {
+    this.OrigenConsulta = null
+    console.log('this.data: ', this.data.OrigenConsulta);
+    console.log('this.data: ', this.data.datos[0]);
+    this.datosODH = this.data.datos[0];
+    this.OrigenConsulta = this.data.OrigenConsulta;
 // console.log(this.ComprasService.formt);
 this.ver();
   }
@@ -89,34 +97,45 @@ this.ComprasService.formt.RFC = dataP[0].RFC
   this.ComprasService.formt.RFC = '';
 }   
     
-    // console.log(this.ComprasService.formt.detalleCompra);
-    
-    this.objconc = this.ComprasService.formt.detalleCompra;
-    
-    this.arrcon = [];
-    this.unidad = []
-    for (this.con in this.objconc){
-      var conceptos = this.objconc[this.con];
-      this.arrcon.push({
-        IdDetalleCompra: conceptos.IdDetalleCompra,
-        IdCompra: conceptos.IdCompra,
-        ClaveProducto: conceptos.ClaveProducto,
-        Producto: conceptos.Producto,
-        Cantidad: conceptos.Cantidad,
-        PesoxSaco: conceptos.PesoxSaco,
-        PrecioUnitario: conceptos.PrecioUnitario,
-        CostoTotal: conceptos.CostoTotal,
-        IVA: conceptos.IVA,
-        Unidad: conceptos.Unidad,
-        Observaciones: conceptos.Observaciones,
-        PrecioUnitarioDlls: conceptos.PrecioUnitarioDlls,
-        CostoTotalDlls: conceptos.CostoTotalDlls,
-        IVADlls: conceptos.IVADlls,
-      });
-      // ^ Guarda la unidad para cada producto, que luego se desplegara en el pfd
-      this.unidad[this.con] = conceptos.Unidad;
-      this.TotalProducto[this.con] = conceptos.Cantidad * conceptos.PrecioUnitario;
-    }
+// console.log(this.ComprasService.formt.detalleCompra);
+if(this.OrigenConsulta){
+  console.log('HelloHistorial');
+  
+  this.objconc = this.datosODH;
+} else{
+  
+  this.objconc = this.ComprasService.formt.detalleCompra;
+}
+
+console.log('%c%s', 'color: #994d75', '777777');
+console.log('this.objconc: ', this.objconc);
+      this.arrcon = [];
+      this.unidad = []
+      for (this.con in this.objconc){
+        console.log('this.objconc[this.con]: ', this.objconc[this.con]);
+        console.log('this.con: ', this.con);
+        var conceptos = this.objconc[this.con];
+        
+        this.arrcon.push({
+          IdDetalleCompra: conceptos.IdDetalleCompra,
+          IdCompra: conceptos.IdCompra,
+          ClaveProducto: conceptos.ClaveProducto,
+          Producto: conceptos.Producto,
+          Cantidad: conceptos.Cantidad,
+          PesoxSaco: conceptos.PesoxSaco,
+          PrecioUnitario: conceptos.PrecioUnitario,
+          CostoTotal: conceptos.CostoTotal,
+          IVA: conceptos.IVA,
+          Unidad: conceptos.Unidad,
+          Observaciones: conceptos.Observaciones,
+          PrecioUnitarioDlls: conceptos.PrecioUnitarioDlls,
+          CostoTotalDlls: conceptos.CostoTotalDlls,
+          IVADlls: conceptos.IVADlls,
+        });
+        // ^ Guarda la unidad para cada producto, que luego se desplegara en el pfd
+        this.unidad[this.con] = conceptos.Unidad;
+        this.TotalProducto[this.con] = conceptos.Cantidad * conceptos.PrecioUnitario;
+      }
     this.total = this.ComprasService.formt.Total
     this.textnum = cantidad(this.total);
     console.log('this.unidad : ', this.unidad );
