@@ -124,6 +124,9 @@ getSumatoriaIdCompra(id: number):Observable<any[]>{
     getComprasHistorialList(): Observable<any[]> {
       return this.http.get<any[]>(APIUrl + '/Compras/GetComprasHistorial');
     }
+    GetComprasOrderFolio(): Observable<any[]> {
+      return this.http.get<any[]>(APIUrl + '/Compras/GetComprasOrderFolio');
+    }
     // ^ Obtener Compra por rango de Fechas y que esten relacionadas con OD
     getComprasFecha(fecha, fecha1): Observable<Compras[]> {
       return this.http.get<Compras[]>(APIUrl + '/compras/GetComprasFecha/'+fecha+'/'+fecha1);
