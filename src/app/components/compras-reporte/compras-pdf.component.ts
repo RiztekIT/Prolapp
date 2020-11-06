@@ -28,10 +28,12 @@ export class ComprasPdfComponent implements OnInit {
 
   ngOnInit() {
     this.OrigenConsulta = null
-    console.log('this.data: ', this.data.OrigenConsulta);
-    console.log('this.data: ', this.data.datos[0]);
-    this.datosODH = this.data.datos[0];
-    this.OrigenConsulta = this.data.OrigenConsulta;
+    console.log('%c%s', 'color: #8c0038', this.data);
+    if (this.data) {
+      
+      this.datosODH = this.data.datos;      
+      this.OrigenConsulta = this.data.OrigenConsulta;
+    }
 // console.log(this.ComprasService.formt);
 this.ver();
   }
@@ -99,42 +101,69 @@ this.ComprasService.formt.RFC = dataP[0].RFC
     
 // console.log(this.ComprasService.formt.detalleCompra);
 if(this.OrigenConsulta){
-  console.log('HelloHistorial');
-  
-  this.objconc = this.datosODH;
+
+  this.objconc = this.ComprasService.formt.OrdenDescargaDODCompras;
 } else{
   
   this.objconc = this.ComprasService.formt.detalleCompra;
 }
 
-console.log('%c%s', 'color: #994d75', '777777');
-console.log('this.objconc: ', this.objconc);
-      this.arrcon = [];
-      this.unidad = []
-      for (this.con in this.objconc){
-        console.log('this.objconc[this.con]: ', this.objconc[this.con]);
-        console.log('this.con: ', this.con);
-        var conceptos = this.objconc[this.con];
-        
-        this.arrcon.push({
-          IdDetalleCompra: conceptos.IdDetalleCompra,
-          IdCompra: conceptos.IdCompra,
-          ClaveProducto: conceptos.ClaveProducto,
-          Producto: conceptos.Producto,
-          Cantidad: conceptos.Cantidad,
-          PesoxSaco: conceptos.PesoxSaco,
-          PrecioUnitario: conceptos.PrecioUnitario,
-          CostoTotal: conceptos.CostoTotal,
-          IVA: conceptos.IVA,
-          Unidad: conceptos.Unidad,
-          Observaciones: conceptos.Observaciones,
-          PrecioUnitarioDlls: conceptos.PrecioUnitarioDlls,
-          CostoTotalDlls: conceptos.CostoTotalDlls,
-          IVADlls: conceptos.IVADlls,
-        });
-        // ^ Guarda la unidad para cada producto, que luego se desplegara en el pfd
-        this.unidad[this.con] = conceptos.Unidad;
-        this.TotalProducto[this.con] = conceptos.Cantidad * conceptos.PrecioUnitario;
+this.arrcon = [];
+this.unidad = []
+console.log('%c⧭', 'color: #514080', this.datosODH);
+for (this.con in this.objconc){
+  var conceptos = this.objconc[this.con];
+  
+            if(this.OrigenConsulta){
+              this.arrcon.push({
+                IdDetalleCompra: conceptos.IdDetalleCompra,
+                IdCompra: conceptos.IdCompra,
+                ClaveProducto: conceptos.ClaveProducto,
+                Producto: conceptos.Producto,
+                PesoxSaco: conceptos.PesoxSaco,
+                CostoTotal: conceptos.CostoTotal,
+                IVA: conceptos.IVA,
+                Observaciones: conceptos.Observaciones,
+                CostoTotalDlls: conceptos.CostoTotalDlls,
+                IVADlls: conceptos.IVADlls,
+                
+                PrecioUnitario: this.datosODH[this.con].PrecioUnitario,
+                Unidad: this.datosODH[this.con].Unidad,
+                Cantidad: this.datosODH[this.con].Cantidad,
+                PrecioUnitarioDlls: this.datosODH[this.con].PrecioUnitarioDlls,
+              });
+            
+
+            } else{
+
+              this.arrcon.push({
+                IdDetalleCompra: conceptos.IdDetalleCompra,
+                IdCompra: conceptos.IdCompra,
+                ClaveProducto: conceptos.ClaveProducto,
+                Producto: conceptos.Producto,
+                PesoxSaco: conceptos.PesoxSaco,
+                CostoTotal: conceptos.CostoTotal,
+                IVA: conceptos.IVA,
+                Observaciones: conceptos.Observaciones,
+                CostoTotalDlls: conceptos.CostoTotalDlls,
+                IVADlls: conceptos.IVADlls,
+                
+                PrecioUnitario: conceptos.PrecioUnitario,
+                Unidad: conceptos.Unidad,
+                Cantidad: conceptos.Cantidad,
+                PrecioUnitarioDlls: conceptos.PrecioUnitarioDlls,
+              });
+            }
+              // ^ Guarda la unidad para cada producto, que luego se desplegara en el pfd
+              if(this.OrigenConsulta){
+                this.unidad[this.con] = this.datosODH[this.con].Unidad;
+                this.TotalProducto[this.con] = this.datosODH[this.con].Cantidad * this.datosODH[this.con].PrecioUnitario;
+
+              } else{
+                this.unidad[this.con] = conceptos.Unidad;
+                this.TotalProducto[this.con] = conceptos.Cantidad * conceptos.PrecioUnitario;
+
+              }
       }
     this.total = this.ComprasService.formt.Total
     this.textnum = cantidad(this.total);

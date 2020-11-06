@@ -4,7 +4,7 @@
             <div class="card-body">
                 <h1>Historial de Compras</h1>
                 <div class="container row mb-3">
-                    <div class="col-4">
+                    <div class="col-3">
                         <section class="example-section">
                             <mat-slide-toggle class="example-margin" [color]="color" [checked]="checked" (change)="onChangePorFecha()" [disabled]="disabled">
                                 Filtrar por Fechas
@@ -12,7 +12,7 @@
                         </section>
 
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
 
 
                         <section class="example-section">
@@ -21,11 +21,20 @@
                             </mat-slide-toggle>
                         </section>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
 
                         <section class="example-section">
                             <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedEstatus" (change)="onChangeEstatus()">
                                 Filtrar por Estatus de Compra
+                            </mat-slide-toggle>
+                        </section>
+
+                    </div>
+                    <div class="col-3">
+
+                        <section class="example-section">
+                            <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedFolio" (change)="onChangeFolio()">
+                                Filtrar por Folio
                             </mat-slide-toggle>
                         </section>
 
@@ -89,6 +98,15 @@
                                             </select>
 
                 </div>
+                <div class="col-8  mb-3" *ngIf="checkedFolio == true">
+                    <section class="example-section">
+
+                        <mat-form-field style="display: block">
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                        </mat-form-field>
+                    </section>
+
+                </div>
 
 
                 <div class="col-12 border mb-3 mat-elevation-z8" *ngFor="let Compras of pageSlice; let i = index">
@@ -127,19 +145,20 @@
                             <h4 *ngIf="Compras.Moneda == 'MXN'">{{Compras.Total | currency}}</h4>
                             <h4 *ngIf="Compras.Moneda == 'USD'">{{Compras.TotalDlls | currency}}</h4>
 
-                            <!-- <div class="row">
+                            <div class="row">
                                 <div class="col-4">
                                     <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(Compras)">
                                         <mat-icon>visibility</mat-icon>
                                     </button>
                                 </div>
-                                <div class="col-4">
+                                <!-- <div class="col-4">
                                     <mat-icon>close</mat-icon>
                                 </div>
                                 <div class="col-4">
                                     <mat-icon>close</mat-icon>
-                                </div>
-                            </div> -->
+                                </div> -->
+                            </div>
+
                         </aside>
                         <article class="col-9 border">
                             <div class="card w-100">

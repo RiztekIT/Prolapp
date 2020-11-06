@@ -1,9 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { CompraService } from '../../../services/compras/compra.service';
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { OrdenDescargaService } from '../../../services/almacen/orden-descarga/orden-descarga.service';
 import { ComprasHistorial } from 'src/app/Models/Compras/comprahistorial-model';
-import { MatDialog, MatDialogConfig, PageEvent, ThemePalette } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatTableDataSource, PageEvent, ThemePalette } from '@angular/material';
 import { DatePipe } from '@angular/common';
 import { ComprasPdfComponent } from 'src/app/components/compras-reporte/compras-pdf.component';
 import { FormControl } from '@angular/forms';
@@ -12,6 +12,7 @@ import { Proveedor } from 'src/app/Models/catalogos/proveedores-model';
 import { map, startWith } from 'rxjs/operators';
 
 import Swal from 'sweetalert2';
+import { Compras } from '../../../Models/Compras/compra-model';
 
 
 @Component({
@@ -36,6 +37,9 @@ export class HistorialComprasComponent implements OnInit {
 
   //! Filtrar por estatus
   checkedEstatus = false;
+
+  //! Filtrar por Folio
+  checkedFolio = false;
 
     //variable estatus de la Compra (creada, guardada, transito, terminada, cerrada, administrativa)
     estatusCompra: string;
@@ -115,6 +119,22 @@ export class HistorialComprasComponent implements OnInit {
             console.log(comprasEstatus);
             this.llenarCompras(comprasEstatus)
           })
+        } else {
+        }
+        
+        break;
+        case ('Folio'):
+          if (this.checkedFolio == true) {
+            
+            this.comprasService.getComprasFolio(this.folioCompra).subscribe(ComprasFolio=>{
+              if (ComprasFolio.length > 0) {
+                console.log(ComprasFolio);
+                this.llenarCompras(ComprasFolio)
+              
+            } else {
+              console.log('no hay na');
+            }
+          });
         } else {
         }
         
@@ -200,6 +220,9 @@ export class HistorialComprasComponent implements OnInit {
       this.GetcompraList(null);
     } else {
       this.checked = true;
+      this.checkedFolio = false;
+      this.checkedEstatus = false
+      this.checkedProveedores = false
     }
   }
 
@@ -215,27 +238,27 @@ export class HistorialComprasComponent implements OnInit {
     this.pageSlice = this.compraInfo.slice(startIndex, endIndex)
   }
 
-  // openrep(row){
-  //   console.clear();
-  //     console.log(row);
-  //     this.comprasService.getDetalleComprasID(row.IdCompra).subscribe(res =>{
-  //       console.log(res);
+  openrep(row){
+    console.clear();
+      console.log(row);
+      this.comprasService.getDetalleComprasID(row.IdCompra).subscribe(res =>{
+        console.log(res);
 
-  //       this.comprasService.formt = row
-  //       // console.log();
-  //       const dialogConfig = new MatDialogConfig();
-  //       dialogConfig.disableClose = false;
-  //       dialogConfig.autoFocus = true;
-  //       dialogConfig.width="70%";
-  //       dialogConfig.data ={
-  //         OrigenConsulta: 'Historial',
-  //         datos: res
-  //       }
-  //       this.dialog.open(ComprasPdfComponent, dialogConfig);
+        this.comprasService.formt = row
+        // console.log();
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = false;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width="70%";
+        dialogConfig.data ={
+          OrigenConsulta: 'Historial',
+          datos: res
+        }
+        this.dialog.open(ComprasPdfComponent, dialogConfig);
 
-  //     })
+      })
     
-  //   }
+    }
 
     obtenerProveedores(){
       this.comprasService.getProveedoresList().subscribe(data=>{
@@ -272,10 +295,28 @@ export class HistorialComprasComponent implements OnInit {
       this.GetcompraList(null);
     }else{
       this.checkedProveedores = true;
+      this.checkedFolio = false;
+      this.checkedEstatus = false
+      this.checked = false
     }
   }
 
 
+
+//! Filtro por Folio
+    onChangeFolio(){
+      if(this.checkedFolio == true){
+        this.checkedFolio = false;
+        
+        console.log('%c%s', 'color: #00a3cc', 'tabaprendio');
+        this.GetcompraList(null);
+      }else{
+        this.checkedFolio = true;
+        this.checkedEstatus = false
+        this.checkedProveedores = false
+        this.checked = false
+      }
+    }
 
 //! Filtro por estatus
     onChangeEstatus(){
@@ -284,6 +325,9 @@ export class HistorialComprasComponent implements OnInit {
       this.GetcompraList(null);
       }else{
         this.checkedEstatus = true;
+        this.checkedFolio = false;
+        this.checkedProveedores = false
+        this.checked = false
       }
     }
 
@@ -296,12 +340,34 @@ export class HistorialComprasComponent implements OnInit {
   }
   
   
+  
   obtenerReporteUnProveedor(){
     console.log(this.IdProveedor);
     
     this.GetcompraList(null,'Proveedor');
     
   }
+  folioCompra:number;
+  
+  applyFilter(filtervalues: string) {
+    this.compraInfo = []
+    //  console.log('%c%s', 'color: #d0bfff', this.compraInfo);
+    if (filtervalues.length != 0) {
+      this.folioCompra = +filtervalues
+      
+      this.GetcompraList(null,'Folio');
+      
+    } else {
+      this.GetcompraList()
+    }
+}
+
+
+
+
+
+
+
 
 
 
