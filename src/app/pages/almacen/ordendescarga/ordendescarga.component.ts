@@ -135,7 +135,7 @@ if (this.estatusSelect==='Todos'){
     console.log(localStorage.getItem('IdOrdenDescarga'));
 
 
-    if (ordenDescarga.Origen == "PasoTx") {
+    if (ordenDescarga.Origen != "COMPRA") {
       this.router.navigate(['/ordenDescargadetallecuu']);
     } else {
       this.router.navigate(['/ordenDescargadetalle']);

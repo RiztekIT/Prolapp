@@ -65,6 +65,8 @@ export class NotaCreditocxcComponent implements OnInit {
     this.refreshNotaList();
   }
 
+  
+
   refreshNotaList(){
     this.loadtable = true;
 
@@ -211,7 +213,7 @@ export class NotaCreditocxcComponent implements OnInit {
       this.listEmpresa = data;
       
       console.log(this.enviarfact.empresa);
-      this.enviarfact.empresa = data[0];
+      this.enviarfact.empresa = data[1];
       this.serviceFactura.rfcempresa = this.enviarfact.empresa.RFC;
       // this.enviarfact.rfc = data[0].RFC;
     })

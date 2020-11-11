@@ -24,6 +24,8 @@ export class DocumentosImportacionService {
 
   //Se asigna al agregar documemnto
   folioOrdenDescarga: number;
+  importacion = false;
+  productosimportacion;
 
   folioCompras: number;
 
@@ -107,9 +109,15 @@ updateDocumento(documento: Documento) {
 updateUSDA(usda: string, id: number) {
   return this.http.put(APIUrl+ '/Documentos/updateUsda/'+usda+'/'+id, null);
   }
+updateUSDADetalle(usda: string, id: number) {
+  return this.http.put(APIUrl+ '/Documentos/updateUsdaDetalle/'+usda+'/'+id, null);
+  }
 //Update pedimento
 updatePedimento(pedimento: string, id: number) {
   return this.http.put(APIUrl+ '/Documentos/updatePedimento/'+pedimento+'/'+id, null);
+  }
+updatePedimentoDetalle(pedimento: string, id: number) {
+  return this.http.put(APIUrl+ '/Documentos/updatePedimentoDetalle/'+pedimento+'/'+id, null);
   }
 
   /******************** MANAGE SERVER'S DOCUMENTS ***********************/

@@ -454,10 +454,11 @@ getbodegas(){
       this.ServiceUnidad.GetUnidadesMedida().subscribe(data => {
         this.listUM = data;
         this.filteredOptionsUnidad = this.myControlUnidad.valueChanges
-          .pipe(
-            startWith(''),
-            map(value => this._filterUnidad(value))
+        .pipe(
+          startWith(''),
+          map(value => this._filterUnidad(value))
           );
+          console.log('this.myControlUnidad.valueChanges: ', this.myControlUnidad.valueChanges);
         this.um = false;
       })
 
@@ -1151,6 +1152,10 @@ calculosTipoCambio(estado: string, accion: string){
 
 //para generar la compra debe de haber ya valores en detalleCompras
 GenerarCompra(){
+if(typeof this.bodegaSelect != 'undefined'){
+
+ 
+
   if(this.tipoCambioChanged == true){
     if(this.compra.Estatus == 'Administrativa'){
       this.calculosTipoCambio('Administrativa', 'Generada');
@@ -1166,7 +1171,8 @@ GenerarCompra(){
       this.updateCompra('Transito','Generada');
     }
   }
-  
+  console.log(this.bodegaSelect);
+}
 }
 
 updateprueba(){
@@ -1278,7 +1284,7 @@ console.log(this.totalSacos);
  this.od.Sacos = this.totalSacos.toString();
  this.od.Kg = this.compra.PesoTotal;
  this.od.Chofer = '';
- this.od.Origen = 'EUA';
+ this.od.Origen = 'COMPRA';
  this.od.Destino = this.bodegaSelect;
  this.od.Observaciones = '';
  //Con que estatus se generara?

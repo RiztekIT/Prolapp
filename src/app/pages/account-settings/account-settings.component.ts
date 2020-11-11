@@ -19,7 +19,7 @@ export class AccountSettingsComponent implements OnInit {
   ngOnInit() {
     this.colocarCheck();
     this.listaempresas();
-    this.obtenerEmpresa();
+    // this.obtenerEmpresa();
   }
 
   cambiarColor(tema: string , link: any){
@@ -80,7 +80,7 @@ export class AccountSettingsComponent implements OnInit {
 
   obtenerEmpresa(){
     let empresa = JSON.parse(localStorage.getItem('Empresa'));
-    console.log(empresa);
+    
 
     this.enviarfact.empresa = empresa;
     this.enviarfact.rfc = empresa.RFC;
@@ -98,9 +98,11 @@ export class AccountSettingsComponent implements OnInit {
       console.log(data);
       this.listEmpresa = data;
       
-      console.log(this.enviarfact.empresa);
-      this.enviarfact.empresa = data[0];
+      // console.log(this.enviarfact.empresa);
+      //this.enviarfact.empresa = data[0];
       this.recibopagoSVC.rfcempresa = this.enviarfact.empresa.RFC;
+      this.obtenerEmpresa();
+      console.log(this.enviarfact.empresa);
       // this.enviarfact.rfc = data[0].RFC;
     })
   }

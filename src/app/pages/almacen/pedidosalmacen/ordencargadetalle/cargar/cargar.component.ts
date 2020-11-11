@@ -336,7 +336,7 @@ export class CargarComponent implements OnInit {
       console.log(res);
       Oc= res[0];
       Oc.FechaFinalCarga = new Date();
-      if (res[0].Chofer) {
+      /* if (res[0].Chofer) { */
         if (res[0].Estatus == 'Preparada') {
           this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(resq => {
             console.log(resq)
@@ -356,8 +356,8 @@ this.router.navigate(['/ordencargadetalle']);
           console.log(res);
           this.router.navigate(['/ordencargadetalle']);
             })
-      } else{
-
+      /* } else{ */
+/* 
         Swal.fire({
           title: 'Ingresar Nombre de Chofer',
           icon: 'warning',
@@ -399,10 +399,10 @@ this.router.navigate(['/ordencargadetalle']);
             
             
           }
-        })
+        }) */
 
 
-      }
+      /* } */
     })
 
 

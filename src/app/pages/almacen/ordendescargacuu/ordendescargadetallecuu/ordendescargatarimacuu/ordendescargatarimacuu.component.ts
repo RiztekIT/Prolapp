@@ -646,7 +646,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
         saldo=1;
         
         for (let i=0; i<this.listDataScan.data.length; i++ ){
-          sacos2 = sacos2 + +this.listDataScan.data[i].Sacos;
+          sacos2 = sacos2 + +this.listDataScan.data[i].PesoTotal;
         }
 
         console.log(this.ordenDescargaService.formData.Sacos);

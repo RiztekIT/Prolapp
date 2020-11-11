@@ -11,6 +11,7 @@ td {
     color: white;
 }
 
-::ng-deep .mat-form-field {
+
+/* ::ng-deep .mat-form-field {
     width: 100% !important;
-}
+} */

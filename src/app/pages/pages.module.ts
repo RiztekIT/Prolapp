@@ -312,6 +312,7 @@ import { CxcFacturaTotalesComponent } from '../components/graficas/cxc/cxc-factu
 import { ShowreporteCxpComponent } from './cxp/reportescxp/showreporte-cxp/showreporte-cxp.component';
 import { CxpPagosTotalesComponent } from '../components/graficas/cxp/cxp-pagos-totales/cxp-pagos-totales.component';
 import { CxpPagosMesesComponent } from '../components/graficas/cxp/cxp-pagos-meses/cxp-pagos-meses.component';
+import { HistorialComprasComponent } from './compras/historial-compras/historial-compras.component';
 
 
 
@@ -541,7 +542,8 @@ import { CxpPagosMesesComponent } from '../components/graficas/cxp/cxp-pagos-mes
         CxcFacturaTotalesComponent,
         ShowreporteCxpComponent,
         CxpPagosTotalesComponent,
-        CxpPagosMesesComponent
+        CxpPagosMesesComponent,
+        HistorialComprasComponent
     
     ],
     exports: [

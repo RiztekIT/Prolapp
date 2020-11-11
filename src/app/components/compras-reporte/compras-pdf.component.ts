@@ -1,11 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CompraService } from '../../services/compras/compra.service';
-import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 import * as html2pdf from 'html2pdf.js';
 import { ProveedoresService } from '../../services/catalogos/proveedores.service';
 import { Proveedor } from '../../Models/catalogos/proveedores-model';
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
+
+
+declare function cantidad(n);
+
+
 @Component({
   selector: 'app-compras-pdf',
   templateUrl: './compras-pdf.component.html',
@@ -14,17 +19,29 @@ import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 export class ComprasPdfComponent implements OnInit {
 
   logo;
+  OrigenConsulta: string
+  datosODH;
 
   constructor(public ComprasService: CompraService, public dialogbox: MatDialogRef<ComprasPdfComponent>, public router: Router,
-    public ProveedorService: ProveedoresService, public empresaSVC: EmpresaService) { }
+    public ProveedorService: ProveedoresService, public empresaSVC: EmpresaService,
+    @Inject(MAT_DIALOG_DATA) public data: any,) { }
 
   ngOnInit() {
+    this.OrigenConsulta = null
+    console.log('%c%s', 'color: #8c0038', this.data);
+    if (this.data) {
+      
+      this.datosODH = this.data.datos;      
+      this.OrigenConsulta = this.data.OrigenConsulta;
+    }
 // console.log(this.ComprasService.formt);
 this.ver();
   }
 
   con : string| number;
     arrcon: Array<any> = [];
+    unidad: Array<any> = [];
+    TotalProducto: Array<any> = [];
   
     objconc: any; 
     
@@ -37,6 +54,8 @@ this.ver();
     ciudad;
     estado;
     numeroint;
+    textnum: string;
+  total: string;
 
   onClose() {
     this.dialogbox.close();
@@ -80,30 +99,75 @@ this.ComprasService.formt.RFC = dataP[0].RFC
   this.ComprasService.formt.RFC = '';
 }   
     
-    // console.log(this.ComprasService.formt.detalleCompra);
-    
-    this.objconc = this.ComprasService.formt.detalleCompra;
-    
-    this.arrcon = [];
-    for (this.con in this.objconc){
-      var conceptos = this.objconc[this.con];
-      this.arrcon.push({
-        IdDetalleCompra: conceptos.IdDetalleCompra,
-        IdCompra: conceptos.IdCompra,
-        ClaveProducto: conceptos.ClaveProducto,
-        Producto: conceptos.Producto,
-        Cantidad: conceptos.Cantidad,
-        PesoxSaco: conceptos.PesoxSaco,
-        PrecioUnitario: conceptos.PrecioUnitario,
-        CostoTotal: conceptos.CostoTotal,
-        IVA: conceptos.IVA,
-        Unidad: conceptos.Unidad,
-        Observaciones: conceptos.Observaciones,
-        PrecioUnitarioDlls: conceptos.PrecioUnitarioDlls,
-        CostoTotalDlls: conceptos.CostoTotalDlls,
-        IVADlls: conceptos.IVADlls,
-      });
-    }
+// console.log(this.ComprasService.formt.detalleCompra);
+if(this.OrigenConsulta){
+
+  this.objconc = this.ComprasService.formt.OrdenDescargaDODCompras;
+} else{
+  
+  this.objconc = this.ComprasService.formt.detalleCompra;
+}
+
+this.arrcon = [];
+this.unidad = []
+console.log('%c⧭', 'color: #514080', this.datosODH);
+for (this.con in this.objconc){
+  var conceptos = this.objconc[this.con];
+  
+            if(this.OrigenConsulta){
+              this.arrcon.push({
+                IdDetalleCompra: conceptos.IdDetalleCompra,
+                IdCompra: conceptos.IdCompra,
+                ClaveProducto: conceptos.ClaveProducto,
+                Producto: conceptos.Producto,
+                PesoxSaco: conceptos.PesoxSaco,
+                CostoTotal: conceptos.CostoTotal,
+                IVA: conceptos.IVA,
+                Observaciones: conceptos.Observaciones,
+                CostoTotalDlls: conceptos.CostoTotalDlls,
+                IVADlls: conceptos.IVADlls,
+                
+                PrecioUnitario: this.datosODH[this.con].PrecioUnitario,
+                Unidad: this.datosODH[this.con].Unidad,
+                Cantidad: this.datosODH[this.con].Cantidad,
+                PrecioUnitarioDlls: this.datosODH[this.con].PrecioUnitarioDlls,
+              });
+            
+
+            } else{
+
+              this.arrcon.push({
+                IdDetalleCompra: conceptos.IdDetalleCompra,
+                IdCompra: conceptos.IdCompra,
+                ClaveProducto: conceptos.ClaveProducto,
+                Producto: conceptos.Producto,
+                PesoxSaco: conceptos.PesoxSaco,
+                CostoTotal: conceptos.CostoTotal,
+                IVA: conceptos.IVA,
+                Observaciones: conceptos.Observaciones,
+                CostoTotalDlls: conceptos.CostoTotalDlls,
+                IVADlls: conceptos.IVADlls,
+                
+                PrecioUnitario: conceptos.PrecioUnitario,
+                Unidad: conceptos.Unidad,
+                Cantidad: conceptos.Cantidad,
+                PrecioUnitarioDlls: conceptos.PrecioUnitarioDlls,
+              });
+            }
+              // ^ Guarda la unidad para cada producto, que luego se desplegara en el pfd
+              if(this.OrigenConsulta){
+                this.unidad[this.con] = this.datosODH[this.con].Unidad;
+                this.TotalProducto[this.con] = this.datosODH[this.con].Cantidad * this.datosODH[this.con].PrecioUnitario;
+
+              } else{
+                this.unidad[this.con] = conceptos.Unidad;
+                this.TotalProducto[this.con] = conceptos.Cantidad * conceptos.PrecioUnitario;
+
+              }
+      }
+    this.total = this.ComprasService.formt.Total
+    this.textnum = cantidad(this.total);
+    console.log('this.unidad : ', this.unidad );
     // console.log(this.arrcon);
     
     

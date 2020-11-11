@@ -10,22 +10,30 @@ import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
 import { DocumentacionImportacionVisorDocumentosComponent } from '../../documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
 import { Documento } from '../../../../Models/documentos/documento-model';
 
+
+
+
 @Component({
   selector: 'app-documentacion-formulario-importacion',
   templateUrl: './documentacion-formulario-importacion.component.html',
   styleUrls: ['./documentacion-formulario-importacion.component.css']
 })
 export class DocumentacionFormularioImportacionComponent implements OnInit {
+  
 
   constructor(public documentosService: DocumentosImportacionService, public router: Router, private dialog: MatDialog,) {
     this.productosExistentes = false;
   }
 
   ngOnInit() {
+    console.log(this.documentosService.folioOrdenDescarga);
     if (this.documentosService.folioOrdenDescarga) {
       this.folioOrdenDescarga = this.documentosService.folioOrdenDescarga;
       this.obtenerOrdenesDescargaDetalles(this.folioOrdenDescarga);
 
+    }
+    if (this.documentosService.importacion){
+      this.obtenerProductos();
     }
   }
 
@@ -148,7 +156,7 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
         } else {
           Swal.fire({
             title: 'Error',
-            text: 'Favor de Verificar el Estatus',
+            text: 'No existe Orden de Descarga',
             icon: 'error',
             timer: 1000,
             showCancelButton: false,
@@ -164,6 +172,15 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
         showCancelButton: false,
         showConfirmButton: false
       });
+    }
+  }
+
+  obtenerProductos(){
+    this.listDataDetalles = new MatTableDataSource(this.documentosService.productosimportacion);
+    this.listDataDetalles.sort = this.sortDetalles;
+
+    for (let i=0; i<this.documentosService.productosimportacion.length; i++){
+      this.addToList(true, this.documentosService.productosimportacion[i])
     }
   }
 
@@ -305,13 +322,19 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
 // console.log(detalle);
 if(this.tipoDocumentoSeleccionado == 'USDA'){
 // console.log('ES USDA');
-this.documentosService.updateUSDA(this.stringDocumentoSeleccionado,detalle.IdDetalleOrdenDescarga).subscribe(resUsda=>{
+this.documentosService.updateUSDA(this.stringDocumentoSeleccionado,detalle.IdDetalleOrdenDescarga).subscribe(resUsda=>{  
+  // console.log(resUsda);
+})
+this.documentosService.updateUSDADetalle(this.stringDocumentoSeleccionado,detalle.IdDetalleTarima).subscribe(resUsda=>{  
   // console.log(resUsda);
 })
 }
 else if(this.tipoDocumentoSeleccionado == 'PEDIMENTO'){
 // console.log('ES PEDIMENTO');
 this.documentosService.updatePedimento(this.stringDocumentoSeleccionado,detalle.IdDetalleOrdenDescarga).subscribe(resUsda=>{
+  // console.log(resUsda);
+})
+this.documentosService.updatePedimentoDetalle(this.stringDocumentoSeleccionado,detalle.IdDetalleTarima).subscribe(resUsda=>{
   // console.log(resUsda);
 })
 }

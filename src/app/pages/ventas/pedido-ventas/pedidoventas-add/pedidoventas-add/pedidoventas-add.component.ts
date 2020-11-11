@@ -1701,7 +1701,7 @@ this.isFactura = true;
           jsPDF: { format: 'letter', orientation: 'portrait' },
         };
         html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
-          localStorage.setItem('pdfcorreo', pdfAsString);
+          localStorage.setItem('pdfcorreo'+pedido.Folio, pdfAsString);
           this.statusparam=true;          
           console.log(this.statusparam); 
                   
@@ -1730,7 +1730,7 @@ this.llenarhtml();
         formData.append('mensaje', this.service.formData.Nombre)
         formData.append('folio', this.service.formt.Folio)
         formData.append('asunto', this._MessageService.asunto)
-        formData.append('pdf', localStorage.getItem('pdfcorreo'))
+        formData.append('pdf', localStorage.getItem('pdfcorreo'+pedido.Folio))
         formData.append('html',this.html)
         // formData.append('xml', localStorage.getItem('xml'+this.data.foliop))
       
@@ -1747,7 +1747,7 @@ this.llenarhtml();
             });      
 
     /*   }) */
-  },3000)
+  },5000)
 
   
   /*   const dialogConfig = new MatDialogConfig();

@@ -46,10 +46,6 @@
 
                         <input matInput readonly="readonly" minlength="2" placeholder="Clave Sat" type="text" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="service.formDataDF.ClaveSAT">
 
-
-                    </div>
-                    <div class="col-lg-6">
-
                         <mat-form-field class="example-full-width">
                             <input type="text" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formDataDF.Unidad" (focus)="unidadMedida()">
                             <mat-autocomplete #autoUnidad="matAutocomplete">
@@ -61,54 +57,6 @@
 
                         <br>
 
-                        <ng-container *ngIf="service.Moneda=='MXN'">
-
-
-                            <label class="input-group-text text-info">Precio Unitario: </label>
-                            <input id="precioUnitario" required placeholder="Ingresar Precio" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitario" (ngModelChange)="sumar()" [(value)]="precioUnitarioF" (blur)="formato()">
-                            <div class="text-left text-danger" *ngIf="PrecioUnitario.invalid && PrecioUnitario.touched">
-                                Favor de Ingresar Precio Unitario.
-                            </div>
-
-
-                            <label class="input-group-text text-info">Cantidad: </label>
-                            <input required minlength="1" placeholder="Ingresar Cantidad" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad" (ngModelChange)="sumar()" (blur)="formato()">
-
-                            <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
-                                Favor de Ingresar Cantidad.
-                            </div>
-
-                            <label class="input-group-text text-info">Importe: </label>
-                            <input id="importe" readonly="readonly" placeholder="0.00" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe" [(value)]="importeF" (blur)="formato()">
-                            <label class="input-group-text text-info">IVA: </label>
-                            <input id="iva" placeholder="0.00" class="form-control" name="ImporteIVA" #ImporteIVA="ngModel" [(ngModel)]="service.formDataDF.ImporteIVA" [(value)]="ivaF" (blur)="formato()">
-
-                        </ng-container>
-
-                        <ng-container *ngIf="service.Moneda=='USD'">
-
-                            <label class="input-group-text text-info">Precio Unitario DLLS: </label>
-                            <input id='precioUnitarioDlls' required placeholder="Ingresar Precio" class="form-control" name="PrecioUnitarioDlls" #PrecioUnitarioDlls="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitarioDlls" (ngModelChange)="sumar()" [(value)]="precioUnitarioDllsF"
-                                (blur)="formatoDlls()">
-                            <div class="text-left text-danger" *ngIf="PrecioUnitarioDlls.invalid && PrecioUnitarioDlls.touched">
-                                Favor de Ingresar Precio Unitario.
-                            </div>
-
-
-                            <label class="input-group-text text-info">Cantidad DLLS: </label>
-                            <input required minlength="1" placeholder="Ingresar Cantidad" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad" (ngModelChange)="sumar()" (blur)="formatoDlls()">
-
-                            <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
-                                Favor de Ingresar Cantidad.
-                            </div>
-
-                            <label class="input-group-text text-info">Importe: </label>
-                            <input id="importeDlls" readonly="readonly" placeholder="0.00" class="form-control" name="ImporteDlls" #ImporteDlls="ngModel" [(ngModel)]="service.formDataDF.ImporteDlls" [(value)]="importeDllsF" (blur)="formatoDlls()">
-                            <label class="input-group-text text-info">IVA: </label>
-                            <input id='ivaDlls' placeholder="0.00" class="form-control" name="ImporteIVADlls" #ImporteIVADlls="ngModel" [(ngModel)]="service.formDataDF.ImporteIVADlls" [(value)]="ivaDllsF" (blur)="formatoDlls()">
-                        </ng-container>
-
-
                         <label class="input-group-text text-info">Observaciones: </label>
 
                         <input placeholder="Observaciones" type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="service.formDataDF.Observaciones" ng-maxlength="150">
@@ -116,6 +64,196 @@
                         <div class="text-left text-danger" *ngIf="Observaciones.invalid && Observaciones.touched">
                             Favor de Ingresar Observaciones.
                         </div>
+
+                    </div>
+                    <div class="col-lg-6">
+
+
+
+                        <ng-container *ngIf="service.Moneda=='MXN'">
+
+
+
+                            <!-- inicionnuevo -->
+
+                            <div class="col-12">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Precio Unitario</mat-label>
+                                    <!-- <input style="text-align: right;" matInput required minlength="1" placeholder="Ingresar Cantidad" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad" (ngModelChange)="sumar()" (blur)="formato()"> -->
+                                    <!-- <input id='precioUnitario' required placeholder="Ingresar Precio" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitario" (ngModelChange)="sumar()" [(value)]="precioUnitarioF" (blur)="formato()"> -->
+                                    <input style="text-align: right;" matInput type="number" placeholder="Precio Unitario" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitario" [(value)]="precioUnitarioF" (ngModelChange)="sumar()" (blur)="formato()">
+                                    <span matPrefix>$&nbsp;</span>
+
+                                </mat-form-field>
+                            </div>
+
+                            <div class="text-left text-danger" *ngIf="PrecioUnitario.invalid && PrecioUnitario.touched">
+                                Favor de Ingresar Precio Unitario.
+                            </div>
+
+
+
+                            <div class="col-12">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Cantidad</mat-label>
+                                    <!-- <input style="text-align: right;" matInput required minlength="1" placeholder="Ingresar Cantidad" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad" (ngModelChange)="sumar()" (blur)="formato()"> -->
+                                    <input style="text-align: right;" matInput type="number" placeholder="Cantidad" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="this.service.formDataDF.Cantidad" (ngModelChange)="sumar()" (blur)="formato()">
+                                    <span matPrefix>$&nbsp;</span>
+
+                                </mat-form-field>
+                            </div>
+
+
+                            <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
+                                Favor de Ingresar Cantidad.
+                            </div>
+
+                            <div class="col-12">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>IVA:</mat-label>
+                                    <!-- <input id='iva' placeholder="0.00" class="form-control" name="ImporteIVA" #ImporteIVA="ngModel" [(ngModel)]="service.formDataDF.ImporteIVA" [(value)]="ivaF" (blur)="formato()"> -->
+                                    <input style="text-align: right;" readonly="readonly" matInput type="number" placeholder="IVA" name="ImporteIVA" #ImporteIVA="ngModel" [(ngModel)]="this.service.formDataDF.ImporteIVA" [(value)]="ivaF" (blur)="formato()">
+                                    <span matPrefix>$&nbsp;</span>
+
+                                    <button type="button" mat-icon-button matSuffix (click)="quitarPonerIVA()" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="this.CONIVA">
+                                        <mat-icon>{{this.CONIVA ? 'attach_money' : 'money_off'}}</mat-icon>
+                                        </button>
+
+                                </mat-form-field>
+                            </div>
+
+
+                            <!-- <label class="input-group-text text-info">Importe: </label>
+                            <input id='importe' readonly="readonly" placeholder="0.00" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe" [(value)]="importeF" (blur)="formato()"> -->
+                            <div class="col-12">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Subtotal:</mat-label>
+                                    <!-- <input id='importe' readonly="readonly" placeholder="0.00" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe" [(value)]="importeF" (blur)="formato()"> -->
+                                    <input style="text-align: right;" readonly="readonly" matInput type="number" placeholder="Importe" name="Importe" #Importe="ngModel" [(ngModel)]="this.service.formDataDF.Importe" [(value)]="importeF">
+                                    <span matPrefix>$&nbsp;</span>
+
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Total:</mat-label>
+                                    <!-- <input id='importe' readonly="readonly" placeholder="0.00" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe" [(value)]="importeF" (blur)="formato()"> -->
+                                    <input style="text-align: right;" readonly="readonly" matInput type="number" placeholder="Importe" name="ImporteTotal" #ImporteTotal="ngModel" [(ngModel)]="this.Total">
+                                    <span matPrefix>$&nbsp;</span>
+
+                                </mat-form-field>
+                            </div>
+
+
+                            <!-- fin nuevo -->
+
+
+
+
+
+
+
+                            <!--  <label class="input-group-text text-info">Importe: </label>
+                            <input id="importe" readonly="readonly" placeholder="0.00" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe" [(value)]="importeF" (blur)="formato()">
+                            -->
+
+                        </ng-container>
+
+                        <ng-container *ngIf="service.Moneda=='USD'">
+
+
+                            <!-- inicionnuevo -->
+
+                            <div class="col-12">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Precio Unitario DLLS:</mat-label>
+                                    <!-- <input style="text-align: right;" matInput required minlength="1" placeholder="Ingresar Cantidad" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad" (ngModelChange)="sumar()" (blur)="formato()"> -->
+                                    <!-- <input id='precioUnitario' required placeholder="Ingresar Precio" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitario" (ngModelChange)="sumar()" [(value)]="precioUnitarioF" (blur)="formato()"> -->
+                                    <input style="text-align: right;" matInput type="text" placeholder="Precio Unitario" name="PrecioUnitarioDlls" #PrecioUnitarioDlls="ngModel" [(ngModel)]="service.formDataDF.PrecioUnitarioDlls" [(value)]="precioUnitarioDllsF" (ngModelChange)="sumar()"
+                                        (blur)="formato()">
+                                    <span matPrefix>$&nbsp;</span>
+
+                                </mat-form-field>
+                            </div>
+
+
+
+
+
+                            <div class="col-12">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Cantidad DLLS:</mat-label>
+                                    <!-- <input style="text-align: right;" matInput required minlength="1" placeholder="Ingresar Cantidad" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad" (ngModelChange)="sumar()" (blur)="formato()"> -->
+                                    <input style="text-align: right;" matInput type="number" placeholder="Cantidad" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="this.service.formDataDF.Cantidad" (ngModelChange)="sumar()" (blur)="formato()">
+                                    <span matPrefix>$&nbsp;</span>
+
+                                </mat-form-field>
+                            </div>
+
+                            <!--  <label class="input-group-text text-info">Cantidad DLLS: </label>
+                            <input required minlength="1" placeholder="Ingresar Cantidad" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formDataDF.Cantidad" (ngModelChange)="sumar()" (blur)="formatoDlls()">
+ -->
+
+
+                            <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
+                                Favor de Ingresar Cantidad.
+                            </div>
+
+                            <div class="col-12">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>IVA:</mat-label>
+                                    <!-- <input id='iva' placeholder="0.00" class="form-control" name="ImporteIVA" #ImporteIVA="ngModel" [(ngModel)]="service.formDataDF.ImporteIVA" [(value)]="ivaF" (blur)="formato()"> -->
+                                    <input style="text-align: right;" readonly="readonly" matInput type="number" placeholder="IVA" name="ImporteIVADlls" #ImporteIVADlls="ngModel" [(ngModel)]="this.service.formDataDF.ImporteIVADlls" [(value)]="ivaDllsF" (blur)="formato()">
+                                    <span matPrefix>$&nbsp;</span>
+
+                                    <button type="button" mat-icon-button matSuffix (click)="quitarPonerIVA()" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="this.CONIVA">
+                                        <mat-icon>{{this.CONIVA ? 'attach_money' : 'money_off'}}</mat-icon>
+                                        </button>
+
+                                </mat-form-field>
+                            </div>
+
+                            <!--   <label class="input-group-text text-info">IVA: </label>
+                            <input id='ivaDlls' placeholder="0.00" class="form-control" name="ImporteIVADlls" #ImporteIVADlls="ngModel" [(ngModel)]="service.formDataDF.ImporteIVADlls" [(value)]="ivaDllsF" (blur)="formatoDlls()">
+ -->
+                            <!-- <label class="input-group-text text-info">Importe: </label>
+                            <input id='importe' readonly="readonly" placeholder="0.00" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe" [(value)]="importeF" (blur)="formato()"> -->
+                            <div class="col-12">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Subtotal:</mat-label>
+                                    <!-- <input id='importe' readonly="readonly" placeholder="0.00" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe" [(value)]="importeF" (blur)="formato()"> -->
+                                    <input style="text-align: right;" readonly="readonly" matInput type="number" placeholder="ImporteDlls" name="ImporteDlls" #ImporteDlls="ngModel" [(ngModel)]="this.service.formDataDF.ImporteDlls" [(value)]="importeDllsF">
+                                    <span matPrefix>$&nbsp;</span>
+
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Total:</mat-label>
+                                    <!-- <input id='importe' readonly="readonly" placeholder="0.00" class="form-control" name="Importe" #Importe="ngModel" [(ngModel)]="service.formDataDF.Importe" [(value)]="importeF" (blur)="formato()"> -->
+                                    <input style="text-align: right;" readonly="readonly" matInput type="number" placeholder="Importe" name="ImporteTotal" #ImporteTotal="ngModel" [(ngModel)]="this.TotalDlls">
+                                    <span matPrefix>$&nbsp;</span>
+
+                                </mat-form-field>
+                            </div>
+
+                            <!--    <label class="input-group-text text-info">Importe: </label>
+                            <input id="importeDlls" readonly="readonly" placeholder="0.00" class="form-control" name="ImporteDlls" #ImporteDlls="ngModel" [(ngModel)]="service.formDataDF.ImporteDlls" [(value)]="importeDllsF" (blur)="formatoDlls()">
+ -->
+
+                            <!-- fin nuevo -->
+
+
+
+
+
+
+
+
+                        </ng-container>
+
+
+
                     </div>
                 </div>
 

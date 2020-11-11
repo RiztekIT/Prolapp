@@ -228,7 +228,7 @@ dod: DetalleOrdenDescarga;
      this.od.Sacos = sacos.toString();
      this.od.Kg = kg.toString();
      this.od.Chofer = '';
-     this.od.Origen = 'PasoTx';
+     this.od.Origen = this.service.formData.Origen;
      this.od.Destino = 'Chihuahua';
      this.od.Observaciones = '';
      //Con que estatus se generara?

@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatTableDataSource, MatSort, MatPaginator, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, NativeDateAdapter } from '@angular/material';
 import { Observable } from 'rxjs';
 import { FormControl, NgForm } from '@angular/forms';
 import { OrdenDescargaService } from '../../../../../services/almacen/orden-descarga/orden-descarga.service';
@@ -18,13 +18,54 @@ import { OrdenDescargaConceptoComponent } from 'src/app/components/almacen/orden
 import { map, startWith } from 'rxjs/operators';
 import { QrComponent } from 'src/app/components/qr/qr.component';
 
+/* Constante y variables para la transformacion de los meses en los datetimepicker */
+// const months =['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DIC'];
+const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+export class AppDateAdapter extends NativeDateAdapter {
+  format(date: Date, displayFormat: Object): string {
+    if (displayFormat === 'input') {
+      const day = date.getDate();
+      const month = date.getMonth();
+      const year = date.getFullYear();
+      return `${day}/${months[month]}/${year}`
+    }
+    return date.toDateString();
+  }
+}
 
+export const APP_DATE_FORMATS =
+{
+  parse: {
+    dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
+  },
+  display: {
+    dateInput: 'input',
+    // monthYearLabel: 'MMM YYYY',
+    // dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+    // monthYearA11yLabel: 'MMM YYYY',
+    monthYearLabel: { year: 'numeric', month: 'numeric' },
+    dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+    monthYearA11yLabel: { year: 'numeric', month: 'long' },
+  }
+};
+/* ----------------------------------------- */
 
 
 @Component({
   selector: 'app-ordendescargatarima',
   templateUrl: './ordendescargatarima.component.html',
-  styleUrls: ['./ordendescargatarima.component.css']
+  styleUrls: ['./ordendescargatarima.component.css'],
+  providers: [
+    {
+      provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+      provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    },
+    {
+      provide: MAT_DATE_LOCALE, useValue: 'es-MX'
+    }
+  ]
 })
 export class OrdendescargatarimaComponent implements OnInit {
 
@@ -699,7 +740,7 @@ Estatus: 'Creada',
   
       ordentemporalnueva = {
         IdOrdenTemporal: 0,
-  IdDetalleTarima: +ultimo,
+  IdDetalleTarima: +ultimo[0].IdDetalleTarima,
   IdOrdenCarga: 0,
   IdOrdenDescarga: this.ordenTemporalService.preOrdenTemporalSacos[i].IdOrdenDescarga,
   QR: '',

@@ -40,3 +40,12 @@
     position: absolute;
     height: 100%;
 }
+
+#myVideo {
+    position: fixed;
+    right: 30%;
+    bottom: 25%;
+    width: 60%;
+    /* min-width: 100%;
+    min-height: 100%; */
+}

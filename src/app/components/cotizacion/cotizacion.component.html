@@ -54,38 +54,40 @@
                         <tr>
                             <!-- <th scope="col">SACO</th> -->
                             <th scope="col">CODIGO</th>
+                            <th scope="col">IMG</th>
                             <th scope="col">DESCRIPCION</th>
                             <th scope="col">PRECIO UNITARIO</th>
                             <th scope="col">CANTIDAD</th>
                             <th scope="col">TOTAL</th>
                         </tr>
-                        <tr>
+                        <!--    <tr>
                             <th scope="col"></th>
                             <th scope="col">SACO</th>
                             <th scope="col"></th>
                             <th scope="col"></th>
                             <th scope="col"></th>
-                        </tr>
+                        </tr> -->
                     </thead>
                     <tbody *ngFor="let conceptos of arrcon; let i = index">
                         <tr>
 
-                            <td>{{conceptos.ClaveProducto}}</td>
-                            <td>{{conceptos.Producto}}</td>
-                            <td *ngIf="this.service.formrow.Moneda=='MXN'">{{conceptos.PrecioUnitario | currency}}</td>
-                            <td *ngIf="this.service.formrow.Moneda=='USD'">{{conceptos.PrecioUnitarioDlls | currency}}</td>
-                            <td>{{conceptos.Cantidad}}</td>
-                            <td *ngIf="this.service.formrow.Moneda=='MXN'">{{conceptos.Importe | currency}}</td>
-                            <td *ngIf="this.service.formrow.Moneda=='USD'">{{conceptos.ImporteDlls | currency}}</td>
+                            <td style="vertical-align: middle;">{{conceptos.ClaveProducto}}</td>
+                            <td><img [src]="srcimageninicial+conceptos.imagen+'.png'" alt="Logo" style="width: 90px; "></td>
+                            <td style="vertical-align: middle;">{{conceptos.Producto}}</td>
+                            <td style="vertical-align: middle;" *ngIf="this.service.formrow.Moneda=='MXN'">{{conceptos.PrecioUnitario | currency}}</td>
+                            <td style="vertical-align: middle;" *ngIf="this.service.formrow.Moneda=='USD'">{{conceptos.PrecioUnitarioDlls | currency}}</td>
+                            <td style="vertical-align: middle;">{{conceptos.Cantidad}}</td>
+                            <td style="vertical-align: middle;" *ngIf="this.service.formrow.Moneda=='MXN'">{{conceptos.Importe | currency}}</td>
+                            <td style="vertical-align: middle;" *ngIf="this.service.formrow.Moneda=='USD'">{{conceptos.ImporteDlls | currency}}</td>
                         </tr>
-                        <tr>
+                        <!--            <tr>
                             <th scope="col"></th>
                             <th scope="row" class="tdnomargin" style="text-align: center; padding-bottom: 10px"><img [src]="srcimageninicial+conceptos.imagen+'.png'" alt="Logo" style="height: 90px; width: 90px; "></th>
                             <th scope="col"></th>
                             <th scope="col"></th>
                             <th scope="col"></th>
 
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>

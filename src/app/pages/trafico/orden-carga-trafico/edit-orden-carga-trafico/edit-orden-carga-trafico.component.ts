@@ -133,7 +133,7 @@ export class EditOrdenCargaTraficoComponent implements OnInit {
   //Obtener informacion Orden Carga
   getOrdenCarga() {
     this.ordencargaservice.getOCID(this.IdOrdenCarga).subscribe(data => {
-      console.log(data);
+      console.log('Orden',data);
       this.traficoService.formData = data[0];
       this.traficoService.formrow.Nombre = this.traficoService.formData.Fletera;
       this.estatusOC = data[0].Estatus;
@@ -143,7 +143,7 @@ export class EditOrdenCargaTraficoComponent implements OnInit {
   getTarimaId(){
 
     this.tarimaService.GetTarimaOC(this.IdOrdenCarga).subscribe(tar=>{
-      console.log(tar);
+      console.log('tarima',tar);
       this.tarimaService.tarimaTrafico = tar[0];
     })
 
@@ -168,7 +168,7 @@ export class EditOrdenCargaTraficoComponent implements OnInit {
   // agregar que sea por ID
   getFacturaFleteValues(){
     this.traficoService.getFacturaFleteID(this.IdOrdenCarga).subscribe(ress =>{
-      console.log(ress);
+      console.log('FACTU',ress);
       if (ress.length != 0) {
         this.traficoService.formDatafactura = ress[0];
         this.traficoService.formDatafactura.Estatus = ress[0].Estatus

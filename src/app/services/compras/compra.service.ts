@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { Compras } from '../../Models/Compras/compra-model';
 import { DetalleCompra } from '../../Models/Compras/detalleCompra-model';
 import { MasterCompra } from '../../Models/Compras/masterCompra-model';
+import { ComprasHistorial } from 'src/app/Models/Compras/comprahistorial-model';
 
 
 export const APIUrl = environment.APIUrl;
@@ -30,12 +31,15 @@ export class CompraService {
     //Master donde se guardara el master 
     master = new Array<MasterCompra>();
 
+    // Master de historial
+    compraInfo = new Array<ComprasHistorial>();
+
     compra;
 
 
 //Obtener Compras
-    getComprasList(): Observable<Compras[]> {
-      return this.http.get<Compras[]>(APIUrl + '/Compras');
+    getComprasList(): Observable<any[]> {
+      return this.http.get<any[]>(APIUrl + '/Compras');
     }
     //Obtener Compra por ID
     getComprasId(id:number): Observable<Compras[]> {
@@ -107,20 +111,53 @@ getSumatoriaIdCompra(id: number):Observable<any[]>{
     getReporteProveedorId(id: number):Observable<any[]>{
       return this.http.get<any[]>(APIUrl + '/reportes/ReporteCompras/'+id);
     }
-//obtener reporte compras por proveedor ID y por estatus de la compra
+    //obtener reporte compras por proveedor ID y por estatus de la compra
     getReporteProveedorIdEstatus(id:number, estatus:string):Observable<any[]>{
       return this.http.get<any[]>(APIUrl + '/reportes/ReporteComprasStatus/'+id+'/'+estatus);
     }
-//obtener reporte compras por Fecha Inicial / final y  proveedor ID
+    //obtener reporte compras por Fecha Inicial / final y  proveedor ID
     getReporteFechasProveedorId(fechaini, fechafinal, id:number):Observable<any[]>{
       return this.http.get<any[]>(APIUrl + '/reportes/ComprasFechas/'+fechaini+'/'+fechafinal+'/'+id);
     }
-//obtener reporte compras por Fecha Inicial / final ,  proveedor ID y estatus
+    //obtener reporte compras por Fecha Inicial / final ,  proveedor ID y estatus
     getReporteFechasProveedorIdEstatus(fechaini, fechafinal, id:number, estatus: string):Observable<any[]>{
       return this.http.get<any[]>(APIUrl + '/reportes/ComprasFechas/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
     }
 
-    //  ------------ REPORTES ------------------  //
+    //!  ------------ Historial ------------------  //
+    
+    // ^ get compras que esten relacionadas con OD
+    getComprasHistorialList(): Observable<any[]> {
+      return this.http.get<any[]>(APIUrl + '/Compras/GetComprasHistorial');
+    }
+    GetComprasOrderFolio(): Observable<any[]> {
+      return this.http.get<any[]>(APIUrl + '/Compras/GetComprasOrderFolio');
+    }
+    // ^ Obtener Compra por rango de Fechas y que esten relacionadas con OD
+    getComprasFecha(fecha, fecha1): Observable<Compras[]> {
+      return this.http.get<Compras[]>(APIUrl + '/compras/GetComprasFecha/'+fecha+'/'+fecha1);
+    }
+    
+    //Obtener reporte compras por proveedor ID
+    GetComprasODDIdProveedor(id: number):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/compras/GetComprasODDIdProveedor/'+id);
+    }
+
+    //Obtener reporte compras por Estatus
+    GetComprasODDEstatus(estatus: string):Observable<any[]>{
+      return this.http.get<any[]>(APIUrl + '/compras/GetComprasODDEstatus/'+estatus);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
   private _listeners = new Subject<any>();
   listen(): Observable<any> {

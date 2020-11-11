@@ -1,0 +1,213 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h1>Historial de Compras</h1>
+                <div class="container row mb-3">
+                    <div class="col-3">
+                        <section class="example-section">
+                            <mat-slide-toggle class="example-margin" [color]="color" [checked]="checked" (change)="onChangePorFecha()" [disabled]="disabled">
+                                Filtrar por Fechas
+                            </mat-slide-toggle>
+                        </section>
+
+                    </div>
+                    <div class="col-3">
+
+
+                        <section class="example-section">
+                            <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedProveedores" (change)="onChangeTodosProveedores()" [disabled]="disabled">
+                                Filtrar por Proveedor
+                            </mat-slide-toggle>
+                        </section>
+                    </div>
+                    <div class="col-3">
+
+                        <section class="example-section">
+                            <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedEstatus" (change)="onChangeEstatus()">
+                                Filtrar por Estatus de Compra
+                            </mat-slide-toggle>
+                        </section>
+
+                    </div>
+                    <div class="col-3">
+
+                        <section class="example-section">
+                            <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedFolio" (change)="onChangeFolio()">
+                                Filtrar por Folio
+                            </mat-slide-toggle>
+                        </section>
+
+                    </div>
+                </div>
+
+                <div *ngIf="checked == true" class="row">
+                    <div class="col-4">
+                        <mat-form-field>
+                            <mat-label> Fecha Inicial </mat-label>
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <input matInput readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="fechaInicial" [(ngModel)]="fechaInicial">
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-4">
+                        <mat-form-field>
+                            <mat-label> Fecha Final </mat-label>
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <input matInput readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="fechaFinal" [(ngModel)]="fechaFinal">
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-primary btn-lg" style="top: 25%;" mat-raised-button (click)='filtroFecha()'><i class="mdi mdi-send btn-lg"></i>Aceptar</button>
+
+                    </div>
+                    <!-- <div class="col-4">
+                                                <button (click)="abrirReporte()" class="btn btn-info">Abrir Reporte</button>
+                                                <button (click)="abrirReporteResumen()" class="btn btn-info"> Reporte Resumen</button>
+                                            </div> -->
+                </div>
+
+                <!-- !FILTRAR POR PROVEEDOR -->
+
+                <div class="col-8 mb-3" *ngIf="checkedProveedores == true">
+                    <label class="input-group-text text-info">Seleccionar Proveedor</label>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <mat-form-field class="example-full-width">
+                                <input type="text" placeholder="Seleccionar Proveedor" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="proveedorId" [(ngModel)]="IdProveedor">
+                                <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdProveedor" (blur)="obtenerReporteUnProveedor()" (onSelectionChange)="onSelectionChange(option, $event)">
+                                        {{option.IdProveedor}} {{option.Nombre}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                            <input type="string" class="form-control" readonly name="nombreProveedor" readonly [(ngModel)]="ProveedroNombre">
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-8  mb-3" *ngIf="checkedEstatus == true">
+                    <label class="input-group-text text-info">Seleccionar Estatus</label>
+
+                    <select class="form-control" name="estatuss" #estatuss="ngModel" id="estatuss" (change)="changeEstatus($event)" [(ngModel)]="estatusCompra">
+                                                <option [ngValue]="null" selected disabled>Seleccionar Estatus Compra</option>
+                                                <option *ngFor="let dl of listEstatus" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                            </select>
+
+                </div>
+                <div class="col-8  mb-3" *ngIf="checkedFolio == true">
+                    <section class="example-section">
+
+                        <mat-form-field style="display: block">
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+                        </mat-form-field>
+                    </section>
+
+                </div>
+
+
+                <div class="col-12 border mb-3 mat-elevation-z8" *ngFor="let Compras of pageSlice; let i = index">
+
+                    <div class="row justify-content-between" style="background-color: Black">
+                        <div class="col-4">
+                            <h4 class="bolder" style="color: white">Estado: {{Compras.Estatus}}</h4>
+                        </div>
+                        <div class="col-4">
+                            <h4 class="bolder" style="color: white">Folio: </h4>
+                            <h2 style="color: white">{{Compras.Folio}}</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <aside class="col-3 border" style="background-color: #f2f2f2">
+                            <h4 class="bolder">Fecha:</h4>
+                            <h4>{{Compras.FechaElaboracion | date: 'yyyy/MM/dd'}}</h4>
+
+                            <h4 class="bolder">SacosTotales:</h4>
+                            <h4>{{Compras.SacosTotales}}</h4>
+
+                            <h4 class="bolder">Peso Total:</h4>
+                            <h4>{{Compras.PesoTotal}}Kg</h4>
+
+                            <h4 class="bolder">Proveedor:</h4>
+                            <h4>{{Compras.Proveedor}}</h4>
+
+                            <h4 class="bolder">Tipo de Cambio</h4>
+                            <h4>{{Compras.TipoCambio | currency}}</h4>
+
+                            <h4 class="bolder">Moneda:</h4>
+                            <h4>{{Compras.Moneda}}</h4>
+
+                            <h4 class="bolder">Total:</h4>
+                            <h4 *ngIf="Compras.Moneda == 'MXN'">{{Compras.Total | currency}}</h4>
+                            <h4 *ngIf="Compras.Moneda == 'USD'">{{Compras.TotalDlls | currency}}</h4>
+
+                            <div class="row">
+                                <div class="col-4">
+                                    <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(Compras)">
+                                        <mat-icon>visibility</mat-icon>
+                                    </button>
+                                </div>
+                                <!-- <div class="col-4">
+                                    <mat-icon>close</mat-icon>
+                                </div>
+                                <div class="col-4">
+                                    <mat-icon>close</mat-icon>
+                                </div> -->
+                            </div>
+
+                        </aside>
+                        <article class="col-9 border">
+                            <div class="card w-100">
+                                <div class="card-body pb-1" *ngFor="let OrdenDescargaDODCompras of Compras.OrdenDescargaDODCompras; let j = index">
+                                    <!-- <h5 class="card-title">MANTEQUILLA BLABLABLA</h5>
+                                    <p class="card-text">56168</p> -->
+
+                                    <h5 class="card-title bolder">- {{this.Compras.OrdenDescargaDODCompras[j].Producto}}</h5>
+                                    <div class="row ml-2">
+                                        <div class="col-2">
+                                            <h6 class="boldersub">Clave:</h6>
+                                            <p>{{this.Compras.OrdenDescargaDODCompras[j].ClaveProducto}}</p>
+                                        </div>
+                                        <div class="col-2">
+                                            <h6 class="boldersub">Origen:</h6>
+                                            <p>{{this.Compras.OrdenDescargaDODCompras[j].Origen}}</p>
+                                        </div>
+                                        <div class="col-2">
+                                            <h6 class="boldersub">Destino:</h6>
+                                            <p>{{this.Compras.OrdenDescargaDODCompras[j].Destino}}</p>
+                                        </div>
+                                        <div class="col-2">
+                                            <h6 class="boldersub">Estatus:</h6>
+                                            <p>{{this.Compras.OrdenDescargaDODCompras[j].Estatus}}</p>
+                                        </div>
+                                        <div class="col-2">
+                                            <h6 class="boldersub">KG:</h6>
+                                            <p>{{this.Compras.OrdenDescargaDODCompras[j].Kg}}</p>
+                                        </div>
+                                        <div class="col-2">
+                                            <h6 class="boldersub">Sacos:</h6>
+                                            <p>{{this.Compras.OrdenDescargaDODCompras[j].Sacos}}</p>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </article>
+
+                    </div>
+                </div>
+
+                <mat-paginator [length]="this.compraInfo.length" [pageSize]="3" [pageSizeOptions]="[3,4,5,10,50,100]" (page)="OnPageChange($event)">
+
+                </mat-paginator>
+
+
+                <hr>
+            </div>
+        </div>
+    </div>
+</div>
