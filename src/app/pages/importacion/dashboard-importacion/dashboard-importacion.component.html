@@ -1,25 +1,45 @@
-<div class="col-lg-12">
-    <div class="card">
-        <div class="card-body">
-            <div class="d-flex">
-                <h4 class="card-title"><span class="lstick"></span>Flujo de importacion</h4>
-                <ul class="list-inline m-b-0 ml-auto">
-                    <li>
-                        <h6 class="text-muted text-success"><i class="fa fa-circle font-10 m-r-10 "></i>El Paso</h6>
-                    </li>
-                    <li>
-                        <h6 class="text-muted text-info"><i class="fa fa-circle font-10 m-r-10"></i>Chihuahua</h6>
-                    </li>
-                    <li>
-                        <h6 class="text-muted text-warning"><i class="fa fa-circle font-10 m-r-10"></i>Mexico</h6>
-                    </li>
+<div class="row row-eq-height">
+    <div class="col-md-6 col-12" id="importacion">
+        <div class="card" style=" background-color: white;">
+            <app-importacion-totales></app-importacion-totales>
+        </div>
+    </div>
+    <div class="col-md-6 col-12" [ngStyle]="{'height':altura+'px'}">
+        <div class="card" style="overflow-x: hidden;overflow-y: auto;  background-color: white;">
+            <app-importacion-meses></app-importacion-meses>
+        </div>
+    </div>
 
-                </ul>
+</div>
+<br>
+<div class="row row-eq-height">
+    <div class="col-md-6 col-12" id="importacion">
+        <div class="card" style=" background-color: white;">
+            <app-almacen-traspaso-totales></app-almacen-traspaso-totales>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-12" [ngStyle]="{'height':altura+'px'}">
+        <div class="card" style="overflow-x: hidden;overflow-y: auto;  background-color: white;">
+            <app-importacionesalmacen></app-importacionesalmacen>
+        </div>
+    </div>
+
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-12 col-12">
+        <app-almacen-traspaso-meses></app-almacen-traspaso-meses>
+    </div>
+</div>
+<hr>
+<div class="row">
+    <div class="col-md-12 col-12">
+        <div class="card">
+            <div class="card-body">
+                <app-calendario-importacion></app-calendario-importacion>
             </div>
-            <div class="website-visitor p-relative m-t-30" style="height:400px; width:100%;"></div>
         </div>
     </div>
 </div>
-
-
-<app-tracking-pedido></app-tracking-pedido>

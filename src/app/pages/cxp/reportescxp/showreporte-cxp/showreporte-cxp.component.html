@@ -1,0 +1,57 @@
+<div>
+    <app-header-reportes></app-header-reportes>
+
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4">
+            <button (click)="exportarXLS()" class="btn btn-success"> <i class="mdi mdi-file-excel-box" ></i> Excel </button>
+            <button (click)="exportarPDF()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
+        </div>
+    </div>
+</div>
+<mat-dialog-content>
+    <div class="container row" id="pdfreporte">
+        <div class="col-11">
+
+
+            <table class="table-hover" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th class="text-center blacktxt bolder ">Folio Pago</th>
+                        <th class="text-center blacktxt bolder nowrap">Folio Doc.</th>
+                        <th class="text-center blacktxt bolder ">Total</th>
+                        <th class="text-center blacktxt bolder ">Cuenta Origen</th>
+                        <th class="text-center blacktxt bolder ">Cuenta Destino</th>
+                        <th class="text-center blacktxt bolder ">Fecha Pago</th>
+                        <th class="text-center blacktxt bolder ">Observaciones</th>
+                    </tr>
+                </thead>
+
+                <ng-container>
+                    <tbody *ngFor="let info of arrcon; let i = index">
+                        <tr class="pgbreak border3">
+
+                            <tr class="pgbreak">
+                                <td class=" text-center pgbreak"> {{info.Folio}} </td>
+                                <td class=" text-center pgbreak"> {{info.FolioDocumento}} </td>
+                                <td class=" text-center pgbreak"> {{info.Cantidad}} </td>
+                                <td class=" text-center pgbreak"> {{info.CuentaOrigen}} </td>
+                                <td class=" text-center pgbreak"> {{info.CuentaDestino}} </td>
+                                <td class=" text-center pgbreak"> {{info.FechaPago | date: 'yyyy/MM/dd'}} </td>
+                                <td class=" text-center pgbreak"> {{info.Observaciones}}</td>
+                            </tr>
+
+                    </tbody>
+                    <td class="wrap lightback pgbreak " [attr.colspan]="2"> </td>
+                    <td class="wrap lightback pgbreak text-center"> Total </td>
+                    <td class="wrap lightback pgbreak text-center"> {{total | currency}}</td>
+                </ng-container>
+            </table>
+
+        </div>
+        <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+        </ngx-loading>
+    </div>
+</mat-dialog-content>

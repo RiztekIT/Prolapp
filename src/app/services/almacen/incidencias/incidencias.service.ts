@@ -10,6 +10,7 @@ import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/deta
 import { DetalleOrdenCarga } from '../../../Models/almacen/OrdenCarga/detalleOrdenCarga-model';
 
 export const APIUrl = environment.APIUrl;
+// export const APIUrl = "https://localhost:44361/api";
 export const URLApiEMail = environment.APIUrlEmail;
 
 @Injectable({
@@ -84,6 +85,27 @@ updateIncidencia(incidencia: Incidencias) {
   //Eliminar Incidencia por IdIncidencia
   deleteIncidencia(id: number){
     return this.http.delete(APIUrl+ '/Incidencias/BorrarIncidencia/' + id);
+  }
+
+  //REPORTES
+
+  GetIncidenciasFechasProcedencia(fecha1, fecha2, procedencia){
+    return this.http.get<any[]>(APIUrl+ '/Reportes/GetIncidenciasFechasProcedencia/'+fecha1+'/'+fecha2+'/'+procedencia);
+  }
+  GetIncidenciasFechas(fecha1, fecha2){
+    return this.http.get<any[]>(APIUrl+ '/Reportes/GetIncidenciasFechas/'+fecha1+'/'+fecha2);
+  }
+  GetIncidenciasEstatusProcedencia(estatus, procedencia){
+    return this.http.get<any[]>(APIUrl+ '/Reportes/GetIncidenciasEstatusProcedencia/'+estatus+'/'+procedencia);
+  }
+  GetIncidenciasEstatus(estatus){
+    return this.http.get<any[]>(APIUrl+ '/Reportes/GetIncidenciasEstatus/'+estatus);
+  }
+  GetIncidenciasFechasProcedenciaEstatus(fecha1, fecha2, procedencia, estatus){
+    return this.http.get<any[]>(APIUrl+ '/Reportes/GetIncidenciasFechasProcedenciaEstatus/'+fecha1+'/'+fecha2+'/'+procedencia+'/'+estatus);
+  }
+  GetIncidenciasFechasEstatus(fecha1, fecha2, estatus){
+    return this.http.get<any[]>(APIUrl+ '/Reportes/GetIncidenciasFechasEstatus/'+fecha1+'/'+fecha2+'/'+estatus);
   }
 
   private _listeners = new Subject<any>(); 

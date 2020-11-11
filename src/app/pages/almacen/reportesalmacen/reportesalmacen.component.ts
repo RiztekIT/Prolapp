@@ -132,6 +132,7 @@ export class ReportesalmacenComponent implements OnInit {
    public listBodegasInventario: Array<Object> = [
      { tipo: 'PasoTx' },
      { tipo: 'Chihuahua' },
+     { tipo: 'SAN DIEGO' },
      { tipo: 'Transito' }
    ];
 

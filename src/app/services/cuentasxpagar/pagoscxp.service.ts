@@ -9,6 +9,7 @@ import { FacturaFlete } from '../../Models/trafico/facturaflete-model';
 import { Pedido } from '../../Models/Pedidos/pedido-model';
 
 export const APIUrl = environment.APIUrl;
+// export const APIUrl = "https://localhost:44361/api";
 
 @Injectable({
   providedIn: 'root'
@@ -108,6 +109,28 @@ getFacturaFleteId(id:number): Observable <FacturaFlete[]>{
 getComisionFolio(folio:number): Observable <Pedido[]>{
   return this.http.get<Pedido[]>(APIUrl + '/Pagos/GetPedidoFolio/'+folio);
 }
+
+//^ *****************  Reportes Pagos ***************** //
+
+//^ Obtener reporte sin filtros
+getReporteGeneral(): Observable <any[]>{
+  return this.http.get<any[]>(APIUrl + '/Reportes/GetPagosGeneral');
+}
+
+//^ Obtener reporte por Tipo de Documento
+getReporteTipoDocumento(documento: string): Observable <any[]>{
+  return this.http.get<any[]>(APIUrl + '/Reportes/GetPagosTipoDocumento/'+documento);
+}
+//^ Obtener reporte por fecha de pago
+getReporteFechas(fecha1: string, fecha2: string): Observable <any[]>{
+  return this.http.get<any[]>(APIUrl + '/Reportes/GetPagosFechas/'+fecha1+'/'+fecha2);
+}
+
+//^ Obtener reporte por Tipo de Documento y fechas
+getReporteFechasTipoDocumento(documento: string, fecha1: string, fecha2: string): Observable <any[]>{
+  return this.http.get<any[]>(APIUrl + '/Reportes/GetPagosTipoDocumentoFechas/'+documento+'/'+fecha1+'/'+fecha2);
+}
+//^ *****************  Reportes Pagos ***************** //
 
 
   //*******  MODULOS RELACIONADOS A PAGOS *******// 

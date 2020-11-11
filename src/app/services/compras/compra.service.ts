@@ -85,6 +85,12 @@ getSumatoriaIdCompra(id: number):Observable<any[]>{
       return this.http.put(APIUrl + '/Compras/EditDetalleCompra',dcompra);
     }
 
+    //^ Obtener Compra por Estatus
+    getCompraEstatus(estatus):Observable<Compras[]>{
+      return this.http.get<Compras[]>(APIUrl + '/Compras/GetCompraEstatus/'+estatus);
+    }
+
+
     //  ------------ REPORTES ------------------  //
 
     //obtener lista de proveedores
