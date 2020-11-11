@@ -30,7 +30,7 @@ export class InventariosalmacenComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
   
-  displayedColumns: string[] = ['Clave','Producto', 'Lote', 'PesoTotal', 'Documentos'];
+  displayedColumns: string[] = ['Clave','Producto', 'Lote', 'PesoTotal','PesoDisponible', 'Documentos'];
 
   master;
   expandedElement: any;

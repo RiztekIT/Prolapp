@@ -1284,7 +1284,7 @@ console.log(this.totalSacos);
  this.od.Sacos = this.totalSacos.toString();
  this.od.Kg = this.compra.PesoTotal;
  this.od.Chofer = '';
- this.od.Origen = 'EUA';
+ this.od.Origen = 'COMPRA';
  this.od.Destino = this.bodegaSelect;
  this.od.Observaciones = '';
  //Con que estatus se generara?
