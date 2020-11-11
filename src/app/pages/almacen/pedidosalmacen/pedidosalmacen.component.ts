@@ -144,4 +144,33 @@ openrep(row){
 
 /////////////////////////////// Fin Modales //////////////////////////////////////////
 
+onDelete(row){
+  console.log(row)
+  Swal.fire({
+    allowOutsideClick: false,
+    text: 'Espere por favor...',
+    icon: 'info'
+  });
+  Swal.showLoading();
+  this.service.deleteOrdenCarga(row.IdOrdenCarga).subscribe(res=>{
+    Swal.close();
+    if(res=='Se elimino Correctamente'){
+      Swal.fire({
+        title: 'Borrado',
+        icon: 'success',
+        timer: 1000,
+        showCancelButton: false,
+        showConfirmButton: false
+      });
+      this.refreshOrdenCargaList();
+
+    }else{
+      Swal.fire({
+        text: 'Error al borrar',
+        icon: 'error'
+      });
+    }
+  })
+}
+
 }

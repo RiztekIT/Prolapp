@@ -1,11 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog } from '@angular/material';
 import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import Swal from 'sweetalert2';
 import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
 import { BodegasService } from 'src/app/services/catalogos/bodegas.service';
+import { DocumentacionImportacionComponent } from '../documentacion-importacion/documentacion-importacion.component';
+import { DocumentacionFormularioImportacionComponent } from '../documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
+import { DocumentosImportacionService } from 'src/app/services/importacion/documentos-importacion.service';
 
 
 declare function steps();
@@ -66,7 +69,7 @@ public listBodega: Array<Object> = [
 
   constructor(public router: Router, public serviceTarima: TarimaService, 
     public serviceordencarga: OrdenCargaService,
-    private bodegaservice: BodegasService) { }
+    private bodegaservice: BodegasService, private dialog: MatDialog, public documentosService: DocumentosImportacionService) { }
     
   listData: MatTableDataSource<any>;
   listData2: MatTableDataSource<any>;
@@ -274,9 +277,19 @@ if (this.bodegaSelect==='Todos'){
     
   }
 
-  hacerTraspaso(){
+    hacerTraspaso(){
     console.log(this.listData2.data);
-    this.crearOC();
+    this.documentosService.folioOrdenDescarga = 0;
+    this.documentosService.importacion = true;
+    this.documentosService.productosimportacion = this.listData2.data;
+
+    const dialogConfig = new MatDialogConfig();
+          dialogConfig.disableClose = false;
+          dialogConfig.autoFocus = true;
+          dialogConfig.width = "70%";
+          this.dialog.open(DocumentacionFormularioImportacionComponent, dialogConfig);
+
+    //this.crearOC();
   }
 
    crearOC(){

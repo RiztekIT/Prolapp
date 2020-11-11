@@ -970,7 +970,7 @@ onChangeCantidadP(cantidad: any) {
   console.log(cantidad);
   let elemHTML: any = document.getElementsByName('Cantidad')[0];
   // this.validarStock(cantidad);
-  elemHTML.value = this.Cantidad;
+  //elemHTML.value = this.Cantidad;
   //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
   this.calcularImportePedido();
   // console.log(this.Cantidad);
@@ -984,7 +984,7 @@ onChangePrecio(precio: any) {
     console.log(precio);
     let elemHTML: any = document.getElementsByName('PrecioCosto')[0];
     // //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
-    elemHTML.value = +this.ProductoPrecio;
+    //elemHTML.value = +this.ProductoPrecio;
     this.calcularImportePedido();
   }
 }
@@ -994,7 +994,7 @@ onChangePrecioDlls(precioDlls: any) {
     console.log(precioDlls);
     let elemHTML: any = document.getElementsByName('PrecioCostoDlls')[0];
     // //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
-    elemHTML.value = +this.ProductoPrecioDLLS;
+    //elemHTML.value = +this.ProductoPrecioDLLS;
     this.calcularImportePedido();
   }
 }

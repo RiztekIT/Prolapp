@@ -8,6 +8,7 @@ import { EmpresaService } from '../../services/empresas/empresa.service';
 import { Pedido } from 'src/app/Models/Pedidos/pedido-model';
 import { VentasPedidoService } from '../../services/ventas/ventas-pedido.service';
 import * as html2pdf from 'html2pdf.js';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 
 @Component({
   selector: 'app-reporte-emision',
@@ -17,15 +18,19 @@ import * as html2pdf from 'html2pdf.js';
 export class ReporteEmisionComponent implements OnInit {
 
   constructor(public dialogbox: MatDialogRef<ReporteEmisionComponent>, public router: Router, private _formBuilder: FormBuilder, 
-    public service: VentasPedidoService ) { }
+    public service: VentasPedidoService, public enviarfact: EnviarfacturaService ) { }
 
     con : string| number;
     arrcon: Array<any> = [];
   
     objconc: any; 
+    logo;
+    rfcE: string;
   
 
   ngOnInit() {
+    this.rfcE = this.enviarfact.empresa.RFC;
+    this.logo = '../../../assets/images/'+this.rfcE+'.png'
     this.ver();
   }
   onClose() {

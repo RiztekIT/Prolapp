@@ -740,7 +740,7 @@ Estatus: 'Creada',
   
       ordentemporalnueva = {
         IdOrdenTemporal: 0,
-  IdDetalleTarima: +ultimo,
+  IdDetalleTarima: +ultimo[0].IdDetalleTarima,
   IdOrdenCarga: 0,
   IdOrdenDescarga: this.ordenTemporalService.preOrdenTemporalSacos[i].IdOrdenDescarga,
   QR: '',
