@@ -175,6 +175,7 @@ console.log(this.contador);
         if (this.listData2.data[i].ClaveProducto==this.listData.filteredData[j].ClaveProducto){
 
           this.selection.selected.push(this.listData.filteredData[j])
+          break;
 
         }
       }

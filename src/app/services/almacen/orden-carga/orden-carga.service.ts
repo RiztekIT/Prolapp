@@ -83,14 +83,17 @@ export class OrdenCargaService {
   addDetalleOrdenCarga(detalleOC: DetalleOrdenCarga){
     return this.http.post(APIUrl + '/OrdenCarga/AddDetalleOrdenCarga', detalleOC)
   }
+  updateDetalleOrdenCarga(detalleOC: DetalleOrdenCarga){
+    return this.http.put(APIUrl + '/OrdenCarga/UpdateDetalleOrdenCarga', detalleOC)
+  }
 
   
   deleteOrdenCarga(id: number) {
     return this.http.delete(APIUrl + '/OrdenCarga/BorrarOrdenCarga/' + id)
   }
   //Actualizar saldo de DetalleOrdenCarga por ID
-  updateDetalleOrdenCargaSaldo(id: number, saldo: string) {
-    return this.http.put(APIUrl + '/OrdenCarga/UpdateSaldo/' + id + '/' + saldo, null);
+  updateDetalleOrdenCargaSaldo(id: number, saldo: string, lote:string) {
+    return this.http.put(APIUrl + '/OrdenCarga/UpdateSaldo/' + id + '/' + saldo + '/'+ lote, null);
   }
   //get Direcciones en base a ID CLIENTE
   getDireccionID(id: number): Observable<ClienteDireccion[]> {

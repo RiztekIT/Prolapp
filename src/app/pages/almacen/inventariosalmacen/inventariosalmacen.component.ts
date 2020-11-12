@@ -209,25 +209,49 @@ this.obtenerProductos(this.bodegaSelect)
       // console.log('RESPUESTA',resp);
 
       this.serviceTarima.getJOINCompraDetalleTarima(detalle.IdDetalleTarima).subscribe(resp=>{
+        console.log(resp);
+
+        if (resp.length>0){
+
+          this.serviceTarima.compra = resp[0];
+
+
+          //^ Metodo para obtener la informacion de los detalles de la compra. Se utilizara en el componente Documentos para obtener los documentos.
+          this.serviceTarima.GetDetalleCompraIdClave(resp[0].IdCompra, resp[0].ClaveProducto).subscribe(res=>{
+  
+            this.serviceTarima.compra.IdDetalleCompra = res[0].IdDetalleCompra;
+  
+            const dialogConfig = new MatDialogConfig();
+            dialogConfig.disableClose = false;
+            dialogConfig.autoFocus = true;
+            dialogConfig.width = "90%";
+            
+            
+            let mercanciadl = this.dialog.open(DocumentosComponent, dialogConfig);
+          }) 
+
+
+        }
         
-        this.serviceTarima.compra = resp[0];
-
-        //^ Metodo para obtener la informacion de los detalles de la compra. Se utilizara en el componente Documentos para obtener los documentos.
-        this.serviceTarima.GetDetalleCompraIdClave(resp[0].IdCompra, resp[0].ClaveProducto).subscribe(res=>{
-
-          this.serviceTarima.compra.IdDetalleCompra = res[0].IdDetalleCompra;
-
-          const dialogConfig = new MatDialogConfig();
-          dialogConfig.disableClose = false;
-          dialogConfig.autoFocus = true;
-          dialogConfig.width = "90%";
-          
-          
-          let mercanciadl = this.dialog.open(DocumentosComponent, dialogConfig);
-        }) 
+       
       })
     // })
 
+
+  }
+
+  obtenerDocumentos2(detalle){
+    this.serviceTarima.getDetalleTarimaOT(detalle.IdDetalleTarima).subscribe(res=>{
+      console.log(res);
+      this.serviceTarima.detalleTarima = res[0];
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "90%";
+      
+      
+      let mercanciadl = this.dialog.open(DocumentosComponent, dialogConfig);
+    })
 
   }
 

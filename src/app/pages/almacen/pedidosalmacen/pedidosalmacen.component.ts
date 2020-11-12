@@ -119,7 +119,7 @@ console.log(data);
   onEdit(ordencarga: OrdenCarga){
     console.log(ordencarga)
     localStorage.setItem('IdOrdenCarga', ordencarga.IdOrdenCarga.toString())
-    localStorage.setItem('OrdenCarga', JSON.stringify(ordencarga.IdOrdenCarga))
+    localStorage.setItem('OrdenCarga', JSON.stringify(ordencarga))
     this.router.navigate(['/ordencargadetalle']);
   }
 

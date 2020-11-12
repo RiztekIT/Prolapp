@@ -1318,6 +1318,10 @@ this.isFactura = true;
     )
   }
 
+  verlistdata(){
+    console.log(this.listData.data);
+  }
+
   cerrarPedido(){
 
     let ordencarga;
@@ -1362,6 +1366,7 @@ this.isFactura = true;
 
         let productos = data.selected;
         let fletera;
+        let validacion;
     
     this.serviceordencarga.getUltimoFolio().subscribe(data=>{
 
@@ -1371,6 +1376,12 @@ this.isFactura = true;
         fletera='0';
       }else{
         fletera=this.service.formDataPedido.Flete;
+      }
+
+      if (fletera=='0'){
+        validacion='Sin Validar'
+      }else{
+        validacion='Creada'
       }
 
 
@@ -1398,7 +1409,7 @@ this.isFactura = true;
         Origen: 'Chihuahua',
         Destino: this.service.formData.Estado,
         Observaciones: '',
-        Estatus: 'Sin Validar',
+        Estatus: validacion,
         FechaInicioCarga: new Date('10/10/10'),
         FechaFinalCarga: new Date('10/10/10'),
         FechaExpedicion: new Date(),
@@ -1415,8 +1426,14 @@ this.isFactura = true;
       this.serviceordencarga.addOrdenCarga(ordencarga).subscribe(data=>{
 
         console.log(data);
-
+        console.log(productos,'PRODUCTOS');
+        
         for (let i=0; i< productos.length;i++){
+          console.log(this.listData.data[i],'LISTDATA');
+
+          if(!this.seleccionManual){
+            productos[i].Lote = '0';
+          }
        
           detordencarga = {
     
@@ -1452,7 +1469,10 @@ this.isFactura = true;
 
         console.log(this.service.formDataPedido);
         this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
-          this.crearValidacion();
+          if (fletera=='0'){
+
+            this.crearValidacion();
+          }
 
           Swal.fire({
             icon: 'success',

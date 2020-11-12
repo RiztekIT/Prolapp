@@ -233,6 +233,7 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
 
   //Agregar documentos a la base de datos y Servidor
   onAddDocumentos() {
+    console.log(this.seleccionados,'seleccionados');
 
     let event = this.events;
     // console.log(event)
@@ -245,8 +246,8 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
       for (var i = 0; i < event.addedFiles.length; i++) {
         const formData = new FormData();
         formData.append('0', event.addedFiles[i])
-        formData.append('folio', this.seleccionados[l].Folio.toString())
-        formData.append('id', this.seleccionados[l].IdDetalleOrdenDescarga)
+        formData.append('folio', this.seleccionados[l].Lote.toString())
+        formData.append('id', this.seleccionados[l].IdOrdenDescarga)
         // console.log(res);
         // Buscar ultimo folio Documento
         let documento = new Documento();
@@ -257,7 +258,7 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
         documento.Tipo = 'OrdenDescarga';
         documento.ClaveProducto = this.seleccionados[l].ClaveProducto;
         documento.NombreDocumento = event.addedFiles[i].name;
-        documento.Path = 'Documentos/OrdenDescarga/' + this.seleccionados[l].Folio.toString() + '/' + this.seleccionados[l].IdDetalleOrdenDescarga.toString() + '/' + event.addedFiles[i].name;
+        documento.Path = 'Documentos/OrdenDescarga/' + this.seleccionados[l].Lote.toString() + '/' + this.seleccionados[l].IdDetalleTarima.toString() + '/' + event.addedFiles[i].name;
         documento.Observaciones = "";
         documento.Vigencia = new Date();
         // console.log(documento);
@@ -322,7 +323,7 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
 // console.log(detalle);
 if(this.tipoDocumentoSeleccionado == 'USDA'){
 // console.log('ES USDA');
-this.documentosService.updateUSDA(this.stringDocumentoSeleccionado,detalle.IdDetalleOrdenDescarga).subscribe(resUsda=>{  
+this.documentosService.updateUSDA(this.stringDocumentoSeleccionado,detalle.IdDetalleTarima).subscribe(resUsda=>{  
   // console.log(resUsda);
 })
 this.documentosService.updateUSDADetalle(this.stringDocumentoSeleccionado,detalle.IdDetalleTarima).subscribe(resUsda=>{  
@@ -331,7 +332,7 @@ this.documentosService.updateUSDADetalle(this.stringDocumentoSeleccionado,detall
 }
 else if(this.tipoDocumentoSeleccionado == 'PEDIMENTO'){
 // console.log('ES PEDIMENTO');
-this.documentosService.updatePedimento(this.stringDocumentoSeleccionado,detalle.IdDetalleOrdenDescarga).subscribe(resUsda=>{
+this.documentosService.updatePedimento(this.stringDocumentoSeleccionado,detalle.IdDetalleTarima).subscribe(resUsda=>{
   // console.log(resUsda);
 })
 this.documentosService.updatePedimentoDetalle(this.stringDocumentoSeleccionado,detalle.IdDetalleTarima).subscribe(resUsda=>{
@@ -371,12 +372,13 @@ else{
 
   }
 
-  obtenerDocumentos(folio: number, id: number) {
+  obtenerDocumentos(row,folio: number, id: number) {
 
     console.log(folio, id);
+    console.log(row,'ROW');
 
     const formData = new FormData();
-    formData.append('folio', folio.toString());
+    formData.append('folio', row.Lote.toString());
     formData.append('id', id.toString());
     this.documentosService.readDirDocuemntosServer(formData, 'cargarNombreDocumentosImportacionOrdenDescarga').subscribe(res => {
       // console.log(res);
@@ -387,7 +389,7 @@ else{
           let archivo = <any>{};
           archivo.name = res[i];
           archivo.id = id;
-          archivo.folio = folio;
+          archivo.folio = row.Lote;
           this.archivos.push(archivo);
           const formDataDoc = new FormData();
           formDataDoc.append('folio', folio.toString());

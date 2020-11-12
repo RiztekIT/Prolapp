@@ -28,8 +28,15 @@ export class DocumentosComponent implements OnInit {
     console.log(this.serviceTarima.compra);
 
     console.log('%c%s', 'color: #00a3cc', 'IMPRIMIR COLORRRRR');
+    if(this.serviceTarima.compra){
 
-    this.obtenerDocumentos(this.serviceTarima.compra.Folio, this.serviceTarima.compra.IdDetalleCompra)
+      this.obtenerDocumentos(this.serviceTarima.compra.Folio, this.serviceTarima.compra.IdDetalleCompra)
+    }
+
+    console.log(this.serviceTarima.detalleTarima);
+    if(this.serviceTarima.detalleTarima){
+      this.obtenerDocumentos2(this.serviceTarima.detalleTarima,this.serviceTarima.detalleTarima.Lote, this.serviceTarima.detalleTarima.IdOrdenDescarga)
+    }
 
   }
 
@@ -141,6 +148,80 @@ export class DocumentosComponent implements OnInit {
       let file = new File([ia], fileName, { type: mimeString });
   
       return new File([ia], fileName, { type: mimeString });
+    }
+
+
+    obtenerDocumentos2(row,folio: number, id: number) {
+
+      console.log(folio, id);
+      console.log(row,'ROW');
+  
+      const formData = new FormData();
+      formData.append('folio', row.Lote.toString());
+      formData.append('id', id.toString());
+      this.documentosService.readDirDocuemntosServer(formData, 'cargarNombreDocumentosImportacionOrdenDescarga').subscribe(res => {
+        // console.log(res);
+        this.archivos = [];
+        if (res) {
+          // console.log(res.length)
+          for (let i = 0; i < res.length; i++) {
+            let archivo = <any>{};
+            archivo.name = res[i];
+            archivo.id = id;
+            archivo.folio = row.Lote;
+            this.archivos.push(archivo);
+            const formDataDoc = new FormData();
+            formDataDoc.append('folio', folio.toString());
+            formDataDoc.append('id', id.toString());
+            formDataDoc.append('archivo', res[i])
+            this.documentosService.readDocumentosServer(formDataDoc, 'ObtenerDocumentoImportacionOrdenDescarga').subscribe(resDoc => {
+              //  console.log(resDoc)
+              const blob = new Blob([resDoc as BlobPart], { type: 'application/pdf' });
+              //  console.log(blob)
+              let fr = new FileReader();
+              let name = res[i];
+              fr.readAsDataURL(blob);
+              //  console.log(fr.readAsDataURL(blob));
+              fr.onload = e => {
+                //  console.log(e);
+                //  console.log(fr.result);
+                this.tipo = 'documento'
+                this.dataURItoBlob(fr.result, name);
+              }
+            })
+          }
+        }
+        // console.log(this.archivos)
+      })
+  
+    }
+
+    leerArchivos2(a) {
+      console.log(a);
+      const formData = new FormData();
+      formData.append('folio', a.folio.toString())
+      formData.append('id', a.id.toString())
+      formData.append('archivo', a.name)
+      this.documentosService.readDocumentosServer(formData, 'ObtenerDocumentoImportacionOrdenDescarga').subscribe(res => {
+        // console.log(res);
+        const blob = new Blob([res as BlobPart], { type: 'application/pdf' });
+        let fr = new FileReader();
+  
+        fr.readAsDataURL(blob);
+        fr.onload = e => {
+          // console.log(e);
+          // console.log(fr.result);
+          this.fileUrl = fr.result;
+          this.pdfstatus = true;
+          this.documentosService.fileUrl = this.fileUrl;
+          const dialogConfig = new MatDialogConfig();
+          dialogConfig.disableClose = true;
+          dialogConfig.autoFocus = true;
+          dialogConfig.width = "70%";
+          this.dialog.open(DocumentacionImportacionVisorDocumentosComponent, dialogConfig);
+        }
+      })
+  
     }
 
 }

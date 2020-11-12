@@ -33,6 +33,8 @@ import { Cotizacion } from 'src/app/Models/ventas/cotizacion-model';
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
 import { Pedido } from 'src/app/Models/Pedidos/pedido-model';
 import { InventariosalmacenComponent } from 'src/app/pages/almacen/inventariosalmacen/inventariosalmacen.component';
+import * as signalr from '@aspnet/signalr'
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -51,6 +53,10 @@ const httpOptions = {
   styleUrls: ['./add-cotizacion.component.css']
 })
 export class AddCotizacionComponent implements OnInit {
+
+  private hubconnection: signalr.HubConnection;  
+  notihub = 'https://riztekserver.ddns.net:44361/alertasHub'
+
 
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
@@ -149,6 +155,7 @@ public PedidoBlanco: Pedido =
 
 
   ngOnInit() {  
+    //this.ConnectionHub();
 
     this.Inicializar();
     this.dropdownRefresh();
@@ -1580,6 +1587,20 @@ inventarios(detalle){
      
       this.dialog.open(InventariosalmacenComponent, dialogConfig);
 
+}
+
+
+
+ConnectionHub(){
+  this.hubconnection = new signalr.HubConnectionBuilder().withUrl(this.notihub).build();
+
+  this.hubconnection.on('alertasHub',()=>{
+    console.log('del Hub');
+  })
+
+  this.hubconnection.start().then(()=>{
+     console.log('todo bien del hub');
+  })
 }
 
 

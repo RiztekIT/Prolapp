@@ -16,7 +16,7 @@
                         </p>
                     </div> -->
                         <!-- <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button> -->
-                        <button *ngIf="this.documentosService.folioOrdenDescarga" mat-fab (click)="Regresar()" class="btncoti">
+                        <button mat-fab (click)="Regresar()" class="btncoti">
                             <mat-icon>undo</mat-icon>
                           </button>
 
@@ -96,7 +96,7 @@
                                                       </button>
                                                             <mat-menu #menu="matMenu">
                                                                 <!--  -->
-                                                                <button mat-icon-button class="btn btn-dark" (click)="obtenerDocumentos(row.Folio, row.IdDetalleOrdenDescarga)">
+                                                                <button mat-icon-button class="btn btn-dark" (click)="obtenerDocumentos(row,row.Folio, row.IdDetalleOrdenDescarga)">
                                                                                 <mat-icon>plagiarism</mat-icon>
                                                                             </button>
                                                                 <!--  -->

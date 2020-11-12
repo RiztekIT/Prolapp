@@ -56,6 +56,7 @@ export class TarimaService {
   TraspasoDescarga:boolean;
 
   compra;
+  detalleTarima;
 
   getTarima(): Observable <Tarima[]>{
     return this.http.get<Tarima[]>(APIUrl + '/Tarima');
@@ -210,6 +211,9 @@ updateDetalleTarimaSacosPesoTarimasBodega(dt: DetalleTarima) {
   //^Obtener JOIN Compra con detalle Tarima (para obtener los Documentos)
   getJOINCompraDetalleTarima(id: number){
     return this.http.get<any[]>(APIUrl + '/Tarima/GetJOINCompraDetalleTarima/'+id);
+  }
+  getDetalleTarimaOT(id: number){
+    return this.http.get<any[]>(APIUrl + '/Tarima/DetalleTarimaOT/'+id);
   }
   //^Obtener Detalle Compra por Id Compra y por Clave Producto (para obtener los Documentos)
   GetDetalleCompraIdClave(id: number, clave:string){
