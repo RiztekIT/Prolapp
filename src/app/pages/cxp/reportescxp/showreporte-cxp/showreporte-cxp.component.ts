@@ -162,15 +162,7 @@ filtroTipoDocumentoFechaPago(fechaInicial, fechaFinal, tipoDocumento) {
 
 exportarXLS() {
   console.log('export a excel');
-  if(this.ReporteInformacion.modulo == 'OrdenCarga'){
-    this.sharedService.generarExcelReporteAlmacenOrdenCarga(this.arrcon, 'OrdenCarga');    
-  }else if(this.ReporteInformacion.modulo == 'OrdenDescarga'){
-    this.sharedService.generarExcelReporteAlmacenOrdenDescarga(this.arrcon);
-  }else if(this.ReporteInformacion.modulo == 'Inventario'){
-    this.sharedService.generarExcelReporteAlmacenInventario(this.arrcon);
-  }else if(this.ReporteInformacion.modulo == 'Traspaso'){
-    this.sharedService.generarExcelReporteAlmacenOrdenCarga(this.arrcon, 'Traspaso');    
-  }
+  this.sharedService.generarExcelReporteCxpPagos(this.arrcon);
 }
 
 exportarPDF() {

@@ -289,7 +289,7 @@ export class ShowreporteCalidadComponent implements OnInit {
 
   exportarXLS() {
     console.log('export a excel');
-    this.sharedService.generarExcelReporteCompras(this.arrcon);
+    this.sharedService.generarExcelReporteCalidad(this.arrcon);
   }
 
   exportarPDF() {

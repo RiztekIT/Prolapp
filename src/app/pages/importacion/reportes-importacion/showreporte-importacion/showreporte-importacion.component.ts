@@ -281,11 +281,11 @@ let dia = this.ReporteInformacion.fechaInicial.getDate();
 
   exportarXLS() {
     console.log('export a excel');
-    if(this.ReporteInformacion.modulo == 'Cotizacion'){
-      this.sharedService.generarExcelReporteVentasCotizaciones(this.arrcon);
+    if(this.ReporteInformacion.modulo == 'Documento'){
+      this.sharedService.generarExcelReporteImportacionDocumentos(this.arrcon);
       
-    }else if(this.ReporteInformacion.modulo == 'Pedido'){
-    this.sharedService.generarExcelReporteVentasPedidos(this.arrcon);
+    }else if(this.ReporteInformacion.modulo == 'Traspaso'){
+    this.sharedService.generarExcelReporteImportacionTraspaso(this.arrcon);
     }
   }
 

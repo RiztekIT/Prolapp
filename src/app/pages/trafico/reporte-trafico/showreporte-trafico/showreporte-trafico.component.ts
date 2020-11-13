@@ -203,12 +203,7 @@ export class ShowreporteTraficoComponent implements OnInit {
 
   exportarXLS() {
     console.log('export a excel');
-    if (this.ReporteInformacion.modulo == 'Cotizacion') {
-      this.sharedService.generarExcelReporteVentasCotizaciones(this.arrcon);
-
-    } else if (this.ReporteInformacion.modulo == 'Pedido') {
-      this.sharedService.generarExcelReporteVentasPedidos(this.arrcon);
-    }
+    this.sharedService.generarExcelReporteTraficoFlete(this.arrcon);
   }
 
   exportarPDF() {
