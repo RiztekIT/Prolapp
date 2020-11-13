@@ -1,1 +1,46 @@
-<p>dashboardcxp works!</p>
+<div class="card">
+    <div class="card-body">
+        <h2 style="text-align: center;">Pagos</h2>
+    </div>
+</div>
+<!-- <div class="row">
+    <div class="col-md-6 col-12">
+        <div class="card">
+            <div class="card-body">
+                <app-cxp-pagos-totales></app-cxp-pagos-totales>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-12">
+        <div class="card">
+            <div class="card-body">
+                <app-cxp-pagos-meses></app-cxp-pagos-meses>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="row row-eq-height">
+    <div class="col-md-6 col-12" id="importacion">
+        <div class="card" style=" background-color: white;">
+            <app-cxp-pagos-totales></app-cxp-pagos-totales>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-12" [ngStyle]="{'height':altura+'px'}">
+        <div class="card" style="overflow-x: hidden;overflow-y: auto;  background-color: white;">
+            <app-cxp-pagos-meses></app-cxp-pagos-meses>
+        </div>
+    </div>
+
+</div>
+<br>
+
+<div class="row">
+    <div class="col-md-12 col-12">
+        <div class="card">
+            <div class="card-body">
+                <app-calendariocxp></app-calendariocxp>
+            </div>
+        </div>
+    </div>
+</div>

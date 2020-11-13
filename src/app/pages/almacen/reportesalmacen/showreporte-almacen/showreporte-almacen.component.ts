@@ -175,7 +175,7 @@ getReporteUnaBodega(bodega:string, unProducto, clave){
   
 sacostotales: number = 0;
 pesototal: number = 0;
-
+//^ Recibe como parametro la lista de Producto(s) y la bodega Origen
 obtenerInformacionReporteUnaBodega(data, bodega){
   let contador = 0;
     
@@ -197,7 +197,7 @@ obtenerInformacionReporteUnaBodega(data, bodega){
           datadet[i].SacosD = +datadet[i].Sacos;
           
           pesoporTarimaP = ((+datadet[i].Sacos1) * (+datadet[i].PesoxSaco));
-          this.pesototal = this.pesototal + pesoporTarimaP;
+          this.pesototal = this.pesototal + +datadet[i].PesoTotal;
           this.sacostotales = this.sacostotales + +datadet[i].Sacos1;
 
           datadet[i].SacoDetalle = pesoporTarimaP;
@@ -248,7 +248,7 @@ obtenerInformacionReporteBodegas(data){
           datadet[i].SacosD = +datadet[i].Sacos;
           
           pesoporTarimaP = ((+datadet[i].Sacos1) * (+datadet[i].PesoxSaco));
-          this.pesototal = this.pesototal + pesoporTarimaP;
+          this.pesototal = this.pesototal + +datadet[i].PesoTotal;
           this.sacostotales = this.sacostotales + +datadet[i].Sacos1;
 
           datadet[i].SacoDetalle = pesoporTarimaP;

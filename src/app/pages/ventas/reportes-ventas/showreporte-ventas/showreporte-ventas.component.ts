@@ -3,8 +3,8 @@ import * as html2pdf from "html2pdf.js";
 import { MAT_DIALOG_DATA } from "@angular/material";
 import { ngxLoadingAnimationTypes } from "ngx-loading";
 import { SharedService } from "../../../../services/shared/shared.service";
-import { CalendarioService } from "src/app/services/calendario/calendario.service";
 import { formatoReporte } from "../../../../Models/formato-reporte";
+import { CalendarioService } from "src/app/services/calendario/calendario.service";
 import { VentasCotizacionService } from "../../../../services/ventas/ventas-cotizacion.service";
 import { VentasPedidoService } from "../../../../services/ventas/ventas-pedido.service";
 

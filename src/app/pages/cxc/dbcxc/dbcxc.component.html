@@ -1,1 +1,141 @@
-<p>dbcxc works!</p>
+<div class="row">
+    <div class="col-md-6 col-12">
+        <div class="card">
+            <div class="card-body">
+
+
+                <h4 style="text-align: center;">Cobranza</h4>
+                <hr>
+                <section class="example-section">
+                    <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedCobranza" (change)="onChangeCobranza()" [disabled]="disabledCobranza">
+                        Dashboard Cobranza
+                    </mat-slide-toggle>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-12">
+        <div class="card">
+            <div class="card-body">
+
+
+                <h4 style="text-align: center;">Factura</h4>
+                <hr>
+                <section class="example-section">
+                    <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedFactura" (change)="onChangeFactura()" [disabled]="disabledFactura">
+                        Dashboard Factura
+                    </mat-slide-toggle>
+                </section>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<!-- Cobranza -->
+<div *ngIf="checkedCobranza == true">
+    <div class="card">
+        <div class="card-body">
+            <h2 style="text-align: center;">Cobranza</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <app-cxc-cobranza-totales></app-cxc-cobranza-totales>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <app-cxc-cobranza-meses></app-cxc-cobranza-meses>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 
+    <div class="row row-eq-height">
+        <div class="col-md-6 col-12" id="almacen">
+            <div class="card" style=" background-color: white;">
+                <app-cxc-cobranza-totales></app-cxc-cobranza-totales>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-12" [ngStyle]="{'height':altura+'px'}">
+            <div class="card" style="overflow-x: hidden;overflow-y: auto;  background-color: white;">
+                <app-cxc-cobranza-meses></app-cxc-cobranza-meses>
+            </div>
+        </div>
+    </div> -->
+
+    <br>
+
+    <!-- <div class="row">
+        <div class="col-md-12 col-12">
+            <app-almacen-orden-carga-meses></app-almacen-orden-carga-meses>
+        </div>
+    </div> -->
+</div>
+<!-- Factura -->
+<div *ngIf="checkedFactura == true">
+    <div class="card">
+        <div class="card-body">
+            <h2 style="text-align: center;">Factura</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <app-cxc-factura-totales></app-cxc-factura-totales>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="card">
+                <div class="card-body">
+                    <app-cxc-factura-meses></app-cxc-factura-meses>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="row row-eq-height">
+        <div class="col-md-6 col-12" id="almacen">
+            <div class="card" style=" background-color: white;">
+                <app-cxc-factura-totales></app-cxc-factura-totales>
+
+            </div>
+        </div>
+
+        <div class="col-md-6 col-12" [ngStyle]="{'height':altura+'px'}">
+            <div class="card" style="overflow-x: hidden;overflow-y: auto;  background-color: white;">
+                <app-cxc-factura-meses></app-cxc-factura-meses>
+            </div>
+        </div>
+    </div> -->
+
+    <br>
+
+    <!-- <div class="row">
+        <div class="col-md-12 col-12">
+            <app-cxc-factura-meses></app-cxc-factura-meses>
+        </div>
+    </div> -->
+</div>
+
+<div class="row">
+    <div class="col-md-12 col-12">
+        <div class="card">
+            <div class="card-body">
+                <app-calendariocxc></app-calendariocxc>
+            </div>
+        </div>
+    </div>
+</div>
