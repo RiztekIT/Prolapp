@@ -313,6 +313,10 @@ import { ShowreporteCxpComponent } from './cxp/reportescxp/showreporte-cxp/showr
 import { CxpPagosTotalesComponent } from '../components/graficas/cxp/cxp-pagos-totales/cxp-pagos-totales.component';
 import { CxpPagosMesesComponent } from '../components/graficas/cxp/cxp-pagos-meses/cxp-pagos-meses.component';
 import { HistorialComprasComponent } from './compras/historial-compras/historial-compras.component';
+import { DocumentacionCLVImportacionComponent } from './importacion/documentacion-importacion/documentacion-clv-importacion/documentacion-clv-importacion.component';
+import { DocumentacionCOImportacionComponent } from './importacion/documentacion-importacion/documentacion-co-importacion/documentacion-co-importacion.component';
+import { DocumentacionPespiImportacionComponent } from './importacion/documentacion-importacion/documentacion-pespi-importacion/documentacion-pespi-importacion.component';
+import { DocumentacionCAImportacionComponent } from './importacion/documentacion-importacion/documentacion-ca-importacion/documentacion-ca-importacion.component';
 
 
 
@@ -543,7 +547,11 @@ import { HistorialComprasComponent } from './compras/historial-compras/historial
         ShowreporteCxpComponent,
         CxpPagosTotalesComponent,
         CxpPagosMesesComponent,
-        HistorialComprasComponent
+        HistorialComprasComponent,
+        DocumentacionCLVImportacionComponent,
+        DocumentacionCOImportacionComponent,
+        DocumentacionPespiImportacionComponent,
+        DocumentacionCAImportacionComponent
     
     ],
     exports: [

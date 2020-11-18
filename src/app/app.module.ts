@@ -40,6 +40,7 @@ import { DocumentosclienteComponent } from './documentoscliente/documentosclient
 
 
 
+
 // import { AcusecancelacionComponent } from './components/acusecancelacion/acusecancelacion.component';
 // import { FacturacionComponent } from './components/cxc/graficas/facturacion/facturacion.component';
 // import { ComplementoPagoComponent } from './components/complemento-pago/complemento-pago.component';
@@ -67,7 +68,8 @@ import { DocumentosclienteComponent } from './documentoscliente/documentosclient
     // CotizacionpedidoComponent,
     ScannerComponent,
     LoginClienteComponent,
-    DocumentosclienteComponent
+    DocumentosclienteComponent,
+
     
     
     
