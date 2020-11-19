@@ -8,11 +8,19 @@
     <!-- <section id="wrapper" class="login-register login-sidebar" style="background-image:url(../assets/images/background/login-register.jpg);"> -->
 
     <div class="row">
-        <div class="divimg col-md-8">
-            <!-- <img class="imagen" src="../assets/images/background/login-register.jpg"> -->
-            <ng-image-slider slideImage="2" [imageSize]="{width:'50%', height: '70%'}" [images]="imagesUrl" #nav [infinite]='true' [imagePopup]='false' [autoSlide]='1' [animationSpeed]='1'></ng-image-slider>
+        <div #imagen1 class="divimg  col-md-8" [ngStyle]="{'display': this.propiedad1}">
+            <img class="imagen" src="../assets/login/abarrotodo.png">
+            <!-- <ng-image-slider slideImage="2" [imageSize]="{width:'50%', height: '70%'}" [images]="imagesUrl" #nav [infinite]='true' [imagePopup]='false' [autoSlide]='1' [animationSpeed]='1'></ng-image-slider> -->
         </div>
 
+        <div #imagen2 class="divimg  col-md-8" [ngStyle]="{'display': this.propiedad2}">
+            <img class="imagen" src="../assets/login/prolacto.png">
+
+        </div>
+        <div #imagen3 class="divimg  col-md-8" [ngStyle]="{'display': this.propiedad3}">
+            <img class="imagen2" src="../assets/login/dairy.png">
+
+        </div>
 
         <div class="login-box card col-md-4 col-12">
             <div class="card-body">
