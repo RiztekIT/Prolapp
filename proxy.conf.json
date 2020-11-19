@@ -19,7 +19,7 @@
         "changeOrigin": true
     },
 
-    "/alertasHub/*": {
+    "/signalr/*": {
         "target": "https://riztekserver.ddns.net:44361 ",
         "secure": false,
         "changeOrigin": true

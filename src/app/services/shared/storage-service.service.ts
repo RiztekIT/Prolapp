@@ -6,11 +6,23 @@ import { sessionCliente } from '../../Models/ClienteLogin/sessionCliente-model';
 import { ClienteLogin } from '../../Models/ClienteLogin/clienteLogin-model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import * as signalr from 'signalr'
+
+declare var $: any;
 
 @Injectable({
   providedIn: 'root'
 })
 export class StorageServiceService {
+
+   /* SIGNALR */
+   private connection: any;
+   private proxy: any;  
+   private proxyName: string = 'AlertasHub'; 
+  
+    private hubconnection: signalr;  
+    notihub = 'https://riztekserver.ddns.net:44361/signalr'
+   /* FIN */
 
   inicioCliente:boolean;
   private localStorageService;
@@ -121,4 +133,22 @@ export class StorageServiceService {
     this.removeCurrentSessionCliente();
     this.router.navigate(['/logincliente']);
   }
+
+
+
+
+
+  public on(mensaje) {  
+   /*  let mensaje = {
+      titulo: 'Mensaje',
+      msg: 'Mensaje desde Angular'
+    } */
+    // server side hub method using proxy.invoke with method name pass as param  
+    this.proxy.invoke('NuevaNotificacion',mensaje);  
+    /* this.proxy.invoke('NuevaNotificacion');   */
+} 
+
+
+
+
 }

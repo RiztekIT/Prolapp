@@ -60,6 +60,7 @@
         "ngx-qrcode2": "0.0.9",
         "request": "^2.88.0",
         "rxjs": "~6.4.0",
+        "signalr": "^2.4.1",
         "stream": "0.0.2",
         "sweetalert2": "^9.10.12",
         "timers": "^0.1.1",
