@@ -1,0 +1,51 @@
+.wrap {
+    white-space: nowrap;
+}
+
+.table {
+    width: 100%;
+}
+
+td {
+    font-size: 16px !important;
+    /* padding: 5px; */
+}
+
+th {
+    font-size: 16px;
+}
+
+.blacktxt {
+    color: #000000;
+}
+
+.bolder {
+    font-weight: 900;
+    padding: 7px;
+}
+
+.lightback {
+    background-color: #f5f5f5;
+}
+
+.sinpadding {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+::ng-deep .modal-lg {
+    max-width: 850px;
+}
+
+.border3 {
+    border-top-style: double !important;
+}
+
+.border2 {
+    border-top-style: dotted;
+}
+
+
+/* .texto {
+    text-align: end;
+} */

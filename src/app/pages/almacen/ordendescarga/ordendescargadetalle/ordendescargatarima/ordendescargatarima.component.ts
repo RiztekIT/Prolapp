@@ -130,6 +130,7 @@ export class OrdendescargatarimaComponent implements OnInit {
   cantidadMaximaKilogramos: number;
   sacosCero: boolean;
   numerofactura;
+  PO;
   
 
   // qrTarimaExistente
@@ -720,7 +721,7 @@ TarimasTotales: '',
 Bodega: this.service.formData.Destino,
 IdProveedor: 0,
 Proveedor: this.ordenTemporalService.preOrdenTemporalSacos[i].IdProveedor,
-PO: this.ordenTemporalService.preOrdenTemporalSacos[i].PO,
+PO: this.PO,
 FechaMFG: this.ordenTemporalService.preOrdenTemporalSacos[i].FechaMFG,
 FechaCaducidad: this.ordenTemporalService.preOrdenTemporalSacos[i].FechaCaducidad,
 Shipper: this.ordenTemporalService.preOrdenTemporalSacos[i].Shipper,
@@ -743,7 +744,7 @@ Estatus: 'Creada',
   IdDetalleTarima: +ultimo[0].IdDetalleTarima,
   IdOrdenCarga: 0,
   IdOrdenDescarga: this.ordenTemporalService.preOrdenTemporalSacos[i].IdOrdenDescarga,
-  QR: '',
+  QR: this.numerofactura,
   ClaveProducto: this.ordenTemporalService.preOrdenTemporalSacos[i].ClaveProducto,
   Lote: this.ordenTemporalService.preOrdenTemporalSacos[i].Lote,
   Sacos: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,

@@ -1,34 +1,155 @@
-<app-tracking-pedido></app-tracking-pedido>
-
-<!-- <div class="row">
-    <div class="col-12">
+<div class="row">
+    <div class="col-md-4 col-12">
         <div class="card">
             <div class="card-body">
 
 
-                <div class="col-lg-12">
-                    <h4 class="card-title"> Progreso de pedidos </h4>
-                    <h5 class="m-t-30"> Chihuahua - El Paso<span class="pull-right"> Completado </span></h5>
-                    <div class="progress m-t-30">
-                        <div class="progress-bar active progress-bar-striped bg-success" style="width: 100%; height:14px;" role="progressbar"> <span class="sr-only">100% Complete</span> </div>
-                    </div>
-                    <h5 class="m-t-30"> El Paso - Chihuahua <span class="pull-right"> Carga </span></h5>
-                    <div class="progress m-t-30">
-                        <div class="progress-bar bg-info active progress-bar-striped" style="width: 60%; height:14px;" role="progressbar"> <span class="sr-only">60% Complete</span> </div>
-                    </div>
-                    <h5 class="m-t-30"> Ciudad de Mexico <span class="pull-right"> Descarga </span></h5>
-                    <div class="progress m-t-30">
-                        <div class="progress-bar bg-danger active progress-bar-striped" style="width: 90%; height:14px;" role="progressbar"> <span class="sr-only">60% Complete</span> </div>
-                    </div>
-                    <h5 class="m-t-30"> Monterrey - Chihuahua <span class="pull-right"> En Transito </span></h5>
-                    <div class="progress m-t-30">
-                        <div class="progress-bar bg-primary active progress-bar-striped" style="width: 30%; height:14px;" role="progressbar"> <span class="sr-only">60% Complete</span> </div>
-                    </div>
+                <h4 style="text-align: center;">Orden Carga</h4>
+                <hr>
+                <section class="example-section">
+                    <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedOrdenCarga" (change)="onChangeOrdenCarga()" [disabled]="disabledOrdenCarga">
+                        Dashboard Orden Carga
+                    </mat-slide-toggle>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-12">
+        <div class="card">
+            <div class="card-body">
 
-                </div>
+
+                <h4 style="text-align: center;">Orden Descarga</h4>
+                <hr>
+                <section class="example-section">
+                    <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedOrdenDescarga" (change)="onChangeOrdenDescarga()" [disabled]="disabledOrdenDescarga">
+                        Dashboard Orden Descarga
+                    </mat-slide-toggle>
+                </section>
+
 
 
             </div>
         </div>
     </div>
-</div> -->
+    <div class="col-md-4 col-12">
+        <div class="card">
+            <div class="card-body">
+
+
+                <h4 style="text-align: center;">Trafico</h4>
+                <hr>
+                <section class="example-section">
+                    <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedTrafico" (change)="onChangeTrafico()" [disabled]="disabledTrafico">
+                        Dashboard Trafico
+                    </mat-slide-toggle>
+                </section>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<!-- ORDEN CARGA -->
+<div *ngIf="checkedOrdenCarga == true">
+    <div class="card">
+        <div class="card-body">
+            <h2 style="text-align: center;">Orden Carga</h2>
+        </div>
+    </div>
+
+    <div class="row row-eq-height">
+        <div class="col-md-6 col-12" id="almacen">
+            <div class="card" style=" background-color: white;">
+                <app-almacen-totales></app-almacen-totales>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-12" [ngStyle]="{'height':altura+'px'}">
+            <div class="card" style="overflow-x: hidden;overflow-y: auto;  background-color: white;">
+                <app-pedidosalmacen></app-pedidosalmacen>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-12 col-12">
+            <app-almacen-orden-carga-meses></app-almacen-orden-carga-meses>
+        </div>
+    </div>
+</div>
+<!-- ORDEN DESCARGA -->
+<div *ngIf="checkedOrdenDescarga == true">
+    <div class="card">
+        <div class="card-body">
+            <h2 style="text-align: center;">Orden Descarga</h2>
+        </div>
+    </div>
+
+    <div class="row row-eq-height">
+        <div class="col-md-6 col-12" id="almacen">
+            <div class="card" style=" background-color: white;">
+                <app-almacen-orden-descarga-totales></app-almacen-orden-descarga-totales>
+
+            </div>
+        </div>
+
+        <div class="col-md-6 col-12" [ngStyle]="{'height':altura+'px'}">
+            <div class="card" style="overflow-x: hidden;overflow-y: auto;  background-color: white;">
+                <app-ordendescarga></app-ordendescarga>
+
+            </div>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+        <div class="col-md-12 col-12">
+            <app-almacen-orden-descarga-meses></app-almacen-orden-descarga-meses>
+        </div>
+    </div>
+</div>
+<!-- Trafico -->
+<div *ngIf="checkedTrafico == true">
+    <div class="card">
+        <div class="card-body">
+            <h2 style="text-align: center;">Trafico</h2>
+        </div>
+    </div>
+
+    <div class="row row-eq-height">
+        <div class="col-md-12 col-12" id="almacen">
+            <div class="card" style=" background-color: white;">
+                <app-trafico-totales></app-trafico-totales>
+            </div>
+        </div>
+
+        <!-- <div class="col-md-6 col-12" [ngStyle]="{'height':altura+'px'}">
+            <div class="card" style="overflow-x: hidden;overflow-y: auto;  background-color: white;">
+
+            </div>
+        </div> -->
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-12 col-12">
+            <app-tracking-pedido></app-tracking-pedido>
+        </div>
+    </div>
+</div>
+
+<br>
+
+<div class="row">
+    <div class="col-md-12 col-12">
+        <div class="card">
+            <div class="card-body">
+                <app-calendario-trafico></app-calendario-trafico>
+            </div>
+        </div>
+    </div>
+</div>

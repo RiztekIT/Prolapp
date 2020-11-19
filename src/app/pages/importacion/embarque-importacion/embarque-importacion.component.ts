@@ -73,8 +73,8 @@ public listBodega: Array<Object> = [
     
   listData: MatTableDataSource<any>;
   listData2: MatTableDataSource<any>;
-  displayedColumns: string[] = ['select','Bodega', 'Clave','Producto','Lote', 'Fecha Caducidad', 'Cantidad'];
-  displayedColumns2: string[] = ['Bodega', 'Clave','Producto','Lote', 'Fecha Caducidad', 'Cantidad','Options'];
+  displayedColumns: string[] = ['select','PO', 'Clave','Producto','Lote', 'Fecha Caducidad', 'Cantidad'];
+  displayedColumns2: string[] = ['PO', 'Clave','Producto','Lote', 'Fecha Caducidad', 'Cantidad','Options'];
   bodegaSelect;
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -287,9 +287,13 @@ if (this.bodegaSelect==='Todos'){
           dialogConfig.disableClose = false;
           dialogConfig.autoFocus = true;
           dialogConfig.width = "70%";
-          this.dialog.open(DocumentacionFormularioImportacionComponent, dialogConfig);
+          let dl = this.dialog.open(DocumentacionFormularioImportacionComponent, dialogConfig);
 
-    //this.crearOC();
+          dl.afterClosed().subscribe(res=>{
+            this.inicio = true;
+          })
+
+    this.crearOC();
   }
 
    crearOC(){

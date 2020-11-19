@@ -68,6 +68,8 @@ export class PrepararComponent implements OnInit {
 
   ngOnInit() {
     this.IdOrdenCarga = +(localStorage.getItem('IdOrdenCarga'));
+    this.ordenCarga = JSON.parse(localStorage.getItem('OrdenCarga'))
+    console.log(this.ordenCarga);
     this.isVisible = false;
     this.isVisibleQR = true;
     this.showButtonAceptar = false;
@@ -80,6 +82,8 @@ export class PrepararComponent implements OnInit {
 
 
   }
+
+  ordenCarga;
 
   // Tabla pre visualizacion
   listData: MatTableDataSource<any>;
@@ -215,6 +219,7 @@ export class PrepararComponent implements OnInit {
   obtenerBodegaOrigen() {
     console.log(this.IdOrdenCarga);
     this.ordenCargaService.getOCID(this.IdOrdenCarga).subscribe(data => {
+      console.log(data,'ORDEN');
       this.bodegaOrigen = data[0].Origen;
       console.log(this.bodegaOrigen);
       this.dropdownRefreshProductos();
@@ -317,6 +322,8 @@ let productoValido: boolean = true;
     //Obtener Datos de la bodega para verfificar que ese producto si Existe y tiene sacos necesarios
     this.tarimaService.GetGetProductoInformacionBodega(ClaveProducto, Lote, this.bodegaOrigen).subscribe(prodInfo => {
       console.log(prodInfo);
+      let lote2;
+      lote2 = Lote;
       if (prodInfo.length > 0) {
 
 
@@ -324,9 +331,22 @@ let productoValido: boolean = true;
         let kgMaximos = +prodInfo[0].PesoTotal;
         console.log(kgMaximos);
 
+        /* console.log(this.listDataConceptosFaltantes.data, 'PRODUCTOS FALTANTES'); */
+
+        for (let i = 0; i< this.ordenCarga.detalleOrdenCarga.length; i++){
+
+          if (this.ordenCarga.detalleOrdenCarga[i].ClaveProducto==ClaveProducto){
+            if (this.ordenCarga.detalleOrdenCarga[i].Lote=='0'){
+              lote2 = '0';
+              break;
+            }
+          }
+
+        }
+
 
         //Verificar match de detalle tarima con detalle Orden Carga
-        this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, Lote, ClaveProducto).subscribe(dataOrdenCarga => {
+        this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, lote2, ClaveProducto).subscribe(dataOrdenCarga => {
           console.log(dataOrdenCarga);
           let oT = new preOrdenTemporal();
           let SaldoMaximo = 0;
@@ -580,7 +600,7 @@ let productoValido: boolean = true;
               console.log(Sacos);
               SaldoFinal = SaldoActual + Sacos;
               console.log(SaldoFinal);
-              this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataDetalle[0].IdDetalleOrdenCarga, SaldoFinal.toString()).subscribe(res => {
+              this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataDetalle[0].IdDetalleOrdenCarga, SaldoFinal.toString(), dataOt[l].Lote).subscribe(res => {
                 console.log(res);
                 this.ordenTemporalService.deleteOrdenTemporal(dataOt[l].IdOrdenTemporal).subscribe(res => {
                   console.log(res);
@@ -654,7 +674,7 @@ let productoValido: boolean = true;
           let saldoFinal = +dataDetalle[0].Saldo;
           saldoFinal = (saldoFinal + sacosTraspasados);
           //Actualizar Saldo Detalle Orden Carga
-          this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataDetalle[0].IdDetalleOrdenCarga, saldoFinal.toString()).subscribe(resSaldo => {
+          this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataDetalle[0].IdDetalleOrdenCarga, saldoFinal.toString(), row.Lote).subscribe(resSaldo => {
             console.log(resSaldo);
           })
         })
@@ -674,7 +694,7 @@ let productoValido: boolean = true;
           let saldoFinal = +dataDetalle[0].Saldo;
           saldoFinal = (saldoFinal + sacosTraspasados);
           //Actualizar Saldo Detalle Orden Carga
-          this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataDetalle[0].IdDetalleOrdenCarga, saldoFinal.toString()).subscribe(resSaldo => {
+          this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataDetalle[0].IdDetalleOrdenCarga, saldoFinal.toString(), row.Lote).subscribe(resSaldo => {
             console.log(resSaldo);
           })
         })
@@ -700,8 +720,13 @@ let productoValido: boolean = true;
   //Metodo para aceptar datos de la tabla y hacer el insert a Tabla Orden Temporal
   Aceptar() {
     console.log(this.ordenTemporalService.preOrdenTemporal);
-    this.AprobarInsercionTablaTemporal();
+   /*  this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, lote2, ClaveProducto).subscribe(dataOrdenCarga => {
+
+    })
+    this.ordenCargaService.updateDetalleOrdenCarga
+    this.AprobarInsercionTablaTemporal(); */
     // 
+    this.AprobarInsercionTablaTemporal();
   }
 
   regresar() {
@@ -880,15 +905,33 @@ let productoValido: boolean = true;
       console.log(resAdd);
       //   //Obtener Detalle Orden de Carga, para ser actualizado posteriormente
       this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, Lote, ClaveProducto).subscribe(dataOrdenCarga => {
+
         console.log(dataOrdenCarga);
-        console.log(Sacos);
-        let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) - (+kg)).toString();
-        console.log(NuevoSaldo);
-        // Actualizar Saldo de la tabla Detalle Orden Carga
-        this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo).subscribe(res => {
-          console.log(res);
-          this.actualizarTablaOrdenTemporal();
-        });
+        if (dataOrdenCarga.length>0){
+          console.log(Sacos);
+          let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) - (+kg)).toString();
+          console.log(NuevoSaldo);
+          // Actualizar Saldo de la tabla Detalle Orden Carga
+          this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo, Lote).subscribe(res => {
+            console.log(res);
+            this.actualizarTablaOrdenTemporal();
+          });
+
+        }else{
+
+          this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, '0', ClaveProducto).subscribe(dataOrdenCarga => {
+            console.log(Sacos);
+          let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) - (+kg)).toString();
+          console.log(NuevoSaldo);
+          // Actualizar Saldo de la tabla Detalle Orden Carga
+          this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo, Lote).subscribe(res => {
+            console.log(res);
+            this.actualizarTablaOrdenTemporal();
+          });
+
+          })
+
+        }
       });
     });
     // }
@@ -1004,7 +1047,7 @@ let productoValido: boolean = true;
                   let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) + (+ot.PesoTotal)).toString();
                   console.log(NuevoSaldo)
                   //   // Actualizar Saldo de la tabla Detalle Orden Carga
-                  this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo).subscribe(res => {
+                  this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo, Lote).subscribe(res => {
                     console.log(res);
                     this.ordenTemporalService.deleteOrdenTemporal(ot.IdOrdenTemporal).subscribe(DeleteOrden=>{
                     console.log(DeleteOrden);
@@ -1032,7 +1075,7 @@ let productoValido: boolean = true;
                 let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) + (+ot.PesoTotal)).toString();
                 console.log(NuevoSaldo)
                 //   // Actualizar Saldo de la tabla Detalle Orden Carga
-                this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo).subscribe(res => {
+                this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo, Lote).subscribe(res => {
                   console.log(res);
                   this.ordenTemporalService.deleteOrdenTemporal(ot.IdOrdenTemporal).subscribe(DeleteOrden=>{
                     console.log(DeleteOrden);

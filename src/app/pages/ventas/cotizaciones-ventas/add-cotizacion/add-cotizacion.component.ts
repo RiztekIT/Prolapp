@@ -33,6 +33,8 @@ import { Cotizacion } from 'src/app/Models/ventas/cotizacion-model';
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
 import { Pedido } from 'src/app/Models/Pedidos/pedido-model';
 import { InventariosalmacenComponent } from 'src/app/pages/almacen/inventariosalmacen/inventariosalmacen.component';
+import * as signalr from 'signalr'
+import { environment } from 'src/environments/environment';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -45,12 +47,23 @@ const httpOptions = {
   })
 }
 
+declare var $: any;
+
 @Component({
   selector: 'app-add-cotizacion',
   templateUrl: './add-cotizacion.component.html',
   styleUrls: ['./add-cotizacion.component.css']
 })
 export class AddCotizacionComponent implements OnInit {
+  
+
+ private connection: any;
+ private proxy: any;  
+ private proxyName: string = 'alertasHub'; 
+
+  private hubconnection: signalr;  
+  notihub = 'https://riztekserver.ddns.net:44361/signalr'
+
 
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
@@ -149,6 +162,7 @@ public PedidoBlanco: Pedido =
 
 
   ngOnInit() {  
+    this.ConnectionHub();
 
     this.Inicializar();
     this.dropdownRefresh();
@@ -1580,6 +1594,30 @@ inventarios(detalle){
      
       this.dialog.open(InventariosalmacenComponent, dialogConfig);
 
+}
+
+
+
+ConnectionHub(){
+  
+
+
+  this.connection = $.hubConnection(this.notihub);
+
+  this.proxy = this.connection.createHubProxy(this.proxyName); 
+
+  this.proxy.on('alertasHub', (data) => {  
+    console.log('received in SignalRService: ' + JSON.stringify(data));  
+    
+}); 
+
+
+
+  this.connection.start().done((data: any) => {  
+    console.log('Now connected ' + data.transport.name + ', connection ID= ' + data.id);  
+    /* this.connectionEstablished.emit(true);  */ 
+    /* this.connectionExists = true;   */
+})
 }
 
 

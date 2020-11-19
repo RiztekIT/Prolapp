@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ClientesService } from 'src/app/services/catalogos/clientes.service';
 import { Observable } from 'rxjs';
-import { Cliente } from 'src/app/Models/catalogos/clientes-model';
 import { startWith, map } from 'rxjs/operators';
+import {ThemePalette} from '@angular/material/core';
 import { MatDialog, MatDialogConfig, MatSnackBar, MatDivider, MAT_DATE_LOCALE } from '@angular/material';
+import { ClientesService } from 'src/app/services/catalogos/clientes.service';
+import { Cliente } from 'src/app/Models/catalogos/clientes-model';
 import { PedidoService } from '../../../services/pedidos/pedido.service';
 import { VentasCotizacionService } from '../../../services/ventas/ventas-cotizacion.service';
-import {ThemePalette} from '@angular/material/core';
 import { ShowreporteVentasComponent } from './showreporte-ventas/showreporte-ventas.component';
 
 declare function btn_table();

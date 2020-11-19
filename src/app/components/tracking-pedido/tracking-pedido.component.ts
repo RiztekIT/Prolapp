@@ -82,7 +82,7 @@ getPedidos(){
     this.ordenTemporalService.GetTracking(fecha1,fecha2).subscribe(data=>{
       
       
-      console.log(data);
+      // console.log(data);
       
       this.listData = new MatTableDataSource(data);
                 this.listData.sort = this.sort;
@@ -124,7 +124,7 @@ getPedidos(){
       this.ordenTemporalService.GetTrackingCliente(fecha1,fecha2,this.idCliente).subscribe(data=>{
         
         
-        console.log(data);
+        // console.log(data);
         
         this.listData = new MatTableDataSource(data);
                   this.listData.sort = this.sort;

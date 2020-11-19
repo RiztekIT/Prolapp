@@ -299,7 +299,24 @@ import { DisplaySaldosComponent } from './cxc/saldoscxc/display-saldos/display-s
 import { DisplaySaldosComponentp } from './cxp/saldoscxp/display-saldos/display-saldos.component';
 import { CalidadTotalesComponent } from '../components/graficas/calidad/calidad-totales/calidad-totales.component';
 import { CalidadMesesComponent } from '../components/graficas/calidad/calidad-meses/calidad-meses.component';
+import { ShowreporteCalidadComponent } from './calidad/reportes/showreporte-calidad/showreporte-calidad.component';
+import { ImportacionMesesComponent } from '../components/graficas/importacion/importacion-meses/importacion-meses.component';
+import { ImportacionTotalesComponent } from '../components/graficas/importacion/importacion-totales/importacion-totales.component';
+import { ShowreporteImportacionComponent } from './importacion/reportes-importacion/showreporte-importacion/showreporte-importacion.component';
+import { ShowreporteTraficoComponent } from './trafico/reporte-trafico/showreporte-trafico/showreporte-trafico.component';
+import { TraficoTotalesComponent } from '../components/graficas/trafico/trafico-totales/trafico-totales.component';
+import { CxcCobranzaTotalesComponent } from '../components/graficas/cxc/cxc-cobranza-totales/cxc-cobranza-totales.component';
+import { CxcCobranzaMesesComponent } from '../components/graficas/cxc/cxc-cobranza-meses/cxc-cobranza-meses.component';
+import { CxcFacturaMesesComponent } from '../components/graficas/cxc/cxc-factura-meses/cxc-factura-meses.component';
+import { CxcFacturaTotalesComponent } from '../components/graficas/cxc/cxc-factura-totales/cxc-factura-totales.component';
+import { ShowreporteCxpComponent } from './cxp/reportescxp/showreporte-cxp/showreporte-cxp.component';
+import { CxpPagosTotalesComponent } from '../components/graficas/cxp/cxp-pagos-totales/cxp-pagos-totales.component';
+import { CxpPagosMesesComponent } from '../components/graficas/cxp/cxp-pagos-meses/cxp-pagos-meses.component';
 import { HistorialComprasComponent } from './compras/historial-compras/historial-compras.component';
+import { DocumentacionCLVImportacionComponent } from './importacion/documentacion-importacion/documentacion-clv-importacion/documentacion-clv-importacion.component';
+import { DocumentacionCOImportacionComponent } from './importacion/documentacion-importacion/documentacion-co-importacion/documentacion-co-importacion.component';
+import { DocumentacionPespiImportacionComponent } from './importacion/documentacion-importacion/documentacion-pespi-importacion/documentacion-pespi-importacion.component';
+import { DocumentacionCAImportacionComponent } from './importacion/documentacion-importacion/documentacion-ca-importacion/documentacion-ca-importacion.component';
 
 
 
@@ -517,7 +534,24 @@ import { HistorialComprasComponent } from './compras/historial-compras/historial
         DisplaySaldosComponentp,
         CalidadTotalesComponent,
         CalidadMesesComponent,
-        HistorialComprasComponent
+        ShowreporteCalidadComponent,
+        ImportacionMesesComponent,
+        ImportacionTotalesComponent,
+        ShowreporteImportacionComponent,
+        ShowreporteTraficoComponent,
+        TraficoTotalesComponent,
+        CxcCobranzaTotalesComponent,
+        CxcCobranzaMesesComponent,
+        CxcFacturaMesesComponent,
+        CxcFacturaTotalesComponent,
+        ShowreporteCxpComponent,
+        CxpPagosTotalesComponent,
+        CxpPagosMesesComponent,
+        HistorialComprasComponent,
+        DocumentacionCLVImportacionComponent,
+        DocumentacionCOImportacionComponent,
+        DocumentacionPespiImportacionComponent,
+        DocumentacionCAImportacionComponent
     
     ],
     exports: [
@@ -670,7 +704,11 @@ import { HistorialComprasComponent } from './compras/historial-compras/historial
         DisplaySaldosComponent,
         AEBodegaComponent,
         DocumentosComponent,
-        DisplaySaldosComponentp
+        DisplaySaldosComponentp,
+        ShowreporteCalidadComponent,
+        ShowreporteImportacionComponent,
+        ShowreporteTraficoComponent,
+        ShowreporteCxpComponent
         
     ]
 })

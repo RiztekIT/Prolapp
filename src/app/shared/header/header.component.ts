@@ -9,6 +9,9 @@ import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+import * as signalr from 'signalr'
+
+declare var $: any;
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -40,9 +43,28 @@ export class HeaderComponent implements OnInit {
   public usuario: Usuario;
   public user;
 
+  titulo = '';
+  descripcion = '';
+  fecha = new Date();
+
+
+  /* SIGNALR */
+  private connection: any;
+  private proxy: any;  
+  private proxyName: string = 'AlertasHub'; 
+ 
+   private hubconnection: signalr;  
+   notihub = 'https://riztekserver.ddns.net:44361/signalr'
+  /* FIN */
+
   constructor(private http : HttpClient, public storageService: StorageServiceService, private tipoCambio:TipoCambioService, public enviarfact: EnviarfacturaService,public servicefactura: FacturaService,private service: ReciboPagoService, public serviceEmpresa: EmpresaService,private recibopagoSVC: ReciboPagoService) { }
 
   ngOnInit() {
+    this.ConnectionHub();
+    
+
+
+
     // console.log(localStorage.getItem("inicioCliente"));
     this.obtenerEmpresa();
   this.clienteLogin = localStorage.getItem("inicioCliente");
@@ -162,6 +184,38 @@ if (hora>10){
     }
   }
 
+  verMensajes(mensaje){
 
+    this.titulo = mensaje.titulo;
+    this.descripcion = mensaje.descripcion;
+    this.fecha = mensaje.fecha;
+
+  }
+
+
+  
+
+  ConnectionHub(){
+  
+
+
+    this.connection = $.hubConnection(this.notihub);
+  
+    this.proxy = this.connection.createHubProxy(this.proxyName); 
+  
+    this.proxy.on('AlertasHub', (data) => {  
+      console.log('received in SignalRService: ', data);  
+      this.verMensajes(data)
+      
+  }); 
+  
+  
+  
+    this.connection.start().done((data: any) => {  
+      console.log('Now connected ' + data.transport.name + ', connection ID= ' + data.id);  
+      /* this.connectionEstablished.emit(true);  */ 
+      /* this.connectionExists = true;   */
+  })
+  }
 
 }

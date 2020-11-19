@@ -742,28 +742,28 @@ public generarExcelReporteVentasPedidos(datos) {
         kg = kg + +docs.Kg;
   
   
-        let pesos = row2.getCell(4);
-        pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-        let dlls = row2.getCell(5);
-        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-        dlls = row2.getCell(6);
-        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-        dlls = row2.getCell(7);
-        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-        dlls = row2.getCell(9);
-        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // let pesos = row2.getCell(4);
+        // pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // let dlls = row2.getCell(5);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // dlls = row2.getCell(6);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // dlls = row2.getCell(7);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // dlls = row2.getCell(9);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
       })
   
       let suma = ['', '', 'Total', sacos, kg]
       let sumarow = worksheet.addRow(suma);
-      let totalformat = sumarow.getCell(4);
-      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
-      totalformat = sumarow.getCell(5);
-      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
-      totalformat = sumarow.getCell(6);
-      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
-      totalformat = sumarow.getCell(7);
-      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      // let totalformat = sumarow.getCell(4);
+      // totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      // totalformat = sumarow.getCell(5);
+      // totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      // totalformat = sumarow.getCell(6);
+      // totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      // totalformat = sumarow.getCell(7);
+      // totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
   
   
   
@@ -867,28 +867,28 @@ public generarExcelReporteAlmacenOrdenDescarga(datos){
         kg = kg + +docs.Kg;
   
   
-        let pesos = row2.getCell(4);
-        pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-        let dlls = row2.getCell(5);
-        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-        dlls = row2.getCell(6);
-        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-        dlls = row2.getCell(7);
-        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-        dlls = row2.getCell(9);
-        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // let pesos = row2.getCell(4);
+        // pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // let dlls = row2.getCell(5);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // dlls = row2.getCell(6);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // dlls = row2.getCell(7);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // dlls = row2.getCell(9);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
       })
   
       let suma = ['', '', 'Total', sacos, kg]
       let sumarow = worksheet.addRow(suma);
-      let totalformat = sumarow.getCell(4);
-      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
-      totalformat = sumarow.getCell(5);
-      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
-      totalformat = sumarow.getCell(6);
-      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
-      totalformat = sumarow.getCell(7);
-      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      // let totalformat = sumarow.getCell(4);
+      // totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      // totalformat = sumarow.getCell(5);
+      // totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      // totalformat = sumarow.getCell(6);
+      // totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      // totalformat = sumarow.getCell(7);
+      // totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
   
   
   
@@ -1041,9 +1041,646 @@ public generarExcelReporteAlmacenOrdenDescarga(datos){
   }
 
   // --------- Inventario ------- //
+  
+  
+  //***** Reportes Almacen  *****//
+  
+  //***** Reportes Calidad  *****//
+  
+  // --------- Calidad ------- //
+
+  public generarExcelReporteCalidad(datos){
+    const title = 'Reporte Calidad';
+    const header = [""]
+    const header1 = ["Folio", "Procedencia", "Folio Procedencia", "Fecha Elaboracion", "Fecha Final", "Incidencia", "Cantidad", "Estatus", "Observaciones"]
+    const data = datos;
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Calidad');
+    let titleRow = worksheet.addRow([title]);
+    titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    let subTitleRow = worksheet.addRow(['Fecha :', new Date()]);
+    const logoBase64 = this.logobase64;
+    let logo = workbook.addImage({
+      base64: logoBase64,
+      extension: 'png',
+    });
+    worksheet.addImage(logo, 'F1:H5');
+    worksheet.mergeCells('A1:E4');
+    let headerRow = worksheet.addRow(header);
+    headerRow.eachCell((cell, number) => {
+  
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color: { argb: 'FFFFFF' } }
+    });
+    let headerRow1 = worksheet.addRow(header1);
+    headerRow1.eachCell((cell, number) => {
+  
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color: { argb: 'FFFFFF' } }
+    });
+    worksheet.mergeCells('B6:I6');
+  
+    console.log(data);
+    const dat: any[] = Array.of(data);
+    console.log(dat);
+  // let sacos = 0;
+  let kg= 0;
+    data.forEach((d) => {
+      console.log(d);
+      // let registro = [d.IdProveedor, d.Nombre];
+      // console.log(registro);
+      // let row = worksheet.addRow(registro);
+  
+      d.Docs.forEach((docs) => {
+  
+        let fecha1= docs.FechaElaboracion.substring(0, 10);
+        let fecha2 = docs.FechaFinalizacion.substring(0, 10);
+  
+        let registro2 = [docs.Folio, docs.Procedencia, docs.FolioProcedencia, fecha1, fecha2, docs.TipoIncidencia, +docs.Cantidad, docs.Estatus, docs.Observaciones]
+        let row2 = worksheet.addRow(registro2);
+
+        // sacos = sacos + +docs.Sacos1;
+
+        kg = kg + +docs.Cantidad;
+  
+  
+        let pesos = row2.getCell(4);
+        pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        let dlls = row2.getCell(5);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row2.getCell(6);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row2.getCell(7);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row2.getCell(9);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+      })
+  
+      
+  
+  
+  
+  
+  
+  
+    }
+    );
+    let suma = ['', '', 'Total', kg]
+      let sumarow = worksheet.addRow(suma);
+      let totalformat = sumarow.getCell(4);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(5);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(6);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(7);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+  
+  
+    worksheet.getColumn(2).width = 15;
+    worksheet.getColumn(3).width = 15;
+    worksheet.getColumn(4).width = 15;
+    worksheet.getColumn(5).width = 15;
+    worksheet.getColumn(6).width = 15;
+    worksheet.getColumn(7).width = 15;
+  
+  
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, 'ReporteCalidad.xlsx');
+    });
+  }
+
+  // --------- Calidad ------- //
+  
+  
+  //***** Reportes Calidad  *****//
+  
+  
+  //***** Reportes Cuentas por Pagar  *****//
 
 
-    //***** Reportes Almacen  *****//
+  // --------- Pagos ------- //
+
+  public generarExcelReporteCxpPagos(datos){
+    const title = 'Reporte Calidad';
+    const header = [""]
+    const header1 = ["Folio Pago", "Folio Documento", "Total", "Cuenta Origen", "Cuenta Destino", "Fecha Pago", "Observaciones"]
+    const data = datos;
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Pagos');
+    let titleRow = worksheet.addRow([title]);
+    titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    let subTitleRow = worksheet.addRow(['Fecha :', new Date()]);
+    const logoBase64 = this.logobase64;
+    let logo = workbook.addImage({
+      base64: logoBase64,
+      extension: 'png',
+    });
+    worksheet.addImage(logo, 'F1:H5');
+    worksheet.mergeCells('A1:E4');
+    let headerRow = worksheet.addRow(header);
+    headerRow.eachCell((cell, number) => {
+  
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color: { argb: 'FFFFFF' } }
+    });
+    let headerRow1 = worksheet.addRow(header1);
+    headerRow1.eachCell((cell, number) => {
+  
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color: { argb: 'FFFFFF' } }
+    });
+    worksheet.mergeCells('B6:I6');
+  
+    console.log(data);
+    const dat: any[] = Array.of(data);
+    console.log(dat);
+  // let sacos = 0;
+  let kg= 0;
+    data.forEach((docs) => {
+      console.log(docs);
+      // let registro = [d.IdProveedor, d.Nombre];
+      // console.log(registro);
+      // let row = worksheet.addRow(registro);
+  
+      // d.Docs.forEach((docs) => {
+  
+        let fecha1= docs.FechaPago.substring(0, 10);
+        // let fecha2 = docs.FechaFinalizacion.substring(0, 10);
+  
+        let registro2 = [docs.Folio, docs.FolioDocumento, +docs.Cantidad,  docs.CuentaOrigen, docs.CuentaDestino, fecha1, docs.Observaciones]
+        let row2 = worksheet.addRow(registro2);
+
+        // sacos = sacos + +docs.Sacos1;
+
+        kg = kg + +docs.Cantidad;
+  
+  
+        let pesos = row2.getCell(4);
+        pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        let dlls = row2.getCell(5);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row2.getCell(6);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row2.getCell(7);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        dlls = row2.getCell(9);
+        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+      })
+  
+      
+  
+  
+  
+  
+  
+  
+    // }
+    // );
+    let suma = ['', '', 'Total', kg]
+      let sumarow = worksheet.addRow(suma);
+      let totalformat = sumarow.getCell(4);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(5);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(6);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(7);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+  
+  
+    worksheet.getColumn(2).width = 15;
+    worksheet.getColumn(3).width = 15;
+    worksheet.getColumn(4).width = 15;
+    worksheet.getColumn(5).width = 15;
+    worksheet.getColumn(6).width = 15;
+    worksheet.getColumn(7).width = 15;
+  
+  
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, 'ReportePagos.xlsx');
+    });
+  }
+
+  // --------- Pagos ------- //
+  
+  
+  //***** Reportes Cuentas por Pagar  *****//
+  
+  
+  //***** Reportes Importacion  *****//
+  
+  // --------- Documentos ------- //
+
+  public generarExcelReporteImportacionDocumentos(datos){
+    const title = 'Reporte Calidad';
+    const header = [""]
+    const header1 = ["Folio", "Modulo", "Tipo", "Clave Producto", "Observaciones", "Vigencia"]
+    const data = datos;
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Documentos');
+    let titleRow = worksheet.addRow([title]);
+    titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    let subTitleRow = worksheet.addRow(['Fecha :', new Date()]);
+    const logoBase64 = this.logobase64;
+    let logo = workbook.addImage({
+      base64: logoBase64,
+      extension: 'png',
+    });
+    worksheet.addImage(logo, 'F1:H5');
+    worksheet.mergeCells('A1:E4');
+    let headerRow = worksheet.addRow(header);
+    headerRow.eachCell((cell, number) => {
+  
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color: { argb: 'FFFFFF' } }
+    });
+    let headerRow1 = worksheet.addRow(header1);
+    headerRow1.eachCell((cell, number) => {
+  
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color: { argb: 'FFFFFF' } }
+    });
+    worksheet.mergeCells('B6:I6');
+  
+    console.log(data);
+    const dat: any[] = Array.of(data);
+    console.log(dat);
+  // let sacos = 0;
+  let kg= 0;
+    data.forEach((docs) => {
+      console.log(docs);
+      // let registro = [d.IdProveedor, d.Nombre];
+      // console.log(registro);
+      // let row = worksheet.addRow(registro);
+  
+      // d.Docs.forEach((docs) => {
+  
+        let fecha1= docs.Vigencia.substring(0, 10);
+        // let fecha2 = docs.FechaFinalizacion.substring(0, 10);
+  
+        let registro2 = [docs.Folio, docs.Modulo, docs.Tipo,  docs.ClaveProducto, docs.Observaciones, fecha1]
+        let row2 = worksheet.addRow(registro2);
+
+        // sacos = sacos + +docs.Sacos1;
+
+        // kg = kg + +docs.Cantidad;
+  
+  
+        // let pesos = row2.getCell(4);
+        // pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // let dlls = row2.getCell(5);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // dlls = row2.getCell(6);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // dlls = row2.getCell(7);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // dlls = row2.getCell(9);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+      })
+  
+      
+  
+  
+  
+  
+  
+  
+    // }
+    // );
+    // let suma = ['', '', 'Total', kg]
+    //   let sumarow = worksheet.addRow(suma);
+    //   let totalformat = sumarow.getCell(4);
+    //   totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+    //   totalformat = sumarow.getCell(5);
+    //   totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+    //   totalformat = sumarow.getCell(6);
+    //   totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+    //   totalformat = sumarow.getCell(7);
+    //   totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+  
+  
+    worksheet.getColumn(2).width = 15;
+    worksheet.getColumn(3).width = 15;
+    worksheet.getColumn(4).width = 15;
+    worksheet.getColumn(5).width = 15;
+    worksheet.getColumn(6).width = 15;
+    worksheet.getColumn(7).width = 15;
+  
+  
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, 'ReporteDocumentos.xlsx');
+    });
+  }
+
+  // --------- Documentos ------- //
+
+  // --------- Traspaso ------- //
+
+  public generarExcelReporteImportacionTraspaso(datos){
+    const title = 'Reporte Traspaso';
+    const header = [""]
+    const header1 = ["Folio", "Origen", "Destino", "Kilogramos", "Estatus","Observaciones", "Fecha Expedicion", "Fecha Inicio Carga", "Fecha Final Carga"]
+    const data = datos;
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Traspaso');
+    let titleRow = worksheet.addRow([title]);
+    titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    let subTitleRow = worksheet.addRow(['Fecha :', new Date()]);
+    const logoBase64 = this.logobase64;
+    let logo = workbook.addImage({
+      base64: logoBase64,
+      extension: 'png',
+    });
+    worksheet.addImage(logo, 'F1:H5');
+    worksheet.mergeCells('A1:E4');
+    let headerRow = worksheet.addRow(header);
+    headerRow.eachCell((cell, number) => {
+  
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color: { argb: 'FFFFFF' } }
+    });
+    let headerRow1 = worksheet.addRow(header1);
+    headerRow1.eachCell((cell, number) => {
+  
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color: { argb: 'FFFFFF' } }
+    });
+    worksheet.mergeCells('B6:I6');
+  
+    console.log(data);
+    const dat: any[] = Array.of(data);
+    console.log(dat);
+  // let sacos = 0;
+  let kg= 0;
+    data.forEach((docs) => {
+      console.log(docs);
+      // let registro = [d.IdProveedor, d.Nombre];
+      // console.log(registro);
+      // let row = worksheet.addRow(registro);
+  
+      // d.Docs.forEach((docs) => {
+  
+        let fecha1= docs.FechaExpedicion.substring(0, 10);
+        let fecha2= docs.FechaInicioCarga.substring(0, 10);
+        let fecha3= docs.FechaFinalCarga.substring(0, 10);
+        // let fecha2 = docs.FechaFinalizacion.substring(0, 10);
+  
+        let registro2 = [docs.Folio, docs.Origen, +docs.Destino,  docs.Kilogramos, docs.Estatus, docs.Observaciones, fecha1, fecha2, fecha3 ]
+        let row2 = worksheet.addRow(registro2);
+
+        // sacos = sacos + +docs.Sacos1;
+
+        kg = kg + +docs.Cantidad;
+  
+  
+        // let pesos = row2.getCell(4);
+        // pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // let dlls = row2.getCell(5);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // dlls = row2.getCell(6);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // dlls = row2.getCell(7);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // dlls = row2.getCell(9);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+      })
+  
+      
+  
+  
+  
+  
+  
+  
+    // }
+    // );
+    let suma = ['', '', 'Total', kg]
+      let sumarow = worksheet.addRow(suma);
+      // let totalformat = sumarow.getCell(4);
+      // totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      // totalformat = sumarow.getCell(5);
+      // totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      // totalformat = sumarow.getCell(6);
+      // totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      // totalformat = sumarow.getCell(7);
+      // totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+  
+  
+    worksheet.getColumn(2).width = 15;
+    worksheet.getColumn(3).width = 15;
+    worksheet.getColumn(4).width = 15;
+    worksheet.getColumn(5).width = 15;
+    worksheet.getColumn(6).width = 15;
+    worksheet.getColumn(7).width = 15;
+  
+  
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, 'ReporteTraspaso.xlsx');
+    });
+  }
+
+
+  // --------- Traspaso ------- //
+
+
+
+  //***** Reportes Importacion  *****//
+  
+  
+  
+  //***** Reportes Trafico  *****//
+  
+  // --------- Flete ------- //
+
+  public generarExcelReporteTraficoFlete(datos){
+    const title = 'Reporte Fletes';
+    const header = [""]
+    const header1 = ["Folio Orden Carga", "Fletera", "Kilogramos", "Total", "Estatus"]
+    const data = datos;
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Fletes');
+    let titleRow = worksheet.addRow([title]);
+    titleRow.font = { name: 'Comic Sans MS', family: 4, size: 16, underline: 'double', bold: true };
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    worksheet.addRow([]);
+    let subTitleRow = worksheet.addRow(['Fecha :', new Date()]);
+    const logoBase64 = this.logobase64;
+    let logo = workbook.addImage({
+      base64: logoBase64,
+      extension: 'png',
+    });
+    worksheet.addImage(logo, 'F1:H5');
+    worksheet.mergeCells('A1:E4');
+    let headerRow = worksheet.addRow(header);
+    headerRow.eachCell((cell, number) => {
+  
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color: { argb: 'FFFFFF' } }
+    });
+    let headerRow1 = worksheet.addRow(header1);
+    headerRow1.eachCell((cell, number) => {
+  
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '000000' },
+        bgColor: { argb: 'FFFFFF' }
+      }
+      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+      cell.font = { color: { argb: 'FFFFFF' } }
+    });
+    worksheet.mergeCells('B6:I6');
+  
+    console.log(data);
+    const dat: any[] = Array.of(data);
+    console.log(dat);
+  // let sacos = 0;
+  let kg= 0;
+
+  let total = 0;
+    data.forEach((docs) => {
+      console.log(docs);
+      // let registro = [d.IdProveedor, d.Nombre];
+      // console.log(registro);
+      // let row = worksheet.addRow(registro);
+  
+      // d.Docs.forEach((docs) => {
+  
+        // let fecha1= docs.FechaPago.substring(0, 10);
+        // let fecha2 = docs.FechaFinalizacion.substring(0, 10);
+  
+        let registro2 = [docs.Folio, docs.Fletera, +docs.Kg,  +docs.Total, docs.Estatus]
+        let row2 = worksheet.addRow(registro2);
+
+        // sacos = sacos + +docs.Sacos1;
+
+        kg = kg + +docs.Cantidad;
+        total = total + +docs.Total;
+  
+  
+        let pesos = row2.getCell(4);
+        pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // let dlls = row2.getCell(5);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // dlls = row2.getCell(6);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // dlls = row2.getCell(7);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        // dlls = row2.getCell(9);
+        // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+      })
+  
+      
+  
+  
+  
+  
+  
+  
+    // }
+    // );
+    let suma = ['', '', 'Totales', kg, total]
+      let sumarow = worksheet.addRow(suma);
+      let totalformat = sumarow.getCell(5);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(6);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(7);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      totalformat = sumarow.getCell(8);
+      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+  
+  
+    worksheet.getColumn(2).width = 15;
+    worksheet.getColumn(3).width = 15;
+    worksheet.getColumn(4).width = 15;
+    worksheet.getColumn(5).width = 15;
+    worksheet.getColumn(6).width = 15;
+    worksheet.getColumn(7).width = 15;
+  
+  
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fs.saveAs(blob, 'ReporteTraficoFletes.xlsx');
+    });
+  }
+
+  // --------- Flete ------- //
+
+
+    //***** Reportes Trafico  *****//
 
 
   //-------------------------- Reportes --------------------------- //
