@@ -293,7 +293,7 @@ if (this.bodegaSelect==='Todos'){
             this.inicio = true;
           })
 
-    this.crearOC();
+    // this.crearOC();
   }
 
    crearOC(){
