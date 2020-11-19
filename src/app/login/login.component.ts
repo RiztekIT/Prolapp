@@ -55,6 +55,12 @@ numimagen = 3;
     this.carruselimagenes()
 
   }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    clearInterval(this.intervalUpdate);
+  }
   private intervalUpdate: any = null;
   propiedad1 = 'none';
   propiedad2 = 'none';
