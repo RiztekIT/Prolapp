@@ -49,3 +49,13 @@
     /* min-width: 100%;
     min-height: 100%; */
 }
+
+.imagen {
+    max-width: 800px;
+    margin-top: 15%;
+}
+
+.divimg {
+    text-align: center;
+    margin-top: 8%;
+}

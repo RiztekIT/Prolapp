@@ -28,6 +28,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 // import { DocumentosclienteComponent } from './documentoscliente/documentoscliente.component';
 import { DocumentosclienteComponent } from './documentoscliente/documentoscliente.component';
+import { NgImageSliderModule } from 'ng-image-slider';
 
 
 
@@ -98,7 +99,8 @@ import { DocumentosclienteComponent } from './documentoscliente/documentosclient
     HttpClientModule,
     BrowserAnimationsModule,
     ZXingScannerModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    NgImageSliderModule
     // NgbModule
   ],
   bootstrap: [AppComponent],

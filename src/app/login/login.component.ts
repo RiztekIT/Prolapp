@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Form, NgForm } from '@angular/forms';
 import { Usuario } from '../Models/catalogos/usuarios-model';
@@ -8,6 +8,7 @@ import { StorageServiceService } from '../services/shared/storage-service.servic
 import { Session } from '../Models/session-model';
 import { SidebarService } from '../services/shared/sidebar.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { NgImageSliderComponent } from 'ng-image-slider';
 
 
 declare function init_plugins();
@@ -24,6 +25,26 @@ export class LoginComponent implements OnInit {
   token;
   deviceinfo;
   dispositivo;
+  @ViewChild('nav', {static: false}) slider: NgImageSliderComponent
+  public imagesUrl: Array<object> = [
+      
+  {
+    image:'assets/login/abarrotodo.png',
+    thumbImage: 'assets/login/abarrotodo.png',
+    alt: 'Abarrotodo'
+},
+{
+  image:'assets/login/prolacto.png',
+  thumbImage: 'assets/login/prolacto.png',
+  alt: 'Prolacto'
+},
+{
+  image:'assets/login/dairy.png',
+  thumbImage: 'assets/login/dairy.png',
+  alt: 'Dairy'
+}
+
+]
 
   ngOnInit() {
 

@@ -81,3 +81,11 @@ npm i ngx-device-detector@2.0.0
 
 ## UUID
 npm install uuid
+
+
+## Carrusel
+npm i ng-image-slider
+
+
+## Signalir
+npm i signalr
