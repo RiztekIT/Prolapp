@@ -85,3 +85,7 @@ npm install uuid
 
 ## Carrusel
 npm i ng-image-slider
+
+
+## Signalir
+npm i signalr
