@@ -208,7 +208,9 @@ const pagesRoutes: Routes = [
                 { path: 'ordencargatrafico', component: OrdenCargaTraficoComponent },
                 { path: 'evidenciasoc', component: EvidenciasOCComponent },
                 { path: 'evidenciasod', component: EvidenciasODComponent },   
-                { path: 'compras-historial', component: HistorialComprasComponent },   
+                { path: 'compras-historial', component: HistorialComprasComponent },
+                { path: 'embarque', component: EmbarqueImportacionComponent },
+
                              
                 
 

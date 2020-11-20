@@ -16,7 +16,14 @@
                 <hr>
 
 
-                <mat-tab-group selectedIndex="3" color="#2d5b9e" animationDuration="0ms" mat-align-tabs="end">
+                <mat-tab-group selectedIndex="0" color="#2d5b9e" animationDuration="0ms" mat-align-tabs="end">
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">people</mat-icon>
+                            Resumen Traspaso
+                        </ng-template>
+                        <!-- <app-resumentraspaso></app-resumentraspaso> -->
+                    </mat-tab>
                     <mat-tab>
                         <ng-template mat-tab-label>
                             <mat-icon class="example-tab-icon">person_pin_circle</mat-icon>
@@ -259,13 +266,7 @@
                         </ng-template>
                         <app-documentacion-co-importacion></app-documentacion-co-importacion>
                     </mat-tab>
-                    <mat-tab>
-                        <ng-template mat-tab-label>
-                            <mat-icon class="example-tab-icon">people</mat-icon>
-                            USDA
-                        </ng-template>
 
-                    </mat-tab>
                     <mat-tab>
                         <ng-template mat-tab-label>
                             <mat-icon class="example-tab-icon">person_pin</mat-icon>

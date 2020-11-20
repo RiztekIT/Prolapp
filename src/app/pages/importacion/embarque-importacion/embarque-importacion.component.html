@@ -12,10 +12,10 @@
                             <button style="margin-right: 15px;" mat-fab (click)="lista()" class="btncoti">
                                     <mat-icon>note_add</mat-icon>
                                   </button>
-                            <button style="margin-right: 15px;" *ngIf='!inicio' mat-fab (click)="lista2()" class="btncoti">
+                            <button style="margin-right: 15px;" mat-fab (click)="lista2()" class="btncoti">
                                     <mat-icon>close</mat-icon>
                                   </button>
-                            <button *ngIf='!inicio' title="Hacer Pedido" class="btncoti" mat-fab (click)="hacerTraspaso()">
+                            <button title="Hacer Pedido" *ngIf="!this.inicio" class="btncoti" mat-fab (click)="hacerTraspaso()">
                                     <mat-icon>send</mat-icon>
                                 </button>
                         </div>

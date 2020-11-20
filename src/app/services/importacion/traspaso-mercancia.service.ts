@@ -14,6 +14,12 @@ import { DetalleTraspasoMercancia } from '../../Models/importacion/traspasoMerca
 })
 export class TraspasoMercanciaService {
 
+  nuevoTraspaso: TraspasoMercancia;
+  nuevoDetalle: Array<TraspasoMercancia> = [];
+  folionuevo;
+  idnuevo;
+  selectTraspaso;
+
   constructor(private http:HttpClient) { }
 
   //^ Obtener  Traspaso Mercancia
@@ -34,8 +40,8 @@ updateTraspasoMercancia(traspaso: TraspasoMercancia) {
   }
 
    //^ Obtener  Detalle Traspaso Mercancia
-getDetalleTraspasoMercancia():Observable<DetalleTraspasoMercancia[]>{
-  return this.http.get<DetalleTraspasoMercancia[]>(APIUrl + '/TraspasoMercancia/GetDetalleTraspasoMercancia');
+getDetalleTraspasoMercancia(id):Observable<DetalleTraspasoMercancia[]>{
+  return this.http.get<DetalleTraspasoMercancia[]>(APIUrl + '/TraspasoMercancia/GetDetalleTraspasoMercancia/'+id);
 }
 //^ Insert Detalle Traspaso Mercancia
 addDetalleTraspasoMercancia(detalle: TraspasoMercancia) {
@@ -49,6 +55,11 @@ updateDetalleTraspasoMercancia(detalle: TraspasoMercancia) {
   deleteDetalleTraspasoMercancia(id: number){
     return this.http.delete(APIUrl+ '/TraspasoMercancia/DeleteDetalleTraspasoMercancia/' + id);
   }
+
+  //^ Consultas generales
+getQuery(query) {
+  return this.http.post(APIUrl + '/TraspasoMercancia/general', query);
+}
 
 
   private _listeners = new Subject<any>(); 
