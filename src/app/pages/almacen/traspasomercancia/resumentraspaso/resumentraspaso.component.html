@@ -95,40 +95,103 @@
                     <div class="row">
                         <div class="col-md-4 col-12">
                             <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
-                            <div class="col-12 col-lg-6">
-                                <p style="font-weight: 400; margin-top: 10px;">Facturas:</p>
-                                <div style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
-                                    <div *ngFor="let a of archivosfactura">
-                                        <button class="btn " (click)='leerArchivosfactura(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
-                                        <button class="btn btn-danger" (click)='onRemoveFactura(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p style="font-weight: 400; margin-top: 10px;">Facturas:</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentosFacturas()">Agregar</button>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+                                    <div style="padding: 0;" class="col-12">
+                                        <ngx-dropzone style="width: 100%;" (change)="onSelectFacturas($event)">
+                                            <!-- <ngx-dropzone (change)="onSelect($event)"> -->
+                                            <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                                            <ngx-dropzone-preview *ngFor="let f of filesFacturas" [file]="f" [removable]="true" (removed)="onRemoveDocDropzoneFacturas(f)">
+                                                <ngx-dropzone-label> {{ f.name }}</ngx-dropzone-label>
+                                            </ngx-dropzone-preview>
+                                        </ngx-dropzone>
+                                    </div>
+                                    <div class="col-12" style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                        <div *ngFor="let a of archivosfactura">
+                                            <button class="btn " (click)='leerArchivosfactura(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                            <button class="btn btn-danger" (click)='onRemoveFactura(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                        </div>
                                     </div>
                                 </div>
+
                             </div>
                             <!-- FIN CARD -->
                         </div>
                         <div class="col-md-4 col-12">
                             <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
-                            <div class="col-12 col-lg-6">
-                                <p style="font-weight: 400; margin-top: 10px;">Certificado de Libre Venta:</p>
-                                <div style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
-                                    <div *ngFor="let a of archivosCLV">
-                                        <button class="btn " (click)='leerArchivosCLV(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
-                                        <button class="btn btn-danger" (click)='onRemoveCLV(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p style="font-weight: 400; margin-top: 10px;">Certificado de Libre Venta:</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentosCLV()">Agregar</button>
                                     </div>
                                 </div>
+                                <div class="row">
+
+                                    <div style="padding: 0;" class="col-12">
+                                        <ngx-dropzone style="width: 100%;" (change)="onSelectCLV($event)">
+                                            <!-- <ngx-dropzone (change)="onSelect($event)"> -->
+                                            <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                                            <ngx-dropzone-preview *ngFor="let f of filesCLV" [file]="f" [removable]="true" (removed)="onRemoveDocDropzoneCLV(f)">
+                                                <ngx-dropzone-label> {{ f.name }}</ngx-dropzone-label>
+                                            </ngx-dropzone-preview>
+                                        </ngx-dropzone>
+                                    </div>
+
+                                    <div class="col-12" style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                        <div *ngFor="let a of archivosCLV">
+                                            <button class="btn " (click)='leerArchivosCLV(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                            <button class="btn btn-danger" (click)='onRemoveCLV(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                             <!-- FIN CARD -->
                         </div>
                         <div class="col-md-4 col-12">
                             <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
-                            <div class="col-12 col-lg-6">
-                                <p style="font-weight: 400; margin-top: 10px;">Certificado Origen:</p>
-                                <div style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
-                                    <div *ngFor="let a of archivosCO">
-                                        <button class="btn " (click)='leerArchivosCO(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
-                                        <button class="btn btn-danger" (click)='onRemoveCO(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p style="font-weight: 400; margin-top: 10px;">Certificado Origen:</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentosCO()">Agregar</button>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div style="padding: 0;" class="col-12">
+                                        <ngx-dropzone style="width: 100%;" (change)="onSelectCO($event)">
+                                            <!-- <ngx-dropzone (change)="onSelect($event)"> -->
+                                            <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                                            <ngx-dropzone-preview *ngFor="let f of filesCO" [file]="f" [removable]="true" (removed)="onRemoveDocDropzoneCO(f)">
+                                                <ngx-dropzone-label> {{ f.name }}</ngx-dropzone-label>
+                                            </ngx-dropzone-preview>
+                                        </ngx-dropzone>
+                                    </div>
+
+
+                                    <div class="col-12" style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                        <div *ngFor="let a of archivosCO">
+                                            <button class="btn " (click)='leerArchivosCO(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                            <button class="btn btn-danger" (click)='onRemoveCO(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                             <!-- FIN CARD -->
                         </div>
@@ -136,42 +199,114 @@
                     <div class="row">
                         <div class="col-md-4 col-12">
                             <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
-                            <div class="col-12 col-lg-6">
-                                <p style="font-weight: 400; margin-top: 10px;">PESPI:</p>
-                                <div style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
-                                    <div *ngFor="let a of archivosPESPI">
-                                        <button class="btn " (click)='leerArchivosPESPI(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
-                                        <button class="btn btn-danger" (click)='onRemovePESPI(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p style="font-weight: 400; margin-top: 10px;">PESPI:</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentosPESPI()">Agregar</button>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div style="padding: 0;" class="col-12">
+                                        <ngx-dropzone style="width: 100%;" (change)="onSelectPESPI($event)">
+                                            <!-- <ngx-dropzone (change)="onSelect($event)"> -->
+                                            <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                                            <ngx-dropzone-preview *ngFor="let f of filesPESPI" [file]="f" [removable]="true" (removed)="onRemoveDocDropzonePESPI(f)">
+                                                <ngx-dropzone-label> {{ f.name }}</ngx-dropzone-label>
+                                            </ngx-dropzone-preview>
+                                        </ngx-dropzone>
+                                    </div>
+
+
+                                    <div class="col-12" style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                        <div *ngFor="let a of archivosPESPI">
+                                            <button class="btn " (click)='leerArchivosPESPI(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                            <button class="btn btn-danger" (click)='onRemovePESPI(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                             <!-- FIN CARD -->
                         </div>
                         <div class="col-md-4 col-12">
                             <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
-                            <div class="col-12 col-lg-6">
-                                <p style="font-weight: 400; margin-top: 10px;">Certificado de Analisis:</p>
-                                <div style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
-                                    <div *ngFor="let a of archivosCA">
-                                        <button class="btn " (click)='leerArchivosCA(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
-                                        <button class="btn btn-danger" (click)='onRemoveCA(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p style="font-weight: 400; margin-top: 10px;">Certificado de Analisis:</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentosCA()">Agregar</button>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div style="padding: 0;" class="col-12">
+                                        <ngx-dropzone style="width: 100%;" (change)="onSelectCA($event)">
+                                            <!-- <ngx-dropzone (change)="onSelect($event)"> -->
+                                            <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                                            <ngx-dropzone-preview *ngFor="let f of filesCA" [file]="f" [removable]="true" (removed)="onRemoveDocDropzoneCA(f)">
+                                                <ngx-dropzone-label> {{ f.name }}</ngx-dropzone-label>
+                                            </ngx-dropzone-preview>
+                                        </ngx-dropzone>
+                                    </div>
+
+                                    <div class="col-12" style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                        <div *ngFor="let a of archivosCA">
+                                            <button class="btn " (click)='leerArchivosCA(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                            <button class="btn btn-danger" (click)='onRemoveCA(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                             <!-- FIN CARD -->
                         </div>
                         <div class="col-md-4 col-12">
-                            <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
-                            <!--   <div class="col-12 col-lg-6">
-                            <p style="font-weight: 400; margin-top: 10px;">Certificado Origen:</p>
-                            <div style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
-                                <div *ngFor="let a of archivosCO">
-                                    <button class="btn " (click)='leerArchivosCO(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
-                                    <button class="btn btn-danger" (click)='onRemoveCO(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <p style="font-weight: 400; margin-top: 10px;">USDA:</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <!-- <label class="input-group-text text-info">USDA :</label> <br> -->
+
+                                        <input type="text" placeholder="Ingresar USDA" aria-label="Number" [formControl]="myControl4" [(ngModel)]="numUSDA" matInput>
+
+                                    </div>
+                                    <div class="col-4">
+                                        <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentosUSDA()">Agregar</button>
+                                    </div>
                                 </div>
+                                <div class="row">
+                                    <div style="padding: 0;" class="col-12">
+                                        <ngx-dropzone style="width: 100%;" (change)="onSelectUSDA($event)">
+                                            <!-- <ngx-dropzone (change)="onSelect($event)"> -->
+                                            <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                                            <ngx-dropzone-preview *ngFor="let f of filesUSDA" [file]="f" [removable]="true" (removed)="onRemoveDocDropzoneUSDA(f)">
+                                                <ngx-dropzone-label> {{ f.name }}</ngx-dropzone-label>
+                                            </ngx-dropzone-preview>
+                                        </ngx-dropzone>
+                                    </div>
+
+                                    <div class="col-12" style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                        <div *ngFor="let a of archivosCA">
+                                            <button class="btn " (click)='leerArchivosUSDA(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                            <button class="btn btn-danger" (click)='onRemoveUSDA(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
-                        </div> -->
                             <!-- FIN CARD -->
+
+
+
+
+
                         </div>
                     </div>
 
