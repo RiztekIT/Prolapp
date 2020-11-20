@@ -1,0 +1,183 @@
+<mat-dialog-content>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <h1 style="text-align: center;">Resumen Traspaso de Mercancia</h1>
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="input-group-text text-info">Folio Trapaso:</label> <br>
+
+                            <input readonly type="text" placeholder="Folio" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.Folio" matInput>
+
+                        </div>
+                        <div class="col-4">
+                            <label class="input-group-text text-info">Folio Orden Carga :</label> <br>
+
+                            <input readonly type="text" placeholder="Orden de Carga" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.FolioOrdenCarga" matInput>
+
+                        </div>
+                        <div class="col-4">
+                            <label class="input-group-text text-info">Fecha :</label> <br>
+
+                            <input readonly type="text" placeholder="Fecha" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.FechaExpedicion" matInput>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="input-group-text text-info">Sacos Totales:</label> <br>
+
+                            <input readonly type="text" placeholder="Sacos" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.SacosTotales" matInput>
+
+                        </div>
+                        <div class="col-4">
+                            <label class="input-group-text text-info">Kg Totales :</label> <br>
+
+                            <input readonly type="text" placeholder="Kilos" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.KilogramosTotales" matInput>
+
+                        </div>
+                        <div class="col-4">
+                            <label class="input-group-text text-info">Estatus :</label> <br>
+
+                            <input readonly type="text" placeholder="Estatus" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.Estatus" matInput>
+
+                        </div>
+                    </div>
+
+                    <hr>
+
+
+                    <h2 style="text-align: center;">Productos</h2>
+
+
+                    <div class="row">
+                        <div class="col-12">
+
+                            <table style="width: 100%;" mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                <ng-container matColumnDef="Clave">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave</th>
+                                    <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Producto">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                                    <td mat-cell *matCellDef="let element">{{element.Producto}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="PesoTotal">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>KG</th>
+                                    <td mat-cell *matCellDef="let element">{{element.PesoTotal}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Sacos">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
+                                    <td mat-cell *matCellDef="let element">{{element.Sacos}}
+                                    </td>
+                                </ng-container>
+
+
+                            </table>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <!-- <div class="row"> -->
+                    <h2 style="text-align: center;">Archivos</h2>
+                    <!-- </div> -->
+
+                    <div class="row">
+                        <div class="col-md-4 col-12">
+                            <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
+                            <div class="col-12 col-lg-6">
+                                <p style="font-weight: 400; margin-top: 10px;">Facturas:</p>
+                                <div style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                    <div *ngFor="let a of archivosfactura">
+                                        <button class="btn " (click)='leerArchivosfactura(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                        <button class="btn btn-danger" (click)='onRemoveFactura(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIN CARD -->
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
+                            <div class="col-12 col-lg-6">
+                                <p style="font-weight: 400; margin-top: 10px;">Certificado de Libre Venta:</p>
+                                <div style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                    <div *ngFor="let a of archivosCLV">
+                                        <button class="btn " (click)='leerArchivosCLV(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                        <button class="btn btn-danger" (click)='onRemoveCLV(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIN CARD -->
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
+                            <div class="col-12 col-lg-6">
+                                <p style="font-weight: 400; margin-top: 10px;">Certificado Origen:</p>
+                                <div style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                    <div *ngFor="let a of archivosCO">
+                                        <button class="btn " (click)='leerArchivosCO(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                        <button class="btn btn-danger" (click)='onRemoveCO(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIN CARD -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-12">
+                            <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
+                            <div class="col-12 col-lg-6">
+                                <p style="font-weight: 400; margin-top: 10px;">PESPI:</p>
+                                <div style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                    <div *ngFor="let a of archivosPESPI">
+                                        <button class="btn " (click)='leerArchivosPESPI(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                        <button class="btn btn-danger" (click)='onRemovePESPI(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIN CARD -->
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
+                            <div class="col-12 col-lg-6">
+                                <p style="font-weight: 400; margin-top: 10px;">Certificado de Analisis:</p>
+                                <div style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                    <div *ngFor="let a of archivosCA">
+                                        <button class="btn " (click)='leerArchivosCA(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                        <button class="btn btn-danger" (click)='onRemoveCA(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIN CARD -->
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
+                            <!--   <div class="col-12 col-lg-6">
+                            <p style="font-weight: 400; margin-top: 10px;">Certificado Origen:</p>
+                            <div style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                <div *ngFor="let a of archivosCO">
+                                    <button class="btn " (click)='leerArchivosCO(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                    <button class="btn btn-danger" (click)='onRemoveCO(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                </div>
+                            </div>
+                        </div> -->
+                            <!-- FIN CARD -->
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

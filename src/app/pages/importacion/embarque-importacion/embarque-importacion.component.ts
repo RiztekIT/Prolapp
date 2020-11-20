@@ -9,6 +9,8 @@ import { BodegasService } from 'src/app/services/catalogos/bodegas.service';
 import { DocumentacionImportacionComponent } from '../documentacion-importacion/documentacion-importacion.component';
 import { DocumentacionFormularioImportacionComponent } from '../documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
 import { DocumentosImportacionService } from 'src/app/services/importacion/documentos-importacion.service';
+import { Location } from '@angular/common';
+import { TraspasoMercanciaService } from '../../../services/importacion/traspaso-mercancia.service';
 
 
 declare function steps();
@@ -69,7 +71,7 @@ public listBodega: Array<Object> = [
 
   constructor(public router: Router, public serviceTarima: TarimaService, 
     public serviceordencarga: OrdenCargaService,
-    private bodegaservice: BodegasService, private dialog: MatDialog, public documentosService: DocumentosImportacionService) { }
+    private bodegaservice: BodegasService, private dialog: MatDialog, public documentosService: DocumentosImportacionService, public location: Location, public traspasoSVC: TraspasoMercanciaService) { }
     
   listData: MatTableDataSource<any>;
   listData2: MatTableDataSource<any>;
@@ -226,9 +228,10 @@ if (this.bodegaSelect==='Todos'){
     console.log(this.selection.selected);
   }
   lista2(){
+    this.location.back();
+    /* this.inicio = true;
+    console.log(this.selection.selected); */
     
-    this.inicio = true;
-    console.log(this.selection.selected);
   }
 
   onEdit(row){
@@ -293,7 +296,84 @@ if (this.bodegaSelect==='Todos'){
             this.inicio = true;
           })
 
-    // this.crearOC();
+     this.crearOC();
+     
+     
+  }
+
+  crearTraspaso(folioordencarga){
+    let traspaso;
+    let detalletraspaso;
+    let sacos;
+    let kg;
+    
+    sacos = 0;
+
+    for (let i=0; i< this.listData2.data.length;i++){
+      sacos = sacos + +this.listData2.data[i].SacosTotales;
+      kg = sacos * +this.listData2.data[i].PesoxSaco;
+    }
+
+    traspaso = {
+      IdTraspasoMercancia: this.traspasoSVC.idnuevo,
+Folio: this.traspasoSVC.folionuevo,
+IdOrdenCarga: '',
+FolioOrdenCarga: folioordencarga,
+IdCliente: '',
+Cliente: '',
+SacosTotales:sacos,
+KilogramosTotales: kg,
+FechaExpedicion : new Date(),
+Estatus: 'Creada',
+Origen: this.bodegaSelect,
+Destino: 'Chihuahua',
+CampoExtra1: '',
+CampoExtra2: '',
+    }
+
+    this.traspasoSVC.addTraspasoMercancia(traspaso).subscribe(res=>{
+      console.log(res);
+
+
+      for (let i=0; i< this.listData2.data.length;i++){
+
+        detalletraspaso = {
+          IdDetalleTraspasoMercancia: 0,
+IdTraspasoMercancia: this.traspasoSVC.idnuevo,
+IdDetalle: this.listData2.data[i].IdDetalleTarima,
+Cbk: '',
+Usda: '',
+IdProveedor: '',
+Proveedor: '',
+PO: this.listData2.data[i].PO,
+Producto: this.listData2.data[i].Producto,
+ClaveProducto: this.listData2.data[i].ClaveProducto,
+Lote: this.listData2.data[i].Lote,
+Sacos: this.listData2.data[i].Sacos,
+PesoxSaco: this.listData2.data[i].PesoxSaco,
+PesoTotal: this.listData2.data[i].PesoTotal,
+Bodega: this.listData2.data[i].Bodega,
+CampoExtra3: '',
+CampoExtra4: '',
+        }
+
+        this.traspasoSVC.addDetalleTraspasoMercancia(detalletraspaso).subscribe(data=>{
+          console.log(data);
+        /*   Swal.fire({
+            icon: 'success',
+            title: 'Traspaso Creado'
+          }) */
+        })
+
+      
+
+      }
+
+
+    })
+
+
+
   }
 
    crearOC(){
@@ -351,7 +431,7 @@ if (this.bodegaSelect==='Todos'){
 
      
 
-
+      this.crearTraspaso(data[0].Folio);
 
       this.serviceordencarga.addOrdenCarga(ordencarga).subscribe(data=>{
 

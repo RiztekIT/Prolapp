@@ -317,6 +317,8 @@ import { DocumentacionCLVImportacionComponent } from './importacion/documentacio
 import { DocumentacionCOImportacionComponent } from './importacion/documentacion-importacion/documentacion-co-importacion/documentacion-co-importacion.component';
 import { DocumentacionPespiImportacionComponent } from './importacion/documentacion-importacion/documentacion-pespi-importacion/documentacion-pespi-importacion.component';
 import { DocumentacionCAImportacionComponent } from './importacion/documentacion-importacion/documentacion-ca-importacion/documentacion-ca-importacion.component';
+import { TraspasomercanciaComponent } from './almacen/traspasomercancia/traspasomercancia.component';
+import { ResumentraspasoComponent } from './almacen/traspasomercancia/resumentraspaso/resumentraspaso.component';
 
 
 
@@ -551,7 +553,9 @@ import { DocumentacionCAImportacionComponent } from './importacion/documentacion
         DocumentacionCLVImportacionComponent,
         DocumentacionCOImportacionComponent,
         DocumentacionPespiImportacionComponent,
-        DocumentacionCAImportacionComponent
+        DocumentacionCAImportacionComponent,
+        TraspasomercanciaComponent,
+        ResumentraspasoComponent
     
     ],
     exports: [
@@ -708,7 +712,8 @@ import { DocumentacionCAImportacionComponent } from './importacion/documentacion
         ShowreporteCalidadComponent,
         ShowreporteImportacionComponent,
         ShowreporteTraficoComponent,
-        ShowreporteCxpComponent
+        ShowreporteCxpComponent,
+        ResumentraspasoComponent
         
     ]
 })
