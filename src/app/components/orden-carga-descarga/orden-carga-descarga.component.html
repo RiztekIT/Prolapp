@@ -1,0 +1,167 @@
+<div style="overflow: auto; height: 800px;">
+    <div>
+        <button class="btn btn-danger" color="warn" (click)="onClose()">
+      <mat-icon>close</mat-icon>
+    </button>
+    </div>
+
+
+
+    <div class="modal0-body ">
+
+        <div id="OrdenSalida-PDF">
+            <!-- TOP PAGE -->
+            <div class="container " style="width: 100%;">
+                <div class="row">
+                    <!-- logo -->
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                        <div class="card card-outline-inverse">
+
+                            <img src="../../../assets/images/ProLactoLogo.png" class="logo">
+
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <h3 class="blacktxt bolder text-center"> ORDEN DE CARGA / SALIDA
+                        </h3>
+                    </div>
+                    <!-- descripcion -->
+                    <div class="col-12">
+                        <div class="container row" style="background-color: #a9d08e;">
+                            <div class="col-3">
+                                <p class="blacktxt bolder nomarginbottomP"> Salida # <span> 615</span></p>
+                            </div>
+                            <div class="col-6"></div>
+                            <div class="col-3">
+                                <p class="blacktxt bolder nomarginbottomP"> Fecha:
+                                    <span>04/22/2020</span></p>
+                            </div>
+                        </div>
+                        <div class="container row">
+                            <div class="col-3">
+                                <p class="blacktxt bolder nomarginbottomP">Cliente: <span>ABA</span></p>
+                                <p class="blacktxt bolder nomarginbottomP">Enviar A: <span>ABA</span></p>
+                            </div>
+                            <!-- <div class="col-5">
+                                <p class="blacktxt bolder nomarginbottomP">Producto: <span>Leche Dairy America</span></p>
+                            </div> -->
+                            <div class="col-2">
+                                <p class="blacktxt bolder nomarginbottomP">PRODUCTO: <span> LECHE LONE STAR</span></p>
+                            </div>
+                            <div class="col-2">
+                                <p class="blacktxt bolder nomarginbottomP">Fletera: <span> GO CAR</span></p>
+                            </div>
+                            <div class="col-2">
+                                <p class="blacktxt bolder nomarginbottomP"># Caja: <span>53665</span></p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End TOP -->
+
+            <!-- BODY -->
+            <div>
+                <table class="table-striped">
+                    <thead class="thead">
+                        <tr>
+                            <th class="blacktxt bolder whitecolor">CBK</th>
+                            <th class="blacktxt bolder whitecolor">Proveedor</th>
+                            <th class="blacktxt bolder whitecolor">PO</th>
+                            <th class="blacktxt bolder whitecolor">Producto</th>
+                            <th class="blacktxt bolder whitecolor">LOTE</th>
+                            <th class="blacktxt bolder whitecolor">SACOS</th>
+                            <th class="blacktxt bolder whitecolor">PESO POR SACO</th>
+                            <th class="blacktxt bolder whitecolor">PESO TOTAL</th>
+                            <th class="blacktxt bolder whitecolor">BODEGA</th>
+                        </tr>
+                    </thead>
+                    <!-- <tbody *ngFor="let conceptos of arrcon; let i = index"> -->
+                    <tbody>
+                        <tr class="pgbreak">
+                            <td class="wrap lightback pgbreak"> 15a6sf </td>
+                            <td class="wrap lightback pgbreak"> 15a6sf </td>
+                            <td class="wrap lightback">15a6sf</td>
+                            <td class="wrap lightback pgbreak"> 15a6sf</td>
+                            <td class="pgbreak">123123 </td>
+                            <td class="pgbreak">123123 </td>
+                            <td class="pgbreak">123123</td>
+                            <td class="pgbreak">123123</td>
+                            <td class="pgbreak">123123</td>
+                        </tr>
+                        <td class="wrap lightback pgbreak texto" [attr.colspan]="5"> </td>
+                        <td class="wrap lightback pgbreak"> Total </td>
+                        <td class="wrap lightback pgbreak texto"> 55 </td>
+                        <td class="wrap lightback pgbreak texto"> Total KG</td>
+                        <td class="wrap lightback pgbreak texto"> 28.000 </td>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="container row pgbreak">
+                <div class="col-6 pgbreak">
+                    <h3 style="display: inline-block; background-color: rgb(238, 238, 238); font-weight: 900; padding-right: 10px; padding-left: 10px; ">
+                        USDA </h3>
+                    <h3 style="display: inline-block; padding-right: 10px; padding-left: 10px; font-weight: 300; " class="borderContainer"> 498gf8</h3>
+                    <table class="table-striped pgbreak">
+                        <thead class="thead">
+                            <tr>
+                                <th class="blacktxt bolder whitecolor">Factura</th>
+                                <th class="blacktxt bolder whitecolor">Sacos</th>
+                                <th class="blacktxt bolder whitecolor">KG</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="pgbreak">
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-6">
+                    <table class="table pgbreak">
+                        <thead>
+                            <tr>
+                                <th class="blacktxt bolder pgbreak pb-0 mb-0">Shipper</th>
+                                <th class="blacktxt bolder pgbreak pb-0 mb-0">USDA</th>
+                                <th class="blacktxt bolder pgbreak pb-0 mb-0">PEDIMENTO</th>
+                                <th class="blacktxt bolder pgbreak pb-0 mb-0">FAC IMPORTACION</th>
+                                <th class="blacktxt bolder pgbreak pb-0 mb-0">FAC ALMACENAMIENTO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <!-- <tr *ngFor="let conceptos of arrcon"> -->
+
+                                <td class="borderContainer pgbreak">651fs</td>
+                                <td class="borderContainer pgbreak">61asf565</td>
+                                <td class="borderContainer pgbreak">a+651sf651as</td>
+                                <td class="borderContainer pgbreak">651fas</td>
+                                <td class="borderContainer pgbreak">5asf</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="blacktxt bolder nomarginbottomP" style="display: block;">NOTAS</p>
+                    <div class="borderContainer pgbreak" style="height: 100px;">
+                        <p>
+                            Sin Observaciones
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- fin Area A IMPRIMIR -->
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button>
+        <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
+    </div>
+</div>
