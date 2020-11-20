@@ -7,7 +7,7 @@ import { TraspasoMercancia } from '../../Models/importacion/detalleTraspasoMerca
 import { DetalleTraspasoMercancia } from '../../Models/importacion/traspasoMercancia-model';
 
  export const APIUrl = environment.APIUrl;
-//export const APIUrl = "https://localhost:44361/api";
+// export const APIUrl = "https://localhost:44361/api";
 
 @Injectable({
   providedIn: 'root'
@@ -19,14 +19,20 @@ export class TraspasoMercanciaService {
   folionuevo;
   idnuevo;
   selectTraspaso;
+  
+  formrow: any;
 
   constructor(private http:HttpClient) { }
 
   //^ Obtener  Traspaso Mercancia
-getTraspasoMercancia():Observable<TraspasoMercancia[]>{
-  return this.http.get<TraspasoMercancia[]>(APIUrl + '/TraspasoMercancia');
-}
-//^ Insert Traspaso Mercancia
+  getTraspasoMercancia():Observable<TraspasoMercancia[]>{
+    return this.http.get<TraspasoMercancia[]>(APIUrl + '/TraspasoMercancia');
+  }
+  // obtener traspaso Mercancia por id
+  GetTraspasoMercanciaid(id: number):Observable<TraspasoMercancia[]>{
+    return this.http.get<TraspasoMercancia[]>(APIUrl + '/TraspasoMercancia/GetTraspasoMercanciaid/' + id);
+  }
+  //^ Insert Traspaso Mercancia
 addTraspasoMercancia(traspaso: TraspasoMercancia) {
   return this.http.post(APIUrl + '/TraspasoMercancia/PostTraspasoMercancia', traspaso);
 }

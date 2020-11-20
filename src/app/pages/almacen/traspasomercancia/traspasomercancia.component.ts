@@ -5,6 +5,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { ResumentraspasoComponent } from './resumentraspaso/resumentraspaso.component';
 import { DocumentacionFormularioImportacionComponent } from '../../importacion/documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
+import { OrdenCargaDescargaComponent } from 'src/app/components/orden-carga-descarga/orden-carga-descarga.component';
 
 @Component({
   selector: 'app-traspasomercancia',
@@ -74,6 +75,27 @@ export class TraspasomercanciaComponent implements OnInit {
           let dl = this.dialog.open(ResumentraspasoComponent, dialogConfig);
   }
 
+  accederPDF(row) {
+    let query = 'select DetalleTraspasoMercancia.*, DetalleTarima.*, OrdenTemporal.* from DetalleTraspasoMercancia left join detalletarima on DetalleTraspasoMercancia.IdDetalle=detalletarima.IdDetalleTarima left join OrdenTemporal on OrdenTemporal.IdDetalleTarima=DetalleTarima.IdDetalleTarima where DetalleTraspasoMercancia.IdTraspasoMercancia=3'
+    let consulta = {
+      'consulta':query
+    };
+
+    this.traspasoSVC.getQuery(consulta).subscribe((detalles: any)=>{
+      console.log(detalles);
+      this.traspasoSVC.formrow = detalles;
+      console.log('%c⧭', 'color: #d90000', this.traspasoSVC.formrow);
+    })
+    // this.service.formrow = row;
+    // console.log();
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "70%";
+    this.dialog.open(OrdenCargaDescargaComponent, dialogConfig);
+    
+  }
+  
   onDelete(row){
     console.log(row);
   }

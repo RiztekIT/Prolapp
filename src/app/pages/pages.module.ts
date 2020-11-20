@@ -716,6 +716,7 @@ import { ResumentraspasoComponent } from './almacen/traspasomercancia/resumentra
         ShowreporteTraficoComponent,
         ShowreporteCxpComponent,
         ResumentraspasoComponent,
+        OrdenCargaDescargaComponent
         
     ]
 })

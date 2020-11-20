@@ -9,7 +9,7 @@
 
     <div class="modal0-body ">
 
-        <div id="OrdenSalida-PDF">
+        <div id="OrdenCargaDescarga-PDF">
             <!-- TOP PAGE -->
             <div class="container " style="width: 100%;">
                 <div class="row">
@@ -29,30 +29,27 @@
                     <div class="col-12">
                         <div class="container row" style="background-color: #a9d08e;">
                             <div class="col-3">
-                                <p class="blacktxt bolder nomarginbottomP"> Salida # <span> 615</span></p>
+                                <p class="blacktxt bolder nomarginbottomP"> Salida # <span> {{this.folio}}</span></p>
                             </div>
                             <div class="col-6"></div>
                             <div class="col-3">
                                 <p class="blacktxt bolder nomarginbottomP"> Fecha:
-                                    <span>04/22/2020</span></p>
+                                    <span>{{this.expedicion | date: 'yyyy/MM/dd'}}</span></p>
                             </div>
                         </div>
                         <div class="container row">
                             <div class="col-3">
-                                <p class="blacktxt bolder nomarginbottomP">Cliente: <span>ABA</span></p>
-                                <p class="blacktxt bolder nomarginbottomP">Enviar A: <span>ABA</span></p>
+                                <p class="blacktxt bolder nomarginbottomP">Cliente: <span>{{this.cliente}}</span></p>
+                                <p class="blacktxt bolder nomarginbottomP">Enviar A: <span></span></p>
                             </div>
-                            <!-- <div class="col-5">
-                                <p class="blacktxt bolder nomarginbottomP">Producto: <span>Leche Dairy America</span></p>
-                            </div> -->
-                            <div class="col-2">
-                                <p class="blacktxt bolder nomarginbottomP">PRODUCTO: <span> LECHE LONE STAR</span></p>
+                            <div class="col-5">
+                                <p class="blacktxt bolder nomarginbottomP">PRODUCTO: <span>{{traspasoSVC.formrow[0].Producto}}</span></p>
                             </div>
                             <div class="col-2">
-                                <p class="blacktxt bolder nomarginbottomP">Fletera: <span> GO CAR</span></p>
+                                <p class="blacktxt bolder nomarginbottomP">Fletera: <span></span></p>
                             </div>
                             <div class="col-2">
-                                <p class="blacktxt bolder nomarginbottomP"># Caja: <span>53665</span></p>
+                                <p class="blacktxt bolder nomarginbottomP"># Caja: <span></span></p>
                             </div>
                         </div>
 
@@ -80,21 +77,32 @@
                     <!-- <tbody *ngFor="let conceptos of arrcon; let i = index"> -->
                     <tbody>
                         <tr class="pgbreak">
-                            <td class="wrap lightback pgbreak"> 15a6sf </td>
-                            <td class="wrap lightback pgbreak"> 15a6sf </td>
-                            <td class="wrap lightback">15a6sf</td>
-                            <td class="wrap lightback pgbreak"> 15a6sf</td>
-                            <td class="pgbreak">123123 </td>
-                            <td class="pgbreak">123123 </td>
-                            <td class="pgbreak">123123</td>
-                            <td class="pgbreak">123123</td>
-                            <td class="pgbreak">123123</td>
+                            <td class="wrap lightback pgbreak">{{traspasoSVC.formrow[0].CBK}} </td>
+                            <td class="wrap lightback pgbreak">{{traspasoSVC.formrow[0].Proveedor}}</td>
+                            <td class="wrap lightback">{{traspasoSVC.formrow[0].PO}}</td>
+                            <td class="wrap lightback">{{traspasoSVC.formrow[0].Producto}}</td>
+                            <td class="wrap lightback pgbreak"> {{traspasoSVC.formrow[0].Lote}}</td>
+                            <td class="pgbreak">{{traspasoSVC.formrow[0].Sacos}} </td>
+                            <td class="pgbreak">{{traspasoSVC.formrow[0].PesoxSaco}}</td>
+                            <td class="pgbreak">{{traspasoSVC.formrow[0].PesoTotal}}</td>
+                            <td class="pgbreak">{{traspasoSVC.formrow[0].Bodega}}</td>
                         </tr>
-                        <td class="wrap lightback pgbreak texto" [attr.colspan]="5"> </td>
-                        <td class="wrap lightback pgbreak"> Total </td>
-                        <td class="wrap lightback pgbreak texto"> 55 </td>
-                        <td class="wrap lightback pgbreak texto"> Total KG</td>
-                        <td class="wrap lightback pgbreak texto"> 28.000 </td>
+                        <!-- <tr class="pgbreak">
+                            <td class="wrap lightback pgbreak"> </td>
+                            <td class="wrap lightback pgbreak"> {{conceptos.Proveedor}}</td>
+                            <td class="wrap lightback">{{conceptos.PO}}</td>
+                            <td class="wrap lightback">{{conceptos.Producto}}</td>
+                            <td class="wrap lightback pgbreak"> {{conceptos.Lote}}</td>
+                            <td class="pgbreak">{{conceptos.Sacos}} </td>
+                            <td class="pgbreak">{{conceptos.PesoxSaco}}</td>
+                            <td class="pgbreak">{{this.pesototalprod[i]}}</td>
+                            <td class="pgbreak">Bodega</td>
+                        </tr> -->
+                        <td class="wrap lightback pgbreak texto mt-2" [attr.colspan]="4"> </td>
+                        <td class="wrap lightback pgbreak mt-2 bolder blacktxt"> Total </td>
+                        <td class="wrap lightback pgbreak texto mt-2">{{traspasoSVC.formrow[0].Sacos}}</td>
+                        <td class="wrap lightback pgbreak mt-2 bolder blacktxt"> Total KG</td>
+                        <td class="wrap lightback pgbreak texto mt-2"> {{traspasoSVC.formrow[0].PesoTotal}}</td>
                     </tbody>
 
                 </table>
@@ -105,7 +113,9 @@
                 <div class="col-6 pgbreak">
                     <h3 style="display: inline-block; background-color: rgb(238, 238, 238); font-weight: 900; padding-right: 10px; padding-left: 10px; ">
                         USDA </h3>
-                    <h3 style="display: inline-block; padding-right: 10px; padding-left: 10px; font-weight: 300; " class="borderContainer"> 498gf8</h3>
+                    <h3 style="display: inline-block; padding-right: 10px; padding-left: 10px; font-weight: 300; " class="borderContainer">
+                        <p>{{traspasoSVC.formrow[0].USDA1}}</p>
+                    </h3>
                     <table class="table-striped pgbreak">
                         <thead class="thead">
                             <tr>
@@ -116,9 +126,9 @@
                         </thead>
                         <tbody>
                             <tr class="pgbreak">
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
+                                <td>A52ASF</td>
+                                <td>16846</td>
+                                <td>418948</td>
                             </tr>
                         </tbody>
                     </table>
@@ -135,21 +145,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <!-- <tr *ngFor="let conceptos of arrcon"> -->
+                            <!-- <tr> -->
+                            <tr *ngFor="let conceptos of arrcon">
 
-                                <td class="borderContainer pgbreak">651fs</td>
-                                <td class="borderContainer pgbreak">61asf565</td>
-                                <td class="borderContainer pgbreak">a+651sf651as</td>
-                                <td class="borderContainer pgbreak">651fas</td>
-                                <td class="borderContainer pgbreak">5asf</td>
+                                <td class="borderContainer pgbreak">{{traspasoSVC.formrow[0].Shipper}}</td>
+                                <td class="borderContainer pgbreak">{{traspasoSVC.formrow[0].USDA1}}</td>
+                                <td class="borderContainer pgbreak">{{traspasoSVC.formrow[0].Pedimento}}</td>
+                                <td class="borderContainer pgbreak">{{traspasoSVC.formrow[0].QR}}</td>
+                                <td class="borderContainer pgbreak">{{traspasoSVC.formrow[0].Sacos}}</td>
                             </tr>
                         </tbody>
                     </table>
                     <p class="blacktxt bolder nomarginbottomP" style="display: block;">NOTAS</p>
                     <div class="borderContainer pgbreak" style="height: 100px;">
                         <p>
-                            Sin Observaciones
+                            {{traspasoSVC.formrow[0].Comentarios}}
                         </p>
                     </div>
                 </div>
