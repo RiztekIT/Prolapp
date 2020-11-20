@@ -17,13 +17,13 @@
 
 
                 <mat-tab-group selectedIndex="0" color="#2d5b9e" animationDuration="0ms" mat-align-tabs="end">
-                    <mat-tab>
+                    <!--    <mat-tab>
                         <ng-template mat-tab-label>
                             <mat-icon class="example-tab-icon">people</mat-icon>
                             Resumen Traspaso
                         </ng-template>
-                        <!-- <app-resumentraspaso></app-resumentraspaso> -->
-                    </mat-tab>
+                        
+                    </mat-tab> -->
                     <mat-tab>
                         <ng-template mat-tab-label>
                             <mat-icon class="example-tab-icon">person_pin_circle</mat-icon>
@@ -238,6 +238,7 @@
                                                                 <div class="col-8"></div>
                                                                 <div class="col-4">
                                                                     <button style="float: right; margin-top: 20px;" [disabled]="productosExistentes == false || stringDocumentoSeleccionado.length == 0 || files.length == 0" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentos()">Agregar Documento(s)</button>
+                                                                    <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentos2()">Ver</button>
 
                                                                 </div>
 

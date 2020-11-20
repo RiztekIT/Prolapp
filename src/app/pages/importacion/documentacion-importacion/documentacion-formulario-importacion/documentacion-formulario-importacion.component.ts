@@ -276,6 +276,10 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
 
   }
 
+  onAddDocumentos2(){
+    console.log(this.seleccionados,'seleccionados');
+  }
+
   //Agregar documentos a la base de datos y Servidor
   onAddDocumentos() {
     console.log(this.seleccionados,'seleccionados');
