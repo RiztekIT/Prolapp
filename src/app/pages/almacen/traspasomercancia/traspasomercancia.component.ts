@@ -76,23 +76,29 @@ export class TraspasomercanciaComponent implements OnInit {
   }
 
   accederPDF(row) {
-    let query = 'select DetalleTraspasoMercancia.*, DetalleTarima.*, OrdenTemporal.* from DetalleTraspasoMercancia left join detalletarima on DetalleTraspasoMercancia.IdDetalle=detalletarima.IdDetalleTarima left join OrdenTemporal on OrdenTemporal.IdDetalleTarima=DetalleTarima.IdDetalleTarima where DetalleTraspasoMercancia.IdTraspasoMercancia=3'
+    console.log(row);
+    this.traspasoSVC.formrow = []
+    let query = 'select DetalleTraspasoMercancia.*, DetalleTarima.*, OrdenTemporal.* from DetalleTraspasoMercancia left join detalletarima on DetalleTraspasoMercancia.IdDetalle=detalletarima.IdDetalleTarima left join OrdenTemporal on OrdenTemporal.IdDetalleTarima=DetalleTarima.IdDetalleTarima where DetalleTraspasoMercancia.IdTraspasoMercancia='+row.IdTraspasoMercancia;
+    console.log('%c⧭', 'color: #731d6d', query);
     let consulta = {
       'consulta':query
     };
+    console.log('%c⧭', 'color: #e57373', consulta);
 
     this.traspasoSVC.getQuery(consulta).subscribe((detalles: any)=>{
-      console.log(detalles);
-      this.traspasoSVC.formrow = detalles;
+      console.log('%c⧭', 'color: #997326', detalles);
+      this.traspasoSVC.formrow[0] = detalles;
       console.log('%c⧭', 'color: #d90000', this.traspasoSVC.formrow);
+
+
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "70%";
+      this.dialog.open(OrdenCargaDescargaComponent, dialogConfig);
     })
     // this.service.formrow = row;
     // console.log();
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = "70%";
-    this.dialog.open(OrdenCargaDescargaComponent, dialogConfig);
     
   }
   
