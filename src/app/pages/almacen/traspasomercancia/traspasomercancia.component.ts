@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ResumentraspasoComponent } from './resumentraspaso/resumentraspaso.component';
 import { DocumentacionFormularioImportacionComponent } from '../../importacion/documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
 import { OrdenCargaDescargaComponent } from 'src/app/components/orden-carga-descarga/orden-carga-descarga.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-traspasomercancia',
@@ -91,11 +92,25 @@ export class TraspasomercanciaComponent implements OnInit {
       console.log('%c⧭', 'color: #d90000', this.traspasoSVC.formrow);
 
 
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = false;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = "70%";
-      this.dialog.open(OrdenCargaDescargaComponent, dialogConfig);
+      console.log('%c%s', 'color: #364cd9', detalles.length);
+      console.log('%c⧭', 'color: #ffa280', detalles[0]);
+
+      if (detalles.length == 0) {
+        Swal.fire({
+          title: 'No Hay Registro',
+          icon: 'error',
+        })
+        
+      } else {
+        
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = false;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width = "70%";
+  
+        this.dialog.open(OrdenCargaDescargaComponent, dialogConfig);
+      }
+
     })
     // this.service.formrow = row;
     // console.log();
@@ -105,6 +120,8 @@ export class TraspasomercanciaComponent implements OnInit {
   onDelete(row){
     console.log(row);
   }
+
+ 
   
 
 }
