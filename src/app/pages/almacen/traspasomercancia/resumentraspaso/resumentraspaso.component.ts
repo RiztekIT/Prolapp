@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
-import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { DocumentosImportacionService } from 'src/app/services/importacion/documentos-importacion.service';
 import Swal from 'sweetalert2';
 import { DocumentacionImportacionVisorDocumentosComponent } from 'src/app/pages/importacion/documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
@@ -59,9 +59,10 @@ export class ResumentraspasoComponent implements OnInit {
    //File URL del pdf, para ser mostrado en el visor de decumentos
    fileUrl;
  
-  constructor(public traspasoSVC: TraspasoMercanciaService, public documentosService: DocumentosImportacionService, private dialog: MatDialog, public otService: OrdenTemporalService) { }
+  constructor(public traspasoSVC: TraspasoMercanciaService, public documentosService: DocumentosImportacionService, private dialog: MatDialog, public otService: OrdenTemporalService,@Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
+    
     this.obtenerDetallesTraspaso();
     
   }
@@ -71,7 +72,7 @@ export class ResumentraspasoComponent implements OnInit {
 
     
 
-      let query = 'select DetalleTraspasoMercancia.*, DetalleTarima.*, OrdenTemporal.* from DetalleTraspasoMercancia left join detalletarima on DetalleTraspasoMercancia.IdDetalle=detalletarima.IdDetalleTarima left join OrdenTemporal on OrdenTemporal.IdDetalleTarima=DetalleTarima.IdDetalleTarima where DetalleTraspasoMercancia.IdTraspasoMercancia=3'
+      let query = 'select DetalleTraspasoMercancia.*, DetalleTarima.*, OrdenTemporal.* from DetalleTraspasoMercancia left join detalletarima on DetalleTraspasoMercancia.IdDetalle=detalletarima.IdDetalleTarima left join OrdenTemporal on OrdenTemporal.IdDetalleTarima=DetalleTarima.IdDetalleTarima where DetalleTraspasoMercancia.IdTraspasoMercancia='+this.traspasoSVC.selectTraspaso.IdTraspasoMercancia+''
       let consulta = {
         'consulta':query
       };
@@ -1346,7 +1347,7 @@ export class ResumentraspasoComponent implements OnInit {
         const formData = new FormData();
         formData.append('folio', detalle.IdTraspasoMercancia);
         formData.append('id', this.numUSDA);
-        formData.append('direccionDocumento', 'Documentos/Importacion/USDA/'+detalle.IdTraspasoMercancia.toString()+'/'+this.numUSDA.toString()+'/'+ClaveProducto+'/'+Lote);
+        formData.append('direccionDocumento', 'Documentos/Importacion/USDA/'+detalle.IdTraspasoMercancia.toString());
         this.documentosService.readDirDocuemntosServer(formData, 'cargarNombreDocumentos').subscribe(res => {
           // console.log(res);
           this.archivosUSDA = [];
@@ -1364,7 +1365,7 @@ export class ResumentraspasoComponent implements OnInit {
               formDataDoc.append('folio', detalle.IdTraspasoMercancia);
               formDataDoc.append('id', this.numUSDA);
               formDataDoc.append('archivo', res[i])
-              formDataDoc.append('direccionDocumento', 'Documentos/Importacion/USDA/'+detalle.IdTraspasoMercancia.toString()+'/'+this.numUSDA.toString()+'/'+ClaveProducto+'/'+Lote);
+              formDataDoc.append('direccionDocumento', 'Documentos/Importacion/USDA/'+detalle.IdTraspasoMercancia.toString());
               this.documentosService.readDocumentosServer(formDataDoc, 'ObtenerDocumento').subscribe(resDoc => {
                 //  console.log(resDoc)
                 const blob = new Blob([resDoc as BlobPart], { type: 'application/pdf' });
@@ -1395,7 +1396,7 @@ export class ResumentraspasoComponent implements OnInit {
     formData.append('id', a.id)
     formData.append('archivo', a.name)
     formData.append('lote', a.lote)
-    formData.append('direccionDocumento', 'Documentos/Importacion/USDA/'+a.folio+'/'+a.id+'/'+a.clave+'/'+a.lote)
+    formData.append('direccionDocumento', 'Documentos/Importacion/USDA/'+a.folio)
     this.documentosService.readDocumentosServer(formData, 'ObtenerDocumento').subscribe(res => {
       // console.log(res);
       const blob = new Blob([res as BlobPart], { type: 'application/pdf' });
@@ -1418,9 +1419,51 @@ export class ResumentraspasoComponent implements OnInit {
 
   }
 
-  onRemoveUSDA(a){
+  onRemoveUSDA(event){
     console.log(event);
-    this.archivosUSDA.splice(this.archivosUSDA.indexOf(event), 1);
+    /* this.archivosUSDA.splice(this.archivosUSDA.indexOf(event), 1); */
+    Swal.fire({
+      title: '¿Seguro de Borrar Documento?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        const formData = new FormData();
+        formData.append('name', event.name.toString())
+        formData.append('folio', event.folio.toString())
+        formData.append('id', '')
+        formData.append('tipo', 'USDA')
+        console.log(formData);
+        let docu = new Documento();
+        docu.Folio = event.folio;
+        docu.Modulo = 'Importacion';
+        docu.Tipo = 'USDA';
+        docu.NombreDocumento = event.name;
+        docu.IdDetalle = event.id
+        this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
+          console.log(resDelete);
+          this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
+            console.log(res)
+            this.archivosfactura.splice(this.archivosfactura.indexOf(event), 1);
+            this.pdfstatus = false;
+            
+            Swal.fire({
+              title: 'Borrado',
+              icon: 'success',
+              timer: 1000,
+              showCancelButton: false,
+              showConfirmButton: false
+            });
+          })
+        })
+
+
+      }
+    }) 
 
   }
 
@@ -1452,7 +1495,7 @@ export class ResumentraspasoComponent implements OnInit {
         documento.Tipo = 'USDA';
         documento.ClaveProducto = ClaveProducto;
         documento.NombreDocumento = event.addedFiles[i].name;
-        documento.Path = 'Documentos/USDA/'+this.seleccionadosFacturas[l].IdTraspasoMercancia.toString()+'/'+this.numUSDA.toString()+'/' + ClaveProducto + '/' + this.seleccionadosUSDA[l].Lote + '/' + event.addedFiles[i].name;
+        documento.Path = 'Documentos/USDA/'+this.seleccionadosFacturas[l].IdTraspasoMercancia.toString()+'/'+ event.addedFiles[i].name;
         //Las observaciones se usaran como Lote
         documento.Observaciones = this.seleccionadosUSDA[l].Lote;
 
@@ -1472,7 +1515,9 @@ export class ResumentraspasoComponent implements OnInit {
               // this.clearTipoDocumento();
               this.eventsUSDA = [];
               this.filesUSDA = [];
+              this.numUSDA = '';
               this.refrescarDocumentos();
+              this.updateUSDA();
               /* this.archivos = []; */
               Swal.fire({
                 title: 'Documentos Guardados',
@@ -1495,7 +1540,9 @@ export class ResumentraspasoComponent implements OnInit {
                   // this.clearTipoDocumento();
                   this.eventsUSDA = [];
                   this.filesUSDA = [];
+                  this.numUSDA = '';
                   this.refrescarDocumentos();
+                  this.updateUSDA();
                   /* this.archivos = []; */
                   Swal.fire({
                     title: 'Documentos Guardados',
@@ -1517,6 +1564,21 @@ export class ResumentraspasoComponent implements OnInit {
     // this.files.push(...event.addedFiles);
 
     
+  }
+
+  updateUSDA(){
+
+    let query = 'update detalletraspasomercancia set Usda=CONCAT(Usda,\',\','+this.numUSDA+') where IdTraspasoMercancia = '+this.traspasoSVC.selectTraspaso.IdTraspasoMercancia+''
+      let consulta = {
+        'consulta':query
+      };
+
+      console.log(query);
+
+      this.traspasoSVC.getQuery(consulta).subscribe((detalles: any)=>{
+        console.log(detalles);
+      })
+
   }
 
   onSelectUSDA(event){

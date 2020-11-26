@@ -62,7 +62,7 @@ numimagen = 3;
     clearInterval(this.intervalUpdate);
   }
   private intervalUpdate: any = null;
-  propiedad1 = 'none';
+  propiedad1 = 'block';
   propiedad2 = 'none';
   propiedad3 = 'none';
 
@@ -92,7 +92,7 @@ numimagen = 3;
       }
       this.numimagen = this.numimagen + 1;
       
-     }.bind(this), 2000);
+     }.bind(this), 4000);
   }
 
   obtenerdevice(){

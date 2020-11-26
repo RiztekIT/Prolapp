@@ -222,7 +222,7 @@ console.log(this.bodegaSelect);
 
 getbodegas(){
   this.bodegaservice.getBodegasList().subscribe(res => {
-    console.clear();
+    /* console.clear(); */
     console.log(res);
     console.log(res[0].Origen);
     for (let i = 0; i <= res.length -1; i++) {
@@ -396,6 +396,16 @@ getbodegas(){
   onSelectionChangePresentacion(options2, event: any){
     console.log(options2);
     this.PresentacionSelect = options2.Presentacion;
+    
+    if (this.PresentacionSelect=='25 Kg'){
+      this.detalleCompra.Unidad = 'Kilogramo';
+    }else  if (this.PresentacionSelect=='50 Kg'){
+      this.detalleCompra.Unidad = 'Kilogramo';
+    }else  if (this.PresentacionSelect=='1000 Kg'){
+      this.detalleCompra.Unidad = 'Kilogramo';
+    }else  if (this.PresentacionSelect=='22.68 Lb'){
+      this.detalleCompra.Unidad = 'Libra';
+    }
     // this.service.formProd.DescripcionProducto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
   
   }
@@ -422,6 +432,7 @@ getbodegas(){
       this.OrigenSelect = 'USA'
       this.claveorigen = '1'
       this.PresentacionSelect = '25 Kg'
+      this.detalleCompra.Unidad = 'Kilogramo';
       // this.PStock = this.service.formProd.Stock;
       // this.ProductoPrecio = +this.service.formProd.PrecioVenta;
       //asignar el valor inicial en caso de que la moneda este declarada en USD
@@ -687,7 +698,7 @@ this.compra.DescuentoDlls = ((this.descuento) / (+this.compra.TipoCambio)).toStr
 
   onAddDetalleCompra(){
     this.detalleCompra.IdCompra = this.IdCompra;
-    this.detalleCompra.Cantidad = this.Cantidad.toString();
+    this.detalleCompra.Cantidad = this.Cantidad.toFixed(4);
     this.detalleCompra.ClaveProducto = this.detalleCompra.ClaveProducto + this.clavemarca + this.claveorigen;
     this.detalleCompra.Producto = this.detalleCompra.Producto + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect;
     if (this.PresentacionSelect=='25 Kg'){
@@ -1328,7 +1339,7 @@ console.log(resFolio);
         this.dod.IdOrdenDescarga = ultimoId;
         this.dod.ClaveProducto = this.detalleCompras[i].ClaveProducto;
         this.dod.Producto = this.detalleCompras[i].Producto;
-        this.dod.Sacos = this.detalleCompras[i].Cantidad;
+        this.dod.Sacos = (+this.detalleCompras[i].Cantidad / +this.detalleCompras[i].PesoxSaco).toFixed(4);
         //Verificar el peso x saco
         this.dod.PesoxSaco = this.detalleCompras[i].PesoxSaco;
         //segun yo no se conoce el lote.

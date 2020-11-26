@@ -30,7 +30,7 @@ export class InventariosalmacenComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
   
-  displayedColumns: string[] = ['Clave','Producto', 'Lote', 'PesoTotal','PesoDisponible', 'Documentos'];
+  displayedColumns: string[] = ['Clave','Producto', 'PesoTotal','PesoDisponible'];
 
   master;
   expandedElement: any;
@@ -76,7 +76,7 @@ export class InventariosalmacenComponent implements OnInit {
     })
   }
 
-  obtenerProductos(bodega){
+ /*  obtenerProductos(bodega){
     this.serviceTarima.master = [];
     let sacostotales;
     this.serviceTarima.getDetalleTarimaBodegaOrdenado(bodega).subscribe(dataDT=>{
@@ -86,111 +86,142 @@ export class InventariosalmacenComponent implements OnInit {
       this.listData.paginator = this.paginator;
       this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
     })
-  }
+  } */
   
-  // obtenerProducto(bodega){
-  //   let contador = 0;
+  obtenerProductos(bodega){
+    let contador = 0;
     
-  //   this.serviceTarima.master = [];
-  //   let sacostotales;
+    this.serviceTarima.master = [];
+    let kgtotales;
+    let kgdisponibles;
     
-  //   this.serviceTarima.getProductos().subscribe((data:any)=>{
-  //     console.log(data,'obtner tarimas');
+    this.serviceTarima.getProductos().subscribe((data:any)=>{
+      console.log(data,'obtner tarimas');
       
-  //     for (let l=0; l<data.length; l++){
-  //       console.log(data[l].Nombre);
+      for (let l=0; l<data.length; l++){
+        console.log(data[l].Nombre);
         
-  //       this.serviceTarima.GetTarimaProducto(data[l].Nombre,bodega).subscribe(datadet =>{
-  //         //this.master[contador] = []
+        this.serviceTarima.GetTarimaProducto(data[l].Nombre,bodega).subscribe(datadet =>{
+          //this.master[contador] = []
           
-  //         console.log(datadet);
-  //         if (datadet.length>0){
-  //           sacostotales = 0;
-  //           this.serviceTarima.master[contador] = data[l];
-  //           //this.serviceTarima.master[contador].detalle = datadet;
-  //           for (let i=0; i<datadet.length;i++){
+          console.log(datadet);
+          if (datadet.length>0){
+            kgtotales = 0;
+            kgdisponibles = 0;
+            this.serviceTarima.master[contador] = data[l];
+            //this.serviceTarima.master[contador].detalle = datadet;
+            for (let i=0; i<datadet.length;i++){
 
-  //             sacostotales = sacostotales + +datadet[i].SacosTotales;
+              kgtotales = +kgtotales + (+datadet[i].SacosTotales* +datadet[i].PesoxSaco);
+              kgdisponibles  = kgtotales;
 
-  //             datadet[i].SacosD = +datadet[i].SacosTotales;
-
-
-  //             this.serviceTarima.GetTarimaProductoD(datadet[i].Producto,datadet[i].Lote).subscribe(datas=>{
-  //               console.log(datas,'datas');
-  //               // console.log(contador,'c2');
-  //               // console.log(this.serviceTarima.master[contador],'2');
-  //               // console.log(this.master[contador].detalle[j].SacosD,'2');
-  //               // console.log(this.serviceTarima.master[contador].detalle[i].SacosD,'3');
-  //               if (datas.length>0){
-
-  //                 for (let d=0; d<datas.length;d++){
-
-  //                   datadet[i].SacosD = datadet[i].SacosD - +datas[d].Sacos
-  //                 }
-
-  //               }else{
-  //                 datadet[i].SacosD = datadet[i].SacosD
-  //               }
-  //             }) 
+              datadet[i].KgD = (+datadet[i].SacosTotales* +datadet[i].PesoxSaco);
+              datadet[i].KgT = (+datadet[i].SacosTotales* +datadet[i].PesoxSaco);
 
 
-  //           }
-  //           this.serviceTarima.master[contador].detalle = datadet;
-  //           this.serviceTarima.master[contador].Stock = sacostotales;
+              this.serviceTarima.GetTarimaProductoD(datadet[i].Producto,datadet[i].Lote).subscribe(datas=>{
+                console.log(datas,'datas');
+                // console.log(contador,'c2');
+                // console.log(this.serviceTarima.master[contador],'2');
+                // console.log(this.master[contador].detalle[j].SacosD,'2');
+                // console.log(this.serviceTarima.master[contador].detalle[i].SacosD,'3');
+                if (datas.length>0){
+
+                  for (let d=0; d<datas.length;d++){
+
+                    datadet[i].KgD = +datadet[i].KgD - (+datas[d].Sacos * +datadet[i].PesoxSaco)
+                    kgdisponibles = kgdisponibles - datadet[i].KgD
+                    
+                  }
+                  
+
+
+
+                }else{
+                  datadet[i].KgD = datadet[i].KgD
+                }
+              }) 
+
+
+            }
+
+            this.serviceTarima.master[contador].detalle = datadet;
+            this.serviceTarima.master[contador].Stock = kgtotales;
+
+            /* for (let n=0; n<this.serviceTarima.master[contador].detalle.length;n++){
+              kgdisponibles = +kgdisponibles + this.serviceTarima.master[contador].detalle[n].KgD;
+              console.log(kgdisponibles,'KG');
+
+            } */
+            this.serviceTarima.master[contador].StockD = kgdisponibles;
             
             
 
-  //          /*  for (let j=0; j<datadet.length;j++ ){
+           /*  for (let j=0; j<datadet.length;j++ ){
 
-  //             this.serviceTarima.master[contador].detalle[j].SacosD = this.serviceTarima.master[contador].detalle[j].Sacos;
+              this.serviceTarima.master[contador].detalle[j].SacosD = this.serviceTarima.master[contador].detalle[j].Sacos;
               
 
 
 
-  //           } */
-  //           // console.log(this.master[contador].detalle,'1'); 
+            } */
+            // console.log(this.master[contador].detalle,'1'); 
 
-  //         /*   */
+          /*   */
             
-  //        /*    for (let i:0; i< datadet.length;i++){
-  //             this.master[contador].detalle[i].push(datadet[i]);
-  //           } */
-  //           contador++;
-  //         }
+         /*    for (let i:0; i< datadet.length;i++){
+              this.master[contador].detalle[i].push(datadet[i]);
+            } */
+            contador++;
+          }
 
           
 
           
-  //               console.log(this.serviceTarima.master);
-  //               this.listData = new MatTableDataSource(this.serviceTarima.master);
-  //               this.listData.sort = this.sort;
-  //               this.listData.paginator = this.paginator;
-  //               this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
-  //       })
+                console.log(this.serviceTarima.master);
+                this.listData = new MatTableDataSource(this.serviceTarima.master);
+                this.listData.sort = this.sort;
+                this.listData.paginator = this.paginator;
+                this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+        })
 
-  //     }
+      }
 
       
 
 
-  //             // console.log(contador,'c1');
-  //           /*   */
+              // console.log(contador,'c1');
+            /*   */
 
     
 
-  //     //this.applyFilter2('PasoTx');
+      //this.applyFilter2('PasoTx');
       
-  //   })
-  //   // for (let m=0; m<this.serviceTarima.master.length;m++){
-  //   //   for(let d=0;d<this.serviceTarima.master[m].detalle.length;d++){
+    })
+    // for (let m=0; m<this.serviceTarima.master.length;m++){
+    //   for(let d=0;d<this.serviceTarima.master[m].detalle.length;d++){
        
 
-  //   //   }
-  //   // }
+    //   }
+    // }
 
-  //   // console.log(this.serviceTarima.master,'m1');
+    // console.log(this.serviceTarima.master,'m1');
 
-  // }
+  }
+
+  disponibles(producto){
+
+    let kgdisponibles = 0;
+
+    for (let n=0; n<producto.detalle.length;n++){
+      kgdisponibles = +kgdisponibles + +producto.detalle[n].KgD;
+      console.log(kgdisponibles,'KG');
+
+    } 
+
+    return kgdisponibles;
+
+  }
 
   bodegaCambio(event){
        // console.log(event);

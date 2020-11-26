@@ -136,7 +136,7 @@
                                     <ng-container matColumnDef="Saldo">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center">Saldo</th>
                                         <td class="Saldo" mat-cell *matCellDef="let element">
-                                            {{element.Saldo}} Kg
+                                            {{element.Saldo * element.PesoxSaco}} Kg
                                             <td>
                                     </ng-container>
                                     <ng-container matColumnDef="KgSobrantes">

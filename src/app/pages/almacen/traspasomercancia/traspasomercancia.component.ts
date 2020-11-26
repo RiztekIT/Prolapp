@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { TraspasoMercanciaService } from '../../../services/importacion/traspaso-mercancia.service';
-import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { ResumentraspasoComponent } from './resumentraspaso/resumentraspaso.component';
@@ -28,7 +28,7 @@ export class TraspasomercanciaComponent implements OnInit {
 
   nuevoTraspaso(){
     // this.router.navigateByUrl('/embarque');
-    let query = 'select top 1 folio, idtraspasomercancia from traspasomercancia;'
+    let query = 'select top 1 folio, idtraspasomercancia from traspasomercancia order by folio desc;'
     let consulta = {
       'consulta':query
     };

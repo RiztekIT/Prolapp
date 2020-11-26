@@ -216,10 +216,10 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Kilogramos Sobrantes</th>
                             <td mat-cell *matCellDef="let element">
                                 <div *ngIf="element.sacosSobra > 0; else elseBlockSobra" style="background-color: green;">
-                                    {{element.sacosSobra}} Kg
+                                    {{element.sacosSobra * (element.PesoTotal/element.Sacos)}} Kg
                                 </div>
                                 <ng-template #elseBlockSobra>
-                                    {{element.sacosSobra}} Kg
+                                    {{element.sacosSobra * (element.PesoTotal/element.Sacos)}} Kg
                                 </ng-template>
                             </td>
                         </ng-container>
