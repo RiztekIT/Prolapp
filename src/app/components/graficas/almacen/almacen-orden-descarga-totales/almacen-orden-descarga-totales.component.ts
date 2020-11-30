@@ -116,7 +116,7 @@ listaProveedores;
         if(this.Proveedor == 'Todos'){
           
 
-          this.barChartLabels.push(dataProveedores[i].Nombre);    
+          // this.barChartLabels.push(dataProveedores[i].Nombre);    
         }else if(this.Proveedor==dataProveedores[i].Nombre) {
           this.barChartLabels.push(dataProveedores[i].Nombre);  
           
@@ -193,11 +193,13 @@ if(event.isUserInput){
         // console.log(this.arrcon[i].TotalMXN.toLocaleString("en-US",{style:"currency", currency:"USD"}));
   
         this.barChartData[0].data.push(this.arrcon[i].sacos);
-        this.barChartData[0].label = 'Orden Carga Sacos'
+        this.barChartData[0].label = 'Orden Descarga Sacos'
+        this.barChartLabels.push(data[i].Nombre); 
       }else if (this.informacion=='Kg'){
         // console.log(this.arrcon[i].TotalDLLS.toLocaleString("en-US",{style:"currency", currency:"USD"}));
         this.barChartData[0].data.push(this.arrcon[i].kilogramos)
-        this.barChartData[0].label = 'Orden Carga Kilogramos'
+        this.barChartData[0].label = 'Orden Descarga Kilogramos'
+        this.barChartLabels.push(data[i].Nombre); 
       }
       // this.barChartData[1].data.push(this.arrcon[i].TotalDLLS)/*  */
        

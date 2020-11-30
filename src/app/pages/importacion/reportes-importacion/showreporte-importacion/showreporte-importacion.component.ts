@@ -6,6 +6,7 @@ import { SharedService } from "../../../../services/shared/shared.service";
 import { formatoReporte } from "../../../../Models/formato-reporte";
 import { OrdenCargaService } from '../../../../services/almacen/orden-carga/orden-carga.service';
 import { DocumentosImportacionService } from '../../../../services/importacion/documentos-importacion.service';
+import { TraspasoMercanciaService } from '../../../../services/importacion/traspaso-mercancia.service';
 
 @Component({
   selector: 'app-showreporte-importacion',
@@ -15,7 +16,8 @@ import { DocumentosImportacionService } from '../../../../services/importacion/d
 export class ShowreporteImportacionComponent implements OnInit {
 
   constructor(
-    public ocService: OrdenCargaService,
+    
+    public traspasoService: TraspasoMercanciaService,
     public documentosService: DocumentosImportacionService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public sharedService: SharedService
@@ -55,6 +57,7 @@ export class ShowreporteImportacionComponent implements OnInit {
 
   identificarTipoDeReporte(modulo: string, unDocumento: boolean) {
 this.totalKg = 0;
+this.totalSacos = 0;
     
     if(modulo == 'Documento'){
       this.obtenerReporteDocumento();
@@ -89,6 +92,7 @@ this.totalKg = 0;
   }
   obtenerReporteTraspaso() {
     this.arrcon = [];
+
     //^ buscar sin ningun filtro
     if (this.ReporteInformacion.estatusTraspaso == false && this.ReporteInformacion.filtradoFecha == false) {
       console.log('Se filtraran sin estatus y sin fecha');
@@ -186,12 +190,26 @@ this.totalKg = 0;
 
     //^ buscar sin ningun filtro
     filtroTraspasoGeneral(){
-      this.ocService.getReporteTraspasoBodegas(this.ReporteInformacion.bodegaOrigen, this.ReporteInformacion.bodegaDestino).subscribe(dataDocumentos=>{
+      this.traspasoService.getReporteTraspasoBodegas(this.ReporteInformacion.bodegaOrigen, this.ReporteInformacion.bodegaDestino).subscribe(dataDocumentos=>{
         console.log(dataDocumentos);
+        this.iniciarTotales();
         if(dataDocumentos.length>0){
           for (let i = 0; i < dataDocumentos.length; i++) {
            this.arrcon[i] = dataDocumentos[i];    
-           this.totalKg = this.totalKg + +dataDocumentos[i].Kg
+           this.totalKg = this.totalKg + +dataDocumentos[i].KilogramosTotales;
+           this.totalSacos = this.totalSacos + +dataDocumentos[i].SacosTotales;
+           this.arrcon[i].Docs = [];           
+           this.traspasoService.getDetalleTraspasoMercancia(dataDocumentos[i].IdTraspasoMercancia).subscribe(dataDetalle=>{
+             let sacos: number = 0;
+             let kilos: number = 0;
+            dataDetalle.forEach(element => {   
+              sacos = sacos + +element.Sacos;            
+              kilos = kilos + +element.PesoTotal;                          
+              this.arrcon[i].Docs.push(element);
+              this.arrcon[i].sac = sacos;
+              this.arrcon[i].kil = kilos;
+             });
+           })         
          }
        }
        })
@@ -213,17 +231,31 @@ let dia = this.ReporteInformacion.fechaInicial.getDate();
     let anio2 = this.ReporteInformacion.fechaFinal.getFullYear();
     fecha2 = anio2 + '-' + mes2 + '-' + dia2
 
-      this.ocService.getReporteTraspasoBodegasFechas(this.ReporteInformacion.bodegaOrigen, this.ReporteInformacion.bodegaDestino, fecha1, fecha2).subscribe(dataDocumentos=>{
+      this.traspasoService.getReporteTraspasoBodegasFechas(this.ReporteInformacion.bodegaOrigen, this.ReporteInformacion.bodegaDestino, fecha1, fecha2).subscribe(dataDocumentos=>{
         console.log(dataDocumentos);
+        this.iniciarTotales();
         if(dataDocumentos.length>0){
           for (let i = 0; i < dataDocumentos.length; i++) {
            this.arrcon[i] = dataDocumentos[i];    
-           this.totalKg = this.totalKg + +dataDocumentos[i].Kg
+           this.totalKg = this.totalKg + +dataDocumentos[i].KilogramosTotales;
+           this.totalSacos = this.totalSacos + +dataDocumentos[i].SacosTotales;
+           this.arrcon[i].Docs = [];
+           this.traspasoService.getDetalleTraspasoMercancia(dataDocumentos[i].IdTraspasoMercancia).subscribe(dataDetalle=>{
+            let sacos: number = 0;
+            let kilos: number = 0;
+           dataDetalle.forEach(element => {   
+             sacos = sacos + +element.Sacos;            
+             kilos = kilos + +element.PesoTotal;                          
+             this.arrcon[i].Docs.push(element);
+             this.arrcon[i].sac = sacos;
+             this.arrcon[i].kil = kilos;
+            });
+           })
          }
        }
        })
     }
-    //^ buscar reporte por Fechas y sin estatus
+    //^ buscar reporte por Fechas y  estatus
     filtroTraspasoFechasEstatus(){
 
           let fecha1;
@@ -239,12 +271,26 @@ let dia = this.ReporteInformacion.fechaInicial.getDate();
     let anio2 = this.ReporteInformacion.fechaFinal.getFullYear();
     fecha2 = anio2 + '-' + mes2 + '-' + dia2
 
-      this.ocService.getReporteTraspasoBodegasFechasEstatus(this.ReporteInformacion.bodegaOrigen, this.ReporteInformacion.bodegaDestino, fecha1, fecha2,this.ReporteInformacion.tipoEstatus ).subscribe(dataDocumentos=>{
+      this.traspasoService.getReporteTraspasoBodegasFechasEstatus(this.ReporteInformacion.bodegaOrigen, this.ReporteInformacion.bodegaDestino, fecha1, fecha2,this.ReporteInformacion.tipoEstatus ).subscribe(dataDocumentos=>{
         console.log(dataDocumentos);
         if(dataDocumentos.length>0){
+          this.iniciarTotales();
           for (let i = 0; i < dataDocumentos.length; i++) {
            this.arrcon[i] = dataDocumentos[i];    
-           this.totalKg = this.totalKg + +dataDocumentos[i].Kg
+           this.totalKg = this.totalKg + +dataDocumentos[i].KilogramosTotales;
+           this.totalSacos = this.totalSacos + +dataDocumentos[i].SacosTotales;
+           this.arrcon[i].Docs = [];
+           this.traspasoService.getDetalleTraspasoMercancia(dataDocumentos[i].IdTraspasoMercancia).subscribe(dataDetalle=>{
+            let sacos: number = 0;
+             let kilos: number = 0;
+            dataDetalle.forEach(element => {   
+              sacos = sacos + +element.Sacos;            
+              kilos = kilos + +element.PesoTotal;                          
+              this.arrcon[i].Docs.push(element);
+              this.arrcon[i].sac = sacos;
+              this.arrcon[i].kil = kilos;
+             });
+           })
          }
        }
        })
@@ -252,12 +298,26 @@ let dia = this.ReporteInformacion.fechaInicial.getDate();
 
     //^ buscar reporte por  estatus y sin fecha
     filtroTraspasoEstatus(){
-      this.ocService.getReporteTraspasoBodegasEstatus(this.ReporteInformacion.bodegaOrigen, this.ReporteInformacion.bodegaDestino, this.ReporteInformacion.tipoEstatus).subscribe(dataDocumentos=>{
+      this.traspasoService.getReporteTraspasoBodegasEstatus(this.ReporteInformacion.bodegaOrigen, this.ReporteInformacion.bodegaDestino, this.ReporteInformacion.tipoEstatus).subscribe(dataDocumentos=>{
         console.log(dataDocumentos);
         if(dataDocumentos.length>0){
+          this.iniciarTotales();
           for (let i = 0; i < dataDocumentos.length; i++) {
            this.arrcon[i] = dataDocumentos[i];    
-           this.totalKg = this.totalKg + +dataDocumentos[i].Kg
+           this.totalKg = this.totalKg + +dataDocumentos[i].KilogramosTotales;
+           this.totalSacos = this.totalSacos + +dataDocumentos[i].SacosTotales;
+           this.arrcon[i].Docs = [];
+           this.traspasoService.getDetalleTraspasoMercancia(dataDocumentos[i].IdTraspasoMercancia).subscribe(dataDetalle=>{
+            let sacos: number = 0;
+             let kilos: number = 0;
+            dataDetalle.forEach(element => {   
+              sacos = sacos + +element.Sacos;            
+              kilos = kilos + +element.PesoTotal;                          
+              this.arrcon[i].Docs.push(element);
+              this.arrcon[i].sac = sacos;
+              this.arrcon[i].kil = kilos;
+             });
+           })
          }
        }
        })

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, BaseChartDirective, Color } from 'ng2-charts';
+import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
 import { OrdenCargaService } from '../../../../services/almacen/orden-carga/orden-carga.service';
 @Component({
@@ -11,13 +12,14 @@ import { OrdenCargaService } from '../../../../services/almacen/orden-carga/orde
 export class AlmacenTraspasoMesesComponent implements OnInit {
 
  
-  constructor(public pedidoService: VentasPedidoService, public ordenCargaService: OrdenCargaService ) { }
+  constructor(public traspasoService: TraspasoMercanciaService, ) { }
 
   ngOnInit() {
     this.informacion = 'Kg'
     this.checked = 'True'
-    this.Cliente = 'Todos'
-    this.reporte();
+    // this.Cliente = 'Todos'
+    // this.reporte();
+    this.verReporte();
   }
 
   @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;
@@ -29,8 +31,8 @@ export class AlmacenTraspasoMesesComponent implements OnInit {
 
   informacion;
   checked;
-  Cliente;
-  listaClientes;
+  // Cliente;
+  // listaClientes;
 
  
 
@@ -114,16 +116,16 @@ export class AlmacenTraspasoMesesComponent implements OnInit {
   ];
 
 
-  reporte(){
-    // this.pedidoService.getDepDropDownValues().subscribe(dataClientes => {
-      // console.log(dataClientes);  
-      // this.listaClientes=dataClientes;
-   let dataClientes = {
-        IdClientes: 0
-      }
-       this.obtenerReporte(1, dataClientes);
-    // })
-  }
+  // reporte(){
+  //   // this.pedidoService.getDepDropDownValues().subscribe(dataClientes => {
+  //     // console.log(dataClientes);  
+  //     // this.listaClientes=dataClientes;
+  //  let dataClientes = {
+  //       IdClientes: 0
+  //     }
+  //      this.obtenerReporte(1, dataClientes);
+  //   // })
+  // }
 
 
 
@@ -158,28 +160,42 @@ export class AlmacenTraspasoMesesComponent implements OnInit {
   this.totalDiciembreSacos= 0  ;
   }
 
-  obtenerReporte(numero: number, data: any) {
-    this.arrcon = []; 
-          // this.filtroGeneral(numero , data, 'Ambas')
-            this.arrcon[numero] = data;
-             this.datosCliente(data,numero);      
-
-  }
-
-
-  cambio(event){
+  cambio(event) {
     this.informacion = event.value;
-    // console.log(this.moneda);
-    this.reporte()
+    this.verReporte()
   }
 
-datosCliente(data,i){
-  console.log(data);
-  this.ordenCargaService.getReporteClienteId(data.IdClientes).subscribe(dataReporte => {
+
+  verReporte() {
+    this.barChartData[0].data = [];
+    // this.barChartLabels = [];
+    // this.arrcon[0] = [];
+    this.datosTraspaso();
+  }
+
+  // obtenerReporte(numero: number, data: any) {
+  //   this.arrcon = []; 
+  //         // this.filtroGeneral(numero , data, 'Ambas')
+  //           this.arrcon[numero] = data;
+  //            this.datosCliente(data,numero);      
+
+  // }
+
+
+  // cambio(event){
+  //   this.informacion = event.value;
+  //   // console.log(this.moneda);
+  //   this.reporte()
+  // }
+
+datosTraspaso(){
+  // console.log(data);
+  // this.ordenCargaService.getReporteClienteId(data.IdClientes).subscribe(dataReporte => {
+    this.traspasoService.getTraspasoMercancia().subscribe(dataReporte => {
     console.log(dataReporte);
+    this.iniciarTotales();
     if(dataReporte.length>0){
       console.log(dataReporte);
-      this.iniciarTotales();
       for (let l = 0; l < dataReporte.length; l++) {
       
 
@@ -187,57 +203,57 @@ datosCliente(data,i){
           let mes = fecha.getMonth();
 
           if ( mes == 0){
-            this.totalEneroSacos = this.totalEneroSacos + +dataReporte[l].Sacos;
-            this.totalEneroKg = this.totalEneroKg + +dataReporte[l].Kg;
+            this.totalEneroSacos = this.totalEneroSacos + +dataReporte[l].SacosTotales;
+            this.totalEneroKg = this.totalEneroKg + +dataReporte[l].KilogramosTotales;
           }
           if ( mes == 1){
-            this.totalFebreroSacos = this.totalFebreroSacos + +dataReporte[l].Sacos;
-            this.totalFebreroKg = this.totalFebreroKg + +dataReporte[l].Kg;
+            this.totalFebreroSacos = this.totalFebreroSacos + +dataReporte[l].SacosTotales;
+            this.totalFebreroKg = this.totalFebreroKg + +dataReporte[l].KilogramosTotales;
           }
           if ( mes == 2){
-            this.totalMarzoSacos = this.totalMarzoSacos + +dataReporte[l].Sacos;
-            this.totalMarzoKg = this.totalMarzoKg + +dataReporte[l].Kg;
+            this.totalMarzoSacos = this.totalMarzoSacos + +dataReporte[l].SacosTotales;
+            this.totalMarzoKg = this.totalMarzoKg + +dataReporte[l].KilogramosTotales;
           }
           if ( mes == 3){
-            this.totalAbrilSacos = this.totalAbrilSacos + +dataReporte[l].Total;
-            this.totalAbrilKg = this.totalAbrilKg + +dataReporte[l].Kg;
+            this.totalAbrilSacos = this.totalAbrilSacos + +dataReporte[l].SacosTotales;
+            this.totalAbrilKg = this.totalAbrilKg + +dataReporte[l].KilogramosTotales;
           }
           if ( mes == 4){
-            this.totalMayoSacos = this.totalMayoSacos + +dataReporte[l].Sacos;
-            this.totalMayoKg = this.totalMayoKg + +dataReporte[l].Kg;
+            this.totalMayoSacos = this.totalMayoSacos + +dataReporte[l].SacosTotales;
+            this.totalMayoKg = this.totalMayoKg + +dataReporte[l].KilogramosTotales;
           }
           if ( mes == 5){
-            this.totalJunioSacos = this.totalJunioSacos+ +dataReporte[l].Sacos;
-            this.totalJunioKg = this.totalJunioKg + +dataReporte[l].Kg;
+            this.totalJunioSacos = this.totalJunioSacos+ +dataReporte[l].SacosTotales;
+            this.totalJunioKg = this.totalJunioKg + +dataReporte[l].KilogramosTotales;
           }
           if ( mes == 6){
-            this.totalJulioSacos = this.totalJulioSacos + +dataReporte[l].Sacos;
-            this.totalJulioKg = this.totalJulioKg + +dataReporte[l].Kg;
+            this.totalJulioSacos = this.totalJulioSacos + +dataReporte[l].SacosTotales;
+            this.totalJulioKg = this.totalJulioKg + +dataReporte[l].KilogramosTotales;
           }
           if ( mes == 7){
-            this.totalAgostoSacos = this.totalAgostoSacos + +dataReporte[l].Sacos;
-            this.totalAgostoKg = this.totalAgostoKg + +dataReporte[l].Kg;
+            this.totalAgostoSacos = this.totalAgostoSacos + +dataReporte[l].SacosTotales;
+            this.totalAgostoKg = this.totalAgostoKg + +dataReporte[l].KilogramosTotales;
           }
           if ( mes == 8){
-            this.totalSeptiembreSacos = this.totalSeptiembreSacos + +dataReporte[l].Sacos;
-            this.totalSeptiembreKg = this.totalSeptiembreKg + +dataReporte[l].Kg;
+            this.totalSeptiembreSacos = this.totalSeptiembreSacos + +dataReporte[l].SacosTotales;
+            this.totalSeptiembreKg = this.totalSeptiembreKg + +dataReporte[l].KilogramosTotales;
           }
           if ( mes == 9){
-            this.totalOctubreSacos = this.totalOctubreSacos + +dataReporte[l].Sacos;
-            this.totalOctubreKg = this.totalOctubreKg + +dataReporte[l].Kg;
+            this.totalOctubreSacos = this.totalOctubreSacos + +dataReporte[l].SacosTotales;
+            this.totalOctubreKg = this.totalOctubreKg + +dataReporte[l].KilogramosTotales;
           }
           if ( mes == 10){
-            this.totalNoviembreSacos = this.totalNoviembreSacos + +dataReporte[l].Sacos;
-            this.totalNoviembreKg = this.totalNoviembreKg + +dataReporte[l].Kg;
+            this.totalNoviembreSacos = this.totalNoviembreSacos + +dataReporte[l].SacosTotales;
+            this.totalNoviembreKg = this.totalNoviembreKg + +dataReporte[l].KilogramosTotales;
           }
           if ( mes == 11){
-            this.totalDiciembreSacos = this.totalDiciembreSacos + +dataReporte[l].Sacos;
-            this.totalDiciembreKg = this.totalDiciembreKg + +dataReporte[l].Kg;
+            this.totalDiciembreSacos = this.totalDiciembreSacos + +dataReporte[l].SacosTotales;
+            this.totalDiciembreKg = this.totalDiciembreKg + +dataReporte[l].KilogramosTotales;
           }
         }
       
     if (this.informacion=='Sacos'){
-      this.barChartData[0].label = 'Orden Carga Sacos'
+      this.barChartData[0].label = 'Traspaso Sacos'
     this.barChartData[0].data[0] = this.totalEneroSacos
     this.barChartData[0].data[1] = this.totalFebreroSacos
     this.barChartData[0].data[2] = this.totalMarzoSacos
@@ -252,7 +268,7 @@ datosCliente(data,i){
     this.barChartData[0].data[11] = this.totalDiciembreSacos
     }
     else if (this.informacion=='Kg'){
-      this.barChartData[0].label = 'Orden Carga Kilogramos'
+      this.barChartData[0].label = 'Traspaso Kilogramos'
       this.barChartData[0].data[0] = this.totalEneroKg
       this.barChartData[0].data[1] = this.totalFebreroKg
       this.barChartData[0].data[2] = this.totalMarzoKg
@@ -268,9 +284,6 @@ datosCliente(data,i){
     }
     this.chart.update();
      
-  }else{
-    this.iniciarTotales();
-    
   }
   })
 }

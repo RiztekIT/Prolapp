@@ -4,7 +4,7 @@
             <div class="card-body">
                 <h2 style="text-align: start;">Documentos</h2>
                 <div class="row">
-                    <div class="col-md-6 col-12">
+                    <!-- <div class="col-md-6 col-12">
                         <mat-button-toggle-group #group="matButtonToggleGroup">
                             <mat-button-toggle value="OrdenDescarga" aria-label="Text align left" (change)='cambioDocumento($event)'>
                                 <mat-icon>attach_money </mat-icon>
@@ -13,16 +13,16 @@
                                 <mat-icon>monetization_on</mat-icon>
                             </mat-button-toggle>
                         </mat-button-toggle-group>
-                    </div>
-                    <!-- <div class="col-md-6 col-12">
-                        <mat-slide-toggle class="example-margin btncoti" [(ngModel)]="checked" (change)='tipoproveedor($event)'>
-                            Todos los Proveedores
+                    </div> -->
+                    <div class="col-md-6 col-12">
+                        <mat-slide-toggle class="example-margin btncoti" [(ngModel)]="checked" (change)='tipoDocument($event)'>
+                            Todos los Documentos
                         </mat-slide-toggle>
 
                         <mat-select *ngIf="!checked">
-                            <mat-option *ngFor="let proveedor of listaproveedores" [value]="proveedor" (onSelectionChange)='reporteproveedor($event)'>{{proveedor.Nombre}}</mat-option>
+                            <mat-option *ngFor="let documento of listaDocumentos" [value]="documento" (onSelectionChange)='reporteDocumento($event)'>{{documento.tipo}}</mat-option>
                         </mat-select>
-                    </div> -->
+                    </div>
                 </div>
                 <div style="display: block">
                     <canvas baseChart [datasets]="barChartDataDocumento" [colors]="lineChartColors" [labels]="barChartLabelsDocumento" [options]="barChartOptionsDocumento" [legend]="barChartLegendDocumento" [chartType]="barChartTypeDocumento">

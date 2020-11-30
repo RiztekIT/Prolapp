@@ -133,31 +133,31 @@ export class OrdenCargaService {
   // *******************   REPORTES  ************************* //
 
 
-   // *******************   REPORTES IMPORTACION TRASPASO ************************* //
-//SE OBTIENEN LOS REPORTES DE IMPORTACION (TRAPASO) DEBIDO A QUE ESTE NO TIENE UN SERVICIO COMO TAL. Y LA INFORMACION VIENE DIRECTAMENTE DE ORDEN DE CARGA.
+//    // *******************   REPORTES IMPORTACION TRASPASO ************************* //
+// //SE OBTIENEN LOS REPORTES DE IMPORTACION (TRAPASO) DEBIDO A QUE ESTE NO TIENE UN SERVICIO COMO TAL. Y LA INFORMACION VIENE DIRECTAMENTE DE ORDEN DE CARGA.
 
 
-//Obtener traspasos por Bodega Origen => Destino
-getReporteTraspasoBodegas(bodegaOrigen: string, bodegaDestino: string):Observable<any[]>{
-  return this.http.get<any[]>(APIUrl + '/reportes/GetTraspasoBodegas/'+bodegaOrigen+'/'+bodegaDestino);
-}
+// //Obtener traspasos por Bodega Origen => Destino
+// getReporteTraspasoBodegas(bodegaOrigen: string, bodegaDestino: string):Observable<any[]>{
+//   return this.http.get<any[]>(APIUrl + '/reportes/GetTraspasoBodegas/'+bodegaOrigen+'/'+bodegaDestino);
+// }
 
-//Obtener traspasos por Bodega Origen => Destino y Fecha de Expedicion
-getReporteTraspasoBodegasFechas(bodegaOrigen: string, bodegaDestino: string, fecha1:string, fecha2:string):Observable<any[]>{
-  return this.http.get<any[]>(APIUrl + '/reportes/GetTraspasoBodegasFechas/'+bodegaOrigen+'/'+bodegaDestino+'/'+fecha1+'/'+fecha2);
-}
+// //Obtener traspasos por Bodega Origen => Destino y Fecha de Expedicion
+// getReporteTraspasoBodegasFechas(bodegaOrigen: string, bodegaDestino: string, fecha1:string, fecha2:string):Observable<any[]>{
+//   return this.http.get<any[]>(APIUrl + '/reportes/GetTraspasoBodegasFechas/'+bodegaOrigen+'/'+bodegaDestino+'/'+fecha1+'/'+fecha2);
+// }
 
-//Obtener traspasos por Bodega Origen => Destino y Estatus
-getReporteTraspasoBodegasEstatus(bodegaOrigen: string, bodegaDestino: string, estatus:string):Observable<any[]>{
-  return this.http.get<any[]>(APIUrl + '/reportes/GetTraspasoBodegasEstatus/'+bodegaOrigen+'/'+bodegaDestino+'/'+estatus);
-}
+// //Obtener traspasos por Bodega Origen => Destino y Estatus
+// getReporteTraspasoBodegasEstatus(bodegaOrigen: string, bodegaDestino: string, estatus:string):Observable<any[]>{
+//   return this.http.get<any[]>(APIUrl + '/reportes/GetTraspasoBodegasEstatus/'+bodegaOrigen+'/'+bodegaDestino+'/'+estatus);
+// }
 
-//Obtener traspasos por Bodega Origen => Destino , Fecha de Expedicion y Estatus
-getReporteTraspasoBodegasFechasEstatus(bodegaOrigen: string, bodegaDestino: string, fecha1:string, fecha2:string, estatus:string):Observable<any[]>{
-  return this.http.get<any[]>(APIUrl + '/reportes/GetTraspasoBodegasFechasEstatus/'+bodegaOrigen+'/'+bodegaDestino+'/'+fecha1+'/'+fecha2+'/'+estatus);
-}
+// //Obtener traspasos por Bodega Origen => Destino , Fecha de Expedicion y Estatus
+// getReporteTraspasoBodegasFechasEstatus(bodegaOrigen: string, bodegaDestino: string, fecha1:string, fecha2:string, estatus:string):Observable<any[]>{
+//   return this.http.get<any[]>(APIUrl + '/reportes/GetTraspasoBodegasFechasEstatus/'+bodegaOrigen+'/'+bodegaDestino+'/'+fecha1+'/'+fecha2+'/'+estatus);
+// }
 
-    // *******************   REPORTES IMPORTACION TRASPASO ************************* //
+//     // *******************   REPORTES IMPORTACION TRASPASO ************************* //
 
   private _listeners = new Subject<any>();
   listen(): Observable<any> {
