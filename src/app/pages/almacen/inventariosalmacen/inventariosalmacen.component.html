@@ -61,55 +61,55 @@
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        <!-- <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr> -->
+                        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 
 
                         <ng-container matColumnDef="Clave">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave</th>
-                            <td class="folio" mat-cell *matCellDef="let element">{{element.ClaveProducto}}
+                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.ClaveProducto}} +
                                 <td>
                         </ng-container>
 
 
                         <ng-container matColumnDef="Producto">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
-                            <td mat-cell *matCellDef="let element">{{element.Producto }}
+                            <td mat-cell *matCellDef="let element">{{element.Nombre }}
 
                             </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="Lote">
+                        <!--   <ng-container matColumnDef="Lote">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
                             <td mat-cell *matCellDef="let element">{{element.Lote }}
 
                             </td>
-                        </ng-container>
+                        </ng-container> -->
 
                         <ng-container matColumnDef="PesoTotal">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Inv. Fisico</th>
-                            <td mat-cell *matCellDef="let element">{{element.PesoTotal}} Kg
+                            <td mat-cell *matCellDef="let element">{{element.Stock}} Kg
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="PesoDisponible">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Inv. Disponible</th>
-                            <td mat-cell *matCellDef="let element">{{element.PesoTotal}} Kg
+                            <td mat-cell *matCellDef="let element">{{disponibles(element)}} Kg
                             </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="Documentos">
+                        <!--  <ng-container matColumnDef="Documentos">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Ver Documentos</th>
                             <td mat-cell *matCellDef="let element">
                                 <button mat-icon-button class="btn btn-dark" (click)="obtenerDocumentos(element)"><mat-icon>plagiarism</mat-icon></button>
                                 <button mat-icon-button class="btn btn-dark" (click)="obtenerDocumentos2(element)"><mat-icon>plagiarism</mat-icon></button>
                             </td>
-                        </ng-container>
+                        </ng-container> -->
 
 
-                        <!-- <ng-container matColumnDef="expandedDetail">
+                        <ng-container matColumnDef="expandedDetail">
                             <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-                              
+
                                 <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="element.detalle.length > 0">
-                            
+
                                     <table width="100%">
 
                                         <tr>
@@ -126,8 +126,8 @@
                                             <td> {{detalle.ClaveProducto}} </td>
                                             <td> {{detalle.Producto }} </td>
                                             <td> {{detalle.Lote}} </td>
-                                            <td> {{detalle.SacosTotales}} </td>
-                                            <td> {{detalle.SacosD}} </td>
+                                            <td> {{detalle.KgT}} </td>
+                                            <td> {{detalle.KgD}} </td>
                                             <td> <button mat-icon-button class="btn btn-dark" (click)="obtenerDocumentos(detalle)">
                                       
                                                 <mat-icon>plagiarism</mat-icon>
@@ -139,7 +139,7 @@
 
                                 </div>
                             </td>
-                        </ng-container> -->
+                        </ng-container>
 
 
 

@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { TraspasoMercanciaService } from '../../../services/importacion/traspaso-mercancia.service';
-import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { ResumentraspasoComponent } from './resumentraspaso/resumentraspaso.component';
 import { DocumentacionFormularioImportacionComponent } from '../../importacion/documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
 import { OrdenCargaDescargaComponent } from 'src/app/components/orden-carga-descarga/orden-carga-descarga.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-traspasomercancia',
@@ -28,7 +29,7 @@ export class TraspasomercanciaComponent implements OnInit {
 
   nuevoTraspaso(){
     // this.router.navigateByUrl('/embarque');
-    let query = 'select top 1 folio, idtraspasomercancia from traspasomercancia;'
+    let query = 'select top 1 folio, idtraspasomercancia from traspasomercancia order by folio desc;'
     let consulta = {
       'consulta':query
     };
@@ -91,11 +92,25 @@ export class TraspasomercanciaComponent implements OnInit {
       console.log('%c⧭', 'color: #d90000', this.traspasoSVC.formrow);
 
 
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = false;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = "70%";
-      this.dialog.open(OrdenCargaDescargaComponent, dialogConfig);
+      console.log('%c%s', 'color: #364cd9', detalles.length);
+      console.log('%c⧭', 'color: #ffa280', detalles[0]);
+
+      if (detalles.length == 0) {
+        Swal.fire({
+          title: 'No Hay Registro',
+          icon: 'error',
+        })
+        
+      } else {
+        
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = false;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width = "70%";
+  
+        this.dialog.open(OrdenCargaDescargaComponent, dialogConfig);
+      }
+
     })
     // this.service.formrow = row;
     // console.log();
@@ -105,6 +120,8 @@ export class TraspasomercanciaComponent implements OnInit {
   onDelete(row){
     console.log(row);
   }
+
+ 
   
 
 }

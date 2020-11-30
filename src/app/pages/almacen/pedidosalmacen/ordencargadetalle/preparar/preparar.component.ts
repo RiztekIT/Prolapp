@@ -361,7 +361,7 @@ let productoValido: boolean = true;
               console.log('Si hay Datos Registrados');
               oT.productoValido = true;
               this.showButtonAceptar = true;
-              SaldoMaximo = +dataOrdenCarga[0].Saldo;
+              SaldoMaximo = +dataOrdenCarga[0].Saldo * +dataOrdenCarga[0].PesoxSaco ;
               console.log(SaldoMaximo);
               console.log(kgMaximos);
               if (SaldoMaximo < kgMaximos) {
@@ -380,7 +380,7 @@ let productoValido: boolean = true;
               oT.QR = this.QRdata.QR;
               oT.ClaveProducto = ClaveProducto;
               oT.Lote = Lote;
-              oT.Sacos = (kgIngreso).toString();
+              oT.Sacos = ((+kgIngreso/+dataOrdenCarga[0].PesoxSaco)).toString();
               /* oT.Sacos = ((+kgIngreso) / (+prodInfo[0].PesoxSaco)).toString(); */
               // oT.Sacos = sacosIngreso.toString();
               // oT.Sacos =  this.QRDetalledata[i].Sacos;
@@ -388,7 +388,7 @@ let productoValido: boolean = true;
               // oT.PesoTotal = ((+oT.Sacos) * (+prodInfo[0].PesoxSaco)).toString();
               oT.PesoTotal = kgIngreso.toString();
               oT.FechaCaducidad = prodInfo[0].FechaCaducidad;
-              oT.sacosSobra = kgSobrantes.toString();
+              oT.sacosSobra = (+kgSobrantes/+dataOrdenCarga[0].PesoxSaco).toString();
               console.log(oT);
               this.ordenTemporalService.preOrdenTemporal.push(oT);
 
@@ -399,7 +399,6 @@ let productoValido: boolean = true;
               this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
               console.log(this.ordenTemporalService.preOrdenTemporal);
 
-              this.dropdownRefreshProductos();
 
               this.limpiarCamposIngresarProducto();
             } else {
@@ -909,7 +908,7 @@ let productoValido: boolean = true;
         console.log(dataOrdenCarga);
         if (dataOrdenCarga.length>0){
           console.log(Sacos);
-          let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) - (+kg)).toString();
+          let NuevoSaldo = ((+dataOrdenCarga[0].Saldo * +dataOrdenCarga[0].PesoxSaco) - (+kg)).toString();
           console.log(NuevoSaldo);
           // Actualizar Saldo de la tabla Detalle Orden Carga
           this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo, Lote).subscribe(res => {
@@ -921,7 +920,7 @@ let productoValido: boolean = true;
 
           this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, '0', ClaveProducto).subscribe(dataOrdenCarga => {
             console.log(Sacos);
-          let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) - (+kg)).toString();
+          let NuevoSaldo = ((+dataOrdenCarga[0].Saldo * +dataOrdenCarga[0].PesoxSaco) - (+kg)).toString();
           console.log(NuevoSaldo);
           // Actualizar Saldo de la tabla Detalle Orden Carga
           this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo, Lote).subscribe(res => {

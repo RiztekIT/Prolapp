@@ -219,7 +219,7 @@ dod: DetalleOrdenDescarga;
      this.od.FechaLlegada = new Date(this.service.formData.FechaInicioCarga)
      //buscar la manera de ingresar las fechas en blanco
      this.od.IdProveedor = 0;
-     this.od.Proveedor = 'PasoTx';
+     this.od.Proveedor = this.service.formData.Origen;
      /* this.od.PO = this.compra.PO.toString(); */
      this.od.PO = '0';
      this.od.Fletera = '';

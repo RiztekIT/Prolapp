@@ -81,11 +81,18 @@
                                                     {{element.Producto}}
                                                     <td>
                                             </ng-container>
+                                            <ng-container matColumnDef="Sacos">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
+                                                <td class="Sacos" mat-cell *matCellDef="let element">
+                                                    <!-- </td> (click)="expandedElement = element"> -->
+                                                    {{element.Sacos}} Kg
+                                                    <td>
+                                            </ng-container>
                                             <ng-container matColumnDef="Kg">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
                                                 <td class="Sacos" mat-cell *matCellDef="let element">
                                                     <!-- </td> (click)="expandedElement = element"> -->
-                                                    {{element.Sacos}} Kg
+                                                    {{element.PesoTotal}} Kg
                                                     <td>
                                             </ng-container>
                                             <!-- <ng-container matColumnDef="SacosIngresados">
@@ -96,7 +103,7 @@
                             </ng-container> -->
 
                                             <ng-container matColumnDef="Saldo">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo</th>
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo Kg</th>
                                                 <td class="Saldo" mat-cell *matCellDef="let element">
                                                     <!-- </td> (click)="expandedElement = element"> -->
                                                     {{element.Saldo}} Kg
@@ -413,7 +420,7 @@
 
                                             <ng-container matColumnDef="Kg">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
-                                                <td mat-cell *matCellDef="let elementOT">{{elementOT.Sacos}}</td>
+                                                <td mat-cell *matCellDef="let elementOT">{{elementOT.PesoTotal}}</td>
                                             </ng-container>
 
                                             <!--  <ng-container matColumnDef="PesoTotal">

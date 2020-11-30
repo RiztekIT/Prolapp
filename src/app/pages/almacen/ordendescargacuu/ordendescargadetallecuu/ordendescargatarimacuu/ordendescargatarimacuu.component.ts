@@ -144,10 +144,10 @@ export class OrdendescargatarimacuuComponent implements OnInit {
         let product = dataP[i];
         product.Saldo = element.Saldo;
         product.IdOrdenDescarga = element.IdOrdenDescarga;
-        product.PesoOriginal = element.Sacos;
-        product.SacosOriginal = ((+element.Sacos)/(+element.PesoxSaco)).toString();
+        product.PesoOriginal = (+element.Sacos * +element.PesoxSaco).toFixed(4);
+        product.SacosOriginal = element.Sacos;
         // product.NuevoSaldo = ((+product.Saldo) - (+dataP[i].PesoTotal)).toString();
-        product.KilogramosSobrantes = ((+dataP[i].PesoTotal)-(+product.Saldo)).toString();
+        product.KilogramosSobrantes = ((+dataP[i].PesoTotal)-(+product.Saldo * +element.PesoxSaco)).toFixed(4);
 
           this.optionsProductos.push(product)
           this.filteredOptionsProductos = this.myControlProductos.valueChanges

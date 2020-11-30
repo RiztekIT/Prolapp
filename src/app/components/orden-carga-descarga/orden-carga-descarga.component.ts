@@ -3,6 +3,7 @@ import { DocumentosImportacionService } from 'src/app/services/importacion/docum
 
 import * as html2pdf from 'html2pdf.js';
 import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-orden-carga-descarga',
@@ -12,6 +13,7 @@ import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-
 export class OrdenCargaDescargaComponent implements OnInit {
 
   constructor(public traspasoSVC: TraspasoMercanciaService,
+    public dialogbox: MatDialogRef<OrdenCargaDescargaComponent>,
   ) { }
 
   objconc: any;
@@ -36,7 +38,6 @@ export class OrdenCargaDescargaComponent implements OnInit {
   
   
   obtenerDetallesTraspaso() {
-    console.clear();
     this.traspasoSVC.formrow[0].forEach((element,i) => {
 
       let id = element.IdTraspasoMercancia;
@@ -156,7 +157,7 @@ export class OrdenCargaDescargaComponent implements OnInit {
     const content: Element = document.getElementById('OrdenCargaDescarga-PDF');
     const option = {
       margin: [.5, .5, 0, .5],
-      filename: 'C-' + this.traspasoSVC.formrow.Folio + '.pdf',
+      filename: 'C-' + this.folio + '.pdf',
       image: { type: 'jpeg', quality: 1 },
       html2canvas: { scale: 2, logging: true },
       jsPDF: { unit: 'cm', format: 'letter', orientation: 'landscape' },
@@ -167,6 +168,10 @@ export class OrdenCargaDescargaComponent implements OnInit {
       .from(content)
       .set(option)
       .save();
+  }
+
+  onClose() {
+    this.dialogbox.close();
   }
 
 }
