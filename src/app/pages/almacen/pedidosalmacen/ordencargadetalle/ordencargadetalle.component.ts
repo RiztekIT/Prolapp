@@ -15,6 +15,7 @@ import { TarimaService } from '../../../../services/almacen/tarima/tarima.servic
 import { OrdenDescarga } from 'src/app/Models/almacen/OrdenDescarga/ordenDescarga-model';
 import { DetalleOrdenDescarga } from 'src/app/Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { OrdenDescargaService } from 'src/app/services/almacen/orden-descarga/orden-descarga.service';
+import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-producto/entrada-producto.component';
 
 @Component({
   selector: 'app-ordencargadetalle',
@@ -320,6 +321,19 @@ dod: DetalleOrdenDescarga;
       })
     });
       
+    }
+
+
+    pdf() {
+
+      // console.log(row);
+      // this.service.formrow = row;
+      // console.log();
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "70%";
+      this.dialog.open(EntradaProductoComponent, dialogConfig);
     }
 
 }

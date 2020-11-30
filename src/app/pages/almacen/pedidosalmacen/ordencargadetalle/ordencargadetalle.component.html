@@ -192,6 +192,11 @@
                                         <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="enviar()">Enviar</button>
                                         <br>
                                     </div>
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' || estatusOC == 'Terminada'">
+                                        <button id="EnviarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
+                                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="pdf()">PDF</button>
+                                        <br>
+                                    </div>
                                     <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada'">
                                         <button id="TerminarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
                                         <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="terminar()">Terminar</button>
