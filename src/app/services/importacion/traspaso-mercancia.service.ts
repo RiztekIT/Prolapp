@@ -6,8 +6,8 @@ import { environment } from 'src/environments/environment';
 import { TraspasoMercancia } from '../../Models/importacion/detalleTraspasoMercancia-model';
 import { DetalleTraspasoMercancia } from '../../Models/importacion/traspasoMercancia-model';
 
- export const APIUrl = environment.APIUrl;
-// export const APIUrl = "https://localhost:44361/api";
+//  export const APIUrl = environment.APIUrl;
+export const APIUrl = "https://localhost:44361/api";
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +67,30 @@ getQuery(query) {
   return this.http.post(APIUrl + '/TraspasoMercancia/general', query);
 }
 
+
+// *******************   REPORTES  ************************* //
+
+//Obtener traspasos por Bodega Origen => Destino
+getReporteTraspasoBodegas(bodegaOrigen: string, bodegaDestino: string):Observable<any[]>{
+  return this.http.get<any[]>(APIUrl + '/reportes/GetTraspasoBodegas/'+bodegaOrigen+'/'+bodegaDestino);
+}
+
+//Obtener traspasos por Bodega Origen => Destino y Fecha de Expedicion
+getReporteTraspasoBodegasFechas(bodegaOrigen: string, bodegaDestino: string, fecha1:string, fecha2:string):Observable<any[]>{
+  return this.http.get<any[]>(APIUrl + '/reportes/GetTraspasoBodegasFechas/'+bodegaOrigen+'/'+bodegaDestino+'/'+fecha1+'/'+fecha2);
+}
+
+//Obtener traspasos por Bodega Origen => Destino y Estatus
+getReporteTraspasoBodegasEstatus(bodegaOrigen: string, bodegaDestino: string, estatus:string):Observable<any[]>{
+  return this.http.get<any[]>(APIUrl + '/reportes/GetTraspasoBodegasEstatus/'+bodegaOrigen+'/'+bodegaDestino+'/'+estatus);
+}
+
+//Obtener traspasos por Bodega Origen => Destino , Fecha de Expedicion y Estatus
+getReporteTraspasoBodegasFechasEstatus(bodegaOrigen: string, bodegaDestino: string, fecha1:string, fecha2:string, estatus:string):Observable<any[]>{
+  return this.http.get<any[]>(APIUrl + '/reportes/GetTraspasoBodegasFechasEstatus/'+bodegaOrigen+'/'+bodegaDestino+'/'+fecha1+'/'+fecha2+'/'+estatus);
+}
+
+// *******************   REPORTES  ************************* //
 
   private _listeners = new Subject<any>(); 
       listen(): Observable<any> {

@@ -20,6 +20,8 @@ export class ImportacionMesesComponent implements OnInit {
     this.verDocumento();
   }
 
+  @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;
+
   //variables 
   arrconDocumento: Array<any> = [];
   tipoDocumento;
@@ -36,6 +38,10 @@ export class ImportacionMesesComponent implements OnInit {
     totalOctubreDocumento;
     totalNoviembreDocumento;
     totalDiciembreDocumento;
+
+  //Variables tipo Documento
+  checked: boolean = true;
+  Documento;
 
     public barChartOptions: (ChartOptions & { annotation: any }) = {
       responsive: true,
@@ -111,6 +117,45 @@ export class ImportacionMesesComponent implements OnInit {
 
     }
 
+     //^ Variable para checar si seleccionaron todos los documentos
+  tipoDocument(event) {
+    // console.log(event.checked);
+    this.Documento = 'Todos'
+    if (event.checked) {
+      this.verDocumento();
+    }
+  }
+
+  reporteDocumento(event) {
+    // console.log(event);
+    if (event.isUserInput) {
+      this.Documento = [];
+      this.Documento.push(event.source.value)
+      this.barChartDataDocumento[0].data = [];
+      this.obtenerReporteDocumento();
+    }
+  }
+
+   //^ Lista Documentos Mostrar
+   public listaDocumentos: Array<Object> = [
+    { tipo: 'Factura' },
+    { tipo: 'Certificado Libre Venta' },
+    { tipo: 'Certificado Origen' },
+    { tipo: 'USDA' },
+    { tipo: 'PESPI' },
+    { tipo: 'Certificado Analisis' }
+  ];
+
+  //^ Lista Documentos por Clave
+  public listaDocumentosClave: Array<any> = [
+    { tipo: 'Factura' },
+    { tipo: 'CLV' },
+    { tipo: 'CO' },
+    { tipo: 'USDA' },
+    { tipo: 'PESPI' },
+    { tipo: 'CA' }
+  ];
+
      //^ Desde aqui se obtienen los datos de la grafica
   verDocumento() {
     this.barChartDataDocumento[0].data = [];
@@ -126,19 +171,31 @@ export class ImportacionMesesComponent implements OnInit {
     this.iniciarTotalesDocumento();
 
     //^ Verificar con que tipo de Documento se llenara la grafica
-    if(this.tipoDocumento == 'Compras'){
+    // if(this.tipoDocumento == 'Compras'){
       //^ Obtener Compras Terminadas
-      this.compraService.getCompraEstatus('Terminada').subscribe(dataCompra=>{
-        console.log(dataCompra);
-        if(dataCompra.length>0){
+      // this.compraService.getCompraEstatus('Terminada').subscribe(dataCompra=>{
+        // console.log(dataCompra);
+        // let arrayLength = dataCompra.length;
+        // if(dataCompra.length > 5){
+        //   arrayLength = 5;
+        // }
+        if(this.checked == true){
           let cantidadDocumentos = 0
-          let arrayLength = dataCompra.length;
-          if(dataCompra.length > 5){
-            arrayLength = 5;
-          }
-          for (let i = 0; i < arrayLength; i++) {
 
-          this.documentosService.getDocumentoFolioTipoModulo(dataCompra[i].Folio, 'Compras', 'Importacion').subscribe(resDocumento=>{
+          for (let i = 0; i < this.listaDocumentosClave.length; i++) {
+
+            this.documentosService.getDocumentoTipoModulo(this.listaDocumentosClave[i].tipo, 'Importacion').subscribe(resDocumento => {
+              // console.log(resDocumento);
+              // if (resDocumento.length > 0) {
+                // cantidadDocumentos = cantidadDocumentos + +resDocumento.length;
+                // console.log(cantidadDocumentos);
+                // this.barChartDataDocumento[0].data.push(cantidadDocumentos);
+                // this.barChartDataDocumento[0].label = 'Total Documentos';
+                
+              // }
+            // })
+
+          // this.documentosService.getDocumentoFolioTipoModulo(dataCompra[i].Folio, 'Compras', 'Importacion').subscribe(resDocumento=>{
             console.log(resDocumento);
             if(resDocumento.length>0){
               cantidadDocumentos = cantidadDocumentos + +resDocumento.length;
@@ -217,21 +274,36 @@ export class ImportacionMesesComponent implements OnInit {
 
             }
           })
-          }          
-        }
-      });
-    }else if(this.tipoDocumento == 'OrdenDescarga'){
-      //^ Obtener Ordenes de Descarga Terminadas
-      this.documentosService.getOrdenesDescargadas().subscribe(dataOrden=>{
-        console.log(dataOrden);
-        if(dataOrden.length>0){
-          let cantidadDocumentos = 0;
-          let arrayLength = dataOrden.length;
-          if(dataOrden.length > 5){
-            arrayLength = 5;
-          }
-          for (let i = 0; i < arrayLength; i++) {
-          this.documentosService.getDocumentoFolioTipoModulo(dataOrden[i].Folio, 'OrdenDescarga', 'Importacion').subscribe(resDocumento=>{
+          }   
+          // this.chart.update();       
+        }else if(this.checked == false){
+
+          let tipo: string = '';
+
+      switch (this.Documento[0].tipo) {
+        case "Factura":
+          tipo = 'Factura';
+          break;
+        case "Certificado Libre Venta":
+          tipo = 'CLV';
+          break;
+        case "Certificado Origen":
+          tipo = 'CO';
+          break;
+        case "USDA":
+          tipo = 'USDA';
+          break;
+        case "PESPI":
+          tipo = 'PESPI';
+          break;
+        case "Certificado Analisis":
+          tipo = 'CA';
+          break;
+      }
+
+          let cantidadDocumentos = 0
+          
+            this.documentosService.getDocumentoTipoModulo(tipo, 'Importacion').subscribe(resDocumento => {
             console.log(resDocumento);
             if(resDocumento.length>0){
               cantidadDocumentos = cantidadDocumentos + +resDocumento.length;
@@ -292,7 +364,7 @@ export class ImportacionMesesComponent implements OnInit {
  
           
      
-          this.barChartDataDocumento[0].label = 'Documentos Orden Descarga'
+          this.barChartDataDocumento[0].label = 'Documentos'
         this.barChartDataDocumento[0].data[0] = this.totalEneroDocumento
         this.barChartDataDocumento[0].data[1] = this.totalFebreroDocumento
         this.barChartDataDocumento[0].data[2] = this.totalMarzoDocumento
@@ -305,16 +377,110 @@ export class ImportacionMesesComponent implements OnInit {
         this.barChartDataDocumento[0].data[9] = this.totalOctubreDocumento
         this.barChartDataDocumento[0].data[10] = this.totalNoviembreDocumento
         this.barChartDataDocumento[0].data[11] = this.totalDiciembreDocumento
+
             }
-
-
 
             }
           })
-          }          
+             
+          // this.chart.update();
         }
-      })
-    }
+      // });
+  //   }else if(this.tipoDocumento == 'OrdenDescarga'){
+  //     //^ Obtener Ordenes de Descarga Terminadas
+  //     this.documentosService.getOrdenesDescargadas().subscribe(dataOrden=>{
+  //       console.log(dataOrden);
+  //       if(dataOrden.length>0){
+  //         let cantidadDocumentos = 0;
+  //         let arrayLength = dataOrden.length;
+  //         if(dataOrden.length > 5){
+  //           arrayLength = 5; 
+  //         }
+  //         for (let i = 0; i < arrayLength; i++) {
+  //         this.documentosService.getDocumentoFolioTipoModulo(dataOrden[i].Folio, 'OrdenDescarga', 'Importacion').subscribe(resDocumento=>{
+  //           console.log(resDocumento);
+  //           if(resDocumento.length>0){
+  //             cantidadDocumentos = cantidadDocumentos + +resDocumento.length;
+              
+  //             for (let i = 0; i < resDocumento.length; i++) {
+
+  //             let fecha = new Date(resDocumento[0].Vigencia)
+  //             let mes = fecha.getMonth();
+  
+  //             if ( mes == 0){
+  //               this.totalEneroDocumento = this.totalEneroDocumento + 1;
+                
+  //             }
+  //             if ( mes == 1){
+  //               this.totalFebreroDocumento = this.totalFebreroDocumento + 1;
+                
+  //             }
+  //             if ( mes == 2){
+  //               this.totalMarzoDocumento = this.totalMarzoDocumento + 1;
+                
+  //             }
+  //             if ( mes == 3){
+  //               this.totalAbrilDocumento = this.totalAbrilDocumento + 1;
+                
+  //             }
+  //             if ( mes == 4){
+  //               this.totalMayoDocumento = this.totalMayoDocumento + 1;
+                
+  //             }
+  //             if ( mes == 5){
+  //               this.totalJunioDocumento = this.totalJunioDocumento + 1;
+                
+  //             }
+  //             if ( mes == 6){
+  //               this.totalJulioDocumento = this.totalJulioDocumento + 1;
+                
+  //             }
+  //             if ( mes == 7){
+  //               this.totalAgostoDocumento = this.totalAgostoDocumento + 1;
+                
+  //             }
+  //             if ( mes == 8){
+  //               this.totalSeptiembreDocumento = this.totalSeptiembreDocumento + 1;
+                
+  //             }
+  //             if ( mes == 9){
+  //               this.totalOctubreDocumento = this.totalOctubreDocumento + 1;
+                
+  //             }
+  //             if ( mes == 10){
+  //               this.totalNoviembreDocumento = this.totalNoviembreDocumento + 1;
+                
+  //             }
+  //             if ( mes == 11){
+  //               this.totalDiciembreDocumento = this.totalDiciembreDocumento + 1;
+                
+  //             }
+ 
+          
+     
+  //         this.barChartDataDocumento[0].label = 'Documentos Orden Descarga'
+  //       this.barChartDataDocumento[0].data[0] = this.totalEneroDocumento
+  //       this.barChartDataDocumento[0].data[1] = this.totalFebreroDocumento
+  //       this.barChartDataDocumento[0].data[2] = this.totalMarzoDocumento
+  //       this.barChartDataDocumento[0].data[3] = this.totalAbrilDocumento
+  //       this.barChartDataDocumento[0].data[4] = this.totalMayoDocumento
+  //       this.barChartDataDocumento[0].data[5] = this.totalJunioDocumento
+  //       this.barChartDataDocumento[0].data[6] = this.totalJulioDocumento
+  //       this.barChartDataDocumento[0].data[7] = this.totalAgostoDocumento
+  //       this.barChartDataDocumento[0].data[8] = this.totalSeptiembreDocumento
+  //       this.barChartDataDocumento[0].data[9] = this.totalOctubreDocumento
+  //       this.barChartDataDocumento[0].data[10] = this.totalNoviembreDocumento
+  //       this.barChartDataDocumento[0].data[11] = this.totalDiciembreDocumento
+  //           }
+
+
+
+  //           }
+  //         })
+  //         }          
+  //       }
+  //     })
+  //   }
 
   }
 
@@ -437,7 +603,7 @@ export class ImportacionMesesComponent implements OnInit {
     //         this.barChartDataIncidencia[0].data[9] = this.totalOctubreIncidencia
     //         this.barChartDataIncidencia[0].data[10] = this.totalNoviembreIncidencia
     //         this.barChartDataIncidencia[0].data[11] = this.totalDiciembreIncidencia
-    //       this.chart.update();
+          // this.chart.update();
            
 
           

@@ -253,6 +253,27 @@
                         <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample3">
                             <mat-card>
 
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label class="input-group-text text-info">Seleccionar Bodega Origen</label>
+
+                                        <select class="form-control" name="origen" #origen="ngModel" id="origen" (change)="changeBodegaOrigen($event)" [(ngModel)]="bodegaOrigen">
+                                                                <option [ngValue]="null" selected disabled>Seleccionar Bodega Origen</option>
+                                                                <option *ngFor="let dl of listBodegas" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                                            </select>
+
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="input-group-text text-info">Seleccionar Bodega Destino</label>
+
+                                        <select class="form-control" name="Destino" #Destino="ngModel" id="Destino" (change)="changeBodegaDestino($event)" [(ngModel)]="bodegaDestino">
+                                                                <option [ngValue]="null" selected disabled>Seleccionar Bodega Destino</option>
+                                                                <option *ngFor="let dl of listBodegas" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                                            </select>
+
+                                    </div>
+                                </div>
+
                                 <div class="col-4" style="align-self: center">
 
                                     <section class="example-section">
