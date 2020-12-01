@@ -3,6 +3,7 @@ import * as html2pdf from 'html2pdf.js';
 import { MatDialogRef } from '@angular/material';
 import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
 import { OrdenTemporalService } from '../../../services/almacen/orden-temporal/orden-temporal.service';
+import { EmpresaService } from '../../../services/empresas/empresa.service';
 
 @Component({
   selector: 'app-salida-producto',
@@ -18,7 +19,7 @@ export class SalidaProductoComponent implements OnInit {
   sacosTotal = 0;
   pedimento: any;
 
-  constructor(public dialogbox: MatDialogRef<SalidaProductoComponent>, private service: OrdenCargaService, public ordentemporal: OrdenTemporalService) { }
+  constructor(public dialogbox: MatDialogRef<SalidaProductoComponent>, private service: OrdenCargaService, public ordentemporal: OrdenTemporalService, public empresaService: EmpresaService) { }
 
   objconc: any;
   con: string | number;
@@ -31,10 +32,17 @@ export class SalidaProductoComponent implements OnInit {
 
   FacturasString: string = "";
 
+  logo;
+
 
 
   ngOnInit() {
     console.clear();
+
+
+//^ Obtener Logo de empresa
+this.logo = this.empresaService.empresaActual.Foto;    
+
     this.ver();
   }
 

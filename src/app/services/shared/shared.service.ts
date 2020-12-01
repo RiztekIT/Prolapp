@@ -32,8 +32,8 @@ export class SharedService {
   }
 
   verificarEmpresa(){
-      console.log(this.empresaService.empresaActual);
-      console.log(this.empresaService.empresaActual.Foto);
+      // console.log(this.empresaService.empresaActual);
+      // console.log(this.empresaService.empresaActual.Foto);
       this.logobase64 = this.empresaService.empresaActual.Foto;      
   }
 
