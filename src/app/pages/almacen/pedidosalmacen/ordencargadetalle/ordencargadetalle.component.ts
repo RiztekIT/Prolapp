@@ -16,6 +16,7 @@ import { OrdenDescarga } from 'src/app/Models/almacen/OrdenDescarga/ordenDescarg
 import { DetalleOrdenDescarga } from 'src/app/Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { OrdenDescargaService } from 'src/app/services/almacen/orden-descarga/orden-descarga.service';
 import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-producto/entrada-producto.component';
+import { SalidaProductoComponent } from '../../../../components/almacen/salida-producto/salida-producto.component';
 
 @Component({
   selector: 'app-ordencargadetalle',
@@ -333,7 +334,8 @@ dod: DetalleOrdenDescarga;
       dialogConfig.disableClose = false;
       dialogConfig.autoFocus = true;
       dialogConfig.width = "70%";
-      this.dialog.open(EntradaProductoComponent, dialogConfig);
+      this.dialog.open(SalidaProductoComponent, dialogConfig);
+      // this.dialog.open(EntradaProductoComponent, dialogConfig);
     }
 
 }

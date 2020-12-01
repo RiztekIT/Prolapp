@@ -3,6 +3,10 @@ import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-ca
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { startWith, map } from 'rxjs/operators';
+import { Cliente } from '../../../../Models/catalogos/clientes-model';
 
 @Component({
   selector: 'app-almacen-totales',
@@ -31,6 +35,13 @@ export class AlmacenTotalesComponent implements OnInit {
   checked;
   Cliente;
   listaClientes;
+
+
+  //^ Dropdown Cliente
+  clienteSelect:  string="";
+  myControl = new FormControl();
+  filteredOptions: Observable<any[]>;
+  options: Cliente[] = [];
 
 
    /* GRAFICAS */
@@ -105,16 +116,27 @@ export class AlmacenTotalesComponent implements OnInit {
     this.pedidoService.getDepDropDownValues().subscribe(dataClientes => {
       // console.log(dataClientes);  
       this.barChartLabels = []; 
-      this.listaClientes=dataClientes;
+      this.options = [];
+      this.listaClientes= [];
+      // this.listaClientes=dataClientes;
   
-      for (let i=0; i<5;i++){
+      for (let i=0; i<dataClientes.length;i++){
       // for (let i=0; i<dataClientes.length;i++){
+
+      let Cliente = dataClientes[i];
+      this.listaClientes.push(Cliente);
+      this.options.push(Cliente)
+      this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
 
         if(this.Cliente == 'Todos'){
           
 
           // this.barChartLabels.push(dataClientes[i].Nombre);    
-        }else if(this.Cliente==dataClientes[i].Nombre) {
+        }else if(this.Cliente==dataClientes[i].Nombre && i<5) {
           this.barChartLabels.push(dataClientes[i].Nombre);  
           
 
@@ -125,6 +147,38 @@ export class AlmacenTotalesComponent implements OnInit {
        this.obtenerReporte(dataClientes.length, dataClientes);
     })
   }
+
+  private _filter(value: any): any[] {
+    // console.clear();
+    // console.log(value);
+    if (typeof (value) == 'string') {
+      const filterValue2 = value.toLowerCase();
+      return this.options.filter(option =>  option.Nombre.toString().toLowerCase().includes(filterValue2));
+    } else if (typeof (value) == 'number') {
+      const filterValue2 = value.toString();
+      return this.options.filter(option =>   option.Nombre.toString().includes(filterValue2));
+    }
+
+
+  }
+
+  // dropdownRefresh2() {
+  //   this.detalleCompra = new DetalleCompra();
+  //   this.options2 = [];
+  //   this.ServiceProducto.getProductosList().subscribe(dataP => {
+  //     for (let i = 0; i < dataP.length; i++) {
+  //       let product = dataP[i];
+  //       this.listProducts.push(product);
+  //       this.options2.push(product)
+  //       this.filteredOptions2 = this.myControl2.valueChanges
+  //         .pipe(
+  //           startWith(''),
+  //           map(value => this._filter2(value))
+  //         );
+  //     }
+  //   });
+
+  // }
 
   obtenerReporte(numero: number, data: any) {
     this.arrcon = []; 
@@ -142,12 +196,13 @@ export class AlmacenTotalesComponent implements OnInit {
 
  
   reporteCliente(event){    
-    // console.log(event);
+    console.log(event);
 if(event.isUserInput){
   this.iniciarTotales();
 
   this.Cliente= [];
   this.Cliente.push(event.source.value)
+  this.clienteSelect = event.source.value.Nombre;
   // this.ver();
   //this.filtroGeneral(1,this.proveedor,"Ambas")
   this.barChartLabels = []; 
@@ -161,6 +216,7 @@ if(event.isUserInput){
   tipoCliente(event){
     // console.log(event.checked);
     this.Cliente = 'Todos'
+    this.clienteSelect = "";
     if (event.checked){
       this.verReporte();
     }

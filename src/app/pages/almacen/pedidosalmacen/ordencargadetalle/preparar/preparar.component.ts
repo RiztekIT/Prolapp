@@ -21,6 +21,7 @@ import { preOrdenTemporal } from '../../../../../Models/almacen/OrdenTemporal/pr
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { SalidaProductoComponent } from '../../../../../components/almacen/salida-producto/salida-producto.component';
 
 
 
@@ -1137,7 +1138,7 @@ let productoValido: boolean = true;
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "70%";
-    this.dialog.open(EntradaProductoComponent, dialogConfig);
+    this.dialog.open(SalidaProductoComponent, dialogConfig);
   }
 
   finalizar() {
