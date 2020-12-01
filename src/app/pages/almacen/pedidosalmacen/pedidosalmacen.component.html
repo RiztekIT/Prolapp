@@ -183,6 +183,7 @@
                                             <th> Clave Producto </th>
                                             <th> Producto </th>
                                             <th> Kilogramos </th>
+                                            <th> Sacos </th>
                                             <th> Lote </th>
                                         </tr>
                                         <tr *ngFor="let detalle of element.detalleOrdenCarga">
@@ -190,7 +191,8 @@
                                             <td> {{detalle.QR}} </td> -->
                                             <td> {{detalle.ClaveProducto}} </td>
                                             <td> {{detalle.Producto}} </td>
-                                            <td> {{ detalle.Sacos}} Kg</td>
+                                            <td> {{ detalle.Sacos * detalle.PesoxSaco}} Kg</td>
+                                            <td> {{ detalle.Sacos}}</td>
                                             <td> {{ detalle.Lote}} </td>
                                         </tr>
                                     </table>

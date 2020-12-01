@@ -9,6 +9,10 @@ import { BodegasService } from 'src/app/services/catalogos/bodegas.service';
 import { DocumentacionImportacionComponent } from '../documentacion-importacion/documentacion-importacion.component';
 import { DocumentacionFormularioImportacionComponent } from '../documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
 import { DocumentosImportacionService } from 'src/app/services/importacion/documentos-importacion.service';
+import { Location } from '@angular/common';
+import { TraspasoMercanciaService } from '../../../services/importacion/traspaso-mercancia.service';
+import { TraspasomercanciaComponent } from '../../almacen/traspasomercancia/traspasomercancia.component';
+import { ResumentraspasoComponent } from '../../almacen/traspasomercancia/resumentraspaso/resumentraspaso.component';
 
 
 declare function steps();
@@ -69,7 +73,7 @@ public listBodega: Array<Object> = [
 
   constructor(public router: Router, public serviceTarima: TarimaService, 
     public serviceordencarga: OrdenCargaService,
-    private bodegaservice: BodegasService, private dialog: MatDialog, public documentosService: DocumentosImportacionService) { }
+    private bodegaservice: BodegasService, private dialog: MatDialog, public documentosService: DocumentosImportacionService, public location: Location, public traspasoSVC: TraspasoMercanciaService) { }
     
   listData: MatTableDataSource<any>;
   listData2: MatTableDataSource<any>;
@@ -103,7 +107,7 @@ if (this.bodegaSelect==='Todos'){
 
   getbodegas(){
     this.bodegaservice.getBodegasList().subscribe(res => {
-      console.clear();
+      /* console.clear(); */
       console.log(res);
       console.log(res[0].Origen);
       for (let i = 0; i <= res.length -1; i++) {
@@ -226,9 +230,10 @@ if (this.bodegaSelect==='Todos'){
     console.log(this.selection.selected);
   }
   lista2(){
+    this.location.back();
+    /* this.inicio = true;
+    console.log(this.selection.selected); */
     
-    this.inicio = true;
-    console.log(this.selection.selected);
   }
 
   onEdit(row){
@@ -238,14 +243,17 @@ if (this.bodegaSelect==='Todos'){
       title: 'Ingresar Kg',
       icon: 'info',
       input: 'text',
-      inputValue: row.Sacos,
+      inputValue: row.PesoTotal,
       showCancelButton: false,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Aceptar',
     }).then((result) => {
       console.log(result);
-      row.SacosTotales = result.value
+      row.PesoTotal = result.value
+      row.PesoTotal1 = result.value
+      row.Sacos = (+row.PesoTotal / +row.PesoxSaco)
+      row.SacosTotales = (+row.PesoTotal / +row.PesoxSaco)
     /*   this.detalletraspaso.push({
         "Bodega": row.Bodega,
 "ClaveProducto" :  row.ClaveProducto,
@@ -283,17 +291,123 @@ if (this.bodegaSelect==='Todos'){
     this.documentosService.importacion = true;
     this.documentosService.productosimportacion = this.listData2.data;
 
-    const dialogConfig = new MatDialogConfig();
+    this.crearTraspaso()
+
+   
+
+     
+     
+  }
+
+  updateTrapspaso(idordencarga){
+    let query = 'update traspasomercancia set idordencarga='+idordencarga+''
+      let consulta = {
+        'consulta':query
+      };
+
+      this.traspasoSVC.getQuery(consulta).subscribe((detalles: any)=>{
+        console.log(detalles);
+
+      })
+  }
+
+  crearTraspaso(){
+    let traspaso;
+    let detalletraspaso;
+    let sacos;
+    let kg;
+    
+    sacos = 0;
+
+    for (let i=0; i< this.listData2.data.length;i++){
+      sacos = sacos + +this.listData2.data[i].SacosTotales;
+      kg = sacos * +this.listData2.data[i].PesoxSaco;
+    }
+
+    traspaso = {
+      IdTraspasoMercancia: this.traspasoSVC.idnuevo,
+Folio: this.traspasoSVC.folionuevo,
+IdOrdenCarga: 0,
+FolioOrdenCarga: 0,
+IdCliente: 0,
+Cliente: 0,
+SacosTotales:sacos,
+KilogramosTotales: kg,
+FechaExpedicion : new Date(),
+Estatus: 'Creada',
+Origen: this.bodegaSelect,
+Destino: 'Chihuahua',
+CampoExtra1: '',
+CampoExtra2: '',
+    }
+
+    this.traspasoSVC.addTraspasoMercancia(traspaso).subscribe(res=>{
+      console.log(res);
+
+
+      for (let i=0; i< this.listData2.data.length;i++){
+
+        detalletraspaso = {
+          IdDetalleTraspasoMercancia: 0,
+IdTraspasoMercancia: this.traspasoSVC.idnuevo,
+IdDetalle: this.listData2.data[i].IdDetalleTarima,
+Cbk: '',
+Usda: '',
+IdProveedor: '',
+Proveedor: '',
+PO: this.listData2.data[i].PO,
+Producto: this.listData2.data[i].Producto,
+ClaveProducto: this.listData2.data[i].ClaveProducto,
+Lote: this.listData2.data[i].Lote,
+Sacos: this.listData2.data[i].SacosTotales,
+PesoxSaco: this.listData2.data[i].PesoxSaco,
+PesoTotal: this.listData2.data[i].PesoTotal,
+Bodega: this.listData2.data[i].Bodega,
+CampoExtra3: '',
+CampoExtra4: '',
+        }
+
+        this.traspasoSVC.selectTraspaso = traspaso;
+
+        console.log(detalletraspaso, 'DETALLE');
+
+        this.traspasoSVC.addDetalleTraspasoMercancia(detalletraspaso).subscribe(data=>{
+          console.log(data);
+
+
+
+          const dialogConfig = new MatDialogConfig();
           dialogConfig.disableClose = false;
           dialogConfig.autoFocus = true;
           dialogConfig.width = "70%";
-          let dl = this.dialog.open(DocumentacionFormularioImportacionComponent, dialogConfig);
+          dialogConfig.data={
+            tipo: 'Agregar',
+            
+          }
+          /* let dl = this.dialog.open(DocumentacionFormularioImportacionComponent, dialogConfig); */
+          let dl = this.dialog.open(ResumentraspasoComponent, dialogConfig);
 
           dl.afterClosed().subscribe(res=>{
             this.inicio = true;
+            this.crearOC();
           })
 
-    // this.crearOC();
+
+        /*   Swal.fire({
+            icon: 'success',
+            title: 'Traspaso Creado'
+          }) */
+        })
+
+      
+
+      }
+
+
+    })
+
+
+
   }
 
    crearOC(){
@@ -323,6 +437,7 @@ if (this.bodegaSelect==='Todos'){
       }
 
 
+    
       ordencarga= {
   
         IdOrdenCarga: 0,
@@ -349,9 +464,9 @@ if (this.bodegaSelect==='Todos'){
 
       console.log(ordencarga);
 
-     
+     this.updateTrapspaso(data[0].Folio)
 
-
+      //this.crearTraspaso(data[0].Folio);
 
       this.serviceordencarga.addOrdenCarga(ordencarga).subscribe(data=>{
 

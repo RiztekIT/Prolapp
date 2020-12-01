@@ -21,6 +21,7 @@ import { preOrdenTemporal } from '../../../../../Models/almacen/OrdenTemporal/pr
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { SalidaProductoComponent } from '../../../../../components/almacen/salida-producto/salida-producto.component';
 
 
 
@@ -361,7 +362,7 @@ let productoValido: boolean = true;
               console.log('Si hay Datos Registrados');
               oT.productoValido = true;
               this.showButtonAceptar = true;
-              SaldoMaximo = +dataOrdenCarga[0].Saldo;
+              SaldoMaximo = +dataOrdenCarga[0].Saldo * +dataOrdenCarga[0].PesoxSaco ;
               console.log(SaldoMaximo);
               console.log(kgMaximos);
               if (SaldoMaximo < kgMaximos) {
@@ -380,7 +381,7 @@ let productoValido: boolean = true;
               oT.QR = this.QRdata.QR;
               oT.ClaveProducto = ClaveProducto;
               oT.Lote = Lote;
-              oT.Sacos = (kgIngreso).toString();
+              oT.Sacos = ((+kgIngreso/+dataOrdenCarga[0].PesoxSaco)).toString();
               /* oT.Sacos = ((+kgIngreso) / (+prodInfo[0].PesoxSaco)).toString(); */
               // oT.Sacos = sacosIngreso.toString();
               // oT.Sacos =  this.QRDetalledata[i].Sacos;
@@ -388,7 +389,7 @@ let productoValido: boolean = true;
               // oT.PesoTotal = ((+oT.Sacos) * (+prodInfo[0].PesoxSaco)).toString();
               oT.PesoTotal = kgIngreso.toString();
               oT.FechaCaducidad = prodInfo[0].FechaCaducidad;
-              oT.sacosSobra = kgSobrantes.toString();
+              oT.sacosSobra = (+kgSobrantes/+dataOrdenCarga[0].PesoxSaco).toString();
               console.log(oT);
               this.ordenTemporalService.preOrdenTemporal.push(oT);
 
@@ -399,7 +400,6 @@ let productoValido: boolean = true;
               this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
               console.log(this.ordenTemporalService.preOrdenTemporal);
 
-              this.dropdownRefreshProductos();
 
               this.limpiarCamposIngresarProducto();
             } else {
@@ -909,7 +909,7 @@ let productoValido: boolean = true;
         console.log(dataOrdenCarga);
         if (dataOrdenCarga.length>0){
           console.log(Sacos);
-          let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) - (+kg)).toString();
+          let NuevoSaldo = ((+dataOrdenCarga[0].Saldo * +dataOrdenCarga[0].PesoxSaco) - (+kg)).toString();
           console.log(NuevoSaldo);
           // Actualizar Saldo de la tabla Detalle Orden Carga
           this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo, Lote).subscribe(res => {
@@ -921,7 +921,7 @@ let productoValido: boolean = true;
 
           this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, '0', ClaveProducto).subscribe(dataOrdenCarga => {
             console.log(Sacos);
-          let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) - (+kg)).toString();
+          let NuevoSaldo = ((+dataOrdenCarga[0].Saldo * +dataOrdenCarga[0].PesoxSaco) - (+kg)).toString();
           console.log(NuevoSaldo);
           // Actualizar Saldo de la tabla Detalle Orden Carga
           this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo, Lote).subscribe(res => {
@@ -1104,7 +1104,7 @@ let productoValido: boolean = true;
   //pintar tabla con los conceptos faltantes
   conceptosFaltantes() {
     this.ordenCargaService.getOrdenCargaIDList(this.IdOrdenCarga).subscribe(data => {
-      console.log(data);
+      console.log(data,'OIRDEN de carga ');
       if (data.length > 0) {
         this.conceptosFaltantesList = new Array<DetalleOrdenCarga>();
         for (let i = 0; i <= data.length - 1; i++) {
@@ -1113,7 +1113,7 @@ let productoValido: boolean = true;
           }
         }
       }
-      console.log(this.conceptosFaltantesList);
+      console.log(this.conceptosFaltantesList,'LISTA DE FALTANTES');
       this.MostrarConceptos = true;
       this.listDataConceptosFaltantes = new MatTableDataSource(this.conceptosFaltantesList);
       this.listDataConceptosFaltantes.sort = this.sortConceptosFaltantes;
@@ -1138,7 +1138,7 @@ let productoValido: boolean = true;
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "70%";
-    this.dialog.open(EntradaProductoComponent, dialogConfig);
+    this.dialog.open(SalidaProductoComponent, dialogConfig);
   }
 
   finalizar() {

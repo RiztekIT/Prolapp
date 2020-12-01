@@ -8,7 +8,8 @@ import { StorageServiceService } from '../services/shared/storage-service.servic
 import { Session } from '../Models/session-model';
 import { SidebarService } from '../services/shared/sidebar.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
-import { NgImageSliderComponent } from 'ng-image-slider';
+
+import { interval } from 'rxjs';
 
 
 declare function init_plugins();
@@ -21,11 +22,11 @@ declare function init_plugins();
 export class LoginComponent implements OnInit {
 
   constructor(public router: Router, public service: UsuariosServieService, private snackBar: MatSnackBar, private storageServce: StorageServiceService, public sidebarservice: SidebarService, private deviceService: DeviceDetectorService) { }
-
+numimagen = 3;
   token;
   deviceinfo;
   dispositivo;
-  @ViewChild('nav', {static: false}) slider: NgImageSliderComponent
+  
   public imagesUrl: Array<object> = [
       
   {
@@ -51,7 +52,47 @@ export class LoginComponent implements OnInit {
     init_plugins();
     this.resetForm();
     this.obtenerdevice();
+    this.carruselimagenes()
 
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    clearInterval(this.intervalUpdate);
+  }
+  private intervalUpdate: any = null;
+  propiedad1 = 'block';
+  propiedad2 = 'none';
+  propiedad3 = 'none';
+
+  carruselimagenes(){
+    this.intervalUpdate = setInterval(function(){
+      console.log(this.numimagen);
+      
+      if (this.numimagen==1){
+
+        this.propiedad1 = 'block'
+        this.propiedad2 = 'none'
+        this.propiedad3 = 'none'
+      }else if(this.numimagen==2){
+        this.propiedad1 = 'none'
+        this.propiedad2 = 'block'
+        this.propiedad3 = 'none'
+      }else if(this.numimagen==3){
+        this.propiedad1 = 'none'
+        this.propiedad2 = 'none'
+        this.propiedad3 = 'block'
+        this.numimagen=0;
+      }else if(this.numimagen==4){
+        this.propiedad1 = 'none'
+        this.propiedad2 = 'none'
+        this.propiedad3 = 'none'
+        this.numimagen=0;
+      }
+      this.numimagen = this.numimagen + 1;
+      
+     }.bind(this), 4000);
   }
 
   obtenerdevice(){

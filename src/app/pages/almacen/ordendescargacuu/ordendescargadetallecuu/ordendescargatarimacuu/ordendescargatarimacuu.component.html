@@ -42,25 +42,31 @@
                 <div class="form-material mat-elevation-z5">
                     <div class="container">
 
+                        <div class="row">
+
+                            <div class="col-md-12 col-12" style="display: grid">
+                                <mat-form-field>
+                                    <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControlProductos" [(ngModel)]="detalleSeleccionado" matInput [matAutocomplete]="autoProducto">
+                                    <mat-autocomplete #autoProducto="matAutocomplete">
+                                        <mat-option required *ngFor="let option of filteredOptionsProductos | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChangeProducto(option, $event)">
+                                            {{option.ClaveProducto}} || {{option.Producto}} || Lote: {{option.Lote}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+
 
                         <div class="row">
                             <div class="col-10">
                                 <div class="container" style="margin-right: 0;">
                                     <div class="row">
-                                        <div class="col-md-7 col-12" style="display: grid">
-                                            <mat-form-field>
-                                                <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControlProductos" [(ngModel)]="detalleSeleccionado" matInput [matAutocomplete]="autoProducto">
-                                                <mat-autocomplete #autoProducto="matAutocomplete">
-                                                    <mat-option required *ngFor="let option of filteredOptionsProductos | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChangeProducto(option, $event)">
-                                                        {{option.ClaveProducto}} || {{option.Producto}} || Lote: {{option.Lote}}
-                                                    </mat-option>
-                                                </mat-autocomplete>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3 col-12" style="display: grid">
+
+                                        <div class="col-md-6 col-12" style="display: grid">
                                             <input readonly placeholder="Clave Producto" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="ClaveProductoIngresado">
                                         </div>
-                                        <div class="col-md-2 col-12" style="display: grid">
+                                        <div class="col-md-6 col-12" style="display: grid">
                                             <input readonly placeholder="Lote" class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="LoteProductoIngresado">
                                         </div>
                                     </div>
@@ -136,7 +142,7 @@
                                     <ng-container matColumnDef="Saldo">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center">Saldo</th>
                                         <td class="Saldo" mat-cell *matCellDef="let element">
-                                            {{element.Saldo}} Kg
+                                            {{element.Saldo * element.PesoxSaco}} Kg
                                             <td>
                                     </ng-container>
                                     <ng-container matColumnDef="KgSobrantes">

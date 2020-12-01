@@ -110,7 +110,7 @@ export class DocumentacionImportacionComponent implements OnInit {
     this.router.navigate(['/documentacion-formulario-importacion']);
   }
 
-  applyFilter(filtervalue: string) {
+    applyFilter(filtervalue: string) {
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
   }
 

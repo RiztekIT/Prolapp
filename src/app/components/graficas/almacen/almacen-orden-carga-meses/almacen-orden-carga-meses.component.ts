@@ -115,8 +115,9 @@ export class AlmacenOrdenCargaMesesComponent implements OnInit {
 
 
   reporte(){
+    this.iniciarTotales();
     this.pedidoService.getDepDropDownValues().subscribe(dataClientes => {
-      console.log(dataClientes);  
+      // console.log(dataClientes);  
       this.listaClientes=dataClientes;
        this.obtenerReporte(dataClientes.length, dataClientes);
     })
@@ -198,17 +199,26 @@ export class AlmacenOrdenCargaMesesComponent implements OnInit {
 
 
 datosCliente(data,i){
-  console.log(data);
+  // console.log(data);
   this.ordenCargaService.getReporteClienteId(data[i].IdClientes).subscribe(dataReporte => {
-    console.log(dataReporte);
+    
     if(dataReporte.length>0){
-      console.log(dataReporte);
-      this.iniciarTotales();
+      // console.log(dataReporte);
+      // console.log(dataReporte);
+      // let sac = 0;
+      // let kilo = 0;
       for (let l = 0; l < dataReporte.length; l++) {
       
 
           let fecha = new Date(dataReporte[l].FechaExpedicion)
           let mes = fecha.getMonth();
+
+          // sac = sac + +dataReporte[l].Sacos;
+          // kilo = kilo + +dataReporte[l].Kg;
+
+          // console.log(mes);
+          // console.log(sac);
+          // console.log(kilo);
 
           if ( mes == 0){
             this.totalEneroSacos = this.totalEneroSacos + +dataReporte[l].Sacos;
@@ -251,6 +261,7 @@ datosCliente(data,i){
             this.totalOctubreKg = this.totalOctubreKg + +dataReporte[l].Kg;
           }
           if ( mes == 10){
+            console.log('NOVIEMBRE');
             this.totalNoviembreSacos = this.totalNoviembreSacos + +dataReporte[l].Sacos;
             this.totalNoviembreKg = this.totalNoviembreKg + +dataReporte[l].Kg;
           }
@@ -259,6 +270,9 @@ datosCliente(data,i){
             this.totalDiciembreKg = this.totalDiciembreKg + +dataReporte[l].Kg;
           }
         }
+
+        // console.log(sac);
+          // console.log(kilo);
       
     if (this.informacion=='Sacos'){
       this.barChartData[0].label = 'Orden Carga Sacos'
@@ -290,11 +304,9 @@ datosCliente(data,i){
       this.barChartData[0].data[10] = this.totalNoviembreKg
       this.barChartData[0].data[11] = this.totalDiciembreKg
     }
+    
     this.chart.update();
      
-  }else{
-    this.iniciarTotales();
-    
   }
   })
 }

@@ -108,6 +108,9 @@ export class ReportesalmacenComponent implements OnInit {
    InventarioProductoNombre: any;
    InventarioClaveProducto: string;
    InventarioLoteProducto: string;
+
+   bodegaOrigen: string = 'PasoTx'
+   bodegaDestino: string = 'Chihuahua'
  
  
    //Lista de Estatus Orden Carga / Traspaso
@@ -135,6 +138,13 @@ export class ReportesalmacenComponent implements OnInit {
      { tipo: 'SAN DIEGO' },
      { tipo: 'Transito' }
    ];
+
+   //Lista de Bodegas
+   public listBodegas: Array<Object> = [
+    { tipo: 'Chihuahua' },
+    { tipo: 'PasoTx' },
+    { tipo: 'SAN DIEGO' }
+  ];
 
      obtenerClientes(){
        this.serviceCliente.getClientesListIDN().subscribe(data=>{
@@ -200,6 +210,16 @@ export class ReportesalmacenComponent implements OnInit {
        option.Nombre.toLowerCase().includes(filterValue) ||
        option.ClaveProducto.toString().includes(filterValue));
    }
+
+   changeBodegaOrigen(event){
+    console.log(event);
+    this.bodegaOrigen = event.target.selectedOptions[0].text;
+  }
+
+  changeBodegaDestino(event){
+    console.log(event);
+    this.bodegaDestino = event.target.selectedOptions[0].text;
+  }
 
     //Al filtrar por fecha
     onChangePorFechaOrdenCarga(){
@@ -334,6 +354,9 @@ export class ReportesalmacenComponent implements OnInit {
 
     let ClaveProducto: string = '';
 
+    let bodegaOrigen: string = '';
+    let bodegaDestino: string = '';
+
 if(modulo == 'OrdenCarga'){
 IdClienteProveedor = this.OrdenCargaIdCliente;
   if(this.checkedFechasOrdenCarga == true){
@@ -428,7 +451,9 @@ console.log(ClaveProducto);
       fechaInicial: fechaStart,
       fechaFinal: fechaEnd,
       estatus: estatusBodega,
-      tipoEstatus: tipoEstatusBodega
+      tipoEstatus: tipoEstatusBodega,
+      bodegaOrigen: this.bodegaOrigen,
+      bodegaDestino: this.bodegaDestino
       
     }
     this.dialog.open( ShowreporteAlmacenComponent, dialogConfig);

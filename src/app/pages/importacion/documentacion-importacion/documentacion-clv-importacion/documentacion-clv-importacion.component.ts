@@ -296,6 +296,11 @@ ClaveProducto: string = "";
   }
       
       //******************** METODOS ARCHIVOS  ********************//
+
+      onAddDocumentos2() {
+         console.log(this.seleccionados);
+      }
+
       
   //Agregar documentos a la base de datos y Servidor
   onAddDocumentos() {

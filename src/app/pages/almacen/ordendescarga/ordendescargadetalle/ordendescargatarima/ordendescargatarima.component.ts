@@ -187,7 +187,7 @@ let saldo = 0;
 
   //tabla visualizacion
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Kg', 'Saldo', 'Options'];
+  displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Sacos','Kg',  'Saldo', 'Options'];
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -712,7 +712,7 @@ let saldo = 0;
         IdDetalleTarima: 0,
 ClaveProducto: this.ordenTemporalService.preOrdenTemporalSacos[i].ClaveProducto,
 Producto: this.ordenTemporalService.preOrdenTemporalSacos[i].Producto,
-SacosTotales: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,
+SacosTotales: (+this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados / + this.ordenTemporalService.preOrdenTemporalSacos[i].PesoxSaco).toFixed(4),
 PesoxSaco: this.ordenTemporalService.preOrdenTemporalSacos[i].PesoxSaco,
 Lote: this.ordenTemporalService.preOrdenTemporalSacos[i].Lote,
 PesoTotal: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,
@@ -747,7 +747,7 @@ Estatus: 'Creada',
   QR: this.numerofactura,
   ClaveProducto: this.ordenTemporalService.preOrdenTemporalSacos[i].ClaveProducto,
   Lote: this.ordenTemporalService.preOrdenTemporalSacos[i].Lote,
-  Sacos: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,
+  Sacos: (+this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados / + this.ordenTemporalService.preOrdenTemporalSacos[i].PesoxSaco).toFixed(4),
   Producto: this.ordenTemporalService.preOrdenTemporalSacos[i].Producto,
   PesoTotal: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,
   FechaCaducidad: this.ordenTemporalService.preOrdenTemporalSacos[i].FechaCaducidad,
@@ -760,12 +760,13 @@ Estatus: 'Creada',
         console.log(resp);
         let Lote = this.ordenTemporalService.preOrdenTemporalSacos[i].Lote;
         let ClaveProducto = this.ordenTemporalService.preOrdenTemporalSacos[i].ClaveProducto;
-        let Sacos = this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados;
+        let Kilos = this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados;
+        /* let Sacos = this.ordenTemporalService.preOrdenTemporalSacos[i]; */
 
         this.service.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga, Lote, ClaveProducto).subscribe(dataOD => {
           console.log(dataOD);
-          console.log(Sacos);
-          let NuevoSaldo = ((+dataOD[0].Saldo) - (+Sacos)).toString();
+          console.log(Kilos);
+          let NuevoSaldo = ((+dataOD[0].Saldo) - (+Kilos)).toString();
           this.service.updateDetalleOrdenDescargaSaldo(dataOD[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res => {
             console.log(res);
 

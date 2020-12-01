@@ -27,346 +27,346 @@
                 <!-- <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button> -->
 
                 <div class="col-12 mat-elevation-z5">
-                    <div class="card">
-                        <div class="card-body">
+                    <!--   <div class="card">
+                        <div class="card-body"> -->
 
 
-                            <!-- Step 1 -->
-                            <!-- <h6>Informacion General</h6> -->
-                            <section>
-                                <div class="form-material">
+                    <!-- Step 1 -->
+                    <!-- <h6>Informacion General</h6> -->
+                    <section>
+                        <div class="form-material">
 
-                                    <mat-horizontal-stepper [linear]="isLinear" #stepper>
-                                        <mat-step [stepControl]="firstFormGroup">
-                                            <form>
-                                                <ng-template matStepLabel>Datos Compra</ng-template>
-                                                <br>
+                            <mat-horizontal-stepper [linear]="isLinear" #stepper>
+                                <mat-step [stepControl]="firstFormGroup">
+                                    <form>
+                                        <ng-template matStepLabel>Datos Compra</ng-template>
+                                        <br>
 
-                                                <div class="container">
-                                                    <div class="row">
+                                        <!--    <div class="container"> -->
+                                        <div class="row">
 
-                                                        <div class="col-12 col-md-6">
+                                            <div class="col-12 col-md-6">
 
-                                                            <label class="input-group-text text-info">Folio:</label>
-                                                            <input type="text" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="compra.Folio" readonly>
-
-
-                                                            <mat-form-field>
-                                                                <label class="input-group-text text-info">Destino:</label>
-                                                                <mat-label> {{bodegaSelect}} </mat-label>
-
-                                                                <mat-select (selectionChange)="bodegaCambio($event)" [(ngModel)]="bodegaSelect" name="bodegaSelect">
-
-                                                                    <mat-option *ngFor="let dl of listBodega" [value]="dl"> {{dl}} </mat-option>
-                                                                </mat-select>
-                                                            </mat-form-field>
+                                                <label class="input-group-text text-info">Folio:</label>
+                                                <input type="text" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="compra.Folio" readonly>
 
 
-                                                            <!--  <label class="input-group-text text-info">Descuento:</label>
+                                                <mat-form-field>
+                                                    <label class="input-group-text text-info">Destino:</label>
+                                                    <mat-label> {{bodegaSelect}} </mat-label>
+
+                                                    <mat-select (selectionChange)="bodegaCambio($event)" [(ngModel)]="bodegaSelect" name="bodegaSelect">
+
+                                                        <mat-option *ngFor="let dl of listBodega" [value]="dl"> {{dl}} </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+
+
+                                                <!--  <label class="input-group-text text-info">Descuento:</label>
                                                             <input type="number" class="form-control" name="Descuento" #Descuento="ngModel" [(ngModel)]="descuento" (ngModelChange)="onChangeDescuento($event)">
  -->
-                                                            <label class="input-group-text text-info">Fecha Elaboracion:</label>
-                                                            <mat-datepicker-toggle matSuffix [for]="pickerElaboracion"></mat-datepicker-toggle>
-                                                            <input type="text" readonly="readonly" [matDatepicker]="pickerElaboracion" class="form-control" name="FechaElaboracion" #FechaElaboracion="ngModel" [(ngModel)]="compra.FechaElaboracion">
-                                                            <mat-datepicker #pickerElaboracion></mat-datepicker>
+                                                <label class="input-group-text text-info">Fecha Elaboracion:</label>
+                                                <mat-datepicker-toggle matSuffix [for]="pickerElaboracion"></mat-datepicker-toggle>
+                                                <input type="text" readonly="readonly" [matDatepicker]="pickerElaboracion" class="form-control" name="FechaElaboracion" #FechaElaboracion="ngModel" [(ngModel)]="compra.FechaElaboracion">
+                                                <mat-datepicker #pickerElaboracion></mat-datepicker>
 
-                                                            <label class="input-group-text text-info">Moneda</label>
-                                                            <select class="form-control" name="Moneda" #Moneda="ngModel" id="Moneda" (change)="MonedaSelected($event)" [(ngModel)]="compra.Moneda">
+                                                <label class="input-group-text text-info">Moneda</label>
+                                                <select class="form-control" name="Moneda" #Moneda="ngModel" id="Moneda" (change)="MonedaSelected($event)" [(ngModel)]="compra.Moneda">
                                                 <option [ngValue]="null" selected disabled>Seleccionar Moneda</option>
                                                 <option *ngFor="let dl of listMoneda" [ngValue]="dl.Moneda"> {{dl.Moneda}} </option>
                                             </select>
 
-                                                            <label class="input-group-text text-info">Tipo Cambio:</label>
-                                                            <input type="text" class="form-control" name="TipoCambio" #TipoCambio="ngModel" [(ngModel)]="compra.TipoCambio">
+                                                <label class="input-group-text text-info">Tipo Cambio:</label>
+                                                <input type="text" class="form-control" name="TipoCambio" #TipoCambio="ngModel" [(ngModel)]="compra.TipoCambio">
 
 
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <label class="input-group-text text-info">Proveedor:</label>
-                                                            <mat-form-field>
-                                                                <input type="text" placeholder="Seleccionar Proveedor" aria-label="Number" [formControl]="myControlProveedor" [(ngModel)]="compra.IdProveedor" matInput [matAutocomplete]="autoProveedor">
-                                                                <mat-autocomplete #autoProveedor="matAutocomplete">
-                                                                    <mat-option *ngFor="let option of filteredOptionsProveedor | async" [value]="option.IdProveedor" (onSelectionChange)="onSelectionChangeProveedor(option, $event)">
-                                                                        {{option.IdProveedor}} {{option.Nombre}}
-                                                                    </mat-option>
-                                                                </mat-autocomplete>
-                                                            </mat-form-field>
-                                                            <input readonly placeholder="Proveedor No seleccionado" type="text" class="form-control" [(ngModel)]="compra.Proveedor" name="first">
-                                                            <label class="input-group-text text-info">Orden de Compra:</label>
-                                                            <input type="text" class="form-control" name="OrdendeCompra" #OrdendeCompra="ngModel" [(ngModel)]="compra.PO">
+                                            </div>
+                                            <div class="col-md-6 col-12">
+                                                <label class="input-group-text text-info">Proveedor:</label>
+                                                <mat-form-field>
+                                                    <input type="text" placeholder="Seleccionar Proveedor" aria-label="Number" [formControl]="myControlProveedor" [(ngModel)]="compra.IdProveedor" matInput [matAutocomplete]="autoProveedor">
+                                                    <mat-autocomplete #autoProveedor="matAutocomplete">
+                                                        <mat-option *ngFor="let option of filteredOptionsProveedor | async" [value]="option.IdProveedor" (onSelectionChange)="onSelectionChangeProveedor(option, $event)">
+                                                            {{option.IdProveedor}} {{option.Nombre}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                </mat-form-field>
+                                                <input readonly placeholder="Proveedor No seleccionado" type="text" class="form-control" [(ngModel)]="compra.Proveedor" name="first">
+                                                <label class="input-group-text text-info">Orden de Compra:</label>
+                                                <input type="text" class="form-control" name="OrdendeCompra" #OrdendeCompra="ngModel" [(ngModel)]="compra.PO">
 
-                                                            <label class="input-group-text text-info">Fecha Promesa:</label>
-                                                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                                                            <input type="text" readonly="readonly" [matDatepicker]="picker2" class="form-control" name="FechaPromesa" #FechaPromesa="ngModel" [(ngModel)]="compra.FechaPromesa">
-                                                            <mat-datepicker #picker2></mat-datepicker>
+                                                <label class="input-group-text text-info">Fecha Promesa:</label>
+                                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                                <input type="text" readonly="readonly" [matDatepicker]="picker2" class="form-control" name="FechaPromesa" #FechaPromesa="ngModel" [(ngModel)]="compra.FechaPromesa">
+                                                <mat-datepicker #picker2></mat-datepicker>
 
-                                                            <!--  <label class="input-group-text text-info">Fecha de Entrega:</label>
+                                                <!--  <label class="input-group-text text-info">Fecha de Entrega:</label>
 
                                                             <input type="text" readonly="readonly" class="form-control" name="FechaDeEntrega" #FechaDeEntrega="ngModel" [(ngModel)]="compra.FechaEntrega">
                                   -->
-                                                            <!-- <mat-datepicker #picker2></mat-datepicker> -->
-                                                            <!-- 
+                                                <!-- <mat-datepicker #picker2></mat-datepicker> -->
+                                                <!-- 
                                             <label class="input-group-text text-info">Condiciones De Pago:</label>
                                             <input type="text" class="form-control" name="CondicionesDePago" #CondicionesDePago="ngModel" [(ngModel)]="compra.CondicionesPago"> -->
 
-                                                            <label class="input-group-text text-info">Observaciones:</label>
-                                                            <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="compra.Observaciones">
+                                                <label class="input-group-text text-info">Observaciones:</label>
+                                                <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="compra.Observaciones">
 
 
 
-                                                        </div>
+                                            </div>
 
-                                                    </div>
+                                        </div>
+                                        <!--      </div> -->
+
+
+                                    </form>
+
+                                    <div class="container row">
+                                        <div class="col-md-10"></div>
+                                        <div class="col-12 col-md-2">
+                                            <br>
+                                            <!-- <button class="btn btn-info btn-md float-md-right" matStepperNext>Next</button> -->
+                                            <button class="btn btn-primary btn-lg" mat-raised-button matStepperNext><i class="mdi mdi-arrow-right-bold-circle btn-lg"></i>Siguiente</button>
+                                        </div>
+                                    </div>
+
+                                </mat-step>
+
+                                <mat-step [stepControl]="secondFormGroup">
+
+
+                                    <ng-template matStepLabel>Productos</ng-template>
+                                    <div class="form-material mat-elevation-z5" style="padding-bottom: 5px;">
+                                        <div class="card card-header">
+                                            <div class="row">
+                                                <div class="col-md-4 col-12">
+                                                    <h3 class="bolder blacktxt text-center">
+                                                        Productos
+                                                    </h3>
                                                 </div>
+                                                <div class="col-md-4 col-12"></div>
+                                                <div class="col-md-4 col-12">
 
-
-                                            </form>
-
-                                            <div class="container row">
-                                                <div class="col-md-10"></div>
-                                                <div class="col-12 col-md-2">
-                                                    <br>
-                                                    <!-- <button class="btn btn-info btn-md float-md-right" matStepperNext>Next</button> -->
-                                                    <button class="btn btn-primary btn-lg" mat-raised-button matStepperNext><i class="mdi mdi-arrow-right-bold-circle btn-lg"></i>Siguiente</button>
                                                 </div>
                                             </div>
 
-                                        </mat-step>
+                                        </div>
+                                        <form #DetallePedidoForm="ngForm">
 
-                                        <mat-step [stepControl]="secondFormGroup">
+                                            <div class="container">
+
+                                                <div class="row" *ngIf="this.compra.Estatus != 'Administrativa'">
+
+                                                    <div class="col-md-6 col-12">
+
+                                                        <label class="input-group-text text-info">Producto:</label> <br>
+                                                        <mat-form-field>
+                                                            <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl2" [(ngModel)]="ProductoSelect" matInput [matAutocomplete]="autoProducto">
+                                                            <mat-autocomplete #autoProducto="matAutocomplete">
+                                                                <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChange2(option, $event)">
+                                                                    {{option.ClaveProducto}} || {{option.Nombre}}
+                                                                </mat-option>
+                                                            </mat-autocomplete>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div class="col-md-6 col-12" *ngIf="this.compra.Estatus != 'Administrativa'">
+                                                        <label class="input-group-text text-info">Marca :</label> <br>
+                                                        <mat-form-field>
+                                                            <input type="text" placeholder="Seleccionar Marca" aria-label="Number" [formControl]="myControl3" [(ngModel)]="MarcaSelect" matInput [matAutocomplete]="autoMarcaProducto">
+                                                            <mat-autocomplete #autoMarcaProducto="matAutocomplete">
+                                                                <mat-option *ngFor="let option of filteredOptions3 | async" [value]="option.NombreMarca" (onSelectionChange)="onSelectionChangeMarca(option, $event)">
+                                                                    {{option.NombreMarca}}
+                                                                </mat-option>
+                                                            </mat-autocomplete>
+                                                        </mat-form-field>
+                                                    </div>
 
 
-                                            <ng-template matStepLabel>Productos</ng-template>
-                                            <div class="form-material mat-elevation-z5" style="padding-bottom: 5px;">
-                                                <div class="card card-header">
-                                                    <div class="row">
-                                                        <div class="col-4">
-                                                            <h3 class="bolder blacktxt text-center">
-                                                                Productos
-                                                            </h3>
-                                                        </div>
-                                                        <div class="col-4"></div>
-                                                        <div class="col-4">
+                                                </div>
 
-                                                        </div>
+                                                <div class="row" *ngIf="this.compra.Estatus != 'Administrativa'">
+
+                                                    <div class="col-md-6 col-12">
+                                                        <label class="input-group-text text-info">Origen :</label> <br>
+                                                        <mat-form-field>
+                                                            <input type="text" placeholder="Seleccionar Origen" aria-label="Number" [formControl]="myControl4" [(ngModel)]="OrigenSelect" matInput [matAutocomplete]="autoOrigenProducto">
+                                                            <mat-autocomplete #autoOrigenProducto="matAutocomplete">
+                                                                <mat-option *ngFor="let option of filteredOptions4 | async" [value]="option.NombreOrigen" (onSelectionChange)="onSelectionChangeOrigen(option, $event)">
+                                                                    {{option.NombreOrigen}}
+                                                                </mat-option>
+                                                            </mat-autocomplete>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="col-md-6 col-12">
+                                                        <label class="input-group-text text-info">Presentacion :</label> <br>
+                                                        <mat-form-field>
+                                                            <input type="text" placeholder="Seleccionar Presentacion" aria-label="Number" [formControl]="myControl5" [(ngModel)]="PresentacionSelect" matInput [matAutocomplete]="autoPresentacionProducto">
+                                                            <mat-autocomplete #autoPresentacionProducto="matAutocomplete">
+                                                                <mat-option *ngFor="let option of filteredOptions5 | async" [value]="option.Presentacion" (onSelectionChange)="onSelectionChangePresentacion(option, $event)">
+                                                                    {{option.Presentacion}}
+                                                                </mat-option>
+                                                            </mat-autocomplete>
+                                                        </mat-form-field>
                                                     </div>
 
                                                 </div>
-                                                <form #DetallePedidoForm="ngForm">
 
-                                                    <div class="container">
+                                                <!-- <div class="container"> -->
+                                                <div class="row">
+                                                    <div class="col-12 col-md-6">
+                                                        <label class="input-group-text text-info" *ngIf="this.compra.Estatus != 'Administrativa'">Nombre :</label>
+                                                        <input required type="text" class="form-control" name="Nombre" #Nombre="ngModel" *ngIf="this.compra.Estatus != 'Administrativa'" [(ngModel)]="detalleCompra.Producto" readonly>
+                                                        <label class="input-group-text text-info" *ngIf="this.compra.Estatus == 'Administrativa'">Producto :</label>
+                                                        <input required minlength="3" type="text" class="form-control" name="Nombre" #Nombre="ngModel" *ngIf="this.compra.Estatus == 'Administrativa'" [(ngModel)]="detalleCompra.Producto">
 
-                                                        <div class="row" *ngIf="this.compra.Estatus != 'Administrativa'">
+                                                        <label class="input-group-text text-info"> Precio Costo :</label>
+                                                        <input required type="number" [disabled]="!detalleCompra.Producto" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="ProductoPrecio" (ngModelChange)="onChangePrecio($event)">
 
-                                                            <div class="col-6">
+                                                        <br>
 
-                                                                <label class="input-group-text text-info">Producto:</label> <br>
-                                                                <mat-form-field>
-                                                                    <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl2" [(ngModel)]="ProductoSelect" matInput [matAutocomplete]="autoProducto">
-                                                                    <mat-autocomplete #autoProducto="matAutocomplete">
-                                                                        <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChange2(option, $event)">
-                                                                            {{option.ClaveProducto}} || {{option.Nombre}}
-                                                                        </mat-option>
-                                                                    </mat-autocomplete>
-                                                                </mat-form-field>
-                                                            </div>
+                                                        <label class="input-group-text text-info"> Kg:</label>
+                                                        <input required [disabled]="!detalleCompra.Producto" type="number" class="form-control" name="Cantidad" [(ngModel)]="Cantidad" (ngModelChange)="onChangeCantidadP($event)">
 
-                                                            <div class="col-6" *ngIf="this.compra.Estatus != 'Administrativa'">
-                                                                <label class="input-group-text text-info">Marca :</label> <br>
-                                                                <mat-form-field>
-                                                                    <input type="text" placeholder="Seleccionar Marca" aria-label="Number" [formControl]="myControl3" [(ngModel)]="MarcaSelect" matInput [matAutocomplete]="autoMarcaProducto">
-                                                                    <mat-autocomplete #autoMarcaProducto="matAutocomplete">
-                                                                        <mat-option *ngFor="let option of filteredOptions3 | async" [value]="option.NombreMarca" (onSelectionChange)="onSelectionChangeMarca(option, $event)">
-                                                                            {{option.NombreMarca}}
-                                                                        </mat-option>
-                                                                    </mat-autocomplete>
-                                                                </mat-form-field>
-                                                            </div>
-
-
-                                                        </div>
-
-                                                        <div class="row" *ngIf="this.compra.Estatus != 'Administrativa'">
-
-                                                            <div class="col-6">
-                                                                <label class="input-group-text text-info">Origen :</label> <br>
-                                                                <mat-form-field>
-                                                                    <input type="text" placeholder="Seleccionar Origen" aria-label="Number" [formControl]="myControl4" [(ngModel)]="OrigenSelect" matInput [matAutocomplete]="autoOrigenProducto">
-                                                                    <mat-autocomplete #autoOrigenProducto="matAutocomplete">
-                                                                        <mat-option *ngFor="let option of filteredOptions4 | async" [value]="option.NombreOrigen" (onSelectionChange)="onSelectionChangeOrigen(option, $event)">
-                                                                            {{option.NombreOrigen}}
-                                                                        </mat-option>
-                                                                    </mat-autocomplete>
-                                                                </mat-form-field>
-                                                            </div>
-                                                            <div class="col-6">
-                                                                <label class="input-group-text text-info">Presentacion :</label> <br>
-                                                                <mat-form-field>
-                                                                    <input type="text" placeholder="Seleccionar Presentacion" aria-label="Number" [formControl]="myControl5" [(ngModel)]="PresentacionSelect" matInput [matAutocomplete]="autoPresentacionProducto">
-                                                                    <mat-autocomplete #autoPresentacionProducto="matAutocomplete">
-                                                                        <mat-option *ngFor="let option of filteredOptions5 | async" [value]="option.Presentacion" (onSelectionChange)="onSelectionChangePresentacion(option, $event)">
-                                                                            {{option.Presentacion}}
-                                                                        </mat-option>
-                                                                    </mat-autocomplete>
-                                                                </mat-form-field>
-                                                            </div>
-
-                                                        </div>
-
-                                                        <!-- <div class="container"> -->
-                                                        <div class="row">
-                                                            <div class="col-12 col-md-6">
-                                                                <label class="input-group-text text-info" *ngIf="this.compra.Estatus != 'Administrativa'">Nombre :</label>
-                                                                <input required type="text" class="form-control" name="Nombre" #Nombre="ngModel" *ngIf="this.compra.Estatus != 'Administrativa'" [(ngModel)]="detalleCompra.Producto" readonly>
-                                                                <label class="input-group-text text-info" *ngIf="this.compra.Estatus == 'Administrativa'">Producto :</label>
-                                                                <input required minlength="3" type="text" class="form-control" name="Nombre" #Nombre="ngModel" *ngIf="this.compra.Estatus == 'Administrativa'" [(ngModel)]="detalleCompra.Producto">
-
-                                                                <label class="input-group-text text-info"> Precio Costo :</label>
-                                                                <input required type="number" [disabled]="!detalleCompra.Producto" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="ProductoPrecio" (ngModelChange)="onChangePrecio($event)">
-
-                                                                <br>
-
-                                                                <label class="input-group-text text-info"> Kg:</label>
-                                                                <input required [disabled]="!detalleCompra.Producto" type="number" class="form-control" name="Cantidad" [(ngModel)]="Cantidad" (ngModelChange)="onChangeCantidadP($event)">
-
-                                                                <!-- 
+                                                        <!-- 
 
                                                     <label class="input-group-text text-info"> ClaveProducto:</label>
                                                     <input required readonly type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="detalleCompra.ClaveProducto" readonly> -->
 
 
-                                                            </div>
+                                                    </div>
 
 
-                                                            <div class="col-12 col-md-6" *ngIf="this.compra.Estatus != 'Administrativa'">
-                                                                <label class="input-group-text text-info">Unidad Medida :</label> <br>
-                                                                <mat-form-field class="example-full-width">
-                                                                    <input type="text" autocomplete="off" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="detalleCompra.Unidad" (focus)="unidadMedida()">
-                                                                    <mat-autocomplete #autoUnidad="matAutocomplete">
-                                                                        <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.Nombre">
-                                                                            {{option.ClaveSAT}} {{option.Nombre}}
-                                                                        </mat-option>
-                                                                    </mat-autocomplete>
-                                                                </mat-form-field>
+                                                    <div class="col-12 col-md-6" *ngIf="this.compra.Estatus != 'Administrativa'">
+                                                        <label class="input-group-text text-info">Unidad Medida :</label> <br>
+                                                        <mat-form-field class="example-full-width">
+                                                            <input type="text" autocomplete="off" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="detalleCompra.Unidad" (focus)="unidadMedida()">
+                                                            <mat-autocomplete #autoUnidad="matAutocomplete">
+                                                                <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.Nombre">
+                                                                    {{option.ClaveSAT}} {{option.Nombre}}
+                                                                </mat-option>
+                                                            </mat-autocomplete>
+                                                        </mat-form-field>
 
-                                                                <label class="input-group-text text-info"> IVA:</label>
-                                                                <input type="text" class="form-control" name="IVA" #IVA="ngModel" [ngModel]="(detalleCompra.IVA | currency)" readonly>
+                                                        <label class="input-group-text text-info"> IVA:</label>
+                                                        <input type="text" class="form-control" name="IVA" #IVA="ngModel" [ngModel]="(detalleCompra.IVA | currency)" readonly>
 
-                                                                <label class="input-group-text text-info">Observaciones :</label>
-                                                                <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="detalleCompra.Observaciones">
-
-
-                                                            </div>
+                                                        <label class="input-group-text text-info">Observaciones :</label>
+                                                        <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="detalleCompra.Observaciones">
 
 
+                                                    </div>
 
 
 
-                                                            <div class="container row" style="margin-top: 5px;">
-                                                                <div class="col-md-7 col-lg-8">
-                                                                    <div *ngIf="addproducto == true; else elseBlock2">
-                                                                        <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompra()">Agregar Producto</button>
-                                                                        <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
-                                                                        <button *ngIf="this.compra.Estatus == 'Administrativa'" class="btn btn-success" type="submit" (click)="onAddDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid" style="margin-right: 5px">Agregar Producto</button>
-                                                                        <button *ngIf="this.compra.Estatus == 'Administrativa' && this.detalleCompra.Producto" class="btn btn-primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
-                                                                        <!-- <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompra()" [disabled]="DetallePedidoForm.invalid || !detalleCompra.Unidad">Agregar Producto</button>
+
+
+                                                    <div class="container row" style="margin-top: 5px;">
+                                                        <div class="col-md-7 col-lg-8">
+                                                            <div *ngIf="addproducto == true; else elseBlock2">
+                                                                <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompra()">Agregar Producto</button>
+                                                                <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
+                                                                <button *ngIf="this.compra.Estatus == 'Administrativa'" class="btn btn-success" type="submit" (click)="onAddDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid" style="margin-right: 5px">Agregar Producto</button>
+                                                                <button *ngIf="this.compra.Estatus == 'Administrativa' && this.detalleCompra.Producto" class="btn btn-primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
+                                                                <!-- <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompra()" [disabled]="DetallePedidoForm.invalid || !detalleCompra.Unidad">Agregar Producto</button>
                                                         <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
                                                         <button *ngIf="this.compra.Estatus == 'Administrativa'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Agregar Producto</button>
                                                         <button *ngIf="this.compra.Estatus == 'Administrativa' && this.detalleCompra.Producto" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button> -->
-                                                                    </div>
-                                                                    <ng-template #elseBlock2>
-                                                                        <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompra()">Editar Producto</button>
-                                                                        <button *ngIf="this.compra.Estatus == 'Administrativa'" class="btn btn-success" type="submit" (click)="onEditDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Editar Producto</button>
-                                                                        <!-- <button *ngIf="this.compra.Estatus == 'Administrativa'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Editar Producto</button> -->
+                                                            </div>
+                                                            <ng-template #elseBlock2>
+                                                                <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompra()">Editar Producto</button>
+                                                                <button *ngIf="this.compra.Estatus == 'Administrativa'" class="btn btn-success" type="submit" (click)="onEditDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Editar Producto</button>
+                                                                <!-- <button *ngIf="this.compra.Estatus == 'Administrativa'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Editar Producto</button> -->
 
-                                                                        <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="Cancelar(DetallePedidoForm)">Cancelar</button>
-                                                                        <button *ngIf="this.compra.Estatus == 'Administrativa' && this.detalleCompra.Producto" class="btn btn-danger" type="submit" (click)="Cancelar(DetallePedidoForm)">Cancelar</button>
-                                                                    </ng-template>
-                                                                </div>
-                                                                <div class="col-12 col-md-5 col-lg-4">
-                                                                    <div class="form-material borderbox">
-                                                                        <div class="container">
-                                                                            <div class="row">
+                                                                <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="Cancelar(DetallePedidoForm)">Cancelar</button>
+                                                                <button *ngIf="this.compra.Estatus == 'Administrativa' && this.detalleCompra.Producto" class="btn btn-danger" type="submit" (click)="Cancelar(DetallePedidoForm)">Cancelar</button>
+                                                            </ng-template>
+                                                        </div>
+                                                        <div class="col-12 col-md-5 col-lg-4">
+                                                            <div class="form-material borderbox">
+                                                                <div class="container">
+                                                                    <div class="row">
 
-                                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Importe:</label>
-                                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImporteP" [ngModel]="(importeProducto | currency )">
+                                                                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Importe:</label>
+                                                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImporteP" [ngModel]="(importeProducto | currency )">
 
 
-                                                                            </div>
-                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                    </div>
 
-                                                            <br>
-                                                            <mat-divider></mat-divider>
-                                                            <!-- <mat-card style="text-align: right;" class="mat-elevation-z0">
+                                                    <br>
+                                                    <mat-divider></mat-divider>
+                                                    <!-- <mat-card style="text-align: right;" class="mat-elevation-z0">
                                             <mat-form-field>
                                                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
                                             </mat-form-field>
                                         </mat-card> -->
-                                                            <h2>Productos</h2>
-                                                            <div class="mat-elevation-z8 container">
-                                                                <div style="overflow:auto;">
+                                                    <h2>Productos</h2>
+                                                    <div class="mat-elevation-z8 container">
+                                                        <div style="overflow:auto;">
 
-                                                                    <div>
-                                                                        <table style="width: 100% " mat-table [dataSource]="listData" matSort>
+                                                            <div>
+                                                                <table style="width: 100% " mat-table [dataSource]="listData" matSort>
 
-                                                                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-                                                                            <ng-container matColumnDef="ClaveProducto">
-                                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
-                                                                                <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}</td>
-                                                                            </ng-container>
-                                                                            <!-- <ng-container matColumnDef="ClaveSAT">
+                                                                    <ng-container matColumnDef="ClaveProducto">
+                                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
+                                                                        <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}</td>
+                                                                    </ng-container>
+                                                                    <!-- <ng-container matColumnDef="ClaveSAT">
                                                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave SAT</th>
                                                             <td mat-cell *matCellDef="let element">{{element.ClaveSAT}}</td>
                                                         </ng-container> -->
-                                                                            <ng-container matColumnDef="Producto">
-                                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
-                                                                                <td mat-cell *matCellDef="let element">{{element.Producto}}</td>
-                                                                            </ng-container>
-                                                                            <ng-container matColumnDef="Cantidad">
-                                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
-                                                                                <td mat-cell *matCellDef="let element">{{element.Cantidad}}</td>
-                                                                            </ng-container>
-                                                                            <ng-container matColumnDef="CostoTotal" *ngIf="MonedaBoolean == true">
-                                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo Total</th>
-                                                                                <td mat-cell *matCellDef="let element">{{element.CostoTotal | currency}}</td>
-                                                                            </ng-container>
-                                                                            <ng-container matColumnDef="CostoTotal" *ngIf="MonedaBoolean == false">
-                                                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo Total</th>
-                                                                                <td mat-cell *matCellDef="let element">{{element.CostoTotalDlls | currency}}</td>
-                                                                            </ng-container>
+                                                                    <ng-container matColumnDef="Producto">
+                                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                                                                        <td mat-cell *matCellDef="let element">{{element.Producto}}</td>
+                                                                    </ng-container>
+                                                                    <ng-container matColumnDef="Cantidad">
+                                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
+                                                                        <td mat-cell *matCellDef="let element">{{element.Cantidad}}</td>
+                                                                    </ng-container>
+                                                                    <ng-container matColumnDef="CostoTotal" *ngIf="MonedaBoolean == true">
+                                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo Total</th>
+                                                                        <td mat-cell *matCellDef="let element">{{element.CostoTotal | currency}}</td>
+                                                                    </ng-container>
+                                                                    <ng-container matColumnDef="CostoTotal" *ngIf="MonedaBoolean == false">
+                                                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo Total</th>
+                                                                        <td mat-cell *matCellDef="let element">{{element.CostoTotalDlls | currency}}</td>
+                                                                    </ng-container>
 
-                                                                            <ng-container matColumnDef="Options">
-                                                                                <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
-                                                                                <td mat-cell *matCellDef="let row">
-                                                                                    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                                                    <ng-container matColumnDef="Options">
+                                                                        <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
+                                                                        <td mat-cell *matCellDef="let row">
+                                                                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                                                 <mat-icon>keyboard_arrow_down</mat-icon>
                                               </button>
-                                                                                    <mat-menu #menu="matMenu">
+                                                                            <mat-menu #menu="matMenu">
 
-                                                                                        <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada' || this.compra.Estatus == 'Administrativa'" mat-icon-button class="btn btn-dark" (click)="onEditProducto(row)">
+                                                                                <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada' || this.compra.Estatus == 'Administrativa'" mat-icon-button class="btn btn-dark" (click)="onEditProducto(row)">
                                                   <mat-icon>edit</mat-icon>
                                                 </button>
 
-                                                                                        <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada' || this.compra.Estatus == 'Administrativa'" mat-icon-button class="btn btn-danger" (click)="onDeleteDetalleProducto(row)">
+                                                                                <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada' || this.compra.Estatus == 'Administrativa'" mat-icon-button class="btn btn-danger" (click)="onDeleteDetalleProducto(row)">
                                                   <mat-icon>delete_outline</mat-icon>
                                                 </button>
-                                                                                    </mat-menu>
-                                                                                </td>
-                                                                            </ng-container>
-                                                                        </table>
-                                                                    </div>
-                                                                </div>
+                                                                            </mat-menu>
+                                                                        </td>
+                                                                    </ng-container>
+                                                                </table>
                                                             </div>
+                                                        </div>
+                                                    </div>
 
 
-                                                            <!-- Tabla de costos finales -->
+                                                    <!-- Tabla de costos finales -->
 
-                                                            <!-- <div class="container row">
+                                                    <!-- <div class="container row">
                                             <div class="col-md-7 col-lg-8">
                                             </div>
                                             <div class="col-12 col-md-5 col-lg-4">
@@ -407,12 +407,12 @@
                                                 </div>
                                             </div>
                                         </div> -->
-                                                        </div>
+                                                </div>
 
 
-                                                        <!-- </div> -->
+                                                <!-- </div> -->
 
-                                                        <!-- <div class="container row">
+                                                <!-- <div class="container row">
                                     <div class="col-12 col-md-4">
                                         <br>
                                         <button matStepperPrevious class="btn btn-primary btn-md">Back</button>
@@ -424,123 +424,123 @@
                                 </div> -->
 
 
-                                                        <div class="container row">
-                                                            <!-- <div class="col-2"></div> -->
-                                                            <div class="col-8">
+                                                <div class="container row">
+                                                    <!-- <div class="col-2"></div> -->
+                                                    <div class="col-md-8 col-12">
 
 
-                                                                <div *ngIf="this.compra.Estatus != 'Creada' ; else elseBlock4" style="display: grid">
-                                                                    <div class="row">
-                                                                        <div class="col-6" style="display: grid">
-                                                                            <br>
-                                                                            <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button> -->
-                                                                            <button *ngIf="this.compra.Estatus == 'Guardada' || this.compra.Estatus == 'Administrativa'" class="btn btn-danger btn-lg" mat-raised-button (click)='guardarCompra()'><i class="mdi mdi-send btn-lg"></i>Guardar</button>
-                                                                            <br>
-                                                                            <!--   <button *ngIf="this.compra.Estatus == 'Guardada'" class="btn btn-info btn-lg" type="button" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-note-multiple btn-lg"></i> Duplicar </button>
+                                                        <div *ngIf="this.compra.Estatus != 'Creada' ; else elseBlock4" style="display: grid">
+                                                            <div class="row">
+                                                                <div class="col-md-6 col-12" style="display: grid">
+                                                                    <br>
+                                                                    <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button> -->
+                                                                    <button *ngIf="this.compra.Estatus == 'Guardada' || this.compra.Estatus == 'Administrativa'" class="btn btn-danger btn-lg" mat-raised-button (click)='guardarCompra()'><i class="mdi mdi-send btn-lg"></i>Guardar</button>
+                                                                    <br>
+                                                                    <!--   <button *ngIf="this.compra.Estatus == 'Guardada'" class="btn btn-info btn-lg" type="button" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-note-multiple btn-lg"></i> Duplicar </button>
                                                             <br> -->
 
-                                                                            <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="openrep()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>VerPDF</button>
-                                                                            <br>
-                                                                            <button *ngIf="this.compra.Estatus == 'Transito'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)="cancelar()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Cancelar</button>
-                                                                            <!-- <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="movimiento()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Insertar Movimiento</button>
+                                                                    <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="openrep()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>VerPDF</button>
+                                                                    <br>
+                                                                    <button *ngIf="this.compra.Estatus == 'Transito'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)="cancelar()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Cancelar</button>
+                                                                    <!-- <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="movimiento()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Insertar Movimiento</button>
                                                                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="updateprueba()" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Insertar Movimiento</button> -->
 
-                                                                        </div>
-                                                                        <div class="col-6" style="display: grid">
-                                                                            <br>
-                                                                            <button *ngIf="this.compra.Estatus == 'Guardada' && this.valores == true" class="btn btn-danger btn-lg" mat-raised-button (click)='GenerarCompra()'><i class="mdi mdi-send btn-lg"></i>Generar Compra</button>
-                                                                            <button *ngIf="this.compra.Estatus == 'Administrativa' && this.valores == true" class="btn btn-danger btn-lg" mat-raised-button (click)='GenerarCompra()'><i class="mdi mdi-send btn-lg"></i>Generar Compra</button>
-                                                                            <!-- <button *ngIf="this.compra.Estatus == 'Administrativa' && this.valores != true" style="visibility: hidden;" class="btn btn-danger btn-lg" mat-raised-button><i class="mdi mdi-send btn-lg"></i>SOLO PRUEBA</button> -->
-                                                                            <br>
-                                                                            <!--  <button *ngIf="this.compra.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button type="button" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-forward btn-lg"></i> Convertir </button>
+                                                                </div>
+                                                                <div class="col-md-6 col-12" style="display: grid">
+                                                                    <br>
+                                                                    <button *ngIf="this.compra.Estatus == 'Guardada' && this.valores == true" class="btn btn-danger btn-lg" mat-raised-button (click)='GenerarCompra()'><i class="mdi mdi-send btn-lg"></i>Generar Compra</button>
+                                                                    <button *ngIf="this.compra.Estatus == 'Administrativa' && this.valores == true" class="btn btn-danger btn-lg" mat-raised-button (click)='GenerarCompra()'><i class="mdi mdi-send btn-lg"></i>Generar Compra</button>
+                                                                    <!-- <button *ngIf="this.compra.Estatus == 'Administrativa' && this.valores != true" style="visibility: hidden;" class="btn btn-danger btn-lg" mat-raised-button><i class="mdi mdi-send btn-lg"></i>SOLO PRUEBA</button> -->
+                                                                    <br>
+                                                                    <!--  <button *ngIf="this.compra.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button type="button" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-forward btn-lg"></i> Convertir </button>
                                                             <br> -->
 
 
-                                                                            <!-- <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button> -->
-                                                                            <!-- <button class="btn btn-info btn-lg" mat-raised-button type="button"><i class="mdi mdi-email btn-lg"></i>Enviar</button> -->
-                                                                        </div>
-
-                                                                    </div>
-
+                                                                    <!-- <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button> -->
+                                                                    <!-- <button class="btn btn-info btn-lg" mat-raised-button type="button"><i class="mdi mdi-email btn-lg"></i>Enviar</button> -->
                                                                 </div>
-                                                                <ng-template #elseBlock4>
-                                                                    <div style="display: grid">
 
-                                                                        <br>
+                                                            </div>
 
-                                                                        <!-- <button class="btn btn-info btn-lg" mat-raised-button (click)="onSubmit(form)"><i
+                                                        </div>
+                                                        <ng-template #elseBlock4>
+                                                            <div style="display: grid">
+
+                                                                <br>
+
+                                                                <!-- <button class="btn btn-info btn-lg" mat-raised-button (click)="onSubmit(form)"><i
                                           class="mdi mdi-content-save btn-lg"></i>Guardar</button> -->
 
-                                                                        <br>
-                                                                        <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button> -->
-
-                                                                        <button class="btn btn-danger btn-lg" mat-raised-button (click)='guardarCompra()'><i class="mdi mdi-send btn-lg"></i>Guardar Compra</button>
-
-                                                                        <br>
-
-
-                                                                        <!-- <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
-                                                </ngx-loading> -->
-                                                                    </div>
-                                                                </ng-template>
-
-
-                                                            </div>
-                                                            <!-- <div class="col-2"></div> -->
-                                                            <div class="col-4">
                                                                 <br>
-                                                                <div class="form-material borderbox">
-                                                                    <div class="container">
-                                                                        <div class="row">
+                                                                <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button> -->
 
-                                                                            <div *ngIf="MonedaBoolean == true; else elseBlock">
+                                                                <button class="btn btn-danger btn-lg" mat-raised-button (click)='guardarCompra()'><i class="mdi mdi-send btn-lg"></i>Guardar Compra</button>
 
-                                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">SubTotal</label>
-                                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="SubTotal" [ngModel]="(compra.Subtotal | currency)">
+                                                                <br>
 
-                                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Descuento</label>
-                                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Descuento" [ngModel]="(compra.Descuento | currency)">
 
-                                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
-                                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="(compra.Total | currency)">
-
-                                                                            </div>
-
-                                                                            <ng-template #elseBlock>
-
-                                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">SubTotal Dlls</label>
-                                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="SubTotalDlls" [ngModel]="(compra.SubtotalDlls | currency)">
-
-                                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Descuento Dlls</label>
-                                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="DescuentoDlls" [ngModel]="(compra.DescuentoDlls | currency)">
-
-                                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total Dlls</label>
-                                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="TotalDlls" #TotalDlls="ngModel" [ngModel]="(compra.TotalDlls | currency)">
-
-                                                                            </ng-template>
-
-                                                                        </div>
-
-                                                                    </div>
-                                                                </div>
+                                                                <!-- <ngx-loading [show]="loading2" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+                                                </ngx-loading> -->
                                                             </div>
-                                                        </div>
-
+                                                        </ng-template>
 
 
                                                     </div>
+                                                    <!-- <div class="col-2"></div> -->
+                                                    <div class="col-md-4 col-12">
+                                                        <br>
+                                                        <div class="form-material borderbox">
+                                                            <div class="container">
+                                                                <div class="row">
 
-                                                </form>
+                                                                    <div *ngIf="MonedaBoolean == true; else elseBlock">
+
+                                                                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">SubTotal</label>
+                                                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="SubTotal" [ngModel]="(compra.Subtotal | currency)">
+
+                                                                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Descuento</label>
+                                                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Descuento" [ngModel]="(compra.Descuento | currency)">
+
+                                                                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
+                                                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="Total" #Total="ngModel" [ngModel]="(compra.Total | currency)">
+
+                                                                    </div>
+
+                                                                    <ng-template #elseBlock>
+
+                                                                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">SubTotal Dlls</label>
+                                                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="SubTotalDlls" [ngModel]="(compra.SubtotalDlls | currency)">
+
+                                                                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Descuento Dlls</label>
+                                                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="DescuentoDlls" [ngModel]="(compra.DescuentoDlls | currency)">
+
+                                                                        <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total Dlls</label>
+                                                                        <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="TotalDlls" #TotalDlls="ngModel" [ngModel]="(compra.TotalDlls | currency)">
+
+                                                                    </ng-template>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
                                             </div>
-                                        </mat-step>
-                                    </mat-horizontal-stepper>
+
+                                        </form>
+                                    </div>
+                                </mat-step>
+                            </mat-horizontal-stepper>
 
 
-                                </div>
-                            </section>
                         </div>
+                    </section>
+                    <!--     </div>
 
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>

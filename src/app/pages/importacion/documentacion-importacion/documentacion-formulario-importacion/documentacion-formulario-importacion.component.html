@@ -16,7 +16,14 @@
                 <hr>
 
 
-                <mat-tab-group selectedIndex="3" color="#2d5b9e" animationDuration="0ms" mat-align-tabs="end">
+                <mat-tab-group selectedIndex="0" color="#2d5b9e" animationDuration="0ms" mat-align-tabs="end">
+                    <!--    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">people</mat-icon>
+                            Resumen Traspaso
+                        </ng-template>
+                        
+                    </mat-tab> -->
                     <mat-tab>
                         <ng-template mat-tab-label>
                             <mat-icon class="example-tab-icon">person_pin_circle</mat-icon>
@@ -231,6 +238,7 @@
                                                                 <div class="col-8"></div>
                                                                 <div class="col-4">
                                                                     <button style="float: right; margin-top: 20px;" [disabled]="productosExistentes == false || stringDocumentoSeleccionado.length == 0 || files.length == 0" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentos()">Agregar Documento(s)</button>
+                                                                    <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentos2()">Ver</button>
 
                                                                 </div>
 
@@ -259,13 +267,7 @@
                         </ng-template>
                         <app-documentacion-co-importacion></app-documentacion-co-importacion>
                     </mat-tab>
-                    <mat-tab>
-                        <ng-template mat-tab-label>
-                            <mat-icon class="example-tab-icon">people</mat-icon>
-                            USDA
-                        </ng-template>
 
-                    </mat-tab>
                     <mat-tab>
                         <ng-template mat-tab-label>
                             <mat-icon class="example-tab-icon">person_pin</mat-icon>
@@ -279,6 +281,13 @@
                             Certificado Analisis
                         </ng-template>
                         <app-documentacion-ca-importacion></app-documentacion-ca-importacion>
+                    </mat-tab>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">article</mat-icon>
+                            Orden Carga/descarga
+                        </ng-template>
+                        <app-orden-carga-descarga></app-orden-carga-descarga>
                     </mat-tab>
                     <!-- <mat-tab>
                         <ng-template mat-tab-label>

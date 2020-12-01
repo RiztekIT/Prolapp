@@ -144,10 +144,10 @@ export class OrdendescargatarimacuuComponent implements OnInit {
         let product = dataP[i];
         product.Saldo = element.Saldo;
         product.IdOrdenDescarga = element.IdOrdenDescarga;
-        product.PesoOriginal = element.Sacos;
-        product.SacosOriginal = ((+element.Sacos)/(+element.PesoxSaco)).toString();
+        product.PesoOriginal = (+element.Sacos * +element.PesoxSaco).toFixed(4);
+        product.SacosOriginal = element.Sacos;
         // product.NuevoSaldo = ((+product.Saldo) - (+dataP[i].PesoTotal)).toString();
-        product.KilogramosSobrantes = ((+dataP[i].PesoTotal)-(+product.Saldo)).toString();
+        product.KilogramosSobrantes = ((+dataP[i].PesoTotal)-(+product.Saldo * +element.PesoxSaco)).toFixed(4);
 
           this.optionsProductos.push(product)
           this.filteredOptionsProductos = this.myControlProductos.valueChanges
@@ -638,21 +638,21 @@ export class OrdendescargatarimacuuComponent implements OnInit {
         console.log(this.ordenDescargaService.formData);
         console.log(this.listDataScan.data);
 
-        let sacos;
-        let sacos2;
+        let kg;
+        let kg2;
         let saldo;
-        sacos=0;
-        sacos2=0;
+        kg=0;
+        kg2=0;
         saldo=1;
         
         for (let i=0; i<this.listDataScan.data.length; i++ ){
-          sacos2 = sacos2 + +this.listDataScan.data[i].PesoTotal;
+          kg2 = kg2 + +this.listDataScan.data[i].PesoTotal;
         }
 
         console.log(this.ordenDescargaService.formData.Sacos);
-        console.log(sacos2);
+        console.log(kg2);
         
-        saldo = +this.ordenDescargaService.formData.Sacos - sacos2;
+        saldo = +this.ordenDescargaService.formData.Kg - kg2;
 
 
 

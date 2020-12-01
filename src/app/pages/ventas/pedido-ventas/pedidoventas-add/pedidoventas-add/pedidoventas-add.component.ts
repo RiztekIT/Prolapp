@@ -1386,12 +1386,16 @@ this.isFactura = true;
 
 
       sacos = 0;
+      kg = 0;
+      let presentacion;
+
 
       for (let i=0; i< this.listData.data.length;i++){
-        sacos = sacos + +this.listData.data[i].Cantidad;
+        kg = kg + +this.listData.data[i].Cantidad;
+        sacos = sacos + (+this.listData.data[i].Cantidad / productos[i].PesoxSaco)
       }
 
-      kg = sacos * 25;
+      /* sacos = sacos / 25; */
 
       ordencarga= {
   
@@ -1441,7 +1445,7 @@ this.isFactura = true;
             IdOrdenCarga:0,
             ClaveProducto:productos[i].ClaveProducto,
         Producto:productos[i].Producto,
-        Sacos:this.listData.data[i].Cantidad,
+        Sacos:(+this.listData.data[i].Cantidad / +productos[i].PesoxSaco),
         PesoxSaco:productos[i].PesoxSaco,
         Lote:productos[i].Lote,
         IdProveedor:productos[i].IdProveedor,
@@ -1452,7 +1456,7 @@ this.isFactura = true;
         Shipper:productos[i].Shipper,
         USDA:productos[i].USDA,
         Pedimento:productos[i].Pedimento,
-        Saldo:this.listData.data[i].Cantidad,
+        Saldo:(+this.listData.data[i].Cantidad / +productos[i].PesoxSaco),
           }
 
           console.log(detordencarga);

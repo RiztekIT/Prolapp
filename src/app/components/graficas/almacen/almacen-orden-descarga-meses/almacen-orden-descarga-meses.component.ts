@@ -116,8 +116,9 @@ export class AlmacenOrdenDescargaMesesComponent implements OnInit {
 
 
   reporte(){
+    this.iniciarTotales();
     this.proveedorService.getProveedoresList().subscribe(dataProveedores => {
-      console.log(dataProveedores);  
+      // console.log(dataProveedores);  
       this.listaClientes=dataProveedores;
        this.obtenerReporte(dataProveedores.length, dataProveedores);
     })
@@ -174,12 +175,12 @@ export class AlmacenOrdenDescargaMesesComponent implements OnInit {
   }
 
 datosCliente(data,i){
-  console.log(data);
+  // console.log(data);
   this.odService.getReporteProveedorId(data[i].IdProveedor).subscribe(dataReporte => {
-    console.log(dataReporte);
+    // console.log(dataReporte);
     if(dataReporte.length>0){
-      console.log(dataReporte);
-      this.iniciarTotales();
+      // console.log(dataReporte);
+      
       for (let l = 0; l < dataReporte.length; l++) {
       
 
@@ -268,9 +269,6 @@ datosCliente(data,i){
     }
     this.chart.update();
      
-  }else{
-    this.iniciarTotales();
-    
   }
   })
 }
