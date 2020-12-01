@@ -1104,7 +1104,7 @@ let productoValido: boolean = true;
   //pintar tabla con los conceptos faltantes
   conceptosFaltantes() {
     this.ordenCargaService.getOrdenCargaIDList(this.IdOrdenCarga).subscribe(data => {
-      console.log(data);
+      console.log(data,'OIRDEN de carga ');
       if (data.length > 0) {
         this.conceptosFaltantesList = new Array<DetalleOrdenCarga>();
         for (let i = 0; i <= data.length - 1; i++) {
@@ -1113,7 +1113,7 @@ let productoValido: boolean = true;
           }
         }
       }
-      console.log(this.conceptosFaltantesList);
+      console.log(this.conceptosFaltantesList,'LISTA DE FALTANTES');
       this.MostrarConceptos = true;
       this.listDataConceptosFaltantes = new MatTableDataSource(this.conceptosFaltantesList);
       this.listDataConceptosFaltantes.sort = this.sortConceptosFaltantes;
