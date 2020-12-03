@@ -215,7 +215,7 @@ export class InventariosalmacenComponent implements OnInit {
 
     for (let n=0; n<producto.detalle.length;n++){
       kgdisponibles = +kgdisponibles + +producto.detalle[n].KgD;
-      console.log(kgdisponibles,'KG');
+      // console.log(kgdisponibles,'KG');
 
     } 
 

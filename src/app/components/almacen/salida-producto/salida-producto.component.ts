@@ -41,7 +41,9 @@ export class SalidaProductoComponent implements OnInit {
 
 
 //^ Obtener Logo de empresa
-this.logo = this.empresaService.empresaActual.Foto;    
+//this.logo = this.empresaService.empresaActual.RFC; 
+
+    this.logo = '../../../assets/images/'+this.empresaService.empresaActual.RFC+'.png'
 
     this.ver();
   }

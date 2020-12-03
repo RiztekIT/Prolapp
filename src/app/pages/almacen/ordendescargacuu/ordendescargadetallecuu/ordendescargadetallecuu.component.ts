@@ -11,6 +11,7 @@ import { AlmacenEmailService } from '../../../../services/almacen/almacen-email.
 import { OrdenDescargaEmailComponent } from '../../ordendescarga/ordendescargadetalle/orden-descarga-email/orden-descarga-email.component';
 import { TarimaService } from '../../../../services/almacen/tarima/tarima.service';
 import { Tarima } from 'src/app/Models/almacen/Tarima/tarima-model';
+import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-producto/entrada-producto.component';
 
 
 
@@ -147,6 +148,7 @@ console.warn('hello');
 
   }
 
+
   CheckTarima(){
     this.router.navigate(['/ordenDescargaTarimacuu']);
   }
@@ -268,6 +270,20 @@ ObtenerFolio(id: number) {
 
     //fechas
    
+  }
+
+
+  pdf() {
+
+    // console.log(row);
+    // this.service.formrow = row;
+    // console.log();
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "70%";
+    this.dialog.open(EntradaProductoComponent, dialogConfig);
+    // this.dialog.open(EntradaProductoComponent, dialogConfig);
   }
 
 
