@@ -3,3 +3,21 @@
     margin-bottom: auto;
     margin-top: auto;
 }
+
+.btn-danger:hover {
+    color: white;
+}
+
+button {
+    margin-left: 10px;
+}
+
+.btn-prolacto {
+    background-color: black;
+    color: white
+}
+
+.btn-prolacto:hover {
+    background-color: #F0F0F0;
+    color: black
+}

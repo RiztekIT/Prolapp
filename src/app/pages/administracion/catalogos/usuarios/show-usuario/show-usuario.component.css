@@ -7,8 +7,8 @@ td {
     justify-content: center;
 }
 
-.btn-danger:hover {
-    color: white;
+table {
+    width: 100%;
 }
 
 ::ng-deep .mat-cell {
@@ -20,12 +20,12 @@ td {
     background: #000000;
 }
 
-button {
-    margin-left: 10px;
+.btn-danger:hover {
+    color: white;
 }
 
-table {
-    width: 100%;
+button {
+    margin-left: 10px;
 }
 
 .btn-prolacto {
