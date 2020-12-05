@@ -6,6 +6,7 @@ import { DatePipe } from '@angular/common';
 import { StorageServiceService } from './storage-service.service';
 
 export const APIUrl = environment.APIUrl;
+// export const APIUrl = "https://localhost:44361/api";
 declare function init_plugins();
 
 @Injectable({
@@ -167,6 +168,7 @@ export class SidebarService {
     
   }
   getMenu() {
+    //! Obtener el Id Usuario del Usuario LOGEADO!
     return this.http.get(APIUrl + '/Menu/1').subscribe((data:any)=>{
       // console.log(data);
       this.menu = [];
@@ -185,7 +187,8 @@ export class SidebarService {
         // console.log(data[i].idmenu);
         // console.log(this.menu);
         // this.menu[i].submenu
-        this.http.get(APIUrl+ '/Menu/Submenu/1/'+data[i].idmenu).subscribe((submenu:any)=>{
+        //! Obtener el Id Usuario del Usuario LOGEADO!
+        this.http.get(APIUrl+ '/Menu/Submenu/1/'+data[i].idmenu+'/'+data[i].titulo).subscribe((submenu:any)=>{
           // console.log(data[i].idmenu);
           // console.log(submenu);
           this.submenu = [];
