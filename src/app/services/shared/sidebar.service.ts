@@ -6,8 +6,8 @@ import { DatePipe } from '@angular/common';
 import { StorageServiceService } from './storage-service.service';
 import { Observable } from 'rxjs';
 
-// export const APIUrl = environment.APIUrl;
-export const APIUrl = "https://localhost:44361/api";
+export const APIUrl = environment.APIUrl;
+// export const APIUrl = "https://localhost:44361/api";
 declare function init_plugins();
 
 @Injectable({
