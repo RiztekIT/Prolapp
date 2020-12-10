@@ -4,9 +4,10 @@ import { HttpClient } from '@angular/common/http';
 import { ClientesService } from '../catalogos/clientes.service';
 import { DatePipe } from '@angular/common';
 import { StorageServiceService } from './storage-service.service';
+import { Observable } from 'rxjs';
 
-export const APIUrl = environment.APIUrl;
-// export const APIUrl = "https://localhost:44361/api";
+// export const APIUrl = environment.APIUrl;
+export const APIUrl = "https://localhost:44361/api";
 declare function init_plugins();
 
 @Injectable({
@@ -14,8 +15,10 @@ declare function init_plugins();
 })
 export class SidebarService {
 
-  menu: Array<menutipo>;
+  menu =  Array<menutipo>();
   submenu: Array<submenutipo>;
+  privilegios: Array<privilegios>;
+
 
   /* menu: any = [
     {
@@ -163,6 +166,7 @@ export class SidebarService {
     if (this.sessionCliente == 'true') {
     this.getMenucliente();
     } else {
+      console.log('Constructor SideBar');
     this.getMenu();
   }
     
@@ -179,9 +183,9 @@ export class SidebarService {
           "icono":data[i].icono,
           "url":data[i].url
         }
-      
+       
         this.menu[i].submenu = [];
-// console.log(this.menu);
+        // console.log(this.menu);
         
 
         // console.log(data[i].idmenu);
@@ -192,22 +196,67 @@ export class SidebarService {
           // console.log(data[i].idmenu);
           // console.log(submenu);
           this.submenu = [];
-
+          this.privilegios = [];
+          
           this.menu[i].submenu = []
           for (let j=0; j< submenu.length; j++){
             this.menu[i].submenu[j] = {
               "titulo" : submenu[j].titulo,
               "url": submenu[j].url
             }
-          }
+            this.menu[i].submenu[j].privilegios = [];
+            //! Obtener el Id Usuario del Usuario LOGEADO!
+            this.http.get(APIUrl + '/Menu/ObtenerPrivilegios/1/'+data[i].titulo+'/'+submenu[j].titulo).subscribe((resPrivilegios:any)=>{
+              if(resPrivilegios){
+                for (let a=0; a< resPrivilegios.length; a++){
+                  this.menu[i].submenu[j].privilegios[a] = {
+                    // IdProceso: resPrivilegios[0].IdProcesos,
+                    // idPrivilegio: resPrivilegios[0].IdPrivilegios,
+                    // idUsuario: resPrivilegios[0].IdUsuario,
+                    // area: resPrivilegios[0].Area,
+                    nombreProceso: resPrivilegios[a].NombreProceso
+                    // modulo: resPrivilegios[0].Modulo
+                  }
+                }
+                // this.menu[i].submenu[j].privilegios[0].IdProceso = resPrivilegios[0].IdProcesos;
+                // this.menu[i].submenu[j].privilegios[0].idPrivilegio = resPrivilegios[0].IdPrivilegios;
+                // this.menu[i].submenu[j].privilegios[0].idUsuario = resPrivilegios[0].IdUsuario;
+                // this.menu[i].submenu[j].privilegios[0].area = resPrivilegios[0].Area;
+                // this.menu[i].submenu[j].privilegios[0].nombreProceso = resPrivilegios[0].NombreProceso;
+                // this.menu[i].submenu[j].privilegios[0].modulo = resPrivilegios[0].Modulo;
+              }
+              localStorage.setItem('Permisos', JSON.stringify(this.menu));
+            })
+          }       
+          console.log('%c⧭', 'color: #09ee2f', this.menu);
+          // console.log(this.menu);
         })
       }
       // console.warn(this.menu);
-      // console.log(this.menu);
       init_plugins();
-
+ 
     });
   }
+
+
+  // getMenus(): Observable<any[]> {
+  //   return this.http.get<any[]>(APIUrl + '/Menu/1');
+  // }
+  //  getSubmenus(idmenu, titulo): Observable<any[]> {
+  //   return this.http.get<any[]>(APIUrl + '/Menu/Submenu/1/'+idmenu+'/'+titulo);
+  // }
+  // getPermisos(idmenu, titulo, area): Observable<any[]> {
+  //   return this.http.get<any[]>(APIUrl + '/Menu/ObtenerPrivilegios/1/'+idmenu+'/'+titulo+'/'+area);
+  // }
+
+  // getPrivilegios(): Observable<any[]>{
+  //   localStorage.setItem('Permisos', JSON.stringify(this.menu));
+  //   return; 
+  // }
+  
+  // getDetalleOrdenCargaList(id: number): Observable<OrdenCarga[]> {
+  //   return this.http.get<OrdenCarga[]>(APIUrl + '/OrdenCarga/DetalleOrdenCarga/' + id);
+  // }
   
 
 
@@ -318,4 +367,15 @@ export interface menutipo{
 export interface submenutipo{
   titulo:string;
   url:string;
+  privilegios?:Array<privilegios>
+}
+
+export interface privilegios {
+  // idPrivilegio: number,
+  // idUsuario: number,
+  // IdProceso: number,
+  nombreProceso: string
+  // area: string
+  // modulo: string
+
 }

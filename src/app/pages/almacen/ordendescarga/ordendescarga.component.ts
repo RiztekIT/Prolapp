@@ -49,7 +49,58 @@ export class OrdendescargaComponent implements OnInit {
 
   ngOnInit() {
     this.refreshOrdenDescargaList();
+
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    this.obtenerPrivilegios();
+    //^ **** PRIVILEGIOS POR USUARIO *****
   }
+
+
+  //^ **** PRIVILEGIOS POR USUARIO *****
+  privilegios: any;
+  privilegiosExistentes: boolean = false;
+  modulo = 'Almacen';
+  area = 'Orden de Descarga';
+
+  //^ VARIABLES DE PERMISOS
+  Editar: boolean = false;
+  Borrar: boolean = false;
+  //^ VARIABLES DE PERMISOS
+
+
+  obtenerPrivilegios() {
+    let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+    console.log(arrayPermisosMenu);
+    let arrayPrivilegios: any;
+    try {
+      arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+      // console.log(arrayPrivilegios);
+      arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+      // console.log(arrayPrivilegios);
+      this.privilegios = [];
+      arrayPrivilegios.privilegios.forEach(element => {
+        this.privilegios.push(element.nombreProceso);
+        this.verificarPrivilegio(element.nombreProceso);
+      });
+      // console.log(this.privilegios);
+    } catch {
+      console.log('Ocurrio algun problema');
+    }
+  }
+
+  verificarPrivilegio(privilegio) {
+    switch (privilegio) {
+      case ('Editar Orden de Descarga'):
+        this.Editar = true;
+        break;
+      case ('Borrar Orden de Descarga'):
+        this.Borrar = true;
+        break;
+      default:
+        break;
+    }
+  }
+  //^ **** PRIVILEGIOS POR USUARIO *****
 
   estatusCambio(event){
     // console.log(event);
