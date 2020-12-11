@@ -5,6 +5,7 @@ import { ClientesService } from '../catalogos/clientes.service';
 import { DatePipe } from '@angular/common';
 import { StorageServiceService } from './storage-service.service';
 import { Observable } from 'rxjs';
+import { UsuariosServieService } from '../catalogos/usuarios-servie.service';
 
 export const APIUrl = environment.APIUrl;
 // export const APIUrl = "https://localhost:44361/api";
@@ -18,6 +19,9 @@ export class SidebarService {
   menu =  Array<menutipo>();
   submenu: Array<submenutipo>;
   privilegios: Array<privilegios>;
+
+  idusuario: number
+  usuario: any
 
 
   /* menu: any = [
@@ -159,7 +163,9 @@ export class SidebarService {
 
   sessionCliente: any
 
-  constructor(private http:HttpClient,public service: ClientesService,private datePipe: DatePipe, private storageServce: StorageServiceService) { 
+  constructor(private http:HttpClient,public service: ClientesService,private datePipe: DatePipe, private storageServce: StorageServiceService,
+    private usuarioService: UsuariosServieService,
+    ) { 
     this.menu = [];
     this.sessionCliente = localStorage.getItem("inicioCliente");
     // console.log('this.sessionCliente = localStorage.getItem("inicioCliente"): ', this.sessionCliente = localStorage.getItem("inicioCliente"));
@@ -172,8 +178,18 @@ export class SidebarService {
     
   }
   getMenu() {
+
+    let u = JSON.parse(localStorage.getItem('ProlappSession'));
+    console.log('%c⧭', 'color: #ff0000', u);
+    this.usuario = u.user
+
+    
+    this.usuarioService.getUsuarioNombreU(this.usuario).subscribe(res => {
+      console.log('%c⧭', 'color: #f200e2', res);
+      this.idusuario = res[0].IdUsuario
+      console.log('%c⧭', 'color: #00ff00', this.idusuario);
     //! Obtener el Id Usuario del Usuario LOGEADO!
-    return this.http.get(APIUrl + '/Menu/1').subscribe((data:any)=>{
+    return this.http.get(APIUrl + '/Menu/'+this.idusuario).subscribe((data:any)=>{
       // console.log(data);
       this.menu = [];
       
@@ -192,7 +208,7 @@ export class SidebarService {
         // console.log(this.menu);
         // this.menu[i].submenu
         //! Obtener el Id Usuario del Usuario LOGEADO!
-        this.http.get(APIUrl+ '/Menu/Submenu/1/'+data[i].idmenu+'/'+data[i].titulo).subscribe((submenu:any)=>{
+        this.http.get(APIUrl+ '/Menu/Submenu/'+this.idusuario+'/'+data[i].idmenu+'/'+data[i].titulo).subscribe((submenu:any)=>{
           // console.log(data[i].idmenu);
           // console.log(submenu);
           this.submenu = [];
@@ -235,6 +251,7 @@ export class SidebarService {
       // console.warn(this.menu);
       init_plugins();
  
+    });
     });
   }
 
