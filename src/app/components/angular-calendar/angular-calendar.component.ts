@@ -104,49 +104,76 @@ export class AngularCalendarComponent implements OnInit {
 
     switch (moduloProcedencia) {
       case ('Compras'):
-        console.log('VIENE DE COMPRAS');
+        // console.log('VIENE DE COMPRAS');
         this.procedencia = 'Compras';
         this.cargarCalendario(moduloProcedencia);
+        this.modulo = 'Compras';
+        this.area = 'Calendario'
+        this.obtenerPrivilegios();
         break;
       case ('Almacen'):
         this.procedencia = 'Almacen';
         this.cargarCalendario(moduloProcedencia);
-        console.log('VIENE DE ALMACEN');
+        this.modulo = 'Almacen';
+        this.area = 'Calendario'
+        this.obtenerPrivilegios();
+        // console.log('VIENE DE ALMACEN');
         break;
       case ('Calidad'):
         this.procedencia = 'Calidad';
         this.cargarCalendario(moduloProcedencia);
-        console.log('VIENE DE Calidad');
+        // console.log('VIENE DE Calidad');
+        this.modulo = 'Calidad';
+        this.area = 'Calendario'
+        this.obtenerPrivilegios();
         break;
       case ('Cxc'):
         this.procedencia = 'Cxc';
         this.cargarCalendario(moduloProcedencia);
-        console.log('VIENE DE Cxc');
+        // console.log('VIENE DE Cxc');
+        this.modulo = 'Cuentas por Cobrar';
+        this.area = 'Calendario'
+        this.obtenerPrivilegios();
         break;
       case ('CxP'):
         this.procedencia = 'CxP';
         this.cargarCalendario(moduloProcedencia);
-        console.log('VIENE DE CxP');
+        // console.log('VIENE DE CxP');
+        this.modulo = 'Cuentas por Pagar';
+        this.area = 'Calendario'
+        this.obtenerPrivilegios();
         break;
       case ('Direccion'):
         this.procedencia = 'Direccion';
         this.cargarCalendario(moduloProcedencia);
-        console.log('VIENE DE Direccion');
+        // console.log('VIENE DE Direccion');
+        this.modulo = 'Direccion';
+        this.area = 'Calendario'
+        this.obtenerPrivilegios();
         break;
       case ('Importacion'):
         this.procedencia = 'Importacion';
         this.cargarCalendario(moduloProcedencia);
-        console.log('VIENE DE Importacion');
+        // console.log('VIENE DE Importacion');
+        this.modulo = 'Importacion';
+        this.area = 'Calendario'
+        this.obtenerPrivilegios();
         break;
       case ('Trafico'):
         this.procedencia = 'Trafico';
         this.cargarCalendario(moduloProcedencia);
-        console.log('VIENE DE Trafico');
+        // console.log('VIENE DE Trafico');
+        this.modulo = 'Trafico';
+        this.area = 'Calendario'
+        this.obtenerPrivilegios();
         break;
       case ('Ventas'):
         this.procedencia = 'Ventas';
         this.cargarCalendario(moduloProcedencia);
-        console.log('VIENE DE Ventas');
+        // console.log('VIENE DE Ventas');
+        this.modulo = 'Ventas';
+        this.area = 'Calendario'
+        this.obtenerPrivilegios();
         break;
       default:
         this.procedencia = 'ninguno'
@@ -156,6 +183,53 @@ export class AngularCalendarComponent implements OnInit {
     }
 
   }
+
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    privilegios: any;
+    privilegiosExistentes: boolean = false;
+    modulo = '';
+    area = '';
+  
+    //^ VARIABLES DE PERMISOS
+    Agregar: boolean = false;
+    Borrar: boolean = false;
+    //^ VARIABLES DE PERMISOS
+  
+  
+    obtenerPrivilegios() {
+      let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+      console.log(arrayPermisosMenu);
+      let arrayPrivilegios: any;
+      try {
+        arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+        // console.log(arrayPrivilegios);
+        arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+        // console.log(arrayPrivilegios);
+        this.privilegios = [];
+        arrayPrivilegios.privilegios.forEach(element => {
+          this.privilegios.push(element.nombreProceso);
+          this.verificarPrivilegio(element.nombreProceso);
+        });
+        // console.log(this.privilegios);
+      } catch {
+        console.log('Ocurrio algun problema');
+      }
+    }
+  
+    verificarPrivilegio(privilegio) {
+      switch (privilegio) {
+        case ('Agregar Evento'):
+          this.Agregar = true;
+          break;
+        case ('Borrar Evento'):
+          this.Borrar = true;
+          break;
+        default:
+          break;
+      }
+    }
+    //^ **** PRIVILEGIOS POR USUARIO *****
+  
 
 
 

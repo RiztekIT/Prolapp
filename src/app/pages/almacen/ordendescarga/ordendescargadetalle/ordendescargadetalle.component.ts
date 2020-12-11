@@ -66,7 +66,61 @@ export class OrdendescargadetalleComponent implements OnInit {
     this.actualizarTablaOrdenTemporal();
     console.log(localStorage.getItem('IdOrdenDescarga'));
     this.ObtenerFolio(this.IdOrdenDescarga);
+  //^ **** PRIVILEGIOS POR USUARIO *****
+  this.obtenerPrivilegios();
+  //^ **** PRIVILEGIOS POR USUARIO *****
+}
+
+
+//^ **** PRIVILEGIOS POR USUARIO *****
+privilegios: any;
+privilegiosExistentes: boolean = false;
+modulo = 'Almacen';
+area = 'Orden de Descarga';
+
+//^ VARIABLES DE PERMISOS
+AgregarEvidencia: boolean = false;
+Enviar: boolean = false;
+Descargar: boolean = false;
+//^ VARIABLES DE PERMISOS
+
+
+obtenerPrivilegios() {
+  let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+  console.log(arrayPermisosMenu);
+  let arrayPrivilegios: any;
+  try {
+    arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+    // console.log(arrayPrivilegios);
+    arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+    // console.log(arrayPrivilegios);
+    this.privilegios = [];
+    arrayPrivilegios.privilegios.forEach(element => {
+      this.privilegios.push(element.nombreProceso);
+      this.verificarPrivilegio(element.nombreProceso);
+    });
+    // console.log(this.privilegios);
+  } catch {
+    console.log('Ocurrio algun problema');
   }
+}
+
+verificarPrivilegio(privilegio) {
+  switch (privilegio) {
+    case ('Agregar Evidencias'):
+      this.AgregarEvidencia = true;
+      break;
+    case ('Enviar Orden de Descarga'):
+      this.Enviar = true;
+      break;
+    case ('Agregar Productos'):
+      this.Descargar = true;
+      break;
+    default:
+      break;
+  }
+}
+//^ **** PRIVILEGIOS POR USUARIO *****
 
   regresar(){
     this.router.navigate(['/ordendescarga']);
