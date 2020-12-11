@@ -25,7 +25,65 @@ export class TraspasomercanciaComponent implements OnInit {
 
   ngOnInit() {
     this.obtenerTraspasos();
+
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    this.obtenerPrivilegios();
+    //^ **** PRIVILEGIOS POR USUARIO *****
   }
+
+   //^ **** PRIVILEGIOS POR USUARIO *****
+   privilegios: any;
+   privilegiosExistentes: boolean = false;
+   modulo = 'Almacen';
+   area = 'Importaciones';
+ 
+   //^ VARIABLES DE PERMISOS
+   Vista: boolean = false;
+   Agregar: boolean = false;
+   Editar: boolean = false;
+   Borrar: boolean = false;
+   //^ VARIABLES DE PERMISOS
+ 
+ 
+   obtenerPrivilegios() {
+     let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+     console.log(arrayPermisosMenu);
+     let arrayPrivilegios: any;
+     try {
+       arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+       // console.log(arrayPrivilegios);
+       arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+       // console.log(arrayPrivilegios);
+       this.privilegios = [];
+       arrayPrivilegios.privilegios.forEach(element => {
+         this.privilegios.push(element.nombreProceso);
+         this.verificarPrivilegio(element.nombreProceso);
+       });
+       // console.log(this.privilegios);
+     } catch {
+       console.log('Ocurrio algun problema');
+     }
+   }
+ 
+   verificarPrivilegio(privilegio) {
+    switch (privilegio) {
+      case ('Editar Traspaso'):
+        this.Editar = true;
+        break;
+      case ('Borrar Traspaso'):
+        this.Borrar = true;
+        break;
+      case ('Agregar Traspaso'):
+        this.Agregar = true;
+        break;
+      case ('Vista'):
+        this.Vista = true;
+        break;
+      default:
+        break;
+    }
+  }
+   //^ **** PRIVILEGIOS POR USUARIO *****
 
   nuevoTraspaso(){
     // this.router.navigateByUrl('/embarque');
