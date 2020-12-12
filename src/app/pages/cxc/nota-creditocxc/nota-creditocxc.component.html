@@ -105,7 +105,7 @@
 
                                     <mat-menu #menu="matMenu">
 
-                                        <button title="Editar/Ver" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                        <button [disabled]="Editar == false" title="Editar/Ver" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
                       <mat-icon>edit</mat-icon>
                                  </button>
 
@@ -145,7 +145,7 @@
                         <mat-icon>email</mat-icon>
                     </button> -->
                                         <!-- Eliminar -->
-                                        <button *ngIf="row.Estatus=='Guardada'|| row.Estatus=='Creada'" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
+                                        <button [disabled]="Borrar == false" *ngIf="row.Estatus=='Guardada'|| row.Estatus=='Creada'" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
                       <mat-icon>delete_outline</mat-icon>
                     </button>
                                     </mat-menu>

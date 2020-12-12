@@ -45,7 +45,68 @@ export class PedidoscxcComponent implements OnInit {
 
   ngOnInit() {
     this.refreshPedidoList();
+
+        //^ **** PRIVILEGIOS POR USUARIO *****
+        this.obtenerPrivilegios();
+        //^ **** PRIVILEGIOS POR USUARIO *****
   }
+
+
+    
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    privilegios: any;
+    privilegiosExistentes: boolean = false;
+    modulo = 'Cuentas por Cobrar';
+    area = 'Orden de Compra';
+  
+    //^ VARIABLES DE PERMISOS
+    Editar: boolean = false;
+    Agregar: boolean = false;
+    Enviar: boolean = false;
+    Borrar: boolean = false;
+    //^ VARIABLES DE PERMISOS
+  
+  
+    obtenerPrivilegios() {
+      let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+      console.log(arrayPermisosMenu);
+      let arrayPrivilegios: any;
+      try {
+        arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+        // console.log(arrayPrivilegios);
+        arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+        // console.log(arrayPrivilegios);
+        this.privilegios = [];
+        arrayPrivilegios.privilegios.forEach(element => {
+          this.privilegios.push(element.nombreProceso);
+          this.verificarPrivilegio(element.nombreProceso);
+        });
+        // console.log(this.privilegios);
+      } catch {
+        console.log('Ocurrio algun problema');
+      }
+    }
+  
+    verificarPrivilegio(privilegio) {
+      switch (privilegio) {
+        case ('Crear Orden de Compra'):
+          this.Agregar = true;
+          break;
+        case ('Editar Orden de compra'):
+          this.Editar = true;
+          break;
+        case ('Borrar Orden de compra'):
+          this.Borrar = true;
+          break;
+        case ('Enviar Orden de compra'):
+          this.Enviar = true;
+          break;
+        default:
+          break;
+      }
+    }
+    //^ **** PRIVILEGIOS POR USUARIO *****
+  
 
   estatusCambio(event){
     // console.log(event);

@@ -395,13 +395,13 @@
                       class="mdi mdi-plus btn-lg"></i>Agregar Pago CFDI</button>
                             <br> -->
 
-                                            <button class="btn btn-info btn-lg" mat-raised-button (click)="onSubmit()"><i
+                                            <button [disabled]="Guardar == false" class="btn btn-info btn-lg" mat-raised-button (click)="onSubmit()"><i
                       class="mdi mdi-content-save btn-lg"></i>Guardar</button>
 
                                             <br>
 
-                                            <button [disabled]="Saldo > 0" class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="onTimbrar()"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
-                                            <button [disabled]="Saldo > 0" class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="crearJSON()"><i class="mdi mdi-send btn-lg"></i>JSON</button>
+                                            <button [disabled]="GuardarTimbrar == false" [disabled]="Saldo > 0" class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="onTimbrar()"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
+                                            <button [disabled]="JSON == false" [disabled]="Saldo > 0" class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="crearJSON()"><i class="mdi mdi-send btn-lg"></i>JSON</button>
 
                                             <!-- <br> -->
                                             <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button> -->

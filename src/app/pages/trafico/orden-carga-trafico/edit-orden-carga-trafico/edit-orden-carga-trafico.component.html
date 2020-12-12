@@ -116,7 +116,7 @@
                     </div>
                     <div *ngIf="this.tarimaService.tarimaTrafico.Bodega!='Terminada'" class="col-3">
 
-                        <button class="btn btn-success" mat-raised-button type="button" (click)="actualizarEstatus()">Actualizar Estatus</button>
+                        <button [disabled]="ActualizarEstatus == false" class="btn btn-success" mat-raised-button type="button" (click)="actualizarEstatus()">Actualizar Estatus</button>
 
                     </div>
                 </div>
@@ -153,7 +153,7 @@
                         </div>
                         <div class="col-3">
 
-                            <button class="btn btn-success" mat-raised-button type="button" *ngIf="this.traficoService.formDatafactura.Estatus== 'Pendiente' " (click)="updateFacturaFlete()">Guardar Flete</button>
+                            <button [disabled]="GuardarFlete == false" class="btn btn-success" mat-raised-button type="button" *ngIf="this.traficoService.formDatafactura.Estatus== 'Pendiente' " (click)="updateFacturaFlete()">Guardar Flete</button>
                             <button class="btn btn-success" mat-raised-button type="button" *ngIf="this.traficoService.formDatafactura.Estatus== 'Capturada' " (click)="updateFacturaFlete2()">Guardar</button>
                         </div>
                     </div>
