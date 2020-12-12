@@ -43,7 +43,7 @@
                 <div>
                     <div class="row">
                         <div class="col-8">
-                            <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary"> <i
+                            <button [disabled]="Agregar == false" class="mt-2" mat-raised-button (click)="onAdd()" color="primary"> <i
                                 class="mdi mdi-plus btn-lg"></i>Generar Factura</button>
                         </div>
                         <div class="col-4">
@@ -179,7 +179,7 @@
                     <mat-icon>keyboard_arrow_down</mat-icon>
                   </button>
                                     <mat-menu #menu="matMenu">
-                                        <button title="Editar/Ver" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                        <button [disabled]="Editar == false" title="Editar/Ver" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
                       <mat-icon>edit</mat-icon>
                     </button>
 
@@ -215,7 +215,7 @@
                         <mat-icon>email</mat-icon>
                     </button> -->
                                         <!-- Eliminar -->
-                                        <button *ngIf="row.Estatus=='Guardada'" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
+                                        <button [disabled]="Borrar == false" *ngIf="row.Estatus=='Guardada'" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
                       <mat-icon>delete_outline</mat-icon>
                     </button>
                                     </mat-menu>

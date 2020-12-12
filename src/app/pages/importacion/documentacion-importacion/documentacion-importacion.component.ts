@@ -28,7 +28,58 @@ export class DocumentacionImportacionComponent implements OnInit {
 
   ngOnInit() {
     this.obtenerOrdenDescargaDocumentos();
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    this.obtenerPrivilegios();
+    //^ **** PRIVILEGIOS POR USUARIO *****
   }
+
+
+    
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    privilegios: any;
+    privilegiosExistentes: boolean = false;
+    modulo = 'Importacion';
+    area = 'Documentacion';
+  
+    //^ VARIABLES DE PERMISOS
+    AgregarNueva: boolean = false;
+    Agregar: boolean = false;
+    //^ VARIABLES DE PERMISOS
+  
+  
+    obtenerPrivilegios() {
+      let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+      console.log(arrayPermisosMenu);
+      let arrayPrivilegios: any;
+      try {
+        arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+        // console.log(arrayPrivilegios);
+        arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+        // console.log(arrayPrivilegios);
+        this.privilegios = [];
+        arrayPrivilegios.privilegios.forEach(element => {
+          this.privilegios.push(element.nombreProceso);
+          this.verificarPrivilegio(element.nombreProceso);
+        });
+        // console.log(this.privilegios);
+      } catch {
+        console.log('Ocurrio algun problema');
+      }
+    }
+  
+    verificarPrivilegio(privilegio) {
+      switch (privilegio) {
+        case ('Agregar Nueva Documentacion'):
+          this.AgregarNueva = true;
+          break;
+        case ('Agregar Documento'):
+          this.Agregar = true;
+          break;
+        default:
+          break;
+      }
+    }
+    //^ **** PRIVILEGIOS POR USUARIO *****
 
   listData: MatTableDataSource<any>;
   displayedColumns: string[] = ['Folio', 'PO', 'Sacos', 'Fletera', 'Origen', 'FechaDescarga', 'Options'];

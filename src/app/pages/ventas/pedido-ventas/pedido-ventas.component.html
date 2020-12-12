@@ -9,7 +9,7 @@
 
                         <div class="col-md-3 col-sm-12" style="display: grid; justify-content: center">
                             <!-- <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Orden de Compra</button> -->
-                            <button mat-fab (click)="onAdd()" class="btncoti">
+                            <button [disabled]="Agregar == false" mat-fab (click)="onAdd()" class="btncoti">
                                     <mat-icon>note_add</mat-icon>
                                   </button>
                         </div>
@@ -173,7 +173,7 @@
                   </button>
                                 <mat-menu #menu="matMenu">
                                     <!--  -->
-                                    <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                    <button [disabled]="Editar == false" title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
                                                 <mat-icon>edit</mat-icon>
                                             </button>
                                     <!--  -->
@@ -182,11 +182,11 @@
                                             </button>
                                     <!--  -->
                                     <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
-                                    <button title="Enviar Correo" mat-icon-button class="btn btn-dark" (click)="email()">
+                                    <button [disabled]="Enviar == false" title="Enviar Correo" mat-icon-button class="btn btn-dark" (click)="email()">
                                                 <mat-icon>alternate_email</mat-icon>
                                               </button>
                                     <!--  -->
-                                    <button title="Eliminar" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
+                                    <button [disabled]="Borrar == false" title="Eliminar" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
                                                     <mat-icon>delete_outline</mat-icon>
                                                 </button>
                                 </mat-menu>

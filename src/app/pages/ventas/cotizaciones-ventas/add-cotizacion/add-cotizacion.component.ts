@@ -173,6 +173,9 @@ public PedidoBlanco: Pedido =
     this.tipoDeCambio();
     this.service.formProd = new Producto();
 
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    this.obtenerPrivilegios();
+    //^ **** PRIVILEGIOS POR USUARIO *****
     // this.firstFormGroup = this._formBuilder.group({
     //   firstCtrl: ['', Validators.required]
     // });
@@ -192,6 +195,61 @@ public PedidoBlanco: Pedido =
       );
   
   }
+
+    
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    privilegios: any;
+    privilegiosExistentes: boolean = false;
+    modulo = 'Almacen';
+    area = 'Orden de Carga';
+  
+    //^ VARIABLES DE PERMISOS
+    Guardar: boolean = false;
+    Duplicar: boolean = false;
+    Convertir: boolean = false;
+    Enviar: boolean = false;
+    //^ VARIABLES DE PERMISOS
+  
+  
+    obtenerPrivilegios() {
+      let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+      console.log(arrayPermisosMenu);
+      let arrayPrivilegios: any;
+      try {
+        arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+        // console.log(arrayPrivilegios);
+        arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+        // console.log(arrayPrivilegios);
+        this.privilegios = [];
+        arrayPrivilegios.privilegios.forEach(element => {
+          this.privilegios.push(element.nombreProceso);
+          this.verificarPrivilegio(element.nombreProceso);
+        });
+        // console.log(this.privilegios);
+      } catch {
+        console.log('Ocurrio algun problema');
+      }
+    }
+  
+    verificarPrivilegio(privilegio) {
+      switch (privilegio) {
+        case ('Guardar Cotizacion'):
+          this.Guardar = true;
+          break;
+        case ('Duplicar Cotizacion'):
+          this.Duplicar = true;
+          break;
+        case ('Convertir Cotizacion'):
+          this.Convertir = true;
+          break;
+        case ('Enviar Cotizacion'):
+          this.Enviar = true;
+          break;
+        default:
+          break;
+      }
+    }
+    //^ **** PRIVILEGIOS POR USUARIO *****
 
   public listUM: Array<any> = [];
   //Filter Unidad
