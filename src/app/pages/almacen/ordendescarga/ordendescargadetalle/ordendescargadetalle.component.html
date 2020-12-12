@@ -45,10 +45,10 @@
                             </div>
                             <div class="col-md-4 col-12"></div>
                             <div class="col-md-4 col-12">
-                                <button class="btncoti" mat-fab style="float: right; " (click)="evidencia()">
+                                <button [disabled]="AgregarEvidencia == false" class="btncoti" mat-fab style="float: right; " (click)="evidencia()">
             <mat-icon> camera_enhance </mat-icon>
           </button>
-                                <button class="btncoti" mat-fab style="float: right; margin-right: 15px;" (click)="email()">
+                                <button [disabled]="Enviar == false" class="btncoti" mat-fab style="float: right; margin-right: 15px;" (click)="email()">
             <mat-icon> alternate_email </mat-icon>
           </button>
                             </div>
@@ -89,7 +89,7 @@
 
                             </div>
                             <div class="col-md-4 col-12">
-                                <button class="btncoti" mat-fab style="float: right;" (click)="onAddTarima()">
+                                <button [disabled]="Descargar == false" class="btncoti" mat-fab style="float: right;" (click)="onAddTarima()">
             <mat-icon> arrow_circle_down </mat-icon>
           </button>
                                 <!-- <div *ngIf="ShowBuscar == false; else elseBlockPU">

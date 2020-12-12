@@ -107,7 +107,7 @@ html;
 
   ngOnInit() {
     console.log(this.service.formData);
-   
+    
     console.log(localStorage.getItem("inicioCliente"));
     this.clienteLogin = localStorage.getItem("inicioCliente");
     this.Inicializar();
@@ -118,11 +118,14 @@ html;
     // this.IniciarTotales();
     this.tipoDeCambio();
     this.service.formProd = new Producto();
-
+    
     this.seleccionManual=false;
     this.getValidacion();
     
-
+    
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    this.obtenerPrivilegios();
+    //^ **** PRIVILEGIOS POR USUARIO *****
 
 
 
@@ -147,6 +150,53 @@ html;
         map(value => this._filterUnidad(value))
       );
   }
+
+    
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    privilegios: any;
+    privilegiosExistentes: boolean = false;
+    modulo = 'Ventas';
+    area = 'Orden de Compra';
+  
+    //^ VARIABLES DE PERMISOS
+    Guardar: boolean = false;
+    Cerrar: boolean = false;
+    //^ VARIABLES DE PERMISOS
+  
+  
+    obtenerPrivilegios() {
+      let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+      console.log(arrayPermisosMenu);
+      let arrayPrivilegios: any;
+      try {
+        arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+        // console.log(arrayPrivilegios);
+        arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+        // console.log(arrayPrivilegios);
+        this.privilegios = [];
+        arrayPrivilegios.privilegios.forEach(element => {
+          this.privilegios.push(element.nombreProceso);
+          this.verificarPrivilegio(element.nombreProceso);
+        });
+        // console.log(this.privilegios);
+      } catch {
+        console.log('Ocurrio algun problema');
+      }
+    }
+  
+    verificarPrivilegio(privilegio) {
+      switch (privilegio) {
+        case ('Guardar Orden de Compra'):
+          this.Guardar = true;
+          break;
+        case ('Cerrar Orden de Compra'):
+          this.Cerrar = true;
+          break;
+        default:
+          break;
+      }
+    }
+    //^ **** PRIVILEGIOS POR USUARIO *****
 
 
   public listUM: Array<any> = [];

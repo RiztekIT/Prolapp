@@ -29,7 +29,61 @@ export class IncidenciasComponent implements OnInit {
     ngOnInit() {
       this.obtenerIncidenciasOrdenCarga();
       this.obtenerIncidenciasOrdenDescarga();
+
+  //^ **** PRIVILEGIOS POR USUARIO *****
+  this.obtenerPrivilegios();
+  //^ **** PRIVILEGIOS POR USUARIO *****
     }
+
+      //^ **** PRIVILEGIOS POR USUARIO *****
+  privilegios: any;
+  privilegiosExistentes: boolean = false;
+  modulo = 'Calidad';
+  area = 'Incidencias';
+
+  //^ VARIABLES DE PERMISOS
+  AgregarIncidencia: boolean = false;
+  AgregarIncidenciaOC: boolean = false;
+  AgregarIncidenciaOD: boolean = false;
+  //^ VARIABLES DE PERMISOS
+
+
+  obtenerPrivilegios() {
+    let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+    console.log(arrayPermisosMenu);
+    let arrayPrivilegios: any;
+    try {
+      arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+      // console.log(arrayPrivilegios);
+      arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+      // console.log(arrayPrivilegios);
+      this.privilegios = [];
+      arrayPrivilegios.privilegios.forEach(element => {
+        this.privilegios.push(element.nombreProceso);
+        this.verificarPrivilegio(element.nombreProceso);
+      });
+      // console.log(this.privilegios);
+    } catch {
+      console.log('Ocurrio algun problema');
+    }
+  }
+
+  verificarPrivilegio(privilegio) {
+    switch (privilegio) {
+      case ('Agregar Nueva Incidencia'):
+        this.AgregarIncidencia = true;
+        break;
+      case ('Agregar Incidencia Orden de Carga'):
+        this.AgregarIncidenciaOC = true;
+        break;
+      case ('Agregar Incidencia Orden de Descarga'):
+        this.AgregarIncidenciaOD = true;
+        break;
+      default:
+        break;
+    }
+  }
+  //^ **** PRIVILEGIOS POR USUARIO *****
 
     listDataOrdenCarga: MatTableDataSource<any>;
   displayedColumnsOrdenCarga: string[] = ['Folio', 'TipoIncidencia', 'Estatus', 'FechaElaboracion', 'FechaFinalizacion', 'Observaciones', 'Options'];

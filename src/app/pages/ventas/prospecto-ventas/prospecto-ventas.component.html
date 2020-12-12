@@ -67,11 +67,11 @@
                               </button>
                             <mat-menu #menu="matMenu">
                                 <!--  -->
-                                <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                <button [disabled]="Agregar == false" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
                                                             <mat-icon>person_add</mat-icon>
                                                         </button>
                                 <!--  -->
-                                <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
+                                <button [disabled]="Borrar == false" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
                                                                 <mat-icon>delete_outline</mat-icon>
                                                             </button>
                             </mat-menu>

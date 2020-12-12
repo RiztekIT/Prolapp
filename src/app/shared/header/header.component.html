@@ -76,7 +76,7 @@
                                 </div>
                             </li>
                             <li>
-                                <div class="message-center">
+                                <div *ngIf="this.notificaciones" class="message-center">
                                     <!-- Message -->
                                     <a *ngFor="let noti of notificaciones" style="cursor: pointer;" [ngStyle]="{'background-color' : noti.color}">
 

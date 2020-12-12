@@ -170,7 +170,7 @@
                                     </div>
                                     <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Creada'">
                                         <button id="PrepararCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
-                                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="preparar()">Preparar</button>
+                                        <button [disabled]="Preparar == false" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="preparar()">Preparar</button>
                                         <!-- <p><button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="preparar()"><mat-icon>undo</mat-icon>Preparar</button></p> -->
 
 
@@ -179,17 +179,17 @@
                                     </div>
                                     <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Preparada' && (this.service.formData.Fletera==='Foraneo' || this.service.formData.Fletera!=='Sucursal' || this.service.formData.Fletera!=='Local' || this.service.formData.Fletera!=='Paqueteria')">
                                         <button id="CargarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
-                                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="cargar()">Cargar</button>
+                                        <button [disabled]="Cargar == false" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="cargar()">Cargar</button>
                                         <br>
                                     </div>
                                     <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Preparada' && (this.service.formData.Fletera==='Sucursal' || this.service.formData.Fletera==='Local' || this.service.formData.Fletera==='Paqueteria')">
                                         <button id="CargarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
-                                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="salida()">Salida</button>
+                                        <button [disabled]="Salida == false" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="salida()">Salida</button>
                                         <br>
                                     </div>
                                     <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' || estatusOC == 'Terminada'">
                                         <button id="EnviarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
-                                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="enviar()">Enviar</button>
+                                        <button [disabled]="Enviar == false" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="enviar()">Enviar</button>
                                         <br>
                                     </div>
                                     <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' || estatusOC == 'Terminada'">
@@ -199,7 +199,7 @@
                                     </div>
                                     <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada'">
                                         <button id="TerminarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
-                                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="terminar()">Terminar</button>
+                                        <button [disabled]="Terminar == false" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="terminar()">Terminar</button>
                                         <br>
                                     </div>
                                     <!-- <div class="col-2" *ngIf="service.formData.Estatus == 'Terminada';" style="display: grid">

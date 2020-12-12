@@ -51,7 +51,70 @@ IdOrdenCarga: number;
     this.getOrdenCarga();
     this.refreshDetalleOrdenCargaList();
     //this.ObtenerFolio(this.IdOrdenCarga);
+        //^ **** PRIVILEGIOS POR USUARIO *****
+        this.obtenerPrivilegios();
+        //^ **** PRIVILEGIOS POR USUARIO *****
   }
+
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    privilegios: any;
+    privilegiosExistentes: boolean = false;
+    modulo = 'Almacen';
+    area = 'Orden de Carga';
+  
+    //^ VARIABLES DE PERMISOS
+  
+    Preparar: boolean = false;
+    Cargar: boolean = false;
+    Salida: boolean = false;
+    Enviar: boolean = false;
+    Terminar: boolean = false;
+  
+    //^ VARIABLES DE PERMISOS
+  
+  
+    obtenerPrivilegios() {
+      let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+      console.log(arrayPermisosMenu);
+      let arrayPrivilegios: any;
+      try {
+        arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+        // console.log(arrayPrivilegios);
+        arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+        // console.log(arrayPrivilegios);
+        this.privilegios = [];
+        arrayPrivilegios.privilegios.forEach(element => {
+          this.privilegios.push(element.nombreProceso);
+          this.verificarPrivilegio(element.nombreProceso);
+        });
+        // console.log(this.privilegios);
+      } catch {
+        console.log('Ocurrio algun problema');
+      }
+    }
+  
+    verificarPrivilegio(privilegio) {
+      switch (privilegio) {
+        case ('Preparar'):
+          this.Preparar = true;
+          break;
+        case ('Cargar'):
+          this.Cargar = true;
+          break;
+        case ('Salida'):
+          this.Salida = true;
+          break;
+        case ('Enviar Orden de Carga'):
+          this.Enviar = true;
+          break;
+        case ('Terminar'):
+          this.Terminar = true;
+          break;
+        default:
+          break;
+      }
+    }
+    //^ **** PRIVILEGIOS POR USUARIO *****
 
   //variable para guardar el estatus de la Orden Carga
   estatusOC: string;

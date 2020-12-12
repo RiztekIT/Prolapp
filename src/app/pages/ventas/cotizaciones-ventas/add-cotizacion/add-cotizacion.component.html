@@ -594,9 +594,9 @@
                                                         <div class="col-6" style="display: grid">
                                                             <br>
                                                             <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button> -->
-                                                            <button *ngIf="this.service.formDataCotizacion.Estatus == 'Guardada'" class="btn btn-danger btn-lg" mat-raised-button (click)='crearCotizacion()'><i class="mdi mdi-send btn-lg"></i>Guardar</button>
+                                                            <button [disabled]="Guardar == false" *ngIf="this.service.formDataCotizacion.Estatus == 'Guardada'" class="btn btn-danger btn-lg" mat-raised-button (click)='crearCotizacion()'><i class="mdi mdi-send btn-lg"></i>Guardar</button>
                                                             <br>
-                                                            <button *ngIf="this.service.formDataCotizacion.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='nuevacoti(service.formDataCotizacion)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-note-multiple btn-lg"></i> Duplicar </button>
+                                                            <button [disabled]="Duplicar == false" *ngIf="this.service.formDataCotizacion.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='nuevacoti(service.formDataCotizacion)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-note-multiple btn-lg"></i> Duplicar </button>
                                                             <br>
 
                                                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml2(service.formDataCotizacion)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
@@ -607,12 +607,12 @@
                                                             <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button> -->
                                                             <!-- <button *ngIf="this.service.formDataCotizacion.Estatus == 'Guardada'" class="btn btn-danger btn-lg" mat-raised-button (click)='cerrarCotizacion()'><i class="mdi mdi-send btn-lg"></i>Cerrar</button>
                                                             <br> -->
-                                                            <button *ngIf="this.service.formDataCotizacion.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='nuevaoc(service.formDataCotizacion)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-forward btn-lg"></i> Convertir </button>
+                                                            <button [disabled]="Convertir == false" *ngIf="this.service.formDataCotizacion.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='nuevaoc(service.formDataCotizacion)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-forward btn-lg"></i> Convertir </button>
                                                             <br>
 
 
                                                             <!-- <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button> -->
-                                                            <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='email(service.formDataCotizacion)'><i
+                                                            <button [disabled]="Enviar == false" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='email(service.formDataCotizacion)'><i
                                                         class="mdi mdi-email btn-lg"></i>Enviar</button>
                                                         </div>
 
@@ -638,7 +638,7 @@
                                                         <br>
                                                         <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button> -->
 
-                                                        <button class="btn btn-danger btn-lg" mat-raised-button (click)='crearCotizacion()'><i class="mdi mdi-send btn-lg"></i>Guardar Cotizacion</button>
+                                                        <button [disabled]="Guardar == false" class="btn btn-danger btn-lg" mat-raised-button (click)='crearCotizacion()'><i class="mdi mdi-send btn-lg"></i>Guardar Cotizacion</button>
 
                                                         <br>
                                                         <!-- <button id="abrirpdf" [hidden]="true" (click)="factura.PdfPreliminar(json1)"></button> -->

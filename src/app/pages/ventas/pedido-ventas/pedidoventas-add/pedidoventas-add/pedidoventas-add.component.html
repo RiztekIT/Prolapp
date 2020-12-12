@@ -591,9 +591,9 @@
                                                         <div class="col-md-6 col-12" style="display: grid">
                                                             <br>
                                                             <!-- <button matStepperNext class="btn btn-info btn-md" (click)="crearPedido()">Generar Pedido</button> -->
-                                                            <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada' || this.service.formDataPedido.Estatus == 'Creada'" class="btn btn-info btn-lg" mat-raised-button (click)="crearPedido()"><i class="mdi mdi-send btn-lg"></i>Guardar</button>
+                                                            <button [disabled]="Guardar == false" *ngIf="this.service.formDataPedido.Estatus == 'Guardada' || this.service.formDataPedido.Estatus == 'Creada'" class="btn btn-info btn-lg" mat-raised-button (click)="crearPedido()"><i class="mdi mdi-send btn-lg"></i>Guardar</button>
                                                             <br>
-                                                            <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button (click)="cerrarPedido()"><i class="mdi mdi-lock btn-lg"></i>Cerrar</button>
+                                                            <button [disabled]="Cerrar == false" *ngIf="this.service.formDataPedido.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button (click)="cerrarPedido()"><i class="mdi mdi-lock btn-lg"></i>Cerrar</button>
                                                             <br>
                                                             <button *ngIf="this.service.formDataPedido.Estatus == 'Guardada'" class="btn btn-info btn-lg" mat-raised-button (click)="verlistdata()"><i class="mdi mdi-lock btn-lg"></i>VERL</button>
                                                             <br>
