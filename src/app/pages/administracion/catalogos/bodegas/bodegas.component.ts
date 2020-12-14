@@ -39,7 +39,6 @@ export class BodegasComponent implements OnInit {
      }
 
   ngOnInit() {
-    console.clear();
     console.log('oninitbodega');
     this.BodegasList();
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));

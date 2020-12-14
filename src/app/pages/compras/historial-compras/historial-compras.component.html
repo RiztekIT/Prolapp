@@ -122,7 +122,7 @@
                     </div>
                     <div class="row">
 
-                        <aside class="col-3 border" style="background-color: #f2f2f2">
+                        <aside class="col-2 border" style="background-color: #f2f2f2">
                             <h4 class="bolder">Fecha:</h4>
                             <h4>{{Compras.FechaElaboracion | date: 'yyyy/MM/dd'}}</h4>
 
@@ -160,7 +160,7 @@
                             </div>
 
                         </aside>
-                        <article class="col-9 border">
+                        <article class="col-10 border">
                             <div class="card w-100">
                                 <div class="card-body pb-1" *ngFor="let OrdenDescargaDODCompras of Compras.OrdenDescargaDODCompras; let j = index">
                                     <!-- <h5 class="card-title">MANTEQUILLA BLABLABLA</h5>
@@ -168,11 +168,11 @@
 
                                     <h5 class="card-title bolder">- {{this.Compras.OrdenDescargaDODCompras[j].Producto}}</h5>
                                     <div class="row ml-2">
-                                        <div class="col-2">
+                                        <div class="col-1">
                                             <h6 class="boldersub">Clave:</h6>
                                             <p>{{this.Compras.OrdenDescargaDODCompras[j].ClaveProducto}}</p>
                                         </div>
-                                        <div class="col-2">
+                                        <div class="col-1">
                                             <h6 class="boldersub">Origen:</h6>
                                             <p>{{this.Compras.OrdenDescargaDODCompras[j].Origen}}</p>
                                         </div>
@@ -180,18 +180,37 @@
                                             <h6 class="boldersub">Destino:</h6>
                                             <p>{{this.Compras.OrdenDescargaDODCompras[j].Destino}}</p>
                                         </div>
-                                        <div class="col-2">
+                                        <div class="col-1">
                                             <h6 class="boldersub">Estatus:</h6>
                                             <p>{{this.Compras.OrdenDescargaDODCompras[j].Estatus}}</p>
                                         </div>
-                                        <div class="col-2">
+                                        <!-- ! Mal -->
+                                        <div class="col-1">
                                             <h6 class="boldersub">KG:</h6>
                                             <p>{{this.Compras.OrdenDescargaDODCompras[j].Kg}}</p>
                                         </div>
-                                        <div class="col-2">
+                                        <!-- ! Mal -->
+                                        <!-- ! Mal -->
+                                        <div class="col-1">
                                             <h6 class="boldersub">Sacos:</h6>
                                             <p>{{this.Compras.OrdenDescargaDODCompras[j].Sacos}}</p>
                                         </div>
+                                        <!-- ! Mal -->
+                                        <div class="col-2">
+                                            <h6 class="boldersub">Fecha Descarga:</h6>
+                                            <p>{{this.Compras.OrdenDescargaDODCompras[j].FechaInicioDescarga | date: 'yyyy/MM/dd'}}</p>
+                                        </div>
+                                        <!-- ! Mal -->
+                                        <div class="col-2">
+                                            <h6 class="boldersub">Kg Descargados:</h6>
+                                            <p>{{this.Compras.OrdenDescargaDODCompras[j].Kg}}</p>
+                                        </div>
+                                        <!-- ! Mal -->
+                                        <div class="col-1">
+                                            <h6 class="boldersub">Kg Faltantes:</h6>
+                                            <p>{{this.Compras.OrdenDescargaDODCompras[j].Kg}}</p>
+                                        </div>
+                                        <!-- ! Mal -->
                                     </div>
 
                                 </div>

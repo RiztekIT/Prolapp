@@ -21,11 +21,8 @@
                         <input readonly="readonly" type="text" class="form-control" name="IdVendedor" #IdUsuario="ngModel" [(ngModel)]="service.formDataV.IdVendedor">
 
                         <label class="input-group-text text-info">Nombre Del Vendedor</label>
-                        <input required minlength="2" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formDataV.Nombre">
+                        <input requiredtype="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formDataV.Nombre">
 
-                        <div class="text-left text-danger" *ngIf="Nombre.invalid && Nombre.touched">
-                            Favor de Ingresar un Nombre.
-                        </div>
 
                     </div>
                 </div>

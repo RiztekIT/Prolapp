@@ -19,11 +19,9 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <label class="input-group-text text-info">Nombre</label>
-                        <input required minlength="2" placeholder="Escribe el nombre" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formDataV.Nombre">
+                        <input required placeholder="Escribe el nombre" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formDataV.Nombre">
 
-                        <div class="text-left text-danger" *ngIf="Nombre.invalid && Nombre.touched">
-                            Favor de Ingresar Nombre
-                        </div>
+                        
                         <!--               -------------------------------------------------------                                       -->
 
                     </div>

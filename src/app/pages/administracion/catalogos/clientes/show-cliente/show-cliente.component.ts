@@ -107,7 +107,6 @@ export class ShowClienteComponent implements OnInit {
     this.serviceEmpresa.getEmpresaList().subscribe(data =>{
       console.log(data);
       this.listEmpresa = data;
-      console.clear();
       console.log(this.apicliente.empresa);
       this.apicliente.empresa = data[0];
       // this.enviarfact.rfc = data[0].RFC;

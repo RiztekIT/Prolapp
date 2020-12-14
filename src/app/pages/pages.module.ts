@@ -320,6 +320,8 @@ import { DocumentacionCAImportacionComponent } from './importacion/documentacion
 import { OrdenCargaDescargaComponent } from '../components/orden-carga-descarga/orden-carga-descarga.component';
 import { TraspasomercanciaComponent } from './almacen/traspasomercancia/traspasomercancia.component';
 import { ResumentraspasoComponent } from './almacen/traspasomercancia/resumentraspaso/resumentraspaso.component';
+import { FleterasTraficoComponent } from './trafico/fleteras-trafico/fleteras-trafico.component';
+import { AddEditFleterasComponent } from './trafico/fleteras-trafico/add-edit-fleteras/add-edit-fleteras.component';
 
 
 
@@ -558,6 +560,8 @@ import { ResumentraspasoComponent } from './almacen/traspasomercancia/resumentra
         OrdenCargaDescargaComponent,
         TraspasomercanciaComponent,
         ResumentraspasoComponent,
+        FleterasTraficoComponent,
+        AddEditFleterasComponent,
     
     ],
     exports: [
@@ -716,7 +720,8 @@ import { ResumentraspasoComponent } from './almacen/traspasomercancia/resumentra
         ShowreporteTraficoComponent,
         ShowreporteCxpComponent,
         ResumentraspasoComponent,
-        OrdenCargaDescargaComponent
+        OrdenCargaDescargaComponent,
+        AddEditFleterasComponent,
         
     ]
 })
