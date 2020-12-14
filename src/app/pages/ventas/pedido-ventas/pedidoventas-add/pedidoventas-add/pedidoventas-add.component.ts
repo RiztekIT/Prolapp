@@ -38,6 +38,7 @@ import { MercanciaComponent } from 'src/app/pages/almacen/mercancia/mercancia.co
 import { nanoid } from 'nanoid';
 import * as uuid from 'uuid';
 import { Location } from '@angular/common';
+import { CalendarioService } from '../../../../../services/calendario/calendario.service';
 //Constantes para obtener tipo de cambio
 const httpOptions = {
   headers: new HttpHeaders({
@@ -62,7 +63,8 @@ export class PedidoventasAddComponent implements OnInit {
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
     private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient, public ServiceUnidad: UnidadMedidaService,
-    public serviceDireccion: ClienteDireccionService, private dialog: MatDialog, public servicecoti: VentasCotizacionService, public addproductos: AddsproductosService, public _MessageService: MessageService, public serviceordencarga: OrdenCargaService, public ordenTemporalService: OrdenTemporalService, public location: Location) {
+    public serviceDireccion: ClienteDireccionService, private dialog: MatDialog, public servicecoti: VentasCotizacionService, public addproductos: AddsproductosService, 
+    public _MessageService: MessageService, public serviceordencarga: OrdenCargaService, public ordenTemporalService: OrdenTemporalService, public location: Location, public CalendarioService: CalendarioService) {
     
     this.MonedaBoolean = true;
 
@@ -1363,9 +1365,38 @@ this.isFactura = true;
         icon: 'success',
         title: 'Pedido Generado'
       })
+      this.generarEventoCalendario(this.service.formDataPedido.Folio);
       this.service.filter('Register click');
     }
     )
+  }
+
+  generarEventoCalendario(folio){
+    // console.log(this.compra);
+    //idcalendario, folio, documento, descripcion, inicio, fin, titulo, color, allday, rezi ,rezi, dragga
+    // console.log(this.CalendarioService.DetalleCalendarioData);
+    //Obtener el id del calendario que le corresponde al usuario y al modulo
+    let usuario: any
+    usuario = localStorage.getItem('ProlappSession');
+    usuario = JSON.parse(usuario);
+    console.log(usuario.user);
+    this.CalendarioService.getCalendarioComprasUsuarioModulo(usuario.user, 'Ventas').subscribe(res=>{
+      console.log(res);
+      this.CalendarioService.DetalleCalendarioData.IdCalendario = res[0].IdCalendario;
+      //el folio corresponde con la Orden/Documento que se genera junto con el evento.
+      this.CalendarioService.DetalleCalendarioData.Folio = folio;
+      this.CalendarioService.DetalleCalendarioData.Documento = 'OrdenVenta';
+      this.CalendarioService.DetalleCalendarioData.Descripcion = 'Evento Orden de Venta con Folio: '+folio;
+      //Las fechas van a variar dependiendo en el modulo en el que se encuentre
+      this.CalendarioService.DetalleCalendarioData.Start =this.service.formDataPedido.FechaDeExpedicion;
+      this.CalendarioService.DetalleCalendarioData.Endd = this.service.formDataPedido.FechaDeEntrega;
+      this.CalendarioService.DetalleCalendarioData.Title = 'Orden de Venta ' + folio;
+      this.CalendarioService.DetalleCalendarioData.Color = '#0fd8e6';
+      console.log(this.CalendarioService.DetalleCalendarioData);
+      this.CalendarioService.addDetalleCalendario(this.CalendarioService.DetalleCalendarioData).subscribe(resAdd=>{
+        console.log(resAdd);
+      })
+    })
   }
 
   verlistdata(){

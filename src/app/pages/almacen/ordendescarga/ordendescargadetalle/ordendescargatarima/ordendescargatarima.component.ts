@@ -17,6 +17,7 @@ import { preOrdenTemporalODSacos } from '../../../../../Models/almacen/OrdenTemp
 import { OrdenDescargaConceptoComponent } from 'src/app/components/almacen/orden-descarga/ordendescargadetalle/ordendescargatarima/orden-descarga-concepto/orden-descarga-concepto.component';
 import { map, startWith } from 'rxjs/operators';
 import { QrComponent } from 'src/app/components/qr/qr.component';
+import { CalendarioService } from '../../../../../services/calendario/calendario.service';
 
 /* Constante y variables para la transformacion de los meses en los datetimepicker */
 // const months =['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DIC'];
@@ -70,7 +71,7 @@ export const APP_DATE_FORMATS =
 export class OrdendescargatarimaComponent implements OnInit {
 
 
-  constructor(public router: Router, private dialog: MatDialog, public service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public Tarimaservice: TarimaService) {
+  constructor(public router: Router, private dialog: MatDialog, public service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public Tarimaservice: TarimaService, public CalendarioService: CalendarioService) {
     this.service.listen().subscribe((m: any) => {
       console.log(m);
       this.refreshOrdenDescargaList();
@@ -177,6 +178,8 @@ let saldo = 0;
         this.service.formData.Estatus = 'Descargada'
         console.log(this.service.formData);
         this.updateOrdenDescarga(this.service.formData,'Descargada');
+        this.generarEventoCalendario(this.service.formData.Folio);
+
       }
 
 
@@ -184,6 +187,35 @@ let saldo = 0;
     }
 
   }
+
+  generarEventoCalendario(folio){
+    // console.log(this.compra);
+    //idcalendario, folio, documento, descripcion, inicio, fin, titulo, color, allday, rezi ,rezi, dragga
+    // console.log(this.CalendarioService.DetalleCalendarioData);
+    //Obtener el id del calendario que le corresponde al usuario y al modulo
+    let usuario: any
+    usuario = localStorage.getItem('ProlappSession');
+    usuario = JSON.parse(usuario);
+    console.log(usuario.user);
+    this.CalendarioService.getCalendarioComprasUsuarioModulo(usuario.user, 'Almacen').subscribe(res=>{
+      console.log(res);
+      this.CalendarioService.DetalleCalendarioData.IdCalendario = res[0].IdCalendario;
+      //el folio corresponde con la Orden/Documento que se genera junto con el evento.
+      this.CalendarioService.DetalleCalendarioData.Folio = folio;
+      this.CalendarioService.DetalleCalendarioData.Documento = 'OrdenDescarga';
+      this.CalendarioService.DetalleCalendarioData.Descripcion = 'Evento Orden de Descarga con Folio: '+folio;
+      //Las fechas van a variar dependiendo en el modulo en el que se encuentre
+      this.CalendarioService.DetalleCalendarioData.Start = this.service.formData.FechaInicioDescarga;
+      this.CalendarioService.DetalleCalendarioData.Endd = this.service.formData.FechaFinalDescarga;
+      this.CalendarioService.DetalleCalendarioData.Title = 'Orden de Descarga Finalizada ' + folio;
+      this.CalendarioService.DetalleCalendarioData.Color = '#0fd8e6';
+      console.log(this.CalendarioService.DetalleCalendarioData);
+      this.CalendarioService.addDetalleCalendario(this.CalendarioService.DetalleCalendarioData).subscribe(resAdd=>{
+        console.log(resAdd);
+      })
+    })
+  }
+
 
   //tabla visualizacion
   listData: MatTableDataSource<any>;

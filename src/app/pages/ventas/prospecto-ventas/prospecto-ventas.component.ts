@@ -10,6 +10,7 @@ import { AddClienteComponent } from '../../administracion/catalogos/clientes/add
 import { ClientesService } from '../../../services/catalogos/clientes.service';
 import { ProspectoclienteComponent } from 'src/app/components/prospecto/prospectocliente/prospectocliente.component';
 import { Cliente } from 'src/app/Models/catalogos/clientes-model';
+import { isThisSecond } from 'date-fns';
 
 
 
@@ -88,7 +89,7 @@ export class ProspectoVentasComponent implements OnInit {
 
   refreshProspectoList(){
     this.service.getProspectos().subscribe(data => {
-      console.log(data);
+      // console.log(data);
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
@@ -96,10 +97,36 @@ export class ProspectoVentasComponent implements OnInit {
     })
   }
 
-  onDelete(row){}
+  onDelete(row){
+
+    Swal.fire({
+      title: '¿Segur@ de Borrar Prospecto ?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        console.log(row);
+        this.service.deleteProspecto(row.IdProspecto).subscribe(res=>{
+          this.refreshProspectoList();
+          Swal.fire({
+            title: 'Borrado',
+            icon: 'success',
+            timer: 1000,
+            showCancelButton: false,
+            showConfirmButton: false,
+            
+          });
+        })
+      }
+    })
+  }
 
   onEdit(prospecto: Prospecto){
-    console.log(prospecto);
+    // console.log(prospecto);
 
 
     this.service2.formData = new Cliente();

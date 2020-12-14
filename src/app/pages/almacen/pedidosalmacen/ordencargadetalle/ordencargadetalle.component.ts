@@ -17,6 +17,7 @@ import { DetalleOrdenDescarga } from 'src/app/Models/almacen/OrdenDescarga/detal
 import { OrdenDescargaService } from 'src/app/services/almacen/orden-descarga/orden-descarga.service';
 import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-producto/entrada-producto.component';
 import { SalidaProductoComponent } from '../../../../components/almacen/salida-producto/salida-producto.component';
+import { CalendarioService } from '../../../../services/calendario/calendario.service';
 
 @Component({
   selector: 'app-ordencargadetalle',
@@ -34,7 +35,8 @@ IdOrdenCarga: number;
   DataOrdenCarga: any;
   Folio: number;
   
-  constructor(public router: Router, private dialog: MatDialog, public service: OrdenCargaService,  public _MessageService: MessageService, public AlmacenEmailService: AlmacenEmailService, public tarimaService: TarimaService, public ordenDescargaService: OrdenDescargaService) { 
+  constructor(public router: Router, private dialog: MatDialog, public service: OrdenCargaService,  public _MessageService: MessageService, 
+    public AlmacenEmailService: AlmacenEmailService, public tarimaService: TarimaService, public ordenDescargaService: OrdenDescargaService, public CalendarioService: CalendarioService) { 
 
     this.service.listen().subscribe((m:any)=>{
       console.log(m);
@@ -236,6 +238,7 @@ Oc.Estatus = 'Cargada'
      if (this.service.formData.Destino=='Chihuahua'){
 
        this.generarOrdenDescarga();
+       this.generarEventoCalendario(this.Folio);
      }else {
       this.service.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Terminada').subscribe(rese => {
 
@@ -246,15 +249,44 @@ Oc.Estatus = 'Cargada'
           showCancelButton: false,
           showConfirmButton: false
         });
-
+        
         this.getOrdenCarga();
-
+        this.generarEventoCalendario(this.Folio);
+        
       })
      }
 
 
 
      
+  }
+
+  generarEventoCalendario(folio){
+    // console.log(this.compra);
+    //idcalendario, folio, documento, descripcion, inicio, fin, titulo, color, allday, rezi ,rezi, dragga
+    // console.log(this.CalendarioService.DetalleCalendarioData);
+    //Obtener el id del calendario que le corresponde al usuario y al modulo
+    let usuario: any
+    usuario = localStorage.getItem('ProlappSession');
+    usuario = JSON.parse(usuario);
+    console.log(usuario.user);
+    this.CalendarioService.getCalendarioComprasUsuarioModulo(usuario.user, 'Almacen').subscribe(res=>{
+      console.log(res);
+      this.CalendarioService.DetalleCalendarioData.IdCalendario = res[0].IdCalendario;
+      //el folio corresponde con la Orden/Documento que se genera junto con el evento.
+      this.CalendarioService.DetalleCalendarioData.Folio = folio;
+      this.CalendarioService.DetalleCalendarioData.Documento = 'OrdenCarga';
+      this.CalendarioService.DetalleCalendarioData.Descripcion = 'Evento Orden de Carga con Folio: '+folio;
+      //Las fechas van a variar dependiendo en el modulo en el que se encuentre
+      this.CalendarioService.DetalleCalendarioData.Start = this.service.formData.FechaInicioCarga;
+      this.CalendarioService.DetalleCalendarioData.Endd = this.service.formData.FechaFinalCarga;
+      this.CalendarioService.DetalleCalendarioData.Title = 'Orden de Carga Finalizada ' + folio;
+      this.CalendarioService.DetalleCalendarioData.Color = '#0fd8e6';
+      console.log(this.CalendarioService.DetalleCalendarioData);
+      this.CalendarioService.addDetalleCalendario(this.CalendarioService.DetalleCalendarioData).subscribe(resAdd=>{
+        console.log(resAdd);
+      })
+    })
   }
 
   regresar(){

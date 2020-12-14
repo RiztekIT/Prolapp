@@ -200,8 +200,8 @@ public PedidoBlanco: Pedido =
     //^ **** PRIVILEGIOS POR USUARIO *****
     privilegios: any;
     privilegiosExistentes: boolean = false;
-    modulo = 'Almacen';
-    area = 'Orden de Carga';
+    modulo = 'Ventas';
+    area = 'Cotizaciones';
   
     //^ VARIABLES DE PERMISOS
     Guardar: boolean = false;

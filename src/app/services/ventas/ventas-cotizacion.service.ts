@@ -176,6 +176,10 @@ export class VentasCotizacionService {
   editProspecto(prospecto: Prospecto){
     return this.http.put(this.APIUrl + '/Cotizacion/UpdateProspecto', prospecto);
   }
+  
+  deleteProspecto(id:number){
+    return this.http.delete(this.APIUrl + '/Cotizacion/BorrarProspecto/'+id);    
+  }
 
 
 
