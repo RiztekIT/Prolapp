@@ -322,6 +322,7 @@ import { TraspasomercanciaComponent } from './almacen/traspasomercancia/traspaso
 import { ResumentraspasoComponent } from './almacen/traspasomercancia/resumentraspaso/resumentraspaso.component';
 import { FleterasTraficoComponent } from './trafico/fleteras-trafico/fleteras-trafico.component';
 import { AddEditFleterasComponent } from './trafico/fleteras-trafico/add-edit-fleteras/add-edit-fleteras.component';
+import { MarcasComponent } from './administracion/catalogos/productos/marcas/marcas.component';
 
 
 
@@ -562,6 +563,7 @@ import { AddEditFleterasComponent } from './trafico/fleteras-trafico/add-edit-fl
         ResumentraspasoComponent,
         FleterasTraficoComponent,
         AddEditFleterasComponent,
+        MarcasComponent,
     
     ],
     exports: [
@@ -722,6 +724,7 @@ import { AddEditFleterasComponent } from './trafico/fleteras-trafico/add-edit-fl
         ResumentraspasoComponent,
         OrdenCargaDescargaComponent,
         AddEditFleterasComponent,
+        MarcasComponent,
         
     ]
 })

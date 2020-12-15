@@ -11,7 +11,7 @@ import { Fleteras } from 'src/app/Models/trafico/fleteras-model';
 })
 export class FleterasService {
 
-  dataFleteras = new Fleteras;
+  dataFleteras = new Fleteras();
 
   constructor(private http:HttpClient) { }
 

@@ -16,6 +16,7 @@ import { UsuariosServieService } from '../../../../../services/catalogos/usuario
 import { EventosService } from '../../../../../services/eventos/eventos.service';
 import { Evento } from '../../../../../Models/eventos/evento-model';
 import { MarcasProductos } from '../../../../../Models/catalogos/marcasproductos-model';
+import { MarcasComponent } from '../marcas/marcas.component';
 
 
 @Component({
@@ -80,6 +81,7 @@ export class ShowProductoComponent implements OnInit {
       this.listDataMarcas.sort = this.sortM;
       this.listDataMarcas.paginator = this.paginatorM;
       this.listDataMarcas.paginator._intl.itemsPerPageLabel = 'Marcas por Pagina';
+      console.log('%c⧭', 'color: #ffaa00', this.listDataMarcas);
     });
 
   }
@@ -174,9 +176,48 @@ export class ShowProductoComponent implements OnInit {
 
   }
 
-  onEditM(row: MarcasProductos){
 
-  console.log('%c⧭', 'color: #ffa640', row);
+  onAddMarcas(movimiento?){
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    dialogConfig.data = {
+      movimiento: movimiento,
+      tipo: 'Agregar'
+    }
+    let dlg =this.dialog.open(MarcasComponent, dialogConfig);
+    dlg.afterClosed().subscribe(resp=>{
+      this.refreshMarcasList();
+    })
+
   }
+
+  onEditMarcas(marcas: MarcasProductos,movimiento?){
+    // console.log(usuario);
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width="70%";
+        dialogConfig.data = {
+          movimiento: movimiento,
+          data: marcas,
+          tipo: 'Editar'
+        }
+        let dlg = this.dialog.open(MarcasComponent, dialogConfig);
+        dlg.afterClosed().subscribe(resp=>{
+          this.refreshMarcasList();
+        })
+      }
+    
+      onDeleteMarcas(row:MarcasProductos){
+        let id = row.IdMarca
+        this.service.deleteMarcasProductos(id).subscribe(res =>{
+        
+          console.log('%c%s', 'color: #006dcc', res);
+          this.refreshMarcasList();
+        })
+          }
 
 }

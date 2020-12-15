@@ -93,7 +93,7 @@
 <mat-card class="mat-elevation-z0">
     <div class="row" style="align-items: center;">
         <div class="col-4">
-            <button style="width: 100%;" mat-raised-button class="btn btn-prolacto btn-lg" (click)="onAddMarca('Agregar Marca')"><mat-icon class="example-tab-icon">add_circle</mat-icon></button>
+            <button style="width: 100%;" mat-raised-button class="btn btn-prolacto btn-lg" (click)="onAddMarcas('Agregar Marca')"><mat-icon class="example-tab-icon">add_circle</mat-icon></button>
 
         </div>
         <div class="col-4"></div>
@@ -157,11 +157,11 @@
                   </button>
                 <mat-menu #menu="matMenu">
                     <!--  -->
-                    <button mat-icon-button class="btn btn-dark" (click)="onEditM(row, 'Editar Marca')">
+                    <button mat-icon-button class="btn btn-dark" (click)="onEditMarcas(row, 'Editar Marca')">
                                         <mat-icon>edit</mat-icon>
                                     </button>
                     <!--  -->
-                    <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteM(row.IdMarca, 'Borrar Marca')">
+                    <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteMarcas(row.IdMarca, 'Borrar Marca')">
                                             <mat-icon>delete_outline</mat-icon>
                                         </button>
                 </mat-menu>

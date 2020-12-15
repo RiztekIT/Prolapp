@@ -16,6 +16,7 @@ export class ProductosService {
   constructor(private http:HttpClient) { }
   formData: Producto;
   MarcasRelForm = new MarcasProductos();
+  dataMarcas = new MarcasProductos();
   // formData1: Factura;
 
 
@@ -55,6 +56,11 @@ deleteMarcasProductos(id:number) {
   return this.http.delete(this.APIUrl + '/producto/MarcasProductos/' + id);
 
 }
+
+updateMarcas(marcasProductos: MarcasProductos) {
+  return this.http.put(this.APIUrl+ '/producto/MarcasProductos', marcasProductos);
+  }
+ 
 
 
 
