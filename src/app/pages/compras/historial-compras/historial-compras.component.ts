@@ -144,7 +144,7 @@ export class HistorialComprasComponent implements OnInit {
           
           console.log('%c%s', 'color: #364cd9', 'entra default');
           this.comprasService.GetComprasOrderFolio().subscribe(compras => {
-            // console.clear();
+            console.clear();
             // console.log('%c%s', 'color: #731d1d', compras);
             console.log('compras: ', compras);
             

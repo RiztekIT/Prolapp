@@ -212,7 +212,7 @@
                                         <!--               -------------------------------------------------------                                       -->
                                         <label class="input-group-text text-info">Folio</label>
 
-                                        <input readonly="readonly" required minlength="2" type="number" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="service.formData.Folio">
+                                        <input readonly="readonly" required type="number" class="form-control" name="Folio" #Folio="ngModel" [(ngModel)]="service.formData.Folio">
 
                                         <div class="text-left text-danger" *ngIf="Folio.invalid && Folio.touched">
                                             Favor de Ingresar Folio
@@ -227,7 +227,7 @@
                                         <option *ngFor="let dl of listMoneda" [ngValue]="dl.Moneda"> {{dl.Moneda}} </option>
                                     </select>
 
-                                        <!-- <input required minlength="2" type="string" class="form-control" name="Moneda" #Moneda="ngModel" [(ngModel)]="service.formData.Moneda"> -->
+                                        <!-- <input required type="string" class="form-control" name="Moneda" #Moneda="ngModel" [(ngModel)]="service.formData.Moneda"> -->
 
                                         <div class="text-left text-danger" *ngIf="Moneda.invalid && Moneda.touched">
                                             Favor de Ingresar Moneda

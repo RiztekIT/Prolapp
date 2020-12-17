@@ -122,12 +122,12 @@ this.dispositivo = JSON.stringify(this.deviceinfo)
       user: {
         IdUsuario: 0,
     Nombre: '',
-    NombreUsuario: 'IvanTa',
+    NombreUsuario: '',
     ApellidoPaterno: '',
     ApellidoMaterno: '',
     Correo: '',
     Telefono: '',
-    Contra: 'Ivan2019',
+    Contra: '',
     FechaUltimoAcceso: '',
     Dispositivo:this.dispositivo
       }
@@ -180,12 +180,12 @@ this.dispositivo = JSON.stringify(this.deviceinfo)
    this.service.formData = {
     IdUsuario: 0,
     Nombre: '',
-    NombreUsuario: 'IvanTa',
+    NombreUsuario: '',
     ApellidoPaterno: '',
     ApellidoMaterno: '',
     Correo: '',
     Telefono: '',
-    Contra: 'Ivan2019',
+    Contra: '',
     FechaUltimoAcceso: '2019-12-19',
     Dispositivo:''
    }

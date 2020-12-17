@@ -15,6 +15,8 @@ import { DatePipe } from '@angular/common';
 import { UsuariosServieService } from '../../../../../services/catalogos/usuarios-servie.service';
 import { EventosService } from '../../../../../services/eventos/eventos.service';
 import { Evento } from '../../../../../Models/eventos/evento-model';
+import { MarcasProductos } from '../../../../../Models/catalogos/marcasproductos-model';
+import { MarcasComponent } from '../marcas/marcas.component';
 
 
 @Component({
@@ -30,6 +32,13 @@ export class ShowProductoComponent implements OnInit {
   displayedColumns : string [] = [ 'Nombre',  'Options'];
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+  // Marcas
+  listDataMarcas: MatTableDataSource<any>;
+  displayedColumnsMarcas : string [] = [ 'Clave','Nombre','Producto' , 'Options'];
+  @ViewChild(MatSort, null) sortM: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginatorM: MatPaginator;
+
 
   constructor(private service:ProductosService, 
     private dialog: MatDialog, private snackBar: MatSnackBar,
@@ -102,6 +111,7 @@ export class ShowProductoComponent implements OnInit {
       default:
         break;
     }
+    this.refreshMarcasList();
   }
   //^ **** PRIVILEGIOS POR USUARIO *****
 
@@ -113,6 +123,20 @@ export class ShowProductoComponent implements OnInit {
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
       this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+    });
+
+  }
+
+  refreshMarcasList() {
+
+    this.service.GetMarcasProductos().subscribe(marcasres => {
+      console.log('%c⧭', 'color: #d90000', marcasres);
+      this.listDataMarcas = new MatTableDataSource(marcasres);
+      //console.log(this.listData);
+      this.listDataMarcas.sort = this.sortM;
+      this.listDataMarcas.paginator = this.paginatorM;
+      this.listDataMarcas.paginator._intl.itemsPerPageLabel = 'Marcas por Pagina';
+      console.log('%c⧭', 'color: #ffaa00', this.listDataMarcas);
     });
 
   }
@@ -206,5 +230,49 @@ export class ShowProductoComponent implements OnInit {
     this.listData.filter= filtervalue.trim().toLocaleLowerCase();
 
   }
+
+
+  onAddMarcas(movimiento?){
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    dialogConfig.data = {
+      movimiento: movimiento,
+      tipo: 'Agregar'
+    }
+    let dlg =this.dialog.open(MarcasComponent, dialogConfig);
+    dlg.afterClosed().subscribe(resp=>{
+      this.refreshMarcasList();
+    })
+
+  }
+
+  onEditMarcas(marcas: MarcasProductos,movimiento?){
+    // console.log(usuario);
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width="70%";
+        dialogConfig.data = {
+          movimiento: movimiento,
+          data: marcas,
+          tipo: 'Editar'
+        }
+        let dlg = this.dialog.open(MarcasComponent, dialogConfig);
+        dlg.afterClosed().subscribe(resp=>{
+          this.refreshMarcasList();
+        })
+      }
+    
+      onDeleteMarcas(row:MarcasProductos){
+        let id = row.IdMarca
+        this.service.deleteMarcasProductos(id).subscribe(res =>{
+        
+          console.log('%c%s', 'color: #006dcc', res);
+          this.refreshMarcasList();
+        })
+          }
 
 }

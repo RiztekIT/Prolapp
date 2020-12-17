@@ -19,68 +19,44 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <label class="input-group-text text-info ">Nombre</label>
-                        <input required minlength="2" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre">
+                        <input required  type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre">
 
-                        <div class="text-left text-danger" *ngIf="Nombre.invalid && Nombre.touched">
-                            Favor de Ingresar Nombre
-                        </div>
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">RFC</label>
-                        <input required minlength="2" type="text" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="service.formData.RFC">
+                        <input required  type="text" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="service.formData.RFC">
 
-                        <div class="text-left text-danger" *ngIf="RFC.invalid && RFC.touched">
-                            Favor de Ingresar RFC
-                        </div>
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Razon Social</label>
-                        <input required minlength="2" type="text" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="service.formData.RazonSocial">
+                        <input required  type="text" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="service.formData.RazonSocial">
 
-                        <div class="text-left text-danger" *ngIf="RazonSocial.invalid && RazonSocial.touched">
-                            Favor de Ingresar Razon Social
-                        </div>
 
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Calle</label>
-                        <input required minlength="2" type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle">
+                        <input required  type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle">
 
-                        <div class="text-left text-danger" *ngIf="Calle.invalid && Calle.touched">
-                            Favor de Ingresar Calle
-                        </div>
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Colonia</label>
-                        <input required minlength="2" type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia">
+                        <input required  type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia">
 
-                        <div class="text-left text-danger" *ngIf="Colonia.invalid && Colonia.touched">
-                            Favor de Ingresar Colonia
-                        </div>
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">CP</label>
-                        <input required minlength="2" type="text" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP">
+                        <input required  type="text" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP">
 
-                        <div class="text-left text-danger" *ngIf="CP.invalid && CP.touched">
-                            Favor de Ingresar CP
-                        </div>
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Ciudad</label>
-                        <input required minlength="2" type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad">
+                        <input required  type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad">
 
-                        <div class="text-left text-danger" *ngIf="Ciudad.invalid && Ciudad.touched">
-                            Favor de Ingresar Ciudad
-                        </div>
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Estado</label>
-                        <input required minlength="2" type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado">
+                        <input required  type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado">
 
-                        <div class="text-left text-danger" *ngIf="Estado.invalid && Estado.touched">
-                            Favor de Ingresar Estado
-                        </div>
 
 
                     </div>
@@ -90,66 +66,46 @@
                         <label class="input-group-text text-info">Numero Interior</label>
                         <input type="number" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior">
 
-                        <div class="text-left text-danger" *ngIf="NumeroInterior.invalid && NumeroInterior.touched">
-                            Favor de Ingresar Numero Interior
-                        </div>
 
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Numero Exterior</label>
-                        <input required minlength="2" type="number" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior">
+                        <input required  type="number" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior">
 
-                        <div class="text-left text-danger" *ngIf="NumeroExterior.invalid && NumeroExterior.touched">
-                            Favor de Ingresar Numero Exterior
-                        </div>
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Clave Proveedor</label>
-                        <input required minlength="2" type="text" class="form-control" name="ClaveProveedor" #ClaveProveedor="ngModel" [(ngModel)]="service.formData.ClaveProveedor">
+                        <input required  type="text" class="form-control" name="ClaveProveedor" #ClaveProveedor="ngModel" [(ngModel)]="service.formData.ClaveProveedor">
 
-                        <div class="text-left text-danger" *ngIf="ClaveProveedor.invalid && ClaveProveedor.touched">
-                            Favor de Ingresar Clave Proveedor
-                        </div>
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Estado</label>
-                        <input required minlength="2" type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formData.Estatus">
+                        <input required  type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formData.Estatus">
 
-                        <div class="text-left text-danger" *ngIf="Estatus.invalid && Estatus.touched">
-                            Favor de Ingresar Estatus
-                        </div>
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Limite Credito</label>
-                        <input required minlength="2" type="text" class="form-control" name="LimiteCredito" #LimiteCredito="ngModel" [(ngModel)]="service.formData.LimiteCredito">
+                        <input required  type="text" class="form-control" name="LimiteCredito" #LimiteCredito="ngModel" [(ngModel)]="service.formData.LimiteCredito">
 
-                        <div class="text-left text-danger" *ngIf="LimiteCredito.invalid && LimiteCredito.touched">
-                            Favor de Ingresar Limite Credito
-                        </div>
+                        
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Dias Credito</label>
-                        <input required minlength="2" type="text" class="form-control" name="DiasCredito" #DiasCredito="ngModel" [(ngModel)]="service.formData.DiasCredito">
+                        <input required  type="text" class="form-control" name="DiasCredito" #DiasCredito="ngModel" [(ngModel)]="service.formData.DiasCredito">
 
-                        <div class="text-left text-danger" *ngIf="DiasCredito.invalid && DiasCredito.touched">
-                            Favor de Ingresar Dias Credito
-                        </div>
+                        
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Metodo Pago</label>
-                        <input required minlength="2" type="text" class="form-control" name="MetodoPago" #MetodoPago="ngModel" [(ngModel)]="service.formData.MetodoPago">
+                        <input required  type="text" class="form-control" name="MetodoPago" #MetodoPago="ngModel" [(ngModel)]="service.formData.MetodoPago">
 
-                        <div class="text-left text-danger" *ngIf="MetodoPago.invalid && MetodoPago.touched">
-                            Favor de Ingresar Metodo Pago
-                        </div>
+                        
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Uso CFDI</label>
-                        <input required minlength="2" type="text" class="form-control" name="UsoCFDI" #UsoCFDI="ngModel" [(ngModel)]="service.formData.UsoCFDI">
+                        <input required  type="text" class="form-control" name="UsoCFDI" #UsoCFDI="ngModel" [(ngModel)]="service.formData.UsoCFDI">
 
-                        <div class="text-left text-danger" *ngIf="UsoCFDI.invalid && UsoCFDI.touched">
-                            Favor de Ingresar Uso CFDI
-                        </div>
+                        
 
                     </div>
                 </div>

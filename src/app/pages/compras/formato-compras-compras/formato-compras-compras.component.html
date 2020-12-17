@@ -219,7 +219,7 @@
                                                         <label class="input-group-text text-info" *ngIf="this.compra.Estatus != 'Administrativa'">Nombre :</label>
                                                         <input required type="text" class="form-control" name="Nombre" #Nombre="ngModel" *ngIf="this.compra.Estatus != 'Administrativa'" [(ngModel)]="detalleCompra.Producto" readonly>
                                                         <label class="input-group-text text-info" *ngIf="this.compra.Estatus == 'Administrativa'">Producto :</label>
-                                                        <input required minlength="3" type="text" class="form-control" name="Nombre" #Nombre="ngModel" *ngIf="this.compra.Estatus == 'Administrativa'" [(ngModel)]="detalleCompra.Producto">
+                                                        <input required  type="text" class="form-control" name="Nombre" #Nombre="ngModel" *ngIf="this.compra.Estatus == 'Administrativa'" [(ngModel)]="detalleCompra.Producto">
 
                                                         <label class="input-group-text text-info"> Precio Costo :</label>
                                                         <input required type="number" [disabled]="!detalleCompra.Producto" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="ProductoPrecio" (ngModelChange)="onChangePrecio($event)">

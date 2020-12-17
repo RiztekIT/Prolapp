@@ -16,6 +16,7 @@ import { UsuariosServieService } from '../../../../../services/catalogos/usuario
 import { EventosService } from '../../../../../services/eventos/eventos.service';
 import { Evento } from 'src/app/Models/eventos/evento-model';
 import { DatePipe } from '@angular/common';
+import { MarcasProductos } from 'src/app/Models/catalogos/marcasproductos-model';
 
 
 @Component({
@@ -30,6 +31,9 @@ export class AddProductoComponent implements OnInit {
   usuariosesion
   //Clave Unidad
 public listUM: Array<any> = [];
+
+// ^ marcasRelacionadas
+MarcasRel = false;
 
   constructor(public dialogbox: MatDialogRef<AddProductoComponent>,
     public service: ProductosService, 
@@ -150,6 +154,29 @@ public listUM: Array<any> = [];
     this.eventosService.addEvento(evento).subscribe(respuesta =>{
       console.log(respuesta);
     })
+    })
+  }
+
+// ^ Checkbox para marcas relacionadas
+  check(checkbox: any) {
+    if (checkbox == true) {
+      this.MarcasRel = true
+      console.log(this.MarcasRel);
+    } else {
+      this.MarcasRel = false
+      console.log(this.MarcasRel);
+
+    }
+  }
+
+  agregarMarcaRel() {
+    console.clear();
+    this.service.MarcasRelForm.ProductoMarca = this.service.formData.Nombre
+    console.log('%c⧭', 'color: #0088cc', this.service.MarcasRelForm);
+
+    this.service.addMarcasProductos(this.service.MarcasRelForm).subscribe(resMP => {
+      console.log(resMP);
+      this.service.MarcasRelForm = new MarcasProductos()
     })
   }
 

@@ -181,15 +181,15 @@ export class SidebarService {
 
     let u = JSON.parse(localStorage.getItem('ProlappSession'));
     console.log('%c⧭', 'color: #ff0000', u);
-    this.usuario = 1
+    this.usuario = u
 
     
-    // this.usuarioService.getUsuarioNombreU(this.usuario).subscribe(res => {
-      // console.log('%c⧭', 'color: #f200e2', res);
-      // this.idusuario = res[0].IdUsuario
+    this.usuarioService.getUsuarioNombreU(this.usuario.user).subscribe(res => {
+      console.log('%c⧭', 'color: #f200e2', res);
+      this.idusuario = res[0].IdUsuario
       console.log('%c⧭', 'color: #00ff00', this.idusuario);
     //! Obtener el Id Usuario del Usuario LOGEADO!
-    return this.http.get(APIUrl + '/Menu/1').subscribe((data:any)=>{
+    return this.http.get(APIUrl + '/Menu/'+this.idusuario).subscribe((data:any)=>{
       // console.log(data);
       this.menu = [];
       
@@ -208,7 +208,7 @@ export class SidebarService {
         // console.log(this.menu);
         // this.menu[i].submenu
         //! Obtener el Id Usuario del Usuario LOGEADO!
-        this.http.get(APIUrl+ '/Menu/Submenu/1/'+data[i].idmenu+'/'+data[i].titulo).subscribe((submenu:any)=>{
+        this.http.get(APIUrl+ '/Menu/Submenu/'+this.idusuario+'/'+data[i].idmenu+'/'+data[i].titulo).subscribe((submenu:any)=>{
           // console.log(data[i].idmenu);
           // console.log(submenu);
           this.submenu = [];
@@ -222,7 +222,7 @@ export class SidebarService {
             }
             this.menu[i].submenu[j].privilegios = [];
             //! Obtener el Id Usuario del Usuario LOGEADO!
-            this.http.get(APIUrl + '/Menu/ObtenerPrivilegios/1/'+data[i].titulo+'/'+submenu[j].titulo).subscribe((resPrivilegios:any)=>{
+            this.http.get(APIUrl + '/Menu/ObtenerPrivilegios/'+this.idusuario+'/'+data[i].titulo+'/'+submenu[j].titulo).subscribe((resPrivilegios:any)=>{
               if(resPrivilegios){
                 for (let a=0; a< resPrivilegios.length; a++){
                   this.menu[i].submenu[j].privilegios[a] = {
@@ -244,7 +244,7 @@ export class SidebarService {
               localStorage.setItem('Permisos', JSON.stringify(this.menu));
             })
           }       
-          console.log('%c⧭', 'color: #09ee2f', this.menu);
+          // console.log('%c⧭', 'color: #09ee2f', this.menu);
           // console.log(this.menu);
         })
       }
@@ -252,7 +252,7 @@ export class SidebarService {
       init_plugins();
  
     });
-    // });
+    });
   }
 
 
