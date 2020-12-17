@@ -158,7 +158,7 @@ html;
     privilegios: any;
     privilegiosExistentes: boolean = false;
     modulo = 'Ventas';
-    area = 'Orden de Compra';
+    area = 'Orden de Venta';
   
     //^ VARIABLES DE PERMISOS
     Guardar: boolean = false;
@@ -188,10 +188,10 @@ html;
   
     verificarPrivilegio(privilegio) {
       switch (privilegio) {
-        case ('Guardar Orden de Compra'):
+        case ('Guardar Orden de Venta'):
           this.Guardar = true;
           break;
-        case ('Cerrar Orden de Compra'):
+        case ('Cerrar Orden de Venta'):
           this.Cerrar = true;
           break;
         default:

@@ -80,3 +80,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 ::ng-deep .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
     background-color: black !important;
 }
+
+.iconoexcel {
+    font-size: 30px;
+}

@@ -89,3 +89,10 @@ npm i ng-image-slider
 
 ## Signalir
 npm i signalr
+
+
+## Exportar Mat-Table a excel
+npm install --save mat-table-exporter
+
+## iconos
+npm install @mdi/font

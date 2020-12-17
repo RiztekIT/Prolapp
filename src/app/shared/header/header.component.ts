@@ -311,18 +311,30 @@ if (hora>10){
     this.proxy = this.connection.createHubProxy(this.proxyName); 
   
     this.proxy.on('AlertasHub', (data) => {  
-      //console.log('received in SignalRService: ', data);  
-      this.verMensajes(data)
+      console.log('received in SignalRService: ', data);  
+      this.obtenerNotificaciones();
       
   }); 
   
   
   
     this.connection.start().done((data: any) => {  
-      //console.log('Now connected ' + data.transport.name + ', connection ID= ' + data.id);  
+      console.log('Now connected ' + data.transport.name + ', connection ID= ' + data.id);  
       /* this.connectionEstablished.emit(true);  */ 
       /* this.connectionExists = true;   */
   })
   }
+
+  public on() {  
+  let mensaje = {
+      titulo: 'Venta',
+      descripcion: 'Mensaje desde Ventas',
+      fecha: new Date()
+    }
+    this.proxy.invoke('NuevaNotificacion',mensaje);
+} 
+
+
+
 
 }

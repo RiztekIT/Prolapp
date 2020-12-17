@@ -18,6 +18,7 @@ import { OrdenDescargaService } from 'src/app/services/almacen/orden-descarga/or
 import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-producto/entrada-producto.component';
 import { SalidaProductoComponent } from '../../../../components/almacen/salida-producto/salida-producto.component';
 import { CalendarioService } from '../../../../services/calendario/calendario.service';
+import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
 
 @Component({
   selector: 'app-ordencargadetalle',
@@ -36,7 +37,7 @@ IdOrdenCarga: number;
   Folio: number;
   
   constructor(public router: Router, private dialog: MatDialog, public service: OrdenCargaService,  public _MessageService: MessageService, 
-    public AlmacenEmailService: AlmacenEmailService, public tarimaService: TarimaService, public ordenDescargaService: OrdenDescargaService, public CalendarioService: CalendarioService) { 
+    public AlmacenEmailService: AlmacenEmailService, public tarimaService: TarimaService, public ordenDescargaService: OrdenDescargaService, public CalendarioService: CalendarioService, public pedidoSVC: VentasPedidoService) { 
 
     this.service.listen().subscribe((m:any)=>{
       console.log(m);
@@ -431,6 +432,17 @@ dod: DetalleOrdenDescarga;
       dialogConfig.width = "70%";
       this.dialog.open(SalidaProductoComponent, dialogConfig);
       // this.dialog.open(EntradaProductoComponent, dialogConfig);
+    }
+
+    validar(){
+      console.log(this.service.formData);
+      this.pedidoSVC.updateOrdenCarga(this.service.formData.IdPedido).subscribe(resp=>{
+        console.log(resp);
+        this.getOrdenCarga();
+    this.refreshDetalleOrdenCargaList();
+      })
+
+      
     }
 
 }
