@@ -67,7 +67,7 @@ export class PedidoVentasComponent implements OnInit {
     privilegios: any;
     privilegiosExistentes: boolean = false;
     modulo = 'Ventas';
-    area = 'Orden de Compra';
+    area = 'Orden de Venta';
   
     //^ VARIABLES DE PERMISOS
     Agregar: boolean = false;
@@ -99,16 +99,16 @@ export class PedidoVentasComponent implements OnInit {
   
     verificarPrivilegio(privilegio) {
       switch (privilegio) {
-        case ('Agregar Nueva Orden de Compra'):
+        case ('Agregar Nueva Orden de Venta'):
           this.Agregar = true;
           break;
-        case ('Editar Orden de Compra'):
+        case ('Editar Orden de Venta'):
           this.Editar = true;
           break;
-        case ('Borrar Orden de Compra'):
+        case ('Borrar Orden de Venta'):
           this.Borrar = true;
           break;
-        case ('Enviar Orden de Compra'):
+        case ('Enviar Orden de Venta'):
           this.Enviar = true;
           break;
         default:

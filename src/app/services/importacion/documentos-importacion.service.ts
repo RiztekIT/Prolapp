@@ -13,7 +13,7 @@ export const APIUrl = environment.APIUrl;
 // export const APIUrl = "https://localhost:44361/api";
 export const URLApiEMail = environment.APIUrlEmail;
 
-@Injectable({
+@Injectable({ 
   providedIn: 'root'
 })
 export class DocumentosImportacionService {

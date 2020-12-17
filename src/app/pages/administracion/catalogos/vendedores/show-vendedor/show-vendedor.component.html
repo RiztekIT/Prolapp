@@ -1,7 +1,7 @@
 <mat-card class="mat-elevation-z0">
     <div class="row" style="align-items: center;">
         <div class="col-4">
-            <button style="width: 100%;" mat-raised-button class="btn btn-prolacto btn-lg" (click)="onAdd('Agregar Vendedor')"><mat-icon class="example-tab-icon">add_circle</mat-icon></button>
+            <button [disabled]="Agregar == false" style="width: 100%;" mat-raised-button class="btn btn-prolacto btn-lg" (click)="onAdd('Agregar Vendedor')"><mat-icon class="example-tab-icon">add_circle</mat-icon></button>
 
         </div>
         <div class="col-4"></div>
@@ -47,11 +47,11 @@
                   </button>
                 <mat-menu #menu="matMenu">
                     <!--  -->
-                    <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, 'Editar Vendedor')">
+                    <button [disabled]="Editar == false" mat-icon-button class="btn btn-dark" (click)="onEdit(row, 'Editar Vendedor')">
                                                 <mat-icon>edit</mat-icon>
                                             </button>
                     <!--  -->
-                    <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdVendedor, 'Borrar Vendedor')">
+                    <button [disabled]="Borrar == false" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdVendedor, 'Borrar Vendedor')">
                                                     <mat-icon>delete_outline</mat-icon>
                                                 </button>
                 </mat-menu>

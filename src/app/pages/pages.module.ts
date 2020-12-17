@@ -5,7 +5,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule, MatToolbarModule, MatTabsModule, MatProgressBarModule, MatButtonToggleModule } from '@angular/material';
+// import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule, MatToolbarModule, MatTabsModule, MatProgressBarModule, MatButtonToggleModule } from '@angular/material';
+import { MatSortModule,  MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatSlideToggleModule, MatToolbarModule, MatTabsModule, MatProgressBarModule, MatButtonToggleModule, MatExpansionPanel, MatExpansionModule } from '@angular/material';
+import { MatDialogModule, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
@@ -611,6 +613,7 @@ import { ResumentraspasoComponent } from './almacen/traspasomercancia/resumentra
         NgxPrintModule,
         MatProgressBarModule,
         MatButtonToggleModule,
+        MatExpansionModule
         
     ],
     providers: [
@@ -635,7 +638,8 @@ import { ResumentraspasoComponent } from './almacen/traspasomercancia/resumentra
         DatePipe,
         NotificacionespushService,
         DeviceDetectorService,
-        ThemeService
+        ThemeService,
+
         
         
     ],
