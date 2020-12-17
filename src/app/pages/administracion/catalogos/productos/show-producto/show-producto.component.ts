@@ -57,8 +57,63 @@ export class ShowProductoComponent implements OnInit {
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     
     this.refreshProductosList();
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    this.obtenerPrivilegios();
+    //^ **** PRIVILEGIOS POR USUARIO *****
+
+  }
+
+
+  //^ **** PRIVILEGIOS POR USUARIO *****
+  privilegios: any;
+  privilegiosExistentes: boolean = false;
+  modulo = 'Administracion';
+  area = 'Catalogos';
+
+  //^ VARIABLES DE PERMISOS
+  Agregar: boolean = false;
+  Editar: boolean = false;
+  Borrar: boolean = false;
+  //^ VARIABLES DE PERMISOS
+
+
+  obtenerPrivilegios() {
+    let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+    console.log(arrayPermisosMenu);
+    let arrayPrivilegios: any;
+    try {
+      arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+      // console.log(arrayPrivilegios);
+      arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+      // console.log(arrayPrivilegios);
+      this.privilegios = [];
+      arrayPrivilegios.privilegios.forEach(element => {
+        this.privilegios.push(element.nombreProceso);
+        this.verificarPrivilegio(element.nombreProceso);
+      });
+      // console.log(this.privilegios);
+    } catch {
+      console.log('Ocurrio algun problema');
+    }
+  }
+
+  verificarPrivilegio(privilegio) {
+    switch (privilegio) {
+      case ('Agregar Productos'):
+        this.Agregar = true;
+        break;
+      case ('Editar Productos'):
+        this.Editar = true;
+        break;
+      case ('Borrar Productos'):
+        this.Borrar = true;
+        break;
+      default:
+        break;
+    }
     this.refreshMarcasList();
   }
+  //^ **** PRIVILEGIOS POR USUARIO *****
 
   refreshProductosList() {
 

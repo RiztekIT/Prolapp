@@ -99,7 +99,7 @@ export class PedidoVentasComponent implements OnInit {
   
     verificarPrivilegio(privilegio) {
       switch (privilegio) {
-        case ('Agregar Nueva Orden de Venta'):              
+        case ('Agregar Nueva Orden de Venta'):
           this.Agregar = true;
           break;
         case ('Editar Orden de Venta'):
