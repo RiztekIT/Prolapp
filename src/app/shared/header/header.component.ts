@@ -12,6 +12,7 @@ import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfact
 import * as signalr from 'signalr'
 import { NotificacionesService } from '../../services/notificaciones.service';
 import { Notificaciones } from '../../Models/Notificaciones/notificaciones-model';
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -62,7 +63,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(private http : HttpClient, public storageService: StorageServiceService, private tipoCambio:TipoCambioService, public enviarfact: EnviarfacturaService,
     public servicefactura: FacturaService,private service: ReciboPagoService, public serviceEmpresa: EmpresaService,
-    private recibopagoSVC: ReciboPagoService, public notificacionService: NotificacionesService) { }
+    private recibopagoSVC: ReciboPagoService, public notificacionService: NotificacionesService,
+    private router:Router) { }
 
   ngOnInit() {
     this.ConnectionHub();
@@ -323,6 +325,12 @@ if (hora>10){
       /* this.connectionEstablished.emit(true);  */ 
       /* this.connectionExists = true;   */
   })
+  }
+
+  verTodos(){
+    
+console.log(this.IdUser);
+    this.router.navigate(['/mensajes']);
   }
 
 }

@@ -99,6 +99,8 @@ import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/eviden
 // import { DocumentosclienteComponent } from '../documentoscliente/documentoscliente.component';
 import { HistorialComprasComponent } from './compras/historial-compras/historial-compras.component';
 import { FleterasTraficoComponent } from './trafico/fleteras-trafico/fleteras-trafico.component';
+import { MensajesComponent } from './mensajes/mensajes.component';
+
 
 
 
@@ -213,6 +215,7 @@ const pagesRoutes: Routes = [
                 { path: 'compras-historial', component: HistorialComprasComponent },
                 { path: 'embarque', component: EmbarqueImportacionComponent },
                 { path: 'fleterasCatalogo', component: FleterasTraficoComponent },
+                { path: 'mensajes', component: MensajesComponent },
 
                              
                 

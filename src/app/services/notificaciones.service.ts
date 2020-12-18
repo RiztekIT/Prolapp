@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Notificaciones } from '../Models/Notificaciones/notificaciones-model';
 import { DetalleNotificacion } from '../Models/Notificaciones/detalleNoticacion-model';
 
@@ -53,5 +53,26 @@ export class NotificacionesService {
   deleteDetalleNotificacion(id: number) {
     return this.http.delete(APIUrl + '/Notificaciones/BorrarDetalleNotificacion/' + id)
   }
+
+    // ! MENSAJES
+
+    mensajesData: any = [];
+
+    GetNotificacionJNDetalleNotificacionIdUsuario(id: number){
+    return this.http.get<any[]>(APIUrl + '/Notificaciones/GetNotificacionJNDetalleNotificacionIdUsuario/'+id); 
+    }
+
+    GetMensajesLogIdDestinoIdUsuario(idDestino: number, idUsuario:number){
+    return this.http.get<any[]>(APIUrl + '/Notificaciones/GetMensajesLogIdDestinoIdUsuario/'+idDestino+ '/' + idUsuario); 
+    }
+
+
+    private _listeners = new Subject<any>(); 
+    listen(): Observable<any> {
+      return this._listeners.asObservable();
+    }
+    filter(filterBy: string) {
+      this._listeners.next(filterBy);
+    }
 
 }

@@ -323,6 +323,8 @@ import { ResumentraspasoComponent } from './almacen/traspasomercancia/resumentra
 import { FleterasTraficoComponent } from './trafico/fleteras-trafico/fleteras-trafico.component';
 import { AddEditFleterasComponent } from './trafico/fleteras-trafico/add-edit-fleteras/add-edit-fleteras.component';
 import { MarcasComponent } from './administracion/catalogos/productos/marcas/marcas.component';
+import { MensajesComponent } from './mensajes/mensajes.component';
+import { HistorialMensajesComponent } from '../components/mensajes/historial-mensajes/historial-mensajes.component';
 
 
 
@@ -564,6 +566,8 @@ import { MarcasComponent } from './administracion/catalogos/productos/marcas/mar
         FleterasTraficoComponent,
         AddEditFleterasComponent,
         MarcasComponent,
+        MensajesComponent,
+        HistorialMensajesComponent
     
     ],
     exports: [
@@ -641,7 +645,7 @@ import { MarcasComponent } from './administracion/catalogos/productos/marcas/mar
         DatePipe,
         NotificacionespushService,
         DeviceDetectorService,
-        ThemeService
+        ThemeService,
         
         
     ],
