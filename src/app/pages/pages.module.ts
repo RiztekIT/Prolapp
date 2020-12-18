@@ -5,10 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule, MatToolbarModule, MatTabsModule, MatProgressBarModule, MatButtonToggleModule } from '@angular/material';
+// import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule, MatToolbarModule, MatTabsModule, MatProgressBarModule, MatButtonToggleModule } from '@angular/material';
+import { MatSortModule,  MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatSlideToggleModule, MatToolbarModule, MatTabsModule, MatProgressBarModule, MatButtonToggleModule, MatExpansionPanel, MatExpansionModule } from '@angular/material';
+import { MatDialogModule, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
+//import {MatTableExporterModule} from 'mat-table-exporter'
 import { MatIconModule, MatButtonModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
@@ -325,6 +328,7 @@ import { AddEditFleterasComponent } from './trafico/fleteras-trafico/add-edit-fl
 import { MarcasComponent } from './administracion/catalogos/productos/marcas/marcas.component';
 import { MensajesComponent } from './mensajes/mensajes.component';
 import { HistorialMensajesComponent } from '../components/mensajes/historial-mensajes/historial-mensajes.component';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 
 
@@ -621,6 +625,9 @@ import { HistorialMensajesComponent } from '../components/mensajes/historial-men
         NgxPrintModule,
         MatProgressBarModule,
         MatButtonToggleModule,
+        MatTableExporterModule,
+        
+        MatExpansionModule
         
     ],
     providers: [
@@ -646,6 +653,7 @@ import { HistorialMensajesComponent } from '../components/mensajes/historial-men
         NotificacionespushService,
         DeviceDetectorService,
         ThemeService,
+
         
         
     ],

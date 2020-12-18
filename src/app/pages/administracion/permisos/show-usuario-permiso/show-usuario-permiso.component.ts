@@ -51,7 +51,8 @@ export class ShowUsuarioPermisoComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width="70%";
+    dialogConfig.width="85%";
+    dialogConfig.height = "70%";
     this.dialog.open(ShowUsuarioPrivilegioComponent, dialogConfig);
 
   }
@@ -70,7 +71,8 @@ this.service.formData=usuario;
        const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.width="70%";
+    dialogConfig.width="85%";
+    dialogConfig.height = "70%";
     this.dialog.open(ShowUsuarioPrivilegioComponent, dialogConfig);
     });
   }

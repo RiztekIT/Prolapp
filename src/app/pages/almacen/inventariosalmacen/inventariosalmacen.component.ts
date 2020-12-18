@@ -6,6 +6,7 @@ import { DocumentosComponent } from './documentos/documentos.component';
 import { BodegasService } from '../../../services/catalogos/bodegas.service';
 import { Bodega } from '../../../Models/catalogos/bodegas-model';
 
+
 @Component({
   selector: 'app-inventariosalmacen',
   templateUrl: './inventariosalmacen.component.html',
@@ -29,8 +30,13 @@ export class InventariosalmacenComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   listData: MatTableDataSource<any>;
+  listData2: MatTableDataSource<any>;
   
   displayedColumns: string[] = ['Clave','Producto', 'PesoTotal','PesoDisponible'];
+  displayedColumns2: string[] = ['Clave','Producto', 'Lote','Kg Fisicos', 'Kg Disponibles'];
+
+
+  
 
   master;
   expandedElement: any;
@@ -92,16 +98,21 @@ export class InventariosalmacenComponent implements OnInit {
     let contador = 0;
     
     this.serviceTarima.master = [];
+    this.serviceTarima.masterlotes = [];
     let kgtotales;
     let kgdisponibles;
     
-    this.serviceTarima.getProductos().subscribe((data:any)=>{
+    this.serviceTarima.getProductosMarcas().subscribe((data:any)=>{
       console.log(data,'obtner tarimas');
       
       for (let l=0; l<data.length; l++){
         console.log(data[l].Nombre);
+
+
+        let productomarca = data[l].Nombre.concat(' ',data[l].NombreMarca)
+        let ClaveProducto = data[l].ClaveProducto.concat(data[l].ClaveMarca)
         
-        this.serviceTarima.GetTarimaProducto(data[l].Nombre,bodega).subscribe(datadet =>{
+        this.serviceTarima.GetTarimaProducto(productomarca,bodega).subscribe(datadet =>{
           //this.master[contador] = []
           
           console.log(datadet);
@@ -109,6 +120,8 @@ export class InventariosalmacenComponent implements OnInit {
             kgtotales = 0;
             kgdisponibles = 0;
             this.serviceTarima.master[contador] = data[l];
+            this.serviceTarima.master[contador].Nombre = productomarca;
+            this.serviceTarima.master[contador].ClaveProducto = ClaveProducto;
             //this.serviceTarima.master[contador].detalle = datadet;
             for (let i=0; i<datadet.length;i++){
 
@@ -146,6 +159,10 @@ export class InventariosalmacenComponent implements OnInit {
             }
 
             this.serviceTarima.master[contador].detalle = datadet;
+            for (let p=0; p<datadet.length;p++){
+
+              this.serviceTarima.masterlotes.push(datadet[p]);
+            }
             this.serviceTarima.master[contador].Stock = kgtotales;
 
             /* for (let n=0; n<this.serviceTarima.master[contador].detalle.length;n++){
@@ -179,7 +196,9 @@ export class InventariosalmacenComponent implements OnInit {
 
           
                 console.log(this.serviceTarima.master);
+                console.log(this.serviceTarima.masterlotes,'masterlotes');
                 this.listData = new MatTableDataSource(this.serviceTarima.master);
+                this.listData2 = new MatTableDataSource(this.serviceTarima.masterlotes);
                 this.listData.sort = this.sort;
                 this.listData.paginator = this.paginator;
                 this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
