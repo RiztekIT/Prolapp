@@ -25,9 +25,8 @@
 
                 <div class="row">
 
-                    <div class="col-12 col-md-4">
-                        <!-- onblur no estaba funcionando por eso se puso como click -->
-                        <mat-form-field (click)="onBlurQR()">
+                    <div class="col-12 col-md-8">
+                        <mat-form-field (click)="onBlurQR()" style="display: initial;">
                             <input type="text" placeholder="Seleccionar Fletera" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="traficoService.formrow.Nombre" name="Fletera">
                             <mat-autocomplete #auto="matAutocomplete">
                                 <mat-option *ngFor="let option of filteredOptions | async" [value]="option.Nombre" (onSelectionChange)="onSelectionChange(option, $event)">
@@ -35,21 +34,31 @@
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
-                        <br>
-
-                        <label class="input-group-text text-info"> Numero de Caja: </label>
-                        <input type="text" class="form-control" name="NumCaja" #NumCaja="ngModel" [(ngModel)]="traficoService.formData.Caja">
-
-                        <label class="input-group-text text-info txt"> Chofer: </label>
-                        <input type="text" class="form-control" name="Chofer" #Chofer="ngModel" [(ngModel)]="traficoService.formData.Chofer" readonly>
-
-                        <label class="input-group-text text-info txt"> Cliente: </label>
-                        <input type="text" class="form-control" name="Cliente" #Cliente="ngModel" [(ngModel)]="traficoService.formData.Cliente" readonly>
-
-
 
                     </div>
                     <div class="col-12 col-md-4">
+
+                        <label class="input-group-text text-info"> Numero de Caja: </label>
+                        <input type="text" class="form-control" name="NumCaja" #NumCaja="ngModel" [(ngModel)]="traficoService.formData.Caja">
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <label class="input-group-text text-info txt"> Chofer: </label>
+                        <input type="text" class="form-control" name="Chofer" #Chofer="ngModel" [(ngModel)]="traficoService.formData.Chofer" readonly>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="input-group-text text-info txt"> Cliente: </label>
+                        <input type="text" class="form-control" name="Cliente" #Cliente="ngModel" [(ngModel)]="traficoService.formData.Cliente" readonly>
+                    </div>
+                </div>
+
+                <div class="row">
+
+
+                    <div class="col-12 col-md-6">
 
                         <label class="input-group-text text-info"> KG: </label>
                         <input type="text" class="form-control" name="KG" #KG="ngModel" [(ngModel)]="traficoService.formData.Kg" readonly>
@@ -66,7 +75,7 @@
 
 
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-6">
 
 
 
@@ -92,6 +101,13 @@
 
 
                 </div>
+                <hr>
+                <div class="row">
+                    <div class="col-12">
+                        <button [disabled]="GuardarFlete == false" class="btn btn-success" mat-raised-button type="button" *ngIf="this.traficoService.formDatafactura.Estatus== 'Pendiente' " (click)="updateFacturaFlete()">Guardar Flete</button>
+                    </div>
+                </div>
+                <hr>
                 <div class="container row">
                     <div class="col-12">
                         <h4>Actualizar Estatus del Pedido
@@ -153,7 +169,7 @@
                         </div>
                         <div class="col-3">
 
-                            <button [disabled]="GuardarFlete == false" class="btn btn-success" mat-raised-button type="button" *ngIf="this.traficoService.formDatafactura.Estatus== 'Pendiente' " (click)="updateFacturaFlete()">Guardar Flete</button>
+
                             <button class="btn btn-success" mat-raised-button type="button" *ngIf="this.traficoService.formDatafactura.Estatus== 'Capturada' " (click)="updateFacturaFlete2()">Guardar</button>
                         </div>
                     </div>

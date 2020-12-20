@@ -28,6 +28,7 @@ export class TarimaService {
   tarimaTrafico;
 
   master;
+  masterlotes;
 
   //^Tarima proviniente de un traspaso de OrdenCarga
   trapasoOrdenCarga: boolean;
@@ -155,6 +156,9 @@ updateBodegaTarima(bodega:string, qr:string) {
 
   getProductos(){
     return this.http.get<any[]>(APIUrl + '/Producto');
+  }
+  getProductosMarcas(){
+    return this.http.get<any[]>(APIUrl + '/Producto/ProductosMarcas');
   }
   
   getProductoClave(producto){

@@ -23,6 +23,12 @@ import { AddsproductosService } from '../../../services/addsproductos.service';
 import { CalendarioService } from '../../../services/calendario/calendario.service';
 import { ComprasPdfComponent } from '../../../components/compras-reporte/compras-pdf.component';
 import { BodegasService } from 'src/app/services/catalogos/bodegas.service';
+import { NotificacionesService } from 'src/app/services/notificaciones.service';
+import { Notificaciones } from '../../../Models/Notificaciones/notificaciones-model';
+import { StorageServiceService } from 'src/app/services/shared/storage-service.service';
+import { DetalleNotificacion } from '../../../Models/Notificaciones/detalleNoticacion-model';
+import * as signalr from 'signalr'
+declare var $: any;
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -43,13 +49,23 @@ const httpOptions = {
 })
 export class FormatoComprasComprasComponent implements OnInit {
 
+  /* notificaciones var */
+  private connection: any;
+  private proxy: any;  
+  private proxyName: string = 'AlertasHub'; 
+ 
+   private hubconnection: signalr;  
+   notihub = 'https://riztekserver.ddns.net:44361/signalr'
+  /* fin */
+
   constructor(public router: Router, private _formBuilder: FormBuilder, private currencyPipe: CurrencyPipe, public CompraService: CompraService,
      public proveedorService: ProveedoresService, public ServiceUnidad: UnidadMedidaService, public ServiceProducto: ProductosService, 
-     public ordenDescargaService: OrdenDescargaService, private http: HttpClient, public addproductos: AddsproductosService, private dialog: MatDialog, public CalendarioService: CalendarioService, private bodegaservice: BodegasService) { 
+     public ordenDescargaService: OrdenDescargaService, private http: HttpClient, public addproductos: AddsproductosService, private dialog: MatDialog, public CalendarioService: CalendarioService, private bodegaservice: BodegasService, public notificacionService: NotificacionesService, public storageService: StorageServiceService) { 
        this.MonedaBoolean = true;
      }
 
   ngOnInit() {
+    this.ConnectionHub();
     this.obtenerIdCompra();
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
@@ -1366,6 +1382,7 @@ console.log(resFolio);
 
       //GENERAR EVENTO
       this.generarEventoCalendario(this.compra.Folio);
+      this.generarNotificacion(this.compra);
       //GENERAR NOTIFICACION
       //GENERAR NOTIFICACION
       //GENERAR NOTIFICACION
@@ -1536,6 +1553,73 @@ borrarOrden(compra){
   })
 
 }
+
+generarNotificacion(compra){
+  console.log(compra);
+
+  let noti = new Notificaciones()
+  noti.Folio = 0;
+  noti.IdNotificacion = 0;
+  noti.IdUsuario = this.storageService.currentUser.IdUsuario;
+  noti.Usuario = this.storageService.currentUser.NombreUsuario;
+  noti.Mensaje = 'Compra Realizada Folio ' + compra.Folio
+  noti.ModuloOrigen = 'Compras'
+  noti.FechaEnvio = new Date();
+
+  let detallenoti = new DetalleNotificacion()
+
+  this.notificacionService.addNotificacion(noti).subscribe(resp=>{
+    console.log(resp,'REspuesta de notificacion');
+    detallenoti.IdDetalleNotificacion= 0;
+    detallenoti.IdNotificacion =resp[0].IdNotificacion;
+    detallenoti.IdUsuarioDestino = 1;
+    detallenoti.UsuarioDestino = 'IvanTa';
+    detallenoti.BanderaLeido = 0;
+    detallenoti.FechaLeido = new Date(10/10/10);
+    this.notificacionService.addDetalleNotificacion(detallenoti).subscribe(res=>{
+      console.log(res,'Respuesta de detalle de notidicacion');
+      this.on();
+    })
+
+
+  })
+
+
+}
+
+
+
+ConnectionHub(){
+  
+
+
+  this.connection = $.hubConnection(this.notihub);
+
+  this.proxy = this.connection.createHubProxy(this.proxyName); 
+
+  this.proxy.on('AlertasHub', (data) => {  
+    console.log('received in SignalRService: ', data);  
+    
+    
+}); 
+
+
+
+  this.connection.start().done((data: any) => {  
+    console.log('Now connected ' + data.transport.name + ', connection ID= ' + data.id);  
+    /* this.connectionEstablished.emit(true);  */ 
+    /* this.connectionExists = true;   */
+})
+}
+
+public on() {  
+let mensaje = {
+    titulo: 'Compra',
+    descripcion: 'Mensaje desde Compras',
+    fecha: new Date()
+  }
+  this.proxy.invoke('NuevaNotificacion',mensaje);
+} 
 
 
 

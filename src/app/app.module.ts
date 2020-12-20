@@ -28,6 +28,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 // import { DocumentosclienteComponent } from './documentoscliente/documentoscliente.component';
 import { DocumentosclienteComponent } from './documentoscliente/documentoscliente.component';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 
 
@@ -99,7 +100,7 @@ import { DocumentosclienteComponent } from './documentoscliente/documentosclient
     HttpClientModule,
     BrowserAnimationsModule,
     ZXingScannerModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),    
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),       
     // NgbModule
   ],
   bootstrap: [AppComponent],

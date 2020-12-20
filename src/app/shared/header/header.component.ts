@@ -12,6 +12,7 @@ import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfact
 import * as signalr from 'signalr'
 import { NotificacionesService } from '../../services/notificaciones.service';
 import { Notificaciones } from '../../Models/Notificaciones/notificaciones-model';
+import { Router } from '@angular/router';
 
 declare var $: any;
 
@@ -62,7 +63,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(private http : HttpClient, public storageService: StorageServiceService, private tipoCambio:TipoCambioService, public enviarfact: EnviarfacturaService,
     public servicefactura: FacturaService,private service: ReciboPagoService, public serviceEmpresa: EmpresaService,
-    private recibopagoSVC: ReciboPagoService, public notificacionService: NotificacionesService) { }
+    private recibopagoSVC: ReciboPagoService, public notificacionService: NotificacionesService,
+    private router:Router) { }
 
   ngOnInit() {
     this.ConnectionHub();
@@ -311,18 +313,35 @@ if (hora>10){
     this.proxy = this.connection.createHubProxy(this.proxyName); 
   
     this.proxy.on('AlertasHub', (data) => {  
-      //console.log('received in SignalRService: ', data);  
-      this.verMensajes(data)
+      console.log('received in SignalRService: ', data);  
+      this.obtenerNotificaciones();
       
   }); 
   
   
   
     this.connection.start().done((data: any) => {  
-      //console.log('Now connected ' + data.transport.name + ', connection ID= ' + data.id);  
+      console.log('Now connected ' + data.transport.name + ', connection ID= ' + data.id);  
       /* this.connectionEstablished.emit(true);  */ 
       /* this.connectionExists = true;   */
   })
   }
+
+  verTodos(){
+    
+console.log(this.IdUser);
+    this.router.navigate(['/mensajes']);
+  }
+  public on() {  
+  let mensaje = {
+      titulo: 'Venta',
+      descripcion: 'Mensaje desde Ventas',
+      fecha: new Date()
+    }
+    this.proxy.invoke('NuevaNotificacion',mensaje);
+} 
+
+
+
 
 }

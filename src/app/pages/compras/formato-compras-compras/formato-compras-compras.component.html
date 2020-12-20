@@ -219,7 +219,7 @@
                                                         <label class="input-group-text text-info" *ngIf="this.compra.Estatus != 'Administrativa'">Nombre :</label>
                                                         <input required type="text" class="form-control" name="Nombre" #Nombre="ngModel" *ngIf="this.compra.Estatus != 'Administrativa'" [(ngModel)]="detalleCompra.Producto" readonly>
                                                         <label class="input-group-text text-info" *ngIf="this.compra.Estatus == 'Administrativa'">Producto :</label>
-                                                        <input required  type="text" class="form-control" name="Nombre" #Nombre="ngModel" *ngIf="this.compra.Estatus == 'Administrativa'" [(ngModel)]="detalleCompra.Producto">
+                                                        <input required type="text" class="form-control" name="Nombre" #Nombre="ngModel" *ngIf="this.compra.Estatus == 'Administrativa'" [(ngModel)]="detalleCompra.Producto">
 
                                                         <label class="input-group-text text-info"> Precio Costo :</label>
                                                         <input required type="number" [disabled]="!detalleCompra.Producto" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="ProductoPrecio" (ngModelChange)="onChangePrecio($event)">
@@ -436,6 +436,7 @@
                                                                     <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button> -->
                                                                     <button *ngIf="this.compra.Estatus == 'Guardada' || this.compra.Estatus == 'Administrativa'" class="btn btn-danger btn-lg" mat-raised-button (click)='guardarCompra()'><i class="mdi mdi-send btn-lg"></i>Guardar</button>
                                                                     <br>
+                                                                    <!-- <button class="btn btn-danger btn-lg" mat-raised-button (click)='generarNotificacion(this.compra)'><i class="mdi mdi-send btn-lg"></i>Crear Notificacion</button> -->
                                                                     <!--   <button *ngIf="this.compra.Estatus == 'Guardada'" class="btn btn-info btn-lg" type="button" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-note-multiple btn-lg"></i> Duplicar </button>
                                                             <br> -->
 
@@ -449,6 +450,7 @@
                                                                 <div class="col-md-6 col-12" style="display: grid">
                                                                     <br>
                                                                     <button *ngIf="this.compra.Estatus == 'Guardada' && this.valores == true" class="btn btn-danger btn-lg" mat-raised-button (click)='GenerarCompra()'><i class="mdi mdi-send btn-lg"></i>Generar Compra</button>
+
                                                                     <button *ngIf="this.compra.Estatus == 'Administrativa' && this.valores == true" class="btn btn-danger btn-lg" mat-raised-button (click)='GenerarCompra()'><i class="mdi mdi-send btn-lg"></i>Generar Compra</button>
                                                                     <!-- <button *ngIf="this.compra.Estatus == 'Administrativa' && this.valores != true" style="visibility: hidden;" class="btn btn-danger btn-lg" mat-raised-button><i class="mdi mdi-send btn-lg"></i>SOLO PRUEBA</button> -->
                                                                     <br>

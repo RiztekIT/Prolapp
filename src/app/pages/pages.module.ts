@@ -11,6 +11,7 @@ import { MatDialogModule, MatDialogRef, MatDialog } from '@angular/material/dial
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
+//import {MatTableExporterModule} from 'mat-table-exporter'
 import { MatIconModule, MatButtonModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
@@ -325,6 +326,9 @@ import { ResumentraspasoComponent } from './almacen/traspasomercancia/resumentra
 import { FleterasTraficoComponent } from './trafico/fleteras-trafico/fleteras-trafico.component';
 import { AddEditFleterasComponent } from './trafico/fleteras-trafico/add-edit-fleteras/add-edit-fleteras.component';
 import { MarcasComponent } from './administracion/catalogos/productos/marcas/marcas.component';
+import { MensajesComponent } from './mensajes/mensajes.component';
+import { HistorialMensajesComponent } from '../components/mensajes/historial-mensajes/historial-mensajes.component';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 
 
@@ -566,6 +570,8 @@ import { MarcasComponent } from './administracion/catalogos/productos/marcas/mar
         FleterasTraficoComponent,
         AddEditFleterasComponent,
         MarcasComponent,
+        MensajesComponent,
+        HistorialMensajesComponent
     
     ],
     exports: [
@@ -619,6 +625,8 @@ import { MarcasComponent } from './administracion/catalogos/productos/marcas/mar
         NgxPrintModule,
         MatProgressBarModule,
         MatButtonToggleModule,
+        MatTableExporterModule,
+        
         MatExpansionModule
         
     ],
