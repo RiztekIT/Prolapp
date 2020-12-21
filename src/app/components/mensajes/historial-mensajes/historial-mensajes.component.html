@@ -1,40 +1,41 @@
-
-                        <div class="headind_srch">
-                            <div class="recent_heading">
-                                <h4>Chat Activo: {{this.ChatActivo}}</h4>
-                            </div>
-                            </div>
+<div class="headind_srch">
+    <div class="recent_heading">
+        <h4>Chat Activo: {{this.ChatActivo}}</h4>
+    </div>
+</div>
 <div class="msg_history">
     <div class="incoming_msg" *ngFor="let mensajes of sortedMsj;">
         <ng-container *ngIf="mensajes.Usuario.toLowerCase() == this.user.toLowerCase(); else elseTemplate">
             <!-- !MENSAJES ENVIADOS -->
-            <div class="outgoing_msg" >
+            <div class="outgoing_msg">
                 <div class="sent_msg">
                     <p>{{mensajes.Mensaje}}</p>
-                    <span class="time_date">{{mensajes.FechaEnvio | date: 'yyy-MM-dd h:mm a'}} <mat-icon *ngIf="mensajes.BanderaLeido">done_all</mat-icon></span>
-                    
+                    <span class="time_date">{{mensajes.FechaEnvio | date: 'yyy-MM-dd h:mm a'}} <mat-icon
+                            *ngIf="mensajes.BanderaLeido">done_all</mat-icon></span>
+
                 </div>
             </div>
-            
+
         </ng-container>
         <ng-template #elseTemplate>
             <!-- !MENSAJES RECIBIDOS -->
             <div class="received_msg">
                 <div class="received_withd_msg">
                     <p>{{mensajes.Mensaje}}</p>
-                    <span class="time_date">{{mensajes.FechaEnvio | date: 'yyy-MM-dd h:mm a'}} <mat-icon *ngIf="mensajes.BanderaLeido">done_all</mat-icon></span>
-                    
+                    <span class="time_date">{{mensajes.FechaEnvio | date: 'yyy-MM-dd h:mm a'}} <mat-icon
+                            *ngIf="mensajes.BanderaLeido">done_all</mat-icon></span>
+
                 </div>
             </div>
-            
+
         </ng-template>
     </div>
-    
+
     <!-- <div class="type_msg">
         <div class="input_msg_write">
           <input type="text" class="write_msg" placeholder="Type a message" />
           <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>
         </div>
       </div> -->
-   
+
 </div>

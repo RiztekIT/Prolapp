@@ -35,7 +35,6 @@ export class HistorialMensajesComponent implements OnInit {
   asignarValores() {
     let u = JSON.parse(localStorage.getItem('ProlappSession'));
     this.user = u.user;
-    console.log('%c⧭', 'color: #ffa640', this.notificacionesService.mensajesData);
     
     this.dataMensajes = this.notificacionesService.mensajesData;
     this.idOrigen = this.dataMensajes.IdUsuario
@@ -55,7 +54,7 @@ export class HistorialMensajesComponent implements OnInit {
       MsjEntrantes.forEach(element => {
         this.MensajesGeneral.push(element)
       })
-      console.log('%c⧭', 'color: #ffee00', this.MensajesGeneral);
+      // console.log('%c⧭', 'color: #ffee00', this.MensajesGeneral);
       
       //  ! OBTENER MENSAJES SALIENTES
       this.notificacionesService.GetMensajesLogIdDestinoIdUsuario(this.idOrigen,this.idDestino).subscribe(MsjSalientes =>{
@@ -65,26 +64,27 @@ export class HistorialMensajesComponent implements OnInit {
         MsjSalientes.forEach(res => {
           this.MensajesGeneral.push(res)
         })
-        console.log('%c⧭', 'color: #ffee00', this.MensajesGeneral);
+        // console.log('%c⧭', 'color: #ffee00', this.MensajesGeneral);
         this.SortbyDate()
       })
     })
-      
+    
     this.MensajesGeneral = []
-      }
-
-
-
-      SortbyDate(){
-        // !ACOMODAR POR FECHA EL ARREGLO QUE SE USARA EN EL HTML
+    
+  }
+  
+  
+  
+  SortbyDate(){
+    // !ACOMODAR POR FECHA EL ARREGLO QUE SE USARA EN EL HTML
     this.MensajesGeneral.forEach(mj => {
-      console.log('%c⧭', 'color: #00bf00', mj.FechaEnvio);
       mj.FechaEnvio = new Date(mj.FechaEnvio)
-      console.log('%c⧭', 'color: #733d00', mj.FechaEnvio);
+      console.clear();
+      console.log('%c%s', 'color: #f200e2', mj.Usuario);
+      console.log('%c%s', 'color: #00b300', this.user);
     });
     this.sortedMsj = this.MensajesGeneral.sort((a, b) => b.FechaEnvio - a.FechaEnvio)
-    console.log('%c⧭', 'color: #e50000', this.sortedMsj);
-      }
+  }
 
 
 
