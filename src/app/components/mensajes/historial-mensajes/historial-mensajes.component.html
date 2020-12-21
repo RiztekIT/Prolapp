@@ -10,8 +10,9 @@
             <div class="outgoing_msg">
                 <div class="sent_msg">
                     <p>{{mensajes.Mensaje}}</p>
-                    <span class="time_date">{{mensajes.FechaEnvio | date: 'yyy-MM-dd h:mm a'}} <mat-icon
-                            *ngIf="mensajes.BanderaLeido">done_all</mat-icon></span>
+                    <span class="time_date">{{mensajes.FechaEnvio | date: 'yyy-MM-dd h:mm a'}} <mat-icon class="leido"
+                        *ngIf="mensajes.BanderaLeido" [matTooltip]="mensajes.FechaLeido | date: 'yyyy-MM-dd h:mm a'"
+                        matTooltipPosition="below">done_all</mat-icon></span>
 
                 </div>
             </div>
@@ -22,8 +23,10 @@
             <div class="received_msg">
                 <div class="received_withd_msg">
                     <p>{{mensajes.Mensaje}}</p>
-                    <span class="time_date">{{mensajes.FechaEnvio | date: 'yyy-MM-dd h:mm a'}} <mat-icon
-                            *ngIf="mensajes.BanderaLeido">done_all</mat-icon></span>
+                    <span class="time_date">{{mensajes.FechaEnvio | date: 'yyy-MM-dd h:mm a'}} <mat-icon class="leido"
+                            *ngIf="mensajes.BanderaLeido" [matTooltip]="mensajes.FechaLeido | date: 'yyyy-MM-dd h:mm a'"
+                            matTooltipPosition="below">done_all</mat-icon></span>
+                            
 
                 </div>
             </div>
