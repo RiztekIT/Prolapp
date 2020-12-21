@@ -172,7 +172,7 @@ export class SidebarService {
     if (this.sessionCliente == 'true') {
     this.getMenucliente();
     } else {
-      console.log('Constructor SideBar');
+      // console.log('Constructor SideBar');
     this.getMenu();
   }
     
@@ -180,14 +180,14 @@ export class SidebarService {
   getMenu() {
 
     let u = JSON.parse(localStorage.getItem('ProlappSession'));
-    console.log('%c⧭', 'color: #ff0000', u);
+    // console.log('%c⧭', 'color: #ff0000', u);
     this.usuario = u
 
     
     this.usuarioService.getUsuarioNombreU(this.usuario.user).subscribe(res => {
-      console.log('%c⧭', 'color: #f200e2', res);
+      // console.log('%c⧭', 'color: #f200e2', res);
       this.idusuario = res[0].IdUsuario
-      console.log('%c⧭', 'color: #00ff00', this.idusuario);
+      // console.log('%c⧭', 'color: #00ff00', this.idusuario);
     //! Obtener el Id Usuario del Usuario LOGEADO!
     return this.http.get(APIUrl + '/Menu/'+this.idusuario).subscribe((data:any)=>{
       // console.log(data);

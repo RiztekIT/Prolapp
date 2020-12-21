@@ -10,6 +10,125 @@
                         <mat-form-field>
                             <mat-label> Seleccionar Fecha </mat-label>
                             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <input matInput readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="fechaInicial" [(ngModel)]="fecha1" (dateChange)="formatDates()">
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                        <!-- <mat-form-field>
+                            <mat-label> Seleccionar Fecha </mat-label>
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <input matInput readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="fechaInicial" [(ngModel)]="fecha1" (dateChange)="filtrofecha($event)">
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field> -->
+
+                        <!-- <mat-form-field>
+                            <mat-label> Seleccionar Fecha </mat-label>
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <input matInput readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="fechaInicial" [(ngModel)]="fecha2" (dateChange)="filterWeek()">
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field> -->
+
+
+
+                        <!-- <mat-form-field appearance="fill">
+                            <mat-label>Enter a date range</mat-label>
+                            <mat-date-range-input [rangePicker]="picker">
+                              <input matStartDate placeholder="Start date">
+                              <input matEndDate placeholder="End date">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                          </mat-form-field> -->
+
+
+                    </div>
+                    <div class="col-4">
+                        <mat-form-field>
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+                <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row" matRipple></tr>
+
+                    <ng-container matColumnDef="Usuario">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>USUARIO</th>
+                        <td class="folio" mat-cell *matCellDef="let element">
+                            {{element.username}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Domingo">
+                        <th mat-header-cell *matHeaderCellDef="let ele" mat-sort-header>Domingo</th>
+                        <td class="domingo" mat-cell *matCellDef="let element">
+                            {{element.username}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Lunes">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Lunes</th>
+                        <td class="Lunes" mat-cell *matCellDef="let element">
+                            {{element.username}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Martes">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Martes</th>
+                        <td class="Martes" mat-cell *matCellDef="let element">
+                            {{element.username}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Miercoles">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Miercoles</th>
+                        <td class="Miercoles" mat-cell *matCellDef="let element">
+                            {{element.username}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Jueves">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Jueves</th>
+                        <td class="Jueves" mat-cell *matCellDef="let element">
+                            {{element.username}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Viernes">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Viernes</th>
+                        <td class="Viernes" mat-cell *matCellDef="let element">
+                            {{element.username}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Sabado">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Sabado</th>
+                        <td class="Sabado" mat-cell *matCellDef="let element">
+                            {{element.username}}</td>
+                    </ng-container>
+                    <!-- <ng-container matColumnDef="Fecha">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA</th>
+                        <td class="celdafecha" mat-cell *matCellDef="let element">
+                            {{element.fechainiciosesion | date: 'yyyy-MM-dd hh:mm'}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Dispositivo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Dispositivo</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{element.dispositivo}}</td>
+                    </ng-container> -->
+
+                </table>
+                <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                </mat-paginator>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- <div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body" style="overflow: auto;">
+
+                <h2 style="text-align: center;">CHECADOR</h2>
+
+                <div class="row">
+                    <div class="col-8">
+                        <mat-form-field>
+                            <mat-label> Seleccionar Fecha </mat-label>
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                             <input matInput readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="fechaInicial" [(ngModel)]="fecha1" (dateChange)="filtrofecha($event)">
                             <mat-datepicker #picker1></mat-datepicker>
                         </mat-form-field>
@@ -27,8 +146,8 @@
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row" matRipple></tr>
-                    <!-- <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"> -->
-                    <!-- </tr> -->
+                 <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"> 
+                     </tr>
 
                     <ng-container matColumnDef="Usuario">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>USUARIO</th>
@@ -54,4 +173,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
