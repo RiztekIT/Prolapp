@@ -182,8 +182,10 @@ export class SidebarService {
     let u = JSON.parse(localStorage.getItem('ProlappSession'));
     // console.log('%c⧭', 'color: #ff0000', u);
     this.usuario = u
+    if(u){
 
-    
+      
+      
     this.usuarioService.getUsuarioNombreU(this.usuario.user).subscribe(res => {
       // console.log('%c⧭', 'color: #f200e2', res);
       this.idusuario = res[0].IdUsuario
@@ -253,8 +255,11 @@ export class SidebarService {
  
     });
     });
+    
   }
 
+  }
+  
 
   // getMenus(): Observable<any[]> {
   //   return this.http.get<any[]>(APIUrl + '/Menu/1');
