@@ -1,6 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 import {MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { Producto } from 'src/app/Models/catalogos/productos-model';
 import { ProductosService } from '../../../../../services/catalogos/productos.service';
 
 @Component({
@@ -13,6 +17,15 @@ export class MarcasComponent implements OnInit {
   titulo: string
   tipo: string
 
+  
+  ProdsExistentes = false;
+
+  // dropdown
+  myControl = new FormControl();
+  filteredOptions: Observable<any[]>;
+  options: Producto[] = [];
+  listproducto: Producto[] = [];
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public ProductosService:ProductosService,
@@ -21,6 +34,7 @@ export class MarcasComponent implements OnInit {
   ngOnInit() {
     console.clear();
     this.AsignarDatos()
+    this.dropdownRefresh()
   }
 
   AsignarDatos(){
@@ -55,6 +69,55 @@ export class MarcasComponent implements OnInit {
       
     }
   }
+
+  check(checkbox: any) {
+    if (checkbox == true) {
+      this.ProdsExistentes = true
+      console.log(this.ProdsExistentes);
+    } else {
+      this.ProdsExistentes = false
+      console.log(this.ProdsExistentes);
+
+    }
+  }
+
+
+  // dropdown
+
+  dropdownRefresh() {
+    this.ProductosService.getProductosList().subscribe(data => {
+      console.log(data);
+      for (let i = 0; i < data.length; i++) {
+        let client = data[i];
+        this.listproducto.push(client);
+        this.options.push(client)
+        this.filteredOptions = this.myControl.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filter(value))
+          );
+      }
+    });
+  }
+
+  private _filter(value: any): any[] {
+    // console.log(value);
+    const filterValue = value.toString().toLowerCase();
+    return this.options.filter(option =>
+      option.Nombre.toLowerCase().includes(filterValue) ||
+      option.IdProducto.toString().includes(filterValue));
+  }
+
+  onSelectionChange(option: Producto, event){
+
+    if (event.isUserInput){
+      console.log('producto',option);
+      this.ProductosService.dataMarcas.ProductoMarca = option.Nombre
+    }
+
+  }
+
+
 
 
 

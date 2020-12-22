@@ -111,9 +111,43 @@
                         
                     </div>
                     <br>
-                    <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Actualizar Producto</button>
                 </div>
             </div>
         </div>
+        
+        <br>
+        <mat-checkbox #checkbox [(checked)]="MarcasRel" (change)='check(checkbox.checked)'>Marcas Relacionadas</mat-checkbox>
+        <br>
     </form>
+    
+    <div class="form-material" *ngIf="this.MarcasRel == true">
+        <h5>Marcas Relacionadas</h5>
+        <div class="container row">
+            <div class="col-12">
+                
+                <!-- <mat-form-field style="width: 100%;">
+                    <input matInput type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="this.productosService.productosRelForm.nombre" name="nombre">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.nombre" (blur)="onBlurProducto()" (onSelectionChange)="onSelectionChange(option, $event)">
+                            {{option.idProductos}} {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field> -->
+            </div>
+        </div>
+        <div class="container row">
+            <div class="col-md-6 col-12">
+                <label class="input-group-text text-info">Clave</label>
+                <input matInput placeholder="Clave Marca" name="ClaveMarca" class="form-control" #ClaveMarca="ngModel" [(ngModel)]="this.service.MarcasRelForm.ClaveMarca">
+                
+                <label class="input-group-text text-info">Nombre Marca</label>
+                <input matInput placeholder="Nombre Marca" name="NombreMarca" class="form-control" #NombreMarca="ngModel" [(ngModel)]="this.service.MarcasRelForm.NombreMarca">
+            </div>
+        </div>
+        <button class="btn btn-success" mat-raised-button (click)="agregarMarcaRel()" color="primary" [disabled]='!this.service.formData.Nombre'>Agregar Marca</button>
+    </div>
+    
+    <br>
+    <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Actualizar Producto</button>
+    
 </div>

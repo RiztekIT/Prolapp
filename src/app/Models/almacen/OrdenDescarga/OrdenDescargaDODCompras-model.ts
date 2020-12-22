@@ -35,5 +35,7 @@ export class OrdenDescargaDODCompras {
     Saldo?: string;
     //se agrega a la tabla de DOD pero es un dato temporal que no se agrega a la DB
     SacosIngresados?: string;
+    // comprashistorial
+    KgDescargados?: string;
 
 }

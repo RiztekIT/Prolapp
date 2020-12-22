@@ -157,10 +157,16 @@ export class HistorialComprasComponent implements OnInit {
         
         
       }
+
+      Descargados = []
+      KgDescargados = []
       
       llenarCompras(compras){
+        this.Descargados = []
+        this.KgDescargados = []
         console.log('%c%s', 'color: #ffa280', compras);
         // ^ por cada compra, se hara el push al arreglo
+        console.clear();
         if (compras.length > 0) {
           compras.forEach((element, index) => {
             
@@ -171,17 +177,24 @@ export class HistorialComprasComponent implements OnInit {
             // ^ se crea el espacio de los detalles en blanco para ser llenado luego
             this.compraInfo[index].OrdenDescargaDODCompras = []
             this.OrdenDescargaService.GetODDOD(IdCompraOD).subscribe(res => {
-              
               // ^ obtiene cada orden de descarga perteneciente a esta compra y llena el arreglo con OD y DOD
               res.forEach((elementODDOD, indexRES) => {
-                
-                this.compraInfo[index].OrdenDescargaDODCompras.push(elementODDOD)
-                this.pageSlice = this.compraInfo.slice(0,3)
-                
-              });
-        })
-      });
-      
+                console.log('%c⧭', 'color: #00ff88', elementODDOD);
+                elementODDOD.KgDescargados = (+elementODDOD.Kg - +elementODDOD.Saldo).toString()
+
+// this.Descargados[indexRES].push(this.KgDescargados[indexRES])
+
+
+
+
+// console.log('%c⧭', 'color: #00ff62', this.Descargados);
+this.compraInfo[index].OrdenDescargaDODCompras.push(elementODDOD)
+this.pageSlice = this.compraInfo.slice(0,3)
+
+});
+})
+});
+          
     } else {
       Swal.fire({
         title: 'No hay Registros',
@@ -262,7 +275,7 @@ export class HistorialComprasComponent implements OnInit {
 
     obtenerProveedores(){
       this.comprasService.getProveedoresList().subscribe(data=>{
-        console.log(data);
+        // console.log(data);
         for (let i = 0; i < data.length; i++) {
           let proveedor = data[i];
           
