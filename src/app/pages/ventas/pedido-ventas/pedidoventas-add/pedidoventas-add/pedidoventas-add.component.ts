@@ -39,6 +39,7 @@ import { nanoid } from 'nanoid';
 import * as uuid from 'uuid';
 import { Location } from '@angular/common';
 import { CalendarioService } from '../../../../../services/calendario/calendario.service';
+import { MasterOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterOrdenCarga-model';
 //Constantes para obtener tipo de cambio
 const httpOptions = {
   headers: new HttpHeaders({
@@ -1401,6 +1402,18 @@ this.isFactura = true;
 
   verlistdata(){
     console.log(this.listData.data);
+    let palabra  = this.listData.data[0].Producto.split(' ')
+    console.log(palabra,'palabra');
+    let j = palabra.length-2;
+    let i = palabra.length-1;
+   console.log(palabra[j],'j');
+   console.log(palabra[i],'i');
+  }
+
+  presentacion(producto){
+    let palabra = producto.split(' ');
+    let j = palabra.length-2;
+    return palabra[j];
   }
 
   cerrarPedido(){
@@ -1412,6 +1425,10 @@ this.isFactura = true;
     let user;
     user = JSON.parse( localStorage.getItem('ProlappSession')).user;
     
+/* INICIO DE SELECCION MANUAL */
+
+if (this.seleccionManual){
+
 
 
     const dialogConfig = new MatDialogConfig();
@@ -1508,9 +1525,13 @@ this.isFactura = true;
 
 
 
-      this.serviceordencarga.addOrdenCarga(ordencarga).subscribe(data=>{
+      this.serviceordencarga.addOrdenCarga2(ordencarga).subscribe(data=>{
 
         console.log(data);
+        let ocinsertada = new MasterOrdenCarga();
+        ocinsertada.ordenCarga = [];
+        ocinsertada.ordenCarga.push(data[0]);
+  ocinsertada.detalleOrdenCarga = []
         console.log(productos,'PRODUCTOS');
         
         for (let i=0; i< productos.length;i++){
@@ -1523,7 +1544,7 @@ this.isFactura = true;
           detordencarga = {
     
             IdDetalleOrdenCarga:0,
-            IdOrdenCarga:0,
+            IdOrdenCarga:ocinsertada.ordenCarga[0].IdOrdenCarga,
             ClaveProducto:productos[i].ClaveProducto,
         Producto:productos[i].Producto,
         Sacos:(+this.listData.data[i].Cantidad / +productos[i].PesoxSaco),
@@ -1541,6 +1562,7 @@ this.isFactura = true;
           }
 
           console.log(detordencarga);
+          ocinsertada.detalleOrdenCarga.push(detordencarga)
 
           this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data=>{
             
@@ -1557,6 +1579,10 @@ this.isFactura = true;
           if (fletera=='0'){
 
             this.crearValidacion();
+          }else{
+            localStorage.setItem('IdOrdenCarga', ocinsertada.ordenCarga[0].IdOrdenCarga.toString())
+          localStorage.setItem('OrdenCarga', JSON.stringify(ocinsertada))
+          this.router.navigate(['/ordenCargaPreparar']);
           }
 
           Swal.fire({
@@ -1585,6 +1611,181 @@ this.isFactura = true;
 
   })/* CERRAR el subscribe del afterclosed */
 
+
+}else if (!this.seleccionManual){
+  console.clear();
+console.log(this.listData);
+
+
+/* ORDEN DE CARGA SIN MOSTRAR INVENTARIO */
+
+      
+
+
+
+
+  this.service.formDataPedido.Estatus = 'Cerrada';
+  
+
+this.service.formDataPedido.Total = this.total;
+this.service.formDataPedido.Subtotal = this.subtotal;
+this.service.formDataPedido.TotalDlls = this.totalDlls;
+this.service.formDataPedido.SubtotalDlls = this.subtotalDlls;
+
+
+  //let productos = data.selected;
+  let fletera;
+  let validacion;
+
+this.serviceordencarga.getUltimoFolio().subscribe(data=>{
+
+console.log(data[0].Folio);
+if (this.service.formDataPedido.Flete=='Foraneo'){
+
+  fletera='0';
+}else{
+  fletera=this.service.formDataPedido.Flete;
+}
+
+if (fletera=='0'){
+  validacion='Sin Validar'
+}else{
+  validacion='Creada'
+}
+
+
+sacos = 0;
+kg = 0;
+//let presentacion;
+
+
+
+
+
+
+for (let i=0; i< this.listData.data.length;i++){
+  kg = kg + +this.listData.data[i].Cantidad;
+  sacos = sacos + (+this.listData.data[i].Cantidad / this.presentacion(this.listData.data[i].Producto))
+}
+
+/* sacos = sacos / 25; */
+
+ordencarga= {
+
+  IdOrdenCarga: 0,
+  Folio: data[0].Folio,
+  FechaEnvio: new Date(),
+  IdCliente: this.service.formDataPedido.IdCliente,
+  Cliente: this.service.formData.Nombre,
+  IdPedido: this.service.formDataPedido.IdPedido,
+  Fletera: fletera,
+  Caja: '0',
+  Sacos: sacos,
+  Kg: kg,
+  Chofer: '',
+  Origen: 'Chihuahua',
+  Destino: this.service.formData.Estado,
+  Observaciones: '',
+  Estatus: validacion,
+  FechaInicioCarga: new Date('10/10/10'),
+  FechaFinalCarga: new Date('10/10/10'),
+  FechaExpedicion: new Date(),
+  IdUsuario: '0',
+  Usuario: user
+}
+
+console.log(ordencarga);
+
+
+
+
+
+this.serviceordencarga.addOrdenCarga2(ordencarga).subscribe(data=>{
+  let ocinsertada = new MasterOrdenCarga();
+  ocinsertada.ordenCarga = [];
+  ocinsertada.ordenCarga.push(data[0]);
+  ocinsertada.detalleOrdenCarga = []
+  /* console.log(data);
+  console.log(productos,'PRODUCTOS'); */
+  
+  for (let i=0; i< this.listData.data.length;i++){
+    console.log(this.listData.data[i],'LISTDATA');
+
+    if(!this.seleccionManual){
+      this.listData.data[i].Lote = '0';
+    }
+ 
+    detordencarga = {
+
+      IdDetalleOrdenCarga:0,
+      IdOrdenCarga:ocinsertada.ordenCarga[0].IdOrdenCarga,
+      ClaveProducto:this.listData.data[i].ClaveProducto,
+  Producto:this.listData.data[i].Producto,
+  Sacos:(+this.listData.data[i].Cantidad / +this.presentacion(this.listData.data[i].Producto)),
+  PesoxSaco:this.presentacion(this.listData.data[i].Producto),
+  Lote:'0',
+  IdProveedor:'',
+  Proveedor:'',
+  PO:'',
+  FechaMFG:new Date('10/10/10'),
+  FechaCaducidad:new Date('10/10/10'),
+  Shipper:'',
+  USDA:'',
+  Pedimento:'',
+  Saldo:(+this.listData.data[i].Cantidad / +this.presentacion(this.listData.data[i].Producto)),
+    }
+
+    console.log(detordencarga);
+    ocinsertada.detalleOrdenCarga.push(detordencarga)
+    
+    //this.service.master[i].detalleOrdenCarga = [];
+
+    this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data=>{
+      
+      console.log(data);
+    })
+    
+
+  }
+
+  
+
+  console.log(this.service.formDataPedido);
+  this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+    if (fletera=='0'){
+
+      this.crearValidacion();
+    }else{
+      localStorage.setItem('IdOrdenCarga', ocinsertada.ordenCarga[0].IdOrdenCarga.toString())
+    localStorage.setItem('OrdenCarga', JSON.stringify(ocinsertada))
+    this.router.navigate(['/ordenCargaPreparar']);
+    }
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Pedido Cerrado'
+    })
+
+//
+//this.ordenTemporalService._listeners.next('Orden')
+    this.Inicializar();
+
+  }
+  )
+
+
+})
+})
+
+
+
+/*  */
+
+
+
+
+
+}
 
 
 

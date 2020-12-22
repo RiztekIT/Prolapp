@@ -257,16 +257,20 @@ if (hora>10){
   i=1;
 }
     this.traerApi().subscribe(data => {
+      //console.log(data,'TIPODECAMBIO');
+      console.log(JSON.parse(data),'TIPOCAMBIO');
       let l;
+      let json = JSON.parse(data);
       
-      l = data.bmx.series[0].datos.length;
+      //l = data.bmx.series[0].datos.length;
+      l = json.bmx.series[0].datos.length;
       // //console.log(i);
       // //console.log(l);
       // //console.log(data.bmx.series[0].datos.length);
       // //console.log(data.bmx.series[0].datos[l-i].dato);
       
       
-      this.Cdolar = data.bmx.series[0].datos[l-i].dato;
+      this.Cdolar = json.bmx.series[0].datos[l-i].dato;
       this.tipoCambio.TipoCambio = this.Cdolar;
       this.tipoCambio.TC();
       // //console.log('------CAMBIO------');
@@ -278,7 +282,11 @@ if (hora>10){
 
   traerApi(): Observable<any>{
 
-    return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
+    /* return this.http.get("https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions) */
+    //return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
+    
+    return this.http.get("https://riztek.com.mx/php/Prolacto/GET_TipoCambio.php"
+    )
 
   }
 
