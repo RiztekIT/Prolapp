@@ -13,6 +13,7 @@ import { OrdenDescargaService } from '../../../services/almacen/orden-descarga/o
 import { Producto } from '../../../Models/catalogos/productos-model';
 import { ProductosService } from '../../../services/catalogos/productos.service';
 import { ShowreporteAlmacenComponent } from './showreporte-almacen/showreporte-almacen.component';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 
 
 @Component({
@@ -23,7 +24,13 @@ import { ShowreporteAlmacenComponent } from './showreporte-almacen/showreporte-a
 
 export class ReportesalmacenComponent implements OnInit {
 
-  constructor(public serviceCliente: ClientesService, public proveedorService: ProveedoresService, public productoService: ProductosService, private dialog: MatDialog, public ocService: OrdenCargaService, public odService: OrdenDescargaService) { }
+  constructor(public serviceCliente: ClientesService, 
+    public proveedorService: ProveedoresService, 
+    public productoService: ProductosService, 
+    private dialog: MatDialog, 
+    public ocService: OrdenCargaService, 
+    public odService: OrdenDescargaService, 
+    public enviarfact: EnviarfacturaService,) { }
 
   ngOnInit() {
     this.obtenerClientes();
