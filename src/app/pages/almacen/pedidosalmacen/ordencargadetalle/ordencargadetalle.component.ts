@@ -208,6 +208,7 @@ Oc.Estatus = 'Cargada'
     this.service.updateOrdenCarga(Oc).subscribe(res=>{
       console.log(res);
       this.getOrdenCarga();
+      this.terminar()
         })
       })
   }

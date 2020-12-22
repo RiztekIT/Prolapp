@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-between m-2">
+<!-- <div class="d-flex justify-content-between m-2">
     <h4>Traspaso Tarima</h4>
 
     <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
@@ -14,7 +14,7 @@
 <div style="overflow: auto; height: 450px;">
 
 
-    <!-- <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off"> -->
+
     <form #form="ngForm" autocomplete="off">
 
 
@@ -37,7 +37,7 @@
                             </mat-autocomplete>
                         </mat-form-field>
                         <br>
-                        <!-- <label class="input-group-text text-info">Producto</label> -->
+                        
                         <input readonly="readonly" type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="producto">
 
 
@@ -45,12 +45,7 @@
                         <label class="input-group-text text-info">Cantidad Sacos</label>
                         <input required type="number" class="form-control" name="sacoTraspaso" #sacoTraspaso="ngModel" (ngModelChange)="onChangeCantidadSacos($event)" [(ngModel)]="sacosTraspaso">
 
-                        <!-- <label class="input-group-text text-info">Sacos</label>
-                            <input required type="number" class="form-control" name="Sacos" [(ngModel)]="cantidadSacos"> -->
-                        <!-- 
-                                <div class="text-left text-danger" *ngIf="Sacos.invalid && Sacos.touched">
-                                    Favor de Ingresar un valor.
-                                </div> -->
+                     
 
                         <label class="input-group-text text-info">Nueva Tarima?</label>
                         <mat-checkbox #checkboxnT [(checked)]="nuevaTarima" (change)='changeNuevaTarima(checkboxnT.checked)'></mat-checkbox>
@@ -67,15 +62,15 @@
                 </div>
                 <br>
                 <div *ngIf="this.tarimaDValida == true">
-                    <!-- <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Traspasar</button> -->
+                    
                     <button class="btn btn-success" mat-raised-button color="success" (click)="onSubmit()" [disabled]="form.invalid">Traspasar</button>
                 </div>
                 <div *ngIf="this.tarimaDValida == false && this.nuevaTarima == true">
-                    <!-- <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Traspasar</button> -->
+                    
                     <button class="btn btn-success" mat-raised-button color="success" (click)="onSubmit()" [disabled]="form.invalid">Traspasar</button>
                 </div>
                 <br>
             </div>
         </div>
     </form>
-</div>
+</div> -->
