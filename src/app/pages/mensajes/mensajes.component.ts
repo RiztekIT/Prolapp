@@ -87,8 +87,4 @@ SelectedMsj(row,i){
 
 
 
-
-
-
-
 }

@@ -14,7 +14,7 @@ img{ max-width:100%;}
 .top_spac{ margin: 20px 0 0;}
 
 
-.recent_heading {float: left; width:40%;}
+.recent_heading {float: left; width:100%;}
 .srch_bar {
   display: inline-block;
   text-align: right;
@@ -56,7 +56,9 @@ img{ max-width:100%;}
   margin: 0;
   padding: 18px 16px 10px;
 }
-.inbox_chat { height: 550px; overflow-y: scroll;}
+.inbox_chat { 
+  height: 550px; 
+  overflow-y: scroll;}
 
 .active_chat{ background:#ebebeb;}
 
@@ -105,6 +107,8 @@ img{ max-width:100%;}
   float: right;
   width: 46%;
 }
+
+
 .input_msg_write input {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
   border: medium none;
@@ -136,6 +140,13 @@ img{ max-width:100%;}
   flex-direction: column-reverse;
 }
 
+/* @media only screen and (max-width: 600px) {
+  .msg_history {
+    width: 100%;
+  }
+  
+} */
+
 .material-icons{
   font-size:17px; 
 }
@@ -143,4 +154,23 @@ img{ max-width:100%;}
 .leido{
   color: #00c8ff;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+  .mesgs{
+    width: 100%;
+    
+  }
+  .sent_msg{
+    width: 100%;
+    
+  }
+  .received_withd_msg{
+    width: 100%;
+  }
+  .received_msg{
+    width: 100%;
+    padding: 0;
+  }
+    
 }
