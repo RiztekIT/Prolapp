@@ -118,7 +118,9 @@ export class ChecadorComponent implements OnInit {
     })
   }
 
-
+  formatDates(){
+    
+  }
 
 
   //^ ******************* FUNCIONES PARA OBTENER INFORMACION DE LA SEMANA  ************************* // 

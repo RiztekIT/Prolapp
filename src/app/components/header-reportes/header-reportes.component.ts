@@ -14,7 +14,9 @@ export class HeaderReportesComponent implements OnInit {
   constructor( public enviarfact: EnviarfacturaService) { }
 
   ngOnInit() {
+
     this.rfcE = this.enviarfact.empresa.RFC;
+    console.log('%c⧭', 'color: #e57373', this.enviarfact.empresa.RFC);
     this.nombreE = this.enviarfact.empresa.RazonSocial;
     this.logo = '../../../assets/images/'+this.rfcE+'.png'
   }

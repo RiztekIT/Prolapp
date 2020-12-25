@@ -6,6 +6,17 @@ img{ max-width:100%;}
   overflow: hidden;
   width: 40%; border-right:1px solid #c4c4c4;
 }
+
+@media only screen and (max-width: 600px) {
+  .inbox_people {
+    width: 100%;
+  }
+  .mesgs{
+    width: 100% !important;
+  }
+
+}
+
 .inbox_msg {
   border: 1px solid #c4c4c4;
   clear: both;
@@ -14,11 +25,11 @@ img{ max-width:100%;}
 .top_spac{ margin: 20px 0 0;}
 
 
-.recent_heading {float: left; width:40%;}
+.recent_heading {float: left; width:100%;}
 .srch_bar {
   display: inline-block;
   text-align: right;
-  width: 60%; padding:
+  width: 60%;
 }
 .headind_srch{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}
 
@@ -56,7 +67,8 @@ img{ max-width:100%;}
   margin: 0;
   padding: 18px 16px 10px;
 }
-.inbox_chat { height: 550px; overflow-y: scroll;}
+.inbox_chat { height: 550px; overflow-y: scroll; 
+  width: 100% !important;}
 
 .active_chat{ background:#ebebeb;}
 
@@ -139,6 +151,11 @@ img{ max-width:100%;}
   color: #ffffff !important;
 
 }
+
+navbar
+{ height: 550px; overflow-y: scroll;
+}
+
 
 
 

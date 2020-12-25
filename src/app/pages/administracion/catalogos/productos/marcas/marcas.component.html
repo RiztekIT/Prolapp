@@ -14,9 +14,25 @@
             <div class="container">
                 <div class="row">
 
+                    <div class="container row">
+                        <div class="col-12">
+                            <mat-label>Seleccionar Producto Existente</mat-label>
+                            <br>
+                            <mat-checkbox #checkbox [(checked)]="ProdsExistentes" (change)='check(checkbox.checked)'></mat-checkbox>
+                            <mat-form-field *ngIf="this.ProdsExistentes == true" style="width: 100%;">
+                                <input matInput type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="this.ProductosService.dataMarcas.ProductoMarca" name="nombre">
+                                <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.Nombre" (onSelectionChange)="onSelectionChange(option, $event)">
+                                        {{option.Nombre}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
                     <div class="col-12">
-                        <label class="input-group-text text-info">ProductoMarca</label>
-                        <input required type="text" class="form-control" name="ProduuctoMarca" #ProduuctoMarca="ngModel" [(ngModel)]="this.ProductosService.dataMarcas.ProductoMarca">
+                        <label *ngIf="this.ProdsExistentes == false" class="input-group-text text-info">ProductoMarca</label>
+                        <input required type="text" class="form-control" *ngIf="this.ProdsExistentes == false" name="ProduuctoMarca" #ProduuctoMarca="ngModel" [(ngModel)]="this.ProductosService.dataMarcas.ProductoMarca">
                         
                         <label class="input-group-text text-info">NombreMarca</label>
                         <input required type="text" class="form-control" name="NombreMarca" #NombreMarca="ngModel" [(ngModel)]="this.ProductosService.dataMarcas.NombreMarca">
@@ -27,7 +43,7 @@
                         
                     </div>
                     <br>
-                    <button class="btn btn-success" mat-raised-button color="success" (click)="AddEditMarcas()" [disabled]="form.invalid">{{tipo}} Fletera</button>
+                    <button class="btn btn-success" mat-raised-button color="success" (click)="AddEditMarcas()" [disabled]="form.invalid">{{tipo}} Marca</button>
                     <br>
                 </div>
             </div>

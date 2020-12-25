@@ -97,12 +97,20 @@ export class TraspasomercanciaComponent implements OnInit {
     let consulta = {
       'consulta':query
     };
-    this.traspasoSVC.getQuery(consulta).subscribe(resp=>{
+    this.traspasoSVC.getQuery(consulta).subscribe((resp: any)=>{
       console.log(resp);
-      this.traspasoSVC.folionuevo = (+resp[0].folio + 1).toString();
-      this.traspasoSVC.idnuevo = (+resp[0].idtraspasomercancia + 1).toString();
+      if (resp.lenght>0){
+
+        this.traspasoSVC.folionuevo = (+resp[0].folio + 1).toString();
+        this.traspasoSVC.idnuevo = (+resp[0].idtraspasomercancia + 1).toString();
+        this.router.navigateByUrl('/embarque');
+      }else {
+        this.traspasoSVC.folionuevo = '1';
+        this.traspasoSVC.idnuevo = '1';
+        this.router.navigateByUrl('/embarque');
+
+      }
       
-      this.router.navigateByUrl('/embarque');
     })
 
   }

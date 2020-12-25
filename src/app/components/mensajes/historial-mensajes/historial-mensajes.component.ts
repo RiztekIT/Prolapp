@@ -13,6 +13,7 @@ export class HistorialMensajesComponent implements OnInit {
   user: string;
   tipo:boolean;
   ChatActivo:string;
+  fechaLeido = 'hola';
 
   constructor(private notificacionesService: NotificacionesService) {
 
@@ -82,6 +83,8 @@ export class HistorialMensajesComponent implements OnInit {
       console.clear();
       console.log('%c%s', 'color: #f200e2', mj.Usuario);
       console.log('%c%s', 'color: #00b300', this.user);
+      console.log('%c⧭', 'color: #731d6d', mj);
+
     });
     this.sortedMsj = this.MensajesGeneral.sort((a, b) => b.FechaEnvio - a.FechaEnvio)
   }
