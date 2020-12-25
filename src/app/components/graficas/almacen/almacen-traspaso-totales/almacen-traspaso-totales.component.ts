@@ -6,6 +6,7 @@ import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.servi
 import { ClientesService } from '../../../../services/catalogos/clientes.service';
 import { VentasCotizacionService } from '../../../../services/ventas/ventas-cotizacion.service';
 import { TraspasoMercanciaService } from '../../../../services/importacion/traspaso-mercancia.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-almacen-traspaso-totales',
@@ -21,6 +22,11 @@ export class AlmacenTraspasoTotalesComponent implements OnInit {
     this.informacion = 'Kg'
     this.checked = 'True'
     this.verReporte();
+  }
+
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    // this.subs2.unsubscribe();
   }
 
   arrcon: Array<any> = [];
@@ -101,9 +107,9 @@ export class AlmacenTraspasoTotalesComponent implements OnInit {
     this.arrcon[0] = [];
     this.datosTraspaso();
   }
-
+subs1: Subscription
   datosTraspaso() {
-    this.traspasoService.getTraspasoMercancia().subscribe(dataReporte => {
+    this.subs1 = this.traspasoService.getTraspasoMercancia().subscribe(dataReporte => {
       console.log(dataReporte);
       this.iniciarTotales();
       if (dataReporte.length > 0) {

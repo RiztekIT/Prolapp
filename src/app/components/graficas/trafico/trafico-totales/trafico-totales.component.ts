@@ -4,6 +4,7 @@ import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, BaseChartDirective, Color } from 'ng2-charts';
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
 import { OrdenCargaTraficoService } from '../../../../services/trafico/orden-carga-trafico.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-trafico-totales',
   templateUrl: './trafico-totales.component.html',
@@ -19,6 +20,10 @@ export class TraficoTotalesComponent implements OnInit {
     this.informacion = 'Kg'
     this.checked = 'True'
     this.verReporte();
+  }
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    this.subs2.unsubscribe();
   }
 
   @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;
@@ -104,10 +109,10 @@ export class TraficoTotalesComponent implements OnInit {
     this.reporte();
   }
 
-
+subs1: Subscription
   //^ Llenar lista de las ordenes de carga
   reporte() {
-    this.ocService.getOrdenCargaList().subscribe(data => {
+    this.subs1 = this.ocService.getOrdenCargaList().subscribe(data => {
       console.log(data);
       this.barChartLabels = [];
       this.listaOrdenCarga = data;
@@ -166,12 +171,12 @@ export class TraficoTotalesComponent implements OnInit {
     }
   }
 
-
+subs2: Subscription
   datosOrdenCarga(data, maximo) {
     this.barChartData[0].data = [];
     this.iniciarTotales();
     for (let i = 0; i < maximo; i++) {
-      this.traficoService.getTraficoOC(data[i].IdOrdenCarga).subscribe(dataReporte => {
+      this.subs2 = this.traficoService.getTraficoOC(data[i].IdOrdenCarga).subscribe(dataReporte => {
         console.log(dataReporte);
         if (dataReporte.length > 0) {
           console.log('si trae datos');

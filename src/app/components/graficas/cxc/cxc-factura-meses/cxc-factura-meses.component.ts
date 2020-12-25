@@ -3,6 +3,7 @@ import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, BaseChartDirective, Color } from 'ng2-charts';
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-cxc-factura-meses',
   templateUrl: './cxc-factura-meses.component.html',
@@ -17,6 +18,11 @@ export class CxcFacturaMesesComponent implements OnInit {
     this.checked = 'True'
     this.Cliente = 'Todos'
     this.reporte();
+  }
+
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    this.subs2.unsubscribe();
   }
 
   @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;
@@ -112,9 +118,9 @@ export class CxcFacturaMesesComponent implements OnInit {
     }
   ];
 
-
+subs1: Subscription
   reporte(){
-    this.pedidoService.getDepDropDownValues().subscribe(dataClientes => {
+    this.subs1 = this.pedidoService.getDepDropDownValues().subscribe(dataClientes => {
       console.log(dataClientes);  
       this.listaClientes=dataClientes;
        this.obtenerReporte(dataClientes.length, dataClientes);
@@ -168,10 +174,10 @@ export class CxcFacturaMesesComponent implements OnInit {
     this.informacion = event.value;
     this.reporte()
   }
-
+subs2: Subscription
 datosCliente(data,i){
   // console.log(data);
-  this.facturaService.getFacturasClienteID(data[i].IdClientes).subscribe(dataReporte => {
+ this.subs2 = this.facturaService.getFacturasClienteID(data[i].IdClientes).subscribe(dataReporte => {
     console.log(dataReporte);
     if(dataReporte.length>0){
       // console.log(dataReporte);

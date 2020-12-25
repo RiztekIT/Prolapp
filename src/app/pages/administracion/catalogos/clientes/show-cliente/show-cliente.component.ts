@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { MatTableDataSource, MatSort, MatPaginator, MatTooltip } from '@angular/material';
 import { Cliente } from '../../../../../Models/catalogos/clientes-model';
@@ -24,7 +24,7 @@ import { Evento } from '../../../../../Models/eventos/evento-model';
   templateUrl: './show-cliente.component.html',
   styleUrls: ['./show-cliente.component.css']
 })
-export class ShowClienteComponent implements OnInit {
+export class ShowClienteComponent implements OnInit, OnDestroy {
   
   usuariosesion;
   listData: MatTableDataSource<any>;
@@ -61,6 +61,12 @@ export class ShowClienteComponent implements OnInit {
     //^ **** PRIVILEGIOS POR USUARIO *****
     this.obtenerPrivilegios();
     //^ **** PRIVILEGIOS POR USUARIO *****
+
+  }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
 
   }
 

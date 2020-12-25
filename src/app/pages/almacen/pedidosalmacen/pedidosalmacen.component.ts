@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
 import { MatSort } from '@angular/material/sort';
@@ -10,7 +10,7 @@ import { trigger, state, transition, animate, style } from '@angular/animations'
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import Swal from 'sweetalert2';
 import { DetalleOrdenCarga } from '../../../Models/almacen/OrdenCarga/detalleOrdenCarga-model';
-import { Observable, Subscriber } from 'rxjs';
+import { Observable, Subscriber, Subscription } from 'rxjs';
 import { OrdenCargaComponent } from 'src/app/components/almacen/orden-carga/orden-carga.component';
 import { SidebarService, privilegios } from '../../../services/shared/sidebar.service';
 
@@ -27,7 +27,7 @@ import { SidebarService, privilegios } from '../../../services/shared/sidebar.se
     ]),
   ],
 })
-export class PedidosalmacenComponent implements OnInit {
+export class PedidosalmacenComponent implements OnInit, OnDestroy {
 
   // INICIO VARIABLES TABLA ORDEN CARGA
   listData: MatTableDataSource<any>;
@@ -64,6 +64,14 @@ export class PedidosalmacenComponent implements OnInit {
     this.obtenerPrivilegios();
     //^ **** PRIVILEGIOS POR USUARIO *****
 
+  }
+
+  ngOnDestroy(): void {
+    // this.refreshOrdenCargaList();
+    // this.obtenerPrivilegios();
+    this.subs1.unsubscribe();
+    this.subs2.unsubscribe();
+    // this.subs3.unsubscribe();
   }
 
 
@@ -144,15 +152,16 @@ export class PedidosalmacenComponent implements OnInit {
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
 
   }
-
+subs1:Subscription
+subs2:Subscription
   refreshOrdenCargaList() {
     this.arrOrdenCarga = this.service.getOrdenCargaList();
-    this.arrOrdenCarga.subscribe(data => {
+    this.subs1 = this.arrOrdenCarga.subscribe(data => {
       // console.log(data);
       for (let i = 0; i <= data.length - 1; i++) {
         this.service.master[i] = data[i];
         this.service.master[i].detalleOrdenCarga = [];
-        this.service.getOrdenCargaIDList(data[i].IdOrdenCarga).subscribe(res => {
+      this.subs2 =  this.service.getOrdenCargaIDList(data[i].IdOrdenCarga).subscribe(res => {
           // console.log(res);
           for (let l = 0; l <= res.length - 1; l++) {
             this.service.master[i].detalleOrdenCarga.push(res[l]);
@@ -198,7 +207,6 @@ export class PedidosalmacenComponent implements OnInit {
   }
 
   /////////////////////////////// Fin Modales //////////////////////////////////////////
-
   onDelete(row) {
     console.log(row)
     Swal.fire({
@@ -207,7 +215,7 @@ export class PedidosalmacenComponent implements OnInit {
       icon: 'info'
     });
     Swal.showLoading();
-    this.service.deleteOrdenCarga(row.IdOrdenCarga).subscribe(res => {
+ this.service.deleteOrdenCarga(row.IdOrdenCarga).subscribe(res => {
       Swal.close();
       if (res == 'Se elimino Correctamente') {
         Swal.fire({

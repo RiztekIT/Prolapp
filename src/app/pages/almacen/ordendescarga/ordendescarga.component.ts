@@ -7,7 +7,7 @@ import { stringify } from 'querystring';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import Swal from 'sweetalert2';
-import { Observable, Subscriber } from 'rxjs';
+import { Observable, Subscriber, Subscription } from 'rxjs';
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { OrdenDescargaService } from '../../../services/almacen/orden-descarga/orden-descarga.service';
 import { OrdenSalidaComponent } from 'src/app/components/almacen/orden-salida/orden-salida.component';
@@ -53,6 +53,10 @@ export class OrdendescargaComponent implements OnInit {
     //^ **** PRIVILEGIOS POR USUARIO *****
     this.obtenerPrivilegios();
     //^ **** PRIVILEGIOS POR USUARIO *****
+  }
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    this.subs2.unsubscribe();
   }
 
 
@@ -125,15 +129,16 @@ if (this.estatusSelect==='Todos'){
   ];
 
 
-
+subs1 : Subscription
+subs2 : Subscription
   refreshOrdenDescargaList() {
     this.arrOrdenDescarga = this.service.getOrdenDescargaList();
-    this.arrOrdenDescarga.subscribe(data => {
+    this.subs1 = this.arrOrdenDescarga.subscribe(data => {
       console.log(data);
       for (let i = 0; i <= data.length - 1; i++) {
         this.service.master[i] = data[i];
         this.service.master[i].detalleOrdenDescarga = [];
-        this.service.getOrdenDescargaIDList(data[i].IdOrdenDescarga).subscribe(res => {
+      this.subs2 =  this.service.getOrdenDescargaIDList(data[i].IdOrdenDescarga).subscribe(res => {
           console.log(res);
           for (let l = 0; l <= res.length - 1; l++) {
             this.service.master[i].detalleOrdenDescarga.push(res[l]);

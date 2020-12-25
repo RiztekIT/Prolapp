@@ -84,4 +84,9 @@ export class UsuariosServieService {
     checadorSemanaFechasUsuario(fecha1, fecha2, usuario:string):Observable<any[]> {
       return this.http.get<any[]>(this.APIUrl+'/usuario/loginFechasUser/'+fecha1+'/'+fecha2+'/'+usuario);
     }
+
+    //^ Obtener Earliest Inicio de Sesion dependiendo x fecha y por Usuario
+    checadorEarliestDateUsuario(diaLimite, diaInicio, diaFin, mesInicio, mesFin, yearInicio, yearFin, usuario):Observable<any[]> {
+      return this.http.get<any[]>(this.APIUrl+'/usuario/loginEarliestDatesUser/'+diaLimite+'/'+diaInicio+'/'+diaFin+'/'+mesInicio+'/'+mesFin+'/'+yearInicio+'/'+yearFin+'/'+usuario);
+    }
 }

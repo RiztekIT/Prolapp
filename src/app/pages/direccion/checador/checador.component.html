@@ -10,7 +10,7 @@
                         <mat-form-field>
                             <mat-label> Seleccionar Fecha </mat-label>
                             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                            <input matInput readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="fechaInicial" [(ngModel)]="fecha1" (dateChange)="formatDates()">
+                            <input matInput readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="fechaInicial" [(ngModel)]="fecha1" (dateChange)="formatCurrentDate()">
                             <mat-datepicker #picker1></mat-datepicker>
                         </mat-form-field>
                         <!-- <mat-form-field>
@@ -55,44 +55,106 @@
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row" matRipple></tr>
 
                     <ng-container matColumnDef="Usuario">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>USUARIO</th>
-                        <td class="folio" mat-cell *matCellDef="let element">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario</th>
+                        <td class="Usuario" mat-cell *matCellDef="let element">
                             {{element.username}}</td>
                     </ng-container>
                     <ng-container matColumnDef="Domingo">
-                        <th mat-header-cell *matHeaderCellDef="let ele" mat-sort-header>Domingo</th>
-                        <td class="domingo" mat-cell *matCellDef="let element">
-                            {{element.username}}</td>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Domingo</th>
+                        <td class="Domingo" mat-cell *matCellDef="let element">
+                            <div *ngFor="let ele of element.checador">
+                                    <div *ngIf="ele.index == 0">
+                                      {{ele.fecha |date: 'yyyy-MM-dd hh:mm a' }} <br>
+                                       {{ele.dispositivo}}                                       
+                                    </div>
+                                    <!-- <ng-template #notLogged>
+                                        {{element.username}} no se logueo.
+                                      </ng-template> -->
+                            </div>
+                        </td>
                     </ng-container>
                     <ng-container matColumnDef="Lunes">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Lunes</th>
                         <td class="Lunes" mat-cell *matCellDef="let element">
-                            {{element.username}}</td>
+                            <div *ngFor="let ele of element.checador">
+                                <div *ngIf="ele.index == 1">
+                                    {{ele.fecha |date: 'yyyy-MM-dd hh:mm a' }}  <br>
+                                     {{ele.dispositivo}}                                        
+                                </div>
+                                <!-- <ng-template #notLogged>
+                                    {{element.username}} no se logueo.
+                                  </ng-template> -->
+                        </div>
+                        </td>
                     </ng-container>
                     <ng-container matColumnDef="Martes">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Martes</th>
-                        <td class="Martes" mat-cell *matCellDef="let element">
-                            {{element.username}}</td>
+                        <td class="Martes" mat-cell *matCellDef="let element">                                                    
+                            <div *ngFor="let ele of element.checador">
+                                <div *ngIf="ele.index == 2">
+                                    {{ele.fecha |date: 'yyyy-MM-dd hh:mm a' }}   <br>
+                                    {{ele.dispositivo}}                                       
+                                </div>
+                                <!-- <ng-template #notLogged>
+                                    {{element.username}} no se logueo.
+                                  </ng-template> -->
+                        </div></td>
                     </ng-container>
                     <ng-container matColumnDef="Miercoles">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Miercoles</th>
                         <td class="Miercoles" mat-cell *matCellDef="let element">
-                            {{element.username}}</td>
+                            <div *ngFor="let ele of element.checador">
+                                <div *ngIf="ele.index == 3">
+                                    {{ele.fecha |date: 'yyyy-MM-dd hh:mm a' }}    <br>
+                                    {{ele.dispositivo}}                                      
+                                </div>
+                                <!-- <ng-template #notLogged>
+                                    {{element.username}} no se logueo.
+                                  </ng-template> -->
+                        </div>    
+                        </td>
                     </ng-container>
                     <ng-container matColumnDef="Jueves">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Jueves</th>
                         <td class="Jueves" mat-cell *matCellDef="let element">
-                            {{element.username}}</td>
+                        <div *ngFor="let ele of element.checador">
+                                <div *ngIf="ele.index == 4">
+                                    {{ele.fecha |date: 'yyyy-MM-dd hh:mm a' }}   <br>
+                                     {{ele.dispositivo}}                                       
+                                </div>
+                                <!-- <ng-template #notLogged>
+                                    {{element.username}} no se logueo.
+                                  </ng-template> -->
+                        </div>    
+                        </td>
                     </ng-container>
                     <ng-container matColumnDef="Viernes">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Viernes</th>
                         <td class="Viernes" mat-cell *matCellDef="let element">
-                            {{element.username}}</td>
+                        <div *ngFor="let ele of element.checador">
+                                <div *ngIf="ele.index == 5">
+                                    {{ele.fecha |date: 'yyyy-MM-dd hh:mm a' }}   <br>
+                                    {{ele.dispositivo}}                                       
+                                </div>
+                                <!-- <ng-template #notLogged>
+                                    {{element.username}} no se logueo.
+                                  </ng-template> -->
+                        </div>    
+                        </td>
                     </ng-container>
                     <ng-container matColumnDef="Sabado">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Sabado</th>
                         <td class="Sabado" mat-cell *matCellDef="let element">
-                            {{element.username}}</td>
+                        <div *ngFor="let ele of element.checador">
+                                <div *ngIf="ele.index == 6">
+                                    {{ele.fecha |date: 'yyyy-MM-dd hh:mm a' }}   <br> 
+                                    {{ele.dispositivo}}                                      
+                                </div>
+                                <!-- <ng-template #notLogged>
+                                    {{element.username}} no se logueo.
+                                  </ng-template> -->
+                        </div>    
+                        </td>
                     </ng-container>
                     <!-- <ng-container matColumnDef="Fecha">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>FECHA</th>

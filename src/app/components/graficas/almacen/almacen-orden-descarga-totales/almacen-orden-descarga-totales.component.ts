@@ -6,7 +6,7 @@ import { OrdenDescargaService } from '../../../../services/almacen/orden-descarg
 import { ProveedoresService } from '../../../../services/catalogos/proveedores.service';
 import { Proveedor } from '../../../../Models/catalogos/proveedores-model';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 
 @Component({
@@ -26,6 +26,11 @@ export class AlmacenOrdenDescargaTotalesComponent implements OnInit {
     this.checked = 'True'
     this.Proveedor = 'Todos'
     this.verReporte();
+  }
+
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    this.subs2.unsubscribe();
   }
 
   arrcon: Array<any> = [];
@@ -113,9 +118,9 @@ listaProveedores;
   }
 
 
-
+subs1: Subscription
   reporte(){
-    this.proveedorService.getProveedoresList().subscribe(dataProveedores => {
+    this.subs1 = this.proveedorService.getProveedoresList().subscribe(dataProveedores => {
       console.clear();
       console.log(dataProveedores);  
       this.barChartLabels = []; 
@@ -205,10 +210,10 @@ if(event.isUserInput){
     }
   }
 
-
+subs2: Subscription
   datosProveedor(data,i){
     console.log(data);
-    this.odService.getReporteProveedorId(data[i].IdProveedor).subscribe(dataReporte => {
+   this.subs2 = this.odService.getReporteProveedorId(data[i].IdProveedor).subscribe(dataReporte => {
       console.log(dataReporte);
       if(dataReporte.length>0){
         console.log(dataReporte);

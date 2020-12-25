@@ -19,6 +19,7 @@ import { CotizacionEmailComponent } from 'src/app/components/cotizacion/cotizaci
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import * as signalr from 'signalr'
 import { StorageServiceService } from '../../../services/shared/storage-service.service';
+import { Subscription } from 'rxjs';
 
 declare var $: any;
 
@@ -68,6 +69,10 @@ export class CotizacionesVentasComponent implements OnInit {
     //^ **** PRIVILEGIOS POR USUARIO *****
     this.obtenerPrivilegios();
     //^ **** PRIVILEGIOS POR USUARIO *****
+  }
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    this.subs2.unsubscribe();
   }
 
     
@@ -157,10 +162,11 @@ if (this.estatusSelect==='Todos'){
   
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-
+subs1: Subscription
+subs2: Subscription
   refreshCotizacionesList() {
     // this.service.getPedidoList().subscribe(data => {
-    this.service.getCotizaciones().subscribe(data => {
+    this.subs1 = this.service.getCotizaciones().subscribe(data => {
       console.log(data);
       for (let i = 0; i <= data.length - 1; i++) {
        /*  if (data[i].Estatus == 'Creada') {
@@ -174,7 +180,7 @@ if (this.estatusSelect==='Todos'){
         } */
         this.service.master[i] = data[i]
         this.service.master[i].DetalleCotizacion = [];
-        this.service.GetDetalleCotizacionId(data[i].IdCotizacion).subscribe(res => {
+        this.subs2 = this.service.GetDetalleCotizacionId(data[i].IdCotizacion).subscribe(res => {
           // console.log(res); 
           for (let l = 0; l <= res.length - 1; l++) {
             this.service.master[i].DetalleCotizacion.push(res[l]);

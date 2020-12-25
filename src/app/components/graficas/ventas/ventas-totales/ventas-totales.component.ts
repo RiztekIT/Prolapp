@@ -3,6 +3,7 @@ import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
 import { VentasCotizacionService } from '../../../../services/ventas/ventas-cotizacion.service';
 import { VentasPedidoService } from '../../../../services/ventas/ventas-pedido.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ventas-totales',
@@ -23,6 +24,13 @@ export class VentasTotalesComponent implements OnInit {
     this.ClienteCotizacion = 'Todos'
     this.verPedido();
     this.verCotizacion();
+  }
+
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    this.subs2.unsubscribe();
+    this.subs3.unsubscribe();
+    this.subs4.unsubscribe();
   }
 
   arrconPedido: Array<any> = [];
@@ -134,9 +142,9 @@ export class VentasTotalesComponent implements OnInit {
     this.reporteCotizacion(); 
   }
 
-
+subs1: Subscription
   reportePedido(){
-    this.pedidoService.getDepDropDownValues().subscribe(dataClientes => {
+  this.subs1 =  this.pedidoService.getDepDropDownValues().subscribe(dataClientes => {
       console.log(dataClientes);  
       this.barChartLabelsPedido = []; 
       this.listaClientesPedido=dataClientes;
@@ -159,9 +167,9 @@ export class VentasTotalesComponent implements OnInit {
        this.obtenerReportePedido(dataClientes.length, dataClientes);
     })
   }
-
+subs3: Subscription
   reporteCotizacion(){
-    this.pedidoService.getDepDropDownValues().subscribe(dataClientes => {
+   this.subs3 =  this.pedidoService.getDepDropDownValues().subscribe(dataClientes => {
       console.log(dataClientes);  
       this.barChartLabelsCotizacion = []; 
       this.listaClientesCotizacion=dataClientes;
@@ -268,10 +276,10 @@ if(event.isUserInput){
       this.verCotizacion();
     }
   }
-
+subs2: Subscription
   datosClientePedido(data,i){
     console.log(data);
-    this.pedidoService.getReporteClienteId(data[i].IdClientes).subscribe(dataReporte => {
+   this.subs2 = this.pedidoService.getReporteClienteId(data[i].IdClientes).subscribe(dataReporte => {
       console.log(dataReporte);
       if(dataReporte.length>0){
         console.log(dataReporte);
@@ -308,9 +316,11 @@ if(event.isUserInput){
     }
     })
   }
+
+  subs4: Subscription
   datosClienteCotizacion(data,i){
     console.log(data);
-    this.cotizacionService.getReporteClienteId(data[i].IdClientes).subscribe(dataReporte => {
+   this.subs4 =  this.cotizacionService.getReporteClienteId(data[i].IdClientes).subscribe(dataReporte => {
       console.log(dataReporte);
       if(dataReporte.length>0){
         console.log(dataReporte);

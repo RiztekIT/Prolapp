@@ -3,6 +3,7 @@ import { CompraService } from 'src/app/services/compras/compra.service';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 // import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { Label, Color } from 'ng2-charts';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-compras-totales',
@@ -55,6 +56,11 @@ export class TotalesComponent implements OnInit {
 
   }
 
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    this.subs2.unsubscribe();
+  }
+
   public barChartOptions: ChartOptions = {
     responsive: true,
     // We use these empty structures as placeholders for dynamic theming.
@@ -102,9 +108,9 @@ export class TotalesComponent implements OnInit {
     
     
   }
-
+subs1: Subscription
   reporte(){
-    this.comprasService.getProveedoresList().subscribe(dataProveedores => {
+   this.subs1 = this.comprasService.getProveedoresList().subscribe(dataProveedores => {
       console.log(dataProveedores);  
       this.barChartLabels = []; 
       this.listaproveedores=dataProveedores;
@@ -198,10 +204,10 @@ if(event.isUserInput){
     }
   }
 
-
+subs2: Subscription
   datosProveedor(data,i){
     console.log(data);
-    this.comprasService.getReporteProveedorId(data[i].IdProveedor).subscribe(dataReporte => {
+  this.subs2 =  this.comprasService.getReporteProveedorId(data[i].IdProveedor).subscribe(dataReporte => {
       console.log(dataReporte);
       if(dataReporte.length>0){
         console.log(dataReporte);

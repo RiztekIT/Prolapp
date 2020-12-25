@@ -4,6 +4,7 @@ import { Label, Color } from 'ng2-charts';
 import { IncidenciasService } from '../../../../services/almacen/incidencias/incidencias.service';
 import { OrdenCargaService } from '../../../../services/almacen/orden-carga/orden-carga.service';
 import { OrdenDescargaService } from '../../../../services/almacen/orden-descarga/orden-descarga.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-calidad-totales',
@@ -21,6 +22,11 @@ export class CalidadTotalesComponent implements OnInit {
 
     this.verIncidencia();
     this.verEvidencia();
+  }
+
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    // this.subs2.unsubscribe();
   }
 
   //variables Incidencia
@@ -189,10 +195,10 @@ export class CalidadTotalesComponent implements OnInit {
     this.verEvidencia()
   }
 
-
+subs1: Subscription
   datosIncidencia(data, i) {
     console.log(data);
-    this.incidenciasService.getIncidenciaProcedencia(this.ordenIncidencia).subscribe(dataReporte => {
+   this.subs1 = this.incidenciasService.getIncidenciaProcedencia(this.ordenIncidencia).subscribe(dataReporte => {
       // this.iniciarTotalesIncidencia();
 
       let totalMermas = 0;

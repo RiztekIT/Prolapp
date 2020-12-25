@@ -3,6 +3,7 @@ import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
 import { ClientesService } from '../../../../services/catalogos/clientes.service';
 import { FacturaService } from '../../../../services/facturacioncxc/factura.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cxc-factura-totales',
@@ -18,6 +19,11 @@ export class CxcFacturaTotalesComponent implements OnInit {
     this.checked = 'True'
     this.Cliente = 'Todos'
     this.verReporte();
+  }
+
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    this.subs2.unsubscribe();
   }
   
   arrcon: Array<any> = [];
@@ -99,9 +105,9 @@ export class CxcFacturaTotalesComponent implements OnInit {
   }
   
   
-  
+  subs1: Subscription
   reporte(){
-    this.clientesService.getClientesList().subscribe(dataClientes => {
+    this.subs1 = this.clientesService.getClientesList().subscribe(dataClientes => {
       // console.clear();
       console.log(dataClientes);  
       this.barChartLabels = []; 
@@ -165,11 +171,11 @@ export class CxcFacturaTotalesComponent implements OnInit {
     }
   }
   
-  
+  subs2: Subscription
   datosCliente(data,i){
 
     // console.log(data);
-    this.facturaService.getFacturasFechasReporte(data[i].IdClientes, '01-01-10', '10-12-20').subscribe(dataReporte => {
+    this.subs2 = this.facturaService.getFacturasFechasReporte(data[i].IdClientes, '01-01-10', '10-12-20').subscribe(dataReporte => {
       // console.log(dataReporte);
       if(dataReporte.length>0){
         console.log(dataReporte);

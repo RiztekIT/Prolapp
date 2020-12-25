@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialogConfig, MatDialog } from '@angular/material';
 import { CompraService } from 'src/app/services/compras/compra.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
@@ -69,6 +69,12 @@ export class ComprasListaComponent implements OnInit {
     this.obtenerCompras();
     this.tipoDeCambio();
   }
+
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    this.subs2.unsubscribe();
+  }
+  
   onAdd(){
     this.serviceCompra.getNewFolio().subscribe(res=>{
       console.log(res); 
@@ -124,16 +130,17 @@ console.log(this.compraBlanco);
   // Estatus
 
 }
-
+subs1: Subscription
+subs2: Subscription
 obtenerCompras(){
-  this.arrCompra = this.serviceCompra.getComprasList();
-  this.arrCompra.subscribe(data =>{
+   this.arrCompra = this.serviceCompra.getComprasList();
+  this.subs1 =this.arrCompra.subscribe(data =>{
   console.log(data);
   this.serviceCompra.master = []
     for (let i = 0; i <= data.length - 1; i++) {
       this.serviceCompra.master[i] = data[i];
       this.serviceCompra.master[i].detalleCompra = [];
-      this.serviceCompra.getDetalleComprasID(data[i].IdCompra).subscribe(res => {
+    this.subs2 =  this.serviceCompra.getDetalleComprasID(data[i].IdCompra).subscribe(res => {
         console.log(res);
         for (let l = 0; l <= res.length - 1; l++) {
           this.serviceCompra.master[i].detalleCompra.push(res[l]); 

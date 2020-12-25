@@ -3,6 +3,7 @@ import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 // import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { Label, Color, BaseChartDirective } from 'ng2-charts';
 import { PagoscxpService } from '../../../../services/cuentasxpagar/pagoscxp.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cxp-pagos-meses',
@@ -69,6 +70,10 @@ export class CxpPagosMesesComponent implements OnInit {
     
 
   }
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    // this.subs2.unsubscribe();
+  }
 
   public barChartOptions: (ChartOptions & { annotation: any }) = {
     responsive: true,
@@ -128,10 +133,10 @@ export class CxpPagosMesesComponent implements OnInit {
     this.totalNoviembre= 0  ;
     this.totalDiciembre= 0  ;
   }
-
+subs1: Subscription
   datosPago(){
     
-    this.pagosService.getReporteGeneral().subscribe(dataReporte => {
+    this.subs1 = this.pagosService.getReporteGeneral().subscribe(dataReporte => {
       console.log(dataReporte);
       this.iniciarTotales();
       if(dataReporte.length>0){

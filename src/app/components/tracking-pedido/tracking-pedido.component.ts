@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { OrdenTemporalService } from '../../services/almacen/orden-temporal/orden-temporal.service';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -48,12 +49,24 @@ export class TrackingPedidoComponent implements OnInit {
         console.log('No es Tracking de Cliente');
         this.intervalUpdate = setInterval(function(){
           this.getPedidos();
-         }.bind(this), 500);
+        }.bind(this), 500);
       }
-
+      
+    }
+    
+    ngOnDestroy(): void {
+    clearInterval(this.intervalUpdate);
+    if(this.subs1){
+      this.subs1.unsubscribe();
+    }
+    if(this.subs2){
+      this.subs2.unsubscribe();
+    }
+    // this.subs2.unsubscribe();
   }
 
 
+subs1: Subscription
 getPedidos(){
 
 
@@ -79,7 +92,7 @@ getPedidos(){
     let anio2 = this.fecha2.getFullYear();
     fecha2 = anio2 + '-' + mes2 + '-' + dia2
 
-    this.ordenTemporalService.GetTracking(fecha1,fecha2).subscribe(data=>{
+   this.subs2 = this.ordenTemporalService.GetTracking(fecha1,fecha2).subscribe(data=>{
       
       
       // console.log(data);
@@ -91,11 +104,10 @@ getPedidos(){
     })
   }
   
-  private ngOnDestroy(): void {
-    clearInterval(this.intervalUpdate);
-  }
+  // private ngOnDestroy(): void {
+  // }
   
-  
+  subs2: Subscription
   getPedidosCliente(){
   
   
@@ -121,7 +133,7 @@ getPedidos(){
       let anio2 = this.fecha2.getFullYear();
       fecha2 = anio2 + '-' + mes2 + '-' + dia2
   
-      this.ordenTemporalService.GetTrackingCliente(fecha1,fecha2,this.idCliente).subscribe(data=>{
+   this.subs2 =   this.ordenTemporalService.GetTrackingCliente(fecha1,fecha2,this.idCliente).subscribe(data=>{
         
         
         // console.log(data);
