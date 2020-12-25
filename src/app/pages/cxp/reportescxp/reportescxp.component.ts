@@ -10,7 +10,7 @@ import { ShowreporteCxpComponent } from './showreporte-cxp/showreporte-cxp.compo
 @Component({
   selector: 'app-reportescxp',
   templateUrl: './reportescxp.component.html',
-  styles: []
+  styleUrls: ['./reportescxp.component.css']
 })
 export class ReportescxpComponent implements OnInit {
 

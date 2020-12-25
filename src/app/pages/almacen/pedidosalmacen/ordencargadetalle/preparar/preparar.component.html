@@ -463,17 +463,17 @@
                 <div class="container" style="margin-right: 0;">
                     <div class="row">
                         <div class="col-md-4 col-12" style="display: grid">
-                            <button *ngIf="MostrarConceptos == false" class="btn btn-info btn-lg" mat-raised-button type="button" (click)="conceptosFaltantes()"><mat-icon>pending</mat-icon> Faltantes</button>
-                            <button *ngIf="MostrarConceptos == true" class="btn btn-info btn-lg" mat-raised-button type="button" (click)="ocultarConceptosFaltantes()"><mat-icon>arrow_drop_down_circle</mat-icon> Ocultar Tabla</button>
+                            <button *ngIf="MostrarConceptos == false" mat-raised-button class="btn btn-prolacto btn-lg"  type="button" (click)="conceptosFaltantes()"><mat-icon>pending</mat-icon> Faltantes</button>
+                            <button *ngIf="MostrarConceptos == true" mat-raised-button class="btn btn-prolacto btn-lg"  type="button" (click)="ocultarConceptosFaltantes()"><mat-icon>arrow_drop_down_circle</mat-icon> Ocultar Tabla</button>
                         </div>
                         <!-- <div class="col-md-3 col-12" style="display: grid">
                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="traspaso()"><mat-icon>sync_alt</mat-icon> Traspasar</button>
                         </div> -->
                         <div class="col-md-4 col-12" style="display: grid">
-                            <button lass="btn btn-info btn-lg" mat-raised-button type="button" (click)="pdf()"><mat-icon>picture_as_pdf</mat-icon> PDF</button>
+                            <button mat-raised-button class="btn btn-prolacto btn-lg"  type="button" (click)="pdf()"><mat-icon>picture_as_pdf</mat-icon> PDF</button>
                         </div>
                         <div class="col-md-4 col-12" style="display: grid">
-                            <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="finalizar()"><mat-icon>done_all</mat-icon> Finalizar</button>
+                            <button mat-raised-button class="btn btn-prolacto btn-lg"  type="button" (click)="finalizar()"><mat-icon>done_all</mat-icon> Finalizar</button>
                         </div>
                     </div>
                 </div>

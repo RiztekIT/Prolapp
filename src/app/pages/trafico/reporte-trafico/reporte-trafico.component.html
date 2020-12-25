@@ -109,7 +109,7 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-4 btnalign">
-                                            <button [disabled]="(checkedEstatusOrdenCarga == true && !estatusOrdenCarga) || (checkedFechasOrdenCarga == true && (!fechaInicialOrdenCarga || !fechaFinalOrdenCarga) || (checkedClientesOrdenCarga == false && !OrdenCargaClienteNombre))" class="btn btn-warning"
+                                            <button [disabled]="(checkedEstatusOrdenCarga == true && !estatusOrdenCarga) || (checkedFechasOrdenCarga == true && (!fechaInicialOrdenCarga || !fechaFinalOrdenCarga) || (checkedClientesOrdenCarga == false && !OrdenCargaClienteNombre))" class="btn btn-prolacto"
                                                 id="abrirpdf" (click)="abrirReporte('OrdenCarga')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Orden Carga</button>
                                         </div>
                                     </div>
@@ -214,7 +214,7 @@
                                     <div class="row">
                                         <div class="col-4 btnalign">
                                             <button [disabled]="(checkedEstatusOrdenDescarga == true && !estatusOrdenDescarga) || (checkedFechasOrdenDescarga == true && (!fechaInicialOrdenDescarga || !fechaFinalOrdenDescarga) || (checkedProveedorOrdenDescarga == false && !OrdenDescargaProveedorNombre))"
-                                                class="btn btn-warning" id="abrirpdf" (click)="abrirReporte('OrdenDescarga')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Orden Descarga</button>
+                                                class="btn btn-prolacto" id="abrirpdf" (click)="abrirReporte('OrdenDescarga')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Orden Descarga</button>
 
                                         </div>
                                     </div>
@@ -305,7 +305,7 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-4 btnalign">
-                                            <button class="btn btn-warning" id="abrirpdf" (click)="abrirReporte('Trafico')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Fletera</button>
+                                            <button class="btn btn-prolacto" id="abrirpdf" (click)="abrirReporte('Trafico')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Fletera</button>
 
                                         </div>
 

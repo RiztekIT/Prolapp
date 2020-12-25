@@ -13,6 +13,9 @@ import { DetalleOrdenCarga } from '../../../Models/almacen/OrdenCarga/detalleOrd
 import { Observable, Subscriber } from 'rxjs';
 import { OrdenCargaComponent } from 'src/app/components/almacen/orden-carga/orden-carga.component';
 import { SidebarService, privilegios } from '../../../services/shared/sidebar.service';
+import { Incidencias } from 'src/app/Models/Incidencias/incidencias-model';
+import { IncidenciasService } from 'src/app/services/almacen/incidencias/incidencias.service';
+import { IncidenciaAlmacenComponent } from 'src/app/components/almacen/incidencia-almacen/incidencia-almacen.component';
 
 @Component({
   selector: 'app-pedidosalmacen',
@@ -45,7 +48,9 @@ export class PedidosalmacenComponent implements OnInit {
 
   // FIN VARIABLES TABLA ORDEN CARGA
 
-  constructor(public router: Router, private service: OrdenCargaService, private dialog: MatDialog, public privilegiosService: SidebarService) {
+  constructor(public router: Router, private service: OrdenCargaService, 
+    private dialog: MatDialog, public privilegiosService: SidebarService,
+    private incidenciasService: IncidenciasService) {
 
     this.service.listen().subscribe((m: any) => {
       console.log(m);
@@ -228,4 +233,90 @@ export class PedidosalmacenComponent implements OnInit {
     })
   }
 
+  public incidenciaBlanco: Incidencias ={
+    IdIncidencia: 0,
+    Folio: null,
+    FolioProcedencia: null,
+    TipoIncidencia: "",
+    Procedencia: "",
+    IdDetalle: null,
+    Cantidad: "",
+    Estatus: "Creada",
+    FechaElaboracion: new Date(),
+    FechaFinalizacion: new Date(0),
+    Observaciones: ""
+  }
+  
+  
+  // tomar el row para sacar datos de la incidencia
+  // !FUNCIONA SI NO HAY EXISTENTE
+  IncidenciasRow(row?){
+     console.clear();
+
+     console.log('%c⧭', 'color: #994d75', row);
+
+this.incidenciasService.GetIncidenciaFolioProcedencia(row.Folio, 'OrdenCarga').subscribe(resIP => {
+  this.incidenciasService.incidenciaObject = new Incidencias()
+  if (resIP.length > 0) {
+    console.log('%c⧭', 'color: #d0bfff', resIP);
+    console.log('%c⧭', 'color: #33cc99', resIP[0].FolioProcedencia);
+    // let folioP = resIP[0].FolioProcedencia
+    
+    console.log('%c%s', 'color: #7f2200', 'si hay');
+    
+    this.incidenciasService.incidenciaObject.FolioProcedencia = row.Folio;
+    this.incidenciasService.incidenciaObject.Procedencia = resIP[0].Procedencia;
+    // this.incidenciasService.incidenciaObject.IdDetalle = resIP[0].IdDetalle;
+    console.log('%c⧭', 'color: #364cd9', this.incidenciasService.incidenciaObject);
+    
+    
+    
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.height = "90%";
+    dialogConfig.data = {
+      modulo: 'OrdenCarga',
+      datos: 'oo'
+    }
+    this.dialog.open(IncidenciaAlmacenComponent, dialogConfig);
+  }else{
+    // !FUNCIONA SI NO HAY EXISTENTE
+    console.log('%c%s', 'color: #e5de73', 'No hay');
+    console.log('%c⧭', 'color: #ffa280', this.incidenciaBlanco);
+
+    this.incidenciasService.incidenciaObject = null;
+      this.incidenciasService.getIncidenciaNewFolio().subscribe(resFolio=>{
+        console.log(resFolio);
+        this.incidenciaBlanco.Folio = +resFolio;
+        this.incidenciaBlanco.Procedencia = 'OrdenCarga'
+        this.incidenciaBlanco.FolioProcedencia = row.Folio
+        this.incidenciaBlanco.IdDetalle = row.IdOrdenCarga
+        console.log('%c⧭', 'color: #ffa280', this.incidenciaBlanco);
+        this.incidenciasService.addIncidencia(this.incidenciaBlanco).subscribe(resAdd=>{
+          console.log(resAdd);
+          this.incidenciasService.getIncidenciaFolio(+resFolio).subscribe(resIncidencia=>{
+            console.log(resIncidencia[0]);
+            this.incidenciasService.incidenciaObject = resIncidencia[0];
+            const dialogConfig = new MatDialogConfig();
+            dialogConfig.disableClose = true;
+            dialogConfig.autoFocus = true;
+            dialogConfig.height = "90%";
+            dialogConfig.data = {
+              modulo: 'OrdenCarga',
+              datos: 'oo'
+            }
+            this.dialog.open(IncidenciaAlmacenComponent, dialogConfig);
+          })
+        })
+      })
+
+  }
+
+})
+
+
+    
+
+}
 }

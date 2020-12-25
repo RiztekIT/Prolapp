@@ -10,7 +10,7 @@ import { ShowreporteCalidadComponent } from './showreporte-calidad/showreporte-c
 @Component({
   selector: 'app-reportes',
   templateUrl: './reportes.component.html',
-  styles: []
+  styleUrls: ['./reportes.component.css']
 })
 
 

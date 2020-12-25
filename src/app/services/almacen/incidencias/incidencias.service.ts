@@ -9,8 +9,8 @@ import { OrdenDescarga } from '../../../Models/almacen/OrdenDescarga/ordenDescar
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { DetalleOrdenCarga } from '../../../Models/almacen/OrdenCarga/detalleOrdenCarga-model';
 
-export const APIUrl = environment.APIUrl;
-// export const APIUrl = "https://localhost:44361/api";
+// export const APIUrl = environment.APIUrl;
+export const APIUrl = "https://localhost:44361/api";
 export const URLApiEMail = environment.APIUrlEmail;
 
 @Injectable({
@@ -39,6 +39,10 @@ getIncidenciaFolio(folio: number): Observable <Incidencias[]>{
 //Obtener Incidencia Procedencia
 getIncidenciaProcedencia(procedencia: string): Observable <Incidencias[]>{
   return this.http.get<Incidencias[]>(APIUrl + '/Incidencias/GetIncidenciaProcedencia/'+procedencia);
+}
+//Obtener Incidencia Por FolioProcedencia
+GetIncidenciaFolioProcedencia(Folio: string, procedencia: string): Observable <Incidencias[]>{
+  return this.http.get<Incidencias[]>(APIUrl + '/Incidencias/GetIncidenciaFolioProcedencia/'+Folio+ '/' +procedencia);
 }
 //Obtener Incidencia Estatus
 getIncidenciaEstatus(estatus: string): Observable <Incidencias[]>{

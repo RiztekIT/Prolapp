@@ -33,3 +33,13 @@
     width: 100%;
     margin-bottom: 15px;
 }
+
+.btn-prolacto {
+    background-color: black;
+    color: white
+}
+
+.btn-prolacto:hover {
+    background-color: white;
+    color: black
+}

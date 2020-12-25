@@ -110,18 +110,18 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-4 btnalign">
-                                            <button [disabled]="(checkedEstatusOrdenCarga == true && !estatusOrdenCarga) || (checkedFechasOrdenCarga == true && (!fechaInicialOrdenCarga || !fechaFinalOrdenCarga) || (checkedClientesOrdenCarga == false && !OrdenCargaClienteNombre))" class="btn btn-warning"
-                                                id="abrirpdf" (click)="abrirReporte('OrdenCarga')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Orden Carga</button>
+                                            <button [disabled]="(checkedEstatusOrdenCarga == true && !estatusOrdenCarga) || (checkedFechasOrdenCarga == true && (!fechaInicialOrdenCarga || !fechaFinalOrdenCarga) || (checkedClientesOrdenCarga == false && !OrdenCargaClienteNombre))" class="btn btn-prolacto " 
+                                                id="abrirpdf" (click)="abrirReporte('OrdenCarga')"><i class="mdi mdi-file-outline "></i>Reporte Orden Carga</button>
 
                                         </div>
                                         <!-- <div class="col-4 btnalign">
                                             <button [disabled]="(checkedEstatusOrdenCarga == true && !estatusOrdenCarga) || (checkedFechasOrdenCarga == true && (!fechaInicialOrdenCarga || !fechaFinalOrdenCarga) || (checkedClientesOrdenCarga == false && !OrdenCargaClienteNombre))" class="btn btn-success"
-                                                id="abrirpdf" (click)="abrirReporte('DLLS', 'OrdenCarga')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Orden Carga Dlls</button>
+                                                id="abrirpdf" (click)="abrirReporte('DLLS', 'OrdenCarga')"><i class="mdi mdi-file-outline "></i>Reporte Orden Carga Dlls</button>
 
                                         </div>
                                         <div class="col-4 btnalign">
                                             <button [disabled]="(checkedEstatusOrdenCarga == true && !estatusOrdenCarga) || (checkedFechasOrdenCarga == true && (!fechaInicialOrdenCarga || !fechaFinalOrdenCarga) || (checkedClientesOrdenCarga == false && !OrdenCargaClienteNombre))" class="btn btn-info"
-                                                id="abrirpdf" (click)="abrirReporte('MXN', 'OrdenCarga')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Orden Carga Mxn</button>
+                                                id="abrirpdf" (click)="abrirReporte('MXN', 'OrdenCarga')"><i class="mdi mdi-file-outline "></i>Reporte Orden Carga Mxn</button>
 
                                         </div> -->
                                     </div>
@@ -226,15 +226,15 @@
                                     <div class="row">
                                         <div class="col-4 btnalign">
                                             <button [disabled]="(checkedEstatusOrdenDescarga == true && !estatusOrdenDescarga) || (checkedFechasOrdenDescarga == true && (!fechaInicialOrdenDescarga || !fechaFinalOrdenDescarga) || (checkedProveedorOrdenDescarga == false && !OrdenDescargaProveedorNombre))"
-                                                class="btn btn-warning" id="abrirpdf" (click)="abrirReporte('OrdenDescarga')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Orden Descarga</button>
+                                                class="btn btn-prolacto "  id="abrirpdf" (click)="abrirReporte('OrdenDescarga')"><i class="mdi mdi-file-outline "></i>Reporte Orden Descarga</button>
 
                                         </div>
                                         <!-- <div class="col-4 btnalign">
-                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-success" id="abrirpdf" (click)="abrirReporte('DLLS', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido Dlls</button>
+                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-success" id="abrirpdf" (click)="abrirReporte('DLLS', 'Pedido')"><i class="mdi mdi-file-outline "></i>Reporte Pedido Dlls</button>
 
                                         </div>
                                         <div class="col-4 btnalign">
-                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-info" id="abrirpdf" (click)="abrirReporte('MXN', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido Mxn</button>
+                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-info" id="abrirpdf" (click)="abrirReporte('MXN', 'Pedido')"><i class="mdi mdi-file-outline "></i>Reporte Pedido Mxn</button>
 
                                         </div> -->
                                     </div>
@@ -359,15 +359,15 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-4 btnalign">
-                                            <button [disabled]="(checkedEstatusTraspaso == true && !estatusTraspaso) || (checkedFechasTraspaso == true && (!fechaInicialTraspaso || !fechaFinalTraspaso))" class="btn btn-warning" id="abrirpdf" (click)="abrirReporte('Traspaso')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Traspaso</button>
+                                            <button [disabled]="(checkedEstatusTraspaso == true && !estatusTraspaso) || (checkedFechasTraspaso == true && (!fechaInicialTraspaso || !fechaFinalTraspaso))" class="btn btn-prolacto "  id="abrirpdf" (click)="abrirReporte('Traspaso')"><i class="mdi mdi-file-outline "></i>Reporte Traspaso</button>
 
                                         </div>
                                         <!-- <div class="col-4 btnalign">
-                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-success" id="abrirpdf" (click)="abrirReporte('DLLS', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido Dlls</button>
+                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-success" id="abrirpdf" (click)="abrirReporte('DLLS', 'Pedido')"><i class="mdi mdi-file-outline "></i>Reporte Pedido Dlls</button>
 
                                         </div>
                                         <div class="col-4 btnalign">
-                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-info" id="abrirpdf" (click)="abrirReporte('MXN', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido Mxn</button>
+                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-info" id="abrirpdf" (click)="abrirReporte('MXN', 'Pedido')"><i class="mdi mdi-file-outline "></i>Reporte Pedido Mxn</button>
 
                                         </div> -->
                                     </div>
@@ -471,15 +471,15 @@
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-4 btnalign">
-                                            <button [disabled]="(checkedBodegaInventario == true && !bodegaInventario) || (checkedProductosInventario == false && !InventarioProductoNombre)" class="btn btn-warning" id="abrirpdf" (click)="abrirReporte('Inventario')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Inventario</button>
+                                            <button [disabled]="(checkedBodegaInventario == true && !bodegaInventario) || (checkedProductosInventario == false && !InventarioProductoNombre)" class="btn btn-prolacto "  id="abrirpdf" (click)="abrirReporte('Inventario')"><i class="mdi mdi-file-outline "></i>Reporte Inventario</button>
 
                                         </div>
                                         <!-- <div class="col-4 btnalign">
-                    <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-success" id="abrirpdf" (click)="abrirReporte('DLLS', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido Dlls</button>
+                    <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-success" id="abrirpdf" (click)="abrirReporte('DLLS', 'Pedido')"><i class="mdi mdi-file-outline "></i>Reporte Pedido Dlls</button>
 
                 </div>
                 <div class="col-4 btnalign">
-                    <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-info" id="abrirpdf" (click)="abrirReporte('MXN', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido Mxn</button>
+                    <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-info" id="abrirpdf" (click)="abrirReporte('MXN', 'Pedido')"><i class="mdi mdi-file-outline "></i>Reporte Pedido Mxn</button>
 
                 </div> -->
                                     </div>

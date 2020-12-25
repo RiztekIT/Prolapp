@@ -29,6 +29,7 @@ import { environment } from '../environments/environment';
 // import { DocumentosclienteComponent } from './documentoscliente/documentoscliente.component';
 import { DocumentosclienteComponent } from './documentoscliente/documentoscliente.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { InicioComponent } from './components/inicio/inicio.component';
 
 
 
@@ -71,6 +72,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     ScannerComponent,
     LoginClienteComponent,
     DocumentosclienteComponent,
+    InicioComponent,
 
     
     

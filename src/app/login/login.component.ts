@@ -159,7 +159,7 @@ this.dispositivo = JSON.stringify(this.deviceinfo)
       this.storageServce.setCurrentSession(session)
       this.sidebarservice.getMenu();
       
-      this.router.navigate(['/direccion']);
+      this.router.navigate(['/inicio']);
      }
      else {
       this.snackBar.open('Usuario / Contraseña Incorrectas', '', {

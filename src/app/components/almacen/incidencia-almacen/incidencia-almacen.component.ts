@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { NgForm, FormControl } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -14,6 +14,9 @@ import { Imagenes } from '../../../Models/Imagenes/imagenes-model';
 import { ImagenService } from 'src/app/services/imagenes/imagen.service';
 
 
+import { MAT_DIALOG_DATA } from '@angular/material';
+
+
 
 @Component({
   selector: 'app-incidencia-almacen',
@@ -21,19 +24,32 @@ import { ImagenService } from 'src/app/services/imagenes/imagen.service';
   styleUrls: ['./incidencia-almacen.component.css']
 })
 export class IncidenciaAlmacenComponent implements OnInit {
+  modulo: string;
 
   constructor(public dialogbox: MatDialogRef<IncidenciaAlmacenComponent>, private dialog: MatDialog, public incidenciasService: IncidenciasService,
-    private _sanitizer: DomSanitizer,private imageCompress: NgxImageCompressService, public imageService: ImagenService, ) { }
+    private _sanitizer: DomSanitizer,private imageCompress: NgxImageCompressService, public imageService: ImagenService, 
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
+    if (this.data) {
+      this.modulo = this.data.modulo
+      
+    }
     console.log(this.incidenciasService.incidenciaObject);
     if(this.incidenciasService.incidenciaObject.FolioProcedencia){
-// console.log('Incidencia Existente');
-this.procedenciaSeleccionada = this.incidenciasService.incidenciaObject.Procedencia;
-this.IdDetalle = +this.incidenciasService.incidenciaObject.IdDetalle;
-this.tipoIncidenciaSeleccionada = this.incidenciasService.incidenciaObject.TipoIncidencia;
-this.estatusSeleccionado = this.incidenciasService.incidenciaObject.Estatus;
-this.obtenerInformacionOrden(this.incidenciasService.incidenciaObject.Procedencia);
+      // console.log('Incidencia Existente');
+      this.procedenciaSeleccionada = this.incidenciasService.incidenciaObject.Procedencia;
+      this.IdDetalle = +this.incidenciasService.incidenciaObject.IdDetalle;
+      console.log('%c%s', 'color: #00ffa6', +this.incidenciasService.incidenciaObject.IdDetalle);
+      this.tipoIncidenciaSeleccionada = this.incidenciasService.incidenciaObject.TipoIncidencia;
+      this.estatusSeleccionado = this.incidenciasService.incidenciaObject.Estatus;
+      this.obtenerInformacionOrden(this.incidenciasService.incidenciaObject.Procedencia);
+    }
+    // si viene de OC u OD
+    if(this.modulo == 'OrdenCarga' || this.modulo == 'OrdenDescarga'){
+      console.log('%c⧭', 'color: #00736b', this.data);
+      this.procedenciaSeleccionada = this.modulo
+      this.obtenerInformacionOrden(this.modulo)
     }
   }
 
@@ -329,7 +345,10 @@ guardarImagenesOrdenCarga(tipo: string, tipoPath: string) {
 //Metodo para obtener el nombre de las imagenes y posteriormente traerse la imagen del servidor
 leerDirImagenes(tipo: string) {
   if(this.IdDetalle){
-console.log('ID DETALLE VALIDO');
+    console.log('ID DETALLE VALIDO');
+    console.log('%c%s', 'color: #ff4400', this.IdDetalle);
+  console.log('%c⧭', 'color: #607339', this.incidenciasService.incidenciaObject.FolioProcedencia);
+  console.log('%c⧭', 'color: #40fff2', tipo);
  //Obtener nombre de la imagen del servidor
  const formData = new FormData();
  formData.append('folio', this.incidenciasService.incidenciaObject.FolioProcedencia.toString())
@@ -410,10 +429,13 @@ obtenerImagen(a) {
 
 
 
+//  !select procedencia
  obtenerInformacionOrden(procedencia: string){
   if(procedencia == 'OrdenCarga'){
     this.incidenciasService.getOrdenCargaFolio(this.incidenciasService.incidenciaObject.FolioProcedencia).subscribe(resOC=>{
-      // console.log(resOC);
+      
+      console.log(resOC);
+      console.log('%c⧭', 'color: #cc0036', this.incidenciasService.incidenciaObject.IdDetalle);
       if(resOC.length>0){
         this.IdOrden = resOC[0].IdOrdenCarga
         this.dropdownRefreshDetalles('OrdenCarga');
@@ -459,6 +481,7 @@ obtenerImagen(a) {
     this.filteredOptionsDetalles = new Observable<any>();
     if(procedencia == 'OrdenCarga'){
       this.incidenciasService.getListOrdenCargaId(this.IdOrden).subscribe(dataP => {
+        console.log('%c⧭', 'color: #ff6600', dataP);
         for (let i = 0; i < dataP.length; i++) {
           let product = dataP[i];
           product.IdDetalle = dataP[i].IdDetalleOrdenCarga;
@@ -519,6 +542,8 @@ obtenerImagen(a) {
           console.log(event);
           this.detalleSeleccionado = options.ClaveProducto;
           this.IdDetalle = options.IdDetalle;
+          console.log('%c⧭', 'color: #8c0038', this.IdDetalle);
+          
           this.leerDirImagenes(this.incidenciasService.incidenciaObject.Procedencia);
           // this.NombreProveedor = options.Nombre;
           // this.compra.Proveedor = options.Nombre;
@@ -556,6 +581,8 @@ obtenerImagen(a) {
     this.incidenciasService.incidenciaObject.TipoIncidencia = this.tipoIncidenciaSeleccionada;
     this.incidenciasService.incidenciaObject.Estatus = this.estatusSeleccionado;
     this.incidenciasService.incidenciaObject.IdDetalle = this.IdDetalle;
+    this.incidenciasService.incidenciaObject.FechaElaboracion = new Date();
+    this.incidenciasService.incidenciaObject.FechaFinalizacion = new Date();
     console.log(this.incidenciasService.incidenciaObject);
     this.incidenciasService.updateIncidencia(this.incidenciasService.incidenciaObject).subscribe(res=>{
       console.log(res);

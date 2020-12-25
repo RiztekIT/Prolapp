@@ -78,7 +78,8 @@
 
                         <div class="form-material mat-elevation-z5">
                             <div class="card-body">
-                                <ngx-dropzone [disabled]="form.invalid || procedenciaSeleccionada.length == 0 || detalleSeleccionado.length == 0 || tipoIncidenciaSeleccionada.length == 0 || estatusSeleccionado.length == 0" (change)="onSelect($event)">
+                                <!-- <ngx-dropzone [disabled]="form.invalid || procedenciaSeleccionada.length == 0 || tipoIncidenciaSeleccionada.length == 0 || estatusSeleccionado.length == 0" (change)="onSelect($event)"> -->
+                                <ngx-dropzone [disabled]="form.invalid " (change)="onSelect($event)">
                                     <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
                                     <ngx-dropzone-image-preview *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
                                         <ngx-dropzone-label> {{ f.type }}</ngx-dropzone-label>
@@ -116,7 +117,8 @@
 
                 </div>
                 <br>
-                <button class="btn btn-success" mat-raised-button color="success" (click)="guardarIncidencia()" [disabled]="form.invalid || procedenciaSeleccionada.length == 0 || detalleSeleccionado.length == 0 || tipoIncidenciaSeleccionada.length == 0 || estatusSeleccionado.length == 0">Generar Incidencia</button>
+                <!-- <button class="btn btn-success" mat-raised-button color="success" (click)="guardarIncidencia()" [disabled]="form.invalid || procedenciaSeleccionada.length == 0 || detalleSeleccionado.length == 0 || tipoIncidenciaSeleccionada.length == 0 || estatusSeleccionado.length == 0">Generar Incidencia</button> -->
+                <button class="btn btn-success" mat-raised-button color="success" (click)="guardarIncidencia()" >Generar Incidencia</button>
                 <br>
             </div>
         </div>
