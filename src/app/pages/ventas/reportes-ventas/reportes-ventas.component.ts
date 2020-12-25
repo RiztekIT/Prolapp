@@ -9,6 +9,7 @@ import { Cliente } from 'src/app/Models/catalogos/clientes-model';
 import { PedidoService } from '../../../services/pedidos/pedido.service';
 import { VentasCotizacionService } from '../../../services/ventas/ventas-cotizacion.service';
 import { ShowreporteVentasComponent } from './showreporte-ventas/showreporte-ventas.component';
+import { EnviarfacturaService } from '../../../services/facturacioncxc/enviarfactura.service';
 
 declare function btn_table();
 
@@ -21,7 +22,8 @@ declare function btn_table();
 export class ReportesVentasComponent implements OnInit {
 
 
-  constructor(public serviceCliente: ClientesService, private dialog: MatDialog, pedidoService: PedidoService, cotizacionService:VentasCotizacionService) { }
+  constructor(public serviceCliente: ClientesService, private dialog: MatDialog, pedidoService: PedidoService, cotizacionService:VentasCotizacionService,
+    private EnviarfacturaService: EnviarfacturaService) { }
 
   ngOnInit() {
  this.obtenerClientes();
@@ -269,6 +271,26 @@ IdCliente = this.CotizacionIdCliente;
       tipoEstatus: tipoEstatus
       
     }
+if (modulo == 'Cotizacion' && moneda == 'ALL') {
+  this.EnviarfacturaService.titulo = 'Reporte Cotizacion'
+}
+else if(modulo == 'Cotizacion' && moneda == 'MXN'){
+  this.EnviarfacturaService.titulo = 'Reporte Cotizacion MXN'
+}
+else if(modulo == 'Cotizacion' && moneda == 'DLLS'){
+  this.EnviarfacturaService.titulo = 'Reporte Cotizacion DLLS'
+}
+else if(modulo == 'Pedido' && moneda == 'ALL'){
+  this.EnviarfacturaService.titulo = 'Reporte Pedido'
+}
+else if(modulo == 'Pedido' && moneda == 'DLLS'){
+  this.EnviarfacturaService.titulo = 'Reporte Pedido DLLS'
+}
+else if(modulo == 'Pedido' && moneda == 'MXN'){
+  this.EnviarfacturaService.titulo = 'Reporte Pedido MXN'
+}
+
+
     this.dialog.open( ShowreporteVentasComponent, dialogConfig);
 
   }

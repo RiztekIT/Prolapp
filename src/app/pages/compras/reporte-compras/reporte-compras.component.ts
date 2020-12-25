@@ -20,6 +20,8 @@ export class ReporteComprasComponent implements OnInit {
   constructor(private dialog: MatDialog,public comprasService: CompraService) { }
 
   ngOnInit() {
+
+    
     this.obtenerProveedores();
   }
 

@@ -7,6 +7,7 @@ import { MatDialog, MatDialogConfig, MatSnackBar, MatDivider, MAT_DATE_LOCALE } 
 import { OrdenCargaService } from '../../../services/almacen/orden-carga/orden-carga.service';
 import { DocumentosImportacionService } from '../../../services/importacion/documentos-importacion.service';
 import { ShowreporteImportacionComponent } from './showreporte-importacion/showreporte-importacion.component';
+import { EnviarfacturaService } from '../../../services/facturacioncxc/enviarfactura.service';
 
 @Component({
   selector: 'app-reportes-importacion',
@@ -15,7 +16,8 @@ import { ShowreporteImportacionComponent } from './showreporte-importacion/showr
 })
 export class ReportesImportacionComponent implements OnInit {
 
-  constructor(public ocService: OrdenCargaService, private dialog: MatDialog, public documentosService: DocumentosImportacionService) { }
+  constructor(public ocService: OrdenCargaService, private dialog: MatDialog, public documentosService: DocumentosImportacionService, 
+    private EnviarfacturaService: EnviarfacturaService) { }
 
   ngOnInit() {
  this.obtenerDocumentos();
@@ -274,6 +276,14 @@ console.log('TipoEstatus', tipoEstatus);
       estatusTraspaso: estatus,
       tipoEstatus: tipoEstatus
       
+    }
+    if (modulo == 'Documento') {
+      this.EnviarfacturaService.titulo = 'Reporte Documento'
+      
+    }
+    else{
+      this.EnviarfacturaService.titulo = 'Reporte Traspaso'
+
     }
     this.dialog.open( ShowreporteImportacionComponent, dialogConfig);
 

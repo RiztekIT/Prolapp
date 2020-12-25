@@ -13,6 +13,7 @@ import { ProveedoresService } from '../../../../services/catalogos/proveedores.s
 import { VentasCotizacionService } from '../../../../services/ventas/ventas-cotizacion.service';
 import { resolve } from 'url';
 import { TraspasoMercanciaService } from '../../../../services/importacion/traspaso-mercancia.service';
+import { EnviarfacturaService } from '../../../../services/facturacioncxc/enviarfactura.service';
 
 @Component({
   selector: 'app-showreporte-almacen',
@@ -23,10 +24,15 @@ export class ShowreporteAlmacenComponent implements OnInit {
 
   constructor(   @Inject(MAT_DIALOG_DATA) public data: any,public sharedService: SharedService, public ocService: OrdenCargaService,
    public odService: OrdenDescargaService, public serviceTarima: TarimaService, public clienteService: ClientesService, public proveedorService: ProveedoresService,
-   public cotizacionService: VentasCotizacionService, public traspasoService: TraspasoMercanciaService) { }
+   public cotizacionService: VentasCotizacionService, public traspasoService: TraspasoMercanciaService, private EnviarfacturaService: EnviarfacturaService) { }
 
   ngOnInit() {
     this.ReporteInformacion = this.data;
+    console.log('%c⧭', 'color: #5200cc', this.data);
+
+    this.EnviarfacturaService.titulo = 'Reporte '+ this.data.modulo
+    console.log('%c⧭', 'color: #f27999', this.EnviarfacturaService.titulo);
+
     console.log(this.ReporteInformacion);
     //Identificar de donde se genero el reporte
     this.identificarTipoDeReporte(this.ReporteInformacion.modulo,this.ReporteInformacion.unsolocliente);

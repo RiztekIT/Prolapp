@@ -14,6 +14,7 @@ import { ShowreporteAlmacenComponent } from '../../almacen/reportesalmacen/showr
 import { OrdenDescargaService } from 'src/app/services/almacen/orden-descarga/orden-descarga.service';
 import { Proveedor } from 'src/app/Models/catalogos/proveedores-model';
 import { ProveedoresService } from 'src/app/services/catalogos/proveedores.service';
+import { EnviarfacturaService } from '../../../services/facturacioncxc/enviarfactura.service';
 
 
 
@@ -25,7 +26,9 @@ import { ProveedoresService } from 'src/app/services/catalogos/proveedores.servi
 })
 export class ReporteTraficoComponent implements OnInit {
 
-  constructor(public serviceCliente: ClientesService, public proveedorService: ProveedoresService, private dialog: MatDialog, public ocService: OrdenCargaService, public traficoService: OrdenCargaTraficoService, public odService: OrdenDescargaService) { }
+  constructor(public serviceCliente: ClientesService, public proveedorService: ProveedoresService, private dialog: MatDialog, 
+    public ocService: OrdenCargaService, public traficoService: OrdenCargaTraficoService, public odService: OrdenDescargaService,
+    private EnviarfacturaService: EnviarfacturaService) { }
 
   ngOnInit() {
     this.obtenerClientes();
@@ -420,9 +423,11 @@ tipoEstatusBodega = this.estatusTrafico;
       fletera: fletera
 
     }
+
     if(modulo == 'OrdenCarga' || modulo == 'OrdenDescarga'){
       this.dialog.open( ShowreporteAlmacenComponent, dialogConfig);
     }else if(modulo == 'Trafico'){
+      this.EnviarfacturaService.titulo = 'Reporte Fletera'
       this.dialog.open( ShowreporteTraficoComponent, dialogConfig);
     }
 

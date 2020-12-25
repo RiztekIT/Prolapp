@@ -6,6 +6,7 @@ import { MatDialog, MatDialogConfig, MatSnackBar, MatDivider, MAT_DATE_LOCALE } 
 import {ThemePalette} from '@angular/material/core';
 import { PagoscxpService } from '../../../services/cuentasxpagar/pagoscxp.service';
 import { ShowreporteCxpComponent } from './showreporte-cxp/showreporte-cxp.component';
+import { EnviarfacturaService } from '../../../services/facturacioncxc/enviarfactura.service';
 
 @Component({
   selector: 'app-reportescxp',
@@ -15,7 +16,7 @@ import { ShowreporteCxpComponent } from './showreporte-cxp/showreporte-cxp.compo
 export class ReportescxpComponent implements OnInit {
 
 
-  constructor(private dialog: MatDialog, public pagoService: PagoscxpService) { }
+  constructor(private dialog: MatDialog, public pagoService: PagoscxpService, private EnviarfacturaService: EnviarfacturaService) { }
 
   ngOnInit() {
      }
@@ -134,6 +135,7 @@ if(modulo == 'Pago'){
       pagoFiltro1Valor: pagoFiltro1Valor
       
     }
+    this.EnviarfacturaService.titulo = 'Reporte Cuentas Por Pagar'
     this.dialog.open( ShowreporteCxpComponent, dialogConfig);
 
 

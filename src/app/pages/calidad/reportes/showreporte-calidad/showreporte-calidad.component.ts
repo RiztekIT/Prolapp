@@ -6,6 +6,7 @@ import { SharedService } from '../../../../services/shared/shared.service';
 import { CalendarioService } from 'src/app/services/calendario/calendario.service';
 import { formatoReporte } from '../../../../Models/formato-reporte';
 import { IncidenciasService } from '../../../../services/almacen/incidencias/incidencias.service';
+import { EnviarfacturaService } from '../../../../services/facturacioncxc/enviarfactura.service';
 
 @Component({
   selector: 'app-showreporte-calidad',
@@ -15,12 +16,24 @@ import { IncidenciasService } from '../../../../services/almacen/incidencias/inc
 export class ShowreporteCalidadComponent implements OnInit {
 
 
-  constructor(public incidenciasService: IncidenciasService, @Inject(MAT_DIALOG_DATA) public data: any, public sharedService: SharedService) { }
+  constructor(public incidenciasService: IncidenciasService, @Inject(MAT_DIALOG_DATA) public data: any, public sharedService: SharedService,
+  private EnviarfacturaService: EnviarfacturaService) { }
 
   ngOnInit() {
     this.reporte = this.data;
+    console.log('%c⧭', 'color: #cc7033', this.data);
     console.log(this.reporte);
     this.procedencia = this.reporte.procedencia;
+    if (this.data.procedencia == 'ALL') {
+      this.EnviarfacturaService.titulo = 'Reporte Incidencias'
+      
+    } else if(this.data.procedencia == 'OrdenCarga'){
+      this.EnviarfacturaService.titulo = 'Reporte Incidencias Orden Carga'
+
+    } else if(this.data.procedencia == 'OrdenDescarga') {
+      this.EnviarfacturaService.titulo ='Reporte Incidencias Orden Descarga'
+
+    }
     this.identificarTipoDeReporte();
 
     //Obtener reporte Proveedor(es)

@@ -334,6 +334,7 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
     dialogConfig.autoFocus = true;
     dialogConfig.width = "80%";
     let dl = this.dialog.open(ReportefacturacionfechasComponent, dialogConfig);
+    this.enviarfact.titulo = 'Reporte Detallado'
             }
 
             abrirReporteResumen(){
@@ -342,7 +343,7 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
     dialogConfig.autoFocus = true;
     dialogConfig.width = "80%";
     let dl = this.dialog.open(ReportefacturacionResumenComponent, dialogConfig);
-
+    this.enviarfact.titulo = 'Reporte Resumen'
             }
 
 
@@ -449,6 +450,7 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
     dialogConfig.data = {
       clientes: this.todosClientes
     }
+    this.enviarfact.titulo = 'Reporte Cobranza'
     let dl = this.dialog.open(ReporteComponent, dialogConfig);
 
             }
@@ -460,6 +462,7 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
     dialogConfig.data = {
       clientes: this.todosClientes
     }
+    this.enviarfact.titulo = 'Reporte Cobranza Dlls'
     let dl = this.dialog.open(ReporteDllsComponent, dialogConfig);
 
             }
@@ -471,6 +474,7 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
     dialogConfig.data = {
       clientes: this.todosClientes
     }
+    this.enviarfact.titulo = 'Reporte Cobranza MXN'
     let dl = this.dialog.open(ReporteMxnComponent, dialogConfig);
 
             }
