@@ -5,6 +5,7 @@ import { trigger, state, transition, animate, style } from '@angular/animations'
 import { DocumentosComponent } from './documentos/documentos.component';
 import { BodegasService } from '../../../services/catalogos/bodegas.service';
 import { Bodega } from '../../../Models/catalogos/bodegas-model';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -52,6 +53,11 @@ export class InventariosalmacenComponent implements OnInit {
     this.bodegaSelect = 'PasoTx';
     this.obtenerProductos(this.bodegaSelect)
   }
+
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    this.subs2.unsubscribe();
+  }
   
   applyFilter(filtervalue: string) {
     this.listData.filterPredicate = (data, filter: string) => {
@@ -68,9 +74,9 @@ export class InventariosalmacenComponent implements OnInit {
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
     
   }
-
+subs1: Subscription
   getbodegas(){
-    this.bodegaservice.getBodegasList().subscribe(res => {
+    this.subs1 = this.bodegaservice.getBodegasList().subscribe(res => {
       console.clear();
       console.log(res);
       console.log(res[0].Origen);
@@ -93,7 +99,9 @@ export class InventariosalmacenComponent implements OnInit {
       this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
     })
   } */
-  
+  subs2: Subscription
+  subs3: Subscription
+  subs4: Subscription
   obtenerProductos(bodega){
     let contador = 0;
     
@@ -102,7 +110,7 @@ export class InventariosalmacenComponent implements OnInit {
     let kgtotales;
     let kgdisponibles;
     
-    this.serviceTarima.getProductosMarcas().subscribe((data:any)=>{
+   this.subs2 = this.serviceTarima.getProductosMarcas().subscribe((data:any)=>{
       console.log(data,'obtner tarimas');
       
       for (let l=0; l<data.length; l++){
@@ -112,7 +120,7 @@ export class InventariosalmacenComponent implements OnInit {
         let productomarca = data[l].Nombre.concat(' ',data[l].NombreMarca)
         let ClaveProducto = data[l].ClaveProducto.concat(data[l].ClaveMarca)
         
-        this.serviceTarima.GetTarimaProducto(productomarca,bodega).subscribe(datadet =>{
+        this.subs3 = this.serviceTarima.GetTarimaProducto(productomarca,bodega).subscribe(datadet =>{
           //this.master[contador] = []
           
           console.log(datadet);
@@ -132,7 +140,7 @@ export class InventariosalmacenComponent implements OnInit {
               datadet[i].KgT = (+datadet[i].SacosTotales* +datadet[i].PesoxSaco);
 
 
-              this.serviceTarima.GetTarimaProductoD(datadet[i].Producto,datadet[i].Lote).subscribe(datas=>{
+             this.subs4 = this.serviceTarima.GetTarimaProductoD(datadet[i].Producto,datadet[i].Lote).subscribe(datas=>{
                 console.log(datas,'datas');
                 // console.log(contador,'c2');
                 // console.log(this.serviceTarima.master[contador],'2');

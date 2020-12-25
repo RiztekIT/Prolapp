@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm, FormControl } from "@angular/forms";
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Cliente } from 'src/app/Models/catalogos/clientes-model';
 import { map, startWith } from 'rxjs/operators';
 import { VentasPedidoService } from '../../../services/ventas/ventas-pedido.service';
@@ -60,6 +60,10 @@ export class PedidoVentasComponent implements OnInit {
     //^ **** PRIVILEGIOS POR USUARIO *****
     this.obtenerPrivilegios();
     //^ **** PRIVILEGIOS POR USUARIO *****
+  }
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    this.subs2.unsubscribe();
   }
 
     
@@ -162,10 +166,11 @@ if (this.estatusSelect==='Todos'){
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-
+subs1: Subscription
+subs2: Subscription
   refreshPedidoList() {
     // this.service.getPedidoList().subscribe(data => {
-    this.service.getPedidoCliente().subscribe(data => {
+  this.subs1 =  this.service.getPedidoCliente().subscribe(data => {
       console.log(data);
       for (let i = 0; i <= data.length - 1; i++) {
         if (data[i].Estatus == 'Creada') {
@@ -178,7 +183,7 @@ if (this.estatusSelect==='Todos'){
         }
         this.service.master[i] = data[i]
         this.service.master[i].DetallePedido = [];
-        this.service.getDetallePedidoId(data[i].IdPedido).subscribe(res => {
+        this.subs2 = this.service.getDetallePedidoId(data[i].IdPedido).subscribe(res => {
           for (let l = 0; l <= res.length - 1; l++) {
             this.service.master[i].DetallePedido.push(res[l]);
           }

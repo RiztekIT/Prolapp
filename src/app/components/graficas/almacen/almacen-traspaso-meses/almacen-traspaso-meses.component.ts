@@ -4,6 +4,7 @@ import { Label, BaseChartDirective, Color } from 'ng2-charts';
 import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
 import { OrdenCargaService } from '../../../../services/almacen/orden-carga/orden-carga.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-almacen-traspaso-meses',
   templateUrl: './almacen-traspaso-meses.component.html',
@@ -20,6 +21,11 @@ export class AlmacenTraspasoMesesComponent implements OnInit {
     // this.Cliente = 'Todos'
     // this.reporte();
     this.verReporte();
+  }
+
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    // this.subs2.unsubscribe();
   }
 
   @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;
@@ -187,11 +193,11 @@ export class AlmacenTraspasoMesesComponent implements OnInit {
   //   // console.log(this.moneda);
   //   this.reporte()
   // }
-
+subs1: Subscription
 datosTraspaso(){
   // console.log(data);
   // this.ordenCargaService.getReporteClienteId(data.IdClientes).subscribe(dataReporte => {
-    this.traspasoService.getTraspasoMercancia().subscribe(dataReporte => {
+   this.subs1 = this.traspasoService.getTraspasoMercancia().subscribe(dataReporte => {
     console.log(dataReporte);
     this.iniciarTotales();
     if(dataReporte.length>0){

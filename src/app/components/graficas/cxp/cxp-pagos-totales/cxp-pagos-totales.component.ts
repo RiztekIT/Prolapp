@@ -3,6 +3,7 @@ import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 // import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { Label, Color } from 'ng2-charts';
 import { PagoscxpService } from '../../../../services/cuentasxpagar/pagoscxp.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-cxp-pagos-totales',
@@ -58,6 +59,11 @@ export class CxpPagosTotalesComponent implements OnInit {
     this.tipoDocumento = 'Todos'
     this.ver();
 
+  }
+
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    // this.subs2.unsubscribe();
   }
 
   public barChartOptions: ChartOptions = {
@@ -199,10 +205,10 @@ if(event.isUserInput){
     }
   }
 
-
+subs1: Subscription
   datosPago(data,i){
     console.log(data);
-    this.pagosService.getReporteTipoDocumento(data[i].tipo).subscribe(dataReporte => {
+    this.subs1 = this.pagosService.getReporteTipoDocumento(data[i].tipo).subscribe(dataReporte => {
       console.log(dataReporte);
       this.iniciarTotales();
       if(dataReporte.length>0){

@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, Color } from 'ng2-charts';
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscriber, Subscription } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { Cliente } from '../../../../Models/catalogos/clientes-model';
 
@@ -13,7 +13,7 @@ import { Cliente } from '../../../../Models/catalogos/clientes-model';
   templateUrl: './almacen-totales.component.html',
   styleUrls: ['./almacen-totales.component.css']
 })
-export class AlmacenTotalesComponent implements OnInit {
+export class AlmacenTotalesComponent implements OnInit, OnDestroy {
 
   constructor(public ocService: OrdenCargaService, public pedidoService: VentasPedidoService,) { 
 
@@ -24,6 +24,12 @@ export class AlmacenTotalesComponent implements OnInit {
     this.checked = 'True'
     this.Cliente = 'Todos'
     this.verReporte();
+  }
+
+  ngOnDestroy(): void {
+    // this.verReporte();
+    this.subs1.unsubscribe();
+    this.subs2.unsubscribe();
   }
 
   arrcon: Array<any> = [];
@@ -111,9 +117,9 @@ export class AlmacenTotalesComponent implements OnInit {
   }
 
 
-
+subs1:Subscription
   reporte(){
-    this.pedidoService.getDepDropDownValues().subscribe(dataClientes => {
+   this.subs1 = this.pedidoService.getDepDropDownValues().subscribe(dataClientes => {
       // console.log(dataClientes);  
       this.barChartLabels = []; 
       this.options = [];
@@ -222,10 +228,10 @@ if(event.isUserInput){
     }
   }
 
-
+subs2:Subscription
   datosCliente(data,i){
     // console.log(data);
-    this.ocService.getReporteClienteId(data[i].IdClientes).subscribe(dataReporte => {
+    this.subs2 = this.ocService.getReporteClienteId(data[i].IdClientes).subscribe(dataReporte => {
       // console.log(dataReporte);
       this.iniciarTotales();
       if(dataReporte.length>0){

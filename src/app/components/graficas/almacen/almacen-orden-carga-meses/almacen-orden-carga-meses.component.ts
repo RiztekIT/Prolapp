@@ -1,15 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, BaseChartDirective, Color } from 'ng2-charts';
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
 import { OrdenCargaService } from '../../../../services/almacen/orden-carga/orden-carga.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-almacen-orden-carga-meses',
   templateUrl: './almacen-orden-carga-meses.component.html',
   styleUrls: ['./almacen-orden-carga-meses.component.css']
 })
-export class AlmacenOrdenCargaMesesComponent implements OnInit {
+export class AlmacenOrdenCargaMesesComponent implements OnInit, OnDestroy {
 
   constructor(public pedidoService: VentasPedidoService, public ordenCargaService: OrdenCargaService ) { }
 
@@ -18,6 +19,11 @@ export class AlmacenOrdenCargaMesesComponent implements OnInit {
     this.checked = 'True'
     this.Cliente = 'Todos'
     this.reporte();
+  }
+
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    this.subs2.unsubscribe();
   }
 
   @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;
@@ -113,10 +119,10 @@ export class AlmacenOrdenCargaMesesComponent implements OnInit {
     }
   ];
 
-
+subs1:Subscription
   reporte(){
     this.iniciarTotales();
-    this.pedidoService.getDepDropDownValues().subscribe(dataClientes => {
+   this.subs1 = this.pedidoService.getDepDropDownValues().subscribe(dataClientes => {
       // console.log(dataClientes);  
       this.listaClientes=dataClientes;
        this.obtenerReporte(dataClientes.length, dataClientes);
@@ -197,10 +203,10 @@ export class AlmacenOrdenCargaMesesComponent implements OnInit {
 //     }
 //   }
 
-
+subs2: Subscription
 datosCliente(data,i){
   // console.log(data);
-  this.ordenCargaService.getReporteClienteId(data[i].IdClientes).subscribe(dataReporte => {
+  this.subs2 = this.ordenCargaService.getReporteClienteId(data[i].IdClientes).subscribe(dataReporte => {
     
     if(dataReporte.length>0){
       // console.log(dataReporte);

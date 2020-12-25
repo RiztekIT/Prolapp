@@ -7,6 +7,7 @@ import { ResumentraspasoComponent } from './resumentraspaso/resumentraspaso.comp
 import { DocumentacionFormularioImportacionComponent } from '../../importacion/documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
 import { OrdenCargaDescargaComponent } from 'src/app/components/orden-carga-descarga/orden-carga-descarga.component';
 import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-traspasomercancia',
@@ -29,6 +30,11 @@ export class TraspasomercanciaComponent implements OnInit {
     //^ **** PRIVILEGIOS POR USUARIO *****
     this.obtenerPrivilegios();
     //^ **** PRIVILEGIOS POR USUARIO *****
+  }
+
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    // this.subs2.unsubscribe();
   }
 
    //^ **** PRIVILEGIOS POR USUARIO *****
@@ -116,10 +122,10 @@ export class TraspasomercanciaComponent implements OnInit {
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
 
   }
-
+subs1: Subscription
   obtenerTraspasos(){
 
-    this.traspasoSVC.getTraspasoMercancia().subscribe(data=>{
+  this.subs1 =  this.traspasoSVC.getTraspasoMercancia().subscribe(data=>{
       console.log(data,'TRASPASO');
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;

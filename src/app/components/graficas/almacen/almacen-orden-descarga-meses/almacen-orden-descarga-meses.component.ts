@@ -3,6 +3,7 @@ import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, BaseChartDirective, Color } from 'ng2-charts';
 import { OrdenDescargaService } from '../../../../services/almacen/orden-descarga/orden-descarga.service';
 import { ProveedoresService } from '../../../../services/catalogos/proveedores.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -19,6 +20,11 @@ export class AlmacenOrdenDescargaMesesComponent implements OnInit {
     this.checked = 'True'
     this.Cliente = 'Todos'
     this.reporte();
+  }
+
+  ngOnDestroy(): void {
+    this.subs1.unsubscribe();
+    this.subs2.unsubscribe();
   }
 
   @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;
@@ -114,10 +120,10 @@ export class AlmacenOrdenDescargaMesesComponent implements OnInit {
     }
   ];
 
-
+subs1: Subscription
   reporte(){
     this.iniciarTotales();
-    this.proveedorService.getProveedoresList().subscribe(dataProveedores => {
+    this.subs1 = this.proveedorService.getProveedoresList().subscribe(dataProveedores => {
       // console.log(dataProveedores);  
       this.listaClientes=dataProveedores;
        this.obtenerReporte(dataProveedores.length, dataProveedores);
@@ -173,10 +179,10 @@ export class AlmacenOrdenDescargaMesesComponent implements OnInit {
     // console.log(this.moneda);
     this.reporte()
   }
-
+subs2: Subscription
 datosCliente(data,i){
   // console.log(data);
-  this.odService.getReporteProveedorId(data[i].IdProveedor).subscribe(dataReporte => {
+ this.subs2 = this.odService.getReporteProveedorId(data[i].IdProveedor).subscribe(dataReporte => {
     // console.log(dataReporte);
     if(dataReporte.length>0){
       // console.log(dataReporte);
