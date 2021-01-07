@@ -62,7 +62,9 @@ export class CxpPagosTotalesComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.subs1.unsubscribe();
+    if(this.subs1){
+      this.subs1.unsubscribe();
+    }
     // this.subs2.unsubscribe();
   }
 
