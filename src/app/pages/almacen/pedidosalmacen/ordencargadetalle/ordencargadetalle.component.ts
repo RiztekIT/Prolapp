@@ -328,7 +328,7 @@ dod: DetalleOrdenDescarga;
      this.od.Kg = kg.toString();
      this.od.Chofer = '';
      this.od.Origen = this.service.formData.Origen;
-     this.od.Destino = 'Chihuahua';
+     this.od.Destino = 'CHIHUAHUA';
      this.od.Observaciones = '';
      //Con que estatus se generara?
      this.od.Estatus = 'Transito';
@@ -376,7 +376,7 @@ dod: DetalleOrdenDescarga;
             this.dod.USDA = this.listData.data[i].USDA;
             //duda pedimento
             this.dod.Pedimento = this.listData.data[i].Pedimento;
-            this.dod.Saldo = this.listData.data[i].Sacos;
+            this.dod.Saldo = this.listData.data[i].PesoTotal;
             
             console.log(this.dod);
             

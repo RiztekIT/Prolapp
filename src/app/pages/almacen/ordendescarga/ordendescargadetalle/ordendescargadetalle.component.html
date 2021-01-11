@@ -9,8 +9,8 @@
                     <h2 class="text-muted m-t-10 m-b-0">Orden de Descarga</h2>
                     <div>
                         Estatus:
-                        <p [ngSwitch]=this.service.formData.Estatus>
-                            <span *ngSwitchCase="'Guardada'" class="label label-light-sucess">GUARDADA</span>
+                        <p [ngSwitch]=this.Estatus>
+                            <span *ngSwitchCase="'Guardada'" class="label label-light-success">GUARDADA</span>
                             <span *ngSwitchCase="'Proceso'" class="label label-light-primary">PROCESO</span>
                             <span *ngSwitchCase="'Descargada'" class="label label-light-info">DESCARGADA</span>
                             <span *ngSwitchCase="'Transito'" class="label label-light-inverse">TRANSITO</span>

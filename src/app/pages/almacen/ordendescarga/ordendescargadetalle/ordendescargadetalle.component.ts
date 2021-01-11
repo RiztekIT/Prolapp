@@ -44,6 +44,7 @@ export class OrdendescargadetalleComponent implements OnInit {
   files: File[] = [];
   imagenes: any[];
   Folio: number;
+  Estatus: string="";
 
   imagePath: SafeResourceUrl;
   imageInfo: ImgInfo[] = [];
@@ -225,8 +226,10 @@ leerDirImagenes() {
 ObtenerFolio(id: number) {
   this.service.getOrdenDescargaID(id).subscribe(dataOC => {
     console.log(dataOC);
+    this.Estatus = dataOC[0].Estatus
     this.Folio = dataOC[0].Folio;
     console.log(this.Folio);
+    console.log(this.Estatus);
     this.leerDirImagenes();
   })
 }
