@@ -59,8 +59,12 @@ export class OrdendescargaComponent implements OnInit {
     //^ **** PRIVILEGIOS POR USUARIO *****
   }
   ngOnDestroy(): void {
-    this.subs1.unsubscribe();
-    this.subs2.unsubscribe();
+    if(this.subs1){
+      this.subs1.unsubscribe();
+    }
+    if(this.subs2){
+      this.subs2.unsubscribe();
+    }
   }
 
 

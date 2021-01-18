@@ -29,22 +29,24 @@
                         <label class="input-group-text text-info">Producto</label>
                         <input readonly="readonly" type="text" class="form-control" name="Producto" #Producto="ngModel" [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.Producto">
 
-                        <label class="input-group-text text-info">Lote</label>
-                        <input readonly="readonly" type="text" class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.Lote">
+                        
 
 
                     </div>
                     <div class="col-lg-6">
 
-                        <label class="input-group-text text-info">Sacos</label>
-                        <input type="number" class="form-control" id="sacos" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="cantidadSacos" (ngModelChange)="onChangeCantidadSacos($event)">
+                        <label class="input-group-text text-info">Kilogramos</label>
+                        <input type="number" class="form-control" id="sacos" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="cantidadKg" (ngModelChange)="onChangeCantidadSacos($event)">
+
+                        <label class="input-group-text text-info">Lote</label>
+                        <input  type="text" class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.Lote">
 
                         <!-- <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched ||cantidadSacos == 0">
                             Favor de Ingresar un valor mayor a 0.
                         </div> -->
 
-                        <label class="input-group-text text-info">Comentarios</label>
-                        <input type="text" class="form-control" name="Comentario" #Comentario="ngModel" [(ngModel)]="Comentarios">
+                        <!-- <label class="input-group-text text-info">Comentarios</label> -->
+                        <!-- <input type="text" class="form-control" name="Comentario" #Comentario="ngModel" [(ngModel)]="Comentarios"> -->
                     </div>
                 </div>
                 <br>

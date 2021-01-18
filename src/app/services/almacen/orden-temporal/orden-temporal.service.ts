@@ -46,6 +46,8 @@ export class OrdenTemporalService {
    ordenTemporalt: OrdenTemporal;
    //Sacos a modificar en edit de OD
    sacosETOD: number;
+   //Kilogramos a modificar en edit de OD
+   kgETOD: number;
    //obtener el peso del saco para sacar el peso total en edit de OD
    pesoETOD: number;
 

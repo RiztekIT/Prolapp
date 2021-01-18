@@ -74,8 +74,12 @@ export class PedidosalmacenComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // this.refreshOrdenCargaList();
     // this.obtenerPrivilegios();
-    this.subs1.unsubscribe();
-    this.subs2.unsubscribe();
+    if(this.subs1){
+      this.subs1.unsubscribe();
+    }
+    if(this.subs2){
+      this.subs2.unsubscribe();
+    }
     // this.subs3.unsubscribe();
   }
 

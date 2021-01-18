@@ -13,10 +13,10 @@ import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/deta
 
 
 //export const APIUrl = "http://riztekserver.ddns.net:44361/api";
-// export const APIUrl = environment.APIUrl;
+export const APIUrl = environment.APIUrl;
 // export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 // export const APIUrl = "https://localhost:44361/api";
-export const APIUrl = environment.APIUrl;
+// export const APIUrl = environment.APIUrl;
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +57,9 @@ export class OrdenDescargaService {
 
   getDetalleOrdenDescargaIdLoteClave(id: number, lote: string, clave: string): Observable<DetalleOrdenDescarga[]> {
     return this.http.get<DetalleOrdenDescarga[]>(APIUrl + '/OrdenDescarga/DetalleOrdenDescarga/' + id + '/' + lote + '/' + clave);
+  }
+  getDetalleOrdenDescargaIdClave(id: number, clave: string): Observable<DetalleOrdenDescarga[]> {
+    return this.http.get<DetalleOrdenDescarga[]>(APIUrl + '/OrdenDescarga/DetalleOrdenDescargaIdClave/' + id + '/' + clave);
   }
 
   //get Orden Descarga por Id

@@ -1172,10 +1172,11 @@ let productoValido: boolean = true;
                 showCancelButton: false,
                 showConfirmButton: false
               });
+              // this.router.navigate(['/ordencargadetalle']);
+              this.ordenCargaService.filter('');
               this.router.navigate(['/ordencargadetalle']);
             })
-          }
-          this.router.navigate(['/ordencargadetalle']);
+          }      
         })
       } else {
         console.log('FALTAN CONCEPTOS POR PREPARAR');

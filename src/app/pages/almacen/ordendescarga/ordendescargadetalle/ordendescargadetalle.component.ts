@@ -36,13 +36,15 @@ export class OrdendescargadetalleComponent implements OnInit {
 
   // Tabla Orden Temporal
   listDataOrdenTemporal: MatTableDataSource<any>;
-  displayedColumnsOrdenTemporal: string[] = ['QR', 'ClaveProducto', 'Producto', 'Lote', 'Sacos', 'PesoTotal', 'FechaCaducidad', 'Comentarios', 'Options'];
+  displayedColumnsOrdenTemporal: string[] = ['QR', 'ClaveProducto', 'Producto', 'Lote', 'Sacos', 'PesoTotal', 'FechaCaducidad', 'Comentarios'];
+  // displayedColumnsOrdenTemporal: string[] = ['QR', 'ClaveProducto', 'Producto', 'Lote', 'Sacos', 'PesoTotal', 'FechaCaducidad', 'Comentarios', 'Options'];
   @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
 
   files: File[] = [];
   imagenes: any[];
   Folio: number;
+  Estatus: string="";
 
   imagePath: SafeResourceUrl;
   imageInfo: ImgInfo[] = [];
@@ -224,8 +226,10 @@ leerDirImagenes() {
 ObtenerFolio(id: number) {
   this.service.getOrdenDescargaID(id).subscribe(dataOC => {
     console.log(dataOC);
+    this.Estatus = dataOC[0].Estatus
     this.Folio = dataOC[0].Folio;
     console.log(this.Folio);
+    console.log(this.Estatus);
     this.leerDirImagenes();
   })
 }

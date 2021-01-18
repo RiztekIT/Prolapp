@@ -25,10 +25,18 @@ export class VentasMesesComponent implements OnInit {
     this.reporteCotizacion();
   }
   ngOnDestroy(): void {
-    this.subs1.unsubscribe();
-    this.subs2.unsubscribe();
-    this.subs3.unsubscribe();
-    this.subs4.unsubscribe();
+    if(this.subs1){
+      this.subs1.unsubscribe();
+    }
+    if(this.subs2){
+      this.subs2.unsubscribe();
+    }
+    if(this.subs3){
+      this.subs3.unsubscribe();
+    }
+    if(this.subs4){
+      this.subs4.unsubscribe();
+    }
   }
 
   @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;

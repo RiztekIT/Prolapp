@@ -101,8 +101,8 @@ updateTarima(t: Tarima) {
     return this.http.put(APIUrl+ '/Tarima/UpdateTarimaSacosPeso/' + id + '/' + sacos + '/' + peso , null);
     }
     //^Update Tarima ( Sacos y peso Total)
-  updateDetalleTarimaIdSacos(idt: number, iddt:number, sacos: string) {
-    return this.http.put(APIUrl+ '/Tarima/UpdateDetalleTarimaIdSacos/' + idt + '/' + iddt + '/' + sacos , null);
+  updateDetalleTarimaIdSacos(iddt:number, sacos: string, peso, lote) {
+    return this.http.put(APIUrl+ '/Tarima/UpdateDetalleTarimaIdSacos/' + iddt + '/' + sacos + '/' + peso  +'/'+ lote, null);
     }
 //^Insert Detalle Tarima
 addDetalleTarima(dt: DetalleTarima) {
@@ -229,7 +229,7 @@ updateDetalleTarimaSacosPesoTarimasBodega(dt: DetalleTarima) {
   }
   //^Actualizar Detalle Tarima por Bodega 
   getUpdateDetalleTarimaBodega(id: number, bodega: string){
-    return this.http.get<any[]>(APIUrl + '/Tarima/UpdateDetalleTarimaBodega/'+id+'/'+bodega);
+    return this.http.put<any[]>(APIUrl + '/Tarima/UpdateDetalleTarimaBodega/'+id+'/'+bodega, null);
   }
 
 

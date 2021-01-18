@@ -147,7 +147,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
         product.PesoOriginal = (+element.Sacos * +element.PesoxSaco).toFixed(4);
         product.SacosOriginal = element.Sacos;
         // product.NuevoSaldo = ((+product.Saldo) - (+dataP[i].PesoTotal)).toString();
-        product.KilogramosSobrantes = ((+dataP[i].PesoTotal)-(+product.Saldo * +element.PesoxSaco)).toFixed(4);
+        product.KilogramosSobrantes = ((+product.Saldo)-(+dataP[i].PesoTotal)).toFixed(4);
 
           this.optionsProductos.push(product)
           this.filteredOptionsProductos = this.myControlProductos.valueChanges
@@ -270,7 +270,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
   //   this.tarimaService.masterTE = new Array<any>();
   //   this.tarimaService.masterTE = [];
 
-  //   this.ordenDescargaService.GetODOTTB(this.IdOrdenDescarga, 'Chihuahua').subscribe(dataQR => {
+  //   this.ordenDescargaService.GetODOTTB(this.IdOrdenDescarga, 'CHIHUAHUA').subscribe(dataQR => {
   //     if (dataQR.length > 0) {
   //       for (let i = 0; i <= dataQR.length - 1; i++) {
   //         // es lo que trae detalle tarima con ese QR
@@ -405,10 +405,10 @@ export class OrdendescargatarimacuuComponent implements OnInit {
 
         //^ Verificar si se estan utilizando todos los sacos de la Bodega (detalle Tarima)
         if (kgSobra == 0) {
-          //^ si se utilizan todos, solo se cambiara la bodega del producto (Chihuahua)
+          //^ si se utilizan todos, solo se cambiara la bodega del producto (CHIHUAHUA)
           console.log('Se utilizaran todos los Sacos');
           //^ Verificar si ya existe este producto en la bodega destino
-          this.tarimaService.GetGetProductoInformacionBodega(ClaveProducto, Lote, 'Chihuahua').subscribe(dataDetalleTarimaDestino => {
+          this.tarimaService.GetGetProductoInformacionBodega(ClaveProducto, Lote, 'CHIHUAHUA').subscribe(dataDetalleTarimaDestino => {
               console.log(dataDetalleTarimaDestino);
               let updateDetalleTarima: DetalleTarima = dataDetalleTarima[0];
 
@@ -424,7 +424,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
                 })
               }else{
                 //^ si no existen datos, se actualizara nomas la bodega origen (en este caso TRANSITO)
-                updateDetalleTarima.Bodega = 'Chihuahua';
+                updateDetalleTarima.Bodega = 'CHIHUAHUA';
                 this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(updateDetalleTarima).subscribe(resUpdate => {
                   console.log(resUpdate);
                   this.dropdownRefreshProductos();
@@ -440,7 +440,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
 
           //^ Si no coincide el # de sacos, entonces se creara un nuevo detalle tarima con los sacos utilizados
           console.log('No todos los sacos seran Utilizados');
-          //^ Actualizar Detalle Tarima Origen (original)//Agregar Nuevo Detalle Tarima con Bodega (Chihuahua)
+          //^ Actualizar Detalle Tarima Origen (original)//Agregar Nuevo Detalle Tarima con Bodega (CHIHUAHUA)
           let detalleTarimaNueva: DetalleTarima = dataDetalleTarimaNueva[0];
           //& PesoTotal: 3750 kg
 
@@ -460,7 +460,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
             detalleTarimaOriginal.SacosTotales = Sacos.toString();
             detalleTarimaOriginal.PesoTotal = kg.toString();
             //! detalleTarimaOriginal.TarimasTotales COMO CALCULAR TARIMAS TOTALES ??
-            detalleTarimaOriginal.Bodega = 'Chihuahua';
+            detalleTarimaOriginal.Bodega = 'CHIHUAHUA';
             this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(detalleTarimaOriginal).subscribe(resUpdateOriginal => {
               console.log(resUpdateOriginal);
               this.dropdownRefreshProductos();
@@ -610,6 +610,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
 
   }
 
+  
 
   //Metodo para obtener la bodega origen hardcode
   obtenerBodegaOrigen() {

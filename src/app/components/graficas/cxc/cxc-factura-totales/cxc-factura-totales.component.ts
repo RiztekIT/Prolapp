@@ -22,8 +22,12 @@ export class CxcFacturaTotalesComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.subs1.unsubscribe();
-    this.subs2.unsubscribe();
+    if(this.subs1){
+      this.subs1.unsubscribe();
+    }
+    if(this.subs2){
+      this.subs2.unsubscribe();
+    }
   }
   
   arrcon: Array<any> = [];
