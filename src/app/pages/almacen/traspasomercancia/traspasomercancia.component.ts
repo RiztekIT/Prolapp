@@ -94,27 +94,8 @@ export class TraspasomercanciaComponent implements OnInit {
    //^ **** PRIVILEGIOS POR USUARIO *****
 
   nuevoTraspaso(){
-    // this.router.navigateByUrl('/embarque');
-    let query = 'select top 1 folio, idtraspasomercancia from traspasomercancia order by folio desc;'
-    let consulta = {
-      'consulta':query
-    };
-    this.traspasoSVC.getQuery(consulta).subscribe((resp: any)=>{
-      console.log(resp);
-      if (resp.lenght>0){
-
-        this.traspasoSVC.folionuevo = (+resp[0].folio + 1).toString();
-        this.traspasoSVC.idnuevo = (+resp[0].idtraspasomercancia + 1).toString();
-        this.router.navigateByUrl('/embarque');
-      }else {
-        this.traspasoSVC.folionuevo = '1';
-        this.traspasoSVC.idnuevo = '1';
-        this.router.navigateByUrl('/embarque');
-
-      }
-      
-    })
-
+    this.router.navigateByUrl('/embarque');
+    
   }
 
   applyFilter(filtervalue: string){

@@ -9,23 +9,23 @@
 
                         <div class="col-md-4 col-sm-12" style="display: griblockd; justify-content: center">
                             <!-- <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Cotizacion</button> -->
-                            <button [disabled]="Agregar == false" title="Añadir Productos" style="margin-right: 15px;" mat-fab (click)="lista()" class="btncoti">
+                            <button [disabled]="Agregar == false || this.inicio == false" title="Añadir Productos" style="margin-right: 15px;" mat-fab (click)="lista()" class="btncoti">
                                     <mat-icon>note_add</mat-icon>
                                   </button>
                             <button title="Cancelar Traspaso" style="margin-right: 15px;" mat-fab (click)="lista2()" class="btncoti">
                                     <mat-icon>close</mat-icon>
                                   </button>
-                            <button title="Realizar Trapaso" title="Hacer Pedido" *ngIf="!this.inicio" class="btncoti" mat-fab (click)="hacerTraspaso()">
+                            <button title="Realizar Trapaso" *ngIf="!this.inicio" class="btncoti" mat-fab (click)="hacerTraspaso()">
                                     <mat-icon>send</mat-icon>
                                 </button>
                         </div>
                         <div class="col-md-4 col-sm-12" style="display: grid">
 
                             <!-- <label class="input-group-text text-info">Estatus</label> -->
-                            <mat-form-field>
+                            <mat-form-field >
                                 <mat-label> {{bodegaSelect}} </mat-label>
 
-                                <mat-select (selectionChange)="bodegaCambio($event)" [(ngModel)]="bodegaSelect">
+                                <mat-select [disabled]="this.inicio == false" (selectionChange)="bodegaCambio($event)" [(ngModel)]="bodegaSelect">
 
                                     <mat-option *ngFor="let dl of listBodega" [value]="dl"> {{dl}} </mat-option>
                                 </mat-select>

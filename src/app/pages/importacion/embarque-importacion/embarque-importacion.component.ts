@@ -93,6 +93,9 @@ public listBodega: Array<Object> = [
         //^ **** PRIVILEGIOS POR USUARIO *****
         this.obtenerPrivilegios();
         //^ **** PRIVILEGIOS POR USUARIO *****
+
+        console.log(this.traspasoSVC.folionuevo);
+        console.log(this.traspasoSVC.idnuevo);
     
   }
 
@@ -347,8 +350,8 @@ if (this.bodegaSelect==='Todos'){
      
   }
 
-  updateTrapspaso(idordencarga){
-    let query = 'update traspasomercancia set idordencarga='+idordencarga+''
+  updateTrapspaso(idordencarga, folio, idtraspasomercancia){
+    let query = 'update traspasomercancia set idordencarga='+idordencarga+', FolioOrdenCarga = '+folio+' where IdTraspasoMercancia= '+idtraspasomercancia+'';
       let consulta = {
         'consulta':query
       };
@@ -372,8 +375,23 @@ if (this.bodegaSelect==='Todos'){
       kg = sacos * +this.listData2.data[i].PesoxSaco;
     }
 
+    let query = 'select top 1 TraspasoMercancia.Folio, TraspasoMercancia.IdTraspasoMercancia from TraspasoMercancia order by IdTraspasoMercancia desc'
+    let consulta = {
+      'consulta':query
+    };
+
+    this.traspasoSVC.getQuery(consulta).subscribe((detallesConsulta: any)=>{
+      console.log(detallesConsulta);
+
+    //   this.traspasoSVC.folio =
+    if(detallesConsulta.length>0){
+      this.traspasoSVC.folionuevo = (+detallesConsulta[0].Folio + 1);
+    }else{
+      this.traspasoSVC.folionuevo = 1;
+    }
     traspaso = {
-      IdTraspasoMercancia: this.traspasoSVC.idnuevo,
+      // IdTraspasoMercancia: this.traspasoSVC.idnuevo,
+      IdTraspasoMercancia: 0,
 Folio: this.traspasoSVC.folionuevo,
 IdOrdenCarga: 0,
 FolioOrdenCarga: 0,
@@ -390,8 +408,33 @@ CampoExtra2: '',
     }
 
     this.traspasoSVC.addTraspasoMercancia(traspaso).subscribe(res=>{
+
       console.log(res);
 
+      let query = 'select top 1 folio, idtraspasomercancia from traspasomercancia order by folio desc;'
+    let consulta = {
+      'consulta':query
+    };
+    this.traspasoSVC.getQuery(consulta).subscribe((resp: any)=>{
+      console.log(resp);
+      // if (resp.length>0){
+        // this.traspasoSVC.folionuevo = (+resp[0].folio).toString();
+        // console.log('%c%s', 'color: #731d1d', this.traspasoSVC.folionuevo);
+        this.traspasoSVC.idnuevo = (+resp[0].idtraspasomercancia).toString();
+        console.log('%c%s', 'color: #807160', this.traspasoSVC.idnuevo);
+
+      // }else {
+      //   this.traspasoSVC.folionuevo = '1';
+      //   this.traspasoSVC.idnuevo = '1';
+      //   console.log('%c%s', 'color: #731d1d', this.traspasoSVC.folionuevo);
+      //   console.log('%c%s', 'color: #807160', this.traspasoSVC.idnuevo);
+
+      // }
+      
+  
+
+
+     
 
       for (let i=0; i< this.listData2.data.length;i++){
 
@@ -424,41 +467,49 @@ CampoExtra4: '',
 
 
 
-          const dialogConfig = new MatDialogConfig();
-          dialogConfig.disableClose = false;
-          dialogConfig.autoFocus = true;
-          dialogConfig.width = "70%";
-          dialogConfig.data={
-            tipo: 'Agregar',
+//^ verificar que se el ultimo producto a generar
+          if(i == (this.listData2.data.length-1)){
+
             
-          }
-          /* let dl = this.dialog.open(DocumentacionFormularioImportacionComponent, dialogConfig); */
-          let dl = this.dialog.open(ResumentraspasoComponent, dialogConfig);
+            console.log('%c%s', 'color: #007300', 'ULTIMO PRODUCTOOOOOOO');
 
-          dl.afterClosed().subscribe(res=>{
-            this.inicio = true;
-            this.crearOC();
-          })
-
-
-        /*   Swal.fire({
-            icon: 'success',
-            title: 'Traspaso Creado'
-          }) */
+            const dialogConfig = new MatDialogConfig();
+            dialogConfig.disableClose = false;
+            dialogConfig.autoFocus = true;
+            dialogConfig.width = "70%";
+            dialogConfig.data={
+              tipo: 'Agregar',            
+            }
+            /* let dl = this.dialog.open(DocumentacionFormularioImportacionComponent, dialogConfig); */
+            this.traspasoSVC.selectTraspaso.IdTraspasoMercancia = this.traspasoSVC.idnuevo ;
+            let dl = this.dialog.open(ResumentraspasoComponent, dialogConfig);
+            
+            // dl.afterClosed().subscribe(res=>{
+              this.inicio = true;
+              this.crearOC(this.traspasoSVC.idnuevo);
+              // })
+              
+              
+              /*   Swal.fire({
+                icon: 'success',
+                title: 'Traspaso Creado'
+              }) */
+            }
         })
 
       
 
       }
 
-
+    })
+    })
     })
 
 
 
   }
 
-   crearOC(){
+   crearOC(idtraspaso){
 
     let ordencarga;
     let detordencarga;
@@ -473,9 +524,16 @@ CampoExtra4: '',
     //this.service.formDataPedido.TotalDlls = this.totalDlls;
     //this.service.formDataPedido.SubtotalDlls = this.subtotalDlls;
 
-    this.serviceordencarga.getUltimoFolio().subscribe(data=>{
+    // this.serviceordencarga.getUltimoFolio().subscribe(data=>{
 
-      console.log(data[0].Folio);
+      // console.log(data[0].Folio);
+      let query = 'select top 1 folio from OrdenCarga order by folio desc;'
+    let consulta = {
+      'consulta':query
+    };
+    this.traspasoSVC.getQuery(consulta).subscribe((resp: any)=>{
+
+      console.log(resp);
 
       sacos = 0;
 
@@ -489,7 +547,7 @@ CampoExtra4: '',
       ordencarga= {
   
         IdOrdenCarga: 0,
-        Folio: data[0].Folio,
+        Folio: ((+resp[0].folio)+(1)),
         FechaEnvio: new Date(),
         IdCliente: '0',
         Cliente: 'Traspaso',
@@ -512,13 +570,24 @@ CampoExtra4: '',
 
       console.log(ordencarga);
 
-     this.updateTrapspaso(data[0].Folio)
-
+      
       //this.crearTraspaso(data[0].Folio);
-
+      
       this.serviceordencarga.addOrdenCarga(ordencarga).subscribe(data=>{
-
         console.log(data);
+
+        let query2 = 'select top 1 OrdenCarga.* from OrdenCarga order by folio desc;'
+        let consulta2 = {
+          'consulta':query2
+        };
+        this.traspasoSVC.getQuery(consulta2).subscribe((resp2: any)=>{
+          console.log(resp2);
+
+          this.traspasoSVC.selectTraspaso.FolioOrdenCarga = resp2[0].Folio;
+        
+        this.updateTrapspaso(resp2[0].IdOrdenCarga, resp2[0].Folio, idtraspaso)
+
+        console.log(this.listData2.data);
 
         for (let i=0; i< this.listData2.data.length;i++){
        
@@ -539,7 +608,7 @@ CampoExtra4: '',
         Shipper:this.listData2.data[i].Shipper,
         USDA:this.listData2.data[i].USDA,
         Pedimento:this.listData2.data[i].Pedimento,
-        Saldo:this.listData2.data[i].SacosTotales,
+        Saldo:((this.listData2.data[i].PesoTotal)),
           }
 
           this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data=>{
@@ -554,6 +623,9 @@ CampoExtra4: '',
       
         }
 
+
+        //^ regresar a pantalla principal
+        this.router.navigateByUrl('/importacionesalmacen');
         
 
        /*  console.log(this.service.formDataPedido);
@@ -565,6 +637,7 @@ CampoExtra4: '',
     
     
           /* this.Inicializar(); */
+        })
     
         }
         )

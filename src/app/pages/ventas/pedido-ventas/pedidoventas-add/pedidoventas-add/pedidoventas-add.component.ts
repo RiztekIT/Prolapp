@@ -8,7 +8,7 @@ import { VentasPedidoService } from '../../../../../services/ventas/ventas-pedid
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Producto } from '../../../../../Models/catalogos/productos-model';
 import { CurrencyPipe } from '@angular/common';
-import { MatTableDataSource, MatSort } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { DetallePedido } from '../../../../../Models/Pedidos/detallePedido-model';
 import Swal from 'sweetalert2';
 import { Usuario } from '../../../../../Models/catalogos/usuarios-model';
@@ -40,6 +40,10 @@ import * as uuid from 'uuid';
 import { Location } from '@angular/common';
 import { CalendarioService } from '../../../../../services/calendario/calendario.service';
 import { MasterOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterOrdenCarga-model';
+import { TarimaService } from '../../../../../services/almacen/tarima/tarima.service';
+import { SelectionModel } from '@angular/cdk/collections';
+import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model';
+import { OrdenTemporal } from 'src/app/Models/almacen/OrdenTemporal/ordenTemporal-model';
 //Constantes para obtener tipo de cambio
 const httpOptions = {
   headers: new HttpHeaders({
@@ -65,7 +69,8 @@ export class PedidoventasAddComponent implements OnInit {
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
     private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient, public ServiceUnidad: UnidadMedidaService,
     public serviceDireccion: ClienteDireccionService, private dialog: MatDialog, public servicecoti: VentasCotizacionService, public addproductos: AddsproductosService, 
-    public _MessageService: MessageService, public serviceordencarga: OrdenCargaService, public ordenTemporalService: OrdenTemporalService, public location: Location, public CalendarioService: CalendarioService) {
+    public _MessageService: MessageService, public serviceordencarga: OrdenCargaService, public ordenTemporalService: OrdenTemporalService, public location: Location,
+     public CalendarioService: CalendarioService, public tarimaService:TarimaService) {
     
     this.MonedaBoolean = true;
 
@@ -108,6 +113,27 @@ html;
   seleccionManual;
 
 
+
+  // ** SELECCION MANUAL *** ///
+
+  bodegaSelectSeleccion = 'Chihuahua';
+  listDataSeleccion: MatTableDataSource<any>;
+  listData2Seleccion: MatTableDataSource<any>;
+  @ViewChild(MatSort, null) sortSeleccion: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginatorSeleccion: MatPaginator;
+  selection = new SelectionModel<any>(true, []);
+  displayedColumnsSeleccion: string[] = ['Bodega', 'Clave','Producto','Lote', 'Fecha Caducidad', 'Cantidad', 'Opciones'];
+  // displayedColumns2: string[] = ['ClaveProducto','Producto', 'Cantidad'];
+  aceptarSeleccion;
+  contadorSeleccion;
+  productosSeleccion = [];
+  seleccionadosSeleccion = [];
+
+  seleccionManualSeleccion;
+
+  // ** SELECCION MANUAL *** ///
+
+
   ngOnInit() {
     console.log(this.service.formData);
     
@@ -121,9 +147,15 @@ html;
     // this.IniciarTotales();
     this.tipoDeCambio();
     this.service.formProd = new Producto();
-    
-    this.seleccionManual=false;
+  
     this.getValidacion();
+
+    // *** SELECCION MANUAL /// 
+    // if(this.seleccionManual == true){
+      this.obtenerTarimas();
+      this.aceptarSeleccion=true;
+    // }
+    // *** SELECCION MANUAL /// 
     
     
     //^ **** PRIVILEGIOS POR USUARIO *****
@@ -302,7 +334,7 @@ html;
   //Variable para verificar si hay valores en detalle pedido. En caso que
   //sea negativo se podra cambiar la moneda. Si es positivo la moneda no se prodra cambiar
   //hasta haber eliminado todos los detalles pedido
-  valores: boolean;
+  valores: boolean = false;
   //Importe Producto
   importeP: number;
   importePDLLS: number;
@@ -639,7 +671,11 @@ changeDireccion(checkbox: any) {
 changeSeleccion(event){
   /* console.log(event); */
   this.seleccionManual = event.checked
-  /* console.log(this.seleccionManual); */
+  if(this.seleccionManual == true){
+    this.obtenerTarimas();
+    this.aceptarSeleccion=true;
+  }
+   console.log(this.seleccionManual); 
 
 }
 
@@ -786,6 +822,9 @@ this.changeDireccion(this.isDireccion);
 
 
 
+
+
+
   Inicializar(form?: NgForm) {
 
     //Inicializar los valores del Cliente
@@ -811,6 +850,12 @@ this.changeDireccion(this.isDireccion);
       console.log(data);
       this.service.formDataPedido = data[0];
       this.EstatusOC = this.service.formDataPedido.Estatus;
+
+      if(this.service.formDataPedido.Flete == 'Sucursal'){
+        this.seleccionManual=true;
+      }else{
+        this.seleccionManual=false;
+      }
       // console.log(this.Estatus);
 
       //VerificarFlete
@@ -891,6 +936,19 @@ this.changeDireccion(this.isDireccion);
     })
     // this.service.Moneda = this.Moneda;
     // console.log(this.service.Moneda);
+  }
+
+  FleteSelected(event: any) {
+    console.log(event);
+
+
+
+    this.service.formDataPedido.Estatus = 'Guardada';
+    this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+      console.log(res);
+
+
+    })
   }
 
   onBlurDescuento() {
@@ -974,6 +1032,12 @@ this.changeDireccion(this.isDireccion);
       //Verificar si hay datos en la tabla
       if (data.length > 0) {
         this.valores = true;
+
+      
+
+        // if(data[0].TextoExtra != 0 ||  data[0].TextoExtra != ""){
+          // this.seleccionManual = true;
+        // }
         (<HTMLInputElement>document.getElementById("Moneda")).disabled = true;
         this.listData = new MatTableDataSource(data);
         this.listData.sort = this.sort;
@@ -999,6 +1063,9 @@ this.changeDireccion(this.isDireccion);
 
       } else {
         this.valores = false;
+        if(this.service.formDataPedido.Flete == 'Sucursal'){
+          this.seleccionManual = true;
+        }
         (<HTMLInputElement>document.getElementById("Moneda")).disabled = false;
         this.listData = new MatTableDataSource(data);
         this.listData.sort = this.sort;
@@ -1012,9 +1079,12 @@ this.changeDireccion(this.isDireccion);
     console.log(checkbox);
     if (checkbox == true) {
       this.isFlete = true;
+      this.seleccionManual = false;
+      this.service.formDataPedido.Flete = 'Local';
     } else {
       this.isFlete = false;
       this.service.formDataPedido.Flete = 'Sucursal';
+      this.seleccionManual = true;
     }
   }
 
@@ -1064,6 +1134,7 @@ this.isFactura = true;
     this.service.formDataDP.IdPedido = this.IdPedido;
     //this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto;
     this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen;
+    this.service.formDataDP.TextoExtra = this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen;
     //this.service.formDataDP.Producto = this.service.formProd.Nombre;
     this.service.formDataDP.Producto = this.service.formProd.Nombre + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect ;
     this.service.formDataDP.Unidad = this.service.formProd.UnidadMedida;
@@ -1072,21 +1143,62 @@ this.isFactura = true;
     this.service.formDataDP.Cantidad = this.Cantidad.toString();
     this.service.formDataDP.Importe = this.importeP.toString();
     this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
-
     console.log(this.service.formDataDP);
 
-    this.service.addDetallePedido(this.service.formDataDP).subscribe(res => {
-      console.log('DETALLE',res);
-      //Restar el Stock
-     // this.RestarStock();
-      // this.IniciarTotales();
-      //form.resetForm();
-      this.refreshDetallesPedidoList();
-      Swal.fire({
+    //^ Agregar datos Faltantes si es seleccion manual
+    if(this.seleccionManual == true){
+      // let productosIngreso = [];
+      console.log(this.seleccionadosSeleccion);
+      this.seleccionadosSeleccion.forEach(element => {
+        element.Cantidad = this.Cantidad.toString();
+        element.IdPedido = this.IdPedido;
+        element.Importe = this.importeP.toString();
+        element.ImporteDlls = this.importePDLLS.toString();
+        element.PrecioUnitario = this.ProductoPrecioMXN.toString();
+        element.PrecioUnitarioDlls = this.ProductoPrecioDLLS.toString();
+        element.Unidad = '';
+        //^ Usar TextoExtra como Lote
+        element.TextoExtra = element.Lote;
+        // //^ Usar Observaciones como Peso x Saco
+        // element.Observaciones = element.PesoxSaco;
+        // productosIngreso.push(element);
+        this.service.addDetallePedido(element).subscribe(res => {
+          console.log('DETALLE',res);
+          this.selection.clear();
+          this.seleccionadosSeleccion = [];
+          this.ProductoPrecio = 0
+          this.ProductoPrecioDLLS = 0
+          this.importeP = 0
+          this.importePDLLS = 0
+          this.refreshDetallesPedidoList();
+                Swal.fire({
         icon: 'success',
         title: 'Concepto Agregado'
       })
-    })
+        })
+      });
+      // console.log(productosIngreso);
+    }else{
+      this.service.addDetallePedido(this.service.formDataDP).subscribe(res => {
+          console.log('DETALLE',res);
+          this.ProductoPrecio = 0
+          this.ProductoPrecioDLLS = 0
+          this.importeP = 0
+          this.importePDLLS = 0
+          this.refreshDetallesPedidoList();
+        })
+          Swal.fire({
+            icon: 'success',
+            title: 'Concepto Agregado'
+          })
+
+    }
+
+
+    //   //Restar el Stock
+    //  // this.RestarStock();
+    //   // this.IniciarTotales();
+    //   //form.resetForm();
 
 
   }
@@ -1124,7 +1236,12 @@ this.isFactura = true;
   onChangeCantidadP(cantidad: any) {
     console.log(cantidad);
     let elemHTML: any = document.getElementsByName('Cantidad')[0];
-    //this.validarStock(cantidad);
+    if(this.seleccionManual == true){
+console.log('Seleccion Manual Obteniendo Kg Maximos');
+// this.kilogramosMaximos
+console.log('%c%s', 'color: #ffa640', this.kilogramosMaximos);
+this.validarStock(cantidad);
+    }
     elemHTML.value = this.Cantidad;
     //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
     this.calcularImportePedido();
@@ -1150,8 +1267,8 @@ this.isFactura = true;
 
   validarStock(cantidad: any) {
     console.log(cantidad + ' CANTIDAD');
-    if (+cantidad >= +this.PStock) {
-      this.Cantidad = this.PStock.toString();
+    if (+cantidad >= +this.kilogramosMaximos) {
+      this.Cantidad = +this.kilogramosMaximos.toString();
     }
     if (+cantidad < 0) {
       this.Cantidad = 0;
@@ -1364,7 +1481,7 @@ this.isFactura = true;
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
       Swal.fire({
         icon: 'success',
-        title: 'Pedido Generado'
+        title: 'Venta Guardada'
       })
       this.generarEventoCalendario(this.service.formDataPedido.Folio);
       this.service.filter('Register click');
@@ -1416,383 +1533,449 @@ this.isFactura = true;
     return palabra[j];
   }
 
-  cerrarPedido(){
+  cerrarPedido() {
 
     let ordencarga;
     let detordencarga;
     let sacos;
     let kg;
     let user;
-    user = JSON.parse( localStorage.getItem('ProlappSession')).user;
+    user = JSON.parse(localStorage.getItem('ProlappSession')).user;
+
+
+    console.log(this.service.formDataPedido);
+
+    /* INICIO DE SELECCION MANUAL */
+
+    if (this.seleccionManual) {
     
-/* INICIO DE SELECCION MANUAL */
-
-if (this.seleccionManual){
 
 
 
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = "90%";
 
-    dialogConfig.data = {
-      bodega: 'Chihuahua',
-      productos: this.listData.data,
-      tipo: this.seleccionManual
-      }
-   
-    let mercanciadl = this.dialog.open(MercanciaComponent, dialogConfig);
-    let d=1;
+      // const dialogConfig = new MatDialogConfig();
+      // dialogConfig.disableClose = false;
+      // dialogConfig.autoFocus = true;
+      // dialogConfig.width = "90%";
 
-    mercanciadl.afterClosed().subscribe(data=>{
+      // dialogConfig.data = {
+        // bodega: 'Chihuahua',
+        // productos: this.listData.data,
+        // tipo: this.seleccionManual
+      // }
 
-      console.log(data, 'AFTERCLOSED');
-      
+      // let mercanciadl = this.dialog.open(MercanciaComponent, dialogConfig);
+      // let d = 1;
 
+      // mercanciadl.afterClosed().subscribe(data => {
 
-      if (typeof data != 'undefined'){
-
-        this.service.formDataPedido.Estatus = 'Cerrada';
-        
-
-    this.service.formDataPedido.Total = this.total;
-    this.service.formDataPedido.Subtotal = this.subtotal;
-    this.service.formDataPedido.TotalDlls = this.totalDlls;
-    this.service.formDataPedido.SubtotalDlls = this.subtotalDlls;
-
-
-        let productos = data.selected;
-        let fletera;
-        let validacion;
-    
-    this.serviceordencarga.getUltimoFolio().subscribe(data=>{
-
-      console.log(data[0].Folio);
-      if (this.service.formDataPedido.Flete=='Foraneo'){
-
-        fletera='0';
-      }else{
-        fletera=this.service.formDataPedido.Flete;
-      }
-
-      if (fletera=='0'){
-        validacion='Sin Validar'
-      }else{
-        validacion='Creada'
-      }
-
-
-      sacos = 0;
-      kg = 0;
-      let presentacion;
-
-
-      for (let i=0; i< this.listData.data.length;i++){
-        kg = kg + +this.listData.data[i].Cantidad;
-        sacos = sacos + (+this.listData.data[i].Cantidad / productos[i].PesoxSaco)
-      }
-
-      /* sacos = sacos / 25; */
-
-      ordencarga= {
-  
-        IdOrdenCarga: 0,
-        Folio: data[0].Folio,
-        FechaEnvio: new Date(),
-        IdCliente: this.service.formDataPedido.IdCliente,
-        Cliente: this.service.formData.Nombre,
-        IdPedido: this.service.formDataPedido.IdPedido,
-        Fletera: fletera,
-        Caja: '0',
-        Sacos: sacos,
-        Kg: kg,
-        Chofer: '',
-        Origen: 'Chihuahua',
-        Destino: this.service.formData.Estado,
-        Observaciones: '',
-        Estatus: validacion,
-        FechaInicioCarga: new Date('10/10/10'),
-        FechaFinalCarga: new Date('10/10/10'),
-        FechaExpedicion: new Date(),
-        IdUsuario: '0',
-        Usuario: user
-      }
-
-      console.log(ordencarga);
-
-     
+      //   console.log(data, 'AFTERCLOSED');
 
 
 
-      this.serviceordencarga.addOrdenCarga2(ordencarga).subscribe(data=>{
+        // if (typeof data != 'undefined') {
 
-        console.log(data);
-        let ocinsertada = new MasterOrdenCarga();
-        ocinsertada.ordenCarga = [];
-        ocinsertada.ordenCarga.push(data[0]);
-  ocinsertada.detalleOrdenCarga = []
-        console.log(productos,'PRODUCTOS');
-        
-        for (let i=0; i< productos.length;i++){
-          console.log(this.listData.data[i],'LISTDATA');
+          this.service.formDataPedido.Estatus = 'Cerrada';
 
-          if(!this.seleccionManual){
-            productos[i].Lote = '0';
-          }
-       
-          detordencarga = {
-    
-            IdDetalleOrdenCarga:0,
-            IdOrdenCarga:ocinsertada.ordenCarga[0].IdOrdenCarga,
-            ClaveProducto:productos[i].ClaveProducto,
-        Producto:productos[i].Producto,
-        Sacos:(+this.listData.data[i].Cantidad / +productos[i].PesoxSaco),
-        PesoxSaco:productos[i].PesoxSaco,
-        Lote:productos[i].Lote,
-        IdProveedor:productos[i].IdProveedor,
-        Proveedor:productos[i].Proveedor,
-        PO:productos[i].PO,
-        FechaMFG:productos[i].FechaMFG,
-        FechaCaducidad:productos[i].FechaCaducidad,
-        Shipper:productos[i].Shipper,
-        USDA:productos[i].USDA,
-        Pedimento:productos[i].Pedimento,
-        Saldo:(+this.listData.data[i].Cantidad / +productos[i].PesoxSaco),
-          }
 
-          console.log(detordencarga);
-          ocinsertada.detalleOrdenCarga.push(detordencarga)
+          this.service.formDataPedido.Total = this.total;
+          this.service.formDataPedido.Subtotal = this.subtotal;
+          this.service.formDataPedido.TotalDlls = this.totalDlls;
+          this.service.formDataPedido.SubtotalDlls = this.subtotalDlls;
 
-          this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data=>{
-            
-            console.log(data);
-          })
+// let productos = data
+          let productos = this.listData.data;
+          let fletera;
+          let validacion;
+
+          this.serviceordencarga.getUltimoFolio().subscribe(data => {
+
+            console.log(data[0].Folio);
+            // if (this.service.formDataPedido.Flete == 'Foraneo') {
+            //   fletera = '0';
+            // } else {
+              fletera = this.service.formDataPedido.Flete;
+            // }
+
+            if (fletera == '0') {
+              validacion = 'Sin Validar'
+            } else {
+              validacion = 'Creada'
+            }
+
+
+            sacos = 0;
+            kg = 0;
+            let presentacion;
+
+            console.log(this.listData);
+
+            for (let i = 0; i < this.listData.data.length; i++) {
+              kg = kg + +this.listData.data[i].Cantidad;
+              sacos = sacos + (+this.listData.data[i].Cantidad / +this.listData.data[i].Observaciones)
+            }
+
+            /* sacos = sacos / 25; */
+
+            ordencarga = {
+
+              IdOrdenCarga: 0,
+              Folio: data[0].Folio,
+              FechaEnvio: new Date(),
+              IdCliente: this.service.formDataPedido.IdCliente,
+              Cliente: this.service.formData.Nombre,
+              IdPedido: this.service.formDataPedido.IdPedido,
+              Fletera: fletera,
+              Caja: '0',
+              Sacos: sacos,
+              Kg: kg,
+              Chofer: '',
+              Origen: 'Chihuahua',
+              Destino: this.service.formData.Estado,
+              Observaciones: '',
+              Estatus: 'Terminada',
+              FechaInicioCarga: new Date('01/01/1900'),
+              FechaFinalCarga: new Date('01/01/1900'),
+              FechaExpedicion: new Date(),
+              IdUsuario: '0',
+              Usuario: user
+            }
+
+            console.log(ordencarga);
+
+
+
+
+
+            this.serviceordencarga.addOrdenCarga2(ordencarga).subscribe(data => {
+
+              console.log(data);
+              let ocinsertada = new MasterOrdenCarga();
+              ocinsertada.ordenCarga = [];
+              ocinsertada.ordenCarga.push(data[0]);
+              ocinsertada.detalleOrdenCarga = []
+              console.log(productos, 'PRODUCTOS');
+
+              for (let i = 0; i < this.listData.data.length; i++) {
+                console.log(this.listData.data[i], 'LISTDATA');
+
+                // if (!this.seleccionManual) {
+                //   productos[i].Lote = '0';
+                // }
+
+                this.tarimaService.getDetalleTarimaClaveLoteBodega(this.listData.data[i].ClaveProducto,this.listData.data[i].TextoExtra, 'Chihuahua' ).subscribe(resDetalle=>{
+
+                  console.log(resDetalle);
+                  let sal = 0
+                  detordencarga = {
+                    
+                    IdDetalleOrdenCarga: 0,
+                    IdOrdenCarga: ocinsertada.ordenCarga[0].IdOrdenCarga,
+                    ClaveProducto: this.listData.data[i].ClaveProducto,
+                    Producto: this.listData.data[i].Producto,
+                    Sacos: (+this.listData.data[i].Cantidad / +resDetalle[0].PesoxSaco),
+                    PesoxSaco: resDetalle[0].PesoxSaco,
+                    Lote: this.listData.data[i].TextoExtra,
+                    IdProveedor: resDetalle[0].IdProveedor,
+                    Proveedor: resDetalle[0].Proveedor,
+                    PO: resDetalle[0].PO,
+                    FechaMFG: resDetalle[0].FechaMFG,
+                  FechaCaducidad: resDetalle[0].FechaCaducidad,
+                  Shipper: resDetalle[0].Shipper,
+                  USDA: resDetalle[0].USDA,
+                  Pedimento: resDetalle[0].Pedimento,
+                  Saldo: sal.toString(),
+                }
+                
+                console.log(detordencarga);
+                ocinsertada.detalleOrdenCarga.push(detordencarga)
+                
+                this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data => {
+                  
+                  console.log(data);
+                })
+                //^Agregar Orden Temporal
+
           
+                let ordenT = new OrdenTemporal();
+                // let Sacos = this.ordenTemporalService.preOrdenTemporal[i].Sacos;
+                // let Lote = this.ordenTemporalService.preOrdenTemporal[i].Lote;
+                // let ClaveProducto = this.ordenTemporalService.preOrdenTemporal[i].ClaveProducto;
+                console.log(this.ordenTemporalService.preOrdenTemporal);
+                console.log(this.ordenTemporalService.preOrdenTemporal[i]);
+            
+                // ordenT.IdOrdenTemporal = this.ordenTemporalService.preOrdenTemporal[i].IdOrdenTemporal;
+                ordenT.IdDetalleTarima = resDetalle[0].IdDetalleTarima;
+                ordenT.IdOrdenCarga = ocinsertada.ordenCarga[0].IdOrdenCarga;
+                ordenT.IdOrdenDescarga = 0;
+                ordenT.QR = '';
+                ordenT.ClaveProducto = resDetalle[0].ClaveProducto;
+                ordenT.Lote = resDetalle[0].Lote;
+                ordenT.Sacos = (+this.listData.data[i].Cantidad / +resDetalle[0].PesoxSaco).toString();
+                ordenT.Producto = resDetalle[0].Producto;
+                ordenT.PesoTotal = this.listData.data[i].Cantidad;
+                ordenT.FechaCaducidad = resDetalle[0].FechaCaducidad;
+                ordenT.Comentarios = '';
+            
+                console.log(ordenT);
+                //Insert a Orden Temporal
+                this.ordenTemporalService.addOrdenTemporal(ordenT).subscribe(resAdd => {
+                  console.log(resAdd);
+                })
+
+                //^ Actualzar Detalle Tarima
+                let DetalleTarima: DetalleTarima = resDetalle[0];
+
+    
+                DetalleTarima.SacosTotales = ((+DetalleTarima.SacosTotales) - (+detordencarga.Sacos)).toString();
+                DetalleTarima.PesoTotal = ((+DetalleTarima.PesoTotal) - (+this.listData.data[i].Cantidad)).toString();
+                // detalleTarimaNueva.Bodega = this.bodegaOrigen;
+                // detalleTarimaNueva.Estatus = 'Creada';
+        
       
+                //^ Actualizar Detalle Tarima o borrar
+                if(+DetalleTarima.PesoTotal == 0){
+                  this.tarimaService.deleteDetalleTarima(resDetalle[0].IdDetalleTarima).subscribe(resDelete=>{
+                    console.log(resDelete);
+                  })
+                }else{
+                  this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(DetalleTarima).subscribe(resUpdateOriginal => {
+                    console.log(resUpdateOriginal);
+                  })
+                }
+                
+              })
+
+              }
+
+              //Actualizar DetalleTarima
+              //Agregar Orden Temporal
+              //
+
+
+
+              console.log(this.service.formDataPedido);
+              this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+                if (fletera == '0') {
+
+                  this.crearValidacion();
+                } else {
+                  // localStorage.setItem('IdOrdenCarga', ocinsertada.ordenCarga[0].IdOrdenCarga.toString())
+                  // localStorage.setItem('OrdenCarga', JSON.stringify(ocinsertada))
+                  // this.router.navigate(['/ordenCargaPreparar']);
+                }
+
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Pedido Cerrado'
+                })
+
+                //
+                //this.ordenTemporalService._listeners.next('Orden')
+                this.Inicializar();
+
+              })
+
+
+            })
+          })
+
+       // }
+
+
+        //
+
+
+
+
+      // })/* CERRAR el subscribe del afterclosed */
+
+
+    } else if (!this.seleccionManual) {
+      console.clear();
+      console.log(this.listData);
+
+
+      /* ORDEN DE CARGA SIN MOSTRAR INVENTARIO */
+
+
+
+
+
+
+      this.service.formDataPedido.Estatus = 'Cerrada';
+
+
+      this.service.formDataPedido.Total = this.total;
+      this.service.formDataPedido.Subtotal = this.subtotal;
+      this.service.formDataPedido.TotalDlls = this.totalDlls;
+      this.service.formDataPedido.SubtotalDlls = this.subtotalDlls;
+
+
+      //let productos = data.selected;
+      let fletera;
+      let validacion;
+
+      this.serviceordencarga.getUltimoFolio().subscribe(data => {
+
+        console.log(data[0].Folio);
+        if (this.service.formDataPedido.Flete == 'Foraneo') {
+          fletera = '0';
+          validacion = 'Sin Validar'
+
+          //^ Poder Generar una Venta sin Verificar el Inventario del producto
+          
+        sacos = 0;
+        kg = 0;
+        //let presentacion;
+
+
+
+
+
+
+        for (let i = 0; i < this.listData.data.length; i++) {
+          kg = kg + +this.listData.data[i].Cantidad;
+          sacos = sacos + (+this.listData.data[i].Cantidad / this.presentacion(this.listData.data[i].Producto))
         }
 
-        
+        /* sacos = sacos / 25; */
 
-        console.log(this.service.formDataPedido);
-        this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
-          if (fletera=='0'){
+        ordencarga = {
 
-            this.crearValidacion();
-          }else{
-            localStorage.setItem('IdOrdenCarga', ocinsertada.ordenCarga[0].IdOrdenCarga.toString())
-          localStorage.setItem('OrdenCarga', JSON.stringify(ocinsertada))
-          this.router.navigate(['/ordenCargaPreparar']);
+          IdOrdenCarga: 0,
+          Folio: data[0].Folio,
+          FechaEnvio: new Date(),
+          IdCliente: this.service.formDataPedido.IdCliente,
+          Cliente: this.service.formData.Nombre,
+          IdPedido: this.service.formDataPedido.IdPedido,
+          Fletera: fletera,
+          Caja: '0',
+          Sacos: sacos,
+          Kg: kg,
+          Chofer: '',
+          Origen: 'Chihuahua',
+          Destino: this.service.formData.Estado,
+          Observaciones: '',
+          Estatus: validacion,
+          FechaInicioCarga: new Date('10/10/10'),
+          FechaFinalCarga: new Date('10/10/10'),
+          FechaExpedicion: new Date(),
+          IdUsuario: '0',
+          Usuario: user
+        }
+
+        console.log(ordencarga);
+
+
+
+
+
+        this.serviceordencarga.addOrdenCarga2(ordencarga).subscribe(data => {
+          let ocinsertada = new MasterOrdenCarga();
+          ocinsertada.ordenCarga = [];
+          ocinsertada.ordenCarga.push(data[0]);
+          ocinsertada.detalleOrdenCarga = []
+          /* console.log(data);
+          console.log(productos,'PRODUCTOS'); */
+
+          for (let i = 0; i < this.listData.data.length; i++) {
+            console.log(this.listData.data[i], 'LISTDATA');
+
+            if (!this.seleccionManual) {
+              this.listData.data[i].Lote = '0';
+            }
+
+            detordencarga = {
+
+              IdDetalleOrdenCarga: 0,
+              IdOrdenCarga: ocinsertada.ordenCarga[0].IdOrdenCarga,
+              ClaveProducto: this.listData.data[i].ClaveProducto,
+              Producto: this.listData.data[i].Producto,
+              Sacos: (+this.listData.data[i].Cantidad / +this.presentacion(this.listData.data[i].Producto)),
+              PesoxSaco: this.presentacion(this.listData.data[i].Producto),
+              Lote: '0',
+              IdProveedor: '',
+              Proveedor: '',
+              PO: '',
+              FechaMFG: new Date('10/10/10'),
+              FechaCaducidad: new Date('10/10/10'),
+              Shipper: '',
+              USDA: '',
+              Pedimento: '',
+              Saldo: (+this.listData.data[i].Cantidad / +this.presentacion(this.listData.data[i].Producto)),
+            }
+
+            console.log(detordencarga);
+            ocinsertada.detalleOrdenCarga.push(detordencarga)
+
+            //this.service.master[i].detalleOrdenCarga = [];
+
+            this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data => {
+
+              console.log(data);
+            })
+
+
           }
 
-          Swal.fire({
-            icon: 'success',
-            title: 'Pedido Cerrado'
-          })
-    
-    //
-    //this.ordenTemporalService._listeners.next('Orden')
-          this.Inicializar();
-    
-        }
-        )
 
+
+          console.log(this.service.formDataPedido);
+          this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+            if (fletera == '0') {
+
+              this.crearValidacion();
+            } else {
+              localStorage.setItem('IdOrdenCarga', ocinsertada.ordenCarga[0].IdOrdenCarga.toString())
+              localStorage.setItem('OrdenCarga', JSON.stringify(ocinsertada))
+              // this.router.navigate(['/ordenCargaPreparar']);
+            }
+
+            Swal.fire({
+              icon: 'success',
+              title: 'Pedido Cerrado'
+            })
+
+            //
+            //this.ordenTemporalService._listeners.next('Orden')
+            this.Inicializar();
+
+          }
+          )
+        })
+        } 
+        // else {
+        //   fletera = this.service.formDataPedido.Flete;
+        //   validacion = 'Creada'
+        //   //^ Se genera una Orden Carga TERMINADA y se descuenta los productos del inventario
+        //     this.tarimaService.getDetalleTarimaClaveLoteBodega().subscribe(resTarima=>{
+        //       console.log(resTarima);
+        //     })
+        // }
+
+        // if (fletera == '0') {
+        // } else {
+        // }
 
       })
-    })
-
-  }
-
-
-    //
-  
 
 
 
-  })/* CERRAR el subscribe del afterclosed */
-
-
-}else if (!this.seleccionManual){
-  console.clear();
-console.log(this.listData);
-
-
-/* ORDEN DE CARGA SIN MOSTRAR INVENTARIO */
-
-      
-
-
-
-
-  this.service.formDataPedido.Estatus = 'Cerrada';
-  
-
-this.service.formDataPedido.Total = this.total;
-this.service.formDataPedido.Subtotal = this.subtotal;
-this.service.formDataPedido.TotalDlls = this.totalDlls;
-this.service.formDataPedido.SubtotalDlls = this.subtotalDlls;
-
-
-  //let productos = data.selected;
-  let fletera;
-  let validacion;
-
-this.serviceordencarga.getUltimoFolio().subscribe(data=>{
-
-console.log(data[0].Folio);
-if (this.service.formDataPedido.Flete=='Foraneo'){
-
-  fletera='0';
-}else{
-  fletera=this.service.formDataPedido.Flete;
-}
-
-if (fletera=='0'){
-  validacion='Sin Validar'
-}else{
-  validacion='Creada'
-}
-
-
-sacos = 0;
-kg = 0;
-//let presentacion;
+      /*  */
 
 
 
 
 
-
-for (let i=0; i< this.listData.data.length;i++){
-  kg = kg + +this.listData.data[i].Cantidad;
-  sacos = sacos + (+this.listData.data[i].Cantidad / this.presentacion(this.listData.data[i].Producto))
-}
-
-/* sacos = sacos / 25; */
-
-ordencarga= {
-
-  IdOrdenCarga: 0,
-  Folio: data[0].Folio,
-  FechaEnvio: new Date(),
-  IdCliente: this.service.formDataPedido.IdCliente,
-  Cliente: this.service.formData.Nombre,
-  IdPedido: this.service.formDataPedido.IdPedido,
-  Fletera: fletera,
-  Caja: '0',
-  Sacos: sacos,
-  Kg: kg,
-  Chofer: '',
-  Origen: 'Chihuahua',
-  Destino: this.service.formData.Estado,
-  Observaciones: '',
-  Estatus: validacion,
-  FechaInicioCarga: new Date('10/10/10'),
-  FechaFinalCarga: new Date('10/10/10'),
-  FechaExpedicion: new Date(),
-  IdUsuario: '0',
-  Usuario: user
-}
-
-console.log(ordencarga);
-
-
-
-
-
-this.serviceordencarga.addOrdenCarga2(ordencarga).subscribe(data=>{
-  let ocinsertada = new MasterOrdenCarga();
-  ocinsertada.ordenCarga = [];
-  ocinsertada.ordenCarga.push(data[0]);
-  ocinsertada.detalleOrdenCarga = []
-  /* console.log(data);
-  console.log(productos,'PRODUCTOS'); */
-  
-  for (let i=0; i< this.listData.data.length;i++){
-    console.log(this.listData.data[i],'LISTDATA');
-
-    if(!this.seleccionManual){
-      this.listData.data[i].Lote = '0';
-    }
- 
-    detordencarga = {
-
-      IdDetalleOrdenCarga:0,
-      IdOrdenCarga:ocinsertada.ordenCarga[0].IdOrdenCarga,
-      ClaveProducto:this.listData.data[i].ClaveProducto,
-  Producto:this.listData.data[i].Producto,
-  Sacos:(+this.listData.data[i].Cantidad / +this.presentacion(this.listData.data[i].Producto)),
-  PesoxSaco:this.presentacion(this.listData.data[i].Producto),
-  Lote:'0',
-  IdProveedor:'',
-  Proveedor:'',
-  PO:'',
-  FechaMFG:new Date('10/10/10'),
-  FechaCaducidad:new Date('10/10/10'),
-  Shipper:'',
-  USDA:'',
-  Pedimento:'',
-  Saldo:(+this.listData.data[i].Cantidad / +this.presentacion(this.listData.data[i].Producto)),
     }
 
-    console.log(detordencarga);
-    ocinsertada.detalleOrdenCarga.push(detordencarga)
-    
-    //this.service.master[i].detalleOrdenCarga = [];
-
-    this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data=>{
-      
-      console.log(data);
-    })
-    
-
-  }
-
-  
-
-  console.log(this.service.formDataPedido);
-  this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
-    if (fletera=='0'){
-
-      this.crearValidacion();
-    }else{
-      localStorage.setItem('IdOrdenCarga', ocinsertada.ordenCarga[0].IdOrdenCarga.toString())
-    localStorage.setItem('OrdenCarga', JSON.stringify(ocinsertada))
-    this.router.navigate(['/ordenCargaPreparar']);
-    }
-
-    Swal.fire({
-      icon: 'success',
-      title: 'Pedido Cerrado'
-    })
-
-//
-//this.ordenTemporalService._listeners.next('Orden')
-    this.Inicializar();
-
-  }
-  )
-
-
-})
-})
-
-
-
-/*  */
-
-
-
-
-
-}
 
 
 
 
 
 
-  
   }
 
   convertirPedido(){
@@ -2104,6 +2287,236 @@ this.llenarhtml();
     console.log(this.url)
     /* this.service.getValidacion() */
   }
+
+
+
+
+// * ************************** SELECCION MANUAL ****************************************** //
+
+public listBodega: Array<Object> = [
+  // { Bodega: 'Todos' },
+  // { Bodega: 'PasoTx' },
+  // { Bodega: 'San Diego' },
+  { Bodega: 'Chihuahua' },
+  // { Bodega: 'Transito' },
+  
+];
+// data
+// iniciarProductos(){
+
+//   this.productosSeleccion= [];
+  
+//   console.log(this.listData2Seleccion.data);
+//   for (let i=0; i<this.data.productos.length;i++){
+//     this.productosSeleccion.push({
+//       ClaveProducto:this.listData2Seleccion.data[i].ClaveProducto,
+//       Producto:this.listData2Seleccion.data[i].Producto,       
+//     })
+//   }
+
+//   console.log(this.productosSeleccion);
+
+// }
+
+validarProductos(){
+
+//    this.productos.splice
+// this.iniciarProductos()
+console.log(this.productosSeleccion);
+let productos2 = this.productosSeleccion;
+this.contadorSeleccion = productos2.length;
+console.log(this.contadorSeleccion);
+
+for (let j=0; j<this.seleccionadosSeleccion.length;j++){
+  for (let i=0; i<productos2.length;i++){
+    console.log(productos2[i],i,'i');
+    console.log(this.seleccionadosSeleccion[j],j,'j');
+
+  if (productos2[i].ClaveProducto==this.seleccionadosSeleccion[j].ClaveProducto){
+    productos2.splice(i,1);
+    this.contadorSeleccion = this.contadorSeleccion - 1;
+    break;
+  }
+}
+}
+
+if (this.contadorSeleccion==0){
+this.aceptarSeleccion = false;
+}else{
+this.aceptarSeleccion = true;
+}
+
+
+console.log(this.aceptarSeleccion);
+console.log(productos2);
+console.log(this.seleccionadosSeleccion);
+console.log(this.contadorSeleccion);
+
+
+ 
+  
+}
+
+
+applyFilterSeleccion(filtervalue: string) {
+  this.listDataSeleccion.filterPredicate = (data, filter: string) => {
+    return data.Producto.toString().toLowerCase().includes(filter) || data.ClaveProducto.toString().toLowerCase().includes(filter);
+  };
+  this.listDataSeleccion.filter = filtervalue.trim().toLocaleLowerCase();
+
+}
+
+applyFilter2Seleccion(filtervalue: string) {
+  this.listDataSeleccion.filterPredicate = (data, filter: string) => {
+    return data.Bodega.toString().toLowerCase().includes(filter);
+  };
+  this.listDataSeleccion.filter = filtervalue.trim().toLocaleLowerCase();
+
+}
+
+obtenerTarimas(){
+  this.listDataSeleccion = new MatTableDataSource();
+  this.tarimaService.GetTarimaBodega().subscribe(data=>{
+    console.log(data,'obtner tarimas');
+    this.listDataSeleccion = new MatTableDataSource(data);
+    this.listDataSeleccion.sort = this.sortSeleccion;
+    this.listDataSeleccion.paginator = this.paginatorSeleccion;
+    // this.listDataSeleccion.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+    this.applyFilter2Seleccion('Chihuahua');
+    console.log(this.listDataSeleccion.data[0].ClaveProducto);
+    //this.applyFilter(this.listData2.data[0].ClaveProducto);
+    this.bodegaSelectSeleccion = 'Chihuahua';
+
+    // if (!this.seleccionManual){
+    //   //console.clear();
+    //   this.seleccionAutomatica();
+    // }
+    
+    
+
+  })
+}
+
+seleccionAutomatica(){
+  /* console.log(this.listData2.data);
+  console.log(this.selection.selected);
+  console.log(this.listData.filteredData); */
+  console.log(this.seleccionManual);
+
+  for(let i=0; i<this.listData2Seleccion.data.length;i++){
+    for(let j=0; j<this.listDataSeleccion.filteredData.length;j++){
+      if (this.listData2Seleccion.data[i].ClaveProducto==this.listDataSeleccion.filteredData[j].ClaveProducto){
+
+        this.selection.selected.push(this.listDataSeleccion.filteredData[j])
+        break;
+
+      }
+    }
+
+  }
+
+  this.seleccionadosSeleccion = [];
+  for (let i=0; i<this.selection.selected.length;i++){
+
+    this.seleccionadosSeleccion.push({
+      ClaveProducto:this.selection.selected[i].ClaveProducto,
+      Producto:this.selection.selected[i].Producto,        
+    })
+
+  }
+
+//   this.validarProductos();
+
+//   console.log(this.selection);
+//   console.log(this.aceptar);
+
+//   if (!this.aceptar){
+//     this.seleccionar()
+//   }else{
+//     console.log('No cerrar');
+
+//   }
+
+}
+
+
+bodegaCambio(event){
+  // console.log(event);
+this.bodegaSelectSeleccion = event.value;
+console.log(this.bodegaSelectSeleccion);
+if (this.bodegaSelectSeleccion==='Todos'){
+this.applyFilter2Seleccion('')
+}else {
+
+this.applyFilter2Seleccion(this.bodegaSelectSeleccion)
+}
+
+}
+
+masterToggle() {
+  this.isAllSelected() ?
+      this.selection.clear() :
+      this.listDataSeleccion.data.forEach(row => this.selection.select(row));
+  console.log(this.selection);
+}
+
+isAllSelected() {
+  const numSelected = this.selection.selected.length;
+  const numRows = this.listDataSeleccion.data.length;
+  return numSelected === numRows;
+}
+checkboxLabel(row?: any): string {
+  if (!row) {
+    return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
+  }    
+  return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+}
+
+
+
+toggle(row){
+
+console.log(row);
+this.seleccionadosSeleccion = [];
+  // for (let i=0; i<row.length;i++){
+      // if(i == 0){
+        this.kilogramosMaximos = row.PesoTotal;
+        // console.log('%c%s', 'color: #00b300', this.kilogramosMaximos);
+      // }
+    this.seleccionadosSeleccion.push({
+      ClaveProducto:row.ClaveProducto,
+      Producto:row.Producto,        
+      Lote:row.Lote,
+      KgMaximos:row.PesoTotal,
+      PesoxSaco: row.PesoxSaco
+    })
+    this.verificarKilogramosMaximosSeleccion(row.PesoTotal);
+
+  // }
+
+  
+
+
+  this.validarProductos();
+}
+
+//^ Metodos para verificar cual es el producto con menos inventario disponible.
+kilogramosMaximos = 0;
+verificarKilogramosMaximosSeleccion(cantidad){
+  console.log('%c%s', 'color: #1d5673', this.kilogramosMaximos);
+  console.log('%c%s', 'color: #f200e2', cantidad);
+  if(this.kilogramosMaximos >= +cantidad){
+    this.kilogramosMaximos = cantidad
+    this.Cantidad = this.kilogramosMaximos;
+  }
+  console.log('%c%s', 'color: #1d5673', this.kilogramosMaximos);
+}
+
+
+
+// * ************************** SELECCION MANUAL ****************************************** //
+
+
 
 
   llenarhtml(){
