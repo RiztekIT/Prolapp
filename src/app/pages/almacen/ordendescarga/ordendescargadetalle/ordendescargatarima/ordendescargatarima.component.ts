@@ -148,6 +148,7 @@ export class OrdendescargatarimaComponent implements OnInit {
   sacosCero: boolean;
   numerofactura;
   PO;
+  NumeroEntrada;
   
 
   // qrTarimaExistente
@@ -213,11 +214,30 @@ export class OrdendescargatarimaComponent implements OnInit {
     }
     else{
       Swal.fire({
-        title: 'Favor de Verificar la Orden',
+        title: 'Orden Incompleta',
         icon: 'warning',
-        text: 'No se han descargado todos los productos.',
-        // timer: 1000
-      });
+        text:'No se han Descargado todos los productos. Si confirmas, el estatus de la Orden cambiara a Descargada.',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value) {
+          Swal.fire({
+            title: 'Orden Descargada',
+            icon: 'success',
+            timer: 2000,
+        showCancelButton: false,
+        showConfirmButton: false
+            
+            // text: 'No se han descargado todos los productos.',
+            // timer: 1000
+          });
+          this.updateOrdenDescarga(this.service.formData,'Descargada');
+          this.generarEventoCalendario(this.service.formData.Folio);
+        }
+      })
     }
 
 
@@ -266,7 +286,7 @@ export class OrdendescargatarimaComponent implements OnInit {
 
   // Tabla Orden Temporal
   listDataOrdenTemporal: MatTableDataSource<any>;
-  displayedColumnsOrdenTemporal: string[] = ['ClaveProducto', 'Producto', 'Lote', 'Kg',  'FechaCaducidad', 'Options'];
+  displayedColumnsOrdenTemporal: string[] = ['Factura','CBK','ClaveProducto', 'Producto', 'Lote', 'Kg',  'FechaCaducidad',  'FechaMFG', 'Options'];
   // displayedColumnsOrdenTemporal: string[] = ['ClaveProducto', 'Producto', 'Lote', 'Kg',  'FechaCaducidad', 'Comentarios', 'Options'];
   @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
@@ -367,6 +387,7 @@ export class OrdendescargatarimaComponent implements OnInit {
     console.log(this.ordenTemporalService.preOrdenTemporalOD);
     this.NombreProducto = this.ordenTemporalService.preOrdenTemporalOD[id].Producto
     this.PO = this.ordenTemporalService.preOrdenTemporalOD[id].PO
+    // this.NumeroEntrada = this.ordenTemporalService.preOrdenTemporalOD[id].Pedimento
     console.log(this.ordenTemporalService.preOrdenTemporalOD[id].Producto);
     console.log(preOD);
     console.log(id);
@@ -596,6 +617,7 @@ export class OrdendescargatarimaComponent implements OnInit {
     this.preOrdenTemporalSacos.FechaCaducidad = this.fechaCaducidad
     this.preOrdenTemporalSacos.FechaMFG = this.fechaMFG
     this.preOrdenTemporalSacos.NumeroFactura = this.numerofactura;
+    this.preOrdenTemporalSacos.Pedimento = this.NumeroEntrada;
     /* this.preOrdenTemporalSacos.Sacos = this.numerofactura; */
 
     // this.ordenTemporalService.preOrdenTemporalSacos.push(this.preOrdenTemporalSacos)
@@ -605,14 +627,7 @@ export class OrdendescargatarimaComponent implements OnInit {
     // this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
 
 
-    //^Limpiar campos visuales
-    this.NombreProducto = null;
-    this.numerofactura = null;
-    this.PO = null;
-    this.cantidadKilogramos = null;
-    this.lote = null;
-    this.fechaCaducidad = null;
-    this.fechaMFG = null;
+    
 
 
 
@@ -802,8 +817,8 @@ export class OrdendescargatarimaComponent implements OnInit {
         SacosxTarima: '',
         TarimasTotales: '',
         Bodega: this.service.formData.Destino,
-        IdProveedor: 0,
-        Proveedor: this.preOrdenTemporalSacos.IdProveedor,
+        IdProveedor: this.preOrdenTemporalSacos.IdProveedor,
+        Proveedor: this.preOrdenTemporalSacos.Proveedor,
         PO: this.PO,
         FechaMFG: this.preOrdenTemporalSacos.FechaMFG,
         FechaCaducidad: this.preOrdenTemporalSacos.FechaCaducidad,
@@ -827,20 +842,27 @@ export class OrdendescargatarimaComponent implements OnInit {
             IdDetalleTarima: +ultimo[0].IdDetalleTarima,
             IdOrdenCarga: 0,
             IdOrdenDescarga: this.preOrdenTemporalSacos.IdOrdenDescarga,
-            QR: this.numerofactura,
+            QR: '',
+            NumeroFactura: this.numerofactura,
+            NumeroEntrada: this.NumeroEntrada,
             ClaveProducto: this.preOrdenTemporalSacos.ClaveProducto,
             Lote: this.preOrdenTemporalSacos.Lote,
             Sacos: (+this.preOrdenTemporalSacos.KilogramosIngresados / + this.preOrdenTemporalSacos.PesoxSaco).toFixed(4),
             Producto: this.preOrdenTemporalSacos.Producto,
             PesoTotal: this.preOrdenTemporalSacos.KilogramosIngresados,
             FechaCaducidad: this.preOrdenTemporalSacos.FechaCaducidad,
+            FechaMFG: this.preOrdenTemporalSacos.FechaMFG,
             Comentarios: '',
+            CampoExtra1: this.PO,
+            CampoExtra2: '',
+            CampoExtra3: ''
           }
 
           console.log(ordentemporalnueva);
 
           this.ordenTemporalService.addOrdenTemporal(ordentemporalnueva).subscribe(res => {
-            console.log(resp);
+            console.log(res);
+            // console.log(resp);
             let Lote = this.preOrdenTemporalSacos.Lote;
             let ClaveProducto = this.preOrdenTemporalSacos.ClaveProducto;
             let Kilos = this.preOrdenTemporalSacos.KilogramosIngresados;
@@ -862,6 +884,16 @@ export class OrdendescargatarimaComponent implements OnInit {
         text: '',
         timer: 2000
       });
+
+         //^Limpiar campos visuales
+    this.NombreProducto = null;
+    this.numerofactura = null;
+    this.PO = null;
+    this.NumeroEntrada = null;
+    this.cantidadKilogramos = null;
+    this.lote = null;
+    this.fechaCaducidad = null;
+    this.fechaMFG = null;
 
                 // POTS = [];
                 // this.ordenTemporalService.preOrdenTemporalSacos = []
@@ -1472,6 +1504,7 @@ export class OrdendescargatarimaComponent implements OnInit {
           Dt.PesoxSaco = this.POTSTE[i].PesoxSaco;
           Dt.Lote = this.POTSTE[i].Lote;
           Dt.IdProveedor = this.POTSTE[i].IdProveedor;
+          Dt.Proveedor = this.POTSTE[i].Proveedor;
           Dt.PO = this.POTSTE[i].PO;
           Dt.FechaMFG = this.POTSTE[i].FechaMFG;
           Dt.FechaCaducidad = this.POTSTE[i].FechaCaducidad;

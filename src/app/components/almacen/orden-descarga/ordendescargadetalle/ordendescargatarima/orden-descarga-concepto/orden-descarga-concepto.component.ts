@@ -81,8 +81,6 @@ export class OrdenDescargaConceptoComponent implements OnInit {
     //Actualizar concepto con el nuevo numero de sacos
 
 
-
-
     let ordenTempEt = new OrdenTemporal();
 
     ordenTempEt.IdOrdenTemporal = this.ordenTemporalService.ordenTemporalDataOD.IdOrdenTemporal;
@@ -90,13 +88,19 @@ export class OrdenDescargaConceptoComponent implements OnInit {
     ordenTempEt.IdOrdenCarga = this.ordenTemporalService.ordenTemporalDataOD.IdOrdenCarga;
     ordenTempEt.IdOrdenDescarga = this.ordenTemporalService.ordenTemporalDataOD.IdOrdenDescarga;
     ordenTempEt.QR = this.ordenTemporalService.ordenTemporalDataOD.QR;
+    ordenTempEt.NumeroFactura = this.ordenTemporalService.ordenTemporalDataOD.NumeroFactura;
+    ordenTempEt.NumeroEntrada = this.ordenTemporalService.ordenTemporalDataOD.NumeroEntrada;
     ordenTempEt.ClaveProducto = this.ordenTemporalService.ordenTemporalDataOD.ClaveProducto;
     ordenTempEt.Lote = this.ordenTemporalService.ordenTemporalDataOD.Lote;
     ordenTempEt.Sacos = ((this.cantidadKg)/(this.pesoxSaco)).toString();
     ordenTempEt.Producto = this.ordenTemporalService.ordenTemporalDataOD.Producto;
     ordenTempEt.PesoTotal = (this.cantidadKg).toString();
     ordenTempEt.FechaCaducidad = this.ordenTemporalService.ordenTemporalDataOD.FechaCaducidad;
+    ordenTempEt.FechaMFG = this.ordenTemporalService.ordenTemporalDataOD.FechaMFG;
     ordenTempEt.Comentarios = '';
+    ordenTempEt.CampoExtra1 = '';
+    ordenTempEt.CampoExtra2 = '';
+    ordenTempEt.CampoExtra3 = '';
 
     console.log(ordenTempEt, 'Concepto editado a ser ingresado en OT');
 

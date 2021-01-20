@@ -29,6 +29,18 @@
                         <label class="input-group-text text-info">Producto</label>
                         <input readonly="readonly" type="text" class="form-control" name="Producto" #Producto="ngModel" [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.Producto">
 
+                        <label class="input-group-text text-info">Fecha de Manufactura</label>
+
+                                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                                    <input readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="FechaMFG" #FechaMFG="ngModel" [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.FechaMFG" >
+                                                    <mat-datepicker #picker2></mat-datepicker>
+
+                                                    <label class="input-group-text text-info">Fecha de Caducidad</label>
+
+                                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                                    <input readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="FechaCaducidad" #FechaCaducidad="ngModel" [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.FechaCaducidad" >
+                                                    <mat-datepicker #picker1></mat-datepicker>
+
                         
 
 
@@ -40,6 +52,12 @@
 
                         <label class="input-group-text text-info">Lote</label>
                         <input  type="text" class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.Lote">
+
+                        <label class="input-group-text text-info">Numero Factura</label>
+                        <input  type="text" class="form-control" name="factura" #factura="ngModel" [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.NumeroFactura">
+
+                        <label class="input-group-text text-info">Numero Entrada</label>
+                        <input  type="text" class="form-control" name="entrada" #entrada="ngModel" [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.NumeroEntrada">
 
                         <!-- <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched ||cantidadSacos == 0">
                             Favor de Ingresar un valor mayor a 0.

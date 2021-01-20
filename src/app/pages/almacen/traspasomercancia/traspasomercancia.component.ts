@@ -8,6 +8,10 @@ import { DocumentacionFormularioImportacionComponent } from '../../importacion/d
 import { OrdenCargaDescargaComponent } from 'src/app/components/orden-carga-descarga/orden-carga-descarga.component';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
+import { TraspasoMercancia } from '../../../Models/importacion/detalleTraspasoMercancia-model';
+import { TarimaService } from '../../../services/almacen/tarima/tarima.service';
+import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model';
+import { OrdenCargaService } from '../../../services/almacen/orden-carga/orden-carga.service';
 
 @Component({
   selector: 'app-traspasomercancia',
@@ -22,7 +26,7 @@ export class TraspasomercanciaComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   
 
-  constructor(public traspasoSVC: TraspasoMercanciaService, public router: Router, private dialog: MatDialog) { }
+  constructor(public traspasoSVC: TraspasoMercanciaService, public router: Router, private dialog: MatDialog, public serviceTarima: TarimaService, public ocService:OrdenCargaService) { }
 
   ngOnInit() {
     this.obtenerTraspasos();
@@ -172,9 +176,194 @@ subs1: Subscription
     
   }
   
-  onDelete(row){
+  onDelete(row: TraspasoMercancia){
     console.log(row);
+    Swal.fire({
+      title: '¿Seguro de Borrar Traspaso?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+
+    
+    //^ Al eliminar un Traspaso es necesario hacer lo siguiente:
+    //^Eliminar el traspaso por IdTraspaso asi como sus detalles
+    //^ Regresar los productos a su bodega origen, ya que se encuentran en Transito
+     //^ Esta metodo movera los productos que seran traspasados a la bodega transtio. 
+  //^ Con el objetivo de descontar los inventarios en la bodega y asi evitar traspasar productos que ya hayan sido traspasados
+
+
+  //^ Obtenemos la informacion de los detalles Traspaso
+  let query = 'select * from DetalleTraspasoMercancia where IdTraspasoMercancia = '+row.IdTraspasoMercancia;
+      let consulta = {
+        'consulta':query
+      };
+
+      console.log(query);
+
+      
+
+
+      this.traspasoSVC.getQuery(consulta).subscribe((detalles: any)=>{
+        console.log(detalles);
+
+        //^ Funcion para eliminar traspaso y detalles.
+        this.eliminarTraspaso(row.IdTraspasoMercancia, row.IdOrdenCarga);
+        
+        for (let i = 0; i < detalles.length; i++) {
+          
+          console.log(i);
+          console.log(detalles[i]);
+          
+          let Sacos = detalles[i].Sacos;
+          let Lote = detalles[i].Lote;
+          let ClaveProducto = detalles[i].ClaveProducto;
+          
+          let kg = detalles[i].PesoTotal;
+          
+          
+          //^ Obtenemos la informacion del producto a regresar
+          this.serviceTarima.GetGetProductoInformacionBodega(detalles[i].ClaveProducto, detalles[i].Lote, row.Origen).subscribe(dataDetalleTarima => {
+            console.log(dataDetalleTarima);
+
+            //^ Verificamos si en la bodega origen existe el mismo producto con el mismo Lote
+            //^ En dado caso que sea cierto, actualizaremos los kilogramos y sacos de ese Producto
+            if(dataDetalleTarima.length>0){
+
+              let SacosDetalleTarima = ((+dataDetalleTarima[0].SacosTotales) + (+detalles[i].Sacos));
+              let PesoTotalDetalleTarima = ((+dataDetalleTarima[0].PesoTotal) + (+detalles[i].PesoTotal));
+
+              dataDetalleTarima[0].SacosTotales = SacosDetalleTarima.toString();
+              dataDetalleTarima[0].PesoTotal = PesoTotalDetalleTarima.toString();
+              this.serviceTarima.updateDetalleTarimaSacosPesoTarimasBodega(dataDetalleTarima[0]).subscribe(resUpdateOriginal => {
+                        console.log(resUpdateOriginal);
+
+                        this.eliminarDetalleTarima(detalles[i].ClaveProducto, detalles[i].Lote, 'Transito');
+                
+                
+              })
+
+            }
+            //^ Si es falso, significa que no existe ese producto con ese lote en la bodega origen. Entonces se creara un nuevo Detalle Tarima
+            else{
+
+              //^ Como no existe el detalleTarima (el producto con lote en la bodega Origen) obtendremos la informacion de Orden Temporal, para crear de nuevo el DetalleTarima
+              let queryInformacionDetalleTarima = 'select * from OrdenTemporal where ClaveProducto = '+"'"+detalles[i].ClaveProducto+"'"+' and Lote = '+"'"+detalles[i].Lote+"'"+'';
+              let consulta2 = {
+                'consulta':queryInformacionDetalleTarima
+              };
+             
+              console.log(queryInformacionDetalleTarima);
+             
+              this.traspasoSVC.getQuery(consulta2).subscribe((detalleTarima: any)=>{
+                console.log(detalles);
+                
+                let dataDetalleTarimaNueva: DetalleTarima = {
+                  IdDetalleTarima: 0,
+                  ClaveProducto: detalleTarima[0].ClaveProducto,
+                  Producto: detalleTarima[0].Producto,
+                  SacosTotales: detalleTarima[0].Sacos,
+                  PesoxSaco: detalleTarima[0].PesoxSaco,
+                  // PesoxSaco: ((+detalleTarima[0].PesoTotal) / (+detalleTarima[0].Sacos)).toString(),
+                  Lote: detalleTarima[0].Lote,
+                  PesoTotal: detalleTarima[0].PesoTotal,
+                  SacosxTarima: '',
+                  TarimasTotales: '',
+                  Bodega: row.Origen,
+                  IdProveedor: detalles[i].IdProveedor,
+                  Proveedor: detalles[i].Proveedor,
+                  PO: detalleTarima[0].CampoExtra1,
+                  FechaMFG: detalleTarima[0].FechaMFG,
+                  FechaCaducidad: detalleTarima[0].FechaCaducidad,
+                  Shipper: '',
+                  USDA: '',
+                  Pedimento: detalleTarima[0].NumeroEntrada,
+                  Estatus: 'Creada'                  
+                };
+
+                console.log(dataDetalleTarimaNueva);
+                
+                this.serviceTarima.addDetalleTarima(dataDetalleTarimaNueva).subscribe(resNuevaTarima => {
+                  console.log(resNuevaTarima);
+                  this.eliminarDetalleTarima(detalles[i].ClaveProducto, detalles[i].Lote, 'Transito');
+                })
+                
+              })
+            }            
+          });
+           //^ verificar que se el ultimo producto a regresar
+           if (i == (detalles.length - 1)) {
+            this.obtenerTraspasos();
+          }         
+        }
+      })
+    })
   }
+
+  //^ Funcion para eliminar traspaso y detalles asi como la Orden Carga y detalles
+  eliminarTraspaso(idTraspaso: number, idOc: number){
+ //^ Eliminamos Traspaso
+ let query = 'delete TraspasoMercancia where IdTraspasoMercancia = '+idTraspaso+'';
+ let consulta = {
+   'consulta':query
+ };
+
+ console.log(query);
+
+ this.traspasoSVC.getQuery(consulta).subscribe((detalles: any)=>{
+   console.log(detalles);
+  })
+
+  let query2 = 'delete DetalleTraspasoMercancia where IdTraspasoMercancia = '+idTraspaso+'';
+ let consulta2 = {
+   'consulta':query2
+ };
+
+ console.log(query2);
+
+ this.traspasoSVC.getQuery(consulta2).subscribe((detalles: any)=>{
+   console.log(detalles);
+  })
+
+
+  this.ocService.deleteOrdenCarga(idOc).subscribe(resOC=>{
+    console.log(resOC);
+    let query3 = 'delete DetalleOrdenCarga where IdOrdenCarga = '+idOc+'';
+    let consulta3 = {
+      'consulta':query3
+    };
+   
+    console.log(query3);
+   
+    this.traspasoSVC.getQuery(consulta3).subscribe((detallesOC: any)=>{
+      console.log(detallesOC);
+     })
+  })
+
+
+
+
+  }
+
+
+  //^ Eliminar DetalleTarima
+  eliminarDetalleTarima(clave, lote, bodega){
+
+    let queryDeleteDetalle = 'delete DetalleTarima where ClaveProducto = '+"'"+clave+"'"+' and Lote = '+"'"+lote+"'"+' and bodega = '+"'Transito'"+'';
+    let consulta = {
+      'consulta':queryDeleteDetalle
+    };
+   
+    console.log(queryDeleteDetalle);
+   
+    this.traspasoSVC.getQuery(consulta).subscribe((detalleTarima: any)=>{
+      console.log(detalleTarima);
+    })
+  }
+  
 
  
   

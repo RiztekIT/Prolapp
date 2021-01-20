@@ -148,9 +148,13 @@
                                         <tr mat-header-row *matHeaderRowDef="displayedColumnsOrdenTemporal"></tr>
                                         <tr mat-row *matRowDef="let row; columns: displayedColumnsOrdenTemporal;"></tr>
 
-                                        <ng-container matColumnDef="QR">
+                                        <ng-container matColumnDef="Factura">
                                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Factura</th>
-                                            <td mat-cell *matCellDef="let elementOT">{{elementOT.QR}}</td>
+                                            <td mat-cell *matCellDef="let elementOT">{{elementOT.NumeroFactura}}</td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="CBK">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>CBK</th>
+                                            <td mat-cell *matCellDef="let elementOT">{{elementOT.NumeroEntrada}}</td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="ClaveProducto">

@@ -16,7 +16,7 @@ import { FormControl } from '@angular/forms';
 export class ResumentraspasoComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['Clave', 'Producto','PesoTotal','Sacos'];
+  displayedColumns: string[] = ['PO', 'Factura','CBK', 'Usda','Clave', 'Producto','PesoTotal','Sacos'];
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -105,38 +105,40 @@ export class ResumentraspasoComponent implements OnInit {
 
 
   }
-  refrescarDocumentos(){
+//   refrescarDocumentos(){
 
     
 
-    let query = 'select DetalleTraspasoMercancia.*, DetalleTarima.*, OrdenTemporal.* from DetalleTraspasoMercancia left join detalletarima on DetalleTraspasoMercancia.IdDetalle=detalletarima.IdDetalleTarima left join OrdenTemporal on OrdenTemporal.IdDetalleTarima=DetalleTarima.IdDetalleTarima where DetalleTraspasoMercancia.IdTraspasoMercancia=3'
-    let consulta = {
-      'consulta':query
-    };
+//     let query = 'select DetalleTraspasoMercancia.*, DetalleTarima.*, OrdenTemporal.* from DetalleTraspasoMercancia left join detalletarima on DetalleTraspasoMercancia.IdDetalle=detalletarima.IdDetalleTarima left join OrdenTemporal on OrdenTemporal.IdDetalleTarima=DetalleTarima.IdDetalleTarima where DetalleTraspasoMercancia.IdTraspasoMercancia=3'
+//     let consulta = {
+//       'consulta':query
+//     };
 
-    this.traspasoSVC.getQuery(consulta).subscribe((detalles: any)=>{
-      console.log(detalles);
-      this.seleccionadosFacturas = detalles;
-   /*    this.listData = new MatTableDataSource(detalles);
-      this.listData.sort = this.sort; */
- /*      this.listData.paginator = this.paginator;
-      this.listData.paginator._intl.itemsPerPageLabel = 'Traspasos por Pagina'; */
-      for (let i=0; i< detalles.length;i++){
+//     this.traspasoSVC.getQuery(consulta).subscribe((detalles: any)=>{
+//       console.log(detalles);
+//       this.seleccionadosFacturas = detalles;
+//    /*    this.listData = new MatTableDataSource(detalles);
+//       this.listData.sort = this.sort; */
+//  /*      this.listData.paginator = this.paginator;
+//       this.listData.paginator._intl.itemsPerPageLabel = 'Traspasos por Pagina'; */
 
-        this.obtenerDocumentosFactura(detalles[i],detalles[i].IdOrdenDescarga,detalles[i].IdDetalleTarima);
-        this.obtenerDocumentosCLV(detalles[i]);
-        this.obtenerDocumentosCO(detalles[i]);
-        this.obtenerPESPI(detalles[i]);
-        this.obtenerDocumentosCA(detalles[i]);
-        this.obtenerDocumentosUSDA(detalles[i]);
+//       this.numUSDA = [];
+//       for (let i=0; i< detalles.length;i++){
+//         this.numUSDA = this.numUSDA + detalles[i].Usda; 
+//         this.obtenerDocumentosFactura(detalles[i],detalles[i].IdOrdenDescarga,detalles[i].IdDetalleTarima);
+//         this.obtenerDocumentosCLV(detalles[i]);
+//         this.obtenerDocumentosCO(detalles[i]);
+//         this.obtenerPESPI(detalles[i]);
+//         this.obtenerDocumentosCA(detalles[i]);
+//         this.obtenerDocumentosUSDA(detalles[i]);
         
-      }
-    })
+//       }
+//     })
   
 
 
 
-}
+// }
 
   obtenerDocumentosFactura(row,folio: number, id: number) {
 
@@ -847,7 +849,7 @@ export class ResumentraspasoComponent implements OnInit {
               this.eventsFacturas = [];
               this.filesFacturas = [];
               /* this.archivosfactura = []; */
-              this.refrescarDocumentos()
+              this.obtenerDetallesTraspaso()
               
               Swal.fire({
                 title: 'Documentos Guardados',
@@ -871,7 +873,7 @@ export class ResumentraspasoComponent implements OnInit {
                   this.clearTipoDocumentoFacturas();
                   this.eventsFacturas = [];
                   this.filesFacturas = [];
-                  this.refrescarDocumentos()
+                  this.obtenerDetallesTraspaso()
                   //this.obtenerDocumentosFactura(this.seleccionadosFacturas[l],this.seleccionadosFacturas[i].IdOrdenDescarga,this.seleccionadosFacturas[i].IdDetalleTarima);
                   /* this.archivosfactura = []; */
                   Swal.fire({
@@ -957,7 +959,7 @@ export class ResumentraspasoComponent implements OnInit {
               // this.clearTipoDocumento();
               this.eventsCLV = [];
               this.filesCLV = [];
-              this.refrescarDocumentos()
+              this.obtenerDetallesTraspaso()
               /* this.archivos = []; */
               Swal.fire({
                 title: 'Documentos Guardados',
@@ -980,7 +982,7 @@ export class ResumentraspasoComponent implements OnInit {
                   // this.clearTipoDocumento();
                   this.eventsCLV = [];
                   this.filesCLV = [];
-                  this.refrescarDocumentos()
+                  this.obtenerDetallesTraspaso()
                   /* this.archivosCLV = []; */
                   Swal.fire({
                     title: 'Documentos Guardados',
@@ -1062,7 +1064,7 @@ export class ResumentraspasoComponent implements OnInit {
               // this.clearTipoDocumento();
               this.eventsCO = [];
               this.filesCO = [];
-              this.refrescarDocumentos();
+              this.obtenerDetallesTraspaso();
               
               Swal.fire({
                 title: 'Documentos Guardados',
@@ -1085,7 +1087,7 @@ export class ResumentraspasoComponent implements OnInit {
                   // this.clearTipoDocumento();
                   this.eventsCO = [];
                   this.filesCO = [];
-                  this.refrescarDocumentos();
+                  this.obtenerDetallesTraspaso();
                   
                   Swal.fire({
                     title: 'Documentos Guardados',
@@ -1170,7 +1172,7 @@ export class ResumentraspasoComponent implements OnInit {
               // this.clearTipoDocumento();
               this.eventsPESPI = [];
               this.filesPESPI = [];
-              this.refrescarDocumentos();
+              this.obtenerDetallesTraspaso();
               /* this.archivos = []; */
               Swal.fire({
                 title: 'Documentos Guardados',
@@ -1193,7 +1195,7 @@ export class ResumentraspasoComponent implements OnInit {
                   // this.clearTipoDocumento();
                   this.eventsPESPI = [];
                   this.filesPESPI = [];
-                  this.refrescarDocumentos();
+                  this.obtenerDetallesTraspaso();
                   /* this.archivos = []; */
                   Swal.fire({
                     title: 'Documentos Guardados',
@@ -1276,7 +1278,7 @@ export class ResumentraspasoComponent implements OnInit {
               // this.clearTipoDocumento();
               this.eventsCA = [];
               this.filesCA = [];
-              this.refrescarDocumentos();
+              this.obtenerDetallesTraspaso();
               /* this.archivos = []; */
               Swal.fire({
                 title: 'Documentos Guardados',
@@ -1299,7 +1301,7 @@ export class ResumentraspasoComponent implements OnInit {
                   // this.clearTipoDocumento();
                   this.eventsCA = [];
                   this.filesCA = [];
-                  this.refrescarDocumentos();
+                  this.obtenerDetallesTraspaso();
                   /* this.archivos = []; */
                   Swal.fire({
                     title: 'Documentos Guardados',
@@ -1515,8 +1517,8 @@ export class ResumentraspasoComponent implements OnInit {
               // this.clearTipoDocumento();
               this.eventsUSDA = [];
               this.filesUSDA = [];
-              this.numUSDA = '';
-              this.refrescarDocumentos();
+              // this.numUSDA = '';
+              // this.refrescarDocumentos();
               this.updateUSDA();
               /* this.archivos = []; */
               Swal.fire({
@@ -1540,8 +1542,8 @@ export class ResumentraspasoComponent implements OnInit {
                   // this.clearTipoDocumento();
                   this.eventsUSDA = [];
                   this.filesUSDA = [];
-                  this.numUSDA = '';
-                  this.refrescarDocumentos();
+                  // this.numUSDA = '';
+                  // this.refrescarDocumentos();
                   this.updateUSDA();
                   /* this.archivos = []; */
                   Swal.fire({
@@ -1567,8 +1569,8 @@ export class ResumentraspasoComponent implements OnInit {
   }
 
   updateUSDA(){
-
-    let query = 'update detalletraspasomercancia set Usda=CONCAT(Usda,\',\','+this.numUSDA+') where IdTraspasoMercancia = '+this.traspasoSVC.selectTraspaso.IdTraspasoMercancia+''
+//! CHECAR COMO ACTUALIZAR USDA
+    let query = 'update detalletraspasomercancia set Usda='+"'"+this.numUSDA+"'"+' where IdTraspasoMercancia = '+this.traspasoSVC.selectTraspaso.IdTraspasoMercancia+''
       let consulta = {
         'consulta':query
       };
@@ -1577,6 +1579,8 @@ export class ResumentraspasoComponent implements OnInit {
 
       this.traspasoSVC.getQuery(consulta).subscribe((detalles: any)=>{
         console.log(detalles);
+        this.numUSDA = '';
+        this.obtenerDetallesTraspaso();
       })
 
   }
