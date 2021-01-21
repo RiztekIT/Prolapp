@@ -616,7 +616,9 @@ export class OrdendescargatarimaComponent implements OnInit {
     this.preOrdenTemporalSacos.Lote = this.lote
     this.preOrdenTemporalSacos.FechaCaducidad = this.fechaCaducidad
     this.preOrdenTemporalSacos.FechaMFG = this.fechaMFG
-    this.preOrdenTemporalSacos.NumeroFactura = this.numerofactura;
+    //^ En shipper guardaremos Numero Facura
+    this.preOrdenTemporalSacos.Shipper = this.numerofactura;
+    //^ En Pedimento guardaremos Numero Entrada (CBK)
     this.preOrdenTemporalSacos.Pedimento = this.NumeroEntrada;
     /* this.preOrdenTemporalSacos.Sacos = this.numerofactura; */
 

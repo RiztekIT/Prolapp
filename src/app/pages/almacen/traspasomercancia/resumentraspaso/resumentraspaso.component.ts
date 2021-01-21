@@ -89,15 +89,18 @@ export class ResumentraspasoComponent implements OnInit {
         this.listData.sort = this.sort;
    /*      this.listData.paginator = this.paginator;
         this.listData.paginator._intl.itemsPerPageLabel = 'Traspasos por Pagina'; */
-        for (let i=0; i< detalles.length;i++){
+        if(detalles.length>0){
 
-          this.obtenerDocumentosFactura(detalles[i],detalles[i].IdOrdenDescarga,detalles[i].IdDetalleTarima);
-          this.obtenerDocumentosCLV(detalles[i]);
-          this.obtenerDocumentosCO(detalles[i]);
-          this.obtenerPESPI(detalles[i]);
-          this.obtenerDocumentosCA(detalles[i]);
-          this.obtenerDocumentosUSDA(detalles[i]);
-          
+          for (let i=0; i< detalles.length;i++){
+            
+            this.obtenerDocumentosFactura(detalles[i],detalles[i].IdOrdenDescarga,detalles[i].IdDetalleTarima);
+            this.obtenerDocumentosCLV(detalles[i]);
+            this.obtenerDocumentosCO(detalles[i]);
+            this.obtenerPESPI(detalles[i]);
+            this.obtenerDocumentosCA(detalles[i]);
+            this.obtenerDocumentosUSDA(detalles[i]);
+            
+          }
         }
       })
     

@@ -252,7 +252,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
     })
       
     }
-    
+    //^ Llenamos informaicon en la tabla Orden temporal (Nos indica los productos que ya han sido descargados)
     actualizarTablaOrdenTemporal() {
       this.ordenTemporalService.GetOrdenTemporalIDOD(this.IdOrdenDescarga).subscribe(dataOrdenTemporal => {
         console.log(dataOrdenTemporal);
@@ -387,7 +387,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
 
       let kgSobra = +this.arrayProductosIngresados[i].KilogramosSobrantes;
 
-      this.agregarOrdenTemporalActualizarSaldos(i, Lote, ClaveProducto, Sacos, kg);
+       this.agregarOrdenTemporalActualizarSaldos(i, Lote, ClaveProducto, Sacos, kg);
 
      
 
@@ -418,31 +418,28 @@ export class OrdendescargatarimacuuComponent implements OnInit {
                 //^ si existen datos, se actualizara el numero de sacos y el peso total
                 detalleTarimaDestino.PesoTotal = ((+detalleTarimaDestino.PesoTotal) + (+kg)).toString(); 
                 detalleTarimaDestino.SacosTotales = ((+detalleTarimaDestino.SacosTotales) + (+Sacos)).toString(); 
-                this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(detalleTarimaDestino).subscribe(resUpdate => {
-                  console.log(resUpdate);
-                  this.dropdownRefreshProductos();
-                })
+                 this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(detalleTarimaDestino).subscribe(resUpdate => {
+                   console.log(resUpdate);
+                   this.dropdownRefreshProductos();
+                 })
               }else{
                 //^ si no existen datos, se actualizara nomas la bodega origen (en este caso TRANSITO)
                 updateDetalleTarima.Bodega = 'CHIHUAHUA';
-                this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(updateDetalleTarima).subscribe(resUpdate => {
-                  console.log(resUpdate);
-                  this.dropdownRefreshProductos();
-                })
+                 this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(updateDetalleTarima).subscribe(resUpdate => {
+                   console.log(resUpdate);
+                   this.dropdownRefreshProductos();
+                 })
               }
           });
         } else {
 
-          //& CLAVE : 01
-          //& Saldo: 2500 kg
-          //& DetalleTarima: 3750kg
-          //& Sobrantes: 1250 kg
+       
 
           //^ Si no coincide el # de sacos, entonces se creara un nuevo detalle tarima con los sacos utilizados
           console.log('No todos los sacos seran Utilizados');
           //^ Actualizar Detalle Tarima Origen (original)//Agregar Nuevo Detalle Tarima con Bodega (CHIHUAHUA)
           let detalleTarimaNueva: DetalleTarima = dataDetalleTarimaNueva[0];
-          //& PesoTotal: 3750 kg
+     
 
           console.log(detalleTarimaNueva);
           console.log(dataDetalleTarimaNueva[0]);
@@ -452,14 +449,12 @@ export class OrdendescargatarimacuuComponent implements OnInit {
           detalleTarimaNueva.PesoTotal = (+kgSobra).toString();
           detalleTarimaNueva.Bodega = 'Transito';
           detalleTarimaNueva.Estatus = 'Creada';
-          //! detalleTarimaNueva.TarimasTotales  COMO CALCULAR TARIMAS TOTALES ??
 
           this.tarimaService.addDetalleTarima(detalleTarimaNueva).subscribe(resNuevaTarima => {
             console.log(resNuevaTarima);
             let detalleTarimaOriginal: DetalleTarima = dataDetalleTarimaOriginal[0];
             detalleTarimaOriginal.SacosTotales = Sacos.toString();
             detalleTarimaOriginal.PesoTotal = kg.toString();
-            //! detalleTarimaOriginal.TarimasTotales COMO CALCULAR TARIMAS TOTALES ??
             detalleTarimaOriginal.Bodega = 'CHIHUAHUA';
             this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(detalleTarimaOriginal).subscribe(resUpdateOriginal => {
               console.log(resUpdateOriginal);
@@ -485,15 +480,21 @@ export class OrdendescargatarimacuuComponent implements OnInit {
 
     ordenT.IdDetalleTarima = this.arrayProductosIngresados[i].IdDetalleTarima;
     ordenT.IdOrdenCarga = 0;
-    ordenT.IdOrdenDescarga = this.arrayProductosIngresados[i].IdOrdenDescarga;
+    ordenT.IdOrdenDescarga = this.arrayProductosIngresados[i].IdOrdenDescarga;    
     ordenT.QR = '';
+    ordenT.NumeroFactura = this.arrayProductosIngresados[i].Shipper;
+    ordenT.NumeroEntrada = this.arrayProductosIngresados[i].Pedimento;
     ordenT.ClaveProducto = this.arrayProductosIngresados[i].ClaveProducto;
     ordenT.Lote = this.arrayProductosIngresados[i].Lote;
     ordenT.Sacos = Sacos;
     ordenT.Producto = this.arrayProductosIngresados[i].Producto;
     ordenT.PesoTotal = kg;
     ordenT.FechaCaducidad = this.arrayProductosIngresados[i].FechaCaducidad;
+    ordenT.FechaMFG = this.arrayProductosIngresados[i].FechaMFG;
     ordenT.Comentarios = this.arrayProductosIngresados[i].Comentarios;
+    ordenT.CampoExtra1 = this.arrayProductosIngresados[i].PO;
+    ordenT.CampoExtra2 = '';
+    ordenT.CampoExtra3 = '';
 
     console.log(ordenT);
     //^ Insert a Orden Temporal
@@ -506,12 +507,12 @@ export class OrdendescargatarimacuuComponent implements OnInit {
         let NuevoSaldo = ((+dataOrdenDescarga[0].Saldo) - (+kg)).toString();
         console.log(NuevoSaldo);
         //^ Actualizar Saldo de la tabla Detalle Orden Descarga
-        this.ordenDescargaService.updateDetalleOrdenDescargaSaldo(dataOrdenDescarga[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res => {
-          console.log(res);
-          this.actualizarTablaOrdenTemporal();
-        });
-      });
-    });
+         this.ordenDescargaService.updateDetalleOrdenDescargaSaldo(dataOrdenDescarga[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res => {
+           console.log(res);
+           this.actualizarTablaOrdenTemporal();
+         });
+       });
+     });
 
   }
 

@@ -338,9 +338,9 @@ export class CargarComponent implements OnInit {
       Oc.FechaFinalCarga = new Date();
       /* if (res[0].Chofer) { */
         if (res[0].Estatus == 'Preparada') {
-          this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(resq => {
-            console.log(resq)
-
+          // this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(resq => {
+            // console.log(resq)
+Oc.Estatus = 'Cargada';
             
 
   this.ordenCargaService.updateOrdenCarga(Oc).subscribe(res=>{
@@ -350,7 +350,7 @@ this.router.navigate(['/ordencargadetalle']);
 
             
             
-          })
+          // })
         }
         this.ordenCargaService.updateOrdenCarga(Oc).subscribe(res=>{
           console.log(res);

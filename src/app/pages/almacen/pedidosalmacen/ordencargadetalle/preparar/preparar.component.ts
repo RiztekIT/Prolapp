@@ -75,8 +75,9 @@ export class PrepararComponent implements OnInit {
     this.isVisibleQR = true;
     this.showButtonAceptar = false;
     this.showButtonCancelar = false;
-    this.MostrarConceptos = false;
+    // this.MostrarConceptos = false;
     this.ordenTemporalService.preOrdenTemporal = new Array<preOrdenTemporal>();
+    this.conceptosIngreso();
     this.obtenerBodegaOrigen();
     this.actualizarTablaOrdenTemporal();
     // this.onPageInit();
@@ -88,22 +89,28 @@ export class PrepararComponent implements OnInit {
 
   // Tabla pre visualizacion
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['ClaveProducto', 'Lote', 'Sacos', 'sacosSobra', 'Comentarios', 'Options'];
+  displayedColumns: string[] = ['ClaveProducto', 'Lote', 'Sacos', 'sacosSobra', 'Options'];
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   // Tabla Orden Temporal
   listDataOrdenTemporal: MatTableDataSource<any>;
-  displayedColumnsOrdenTemporal: string[] = ['ClaveProducto', 'Producto', 'Lote', 'PesoTotal', 'FechaCaducidad', 'Comentarios', 'Options'];
+  displayedColumnsOrdenTemporal: string[] = ['Factura', 'Entrada','ClaveProducto', 'Producto', 'Lote', 'PesoTotal', 'FechaCaducidad', 'Options'];
   // displayedColumnsOrdenTemporal: string[] = ['Options1', 'QR', 'ClaveProducto', 'Producto', 'Lote', 'Sacos', 'PesoTotal', 'FechaCaducidad', 'Comentarios', 'Options'];
   @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
 
   //Tabla conceptos Faltantes
-  listDataConceptosFaltantes: MatTableDataSource<any>;
-  displayedColumnsConceptosFaltantes: string[] = ['ClaveProducto', 'Producto', 'Lote', 'Saldo'];
-  @ViewChild(MatSort, null) sortConceptosFaltantes: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginatorConceptosFaltantes: MatPaginator;
+  // listDataConceptosFaltantes: MatTableDataSource<any>;
+  // displayedColumnsConceptosFaltantes: string[] = ['ClaveProducto', 'Producto', 'Lote', 'Saldo'];
+  // @ViewChild(MatSort, null) sortConceptosFaltantes: MatSort;
+  // @ViewChild(MatPaginator, { static: true }) paginatorConceptosFaltantes: MatPaginator;
+
+  //Tabla Productos Ingreso
+  listDataProductosIngreso: MatTableDataSource<any>;
+  displayedColumnsProductosIngreso: string[] = ['Factura', 'Entrada','ClaveProducto', 'Producto', 'Lote', 'Saldo', 'Options'];
+  @ViewChild(MatSort, null) sortProductosIngreso: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginatorProductosIngreso: MatPaginator;
 
   //Informacion que vendra del QR
   QRdata = new Tarima();
@@ -145,13 +152,13 @@ export class PrepararComponent implements OnInit {
       console.log(dataP);
       for (let i = 0; i < dataP.length; i++) {
         let product = dataP[i];
-          this.optionsProductos.push(product)
-          this.filteredOptionsProductos = this.myControlProductos.valueChanges
-            .pipe(
-              startWith(''),
-              map(value => this._filterProductos(value))
-            );
-        }
+        this.optionsProductos.push(product)
+        this.filteredOptionsProductos = this.myControlProductos.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filterProductos(value))
+          );
+      }
       // }
     });
   }
@@ -220,8 +227,14 @@ export class PrepararComponent implements OnInit {
   obtenerBodegaOrigen() {
     console.log(this.IdOrdenCarga);
     this.ordenCargaService.getOCID(this.IdOrdenCarga).subscribe(data => {
-      console.log(data,'ORDEN');
-      this.bodegaOrigen = data[0].Origen;
+      console.log(data, 'ORDEN');
+      //^ Cuando una Orden de Carga viene de un Traspaso, en las Observaciones se especifica que ya se encuentra en Transito. 
+      //^ Por lo tanto, la bodega en donde se encuentra el producto no es en la bodega Origen. Si no en la bodega 'Transito'  
+      if (data[0].Observaciones = 'Transito') {
+        this.bodegaOrigen = 'Transito';
+      } else {
+        this.bodegaOrigen = data[0].Origen;
+      }
       console.log(this.bodegaOrigen);
       this.dropdownRefreshProductos();
     })
@@ -229,7 +242,34 @@ export class PrepararComponent implements OnInit {
   }
 
 
+  conceptosIngresoList: DetalleOrdenCarga[];
+  //pintar tabla con los detalles Orden Carga
+  conceptosIngreso() {
+    this.ordenCargaService.getOrdenCargaIDList(this.IdOrdenCarga).subscribe(data => {
+      console.log(data, 'OIRDEN de carga ');
+      if (data.length > 0) {
+        this.conceptosIngresoList = new Array<DetalleOrdenCarga>();
+        for (let i = 0; i <= data.length - 1; i++) {
+          if (+data[i].Saldo > 0) {
+            this.conceptosIngresoList.push(data[i]);
+          }
+        }
+      }
+      console.log(this.conceptosIngresoList, 'LISTA DE FALTANTES');
+
+      this.listDataProductosIngreso = new MatTableDataSource(this.conceptosIngresoList);
+      this.listDataProductosIngreso.sort = this.sortProductosIngreso;
+      this.listDataProductosIngreso.paginator = this.paginatorProductosIngreso;
+      this.listDataProductosIngreso.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+    });
+
+  }
+
+
   IngresarProducto(ClaveProducto, Lote) {
+
+    console.log(ClaveProducto);
+    console.log(Lote);
     // simularQR(qrleido: string) {
     //   // console.log(qrleido);
     //   // this.QRdata = new Tarima();
@@ -298,199 +338,206 @@ export class PrepararComponent implements OnInit {
 
     // DESDE AQUI VERFICAR LOS DATOS QUE SERAN INGRESADOS POR EL USUARIO
 
-let productoValido: boolean = true;
+    let productoValido: boolean = true;
 
     //Verificara que no exista el producto en la tabla
     console.log(this.ordenTemporalService.preOrdenTemporal);
     for (let l = 0; l <= this.ordenTemporalService.preOrdenTemporal.length - 1; l++) {
-    if((Lote == this.ordenTemporalService.preOrdenTemporal[l].Lote) && (ClaveProducto == this.ordenTemporalService.preOrdenTemporal[l].ClaveProducto)){
-      Swal.fire({
-        icon: 'error',
-        showCancelButton: false,
-        showConfirmButton: false,
-        timer: 1500,
-        title: 'Producto Ya Ingresado',
-        text: 'El producto ya ha sido Ingresado.'
-      })
-      productoValido = false;
-      this.limpiarCamposIngresarProducto();
-      break;
-    }
-    }
-
-    if(productoValido == true){
-
-    //Obtener Datos de la bodega para verfificar que ese producto si Existe y tiene sacos necesarios
-    this.tarimaService.GetGetProductoInformacionBodega(ClaveProducto, Lote, this.bodegaOrigen).subscribe(prodInfo => {
-      console.log(prodInfo);
-      let lote2;
-      lote2 = Lote;
-      if (prodInfo.length > 0) {
-
-
-        //Variable para establece el maximo de sacos en base a la cantidad de sacos de la bodega
-        let kgMaximos = +prodInfo[0].PesoTotal;
-        console.log(kgMaximos);
-
-        /* console.log(this.listDataConceptosFaltantes.data, 'PRODUCTOS FALTANTES'); */
-
-        for (let i = 0; i< this.ordenCarga.detalleOrdenCarga.length; i++){
-
-          if (this.ordenCarga.detalleOrdenCarga[i].ClaveProducto==ClaveProducto){
-            if (this.ordenCarga.detalleOrdenCarga[i].Lote=='0'){
-              lote2 = '0';
-              break;
-            }
-          }
-
-        }
-
-
-        //Verificar match de detalle tarima con detalle Orden Carga
-        this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, lote2, ClaveProducto).subscribe(dataOrdenCarga => {
-          console.log(dataOrdenCarga);
-          let oT = new preOrdenTemporal();
-          let SaldoMaximo = 0;
-          let kgIngreso = 0;
-          let kgSobrantes = 0;
-          if (dataOrdenCarga.length > 0) {
-
-            if (+dataOrdenCarga[0].Saldo > 0) {
-
-
-              //Si coincide el producto con el detalle orden carga
-              console.log('Si hay Datos Registrados');
-              oT.productoValido = true;
-              this.showButtonAceptar = true;
-              SaldoMaximo = +dataOrdenCarga[0].Saldo * +dataOrdenCarga[0].PesoxSaco ;
-              console.log(SaldoMaximo);
-              console.log(kgMaximos);
-              if (SaldoMaximo < kgMaximos) {
-                kgIngreso = SaldoMaximo;
-                //Traspasar sacos sobrantes
-                kgSobrantes = kgMaximos - kgIngreso;
-              } else {
-                kgIngreso = kgMaximos
-              }
-
-
-              oT.IdOrdenCarga = this.IdOrdenCarga;
-              // oT.IdDetalleTarima = this.QRdata.IdTarima;
-              oT.IdDetalleTarima = prodInfo[0].IdDetalleTarima;
-              oT.IdOrdenDescarga = 0;
-              oT.QR = this.QRdata.QR;
-              oT.ClaveProducto = ClaveProducto;
-              oT.Lote = Lote;
-              oT.Sacos = ((+kgIngreso/+dataOrdenCarga[0].PesoxSaco)).toString();
-              /* oT.Sacos = ((+kgIngreso) / (+prodInfo[0].PesoxSaco)).toString(); */
-              // oT.Sacos = sacosIngreso.toString();
-              // oT.Sacos =  this.QRDetalledata[i].Sacos;
-              oT.Producto = prodInfo[0].Producto;
-              // oT.PesoTotal = ((+oT.Sacos) * (+prodInfo[0].PesoxSaco)).toString();
-              oT.PesoTotal = kgIngreso.toString();
-              oT.FechaCaducidad = prodInfo[0].FechaCaducidad;
-              oT.sacosSobra = (+kgSobrantes/+dataOrdenCarga[0].PesoxSaco).toString();
-              console.log(oT);
-              this.ordenTemporalService.preOrdenTemporal.push(oT);
-
-
-              this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
-              this.listData.sort = this.sort;
-              this.listData.paginator = this.paginator;
-              this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
-              console.log(this.ordenTemporalService.preOrdenTemporal);
-
-
-              this.limpiarCamposIngresarProducto();
-            } else {
-              Swal.fire({
-                icon: 'error',
-                showCancelButton: false,
-                showConfirmButton: false,
-                timer: 2000,
-                title: 'Producto Preparado',
-                text: 'El producto Ingresado ya ha sido preparado.'
-              })
-            }
-          } else {
-            //     //Alerta Tarima contiene producto/Lote que no concuerda con Orden Carga
-            console.log('No Existe match');
-            Swal.fire({
-              icon: 'error',
-              showCancelButton: false,
-              showConfirmButton: false,
-              timer: 1200,
-              title: 'Producto No Valido',
-              text: 'El producto Ingresado no cumple con las caracterisiticas de la Orden de Carga.'
-            })
-            //con id Orden carga = 0, se hacen varias validaciones para indicar que el producto no pertenece a esta orden carga.
-            // oT.IdOrdenCarga = 0;
-            oT.productoValido = false;
-            kgIngreso = kgMaximos;
-          }
-
-
-
-          //Verificar si ya existen datos en la tabla (PARA CAMBIAR EL ESTATUS Y MOSTRAR LOS DATOS EN DADO CASO QUE UN PRODUCTO NO SEA VALIDO Y NO AFECTE A LOS PRODUCTOS DE LA TABLA)
-          if (this.listData) {
-            console.log(' si hay datos en la tabla');
-          }
-
-          if (oT.productoValido == false) {
-            this.showButtonAceptar = false;
-          }
-
-
-
-
-        })
-      } else {
+      if ((Lote == this.ordenTemporalService.preOrdenTemporal[l].Lote) && (ClaveProducto == this.ordenTemporalService.preOrdenTemporal[l].ClaveProducto)) {
         Swal.fire({
           icon: 'error',
           showCancelButton: false,
           showConfirmButton: false,
-          timer: 1200,
-          title: 'Producto No Valido',
-          text: 'El producto Ingresado no Exite o no se encuentra en esta bodega.'
+          timer: 1500,
+          title: 'Producto Ya Ingresado',
+          text: 'El producto ya ha sido Ingresado.'
         })
+        productoValido = false;
         this.limpiarCamposIngresarProducto();
+        break;
       }
+    }
 
-      //               }
-      //             }
-      //             else {
-      //               console.log('Tarima Vacia');
-      //               
-      //             }
-      //           });
-      //         }
-      //       });
-      //     } else {
-      //       console.log('ESTA TARIMA NO SE ENCUENTRA EN LA BODEGA');
-      //       Swal.fire({
-      //         icon: 'error',
-      //         // showCancelButton: false,
-      //         // showConfirmButton: false,
-      //         // timer: 1200,
-      //         title: 'ERROR TARIMA',
-      //         text: 'Esta tarima NO se encuentra en la bodega.'
-      //       })
-      //     }
-      //   }
-      //   else {
-      //     console.log('NO EXISTE QR');
-      //     Swal.fire({
-      //       icon: 'error',
-      //       showCancelButton: false,
-      //       showConfirmButton: false,
-      //       timer: 1200,
-      //       title: 'QR NO VALIDO'
-      //     })
-      //   }
-      // });
+    if (productoValido == true) {
 
-    })
-  }
+      //Obtener Datos de la bodega para verfificar que ese producto si Existe y tiene sacos necesarios      
+      this.tarimaService.GetGetProductoInformacionBodega(ClaveProducto, Lote, this.bodegaOrigen).subscribe(prodInfo => {
+        console.log(prodInfo);
+        let lote2;
+        lote2 = Lote;
+        if (prodInfo.length > 0) {
+
+
+          //Variable para establece el maximo de sacos en base a la cantidad de sacos de la bodega
+          let kgMaximos = +prodInfo[0].PesoTotal;
+          console.log(kgMaximos);
+
+          /* console.log(this.listDataConceptosFaltantes.data, 'PRODUCTOS FALTANTES'); */
+
+          for (let i = 0; i < this.ordenCarga.detalleOrdenCarga.length; i++) {
+
+            if (this.ordenCarga.detalleOrdenCarga[i].ClaveProducto == ClaveProducto) {
+              if (this.ordenCarga.detalleOrdenCarga[i].Lote == '0') {
+                lote2 = '0';
+                break;
+              }
+            }
+
+          }
+
+
+          //Verificar match de detalle tarima con detalle Orden Carga
+          this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, lote2, ClaveProducto).subscribe(dataOrdenCarga => {
+            console.log(dataOrdenCarga);
+            let oT = <any>{};
+            let SaldoMaximo = 0;
+            let kgIngreso = 0;
+            let kgSobrantes = 0;
+            if (dataOrdenCarga.length > 0) {
+
+              if (+dataOrdenCarga[0].Saldo > 0) {
+
+
+                //Si coincide el producto con el detalle orden carga
+                console.log('Si hay Datos Registrados');
+                oT.productoValido = true;
+                this.showButtonAceptar = true;
+                SaldoMaximo = +dataOrdenCarga[0].Saldo * +dataOrdenCarga[0].PesoxSaco;
+                console.log(SaldoMaximo);
+                console.log(kgMaximos);
+                if (SaldoMaximo < kgMaximos) {
+                  kgIngreso = SaldoMaximo;
+                  //Traspasar sacos sobrantes
+                  kgSobrantes = kgMaximos - kgIngreso;
+                } else {
+                  kgIngreso = kgMaximos
+                }
+
+
+                oT.IdOrdenCarga = this.IdOrdenCarga;
+                // oT.IdDetalleTarima = this.QRdata.IdTarima;
+                oT.IdDetalleTarima = prodInfo[0].IdDetalleTarima;
+                oT.IdOrdenDescarga = 0;
+                oT.QR = this.QRdata.QR;
+                oT.ClaveProducto = ClaveProducto;
+                oT.Lote = Lote;
+                oT.Sacos = ((+kgIngreso / +dataOrdenCarga[0].PesoxSaco)).toString();
+                /* oT.Sacos = ((+kgIngreso) / (+prodInfo[0].PesoxSaco)).toString(); */
+                // oT.Sacos = sacosIngreso.toString();
+                // oT.Sacos =  this.QRDetalledata[i].Sacos;
+                oT.Producto = prodInfo[0].Producto;
+                // oT.PesoTotal = ((+oT.Sacos) * (+prodInfo[0].PesoxSaco)).toString();
+                oT.PesoTotal = kgIngreso.toString();
+                oT.FechaCaducidad = prodInfo[0].FechaCaducidad;
+                oT.sacosSobra = (+kgSobrantes / +dataOrdenCarga[0].PesoxSaco).toString();
+                oT.Comentarios = '';
+
+                //^ Agregar Campos Faltantes
+                oT.NumeroFactura = dataOrdenCarga[0].Shipper;
+                oT.NumeroEntrada = dataOrdenCarga[0].Pedimento;
+                oT.FechaMFG = dataOrdenCarga[0].FechaMFG;
+                oT.CampoExtra1 = dataOrdenCarga[0].PO;
+                console.log(oT);
+                this.ordenTemporalService.preOrdenTemporal.push(oT);
+
+
+                this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporal);
+                this.listData.sort = this.sort;
+                this.listData.paginator = this.paginator;
+                this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+                console.log(this.ordenTemporalService.preOrdenTemporal);
+
+
+                this.limpiarCamposIngresarProducto();
+              } else {
+                Swal.fire({
+                  icon: 'error',
+                  showCancelButton: false,
+                  showConfirmButton: false,
+                  timer: 2000,
+                  title: 'Producto Preparado',
+                  text: 'El producto Ingresado ya ha sido preparado.'
+                })
+              }
+            } else {
+              //     //Alerta Tarima contiene producto/Lote que no concuerda con Orden Carga
+              console.log('No Existe match');
+              Swal.fire({
+                icon: 'error',
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 1200,
+                title: 'Producto No Valido',
+                text: 'El producto Ingresado no cumple con las caracterisiticas de la Orden de Carga.'
+              })
+              //con id Orden carga = 0, se hacen varias validaciones para indicar que el producto no pertenece a esta orden carga.
+              // oT.IdOrdenCarga = 0;
+              oT.productoValido = false;
+              kgIngreso = kgMaximos;
+            }
+
+
+
+            //Verificar si ya existen datos en la tabla (PARA CAMBIAR EL ESTATUS Y MOSTRAR LOS DATOS EN DADO CASO QUE UN PRODUCTO NO SEA VALIDO Y NO AFECTE A LOS PRODUCTOS DE LA TABLA)
+            if (this.listData) {
+              console.log(' si hay datos en la tabla');
+            }
+
+            if (oT.productoValido == false) {
+              this.showButtonAceptar = false;
+            }
+
+
+
+
+          })
+        } else {
+          Swal.fire({
+            icon: 'error',
+            showCancelButton: false,
+            showConfirmButton: false,
+            timer: 1200,
+            title: 'Producto No Valido',
+            text: 'El producto Ingresado no Exite o no se encuentra en esta bodega.'
+          })
+          this.limpiarCamposIngresarProducto();
+        }
+
+        //               }
+        //             }
+        //             else {
+        //               console.log('Tarima Vacia');
+        //               
+        //             }
+        //           });
+        //         }
+        //       });
+        //     } else {
+        //       console.log('ESTA TARIMA NO SE ENCUENTRA EN LA BODEGA');
+        //       Swal.fire({
+        //         icon: 'error',
+        //         // showCancelButton: false,
+        //         // showConfirmButton: false,
+        //         // timer: 1200,
+        //         title: 'ERROR TARIMA',
+        //         text: 'Esta tarima NO se encuentra en la bodega.'
+        //       })
+        //     }
+        //   }
+        //   else {
+        //     console.log('NO EXISTE QR');
+        //     Swal.fire({
+        //       icon: 'error',
+        //       showCancelButton: false,
+        //       showConfirmButton: false,
+        //       timer: 1200,
+        //       title: 'QR NO VALIDO'
+        //     })
+        //   }
+        // });
+
+      })
+    }
   }
 
 
@@ -720,11 +767,11 @@ let productoValido: boolean = true;
   //Metodo para aceptar datos de la tabla y hacer el insert a Tabla Orden Temporal
   Aceptar() {
     console.log(this.ordenTemporalService.preOrdenTemporal);
-   /*  this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, lote2, ClaveProducto).subscribe(dataOrdenCarga => {
-
-    })
-    this.ordenCargaService.updateDetalleOrdenCarga
-    this.AprobarInsercionTablaTemporal(); */
+    /*  this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, lote2, ClaveProducto).subscribe(dataOrdenCarga => {
+ 
+     })
+     this.ordenCargaService.updateDetalleOrdenCarga
+     this.AprobarInsercionTablaTemporal(); */
     // 
     this.AprobarInsercionTablaTemporal();
   }
@@ -809,6 +856,7 @@ let productoValido: boolean = true;
             console.log(resUpdate);
             //Generar Orden Temporal
             // this.agregarOrdenTemporal(i, Lote, ClaveProducto, Sacos);
+            // this.conceptosIngreso();
 
           })
         } else {
@@ -843,6 +891,7 @@ let productoValido: boolean = true;
             detalleTarimaOriginal.Bodega = 'Transito';
             this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(detalleTarimaOriginal).subscribe(resUpdateOriginal => {
               console.log(resUpdateOriginal);
+              // this.conceptosIngreso();
 
               // this.tarimaService.getUltimoDetalleTarima().subscribe(dataUltimo => {
               //   console.log(dataUltimo[0]);
@@ -878,11 +927,8 @@ let productoValido: boolean = true;
   // agregarOrdenTemporal() {
   agregarOrdenTemporal(i, Lote, ClaveProducto, Sacos, kg) {
     //asignar valores al objeto que sera insertado en orden temporal.
-    // for (let i = 0; i < this.ordenTemporalService.preOrdenTemporal.length; i++) {
     let ordenT = new OrdenTemporal();
-    // let Sacos = this.ordenTemporalService.preOrdenTemporal[i].Sacos;
-    // let Lote = this.ordenTemporalService.preOrdenTemporal[i].Lote;
-    // let ClaveProducto = this.ordenTemporalService.preOrdenTemporal[i].ClaveProducto;
+
     console.log(this.ordenTemporalService.preOrdenTemporal);
     console.log(this.ordenTemporalService.preOrdenTemporal[i]);
 
@@ -891,13 +937,19 @@ let productoValido: boolean = true;
     ordenT.IdOrdenCarga = this.ordenTemporalService.preOrdenTemporal[i].IdOrdenCarga;
     ordenT.IdOrdenDescarga = this.ordenTemporalService.preOrdenTemporal[i].IdOrdenDescarga;
     ordenT.QR = this.ordenTemporalService.preOrdenTemporal[i].QR;
+    ordenT.NumeroFactura = this.ordenTemporalService.preOrdenTemporal[i].NumeroFactura;
+    ordenT.NumeroEntrada = this.ordenTemporalService.preOrdenTemporal[i].NumeroEntrada;
     ordenT.ClaveProducto = this.ordenTemporalService.preOrdenTemporal[i].ClaveProducto;
     ordenT.Lote = this.ordenTemporalService.preOrdenTemporal[i].Lote;
     ordenT.Sacos = this.ordenTemporalService.preOrdenTemporal[i].Sacos;
     ordenT.Producto = this.ordenTemporalService.preOrdenTemporal[i].Producto;
     ordenT.PesoTotal = this.ordenTemporalService.preOrdenTemporal[i].PesoTotal;
     ordenT.FechaCaducidad = this.ordenTemporalService.preOrdenTemporal[i].FechaCaducidad;
+    ordenT.FechaMFG = this.ordenTemporalService.preOrdenTemporal[i].FechaMFG
     ordenT.Comentarios = this.ordenTemporalService.preOrdenTemporal[i].Comentarios;
+    ordenT.CampoExtra1 = this.ordenTemporalService.preOrdenTemporal[i].CampoExtra1;
+    ordenT.CampoExtra2 = '';
+    ordenT.CampoExtra3 = '';
 
     console.log(ordenT);
     //Insert a Orden Temporal
@@ -907,31 +959,36 @@ let productoValido: boolean = true;
       this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, Lote, ClaveProducto).subscribe(dataOrdenCarga => {
 
         console.log(dataOrdenCarga);
-        if (dataOrdenCarga.length>0){
+        if (dataOrdenCarga.length > 0) {
           console.log(Sacos);
-          let NuevoSaldo = ((+dataOrdenCarga[0].Saldo * +dataOrdenCarga[0].PesoxSaco) - (+kg)).toString();
+          let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) - (+kg)).toString();
           console.log(NuevoSaldo);
           // Actualizar Saldo de la tabla Detalle Orden Carga
           this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo, Lote).subscribe(res => {
             console.log(res);
             this.actualizarTablaOrdenTemporal();
+            this.conceptosIngreso();
           });
 
-        }else{
+        } else {
 
           this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, '0', ClaveProducto).subscribe(dataOrdenCarga => {
             console.log(Sacos);
-          let NuevoSaldo = ((+dataOrdenCarga[0].Saldo * +dataOrdenCarga[0].PesoxSaco) - (+kg)).toString();
-          console.log(NuevoSaldo);
-          // Actualizar Saldo de la tabla Detalle Orden Carga
-          this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo, Lote).subscribe(res => {
-            console.log(res);
-            this.actualizarTablaOrdenTemporal();
-          });
+            let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) - (+kg)).toString();
+            console.log(NuevoSaldo);
+            // Actualizar Saldo de la tabla Detalle Orden Carga
+            this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo, Lote).subscribe(res => {
+              console.log(res);
+              this.actualizarTablaOrdenTemporal();
+              this.conceptosIngreso();
+            });
 
           })
 
         }
+
+
+
       });
     });
     // }
@@ -1029,18 +1086,77 @@ let productoValido: boolean = true;
       if (result.value) {
         this.tarimaService.GetGetProductoInformacionBodega(ClaveProducto, Lote, Bodega).subscribe(dataDT => {
           console.log(dataDT);
-          if (dataDT.length > 0) {
-            //en este caso, se tendra que actualizar el detalle tarima origen y eliminar el detalle que se encuentra en transito
-            //Actualizar tarima origen
-            let detalleTarima = new DetalleTarima();
-            detalleTarima = dataDT[0];
-            detalleTarima.SacosTotales = ((+detalleTarima.SacosTotales) + (+Sacos)).toString();
-            detalleTarima.PesoTotal = ((+detalleTarima.PesoTotal) + (+PesoTotal)).toString();
-            this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(detalleTarima).subscribe(resUpdate => {
-              console.log(resUpdate);
-              //eliminar detalle tarima Transito
-              this.tarimaService.deleteDetalleTarima(IdDetalleTarima).subscribe(resDelete => {
-                console.log(resDelete);
+          //^ si la bodega Origen es Transito, no es necesario actualizar el DetalleTarima. Solo el Saldo de Detalle Orden Carga  y eliminar Orden Temporal       
+          if (Bodega == 'Transito') {
+            //si no se encuntran resultados, solo se actualizara la bodega en el detalle que se encuentra en transito
+            //  this.tarimaService.getUpdateDetalleTarimaBodega(IdDetalleTarima, Bodega).subscribe(resUpdate => {
+            // console.log(resUpdate);
+            //Obtener Detalle Orden de Carga, para ser actualizado posteriormente
+            this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, Lote, ClaveProducto).subscribe(dataOrdenCarga => {
+              console.log(dataOrdenCarga);
+              let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) + (+ot.PesoTotal)).toString();
+              console.log(NuevoSaldo)
+              //   // Actualizar Saldo de la tabla Detalle Orden Carga
+              this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo, Lote).subscribe(res => {
+                console.log(res);
+                this.ordenTemporalService.deleteOrdenTemporal(ot.IdOrdenTemporal).subscribe(DeleteOrden => {
+                  console.log(DeleteOrden);
+                  this.actualizarTablaOrdenTemporal();
+                  this.conceptosIngreso();
+                  Swal.fire({
+                    title: 'Borrado',
+                    icon: 'success',
+                    timer: 1000,
+                    showCancelButton: false,
+                    showConfirmButton: false
+                  });
+                });
+              });
+              // });
+            })
+          } else {
+
+            if (dataDT.length > 0) {
+              //en este caso, se tendra que actualizar el detalle tarima origen y eliminar el detalle que se encuentra en transito
+              //Actualizar tarima origen
+              let detalleTarima = new DetalleTarima();
+              detalleTarima = dataDT[0];
+              detalleTarima.SacosTotales = ((+detalleTarima.SacosTotales) + (+Sacos)).toString();
+              detalleTarima.PesoTotal = ((+detalleTarima.PesoTotal) + (+PesoTotal)).toString();
+              this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(detalleTarima).subscribe(resUpdate => {
+                console.log(resUpdate);
+                //eliminar detalle tarima Transito
+                this.tarimaService.deleteDetalleTarima(IdDetalleTarima).subscribe(resDelete => {
+                  console.log(resDelete);
+                  //Obtener Detalle Orden de Carga, para ser actualizado posteriormente
+                  this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, Lote, ClaveProducto).subscribe(dataOrdenCarga => {
+                    console.log(dataOrdenCarga);
+                    let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) + (+ot.PesoTotal)).toString();
+                    console.log(NuevoSaldo)
+                    //   // Actualizar Saldo de la tabla Detalle Orden Carga
+                    this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo, Lote).subscribe(res => {
+                      console.log(res);
+                      this.ordenTemporalService.deleteOrdenTemporal(ot.IdOrdenTemporal).subscribe(DeleteOrden => {
+                        console.log(DeleteOrden);
+                        this.actualizarTablaOrdenTemporal();
+                        this.conceptosIngreso();
+                        Swal.fire({
+                          title: 'Borrado',
+                          icon: 'success',
+                          timer: 1000,
+                          showCancelButton: false,
+                          showConfirmButton: false
+                        });
+                      })
+                    })
+                  });
+                })
+              })
+
+            } else {
+              //si no se encuntran resultados, solo se actualizara la bodega en el detalle que se encuentra en transito
+              this.tarimaService.getUpdateDetalleTarimaBodega(IdDetalleTarima, Bodega).subscribe(resUpdate => {
+                console.log(resUpdate);
                 //Obtener Detalle Orden de Carga, para ser actualizado posteriormente
                 this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, Lote, ClaveProducto).subscribe(dataOrdenCarga => {
                   console.log(dataOrdenCarga);
@@ -1049,9 +1165,10 @@ let productoValido: boolean = true;
                   //   // Actualizar Saldo de la tabla Detalle Orden Carga
                   this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo, Lote).subscribe(res => {
                     console.log(res);
-                    this.ordenTemporalService.deleteOrdenTemporal(ot.IdOrdenTemporal).subscribe(DeleteOrden=>{
-                    console.log(DeleteOrden);
-                    this.actualizarTablaOrdenTemporal();
+                    this.ordenTemporalService.deleteOrdenTemporal(ot.IdOrdenTemporal).subscribe(DeleteOrden => {
+                      console.log(DeleteOrden);
+                      this.actualizarTablaOrdenTemporal();
+                      this.conceptosIngreso();
                       Swal.fire({
                         title: 'Borrado',
                         icon: 'success',
@@ -1059,74 +1176,70 @@ let productoValido: boolean = true;
                         showCancelButton: false,
                         showConfirmButton: false
                       });
-                    })
-                  })
+                    });
+                  });
                 });
               })
-            })
-
-          } else {
-            //si no se encuntran resultados, solo se actualizara la bodega en el detalle que se encuentra en transito
-            this.tarimaService.getUpdateDetalleTarimaBodega(IdDetalleTarima, Bodega).subscribe(resUpdate => {
-              console.log(resUpdate);
-              //Obtener Detalle Orden de Carga, para ser actualizado posteriormente
-              this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, Lote, ClaveProducto).subscribe(dataOrdenCarga => {
-                console.log(dataOrdenCarga);
-                let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) + (+ot.PesoTotal)).toString();
-                console.log(NuevoSaldo)
-                //   // Actualizar Saldo de la tabla Detalle Orden Carga
-                this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo, Lote).subscribe(res => {
-                  console.log(res);
-                  this.ordenTemporalService.deleteOrdenTemporal(ot.IdOrdenTemporal).subscribe(DeleteOrden=>{
-                    console.log(DeleteOrden);
-                    this.actualizarTablaOrdenTemporal();
-                  Swal.fire({
-                    title: 'Borrado',
-                    icon: 'success',
-                    timer: 1000,
-                    showCancelButton: false,
-                    showConfirmButton: false
-                  });
-                  });
-                });
-              });
-            })
-          }
-        });
+              // });
+            }
+          } //si no se encuntran resultados, solo se actualizara la bodega en el detalle que se encuentra en transito
+          // this.tarimaService.getUpdateDetalleTarimaBodega(IdDetalleTarima, Bodega).subscribe(resUpdate => {
+          //   console.log(resUpdate);
+          //   //Obtener Detalle Orden de Carga, para ser actualizado posteriormente
+          //   this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, Lote, ClaveProducto).subscribe(dataOrdenCarga => {
+          //     console.log(dataOrdenCarga);
+          //     let NuevoSaldo = ((+dataOrdenCarga[0].Saldo) + (+ot.PesoTotal)).toString();
+          //     console.log(NuevoSaldo)
+          //     //   // Actualizar Saldo de la tabla Detalle Orden Carga
+          //     this.ordenCargaService.updateDetalleOrdenCargaSaldo(dataOrdenCarga[0].IdDetalleOrdenCarga, NuevoSaldo, Lote).subscribe(res => {
+          //       console.log(res);
+          //       this.ordenTemporalService.deleteOrdenTemporal(ot.IdOrdenTemporal).subscribe(DeleteOrden=>{
+          //         console.log(DeleteOrden);
+          //         this.actualizarTablaOrdenTemporal();
+          //         Swal.fire({
+          //           title: 'Borrado',
+          //           icon: 'success',
+          //           timer: 1000,
+          //           showCancelButton: false,
+          //           showConfirmButton: false
+          //         });
+          //       });
+          //     });
+          //   });
+          // })
+        })
       }
     })
-
-
   }
 
-  MostrarConceptos: boolean;
-  conceptosFaltantesList: DetalleOrdenCarga[];
+  // MostrarConceptos: boolean;
+  // conceptosFaltantesList: DetalleOrdenCarga[];
   //pintar tabla con los conceptos faltantes
-  conceptosFaltantes() {
-    this.ordenCargaService.getOrdenCargaIDList(this.IdOrdenCarga).subscribe(data => {
-      console.log(data,'OIRDEN de carga ');
-      if (data.length > 0) {
-        this.conceptosFaltantesList = new Array<DetalleOrdenCarga>();
-        for (let i = 0; i <= data.length - 1; i++) {
-          if (+data[i].Saldo > 0) {
-            this.conceptosFaltantesList.push(data[i]);
-          }
-        }
-      }
-      console.log(this.conceptosFaltantesList,'LISTA DE FALTANTES');
-      this.MostrarConceptos = true;
-      this.listDataConceptosFaltantes = new MatTableDataSource(this.conceptosFaltantesList);
-      this.listDataConceptosFaltantes.sort = this.sortConceptosFaltantes;
-      this.listDataConceptosFaltantes.paginator = this.paginatorConceptosFaltantes;
-      this.listDataConceptosFaltantes.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
-    });
+  // conceptosFaltantes() {
+  //   this.ordenCargaService.getOrdenCargaIDList(this.IdOrdenCarga).subscribe(data => {
+  //     console.log(data,'OIRDEN de carga ');
+  //     if (data.length > 0) {
+  //       this.conceptosFaltantesList = new Array<DetalleOrdenCarga>();
+  //       for (let i = 0; i <= data.length - 1; i++) {
+  //         if (+data[i].Saldo > 0) {
+  //           this.conceptosFaltantesList.push(data[i]);
+  //         }
+  //       }
+  //     }
+  //     console.log(this.conceptosFaltantesList,'LISTA DE FALTANTES');
+  //     this.MostrarConceptos = true;
+  //     this.listDataConceptosFaltantes = new MatTableDataSource(this.conceptosFaltantesList);
+  //     this.listDataConceptosFaltantes.sort = this.sortConceptosFaltantes;
+  //     this.listDataConceptosFaltantes.paginator = this.paginatorConceptosFaltantes;
+  //     this.listDataConceptosFaltantes.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+  //   });
 
-  }
+  // }
 
   //esconder tabla con conceptos faltantes
-  ocultarConceptosFaltantes() {
-    this.MostrarConceptos = false;
-  }
+  // ocultarConceptosFaltantes() {
+  //   this.MostrarConceptos = false;
+  // }
 
 
   pdf() {
@@ -1176,7 +1289,7 @@ let productoValido: boolean = true;
               this.ordenCargaService.filter('');
               this.router.navigate(['/ordencargadetalle']);
             })
-          }      
+          }
         })
       } else {
         console.log('FALTAN CONCEPTOS POR PREPARAR');

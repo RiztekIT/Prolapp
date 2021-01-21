@@ -566,6 +566,7 @@ export class EmbarqueImportacionComponent implements OnInit {
         Chofer: '',
         Origen: this.bodegaSelect,
         Destino: 'Chihuahua',
+        //^ Se Genera las observaciones en Transito, para saber que esta orden de carga Se encuentra en Transito y no en la bodega Origen
         Observaciones: 'Transito',
         Estatus: 'Creada',
         FechaInicioCarga: new Date('10/10/10'),

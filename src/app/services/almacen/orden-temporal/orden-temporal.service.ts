@@ -22,7 +22,7 @@ export class OrdenTemporalService {
   constructor(private http:HttpClient) { }
 
    //Tabla previsualizacion
-   preOrdenTemporal = new Array<preOrdenTemporal>();
+   preOrdenTemporal = new Array<any>();
    //Tabla previsualizacion OD
    preOrdenTemporalOD = new Array<preOrdenTemporalOD>();
    //Tabla previsualizacion OD

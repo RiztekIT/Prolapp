@@ -12,6 +12,7 @@ import { TraspasoMercancia } from '../../../Models/importacion/detalleTraspasoMe
 import { TarimaService } from '../../../services/almacen/tarima/tarima.service';
 import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model';
 import { OrdenCargaService } from '../../../services/almacen/orden-carga/orden-carga.service';
+import { OrdenTemporal } from '../../../Models/almacen/OrdenTemporal/ordenTemporal-model';
 
 @Component({
   selector: 'app-traspasomercancia',
@@ -258,16 +259,19 @@ subs1: Subscription
              
               console.log(queryInformacionDetalleTarima);
              
-              this.traspasoSVC.getQuery(consulta2).subscribe((detalleTarima: any)=>{
+              this.traspasoSVC.getQuery(consulta2).subscribe((detalleTarima: OrdenTemporal)=>{
                 console.log(detalles);
+                console.log(detalles[0]);
+                console.log(detalles[0].Sacos);
+                console.log(detalles[0].PesoxSaco);
                 
                 let dataDetalleTarimaNueva: DetalleTarima = {
                   IdDetalleTarima: 0,
                   ClaveProducto: detalleTarima[0].ClaveProducto,
                   Producto: detalleTarima[0].Producto,
-                  SacosTotales: detalleTarima[0].Sacos,
-                  PesoxSaco: detalleTarima[0].PesoxSaco,
-                  // PesoxSaco: ((+detalleTarima[0].PesoTotal) / (+detalleTarima[0].Sacos)).toString(),
+                  SacosTotales: (detalleTarima[0].Sacos).toString(),
+                  // PesoxSaco: detalleTarima[0].PesoxSaco.toString(),
+                  PesoxSaco: ((+detalleTarima[0].PesoTotal) / (+detalleTarima[0].Sacos)).toString(),
                   Lote: detalleTarima[0].Lote,
                   PesoTotal: detalleTarima[0].PesoTotal,
                   SacosxTarima: '',
@@ -278,7 +282,7 @@ subs1: Subscription
                   PO: detalleTarima[0].CampoExtra1,
                   FechaMFG: detalleTarima[0].FechaMFG,
                   FechaCaducidad: detalleTarima[0].FechaCaducidad,
-                  Shipper: '',
+                  Shipper: detalleTarima[0].NumeroFactura,
                   USDA: '',
                   Pedimento: detalleTarima[0].NumeroEntrada,
                   Estatus: 'Creada'                  
