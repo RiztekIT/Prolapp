@@ -29,27 +29,28 @@
                     <div class="col-12">
                         <div class="container row" style="background-color: #a9d08e;">
                             <div class="col-3">
-                                <p class="blacktxt bolder nomarginbottomP"> Salida # <span> {{this.folio}}</span></p>
+                                <p class="blacktxt bolder nomarginbottomP"> Salida # <span> {{this.tInfo.Folio}}</span></p>
                             </div>
                             <div class="col-6"></div>
                             <div class="col-3">
                                 <p class="blacktxt bolder nomarginbottomP"> Fecha:
-                                    <span>{{this.expedicion | date: 'yyyy/MM/dd'}}</span></p>
+                                    <span>{{this.tInfo.FechaExpedicion | date: 'yyyy/MM/dd'}}</span></p>
                             </div>
                         </div>
                         <div class="container row">
                             <div class="col-3">
-                                <p class="blacktxt bolder nomarginbottomP">Cliente: <span>{{this.cliente}}</span></p>
-                                <p class="blacktxt bolder nomarginbottomP">Enviar A: <span>{{this.enviarA}}</span></p>
+                                <p class="blacktxt bolder nomarginbottomP">Cliente: <span>{{ocInfo.Cliente}}</span></p>
+                                <p class="blacktxt bolder nomarginbottomP">Enviar A: <span>{{tInfo.Destino}}</span></p>
                             </div>
                             <div class="col-5">
-                                <p class="blacktxt bolder nomarginbottomP">PRODUCTO: <span>{{this.producto}}</span></p>
+                                <!-- Cual producto se debe de mostrar??? -->
+                                <p class="blacktxt bolder nomarginbottomP">PRODUCTO: <span>***</span></p>
                             </div>
                             <div class="col-2">
-                                <p class="blacktxt bolder nomarginbottomP">Fletera: <span>{{this.Fletera}}</span></p>
+                                <p class="blacktxt bolder nomarginbottomP">Fletera: <span>{{this.ocInfo.Fletera}}</span></p>
                             </div>
                             <div class="col-2">
-                                <p class="blacktxt bolder nomarginbottomP"># Caja: <span>{{this.caja}}</span></p>
+                                <p class="blacktxt bolder nomarginbottomP"># Caja: <span>{{this.ocInfo.Caja}}</span></p>
                             </div>
                         </div>
 
@@ -74,18 +75,18 @@
                             <th class="blacktxt bolder whitecolor">BODEGA</th>
                         </tr>
                     </thead>
-                    <tbody *ngFor="let conceptos of arrcon; let i = index">
+                    <tbody *ngFor="let conceptos of ocDetalleInfo; let i = index">
                         <!-- <tbody> -->
                         <tr class="pgbreak">
-                            <td class="wrap lightback pgbreak">{{conceptos.CBK}} </td>
+                            <td class="wrap lightback pgbreak">{{conceptos.Pedimento}} </td>
                             <td class="wrap lightback pgbreak">{{conceptos.Proveedor}}</td>
                             <td class="wrap lightback">{{conceptos.PO}}</td>
                             <td class="wrap lightback">{{conceptos.Producto}}</td>
                             <td class="wrap lightback pgbreak"> {{conceptos.Lote}}</td>
                             <td class="pgbreak">{{conceptos.Sacos}} </td>
                             <td class="pgbreak">{{conceptos.PesoxSaco}}</td>
-                            <td class="pgbreak">{{this.totalKgprod[i]}}</td>
-                            <td class="pgbreak">{{conceptos.Bodega}}</td>
+                            <td class="pgbreak">{{((+conceptos.PesoxSaco)*(+conceptos.Sacos))}}</td>
+                            <td class="pgbreak">{{this.ocInfo.Origen}}</td>
                         </tr>
                         <!-- <tr class="pgbreak">
                             <td class="wrap lightback pgbreak"> </td>
@@ -101,9 +102,9 @@
                     </tbody>
                     <td class="wrap lightback pgbreak texto mt-2" [attr.colspan]="4"> </td>
                     <td class="wrap lightback pgbreak mt-2 bolder blacktxt"> Total </td>
-                    <td class="wrap lightback pgbreak texto mt-2">{{this.totalSacos}}</td>
+                    <td class="wrap lightback pgbreak texto mt-2">{{this.ocInfo.Sacos}}</td>
                     <td class="wrap lightback pgbreak mt-2 bolder blacktxt"> Total KG</td>
-                    <td class="wrap lightback pgbreak texto mt-2"> {{this.totalKg}}</td>
+                    <td class="wrap lightback pgbreak texto mt-2"> {{this.ocInfo.Kg}}</td>
 
                 </table>
 
@@ -114,7 +115,7 @@
                     <h3 style="display: inline-block; background-color: rgb(238, 238, 238); font-weight: 900; padding-right: 10px; padding-left: 10px; ">
                         USDA </h3>
                     <h3 style="display: inline-block; padding-right: 10px; padding-left: 10px; font-weight: 300; " class="borderContainer">
-                        <p>{{this.usda}}</p>
+                        <p>{{this.USDA}}</p>
                     </h3>
                     <table class="table-striped pgbreak">
                         <thead class="thead">
@@ -126,10 +127,10 @@
                         </thead>
                         <tbody>
                             <!-- <tr class="pgbreak"> -->
-                            <tr *ngFor="let conceptos of arrcon; let i = index">
-                                <td>{{conceptos.QR}}</td>
-                                <td>{{conceptos.SacosTotales}}</td>
-                                <td>{{conceptos.PesoTotal}}</td>
+                            <tr *ngFor="let conceptos of ocDetalleInfo; let i = index">
+                                <td>{{conceptos.Shipper}}</td>
+                                <td>{{conceptos.Sacos}}</td>
+                                <td>{{((+conceptos.PesoxSaco)*(+conceptos.Sacos))}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -149,19 +150,19 @@
                             <tr>
                                 <!-- <tr *ngFor="let conceptos of arrcon; let i = index"> -->
 
-                                <td class="borderContainer pgbreak">{{this.arrcon[0].Shipper}}</td>
+                                <td class="borderContainer pgbreak">***</td>
                                 <!-- <td class="borderContainer pgbreak">{{this.arrcon[0].USDA1}}</td> -->
-                                <td class="borderContainer pgbreak"></td>
-                                <td class="borderContainer pgbreak">{{this.arrcon[0].Pedimento}}</td>
-                                <td class="borderContainer pgbreak"></td>
-                                <td class="borderContainer pgbreak"></td>
+                                <td class="borderContainer pgbreak">***</td>
+                                <td class="borderContainer pgbreak">***</td>
+                                <td class="borderContainer pgbreak">***</td>
+                                <td class="borderContainer pgbreak">***</td>
                             </tr>
                         </tbody>
                     </table>
                     <p class="blacktxt bolder nomarginbottomP" style="display: block;">NOTAS</p>
                     <div class="borderContainer pgbreak" style="height: 100px;">
                         <p>
-                            {{this.comentarios}}
+                            <!-- {{this.comentarios}} -->
                         </p>
                     </div>
                 </div>

@@ -672,8 +672,17 @@ changeSeleccion(event){
   /* console.log(event); */
   this.seleccionManual = event.checked
   if(this.seleccionManual == true){
-    this.obtenerTarimas();
-    this.aceptarSeleccion=true;
+    this.service.formDataPedido.LugarDeEntrega = 'si';
+    this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+      console.log(res);
+      this.obtenerTarimas();
+      this.aceptarSeleccion=true;
+    });
+  }else{
+    this.service.formDataPedido.LugarDeEntrega = 'no';
+    this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+      console.log(res);
+    });
   }
    console.log(this.seleccionManual); 
 
@@ -851,7 +860,8 @@ this.changeDireccion(this.isDireccion);
       this.service.formDataPedido = data[0];
       this.EstatusOC = this.service.formDataPedido.Estatus;
 
-      if(this.service.formDataPedido.Flete == 'Sucursal'){
+      //^ Utilizaremos Lugar de entrega para guardar si es seleccion Manual o no.
+      if(this.service.formDataPedido.LugarDeEntrega == 'si'){
         this.seleccionManual=true;
       }else{
         this.seleccionManual=false;
@@ -1081,9 +1091,11 @@ this.changeDireccion(this.isDireccion);
       this.isFlete = true;
       this.seleccionManual = false;
       this.service.formDataPedido.Flete = 'Local';
+      this.service.formDataPedido.LugarDeEntrega = 'no';
     } else {
       this.isFlete = false;
       this.service.formDataPedido.Flete = 'Sucursal';
+      this.service.formDataPedido.LugarDeEntrega = 'si';
       this.seleccionManual = true;
     }
   }
@@ -1134,7 +1146,7 @@ this.isFactura = true;
     this.service.formDataDP.IdPedido = this.IdPedido;
     //this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto;
     this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen;
-    this.service.formDataDP.TextoExtra = this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen;
+    this.service.formDataDP.TextoExtra = '';
     //this.service.formDataDP.Producto = this.service.formProd.Nombre;
     this.service.formDataDP.Producto = this.service.formProd.Nombre + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect ;
     this.service.formDataDP.Unidad = this.service.formProd.UnidadMedida;
@@ -1160,7 +1172,7 @@ this.isFactura = true;
         //^ Usar TextoExtra como Lote
         element.TextoExtra = element.Lote;
         // //^ Usar Observaciones como Peso x Saco
-        // element.Observaciones = element.PesoxSaco;
+        element.Observaciones = element.PesoxSaco;
         // productosIngreso.push(element);
         this.service.addDetallePedido(element).subscribe(res => {
           console.log('DETALLE',res);
@@ -1547,7 +1559,7 @@ this.validarStock(cantidad);
 
     /* INICIO DE SELECCION MANUAL */
 
-    if (this.seleccionManual) {
+    if (this.seleccionManual && this.service.formDataPedido.Flete == 'Sucursal') {
     
 
 
@@ -1647,7 +1659,7 @@ this.validarStock(cantidad);
 
 
 
-            this.serviceordencarga.addOrdenCarga2(ordencarga).subscribe(data => {
+             this.serviceordencarga.addOrdenCarga2(ordencarga).subscribe(data => {
 
               console.log(data);
               let ocinsertada = new MasterOrdenCarga();
@@ -1680,20 +1692,20 @@ this.validarStock(cantidad);
                     Proveedor: resDetalle[0].Proveedor,
                     PO: resDetalle[0].PO,
                     FechaMFG: resDetalle[0].FechaMFG,
-                  FechaCaducidad: resDetalle[0].FechaCaducidad,
-                  Shipper: resDetalle[0].Shipper,
-                  USDA: resDetalle[0].USDA,
-                  Pedimento: resDetalle[0].Pedimento,
-                  Saldo: sal.toString(),
+                    FechaCaducidad: resDetalle[0].FechaCaducidad,
+                    Shipper: resDetalle[0].Shipper,
+                    USDA: resDetalle[0].USDA,
+                    Pedimento: resDetalle[0].Pedimento,
+                    Saldo: sal.toString(),
                 }
                 
                 console.log(detordencarga);
                 ocinsertada.detalleOrdenCarga.push(detordencarga)
                 
-                this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data => {
+                 this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data => {
                   
-                  console.log(data);
-                })
+                   console.log(data);
+                 })
                 //^Agregar Orden Temporal
 
           
@@ -1709,19 +1721,26 @@ this.validarStock(cantidad);
                 ordenT.IdOrdenCarga = ocinsertada.ordenCarga[0].IdOrdenCarga;
                 ordenT.IdOrdenDescarga = 0;
                 ordenT.QR = '';
+                ordenT.NumeroFactura = resDetalle[0].Shipper;
+                ordenT.NumeroEntrada = resDetalle[0].Pedimento
                 ordenT.ClaveProducto = resDetalle[0].ClaveProducto;
                 ordenT.Lote = resDetalle[0].Lote;
                 ordenT.Sacos = (+this.listData.data[i].Cantidad / +resDetalle[0].PesoxSaco).toString();
                 ordenT.Producto = resDetalle[0].Producto;
                 ordenT.PesoTotal = this.listData.data[i].Cantidad;
                 ordenT.FechaCaducidad = resDetalle[0].FechaCaducidad;
+                ordenT.FechaMFG = resDetalle[0].FechaMFG;
                 ordenT.Comentarios = '';
+                //^ Recordar que el CampoExtra1 en OrdenTemporal es el PO de la compra del producto
+                ordenT.CampoExtra1 = resDetalle[0].PO;
+                ordenT.CampoExtra2 = '';
+                ordenT.CampoExtra3 = '';
             
                 console.log(ordenT);
                 //Insert a Orden Temporal
-                this.ordenTemporalService.addOrdenTemporal(ordenT).subscribe(resAdd => {
-                  console.log(resAdd);
-                })
+                 this.ordenTemporalService.addOrdenTemporal(ordenT).subscribe(resAdd => {
+                   console.log(resAdd);
+                 })
 
                 //^ Actualzar Detalle Tarima
                 let DetalleTarima: DetalleTarima = resDetalle[0];
@@ -1735,14 +1754,14 @@ this.validarStock(cantidad);
       
                 //^ Actualizar Detalle Tarima o borrar
                 if(+DetalleTarima.PesoTotal == 0){
-                  this.tarimaService.deleteDetalleTarima(resDetalle[0].IdDetalleTarima).subscribe(resDelete=>{
-                    console.log(resDelete);
-                  })
-                }else{
-                  this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(DetalleTarima).subscribe(resUpdateOriginal => {
-                    console.log(resUpdateOriginal);
-                  })
-                }
+                   this.tarimaService.deleteDetalleTarima(resDetalle[0].IdDetalleTarima).subscribe(resDelete=>{
+                     console.log(resDelete);
+                   })
+                 }else{
+                   this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(DetalleTarima).subscribe(resUpdateOriginal => {
+                     console.log(resUpdateOriginal);
+                   })
+                 }
                 
               })
 
@@ -1755,29 +1774,29 @@ this.validarStock(cantidad);
 
 
               console.log(this.service.formDataPedido);
-              this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
-                if (fletera == '0') {
+               this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+              //   if (fletera == '0') {
 
-                  this.crearValidacion();
-                } else {
-                  // localStorage.setItem('IdOrdenCarga', ocinsertada.ordenCarga[0].IdOrdenCarga.toString())
-                  // localStorage.setItem('OrdenCarga', JSON.stringify(ocinsertada))
-                  // this.router.navigate(['/ordenCargaPreparar']);
-                }
+              //     this.crearValidacion();
+              //   } else {
+              //     // localStorage.setItem('IdOrdenCarga', ocinsertada.ordenCarga[0].IdOrdenCarga.toString())
+              //     // localStorage.setItem('OrdenCarga', JSON.stringify(ocinsertada))
+              //     // this.router.navigate(['/ordenCargaPreparar']);
+              //   }
 
-                Swal.fire({
-                  icon: 'success',
-                  title: 'Pedido Cerrado'
-                })
+              //   Swal.fire({
+              //     icon: 'success',
+              //     title: 'Pedido Cerrado'
+              //   })
 
-                //
-                //this.ordenTemporalService._listeners.next('Orden')
-                this.Inicializar();
+              //   //
+              //   //this.ordenTemporalService._listeners.next('Orden')
+              //   this.Inicializar();
 
-              })
+               })
 
 
-            })
+             })
           })
 
        // }
@@ -1791,8 +1810,8 @@ this.validarStock(cantidad);
       // })/* CERRAR el subscribe del afterclosed */
 
 
-    } else if (!this.seleccionManual) {
-      console.clear();
+    } else {
+      // console.clear();
       console.log(this.listData);
 
 
@@ -1819,7 +1838,7 @@ this.validarStock(cantidad);
       this.serviceordencarga.getUltimoFolio().subscribe(data => {
 
         console.log(data[0].Folio);
-        if (this.service.formDataPedido.Flete == 'Foraneo') {
+        // if (this.service.formDataPedido.Flete == 'Foraneo') {
           fletera = '0';
           validacion = 'Sin Validar'
 
@@ -1871,7 +1890,7 @@ this.validarStock(cantidad);
 
 
 
-        this.serviceordencarga.addOrdenCarga2(ordencarga).subscribe(data => {
+         this.serviceordencarga.addOrdenCarga2(ordencarga).subscribe(data => {
           let ocinsertada = new MasterOrdenCarga();
           ocinsertada.ordenCarga = [];
           ocinsertada.ordenCarga.push(data[0]);
@@ -1882,8 +1901,34 @@ this.validarStock(cantidad);
           for (let i = 0; i < this.listData.data.length; i++) {
             console.log(this.listData.data[i], 'LISTDATA');
 
-            if (!this.seleccionManual) {
-              this.listData.data[i].Lote = '0';
+          //^ Validacion para asignarle un valor al Lote, Para que no marque error en el sig request.
+            if(!this.listData.data[i].TextoExtra){
+              this.listData.data[i].TextoExtra = 'lotenoexistente';
+            }
+
+            this.tarimaService.getDetalleTarimaClaveLoteBodega(this.listData.data[i].ClaveProducto,this.listData.data[i].TextoExtra, 'Chihuahua' ).subscribe(resDetalle=>{
+  
+              //^Inicializar los valores de Detalle Orden de Carga en 0's. Estos valores seran utilizados si la seleccion Manual no esta activa.
+              let lote = '0';
+              let IdProveedor = '';
+              let Proveedor = '';
+              let PO = '';
+              let FechaCaducidad = new Date('01/01/00');            
+              let FechaMFG = new Date('01/01/00');
+              let Shipper = '';
+              let Pedimento = '';    
+              let usda = '';    
+              //^ Si es seleccion manual, utilizaremos los datos obtenidos del producto en la bodega
+            if (this.seleccionManual) {
+              lote = this.listData.data[i].TextoExtra;
+              IdProveedor = resDetalle[0].IdProveedor;
+              Proveedor = resDetalle[0].Proveedor;
+              PO = resDetalle[0].PO;
+              FechaCaducidad = resDetalle[0].FechaCaducidad;
+              FechaMFG = resDetalle[0].FechaMFG;
+              Shipper = resDetalle[0].Shipper;
+              Pedimento = resDetalle[0].Pedimento;
+              usda = resDetalle[0].USDA;
             }
 
             detordencarga = {
@@ -1894,16 +1939,16 @@ this.validarStock(cantidad);
               Producto: this.listData.data[i].Producto,
               Sacos: (+this.listData.data[i].Cantidad / +this.presentacion(this.listData.data[i].Producto)),
               PesoxSaco: this.presentacion(this.listData.data[i].Producto),
-              Lote: '0',
-              IdProveedor: '',
-              Proveedor: '',
-              PO: '',
-              FechaMFG: new Date('10/10/10'),
-              FechaCaducidad: new Date('10/10/10'),
-              Shipper: '',
+              Lote: lote,
+              IdProveedor: IdProveedor,
+              Proveedor: Proveedor,
+              PO: PO,
+              FechaMFG: FechaMFG,
+              FechaCaducidad: FechaMFG,
+              Shipper: Shipper,
               USDA: '',
-              Pedimento: '',
-              Saldo: (+this.listData.data[i].Cantidad / +this.presentacion(this.listData.data[i].Producto)),
+              Pedimento: Pedimento,
+              Saldo: (+this.listData.data[i].Cantidad),
             }
 
             console.log(detordencarga);
@@ -1911,11 +1956,11 @@ this.validarStock(cantidad);
 
             //this.service.master[i].detalleOrdenCarga = [];
 
-            this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data => {
+             this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data => {
 
-              console.log(data);
-            })
-
+               console.log(data);
+             })
+          })
 
           }
 
@@ -1925,7 +1970,7 @@ this.validarStock(cantidad);
           this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
             if (fletera == '0') {
 
-              this.crearValidacion();
+               this.crearValidacion();
             } else {
               localStorage.setItem('IdOrdenCarga', ocinsertada.ordenCarga[0].IdOrdenCarga.toString())
               localStorage.setItem('OrdenCarga', JSON.stringify(ocinsertada))
@@ -1941,10 +1986,9 @@ this.validarStock(cantidad);
             //this.ordenTemporalService._listeners.next('Orden')
             this.Inicializar();
 
-          }
-          )
-        })
-        } 
+           } )
+         })
+        // } 
         // else {
         //   fletera = this.service.formDataPedido.Flete;
         //   validacion = 'Creada'
@@ -2272,7 +2316,7 @@ this.llenarhtml();
 
     console.log(validacion);
 
-    this.url = 'https://192.168.1.199:4200/#/documento/'+validacion.token
+    this.url = 'https://prolapp.riztek.com.mx/#/documento/'+validacion.token
 
     this.service.addValidacion(validacion).subscribe(resp=>{
       console.log(resp);
@@ -2283,7 +2327,7 @@ this.llenarhtml();
   }
 
   getValidacion(){
-    this.url = 'https://192.168.1.199:4200/#/documento/2b2bbdf6-94e5-4c23-ad8f-b93e5dcec13d';
+    this.url = 'https://prolapp.riztek.com.mx/#/documento/2b2bbdf6-94e5-4c23-ad8f-b93e5dcec13d';
     console.log(this.url)
     /* this.service.getValidacion() */
   }
@@ -2376,16 +2420,16 @@ applyFilter2Seleccion(filtervalue: string) {
 
 obtenerTarimas(){
   this.listDataSeleccion = new MatTableDataSource();
-  this.tarimaService.GetTarimaBodega().subscribe(data=>{
+  this.bodegaSelectSeleccion = 'Chihuahua';
+  this.tarimaService.getDetalleTarimaBodega(this.bodegaSelectSeleccion).subscribe(data=>{
     console.log(data,'obtner tarimas');
     this.listDataSeleccion = new MatTableDataSource(data);
     this.listDataSeleccion.sort = this.sortSeleccion;
     this.listDataSeleccion.paginator = this.paginatorSeleccion;
     // this.listDataSeleccion.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
-    this.applyFilter2Seleccion('Chihuahua');
-    console.log(this.listDataSeleccion.data[0].ClaveProducto);
+    // this.applyFilter2Seleccion('Chihuahua');
+    // console.log(this.listDataSeleccion.data[0].ClaveProducto);
     //this.applyFilter(this.listData2.data[0].ClaveProducto);
-    this.bodegaSelectSeleccion = 'Chihuahua';
 
     // if (!this.seleccionManual){
     //   //console.clear();

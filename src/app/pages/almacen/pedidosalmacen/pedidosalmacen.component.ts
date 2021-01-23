@@ -16,6 +16,8 @@ import { SidebarService, privilegios } from '../../../services/shared/sidebar.se
 import { Incidencias } from 'src/app/Models/Incidencias/incidencias-model';
 import { IncidenciasService } from 'src/app/services/almacen/incidencias/incidencias.service';
 import { IncidenciaAlmacenComponent } from 'src/app/components/almacen/incidencia-almacen/incidencia-almacen.component';
+import { SalidaProductoComponent } from '../../../components/almacen/salida-producto/salida-producto.component';
+import { OrdenCargaDescargaComponent } from 'src/app/components/orden-carga-descarga/orden-carga-descarga.component';
 
 @Component({
   selector: 'app-pedidosalmacen',
@@ -203,16 +205,38 @@ subs2:Subscription
   ///////////////////////////////// MODALES /////////////////////////////////////////////
   openrep(row) {
 
-    this.service.formrow = row;
-    console.log(row);
-    console.log(this.service.formrow);
     // this.service.formrow = row;
-    // console.log();
+    // console.log(row);
+    // console.log(this.service.formrow);
+    // // this.service.formrow = row;
+    // // console.log();
+    // const dialogConfig = new MatDialogConfig();
+    // dialogConfig.disableClose = false;
+    // dialogConfig.autoFocus = true;
+    // dialogConfig.width = "70%";
+    // this.dialog.open(OrdenCargaComponent, dialogConfig);
+
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "70%";
-    this.dialog.open(OrdenCargaComponent, dialogConfig);
+    dialogConfig.data = {
+    IdOrdenCarga: row.IdOrdenCarga
+    }
+    this.dialog.open(SalidaProductoComponent, dialogConfig);
+  }
+
+  openDocumentoTraspaso(id: number){
+    console.log(id);
+        console.log(id);
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = false;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width = "70%";
+        dialogConfig.data = {
+          IdOrdenCarga: id
+        }
+        this.dialog.open(OrdenCargaDescargaComponent, dialogConfig);
   }
 
   /////////////////////////////// Fin Modales //////////////////////////////////////////

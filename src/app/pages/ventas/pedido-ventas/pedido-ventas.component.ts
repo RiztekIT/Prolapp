@@ -219,7 +219,7 @@ subs2: Subscription
       Estatus: "Creada",
       Usuario: "",
       Factura: 0,
-      LugarDeEntrega: "",
+      LugarDeEntrega: "si",
       Moneda: "MXN",
       Prioridad: "Normal",
       SubtotalDlls: "",

@@ -15,6 +15,7 @@ import { OrdenDescarga } from '../../../Models/almacen/OrdenDescarga/ordenDescar
 import { Incidencias } from 'src/app/Models/Incidencias/incidencias-model';
 import { IncidenciaAlmacenComponent } from 'src/app/components/almacen/incidencia-almacen/incidencia-almacen.component';
 import { IncidenciasService } from 'src/app/services/almacen/incidencias/incidencias.service';
+import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-producto/entrada-producto.component';
 @Component({
   selector: 'app-ordendescarga',
   templateUrl: './ordendescarga.component.html',
@@ -177,16 +178,24 @@ subs2 : Subscription
   }
 
   openrep(row) {
-
-    this.service.formrow = row;
-    console.log(this.service.formrow);
+console.log(row);
     // this.service.formrow = row;
-    // console.log();
+    // console.log(this.service.formrow);
+    // // this.service.formrow = row;
+    // // console.log();
+    // const dialogConfig = new MatDialogConfig();
+    // dialogConfig.disableClose = false;
+    // dialogConfig.autoFocus = true;
+    // dialogConfig.width = "70%";
+    // this.dialog.open(OrdenSalidaComponent, dialogConfig);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "70%";
-    this.dialog.open(OrdenSalidaComponent, dialogConfig);
+    dialogConfig.data = {
+     IdOrdenDescarga: row.IdOrdenDescarga
+    }
+    this.dialog.open(EntradaProductoComponent, dialogConfig);
   }
 
   onEdit(ordenDescarga: OrdenDescarga) {

@@ -95,8 +95,8 @@ export class OrdenCargaService {
     return this.http.delete(APIUrl + '/OrdenCarga/BorrarOrdenCarga/' + id)
   }
   //Actualizar saldo de DetalleOrdenCarga por ID
-  updateDetalleOrdenCargaSaldo(id: number, saldo: string, lote:string) {
-    return this.http.put(APIUrl + '/OrdenCarga/UpdateSaldo/' + id + '/' + saldo + '/'+ lote, null);
+  updateDetalleOrdenCargaSaldo(id: number, saldo: string) {
+    return this.http.put(APIUrl + '/OrdenCarga/UpdateSaldo/' + id + '/' + saldo, null);
   }
   //get Direcciones en base a ID CLIENTE
   getDireccionID(id: number): Observable<ClienteDireccion[]> {

@@ -282,7 +282,11 @@ ObtenerFolio(id: number) {
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "70%";
+    dialogConfig.data = {
+     IdOrdenDescarga: this.IdOrdenDescarga
+    }
     this.dialog.open(EntradaProductoComponent, dialogConfig);
+    // @Inject(MAT_DIALOG_DATA) public data: any, 
     // this.dialog.open(EntradaProductoComponent, dialogConfig);
   }
 

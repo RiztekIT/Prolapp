@@ -154,10 +154,13 @@
                                     <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
                                                 <mat-icon>visibility</mat-icon>
                                             </button>
-                                    <button title="Incidencia" mat-icon-button class="btn btn-dark" (click)="IncidenciasRow(row)">
+                                            <button title="Incidencia" mat-icon-button class="btn btn-dark" (click)="IncidenciasRow(row)">
                                                 <mat-icon>
                                                     add_to_photos</mat-icon>
-                                            </button>
+                                                </button>
+                                                <button *ngIf="row.Cliente == 'Traspaso'" title="Documento Traspaso" mat-icon-button class="btn btn-dark" (click)="openDocumentoTraspaso(row.IdOrdenCarga)">
+                                                            <mat-icon>visibility</mat-icon>
+                                                        </button>
                                     <!--  -->
                                     <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
                                                 <mat-icon>visibility</mat-icon>

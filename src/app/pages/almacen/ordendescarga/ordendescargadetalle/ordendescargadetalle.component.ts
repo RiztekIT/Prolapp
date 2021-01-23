@@ -16,6 +16,7 @@ import { startWith, map } from 'rxjs/operators';
 import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
 import { QrComponent } from 'src/app/components/qr/qr.component';
 import { OrdenTemporal } from 'src/app/Models/almacen/OrdenTemporal/ordenTemporal-model';
+import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-producto/entrada-producto.component';
 
 
 @Component({
@@ -355,6 +356,17 @@ console.log(this.qrsearch,"filtro");
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
     this.dialog.open(QrComponent, dialogConfig);
+  }
+
+  pdf(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "70%";
+    dialogConfig.data = {
+     IdOrdenDescarga: this.IdOrdenDescarga
+    }
+    this.dialog.open(EntradaProductoComponent, dialogConfig);
   }
 
 

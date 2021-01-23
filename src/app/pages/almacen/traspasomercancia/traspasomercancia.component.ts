@@ -137,41 +137,44 @@ subs1: Subscription
   }
 
   accederPDF(row) {
-    console.log(row);
-    this.traspasoSVC.formrow = []
-    let query = 'select DetalleTraspasoMercancia.*, DetalleTarima.*, OrdenTemporal.* from DetalleTraspasoMercancia left join detalletarima on DetalleTraspasoMercancia.IdDetalle=detalletarima.IdDetalleTarima left join OrdenTemporal on OrdenTemporal.IdDetalleTarima=DetalleTarima.IdDetalleTarima where DetalleTraspasoMercancia.IdTraspasoMercancia='+row.IdTraspasoMercancia;
-    console.log('%c⧭', 'color: #731d6d', query);
-    let consulta = {
-      'consulta':query
-    };
-    console.log('%c⧭', 'color: #e57373', consulta);
+    // console.log(row);
+    // this.traspasoSVC.formrow = []
+    // let query = 'select DetalleTraspasoMercancia.*, DetalleTarima.*, OrdenTemporal.* from DetalleTraspasoMercancia left join detalletarima on DetalleTraspasoMercancia.IdDetalle=detalletarima.IdDetalleTarima left join OrdenTemporal on OrdenTemporal.IdDetalleTarima=DetalleTarima.IdDetalleTarima where DetalleTraspasoMercancia.IdTraspasoMercancia='+row.IdTraspasoMercancia;
+    // console.log('%c⧭', 'color: #731d6d', query);
+    // let consulta = {
+    //   'consulta':query
+    // };
+    // console.log('%c⧭', 'color: #e57373', consulta);
 
-    this.traspasoSVC.getQuery(consulta).subscribe((detalles: any)=>{
-      console.log('%c⧭', 'color: #997326', detalles);
-      this.traspasoSVC.formrow[0] = detalles;
-      console.log('%c⧭', 'color: #d90000', this.traspasoSVC.formrow);
+    // this.traspasoSVC.getQuery(consulta).subscribe((detalles: any)=>{
+    //   console.log('%c⧭', 'color: #997326', detalles);
+    //   this.traspasoSVC.formrow[0] = detalles;
+    //   console.log('%c⧭', 'color: #d90000', this.traspasoSVC.formrow);
 
 
-      console.log('%c%s', 'color: #364cd9', detalles.length);
-      console.log('%c⧭', 'color: #ffa280', detalles[0]);
+    //   console.log('%c%s', 'color: #364cd9', detalles.length);
+    //   console.log('%c⧭', 'color: #ffa280', detalles[0]);
 
-      if (detalles.length == 0) {
-        Swal.fire({
-          title: 'No Hay Registro',
-          icon: 'error',
-        })
+    //   if (detalles.length == 0) {
+    //     Swal.fire({
+    //       title: 'No Hay Registro',
+    //       icon: 'error',
+    //     })
         
-      } else {
-        
+    //   } else {
+        console.log(row);
+        console.log(row.IdOrdenCarga);
         const dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = false;
         dialogConfig.autoFocus = true;
         dialogConfig.width = "70%";
-  
+        dialogConfig.data = {
+          IdOrdenCarga: row.IdOrdenCarga
+        }
         this.dialog.open(OrdenCargaDescargaComponent, dialogConfig);
-      }
+      // }
 
-    })
+    // })
     // this.service.formrow = row;
     // console.log();
     

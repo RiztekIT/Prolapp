@@ -161,6 +161,35 @@
 
                     </div>
                 </div>
+            
+           
+                    
+                    <div  *ngIf="this.elegirLote == true" class="container" style="margin-right: 0;">
+                        <div class="row">
+                            <div class="col-0 col-md-4">
+                                <p>Favor de Elegir el producto a Ingresar:</p>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <mat-form-field>
+                                    <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControlLote" matInput [matAutocomplete]="auto" [(ngModel)]="detalleSeleccionadoLote" name="Lote">
+                                    <mat-autocomplete #auto="matAutocomplete">
+                                        <mat-option *ngFor="let option of filteredOptionsLote | async" [value]="option.Lote"  (onSelectionChange)="onSelectionChangeLote(option, $event)">
+                                            Lote: {{option.Lote}} | {{option.ClaveProducto}} | {{option.Producto}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12 col-md-2">
+                                <div *ngIf="this.detalleSeleccionadoLote">
+                                    <button class="btn btn-prolacto btn-lg" mat-raised-button type="button" (click)="IngresarLote()">Ingresar</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                  
+
+              
 
                 <!-- <div class="col-12 col-md-5">
                         <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}}
@@ -277,10 +306,10 @@
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Kilogramos Sobrantes</th>
                             <td mat-cell *matCellDef="let element">
                                 <div *ngIf="element.sacosSobra > 0; else elseBlockSobra" style="background-color: green;">
-                                    {{element.sacosSobra * (element.PesoTotal/element.Sacos)}} Kg
+                                    {{element.sacosSobra}} Kg
                                 </div>
                                 <ng-template #elseBlockSobra>
-                                    {{element.sacosSobra * (element.PesoTotal/element.Sacos)}} Kg
+                                    {{element.sacosSobra}} Kg
                                 </ng-template>
                             </td>
                         </ng-container>
