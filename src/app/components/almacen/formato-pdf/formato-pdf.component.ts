@@ -74,11 +74,12 @@ export class FormatoPDFComponent implements OnInit {
       icon: 'info',
       text: 'Tarimas Totales: '+tarimasT,
       input: 'number',
-      inputValue: detalleOrden.USDA,
+      inputValue: detalleOrden.USDA,      
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Aceptar',
+      
     }).then((result) => {
       console.log(result);
       if(result.value){

@@ -72,7 +72,7 @@ export class IncidenciasalmacenComponent implements OnInit {
   privilegios: any;
   privilegiosExistentes: boolean = false;
   modulo = 'Almacen';
-  area = 'Importaciones';
+  area = 'Incidencias';
 
   //^ VARIABLES DE PERMISOS
   Vista: boolean = false;
@@ -103,13 +103,13 @@ AgregarOD: boolean = false;
 
   verificarPrivilegio(privilegio) {
    switch (privilegio) {
-     case ('Agregar'):
+     case ('Agregar Nueva Incidencia'):           
        this.Agregar = true;
        break;
-     case ('AgregarOC'):
+     case ('Agregar Incidencia Orden de Carga'):
        this.AgregarOC = true;
        break;
-     case ('AgregarOD'):
+     case ('Agregar Incidencia Orden de Descarga'):
        this.AgregarOD = true;
        break;
      case ('Vista'):

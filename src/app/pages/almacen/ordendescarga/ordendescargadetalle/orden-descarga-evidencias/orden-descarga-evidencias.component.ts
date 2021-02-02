@@ -7,6 +7,7 @@ import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
 import Swal from 'sweetalert2';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { OrdenDescargaService } from '../../../../../services/almacen/orden-descarga/orden-descarga.service';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { OrdenDescargaService } from '../../../../../services/almacen/orden-desc
 export class OrdenDescargaEvidenciasComponent implements OnInit {
 
   constructor(public router: Router, public imageService: ImagenService, public ordenDescargaService: OrdenDescargaService, private _sanitizer: DomSanitizer,
-    private imageCompress: NgxImageCompressService) { }
+    private imageCompress: NgxImageCompressService, public location: Location) { }
 
     ngOnInit() {
       this.IdOrdenDescarga = +localStorage.getItem('IdOrdenDescarga');
@@ -46,12 +47,13 @@ export class OrdenDescargaEvidenciasComponent implements OnInit {
     imagenSeleccionada: boolean;
   
     regresar() {
-      console.log(this.bodega);
+    /*   console.log(this.bodega);
       if(this.bodega != 'Chihuahua'){
         this.router.navigate(['/ordenDescargadetalle']);
       }else if(this.bodega == 'Chihuahua'){
         this.router.navigate(['/ordenDescargadetallecuu']);
-      }
+      } */
+      this.location.back();
     }
   
     //Obtener Folio de Orden Descarga
