@@ -9,6 +9,7 @@ import { Pedido } from '../../Models/Pedidos/pedido-model';
 import { pedidoMaster } from 'src/app/Models/Pedidos/pedido-master';
 import { ClienteDireccion } from 'src/app/Models/cliente-direccion/clienteDireccion-model';
 import { environment } from 'src/environments/environment';
+import { PedidoInfo } from 'src/app/Models/Pedidos/pedidoInfo-model';
 
 
 
@@ -178,6 +179,37 @@ updateOrdenCarga(id){
   }
 
 
+  //*************************  PEDIDOINFO */
+
+//INFORMACION RELACIONADA AL PEDIDO
+
+//^ Obtener PedidoInfo por IdPedidoInfo
+getPedidoInfoId(id: number):Observable<PedidoInfo[]>{
+  return this.http.get<PedidoInfo[]>(this.APIUrl + '/Pedido/GetPedidoInfoId/'+id);
+}
+
+//^ Obtener PedidoInfo por IdPedidoId
+getPedidoInfoIdPedido(id: number):Observable<PedidoInfo[]>{
+  return this.http.get<PedidoInfo[]>(this.APIUrl + '/Pedido/GetPedidoInfoIdPedido/'+id);
+}
+
+
+  //^ Agregar Pedido Info
+  addPedidoInfo(pedidoInfo: PedidoInfo){
+    return this.http.post(this.APIUrl + '/Pedido/AddPedidoInfo', pedidoInfo);
+  }
+  //^ Actualziar Pedido Info
+  updatePedidoInfo(pedidoInfo: PedidoInfo){
+    return this.http.put(this.APIUrl + '/Pedido/EditPedidoInfo', pedidoInfo);
+  }
+
+  //^ Eliminar PedidoInfo por IdPedido
+  deletePedidoInfo(id: number){
+    return this.http.delete(this.APIUrl + '/Pedido/DeletePedidoInfo/' + id);
+  }
+
+
+  //*************************  PEDIDOINFO */
 
   // *******************   VALIDACION ************************* //
 

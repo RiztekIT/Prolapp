@@ -44,6 +44,8 @@ export class OrdenCargaDescargaComponent implements OnInit {
   ocDetalleInfo: any = [];
 //^ Arreglo de Objetos tipo Any, aqui se guardara la informacion de los detalles de OrdenCarga y Detalle Traspaso Mercancia
   dtInfo: Array<any> = [];
+
+  cadenaProducto: string = "";
   
   IdOrdenCarga:number;
 USDA: string="";
@@ -60,38 +62,38 @@ this.IdOrdenCarga = this.dataComponente.IdOrdenCarga
 
     //^ Obtendremos la informacion del TraspasoMercancia
     let query = ' select * from TraspasoMercancia where IdOrdenCarga = '+this.IdOrdenCarga;
-    console.log('%c⧭', 'color: #731d6d', query);
+    // console.log('%c⧭', 'color: #731d6d', query);
     let consulta = {
       'consulta':query
     };
 this.traspasoSVC.getQuery(consulta).subscribe((resTraspaso:any)=>{
-  console.log(resTraspaso);
+  // console.log(resTraspaso);
   if(resTraspaso.length > 0){
 
     this.tInfo = resTraspaso[0];
     //^Obtendremos la informacion de los Detalles de Traspaso Mercancia
     let query = ' select * from DetalleTraspasoMercancia where IdTraspasoMercancia = '+resTraspaso[0].IdTraspasoMercancia;
-    console.log('%c⧭', 'color: #731d6d', query);
+    // console.log('%c⧭', 'color: #731d6d', query);
     let consulta1 = {
       'consulta':query
     };
     this.traspasoSVC.getQuery(consulta1).subscribe(resTraspaso=>{
-      console.log(resTraspaso);
+      // console.log(resTraspaso);
       //^ Todos los detalles Traspaso traen el mismo USDA, entonces lo guardamos a la Variable USDA
       this.USDA = resTraspaso[0].Usda;
       this.tdetalleInfo = resTraspaso;
       //^ Obtendremos la informacion de la Orden Carga
       this.ocService.getOCID(this.IdOrdenCarga).subscribe(resOC=>{
-        console.log(resOC);
+        // console.log(resOC);
         this.ocInfo = resOC[0];
         
         //^ Obtendremos la informacion de los Detalles Orden Carga
         this.ocService.getOrdenCargaIDList(this.IdOrdenCarga).subscribe(resDOC=>{
-          console.log(resDOC);
+          // console.log(resDOC);
           this.ocDetalleInfo = resDOC;
           
-          //^ Mezclar informacion del Detalle Orden Carga con el Detalle del Traspaso
-          // this.MezclarDetalles();
+          //^ Generar Cadena de producto a mostrar
+          this.generarCadenaProducto();
         })
       })
     })
@@ -99,6 +101,14 @@ this.traspasoSVC.getQuery(consulta).subscribe((resTraspaso:any)=>{
 })
 
 
+  }
+
+  //^Metodo para generar Cadena de producto a mostrat
+  generarCadenaProducto(){
+    // this.ocDetalleInfo.forEach(element => {
+    //   console.log(element.Producto.split(' ', 3));
+    //   // this.cadenaProducto = this.cadenaProducto + element
+    // });
   }
 
 

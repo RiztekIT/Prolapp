@@ -12,6 +12,9 @@ import { OrdenDescargaEmailComponent } from '../../ordendescarga/ordendescargade
 import { TarimaService } from '../../../../services/almacen/tarima/tarima.service';
 import { Tarima } from 'src/app/Models/almacen/Tarima/tarima-model';
 import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-producto/entrada-producto.component';
+import { OrdenCargaInfo } from 'src/app/Models/almacen/OrdenCarga/ordenCargaInfo-model';
+import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
+import { FormatoPDFComponent } from 'src/app/components/almacen/formato-pdf/formato-pdf.component';
 
 
 
@@ -33,7 +36,7 @@ export class OrdendescargadetallecuuComponent implements OnInit {
   //Id Orden Carga
   IdOrdenDescarga: number;
   constructor(public service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public router: Router,  private dialog: MatDialog,  public imageService: ImagenService, private _sanitizer: DomSanitizer,
-    public AlmacenEmailService:AlmacenEmailService, public tarimaService: TarimaService) {
+    public AlmacenEmailService:AlmacenEmailService, public tarimaService: TarimaService, public serviceOC: OrdenCargaService) {
 
     // this.ordenTemporalService.listenOrdenTemporal().subscribe((m: any) => {
     //   this.actualizarTablaOrdenTemporal();
@@ -200,9 +203,64 @@ ObtenerFolio(id: number) {
     console.log(dataOC);
     this.Folio = dataOC[0].Folio;
     console.log(this.Folio);
+    this.obtenerSelloCaja(dataOC[0].IdOrdenDescarga);
     this.leerDirImagenes();
   })
 }
+
+
+//^ Metodo para obtener Informacion Adjunta a la Orden Descarga
+ordenDescargaInfo = new OrdenCargaInfo();
+selloCaja: string = "";
+pedimentoOrden: string = "";
+  obtenerSelloCaja(id){
+    this.serviceOC.getOrdenDescargaInfoIdOD(id).subscribe(resInfo=>{
+      console.log(resInfo);
+      if(resInfo.length>0){
+        console.log('Si hay SelloCaja');
+        this.ordenDescargaInfo = resInfo[0];
+        this.selloCaja = resInfo[0].SelloCaja;
+        this.pedimentoOrden = resInfo[0].Campo2;
+      }else{
+        console.log('No hay sello Caja');
+        //^ Como esta Orden de Carga no tiene sello Caja, le crearemos un campo en la tabla OrdenCargaInfo
+        let ocinfo: OrdenCargaInfo = {
+        IdOrdenCargaInfo: 0,
+        //^Aqui no utilizaremos el Id de la Orden Carga. Entonces la Dejaremos en 0
+        IdOrdenCarga: 0,
+        SelloCaja: "",
+        //^ el campo 1 es utilizado para guardar el Id de Orden Descarga
+        Campo1: id,
+        //^ el campo 2 es utilizado para guardar el pedimento de la Orden Descarga
+        Campo2: "",
+        Campo3: ""
+        }
+        this.serviceOC.addOrdenCargaInfo(ocinfo).subscribe(resAdd=>{
+          console.log(resAdd);
+          //^Obtenemos el objeto recien Creado
+          this.serviceOC.getOrdenDescargaInfoIdOD(id).subscribe(resInfoNuevo=>{
+            console.log(resInfoNuevo);
+            this.ordenDescargaInfo = resInfoNuevo[0];            
+          })
+        })
+      }
+    })
+  }
+
+  onBlurInformacionGeneral(){
+    console.log('Actualizar Orden Descarga');
+    this.ordenDescargaInfo.SelloCaja = this.selloCaja;
+    this.ordenDescargaInfo.Campo2 = this.pedimentoOrden;
+    //^ Actualizar Informacion de la OrdenCargaInfo
+    this.serviceOC.updateOrdenCargaInfo(this.ordenDescargaInfo).subscribe(resUp=>{
+      console.log(resUp);
+      //^ Actualizar Informacion De la Orden Carga      
+      console.log('%c⧭', 'color: #994d75', this.service.formData);
+      this.service.updateOrdenDescarga(this.service.formData).subscribe(resOD=>{
+        console.log(resOD);
+      })
+    })
+  }
 
 
   //Metodo para obtener el nombre de las imagenes y posteriormente traerse la imagen del servidor
@@ -288,6 +346,19 @@ ObtenerFolio(id: number) {
     this.dialog.open(EntradaProductoComponent, dialogConfig);
     // @Inject(MAT_DIALOG_DATA) public data: any, 
     // this.dialog.open(EntradaProductoComponent, dialogConfig);
+  }
+
+   //^ Con este metodo le daremos formato a los detalles de la orden (En cuantas tarimas estara dividio x producto)
+   formatoDocumentoPDF(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "80%";
+    dialogConfig.data = {
+     IdOrden: this.IdOrdenDescarga,
+     Tipo: 'OrdenDescarga'
+    }
+    this.dialog.open(FormatoPDFComponent, dialogConfig);
   }
 
 

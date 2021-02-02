@@ -125,6 +125,9 @@ import { EmpresaService } from '../services/empresas/empresa.service';
 
 import { ImageUploadModule } from 'angular2-image-upload';
 
+//Imprimir HTML
+
+
   //qr code
 import { NgxQRCodeModule } from 'ngx-qrcode2'; 
 import { NgxLoadingModule } from 'ngx-loading';
@@ -344,6 +347,8 @@ import { PospagoventaComponent } from './pos/posventadirecta/pospagoventa/pospag
 import { PosaddeditclientesComponent } from './pos/catalogos/poscatclientes/posaddeditclientes/posaddeditclientes.component';
 import { PoscatclientesComponent } from './pos/catalogos/poscatclientes/poscatclientes.component';
 
+import { FormatoPDFComponent } from '../components/almacen/formato-pdf/formato-pdf.component';
+import { NgxSimplePrintModule } from 'ngx-simple-print';
 
 
 
@@ -600,7 +605,8 @@ import { PoscatclientesComponent } from './pos/catalogos/poscatclientes/poscatcl
         PosaddeditclientesComponent,        
         AddeditposentradaproductosComponent,
         PospagoventaComponent,
-        PosaddeditclientesComponent
+        PosaddeditclientesComponent,
+        FormatoPDFComponent,
     
     ],
     exports: [
@@ -654,9 +660,9 @@ import { PoscatclientesComponent } from './pos/catalogos/poscatclientes/poscatcl
         NgxPrintModule,
         MatProgressBarModule,
         MatButtonToggleModule,
-        MatTableExporterModule,
-        
-        MatExpansionModule
+        MatTableExporterModule,        
+        MatExpansionModule,
+        NgxSimplePrintModule
         
     ],
     providers: [
@@ -769,7 +775,8 @@ import { PoscatclientesComponent } from './pos/catalogos/poscatclientes/poscatcl
         AddeditposproductosComponent,
         AddeditposentradaproductosComponent,
         PospagoventaComponent,
-        PosaddeditclientesComponent
+        PosaddeditclientesComponent,
+        FormatoPDFComponent,
         
     ]
 })

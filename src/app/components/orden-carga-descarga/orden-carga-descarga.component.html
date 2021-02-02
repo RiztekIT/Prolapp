@@ -17,7 +17,8 @@
                     <div class="col-lg-3 col-md-3 col-sm-3 col-3">
                         <div class="card card-outline-inverse">
 
-                            <img src="../../../assets/images/ProLactoLogo.png" class="logo">
+                            <!-- <img src="../../../assets/images/ProLactoLogo.png" class="logo"> -->
+                            <img src="../../../assets/images/AIN140101ME3.png" class="logo">
 
                         </div>
                     </div>
@@ -83,7 +84,7 @@
                             <td class="wrap lightback">{{conceptos.PO}}</td>
                             <td class="wrap lightback">{{conceptos.Producto}}</td>
                             <td class="wrap lightback pgbreak"> {{conceptos.Lote}}</td>
-                            <td class="pgbreak">{{conceptos.Sacos}} </td>
+                            <td class="pgbreak">{{conceptos.Sacos | number: '1.0-0'}} </td>
                             <td class="pgbreak">{{conceptos.PesoxSaco}}</td>
                             <td class="pgbreak">{{((+conceptos.PesoxSaco)*(+conceptos.Sacos))}}</td>
                             <td class="pgbreak">{{this.ocInfo.Origen}}</td>
@@ -129,7 +130,7 @@
                             <!-- <tr class="pgbreak"> -->
                             <tr *ngFor="let conceptos of ocDetalleInfo; let i = index">
                                 <td>{{conceptos.Shipper}}</td>
-                                <td>{{conceptos.Sacos}}</td>
+                                <td>{{conceptos.Sacos | number: '1.0-0'}}</td>
                                 <td>{{((+conceptos.PesoxSaco)*(+conceptos.Sacos))}}</td>
                             </tr>
                         </tbody>
@@ -150,12 +151,12 @@
                             <tr>
                                 <!-- <tr *ngFor="let conceptos of arrcon; let i = index"> -->
 
-                                <td class="borderContainer pgbreak">***</td>
+                                <td class="borderContainer pgbreak"></td>
                                 <!-- <td class="borderContainer pgbreak">{{this.arrcon[0].USDA1}}</td> -->
-                                <td class="borderContainer pgbreak">***</td>
-                                <td class="borderContainer pgbreak">***</td>
-                                <td class="borderContainer pgbreak">***</td>
-                                <td class="borderContainer pgbreak">***</td>
+                                <td class="borderContainer pgbreak"></td>
+                                <td class="borderContainer pgbreak"></td>
+                                <td class="borderContainer pgbreak"></td>
+                                <td class="borderContainer pgbreak"></td>
                             </tr>
                         </tbody>
                     </table>
