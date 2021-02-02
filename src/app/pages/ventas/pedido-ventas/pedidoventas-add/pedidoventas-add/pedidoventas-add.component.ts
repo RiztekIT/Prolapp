@@ -2188,6 +2188,9 @@ this.validarStock(cantidad);
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
+    dialogConfig.data = {
+      IdPedido: this.IdPedido
+    }
     this.dialog.open(ReporteEmisionComponent, dialogConfig);
   }
 

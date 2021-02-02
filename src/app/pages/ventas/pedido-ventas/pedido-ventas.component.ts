@@ -379,6 +379,9 @@ subs2: Subscription
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
+    dialogConfig.data = {
+      IdPedido: row.IdPedido
+    }
     this.dialog.open(ReporteEmisionComponent, dialogConfig);
 
   }
