@@ -125,6 +125,9 @@ import { EmpresaService } from '../services/empresas/empresa.service';
 
 import { ImageUploadModule } from 'angular2-image-upload';
 
+//Imprimir HTML
+
+
   //qr code
 import { NgxQRCodeModule } from 'ngx-qrcode2'; 
 import { NgxLoadingModule } from 'ngx-loading';
@@ -329,7 +332,8 @@ import { MarcasComponent } from './administracion/catalogos/productos/marcas/mar
 import { MensajesComponent } from './mensajes/mensajes.component';
 import { HistorialMensajesComponent } from '../components/mensajes/historial-mensajes/historial-mensajes.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
-
+import { FormatoPDFComponent } from '../components/almacen/formato-pdf/formato-pdf.component';
+import { NgxSimplePrintModule } from 'ngx-simple-print';
 
 
 
@@ -571,7 +575,8 @@ import { MatTableExporterModule } from 'mat-table-exporter';
         AddEditFleterasComponent,
         MarcasComponent,
         MensajesComponent,
-        HistorialMensajesComponent
+        HistorialMensajesComponent,
+        FormatoPDFComponent,
     
     ],
     exports: [
@@ -625,9 +630,9 @@ import { MatTableExporterModule } from 'mat-table-exporter';
         NgxPrintModule,
         MatProgressBarModule,
         MatButtonToggleModule,
-        MatTableExporterModule,
-        
-        MatExpansionModule
+        MatTableExporterModule,        
+        MatExpansionModule,
+        NgxSimplePrintModule
         
     ],
     providers: [
@@ -737,6 +742,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
         OrdenCargaDescargaComponent,
         AddEditFleterasComponent,
         MarcasComponent,
+        FormatoPDFComponent,
         
     ]
 })

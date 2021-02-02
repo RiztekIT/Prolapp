@@ -17,6 +17,8 @@ import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
 import { QrComponent } from 'src/app/components/qr/qr.component';
 import { OrdenTemporal } from 'src/app/Models/almacen/OrdenTemporal/ordenTemporal-model';
 import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-producto/entrada-producto.component';
+import Swal from 'sweetalert2';
+import { FormatoPDFComponent } from '../../../../components/almacen/formato-pdf/formato-pdf.component';
 
 
 @Component({
@@ -367,6 +369,19 @@ console.log(this.qrsearch,"filtro");
      IdOrdenDescarga: this.IdOrdenDescarga
     }
     this.dialog.open(EntradaProductoComponent, dialogConfig);
+  }
+
+  //^ Con este metodo le daremos formato a los detalles de la orden (En cuantas tarimas estara dividio x producto)
+  formatoDocumentoPDF(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "80%";
+    dialogConfig.data = {
+     IdOrden: this.IdOrdenDescarga,
+     Tipo: 'OrdenDescarga'
+    }
+    this.dialog.open(FormatoPDFComponent, dialogConfig);
   }
 
 

@@ -45,7 +45,7 @@
                                     <p>Direccion General </p>
                                 </div>
                                 <div class="col-3 containerborder">
-                                    <p class="bolder blacktxt">Fecha de Revision </p>
+                                    <p class="bolder blacktxt">Fecha de Revision: </p>
                                 </div>
                                 <div class="col-3 containerborder">
                                     <p>27/09/2019 </p>
@@ -78,22 +78,22 @@
                         <div class="containerborder">
                             <p class="bolder blacktxt">CLIENTE: <span style="font-weight:400"> {{ocInfo.Cliente}}</span></p>
                         </div>
-                        <div class="containerborder">
-                            <!-- COMO OBTENER EL PEDIMENTO Y QUE ES -->
+                        <!-- <div class="containerborder">
+                            
                             <p class="bolder blacktxt">PEDIMENTO: <span style="font-weight:400">***</span></p>
-                        </div>
+                        </div> -->
                         <div class="containerborder">
                             <p class="bolder blacktxt">TRANSPORTISTA: <span style="font-weight:400">{{ocInfo.Fletera}}</span></p>
                         </div>
                         <div class="containerborder">
-                            <p class="bolder blacktxt">NOMBRE OPERADOR <span style="font-weight:400">{{ocInfo.Chofer}}</span></p>
+                            <p class="bolder blacktxt">NOMBRE OPERADOR: <span style="font-weight:400">{{ocInfo.Chofer}}</span></p>
                         </div>
                     </div>
 
                     <div style="display: inline-block; width: 40%;">
                         <div class="containerborder container row" style="margin-left: 0; padding-left: 0;">
                             <div class="col-8" style="padding-left:0">
-                                <p class="bolder blacktxt">FECHA </p>
+                                <p class="bolder blacktxt">FECHA:</p>
                             </div>
                             <div class="col-4" style="padding-right:0">
                                 <span style="font-weight:400">{{this.ocInfo.FechaExpedicion | date: 'yyyy/MM/dd'}}</span>
@@ -101,16 +101,16 @@
                         </div>
                         <div class="containerborder container row" style="margin-left: 0; padding-left: 0;">
                             <div class="col-8" style="padding-left:0">
-                                <p class="bolder blacktxt">N° FACTURA, REMISION O TRASPASO </p>
+                                <p class="bolder blacktxt">N° FACTURA, REMISION O TRASPASO:</p>
                             </div>
                             <div class="col-4" style="padding-right:0">
                                 <!-- Cuales facturas -->
-                                <p><span style="font-weight:400;">***</span></p>
+                                <p><span style="font-weight:400;">{{FolioPedido}}</span></p>
                             </div>
                         </div>
                         <div class="containerborder container row" style="margin-left: 0; padding-left: 0;">
                             <div class="col-8" style="padding-left:0">
-                                <p class="bolder blacktxt">UNIDAD</p>
+                                <p class="bolder blacktxt">UNIDAD:</p>
                             </div>
                             <div class="col-4" style="padding-right:0">
                                 <p> <span style="font-weight:400">{{this.ocInfo.Caja}}</span></p>
@@ -118,11 +118,11 @@
                         </div>
                         <div class="containerborder container row" style="margin-left: 0; padding-left: 0;">
                             <div class="col-8" style="padding-left:0">
-                                <p class="bolder blacktxt">SELLO CAJA </p>
+                                <p class="bolder blacktxt">SELLO CAJA:</p>
                             </div>
                             <div class="col-4" style="padding-right:0">
                                 <!-- Como obtener el sello de la caja -->
-                                <p> <span style="font-weight:400">***</span></p>
+                                <p> <span style="font-weight:400">{{selloCaja}}</span></p>
                             </div>
                         </div>
                         <div class="containerborder container row" style="margin-left: 0; padding-left: 0;">
@@ -140,15 +140,15 @@
                     <table>
                         <thead>
                             <tr>
-                                <th class="blacktxt bolder whitecolor">Numero de Tarima</th>
-                                <th class="blacktxt bolder whitecolor">Clave Producto</th>
-                                <th class="blacktxt bolder whitecolor">Producto</th>
-                                <th class="blacktxt bolder whitecolor">KG</th>
+                                <th class="blacktxt bolder whitecolor">NUMERO TARIMA</th>
+                                <th class="blacktxt bolder whitecolor">CLAVE PRODUCTO</th>
+                                <th class="blacktxt bolder whitecolor"> PRODUCTO</th>
                                 <th class="blacktxt bolder whitecolor">SACOS</th>
-                                <th class="blacktxt bolder whitecolor">KG/SACO</th>
+                                <th class="blacktxt bolder whitecolor">KG/TARIMA</th>
+                                <!-- <th class="blacktxt bolder whitecolor">SACOS</th> -->
                                 <th class="blacktxt bolder whitecolor">LOTE</th>
-                                <th class="blacktxt bolder whitecolor">FECHA CAD</th>
                                 <th class="blacktxt bolder whitecolor">FECHA MFG</th>
+                                <th class="blacktxt bolder whitecolor">FECHA CAD</th>
                             </tr>
                         </thead>
                         <tbody *ngFor="let conceptos of docInfo; let i = index">
@@ -156,12 +156,12 @@
                                 <td style="text-align: center;" class="wrap lightback pgbreak"> {{i+1}} </td>
                                 <td style="text-align: center;" class="wrap lightback">{{conceptos.ClaveProducto}}</td>
                                 <td style="text-align: center;" class="wrap lightback pgbreak"> {{conceptos.Producto}}</td>
-                                <td style="text-align: center;" class="wrap lightback pgbreak"> {{((+conceptos.Sacos)*(+conceptos.PesoxSaco))}}</td>
-                                <td style="text-align: center;" class="pgbreak">{{conceptos.Sacos}} </td>
-                                <td style="text-align: center;" class="pgbreak">{{conceptos.PesoxSaco}}</td>
+                                <td style="text-align: center;" class="pgbreak">{{conceptos.Sacos | number: '1.0-0'}} </td>
+                                <td style="text-align: center;" class="wrap lightback pgbreak"> {{conceptos.Kg}}</td>
+                                <!-- <td style="text-align: center;" class="pgbreak">{{conceptos.PesoxSaco}}</td> -->
                                 <td style="text-align: center;" class="pgbreak">{{conceptos.Lote}} </td>
-                                <td style="text-align: center;" class="pgbreak">{{conceptos.FechaCaducidad | date: 'yyyy/MM/dd'}} </td>
                                 <td style="text-align: center;" class="pgbreak">{{conceptos.FechaMFG | date: 'yyyy/MM/dd'}} </td>
+                                <td style="text-align: center;" class="pgbreak">{{conceptos.FechaCaducidad | date: 'yyyy/MM/dd'}} </td>
                         </tbody>
 
                     </table>
@@ -172,17 +172,18 @@
                         <table class="table-striped pgbreak">
                             <thead>
                                 <tr>
-                                    <th class="blacktxt bolder whitecolor">Factura</th>
+                                    <th class="blacktxt bolder whitecolor">Clave Producto</th>
+                                    <th class="blacktxt bolder whitecolor">Descripcion</th>
                                     <th class="blacktxt bolder whitecolor">Sacos</th>
                                     <th class="blacktxt bolder whitecolor">KG</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr class="pgbreak">
-                                    <!-- Cuales facturas -->
-                                    <td style="text-align: center;">***</td>
-                                    <td style="text-align: center;">{{this.ocInfo.Sacos}} Sacos.</td>
-                                    <td style="text-align: center;">{{this.ocInfo.Kg}} KG.</td>
+                            <tbody *ngFor="let conceptos of arregloDetallesGenerales; let i = index">                                
+                                <tr class="pgbreak">                      
+                                    <td style="text-align: center;">{{conceptos.ClaveProducto}}</td>
+                                    <td style="text-align: center;">{{conceptos.Producto}}</td>
+                                    <td style="text-align: center;">{{conceptos.Sacos | number: '1.0-0'}}</td>
+                                    <td style="text-align: center;">{{+conceptos.Sacos * +conceptos.PesoxSaco | number: '1.0-0'}}</td>
                                 </tr>
                             </tbody>
                         </table>

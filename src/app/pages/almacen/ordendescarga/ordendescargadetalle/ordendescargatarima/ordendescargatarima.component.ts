@@ -148,6 +148,7 @@ export class OrdendescargatarimaComponent implements OnInit {
   sacosCero: boolean;
   numerofactura;
   PO;
+  PODescarga;
   NumeroEntrada;
   
 
@@ -286,7 +287,7 @@ export class OrdendescargatarimaComponent implements OnInit {
 
   // Tabla Orden Temporal
   listDataOrdenTemporal: MatTableDataSource<any>;
-  displayedColumnsOrdenTemporal: string[] = ['Factura','CBK','ClaveProducto', 'Producto', 'Lote', 'Kg',  'FechaCaducidad',  'FechaMFG', 'Options'];
+  displayedColumnsOrdenTemporal: string[] = ['PO','Factura','CBK','ClaveProducto', 'Producto', 'Lote', 'Kg',  'FechaCaducidad',  'FechaMFG', 'Options'];
   // displayedColumnsOrdenTemporal: string[] = ['ClaveProducto', 'Producto', 'Lote', 'Kg',  'FechaCaducidad', 'Comentarios', 'Options'];
   @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
@@ -338,7 +339,8 @@ export class OrdendescargatarimaComponent implements OnInit {
           DOD.Pedimento = this.dataODID[i].Pedimento
           DOD.Proveedor = this.dataODID[i].Proveedor
           DOD.IdProveedor = this.dataODID[i].IdProveedor
-          DOD.PO = this.service.formData.PO
+          // DOD.PO = this.service.formData.PO
+          DOD.PO = '';
           DOD.FechaMFG = this.dataODID[i].FechaMFG
           DOD.Shipper = this.dataODID[i].Shipper
           DOD.USDA = this.dataODID[i].USDA
@@ -821,7 +823,7 @@ export class OrdendescargatarimaComponent implements OnInit {
         Bodega: this.service.formData.Destino,
         IdProveedor: this.preOrdenTemporalSacos.IdProveedor,
         Proveedor: this.preOrdenTemporalSacos.Proveedor,
-        PO: this.PO,
+        PO: this.PODescarga,
         FechaMFG: this.preOrdenTemporalSacos.FechaMFG,
         FechaCaducidad: this.preOrdenTemporalSacos.FechaCaducidad,
         Shipper: this.preOrdenTemporalSacos.Shipper,
@@ -855,7 +857,7 @@ export class OrdendescargatarimaComponent implements OnInit {
             FechaCaducidad: this.preOrdenTemporalSacos.FechaCaducidad,
             FechaMFG: this.preOrdenTemporalSacos.FechaMFG,
             Comentarios: '',
-            CampoExtra1: this.PO,
+            CampoExtra1: this.PODescarga,
             CampoExtra2: '',
             CampoExtra3: ''
           }
@@ -891,6 +893,7 @@ export class OrdendescargatarimaComponent implements OnInit {
     this.NombreProducto = null;
     this.numerofactura = null;
     this.PO = null;
+    this.PODescarga = null;
     this.NumeroEntrada = null;
     this.cantidadKilogramos = null;
     this.lote = null;
@@ -1375,6 +1378,9 @@ export class OrdendescargatarimaComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = "70%";
+      dialogConfig.data = {
+        estatus: this.estatusOrdenDescarga
+      }
       this.dialog.open(OrdenDescargaConceptoComponent, dialogConfig);
     });
 

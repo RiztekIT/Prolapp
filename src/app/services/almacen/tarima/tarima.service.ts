@@ -110,7 +110,7 @@ addDetalleTarima(dt: DetalleTarima) {
 }
 //^Update Detalle Tarima
 updateDetalleTarima(dt: DetalleTarima) {
-  return this.http.put(APIUrl+ '/Tarima', dt);
+  return this.http.put(APIUrl+ '/Tarima/UpdateDetalleTarima', dt);
   }
 //^Insert Traspaso Tarima
 addTraspasoTarima(tt: TraspasoTarima) {

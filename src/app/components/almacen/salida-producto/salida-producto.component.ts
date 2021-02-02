@@ -6,6 +6,7 @@ import { OrdenTemporalService } from '../../../services/almacen/orden-temporal/o
 import { EmpresaService } from '../../../services/empresas/empresa.service';
 import { OrdenCarga } from '../../../Models/almacen/OrdenCarga/ordencarga.model';
 import { DetalleOrdenCarga } from '../../../Models/almacen/OrdenCarga/detalleOrdenCarga-model';
+import { VentasPedidoService } from '../../../services/ventas/ventas-pedido.service';
 
 @Component({
   selector: 'app-salida-producto',
@@ -22,7 +23,7 @@ export class SalidaProductoComponent implements OnInit {
   // pedimento: any;
 
   constructor(public dialogbox: MatDialogRef<SalidaProductoComponent>, private service: OrdenCargaService, public ordentemporal: OrdenTemporalService, public empresaService: EmpresaService,  
-    @Inject(MAT_DIALOG_DATA) public dataComponente: any) { }
+    @Inject(MAT_DIALOG_DATA) public dataComponente: any, public ventasService: VentasPedidoService) { }
 
   // objconc: any;
   // con: string | number;
@@ -40,7 +41,7 @@ export class SalidaProductoComponent implements OnInit {
   //^ Objeto tipo Orden Descarga
   ocInfo: OrdenCarga;
 //^ Arreglo de Objetos tipo Detalle Orden Descarga
-  docInfo: Array<DetalleOrdenCarga> = [];
+  docInfo: Array<any> = [];
   
   IdOrdenCarga:number;
 
@@ -64,6 +65,10 @@ this.IdOrdenCarga = this.dataComponente.IdOrdenCarga;
     this.dialogbox.close();
   }
 
+  selloCaja: string = "";
+
+  FolioPedido: string = "";
+  arregloDetalles: any = [];
   ver() {
 
 
@@ -74,14 +79,51 @@ this.IdOrdenCarga = this.dataComponente.IdOrdenCarga;
     // this.usuario = this.ObjetoUsuario.Nombre;
     // console.log(this.usuario);
 
-
+//^ Obtener informacion de la Orden Carga
     this.service.getOCID(this.IdOrdenCarga).subscribe(data => {
 this.ocInfo = data[0];
 this.Folio = data[0].Folio;
-this.service.getOrdenCargaIDList(this.IdOrdenCarga).subscribe(respuesta=> {
-    this.docInfo = respuesta
-
-
+//^ Obtener informacion adicional a la Ordencarga
+this.service.getOrdenCargaInfoIdOC(this.IdOrdenCarga).subscribe(resSello=>{
+  if(resSello.length>0){
+    this.selloCaja = resSello[0].SelloCaja;
+  }
+  //^ Obtener informacion del Pedido/Venta que Genero la Orden Carga
+  this.ventasService.getPedidoId(data[0].IdPedido).subscribe(resVenta=>{
+  if(resVenta.length>0){
+    this.FolioPedido = resVenta[0].Folio;
+  }
+  //^ Obtener informacion de los Detalles de  Orden Carga
+  this.service.getOrdenCargaIDList(this.IdOrdenCarga).subscribe(respuesta=> {
+    console.log('%c⧭', 'color: #514080', respuesta);
+    if(respuesta[0].USDA){
+       //^Generaremos el arreglo con los detalles generales
+       this.detallesGenerales();
+       // this.ordentemporal.formDataOCDTPDF = respuesta[0]
+       // this.dodInfo = respuesta;
+       this.arregloDetalles = respuesta;
+       //^Dividiremos los detalles por tarima
+       this.arregloDetalles.forEach((element,i) => {
+         //^ Calculamos el numero de Tarimas
+         let numeroTotalTarimas = ((+element.Sacos) / (+element.USDA));
+         let sacos = +element.USDA
+         let kg = ((sacos)*(+element.PesoxSaco))
+         for (let i = 0; i < numeroTotalTarimas; i++) {
+           //^ Objeto que sera ingresado
+           let detalle: any
+           detalle = element;
+           detalle.Sacos = sacos;
+           detalle.Kg = kg;
+           // detalle.numeroTarima = this.numeroTarima;
+           // this.numeroTarima = this.numeroTarima + 1;
+           this.docInfo.push(detalle);
+         }
+       });                  
+    }else{      
+      this.docInfo = respuesta
+    }
+  })
+})
 
 
     // this.ordentemporal.GetOrdenTemporalID(+localStorage.getItem('IdOrdenCarga')).subscribe(res => {
@@ -132,6 +174,30 @@ this.service.getOrdenCargaIDList(this.IdOrdenCarga).subscribe(respuesta=> {
     // });
   });
   });
+  }
+
+  arregloDetallesGenerales: any = [];
+  detallesGenerales(){
+
+    //^ Volvemos a obtener la data, porque el obsevable le asignaba otros valores....
+this.service.getOrdenCargaIDList(this.IdOrdenCarga).subscribe(respuesta => {
+
+  respuesta.forEach((element, i) => {
+      // var index:number = this.array.indexOf(this.array.find(x => x.idP == id));     
+     let a = this.arregloDetallesGenerales.indexOf(this.arregloDetallesGenerales.find(clave => clave.ClaveProducto == element.ClaveProducto ));
+     console.log(a);
+     if(a == -1){
+       this.arregloDetallesGenerales.push(element);
+     }else{
+       console.log('Repetido');
+       let sacos = +element.Sacos;
+      //  let kg = +element.Sacos * +element.PesoxSaco;
+       this.arregloDetallesGenerales[a].Sacos = +this.arregloDetallesGenerales[a].Sacos + sacos;
+     }
+    });
+  console.log(this.arregloDetallesGenerales);
+    //  let index = this.service.master[i].Modulo.indexOf(this.service.master[i].Modulo.find(modulo => modulo.Modulo == res[l].Modulo));
+  })
   }
 
 //^ Metodo para generar el string de Facturas

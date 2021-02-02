@@ -19,6 +19,8 @@ import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-pro
 import { SalidaProductoComponent } from '../../../../components/almacen/salida-producto/salida-producto.component';
 import { CalendarioService } from '../../../../services/calendario/calendario.service';
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
+import { OrdenCargaInfo } from '../../../../Models/almacen/OrdenCarga/ordenCargaInfo-model';
+import { FormatoPDFComponent } from 'src/app/components/almacen/formato-pdf/formato-pdf.component';
 
 @Component({
   selector: 'app-ordencargadetalle',
@@ -29,7 +31,7 @@ export class OrdencargadetalleComponent implements OnInit {
 
   IdOrdenCarga: number;
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Kilogramos', 'Lote', 'Proveedor', 'PO', 'FechaMFG', 'FechaCaducidad', 'Shipper', 'USDA', 'Pedimento'];
+  displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Kilogramos', 'Lote', 'Proveedor', 'PO', 'FechaMFG', 'FechaCaducidad', 'Shipper', 'Pedimento'];
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -129,8 +131,51 @@ export class OrdencargadetalleComponent implements OnInit {
       this.service.formData = data[0];
       this.estatusOC = this.service.formData.Estatus
       this.Folio = this.service.formData.Folio;
+      this.obtenerSelloCaja(this.IdOrdenCarga);
       console.log(this.estatusOC);
     });
+  }
+
+  ordenCargaInfo = new OrdenCargaInfo();
+  selloCaja: string = "";
+  obtenerSelloCaja(id){
+    this.service.getOrdenCargaInfoIdOC(id).subscribe(resInfo=>{
+      console.log(resInfo);
+      if(resInfo.length>0){
+        console.log('Si hay SelloCaja');
+        this.ordenCargaInfo = resInfo[0];
+        this.selloCaja = resInfo[0].SelloCaja;
+      }else{
+        console.log('No hay sello Caja');
+        //^ Como esta Orden de Carga no tiene sello Caja, le crearemos un campo en la tabla OrdenCargaInfo
+        let ocinfo: OrdenCargaInfo = {
+        IdOrdenCargaInfo: 0,
+        IdOrdenCarga: id,
+        SelloCaja: "",
+        //^ el campo 1 es utilizado para guardar el Id de Orden Descarga (Aqui no se utiliza)
+        Campo1: "0",
+        //^ el campo 2 es utilizado para guardar el pedimento de la Orden Descarga (Aqui no se utiliza)
+        Campo2: "0",
+        Campo3: ""
+        }
+        this.service.addOrdenCargaInfo(ocinfo).subscribe(resAdd=>{
+          console.log(resAdd);
+          //^Obtenemos el objeto recien Creado
+          this.service.getOrdenCargaInfoIdOC(id).subscribe(resInfoNuevo=>{
+            console.log(resInfoNuevo);
+            this.ordenCargaInfo = resInfoNuevo[0];            
+          })
+        })
+      }
+    })
+  }
+
+  onBlurSelloCaja(){
+    console.log('Actualizar Sello de Caja');
+    this.ordenCargaInfo.SelloCaja = this.selloCaja;
+    this.service.updateOrdenCargaInfo(this.ordenCargaInfo).subscribe(resUp=>{
+      console.log(resUp);
+    })
   }
 
   refreshDetalleOrdenCargaList() {
@@ -413,6 +458,19 @@ export class OrdencargadetalleComponent implements OnInit {
     }
     this.dialog.open(SalidaProductoComponent, dialogConfig);
     // this.dialog.open(EntradaProductoComponent, dialogConfig);
+  }
+
+   //^ Con este metodo le daremos formato a los detalles de la orden (En cuantas tarimas estara dividio x producto)
+   formatoDocumentoPDF(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "80%";
+    dialogConfig.data = {
+     IdOrden: this.IdOrdenCarga,
+     Tipo: 'OrdenCarga'
+    }
+    this.dialog.open(FormatoPDFComponent, dialogConfig);
   }
 
   validar() {

@@ -100,7 +100,7 @@ export class AngularCalendarComponent implements OnInit {
 
 
   verificarProcedencia(moduloProcedencia: string) {
-    console.warn(moduloProcedencia);
+    // console.warn(moduloProcedencia);
 
     switch (moduloProcedencia) {
       case ('Compras'):
@@ -177,7 +177,7 @@ export class AngularCalendarComponent implements OnInit {
         break;
       default:
         this.procedencia = 'ninguno'
-        console.log('Ninguno corresponde');
+        // console.log('Ninguno corresponde');
         break;
 
     }
@@ -198,7 +198,7 @@ export class AngularCalendarComponent implements OnInit {
   
     obtenerPrivilegios() {
       let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
-      console.log(arrayPermisosMenu);
+      // console.log(arrayPermisosMenu);
       let arrayPrivilegios: any;
       try {
         arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
@@ -212,7 +212,7 @@ export class AngularCalendarComponent implements OnInit {
         });
         // console.log(this.privilegios);
       } catch {
-        console.log('Ocurrio algun problema');
+        // console.log('Ocurrio algun problema');
       }
     }
   
@@ -235,17 +235,17 @@ export class AngularCalendarComponent implements OnInit {
 
   //Obtener informacion Calendario Compras
   cargarCalendario(modulo: string) {
-    console.log('USUARIO');
-    console.log(this.usuario.user);
-    console.log(modulo);
-    console.log('USUARIO');
+    // console.log('USUARIO');
+    // console.log(this.usuario.user);
+    // console.log(modulo);
+    // console.log('USUARIO');
     // let usuario = 'Ramon';
     this.calendarioService.getCalendarioComprasUsuarioModulo(this.usuario.user, modulo).subscribe(dataCalendario => {
       if (dataCalendario.length > 0) {
         this.idCalendario = +dataCalendario[0].IdCalendario;
-        console.log('----------------ID CALENDARIO-----------');
-        console.log(this.idCalendario);
-        console.log(dataCalendario);
+        // console.log('----------------ID CALENDARIO-----------');
+        // console.log(this.idCalendario);
+        // console.log(dataCalendario);
 
 
         this.events = [];
@@ -262,7 +262,7 @@ export class AngularCalendarComponent implements OnInit {
                 secondary: dataDC[i].Color,
               }
             };
-            console.log('************************');
+            // console.log('************************');
             event.start = startOfDay(new Date(dataDC[i].Start));
             event.end = endOfDay(new Date(dataDC[i].Endd));
             //fecha actual
@@ -271,9 +271,9 @@ export class AngularCalendarComponent implements OnInit {
             let fi = event.start.getMonth();
             //fecha final
             let ff = event.end.getMonth();
-            console.log(fa + 'fa');
-            console.log(fi + 'fi');
-            console.log(ff + 'ff');
+            // console.log(fa + 'fa');
+            // console.log(fi + 'fi');
+            // console.log(ff + 'ff');
             event.id = dataDC[i].IdDetalleCalendario;
             event.title = dataDC[i].Title;
             event.color = colorBD.color;
@@ -282,15 +282,15 @@ export class AngularCalendarComponent implements OnInit {
             event.documento = dataDC[i].Documento;
             event.descripcion = dataDC[i].Descripcion;
             if (fa == fi) {
-              console.log('Hacer el push a eventos');
+              // console.log('Hacer el push a eventos');
               this.events2.push(event);
             } else if (fi < fa && ff >= fa) {
-              console.log('fecha inicial menor y fecha final mayor o igual');
+              // console.log('fecha inicial menor y fecha final mayor o igual');
               this.events2.push(event);
             }
 
 
-            console.log('************************');
+            // console.log('************************');
 
 
 
@@ -302,10 +302,10 @@ export class AngularCalendarComponent implements OnInit {
             ///////////////
 
           }
-          console.log(this.events);
+          // console.log(this.events);
         })
       } else {
-        console.log('Calendario Invalido');
+        // console.log('Calendario Invalido');
         this.events = [];
         this.events2 = [];
         this.refresh.next();
@@ -352,9 +352,9 @@ export class AngularCalendarComponent implements OnInit {
       label: '<i class="fas fa-fw fa-pencil-alt"></i>',
       a11yLabel: 'Edit',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        console.log(event);
+        // console.log(event);
         this.calendarioService.getDetallesCalendarioIdDetalle(+event.id).subscribe(dataDC => {
-          console.log(dataDC);
+          // console.log(dataDC);
           this.calendarioService.formDataDetalleCalendario = new detalleCalendario();
           this.calendarioService.formDataDetalleCalendario = dataDC[0];
           this.calendarioService.accionEvento = 'Editar';
@@ -371,7 +371,7 @@ export class AngularCalendarComponent implements OnInit {
       label: '<i class="fas fa-fw fa-trash-alt"></i>',
       a11yLabel: 'Delete',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        console.log(event);
+        // console.log(event);
         Swal.fire({
           title: '¿Segur@ de Borrar Evento?',
           icon: 'warning',
@@ -384,7 +384,7 @@ export class AngularCalendarComponent implements OnInit {
           if (result.value) {
             //Elimina el evento del arreglo eventos
             this.calendarioService.deleteDetalleCalendario(+event.id).subscribe(res => {
-              console.log(res);
+              // console.log(res);
               Swal.fire({
                 title: 'Borrado',
                 icon: 'success',
@@ -419,9 +419,9 @@ export class AngularCalendarComponent implements OnInit {
 
 
   actualizarEvento(event: any) {
-    console.log('Actualizar campo evento', event);
-    console.log(event.color.primary);
-    console.log(event.color.secondary);
+    // console.log('Actualizar campo evento', event);
+    // console.log(event.color.primary);
+    // console.log(event.color.secondary);
     let evento = new detalleCalendario();
     evento.IdDetalleCalendario = event.id;
     evento.IdCalendario = this.idCalendario;
@@ -438,14 +438,14 @@ export class AngularCalendarComponent implements OnInit {
     // evento.Start = new Date();
     // evento.Endd = new Date();
     evento.Color = event.color.primary.toString();
-    console.log(evento);
+    // console.log(evento);
     // switch (this.procedencia) {
     //   case ('Compras'):
         //     console.log('EDITANDO EVENTO COMPRAS');
         this.calendarioService.editDetalleCalendario(evento).subscribe(res => {
           // this.refresh.next();
           this.cargarCalendario(this.procedencia);
-          console.log(res);
+          // console.log(res);
           //       this.onClose();
         })
     //     break;
@@ -548,23 +548,23 @@ export class AngularCalendarComponent implements OnInit {
   handleEvent(action: string, event: CalendarEvent): void {
     // this.modalData = { event, action };
     // this.modal.open(this.modalContent, { size: 'lg' });
-    console.log(event);
+    // console.log(event);
     this.calendarioService.eventoInfo = event;
     this.calendarioService.getDetallesCalendarioIdDetalle(+event.id).subscribe(dataDC => {
-      console.log(dataDC);
+      // console.log(dataDC);
       let folio = dataDC[0].Folio;
       switch (this.procedencia) {
         case ('Compras'):
-          console.log('CARGANDO CALENDARIO COMPRAS');
+          // console.log('CARGANDO CALENDARIO COMPRAS');
           this.comprasService.getComprasFolio(folio).subscribe(dataCompras => {
-            console.log(dataCompras);
+            // console.log(dataCompras);
             this.calendarioService.formDataCompras = dataCompras[0];
             this.calendarioService.origen = 'Compras';
             this.abrirModalEvent();
           })
           break;
         case ('Almacen'):
-          console.log('CARGANDO CALENDARIO ALMACEN');
+          // console.log('CARGANDO CALENDARIO ALMACEN');
           break;
         default:
           break;

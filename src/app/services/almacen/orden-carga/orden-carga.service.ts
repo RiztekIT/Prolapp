@@ -9,6 +9,7 @@ import { ClienteDireccion } from 'src/app/Models/cliente-direccion/clienteDirecc
 import { Cliente } from '../../../Models/catalogos/clientes-model';
 import { environment } from 'src/environments/environment';
 import { DetalleOrdenCarga } from '../../../Models/almacen/OrdenCarga/detalleOrdenCarga-model';
+import { OrdenCargaInfo } from '../../../Models/almacen/OrdenCarga/ordenCargaInfo-model';
 
 //export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 export const APIUrl = environment.APIUrl;
@@ -111,8 +112,35 @@ export class OrdenCargaService {
     return this.http.put(APIUrl + '/OrdenCarga/ChoferDetalle/' + Id + '/' + Chofer, null);
   }
 
-  /* *************************************************** */
-  /* *************************************************** */
+  //^ Campos Extra a la Orden de Carga
+  // ***************************ORDEN CARGA INFO************************ */
+//^ Obtener OrdenCargaInfo por IdOrdenCargaInfo
+ getOrdenCargaInfoId(id: number): Observable<OrdenCargaInfo[]> {
+  return this.http.get<OrdenCargaInfo[]>(APIUrl + '/OrdenCarga/OrdenCargaInfoId/' + id);
+}
+//^ Obtener OrdenCargaInfo por IdOrdenCarga
+getOrdenCargaInfoIdOC(id: number): Observable<OrdenCargaInfo[]> {
+ return this.http.get<OrdenCargaInfo[]>(APIUrl + '/OrdenCarga/OrdenCargaInfoIdOC/' + id);
+}
+//^ Obtener OrdenCargaInfo por IdOrdenDescarga
+getOrdenDescargaInfoIdOD(id: number): Observable<OrdenCargaInfo[]> {
+ return this.http.get<OrdenCargaInfo[]>(APIUrl + '/OrdenCarga/OrdenCargaInfoIdOD/' + id);
+}
+//^ Agregar OrdenCargaInfo
+addOrdenCargaInfo(ordencargainf: OrdenCargaInfo) {
+  return this.http.post(APIUrl + '/OrdenCarga/AddOrdenCargaInfo', ordencargainf)
+}
+//^ Actualizar OrdenCargaInfo
+updateOrdenCargaInfo(ordencargainf: OrdenCargaInfo) {
+  return this.http.put(APIUrl + '/OrdenCarga/UpdateOrdenCargaInfo', ordencargainf)
+}
+//^ Eliminar OrdenCargaInfo por IdOrdenCargaInfo
+deleteOrdenCargaInf(id: number) {
+  return this.http.delete(APIUrl + '/OrdenCarga/DeleteOrdenCargaInfo/' + id)
+}
+
+  // ***************************ORDEN CARGA INFO************************ */
+  
 
   // *******************   REPORTES  ************************* //
 

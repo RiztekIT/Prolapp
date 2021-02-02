@@ -96,3 +96,6 @@ npm install --save mat-table-exporter
 
 ## iconos
 npm install @mdi/font
+
+## Imprimir html
+npm install ngx-simple-print --save

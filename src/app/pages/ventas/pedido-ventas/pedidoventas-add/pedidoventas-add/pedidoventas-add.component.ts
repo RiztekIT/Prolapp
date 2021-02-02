@@ -44,6 +44,7 @@ import { TarimaService } from '../../../../../services/almacen/tarima/tarima.ser
 import { SelectionModel } from '@angular/cdk/collections';
 import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model';
 import { OrdenTemporal } from 'src/app/Models/almacen/OrdenTemporal/ordenTemporal-model';
+import { PedidoInfo } from 'src/app/Models/Pedidos/pedidoInfo-model';
 //Constantes para obtener tipo de cambio
 const httpOptions = {
   headers: new HttpHeaders({
@@ -119,6 +120,8 @@ html;
   bodegaSelectSeleccion = 'Chihuahua';
   listDataSeleccion: MatTableDataSource<any>;
   listData2Seleccion: MatTableDataSource<any>;
+  // @ViewChild(MatSort, null) sort: MatSort;
+  // @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, null) sortSeleccion: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorSeleccion: MatPaginator;
   selection = new SelectionModel<any>(true, []);
@@ -383,6 +386,9 @@ html;
 
   //Id Direccion
   IdDireccion: number;
+
+  //^ PedidoInfo objeto
+  pedidoInfo = new PedidoInfo();
 
   // //////////////////////////// BEGIN OBTENER TIPO CAMBIO ////////////////////////////
   rootURL = "/SieAPIRest/service/v1/series/SF63528/datos/"
@@ -672,18 +678,31 @@ changeSeleccion(event){
   /* console.log(event); */
   this.seleccionManual = event.checked
   if(this.seleccionManual == true){
-    this.service.formDataPedido.LugarDeEntrega = 'si';
-    this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
-      console.log(res);
-      this.obtenerTarimas();
-      this.aceptarSeleccion=true;
-    });
+  this.pedidoInfo.SeleccionManual = 'si';
+  this.service.updatePedidoInfo(this.pedidoInfo).subscribe(res=>{
+    console.log(res);
+    this.obtenerTarimas();
+    this.aceptarSeleccion=true;
+  })
   }else{
-    this.service.formDataPedido.LugarDeEntrega = 'no';
-    this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+    this.pedidoInfo.SeleccionManual = 'no';
+    this.service.updatePedidoInfo(this.pedidoInfo).subscribe(res=>{
       console.log(res);
-    });
+    })
   }
+  // if(this.seleccionManual == true){
+  //   this.service.formDataPedido.LugarDeEntrega = 'si';
+  //   this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+  //     console.log(res);
+  //     this.obtenerTarimas();
+  //     this.aceptarSeleccion=true;
+  //   });
+  // }else{
+  //   this.service.formDataPedido.LugarDeEntrega = 'no';
+  //   this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+  //     console.log(res);
+  //   });
+  // }
    console.log(this.seleccionManual); 
 
 }
@@ -860,58 +879,86 @@ this.changeDireccion(this.isDireccion);
       this.service.formDataPedido = data[0];
       this.EstatusOC = this.service.formDataPedido.Estatus;
 
-      //^ Utilizaremos Lugar de entrega para guardar si es seleccion Manual o no.
-      if(this.service.formDataPedido.LugarDeEntrega == 'si'){
-        this.seleccionManual=true;
-      }else{
-        this.seleccionManual=false;
-      }
-      // console.log(this.Estatus);
+      //^ Obtendremos informacion Adicional al Pedido
+      this.service.getPedidoInfoIdPedido(data[0].IdPedido).subscribe(respInfo=>{
 
-      //VerificarFlete
-      this.llevaFlete();
-
-      //Verificar Factura
-      this.llevaFactura(); 
-
-      this.Moneda = this.service.formDataPedido.Moneda;
-
-      if (this.MonedaBoolean == true) {
-        this.descuento = this.service.formDataPedido.Descuento;
-      } else {
-        this.descuentoDlls = this.service.formDataPedido.DescuentoDlls;
-
-      }
-      if (this.Moneda == 'MXN') {
-        this.MonedaBoolean = true;
-
-      } else {
-        this.MonedaBoolean = false;
-      }
-      console.log(this.service.formDataPedido);
-      if (data[0].IdCliente == 0) {
-        console.log('ID 0');
-        this.service.formData = new Cliente();
-        this.ChecarClienteSeleccionado();
-      } else {
-        console.log('ID Diferente a 0');
-        this.service.GetCliente(data[0].IdCliente).subscribe(data => {
-          console.log(data);
-          this.service.formData = data[0];
+        //^ Verificamos si existe un record. Si no, crearemos uno
+        if(respInfo.length>0){
+          this.pedidoInfo = respInfo[0];
+          //^ Verificamos si se esta utilizando la seleccion manual
+          if(respInfo[0].SeleccionManual == 'si'){
+            this.seleccionManual=true;
+          }else{
+            this.seleccionManual=false;
+          }
+        }else{
+          let pedidoIn: PedidoInfo = {
+            IdPedidoInfo: 0,
+            IdPedido: data[0].IdPedido,
+            SeleccionManual: 'si',
+            Campo1: '',
+            Campo2: '',
+            Campo3: ''
+          }
+          this.pedidoInfo = pedidoIn;
+          this.seleccionManual=true;
+            this.service.addPedidoInfo(pedidoIn).subscribe(resAdd=>{
+              console.log(resAdd);
+            })
+        }
+        // Utilizaremos Lugar de entrega para guardar si es seleccion Manual o no.
+        // if(this.service.formDataPedido.LugarDeEntrega == 'si'){
+        //   this.seleccionManual=true;
+        // }else{
+        //   this.seleccionManual=false;
+        // }
+        // console.log(this.Estatus);
+        
+        //VerificarFlete
+        this.llevaFlete();
+        
+        //Verificar Factura
+        this.llevaFactura(); 
+        
+        this.Moneda = this.service.formDataPedido.Moneda;
+        
+        if (this.MonedaBoolean == true) {
+          this.descuento = this.service.formDataPedido.Descuento;
+        } else {
+          this.descuentoDlls = this.service.formDataPedido.DescuentoDlls;
+          
+        }
+        if (this.Moneda == 'MXN') {
+          this.MonedaBoolean = true;
+          
+        } else {
+          this.MonedaBoolean = false;
+        }
+        console.log(this.service.formDataPedido);
+        if (data[0].IdCliente == 0) {
+          console.log('ID 0');
+          this.service.formData = new Cliente();
           this.ChecarClienteSeleccionado();
-        });
-      }
-      this.nodes();
-    });
-    console.log(this.IdPedido);
-
-
-   
-  }
-
-  nodes(){
-    if (this.service.formDataPedido.Estatus === 'Cerrada') {
-      let nodes = document.getElementById('step1').getElementsByTagName('*');
+        } else {
+          console.log('ID Diferente a 0');
+          this.service.GetCliente(data[0].IdCliente).subscribe(data => {
+            console.log(data);
+            this.service.formData = data[0];
+            this.ChecarClienteSeleccionado();
+          });
+        }
+        this.nodes();
+      }); 
+      });
+      console.log(this.IdPedido);
+      
+      
+      
+    }
+    
+    nodes(){
+      if (this.service.formDataPedido.Estatus === 'Cerrada') {
+        let nodes = document.getElementById('step1').getElementsByTagName('*');
       for (let i = 0; i < nodes.length; i++) {
         nodes[i].setAttribute('disabled', 'true')
       }
@@ -956,6 +1003,8 @@ this.changeDireccion(this.isDireccion);
     this.service.formDataPedido.Estatus = 'Guardada';
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
       console.log(res);
+
+   
 
 
     })
@@ -1091,12 +1140,20 @@ this.changeDireccion(this.isDireccion);
       this.isFlete = true;
       this.seleccionManual = false;
       this.service.formDataPedido.Flete = 'Local';
-      this.service.formDataPedido.LugarDeEntrega = 'no';
+      this.pedidoInfo.SeleccionManual = 'no';
+      this.service.updatePedidoInfo(this.pedidoInfo).subscribe(res=>{
+        console.log(res);
+      })
+      // this.service.formDataPedido.LugarDeEntrega = 'no';
     } else {
       this.isFlete = false;
       this.service.formDataPedido.Flete = 'Sucursal';
-      this.service.formDataPedido.LugarDeEntrega = 'si';
-      this.seleccionManual = true;
+      this.pedidoInfo.SeleccionManual = 'si';
+      // this.service.formDataPedido.LugarDeEntrega = 'si';
+      this.seleccionManual = true;      
+      this.service.updatePedidoInfo(this.pedidoInfo).subscribe(res=>{
+        console.log(res);
+      })
     }
   }
 
@@ -2419,13 +2476,14 @@ applyFilter2Seleccion(filtervalue: string) {
 }
 
 obtenerTarimas(){
-  this.listDataSeleccion = new MatTableDataSource();
+  // this.listDataSeleccion = new MatTableDataSource();
   this.bodegaSelectSeleccion = 'Chihuahua';
   this.tarimaService.getDetalleTarimaBodega(this.bodegaSelectSeleccion).subscribe(data=>{
     console.log(data,'obtner tarimas');
     this.listDataSeleccion = new MatTableDataSource(data);
     this.listDataSeleccion.sort = this.sortSeleccion;
     this.listDataSeleccion.paginator = this.paginatorSeleccion;
+    this.listDataSeleccion.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
     // this.listDataSeleccion.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
     // this.applyFilter2Seleccion('Chihuahua');
     // console.log(this.listDataSeleccion.data[0].ClaveProducto);

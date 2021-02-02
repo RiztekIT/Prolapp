@@ -3,7 +3,7 @@
         <div class="card ">
             <div class="card-body">
 
-
+<!-- TITULO E INFORMACION PRINCIPAL DE LA ORDEN -->
                 <div class="d-flex justify-content-between">
 
                     <h2 class="text-muted m-t-10 m-b-0">Orden de Descarga Chihuahua</h2>
@@ -22,6 +22,81 @@
                           </button>
                 </div>
                 <hr>
+
+
+<!-- INFORMACION GENERAL DE LA ORDEN DESCARGA -->
+                <div class="form-material mat-elevation-z5">
+
+                    <div class="card card-header">
+                        <div class="row">
+                            <div class="col-md-4 col-12">
+                                <h3 class="text-muted m-t-10 m-b-0">Informacion General</h3>
+                            </div>
+                            <div class="col-md-4 col-12"></div>
+                            <div class="col-md-4 col-12">                             
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col-6 col-md-6">
+
+                                    <label class="input-group-text text-info txt">Proveedor: </label>
+                                    <input type="text" class="form-control" name="Prove" #Prove="ngModel" (blur)="onBlurInformacionGeneral()" [(ngModel)]="service.formData.Proveedor">
+                                </div>
+                                <div class="col-6 col-md-6">
+
+                                    <label class="input-group-text text-info">Pedimento: </label>
+                                    <input type="text" class="form-control" name="Pedi" #Pedi="ngModel" (blur)="onBlurInformacionGeneral()" [(ngModel)]="this.pedimentoOrden">
+
+                                </div>
+                                <!-- <div class="col-4 col-md-4"> -->
+
+                                    <!-- <label class="input-group-text text-info">Factura: </label> -->
+                                    <!-- <input type="text" class="form-control" name="Sello" #Sello="ngModel" (blur)="onBlurSelloCaja()" [(ngModel)]="selloCaja"> -->
+
+                                <!-- </div> -->
+                                <div class="col-6 col-md-6">
+
+                                    <label class="input-group-text text-info txt">Fletera: </label>
+                                    <input type="text" class="form-control" name="Fletera" #Fletera="ngModel" (blur)="onBlurInformacionGeneral()" [(ngModel)]="service.formData.Fletera">
+                                </div>
+                                <div class="col-6 col-md-6">
+
+                                    <label class="input-group-text text-info">Numero de Caja: </label>
+                                    <input type="text" class="form-control" name="NumCaja" #NumCaja="ngModel" (blur)="onBlurInformacionGeneral()" [(ngModel)]="service.formData.Caja">
+
+                                </div>
+                                <div class="col-6 col-md-6">
+
+                                    <label class="input-group-text text-info">Sello de Caja: </label>
+                                    <input type="text" class="form-control" name="Sello" #Sello="ngModel" (blur)="onBlurInformacionGeneral()" [(ngModel)]="selloCaja">
+
+                                </div>
+                                <div class="col-6 col-md-6">
+
+                                    <label class="input-group-text text-info">Operador: </label>
+                                    <input type="text" class="form-control" name="chofe" #chofe="ngModel" (blur)="onBlurInformacionGeneral()" [(ngModel)]="service.formData.Chofer">
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                    
+                    
+                </div>
+                <!-- <br> -->
+                <hr>
+
+
+<!-- EVIDENCIAS ORDEN DESCARGA -->
                 <div class="form-material mat-elevation-z5">
 
                     <div class="card card-header">
@@ -61,6 +136,8 @@
 
 
                 </div>
+                <!-- <hr> -->
+                
 
                 <!--    <div class="card">
         <div class="card-body" style="overflow: hidden;">
@@ -94,7 +171,7 @@
 
                 <hr>
 
-
+<!-- TABLA DE PRODUCTOS DESCARGADOS -->
 
                 <div class="form-material mat-elevation-z5">
                     <div class="card card-header">
@@ -258,7 +335,11 @@
 
 
                 <div class="row">
-                    <div class="col-8"></div>
+                    <div style="display: grid;" class="col-12 col-md-4">
+                        <button id="EnviarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
+                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="formatoDocumentoPDF()">Formato Tarimas</button>
+                        <br>
+                    </div>
                     <div style="display: grid;" class="col-12 col-md-4">
                         <button id="EnviarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
                         <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="pdf()">PDF</button>

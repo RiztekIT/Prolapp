@@ -61,6 +61,7 @@
         "ngx-loading": "^8.0.0",
         "ngx-print": "^1.2.0-beta.5",
         "ngx-qrcode2": "0.0.9",
+        "ngx-simple-print": "0.0.5",
         "request": "^2.88.0",
         "rxjs": "~6.4.0",
         "save": "^2.4.0",

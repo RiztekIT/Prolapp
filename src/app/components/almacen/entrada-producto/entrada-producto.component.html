@@ -17,7 +17,7 @@
                         <div class="col-3" style="padding-top: 0; margin-top: 0;">
                             <div class="card card-outline-inverse">
 
-                                <img src="../../../assets/images/ProLactoLogo.png" class="logo">
+                                <img src="../../../assets/images/AIN140101ME3.png" class="logo">
 
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                         </div>
                         <div class="containerborder">
                             <!-- VERIFICAR SI SE USARA EL PEDIMENTO -->
-                            <p class="bolder blacktxt">PEDIMENTO: <span style="font-weight:400">***</span></p>
+                            <p class="bolder blacktxt">PEDIMENTO: <span style="font-weight:400">{{this.pedimentoOrden}}</span></p>
                         </div>
                         <div class="containerborder">
                             <p class="bolder blacktxt">TRANSPORTISTA: <span style="font-weight:400">{{this.odInfo.Fletera}}</span></p>
@@ -113,7 +113,7 @@
                                 <p class="bolder blacktxt">UNIDAD</p>
                             </div>
                             <div class="col-4" style="padding-right:0">
-                                <!-- A QUE SE REFIERE ESTO -->
+                                
                                 <p> <span style="font-weight:400">{{this.odInfo.Caja}}</span></p>
                             </div>
                         </div>
@@ -122,8 +122,8 @@
                                 <p class="bolder blacktxt">SELLO CAJA </p>
                             </div>
                             <div class="col-4" style="padding-right:0">
-                                <!-- COMO VAMOS A CAPTURAR EL SELLO DE CAJA -->
-                                <p> <span style="font-weight:400">***</span></p>
+                               
+                                <p> <span style="font-weight:400">{{this.selloCaja}}</span></p>
                             </div>
                         </div>
                         <div class="containerborder container row" style="margin-left: 0; padding-left: 0;">
@@ -142,14 +142,14 @@
                         <thead>
                             <tr>
                                 <th class="blacktxt bolder whitecolor">Numero de Tarima</th>
-                                <th class="blacktxt bolder whitecolor">Clave Producto</th>
-                                <th class="blacktxt bolder whitecolor">Producto</th>
-                                <th class="blacktxt bolder whitecolor">KG</th>
+                                <th class="blacktxt bolder whitecolor">CLAVE PRODUCTO</th>
+                                <th class="blacktxt bolder whitecolor">PRODUCTO</th>
                                 <th class="blacktxt bolder whitecolor">SACOS</th>
-                                <th class="blacktxt bolder whitecolor">KG/SACO</th>
+                                <!-- <th class="blacktxt bolder whitecolor">KG</th> -->
+                                <th class="blacktxt bolder whitecolor">KG/TARIMA</th>
                                 <th class="blacktxt bolder whitecolor">LOTE</th>
-                                <th class="blacktxt bolder whitecolor">FECHA CAD</th>
                                 <th class="blacktxt bolder whitecolor">FECHA MFG</th>
+                                <th class="blacktxt bolder whitecolor">FECHA CAD</th>
                                 <!-- <th class="blacktxt bolder whitecolor">Comentarios</th> -->
                             </tr>
                         </thead>
@@ -158,12 +158,12 @@
                                 <td style="text-align: center;" class="wrap lightback pgbreak"> {{i+1}} </td>
                                 <td style="text-align: center;" class="wrap lightback">{{conceptos.ClaveProducto}}</td>
                                 <td style="text-align: center;" class="wrap lightback pgbreak"> {{conceptos.Producto}}</td>
-                                <td style="text-align: center;" class="wrap lightback pgbreak"> {{((+conceptos.Sacos)*(+conceptos.PesoxSaco))}}</td>
-                                <td style="text-align: center;" class="pgbreak">{{conceptos.Sacos}} </td>
-                                <td style="text-align: center;" class="pgbreak">{{conceptos.PesoxSaco}}</td>
+                                <td style="text-align: center;" class="pgbreak">{{conceptos.Sacos | number: '1.0-0'}} </td>
+                                <td style="text-align: center;" class="wrap lightback pgbreak"> {{conceptos.Kg}}</td>
+                                <!-- <td style="text-align: center;" class="pgbreak">{{conceptos.USDA}}</td> -->
                                 <td style="text-align: center;" class="pgbreak">{{conceptos.Lote}} </td>
-                                <td style="text-align: center;" class="pgbreak">{{conceptos.FechaCaducidad | date: 'yyyy/MM/dd'}} </td>
                                 <td style="text-align: center;" class="pgbreak">{{conceptos.FechaMFG | date: 'yyyy/MM/dd'}} </td>
+                                <td style="text-align: center;" class="pgbreak">{{conceptos.FechaCaducidad | date: 'yyyy/MM/dd'}} </td>
                                 <!-- <td style="text-align: center;" class="pgbreak">{{conceptos.Comentarios}}</td> -->
                         </tbody>
 
@@ -175,17 +175,18 @@
                         <table class="table-striped pgbreak">
                             <thead>
                                 <tr>
-                                    <th class="blacktxt bolder whitecolor">Factura</th>
+                                    <th class="blacktxt bolder whitecolor">Clave Producto</th>
+                                    <th class="blacktxt bolder whitecolor">Descripcion</th>
                                     <th class="blacktxt bolder whitecolor">Sacos</th>
                                     <th class="blacktxt bolder whitecolor">KG</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr class="pgbreak">
-                                    <!-- Cuales facturas -->
-                                    <td style="text-align: center;">***</td>
-                                    <td style="text-align: center;">{{this.odInfo.Sacos}}</td>
-                                    <td style="text-align: center;">{{this.odInfo.Kg}}</td>
+                            <tbody *ngFor="let conceptos of arregloDetallesGenerales; let i = index">                                
+                                <tr class="pgbreak">                      
+                                    <td style="text-align: center;">{{conceptos.ClaveProducto}}</td>
+                                    <td style="text-align: center;">{{conceptos.Producto}}</td>
+                                    <td style="text-align: center;">{{conceptos.Sacos | number: '1.0-0'}}</td>
+                                    <td style="text-align: center;">{{+conceptos.Sacos * +conceptos.PesoxSaco | number: '1.0-0'}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -229,4 +230,6 @@
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button>
     <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
+    <button  printTitle="MyTitle"printSectionId="EntradaProducto-PDF"ngxPrint  styleSheetFile="./entrada-producto.component.css">Imprimir</button>
+    <button roNgxSimplePrint [printContentId]="'EntradaProducto-PDF'">Print</button>
 </div>
