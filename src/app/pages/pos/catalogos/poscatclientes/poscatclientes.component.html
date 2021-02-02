@@ -1,0 +1,194 @@
+<mat-card class="mat-elevation-z0">
+    <div class="card card-header">
+        <div class="row">
+            <div class="col-md-4 col-12">
+                <h3 class="bolder blacktxt text-center">
+                    Clientes
+                </h3>
+            </div>
+            <div class="col-md-4 col-12">
+
+            </div>
+            <div class="col-md-4 col-12">
+
+
+            </div>
+        </div>
+
+    </div>
+    <div class="row" style="align-items: center;">
+        <div class="col-4">
+            <ng-container>
+
+                <!-- <button mat-raised-button class="btn btn-muelles" (click)="onAdd()"><i class="mdi mdi-folder-plus btn-lg"></i></button> -->
+                <button style="width: 100%;" mat-raised-button class="btn btn-muelles btn-lg" (click)="onAdd()"><mat-icon class="example-tab-icon">add_circle</mat-icon></button>
+            </ng-container>
+        </div>
+        <div class="col-4"></div>
+        <div class="col-4">
+            <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+            </mat-form-field>
+        </div>
+
+
+    </div>
+
+</mat-card>
+
+<div id='dvi1' style="overflow:auto;">
+
+    <table mat-table [dataSource]="listData" matSort>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+
+        <ng-container matColumnDef="ClaveCliente">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Cliente</th>
+            <td mat-cell *matCellDef="let element" matTooltipPosition="before">{{element.Clave}}
+                <!-- <td mat-cell *matCellDef="let element" [ngClass]="{ 'color': element.Vendedor === 7 }" [matTooltip]="element.Vendedor == 7 ? 'Falta Vendedor': null" matTooltipPosition="before">{{element.ClaveCliente}} -->
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+            <td mat-cell *matCellDef="let element">{{element.nombre}}
+                <td>
+        </ng-container>
+
+        <ng-container matColumnDef="RFC">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>RFC</th>
+            <td mat-cell *matCellDef="let element">{{element.RFC}}
+                <td>
+        </ng-container>
+
+        <ng-container matColumnDef="RazonSocial">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Razon Social</th>
+            <td mat-cell *matCellDef="let element">{{element.RazonSocial}}
+                <td>
+        </ng-container>
+
+        <!--        <ng-container matColumnDef="Contacto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Contacto</th>
+            <td mat-cell *matCellDef="let element">{{element.contacto}}
+                <td>
+        </ng-container>
+
+        <ng-container matColumnDef="Telefono">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Telefono</th>
+            <td mat-cell *matCellDef="let element">{{element.telefono}}
+                <td>
+        </ng-container>
+
+        <ng-container matColumnDef="Correo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Correo</th>
+            <td mat-cell *matCellDef="let element">{{element.correo}}
+                <td>
+        </ng-container> -->
+
+
+        <!-- <ng-container matColumnDef="Calle">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Calle</th>
+            <td mat-cell *matCellDef="let element">{{element.Calle}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Colonia">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Colonia</th>
+            <td mat-cell *matCellDef="let element">{{element.Colonia}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="CP">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>CP</th>
+            <td mat-cell *matCellDef="let element">{{element.CP}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Ciudad">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ciudad</th>
+            <td mat-cell *matCellDef="let element">{{element.Ciudad}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+            <td mat-cell *matCellDef="let element">{{element.Estado}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="NumeroInterior">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Numero Interior</th>
+            <th mat-header-cell *matCellDef="let element">{{element.NumeroInterior}}</th>
+        </ng-container>
+
+        <ng-container matColumnDef="NumeroExterior">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Numero Exterior</th>
+            <td mat-cell *matCellDef="let element">{{element.NumeroExterior}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Estatus">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+            <td mat-cell *matCellDef="let element">{{element.Estatus}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="LimiteDeCredito">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Limite De Credito</th>
+            <td mat-cell *matCellDef="let element">{{element.LimiteCredito}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DiasDeCredito">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Dias De Credito</th>
+            <td mat-cell *matCellDef="let element">{{element.DiasCredito}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Vendedor">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Vendedor</th>
+            <td mat-cell *matCellDef="let element">{{element.Vendedor}}
+            </td>
+        </ng-container> -->
+
+
+        <ng-container matColumnDef="Options">
+            <th mat-header-cell *matHeaderCellDef>Options</th>
+            <td mat-cell *matCellDef="let row">
+
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                  </button>
+                <mat-menu #menu="matMenu">
+                    <!--  -->
+
+                    <ng-container>
+
+                        <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                    </ng-container>
+                    <!--  -->
+                    <!--     <button mat-icon-button class="btn btn-success" color="warning" (click)="onAddDireccionCliente(row.IdClientes)">
+                        <mat-icon>add_location</mat-icon>
+                    </button> -->
+                    <!--  -->
+
+                    <ng-container>
+
+                        <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
+                    <mat-icon>delete_outline</mat-icon>
+                </button>
+                    </ng-container>
+                </mat-menu>
+            </td>
+        </ng-container>
+
+    </table>
+    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+    </mat-paginator>
+</div>
+
+
+<br>

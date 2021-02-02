@@ -1,0 +1,129 @@
+<mat-dialog-content>
+    <!-- <div class="d-flex justify-content-between"> -->
+    <div class="card card-header">
+        <div class="row">
+
+            <div class="col-md-10 col-12" style="text-align: center;">
+
+                <h2 *ngIf="this.posSVC.addeditclientes=='Agregar'" class="text-inverse">Agregar Nuevo Cliente</h2>
+                <h2 *ngIf="this.posSVC.addeditclientes=='Editar'" class="text-inverse">Editar Cliente</h2>
+            </div>
+            <div class="col-md-2 col-12">
+
+                <button mat-raised-button class="btn btn-muelles" (click)="onClose()">
+                    <mat-icon>close</mat-icon>
+                </button>
+
+
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+    <hr>
+
+    <div class="form-material">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <mat-form-field style="width: 100%;">
+                        <mat-label>Clave</mat-label>
+                        <input matInput placeholder="Clave" name="Clave" #Clave="ngModel" [(ngModel)]="this.posSVC.clientesForm.Clave">
+                    </mat-form-field>
+                    <mat-form-field style="width: 100%;">
+                        <mat-label>Razon Social</mat-label>
+                        <input matInput placeholder="Razon Social" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="this.posSVC.clientesForm.RazonSocial">
+                    </mat-form-field>
+                    <mat-form-field style="width: 100%;">
+                        <mat-label>Calle</mat-label>
+                        <input matInput placeholder="Calle" name="Calle" #Calle="ngModel" [(ngModel)]="this.posSVC.clientesForm.Calle">
+                    </mat-form-field>
+                    <mat-form-field style="width: 100%;">
+                        <mat-label>Colonia</mat-label>
+                        <input matInput placeholder="Colonia" name="Colonia" #Colonia="ngModel" [(ngModel)]="this.posSVC.clientesForm.Colonia">
+                    </mat-form-field>
+                    <mat-form-field style="width: 100%;">
+                        <mat-label>Codigo Postal</mat-label>
+                        <input matInput placeholder="Codigo Postal" name="CP" #CP="ngModel" [(ngModel)]="this.posSVC.clientesForm.CP">
+                    </mat-form-field>
+                    <mat-form-field style="width: 100%;">
+                        <mat-label>Limite de Credito</mat-label>
+                        <input matInput placeholder="Limite de Credito" name="limitecredito" #limitecredito="ngModel" [(ngModel)]="this.posSVC.clientesForm.limitecredito">
+                    </mat-form-field>
+                    <mat-form-field style="width: 100%;">
+                        <mat-label>Uso del CFDI</mat-label>
+                        <mat-select name="Estado" #Estado="ngModel" [(ngModel)]="this.posSVC.clientesForm.usocfdi">
+                            <mat-option *ngFor="let uso of UsoCFDI" [value]="uso.UsoDelCFDI"> {{uso.text}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6 col-12">
+                    <mat-form-field style="width: 100%;">
+                        <mat-label>RFC</mat-label>
+                        <input matInput placeholder="RFC" name="RFC" #RFC="ngModel" [(ngModel)]="this.posSVC.clientesForm.RFC">
+                    </mat-form-field>
+                    <div class="row">
+                        <div class="col-6">
+                            <mat-form-field style="width: 100%;">
+                                <mat-label>No. Ext</mat-label>
+                                <input matInput placeholder="No. Exterior" name="NoExt" #NoExt="ngModel" [(ngModel)]="this.posSVC.clientesForm.NoExt">
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6">
+                            <mat-form-field style="width: 100%;">
+                                <mat-label>No. Int</mat-label>
+                                <input matInput placeholder="No. Interio" name="NoInt" #NoInt="ngModel" [(ngModel)]="this.posSVC.clientesForm.NoInt">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <mat-form-field style="width: 100%;">
+                        <mat-label>Estado</mat-label>
+                        <mat-select name="Estado" #Estado="ngModel" [(ngModel)]="this.posSVC.clientesForm.Estado">
+                            <mat-option *ngFor="let estado of estados" [value]="estado.name"> {{estado.name}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field style="width: 100%;">
+                        <mat-label>Ciudad</mat-label>
+                        <input matInput placeholder="Ciudad" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="this.posSVC.clientesForm.Ciudad">
+                    </mat-form-field>
+
+                    <mat-form-field style="width: 100%;">
+                        <mat-label>Dias de Credito</mat-label>
+                        <input matInput placeholder="Limite de Credito" name="diascredito" #diascredito="ngModel" [(ngModel)]="this.posSVC.clientesForm.diascredito">
+                    </mat-form-field>
+
+                    <mat-form-field style="width: 100%;">
+                        <mat-label>Metodo de Pago</mat-label>
+                        <mat-select name="Estado" #Estado="ngModel" [(ngModel)]="this.posSVC.clientesForm.metodopago">
+                            <mat-option *ngFor="let metodo of MetododePago" [value]="metodo.FormaDePago"> {{metodo.text}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button *ngIf="this.posSVC.addeditclientes=='Agregar'" style="width: 100%;" mat-raised-button class="btn btn-muelles btn-lg" (click)="agregar()"><mat-icon class="example-tab-icon">done</mat-icon></button>
+                    <button *ngIf="this.posSVC.addeditclientes=='Editar'" style="width: 100%;" mat-raised-button class="btn btn-muelles btn-lg" (click)="editar()"><mat-icon class="example-tab-icon">done</mat-icon></button>
+                    <!-- <button *ngIf="this.clienteService.addedit=='Editar'" style="width: 100%;" mat-raised-button class="btn btn-muelles btn-lg" (click)="ver()"><mat-icon class="example-tab-icon">done</mat-icon></button> -->
+
+                </div>
+            </div>
+
+            <!--  <div class="row">
+                <div class="col-md-4 col-12"></div>
+                <div class="col-md-4 col-12">
+                    
+                </div>
+                <div class="col-md-4 col-12"> </div>
+            </div> -->
+
+            <hr>
+
+        </div>
+    </div>
+
+
+
+
+
+</mat-dialog-content>
