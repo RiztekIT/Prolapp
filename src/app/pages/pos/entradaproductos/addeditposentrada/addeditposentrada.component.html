@@ -1,0 +1,217 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card card-header">
+                <div class="row">
+
+
+                    <div class="col-md-6 col-12">
+                        <h2 style="text-align: start;">ENTRADA DE MERCANCIA</h2>
+                        <h5 class="card-title" style="text-align: start;">Folio </h5>
+                    </div>
+                    <div class="col-md-4 col-12">
+
+
+
+                    </div>
+                    <div class="col-md-2 col-12">
+                        <button mat-fab (click)="Regresar()" class="btn-muelles">
+                            <mat-icon>undo</mat-icon>
+                          </button>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="card-body">
+
+
+
+
+                <!--DATOS DE LA ENTRADA -->
+                <div class="form-material mat-elevation-z5">
+                    <div class="card card-header">
+                        <div class="row">
+                            <div class="col-md-4 col-12">
+                                <h3 class="bolder blacktxt text-center">
+                                    Productos
+                                </h3>
+                            </div>
+                            <div class="col-md-4 col-12"></div>
+                            <div class="col-md-4 col-12">
+                                <button style="width: 100%;" mat-raised-button class="btn btn-muelles btn-lg" (click)="agregarProducto()"><mat-icon class="example-tab-icon">add_circle</mat-icon></button>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="container">
+
+                        <div>
+                            <!--    <div class="col-12">
+
+                                <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>Descripcion del Servicio</mat-label>
+                                    <textarea rows="5" matInput></textarea>
+                                </mat-form-field>
+                            </div> -->
+
+                            <table style="width: 100% " mat-table [dataSource]="listData" matSort>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                <ng-container matColumnDef="Clave">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
+                                    <td mat-cell *matCellDef="let element">{{element.claveproducto}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Producto">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                                    <td mat-cell *matCellDef="let element">{{element.nombreproducto}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="Cantidad">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
+                                    <td mat-cell *matCellDef="let element">{{element.cantidad | number: '1.0-2' }}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="PrecioUnitario">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>P. Unitario</th>
+                                    <td mat-cell *matCellDef="let element">{{element.precioProducto | currency}}</td>
+                                </ng-container>
+
+
+                                <ng-container matColumnDef="Precio">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
+                                    <td mat-cell *matCellDef="let element">{{element.total | currency}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Options">
+                                    <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock1">
+                                            <button type="button" class="btn btn-secondary">No Editable</button>
+                                        </div>
+                                        <ng-template #elseBlock1>
+                                            <!-- 
+                                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                  </button>
+                                            <mat-menu #menu="matMenu"> -->
+                                            <!--  -->
+                                            <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                                            <!--  -->
+                                            <button mat-icon-button class="btn btn-danger" (click)="onDelete(row)">
+                      <mat-icon>delete_outline</mat-icon>
+                    </button>
+                                            <!-- </mat-menu> -->
+                                        </ng-template>
+                                    </td>
+                                </ng-container>
+                            </table>
+
+
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-4 col-12" style="display: grid">
+
+
+
+                                <button style="width: 100%;" mat-raised-button class="btn btn-muelles btn-lg" (click)="guardar()"><mat-icon class="example-tab-icon">save</mat-icon>GUARDAR</button>
+                                <br>
+                                <!-- <button style="width: 100%;" mat-raised-button class="btn btn-muelles btn-lg" (click)="enviar()"><mat-icon class="example-tab-icon">add_circle</mat-icon>ENVIAR</button> -->
+                                <br>
+
+                            </div>
+                            <div class="col-md-4 col-12" style="display: grid">
+
+
+
+                                <!-- <button style="width: 100%;" mat-raised-button class="btn btn-muelles btn-lg" (click)="enviar()"><mat-icon class="example-tab-icon">add_circle</mat-icon>ENVIAR</button> -->
+                                <!-- <button style="width: 100%;" mat-raised-button class="btn btn-muelles btn-lg" (click)="verPDF()"><mat-icon class="example-tab-icon">add_circle</mat-icon>ENTRADA DE MERCANCIA</button> -->
+                                <br>
+                                <!-- <button style="width: 100%;" mat-raised-button class="btn btn-muelles btn-lg" (click)="verPDF2()"><mat-icon class="example-tab-icon">add_circle</mat-icon>REMISION</button> -->
+                                <!-- <button style="width: 100%;" mat-raised-button class="btn btn-muelles btn-lg" (click)="onAddProducto()"><mat-icon class="example-tab-icon">add_circle</mat-icon>CANCELAR</button> -->
+                                <br>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <div class="form-material borderbox">
+                                    <div class="container">
+                                        <!--   <div class="row">
+
+                                            <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Subtotal</label>
+                                            <input class="form-control col-12 col-md-6 col-lg-6" style="text-align: right;" readonly="readonly" name="subtotal" #subtotal="ngModel" [ngModel]="this.ordenservicioService.servicioForm.subtotal | currency">
+
+                                            <label class="input-group-text text-info col-12 col-md-6 col-lg-6">I.V.A.</label>
+                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="iva" #iva="ngModel" [ngModel]="this.ordenservicioService.servicioForm.iva | currency">
+
+                                            <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
+                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="total" #total="ngModel" [ngModel]="this.ordenservicioService.servicioForm.total | currency">
+
+                                        </div> -->
+
+                                        <div class="row">
+                                            <div class="row">
+                                                <div class="col-md-4 col-12" style="align-self: center;">
+                                                    <mat-label>Subtotal</mat-label>
+                                                </div>
+                                                <div class="col-md-8 col-12">
+                                                    <mat-form-field style="width: 100%;">
+
+                                                        <input style="text-align: right;" matInput disabled='true' type="number" name="subtotal" #subtotal="ngModel" [(ngModel)]="this.posSVC.entradaForm.subtotal">
+                                                        <span matPrefix>$&nbsp;</span>
+
+                                                    </mat-form-field>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 col-12" style="align-self: center;">
+
+                                                    <mat-label>IVA</mat-label>
+                                                </div>
+                                                <div class="col-md-8 col-12">
+                                                    <mat-form-field style="width: 100%;">
+                                                        <input style="text-align: right;" disabled='true' type="number" matInput name="iva" #iva="ngModel" [(ngModel)]="this.posSVC.entradaForm.iva">
+                                                        <span matPrefix>$&nbsp;</span>
+
+
+                                                    </mat-form-field>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 col-12" style="align-self: center;">
+
+                                                    <mat-label>Total</mat-label>
+                                                </div>
+                                                <div class="col-md-8 col-12">
+                                                    <mat-form-field style="width: 100%;">
+                                                        <input style="text-align: right;" disabled='true' type="number" matInput name="total" #total="ngModel" [(ngModel)]="this.posSVC.entradaForm.total">
+                                                        <span matPrefix>$&nbsp;</span>
+
+                                                    </mat-form-field>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

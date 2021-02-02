@@ -332,6 +332,21 @@ import { MarcasComponent } from './administracion/catalogos/productos/marcas/mar
 import { MensajesComponent } from './mensajes/mensajes.component';
 import { HistorialMensajesComponent } from '../components/mensajes/historial-mensajes/historial-mensajes.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
+import { PoscatusuariosComponent } from './pos/catalogos/poscatusuarios/poscatusuarios.component';
+import { AddeditposusuariosComponent } from './pos/catalogos/poscatusuarios/addeditposusuarios/addeditposusuarios.component';
+import { PoscatproductosComponent } from './pos/catalogos/poscatproductos/poscatproductos.component';
+import { AddeditposproductosComponent } from './pos/catalogos/poscatproductos/addeditposproductos/addeditposproductos.component';
+import { EntradaproductosComponent } from './pos/entradaproductos/entradaproductos.component';
+import { AddeditposentradaComponent } from './pos/entradaproductos/addeditposentrada/addeditposentrada.component';
+import { PosventadirectaComponent } from './pos/posventadirecta/posventadirecta.component';
+import { AddeditposventadirectaComponent } from './pos/posventadirecta/addeditposventadirecta/addeditposventadirecta.component';
+import { PosinventariosComponent } from './pos/posinventarios/posinventarios.component';
+import { PosdashboardComponent } from './pos/posdashboard/posdashboard.component';
+import { AddeditposentradaproductosComponent } from './pos/entradaproductos/addeditposentrada/addeditposentradaproductos/addeditposentradaproductos.component';
+import { PospagoventaComponent } from './pos/posventadirecta/pospagoventa/pospagoventa.component';
+import { PosaddeditclientesComponent } from './pos/catalogos/poscatclientes/posaddeditclientes/posaddeditclientes.component';
+import { PoscatclientesComponent } from './pos/catalogos/poscatclientes/poscatclientes.component';
+
 import { FormatoPDFComponent } from '../components/almacen/formato-pdf/formato-pdf.component';
 import { NgxSimplePrintModule } from 'ngx-simple-print';
 
@@ -576,6 +591,21 @@ import { NgxSimplePrintModule } from 'ngx-simple-print';
         MarcasComponent,
         MensajesComponent,
         HistorialMensajesComponent,
+        PoscatusuariosComponent,
+        AddeditposusuariosComponent,
+        PoscatproductosComponent,
+        AddeditposproductosComponent,
+        EntradaproductosComponent,
+        AddeditposentradaComponent,
+        PosventadirectaComponent,
+        AddeditposventadirectaComponent,
+        PosinventariosComponent,
+        PosdashboardComponent,
+        PoscatclientesComponent,
+        PosaddeditclientesComponent,        
+        AddeditposentradaproductosComponent,
+        PospagoventaComponent,
+        PosaddeditclientesComponent,
         FormatoPDFComponent,
     
     ],
@@ -742,6 +772,10 @@ import { NgxSimplePrintModule } from 'ngx-simple-print';
         OrdenCargaDescargaComponent,
         AddEditFleterasComponent,
         MarcasComponent,
+        AddeditposproductosComponent,
+        AddeditposentradaproductosComponent,
+        PospagoventaComponent,
+        PosaddeditclientesComponent,
         FormatoPDFComponent,
         
     ]
