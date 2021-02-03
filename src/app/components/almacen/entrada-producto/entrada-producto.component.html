@@ -4,14 +4,14 @@
 
     </div>
     <div class="col-md-4 col-12" style="text-align: center;">
-        <button class="btn btn-danger waves-effect waves-light save-category" (click)="onClose()" style="margin-right: 10px;">
-            <mat-icon>close</mat-icon>
-          </button>
         <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()" style="margin-right: 10px;">
             <mat-icon>download</mat-icon>
-          </button>
+        </button>
         <button class="btn btn-primary waves-effect waves-light save-category" roNgxSimplePrint [printContentId]="'EntradaProducto-PDF'" style="margin-right: 10px;">
             <mat-icon>print</mat-icon>
+        </button>
+        <button class="btn btn-danger waves-effect waves-light save-category" (click)="onClose()" style="margin-right: 10px;">
+            <mat-icon>close</mat-icon>
           </button>
 
     </div>
@@ -159,12 +159,12 @@
                     <table>
                         <thead>
                             <tr>
-                                <th class="blacktxt bolder whitecolor">Numero de Tarima</th>
-                                <th class="blacktxt bolder whitecolor">CLAVE PRODUCTO</th>
+                                <th class="blacktxt bolder whitecolor"># TARIMA</th>
+                                <th class="blacktxt bolder whitecolor">CLAVE</th>
                                 <th class="blacktxt bolder whitecolor">PRODUCTO</th>
                                 <th class="blacktxt bolder whitecolor">SACOS</th>
                                 <!-- <th class="blacktxt bolder whitecolor">KG</th> -->
-                                <th class="blacktxt bolder whitecolor">KG/TARIMA</th>
+                                <th class="blacktxt bolder whitecolor">KG</th>
                                 <th class="blacktxt bolder whitecolor">LOTE</th>
                                 <th class="blacktxt bolder whitecolor">FECHA MFG</th>
                                 <th class="blacktxt bolder whitecolor">FECHA CAD</th>

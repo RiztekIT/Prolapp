@@ -172,6 +172,11 @@
                             <br>
                             <div class="container" style="margin-right: 0;">
                                 <div class="row">
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' || estatusOC == 'Terminada'">
+                                        <button id="EnviarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
+                                        <button title="Dar formato a Tarimas" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="formatoDocumentoPDF()"><mat-icon>format_line_spacing</mat-icon></button>
+                                        <br>
+                                    </div>
                                     <div style="display: grid;" class="col-0 col-md-4">
                                         <br>
                                         <button *ngIf="this.estatusOC=='Sin Validar'" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="validar()">Validar</button>
@@ -198,11 +203,6 @@
                                     <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' || estatusOC == 'Terminada'">
                                         <button id="EnviarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
                                         <button [disabled]="Enviar == false" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="enviar()">Enviar</button>
-                                        <br>
-                                    </div>
-                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' || estatusOC == 'Terminada'">
-                                        <button id="EnviarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
-                                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="formatoDocumentoPDF()">Formato Tarimas</button>
                                         <br>
                                     </div>
                                     <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' || estatusOC == 'Terminada'">
