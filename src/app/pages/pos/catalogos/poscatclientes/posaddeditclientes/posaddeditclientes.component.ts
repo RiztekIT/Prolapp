@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { PosserviceService } from '../../../posservice.service';
+import { PosserviceService, Cliente } from '../../../posservice.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -187,9 +187,40 @@ export class PosaddeditclientesComponent implements OnInit {
  { "UsoDelCFDI": "D10", "text": "D10-Pagos por servicios educativos (colegiaturas)" },
  { "UsoDelCFDI": "P01", "text": "P01-Por definir" }]
 
+ public clienteBlanco: Cliente = {
+
+  idCLiente:0,
+  Clave:'',
+  nombre:'',
+  RFC:'',
+  RazonSocial:'',
+  Calle:'',
+  NoInt:'',
+  NoExt:'',
+  Colonia:'',
+  CP:'',
+  Ciudad:'',
+  Estado:'',
+  estatus:'',
+  limitecredito:'',
+  diascredito:'',
+  metodopago:'',
+  usocfdi:'',
+  campoextra1:'',
+  campoextra2:'',
+  campoextra3:'',
+  fechaalta:new Date(),
+  fechabaja:new Date(),
+  clasificacion1:'',
+  clasificacion2:'',
+  clasificacion3:'',
+
+ }
+
   constructor(public posSVC: PosserviceService, public dialogbox: MatDialogRef<PosaddeditclientesComponent>) { }
 
   ngOnInit() {
+    this.posSVC.clientesForm = this.clienteBlanco;
   }
 
   onClose(){
@@ -220,14 +251,23 @@ export class PosaddeditclientesComponent implements OnInit {
     console.log(consulta);
 
 
-    this.posSVC.generarConsulta(consulta).subscribe(res =>{
-      console.log('%c⧭', 'color: #735656', res);
+    this.posSVC.generarConsulta(consulta).subscribe((res:any) =>{
+      
       if (res == [] || res.length == 0) {
     
-        console.log('%c%s', 'color: #cc0088', 'Arriba');
-        this.posSVC.agregarCliente(this.posSVC.clientesForm).subscribe(resp =>{
+        
+let cliente = this.posSVC.clientesForm;
+let fecha = new Date().toISOString().slice(0,10);
+        let consulta2 = {
+          'consulta':"insert into Cliente output inserted.* values('"+cliente.Clave+"','"+cliente.nombre+"','"+cliente.RFC+"','"+cliente.RazonSocial+"','"+cliente.Calle+"','"+cliente.NoInt+"','"+cliente.NoExt+"','"+cliente.Colonia+"','"+cliente.CP+"','"+cliente.Ciudad+"','"+cliente.Estado+"','"+cliente.estatus+"','"+cliente.limitecredito+"','"+cliente.diascredito+"','"+cliente.metodopago+"','"+cliente.usocfdi+"','"+cliente.campoextra1+"','"+cliente.campoextra2+"','"+cliente.campoextra3+"','"+ fecha + "','"+ fecha + "','"+cliente.clasificacion1+"','"+cliente.clasificacion2+"','"+cliente.clasificacion3+"')"
+        };
+        
+        
+        console.log(consulta2);
+        this.posSVC.generarConsulta(consulta2).subscribe((resp:any) =>{
           console.log(resp);
-          if (resp=='Cliente Agregado'){
+          this.posSVC.clientesForm.idCLiente = resp[0].idCLiente
+          if (resp){
             Swal.fire({
               icon: 'success',
               title: 'Cliente Agregado',
@@ -261,9 +301,21 @@ export class PosaddeditclientesComponent implements OnInit {
 
   editar(){
 
-    this.posSVC.actualizarCliente(this.posSVC.clientesForm).subscribe(resp =>{
+    //"update Cliente set Clave='" + cliente.Clave + "',nombre='" + cliente.nombre + "',RFC='" + cliente.RFC + "',RazonSocial='" + cliente.RazonSocial + "',Calle='" + cliente.Calle + "',NoInt='" + cliente.NoInt + "',NoExt='" + cliente.NoExt + "',Colonia='" + cliente.Colonia + "',CP='" + cliente.CP + "',Ciudad='" + cliente.Ciudad + "',Estado='" + cliente.Estado + "',estatus='" + cliente.estatus + "',limitecredito='" + cliente.limitecredito + "',diascredito='" + cliente.diascredito + "',metodopago='" + cliente.metodopago + "',usocfdi='" + cliente.usocfdi + "',campoextra1='" + cliente.campoextra1 + "',campoextra2='" + cliente.campoextra2 + "',campoextra3='" + cliente.campoextra3 + "',fechaalta='" + fecha.ToString(format) + "',fechabaja='" + fecha.ToString(format) + "',clasificacion1='" + cliente.clasificacion1 + "',clasificacion2='" + cliente.clasificacion2 + "',clasificacion3='" + cliente.clasificacion3 + "' where idCliente="+cliente.idCLiente+@"";
+    let cliente = this.posSVC.clientesForm;
+    
+    
+    let consulta2 = {
+      'consulta':"update Cliente set Clave='" + cliente.Clave + "',nombre='" + cliente.nombre + "',RFC='" + cliente.RFC + "',RazonSocial='" + cliente.RazonSocial + "',Calle='" + cliente.Calle + "',NoInt='" + cliente.NoInt + "',NoExt='" + cliente.NoExt + "',Colonia='" + cliente.Colonia + "',CP='" + cliente.CP + "',Ciudad='" + cliente.Ciudad + "',Estado='" + cliente.Estado + "',estatus='" + cliente.estatus + "',limitecredito='" + cliente.limitecredito + "',diascredito='" + cliente.diascredito + "',metodopago='" + cliente.metodopago + "',usocfdi='" + cliente.usocfdi + "',campoextra1='" + cliente.campoextra1 + "',campoextra2='" + cliente.campoextra2 + "',campoextra3='" + cliente.campoextra3 + "', clasificacion1='" + cliente.clasificacion1 + "',clasificacion2='" + cliente.clasificacion2 + "',clasificacion3='" + cliente.clasificacion3 + "' where idCliente="+cliente.idCLiente+""
+    };
+    
+    
+    console.log(consulta2);
+
+
+    this.posSVC.generarConsulta(consulta2).subscribe((resp:any) =>{
       console.log(resp);
-      if (resp=='Actualizacion Existosa'){
+      if (resp.length==0){
         Swal.fire({
           icon: 'success',
           title: 'Cliente Actualizado',

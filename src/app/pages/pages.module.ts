@@ -349,6 +349,8 @@ import { PoscatclientesComponent } from './pos/catalogos/poscatclientes/poscatcl
 
 import { FormatoPDFComponent } from '../components/almacen/formato-pdf/formato-pdf.component';
 import { NgxSimplePrintModule } from 'ngx-simple-print';
+import { PoshistoricoventasComponent } from './pos/posventadirecta/poshistoricoventas/poshistoricoventas.component';
+import { PossaldosclientesComponent } from './pos/posventadirecta/possaldosclientes/possaldosclientes.component';
 
 
 
@@ -607,6 +609,8 @@ import { NgxSimplePrintModule } from 'ngx-simple-print';
         PospagoventaComponent,
         PosaddeditclientesComponent,
         FormatoPDFComponent,
+        PoshistoricoventasComponent,
+        PossaldosclientesComponent,
     
     ],
     exports: [
@@ -777,6 +781,8 @@ import { NgxSimplePrintModule } from 'ngx-simple-print';
         PospagoventaComponent,
         PosaddeditclientesComponent,
         FormatoPDFComponent,
+        PoshistoricoventasComponent,
+        PossaldosclientesComponent
         
     ]
 })

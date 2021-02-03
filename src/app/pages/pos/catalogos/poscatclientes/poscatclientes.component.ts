@@ -46,11 +46,52 @@ export class PoscatclientesComponent implements OnInit {
     })
   }
 
-  onEdit(row){
+  onEdit(cliente){
+
+    console.log(cliente);
+    this.posSVC.clientesForm = cliente;
+    this.posSVC.addeditclientes = 'Editar';
+
+const dialogConfig = new MatDialogConfig();
+dialogConfig.disableClose = false;
+dialogConfig.autoFocus = true;
+dialogConfig.width="70%";
+this.dialog.open(PosaddeditclientesComponent, dialogConfig);
 
   }
 
   onDelete(row){
+
+    console.log(row);
+    Swal.fire({
+      title: '¿Seguro de Borrar el Cliente?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        let consulta2 = {
+          'consulta':"delete from cliente where idcliente="+row.idCLiente
+        };
+        
+        
+        console.log(consulta2);
+        this.posSVC.generarConsulta(consulta2).subscribe(res => {
+          this.refreshTabla();
+          Swal.fire({
+            title: 'Borrado',
+            icon: 'success',
+            timer: 1000,
+            showCancelButton: false,
+            showConfirmButton: false
+        });
+        this.refreshTabla();
+          });
+      }
+    })
 
   }
 

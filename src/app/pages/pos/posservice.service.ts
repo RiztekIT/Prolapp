@@ -228,6 +228,8 @@ export class PosserviceService {
   detallesventasForm = new DetalleVentas();
   master = new Array<Ventas>();
   pagosForm = new Pagos();
+  masterventas;
+  mastersaldos;
   constructor(private http:HttpClient) { }
 
   generarConsulta(consulta){

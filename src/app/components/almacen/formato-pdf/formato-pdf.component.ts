@@ -71,10 +71,11 @@ export class FormatoPDFComponent implements OnInit {
     let tarimasT = +detalleOrden.Sacos / +detalleOrden.USDA
     Swal.fire({
       title: 'Ingresar Sacos por Tarima',
-      icon: 'info',
+      icon: 'info',      
       text: 'Tarimas Totales: '+tarimasT,
       input: 'number',
-      inputValue: detalleOrden.USDA,      
+      inputValue: tarimasT.toString(),      
+      /* inputValue: detalleOrden.USDA,       */
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',

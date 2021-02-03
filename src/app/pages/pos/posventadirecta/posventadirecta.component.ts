@@ -7,6 +7,9 @@ import { map, startWith } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 import { MatTableDataSource, MatSort, MatDialogConfig, MatDialog } from '@angular/material';
 import { PospagoventaComponent } from './pospagoventa/pospagoventa.component';
+import { PosaddeditclientesComponent } from '../catalogos/poscatclientes/posaddeditclientes/posaddeditclientes.component';
+import { PoshistoricoventasComponent } from './poshistoricoventas/poshistoricoventas.component';
+import { PossaldosclientesComponent } from './possaldosclientes/possaldosclientes.component';
 
 @Component({
   selector: 'app-posventadirecta',
@@ -257,7 +260,7 @@ export class PosventadirectaComponent implements OnInit {
       console.log(consulta);
       this.posSVC.generarConsulta(consulta).subscribe((res:any)=>{
           console.log(res);
-      this.agregarInventario();
+      
       if (res.length==0){
       /*   Swal.fire({
           icon: 'success',
@@ -265,7 +268,9 @@ export class PosventadirectaComponent implements OnInit {
           text: ''+this.posSVC.detallesventasForm.nombreservicio+'',
           timer: 1500
         }) */
-        this.posSVC.detallesventasForm.idproducto = 0;
+        this.agregarInventario();
+
+       /*  this.posSVC.detallesventasForm.idproducto = 0;
         this.posSVC.detallesventasForm.nombreproducto = '';
         this.posSVC.detallesventasForm.claveproducto = '';
         this.posSVC.detallesventasForm.cantidad = '1';
@@ -277,7 +282,7 @@ export class PosventadirectaComponent implements OnInit {
           this.IVA = false;
         }
         this.calcularIVA();
-        this.refreshTablaProductos();
+        this.refreshTablaProductos(); */
         
 
       }else{
@@ -305,6 +310,8 @@ export class PosventadirectaComponent implements OnInit {
     let consulta = {
       'consulta':"select top (1) iddetalleventas from DetalleVentas order by iddetalleventas desc"
     };
+
+    console.log(this.posSVC.detallesventasForm);
 
     
 
@@ -343,10 +350,31 @@ export class PosventadirectaComponent implements OnInit {
         'consulta':"insert into inventarios values("+inventario.iddocorigen+","+ inventario.iddetalleorigen + ",'"+ inventario.claveproducto+ "','"+ inventario.nombreproducto+ "','"+ inventario.precio+ "','"+ inventario.cantidad+ "','"+ inventario.subtotal+ "','"+ inventario.iva+ "','"+ inventario.total+ "','"+ inventario.tipocambio+ "','"+ inventario.subtotaldlls+ "','"+ inventario.ivadlls+ "','"+ inventario.totaldlls+ "','"+ inventario.sucursal+ "','"+ inventario.tipo+ "','"+ fecha + "')"
       };
       console.log(consulta2);
-      this.posSVC.generarConsulta(consulta2).subscribe(res=>{
+      this.posSVC.generarConsulta(consulta2).subscribe((res:any)=>{
   
       
         console.log(res);
+        if (res.length==0){
+          this.posSVC.detallesventasForm.idproducto = 0;
+          this.posSVC.detallesventasForm.nombreproducto = '';
+          this.posSVC.detallesventasForm.claveproducto = '';
+          this.posSVC.detallesventasForm.cantidad = '1';
+          this.posSVC.detallesventasForm.precioProducto = '0.00';
+          this.posSVC.detallesventasForm.iva = '0.00';
+          if(this.posSVC.detallesventasForm.iva=='0.16'){
+            this.IVA = true;
+          }else{
+            this.IVA = false;
+          }
+          this.calcularIVA();
+          this.refreshTablaProductos();
+        }else{
+          Swal.fire({
+            title: 'Error',
+            text: 'Error: '+ res,
+            icon: 'error',  
+          });
+        }
       })
     })
   }
@@ -744,6 +772,61 @@ if (data.length>0){
       this.crearNuevaVenta();
     }
     })
+  }
+
+  onAddCliente(){
+
+    this.posSVC.clientesForm = new Cliente();
+    this.posSVC.addeditclientes = 'Agregar';
+
+const dialogConfig = new MatDialogConfig();
+dialogConfig.disableClose = false;
+dialogConfig.autoFocus = true;
+dialogConfig.width="70%";
+let dlg = this.dialog.open(PosaddeditclientesComponent, dialogConfig);
+dlg.afterClosed().subscribe(resp=>{
+  let event = {isUserInput:true}
+  this.onSelectionChange(this.posSVC.clientesForm, event)
+})
+
+  }
+
+
+  verHistorial(){
+
+    const dialogConfig = new MatDialogConfig();
+dialogConfig.disableClose = false;
+dialogConfig.autoFocus = true;
+dialogConfig.width="70%";
+let dlg = this.dialog.open(PoshistoricoventasComponent, dialogConfig);
+dlg.afterClosed().subscribe(resp=>{
+  /* let event = {isUserInput:true}
+  this.onSelectionChange(this.posSVC.clientesForm, event) */
+  console.log(resp);
+  if (resp){
+
+    this.posSVC.ventasForm = resp
+    this.Estatus = this.posSVC.ventasForm.estatus;
+    this.refreshTablaProductos();
+  }
+})
+
+  }
+
+  verSaldos(){
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    let dlg = this.dialog.open(PossaldosclientesComponent, dialogConfig);
+    dlg.afterClosed().subscribe(resp=>{
+      /* let event = {isUserInput:true}
+      this.onSelectionChange(this.posSVC.clientesForm, event) */
+      console.log(resp);
+    
+    })
+
   }
 
 
