@@ -76,20 +76,58 @@ export class EntradaProductoComponent implements OnInit {
             // this.dodInfo = respuesta;
             this.arregloDetalles = respuesta;
             //^Dividiremos los detalles por tarima
+            let detalle: any
             this.arregloDetalles.forEach((element,i) => {
               //^ Calculamos el numero de Tarimas
               let numeroTotalTarimas = ((+element.Sacos) / (+element.USDA));
               let sacos = +element.USDA
               let kg = ((sacos)*(+element.PesoxSaco))
-              for (let i = 0; i < numeroTotalTarimas; i++) {
+
+//* ------------------------------- EN DADO CASO QUE LA ULTIMA TARIMA NO ESTE COMPLETA ---------------------------------- >
+                
+                //^ Verificar si todas las tarimas tendran el mismo numero de sacos y kg
+                let tarimaCompleta = numeroTotalTarimas % 1;
+                let sacosUltimaTarima;
+                let kgUltimaTarima;
+                let sacosEnteros = 0;
+                console.log(tarimaCompleta);
+                //^ En este caso, la ultima tarima tendra menos sacos que las demas.
+                if (tarimaCompleta > 0) {
+                  console.log('La ultima tarima tendra menos sacos');
+                  //^ Obtenemos el entero de las tarimas
+                  sacosEnteros = Math.floor(numeroTotalTarimas);
+                  console.log(sacosEnteros);
+                  //^ Multiplicamos el numero de tarimas completas por la cantidad de Sacos
+                  let sacosCompletos = +sacosEnteros * +element.USDA;
+                  sacosUltimaTarima = +element.Sacos - +sacosCompletos;
+                  console.log('%c%s', 'color: #99614d', sacosUltimaTarima);
+                  kgUltimaTarima = +element.PesoxSaco * +sacosUltimaTarima;
+                  console.log('%c%s', 'color: #00736b', kgUltimaTarima);
+                } else {
+                  console.log('Todas las tarimas seran iguales');
+                }              
+                //* ------------------------------- EN DADO CASO QUE LA ULTIMA TARIMA NO ESTE COMPLETA ---------------------------------- >
+                
+
+
                 //^ Objeto que sera ingresado
-                let detalle: any
                 detalle = element;
                 detalle.Sacos = sacos;
                 detalle.Kg = kg;
-                // detalle.numeroTarima = this.numeroTarima;
-                // this.numeroTarima = this.numeroTarima + 1;
-                this.dodInfo.push(detalle);
+              for (let i = 0; i < numeroTotalTarimas; i++) {
+               
+                 //^ Verificar si es el ultimo objeto del arreglo.
+                 if ((sacosEnteros > 0) && (i == (sacosEnteros))) {
+                  console.log('ultima posicion ' + i);
+                  detalle.Sacos = sacosUltimaTarima;
+                  detalle.Kg = kgUltimaTarima;
+                  console.log('%c⧭', 'color: #d0bfff', detalle);
+                }
+                console.log('%c⧭', 'color: #d0bfff', detalle);
+                //! ATENCION ESTO TE PUEDE SERVIR
+                //^ Clonar un objeto antes de hacer push.
+                let temp = Object.assign({}, detalle);
+                this.dodInfo.push(temp);
               }
             });
           }else{

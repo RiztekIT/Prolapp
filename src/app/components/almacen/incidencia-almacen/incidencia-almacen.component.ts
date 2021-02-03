@@ -432,28 +432,32 @@ obtenerImagen(a) {
 //  !select procedencia
  obtenerInformacionOrden(procedencia: string){
   if(procedencia == 'OrdenCarga'){
-    this.incidenciasService.getOrdenCargaFolio(this.incidenciasService.incidenciaObject.FolioProcedencia).subscribe(resOC=>{
-      
-      console.log(resOC);
-      console.log('%c⧭', 'color: #cc0036', this.incidenciasService.incidenciaObject.IdDetalle);
-      if(resOC.length>0){
-        this.IdOrden = resOC[0].IdOrdenCarga
-        this.dropdownRefreshDetalles('OrdenCarga');
-        this.leerDirImagenes('OrdenCarga');
-        this.obtenerClaveProducto(resOC[0].IdOrdenCarga, this.incidenciasService.incidenciaObject.IdDetalle, 'OrdenCarga');
-        console.log('Orden Carga', this.IdOrden);
-      }else{
-        this.filteredOptionsDetalles = new Observable<any>();
-        this.detalleSeleccionado = "";
-        Swal.fire({
-          title: 'Error',
-          text: 'Favor de Verificar Informacion',
-          icon: 'error',  
-        });
-      }
-    })
+    if(this.incidenciasService.incidenciaObject.FolioProcedencia != 0){
+
+      this.incidenciasService.getOrdenCargaFolio(this.incidenciasService.incidenciaObject.FolioProcedencia).subscribe(resOC=>{
+        
+        console.log(resOC);
+        console.log('%c⧭', 'color: #cc0036', this.incidenciasService.incidenciaObject.IdDetalle);
+        if(resOC.length>0){
+          this.IdOrden = resOC[0].IdOrdenCarga
+          this.dropdownRefreshDetalles('OrdenCarga');
+          this.leerDirImagenes('OrdenCarga');
+          this.obtenerClaveProducto(resOC[0].IdOrdenCarga, this.incidenciasService.incidenciaObject.IdDetalle, 'OrdenCarga');
+          console.log('Orden Carga', this.IdOrden);
+        }else{
+          this.filteredOptionsDetalles = new Observable<any>();
+          this.detalleSeleccionado = "";
+          Swal.fire({
+            title: 'Error',
+            text: 'Favor de Verificar Informacion',
+            icon: 'error',  
+          });
+        }
+      })
+    }
 
   }else if(procedencia == 'OrdenDescarga'){
+    if(this.incidenciasService.incidenciaObject.FolioProcedencia != 0){
     this.incidenciasService.getOrdenDescargaFolio(this.incidenciasService.incidenciaObject.FolioProcedencia).subscribe(resOD=>{
       // console.log(resOD);
       if(resOD.length > 0){
@@ -473,6 +477,7 @@ obtenerImagen(a) {
       }
    
     })
+  }
   }
  }
 
