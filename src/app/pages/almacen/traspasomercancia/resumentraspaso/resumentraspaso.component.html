@@ -44,7 +44,19 @@
                             <input readonly type="text" placeholder="Estatus" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.Estatus" matInput>
 
                         </div>
-                    </div>                   
+                    </div>   
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="input-group-text text-info">Descripcion Producto:</label> <br>
+                            <input title="Ingresar Descripcion de Productos que se mostrara en el Documento" (blur)="updateInformacionTraspaso()" type="text" placeholder="Descripcion de Productos" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.CampoExtra1" matInput>
+                        </div>
+                        <div class="col-4">
+
+                        </div>
+                        <div class="col-4">
+
+                        </div>
+                    </div>                
                     <hr>
 
 

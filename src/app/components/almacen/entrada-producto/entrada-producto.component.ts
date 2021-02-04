@@ -35,6 +35,7 @@ export class EntradaProductoComponent implements OnInit {
 
   selloCaja: string = "";
   pedimentoOrden: string = '';
+  usdaOrden: string = '';
 
 
 
@@ -65,6 +66,7 @@ export class EntradaProductoComponent implements OnInit {
         if (resSello.length > 0) {
           this.selloCaja = resSello[0].SelloCaja;
           this.pedimentoOrden = resSello[0].Campo2;
+          this.usdaOrden = resSello[0].Campo3;
         }
         //^ Obtener Detalles de la Orden
         this.service.getOrdenDescargaIDList(this.IdOrdenDescarga).subscribe(respuesta => {

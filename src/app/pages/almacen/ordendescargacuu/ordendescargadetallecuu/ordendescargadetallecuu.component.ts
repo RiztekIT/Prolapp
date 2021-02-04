@@ -56,7 +56,7 @@ export class OrdendescargadetallecuuComponent implements OnInit {
 
 
   listDataScan: MatTableDataSource<any>;
-  displayedColumnsScan: string[] = ['ClaveProducto', 'Producto', 'Lote', 'Kilogramos', 'FechaCaducidad', 'Comentarios'];
+  displayedColumnsScan: string[] = ['ClaveProducto', 'Producto', 'Lote', 'Kilogramos', 'FechaCaducidad'];
   isExpansionDetailRowScan = (i: number, row: Object) => row.hasOwnProperty('detailRow');
   @ViewChild(MatSort, null) sortScan: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorScan: MatPaginator;
@@ -213,6 +213,7 @@ ObtenerFolio(id: number) {
 ordenDescargaInfo = new OrdenCargaInfo();
 selloCaja: string = "";
 pedimentoOrden: string = "";
+usdaOrden: string = "";
   obtenerSelloCaja(id){
     this.serviceOC.getOrdenDescargaInfoIdOD(id).subscribe(resInfo=>{
       console.log(resInfo);
@@ -221,9 +222,10 @@ pedimentoOrden: string = "";
         this.ordenDescargaInfo = resInfo[0];
         this.selloCaja = resInfo[0].SelloCaja;
         this.pedimentoOrden = resInfo[0].Campo2;
+        this.usdaOrden = resInfo[0].Campo3;
       }else{
         console.log('No hay sello Caja');
-        //^ Como esta Orden de Carga no tiene sello Caja, le crearemos un campo en la tabla OrdenCargaInfo
+        //^ Como esta Orden de Descarga no tiene sello Caja, le crearemos un campo en la tabla OrdenCargaInfo
         let ocinfo: OrdenCargaInfo = {
         IdOrdenCargaInfo: 0,
         //^Aqui no utilizaremos el Id de la Orden Carga. Entonces la Dejaremos en 0
@@ -233,6 +235,7 @@ pedimentoOrden: string = "";
         Campo1: id,
         //^ el campo 2 es utilizado para guardar el pedimento de la Orden Descarga
         Campo2: "",
+        //^ el campo 3 es utilizado para guardar el USDA del Traspaso
         Campo3: ""
         }
         this.serviceOC.addOrdenCargaInfo(ocinfo).subscribe(resAdd=>{
@@ -251,6 +254,7 @@ pedimentoOrden: string = "";
     console.log('Actualizar Orden Descarga');
     this.ordenDescargaInfo.SelloCaja = this.selloCaja;
     this.ordenDescargaInfo.Campo2 = this.pedimentoOrden;
+    this.ordenDescargaInfo.Campo3 = this.usdaOrden;
     //^ Actualizar Informacion de la OrdenCargaInfo
     this.serviceOC.updateOrdenCargaInfo(this.ordenDescargaInfo).subscribe(resUp=>{
       console.log(resUp);
@@ -319,7 +323,7 @@ pedimentoOrden: string = "";
 
     Od = this.service.formData;
 
-    Od.FechaInicioDescarga = new Date();
+    // Od.FechaInicioDescarga = new Date();
 
     this.service.updateOrdenDescarga(Od).subscribe(data=>{
       console.log(data);

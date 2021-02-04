@@ -422,6 +422,7 @@ export class OrdencargadetalleComponent implements OnInit {
               this.service.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Terminada').subscribe(rese => {
                 //           console.log(rese)/* 
                 //           this.router.navigate(['/ordencargadetalle']); */
+                //^ Posiblemente crear aqui la ordenInfo para poner el usda a la descarga
                 Swal.fire({
                   title: 'Terminada',
                   icon: 'success',

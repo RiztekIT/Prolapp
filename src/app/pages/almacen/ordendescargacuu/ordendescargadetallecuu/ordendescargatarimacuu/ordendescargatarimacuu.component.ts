@@ -708,7 +708,7 @@ let saldo = 0;
 
   updateOrdenDescarga(od,estatus){
     od.Estatus=estatus
-    od.FechaFinalDescarga = new Date();
+    // od.FechaFinalDescarga = new Date();
     this.ordenDescargaService.updateOrdenDescarga(od).subscribe(data=>{
       console.log(data,'update od '+estatus);
     })
