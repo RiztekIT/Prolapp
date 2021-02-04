@@ -1603,6 +1603,14 @@ export class ResumentraspasoComponent implements OnInit {
   }
 
 
+  updateInformacionTraspaso(){
+    console.log(this.traspasoSVC.selectTraspaso);
+    this.traspasoSVC.updateTraspasoMercancia(this.traspasoSVC.selectTraspaso).subscribe(resUpdate=>{
+      console.log(resUpdate);
+    })
+  }
+
+
 
 
 
