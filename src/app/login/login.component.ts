@@ -10,6 +10,9 @@ import { SidebarService } from '../services/shared/sidebar.service';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 import { interval } from 'rxjs';
+import { ClientesService } from '../services/catalogos/clientes.service';
+
+import { sessionCliente } from '../Models/ClienteLogin/sessionCliente-model';
 
 
 declare function init_plugins();
@@ -21,7 +24,10 @@ declare function init_plugins();
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public router: Router, public service: UsuariosServieService, private snackBar: MatSnackBar, private storageServce: StorageServiceService, public sidebarservice: SidebarService, private deviceService: DeviceDetectorService) { }
+  constructor(public router: Router, public service: UsuariosServieService,
+     private snackBar: MatSnackBar, private storageServce: StorageServiceService, 
+     public sidebarservice: SidebarService, private deviceService: DeviceDetectorService, 
+     public clienteService: ClientesService, public siderbarservice: SidebarService) { }
 numimagen = 3;
   token;
   deviceinfo;
@@ -175,8 +181,8 @@ this.dispositivo = JSON.stringify(this.deviceinfo)
   }
 
   resetForm(form?: NgForm) {
-    if (form != null)
-   form.resetForm();
+    // if (form != null)
+  //  form.resetForm();
    this.service.formData = {
     IdUsuario: 0,
     Nombre: '',
@@ -188,6 +194,78 @@ this.dispositivo = JSON.stringify(this.deviceinfo)
     Contra: '',
     FechaUltimoAcceso: '2019-12-19',
     Dispositivo:''
+   }
+
+  }
+
+  // autentificarCliente(form: NgForm){
+  autentificarCliente(form){
+    console.log('%c⧭', 'color: #607339', form);
+    // console.log(form.value);
+    let sessionCliente: sessionCliente;
+
+    sessionCliente = {
+      token:'',
+      user: {
+        ID: 0,
+        RFC: '',
+        contra: '',
+    
+      }
+    }
+console.log(form.RFC);
+    this.clienteService.getLogin(form).subscribe(data => {
+      console.log(data);
+      if (data!='Error') {
+      // if(!data){
+
+        this.clienteService.getIDCLienteRFC(form.RFC).subscribe(res => {
+          
+          
+          console.log(res);
+          sessionCliente.user.ID = res[0].IdClientes;
+          sessionCliente.user.RFC = form.RFC;
+          sessionCliente.token = data.toString();
+            console.log(sessionCliente);
+            var inicioCliente = true;
+            localStorage.setItem("inicioCliente", inicioCliente.toString());
+            localStorage.setItem("ClienteId", sessionCliente.user.ID.toString());
+            localStorage.getItem("ClienteId")
+            console.log('localStorage.getItem("ClienteId"): ', localStorage.getItem("ClienteId"));
+            this.storageServce.setCurrentSessionCliente(sessionCliente);
+            // variable para saber que se inicio session como cliente y no como usuario
+            this.siderbarservice.getMenucliente();
+            this.router.navigate(['/cliente']);
+          // }
+          // else {
+          //   this.snackBar.open('Usuario / Contraseña Incorrectas', '', {
+          //     duration: 5000,
+          //     verticalPosition: 'bottom'
+          //   });
+          //   this.resetForm(form);
+          // }
+          //console.log(this.listData);
+        })
+      }else{
+        this.snackBar.open('Usuario / Contraseña Incorrectas', '', {
+          duration: 5000,
+          verticalPosition: 'bottom'
+          
+        });
+      }
+      this.resetFormClientes(form);
+      })
+    
+
+  }
+
+  resetFormClientes(form?: NgForm) {
+    // if (form != null)
+  //  form.resetForm();
+   this.clienteService.formDatalogin = {
+        ID: 0,
+        RFC: '',
+        contra: '',
    }
 
   }

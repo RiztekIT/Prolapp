@@ -213,7 +213,8 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
   }
 
   Regresar() {
-    this.router.navigate(['/documentacion-importacion']);
+    // this.router.navigate(['/documentacion-importacion']);
+    this.router.navigate(['/documentosalmacen']);
   }
 
   addToList(checkbox: any, boolean: any) {

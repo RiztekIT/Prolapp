@@ -31,6 +31,9 @@ import { DocumentosclienteComponent } from './documentoscliente/documentosclient
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { InicioComponent } from './components/inicio/inicio.component';
 
+//Modificacion del apartado Clientes/Usuario Login
+import { MatTabsModule, MatIconModule } from '@angular/material';
+
 
 
 
@@ -104,7 +107,9 @@ import { InicioComponent } from './components/inicio/inicio.component';
     HttpClientModule,
     BrowserAnimationsModule,
     ZXingScannerModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),       
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),     
+    MatTabsModule,
+    MatIconModule
     // NgbModule
   ],
   bootstrap: [AppComponent],

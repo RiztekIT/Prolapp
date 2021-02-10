@@ -306,11 +306,11 @@ ClaveProducto: string = "";
   onAddDocumentos() {
 
     let event = this.events;
-    // console.log(event)
-    // console.log(this.seleccionados.length);
+    console.log(event)
+    console.log(this.seleccionados.length);
     let ultimoSeleccionado = this.seleccionados.length
     for (var l = 0; l < this.seleccionados.length; l++) {
-      // console.log(this.seleccionados[l]);
+      console.log(this.seleccionados[l]);
       for (var i = 0; i < event.addedFiles.length; i++) {
         const formData = new FormData();
         formData.append('0', event.addedFiles[i])
@@ -331,13 +331,13 @@ ClaveProducto: string = "";
         documento.Path = 'Documentos/CLV/0/0/' + this.seleccionados[l].ClaveProducto + '/' + event.addedFiles[i].name;
         documento.Observaciones = "";
         documento.Vigencia = new Date();
-        // console.log(documento);
+        console.log(documento);
 
         //verificar que no exista ese documento en la base de datos
 
         this.documentosService.getDocumentoFMTDID(documento).subscribe(resExistente => {
           if (resExistente.length > 0) {
-            // console.log('Ya existe este documento');
+            console.log('Ya existe este documento');
             if (ultimoSeleccionado == l && event.addedFiles.length == i) {
               this.seleccionados = []
               // this.listDataDetalles = new MatTableDataSource(this.seleccionados);
@@ -356,10 +356,11 @@ ClaveProducto: string = "";
               });
             }
           } else {
-            // console.log('Agregar Documento');
+            console.log('Agregar Documento');
             this.documentosService.addDocumento(documento).subscribe(resBaseDatos => {
-              // console.log(resBaseDatos);
+              console.log(resBaseDatos);
               this.documentosService.saveFileServer(formData, 'guardarDocumentoImportacion').subscribe(res => {
+                console.log('%c%s', 'color: #ff6600', res);
                 if (ultimoSeleccionado == l && event.addedFiles.length == i) {
                   this.seleccionados = []
                   // this.listDataDetalles = new MatTableDataSource(this.seleccionados);
@@ -421,16 +422,24 @@ ClaveProducto: string = "";
   }
 
   obtenerDocumentos() {
+// const formData = new FormData();
+//     this.documentosService.readDirDocumentosServer(formData, 'cargarNombreDocumentos').subscribe(res => {
+//       console.log(res);
+//     })
 
     // console.log(folio, id);
     let ClaveProducto = this.ClaveProducto
+    console.log('%c%s', 'color: #cc0036', this.ClaveProducto);
 
     const formData = new FormData();
+    //Folio de la Orden
     formData.append('folio', '0');
+    //Id Detalle Tarima
     formData.append('id', '0');
     formData.append('direccionDocumento', 'Documentos/Importacion/CLV/0/0/'+ClaveProducto);
+    console.log(formData);
     this.documentosService.readDirDocuemntosServer(formData, 'cargarNombreDocumentos').subscribe(res => {
-      // console.log(res);
+      console.log(res);
       this.archivos = [];
       if (res) {
         // console.log(res.length)

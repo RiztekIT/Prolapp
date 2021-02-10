@@ -386,7 +386,8 @@
                                                         </div>
                                                     </div>
 
-                                                    <div *ngIf="this.seleccionManual == true" class="row">
+                                                    <!-- <div *ngIf="this.seleccionManual == true" class="row"> -->
+                                                    <div [hidden]="this.seleccionManual == false" class="row">
                                                         <div class="col-12">
                                                             <div class="card">
                                                                 <div class="card-body">
@@ -648,7 +649,7 @@
                                                     </div>
 
 
-                                                    <div [style.display]="clienteLogin ? 'none' : 'block'" *ngIf="Cantidad > 0 && ActualizarDetallePedidoBool == false">
+                                                    <div [style.display]="clienteLogin ? 'none' : 'block'" *ngIf="Cantidad > 0 && ActualizarDetallePedidoBool == false && ((ProductoPrecio > 0)||(ProductoPrecioDLLS>0))">
                                                         <button class="btn btn-dark" (click)="onAddProducto(DetallePedidoForm)">Agregar Producto</button>
                                                     </div>
                                                     <div [style.display]="clienteLogin ? 'none' : 'block'" *ngIf="ActualizarDetallePedidoBool != false">

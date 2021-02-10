@@ -31,13 +31,13 @@ export class IncidenciaAlmacenComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
+    console.log(this.data);
     if (this.data) {
-      this.modulo = this.data.modulo
-      
+      this.modulo = this.data.modulo      
     }
     console.log(this.incidenciasService.incidenciaObject);
-    if(this.incidenciasService.incidenciaObject.FolioProcedencia){
-      // console.log('Incidencia Existente');
+    if(this.incidenciasService.incidenciaObject.Estatus != 'Creada'){
+      console.log('Incidencia Existente');
       this.procedenciaSeleccionada = this.incidenciasService.incidenciaObject.Procedencia;
       this.IdDetalle = +this.incidenciasService.incidenciaObject.IdDetalle;
       console.log('%c%s', 'color: #00ffa6', +this.incidenciasService.incidenciaObject.IdDetalle);
@@ -432,7 +432,7 @@ obtenerImagen(a) {
 //  !select procedencia
  obtenerInformacionOrden(procedencia: string){
   if(procedencia == 'OrdenCarga'){
-    if(this.incidenciasService.incidenciaObject.FolioProcedencia != 0){
+    // if(this.incidenciasService.incidenciaObject.FolioProcedencia != 0){
 
       this.incidenciasService.getOrdenCargaFolio(this.incidenciasService.incidenciaObject.FolioProcedencia).subscribe(resOC=>{
         
@@ -454,10 +454,10 @@ obtenerImagen(a) {
           });
         }
       })
-    }
+    // }
 
   }else if(procedencia == 'OrdenDescarga'){
-    if(this.incidenciasService.incidenciaObject.FolioProcedencia != 0){
+    // if(this.incidenciasService.incidenciaObject.FolioProcedencia != 0){
     this.incidenciasService.getOrdenDescargaFolio(this.incidenciasService.incidenciaObject.FolioProcedencia).subscribe(resOD=>{
       // console.log(resOD);
       if(resOD.length > 0){
@@ -477,7 +477,7 @@ obtenerImagen(a) {
       }
    
     })
-  }
+  // }
   }
  }
 

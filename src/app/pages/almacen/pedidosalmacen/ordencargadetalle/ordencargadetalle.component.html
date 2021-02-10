@@ -54,21 +54,50 @@
                                 <div class="container">
                                     <div class="row">
 
-                                        <div class="col-4 col-md-4">
+                                        <div class="col-12 col-md-4">
 
                                             <label class="input-group-text text-info txt">Fletera: </label>
                                             <input type="text" class="form-control" name="Fletera" #Fletera="ngModel" [(ngModel)]="service.formData.Fletera" readonly>
                                         </div>
-                                        <div class="col-4 col-md-4">
+                                        <div class="col-12 col-md-4">
 
                                             <label class="input-group-text text-info">Numero de Caja: </label>
                                             <input type="text" class="form-control" name="NumCaja" #NumCaja="ngModel" [(ngModel)]="service.formData.Caja" readonly>
 
                                         </div>
-                                        <div class="col-4 col-md-4">
+                                        <div class="col-12 col-md-4">
 
                                             <label class="input-group-text text-info">Sello de Caja: </label>
                                             <input type="text" class="form-control" name="Sello" #Sello="ngModel" (blur)="onBlurSelloCaja()" [(ngModel)]="selloCaja">
+
+                                        </div>
+
+
+                                    </div>
+                                    <br>
+                                    <div class="row">
+
+                                        <div class="col-12 col-md-4">
+
+                                            <label class="input-group-text text-info txt">Fecha Envio: </label>
+                                            <input title="Dia y hora en la que se realizo el Envio" matInput type="datetime-local"
+                                            name="envio" #envio="ngModel" (blur)="onBlurInformacionGeneral()"
+                                            [(ngModel)]="service.formData.FechaEnvio">
+                                        </div>
+                                        <div class="col-12 col-md-4">
+
+                                            <label class="input-group-text text-info">Inicio Carga: </label>
+                                            <input title="Dia y hora en la que se realizo el Envio" matInput type="datetime-local"
+                                            name="inicio" #inicio="ngModel" (blur)="onBlurInformacionGeneral()"
+                                            [(ngModel)]="service.formData.FechaInicioCarga">
+
+                                        </div>
+                                        <div class="col-12 col-md-4">
+
+                                            <label class="input-group-text text-info">Fin Carga: </label>
+                                            <input title="Dia y hora en la que se realizo el Envio" matInput type="datetime-local"
+                                            name="fin" #fin="ngModel" (blur)="onBlurInformacionGeneral()"
+                                            [(ngModel)]="service.formData.FechaFinalCarga">
 
                                         </div>
 
@@ -172,12 +201,17 @@
                             <br>
                             <div class="container" style="margin-right: 0;">
                                 <div class="row">
-                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' || estatusOC == 'Terminada'">
+                                    <div style="display: grid;" class="col-12 col-md-2">
                                         <button id="EnviarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
                                         <button title="Dar formato a Tarimas" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="formatoDocumentoPDF()"><mat-icon>format_line_spacing</mat-icon></button>
                                         <br>
                                     </div>
-                                    <div style="display: grid;" class="col-0 col-md-4">
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' || estatusOC == 'Terminada'">
+                                        <button id="EnviarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
+                                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="pdf()">PDF</button>
+                                        <br>
+                                    </div>
+                                    <div style="display: grid;" class="col-12 col-md-2">
                                         <br>
                                         <button *ngIf="this.estatusOC=='Sin Validar'" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="validar()">Validar</button>
                                     </div>
@@ -190,7 +224,7 @@
 
                                         <br>
                                     </div>
-                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Preparada' && ((this.service.formData.Fletera==='Foraneo') || (this.service.formData.Fletera!=='Sucursal' && this.service.formData.Fletera!=='Local' && this.service.formData.Fletera!=='Paqueteria'))">
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="((this.estatusOC == 'Preparada') || (this.estatusOC == 'Cargada')) && ((this.service.formData.Fletera==='Foraneo') || (this.service.formData.Fletera!=='Sucursal' && this.service.formData.Fletera!=='Local' && this.service.formData.Fletera!=='Paqueteria'))">
                                         <button id="CargarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
                                         <button [disabled]="Cargar == false" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="cargar()">Cargar</button>
                                         <br>
@@ -205,11 +239,7 @@
                                         <button [disabled]="Enviar == false" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="enviar()">Enviar</button>
                                         <br>
                                     </div>
-                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' || estatusOC == 'Terminada'">
-                                        <button id="EnviarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
-                                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="pdf()">PDF</button>
-                                        <br>
-                                    </div>
+                                   
                                     <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' && ((this.service.formData.Fletera==='Foraneo') || (this.service.formData.Fletera!=='Sucursal' && this.service.formData.Fletera!=='Local' && this.service.formData.Fletera!=='Paqueteria'))">
                                         <button id="TerminarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
                                         <button [disabled]="Terminar == false" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="terminar()">Terminar</button>

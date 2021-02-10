@@ -145,8 +145,18 @@ deleteDocumentoServer(body,url){
       // return this._http.post<any>(this.URLApiEMail+"/ObtenerDocumentoOrdenCarga",body,{headers:headers, responseType:'arrayBuffer' as 'json'})
     }
   //Regresa el nombre de los archivos
+  // readDirDocumentosServer(body, url){
+  //   console.log(url);
+  //   // return this.http.post<any>(URLApiEMail+"/ObtenerDocumentoImportacionOrdenDescarga",body);
+  
+  //   return this.http.post<any>(URLApiEMail+"/"+url,body);
+  //   // return this._http.post<any>(this.URLApiEMail+"/cargarNombreDocuemntosOrdenCarga",body);
+  // }
+  
   readDirDocuemntosServer(body, url){
-    return this.http.post<any>(URLApiEMail+"/"+url,body);
+    // return this.http.post<any>(URLApiEMail+"/"+url,body);
+    console.log(body);
+    return this.http.post<any>(URLApiEMail+"/cargarNombreDocumentos",body);
     // return this._http.post<any>(this.URLApiEMail+"/cargarNombreDocuemntosOrdenCarga",body);
   }
 

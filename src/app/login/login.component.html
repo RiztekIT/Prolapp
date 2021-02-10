@@ -24,9 +24,63 @@
 
         <div class="login-box card col-md-4 col-12">
             <div class="card-body">
-                <form #form="ngForm" class="form-horizontal form-material" (ngSubmit)="autentificar(form)">
+                <form #form="ngForm" class="form-horizontal form-material">
                     <a href="javascript:void(0)" class="text-center db"><img style="max-width: 60px;" src="../assets/images/logonuevo.jpeg" alt="Home" /><br/><img src="../assets/images/logo-text.png" alt="Home" /></a>
-                    <div class="form-group m-t-40">
+                    <hr>
+                    <mat-tab-group color="#2d5b9e" animationDuration="0ms" mat-align-tabs="end">
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <mat-icon class="example-tab-icon">account_circle</mat-icon>
+                                Usuario
+                            </ng-template>  
+                            <div class="form-group m-t-40">
+                                <div class="col-xs-12">
+                                    <input class="form-control" type="text" required="" placeholder="Usuario " name="NombreUsuario" #NombreUsuario="ngModel" [(ngModel)]="service.formData.NombreUsuario">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <input class="form-control" type="password" required="" placeholder="Contraseña" name="Contra" #Contra="ngModel" [(ngModel)]="service.formData.Contra">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                     </div>
+                            </div>
+                            <div class="form-group text-center m-t-20">
+                                <div class="col-xs-12">
+                                    <button class="btn btn-info btn-lg btn-block text-uppercase btn-rounded" type="button" (click)="autentificar(form)">Iniciar Sesion</button>
+                                </div>
+                            </div>                  
+                        </mat-tab>
+                        <mat-tab>
+                            <ng-template mat-tab-label>
+                                <mat-icon class="example-tab-icon">supervised_user_circle</mat-icon>
+                                Cliente
+                            </ng-template>      
+                            <div class="form-group m-t-40">
+                                <div class="col-xs-12">
+                                    <input class="form-control" type="text" required="" placeholder="Usuario " name="NombreUsuario" #NombreUsuario="ngModel" [(ngModel)]="clienteService.formDatalogin.RFC">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-xs-12">
+                                    <input class="form-control" type="password" required="" placeholder="Contraseña" name="Contra" #Contra="ngModel" [(ngModel)]="clienteService.formDatalogin.contra">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                     </div>
+                            </div>
+                            <div class="form-group text-center m-t-20">
+                                <div class="col-xs-12">
+                                    <button class="btn btn-info btn-lg btn-block text-uppercase btn-rounded" type="button" (click)="autentificarCliente(clienteService.formDatalogin)">Iniciar Sesion</button>
+                                </div>
+                            </div>              
+                        </mat-tab>
+                    </mat-tab-group>
+                    
+                    <!-- <div class="form-group m-t-40">
                         <div class="col-xs-12">
                             <input class="form-control" type="text" required="" placeholder="Usuario " name="NombreUsuario" #NombreUsuario="ngModel" [(ngModel)]="service.formData.NombreUsuario">
                         </div>
@@ -44,7 +98,7 @@
                         <div class="col-xs-12">
                             <button class="btn btn-info btn-lg btn-block text-uppercase btn-rounded" type="submit">Iniciar Sesion</button>
                         </div>
-                    </div>
+                    </div> -->
                     <!-- <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
                         <div class="social">
@@ -54,11 +108,11 @@
                     </div>
                 </div> -->
                     
-                    <div class="form-group m-b-0">
+                    <!-- <div class="form-group m-b-0">
                         <div class="col-sm-12 text-center">
                             Soy <a routerLink="/logincliente" class="text-primary m-l-5"><b>Clientes</b></a>
                         </div>
-                    </div>
+                    </div> -->
                 </form>
                 <form class="form-horizontal" id="recoverform" action="index.html">
                     <div class="form-group ">

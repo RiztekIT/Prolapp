@@ -81,7 +81,7 @@
                         </ng-container>
                         <ng-container matColumnDef="FechaDescarga">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Descarga</th>
-                            <td mat-cell *matCellDef="let element">{{element.FechaDescarga | date: 'yyyy/MM/dd'}}
+                            <td mat-cell *matCellDef="let element">{{element.FechaFinDescarga | date: 'yyyy/MM/dd'}}
                                 <td>
                         </ng-container>
 
@@ -122,8 +122,8 @@
                                             <th> Clave Producto </th>
                                             <th> Sacos </th>
                                             <th> Lote </th>
-                                            <th> USDA </th>
-                                            <th> Pedimento </th>
+                                            <!-- <th> USDA </th> -->
+                                            <!-- <th> Pedimento </th> -->
                                             <!-- <th> Documentos </th> -->
                                         </tr>
                                         <tr *ngFor="let detalle of element.detalleDocumento">
@@ -131,8 +131,8 @@
                                             <td> {{detalle.ClaveProducto}} </td>
                                             <td> {{detalle.Sacos}} </td>
                                             <td> {{ detalle.Lote}} </td>
-                                            <td> {{ detalle.USDA}} </td>
-                                            <td> {{ detalle.Pedimento}} </td>
+                                            <!-- <td> {{ detalle.USDA}} </td> -->
+                                            <!-- <td> {{ detalle.Pedimento}} </td> -->
                                             <!-- <td *ngIf="detalle.Documento == true; else documentoBoton">
                                                 <mat-icon>check</mat-icon>
                                             </td>

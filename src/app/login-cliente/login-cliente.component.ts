@@ -99,11 +99,11 @@ console.log(form.value.RFC);
 
   }
 
-  borrar(){
-    localStorage.removeItem('ProlappSessionCliente');
-    localStorage.removeItem('ClienteId');
-    localStorage.removeItem('inicioCliente');
-  }
+  // borrar(){
+  //   localStorage.removeItem('ProlappSessionCliente');
+  //   localStorage.removeItem('ClienteId');
+  //   localStorage.removeItem('inicioCliente');
+  // }
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.

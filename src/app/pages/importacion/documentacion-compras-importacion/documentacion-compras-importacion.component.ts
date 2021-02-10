@@ -24,7 +24,7 @@ export class DocumentacionComprasImportacionComponent implements OnInit {
   constructor(public router: Router, public documentosService: DocumentosImportacionService) { }
 
   ngOnInit() {
-    this.obtenerOrdenDescargaDocumentos();
+    // this.obtenerOrdenDescargaDocumentos();
   }
 
   listData: MatTableDataSource<any>;
@@ -62,7 +62,7 @@ export class DocumentacionComprasImportacionComponent implements OnInit {
               // let joinDescargaDocumento = dataOD[l];
               let joinDescargaDocumento = element;
               // console.log(detalleOrdenDescarga[l]);
-              console.log(element);
+              // console.log(element);
               //  this.documentosService.getJoinDcD(element.IdDetalleCompra, element.ClaveProducto).subscribe(dataJoin => {
               //   console.log(dataJoin);
               //   console.log(joinDescargaDocumento);
@@ -96,7 +96,7 @@ export class DocumentacionComprasImportacionComponent implements OnInit {
 
   //puede llegar como parametro el idDetalleOrdenDescarga
   accederDocumentos(folio?: number) {
-    console.log(folio);
+    // console.log(folio);
     if (folio) {
       this.documentosService.folioCompras = folio;
     } else if(folio == 0) {
@@ -105,7 +105,7 @@ export class DocumentacionComprasImportacionComponent implements OnInit {
     }else{
       this.documentosService.folioCompras = null;
     }
-    console.log(this.documentosService.folioCompras);
+    // console.log(this.documentosService.folioCompras);
     this.router.navigate(['/documentacion-formulario-compras-importacion']);
   }
 

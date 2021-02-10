@@ -131,7 +131,8 @@ export class StorageServiceService {
 
   logoutCliente(): void{
     this.removeCurrentSessionCliente();
-    this.router.navigate(['/logincliente']);
+    // this.router.navigate(['/logincliente']);
+    this.router.navigate(['/login']);
   }
 
 

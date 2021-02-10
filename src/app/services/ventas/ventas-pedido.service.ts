@@ -10,6 +10,7 @@ import { pedidoMaster } from 'src/app/Models/Pedidos/pedido-master';
 import { ClienteDireccion } from 'src/app/Models/cliente-direccion/clienteDireccion-model';
 import { environment } from 'src/environments/environment';
 import { PedidoInfo } from 'src/app/Models/Pedidos/pedidoInfo-model';
+import { OrdenCarga } from '../../Models/almacen/OrdenCarga/ordencarga.model';
 
 
 
@@ -59,7 +60,7 @@ export class VentasPedidoService {
 
 
   updateVentasPedido(pedido: any) {
-    return this.http.put(this.APIUrl + '/Pedido', pedido);
+    return this.http.put(this.APIUrl + '/OrdenCarga', pedido);
   }
 
   GetCliente(id:number): Observable <Cliente[]>{

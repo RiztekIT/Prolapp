@@ -485,4 +485,14 @@ export class OrdencargadetalleComponent implements OnInit {
 
   }
 
+  //Al activar el Metodo Blur, se manda a llamar este metodo
+  onBlurInformacionGeneral(){
+    console.log(this.service.formData);
+    this.pedidoSVC.updateVentasPedido(this.service.formData).subscribe(resp => {
+      console.log(resp);
+      // this.getOrdenCarga();
+      // this.refreshDetalleOrdenCargaList();
+    })
+  }
+
 }
