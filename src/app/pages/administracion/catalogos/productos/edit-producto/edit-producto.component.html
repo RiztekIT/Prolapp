@@ -7,7 +7,7 @@
 
 <hr>
 <div style="overflow: auto; height: 450px;">
-    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+    <form #form="ngForm" autocomplete="off">
 
 
         <div class="form-material">
@@ -19,50 +19,50 @@
                         <input readonly="readonly" type="text" class="form-control" name="IdProducto" #IdProducto="ngModel" [(ngModel)]="service.formData.IdProducto">
 
                         <label class="input-group-text text-info">Nombre</label>
-                        <input required type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre">
+                        <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre">
 
-                        
+
 
 
                         <label class="input-group-text text-info">Precio Venta</label>
-                        <input required  type="number" class="form-control" name="PrecioVenta" #PrecioVenta="ngModel" [(ngModel)]="service.formData.PrecioVenta">
-                        
+                        <input type="number" class="form-control" name="PrecioVenta" #PrecioVenta="ngModel" [(ngModel)]="service.formData.PrecioVenta">
+
 
 
 
                         <label class="input-group-text text-info">Cantidad</label>
-                        <input required  type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formData.Cantidad">
-                        
+                        <input type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formData.Cantidad">
+
                         <!--               -------------------------------------------------------                                       -->
 
 
 
                         <label class="input-group-text text-info">Clave Producto</label>
-                        <input required type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="service.formData.ClaveProducto">
+                        <input type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="service.formData.ClaveProducto">
 
-                        
+
                         <!--               -------------------------------------------------------                                       -->
 
 
 
                         <label class="input-group-text text-info">Stock</label>
-                        <input required type="text" class="form-control" name="Stock" #Stock="ngModel" [(ngModel)]="service.formData.Stock">
-                        
+                        <input type="text" class="form-control" name="Stock" #Stock="ngModel" [(ngModel)]="service.formData.Stock">
+
                         <!--               -------------------------------------------------------  -->
 
                     </div>
                     <div class="col-lg-6">
 
                         <label class="input-group-text text-info">Descripcion Producto</label>
-                        <input required type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="service.formData.DescripcionProducto">
-                        
+                        <input type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="service.formData.DescripcionProducto">
+
                         <!--               -------------------------------------------------------                                       -->
 
 
 
                         <label class="input-group-text text-info">Estatus</label>
-                        <input required type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formData.Estatus">
-                        
+                        <input type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formData.Estatus">
+
                         <!--               -------------------------------------------------------                                       -->
 
 
@@ -85,46 +85,46 @@
 
                         <label class="input-group-text text-info">IVA</label>
                         <mat-checkbox class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="iva"></mat-checkbox>
-                        <!-- <input required type="text" class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="service.formData.IVA"> -->
-                        
+                        <!-- <input  type="text" class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="service.formData.IVA"> -->
+
                         <!--               -------------------------------------------------------                                       -->
                         <br>
 
 
                         <label class="input-group-text text-info">Clave SAT</label>
-                        <input required type="text" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="service.formData.ClaveSAT">
-                        
+                        <input type="text" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="service.formData.ClaveSAT">
+
 
 
 
                         <label class="input-group-text text-info">Precio Costo</label>
-                        <input required  type="number" class="form-control" name="PrecioCosto" #PrecioCosto="ngModel" [(ngModel)]="service.formData.PrecioCosto">
-                        
+                        <input type="number" class="form-control" name="PrecioCosto" #PrecioCosto="ngModel" [(ngModel)]="service.formData.PrecioCosto">
+
 
 
                         <label class="input-group-text text-info">Cantidad</label>
-                        <input required  type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formData.Cantidad">
-                        
+                        <input type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formData.Cantidad">
+
 
                         <label class="input-group-text text-info">Categoria</label>
-                        <input required  type="number" class="form-control" name="Categoria" #Categoria="ngModel" [(ngModel)]="service.formData.Categoria">
-                        
+                        <input type="number" class="form-control" name="Categoria" #Categoria="ngModel" [(ngModel)]="service.formData.Categoria">
+
                     </div>
                     <br>
                 </div>
             </div>
         </div>
-        
+
         <br>
         <mat-checkbox #checkbox [(checked)]="MarcasRel" (change)='check(checkbox.checked)'>Marcas Relacionadas</mat-checkbox>
         <br>
     </form>
-    
+
     <div class="form-material" *ngIf="this.MarcasRel == true">
         <h5>Marcas Relacionadas</h5>
         <div class="container row">
             <div class="col-12">
-                
+
                 <!-- <mat-form-field style="width: 100%;">
                     <input matInput type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="this.productosService.productosRelForm.nombre" name="nombre">
                     <mat-autocomplete #auto="matAutocomplete">
@@ -139,15 +139,15 @@
             <div class="col-md-6 col-12">
                 <label class="input-group-text text-info">Clave</label>
                 <input matInput placeholder="Clave Marca" name="ClaveMarca" class="form-control" #ClaveMarca="ngModel" [(ngModel)]="this.service.MarcasRelForm.ClaveMarca">
-                
+
                 <label class="input-group-text text-info">Nombre Marca</label>
                 <input matInput placeholder="Nombre Marca" name="NombreMarca" class="form-control" #NombreMarca="ngModel" [(ngModel)]="this.service.MarcasRelForm.NombreMarca">
             </div>
         </div>
         <button class="btn btn-success" mat-raised-button (click)="agregarMarcaRel()" color="primary" [disabled]='!this.service.formData.Nombre'>Agregar Marca</button>
     </div>
-    
+
     <br>
-    <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Actualizar Producto</button>
-    
+    <button class="btn btn-success" mat-raised-button color="success" (click)="onSubmit(form)">Actualizar Producto</button>
+
 </div>

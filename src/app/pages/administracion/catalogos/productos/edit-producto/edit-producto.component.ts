@@ -103,12 +103,14 @@ iva: boolean;
 
   onSubmit(form: NgForm) {
 
+    console.log(form);
+
     if (form.controls['IVA'].value == true) {
       this.service.formData.IVA = '0.16';
       }  else {
         this.service.formData.IVA = '0';
       }
-// console.log(this.service.formData.IVA);
+ console.log(this.service.formData);
     this.service.updateProducto(this.service.formData).subscribe(res => {
       
       this.movimientos(this.movimiento)

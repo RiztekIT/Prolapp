@@ -50,7 +50,7 @@ export class InventariosalmacenComponent implements OnInit {
   
   ngOnInit() {
     this.getbodegas()
-    this.bodegaSelect = 'PasoTx';
+    this.bodegaSelect = 'CHIHUAHUA';
     this.obtenerProductos(this.bodegaSelect)
   }
 
