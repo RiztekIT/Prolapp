@@ -138,7 +138,7 @@ deleteDocumentoServer(body,url){
   }
   //Regresa los documentos
     readDocumentosServer(body, url){
-      console.log(body)
+      // console.log(body)
       let headers = new HttpHeaders();
       headers = headers.set('Accept','application/pdf');
       return this.http.post<any>(URLApiEMail+"/"+url,body,{headers:headers, responseType:'arrayBuffer' as 'json'})
@@ -155,7 +155,7 @@ deleteDocumentoServer(body,url){
   
   readDirDocuemntosServer(body, url){
     // return this.http.post<any>(URLApiEMail+"/"+url,body);
-    console.log(body);
+    // console.log(body);
     return this.http.post<any>(URLApiEMail+"/cargarNombreDocumentos",body);
     // return this._http.post<any>(this.URLApiEMail+"/cargarNombreDocuemntosOrdenCarga",body);
   }

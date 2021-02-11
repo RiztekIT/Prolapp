@@ -160,7 +160,7 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
   //llenar tabla con Orden Temporal (Es donde se encuentra la informacion de la factura)
   obtenerOrdenesDescargaDetalles(folio: number) {
     console.log(folio);
-    if (folio) {
+    // if (folio) {
 
       this.documentosService.getOrdenDescargaFolio(folio).subscribe(dataOD => {
         console.log(dataOD);
@@ -192,15 +192,15 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
           });
         }
       })
-    } else {
-      Swal.fire({
-        title: 'Folio no valido',
-        icon: 'error',
-        timer: 1000,
-        showCancelButton: false,
-        showConfirmButton: false
-      });
-    }
+    // } else {
+    //   Swal.fire({
+    //     title: 'Folio no valido',
+    //     icon: 'error',
+    //     timer: 1000,
+    //     showCancelButton: false,
+    //     showConfirmButton: false
+    //   });
+    // }
   }
 
   obtenerProductos(){
@@ -226,7 +226,7 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
     if (this.listDataDetalles.data[checkbox.Index].Agregar == false) {
       this.listDataDetalles.data[checkbox.Index].Agregar = true
       this.seleccionados.push(checkbox);    
-      this.stringDocumentoSeleccionado = this.listDataDetalles.data[checkbox.Index].QR
+      // this.stringDocumentoSeleccionado = this.listDataDetalles.data[checkbox.Index].QR
     }
     //si es falso
     else {
@@ -292,25 +292,27 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
     for (var l = 0; l < this.seleccionados.length; l++) {
       // console.log(this.seleccionados[l]);
       //update OrdenTemporal
-      this.actualizarTipoDocumento(this.seleccionados[l]);
+      //^ this.actualizarTipoDocumento(this.seleccionados[l]);
       for (var i = 0; i < event.addedFiles.length; i++) {
         const formData = new FormData();
         formData.append('0', event.addedFiles[i])
-        formData.append('folio', this.seleccionados[l].Folio.toString())
-        formData.append('id', this.seleccionados[l].IdDetalleTarima)
+        formData.append('id', this.seleccionados[l].IdOrdenDescarga.toString())
+        // formData.append('id', this.seleccionados[l].IdDetalleTarima)
+        formData.append('clave', this.seleccionados[l].ClaveProducto)
+        formData.append('lote', this.seleccionados[l].Lote)
         formData.append('tipo', 'Factura')
         // console.log(res);
         // Buscar ultimo folio Documento
         let documento = new Documento();
         documento.IdDocumneto = 0;
-        documento.Folio = this.folioOrdenDescarga;
+        documento.Folio = this.seleccionados[l].IdOrdenDescarga;
         documento.IdDetalle = this.seleccionados[l].IdDetalleTarima;
         documento.Modulo = 'Importacion';
         documento.Tipo = 'Factura';
         documento.ClaveProducto = this.seleccionados[l].ClaveProducto;
         documento.NombreDocumento = event.addedFiles[i].name;
-        documento.Path = 'Documentos/Factura/' + this.seleccionados[l].Folio.toString() + '/' + this.seleccionados[l].IdDetalleTarima.toString() + '/' + event.addedFiles[i].name;
-        documento.Observaciones = "";
+        documento.Path = 'Documentos/Factura/' + this.seleccionados[l].IdOrdenDescarga.toString() + '/' + this.seleccionados[l].ClaveProducto.toString() + '/' + this.seleccionados[l].Lote.toString() + '/' + event.addedFiles[i].name;
+        documento.Observaciones = this.seleccionados[l].Lote;
         documento.Vigencia = new Date();
         // console.log(documento);
 
@@ -405,10 +407,11 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
   leerArchivos(a) {
     console.log(a);
     const formData = new FormData();
-    formData.append('folio', a.folio.toString())
+    formData.append('clave', a.clave.toString())
+    formData.append('lote', a.lote.toString())
     formData.append('id', a.id.toString())
     formData.append('archivo', a.name)
-    formData.append('direccionDocumento', 'Documentos/Importacion/Factura/'+a.folio.toString()+'/'+a.id.toString())
+    formData.append('direccionDocumento', 'Documentos/Importacion/Factura/'+a.id.toString()+'/'+a.clave+'/'+a.lote)
     this.documentosService.readDocumentosServer(formData, 'ObtenerDocumento').subscribe(res => {
       // console.log(res);
       const blob = new Blob([res as BlobPart], { type: 'application/pdf' });
@@ -439,7 +442,8 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
     const formData = new FormData();
     formData.append('folio', row.Lote.toString());
     formData.append('id', id.toString());
-    formData.append('direccionDocumento', 'Documentos/Importacion/Factura/'+folio.toString()+'/'+id.toString());
+    // formData.append('direccionDocumento', 'Documentos/Importacion/Factura/'+folio.toString()+'/'+id.toString());
+    formData.append('direccionDocumento', 'Documentos/Importacion/Factura/'+row.IdOrdenDescarga+'/'+row.ClaveProducto+'/'+row.Lote);
     this.documentosService.readDirDocuemntosServer(formData, 'cargarNombreDocumentos').subscribe(res => {
       // console.log(res);
       this.archivos = [];
@@ -448,14 +452,19 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
         for (let i = 0; i < res.length; i++) {
           let archivo = <any>{};
           archivo.name = res[i];
-          archivo.id = id;
-          archivo.folio = row.Lote;
+          archivo.id =  row.IdOrdenDescarga;
+          archivo.clave =  row.ClaveProducto;
+          archivo.lote = row.Lote;
           this.archivos.push(archivo);
           const formDataDoc = new FormData();
-          formDataDoc.append('folio', folio.toString());
-          formDataDoc.append('id', id.toString());
+          // formDataDoc.append('folio', folio.toString());
+          // formDataDoc.append('id', id.toString());
+          formDataDoc.append('id', row.IdOrdenDescarga.toString());
+          formDataDoc.append('clave', row.ClaveProducto);
+          formDataDoc.append('lote', row.Lote);
           formDataDoc.append('archivo', res[i])
-          formDataDoc.append('direccionDocumento', 'Documentos/Importacion/Factura/'+folio.toString()+'/'+id.toString());
+          // formDataDoc.append('direccionDocumento', 'Documentos/Importacion/Factura/'+folio.toString()+'/'+id.toString());
+          formDataDoc.append('direccionDocumento', 'Documentos/Importacion/Factura/'+row.IdOrdenDescarga+'/'+row.ClaveProducto+'/'+row.Lote);
           this.documentosService.readDocumentosServer(formDataDoc, 'ObtenerDocumento').subscribe(resDoc => {
             //  console.log(resDoc)
             const blob = new Blob([resDoc as BlobPart], { type: 'application/pdf' });
@@ -533,16 +542,18 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
       if (result.value) {
         const formData = new FormData();
         formData.append('name', event.name.toString())
-        formData.append('folio', event.folio.toString())
         formData.append('id', event.id.toString())
+        formData.append('clave', event.clave.toString())
+        formData.append('lote', event.lote.toString())
         formData.append('tipo', 'Factura')
         console.log(formData);
         let docu = new Documento();
-        docu.Folio = event.folio;
+        docu.Folio = event.id;
         docu.Modulo = 'Importacion';
         docu.Tipo = 'Factura';
         docu.NombreDocumento = event.name;
-        docu.IdDetalle = event.id
+        docu.Observaciones =  event.lote;
+        docu.ClaveProducto = event.clave;
         this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
           console.log(resDelete);
           this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {

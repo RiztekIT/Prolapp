@@ -109,7 +109,7 @@
                                 </ng-container>
                                 <ng-container matColumnDef="Sacos">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
-                                    <td mat-cell *matCellDef="let element">{{element.Sacos}}
+                                    <td mat-cell *matCellDef="let element">{{element.Sacos| number: '1.0-0'}}
                                     </td>
                                 </ng-container>
 
