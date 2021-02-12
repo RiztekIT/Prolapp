@@ -173,15 +173,15 @@
                         </thead>
                         <tbody *ngFor="let conceptos of dodInfo; let i = index">
                             <tr class="pgbreak">
-                                <td style="text-align: center;" class="wrap lightback pgbreak"> {{i+1}} </td>
-                                <td style="text-align: center;" class="wrap lightback">{{conceptos.ClaveProducto}}</td>
-                                <td style="text-align: center;" class="wrap lightback pgbreak"> {{conceptos.Producto}}</td>
-                                <td style="text-align: center;" class="pgbreak">{{conceptos.Sacos | number: '1.0-0'}} </td>
-                                <td style="text-align: center;" class="wrap lightback pgbreak"> {{conceptos.Kg}}</td>
+                                <td style="text-align: center; border:1px; border-style: solid;" class="wrap lightback pgbreak"> {{i+1}} </td>
+                                <td style="text-align: center;  border:1px; border-style: solid;" class="wrap lightback">{{conceptos.ClaveProducto}}</td>
+                                <td style="text-align: center; border:1px; border-style: solid;" class="wrap lightback pgbreak"> {{conceptos.Producto}}</td>
+                                <td style="text-align: center; border:1px; border-style: solid;" class="pgbreak">{{conceptos.Sacos | number: '1.0-0'}} </td>
+                                <td style="text-align: center; border:1px; border-style: solid;" class="wrap lightback pgbreak"> {{conceptos.Kg}}</td>
                                 <!-- <td style="text-align: center;" class="pgbreak">{{conceptos.USDA}}</td> -->
-                                <td style="text-align: center;" class="pgbreak">{{conceptos.Lote}} </td>
-                                <td style="text-align: center;" class="pgbreak">{{conceptos.FechaMFG | date: 'yyyy/MM/dd'}} </td>
-                                <td style="text-align: center;" class="pgbreak">{{conceptos.FechaCaducidad | date: 'yyyy/MM/dd'}} </td>
+                                <td style="text-align: center; border:1px; border-style: solid;" class="pgbreak">{{conceptos.Lote}} </td>
+                                <td style="text-align: center; border:1px; border-style: solid;" class="pgbreak">{{conceptos.FechaMFG | date: 'yyyy/MM/dd'}} </td>
+                                <td style="text-align: center; border:1px; border-style: solid;" class="pgbreak">{{conceptos.FechaCaducidad | date: 'yyyy/MM/dd'}} </td>
                                 <!-- <td style="text-align: center;" class="pgbreak">{{conceptos.Comentarios}}</td> -->
                         </tbody>
 
@@ -201,10 +201,10 @@
                             </thead>
                             <tbody *ngFor="let conceptos of arregloDetallesGenerales; let i = index">
                                 <tr class="pgbreak">
-                                    <td style="text-align: center;">{{conceptos.ClaveProducto}}</td>
-                                    <td style="text-align: center;">{{conceptos.Producto}}</td>
-                                    <td style="text-align: center;">{{conceptos.Sacos | number: '1.0-0'}}</td>
-                                    <td style="text-align: center;">{{+conceptos.Sacos * +conceptos.PesoxSaco | number: '1.0-0'}}</td>
+                                    <td style="text-align: center; border:1px; border-style: solid;">{{conceptos.ClaveProducto}}</td>
+                                    <td style="text-align: center; border:1px; border-style: solid;">{{conceptos.Producto}}</td>
+                                    <td style="text-align: center; border:1px; border-style: solid;">{{conceptos.Sacos | number: '1.0-0'}}</td>
+                                    <td style="text-align: center; border:1px; border-style: solid;">{{+conceptos.Sacos * +conceptos.PesoxSaco | number: '1.0-0'}}</td>
                                 </tr>
                             </tbody>
                         </table>
