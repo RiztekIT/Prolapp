@@ -384,7 +384,16 @@
 
                 <hr>
                 <!-- <hr> -->
-                <h3>Tabla de Salida de Producto</h3>
+                
+                <div class="row">
+                    
+                    <div class="col-12 col-md-9">
+                        <h3>Tabla de Salida de Producto</h3>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        {{KilogramosTotales | number: '1.0-0' }} Kg.
+                    </div>
+                </div>
 
                 <div style="overflow:auto;">
                     <table mat-table [dataSource]="listDataOrdenTemporal" matSort>
