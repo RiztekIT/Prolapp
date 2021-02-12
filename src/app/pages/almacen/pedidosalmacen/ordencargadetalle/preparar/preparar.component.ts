@@ -788,12 +788,16 @@ export class PrepararComponent implements OnInit {
 
   }
 
+  KilogramosTotales: number = 0;
   // ----- INICIO TABLA ORDEN TEMPORAL -------
   actualizarTablaOrdenTemporal() {
     this.ordenTemporalService.GetOrdenTemporalID(this.IdOrdenCarga).subscribe(dataOrdenTemporal => {
       console.log(dataOrdenTemporal);
       if (dataOrdenTemporal.length > 0) {
         console.log('Si hay Movimientos en esta orden de carga');
+        dataOrdenTemporal.forEach(element => {
+          this.KilogramosTotales = +element.PesoTotal + this.KilogramosTotales;
+        });
         this.listDataOrdenTemporal = new MatTableDataSource(dataOrdenTemporal);
         this.listDataOrdenTemporal.sort = this.sortOrdenTemporal;
         this.listDataOrdenTemporal.paginator = this.paginatorOrdenTemporal;

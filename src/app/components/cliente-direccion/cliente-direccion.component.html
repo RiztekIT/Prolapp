@@ -79,7 +79,7 @@
                         <!--  ------------------------------------------------------------------------------------------------------------------------ -->
                         <!-- ------------------------------------------------------------------------------------------------------------------------ -->
                         <label class="input-group-text text-info ">Numero Exterior</label>
-                        <input required type="number" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior" autocomplete="off">
+                        <input required type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior" autocomplete="off">
 
                         <div class="text-left text-danger" *ngIf="NumeroExterior.invalid && NumeroExterior.touched">
                             Favor de Ingresar Numero Exterior
@@ -87,7 +87,7 @@
                         <!--  ------------------------------------------------------------------------------------------------------------------------ -->
                         <!-- ------------------------------------------------------------------------------------------------------------------------ -->
                         <label class="input-group-text text-info ">Numero Interior</label>
-                        <input type="number" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior" autocomplete="off">
+                        <input type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior" autocomplete="off">
 
                         <div class="text-left text-danger" *ngIf="NumeroInterior.invalid && NumeroInterior.touched">
                             Favor de Ingresar Numero Interior

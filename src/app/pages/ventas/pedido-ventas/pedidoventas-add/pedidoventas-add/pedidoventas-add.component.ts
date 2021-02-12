@@ -8,7 +8,7 @@ import { VentasPedidoService } from '../../../../../services/ventas/ventas-pedid
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Producto } from '../../../../../Models/catalogos/productos-model';
 import { CurrencyPipe } from '@angular/common';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, NativeDateAdapter, MAT_DATE_FORMATS, DateAdapter } from '@angular/material';
 import { DetallePedido } from '../../../../../Models/Pedidos/detallePedido-model';
 import Swal from 'sweetalert2';
 import { Usuario } from '../../../../../Models/catalogos/usuarios-model';
@@ -45,6 +45,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model';
 import { OrdenTemporal } from 'src/app/Models/almacen/OrdenTemporal/ordenTemporal-model';
 import { PedidoInfo } from 'src/app/Models/Pedidos/pedidoInfo-model';
+
+
 //Constantes para obtener tipo de cambio
 const httpOptions = {
   headers: new HttpHeaders({
@@ -58,10 +60,48 @@ const httpOptions = {
 }
 
 
+const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+export class AppDateAdapter extends NativeDateAdapter {
+  format(date: Date, displayFormat: Object): string {
+    if (displayFormat === 'input') {
+      const day = date.getDate();
+      const month = date.getMonth();
+      const year = date.getFullYear();
+      return `${day}/${months[month]}/${year}`
+    }
+    return date.toDateString();
+  }
+}
+
+export const APP_DATE_FORMATS =
+{
+  parse: {
+    dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
+  },
+  display: {
+    dateInput: 'input',
+    // monthYearLabel: 'MMM YYYY',
+    // dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+    // monthYearA11yLabel: 'MMM YYYY',
+    monthYearLabel: { year: 'numeric', month: 'numeric' },
+    dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+    monthYearA11yLabel: { year: 'numeric', month: 'long' },
+  }
+};
+
+
 @Component({
   selector: 'app-pedidoventas-add',
   templateUrl: './pedidoventas-add.component.html',
-  styleUrls: ['./pedidoventas-add.component.css']
+  styleUrls: ['./pedidoventas-add.component.css'],
+  providers: [
+    {
+      provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+      provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    }
+  ]
 })
 
 export class PedidoventasAddComponent implements OnInit {
@@ -711,14 +751,19 @@ changeSeleccion(event){
 onSelectionChangeDireccion(options: ClienteDireccion, event: any) {
   if (event.isUserInput) {
     console.log(options);
-    this.service.formData.Calle = options.Calle;
-    this.service.formData.Colonia = options.Colonia;
-    this.service.formData.CP = options.CP;
-    this.service.formData.Ciudad = options.Ciudad;
-    this.service.formData.Estado = options.Estado;
-    this.service.formData.NumeroInterior = options.NumeroInterior;
-    this.service.formData.NumeroExterior = options.NumeroExterior;
+
+    // this.service.formData.Calle = options.Calle;
+    // this.service.formData.Colonia = options.Colonia;
+    // this.service.formData.CP = options.CP;
+    // this.service.formData.Ciudad = options.Ciudad;
+    // this.service.formData.Estado = options.Estado;
+    // this.service.formData.NumeroInterior = options.NumeroInterior;
+    // this.service.formData.NumeroExterior = options.NumeroExterior;
+
 //Agregarle la direccion seleccionada a Pedidos y actualizarlo
+
+this.service.formDataPedido.LugarDeEntrega =  options.Calle + ' ' + options.NumeroInterior + ' ' + options.NumeroExterior + ', Col: ' + options.Colonia + ', CP: ' +
+ options.CP + ', ' + options.Ciudad +  ' ' + options.Estado
 
     this.service.formDataPedido.IdDireccion = options.IdDireccion;
       this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
@@ -2194,6 +2239,50 @@ this.validarStock(cantidad);
     }
     this.dialog.open(ReporteEmisionComponent, dialogConfig);
   }
+
+  // visorDocumento(a) {
+  //   let pdfS;
+  //   setTimeout(()=>{
+  
+  //     // this.xmlparam = folio;
+  //       const content: Element = document.getElementById('element-to-PDF');
+  //       const option = {
+  //         margin: [0, 0, 0, 0],
+  //         filename: 'Orden de Compra.pdf',
+  //         image: { type: 'jpeg', quality: 1 },
+  //         html2canvas: { scale: 2, logging: true, scrollY: 0 },
+  //         jsPDF: { format: 'letter', orientation: 'portrait' },
+  //       };
+  //       html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
+  //         // localStorage.setItem('pdfcorreo'+pedido.Folio, pdfAsString);
+  //         pdfS = pdfAsString;
+  //         this.statusparam=true;          
+  //         console.log(this.statusparam);                
+  //       })
+  //       // dialogFact.close()
+        
+  //     },1000)
+
+
+  //     const blob = new Blob([pdfAsString as BlobPart], { type: 'application/pdf' });
+  //     let fr = new FileReader();
+
+  //     fr.readAsDataURL(blob);
+  //     fr.onload = e => {
+  //       // console.log(e);
+  //       // console.log(fr.result);
+  //       this.fileUrl = fr.result;
+  //       this.pdfstatus = true;
+  //       this.documentosService.fileUrl = this.fileUrl;
+  //       const dialogConfig = new MatDialogConfig();
+  //       dialogConfig.disableClose = true;
+  //       dialogConfig.autoFocus = true;
+  //       dialogConfig.width = "70%";
+  //       this.dialog.open(DocumentacionImportacionVisorDocumentosComponent, dialogConfig);
+  //     }
+
+
+  // }
 
   agregarProductos(){
 
