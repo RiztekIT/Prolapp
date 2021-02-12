@@ -328,6 +328,11 @@ this.obtenerProductos(this.bodegaSelect)
       
       let movdl = this.dialog.open(MovimientosinventariosComponent, dialogConfig);
 
+      movdl.afterClosed().subscribe(data=>{
+        this.obtenerProductos('CHIHUAHUA')
+      })
+      
+
   }
 
 }
