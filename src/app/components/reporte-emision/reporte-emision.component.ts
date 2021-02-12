@@ -31,9 +31,24 @@ export class ReporteEmisionComponent implements OnInit {
   
     IdPedido: number;
 
+    calle;
+    numeroext;
+    colonia;
+    codigopostal;
+    ciudad
+    estado;
+    numeroint;
+
   ngOnInit() {
     this.rfcE = this.enviarfact.empresa.RFC;
     this.logo = '../../../assets/images/'+this.rfcE+'.png'
+    this.calle = this.enviarfact.empresa.Calle
+  this.numeroext = this.enviarfact.empresa.NumeroExterior
+  this.colonia = this.enviarfact.empresa.Colonia
+  this.codigopostal = this.enviarfact.empresa.CP
+  this.ciudad = this.enviarfact.empresa.Ciudad
+  this.estado = this.enviarfact.empresa.Estado
+  this.numeroint = this.enviarfact.empresa.NumeroInterior
     this.IdPedido = this.dataComponente.IdPedido;
     console.log(this.IdPedido);
     this.ver();

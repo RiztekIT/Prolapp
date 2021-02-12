@@ -20,6 +20,9 @@
                             <button *ngIf='!inicio' title="Hacer Pedido" class="btncoti" mat-fab (click)="hacerTraspaso()">
                                     <mat-icon>send</mat-icon>
                                 </button> -->
+                            <button title="Movimiento Inventario" class="iconoexcel btncoti" mat-fab (click)="movimientoInv()">
+                                    <mat-icon>send</mat-icon>
+                                </button>
                             <button class="iconoexcel btncoti" title="Exportar a Excel" mat-fab (click)="exporter.exportTable('xlsx',{fileName:'Inventario por Lotes'})">
 
                                     

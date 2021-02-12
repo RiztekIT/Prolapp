@@ -48,16 +48,16 @@
                     </div>
                     <!-- descripcion -->
                     <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                        <h5 class="blacktxt bolder"> PROLACTO INGREDIENTES S DE RL MI DE CV
+                        <h5 class="blacktxt bolder"> {{this.enviarfact.empresa.RazonSocial}}
                         </h5>
-                        <p class="blacktxt bolder nomarginbottomP"><span class="bolder">R.F.C.:</span>PLA11011243A
+                        <p class="blacktxt bolder nomarginbottomP"><span class="bolder">R.F.C.:</span>{{this.enviarfact.empresa.RFC}}
                         </p>
-                        <p class="blacktxt bolder nomarginbottomP"> Calle: J. Matias de Anchondo No. 207, Col. San Felipe, CP: 31203, Chihuahua, Chihuahua, México
+                        <p class="text-center blacktxt">Calle: {{calle}} No. {{numeroext}} Int. {{numeroint}}, Col. {{colonia}}, CP: {{codigopostal}}, {{ciudad}}, {{estado}}, México
                         </p>
                         <div class="container row">
                             <div class="col-8 pl-0">
                                 <p class="blacktxt bolder nomarginbottomP">Lugar de Expedicion: <br>
-                                    <span>Calle: <i>Jose Matias de Anchondo, CP. 31203</i></span>
+                                    <span>Calle: <i>{{lugarExpedicion}}</i></span>
                                 </p>
                             </div>
                             <div class="col-4 mt-2">
@@ -96,8 +96,8 @@
                                     <p class="nomarginbottomP"><span class="blacktxt bolder"> Cliente: ( {{this.objCliente.IdClientes}} )
                               {{this.objCliente.Nombre}} </span></p>
                                     <p class="nomarginbottomP blacktxt">
-                                        <span class=" bolder">Calle:</span> {{this.objCliente.Calle}} No.{{this.objCliente.NumeroExterior}} {{this.objCliente.NumeroInterior}}, CP. {{this.objCliente.CP}}, {{this.objCliente.Colonia}} , {{this.objCliente.Ciudad}} ,
-                                        {{this.objCliente.Estado}}
+                                        <span class=" bolder">Calle:</span> {{this.objCliente.Calle}} No.{{this.objCliente.NumeroExterior}} {{this.objCliente.NumeroInterior}}, CP. {{this.objCliente.CP}}, {{this.objCliente.Colonia}} , {{this.objCliente.Ciudad}}
+                                        , {{this.objCliente.Estado}}
                                         <span class="bolder"> RFC: </span> {{this.objCliente.RFC}}
                                     </p>
                                     <p class="bolder blacktxt nomarginbottomP">Vendedor: <span> {{this.objconc.Vendedor}} </span></p>

@@ -6,6 +6,7 @@ import { DocumentosComponent } from './documentos/documentos.component';
 import { BodegasService } from '../../../services/catalogos/bodegas.service';
 import { Bodega } from '../../../Models/catalogos/bodegas-model';
 import { Subscription } from 'rxjs';
+import { MovimientosinventariosComponent } from './movimientosinventarios/movimientosinventarios.component';
 
 
 @Component({
@@ -314,6 +315,18 @@ this.obtenerProductos(this.bodegaSelect)
       
       let mercanciadl = this.dialog.open(DocumentosComponent, dialogConfig);
     })
+
+  }
+
+  movimientoInv(){
+
+    const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "90%";
+      
+      
+      let movdl = this.dialog.open(MovimientosinventariosComponent, dialogConfig);
 
   }
 

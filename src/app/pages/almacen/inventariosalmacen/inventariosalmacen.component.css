@@ -83,4 +83,5 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .iconoexcel {
     font-size: 30px;
+    margin-right: 10px;
 }

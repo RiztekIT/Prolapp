@@ -1548,12 +1548,13 @@ this.validarStock(cantidad);
 
     console.log(this.service.formDataPedido);
     this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+      console.log('Actualizacion',res)
       Swal.fire({
         icon: 'success',
         title: 'Venta Guardada'
       })
       this.generarEventoCalendario(this.service.formDataPedido.Folio);
-      this.service.filter('Register click');
+      /* this.service.filter('Register click'); */
     }
     )
   }

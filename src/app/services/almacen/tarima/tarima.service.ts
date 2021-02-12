@@ -233,6 +233,11 @@ updateDetalleTarimaSacosPesoTarimasBodega(dt: DetalleTarima) {
   }
 
 
+  generarConsulta(consulta){
+    return this.http.post(APIUrl + '/Tarima/consulta',consulta)
+  }
+
+
   private _listeners = new Subject<any>(); 
       listen(): Observable<any> {
         return this._listeners.asObservable();

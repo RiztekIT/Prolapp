@@ -60,8 +60,11 @@ export class VentasPedidoService {
 
 
   updateVentasPedido(pedido: any) {
-    return this.http.put(this.APIUrl + '/OrdenCarga', pedido);
+    return this.http.put(this.APIUrl + '/Pedido', pedido);
   }
+/*   updateVentasPedido(pedido: any) {
+    return this.http.put(this.APIUrl + '/OrdenCarga', pedido);
+  } */
 
   GetCliente(id:number): Observable <Cliente[]>{
     return this.http.get<any>(this.APIUrl + '/Cliente/id/' + id);

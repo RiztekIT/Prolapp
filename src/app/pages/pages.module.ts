@@ -351,6 +351,7 @@ import { FormatoPDFComponent } from '../components/almacen/formato-pdf/formato-p
 import { NgxSimplePrintModule } from 'ngx-simple-print';
 import { PoshistoricoventasComponent } from './pos/posventadirecta/poshistoricoventas/poshistoricoventas.component';
 import { PossaldosclientesComponent } from './pos/posventadirecta/possaldosclientes/possaldosclientes.component';
+import { MovimientosinventariosComponent } from './almacen/inventariosalmacen/movimientosinventarios/movimientosinventarios.component';
 
 
 
@@ -611,6 +612,7 @@ import { PossaldosclientesComponent } from './pos/posventadirecta/possaldosclien
         FormatoPDFComponent,
         PoshistoricoventasComponent,
         PossaldosclientesComponent,
+        MovimientosinventariosComponent,
     
     ],
     exports: [
@@ -782,7 +784,8 @@ import { PossaldosclientesComponent } from './pos/posventadirecta/possaldosclien
         PosaddeditclientesComponent,
         FormatoPDFComponent,
         PoshistoricoventasComponent,
-        PossaldosclientesComponent
+        PossaldosclientesComponent,
+        MovimientosinventariosComponent
         
     ]
 })
