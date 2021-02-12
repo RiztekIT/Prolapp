@@ -122,6 +122,13 @@ export class MovimientosinventariosComponent implements OnInit {
   
   
   displayedColumns: string[] = ['ID','Clave','Producto', 'Kg','Options'];
+
+  tipoSelect;
+
+  public listTipos: Array<any> = [
+    { tipo: 'Entrada' },
+    { tipo: 'Salida' },    
+  ];
   
 
 
@@ -157,6 +164,7 @@ export class MovimientosinventariosComponent implements OnInit {
     this.dropdownRefresh2();
     this.getbodegas()
     this.productosAgregados = []
+    this.tipoSelect = ""
   }
 
   getProductosInventario(){
@@ -342,6 +350,115 @@ getbodegas(){
 
 
   movimientoInv(){
+
+    console.log(this.tipoSelect);
+
+    if (this.tipoSelect=='Salida'){
+      this.salidaMercancia()
+
+    }else if(this.tipoSelect=='Entrada'){
+      this.entradaMercancia();
+
+    }else{
+      Swal.fire({
+        text: 'Tipo no Seleccionado',
+        icon: 'error'
+      });
+    }
+
+  }
+
+  salidaMercancia(){
+
+
+    let consulta = {
+      'consulta':"select * from detalletarima where Producto='"+this.serviceTarima.formProd.DescripcionProducto+ "' and lote='"+this.Lote+"' and Bodega='"+this.bodegaSelect+"';;"
+    };
+
+    console.log(consulta);
+    this.serviceTarima.generarConsulta(consulta).subscribe((data:any)=>{
+
+      if (data.length>0){
+
+        let PesoNuevo = (+data[0].PesoTotal - +this.PesoTotal )
+
+        let SacosTotales = (+PesoNuevo / +data[0].PesoxSaco).toFixed(4);
+
+
+
+        let consulta2 = {
+          'consulta':"update detalletarima set SacosTotales='"+SacosTotales+"', PesoTotal='"+PesoNuevo+"'  where Producto='"+this.serviceTarima.formProd.DescripcionProducto+ "' and lote='"+this.Lote+"' and Bodega='"+this.bodegaSelect+"';;"
+        };
+
+        this.serviceTarima.generarConsulta(consulta2).subscribe((data2:any)=>{
+          console.log(data2);
+          if (data2.length==0){
+
+            Swal.fire({
+              icon: 'success',
+              title: 'Producto Actualizado',
+              text: ''+this.serviceTarima.formProd.DescripcionProducto+'',
+              timer: 1500
+            })
+          }
+
+        })
+
+
+      }else{
+        Swal.fire({
+          text: 'Producto No Existe en el Inventario',
+          icon: 'error'
+        });
+      }
+
+    })
+
+  }
+
+
+  entradaMercancia(){
+
+
+    let consulta = {
+      'consulta':"select * from detalletarima where Producto='"+this.serviceTarima.formProd.DescripcionProducto+ "' and lote='"+this.Lote+"' and Bodega='"+this.bodegaSelect+"';"
+    };
+
+    console.log(consulta);
+    this.serviceTarima.generarConsulta(consulta).subscribe((data:any)=>{
+
+      if (data.length>0){
+
+        let PesoNuevo = (+data[0].PesoTotal + +this.PesoTotal)
+
+        let SacosTotales = (+PesoNuevo / +data[0].PesoxSaco).toFixed(4);
+
+
+
+        let consulta2 = {
+          'consulta':"update detalletarima set SacosTotales='"+SacosTotales+"', PesoTotal='"+PesoNuevo+"'  where Producto='"+this.serviceTarima.formProd.DescripcionProducto+ "' and lote='"+this.Lote+"' and Bodega='"+this.bodegaSelect+"';;"
+        };
+
+        this.serviceTarima.generarConsulta(consulta2).subscribe((data2:any)=>{
+          console.log(data2);
+
+          if (data2.length==0){
+
+            Swal.fire({
+              icon: 'success',
+              title: 'Producto Actualizado',
+              text: ''+this.serviceTarima.formProd.DescripcionProducto+'',
+              timer: 1500
+            })
+          }
+
+
+        })
+
+
+      }else{
+
+
     let movimiento = this.detalletarimaBlanco;
     movimiento.ClaveProducto = this.serviceTarima.formProd.ClaveProducto + this.clavemarca + this.claveorigen;
     movimiento.Producto = this.serviceTarima.formProd.DescripcionProducto;
@@ -377,13 +494,24 @@ getbodegas(){
 
       Swal.fire({
         icon: 'success',
-        title: 'Cliente Agregado',
+        title: 'Producto Agregado',
         text: ''+movimiento.Producto+'',
         timer: 1500
       })
       this.llenarTabla();
       this.limpiarCampos();
     })
+     
+      }
+
+    })
+
+
+    
+
+
+
+
 
 
   }
@@ -452,6 +580,26 @@ getbodegas(){
         })
        
       }
+    })
+
+  }
+
+  checarFechas(){
+
+    let consulta = {
+      'consulta':"select * from detalletarima where Producto='"+this.serviceTarima.formProd.DescripcionProducto+ "' and lote='"+this.Lote+"' and Bodega='"+this.bodegaSelect+"';"
+    };
+
+    console.log(consulta);
+    this.serviceTarima.generarConsulta(consulta).subscribe((data:any)=>{
+
+      if (data.length>0){
+
+        this.FechaCaducidad = new Date(data[0].FechaCaducidad);
+        this.FechaMFG = new Date(data[0].FechaMFG);
+
+      }
+
     })
 
   }
