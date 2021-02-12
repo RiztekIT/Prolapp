@@ -9,6 +9,7 @@ import { TraspasoTarima } from '../../../Models/almacen/Tarima/traspasoTarima-mo
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { Usuario } from 'src/app/Models/catalogos/usuarios-model';
 import { MasterDetalleTarima } from 'src/app/Models/almacen/OrdenDescarga/cuu/masterDetalleTarima-model';
+import { Producto } from 'src/app/Models/catalogos/productos-model';
 
 export const APIUrl = environment.APIUrl;
 // export const APIUrl = 'https://localhost:44361/api';
@@ -29,6 +30,10 @@ export class TarimaService {
 
   master;
   masterlotes;
+
+  /* Movimiento de Inventario */
+  formProd= new Producto();
+  /* Movimiento de Inventario */
 
   //^Tarima proviniente de un traspaso de OrdenCarga
   trapasoOrdenCarga: boolean;

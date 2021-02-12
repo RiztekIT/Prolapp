@@ -1,68 +1,176 @@
-<!-- <div class="row">
-    <div class="col-12">
-        <div class="card-header">
-            <h1 style="text-align: center;">Movimiento en Inventarios</h1>
-        </div>
-        <div class="card-body">
+<mat-dialog-content>
+    <div class="row">
+        <div class="col-12">
+            <div class="card-header">
+                <h1 style="text-align: center;">Alta de Inventario</h1>
+            </div>
+            <div class="card-body">
 
-            <h2 style="text-align: center;">Producto</h2>
-            <div class="row">
+                <h2 style="text-align: center;">Producto</h2>
+                <div class="row">
 
-                <div class="col-6">
+                    <div class="col-md-5 col-12">
 
-                    <label class="input-group-text text-info">Producto :</label> <br>
-                    <mat-form-field>
-                        <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl2" [(ngModel)]="ProductoSelect" matInput [matAutocomplete]="autoProducto">
-                        <mat-autocomplete #autoProducto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.Nombre" (onSelectionChange)="onSelectionChange2(option, $event)">
-                                {{option.Nombre}}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
+                        <label class="input-group-text text-info">Producto :</label> <br>
+                        <mat-form-field>
+                            <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl2" [(ngModel)]="ProductoSelect" matInput [matAutocomplete]="autoProducto">
+                            <mat-autocomplete #autoProducto="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.Nombre" (onSelectionChange)="onSelectionChange2(option, $event)">
+                                    {{option.Nombre}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div class="col-md-3 col-12">
+                        <label class="input-group-text text-info">Marca :</label> <br>
+                        <mat-form-field>
+                            <input type="text" placeholder="Seleccionar Marca" aria-label="Number" [formControl]="myControl3" [(ngModel)]="MarcaSelect" matInput [matAutocomplete]="autoMarcaProducto">
+                            <mat-autocomplete #autoMarcaProducto="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptions3 | async" [value]="option.NombreMarca" (onSelectionChange)="onSelectionChangeMarca(option, $event)">
+                                    {{option.NombreMarca}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+
+
+                    <div class="col-md-2 col-12">
+                        <label class="input-group-text text-info">Origen :</label> <br>
+                        <mat-form-field>
+                            <input type="text" placeholder="Seleccionar Origen" aria-label="Number" [formControl]="myControl4" [(ngModel)]="OrigenSelect" matInput [matAutocomplete]="autoOrigenProducto">
+                            <mat-autocomplete #autoOrigenProducto="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptions4 | async" [value]="option.NombreOrigen" (onSelectionChange)="onSelectionChangeOrigen(option, $event)">
+                                    {{option.NombreOrigen}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2 col-12">
+                        <label class="input-group-text text-info">Presentacion :</label> <br>
+                        <mat-form-field>
+                            <input type="text" placeholder="Seleccionar Presentacion" aria-label="Number" [formControl]="myControl5" [(ngModel)]="PresentacionSelect" matInput [matAutocomplete]="autoPresentacionProducto">
+                            <mat-autocomplete #autoPresentacionProducto="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptions5 | async" [value]="option.Presentacion" (onSelectionChange)="onSelectionChangePresentacion(option, $event)">
+                                    {{option.Presentacion}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+
+                        <label class="input-group-text text-info"> Descripcion Producto:</label>
+                        <input type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="serviceTarima.formProd.DescripcionProducto" readonly>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="row">
+
+                    <div class="col-md-4 col-sm-12" style="display: grid">
+
+
+                        <mat-form-field>
+                            <mat-label> Bodega </mat-label>
+
+                            <mat-select (selectionChange)="bodegaCambio($event)" [(ngModel)]="bodegaSelect">
+
+                                <mat-option *ngFor="let dl of listBodega" [value]="dl"> {{dl}} </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+
+                    </div>
+
+                    <div class="col-md-4 col-sm-12" style="display: grid">
+                        <label class="input-group-text text-info"> Kg Totales:</label>
+                        <input type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="this.PesoTotal">
+                    </div>
+
+
+                    <div class="col-md-4 col-sm-12" style="display: grid">
+                        <label class="input-group-text text-info"> Lote:</label>
+                        <input type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="this.Lote">
+                    </div>
 
                 </div>
 
-                <div class="col-6">
-                    <label class="input-group-text text-info">Marca :</label> <br>
-                    <mat-form-field>
-                        <input type="text" placeholder="Seleccionar Marca" aria-label="Number" [formControl]="myControl3" [(ngModel)]="MarcaSelect" matInput [matAutocomplete]="autoMarcaProducto">
-                        <mat-autocomplete #autoMarcaProducto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions3 | async" [value]="option.NombreMarca" (onSelectionChange)="onSelectionChangeMarca(option, $event)">
-                                {{option.NombreMarca}}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
+                <hr>
+                <div class="row">
+                    <div class="col-md-4 col-sm-12">
+                        <label class="input-group-text text-info">Fecha MFG:</label>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <input type="text" readonly="readonly" [matDatepicker]="picker1" class="form-control" name="FechadeMFG" #FechadeMFG="ngModel" [(ngModel)]="this.FechaMFG">
+                        <mat-datepicker #picker1></mat-datepicker>
+                    </div>
+
+
+                    <div class="col-md-4 col-sm-12">
+                        <label class="input-group-text text-info">Fecha de Caducidad:</label>
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <input type="text" readonly="readonly" [matDatepicker]="picker2" class="form-control" name="FechaCad" #FechaCad="ngModel" [(ngModel)]="this.FechaCaducidad">
+                        <mat-datepicker #picker2></mat-datepicker>
+                    </div>
+
+                    <div class="col-md-4 col-12">
+                        <button title="Movimiento Inventario" class="iconoexcel btncoti" mat-fab (click)="movimientoInv()">
+                        <mat-icon>send</mat-icon>
+                    </button>
+                    </div>
+
                 </div>
+
+                <hr>
+
+                <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    <ng-container matColumnDef="ID" sticky>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+                        <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.IdDetalleTarima}}
+                            <td>
+                    </ng-container>
+                    <ng-container matColumnDef="Clave" sticky>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave</th>
+                        <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.ClaveProducto}}
+                            <td>
+                    </ng-container>
+                    <ng-container matColumnDef="Producto" sticky>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                        <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Producto}}
+                            <td>
+                    </ng-container>
+                    <ng-container matColumnDef="Kg" sticky>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
+                        <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.PesoTotal}}
+                            <td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Options" stickyEnd>
+                        <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                        <td mat-cell *matCellDef="let row">
+                            <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button class="btn btn-danger" (click)="onDelete(row)">
+                                <mat-icon>delete_outline</mat-icon>
+                              </button>
+                        </td>
+                    </ng-container>
+                </table>
+
+
+
+
 
             </div>
 
-            <div class="row">
-
-                <div class="col-6">
-                    <label class="input-group-text text-info">Origen :</label> <br>
-                    <mat-form-field>
-                        <input type="text" placeholder="Seleccionar Origen" aria-label="Number" [formControl]="myControl4" [(ngModel)]="OrigenSelect" matInput [matAutocomplete]="autoOrigenProducto">
-                        <mat-autocomplete #autoOrigenProducto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions4 | async" [value]="option.NombreOrigen" (onSelectionChange)="onSelectionChangeOrigen(option, $event)">
-                                {{option.NombreOrigen}}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                </div>
-                <div class="col-6">
-                    <label class="input-group-text text-info">Presentacion :</label> <br>
-                    <mat-form-field>
-                        <input type="text" placeholder="Seleccionar Presentacion" aria-label="Number" [formControl]="myControl5" [(ngModel)]="PresentacionSelect" matInput [matAutocomplete]="autoPresentacionProducto">
-                        <mat-autocomplete #autoPresentacionProducto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions5 | async" [value]="option.Presentacion" (onSelectionChange)="onSelectionChangePresentacion(option, $event)">
-                                {{option.Presentacion}}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                </div>
-            </div>
-
         </div>
-
     </div>
-</div> -->
+</mat-dialog-content>
