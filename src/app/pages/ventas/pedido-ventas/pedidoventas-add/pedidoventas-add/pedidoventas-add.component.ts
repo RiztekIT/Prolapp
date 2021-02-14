@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, InjectionToken, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm, FormControl } from "@angular/forms";
 import { Observable } from 'rxjs';
@@ -45,6 +45,10 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model';
 import { OrdenTemporal } from 'src/app/Models/almacen/OrdenTemporal/ordenTemporal-model';
 import { PedidoInfo } from 'src/app/Models/Pedidos/pedidoInfo-model';
+import {MAT_AUTOCOMPLETE_SCROLL_STRATEGY} from '@angular/material';
+import { Platform } from '@angular/cdk/platform'; 
+import { Overlay } from '@angular/cdk/overlay';
+
 
 
 //Constantes para obtener tipo de cambio
@@ -89,6 +93,8 @@ export const APP_DATE_FORMATS =
   }
 };
 
+export function MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY(overlay: Overlay, platform: Platform) { return () => platform.IOS ? overlay.scrollStrategies.block() : overlay.scrollStrategies.reposition(); }
+
 
 @Component({
   selector: 'app-pedidoventas-add',
@@ -100,11 +106,13 @@ export const APP_DATE_FORMATS =
     },
     {
       provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
-    }
+    },
+    { provide: MAT_AUTOCOMPLETE_SCROLL_STRATEGY, deps: [Overlay, Platform], useFactory: MAT_AUTOCOMPLETE_SCROLL_STRATEGY_FACTORY, }
   ]
 })
 
 export class PedidoventasAddComponent implements OnInit {
+  
   dialogbox: any;
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
