@@ -477,7 +477,11 @@ export class OrdencargadetalleComponent implements OnInit {
 
   validar() {
     console.log(this.service.formData);
-    this.pedidoSVC.updateOrdenCarga(this.service.formData.IdPedido).subscribe(resp => {
+    this.service.formData.FechaInicioCarga = new Date();
+    this.service.formData.FechaFinalCarga = new Date();
+    this.service.formData.Estatus = 'Creada';
+    // this.pedidoSVC.updateOrdenCarga(this.service.formData.IdPedido).subscribe(resp => {
+      this.service.updateOrdenCarga(this.service.formData).subscribe(resp => {
       console.log(resp);
       this.getOrdenCarga();
       this.refreshDetalleOrdenCargaList();

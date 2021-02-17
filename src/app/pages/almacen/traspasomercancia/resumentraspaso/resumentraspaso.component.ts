@@ -70,7 +70,7 @@ export class ResumentraspasoComponent implements OnInit {
 
   obtenerDetallesTraspaso(){
 
-    
+    this.obtenerInformacionOrdenCarga(this.traspasoSVC.selectTraspaso.IdOrdenCarga);
 
       let query = 'select DetalleTraspasoMercancia.*, DetalleTarima.*, OrdenTemporal.* from DetalleTraspasoMercancia left join detalletarima on DetalleTraspasoMercancia.IdDetalle=detalletarima.IdDetalleTarima left join OrdenTemporal on OrdenTemporal.IdDetalleTarima=DetalleTarima.IdDetalleTarima where DetalleTraspasoMercancia.IdTraspasoMercancia='+this.traspasoSVC.selectTraspaso.IdTraspasoMercancia+''
       let consulta = {
@@ -147,6 +147,19 @@ export class ResumentraspasoComponent implements OnInit {
 
 
 // }
+
+obtenerInformacionOrdenCarga(id){
+  let query = 'select * from OrdenCarga where IdOrdenCarga='+id+''
+  let consulta = {
+    'consulta':query
+  };
+
+  this.traspasoSVC.getQuery(consulta).subscribe((oc: any)=>{
+    console.log(oc);
+    this.Caja = oc[0].Caja;
+    this.Fletera = oc[0].Fletera;
+  });
+}
 
   obtenerDocumentosFactura(row,folio: number, id: number) {
 
@@ -1612,6 +1625,21 @@ console.log(error);
         console.log(detalles);
         this.numUSDA = '';
         this.obtenerDetallesTraspaso();
+      })
+
+  }
+  Fletera: string = '';
+  Caja: string = '';
+  actualizarOrdenCarga(){
+    let query = 'update OrdenCarga set Fletera='+"'"+this.Fletera+"'"+', set Caja = '+"'"+this.Caja+"'"+'  where IdOrdenCarga = '+this.traspasoSVC.selectTraspaso.IdOrdenCarga+''
+      let consulta = {
+        'consulta':query
+      };
+
+      console.log(query);
+
+      this.traspasoSVC.getQuery(consulta).subscribe((detalles: any)=>{
+        console.log(detalles);        
       })
 
   }

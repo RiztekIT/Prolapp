@@ -167,7 +167,7 @@
                                                 </div>
                                                 <div class="col-md-3 col-12">
                                                     <label class="input-group-text text-info">Lote:</label>
-                                                    <input type="text" required class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="this.lote">
+                                                    <input type="text" required class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="this.lote" (blur)="checarLote()">
                                                 </div>
                                                 <div class="col-md-3 col-12">
                                                     <label class="input-group-text text-info">Numero Entrada (CBK):</label>

@@ -68,6 +68,8 @@ export class SalidaProductoComponent implements OnInit {
 
   selloCaja: string = "";
 
+  operador: string = "";
+
   FolioPedido: string = "";
   arregloDetalles: any = [];
   ver() {
@@ -82,8 +84,9 @@ export class SalidaProductoComponent implements OnInit {
 
     //^ Obtener informacion de la Orden Carga
     this.service.getOCID(this.IdOrdenCarga).subscribe(data => {
-      this.ocInfo = data[0];
+            this.ocInfo = data[0];
       this.Folio = data[0].Folio;
+      this.operador = data[0].Usuario;
       //^ Obtener informacion adicional a la Ordencarga
       this.service.getOrdenCargaInfoIdOC(this.IdOrdenCarga).subscribe(resSello => {
         if (resSello.length > 0) {
@@ -97,7 +100,7 @@ export class SalidaProductoComponent implements OnInit {
           //^ Obtener informacion de los Detalles de  Orden Carga
           this.service.getOrdenCargaIDList(this.IdOrdenCarga).subscribe((respuesta: any) => {
             console.log('%c⧭', 'color: #514080', respuesta);
-            if (respuesta[0].USDA) {
+            // if (respuesta[0].USDA) {
               //^Generaremos el arreglo con los detalles generales
               this.detallesGenerales();
               // this.ordentemporal.formDataOCDTPDF = respuesta[0]
@@ -106,75 +109,79 @@ export class SalidaProductoComponent implements OnInit {
               //^Dividiremos los detalles por tarima
               let detalle: any;
               for (let l = 0; l < respuesta.length; l++) {
-                let element = respuesta[l];
-              // this.arregloDetalles.forEach((element, i) => {
-                //^ Calculamos el numero de Tarimas
-                let numeroTotalTarimas = ((+element.Sacos) / (+element.USDA));
-                console.log(numeroTotalTarimas);
-                let sacos = +element.USDA
-                let kg = ((sacos) * (+element.PesoxSaco))
+                if(+respuesta[l].USDA > 0){
 
-                //* ------------------------------- EN DADO CASO QUE LA ULTIMA TARIMA NO ESTE COMPLETA ---------------------------------- >
-                
-                //^ Verificar si todas las tarimas tendran el mismo numero de sacos y kg
-                let tarimaCompleta = numeroTotalTarimas % 1;
-                let sacosUltimaTarima;
-                let kgUltimaTarima;
-                let sacosEnteros = 0;
-                console.log(tarimaCompleta);
-                //^ En este caso, la ultima tarima tendra menos sacos que las demas.
-                if (tarimaCompleta > 0) {
-                  console.log('La ultima tarima tendra menos sacos');
-                  //^ Obtenemos el entero de las tarimas
-                  sacosEnteros = Math.floor(numeroTotalTarimas);
-                  console.log(sacosEnteros);
-                  //^ Multiplicamos el numero de tarimas completas por la cantidad de Sacos
-                  let sacosCompletos = +sacosEnteros * +element.USDA;
-                  sacosUltimaTarima = +element.Sacos - +sacosCompletos;
-                  console.log('%c%s', 'color: #99614d', sacosUltimaTarima);
-                  kgUltimaTarima = +element.PesoxSaco * +sacosUltimaTarima;
-                  console.log('%c%s', 'color: #00736b', kgUltimaTarima);
-                } else {
-                  console.log('Todas las tarimas seran iguales');
-                }              
-                //* ------------------------------- EN DADO CASO QUE LA ULTIMA TARIMA NO ESTE COMPLETA ---------------------------------- >
-                
-                
-                // element.Sacos = sacosUltimaTarima;
-                //   element.Kg = kgUltimaTarima;
-                //^ Objeto que sera ingresado
-                detalle = element;
-                detalle.Sacos = sacos;
-                detalle.Kg = kg;
-                //   this.docInfo.push(element);              
-                for (let i = 0; i < numeroTotalTarimas; i++) {
-                  
-                  //^ Verificar si es el ultimo objeto del arreglo.
-                  if ((sacosEnteros > 0) && (i == (sacosEnteros))) {
-                    console.log('ultima posicion ' + i);
-                    detalle.Sacos = sacosUltimaTarima;
-                    detalle.Kg = kgUltimaTarima;
-                    console.log('%c⧭', 'color: #d0bfff', detalle);
+                  let element = respuesta[l];
+                  // this.arregloDetalles.forEach((element, i) => {
+                    //^ Calculamos el numero de Tarimas
+                    let numeroTotalTarimas = ((+element.Sacos) / (+element.USDA));
+                    console.log(numeroTotalTarimas);                
+                    let sacos = +element.USDA
+                    let kg = ((sacos) * (+element.PesoxSaco))
+                    
+                    //* ------------------------------- EN DADO CASO QUE LA ULTIMA TARIMA NO ESTE COMPLETA ---------------------------------- >
+                    
+                    //^ Verificar si todas las tarimas tendran el mismo numero de sacos y kg
+                    let tarimaCompleta = numeroTotalTarimas % 1;
+                    let sacosUltimaTarima;
+                    let kgUltimaTarima;
+                    let sacosEnteros = 0;
+                    console.log(tarimaCompleta);
+                    //^ En este caso, la ultima tarima tendra menos sacos que las demas.
+                    if (tarimaCompleta > 0) {
+                      console.log('La ultima tarima tendra menos sacos');
+                      //^ Obtenemos el entero de las tarimas
+                      sacosEnteros = Math.floor(numeroTotalTarimas);
+                      console.log(sacosEnteros);
+                      //^ Multiplicamos el numero de tarimas completas por la cantidad de Sacos
+                      let sacosCompletos = +sacosEnteros * +element.USDA;
+                      sacosUltimaTarima = +element.Sacos - +sacosCompletos;
+                      console.log('%c%s', 'color: #99614d', sacosUltimaTarima);
+                      kgUltimaTarima = +element.PesoxSaco * +sacosUltimaTarima;
+                      console.log('%c%s', 'color: #00736b', kgUltimaTarima);
+                    } else {
+                      console.log('Todas las tarimas seran iguales');
+                    }              
+                    //* ------------------------------- EN DADO CASO QUE LA ULTIMA TARIMA NO ESTE COMPLETA ---------------------------------- >
+                    
+                    
+                    // element.Sacos = sacosUltimaTarima;
+                    //   element.Kg = kgUltimaTarima;
+                    //^ Objeto que sera ingresado
+                    detalle = element;
+                    detalle.Sacos = sacos;
+                    detalle.Kg = kg;
+                    //   this.docInfo.push(element);              
+                    for (let i = 0; i < numeroTotalTarimas; i++) {
+                      
+                      //^ Verificar si es el ultimo objeto del arreglo.
+                      if ((sacosEnteros > 0) && (i == (sacosEnteros))) {
+                        console.log('ultima posicion ' + i);
+                        detalle.Sacos = sacosUltimaTarima;
+                        detalle.Kg = kgUltimaTarima;
+                        console.log('%c⧭', 'color: #d0bfff', detalle);
+                      }
+                      console.log('%c⧭', 'color: #d0bfff', detalle);
+                      //! ATENCION ESTO TE PUEDE SERVIR
+                      //^ Clonar un objeto antes de hacer push.
+                      let temp = Object.assign({}, detalle);
+                      this.docInfo.push(temp);
+                    }  
+                    // });
                   }
-                  console.log('%c⧭', 'color: #d0bfff', detalle);
-                  //! ATENCION ESTO TE PUEDE SERVIR
-                  //^ Clonar un objeto antes de hacer push.
-                  let temp = Object.assign({}, detalle);
-                  this.docInfo.push(temp);
-                }  
-              // });
-            }
-              console.log(this.docInfo);
-            } else {
-              this.docInfo = respuesta
-            }
-          })
-        })
-
-
-        // this.ordentemporal.GetOrdenTemporalID(+localStorage.getItem('IdOrdenCarga')).subscribe(res => {
-
-
+                 else {
+                  this.docInfo = [];
+                  this.docInfo = respuesta
+                }
+                console.log(this.docInfo);
+              }
+              })
+            })
+            
+            
+            // this.ordentemporal.GetOrdenTemporalID(+localStorage.getItem('IdOrdenCarga')).subscribe(res => {
+              
+              
         //     console.log(this.ordentemporal.formDataOCPDF,'ORDENDECARGA')
 
         //     this.ordentemporal.formDataOtPDF = res;

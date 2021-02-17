@@ -85,10 +85,10 @@
 
                                         <div class="col-12 col-md-4">
 
-                                            <label class="input-group-text text-info txt">Fecha Envio: </label>
-                                            <input title="Dia y hora en la que se realizo el Envio" matInput type="datetime-local"
+                                            <label class="input-group-text text-info txt">Embarca: </label>
+                                            <input title="La persona que cargo la mercancia" matInput type="text"
                                             name="envio" #envio="ngModel" (blur)="onBlurInformacionGeneral()"
-                                            [(ngModel)]="service.formData.FechaEnvio">
+                                            [(ngModel)]="service.formData.Usuario">
                                         </div>
                                         <div class="col-12 col-md-4">
 

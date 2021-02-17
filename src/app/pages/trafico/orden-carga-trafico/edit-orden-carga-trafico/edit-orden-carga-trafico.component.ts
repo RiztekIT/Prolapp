@@ -76,7 +76,7 @@ export class EditOrdenCargaTraficoComponent implements OnInit {
     this.getOrdenCarga();
     this.getFacturaFleteValues();
     this.getTarimaId();
-    // this.dropdownRefresh();
+    this.dropdownRefresh();
     //^ **** PRIVILEGIOS POR USUARIO *****
     this.obtenerPrivilegios();
     //^ **** PRIVILEGIOS POR USUARIO *****

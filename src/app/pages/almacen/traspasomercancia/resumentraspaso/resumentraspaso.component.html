@@ -51,10 +51,12 @@
                             <input title="Ingresar Descripcion de Productos que se mostrara en el Documento" (blur)="updateInformacionTraspaso()" type="text" placeholder="Descripcion de Productos" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.CampoExtra1" matInput>
                         </div>
                         <div class="col-4">
-
+                            <label class="input-group-text text-info">Fletera:</label> <br>
+                            <input title="Ingresar Fletera Orden Carga" (blur)="actualizarOrdenCarga()" type="text" placeholder="Ingrese Fletera" aria-label="Number" [(ngModel)]="this.Fletera" matInput>
                         </div>
                         <div class="col-4">
-
+                            <label class="input-group-text text-info">Caja:</label> <br>
+                            <input title="Ingresar Caja Orden Carga" (blur)="actualizarOrdenCarga()" type="text" placeholder="Ingrese Caja" aria-label="Number" [(ngModel)]="this.Caja" matInput>
                         </div>
                     </div>                
                     <hr>

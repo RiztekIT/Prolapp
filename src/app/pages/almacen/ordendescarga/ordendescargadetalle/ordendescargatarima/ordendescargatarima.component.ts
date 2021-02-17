@@ -71,7 +71,8 @@ export const APP_DATE_FORMATS =
 export class OrdendescargatarimaComponent implements OnInit {
 
 
-  constructor(public router: Router, private dialog: MatDialog, public service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public Tarimaservice: TarimaService, public CalendarioService: CalendarioService) {
+  constructor(public router: Router, private dialog: MatDialog, public service: OrdenDescargaService,
+    public ordenTemporalService: OrdenTemporalService, public Tarimaservice: TarimaService, public CalendarioService: CalendarioService, public serviceTarima: TarimaService) {
     this.service.listen().subscribe((m: any) => {
       console.log(m);
       this.refreshOrdenDescargaList();
@@ -1620,6 +1621,29 @@ export class OrdendescargatarimaComponent implements OnInit {
       console.log('displayed');
     else
       console.log('notdisplayed');
+  }
+
+
+  checarLote(){
+console.log(this.preOrdenTemporalSacos.ClaveProducto);
+
+      let consulta = {
+        'consulta':"select * from detalletarima where ClaveProducto='"+this.preOrdenTemporalSacos.ClaveProducto+ "' and lote='"+this.lote+"' and Bodega='"+this.service.formData.Destino+"';"
+      };
+  
+      console.log(consulta);
+      this.serviceTarima.generarConsulta(consulta).subscribe((data:any)=>{
+      console.log(data);
+        if (data.length>0){
+            
+          this.fechaCaducidad = new Date(data[0].FechaCaducidad);
+          this.fechaMFG = new Date(data[0].FechaMFG);
+  
+        }
+  
+      })
+  
+
   }
 
 }

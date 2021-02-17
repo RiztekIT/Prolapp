@@ -111,10 +111,10 @@
                 <div class="container row">
                     <div class="col-12">
                         <h4>Actualizar Estatus del Pedido
-                            <span class="label label-light-warning">Estatus Actual - {{this.tarimaService.tarimaTrafico.Bodega}}</span>
+                            <!-- <span class="label label-light-warning">Estatus Actual - {{this.tarimaService.tarimaTrafico.Bodega}}</span> -->
                         </h4>
                     </div>
-                    <div *ngIf="this.tarimaService.tarimaTrafico.Bodega!='Terminada'" class="col-9">
+                    <!-- <div *ngIf="this.tarimaService.tarimaTrafico.Bodega!='Terminada'" class="col-9"> -->
 
                         <mat-form-field>
                             <mat-label> Estatus </mat-label>
@@ -129,12 +129,12 @@
                         <input *ngIf="this.estatusSelect=='Transito'" type="text" class="form-control" name="Ubicacion" #Ubicacion="ngModel" [(ngModel)]="UbicacionEstatus">
 
 
-                    </div>
-                    <div *ngIf="this.tarimaService.tarimaTrafico.Bodega!='Terminada'" class="col-3">
+                    <!-- </div> -->
+                    <!-- <div *ngIf="this.tarimaService.tarimaTrafico.Bodega!='Terminada'" class="col-3"> -->
 
-                        <button [disabled]="ActualizarEstatus == false" class="btn btn-success" mat-raised-button type="button" (click)="actualizarEstatus()">Actualizar Estatus</button>
+                        <!-- <button [disabled]="ActualizarEstatus == false" class="btn btn-success" mat-raised-button type="button" (click)="actualizarEstatus()">Actualizar Estatus</button> -->
 
-                    </div>
+                    <!-- </div> -->
                 </div>
             </div>
         </div>
