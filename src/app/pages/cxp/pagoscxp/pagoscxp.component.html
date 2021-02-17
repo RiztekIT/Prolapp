@@ -4,6 +4,119 @@
             <div class="card-body">
                 <h1>Pagos</h1>
                 <mat-tab-group color="#2d5b9e" animationDuration="0ms" mat-align-tabs="end">
+                    <!--  -->
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">people</mat-icon>
+                            Otros Pagos
+                        </ng-template>
+                        <app-pago-nomina></app-pago-nomina>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card ">
+                                    <div class="card-body">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-md-3 col-sm-12" style="display: block; justify-content: center">
+
+                                                </div>
+
+                                                <div class="col-md-3 col-sm-12" style="display: grid">
+
+                                                </div>
+                                                <div class="col-md-6 col-sm-12" style="display: grid">
+                                                    <mat-form-field>
+                                                        <input matInput (keyup)="applyFilter($event.target.value, 'Nomina')" placeholder="Buscar">
+                                                    </mat-form-field>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <hr>
+
+                                        <div style="overflow:auto;">
+
+                                            <table mat-table [dataSource]="listDataNomina" matSort class="scrollable" multiTemplateDataRows>
+
+                                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                                <ng-container matColumnDef="Folio" sticky>
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Folio</th>
+                                                    <td class="folio" mat-cell *matCellDef="let element">{{element.Folio}}
+                                                        <td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="TipoDocumento">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Documento</th>
+                                                    <td mat-cell *matCellDef="let element">{{element.TipoDocumento}}
+                                                        <td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="FolioDocumento">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio Documento</th>
+                                                    <td mat-cell *matCellDef="let element">{{element.FolioDocumento}}
+
+                                                    </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="Cantidad">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
+                                                    <td mat-cell *matCellDef="let element">{{element.Cantidad}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="CuentaOrigen">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta Origen</th>
+                                                    <td mat-cell *matCellDef="let element">{{element.CuentaOrigen}}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="CuentaDestino">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta Destino</th>
+                                                    <td mat-cell *matCellDef="let element">{{element.CuentaDestino}}
+                                                    </td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="FechaPago">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Pago</th>
+                                                    <td mat-cell *matCellDef="let element">{{element.FechaPago | date: 'yyyy/MM/dd'}}
+                                                        <td>
+                                                </ng-container>
+
+                                                <ng-container matColumnDef="Observaciones">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Observaciones</th>
+                                                    <td mat-cell *matCellDef="let element">{{element.Observaciones}}
+                                                    </td>
+                                                </ng-container>
+
+
+                                                <ng-container matColumnDef="Options" stickyEnd>
+                                                    <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                                                    <td mat-cell *matCellDef="let row">
+
+                                                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                            <mat-icon>keyboard_arrow_down</mat-icon>
+                                          </button>
+                                                        <mat-menu #menu="matMenu">
+                                                            <button title="Editar" mat-icon-button class="btn btn-dark">
+                                                                        <mat-icon>edit</mat-icon>
+                                                                    </button>
+                                                        </mat-menu>
+                                                    </td>
+                                                </ng-container>
+                                            </table>
+                                            <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                                            </mat-paginator>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <!--  -->
                     <mat-tab>
                         <ng-template mat-tab-label>
                             <mat-icon class="example-tab-icon">person_pin_circle</mat-icon>
@@ -338,117 +451,7 @@
                         </div>
                     </mat-tab>
                     <!--  -->
-                    <!--  <mat-tab>
-                        <ng-template mat-tab-label>
-                            <mat-icon class="example-tab-icon">people</mat-icon>
-                            Nominas
-                        </ng-template>
-                        <app-pago-nomina></app-pago-nomina>
-                        <hr>
 
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card ">
-                                    <div class="card-body">
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col-md-3 col-sm-12" style="display: block; justify-content: center">
-
-                                                </div>
-
-                                                <div class="col-md-3 col-sm-12" style="display: grid">
-
-                                                </div>
-                                                <div class="col-md-6 col-sm-12" style="display: grid">
-                                                    <mat-form-field>
-                                                        <input matInput (keyup)="applyFilter($event.target.value, 'Nomina')" placeholder="Buscar">
-                                                    </mat-form-field>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-                                        <hr>
-
-                                        <div style="overflow:auto;">
-
-                                            <table mat-table [dataSource]="listDataNomina" matSort class="scrollable" multiTemplateDataRows>
-
-                                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-                                                <ng-container matColumnDef="Folio" sticky>
-                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Folio</th>
-                                                    <td class="folio" mat-cell *matCellDef="let element">{{element.Folio}}
-                                                        <td>
-                                                </ng-container>
-
-                                                <ng-container matColumnDef="TipoDocumento">
-                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Documento</th>
-                                                    <td mat-cell *matCellDef="let element">{{element.TipoDocumento}}
-                                                        <td>
-                                                </ng-container>
-
-                                                <ng-container matColumnDef="FolioDocumento">
-                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio Documento</th>
-                                                    <td mat-cell *matCellDef="let element">{{element.FolioDocumento}}
-
-                                                    </td>
-                                                </ng-container>
-
-                                                <ng-container matColumnDef="Cantidad">
-                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
-                                                    <td mat-cell *matCellDef="let element">{{element.Cantidad}}
-                                                    </td>
-                                                </ng-container>
-                                                <ng-container matColumnDef="CuentaOrigen">
-                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta Origen</th>
-                                                    <td mat-cell *matCellDef="let element">{{element.CuentaOrigen}}
-                                                    </td>
-                                                </ng-container>
-                                                <ng-container matColumnDef="CuentaDestino">
-                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta Destino</th>
-                                                    <td mat-cell *matCellDef="let element">{{element.CuentaDestino}}
-                                                    </td>
-                                                </ng-container>
-
-                                                <ng-container matColumnDef="FechaPago">
-                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Pago</th>
-                                                    <td mat-cell *matCellDef="let element">{{element.FechaPago | date: 'yyyy/MM/dd'}}
-                                                        <td>
-                                                </ng-container>
-
-                                                <ng-container matColumnDef="Observaciones">
-                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Observaciones</th>
-                                                    <td mat-cell *matCellDef="let element">{{element.Observaciones}}
-                                                    </td>
-                                                </ng-container>
-
-
-                                                <ng-container matColumnDef="Options" stickyEnd>
-                                                    <th mat-header-cell *matHeaderCellDef>Opciones</th>
-                                                    <td mat-cell *matCellDef="let row">
-
-                                                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-                                            <mat-icon>keyboard_arrow_down</mat-icon>
-                                          </button>
-                                                        <mat-menu #menu="matMenu">
-                                                            <button title="Editar" mat-icon-button class="btn btn-dark">
-                                                                        <mat-icon>edit</mat-icon>
-                                                                    </button>
-                                                        </mat-menu>
-                                                    </td>
-                                                </ng-container>
-                                            </table>
-                                            <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
-                                            </mat-paginator>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </mat-tab> -->
                     <!--  -->
                     <mat-tab>
                         <ng-template mat-tab-label>

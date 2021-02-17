@@ -49,8 +49,11 @@ arregloTipoDocumentos = [
   {TipoDocumento: 'CMateriaPrima'},
   {TipoDocumento: 'Flete'},
   {TipoDocumento: 'Comision'},
-  {TipoDocumento: 'Nomina'}
+  {TipoDocumento: 'Otros Servicios'},
 ]
+
+
+
 
   obtenerPagos(){
     for (let i = 0; i <= this.arregloTipoDocumentos.length - 1; i++) {
@@ -90,13 +93,12 @@ this.pagosService.getPagoTipo(this.arregloTipoDocumentos[i].TipoDocumento).subsc
         this.listDataComision.paginator = this.paginatorComision;
         this.listDataComision.paginator._intl.itemsPerPageLabel = 'Comisiones por Pagina';
         break;
-      case ('Nomina'):
+      /* case ('Nomina'): */
+      default:
         this.listDataNomina = new MatTableDataSource(data);
         this.listDataNomina.sort = this.sortNomina;
         this.listDataNomina.paginator = this.paginatorNomina;
-        this.listDataNomina.paginator._intl.itemsPerPageLabel = 'Nominas por Pagina';
-        break;
-      default:
+        this.listDataNomina.paginator._intl.itemsPerPageLabel = 'Otros Pagos por Pagina';
         break;
     }
 
@@ -181,11 +183,10 @@ this.pagosService.getPagoTipo(this.arregloTipoDocumentos[i].TipoDocumento).subsc
       case ('Comision'):
         this.listDataComision.filter= filtervalue.trim().toLocaleLowerCase();  
         break;
-      case ('Nomina'):
+        default:
         this.listDataNomina.filter= filtervalue.trim().toLocaleLowerCase();  
         break;
-      default:
-        break;
+     
     }
   }
 

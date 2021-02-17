@@ -38,6 +38,12 @@ export class CompraService {
 
 
 //Obtener Compras
+generarConsulta(consulta) {
+  let query = {
+    'consulta':consulta
+  };
+  return this.http.post(APIUrl + '/Compras/consulta', query);
+}
     getComprasList(): Observable<any[]> {
       return this.http.get<any[]>(APIUrl + '/Compras');
     }

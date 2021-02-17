@@ -23,6 +23,14 @@ export class AddProveedorComponent implements OnInit {
   BodegaInfo
   movimiento
   usuariosesion
+  tipoSelect;
+
+  public listTipos: Array<any> = [
+    { tipo: 'Materia Prima Nacional' },
+    { tipo: 'Materia Prima Extranjero' },    
+    { tipo: 'Gastos y Servicios' },    
+  ];
+  
 
   constructor(public dialogbox: MatDialogRef<AddProveedorComponent>,
     public service: ProveedoresService, private snackBar: MatSnackBar,
@@ -72,18 +80,26 @@ export class AddProveedorComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     // console.log(form.value);
+
+    console.log(this.tipoSelect);
     this.service.addProveedor(form.value).subscribe(res => {
-      this.resetForm(form);
-      // this.snackBar.open(res.toString(), '', {
-      //   duration: 5000,
-      //   verticalPosition: 'top'
-      // });
-      this.movimientos(this.movimiento)
-      Swal.fire({
-        icon: 'success',
-        title: 'Proveedor Agregado'
+      console.log(res);
+      
+      let query = "insert into tipoproveedor values ("+res[0].IdProveedor+",'"+this.tipoSelect+"')"
+      
+      this.service.generarConsulta(query).subscribe(data=>{
+        console.log(data);
+        this.resetForm(form);
+        this.movimientos(this.movimiento)
+        Swal.fire({
+          icon: 'success',
+          title: 'Proveedor Agregado'
+        })
       })
-    }
+
+ 
+     
+    } 
     );
   }
 
