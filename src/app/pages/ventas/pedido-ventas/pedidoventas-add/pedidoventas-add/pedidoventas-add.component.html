@@ -4,28 +4,29 @@
             <div class="card-body">
 
                 <!-- <div class="d-flex justify-content-between"> -->
-<!-- <div class="row"> -->
-    <!-- <div class="container"> -->
+                <!-- <div class="row"> -->
+                <!-- <div class="container"> -->
 
-        <div class="container row">
-            <div class="col-6">
-                <h3 class="text-muted m-t-10 m-b-0">Ventas</h3>
-            </div>
-            <div class="col-2"></div>
-            <div class="col-2">Estatus:
-                <p [ngSwitch]=EstatusOC>
-                    <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
-                    <span *ngSwitchCase="'Cerrada'" class="label label-light-danger">CERRADA</span>
-                    <span *ngSwitchCase="'Duplicada'" class="label label-light-inverse">DUPLICADA</span>
-                </p></div>
-            <div class="col-2">
-                Tipo de Venta: {{service.formDataPedido.Flete}}
-            </div>
-        </div>
+                <div class="container row">
+                    <div class="col-md-6 col-12">
+                        <h3 class="text-muted m-t-10 m-b-0">Ventas</h3>
+                    </div>
+                    <div class="col-md-2 col-12"></div>
+                    <div class="col-md-2 col-12">Estatus:
+                        <p [ngSwitch]=EstatusOC>
+                            <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
+                            <span *ngSwitchCase="'Cerrada'" class="label label-light-danger">CERRADA</span>
+                            <span *ngSwitchCase="'Duplicada'" class="label label-light-inverse">DUPLICADA</span>
+                        </p>
+                    </div>
+                    <div class="col-md-2 col-12">
+                        Tipo de Venta: {{service.formDataPedido.Flete}}
+                    </div>
+                </div>
 
 
 
-        <!-- <div class="col-12">
+                <!-- <div class="col-12">
         <div class="col-4">
 
             <h3 class="text-muted m-t-10 m-b-0">Ventas</h3>
@@ -45,10 +46,10 @@
             Tipo de Venta: {{service.formDataPedido.Flete}}
         </div>
     </div> -->
-    <!-- </div> -->
-<!-- </div> -->
-<!-- <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button> -->
-<button mat-fab (click)="Regresar()" class="btncoti">
+                <!-- </div> -->
+                <!-- </div> -->
+                <!-- <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button> -->
+                <button mat-fab (click)="Regresar()" class="btncoti">
         <mat-icon>undo</mat-icon>
       </button>
 
@@ -61,7 +62,7 @@
 
                 <div class="col-12 mat-elevation-z5">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body body">
 
 
                             <!-- Step 1 -->
@@ -74,10 +75,13 @@
 
                                 <div class="form-material" id="general">
 
-                                    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+                                    <mat-horizontal-stepper class="body" [linear]="isLinear" #stepper>
                                         <mat-step [stepControl]="thirdFormGroup" style="background-color: whitesmoke">
                                             <form>
-                                                <ng-template matStepLabel>Pedido</ng-template>
+                                                <ng-template matStepLabel></ng-template>
+                                                <div class="col-12" style="text-align: center;">
+                                                    <h3>Generales</h3>
+                                                </div>
                                                 <br>
                                                 <div id="step1">
                                                     <div class="container">
@@ -126,7 +130,7 @@
 
                                                                 <div *ngIf="isFlete == true">
                                                                     <label class="input-group-text text-info">Tipo de Flete:</label>
-                                                                    <select [disabled]="valores == true" placeholder="Seleccionar Flete" class="form-control" name="Flete" #Flete="ngModel" (change)="FleteSelected($event)"  [(ngModel)]="service.formDataPedido.Flete">
+                                                                    <select [disabled]="valores == true" placeholder="Seleccionar Flete" class="form-control" name="Flete" #Flete="ngModel" (change)="FleteSelected($event)" [(ngModel)]="service.formDataPedido.Flete">
                                                     <option [ngValue]="null" selected disabled>Seleccionar Flete</option>
                                                     <option *ngFor="let lf of listFlete" [ngValue]="lf.Flete"> {{lf.Flete}} </option>
                                                 </select>
@@ -137,7 +141,7 @@
 
 
                                                             </div>
-                                                            <div class="col-6">
+                                                            <div class="col-md-6 col-12">
                                                                 <label class="input-group-text text-info">Orden de Compra:</label>
                                                                 <input type="text" class="form-control" name="OrdendeCompra" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataPedido.OrdenDeCompra">
 
@@ -182,9 +186,10 @@
                                                 <div class="col-12 col-md-2">
                                                     <br>
                                                     <!-- <button class="btn btn-info btn-md float-md-right" matStepperNext></button> -->
-                                                    <button class="btn btn-prolacto "  mat-raised-button matStepperNext><i class="mdi mdi-arrow-right-bold-circle btn-lg"></i>Siguiente</button>
+                                                    <button class="btn btn-prolacto " mat-raised-button matStepperNext><i class="mdi mdi-arrow-right-bold-circle btn-lg"></i>Siguiente</button>
                                                 </div>
                                             </div>
+                                            <br>
 
                                         </mat-step>
                                         <!--      <mat-step [stepControl]="firstFormGroup">
@@ -211,12 +216,15 @@
                                         </mat-step> -->
                                         <mat-step [stepControl]="firstFormGroup">
                                             <form id='step2'>
-                                                <ng-template matStepLabel>Cliente</ng-template>
-                                                <label class="input-group-text text-info">Cliente :</label> <br>
+                                                <ng-template matStepLabel></ng-template>
+                                                <div class="col-12" style="text-align: center;">
+                                                    <h3>Cliente</h3>
+                                                </div>
+                                                <!-- <label class="input-group-text text-info">Cliente :</label> <br> -->
 
                                                 <mat-form-field>
                                                     <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="this.service.formData.IdClientes" name="IdClientes">
-                                                    <mat-autocomplete #auto="matAutocomplete">
+                                                    <mat-autocomplete CdkScrollable #auto="matAutocomplete">
                                                         <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (blur)="onBlurCliente()" (onSelectionChange)="onSelectionChange(option, $event)">
                                                             {{option.IdClientes}} {{option.Nombre}}
                                                         </mat-option>
@@ -309,15 +317,16 @@
                                                             <div class="col-12 col-md-4">
                                                                 <br>
                                                                 <!-- <button matStepperPrevious class="btn btn-primary btn-md">Back</button> -->
-                                                                <button class="btn btn-prolacto "  mat-raised-button matStepperPrevious><i class="mdi mdi-arrow-left-bold-circle btn-lg"></i>Atras</button>
+                                                                <button class="btn btn-prolacto " mat-raised-button matStepperPrevious><i class="mdi mdi-arrow-left-bold-circle btn-lg"></i>Atras</button>
                                                             </div>
                                                             <div class="col-4"></div>
                                                             <div class="col-12 col-md-4">
                                                                 <br>
                                                                 <!-- <button matStepperNext class="btn btn-info btn-md">Next</button> -->
-                                                                <button class="btn btn-prolacto "  mat-raised-button matStepperNext><i class="mdi mdi-arrow-right-bold-circle btn-lg"></i>Siguiente</button>
+                                                                <button class="btn btn-prolacto " mat-raised-button matStepperNext><i class="mdi mdi-arrow-right-bold-circle btn-lg"></i>Siguiente</button>
                                                             </div>
                                                         </div>
+                                                        <br>
 
                                                     </div>
                                                 </div>
@@ -326,13 +335,16 @@
 
                                         <mat-step [stepControl]="secondFormGroup">
 
-                                            <ng-template matStepLabel>Producto</ng-template>
+                                            <ng-template matStepLabel></ng-template>
+                                            <div class="col-12" style="text-align: center;">
+                                                <h3>Producto</h3>
+                                            </div>
                                             <div id='step3'>
                                                 <form #DetallePedidoForm="ngForm">
                                                     <!-- {{seleccionManual}} {{service.formDataPedido.Flete}} -->
                                                     <div *ngIf=" ((service.formDataPedido.Flete == 'Paqueteria') || (service.formDataPedido.Flete == 'Local') || (service.formDataPedido.Flete == 'Foraneo')) && (seleccionManual == false)" class="row">
 
-                                                        <div class="col-6">
+                                                        <div class="col-md-6 col-12">
 
                                                             <label class="input-group-text text-info">Producto :</label> <br>
                                                             <mat-form-field>
@@ -346,7 +358,7 @@
 
                                                         </div>
 
-                                                        <div class="col-6">
+                                                        <div class="col-md-6 col-12">
                                                             <label class="input-group-text text-info">Marca :</label> <br>
                                                             <mat-form-field>
                                                                 <input type="text" placeholder="Seleccionar Marca" aria-label="Number" [formControl]="myControl3" [(ngModel)]="MarcaSelect" matInput [matAutocomplete]="autoMarcaProducto">
@@ -362,7 +374,7 @@
 
                                                     <div *ngIf=" ((service.formDataPedido.Flete == 'Paqueteria') || (service.formDataPedido.Flete == 'Local') || (service.formDataPedido.Flete == 'Foraneo')) && (seleccionManual == false)" class="row">
 
-                                                        <div class="col-6">
+                                                        <div class="col-md-6 col-12">
                                                             <label class="input-group-text text-info">Origen :</label> <br>
                                                             <mat-form-field>
                                                                 <input type="text" placeholder="Seleccionar Origen" aria-label="Number" [formControl]="myControl4" [(ngModel)]="OrigenSelect" matInput [matAutocomplete]="autoOrigenProducto">
@@ -373,7 +385,7 @@
                                                                 </mat-autocomplete>
                                                             </mat-form-field>
                                                         </div>
-                                                        <div class="col-6">
+                                                        <div class="col-md-6 col-12">
                                                             <label class="input-group-text text-info">Presentacion :</label> <br>
                                                             <mat-form-field>
                                                                 <input type="text" placeholder="Seleccionar Presentacion" aria-label="Number" [formControl]="myControl5" [(ngModel)]="PresentacionSelect" matInput [matAutocomplete]="autoPresentacionProducto">
@@ -391,22 +403,22 @@
                                                         <div class="col-12">
                                                             <div class="card">
                                                                 <div class="card-body">
-                                                
+
                                                                     <!-- <h1 style="text-align: center;">Seleccionar Mercancia</h1> -->
-                                                
+
                                                                     <div class="row">
-                                                
+
                                                                         <div class="col-md-4 col-sm-12" style="display: griblockd; justify-content: center">
-                                                                        
+
                                                                             <!-- <button [(disabled)]="aceptarSeleccion" style="margin-right: 15px;" mat-fab (click)="seleccionarSeleccion()" class="btncoti">
                                                                                 <mat-icon>note_add</mat-icon>
                                                                               </button> -->
-                                                                        
-                                                
+
+
                                                                         </div>
                                                                         <div class="col-md-4 col-sm-12" style="display: grid">
-                                                
-                                                
+
+
                                                                             <!-- <mat-form-field>
                                                                                 <mat-label> Bodega </mat-label>
                                                 
@@ -415,23 +427,23 @@
                                                                                     <mat-option *ngFor="let dl of listBodega" [value]="dl.Bodega"> {{dl.Bodega}} </mat-option>
                                                                                 </mat-select>
                                                                             </mat-form-field> -->
-                                                
+
                                                                         </div>
                                                                         <div class="col-md-4 col-sm-12" style="display: grid">
-                                                
-                                                                         
+
+
                                                                             <mat-form-field style="display: block">
                                                                                 <input matInput (keyup)="applyFilterSeleccion($event.target.value)" placeholder="Buscar">
                                                                             </mat-form-field>
-                                                                            
-                                                
+
+
                                                                         </div>
-                                                
+
                                                                     </div>
-                                                
-                                                
-                                                
-                                                
+
+
+
+
                                                                     <!-- <div class="mat-elevation-z8 container">
                                                                         <div style="overflow:auto;">
                                                 
@@ -462,15 +474,15 @@
                                                 
                                                 
                                                                     <hr> -->
-                                                
-                                                
+
+
                                                                     <div class="mat-elevation-z8 container">
                                                                         <div style="overflow:auto;">
-                                                
+
                                                                             <table mat-table style="width: 100% " [dataSource]="listDataSeleccion" matSort class="scrollable" multiTemplateDataRows>
-                                                
-                                                
-                                                
+
+
+
                                                                                 <!-- <ng-container matColumnDef="select">
                                                                                     <th mat-header-cell *matHeaderCellDef>
                                                                                         <mat-checkbox class="btncoti" (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
@@ -481,46 +493,46 @@
                                                                                         </mat-checkbox>
                                                                                     </td>
                                                                                 </ng-container> -->
-                                                
+
                                                                                 <tr mat-header-row *matHeaderRowDef="displayedColumnsSeleccion"></tr>
                                                                                 <tr mat-row *matRowDef="let row; columns: displayedColumnsSeleccion;" (click)="selection.toggle(row)"></tr>
-                                                                            
-                                                
-                                                
+
+
+
                                                                                 <ng-container matColumnDef="Bodega">
                                                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Bodega</th>
                                                                                     <td mat-cell *matCellDef="let element">{{element.Bodega}}
                                                                                     </td>
                                                                                 </ng-container>
-                                                
+
                                                                                 <ng-container matColumnDef="Clave">
                                                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave</th>
                                                                                     <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}
                                                                                         <td>
                                                                                 </ng-container>
-                                                
-                                                
+
+
                                                                                 <ng-container matColumnDef="Producto">
                                                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
                                                                                     <td mat-cell *matCellDef="let element">{{element.Producto }}
-                                                
+
                                                                                     </td>
                                                                                 </ng-container>
-                                                
+
                                                                                 <ng-container matColumnDef="Lote">
                                                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
                                                                                     <td mat-cell *matCellDef="let element">{{element.Lote}}
                                                                                     </td>
                                                                                 </ng-container>
-                                                
-                                                
-                                                
+
+
+
                                                                                 <ng-container matColumnDef="Fecha Caducidad">
                                                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha De Caducidad</th>
                                                                                     <td mat-cell *matCellDef="let element">{{element.FechaCaducidad | date: 'yyyy/MM/dd'}}
                                                                                     </td>
                                                                                 </ng-container>
-                                                
+
                                                                                 <ng-container matColumnDef="Cantidad">
                                                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
                                                                                     <td mat-cell *matCellDef="let element">{{element.PesoTotal}}
@@ -534,20 +546,20 @@
                                                                                         </button>
                                                                                     </td>
                                                                                 </ng-container>
-                                                
-                                    
-                                                
-                                                
-                                                
+
+
+
+
+
                                                                             </table>
                                                                             <mat-paginator [pageSize]='5' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
                                                                             </mat-paginator>
-                                                
+
                                                                         </div>
                                                                     </div>
-                                                
-                                                
-                                                
+
+
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -587,7 +599,7 @@
                                                                 <input type="text" class="form-control" name="Stock" #Stock="ngModel" [(ngModel)]="service.formProd.Stock" readonly>
  -->
                                                                 <label *ngIf="seleccionManual == false" class="input-group-text text-info"> Descripcion Producto:</label>
-                                                                <input *ngIf="seleccionManual == false"  type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="service.formProd.DescripcionProducto" readonly>
+                                                                <input *ngIf="seleccionManual == false" type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="service.formProd.DescripcionProducto" readonly>
 
 
                                                             </div>
@@ -780,7 +792,7 @@
                                             <!-- Tabla de costos finales -->
 
                                             <div class="container row">
-                                                <div class="col-md-8">
+                                                <div class="col-md-8 col-12">
                                                     <div class="container row">
                                                         <div class="col-md-6 col-12" style="display: grid">
                                                             <br>
