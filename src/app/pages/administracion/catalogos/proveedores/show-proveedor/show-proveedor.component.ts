@@ -26,7 +26,7 @@ export class ShowProveedorComponent implements OnInit {
   usuariosesion
   listData: MatTableDataSource<any>;
   // displayedColumns : string [] = [ 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado', 'NumeroExterior', 'ClaveProveedor', 'Estatus', 'Options'];
-  displayedColumns : string [] = [ 'Nombre', 'RFC', 'RazonSocial', 'Contacto', 'Telefono','Correo', 'Options'];
+  displayedColumns : string [] = [ 'Nombre', 'RFC', 'RazonSocial','Tipo', 'Contacto','Correo', 'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -110,8 +110,8 @@ export class ShowProveedorComponent implements OnInit {
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
-      this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
-    //console.log(this.listData);
+      this.listData.paginator._intl.itemsPerPageLabel = 'Proveedores por Pagina';
+    console.log(this.listData);
     });
 
   }
@@ -177,7 +177,7 @@ export class ShowProveedorComponent implements OnInit {
 
   }
 
-  onEdit(proveedor: Proveedor,movimiento?){
+  onEdit(proveedor,movimiento?){
 // console.log(usuario);
 this.service.formData = proveedor;
     const dialogConfig = new MatDialogConfig();
@@ -185,7 +185,8 @@ this.service.formData = proveedor;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
     dialogConfig.data = {
-      movimiento: movimiento
+      movimiento: movimiento,
+      tipo: proveedor.tipo
     }
     this.dialog.open(EditProveedorComponent, dialogConfig);
   }

@@ -32,6 +32,15 @@ export class ProveedoresService {
     return this.http.post(this.APIUrl + '/proveedor', proveedor);
  }
 
+  generarConsulta(consulta) {
+    let query = {
+      'consulta':consulta
+    };
+    return this.http.post(this.APIUrl + '/proveedor/consulta', query);
+ }
+
+
+
  deleteProveedor(id:number) {
    return this.http.delete(this.APIUrl + '/proveedor/' + id);
 

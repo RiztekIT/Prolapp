@@ -68,6 +68,16 @@ export class FacturaService {
     }
     
   }
+  getFacturasListCLienteProd(): Observable <any[]> {
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.get<[]>('https://erpprolapp.ddns.net:44361/api' + '/Factura/FacturaCliente');
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.get<[]>('https://erpprolapp.ddns.net:44361/api' + '/Factura2/FacturaCliente');
+    }
+    
+  }
 
   //Obtener Lista de Detalles Factura
   getDetallesFacturaList(id: number): Observable <DetalleFactura[]> {
@@ -77,6 +87,16 @@ export class FacturaService {
     }
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura2/DetalleFactura/'+ id);
+    }
+    
+  }
+  getDetallesFacturaListProd(id: number): Observable <DetalleFactura[]> {
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.get<DetalleFactura[]>('https://erpprolapp.ddns.net:44361/api' + '/Factura/DetalleFactura/'+ id);
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.get<DetalleFactura[]>('https://erpprolapp.ddns.net:44361/api' + '/Factura2/DetalleFactura/'+ id);
     }
     
   }

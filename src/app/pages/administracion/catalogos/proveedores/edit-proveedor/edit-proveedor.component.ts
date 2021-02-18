@@ -24,6 +24,14 @@ export class EditProveedorComponent implements OnInit {
   movimiento
   usuariosesion
 
+  tipoSelect;
+
+  public listTipos: Array<any> = [
+    { tipo: 'Materia Prima Nacional' },
+    { tipo: 'Materia Prima Extranjero' },    
+    { tipo: 'Gastos y Servicios' },    
+  ];
+
   constructor(public dialogbox: MatDialogRef<EditProveedorComponent>,
     public service: ProveedoresService, private snackBar: MatSnackBar,
     private usuarioService: UsuariosServieService,
@@ -35,6 +43,7 @@ export class EditProveedorComponent implements OnInit {
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     this.BodegaInfo = this.data;
     this.movimiento = this.BodegaInfo.movimiento
+    this.tipoSelect = this.data.tipo
   }
 
   onClose() {
@@ -43,13 +52,20 @@ export class EditProveedorComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    console.log(form);
     this.service.updateProveedor(form.value).subscribe(res => {
+
+      let query = "update tipoproveedor set tipo= '"+this.tipoSelect+"' where idproveedor= "+form.value.IdProveedor+""
       
-      this.movimientos(this.movimiento)
-      Swal.fire({
-        icon: 'success',
-        title: 'Proveedor Actualizado'
+      this.service.generarConsulta(query).subscribe(data=>{
+
+        this.movimientos(this.movimiento)
+        Swal.fire({
+          icon: 'success',
+          title: 'Proveedor Actualizado'
+        })
       })
+      
     });
   }
  movimientos(movimiento){

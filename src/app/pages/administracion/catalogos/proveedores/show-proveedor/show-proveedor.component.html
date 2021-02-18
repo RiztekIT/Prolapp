@@ -45,15 +45,15 @@
             <td mat-cell *matCellDef="let element">{{element.RazonSocial}}</td>
         </ng-container>
 
+        <ng-container matColumnDef="Tipo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
+            <td mat-cell *matCellDef="let element">{{element.tipo}}</td>
+        </ng-container>
         <ng-container matColumnDef="Contacto">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Contacto</th>
             <td mat-cell *matCellDef="let element">{{element.contacto}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="Telefono">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Telefono</th>
-            <td mat-cell *matCellDef="let element">{{element.telefono}}</td>
-        </ng-container>
 
         <ng-container matColumnDef="Correo">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Correo</th>
