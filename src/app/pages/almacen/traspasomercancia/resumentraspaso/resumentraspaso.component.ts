@@ -1631,7 +1631,7 @@ console.log(error);
   Fletera: string = '';
   Caja: string = '';
   actualizarOrdenCarga(){
-    let query = 'update OrdenCarga set Fletera='+"'"+this.Fletera+"'"+', set Caja = '+"'"+this.Caja+"'"+'  where IdOrdenCarga = '+this.traspasoSVC.selectTraspaso.IdOrdenCarga+''
+    let query = 'update OrdenCarga set Fletera='+"'"+this.Fletera+"'"+', Caja = '+"'"+this.Caja+"'"+'  where IdOrdenCarga = '+this.traspasoSVC.selectTraspaso.IdOrdenCarga+''
       let consulta = {
         'consulta':query
       };
