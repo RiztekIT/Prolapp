@@ -59,13 +59,14 @@
                         <th class="text-center blacktxt bolder ">Usuario</th>
                     </tr>
                     <tr *ngIf="ReporteInformacion.modulo == 'Inventario'">
-                        <th class="blacktxt bolder ">ID</th>
-                        <th class="blacktxt bolder ">Proveedor</th>
+                        <!-- <th class="blacktxt bolder ">ID</th> -->
+                        <!-- <th class="blacktxt bolder ">Proveedor</th> -->
                         <!-- <th class="blacktxt bolder ">QR</th> -->
                         <th class="blacktxt bolder ">Clave P.</th>
-                        <th class="blacktxt bolder ">Lote</th>
-                        <th class="blacktxt bolder nowrap">Fecha Cad</th>
-                        <th class="blacktxt bolder nowrap">Fecha MFG</th>
+                        <th class="blacktxt bolder ">Descripcion</th>
+                        <th *ngIf="this.reporteFechas == false" class="blacktxt bolder ">Lote</th>
+                        <th *ngIf="this.reporteFechas == false" class="blacktxt bolder nowrap">Fecha Cad</th>
+                        <th *ngIf="this.reporteFechas == false" class="blacktxt bolder nowrap">Fecha Prod</th>
                         <!-- <th class="blacktxt bolder nowrap">Sacos</th> -->
                         <!-- <th class="blacktxt bolder ">Peso Saco</th> -->
                         <th class="blacktxt bolder ">Peso Total</th>
@@ -146,16 +147,17 @@
 
 
                             <tr *ngFor="let info of arrcon[i].detalle" class="pgbreak">
-                                <td class=" text-center pgbreak"> {{info.IdProveedor}} </td>
-                                <td class=" text-center pgbreak"> {{info.Proveedor}} </td>
+                                <!-- <td class=" text-center pgbreak"> {{info.IdProveedor}} </td> -->
+                                <!-- <td class=" text-center pgbreak"> {{info.Proveedor}} </td> -->
                                 <!-- <td class=" text-center pgbreak"> {{info.QR}} </td> -->
                                 <td class=" text-center pgbreak"> {{info.ClaveProducto}} </td>
-                                <td class=" text-center pgbreak"> {{info.Lote}} </td>
-                                <td class=" text-center pgbreak texto"> {{info.FechaCaducidad| date: 'yyyy/MM/dd'}} </td>
-                                <td class=" text-center pgbreak texto"> {{info.FechaMFG| date: 'yyyy/MM/dd'}} </td>
+                                <td class=" text-center pgbreak"> {{info.Producto}} </td>
+                                <td *ngIf="this.reporteFechas == false" class=" text-center pgbreak"> {{info.Lote}} </td>
+                                <td *ngIf="this.reporteFechas == false" class=" text-center pgbreak texto"> {{info.FechaCaducidad| date: 'yyyy/MM/dd'}} </td>
+                                <td *ngIf="this.reporteFechas == false" class=" text-center pgbreak texto"> {{info.FechaMFG| date: 'yyyy/MM/dd'}} </td>
                                 <!-- <td class=" text-center pgbreak"> {{info.Sacos1}} </td> -->
                                 <!-- <td class=" text-center pgbreak"> {{info.PesoxSaco}} </td> -->
-                                <td class=" text-center pgbreak"> {{info.PesoTotal}} Kg </td>
+                                <td class=" text-center pgbreak"> {{info.PesoTotal | number: '1.0-0'}} Kg </td>
                                 <!-- <td class=" text-center pgbreak texto"> {{info.FechaDeEntrega| date: 'yyyy/MM/dd'}} </td> -->
                                 <!-- <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="pgbreak texto text-center "> {{info.Total | currency}} </td> -->
                                 <!-- <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="pgbreak texto text-center "> {{info.TotalDlls | currency }} </td> -->
@@ -168,7 +170,7 @@
                     <td class="wrap lightback pgbreak " [attr.colspan]="2"> </td>
                     <td class="wrap lightback pgbreak text-center"> Total </td>
                     <!-- <td class="wrap lightback pgbreak text-center"> Sacos: {{sacostotales}} </td> -->
-                    <td class="wrap lightback pgbreak text-center"> Peso: {{pesototal}} Kg</td>
+                    <td class="wrap lightback pgbreak text-center"> Peso: {{pesototal | number: '1.0-0'}} Kg</td>
                 </ng-container>
             </table>
 

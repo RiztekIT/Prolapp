@@ -115,7 +115,7 @@
                     </div>
 
                     <div *ngIf="this.tipoSelect=='Entrada'" class="col-md-4 col-sm-12">
-                        <label class="input-group-text text-info">Fecha MFG:</label>
+                        <label class="input-group-text text-info">Fecha Prod:</label>
                         <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                         <input type="text" readonly="readonly" [matDatepicker]="picker1" class="form-control" name="FechadeMFG" #FechadeMFG="ngModel" [(ngModel)]="this.FechaMFG">
                         <mat-datepicker #picker1></mat-datepicker>

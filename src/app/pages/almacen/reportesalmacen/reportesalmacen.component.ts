@@ -78,6 +78,8 @@ export class ReportesalmacenComponent implements OnInit {
 
    checkedBodegaInventario = false;
    disabledBodegaInventario = true;
+
+  checkedLotesInventario = true;
  
  
    //variable estatus de Orden Carga (creada, preparada, cargada, envidada, transito, terminada)
@@ -322,6 +324,14 @@ export class ReportesalmacenComponent implements OnInit {
       this.checkedBodegaInventario = true;
     }
   }
+      //cuando se filtarara por Lotes
+  onChangeLotesInventario(){
+    if(this.checkedLotesInventario == true){
+      this.checkedLotesInventario = false;
+    }else{
+      this.checkedLotesInventario = true;
+    }
+  }
   //cuando se selecciona un estatus OrdenCarga
   changeEstatusOrdenCarga(event){
     console.log(event);
@@ -436,6 +446,9 @@ console.log(ClaveProducto);
     estatusBodega = true;
     tipoEstatusBodega = this.bodegaInventario; 
   }
+  if(this.checkedLotesInventario == true){
+    filtrarFecha = true;
+  }
 }
     
 // console.log('TipoReporte', tipoReporte);
@@ -460,12 +473,15 @@ console.log(ClaveProducto);
       estatus: estatusBodega,
       tipoEstatus: tipoEstatusBodega,
       bodegaOrigen: this.bodegaOrigen,
-      bodegaDestino: this.bodegaDestino
+      bodegaDestino: this.bodegaDestino,
+      
       
     }
     this.dialog.open( ShowreporteAlmacenComponent, dialogConfig);
 
 
   }
+
+
      
 }

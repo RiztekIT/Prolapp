@@ -434,6 +434,15 @@
                                     </div>
                                 </div>
                                 <hr>
+
+                                <div class="col-4" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedLotesInventario" (change)="onChangeLotesInventario()">
+                                            Agrupar Lotes
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>                             
                                 <!-- <div class="col-4" style="align-self: center">
             <section class="example-section">
                 <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedFechasTraspaso" (change)="onChangePorFechaTraspaso()">
@@ -466,12 +475,19 @@
             </div>
         </div> -->
 
-                                <!-- <hr> -->
+                                <hr>
 
                                 <div class="container">
                                     <div class="row">
-                                        <div class="col-4 btnalign">
+                                        <div class="col-12 col-md-4 ">
                                             <button [disabled]="(checkedBodegaInventario == true && !bodegaInventario) || (checkedProductosInventario == false && !InventarioProductoNombre)" class="btn btn-prolacto "  id="abrirpdf" (click)="abrirReporte('Inventario')"><i class="mdi mdi-file-outline "></i>Reporte Inventario</button>
+
+                                        </div>
+                                        <div class="col-12 col-md-4 ">                                            
+
+                                        </div>
+                                        <div class="col-12 col-md-4 ">
+                                            
 
                                         </div>
                                         <!-- <div class="col-4 btnalign">
