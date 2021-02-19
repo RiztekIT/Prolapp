@@ -22,7 +22,7 @@ import { OrdenTemporal } from '../../../Models/almacen/OrdenTemporal/ordenTempor
 export class TraspasomercanciaComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['Folio', 'Fecha','Estatus','Options'];
+  displayedColumns: string[] = ['Folio', 'Kg', 'Origen', 'Destino', 'Fecha','Estatus','Options'];
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   
