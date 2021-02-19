@@ -201,3 +201,17 @@ td {
         height: 21px;
     }
 }
+
+@media print {
+    #printContainer>div {
+        display: inline;
+        overflow-y: visible;
+    }
+}
+
+@media print {
+    #EntradaProducto-PDF>div {
+        display: inline;
+        overflow-y: visible;
+    }
+}

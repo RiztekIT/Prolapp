@@ -34,6 +34,8 @@ import { InicioComponent } from './components/inicio/inicio.component';
 //Modificacion del apartado Clientes/Usuario Login
 import { MatTabsModule, MatIconModule } from '@angular/material';
 
+/* import { PdfViewerModule } from 'ng2-pdf-viewer'; */
+
 
 
 
@@ -109,7 +111,8 @@ import { MatTabsModule, MatIconModule } from '@angular/material';
     ZXingScannerModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),     
     MatTabsModule,
-    MatIconModule
+    MatIconModule,
+    
     // NgbModule
   ],
   bootstrap: [AppComponent],

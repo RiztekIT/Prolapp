@@ -99,3 +99,7 @@ npm install @mdi/font
 
 ## Imprimir html
 npm install ngx-simple-print --save
+
+## PDF Viewer
+npm i ngx-extended-pdf-viewer
+npm i ng2-pdf-viewer

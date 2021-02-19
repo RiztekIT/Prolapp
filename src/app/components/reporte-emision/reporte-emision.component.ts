@@ -38,6 +38,7 @@ export class ReporteEmisionComponent implements OnInit {
     ciudad
     estado;
     numeroint;
+    lugarExpedicion;
 
   ngOnInit() {
     this.rfcE = this.enviarfact.empresa.RFC;
@@ -46,6 +47,7 @@ export class ReporteEmisionComponent implements OnInit {
   this.numeroext = this.enviarfact.empresa.NumeroExterior
   this.colonia = this.enviarfact.empresa.Colonia
   this.codigopostal = this.enviarfact.empresa.CP
+  this.lugarExpedicion = this.enviarfact.empresa.LugarDeExpedicion
   this.ciudad = this.enviarfact.empresa.Ciudad
   this.estado = this.enviarfact.empresa.Estado
   this.numeroint = this.enviarfact.empresa.NumeroInterior

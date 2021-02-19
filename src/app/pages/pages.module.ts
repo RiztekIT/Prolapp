@@ -353,6 +353,11 @@ import { PoshistoricoventasComponent } from './pos/posventadirecta/poshistoricov
 import { PossaldosclientesComponent } from './pos/posventadirecta/possaldosclientes/possaldosclientes.component';
 import { MovimientosinventariosComponent } from './almacen/inventariosalmacen/movimientosinventarios/movimientosinventarios.component';
 
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import {
+    NgxExtendedPdfViewerModule
+  } from 'ngx-extended-pdf-viewer';
+
 
 
 @NgModule({
@@ -668,7 +673,10 @@ import { MovimientosinventariosComponent } from './almacen/inventariosalmacen/mo
         MatButtonToggleModule,
         MatTableExporterModule,        
         MatExpansionModule,
-        NgxSimplePrintModule
+        NgxSimplePrintModule,
+        PdfViewerModule,
+        NgxExtendedPdfViewerModule
+        
         
     ],
     providers: [

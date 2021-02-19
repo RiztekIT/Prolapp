@@ -22,7 +22,14 @@
                         "assets": [
                             "src/favicon.ico",
                             "src/assets",
-                            "src/manifest.json"
+                            "src/assets/F-23.pdf",
+                            "src/manifest.json",
+                            {
+                                "glob": "**/*",
+                                "input": "node_modules/ngx-extended-pdf-viewer/assets/",
+                                "output": "/assets/"
+                            }
+
                         ],
                         "styles": [
                             "src/custom-theme.scss",

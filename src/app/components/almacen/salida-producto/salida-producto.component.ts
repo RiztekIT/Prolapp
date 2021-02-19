@@ -8,6 +8,8 @@ import { OrdenCarga } from '../../../Models/almacen/OrdenCarga/ordencarga.model'
 import { DetalleOrdenCarga } from '../../../Models/almacen/OrdenCarga/detalleOrdenCarga-model';
 import { VentasPedidoService } from '../../../services/ventas/ventas-pedido.service';
 import { element } from 'protractor';
+import Swal from 'sweetalert2';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-salida-producto',
@@ -24,7 +26,7 @@ export class SalidaProductoComponent implements OnInit {
   // pedimento: any;
 
   constructor(public dialogbox: MatDialogRef<SalidaProductoComponent>, private service: OrdenCargaService, public ordentemporal: OrdenTemporalService, public empresaService: EmpresaService,
-    @Inject(MAT_DIALOG_DATA) public dataComponente: any, public ventasService: VentasPedidoService) { }
+    @Inject(MAT_DIALOG_DATA) public dataComponente: any, public ventasService: VentasPedidoService, private sanitizer: DomSanitizer) { }
 
   // objconc: any;
   // con: string | number;
@@ -49,9 +51,32 @@ export class SalidaProductoComponent implements OnInit {
   Folio: number;
 
 
+  pdfSrc
+  currentPdf
+  pdf
+
+style;
+
+
 
   ngOnInit() {
     console.clear();
+    this.style = 'block'
+
+    Swal.showLoading()
+    if (localStorage.getItem('pdfOC')){
+
+      this.pdf = localStorage.getItem('pdfOC');
+    }
+   /*      this.pdfSrc = localStorage.getItem('pdfOC')
+        this.pdfSrc = this.pdfSrc.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
+
+        localStorage.setItem('pdfOC', this.pdfSrc);
+        console.log(this.pdfSrc); */
+        //this.currentPdf = URL.createObjectURL(this.b64toBlob(this.pdfSrc,'data:application/pdf;base64', 1024));
+    
+
+    
 
 
     //^ Obtener Logo de empresa
@@ -60,9 +85,11 @@ export class SalidaProductoComponent implements OnInit {
     this.logo = '../../../assets/images/' + this.empresaService.empresaActual.RFC + '.png'
     this.IdOrdenCarga = this.dataComponente.IdOrdenCarga;
     this.ver();
+    
   }
 
   onClose() {
+    localStorage.removeItem('pdfOC')
     this.dialogbox.close();
   }
 
@@ -168,6 +195,7 @@ export class SalidaProductoComponent implements OnInit {
                       this.docInfo.push(temp);
                     }  
                     // });
+                    
                   }
                  else {
                   this.docInfo = [];
@@ -175,6 +203,12 @@ export class SalidaProductoComponent implements OnInit {
                 }
                 console.log(this.docInfo);
               }
+              setTimeout(()=>{
+                this.onExportClick();
+              },1000)
+              setTimeout(()=>{
+                this.reloadPDF('entro')
+              },4500)
               })
             })
             
@@ -270,7 +304,7 @@ export class SalidaProductoComponent implements OnInit {
 
 
 
-  onExportClick(Folio?: string) {
+  onExportClick2(Folio?: string) {
     const content: Element = document.getElementById('EntradaProducto-PDF');
     const option = {
       margin: [.5, 1, .5, 1],
@@ -285,6 +319,105 @@ export class SalidaProductoComponent implements OnInit {
       .from(content)
       .set(option)
       .save();
+  }
+  onExportClick(Folio?: string) {
+
+    
+    const content: Element = document.getElementById('EntradaProducto-PDF');
+    const option = {
+      
+      margin: [.5, .5, .5, .5],
+      filename: 'OC-' + this.Folio + '.pdf',
+      // image: {type: 'jpeg', quality: 1},
+      html2canvas: { scale: 2, logging: true },
+      jsPDF: { unit: 'cm', format: 'letter', orientation: 'portrait' },
+      pagebreak: { avoid: '.pgbreak' }
+    };
+
+    let worker = html2pdf().from(content).set(option).output('datauristring')
+
+    worker.then(function(pdfAsString){
+      console.log(pdfAsString);
+      this.pdf = pdfAsString;
+      this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
+      localStorage.setItem('pdfOC', this.pdf);
+      this.currentPdf = this.pdf
+
+      
+      
+      
+      
+   /*    
+      localStorage.setItem('pdfOC', pdfAsString);
+      this.pdfSrc = localStorage.getItem('pdfOC')
+      this.pdfSrc = this.pdfSrc.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
+
+      localStorage.setItem('pdfOC', this.pdfSrc);
+      console.log(this.pdfSrc);
+       */
+
+
+      
+    /*   let pdf = blob
+      console.log('1',pdf);
+      
+      this.pdfSrc = pdf; */
+      /* localStorage.setItem('pdfOC', pdf); */
+      
+      
+    })
+
+  /*   html2pdf()
+      .from(content)
+      .set(option)
+      .output('datauristring').then(function(pdfAsString){
+        console.log(pdfAsString);
+        this.pdf = pdfAsString;
+        this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
+        localStorage.setItem('pdfOC', this.pdf);
+        this.currentPdf = this.pdf
+        
+     
+        Swal.close();
+        this.reloadPDF('entro')
+      }) */
+      
+  }
+
+  reloadPDF(event){
+    console.log(event);
+    this.currentPdf = localStorage.getItem('pdfOC');
+    let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank'    
+    link.click();
+    this.style = 'none'
+    
+    Swal.close();
+
+  }
+
+  b64toBlob(b64Data, contentType, sliceSize) {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, {type: contentType});
+    return blob;
   }
 
 
