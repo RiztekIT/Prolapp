@@ -932,11 +932,16 @@ public generarExcelReporteAlmacenOrdenDescarga(datos){
 
   // --------- Inventario ------- //
 
-  public generarExcelReporteAlmacenInventario(datos){
+  public generarExcelReporteAlmacenInventario(datos, AgrupacionLote: boolean){
+    //^ Variables Generales
     const title = 'Reporte Almacen Inventario';
     const header = [""]
-    const header1 = ["ID", "Proveedor", "QR", "Clave Producto", "Lote", "Fecha Caducidad", "Fecha MFG", "Sacos", "Peso Saco", "Peso Total"]
+    const header1 = ["Clave Producto", "Descripcion", "Lote", "Fecha Caducidad", "Fecha Produccion", "Peso Total"]
+    const headerLotesAgrupados = ["Clave Producto", "Descripcion", "Peso Total"]
+
+    //^ Aqui Guardamos el Arreglo donde viene la informacion del Excel A Generar
     const data = datos;
+
     let workbook = new Workbook();
     let worksheet = workbook.addWorksheet('Inventario');
     let titleRow = worksheet.addRow([title]);
@@ -964,79 +969,121 @@ public generarExcelReporteAlmacenOrdenDescarga(datos){
       cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
       cell.font = { color: { argb: 'FFFFFF' } }
     });
-    let headerRow1 = worksheet.addRow(header1);
-    headerRow1.eachCell((cell, number) => {
-  
-      cell.fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: '000000' },
-        bgColor: { argb: 'FFFFFF' }
-      }
-      cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
-      cell.font = { color: { argb: 'FFFFFF' } }
-    });
-    worksheet.mergeCells('B6:I6');
-  
-    console.log(data);
-    const dat: any[] = Array.of(data);
-    console.log(dat);
-  let sacos = 0;
-  let kg= 0;
-    data.forEach((d) => {
-      console.log(d);
-      // let registro = [d.IdProveedor, d.Nombre];
-      // console.log(registro);
-      // let row = worksheet.addRow(registro);
-  
-      d.detalle.forEach((docs) => {
-  
-        let fechaCad= docs.FechaCaducidad.substring(0, 10);
-        let fechaMFG = docs.FechaMFG.substring(0, 10);
-  
-        let registro2 = [docs.IdProveedor, docs.Proveedor, docs.QR, docs.ClaveProducto, docs.Lote, fechaCad, fechaMFG, +docs.Sacos1, +docs.PesoxSaco, docs.SacoDetalle]
-        let row2 = worksheet.addRow(registro2);
 
-        sacos = sacos + +docs.Sacos1;
+    let kg= 0;
 
-        kg = kg + +docs.SacoDetalle;
+//^ verificamos si se agruparon los Lotes
+    if(AgrupacionLote == true){
+      let headerRow1 = worksheet.addRow(header1);
+      headerRow1.eachCell((cell, number) => {
   
-  
-        let pesos = row2.getCell(4);
-        pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-        let dlls = row2.getCell(5);
-        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-        dlls = row2.getCell(6);
-        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-        dlls = row2.getCell(7);
-        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-        dlls = row2.getCell(9);
-        dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
-      })
-  
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: '000000' },
+          bgColor: { argb: 'FFFFFF' }
+        }
+        cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+        cell.font = { color: { argb: 'FFFFFF' } }
+      });
+      worksheet.mergeCells('B6:I6');
+        //^ Agregar Informacion
+        console.log(data);
+        const dat: any[] = Array.of(data);
+        console.log(dat);
+   
+        data.forEach((d) => {
+          console.log(d);
       
+          d.detalle.forEach((docs) => {
+      
+            // let fechaCad= docs.FechaCaducidad.substring(0, 10);
+            // let fechaMFG = docs.FechaMFG.substring(0, 10);
+      
+            let registro2 = [docs.ClaveProducto, docs.Producto, docs.PesoTotal]
+            let row2 = worksheet.addRow(registro2);
+    
+            kg = kg + +docs.PesoTotal;
+      
+      
+            // let pesos = row2.getCell(4);
+            // pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+            // let dlls = row2.getCell(5);
+            // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+            // dlls = row2.getCell(6);
+            // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+            // dlls = row2.getCell(7);
+            // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+            // dlls = row2.getCell(9);
+            // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+          })
+          });
+    }else{
+
+      let headerRow1 = worksheet.addRow(header1);
+      headerRow1.eachCell((cell, number) => {
   
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: '000000' },
+          bgColor: { argb: 'FFFFFF' }
+        }
+        cell.border = { top: { style: 'thin' }, left: { style: 'thin' }, bottom: { style: 'thin' }, right: { style: 'thin' } }
+        cell.font = { color: { argb: 'FFFFFF' } }
+      });
+      worksheet.mergeCells('B6:I6');
+
+      //^ Agregar Informacion
+      console.log(data);
+      const dat: any[] = Array.of(data);
+      console.log(dat);
+ 
+      data.forEach((d) => {
+        console.log(d);
+    
+        d.detalle.forEach((docs) => {
+    
+          let fechaCad= docs.FechaCaducidad.substring(0, 10);
+          let fechaMFG = docs.FechaMFG.substring(0, 10);
+    
+          let registro2 = [docs.ClaveProducto, docs.Producto, docs.Lote, fechaCad, fechaMFG, docs.PesoTotal]
+          let row2 = worksheet.addRow(registro2);
   
-  
-  
-  
-  
+          kg = kg + +docs.PesoTotal;
+    
+    
+          // let pesos = row2.getCell(4);
+          // pesos.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+          // let dlls = row2.getCell(5);
+          // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+          // dlls = row2.getCell(6);
+          // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+          // dlls = row2.getCell(7);
+          // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+          // dlls = row2.getCell(9);
+          // dlls.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-'
+        })
+        });
     }
-    );
-    let suma = ['', '', 'Total', sacos, kg]
+    
+  
+
+    let suma = ['', '', 'Total', kg]
       let sumarow = worksheet.addRow(suma);
       let totalformat = sumarow.getCell(4);
-      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
-      totalformat = sumarow.getCell(5);
-      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
-      totalformat = sumarow.getCell(6);
-      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
-      totalformat = sumarow.getCell(7);
-      totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      // totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      // totalformat = sumarow.getCell(5);
+      // totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      // totalformat = sumarow.getCell(6);
+      // totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
+      // totalformat = sumarow.getCell(7);
+      // totalformat.numFmt = '_-$* #,##0.00_-;-$* #,##0.00_-;_-$* "-"??_-;_-@_-';
   
   
-    worksheet.getColumn(2).width = 15;
-    worksheet.getColumn(3).width = 15;
+    worksheet.getColumn(1).width = 15;
+    worksheet.getColumn(2).width = 44;
+    worksheet.getColumn(3).width = 20;
     worksheet.getColumn(4).width = 15;
     worksheet.getColumn(5).width = 15;
     worksheet.getColumn(6).width = 15;

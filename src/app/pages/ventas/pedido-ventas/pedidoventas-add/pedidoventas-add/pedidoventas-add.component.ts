@@ -116,7 +116,8 @@ export class PedidoventasAddComponent implements OnInit {
   dialogbox: any;
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, private _formBuilder: FormBuilder,
-    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient, public ServiceUnidad: UnidadMedidaService,
+    private serviceTipoCambio: TipoCambioService, public enviarfact: EnviarfacturaService, private serviceProducto: ProductosService, private http: HttpClient, 
+    public ServiceUnidad: UnidadMedidaService,
     public serviceDireccion: ClienteDireccionService, private dialog: MatDialog, public servicecoti: VentasCotizacionService, public addproductos: AddsproductosService,
     public _MessageService: MessageService, public serviceordencarga: OrdenCargaService, public ordenTemporalService: OrdenTemporalService, public location: Location,
     public CalendarioService: CalendarioService, public tarimaService: TarimaService) {

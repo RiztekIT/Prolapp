@@ -105,7 +105,7 @@
                             <td class="wrap lightback pgbreak"> {{conceptos.Lote}}</td>
                             <td class="pgbreak">{{conceptos.Sacos | number: '1.0-0'}} </td>
                             <td class="pgbreak">{{conceptos.PesoxSaco}}</td>
-                            <td class="pgbreak">{{((+conceptos.PesoxSaco)*(+conceptos.Sacos))}}</td>
+                            <td class="pgbreak">{{((+conceptos.PesoxSaco)*(+conceptos.Sacos)) | number: '1.0-0'}}</td>
                             <td class="pgbreak">{{this.ocInfo.Origen}}</td>
                         </tr>
                         <!-- <tr class="pgbreak">
@@ -122,9 +122,9 @@
                     </tbody>
                     <td class="wrap lightback pgbreak texto mt-2" [attr.colspan]="4"> </td>
                     <td class="wrap lightback pgbreak mt-2 bolder blacktxt"> Total </td>
-                    <td class="wrap lightback pgbreak texto mt-2">{{this.ocInfo.Sacos}}</td>
+                    <td class="wrap lightback pgbreak texto mt-2">{{this.ocInfo.Sacos | number: '1.0-0'}}</td>
                     <td class="wrap lightback pgbreak mt-2 bolder blacktxt"> Total KG</td>
-                    <td class="wrap lightback pgbreak texto mt-2"> {{this.ocInfo.Kg}}</td>
+                    <td class="wrap lightback pgbreak texto mt-2"> {{this.ocInfo.Kg | number: '1.0-0'}}</td>
 
                 </table>
 
@@ -150,7 +150,7 @@
                             <tr *ngFor="let conceptos of ocDetalleInfo; let i = index">
                                 <td>{{conceptos.Shipper}}</td>
                                 <td>{{conceptos.Sacos | number: '1.0-0'}}</td>
-                                <td>{{((+conceptos.PesoxSaco)*(+conceptos.Sacos))}}</td>
+                                <td>{{((+conceptos.PesoxSaco)*(+conceptos.Sacos)) | number: '1.0-0'}}</td>
                             </tr>
                         </tbody>
                     </table>

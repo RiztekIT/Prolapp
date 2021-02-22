@@ -71,7 +71,7 @@
                         </ng-container> -->
                         <ng-container matColumnDef="Kg">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
-                            <td mat-cell *matCellDef="let element">{{element.KilogramosTotales}}
+                            <td mat-cell *matCellDef="let element">{{element.KilogramosTotales | number: '1.0-0'}}
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="Origen">

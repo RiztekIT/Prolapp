@@ -1048,7 +1048,7 @@ export class ShowreporteAlmacenComponent implements OnInit {
     } else if (this.ReporteInformacion.modulo == 'OrdenDescarga') {
       this.sharedService.generarExcelReporteAlmacenOrdenDescarga(this.arrcon);
     } else if (this.ReporteInformacion.modulo == 'Inventario') {
-      this.sharedService.generarExcelReporteAlmacenInventario(this.arrcon);
+      this.sharedService.generarExcelReporteAlmacenInventario(this.arrcon, this.reporteFechas);
     } else if (this.ReporteInformacion.modulo == 'Traspaso') {
       this.sharedService.generarExcelReporteImportacionTraspaso(this.arrcon);
     }
