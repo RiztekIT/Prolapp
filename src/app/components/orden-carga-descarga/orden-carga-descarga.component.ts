@@ -59,7 +59,7 @@ this.IdOrdenCarga = this.dataComponente.IdOrdenCarga
   }
   
   ObtenerInformacion(){
-
+console.log(this.IdOrdenCarga);
     //^ Obtendremos la informacion del TraspasoMercancia
     let query = ' select * from TraspasoMercancia where IdOrdenCarga = '+this.IdOrdenCarga;
     // console.log('%c⧭', 'color: #731d6d', query);
@@ -84,7 +84,7 @@ this.traspasoSVC.getQuery(consulta).subscribe((resTraspaso:any)=>{
       this.tdetalleInfo = resTraspaso;
       //^ Obtendremos la informacion de la Orden Carga
       this.ocService.getOCID(this.IdOrdenCarga).subscribe(resOC=>{
-        // console.log(resOC);
+        console.log(resOC);
         this.ocInfo = resOC[0];
         
         //^ Obtendremos la informacion de los Detalles Orden Carga

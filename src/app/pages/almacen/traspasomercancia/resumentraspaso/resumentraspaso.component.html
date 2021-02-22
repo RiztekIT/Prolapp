@@ -5,7 +5,7 @@
                 <h1 style="text-align: center;">Resumen Traspaso de Mercancia</h1>
                 <div class="card-body">
 
-                    <div class="row">
+                    <div class="row" id="element-to-PDF">
                         <div class="col-4">
                             <label class="input-group-text text-info">Folio Trapaso:</label> <br>
 
@@ -63,7 +63,8 @@
 
 
                     <h2 style="text-align: center;">Productos</h2>
-
+ 
+                    
 
                     <div class="row">
                         <div class="col-12">
@@ -122,9 +123,26 @@
 
                     <hr>
 
-                    <!-- <div class="row"> -->
-                    <h2 style="text-align: center;">Archivos</h2>
-                    <!-- </div> -->
+                    <div class="row">
+                        <div class="col-12 col-md-3">
+
+                     
+                        </div>
+                        
+                        <div class="col-12 col-md-3">
+
+                            <h2 style="text-align: center;">Archivos</h2>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button title="Enviar Correo Electronico" (click)="enviarTraspaso()"><mat-icon>contact_mail</mat-icon></button>
+                        </div>
+                        <div class="col-12 col-md-3">
+
+                     
+                        </div>
+                    </div>
+                    
+                    <br>
 
                     <div class="row">
                         <div class="col-md-4 col-12">
