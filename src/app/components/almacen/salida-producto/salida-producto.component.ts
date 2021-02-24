@@ -132,6 +132,24 @@ style;
               this.detallesGenerales();
               // this.ordentemporal.formDataOCDTPDF = respuesta[0]
               // this.dodInfo = respuesta;
+              //^ LE QUITAMOS EL USA 25 KG
+            respuesta.forEach((element, i) => {
+              console.log(i);
+              let producto = respuesta[i].Producto.split(' ')
+              console.log(producto);
+              let cantidadPabras = producto.length;
+              console.log(cantidadPabras);
+              let productoString = ""
+              for (let i = 0; i < cantidadPabras - 3; i++) {
+                if(i == 0){
+                  productoString = producto[i];
+                }else{
+                  productoString = productoString + ' ' + producto[i];
+                }
+              }
+              console.log(productoString);
+              respuesta[i].Producto = productoString;
+            });
               this.arregloDetalles = respuesta;
               //^Dividiremos los detalles por tarima
               let detalle: any;
@@ -274,6 +292,21 @@ style;
         let a = this.arregloDetallesGenerales.indexOf(this.arregloDetallesGenerales.find(clave => clave.ClaveProducto == element.ClaveProducto));
         console.log(a);
         if (a == -1) {
+          //^ QUITAREMOS EL USA 25KG
+          let producto = respuesta[i].Producto.split(' ')
+          console.log(producto);
+          let cantidadPabras = producto.length;
+          console.log(cantidadPabras);
+          let productoString = ""
+          for (let i = 0; i < cantidadPabras - 3; i++) {
+            if(i == 0){
+              productoString = producto[i];
+            }else{
+              productoString = productoString + ' ' + producto[i];
+            }
+          }
+          console.log(productoString);
+         element.Producto = productoString;
           this.arregloDetallesGenerales.push(element);
         } else {
           console.log('Repetido');

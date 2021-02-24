@@ -142,7 +142,7 @@
 
                                                     <div class="row">
                                                         <div class="col-1">
-                                                            <th class=" textoBodyAcomodo acomodoForzadoTh"> {{conceptos.Cantidad}} </th>
+                                                            <th class=" textoBodyAcomodo acomodoForzadoTh"> {{conceptos.Cantidad | number: '1.0-0'}} </th>
                                                         </div>
                                                         <div class="col-2">
                                                             <!-- <th class=" textoBodyAcomodo acomodoForzadoTh2"> {{conceptos.Unidad}} </th> -->
@@ -152,13 +152,15 @@
                                                             <th class=" textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.ClaveProducto}} </th>
                                                         </div>
                                                         <div class="col-5">
-                                                            <th class=" textoBodyAcomodo"> {{conceptos.Producto}}
+                                                            <th class=" textoBodyAcomodo"> {{conceptos.Producto}} </th>
                                                         </div>
                                                         <div class="col-1">
-                                                            <th class=" textoBodyAcomodo"> {{conceptos.PrecioUnitario | currency}}
+                                                            <th *ngIf="this.moneda == 'MXN'" class=" textoBodyAcomodo"> {{conceptos.PrecioUnitario | currency}} </th>
+                                                            <th *ngIf="this.moneda == 'USD'" class=" textoBodyAcomodo"> {{conceptos.PrecioUnitarioDlls | currency}}</th>
                                                         </div>
                                                         <div class="col-2">
-                                                            <th class=" textoBodyAcomodo"> {{this.TotalProducto[i] | currency}}
+                                                            <th *ngIf="this.moneda == 'MXN'" class=" textoBodyAcomodo"> {{((+conceptos.PrecioUnitario)*(+conceptos.Cantidad)) | currency}}</th>
+                                                            <th *ngIf="this.moneda == 'USD'" class=" textoBodyAcomodo"> {{((+conceptos.PrecioUnitarioDlls)*(+conceptos.Cantidad)) | currency}}</th>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -197,7 +199,8 @@
                                                 <p class="nomarginbottomP bolder"><b>Subtotal</b> </p>
                                             </div>
                                             <div class="col-lg-5 col-md-5 col-5">
-                                                <p class="nomarginbottomP bolder"> {{ComprasService.formt.Subtotal | currency}} </p>
+                                                <p *ngIf="this.moneda == 'MXN'" class="nomarginbottomP bolder"> {{ComprasService.formt.Subtotal | currency}} </p>
+                                                <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP bolder"> {{ComprasService.formt.SubtotalDlls | currency}} </p>
                                                 <!-- cambia -->
                                             </div>
                                         </div>
@@ -230,7 +233,8 @@
                                                 <p class="nomarginbottomP bolder"><b>Total</b></p>
                                             </div>
                                             <div class="col-lg-5 col-md-5 col-5">
-                                                <p class="nomarginbottomP bolder"><b> {{ComprasService.formt.Total | currency}} </b></p>
+                                                <p *ngIf="this.moneda == 'MXN'" class="nomarginbottomP bolder"><b> {{ComprasService.formt.Total | currency}} </b></p>
+                                                <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP bolder"><b> {{ComprasService.formt.TotalDlls | currency}} </b></p>
                                                 <!-- cambia -->
                                             </div>
                                         </div>

@@ -77,7 +77,8 @@ this._MessageService.documentosURL = [];
 
     this.obtenerInformacionOrdenCarga(this.traspasoSVC.selectTraspaso.IdOrdenCarga);
 
-    let query = 'select DetalleTraspasoMercancia.*, DetalleTarima.*, OrdenTemporal.* from DetalleTraspasoMercancia left join detalletarima on DetalleTraspasoMercancia.IdDetalle=detalletarima.IdDetalleTarima left join OrdenTemporal on OrdenTemporal.IdDetalleTarima=DetalleTarima.IdDetalleTarima where DetalleTraspasoMercancia.IdTraspasoMercancia=' + this.traspasoSVC.selectTraspaso.IdTraspasoMercancia + ''
+    // let query = 'select DetalleTraspasoMercancia.*, DetalleTarima.*, OrdenTemporal.* from DetalleTraspasoMercancia left join detalletarima on DetalleTraspasoMercancia.IdDetalle=detalletarima.IdDetalleTarima left join OrdenTemporal on OrdenTemporal.IdDetalleTarima=DetalleTarima.IdDetalleTarima where DetalleTraspasoMercancia.IdTraspasoMercancia=' + this.traspasoSVC.selectTraspaso.IdTraspasoMercancia + ''
+    let query = 'select TraspasoMercancia.*, OrdenTemporal.* from TraspasoMercancia left join OrdenTemporal on OrdenTemporal.IdOrdenCarga = TraspasoMercancia.IdOrdenCarga where TraspasoMercancia.IdTraspasoMercancia =' + this.traspasoSVC.selectTraspaso.IdTraspasoMercancia + ''
     let consulta = {
       'consulta': query
     };
@@ -105,7 +106,7 @@ this._MessageService.documentosURL = [];
         this.archivosUSDA = [];
         for (let i = 0; i < detalles.length; i++) {
 
-          this.obtenerDocumentosFactura(detalles[i], detalles[i].Folio, detalles[i].IdDetalleTarima);
+          this.obtenerDocumentosFactura(detalles[i], detalles[i].IdDetalleTarima);
           this.obtenerDocumentosCLV(detalles[i]);
           this.obtenerDocumentosCO(detalles[i]);
           this.obtenerPESPI(detalles[i]);
@@ -168,9 +169,9 @@ this._MessageService.documentosURL = [];
     });
   }
 
-  obtenerDocumentosFactura(row, folio: number, id: number) {
+  obtenerDocumentosFactura(row,  id: number) {
 
-    console.log(folio, id);
+    console.log( id);
     console.log(row, 'ROW');
     try {
       const formData = new FormData();

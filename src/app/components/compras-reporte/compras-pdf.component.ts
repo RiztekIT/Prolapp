@@ -57,11 +57,17 @@ this.ver();
     textnum: string;
   total: string;
 
+  moneda: string = 'USD'
+
   onClose() {
     this.dialogbox.close();
 }
 
 ver(){
+
+  console.log(this.ComprasService.formt)
+  this.moneda = this.ComprasService.formt.Moneda;
+
 
   this.logo = '../../../assets/images/'+this.empresaSVC.empresaActual.RFC+'.png'
   this.rfcE = this.empresaSVC.empresaActual.RFC;

@@ -132,6 +132,9 @@ subs1: Subscription
           dialogConfig.disableClose = false;
           dialogConfig.autoFocus = true;
           dialogConfig.width = "80%";
+          dialogConfig.data = {
+            IdTraspaso: row.IdTraspasoMercancia
+          }
           /* let dl = this.dialog.open(DocumentacionFormularioImportacionComponent, dialogConfig); */
           let dl = this.dialog.open(ResumentraspasoComponent, dialogConfig);
   }

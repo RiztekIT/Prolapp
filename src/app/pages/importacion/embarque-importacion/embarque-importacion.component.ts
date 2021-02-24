@@ -146,7 +146,7 @@ export class EmbarqueImportacionComponent implements OnInit {
   //^ **** PRIVILEGIOS POR USUARIO *****
 
   bodegaCambio(event) {
-    // console.log(event);
+    console.log(event);
     this.bodegaSelect = event.value;
     console.log(this.bodegaSelect);
     if (this.bodegaSelect === 'Todos') {
