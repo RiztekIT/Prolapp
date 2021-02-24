@@ -430,6 +430,7 @@ style;
     this.style = 'none'
     
     Swal.close();
+    this.onClose()
 
   }
 
