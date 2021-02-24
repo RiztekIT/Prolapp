@@ -173,8 +173,8 @@ this.loadtable = true;
 this.listData = new MatTableDataSource();
 this.service.master = [];
 
-    this.service.deleteFacturaCreada().subscribe(data=>{
-      console.log(data);
+    /* this.service.deleteFacturaCreada().subscribe(data=>{
+      console.log(data); */
       
   
 
@@ -201,7 +201,7 @@ console.log(data)
         this.loadtable = false;
         // console.log(this.listData);
       });
-    })
+    /* }) */
       
   }
 

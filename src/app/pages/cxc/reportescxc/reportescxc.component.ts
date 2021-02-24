@@ -19,6 +19,7 @@ import { ReporteMxnComponent } from 'src/app/components/cxc/reporte-mxn/reporte-
 import { ReporteDllsComponent } from 'src/app/components/cxc/reporte-dlls/reporte-dlls.component';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
+import { ReportetotalesComponent } from 'src/app/components/cxc/reportetotales/reportetotales.component';
 
 
 /* Constante y variables para la transformacion de los meses en los datetimepicker */
@@ -64,11 +65,13 @@ export class ReportescxcComponent implements OnInit {
   fechaFinal = new Date();
   loading = false;
   todosClientes = true;
+  todosClientes2 = true;
   myControl = new FormControl();
   filteredOptions: Observable<any[]>
   listClientes: Cliente[] = [];
   options: Cliente[] = [];
   ClienteNombre: any;
+  ClienteNombre2: any;
   listEmpresa;
 
 
@@ -113,6 +116,12 @@ export class ReportescxcComponent implements OnInit {
   checkbox(event){
     this.todosClientes = event.checked;
     console.log(this.todosClientes);
+  }
+
+  checkbox2(event){
+    this.todosClientes2 = event.checked;
+    this.sharedService.allClients = this.todosClientes2;
+    console.log(this.todosClientes2);
   }
 
   obtenerClientes(){
@@ -331,6 +340,14 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
     dialogConfig.autoFocus = true;
     dialogConfig.width = "80%";
     let dl = this.dialog.open(ReportefacturacionfechasComponent, dialogConfig);
+            }
+
+            abrirReporteTotales(){
+              const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "80%";
+    let dl = this.dialog.open(ReportetotalesComponent, dialogConfig);
             }
 
             abrirReporteResumen(){

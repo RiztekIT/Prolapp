@@ -28,6 +28,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 // import { DocumentosclienteComponent } from './documentoscliente/documentoscliente.component';
 import { DocumentosclienteComponent } from './documentoscliente/documentoscliente.component';
+import { ReportetotalesComponent } from './components/cxc/reportetotales/reportetotales.component';
 
 
 
@@ -67,7 +68,8 @@ import { DocumentosclienteComponent } from './documentoscliente/documentosclient
     // CotizacionpedidoComponent,
     ScannerComponent,
     LoginClienteComponent,
-    DocumentosclienteComponent
+    DocumentosclienteComponent,
+    
     
     
     

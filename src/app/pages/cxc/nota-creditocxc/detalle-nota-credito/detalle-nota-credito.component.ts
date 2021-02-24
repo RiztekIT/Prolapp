@@ -16,6 +16,9 @@ import { MessageService } from 'src/app/services/message.service';
 import { NotacreditoComponent } from '../../../../components/notacredito/notacredito/notacredito.component';
 import { EmailComponent } from 'src/app/components/email/email/email.component';
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
+import xml2js from 'xml2js';
+import { processors } from 'xml2js'
+import { AcusecancelacionComponent } from 'src/app/components/acusecancelacion/acusecancelacion.component';
 
 @Component({
   selector: 'app-detalle-nota-credito',
@@ -202,7 +205,7 @@ PrecioUnitario: "0.0000",
 PrecioUnitarioDlls: "0.0000",
 Producto: "DIFERENCIA EN PRECIO",
 TextoExtra: "",
-Unidad: ""
+Unidad: "XNA"
       })
          this.listDetalle = this.service.DetalleFactura;
          
@@ -816,16 +819,16 @@ this.refreshTablaDetalles();
         this.enviarfact.cancelar(id).subscribe(data => {
           let data2 = JSON.parse(data);
           if (data2.response === 'success') {
-            // this.service.updateCancelarFactura(this.service.formData.Id).subscribe(data => {
-            //   this.loading = false;
-            //   Swal.fire({
-            //     title: 'Factura Cancelada',
-            //     icon: 'success',
-            //     timer: 1000,
-            //     showCancelButton: false,
-            //     showConfirmButton: false
-            //   });
-            // });
+             this.service.updateCancelarNota(id).subscribe(data => {
+               this.loading = false;
+               Swal.fire({
+                 title: 'Factura Cancelada',
+                 icon: 'success',
+                 timer: 1000,
+                 showCancelButton: false,
+                 showConfirmButton: false
+               });
+             });
           }
           else if (data2.response === 'error') {
             this.loading = false;
@@ -840,6 +843,110 @@ this.refreshTablaDetalles();
       }
 
     })
+  }
+
+
+  acuse(fact){
+    console.log(fact);
+    /* const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    let dl = this.dialog.open(AcusecancelacionComponent, dialogConfig);
+ */
+    
+
+this.enviarfact.acuseCancelacion(fact.UUID).subscribe((data:any)=>{
+  console.log(data);
+
+
+  let resp = data
+  // let resp = JSON.parse(data)
+  if (data.response=='success'){
+    console.log(resp.respuestaapi.acuse);
+    localStorage.setItem('xml',resp.respuestaapi.acuse)
+  }else{
+    console.log(resp.acuse);
+    localStorage.setItem('xml',resp.acuse)
+  }
+  
+  const p = new xml2js.parseString(localStorage.getItem('xml'), { tagNameProcessors: [processors.stripPrefix] }, (err, result) => {
+    console.log(result);
+    let rfcemisor;
+    let fechahorasolicitud;
+    let fechahoracancel;
+    let foliofiscal;
+    let estatus;
+    let sellodigitalsat;
+
+    rfcemisor = result.Acuse.$.RfcEmisor;
+    fechahorasolicitud = result.Acuse.$.Fecha;
+    fechahoracancel = result.Acuse.$.Fecha;
+    foliofiscal = result.Acuse.Folios[0].UUID[0];
+    if (result.Acuse.Folios[0].EstatusUUID[0]=='201'){
+      estatus='Cancelado'
+    }else{
+      estatus='Estimado cliente se ha enviado la solicitud de cancelación al receptor'
+    }
+    // estatus = resp.message;
+    sellodigitalsat = result.Acuse.Signature[0].SignatureValue[0]
+
+
+    /* console.log(rfcemisor);
+    console.log(fechahorasolicitud);
+    console.log(fechahoracancel);
+    console.log(foliofiscal);
+    console.log(estatus);
+    console.log(sellodigitalsat); */
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    dialogConfig.data = {
+      rfcemisor: rfcemisor,
+    fechahorasolicitud:    fechahorasolicitud,
+    fechahoracancel:    fechahoracancel,
+    foliofiscal:    foliofiscal,
+    estatus:    estatus,
+    sellodigitalsat:    sellodigitalsat
+    }
+    let dl = this.dialog.open(AcusecancelacionComponent, dialogConfig);
+    
+    
+    setTimeout(()=>{
+      // this.proceso = 'xml';
+      const content: Element = document.getElementById('Acuse-PDF');
+      const option = {
+        margin: [.5, .5, .5, 0],
+        filename: 'Acuse-' + fact.UUID + '.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 2, logging: true, scrollY: -2, scrollX: -15 },
+        jsPDF: { unit: 'cm', format: 'letter', orientation: 'p' },
+        pagebreak: { avoid: '.pgbreak' }
+  
+      };
+  
+      html2pdf()
+        .from(content)
+        .set(option).toPdf().get('pdf').then(function (pdf) {
+          setTimeout(() => { }, 1000);
+        })
+        .save();
+
+      dl.close();
+      // this.dialog.closeAll();
+      
+     },1000)
+
+
+
+
+  })
+})
+
+    
+
   }
 
 }

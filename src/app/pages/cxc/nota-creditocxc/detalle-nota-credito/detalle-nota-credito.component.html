@@ -196,14 +196,15 @@
                         <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml2(service.formData.UUID,service.formData.Folio)'><i class="mdi mdi-file-pdf btn-lg"></i>VerPDF</button>
                         <br>
                         <button *ngIf="service.formData.Estatus !== 'Cancelada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)="cancelar(service.formData.UUID,service.formData.Folio)"><i class="mdi mdi-candle btn-lg"></i>Cancelar</button>
+                        <button *ngIf="service.formData.Estatus=='Cancelada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='acuse(service.formData)'><i
+                            class="mdi mdi-download btn-lg"></i>Descargar Acuse</button>
                         <br>
                         <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button>
                         <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="email()"><i class="mdi mdi-email btn-lg"></i>Enviar</button>
                     </div>
                     <div class="col-8" style="display: grid" *ngIf="service.Timbrada == false">
                         <button class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="onTimbrar()"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
-                        <!-- <button class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="crearJson()"><i class="mdi mdi-send btn-lg"></i>JSON</button> -->
-                    </div>
+                         <button class="btn btn-danger btn-lg mb-3" mat-raised-button (click)="crearJson()"><i class="mdi mdi-send btn-lg"></i>JSON</button>                    </div>
                     <div class="col-2">
 
                     </div>

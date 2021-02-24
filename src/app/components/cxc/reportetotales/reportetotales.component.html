@@ -1,0 +1,152 @@
+<!-- TOP PAGE LOGO DESCRIPTION FACTURA -->
+<div class="container">
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4">
+            <button (click)="exportarXLS()" class="btn btn-success"> <i class="mdi mdi-file-excel-box" ></i> Excel </button>
+            <button *ngIf="this.enviarfact.empresa.RFC=='PLA11011243A'" (click)="exportarPDF()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
+            <button *ngIf="this.enviarfact.empresa.RFC=='AIN140101ME3'" (click)="exportarPDFAbarrotodo()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
+        </div>
+    </div>
+</div>
+<mat-dialog-content>
+    <div class="container">
+        <div class="row">
+            <!-- logo -->
+            <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                <div class="card card-outline-inverse">
+                    <!-- <div class="card-header">
+                            <h6 class="m-b-0 text-white">Logo</h6>
+                        </div>
+                        <div class="card-body">
+                        </div> -->
+
+                    <!-- <img src="../../../assets/images/ProLactoLogo.png" class="logo">-->
+                    <img [src]=logo class="logo">
+
+                </div>
+            </div>
+            <!-- descripcion -->
+            <div class="col-9">
+                <h5 class="blacktxt bolder"> {{nombreE}}
+                </h5>
+                <p class="blacktxt bolder nomarginbottomP"><span class="bolder">R.F.C.:</span>{{rfcE}}
+                </p>
+                <p class="blacktxt bolder nomarginbottomP"> Calle: Fernando Montes de OCa No. 4505, Col. Nombre de Dios, CP: 31150, Chihuahua, Chihuahua, México
+                </p>
+                <div class="container row">
+                    <div class="col-8 pl-0">
+                        <p class="blacktxt bolder nomarginbottomP">Lugar de Expedicion <span>Calle: <i>Fernando Montes de Oca, CP. 31150</i></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End TOP -->
+
+    <div class="container row" id="pdf2">
+        <!-- <div class="col-1"></div> -->
+        <div class="col-11">
+
+
+            <table class="table-hover">
+                <thead>
+                    <tr>
+                        <th class="blacktxt bolder">ID Cliente</th>
+                        <th class="blacktxt bolder">Nombre</th>
+                        <!-- <th class="blacktxt bolder ">Folio</th> -->
+                        <th class="blacktxt bolder">Total MXN</th>
+                        <th class="blacktxt bolder">Total Kg</th>
+                        <!-- <th></th> -->
+                    </tr>
+                  <!--   <tr>
+                        <th></th>
+                        <th></th>
+                        <th class="blacktxt bolder ">Total</th>
+                        
+                        <th class="blacktxt bolder ">Moneda</th>
+                        <th class="blacktxt bolder ">T.C.</th>
+                    </tr> -->
+
+                </thead>
+                <tbody *ngFor="let fact of facturas; let i = index">
+                    <tr class="pgbreak border3">
+                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.IdCliente}} </td>
+                        <!-- <td class="wrap lightback"> {{info.Nombre | slice:0:35}} <br> {{info.Nombre | slice:35:this.textoNombre[i]}} </td> -->
+                        <!-- <td class="wrap lightback"> {{info.Nombre}}</td> -->
+                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Nombre | slice:0:50}}</td>
+                        <!-- <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.facturas.Folio}}</td> -->
+                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Total | currency}}</td>
+                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.TotalKg | number}}</td>
+                    </tr>
+                   <!--  <tr>
+                        <td></td>
+                        <td> Productos </td>
+                        <td *ngIf="fact.Moneda==='MXN'" class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Total | currency}}</td>
+                        <td *ngIf="fact.Moneda==='USD'" class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.TotalDlls | currency}}</td>
+                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Moneda}}</td>
+                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.TipoDeCambio | currency}}</td>
+                    </tr> -->
+                    <tr *ngIf="!this.allClients">
+                        <td [attr.colspan]="5">
+                            <table class="table-hover" style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th class="blacktxt bolder " style="font-size: 10px">Kg</th>
+                                        <th class="blacktxt bolder " style="font-size: 10px">Producto</th>
+                                        <th class="blacktxt bolder " style="font-size: 10px">Precio</th>
+                                        <th class="blacktxt bolder " style="font-size: 10px">Importe</th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngFor="let detalle of facturas[i].facturas.detalle">
+                                    <tr class="pgbreak border2">
+                                        <td class="wrap pgbreak" style="font-size: 10px"> {{detalle.Cantidad}} </td>
+                                        <td class="wrap pgbreak" style="font-size: 10px"> {{detalle.ClaveProducto}} </td>
+                                        <td *ngIf="fact.Moneda==='MXN'" class="wrap pgbreak" style="font-size: 10px"> {{detalle.PrecioUnitario | currency}} </td>
+                                        <td *ngIf="fact.Moneda==='USD'" class="wrap pgbreak" style="font-size: 10px"> {{detalle.PrecioUnitarioDlls | currency}} </td>
+                                        <td *ngIf="fact.Moneda==='MXN'" class="wrap pgbreak" style="font-size: 10px"> {{detalle.Importe | currency}} </td>
+                                        <td *ngIf="fact.Moneda==='USD'" class="wrap pgbreak" style="font-size: 10px"> {{detalle.ImporteDlls | currency}} </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <!--      <td class="wrap lightback pgbreak" [attr.colspan]="2"> </td>
+                    <td class="wrap lightback pgbreak"> Total </td>
+                    <td class="wrap lightback pgbreak"> {{info.TotalMXN |currency}} </td>
+                    <td class="wrap lightback pgbreak"> {{info.TotalDLLS |currency}} </td> -->
+                </tbody>
+            </table>
+            <br>
+            <hr>
+           <!--  <br>
+            <br>
+            <table>
+                <thead style="border-style: groove">
+
+                    <tr>
+                        <th class="blacktxt bolder">Total Importe MXN:</th>
+                        <th class="blacktxt bolder">{{ totalmxn | currency }}</th>
+                        <th class="blacktxt bolder"></th>
+                        <th class="blacktxt bolder">Total Importe USD: </th>
+                        <th class="blacktxt bolder "> {{ totaldlls | currency }}</th>
+                        
+                    </tr>
+                    <tr>
+                        <th class="blacktxt bolder">Total Importe General: </th>
+                        <th class="blacktxt bolder "> {{ totalpesos | currency }}</th>
+                        <th class="blacktxt bolder"></th>
+                        <th class="blacktxt bolder">Total Kilos : </th>
+                        <th class="blacktxt bolder "> {{ totalkilos | number }}</th>
+                        
+                    </tr>
+                </thead>
+
+            </table> -->
+
+        </div>
+        <!-- <div class="col-2"></div> -->
+    </div>
+</mat-dialog-content>
