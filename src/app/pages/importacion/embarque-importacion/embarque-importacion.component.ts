@@ -172,6 +172,7 @@ export class EmbarqueImportacionComponent implements OnInit {
   }
 
   applyFilter(filtervalue: string) {
+
     this.listData.filterPredicate = (data, filter: string) => {
       return data.Producto.toString().toLowerCase().includes(filter) || data.Lote.toString().includes(filter);
     };
@@ -180,6 +181,8 @@ export class EmbarqueImportacionComponent implements OnInit {
   }
 
   applyFilter2(filtervalue: string) {
+    console.log(filtervalue);
+    console.log(this.listData)
     this.listData.filterPredicate = (data, filter: string) => {
       return data.Bodega.toString().toLowerCase().includes(filter);
     };
