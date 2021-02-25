@@ -56,9 +56,14 @@
                             <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.IdPedido}} +
                                 <td>
                         </ng-container> -->
-                        <ng-container matColumnDef="Folio">
+                        <!-- <ng-container matColumnDef="Folio">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio</th>
                             <td mat-cell *matCellDef="let element">{{element.Folio}}
+                                <td>
+                        </ng-container> -->
+                        <ng-container matColumnDef="Folio" sticky>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Folio</th>
+                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Folio}} +
                                 <td>
                         </ng-container>
 

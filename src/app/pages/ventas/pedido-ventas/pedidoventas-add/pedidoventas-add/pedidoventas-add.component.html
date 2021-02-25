@@ -756,6 +756,14 @@
                                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
                                                                     <td mat-cell *matCellDef="let element">{{element.Cantidad}}</td>
                                                                 </ng-container>
+                                                                <ng-container matColumnDef="PU" *ngIf="MonedaBoolean == true">
+                                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>P/U</th>
+                                                                    <td mat-cell *matCellDef="let element">{{element.PrecioUnitario | currency }}</td>
+                                                                </ng-container>
+                                                                <ng-container matColumnDef="PU" *ngIf="MonedaBoolean == false">
+                                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>P/U</th>
+                                                                    <td mat-cell *matCellDef="let element">{{element.PrecioUnitarioDlls | currency}}</td>
+                                                                </ng-container>
                                                                 <ng-container matColumnDef="Importe" *ngIf="MonedaBoolean == true">
                                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
                                                                     <td mat-cell *matCellDef="let element">{{element.Importe | currency}}</td>
