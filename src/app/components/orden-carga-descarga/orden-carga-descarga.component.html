@@ -26,7 +26,7 @@
 
 
 
-    <div class="modal0-body ">
+    <div [ngStyle]="{'display':style}" class="modal0-body ">
 
         <div id="OrdenCargaDescarga-PDF">
             <!-- TOP PAGE -->
@@ -192,6 +192,7 @@
         <!-- fin Area A IMPRIMIR -->
 
     </div>
+    <ngx-extended-pdf-viewer [base64Src]="this.currentPdf" [printResolution]="600" useBrowserLocale="true" height="80vh" [showPrintButton]="false"></ngx-extended-pdf-viewer>
 
     <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button>

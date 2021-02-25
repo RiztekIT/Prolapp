@@ -6,6 +6,7 @@ import * as html2pdf from 'html2pdf.js';
 import { ProveedoresService } from '../../services/catalogos/proveedores.service';
 import { Proveedor } from '../../Models/catalogos/proveedores-model';
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
+import Swal from 'sweetalert2';
 
 
 declare function cantidad(n);
@@ -22,11 +23,19 @@ export class ComprasPdfComponent implements OnInit {
   OrigenConsulta: string
   datosODH;
 
+
+  pdfSrc
+  currentPdf
+  pdf
+  style;
+
   constructor(public ComprasService: CompraService, public dialogbox: MatDialogRef<ComprasPdfComponent>, public router: Router,
     public ProveedorService: ProveedoresService, public empresaSVC: EmpresaService,
     @Inject(MAT_DIALOG_DATA) public data: any,) { }
 
   ngOnInit() {
+    this.style = 'block'
+    Swal.showLoading()
     this.OrigenConsulta = null
     console.log('%c%s', 'color: #8c0038', this.data);
     if (this.data) {
@@ -176,11 +185,16 @@ for (this.con in this.objconc){
     console.log('this.unidad : ', this.unidad );
     // console.log(this.arrcon);
     
-    
+    setTimeout(()=>{
+      this.onExportClick();
+    },1000)
+    setTimeout(()=>{
+      this.reloadPDF('entro')
+    },4500)
   });
   }
   
-onExportClick(Folio?:string) {
+onExportClick2(Folio?:string) {
   const content: Element = document.getElementById('element-to-PDF');
   const option = {    
     margin: [.5,0,0,0],
@@ -195,6 +209,79 @@ onExportClick(Folio?:string) {
  .from(content)
  .set(option)
  .save();
+}
+
+
+reloadPDF(event){
+  console.log(event);
+  this.currentPdf = localStorage.getItem('pdfOC');
+  let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
+  const url = window.URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.target = '_blank'    
+  link.click();
+  this.style = 'none'
+  
+  Swal.close();
+  this.onClose()
+
+}
+
+b64toBlob(b64Data, contentType, sliceSize) {
+  const byteCharacters = atob(b64Data);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  const blob = new Blob(byteArrays, {type: contentType});
+  return blob;
+}
+
+onExportClick(Folio?: string) {
+
+  
+  const content: Element = document.getElementById('EntradaProducto-PDF');
+  const option = {
+    
+    margin: [.5,0,0,0],
+    filename: 'C-'+this.ComprasService.formt.Folio+'.pdf',
+    image: {type: 'jpeg', quality: 1},
+    html2canvas: { scale: 2, logging: true },
+    jsPDF: { unit: 'cm', format: 'letter', orientation: 'portrait' },
+    pagebreak: { avoid: '.pgbreak' }
+  };
+
+  let worker = html2pdf().from(content).set(option).output('datauristring')
+
+  worker.then(function(pdfAsString){
+    console.log(pdfAsString);
+    this.pdf = pdfAsString;
+    this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
+    localStorage.setItem('pdfOC', this.pdf);
+    this.currentPdf = this.pdf
+
+    
+    
+    
+
+    
+    
+  })
+
+
+    
 }
 
 }

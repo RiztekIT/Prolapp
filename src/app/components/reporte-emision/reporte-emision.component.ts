@@ -10,6 +10,7 @@ import { VentasPedidoService } from '../../services/ventas/ventas-pedido.service
 import * as html2pdf from 'html2pdf.js';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import { Cliente } from '../../Models/catalogos/clientes-model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-reporte-emision',
@@ -40,7 +41,14 @@ export class ReporteEmisionComponent implements OnInit {
     numeroint;
     lugarExpedicion;
 
+    pdfSrc
+    currentPdf
+    pdf
+    style;
+
   ngOnInit() {
+    this.style = 'block'
+    Swal.showLoading()
     this.rfcE = this.enviarfact.empresa.RFC;
     this.logo = '../../../assets/images/'+this.rfcE+'.png'
     this.calle = this.enviarfact.empresa.Calle
@@ -94,6 +102,12 @@ export class ReporteEmisionComponent implements OnInit {
           this.service.getDetallePedidoId(this.IdPedido).subscribe(resDetalle=>{
             console.log(resDetalle);
             this.arrcon = resDetalle;
+            setTimeout(()=>{
+              this.onExportClick();
+            },1000)
+            setTimeout(()=>{
+              this.reloadPDF('entro')
+            },4500)
           })
         })
       })
@@ -109,7 +123,7 @@ export class ReporteEmisionComponent implements OnInit {
       console.log(this.service.formt.Folio); })  ;
       } 
       
-  onExportClick(Folio?:string) {
+  onExportClick2(Folio?:string) {
     const content: Element = document.getElementById('element-to-PDF');
     const option = {    
       margin: [.5,0,0,0],
@@ -125,4 +139,78 @@ export class ReporteEmisionComponent implements OnInit {
    .set(option)
    .save();
   }
+
+  reloadPDF(event){
+    console.log(event);
+    this.currentPdf = localStorage.getItem('pdfOC');
+    let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank'    
+    link.click();
+    this.style = 'none'
+    
+    Swal.close();
+    this.onClose()
+
+  }
+
+  b64toBlob(b64Data, contentType, sliceSize) {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+  }
+
+  onExportClick(Folio?: string) {
+
+    
+    const content: Element = document.getElementById('element-to-PDF');
+    const option = {
+      
+      margin: [.5, 0, 0, 0],
+      filename: 'OV-'+this.service.formt.Folio+'.pdf',
+      image: {type: 'jpeg', quality: 1},
+      html2canvas: { scale: 2, logging: true },
+      jsPDF: { unit: 'cm', format: 'letter', orientation: 'portrait' },
+      pagebreak: { avoid: '.pgbreak' }
+    };
+
+    let worker = html2pdf().from(content).set(option).output('datauristring')
+
+    worker.then(function(pdfAsString){
+      console.log(pdfAsString);
+      this.pdf = pdfAsString;
+      this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
+      localStorage.setItem('pdfOC', this.pdf);
+      this.currentPdf = this.pdf
+
+      
+      
+      
+
+      
+      
+    })
+
+
+      
+  }
+
+
 }

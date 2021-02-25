@@ -25,7 +25,7 @@
 
 
 
-    <div class="modal0-body" style="overflow-x: auto;">
+    <div [ngStyle]="{'display':style}" class="modal0-body" style="overflow-x: auto;">
         <div class="container" style=" width: 800px;">
             <div id="EntradaProducto-PDF">
                 <!-- TOP PAGE -->
@@ -246,6 +246,7 @@
             <!-- fin Area A IMPRIMIR -->
         </div>
     </div>
+    <ngx-extended-pdf-viewer [base64Src]="this.currentPdf" [printResolution]="600" useBrowserLocale="true" height="80vh" [showPrintButton]="false"></ngx-extended-pdf-viewer>
 </div>
 <!-- <div class="modal-footer"> -->
 <!-- <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button> -->

@@ -132,13 +132,13 @@
                                     <button [disabled]="EditarCompra == false" title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
                                                 <mat-icon>edit</mat-icon>
                                             </button>
+                                    <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
+                                                <mat-icon>visibility</mat-icon>
+                                            </button>
                                     <button [disabled]="BorrarCompra == false" title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="onDelete(row)">
                                                 <mat-icon>delete</mat-icon>
                                             </button>
                                     <!--  -->
-                                    <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
-                                        <mat-icon>visibility</mat-icon>
-                                    </button>
                                     <!--  -->
                                     <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
                                                 <mat-icon>visibility</mat-icon>

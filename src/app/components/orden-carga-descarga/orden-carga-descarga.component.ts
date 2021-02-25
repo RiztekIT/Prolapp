@@ -8,6 +8,7 @@ import { OrdenCarga } from 'src/app/Models/almacen/OrdenCarga/ordencarga.model';
 import { DetalleOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/detalleOrdenCarga-model';
 import { OrdenCargaService } from '../../services/almacen/orden-carga/orden-carga.service';
 import { DetalleTraspasoMercancia } from '../../Models/importacion/traspasoMercancia-model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-orden-carga-descarga',
@@ -51,7 +52,14 @@ export class OrdenCargaDescargaComponent implements OnInit {
 USDA: string="";
   Folio: number;
 
+  pdfSrc
+  currentPdf
+  pdf
+  style;
+
   ngOnInit() {
+    this.style = 'block'
+    Swal.showLoading()
     // this.obtenerDetallesTraspaso()
     // this.ver()
 this.IdOrdenCarga = this.dataComponente.IdOrdenCarga
@@ -94,6 +102,12 @@ this.traspasoSVC.getQuery(consulta).subscribe((resTraspaso:any)=>{
           
           //^ Generar Cadena de producto a mostrar
           this.generarCadenaProducto();
+          setTimeout(()=>{
+            this.onExportClick();
+          },1000)
+          setTimeout(()=>{
+            this.reloadPDF('entro')
+          },4500)
         })
       })
     })
@@ -240,7 +254,7 @@ this.traspasoSVC.getQuery(consulta).subscribe((resTraspaso:any)=>{
 
 
 
-  onExportClick(Folio?: string) {
+  onExportClick2(Folio?: string) {
     const content: Element = document.getElementById('OrdenCargaDescarga-PDF');
     const option = {
       margin: [.5, .5, 0, .5],
@@ -259,6 +273,78 @@ this.traspasoSVC.getQuery(consulta).subscribe((resTraspaso:any)=>{
 
   onClose() {
     this.dialogbox.close();
+  }
+
+  reloadPDF(event){
+    console.log(event);
+    this.currentPdf = localStorage.getItem('pdfOC');
+    let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank'    
+    link.click();
+    this.style = 'none'
+    
+    Swal.close();
+    this.onClose()
+
+  }
+
+  b64toBlob(b64Data, contentType, sliceSize) {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+  }
+
+  onExportClick(Folio?: string) {
+
+    
+    const content: Element = document.getElementById('OrdenCargaDescarga-PDF');
+    const option = {
+      
+      margin: [.5, .5, 0, .5],
+      filename: 'T-' + this.Folio + '.pdf',
+      image: { type: 'jpeg', quality: 1 },
+      html2canvas: { scale: 2, logging: true },
+      jsPDF: { unit: 'cm', format: 'letter', orientation: 'landscape' },
+      pagebreak: { avoid: '.pgbreak' }
+    };
+
+    let worker = html2pdf().from(content).set(option).output('datauristring')
+
+    worker.then(function(pdfAsString){
+      console.log(pdfAsString);
+      this.pdf = pdfAsString;
+      this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
+      localStorage.setItem('pdfOC', this.pdf);
+      this.currentPdf = this.pdf
+
+      
+      
+      
+
+      
+      
+    })
+
+
+      
   }
 
 }

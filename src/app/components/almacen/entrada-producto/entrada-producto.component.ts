@@ -6,6 +6,7 @@ import { OrdenTemporalService } from '../../../services/almacen/orden-temporal/o
 import { OrdenDescargaService } from '../../../services/almacen/orden-descarga/orden-descarga.service';
 import { OrdenDescarga } from '../../../Models/almacen/OrdenDescarga/ordenDescarga-model';
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-entrada-producto',
@@ -38,8 +39,15 @@ export class EntradaProductoComponent implements OnInit {
   usdaOrden: string = '';
 
 
+  pdfSrc
+  currentPdf
+  pdf
+  style;
+
 
   ngOnInit() {
+    this.style = 'block'
+    Swal.showLoading()
     // console.clear();
     // this.dataComponente.IdOrdenDescarga
     // console.log('%c⧭', 'color: #735656', this.dataComponente);
@@ -175,6 +183,12 @@ export class EntradaProductoComponent implements OnInit {
             });
             this.dodInfo = respuesta;
           }
+          setTimeout(()=>{
+            this.onExportClick();
+          },1000)
+          setTimeout(()=>{
+            this.reloadPDF('entro')
+          },4500)
         })
 
 
@@ -272,7 +286,7 @@ export class EntradaProductoComponent implements OnInit {
 
 
 
-  onExportClick(Folio?: string) {
+  onExportClick2(Folio?: string) {
     const content: Element = document.getElementById('EntradaProducto-PDF');
     const option = {
       margin: [.5, 1, .5, 1],
@@ -287,6 +301,79 @@ export class EntradaProductoComponent implements OnInit {
       .from(content)
       .set(option)
       .save();
+  }
+
+
+  reloadPDF(event){
+    console.log(event);
+    this.currentPdf = localStorage.getItem('pdfOC');
+    let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank'    
+    link.click();
+    this.style = 'none'
+    
+    Swal.close();
+    this.onClose()
+
+  }
+
+  b64toBlob(b64Data, contentType, sliceSize) {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+  }
+
+  onExportClick(Folio?: string) {
+
+    
+    const content: Element = document.getElementById('EntradaProducto-PDF');
+    const option = {
+      
+      margin: [.5, .5, .5, .5],
+      filename: 'OC-' + this.Folio + '.pdf',
+      // image: {type: 'jpeg', quality: 1},
+      html2canvas: { scale: 2, logging: true },
+      jsPDF: { unit: 'cm', format: 'letter', orientation: 'portrait' },
+      pagebreak: { avoid: '.pgbreak' }
+    };
+
+    let worker = html2pdf().from(content).set(option).output('datauristring')
+
+    worker.then(function(pdfAsString){
+      console.log(pdfAsString);
+      this.pdf = pdfAsString;
+      this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
+      localStorage.setItem('pdfOC', this.pdf);
+      this.currentPdf = this.pdf
+
+      
+      
+      
+
+      
+      
+    })
+
+
+      
   }
 
 
