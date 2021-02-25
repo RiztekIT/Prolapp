@@ -7,7 +7,7 @@
 
 
 
-    <div class="modal0-body">
+    <div [ngStyle]="{'display':style}" class="modal0-body">
 
         <div id="Cotizacion-PDF">
             <!-- TOP PAGE LOGO DESCRIPTION FACTURA -->
@@ -190,6 +190,8 @@
         </div>
 
     </div>
+
+    <ngx-extended-pdf-viewer [base64Src]="this.currentPdf" [printResolution]="600" useBrowserLocale="true" height="80vh" [showPrintButton]="false"></ngx-extended-pdf-viewer>
 </div>
 
 <div class="modal-footer">
