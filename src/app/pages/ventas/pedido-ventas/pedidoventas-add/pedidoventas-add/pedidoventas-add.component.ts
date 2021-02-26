@@ -193,7 +193,9 @@ export class PedidoventasAddComponent implements OnInit {
     this.clienteLogin = localStorage.getItem("inicioCliente");
     this.Inicializar();
     this.dropdownRefresh();
-    this.dropdownRefreshVendedor();
+    //^ Obtendremos los vendedores al momemnto de checar si ya se selecciono un vendedor (dentro de inicializar)
+    // this.dropdownRefreshVendedor();
+
     // this.dropdownRefresh2();
     this.refreshDetallesPedidoList();
     // this.IniciarTotales();
@@ -630,20 +632,27 @@ export class PedidoventasAddComponent implements OnInit {
   }
 
   //DropDown de Vendedores
-  dropdownRefreshVendedor() {
+  dropdownRefreshVendedor(id?) {
+    
     this.service.GetVendedor().subscribe(data => {
-      for (let i = 0; i < data.length; i++) {
-        let vendedor = data[i];
-        this.listVendedores.push(vendedor);
-        // this.options.push(vendedor)
-        this.filteredOptionsVendedor = this.myControlVendedor.valueChanges
+      console.log(data);
+        for (let i = 0; i < data.length; i++) {
+          let vendedor = data[i];
+          if(id && id == vendedor.IdVendedor){
+            console.log('Este vendedor coincide', vendedor);
+              this.listVendedores.push(vendedor);
+              this.NombreVendedor = vendedor.Nombre;
+          }else if(!id){
+            this.listVendedores.push(vendedor);
+          }
+          // this.options.push(vendedor)
+          this.filteredOptionsVendedor = this.myControlVendedor.valueChanges
           .pipe(
             startWith(''),
             map(value => this._filterVendedor(value))
-          );
-      }
-    });
-
+            );
+          }
+        });
   }
   //Filtro Dropdown Vendedores
   private _filterVendedor(value: any): any[] {
@@ -656,6 +665,16 @@ export class PedidoventasAddComponent implements OnInit {
   onSelectionChangeVendedor(options: Vendedor, event: any) {
     if (event.isUserInput) {
       this.NombreVendedor = options.Nombre;
+    }
+  }
+  //^ Metodo que se ejecuta cuadno en ngOnit. para obtener el nombre del vendedor ya seleccionado.
+  checarVendedor(idVendedor){
+    if(idVendedor){  
+      console.log('si hay vendedor');
+      this.dropdownRefreshVendedor(idVendedor);
+    }else{
+      console.log('Vendedor no seleccionado');
+      this.dropdownRefreshVendedor();
     }
   }
 
@@ -932,6 +951,9 @@ export class PedidoventasAddComponent implements OnInit {
       console.log(data);
       this.service.formDataPedido = data[0];
       this.EstatusOC = this.service.formDataPedido.Estatus;
+
+      //^ Verificamos si ya hay un vendedor seleccionado.
+      this.checarVendedor(data[0].Vendedor);
 
       //^ Obtendremos informacion Adicional al Pedido
       this.service.getPedidoInfoIdPedido(data[0].IdPedido).subscribe(respInfo => {
@@ -1259,6 +1281,7 @@ export class PedidoventasAddComponent implements OnInit {
 
 
   onAddProducto(form: NgForm) {
+    this.productoSeleccionado = "";
     this.service.formDataDP.IdPedido = this.IdPedido;
     //this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto;
     this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen;
@@ -2271,12 +2294,44 @@ export class PedidoventasAddComponent implements OnInit {
   }
 
 
-  verPDF() {
+  async verPDF() {
     // console.log(this.service.formDataPedido);
-    console.log(this.service.formData);
-    console.log(this.service.formDataDP);
-    console.log(this.service.formDataPedido);
-    console.log(this.service.formProd);
+    // console.log(this.service.formData);
+    // console.log(this.service.formDataDP);
+    // console.log(this.service.formDataPedido);
+    // console.log(this.service.formProd);
+
+
+// /* inputOptions can be an object or Promise */
+// const inputOptions = new Promise((resolve) => {
+//   setTimeout(() => {
+//     resolve({
+//       '#ff0000': 'Red',
+//       '#00ff00': 'Green',
+//       '#0000ff': 'Blue'
+//     })
+//   }, 1000)
+// })
+
+// const { value: color } = await Swal.fire({
+//   title: 'Select color',
+//   input: 'radio',
+//   inputOptions: inputOptions,
+//   inputValidator: (value) => {
+//     if (!value) {
+//       return 'You need to choose something!'
+//     }
+//   }
+// })
+
+// if (color) {
+//   Swal.fire({ html: `You selected: ${color}` })
+// }
+
+
+
+
+
     this.service.formt = JSON.parse(localStorage.getItem('pedidopdf'));
     console.log(this.service.formt)
     // console.log();
@@ -2748,6 +2803,8 @@ export class PedidoventasAddComponent implements OnInit {
     this.validarProductos();
   }
 
+  //^ String de Producto seleccionado a ingresar Por Seleccion Manual
+  productoSeleccionado: string = "";
   //^ Metodos para verificar cual es el producto con menos inventario disponible.
   kilogramosMaximos = 0;
   verificarKilogramosMaximosSeleccion(cantidad) {
@@ -2755,7 +2812,11 @@ export class PedidoventasAddComponent implements OnInit {
     console.log('%c%s', 'color: #f200e2', cantidad);
     if (this.kilogramosMaximos >= +cantidad) {
       this.kilogramosMaximos = cantidad
-      this.Cantidad = this.kilogramosMaximos;
+
+      //^ Esto es para al picarle al + se pongan los Kg Maximos en cantidad this.Cantidad = this.kilogramosMaximos;
+      //^ Pondremos en 0 la Cantidad a Ingresar
+      this.Cantidad = 0;
+      this.productoSeleccionado = this.seleccionadosSeleccion[0].Producto; 
     }
     console.log('%c%s', 'color: #1d5673', this.kilogramosMaximos);
   }
