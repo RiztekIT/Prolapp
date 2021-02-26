@@ -92,8 +92,8 @@
                         <label class="input-group-text text-info txt"> FechaFinalCarga: </label>
                         <input type="text" class="form-control" name="FechaFinalCarga" #FechaFinalCarga="ngModel" [(ngModel)]="traficoService.formData.FechaFinalCarga" readonly>
 
-                        <label class="input-group-text text-info"> Observaciones: </label>
-                        <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="traficoService.formData.Observaciones" readonly>
+                        <!-- <label class="input-group-text text-info"> Observaciones: </label>
+                        <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="traficoService.formData.Observaciones" readonly> -->
 
 
                     </div>
@@ -104,7 +104,8 @@
                 <hr>
                 <div class="row">
                     <div class="col-12">
-                        <button [disabled]="GuardarFlete == false" class="btn btn-success" mat-raised-button type="button" *ngIf="this.traficoService.formDatafactura.Estatus== 'Pendiente' " (click)="updateFacturaFlete()">Guardar Flete</button>
+                        <!-- <button [disabled]="GuardarFlete == false" class="btn btn-success" mat-raised-button type="button" *ngIf="this.traficoService.formDatafactura.Estatus== 'Pendiente' " (click)="updateFacturaFlete()">Guardar Flete</button> -->
+                        <button [disabled]="GuardarFlete == false" class="btn btn-success" mat-raised-button type="button" (click)="updateFacturaFlete()">Guardar Flete</button>
                     </div>
                 </div>
                 <hr>
