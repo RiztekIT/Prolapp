@@ -204,12 +204,13 @@ this.movimiento;
     }
     
     datos = JSON.stringify(datos);
-    this.apicliente.crearCliente(datos).subscribe(data =>{
+    // this.apicliente.crearCliente(datos).subscribe(data =>{
         
-      if (data.status==='success'){
-        console.log(data);
+      // if (data.status==='success'){
+        // console.log(data);
 
-        this.service.formData.IdApi=data.Data.UID
+        // this.service.formData.IdApi=data.Data.UID
+        this.service.formData.IdApi='';
         this.service.formData.Estatus = 'Activo'
         //
         this.service.addCliente(this.service.formData).subscribe(res => {
@@ -229,13 +230,14 @@ this.movimiento;
 
         
     
-      }
-      else{
-        console.log(data);
+      // }
+      // else{
+      //   console.log(data);
         
-      }
+      // }
       // this.resetForm(form);
-    })
+
+    // })
 
 
 

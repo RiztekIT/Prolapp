@@ -39,13 +39,13 @@
                     <div class="form-material mat-elevation-z5">
                         <div class="card card-header">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-12 col-md-4">
                                     <h3 class="bolder blacktxt text-center">
                                         General
                                     </h3>
                                 </div>
-                                <div class="col-4"></div>
-                                <div class="col-4">
+                                <div class="col-12 col-md-4"></div>
+                                <div class="col-12 col-md-4">
 
                                 </div>
                             </div>
@@ -107,7 +107,7 @@
 
 
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-12 col-md-6">
                                         <!-- <label class="input-group-text text-info">Orden de Compra:</label>
                                             <input type="text" class="form-control" name="OrdendeCompra" #OrdendeCompra="ngModel" [(ngModel)]="service.formDataPedido.OrdenDeCompra"> -->
 
@@ -163,13 +163,13 @@
                     <div class="form-material mat-elevation-z5">
                         <div class="card card-header">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-12 col-md-4">
                                     <h3 class="bolder blacktxt text-center">
                                         Cliente
                                     </h3>
                                 </div>
-                                <div class="col-4"></div>
-                                <div class="col-4">
+                                <div class="col-12 col-md-4"></div>
+                                <div class="col-12 col-md-4">
 
                                 </div>
                             </div>
@@ -322,13 +322,13 @@
                     <div class="form-material mat-elevation-z5">
                         <div class="card card-header">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-12 col-md-4">
                                     <h3 class="bolder blacktxt text-center">
                                         Productos
                                     </h3>
                                 </div>
-                                <div class="col-4"></div>
-                                <div class="col-4">
+                                <div class="col-12 col-md-4"></div>
+                                <div class="col-12 col-md-4">
 
                                 </div>
                             </div>
@@ -342,7 +342,7 @@
 
                                 <div class="row">
 
-                                    <div class="col-6">
+                                    <div class="col-12 col-md-6">
                                         <label class="input-group-text text-info">Producto :</label> <br>
                                         <mat-form-field>
                                             <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl2" [(ngModel)]="ProductoSelect" matInput [matAutocomplete]="autoProducto">
@@ -355,7 +355,7 @@
 
 
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-12 col-md-6">
                                         <label class="input-group-text text-info">Marca :</label> <br>
                                         <mat-form-field>
                                             <input type="text" placeholder="Seleccionar Marca" aria-label="Number" [formControl]="myControl3" [(ngModel)]="MarcaSelect" matInput [matAutocomplete]="autoMarcaProducto">
@@ -374,7 +374,7 @@
                                 </div>
                                 <div class="row">
 
-                                    <div class="col-6">
+                                    <div class="col-12 col-md-6">
                                         <label class="input-group-text text-info">Origen :</label> <br>
                                         <mat-form-field>
                                             <input type="text" placeholder="Seleccionar Origen" aria-label="Number" [formControl]="myControl4" [(ngModel)]="OrigenSelect" matInput [matAutocomplete]="autoOrigenProducto">
@@ -385,7 +385,7 @@
                                             </mat-autocomplete>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-12 col-md-6">
                                         <label class="input-group-text text-info">Presentacion :</label> <br>
                                         <mat-form-field>
                                             <input type="text" placeholder="Seleccionar Presentacion" aria-label="Number" [formControl]="myControl5" [(ngModel)]="PresentacionSelect" matInput [matAutocomplete]="autoPresentacionProducto">
@@ -472,13 +472,15 @@
                                         </div>
                                         <br>
                                         <div class="container row">
-                                            <div class="col-md-7 col-lg-8">
+                                            <div class="col-12 col-md-6">
                                                 <div *ngIf="ActualizarDetallePedidoBool != true" class="row">
-                                                    <div class="col-6">
+                                                    <div class="col-12 col-md-6">
                                                         <!-- <button  class="btn btn-prolacto btn-lg" mat-raised-button (click)='crearCotizacion()'><i class="mdi mdi-send btn-lg"></i>Guardar Cotizacion</button> -->
                                                         <button class="btn btn-prolacto" mat-raised-button (click)="onAddProducto(DetallePedidoForm)">Agregar Producto</button>
                                                     </div>
-                                                    <div class="col-6">
+                                                    <br>
+                                                    <br>
+                                                    <div class="col-12 col-md-6">
                                                         <button class="btn btn-prolacto" mat-raised-button (click)="inventarios(DetallePedidoForm)">Ver Inventarios</button>
                                                     </div>
 
@@ -489,21 +491,23 @@
 
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-md-5 col-lg-4">
+                                            <br>
+                                            <br>
+                                            <div class="col-12 col-md-6">
                                                 <div class="form-material borderbox">
                                                     <div class="container">
                                                         <div class="row">
 
                                                             <div *ngIf="MonedaBoolean == true; else elseBlockImporteDlls">
 
-                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Importe</label>
-                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImporteP" [ngModel]=" MonedaBoolean ==  true ? (importeP | currency ): (importePDLLS | currency)">
+                                                                <label class="input-group-text text-info ">Importe</label>
+                                                                <input class="form-control " readonly="readonly" name="ImporteP" [ngModel]=" MonedaBoolean ==  true ? (importeP | currency ): (importePDLLS | currency)">
 
                                                             </div>
                                                             <ng-template #elseBlockImporteDlls>
 
-                                                                <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Importe Dlls</label>
-                                                                <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="ImportePDlls" [ngModel]=" MonedaBoolean ==  true ? (importeP | currency ): (importePDLLS | currency)">
+                                                                <label class="input-group-text text-info ">Importe Dlls</label>
+                                                                <input class="form-control " readonly="readonly" name="ImportePDlls" [ngModel]=" MonedaBoolean ==  true ? (importeP | currency ): (importePDLLS | currency)">
 
 
                                                             </ng-template>
@@ -586,12 +590,12 @@
 
                                         <div class="container row">
                                             <!-- <div class="col-2"></div> -->
-                                            <div class="col-8">
+                                            <div class="col-12 col-md-8">
 
 
                                                 <div *ngIf="this.service.formDataCotizacion.Estatus == 'Guardada' || this.service.formDataCotizacion.Estatus == 'Cerrada' || this.service.formDataCotizacion.Estatus == 'Duplicada'; else elseBlock" style="display: grid">
                                                     <div class="row">
-                                                        <div class="col-6" style="display: grid">
+                                                        <div class="col-12 col-md-6" style="display: grid">
                                                             <br>
                                                             <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button> -->
                                                             <button [disabled]="Guardar == false" *ngIf="this.service.formDataCotizacion.Estatus == 'Guardada'" class="btn btn-prolacto btn-lg" mat-raised-button (click)='crearCotizacion()'><i class="mdi mdi-send btn-lg"></i>Guardar</button>
@@ -602,7 +606,7 @@
                                                             <button class="btn btn-prolacto btn-lg" mat-raised-button type="button" (click)='dxml2(service.formDataCotizacion)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
                                                       PDF</button>
                                                         </div>
-                                                        <div class="col-6" style="display: grid">
+                                                        <div class="col-12 col-md-6" style="display: grid">
                                                             <br>
                                                             <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button> -->
                                                             <!-- <button *ngIf="this.service.formDataCotizacion.Estatus == 'Guardada'" class="btn btn-danger btn-lg" mat-raised-button (click)='cerrarCotizacion()'><i class="mdi mdi-send btn-lg"></i>Cerrar</button>
@@ -652,7 +656,7 @@
 
                                             </div>
                                             <!-- <div class="col-2"></div> -->
-                                            <div class="col-4">
+                                            <div class="col-12 col-md-4">
                                                 <br>
                                                 <div class="form-material borderbox">
                                                     <div class="container">
