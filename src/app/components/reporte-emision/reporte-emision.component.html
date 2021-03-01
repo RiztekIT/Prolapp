@@ -111,7 +111,7 @@
 
 
                 <!-- cantidad-unidad-clave- -->
-                <div class="container" style="height:520px">
+                <div class="container" style="height:530px">
                     <div class="col-lg-12 col-md-12 col-12">
                         <div class="card card-outline-inverse">
                             <div class="card-header">
@@ -120,14 +120,30 @@
                                     <table class="table ">
                                         <thead>
                                             <tr>
-                                                <div class="container">
+                                                <div *ngIf="mostrarPrecios == true" class="container">
+                                                    <div class="row">
+                                                        <div class="col-2">
+                                                            <th class="bolder blacktxt pr-0">Cantidad</th>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <th class="bolder blacktxt text-center">Clave</th>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <th class="bolder blacktxt text-center">Descripción</th>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <th class="bolder blacktxt text-center">P/U</th>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <th class="bolder blacktxt text-center">Importe</th>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="mostrarPrecios == false" class="container">
                                                     <div class="row">
                                                         <div class="col-3">
                                                             <th class="bolder blacktxt pr-0">Cantidad</th>
                                                         </div>
-                                                        <!-- <div class="col-2">
-                                                            <th class="bolder blacktxt">Unidad</th>
-                                                        </div> -->
                                                         <div class="col-3">
                                                             <th class="bolder blacktxt text-center">Clave</th>
                                                         </div>
@@ -148,13 +164,29 @@
                                             <tr *ngFor="let conceptos of arrcon">
                                                 <div class="containter">
 
-                                                    <div class="row">
+                                                    <div *ngIf="mostrarPrecios == true" class="row">
+                                                        <div class="col-2">
+                                                            <th class=" textoBodyAcomodo acomodoForzadoTh" style="text-align: center;">  {{conceptos.Cantidad | number: '1.0-0'}} </th>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <th class=" textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.ClaveProducto}} </th>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <th class=" textoBodyAcomodo"> {{conceptos.Producto}}
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <th *ngIf="this.moneda == 'MXN'" class=" textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.PrecioUnitario | currency}} </th>
+                                                                <th *ngIf="this.moneda == 'USD'" class=" textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.PrecioUnitarioDlls | currency}} </th>
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <th *ngIf="this.moneda == 'MXN'" class=" textoBodyAcomodo acomodoForzadoTh3"> {{+conceptos.PrecioUnitario * +conceptos.Cantidad | currency}} </th>
+                                                                <th *ngIf="this.moneda == 'USD'" class=" textoBodyAcomodo acomodoForzadoTh3"> {{+conceptos.PrecioUnitarioDlls * +conceptos.Cantidad | currency}} </th>
+                                                            </div>
+                                                    </div>
+                                                    <div *ngIf="mostrarPrecios == false" class="row">
                                                         <div class="col-3">
                                                             <th class=" textoBodyAcomodo acomodoForzadoTh"> {{conceptos.Cantidad}} </th>
                                                         </div>
-                                                        <!-- <div class="col-2">
-                                                            <th class=" textoBodyAcomodo acomodoForzadoTh2"> {{conceptos.Unidad}} </th>
-                                                        </div> -->
                                                         <div class="col-3">
                                                             <th class=" textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.ClaveProducto}} </th>
                                                         </div>
@@ -169,16 +201,115 @@
                                     </table>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <!-- Observaciones -->
-                    <div style="margin-top: 40%; position:relative">
+                    <!-- <div style="margin-top: 40%; position:relative">
                         <b class="nomarginbottomP bolder">OBSERVACIONES DE PEDIDO:</b>
                         <h5 class="bolder"> {{this.objconc.Observaciones}} </h5>
+                    </div> -->
+                </div>
+
+                <!-- <div *ngIf="mostrarPrecios == true" class="container row pgbreak" style="padding-right: 0;">
+                    <div class="col-6 pgbreak">
+
+                    </div>
+                    <div class="col-1"></div>
+                    <div class="col-5" style="padding-right: 0;">
+                        <div class="container row">
+                            <div class="col-6 containerborder">
+                                <p class="bolder blacktxt" style="text-align: center;">
+                                    Subtotal:
+                                </p>
+                            </div>
+                            <div class="col-6 containerborder">
+                                <p class="bolder blacktxt" style="text-align: center;">
+                                    $5,000,000.00
+                                   
+                                </p>
+                            </div>
+                        </div>
+                        <div class="container row">
+
+                            <div class="col-6 containerborder">
+                                <p class="bolder blacktxt" style="text-align: center;">
+                                    Total:
+                                </p>
+                            </div>
+                            <div class="col-6 containerborder nowrap">
+                                <p class="bolder blacktxt" style="text-align: center;">
+                                    $5,000,000.00
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div  *ngIf="mostrarPrecios == true" class="container row">
+                    <div class="col-7">
+
+                    </div>
+
+
+                    <div class="col-5">
+                        <div class="card card-outline-inverse">
+                            <div class="card-body">
+                                <div class="container">
+                                    <div class="col-lg-12 col-md-12 col-12">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-7 col-7">
+                                                <p class="nomarginbottomP bolder"><b>Subtotal</b> </p>
+                                            </div>
+                                            <div class="col-lg-5 col-md-5 col-5">
+                                                <p *ngIf="this.moneda == 'MXN'" class="nomarginbottomP bolder"> {{this.objconc.Subtotal | currency}} </p>
+                                                <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP bolder"> {{this.objconc.SubtotalDlls | currency}} </p>
+                                                <!-- cambia -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-lg-12 col-md-12 col-12">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-7 col-7">
+                                                <p class="nomarginbottomP bolder"><b>IVA</b></p>
+                                            </div>
+                                            <div class="col-lg-5 col-md-5 col-5">
+                                                <p class="nomarginbottomP bolder"><b> {{this.objconc.iva | currency}} </b></p>
+
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-lg-12 col-md-12 col-12 bordeTopBottom">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-7 col-7">
+                                                <p class="nomarginbottomP bolder"><b>Total</b></p>
+                                            </div>
+                                            <div class="col-lg-5 col-md-5 col-5">
+                                                <p *ngIf="this.moneda == 'MXN'" class="nomarginbottomP bolder"><b> {{this.objconc.Total | currency}} </b></p>
+                                                <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP bolder"><b> {{this.objconc.TotalDlls | currency}} </b></p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-lg-12 col-md-10 col-10">
+                                            <p   class="nomarginbottomP text-left bolder textoBodyAcomodo">{{textnum | uppercase}} {{this.objconc.Moneda}}</p>
+                                            <!-- <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP text-left bolder textoBodyAcomodo">{{textnumDlls | uppercase}} {{this.objconc.Moneda}}</p> -->
+                               
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-
+<br>
+<br>
+<br>
                 <!-- firma recibido -->
                 <div class="pgbreak">
                     <div class="row">
@@ -194,7 +325,7 @@
                 </div>
 
                 <!-- pagaré -->
-                <div class="col-lg-12 col-md-12 col-12">
+                <!-- <div class="col-lg-12 col-md-12 col-12">
                     <div class="card card-outline-inverse pgbreak">
                         <div class="card-body">
                             <div class="containerborder">
@@ -204,12 +335,12 @@
                                 {{this.objconc.FechaDeEntrega | date}} </span>. Debo (emos) y Pagare (emos) incondicionalmente a la orden de PRO LACTOINGREDIENTES, S DE RL MI DE CV, en esta ciudad o en cualquier otra en que se me (nos) requiera el importe
                                         de la mercancía que ampara este documento. Por la cantidad de <span> {{this.objconc.Total |currency}}
                                 ( {{this.objconc.TotalDlls | currency:'USD':'code'}} )</span></p>
-                                    <!-- cambia -->
+                             
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="col-lg-12 col-md-12 col-12">
                     <div class="card card-outline-inverse pgbreak">

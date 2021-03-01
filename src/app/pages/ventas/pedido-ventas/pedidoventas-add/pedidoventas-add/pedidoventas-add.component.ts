@@ -48,6 +48,7 @@ import { PedidoInfo } from 'src/app/Models/Pedidos/pedidoInfo-model';
 import {MAT_AUTOCOMPLETE_SCROLL_STRATEGY} from '@angular/material';
 import { Platform } from '@angular/cdk/platform'; 
 import { Overlay } from '@angular/cdk/overlay';
+import { TraspasoMercanciaService } from '../../../../../services/importacion/traspaso-mercancia.service';
 
 
 
@@ -120,7 +121,7 @@ export class PedidoventasAddComponent implements OnInit {
     public ServiceUnidad: UnidadMedidaService,
     public serviceDireccion: ClienteDireccionService, private dialog: MatDialog, public servicecoti: VentasCotizacionService, public addproductos: AddsproductosService,
     public _MessageService: MessageService, public serviceordencarga: OrdenCargaService, public ordenTemporalService: OrdenTemporalService, public location: Location,
-    public CalendarioService: CalendarioService, public tarimaService: TarimaService) {
+    public CalendarioService: CalendarioService, public tarimaService: TarimaService, public traspasoSVC: TraspasoMercanciaService) {
 
     this.MonedaBoolean = true;
 
@@ -1837,7 +1838,14 @@ export class PedidoventasAddComponent implements OnInit {
             //   productos[i].Lote = '0';
             // }
 
-            this.tarimaService.getDetalleTarimaClaveLoteBodega(this.listData.data[i].ClaveProducto, this.listData.data[i].TextoExtra, 'Chihuahua').subscribe(resDetalle => {
+            // this.tarimaService.getDetalleTarimaClaveLoteBodega(this.listData.data[i].ClaveProducto, this.listData.data[i].TextoExtra, 'Chihuahua').subscribe(resDetalle => {
+              let query1 = 'select * from DetalleTarima where ClaveProducto = '+"'"+this.listData.data[i].ClaveProducto+"'"+' and Lote ='+"'"+this.listData.data[i].TextoExtra+"'"+' and Bodega ='+"'Chihuahua'";
+              let consulta1 = {
+                'consulta':query1
+              };
+              console.log(query1);
+              this.traspasoSVC.getQuery(consulta1).subscribe((resDetalle: any)=>{
+              console.log(resDetalle);
 
               console.log(resDetalle);
               let sal = 0
@@ -2072,7 +2080,14 @@ export class PedidoventasAddComponent implements OnInit {
            //     this.listData.data[i].TextoExtra = 'lotenoexistente';
            //   }
   
-           this.tarimaService.getDetalleTarimaClaveLoteBodega(this.listData.data[i].ClaveProducto,this.listData.data[i].TextoExtra, 'Chihuahua' ).subscribe(resDetalle=>{
+          //  this.tarimaService.getDetalleTarimaClaveLoteBodega(this.listData.data[i].ClaveProducto,this.listData.data[i].TextoExtra, 'Chihuahua' ).subscribe(resDetalle=>{
+            let query1 = 'select * from DetalleTarima where ClaveProducto = '+"'"+this.listData.data[i].ClaveProducto+"'"+' and Lote ='+"'"+this.listData.data[i].TextoExtra+"'"+' and Bodega ='+"'Chihuahua'";
+              let consulta1 = {
+                'consulta':query1
+              };
+              console.log(query1);
+              this.traspasoSVC.getQuery(consulta1).subscribe((resDetalle: any)=>{
+              console.log(resDetalle);
   
            //     //^Inicializar los valores de Detalle Orden de Carga en 0's. Estos valores seran utilizados si la seleccion Manual no esta activa.
            //     let lote = '0';
@@ -2293,17 +2308,18 @@ export class PedidoventasAddComponent implements OnInit {
 
   }
 
-
-  async verPDF() {
+ verPDF() {
     // console.log(this.service.formDataPedido);
     // console.log(this.service.formData);
     // console.log(this.service.formDataDP);
     // console.log(this.service.formDataPedido);
     // console.log(this.service.formProd);
 
+    console.log(this.IdPedido);
+
 
 // /* inputOptions can be an object or Promise */
-// const inputOptions = new Promise((resolve) => {
+// const inputOptions: any = new Promise((resolve) => {
 //   setTimeout(() => {
 //     resolve({
 //       '#ff0000': 'Red',
@@ -2312,38 +2328,90 @@ export class PedidoventasAddComponent implements OnInit {
 //     })
 //   }, 1000)
 // })
-
-// const { value: color } = await Swal.fire({
-//   title: 'Select color',
-//   input: 'radio',
-//   inputOptions: inputOptions,
-//   inputValidator: (value) => {
-//     if (!value) {
-//       return 'You need to choose something!'
+  
+//   const { value: color } = await Swal.fire({
+//     title: 'Select color',
+//     input: 'radio',
+//     inputOptions: inputOptions,
+//     inputValidator: (value) => {
+//       if (!value) {
+//         return 'You need to choose something!'
+//       }
 //     }
+//   })
+  
+//   if (color) {
+//     Swal.fire({ html: `You selected: ${color}` })
 //   }
-// })
+  
+let mostrarPrecio: boolean = true;
+//^ Declarar e igualar variables a las Generales. Si no se hace esto, marca error de undefined
+let id = this.IdPedido;
+let dialogo = this.dialog;
 
-// if (color) {
-//   Swal.fire({ html: `You selected: ${color}` })
-// }
-
-
-
-
-
-    this.service.formt = JSON.parse(localStorage.getItem('pedidopdf'));
-    console.log(this.service.formt)
-    // console.log();
+Swal.fire({
+  title: 'Seleccionar Opcion PDF',
+  input: 'select',
+  inputOptions: {
+    '1': 'Mostrar Precios',
+    '2': 'Mostrar sin Precios',
+  },
+  // inputPlaceholder: 'Cliente Local',
+  showCancelButton: true,
+  inputValidator: function (value) {
+    return new Promise (function (resolve, reject) {
+      if (value !== '') {
+        resolve('');
+      } else {
+        resolve('Necesitas Seleccionar una opcion');
+      }
+    });
+  }
+}).then(function (result) {
+  console.log(result);
+  if(result.value == 1){
+    mostrarPrecio = true;
+    console.log('Mostrando con Precios');
+    // this.service.formt = JSON.parse(localStorage.getItem('pedidopdf'));
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "70%";
     dialogConfig.data = {
-      IdPedido: this.IdPedido
+      IdPedido: id,
+      mostrarPrecio: mostrarPrecio
     }
-    this.dialog.open(ReporteEmisionComponent, dialogConfig);
+    dialogo.open(ReporteEmisionComponent, dialogConfig);
+  }else if(result.value == 2){
+    console.log('Mostrando sin Precios');
+    mostrarPrecio = false;
+    // this.service.formt = JSON.parse(localStorage.getItem('pedidopdf'));
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "70%";
+    dialogConfig.data = {
+      IdPedido: id,
+      mostrarPrecio: mostrarPrecio
+    }
+    dialogo.open(ReporteEmisionComponent, dialogConfig);
   }
+  console.log(id);
+  // if (result.isConfirmed) {
+    //   Swal.fire({
+      //     icon: 'success',
+      //     html: 'You selected: ' + result.value
+      //   });
+      // }
+      // console.log(this.service.formt)
+    
+  })
+  
+
+  
+  
+  // }
+
 
   // visorDocumento(a) {
   //   let pdfS;
@@ -2387,7 +2455,7 @@ export class PedidoventasAddComponent implements OnInit {
   //     }
 
 
-  // }
+  }
 
   agregarProductos() {
 

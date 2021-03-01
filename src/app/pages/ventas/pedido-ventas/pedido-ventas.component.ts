@@ -367,19 +367,73 @@ subs2: Subscription
 
   }
 
-  openrep(row){
+  openrep(row) {
 
-    console.log(row);
-    this.service.formt = row
-    // console.log();
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width="70%";
-    dialogConfig.data = {
-      IdPedido: row.IdPedido
-    }
-    this.dialog.open(ReporteEmisionComponent, dialogConfig);
+    // console.log(row);
+    // this.service.formt = row
+    // // console.log();
+    // const dialogConfig = new MatDialogConfig();
+    // dialogConfig.disableClose = false;
+    // dialogConfig.autoFocus = true;
+    // dialogConfig.width="70%";
+    // dialogConfig.data = {
+    //   IdPedido: row.IdPedido
+    // }
+    // this.dialog.open(ReporteEmisionComponent, dialogConfig);
+
+    let mostrarPrecio: boolean = true;
+    //^ Declarar e igualar variables a las Generales. Si no se hace esto, marca error de undefined
+    let id = row.IdPedido;
+    let dialogo = this.dialog;
+
+    Swal.fire({
+      title: 'Seleccionar Opcion PDF',
+      input: 'select',
+      inputOptions: {
+        '1': 'Mostrar Precios',
+        '2': 'Mostrar sin Precios',
+      },
+      // inputPlaceholder: 'Cliente Local',
+      showCancelButton: true,
+      inputValidator: function (value) {
+        return new Promise(function (resolve, reject) {
+          if (value !== '') {
+            resolve('');
+          } else {
+            resolve('Necesitas Seleccionar una opcion');
+          }
+        });
+      }
+    }).then(function (result) {
+      console.log(result);
+      if (result.value == 1) {
+        mostrarPrecio = true;
+        console.log('Mostrando con Precios');
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = false;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width = "70%";
+        dialogConfig.data = {
+          IdPedido: id,
+          mostrarPrecio: mostrarPrecio
+        }
+        dialogo.open(ReporteEmisionComponent, dialogConfig);
+      } else if (result.value == 2) {
+        console.log('Mostrando sin Precios');
+        mostrarPrecio = false;
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = false;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width = "70%";
+        dialogConfig.data = {
+          IdPedido: id,
+          mostrarPrecio: mostrarPrecio
+        }
+        dialogo.open(ReporteEmisionComponent, dialogConfig);
+      }
+      console.log(id);
+
+    })
 
   }
 

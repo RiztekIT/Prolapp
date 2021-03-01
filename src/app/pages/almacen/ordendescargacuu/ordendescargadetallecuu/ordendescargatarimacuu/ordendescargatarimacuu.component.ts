@@ -18,6 +18,7 @@ import { startWith, map } from 'rxjs/operators';
 import { element } from 'protractor';
 import { clearLine } from 'readline';
 import { ClassField } from '@angular/compiler';
+import { TraspasoMercanciaService } from '../../../../../services/importacion/traspaso-mercancia.service';
 
 
 @Component({
@@ -35,7 +36,7 @@ import { ClassField } from '@angular/compiler';
 })
 export class OrdendescargatarimacuuComponent implements OnInit {
   
-  constructor(public router: Router, public tarimaService: TarimaService, public ordenDescargaService: OrdenDescargaService, private dialog: MatDialog, public ordenTemporalService: OrdenTemporalService) {
+  constructor(public router: Router, public tarimaService: TarimaService, public ordenDescargaService: OrdenDescargaService, private dialog: MatDialog, public ordenTemporalService: OrdenTemporalService, public traspasoSVC: TraspasoMercanciaService) {
     // this.tarimaService.listenDt().subscribe((m: any) => {
     //   console.log(m);
     //   this.actualizarTablaTarima();
@@ -138,7 +139,14 @@ export class OrdendescargatarimacuuComponent implements OnInit {
 
   obtenerInformacionProducto(element:any){
     console.log(element);
-    this.tarimaService.getDetalleTarimaClaveLoteBodega(element.ClaveProducto, element.Lote, 'Transito').subscribe(dataP => {
+    // this.tarimaService.getDetalleTarimaClaveLoteBodega(element.ClaveProducto, element.Lote, 'Transito').subscribe(dataP => {
+      let query1 = 'select * from DetalleTarima where ClaveProducto = '+"'"+element.ClaveProducto+"'"+' and Lote ='+"'"+element.Lote+"'"+' and Bodega ='+"'Transito'";
+        let consulta1 = {
+          'consulta':query1
+        };
+        console.log(query1);
+        this.traspasoSVC.getQuery(consulta1).subscribe((dataP: any)=>{
+        console.log(dataP);
       console.log(dataP);
       for (let i = 0; i < dataP.length; i++) {
         let product = dataP[i];

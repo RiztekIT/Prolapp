@@ -12,6 +12,9 @@ import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfact
 import { Cliente } from '../../Models/catalogos/clientes-model';
 import Swal from 'sweetalert2';
 
+declare function cantidad(n);
+// declare function cantidadDlls(n);
+
 @Component({
   selector: 'app-reporte-emision',
   templateUrl: './reporte-emision.component.html',
@@ -46,6 +49,11 @@ export class ReporteEmisionComponent implements OnInit {
     pdf
     style;
 
+    moneda: string = 'MXN';
+    mostrarPrecios: boolean;
+
+    
+
   ngOnInit() {
     this.style = 'block'
     Swal.showLoading()
@@ -60,6 +68,7 @@ export class ReporteEmisionComponent implements OnInit {
   this.estado = this.enviarfact.empresa.Estado
   this.numeroint = this.enviarfact.empresa.NumeroInterior
     this.IdPedido = this.dataComponente.IdPedido;
+    this.mostrarPrecios = this.dataComponente.mostrarPrecio;
     console.log(this.IdPedido);
     this.ver();
   }
@@ -67,6 +76,9 @@ export class ReporteEmisionComponent implements OnInit {
         this.dialogbox.close();
         this.service.filter('Register click');
   }
+
+
+  textnum: string;
 
   ver(){
 
@@ -95,8 +107,16 @@ export class ReporteEmisionComponent implements OnInit {
     try {    
       this.service.getPedidoId(this.IdPedido).subscribe(resPedido=>{
         console.log(resPedido);
+        this.moneda = resPedido[0].Moneda;
         this.objconc = resPedido[0];
         console.log(this.objconc);
+      if(resPedido[0].Moneda == 'MXN'){      
+        this.textnum = cantidad(resPedido[0].Total);
+      }else{
+        this.textnum = cantidad(resPedido[0].TotalDlls);
+      }
+
+
         this.service.GetCliente(resPedido[0].IdCliente).subscribe(resCliente=>{
         this.objCliente = resCliente[0];
           this.service.getDetallePedidoId(this.IdPedido).subscribe(resDetalle=>{
@@ -117,17 +137,20 @@ export class ReporteEmisionComponent implements OnInit {
       console.log('Ocurrio algun problema');
     }
   }
+  FolioVenta: any
   Folio() {
     this.service.GetFolio().subscribe(data => {
-      this.service.formt.folio = data;
-      console.log(this.service.formt.Folio); })  ;
+      // this.service.formt.folio = data;
+      // console.log(this.service.formt.Folio);
+      this.FolioVenta = data
+     });
       } 
       
   onExportClick2(Folio?:string) {
     const content: Element = document.getElementById('element-to-PDF');
     const option = {    
       margin: [.5,0,0,0],
-      filename: 'F-'+this.service.formt.Folio+'.pdf',
+      filename: 'F-'+this.FolioVenta+'.pdf',
       image: {type: 'jpeg', quality: 1},
       html2canvas: {scale: 2, logging: true},
       jsPDF: {unit: 'cm', format: 'letter', orientation: 'portrait'}, 
@@ -184,7 +207,7 @@ export class ReporteEmisionComponent implements OnInit {
     const option = {
       
       margin: [.5, 0, 0, 0],
-      filename: 'OV-'+this.service.formt.Folio+'.pdf',
+      filename: 'OV-'+this.FolioVenta+'.pdf',
       image: {type: 'jpeg', quality: 1},
       html2canvas: { scale: 2, logging: true },
       jsPDF: { unit: 'cm', format: 'letter', orientation: 'portrait' },
@@ -194,7 +217,7 @@ export class ReporteEmisionComponent implements OnInit {
     let worker = html2pdf().from(content).set(option).output('datauristring')
 
     worker.then(function(pdfAsString){
-      console.log(pdfAsString);
+      // console.log(pdfAsString);
       this.pdf = pdfAsString;
       this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
       localStorage.setItem('pdfOC', this.pdf);

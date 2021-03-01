@@ -199,8 +199,8 @@
                                             <td> {{detalle.QR}} </td> -->
                                             <td> {{detalle.ClaveProducto}} </td>
                                             <td> {{detalle.Producto}} </td>
-                                            <td> {{ detalle.Sacos * detalle.PesoxSaco}} Kg</td>
-                                            <td> {{ detalle.Sacos}}</td>
+                                            <td> {{ detalle.Sacos * detalle.PesoxSaco | number: '1.0-0'}}</td>
+                                            <td> {{ detalle.Sacos | number: '1.0-0'}}</td>
                                             <td> {{ detalle.Lote}} </td>
                                         </tr>
                                     </table>

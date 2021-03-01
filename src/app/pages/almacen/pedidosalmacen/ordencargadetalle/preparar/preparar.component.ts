@@ -295,7 +295,7 @@ export class PrepararComponent implements OnInit {
             console.log(oT);
             this.ordenTemporalService.preOrdenTemporal.push(oT);           
            //^ Creamos el Detalle Orden Carga con la informacion obtenida
-           console.log(oT);           
+          //  console.log(oT);           
            let detordencarga: DetalleOrdenCarga = {
                     
             IdDetalleOrdenCarga: 0,
@@ -711,7 +711,14 @@ export class PrepararComponent implements OnInit {
     if (productoValido == true) {
 
       //Obtener Datos de la bodega para verfificar que ese producto si Existe y tiene sacos necesarios      
-      this.tarimaService.GetGetProductoInformacionBodega(ClaveProducto, Lote, this.bodegaOrigen).subscribe(prodInfo => {
+      //^ Marca error por lotes con "/" this.tarimaService.GetGetProductoInformacionBodega(ClaveProducto, Lote, this.bodegaOrigen).subscribe(prodInfo => {
+        // let query = 'select * from DetalleTarima where ClaveProducto = ' + "'" + ClaveProducto + "'" + ' and bodega =' + "'" + this.bodegaOrigen + "'" + '';
+        let query = 'select * from DetalleTarima where ClaveProducto = '+"'"+ClaveProducto+"'"+' and Lote ='+"'"+Lote+"'"+' and Bodega ='+"'"+this.bodegaOrigen+"'";
+        let consulta = {
+          'consulta': query
+        };
+        console.log(query);
+        this.traspasoSVC.getQuery(consulta).subscribe((prodInfo: any) => {
         console.log(prodInfo);
         let lote2;
         lote2 = Lote;
