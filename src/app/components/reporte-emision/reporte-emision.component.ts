@@ -74,7 +74,7 @@ export class ReporteEmisionComponent implements OnInit {
   }
   onClose() {
         this.dialogbox.close();
-        this.service.filter('Register click');
+        // this.service.filter('Register click');
   }
 
 
@@ -106,10 +106,10 @@ export class ReporteEmisionComponent implements OnInit {
     // }
     try {    
       this.service.getPedidoId(this.IdPedido).subscribe(resPedido=>{
-        console.log(resPedido);
+        // console.log(resPedido);
         this.moneda = resPedido[0].Moneda;
         this.objconc = resPedido[0];
-        console.log(this.objconc);
+        // console.log(this.objconc);
       if(resPedido[0].Moneda == 'MXN'){      
         this.textnum = cantidad(resPedido[0].Total);
       }else{
@@ -120,19 +120,22 @@ export class ReporteEmisionComponent implements OnInit {
         this.service.GetCliente(resPedido[0].IdCliente).subscribe(resCliente=>{
         this.objCliente = resCliente[0];
           this.service.getDetallePedidoId(this.IdPedido).subscribe(resDetalle=>{
-            console.log(resDetalle);
+            // console.log(resDetalle);
             this.arrcon = resDetalle;
+            // this.asyncCall();
             setTimeout(()=>{
-              this.onExportClick();
+              let pdf =   this.onExportClick();  
+              // console.log(pdf);
+              // this.onExportClick();              
             },1000)
-            setTimeout(()=>{
-              this.reloadPDF('entro')
-            },4500)
+            // setTimeout(()=>{
+            //   this.reloadPDF('entro')
+            // },1500)
           })
         })
       })
       
-      console.log(this.arrcon);
+      // console.log(this.arrcon);
     } catch (error) {
       console.log('Ocurrio algun problema');
     }
@@ -164,8 +167,9 @@ export class ReporteEmisionComponent implements OnInit {
   }
 
   reloadPDF(event){
-    console.log(event);
-    this.currentPdf = localStorage.getItem('pdfOC');
+    // console.log(event);
+    // this.currentPdf = localStorage.getItem('pdfOC');
+    this.currentPdf = event
     let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
     const url = window.URL.createObjectURL(blob);
 
@@ -200,7 +204,7 @@ export class ReporteEmisionComponent implements OnInit {
     return blob;
   }
 
-  onExportClick(Folio?: string) {
+ async onExportClick(Folio?: string) {
 
     
     const content: Element = document.getElementById('element-to-PDF');
@@ -215,25 +219,55 @@ export class ReporteEmisionComponent implements OnInit {
     };
 
     let worker = html2pdf().from(content).set(option).output('datauristring')
+    // console.log(worker);
 
-    worker.then(function(pdfAsString){
-      // console.log(pdfAsString);
+    let pdf = await worker.then(function(pdfAsString){
+      // console.log('%c%s', 'color: #00a3cc', pdfAsString);
+      // console.log(pdf);
       this.pdf = pdfAsString;
       this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
-      localStorage.setItem('pdfOC', this.pdf);
-      this.currentPdf = this.pdf
-
-      
-      
-      
-
-      
-      
+      return this.pdf;
     })
+    // console.log (this.pdf);
+    // console.log(pdf);
+            this.reloadPDF(pdf);
+    
 
+    
 
+    
+    // worker.then(function(pdfAsString){
+    // worker.then(function(pdfAsString){
+      // console.log(pdfAsString);
+      // this.pdf = pdfAsString;
+      // this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
+      // localStorage.setItem('pdfOC', this.pdf);
+      // this.currentPdf = this.pdf;
       
+      
+      
+      // return new Promise(resolve => {
+        //   setTimeout(() => {
+          //     // resolve(worker.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, ''));
+          //   }, 2000);
+          // })
+          // pdf = pdfAsString
+        //  pdf =  pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
+          // console.log(pdf);
+          
+         
+    // })
+
+
+  //  console.log(pdf);
+
+// return 'Hola';
+    
   }
+
+
+
+
 
 
 }

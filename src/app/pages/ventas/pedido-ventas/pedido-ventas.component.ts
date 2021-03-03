@@ -174,6 +174,7 @@ subs1: Subscription
 subs2: Subscription
   refreshPedidoList() {
     // this.service.getPedidoList().subscribe(data => {
+      this.service.master = new Array<pedidoMaster>();
   this.subs1 =  this.service.getPedidoCliente().subscribe(data => {
       console.log(data);
       for (let i = 0; i <= data.length - 1; i++) {
