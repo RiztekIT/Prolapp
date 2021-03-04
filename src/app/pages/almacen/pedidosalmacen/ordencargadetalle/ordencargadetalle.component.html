@@ -57,12 +57,12 @@
                                         <div class="col-12 col-md-3">
 
                                             <label class="input-group-text text-info txt">Fletera: </label>
-                                            <input type="text" class="form-control" name="Fletera" #Fletera="ngModel" [(ngModel)]="service.formData.Fletera" readonly>
+                                            <input type="text" class="form-control" name="Fletera" #Fletera="ngModel" (blur)="onBlurInformacionGeneral()" [(ngModel)]="service.formData.Fletera" >
                                         </div>
                                         <div class="col-12 col-md-3">
 
                                             <label class="input-group-text text-info">Numero de Caja: </label>
-                                            <input type="text" class="form-control" name="NumCaja" #NumCaja="ngModel" [(ngModel)]="service.formData.Caja" readonly>
+                                            <input type="text" class="form-control" name="NumCaja" #NumCaja="ngModel" (blur)="onBlurInformacionGeneral()" [(ngModel)]="service.formData.Caja" >
 
                                         </div>
                                         <div class="col-12 col-md-3">

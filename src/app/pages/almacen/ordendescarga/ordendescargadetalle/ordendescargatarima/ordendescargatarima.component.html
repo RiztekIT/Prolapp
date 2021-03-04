@@ -155,9 +155,12 @@
                                                     <input type="text" class="form-control" name="NombreProd" #NombreProd="ngModel" [(ngModel)]="this.numerofactura">
                                                 </div>
                                                 <div class="col-md-3 col-12">
-                                                    <label class="input-group-text text-info">PO:</label>
-                                                    <input type="text" class="form-control" name="NombreProd" #NombreProd="ngModel" [(ngModel)]="this.PODescarga">
+                                                    <label class="input-group-text text-info">Factura Fecha</label>
+                                                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                                    <input readonly="readonly" required [matDatepicker]="picker3" type="text" class="form-control" name="FacturaFecha" #FacturaFecha="ngModel" [(ngModel)]="this.FechaFactura" (dateChange)="changeMat($event)">
+                                                    <mat-datepicker #picker3></mat-datepicker>
                                                 </div>
+                                                
                                             </div>
 
                                             <div class="row">
@@ -165,9 +168,10 @@
                                                     <label class="input-group-text text-info">Kilogramos:</label>
                                                     <input type="number" class="form-control" name="Kilogramos" #Kilogramos="ngModel" [(ngModel)]="this.cantidadKilogramos" (ngModelChange)="onChangeCantidadKilogramos($event)">
                                                 </div>
+                                                
                                                 <div class="col-md-3 col-12">
-                                                    <label class="input-group-text text-info">Lote:</label>
-                                                    <input type="text" required class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="this.lote" (blur)="checarLote()">
+                                                    <label class="input-group-text text-info">PO:</label>
+                                                    <input type="text" class="form-control" name="NombreProd" #NombreProd="ngModel" [(ngModel)]="this.PODescarga">
                                                 </div>
                                                 <div class="col-md-3 col-12">
                                                     <label class="input-group-text text-info">Numero Entrada (CBK):</label>
@@ -189,7 +193,11 @@
                                                     <input readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="FechaMFG" #FechaMFG="ngModel" [(ngModel)]="this.fechaMFG" (dateChange)="changeMat($event)">
                                                     <mat-datepicker #picker2></mat-datepicker>
                                                 </div>
-                                                <div class="col-md-6 col-12">
+                                                <div class="col-md-3 col-12">
+                                                    <label class="input-group-text text-info">Lote:</label>
+                                                    <input type="text" required class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="this.lote" (blur)="checarLote()">
+                                                </div>
+                                                <div class="col-md-3 col-12">
                                                     <label class="input-group-text text-info">Fecha de Caducidad</label>
 
                                                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>

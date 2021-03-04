@@ -185,12 +185,15 @@ for (this.con in this.objconc){
     console.log('this.unidad : ', this.unidad );
     // console.log(this.arrcon);
     
+    // setTimeout(()=>{
+    //   this.onExportClick();
+    // },1000)
+    // setTimeout(()=>{
+    //   this.reloadPDF('entro')
+    // },4500)
     setTimeout(()=>{
-      this.onExportClick();
+      let pdf =   this.onExportClick();           
     },1000)
-    setTimeout(()=>{
-      this.reloadPDF('entro')
-    },4500)
   });
   }
   
@@ -212,9 +215,27 @@ onExportClick2(Folio?:string) {
 }
 
 
+// reloadPDF(event){
+//   console.log(event);
+//   this.currentPdf = localStorage.getItem('pdfOC');
+//   let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
+//   const url = window.URL.createObjectURL(blob);
+
+//   const link = document.createElement('a');
+//   link.href = url;
+//   link.target = '_blank'    
+//   link.click();
+//   this.style = 'none'
+  
+//   Swal.close();
+//   this.onClose()
+
+// }
+
 reloadPDF(event){
-  console.log(event);
-  this.currentPdf = localStorage.getItem('pdfOC');
+  // console.log(event);
+  // this.currentPdf = localStorage.getItem('pdfOC');
+  this.currentPdf = event
   let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
   const url = window.URL.createObjectURL(blob);
 
@@ -249,13 +270,48 @@ b64toBlob(b64Data, contentType, sliceSize) {
   return blob;
 }
 
-onExportClick(Folio?: string) {
+// onExportClick(Folio?: string) {
 
   
-  const content: Element = document.getElementById('EntradaProducto-PDF');
+//   const content: Element = document.getElementById('EntradaProducto-PDF');
+//   const option = {
+    
+//     margin: [.5,0,0,0],
+//     filename: 'C-'+this.ComprasService.formt.Folio+'.pdf',
+//     image: {type: 'jpeg', quality: 1},
+//     html2canvas: { scale: 2, logging: true },
+//     jsPDF: { unit: 'cm', format: 'letter', orientation: 'portrait' },
+//     pagebreak: { avoid: '.pgbreak' }
+//   };
+
+//   let worker = html2pdf().from(content).set(option).output('datauristring')
+
+//   worker.then(function(pdfAsString){
+//     console.log(pdfAsString);
+//     this.pdf = pdfAsString;
+//     this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
+//     localStorage.setItem('pdfOC', this.pdf);
+//     this.currentPdf = this.pdf
+
+    
+    
+    
+
+    
+    
+//   })
+
+
+    
+// }
+
+async onExportClick(Folio?: string) {
+
+    
+  const content: Element = document.getElementById('element-to-PDF');
   const option = {
     
-    margin: [.5,0,0,0],
+    margin: [.5, 0, 0, 0],
     filename: 'C-'+this.ComprasService.formt.Folio+'.pdf',
     image: {type: 'jpeg', quality: 1},
     html2canvas: { scale: 2, logging: true },
@@ -265,23 +321,15 @@ onExportClick(Folio?: string) {
 
   let worker = html2pdf().from(content).set(option).output('datauristring')
 
-  worker.then(function(pdfAsString){
-    console.log(pdfAsString);
+  let pdf = await worker.then(function(pdfAsString){
     this.pdf = pdfAsString;
     this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
-    localStorage.setItem('pdfOC', this.pdf);
-    this.currentPdf = this.pdf
-
-    
-    
-    
-
-    
-    
+    return this.pdf;
   })
 
+          this.reloadPDF(pdf);
 
-    
+  
 }
 
 }
