@@ -64,10 +64,10 @@ style;
     this.style = 'block'
 
     Swal.showLoading()
-    if (localStorage.getItem('pdfOC')){
+    // if (localStorage.getItem('pdfOC')){
 
-      this.pdf = localStorage.getItem('pdfOC');
-    }
+    //   this.pdf = localStorage.getItem('pdfOC');
+    // }
    /*      this.pdfSrc = localStorage.getItem('pdfOC')
         this.pdfSrc = this.pdfSrc.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
 
@@ -221,15 +221,18 @@ style;
                 }
                 console.log(this.docInfo);
               }
+              // setTimeout(()=>{
+              //   this.onExportClick();
+              // },1000)
+              // setTimeout(()=>{
+              //   this.reloadPDF('entro')
+              // },4500)
+              // })
               setTimeout(()=>{
-                this.onExportClick();
+                let pdf =   this.onExportClickFinal();            
               },1000)
-              setTimeout(()=>{
-                this.reloadPDF('entro')
-              },4500)
-              })
             })
-            
+          })
             
             // this.ordentemporal.GetOrdenTemporalID(+localStorage.getItem('IdOrdenCarga')).subscribe(res => {
               
@@ -417,6 +420,31 @@ style;
       
   }
 
+  async onExportClickFinal(Folio?: string) {
+
+    
+    const content: Element = document.getElementById('EntradaProducto-PDF');
+    const option = {
+      
+      margin: [.5, 1, 0, 1],
+      filename: 'OC-'+this.Folio+'.pdf',
+      image: {type: 'jpeg', quality: 1},
+      html2canvas: { scale: 2, logging: true },
+      jsPDF: { unit: 'cm', format: 'letter', orientation: 'portrait' },
+      pagebreak: { avoid: '.pgbreak' }
+    };
+
+    let worker = html2pdf().from(content).set(option).output('datauristring')
+
+    let pdf = await worker.then(function(pdfAsString){
+      this.pdf = pdfAsString;
+      this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
+      return this.pdf;
+    })
+            this.reloadPDFFINAL(pdf);
+  
+  }
+
   reloadPDF(event){
     console.log(event);
     this.currentPdf = localStorage.getItem('pdfOC');
@@ -433,6 +461,23 @@ style;
     this.onClose()
 
   }
+
+  reloadPDFFINAL(event){
+    this.currentPdf = event
+    let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank'    
+    link.click();
+    this.style = 'none'
+    
+    Swal.close();
+    this.onClose()
+
+  }
+
 
   b64toBlob(b64Data, contentType, sliceSize) {
     const byteCharacters = atob(b64Data);

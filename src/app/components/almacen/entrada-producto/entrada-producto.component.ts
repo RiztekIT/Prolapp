@@ -183,12 +183,15 @@ export class EntradaProductoComponent implements OnInit {
             });
             this.dodInfo = respuesta;
           }
+          // setTimeout(()=>{
+          //   this.onExportClick();
+          // },1000)
+          // setTimeout(()=>{
+          //   this.reloadPDF('entro')
+          // },4500)
           setTimeout(()=>{
-            this.onExportClick();
+            let pdf =   this.onExportClickFinal();            
           },1000)
-          setTimeout(()=>{
-            this.reloadPDF('entro')
-          },4500)
         })
 
 
@@ -374,6 +377,48 @@ export class EntradaProductoComponent implements OnInit {
 
 
       
+  }
+
+  async onExportClickFinal(Folio?: string) {
+
+    
+    const content: Element = document.getElementById('EntradaProducto-PDF');
+    const option = {
+      
+      margin: [.5, 1, 0, 1],
+      filename: 'OC-'+this.Folio+'.pdf',
+      image: {type: 'jpeg', quality: 1},
+      html2canvas: { scale: 2, logging: true },
+      jsPDF: { unit: 'cm', format: 'letter', orientation: 'portrait' },
+      pagebreak: { avoid: '.pgbreak' }
+    };
+
+    let worker = html2pdf().from(content).set(option).output('datauristring')
+
+    let pdf = await worker.then(function(pdfAsString){
+      this.pdf = pdfAsString;
+      this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
+      return this.pdf;
+    })
+            this.reloadPDFFINAL(pdf);
+  
+  }
+
+
+  reloadPDFFINAL(event){
+    this.currentPdf = event
+    let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank'    
+    link.click();
+    this.style = 'none'
+    
+    Swal.close();
+    this.onClose()
+
   }
 
 

@@ -157,7 +157,7 @@
                                                 <div class="col-md-3 col-12">
                                                     <label class="input-group-text text-info">Factura Fecha</label>
                                                     <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-                                                    <input readonly="readonly" required [matDatepicker]="picker3" type="text" class="form-control" name="FacturaFecha" #FacturaFecha="ngModel" [(ngModel)]="this.FechaFactura" (dateChange)="changeMat($event)">
+                                                    <input readonly="readonly" required [matDatepicker]="picker3" type="text" class="form-control" name="FacturaFecha" #FacturaFecha="ngModel" [(ngModel)]="this.FechaFactura" (dateChange)="changeMat($event, 'Factura')">
                                                     <mat-datepicker #picker3></mat-datepicker>
                                                 </div>
                                                 
@@ -190,7 +190,7 @@
                                                     <label class="input-group-text text-info">Fecha de Manufactura</label>
 
                                                     <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                                                    <input readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="FechaMFG" #FechaMFG="ngModel" [(ngModel)]="this.fechaMFG" (dateChange)="changeMat($event)">
+                                                    <input readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="FechaMFG" #FechaMFG="ngModel" [(ngModel)]="this.fechaMFG" (dateChange)="changeMat($event, 'MFG')">
                                                     <mat-datepicker #picker2></mat-datepicker>
                                                 </div>
                                                 <div class="col-md-3 col-12">
@@ -201,7 +201,7 @@
                                                     <label class="input-group-text text-info">Fecha de Caducidad</label>
 
                                                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                                                    <input readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="FechaCaducidad" #FechaCaducidad="ngModel" [(ngModel)]="this.fechaCaducidad" (dateChange)="changeMat($event)">
+                                                    <input readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="FechaCaducidad" #FechaCaducidad="ngModel" [(ngModel)]="this.fechaCaducidad" (dateChange)="changeMat($event, 'Caducidad')">
                                                     <mat-datepicker #picker1></mat-datepicker>
 
 

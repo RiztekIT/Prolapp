@@ -114,6 +114,7 @@ subs1: Subscription
     this.serviceTarima.masterlotes = [];
     let kgtotales;
     let kgdisponibles;
+      
     
    this.subs2 = this.serviceTarima.getProductosMarcas().subscribe((data:any)=>{
       console.log(data,'obtner tarimas');
@@ -124,7 +125,7 @@ subs1: Subscription
 
         let productomarca = data[l].Nombre.concat(' ',data[l].NombreMarca)
         let ClaveProducto = data[l].ClaveProducto.concat(data[l].ClaveMarca)
-        
+        console.log(productomarca);
         this.subs3 = this.serviceTarima.GetTarimaProducto(productomarca,bodega).subscribe(datadet =>{
           //this.master[contador] = []
           

@@ -265,9 +265,9 @@
                                                     <div class="container row" style="margin-top: 5px;">
                                                         <div class="col-md-7 col-lg-8">
                                                             <div *ngIf="addproducto == true; else elseBlock2">
-                                                                <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompra()">Agregar Producto</button>
+                                                                <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" [disabled]="!detalleCompra.Producto || ProductoPrecio <= 0 || Cantidad <=0" (click)="onAddDetalleCompra(DetallePedidoForm)">Agregar Producto</button>
                                                                 <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
-                                                                <button *ngIf="this.compra.Estatus == 'Administrativa'" class="btn btn-success" type="submit" (click)="onAddDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid" style="margin-right: 5px">Agregar Producto</button>
+                                                                <button *ngIf="this.compra.Estatus == 'Administrativa'" class="btn btn-success" type="submit" (click)="onAddDetalleCompraAdministrativa(DetallePedidoForm)" [disabled]="DetallePedidoForm.invalid" style="margin-right: 5px">Agregar Producto</button>
                                                                 <button *ngIf="this.compra.Estatus == 'Administrativa' && this.detalleCompra.Producto" class="btn btn-primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
                                                                 <!-- <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onAddDetalleCompra()" [disabled]="DetallePedidoForm.invalid || !detalleCompra.Unidad">Agregar Producto</button>
                                                         <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="clearCamposDetalleCompra(DetallePedidoForm)">Limpiar</button>
@@ -276,7 +276,7 @@
                                                             </div>
                                                             <ng-template #elseBlock2>
                                                                 <button *ngIf="this.compra.Estatus == 'Creada' || this.compra.Estatus == 'Guardada'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompra()">Editar Producto</button>
-                                                                <button *ngIf="this.compra.Estatus == 'Administrativa'" class="btn btn-success" type="submit" (click)="onEditDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Editar Producto</button>
+                                                                <button *ngIf="this.compra.Estatus == 'Administrativa'" class="btn btn-success" type="submit" (click)="onEditDetalleCompraAdministrativa(DetallePedidoForm)" [disabled]="DetallePedidoForm.invalid">Editar Producto</button>
                                                                 <!-- <button *ngIf="this.compra.Estatus == 'Administrativa'" class="m-3" mat-raised-button color="primary" type="submit" (click)="onEditDetalleCompraAdministrativa()" [disabled]="DetallePedidoForm.invalid">Editar Producto</button> -->
 
                                                                 <button *ngIf="ProductoSelect" class="m-3" mat-raised-button color="primary" type="submit" (click)="Cancelar(DetallePedidoForm)">Cancelar</button>
@@ -329,7 +329,7 @@
                                                                     </ng-container>
                                                                     <ng-container matColumnDef="Cantidad">
                                                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
-                                                                        <td mat-cell *matCellDef="let element">{{element.Cantidad}}</td>
+                                                                        <td mat-cell *matCellDef="let element">{{element.Cantidad | number: '1.0-0'}}</td>
                                                                     </ng-container>
                                                                     <ng-container matColumnDef="CostoTotal" *ngIf="MonedaBoolean == true">
                                                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Costo Total</th>

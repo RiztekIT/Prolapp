@@ -182,7 +182,8 @@
                         <!-- DETALLES ORDEN CARGA -->
                         <ng-container matColumnDef="expandedDetail">
                             <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-                                <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="element.detalleOrdenCarga.length > 0" (click)="expandedElement = 0">
+                                <!-- <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="element.detalleOrdenCarga.length > 0" (click)="expandedElement = 0"> -->
+                                <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'"  (click)="expandedElement = 0">
 
                                     <table width="100%">
                                         <tr>

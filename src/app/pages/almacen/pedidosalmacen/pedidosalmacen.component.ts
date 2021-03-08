@@ -19,6 +19,7 @@ import { IncidenciaAlmacenComponent } from 'src/app/components/almacen/incidenci
 import { SalidaProductoComponent } from '../../../components/almacen/salida-producto/salida-producto.component';
 import { OrdenCargaDescargaComponent } from 'src/app/components/orden-carga-descarga/orden-carga-descarga.component';
 import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
+import { MasterOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterOrdenCarga-model';
 
 @Component({
   selector: 'app-pedidosalmacen',
@@ -61,7 +62,7 @@ export class PedidosalmacenComponent implements OnInit, OnDestroy {
     });
 
     // console.log('Constructor Orden de Carga');
-
+    this.service.master = new Array<MasterOrdenCarga>();
   }
 
   ngOnInit() {
@@ -167,6 +168,8 @@ export class PedidosalmacenComponent implements OnInit, OnDestroy {
   subs1: Subscription
   subs2: Subscription
   refreshOrdenCargaList() {
+
+    
     this.arrOrdenCarga = this.service.getOrdenCargaList();
     this.subs1 = this.arrOrdenCarga.subscribe(data => {
       // console.log(data);
