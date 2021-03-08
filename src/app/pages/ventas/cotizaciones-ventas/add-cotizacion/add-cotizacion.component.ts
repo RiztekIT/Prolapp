@@ -1276,12 +1276,6 @@ onDeleteDetalleProducto(dp: DetalleCotizacion) {
 
     }
   })
-
-
-
-
-
-
 }
 
 cerrarCotizacion(){
