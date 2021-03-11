@@ -112,7 +112,39 @@
 
                 <!-- cantidad-unidad-clave- -->
                 <div class="container" style="height:530px">
-                    <div class="col-lg-12 col-md-12 col-12">
+
+
+
+
+                    <table style="width: 100%; background: none">
+                        <thead>
+                            <tr>                            
+                                <th class="blacktxt bolder whitecolor text-center">Cantidad</th>
+                                <th class="blacktxt bolder whitecolor text-center">Clave</th>
+                                <th class="blacktxt bolder whitecolor text-center">Descripción</th>
+                                <th *ngIf="mostrarPrecios == true" class="blacktxt bolder whitecolor text-center">P/U</th>
+                                <th *ngIf="mostrarPrecios == true" class="blacktxt bolder whitecolor text-center">Importe</th>   
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let conceptos of arrcon;  let i = index">
+                            <tr class="pgbreak">
+                                <td class="textdt pgbreak text-center">{{conceptos.Cantidad | number: '1.0-0'}} </td>
+                                <td class="textdt text-center">{{conceptos.ClaveProducto}} </td>
+                                <td class=" textdt pgbreak text-center"> {{conceptos.Producto}} </td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitario | currency}} </td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'USD'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitarioDlls | currency}}</td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.Importe | currency}}</td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'USD'" class="textdt pgbreak text-center">{{conceptos.ImporteDlls | currency}}</td>
+                        </tbody>
+    
+                    </table>
+
+
+
+
+
+
+                    <!-- <div class="col-lg-12 col-md-12 col-12">
                         <div class="card card-outline-inverse">
                             <div class="card-header">
 
@@ -203,7 +235,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div> -->
                     <!-- Observaciones -->
                     <!-- <div style="margin-top: 40%; position:relative">
                         <b class="nomarginbottomP bolder">OBSERVACIONES DE PEDIDO:</b>

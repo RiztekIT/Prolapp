@@ -18,6 +18,8 @@ import { IncidenciasService } from 'src/app/services/almacen/incidencias/inciden
 import { IncidenciaAlmacenComponent } from 'src/app/components/almacen/incidencia-almacen/incidencia-almacen.component';
 import { SalidaProductoComponent } from '../../../components/almacen/salida-producto/salida-producto.component';
 import { OrdenCargaDescargaComponent } from 'src/app/components/orden-carga-descarga/orden-carga-descarga.component';
+import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
+import { MasterOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterOrdenCarga-model';
 
 @Component({
   selector: 'app-pedidosalmacen',
@@ -50,9 +52,9 @@ export class PedidosalmacenComponent implements OnInit, OnDestroy {
 
   // FIN VARIABLES TABLA ORDEN CARGA
 
-  constructor(public router: Router, private service: OrdenCargaService, 
+  constructor(public router: Router, private service: OrdenCargaService,
     private dialog: MatDialog, public privilegiosService: SidebarService,
-    private incidenciasService: IncidenciasService) {
+    private incidenciasService: IncidenciasService, public traspasoSVC: TraspasoMercanciaService) {
 
     this.service.listen().subscribe((m: any) => {
       console.log(m);
@@ -60,7 +62,7 @@ export class PedidosalmacenComponent implements OnInit, OnDestroy {
     });
 
     // console.log('Constructor Orden de Carga');
-
+    this.service.master = new Array<MasterOrdenCarga>();
   }
 
   ngOnInit() {
@@ -76,10 +78,10 @@ export class PedidosalmacenComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     // this.refreshOrdenCargaList();
     // this.obtenerPrivilegios();
-    if(this.subs1){
+    if (this.subs1) {
       this.subs1.unsubscribe();
     }
-    if(this.subs2){
+    if (this.subs2) {
       this.subs2.unsubscribe();
     }
     // this.subs3.unsubscribe();
@@ -163,21 +165,59 @@ export class PedidosalmacenComponent implements OnInit, OnDestroy {
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
 
   }
-subs1:Subscription
-subs2:Subscription
+  subs1: Subscription
+  subs2: Subscription
   refreshOrdenCargaList() {
+
+    
     this.arrOrdenCarga = this.service.getOrdenCargaList();
     this.subs1 = this.arrOrdenCarga.subscribe(data => {
       // console.log(data);
       for (let i = 0; i <= data.length - 1; i++) {
-        this.service.master[i] = data[i];
-        this.service.master[i].detalleOrdenCarga = [];
-      this.subs2 =  this.service.getOrdenCargaIDList(data[i].IdOrdenCarga).subscribe(res => {
-          // console.log(res);
-          for (let l = 0; l <= res.length - 1; l++) {
-            this.service.master[i].detalleOrdenCarga.push(res[l]);
-          }
-        });
+        //^ Verificar si la Orden le Pertenece al Pedido o al Traspaso. 
+        if (data[i].Cliente == 'Traspaso') {
+          let query = 'select TraspasoMercancia.Folio from TraspasoMercancia where IdOrdenCarga =' + data[i].IdOrdenCarga;
+          let consulta = {
+            'consulta': query
+          };
+          console.log('%c%s', 'color: #ff0000', query);
+          this.traspasoSVC.getQuery(consulta).subscribe((detallesConsulta: any) => {
+            console.log(detallesConsulta);
+            // this.agregarDetalles(data, i);
+            data[i].IdPedido = detallesConsulta[0].Folio;
+            this.service.master[i] = data[i];
+            this.service.master[i].detalleOrdenCarga = [];
+            this.subs2 = this.service.getOrdenCargaIDList(data[i].IdOrdenCarga).subscribe(res => {
+              // console.log(res);
+              for (let l = 0; l <= res.length - 1; l++) {
+                this.service.master[i].detalleOrdenCarga.push(res[l]);
+              }
+            });
+          })
+          //^ La orden viene de un Traspaso
+        }else {
+          //^ La orden viene de una venta
+          console.log('Viene de una Venta');
+          let query = 'select Pedidos.Folio from Pedidos where IdPedido =' + data[i].IdPedido;
+          let consulta = {
+            'consulta': query
+          };
+          console.log('%c%s', 'color: #ff0000', query);
+          this.traspasoSVC.getQuery(consulta).subscribe((detallesConsulta: any) => {
+            console.log(detallesConsulta);
+            // this.agregarDetalles(data, i);
+            data[i].IdPedido = detallesConsulta[0].Folio;
+            this.service.master[i] = data[i];
+            this.service.master[i].detalleOrdenCarga = [];
+            this.subs2 = this.service.getOrdenCargaIDList(data[i].IdOrdenCarga).subscribe(res => {
+              // console.log(res);
+              for (let l = 0; l <= res.length - 1; l++) {
+                this.service.master[i].detalleOrdenCarga.push(res[l]);
+              }
+            });
+          })
+        }
+
       }
       // console.log(this.service.master);
       this.listData = new MatTableDataSource(data);
@@ -189,6 +229,10 @@ subs2:Subscription
     //   console.log(data);
 
     // });
+  }
+
+  agregarDetalles(data, i) {
+
   }
 
   onEdit(ordencarga: OrdenCarga) {
@@ -221,22 +265,22 @@ subs2:Subscription
     dialogConfig.autoFocus = true;
     dialogConfig.width = "70%";
     dialogConfig.data = {
-    IdOrdenCarga: row.IdOrdenCarga
+      IdOrdenCarga: row.IdOrdenCarga
     }
     this.dialog.open(SalidaProductoComponent, dialogConfig);
   }
 
-  openDocumentoTraspaso(id: number){
+  openDocumentoTraspaso(id: number) {
     console.log(id);
-        console.log(id);
-        const dialogConfig = new MatDialogConfig();
-        dialogConfig.disableClose = false;
-        dialogConfig.autoFocus = true;
-        dialogConfig.width = "70%";
-        dialogConfig.data = {
-          IdOrdenCarga: id
-        }
-        this.dialog.open(OrdenCargaDescargaComponent, dialogConfig);
+    console.log(id);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "70%";
+    dialogConfig.data = {
+      IdOrdenCarga: id
+    }
+    this.dialog.open(OrdenCargaDescargaComponent, dialogConfig);
   }
 
   /////////////////////////////// Fin Modales //////////////////////////////////////////
@@ -248,7 +292,7 @@ subs2:Subscription
       icon: 'info'
     });
     Swal.showLoading();
- this.service.deleteOrdenCarga(row.IdOrdenCarga).subscribe(res => {
+    this.service.deleteOrdenCarga(row.IdOrdenCarga).subscribe(res => {
       Swal.close();
       if (res == 'Se elimino Correctamente') {
         Swal.fire({
@@ -269,7 +313,7 @@ subs2:Subscription
     })
   }
 
-  public incidenciaBlanco: Incidencias ={
+  public incidenciaBlanco: Incidencias = {
     IdIncidencia: 0,
     Folio: null,
     FolioProcedencia: null,
@@ -282,77 +326,77 @@ subs2:Subscription
     FechaFinalizacion: new Date(0),
     Observaciones: ""
   }
-  
-  
+
+
   // tomar el row para sacar datos de la incidencia
   // !FUNCIONA SI NO HAY EXISTENTE
-  IncidenciasRow(row?){
-     console.clear();
+  IncidenciasRow(row?) {
+    console.clear();
 
-     console.log('%c⧭', 'color: #994d75', row);
+    console.log('%c⧭', 'color: #994d75', row);
 
-this.incidenciasService.GetIncidenciaFolioProcedencia(row.Folio, 'OrdenCarga').subscribe(resIP => {
-  this.incidenciasService.incidenciaObject = new Incidencias()
-  if (resIP.length > 0) {
-    console.log('%c⧭', 'color: #d0bfff', resIP);
-    console.log('%c⧭', 'color: #33cc99', resIP[0].FolioProcedencia);
-    // let folioP = resIP[0].FolioProcedencia
-    
-    console.log('%c%s', 'color: #7f2200', 'si hay');
-    
-    this.incidenciasService.incidenciaObject.FolioProcedencia = row.Folio;
-    this.incidenciasService.incidenciaObject.Procedencia = resIP[0].Procedencia;
-    // this.incidenciasService.incidenciaObject.IdDetalle = resIP[0].IdDetalle;
-    console.log('%c⧭', 'color: #364cd9', this.incidenciasService.incidenciaObject);
-    
-    
-    
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.height = "90%";
-    dialogConfig.data = {
-      modulo: 'OrdenCarga',
-      datos: 'oo'
-    }
-    this.dialog.open(IncidenciaAlmacenComponent, dialogConfig);
-  }else{
-    // !FUNCIONA SI NO HAY EXISTENTE
-    console.log('%c%s', 'color: #e5de73', 'No hay');
-    console.log('%c⧭', 'color: #ffa280', this.incidenciaBlanco);
+    this.incidenciasService.GetIncidenciaFolioProcedencia(row.Folio, 'OrdenCarga').subscribe(resIP => {
+      this.incidenciasService.incidenciaObject = new Incidencias()
+      if (resIP.length > 0) {
+        console.log('%c⧭', 'color: #d0bfff', resIP);
+        console.log('%c⧭', 'color: #33cc99', resIP[0].FolioProcedencia);
+        // let folioP = resIP[0].FolioProcedencia
 
-    this.incidenciasService.incidenciaObject = null;
-      this.incidenciasService.getIncidenciaNewFolio().subscribe(resFolio=>{
-        console.log(resFolio);
-        this.incidenciaBlanco.Folio = +resFolio;
-        this.incidenciaBlanco.Procedencia = 'OrdenCarga'
-        this.incidenciaBlanco.FolioProcedencia = row.Folio
-        this.incidenciaBlanco.IdDetalle = row.IdOrdenCarga
+        console.log('%c%s', 'color: #7f2200', 'si hay');
+
+        this.incidenciasService.incidenciaObject.FolioProcedencia = row.Folio;
+        this.incidenciasService.incidenciaObject.Procedencia = resIP[0].Procedencia;
+        // this.incidenciasService.incidenciaObject.IdDetalle = resIP[0].IdDetalle;
+        console.log('%c⧭', 'color: #364cd9', this.incidenciasService.incidenciaObject);
+
+
+
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.height = "90%";
+        dialogConfig.data = {
+          modulo: 'OrdenCarga',
+          datos: 'oo'
+        }
+        this.dialog.open(IncidenciaAlmacenComponent, dialogConfig);
+      } else {
+        // !FUNCIONA SI NO HAY EXISTENTE
+        console.log('%c%s', 'color: #e5de73', 'No hay');
         console.log('%c⧭', 'color: #ffa280', this.incidenciaBlanco);
-        this.incidenciasService.addIncidencia(this.incidenciaBlanco).subscribe(resAdd=>{
-          console.log(resAdd);
-          this.incidenciasService.getIncidenciaFolio(+resFolio).subscribe(resIncidencia=>{
-            console.log(resIncidencia[0]);
-            this.incidenciasService.incidenciaObject = resIncidencia[0];
-            const dialogConfig = new MatDialogConfig();
-            dialogConfig.disableClose = true;
-            dialogConfig.autoFocus = true;
-            dialogConfig.height = "90%";
-            dialogConfig.data = {
-              modulo: 'OrdenCarga',
-              datos: 'oo'
-            }
-            this.dialog.open(IncidenciaAlmacenComponent, dialogConfig);
+
+        this.incidenciasService.incidenciaObject = null;
+        this.incidenciasService.getIncidenciaNewFolio().subscribe(resFolio => {
+          console.log(resFolio);
+          this.incidenciaBlanco.Folio = +resFolio;
+          this.incidenciaBlanco.Procedencia = 'OrdenCarga'
+          this.incidenciaBlanco.FolioProcedencia = row.Folio
+          this.incidenciaBlanco.IdDetalle = row.IdOrdenCarga
+          console.log('%c⧭', 'color: #ffa280', this.incidenciaBlanco);
+          this.incidenciasService.addIncidencia(this.incidenciaBlanco).subscribe(resAdd => {
+            console.log(resAdd);
+            this.incidenciasService.getIncidenciaFolio(+resFolio).subscribe(resIncidencia => {
+              console.log(resIncidencia[0]);
+              this.incidenciasService.incidenciaObject = resIncidencia[0];
+              const dialogConfig = new MatDialogConfig();
+              dialogConfig.disableClose = true;
+              dialogConfig.autoFocus = true;
+              dialogConfig.height = "90%";
+              dialogConfig.data = {
+                modulo: 'OrdenCarga',
+                datos: 'oo'
+              }
+              this.dialog.open(IncidenciaAlmacenComponent, dialogConfig);
+            })
           })
         })
-      })
+
+      }
+
+    })
+
+
+
 
   }
-
-})
-
-
-    
-
-}
 }

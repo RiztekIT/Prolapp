@@ -46,9 +46,9 @@
                                 </p> -->
                             </div>
                             <div class="col-4 mt-2">
-                                <p class="blacktxt bolder nomarginbottomP">PO:
+                                <!-- <p class="blacktxt bolder nomarginbottomP">PO:
                                     <span> {{ComprasService.formt.PO}} </span>
-                                </p>
+                                </p> -->
                             </div>
                         </div>
                     </div>
@@ -94,10 +94,35 @@
                         </div>
                     </div>
                 </div>
+            
+                <div class="container" style="height:700px">
+                <table style="width: 100%; background: none">
+                    <thead>
+                        <tr>                            
+                            <th class="blacktxt bolder whitecolor text-center">Cantidad</th>
+                            <th class="blacktxt bolder whitecolor text-center">Clave</th>
+                            <th class="blacktxt bolder whitecolor text-center">Producto</th>
+                            <th class="blacktxt bolder whitecolor text-center">P/U</th>
+                            <th class="blacktxt bolder whitecolor text-center">Total</th>   
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let conceptos of arrcon;  let i = index">
+                        <tr class="pgbreak">
+                            <td class="textdt pgbreak text-center">{{conceptos.Cantidad | number: '1.0-0'}} </td>
+                            <td class="textdt text-center">{{conceptos.ClaveProducto}} </td>
+                            <td class=" textdt pgbreak text-center"> {{conceptos.Producto}} </td>
+                            <td *ngIf="this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitario | currency}} </td>
+                            <td *ngIf="this.moneda == 'DLLS'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitarioDlls | currency}}</td>
+                            <td *ngIf="this.moneda == 'MXN'" class="textdt text-center pgbreak">{{((+conceptos.PrecioUnitario)*(+conceptos.Cantidad)) | currency}}</td>
+                            <td *ngIf="this.moneda == 'DLLS'" class="textdt pgbreak text-center">{{((+conceptos.PrecioUnitarioDlls)*(+conceptos.Cantidad)) | currency}}</td>
+                    </tbody>
+
+                </table>
+                </div>
 
 
                 <!-- cantidad-unidad-clave- -->
-                <div class="container" style="height:520px">
+                <!-- <div class="container" style="height:700px">
                     <div class="col-lg-12 col-md-12 col-12">
                         <div class="card card-outline-inverse">
                             <div class="card-header">
@@ -108,12 +133,10 @@
                                             <tr>
                                                 <div class="container">
                                                     <div class="row">
-                                                        <div class="col-1">
+                                                        <div class="col-2">
                                                             <th class="bolder blacktxt pr-0">Cantidad</th>
                                                         </div>
-                                                        <div class="col-2">
-                                                            <th class="bolder blacktxt">Unidad</th>
-                                                        </div>
+                                                        
                                                         <div class="col-1">
                                                             <th class="bolder blacktxt text-center">Clave</th>
                                                         </div>
@@ -121,10 +144,10 @@
                                                             <th class="bolder blacktxt text-center">Descripción</th>
                                                         </div>
                                                         <div class="col-1">
-                                                            <th class="bolder blacktxt text-center">Precio Unitario</th>
+                                                            <th class="bolder blacktxt text-center">P/U</th>
                                                         </div>
-                                                        <div class="col-2">
-                                                            <th class="bolder blacktxt text-center">Total Producto</th>
+                                                        <div class="col-3">
+                                                            <th class="bolder blacktxt text-center">Total</th>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -141,26 +164,23 @@
                                                 <div class="containter">
 
                                                     <div class="row">
-                                                        <div class="col-1">
-                                                            <th class=" textoBodyAcomodo acomodoForzadoTh"> {{conceptos.Cantidad | number: '1.0-0'}} </th>
-                                                        </div>
                                                         <div class="col-2">
-                                                            <!-- <th class=" textoBodyAcomodo acomodoForzadoTh2"> {{conceptos.Unidad}} </th> -->
-                                                            <th class=" textoBodyAcomodo acomodoForzadoTh2"> {{this.unidad[i]}} </th>
+                                                            <th class=" textoBodyAcomodo acomodoForzadoTh text-center"> {{conceptos.Cantidad | number: '1.0-0'}} </th>
                                                         </div>
+                                                      
                                                         <div class="col-1">
-                                                            <th class=" textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.ClaveProducto}} </th>
+                                                            <th class=" textoBodyAcomodo acomodoForzadoTh3 text-center"> {{conceptos.ClaveProducto}} </th>
                                                         </div>
                                                         <div class="col-5">
-                                                            <th class=" textoBodyAcomodo"> {{conceptos.Producto}} </th>
+                                                            <th class=" textoBodyAcomodo text-center"> {{conceptos.Producto}} </th>
                                                         </div>
                                                         <div class="col-1">
-                                                            <th *ngIf="this.moneda == 'MXN'" class=" textoBodyAcomodo"> {{conceptos.PrecioUnitario | currency}} </th>
-                                                            <th *ngIf="this.moneda == 'USD'" class=" textoBodyAcomodo"> {{conceptos.PrecioUnitarioDlls | currency}}</th>
+                                                            <th *ngIf="this.moneda == 'MXN'" class=" textoBodyAcomodo text-center"> {{conceptos.PrecioUnitario | currency}} </th>
+                                                            <th *ngIf="this.moneda == 'USD'" class=" textoBodyAcomodo text-center"> {{conceptos.PrecioUnitarioDlls | currency}}</th>
                                                         </div>
-                                                        <div class="col-2">
-                                                            <th *ngIf="this.moneda == 'MXN'" class=" textoBodyAcomodo"> {{((+conceptos.PrecioUnitario)*(+conceptos.Cantidad)) | currency}}</th>
-                                                            <th *ngIf="this.moneda == 'USD'" class=" textoBodyAcomodo"> {{((+conceptos.PrecioUnitarioDlls)*(+conceptos.Cantidad)) | currency}}</th>
+                                                        <div class="col-3">
+                                                            <th *ngIf="this.moneda == 'MXN'" class=" textoBodyAcomodo text-center "> {{((+conceptos.PrecioUnitario)*(+conceptos.Cantidad)) | currency}}</th>
+                                                            <th *ngIf="this.moneda == 'USD'" class=" textoBodyAcomodo text-center"> {{((+conceptos.PrecioUnitarioDlls)*(+conceptos.Cantidad)) | currency}}</th>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -172,24 +192,22 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Observaciones -->
+                 
                     <div>
                         <p class="bolder nomarginbottomP">OBSERVACIONES DE PEDIDO:</p>
                         <p style="margin-bottom: 0;"> {{ComprasService.formt.Observaciones}} </p>
                         <p class="nomarginbottomP blacktxt">
-                            <!--   <p>Entregar en Calle: {{calle}} No. {{numeroext}} Int. {{numeroint}}, Col. {{colonia}}, CP: {{codigopostal}}, {{ciudad}}, {{estado}}, México
-
-                            </p> -->
+                          
                     </div>
-                </div>
+                </div> -->
 
                 <div class="container row">
-                    <div class="col-8">
+                    <div class="col-7">
 
                     </div>
 
 
-                    <div class="col-4">
+                    <div class="col-5">
                         <div class="card card-outline-inverse">
                             <div class="card-body">
                                 <div class="container">
@@ -254,6 +272,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
 
 
@@ -305,7 +324,7 @@
                         </div>
                     </div>
                 </div> -->
-            </div>
+            
         </div>
 
         <div headerReporte></div>

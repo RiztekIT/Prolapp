@@ -148,6 +148,7 @@ export class OrdendescargatarimaComponent implements OnInit {
   cantidadMaximaKilogramos: number;
   sacosCero: boolean;
   numerofactura;
+  FechaFactura: Date;
   PO;
   PODescarga;
   NumeroEntrada;
@@ -621,6 +622,8 @@ export class OrdendescargatarimaComponent implements OnInit {
     this.preOrdenTemporalSacos.FechaMFG = this.fechaMFG
     //^ En shipper guardaremos Numero Facura
     this.preOrdenTemporalSacos.Shipper = this.numerofactura;
+    //^ en Tarimas Totales guardaremos FechaFactura
+    this.preOrdenTemporalSacos.FechaFactura = this.FechaFactura;
     //^ En Pedimento guardaremos Numero Entrada (CBK)
     this.preOrdenTemporalSacos.Pedimento = this.NumeroEntrada;
     /* this.preOrdenTemporalSacos.Sacos = this.numerofactura; */
@@ -860,7 +863,8 @@ export class OrdendescargatarimaComponent implements OnInit {
             Comentarios: '',
             CampoExtra1: this.PODescarga,
             CampoExtra2: '',
-            CampoExtra3: ''
+            //^ Aqui Guardaremos la Fecha de la Factura
+            CampoExtra3: this.preOrdenTemporalSacos.FechaFactura
           }
 
           console.log(ordentemporalnueva);
@@ -893,6 +897,7 @@ export class OrdendescargatarimaComponent implements OnInit {
          //^Limpiar campos visuales
     this.NombreProducto = null;
     this.numerofactura = null;
+    this.FechaFactura = null;
     this.PO = null;
     this.PODescarga = null;
     this.NumeroEntrada = null;
@@ -1388,9 +1393,16 @@ export class OrdendescargatarimaComponent implements OnInit {
 
   }
 
-  changeMat(evento) {
-    this.preOrdenTemporalSacos.FechaCaducidad = evento.target.value;
-    this.change(this.preOrdenTemporalSacos.FechaCaducidad);
+  changeMat(evento, tipo) {
+    if(tipo == 'Caducidad'){
+      this.preOrdenTemporalSacos.FechaCaducidad = evento.target.value;
+      this.change(this.preOrdenTemporalSacos.FechaCaducidad);
+      
+    }else if(tipo == 'Factura'){
+      this.preOrdenTemporalSacos.FechaFactura = evento.target.value;
+      this.change(this.preOrdenTemporalSacos.FechaFactura);
+
+    }
   }
 
   change(date: any) {
