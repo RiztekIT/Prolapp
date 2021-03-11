@@ -132,9 +132,9 @@
                                 <td class="textdt text-center">{{conceptos.ClaveProducto}} </td>
                                 <td class=" textdt pgbreak text-center"> {{conceptos.Producto}} </td>
                                 <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitario | currency}} </td>
-                                <td *ngIf="mostrarPrecios == true && this.moneda == 'DLLS'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitarioDlls | currency}}</td>
-                                <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{((+conceptos.PrecioUnitario)*(+conceptos.Cantidad)) | currency}}</td>
-                                <td *ngIf="mostrarPrecios == true && this.moneda == 'DLLS'" class="textdt pgbreak text-center">{{((+conceptos.PrecioUnitarioDlls)*(+conceptos.Cantidad)) | currency}}</td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'USD'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitarioDlls | currency}}</td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.Importe | currency}}</td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'USD'" class="textdt pgbreak text-center">{{conceptos.ImporteDlls | currency}}</td>
                         </tbody>
     
                     </table>
