@@ -1945,6 +1945,13 @@ export class PedidoventasAddComponent implements OnInit {
 
           console.log(this.service.formDataPedido);
           this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Venta Cerrada',
+              timer: 1000,
+            showCancelButton: false,
+            showConfirmButton: false
+            })
             //   if (fletera == '0') {
 
             //     this.crearValidacion();
@@ -2164,7 +2171,7 @@ export class PedidoventasAddComponent implements OnInit {
 
             Swal.fire({
               icon: 'success',
-              title: 'Pedido Cerrado',
+              title: 'Venta Cerrada',
               timer: 1000,
             showCancelButton: false,
             showConfirmButton: false

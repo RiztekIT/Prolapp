@@ -289,31 +289,31 @@ export class PedidoVentasComponent implements OnInit {
 
 
 
-  deletePedido(pedido:Pedido){
-// //^Significa que si hay valores
-          // if (data.length > 0) {
-          //   console.log('Si hay valores');
-          //   for (let i = 0; i <= data.length - 1; i++) {
-          //     this.SumarStock(data[i].Cantidad, data[i].ClaveProducto, data[i].IdDetallePedido);
-          //     //^ Eliminar detalles de la Venta
-          //     this.DeletePedidoDetallePedido(pedido);
-          //   }
-          // }
-          // //^ No hay valores 
-          // else {
-          //   console.log('No hay valores');
-          //   //^ Eliminar detalles de la Venta
-            this.DeletePedidoDetallePedido(pedido.IdPedido);
-          // }
-    
+  deletePedido(pedido: Pedido) {
+    // //^Significa que si hay valores
+    // if (data.length > 0) {
+    //   console.log('Si hay valores');
+    //   for (let i = 0; i <= data.length - 1; i++) {
+    //     this.SumarStock(data[i].Cantidad, data[i].ClaveProducto, data[i].IdDetallePedido);
+    //     //^ Eliminar detalles de la Venta
+    //     this.DeletePedidoDetallePedido(pedido);
+    //   }
+    // }
+    // //^ No hay valores 
+    // else {
+    //   console.log('No hay valores');
+    //   //^ Eliminar detalles de la Venta
+    this.DeletePedidoDetallePedido(pedido.IdPedido);
+    // }
 
-        Swal.fire({
-          title: 'Borrado',
-          icon: 'success',
-          timer: 1000,
-          showCancelButton: false,
-          showConfirmButton: false
-        });
+
+    Swal.fire({
+      title: 'Borrado',
+      icon: 'success',
+      timer: 1000,
+      showCancelButton: false,
+      showConfirmButton: false
+    });
   }
   //Eliminar pedido
   //A su vez verificar si existen detalles pedidos relacionados a ese pedido.
@@ -341,6 +341,7 @@ export class PedidoVentasComponent implements OnInit {
 
           //^ Verificar si la venta ya esta Cerrada
           if (pedido.Estatus == 'Cerrada') {
+            console.log('Venta Cerrada');
             //^ Obtenemos la Orden de Carga que se genero apartir de esta Venta
             let query1 = 'select * from OrdenCarga where IdPedido = ' + pedido.IdPedido;
             let consulta1 = {
@@ -351,8 +352,10 @@ export class PedidoVentasComponent implements OnInit {
               console.log(dataOrdenCarga);
               //^ Verificamos el Estatus de la Orden.
               if (dataOrdenCarga[0].Estatus == 'Terminada') {
+                console.log('Orden de Carga Terminada');
                 //^ Verificamos el Flete de la Venta. Si esta terminada la Orden de Carga y el Flete de la Venta es sucursal (solo si es sucursal, ya que este proceso se genera en automatico), entonces aprobaremos la eliminacion de la Venta.
                 if (pedido.Flete == 'Sucursal') {
+                  console.log('Borrando, Venta en sucursal');
                   //^ Procederemos a regresar el stock a Detalle Tarima y eliminar los registros de esta Venta.
                   let queryOT = 'select * from OrdenTemporal where IdOrdenCarga = ' + dataOrdenCarga[0].IdOrdenCarga;
                   let consultaOT = {
@@ -386,11 +389,13 @@ export class PedidoVentasComponent implements OnInit {
                   console.log(dataOrdenTemporal);
 
                   if (dataOrdenTemporal.length > 0) {
+                    console.log('SI HUBO DESCARGA');
                     //^ Si si existen registros, tendremos que regresar el stock a Detalle Tarima, y borrar los registros de las diferentes tablas 
                     this.regresarStock(dataOrdenTemporal, dataOrdenCarga[0].IdOrdenCarga, pedido.IdPedido);
-
+                    
                   } else {
                     //^ Solamente borraremos La Orden Carga y sus detalles, asi como los de la Venta.
+                    console.log('NO SE DESCARGO NADA DE NADA');
                     this.DeletePedidoDetallePedido(pedido.IdPedido);
                     this.eliminarOrdenyDetalles(dataOrdenCarga[0].IdOrdenCarga);
                   }
@@ -428,13 +433,13 @@ export class PedidoVentasComponent implements OnInit {
           // }
         })
 
-        // Swal.fire({
-        //   title: 'Borrado',
-        //   icon: 'success',
-        //   timer: 1000,
-        //   showCancelButton: false,
-        //   showConfirmButton: false
-        // });
+        Swal.fire({
+          title: 'Borrado',
+          icon: 'success',
+          timer: 1800,
+          showCancelButton: false,
+          showConfirmButton: false
+        });
       }
     })
 
@@ -471,6 +476,13 @@ export class PedidoVentasComponent implements OnInit {
           updateDetalleTarima.PesoTotal = (+updateDetalleTarima.PesoTotal + +kg).toString();
           this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(updateDetalleTarima).subscribe(resUpdate => {
             console.log(resUpdate);
+            let queryDeleteOT = 'delete OrdenTemporal where IdOrdenTemporal = ' + ordenTemporal.IdOrdenTemporal;
+            let consultaDeleteOT = {
+              'consulta': queryDeleteOT
+            };
+            this.traspasoSVC.getQuery(consultaDeleteOT).subscribe((dataOT: any) => {
+              console.log(dataOT);
+            });
           })
         }
         else {
@@ -499,11 +511,18 @@ export class PedidoVentasComponent implements OnInit {
           }
           this.tarimaService.addDetalleTarima(detalleTarimaNueva).subscribe(resNuevaTarima => {
             console.log(resNuevaTarima);
+            let queryDeleteOT = 'delete OrdenTemporal where IdOrdenTemporal = ' + ordenTemporal.IdOrdenTemporal;
+            let consultaDeleteOT = {
+              'consulta': queryDeleteOT
+            };
+            this.traspasoSVC.getQuery(consultaDeleteOT).subscribe((dataOT: any) => {
+              console.log(dataOT);
+            });
           })
         }
       });
-       this.DeletePedidoDetallePedido(IdPedido);
-       this.eliminarOrdenyDetalles(IdOrdenCarga);
+      this.DeletePedidoDetallePedido(IdPedido);
+      this.eliminarOrdenyDetalles(IdOrdenCarga);
     });
   }
 
