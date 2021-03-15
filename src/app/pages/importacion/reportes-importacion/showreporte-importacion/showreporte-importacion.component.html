@@ -1,0 +1,109 @@
+<div>
+    <app-header-reportes></app-header-reportes>
+
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-4">
+            <button (click)="exportarXLS()" class="btn btn-success"> <i class="mdi mdi-file-excel-box" ></i> Excel </button>
+            <button (click)="exportarPDF()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
+        </div>
+    </div>
+</div>
+<mat-dialog-content>
+    <div class="container row" id="pdfreporte">
+        <div class="col-12">
+
+
+            <table class="table-hover" style="width: 100%;">
+                <thead>
+                    <!-- <tr>
+                        <th *ngIf="ReporteInformacion.modulo == 'Traspaso'" class="blacktxt bolder nowrap">Folio</th>
+                        <th *ngIf="ReporteInformacion.modulo == 'Traspaso'" class="blacktxt bolder">Origen</th>
+                        <th *ngIf="ReporteInformacion.modulo == 'Traspaso'" class="blacktxt bolder">Destino</th>
+                        <th *ngIf="ReporteInformacion.modulo == 'Traspaso'" class="blacktxt bolder">Estatus</th>
+                        <th *ngIf="ReporteInformacion.modulo == 'Traspaso'" class="blacktxt bolder nowrap">Fecha Expedicion</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr> -->
+                    <tr *ngIf="ReporteInformacion.modulo == 'Documento'">
+                        <th class="text-center blacktxt bolder ">Folio</th>
+                        <th class="text-center blacktxt bolder nowrap">Modulo </th>
+                        <th class="text-center blacktxt bolder nowrap">Tipo </th>
+                        <th class="blacktxt bolder text-center">Clave Prod</th>
+                        <!-- <th class="blacktxt bolder text-center">Observaciones</th> -->
+                        <th class="text-center blacktxt bolder ">Vigencia</th>
+                    </tr>
+                    <tr *ngIf="ReporteInformacion.modulo == 'Traspaso'">
+                        <th class="text-center blacktxt bolder ">USDA</th>
+                        <th class="text-center blacktxt bolder nowrap">Proveedor </th>
+                        <th class="text-center blacktxt bolder nowrap">PO </th>
+                        <th class="blacktxt bolder text-center">Producto</th>
+                        <th class="blacktxt bolder text-center">Clave Producto</th>
+                        <th class="blacktxt bolder text-center">Lote</th>
+                        <th class="text-center blacktxt bolder ">Sacos</th>
+                        <th class="text-center blacktxt bolder ">Peso Total</th>
+                        <th class="text-center blacktxt bolder ">Bodega</th>
+                    </tr>
+                </thead>
+                <ng-container *ngIf="ReporteInformacion.modulo == 'Documento'">
+                    <tbody *ngFor="let info of arrcon; let i = index">
+                        <tr class="pgbreak border3">
+                            <td class="wrap lightback pgbreak"> {{info.Folio}} </td>
+                            <td class="text-center pgbreak texto"> {{info.Modulo}}</td>
+                            <td class="text-center pgbreak texto"> {{info.Tipo}}</td>
+                            <td class="text-center pgbreak texto"> {{info.ClaveProducto}}</td>
+                            <!-- <td class="text-center pgbreak texto"> {{info.Observaciones}}</td> -->
+                            <td class="text-center pgbreak texto"> {{info.Vigencia | date: 'yyyy/MM/dd'}}</td>
+                        </tr>
+                    </tbody>
+                    <!-- <td class="wrap lightback pgbreak " [attr.colspan]="2"> </td> -->
+                    <!-- <td class="wrap lightback pgbreak text-center"> Total: </td> -->
+                    <!-- <td class="wrap lightback pgbreak text-center"> {{totalKg}} Kg. </td> -->
+                </ng-container>
+                <ng-container *ngIf="ReporteInformacion.modulo == 'Traspaso'">
+                    <tbody *ngFor="let info of arrcon; let i = index">
+                        <tr class="pgbreak border3">
+                            <td class="wrap lightback pgbreak"> Folio: {{info.Folio}} </td>
+                            <td class="wrap lightback pgbreak" [attr.colspan]="5"> Origen: {{info.Origen}}</td>
+                            <td class="wrap lightback pgbreak"> Destino: {{info.Destino}}</td>
+                            <td class="wrap lightback pgbreak"> Estatus: {{info.Estatus}}</td>
+                            <td class="wrap lightback pgbreak"> Fecha Expedicion: {{info.FechaExpedicion | date: 'yyyy/MM/dd'}}</td>
+                            <td class="wrap lightback pgbreak"></td>
+                            <td class="wrap lightback pgbreak"></td>
+                            <td class="wrap lightback pgbreak"></td>
+                            <td class="wrap lightback pgbreak"></td>
+                            <!-- <tr class="pgbreak border3"> -->
+                            <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
+                                <td class="text-center pgbreak texto"> {{info.Usda}} </td>
+                                <td class="text-center pgbreak texto"> {{info.Proveedor}}</td>
+                                <td class="text-center pgbreak texto"> {{info.PO}}</td>
+                                <td class="text-center pgbreak texto"> {{info.Producto}}</td>
+                                <td class="text-center pgbreak texto"> {{info.ClaveProducto}}</td>
+                                <td class="text-center pgbreak texto"> {{info.Lote}}</td>
+                                <td class="text-center pgbreak texto"> {{info.Sacos}}</td>
+                                <td class="text-center pgbreak texto"> {{info.PesoTotal}}</td>
+                                <td class="text-center pgbreak texto"> {{info.Bodega}}</td>
+                                <!-- <td class="text-center pgbreak texto"> {{info.FechaExpedicion | date: 'yyyy/MM/dd'}}</td> -->
+                                <!-- <td class="text-center pgbreak texto"> {{info.FechaInicioCarga | date: 'yyyy/MM/dd'}}</td> -->
+                                <!-- <td class="text-center pgbreak texto"> {{info.FechaFinalCarga | date: 'yyyy/MM/dd'}}</td> -->
+                            </tr>
+                            <td class="wrap lightback pgbreak " [attr.colspan]="2"> </td>
+                            <td class="wrap lightback pgbreak text-center"> Total: </td>
+                            <td class="wrap lightback pgbreak text-center"> {{info.sac}} Kg </td>
+                            <td class="wrap lightback pgbreak text-center"> {{info.kil}} Sacos </td>
+                    </tbody>
+                    <td class="wrap lightback pgbreak " [attr.colspan]="2"> </td>
+                    <td class="wrap lightback pgbreak text-center"> Total: </td>
+                    <td class="wrap lightback pgbreak text-center"> {{totalKg}} Kg </td>
+                    <td class="wrap lightback pgbreak text-center"> {{totalSacos}} Sacos </td>
+                </ng-container>
+            </table>
+        </div>
+        <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+        </ngx-loading>
+    </div>
+</mat-dialog-content>

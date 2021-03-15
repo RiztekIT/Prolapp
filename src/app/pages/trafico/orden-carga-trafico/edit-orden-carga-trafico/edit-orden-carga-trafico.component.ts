@@ -76,8 +76,58 @@ export class EditOrdenCargaTraficoComponent implements OnInit {
     this.getOrdenCarga();
     this.getFacturaFleteValues();
     this.getTarimaId();
-    // this.dropdownRefresh();
+    this.dropdownRefresh();
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    this.obtenerPrivilegios();
+    //^ **** PRIVILEGIOS POR USUARIO *****
   }
+
+    
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    privilegios: any;
+    privilegiosExistentes: boolean = false;
+    modulo = 'Trafico';
+    area = 'Orden de Carga';
+  
+    //^ VARIABLES DE PERMISOS
+    ActualizarEstatus: boolean = false;
+    GuardarFlete: boolean = false;
+    //^ VARIABLES DE PERMISOS
+  
+  
+    obtenerPrivilegios() {
+      let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+      console.log(arrayPermisosMenu);
+      let arrayPrivilegios: any;
+      try {
+        arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+        // console.log(arrayPrivilegios);
+        arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+        // console.log(arrayPrivilegios);
+        this.privilegios = [];
+        arrayPrivilegios.privilegios.forEach(element => {
+          this.privilegios.push(element.nombreProceso);
+          this.verificarPrivilegio(element.nombreProceso);
+        });
+        // console.log(this.privilegios);
+      } catch {
+        console.log('Ocurrio algun problema');
+      }
+    }
+  
+    verificarPrivilegio(privilegio) {
+      switch (privilegio) {
+        case ('Actualizar Estatus'):
+          this.ActualizarEstatus = true;
+          break;
+        case ('Guardar Flete'):
+          this.GuardarFlete = true;
+          break;
+        default:
+          break;
+      }
+    }
+    //^ **** PRIVILEGIOS POR USUARIO *****
 
   private _filter(value: any): any[] {
     
@@ -133,7 +183,7 @@ export class EditOrdenCargaTraficoComponent implements OnInit {
   //Obtener informacion Orden Carga
   getOrdenCarga() {
     this.ordencargaservice.getOCID(this.IdOrdenCarga).subscribe(data => {
-      console.log(data);
+      console.log('Orden',data);
       this.traficoService.formData = data[0];
       this.traficoService.formrow.Nombre = this.traficoService.formData.Fletera;
       this.estatusOC = data[0].Estatus;
@@ -143,7 +193,7 @@ export class EditOrdenCargaTraficoComponent implements OnInit {
   getTarimaId(){
 
     this.tarimaService.GetTarimaOC(this.IdOrdenCarga).subscribe(tar=>{
-      console.log(tar);
+      console.log('tarima',tar);
       this.tarimaService.tarimaTrafico = tar[0];
     })
 
@@ -168,7 +218,7 @@ export class EditOrdenCargaTraficoComponent implements OnInit {
   // agregar que sea por ID
   getFacturaFleteValues(){
     this.traficoService.getFacturaFleteID(this.IdOrdenCarga).subscribe(ress =>{
-      console.log(ress);
+      console.log('FACTU',ress);
       if (ress.length != 0) {
         this.traficoService.formDatafactura = ress[0];
         this.traficoService.formDatafactura.Estatus = ress[0].Estatus

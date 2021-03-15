@@ -14,6 +14,7 @@ import { UsuariosServieService } from '../../../../../services/catalogos/usuario
 import { EventosService } from '../../../../../services/eventos/eventos.service';
 import { Evento } from 'src/app/Models/eventos/evento-model';
 import { DatePipe } from '@angular/common';
+import { MarcasProductos } from 'src/app/Models/catalogos/marcasproductos-model';
 
 @Component({
   selector: 'app-edit-producto',
@@ -102,12 +103,14 @@ iva: boolean;
 
   onSubmit(form: NgForm) {
 
+    console.log(form);
+
     if (form.controls['IVA'].value == true) {
       this.service.formData.IVA = '0.16';
       }  else {
         this.service.formData.IVA = '0';
       }
-// console.log(this.service.formData.IVA);
+ console.log(this.service.formData);
     this.service.updateProducto(this.service.formData).subscribe(res => {
       
       this.movimientos(this.movimiento)
@@ -138,5 +141,46 @@ iva: boolean;
     })
     })
   }
+
+// ^ marcasRelacionadas Variables
+MarcasRel = false;
+
+  // ^ Checkbox para marcas relacionadas
+  check(checkbox: any) {
+    if (checkbox == true) {
+      this.MarcasRel = true
+      console.log(this.MarcasRel);
+    } else {
+      this.MarcasRel = false
+      console.log(this.MarcasRel);
+
+    }
+  }
+
+  agregarMarcaRel() {
+    console.clear();
+    this.service.MarcasRelForm.ProductoMarca = this.service.formData.Nombre
+    console.log('%c⧭', 'color: #0088cc', this.service.MarcasRelForm);
+
+    this.service.addMarcasProductos(this.service.MarcasRelForm).subscribe(resMP => {
+      console.log(resMP);
+      this.service.MarcasRelForm = new MarcasProductos()
+    })
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

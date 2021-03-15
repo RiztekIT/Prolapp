@@ -15,7 +15,7 @@ export class ProcesoService {
 
   constructor(private http:HttpClient) { }
   formData: Proceso;
-  master = new Array<procesoMasterDetalle>();
+  master = new Array<any>();
   privilegioData: Privilegio;
 
   // readonly APIUrl = "https://localhost:44361/api";

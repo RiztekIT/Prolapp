@@ -8,13 +8,13 @@
 <div class="row text-center">
     <div class="col-md-4">
         <div class="btn-group">
-            <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+            <div class="btn btn-prolacto"  mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
                 Anterior
             </div>
-            <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+            <div class="btn btn-prolacto"  mwlCalendarToday [(viewDate)]="viewDate">
                 Hoy
             </div>
-            <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+            <div class="btn btn-prolacto"  mwlCalendarNextView [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
                 Siguiente
             </div>
         </div>
@@ -24,13 +24,13 @@
     </div>
     <div class="col-md-4">
         <div class="btn-group">
-            <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
+            <div class="btn btn-prolacto"  (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
                 Mes
             </div>
-            <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
+            <div class="btn btn-prolacto"  (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
                 Semana
             </div>
-            <div class="btn btn-primary" (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
+            <div class="btn btn-prolacto"  (click)="setView(CalendarView.Day)" [class.active]="view === CalendarView.Day">
                 Dia
             </div>
         </div>
@@ -53,7 +53,7 @@
 
 <h3>
     Editar Eventos
-    <button class="btn btn-primary float-right" (click)="addEvent()">
+    <button [disabled]="Agregar == false" class="btn btn-prolacto float-right" (click)="addEvent()">
   Agregar Evento
 </button>
     <div class="clearfix"></div>
@@ -93,7 +93,7 @@
                     />
                 </td>
                 <td>
-                    <button class="btn btn-danger" (click)="deleteEvent(event)">
+                    <button [disabled]="Borrar == false" class="btn btn-danger" (click)="deleteEvent(event)">
           Borrar
         </button>
                 </td>

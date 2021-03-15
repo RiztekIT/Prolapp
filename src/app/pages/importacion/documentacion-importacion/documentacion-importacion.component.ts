@@ -28,7 +28,58 @@ export class DocumentacionImportacionComponent implements OnInit {
 
   ngOnInit() {
     this.obtenerOrdenDescargaDocumentos();
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    this.obtenerPrivilegios();
+    //^ **** PRIVILEGIOS POR USUARIO *****
   }
+
+
+    
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    privilegios: any;
+    privilegiosExistentes: boolean = false;
+    modulo = 'Importacion';
+    area = 'Documentacion';
+  
+    //^ VARIABLES DE PERMISOS
+    AgregarNueva: boolean = false;
+    Agregar: boolean = false;
+    //^ VARIABLES DE PERMISOS
+  
+  
+    obtenerPrivilegios() {
+      let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+      console.log(arrayPermisosMenu);
+      let arrayPrivilegios: any;
+      try {
+        arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+        // console.log(arrayPrivilegios);
+        arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+        // console.log(arrayPrivilegios);
+        this.privilegios = [];
+        arrayPrivilegios.privilegios.forEach(element => {
+          this.privilegios.push(element.nombreProceso);
+          this.verificarPrivilegio(element.nombreProceso);
+        });
+        // console.log(this.privilegios);
+      } catch {
+        console.log('Ocurrio algun problema');
+      }
+    }
+  
+    verificarPrivilegio(privilegio) {
+      switch (privilegio) {
+        case ('Agregar Nueva Documentacion'):
+          this.AgregarNueva = true;
+          break;
+        case ('Agregar Documento'):
+          this.Agregar = true;
+          break;
+        default:
+          break;
+      }
+    }
+    //^ **** PRIVILEGIOS POR USUARIO *****
 
   listData: MatTableDataSource<any>;
   displayedColumns: string[] = ['Folio', 'PO', 'Sacos', 'Fletera', 'Origen', 'FechaDescarga', 'Options'];
@@ -47,25 +98,28 @@ export class DocumentacionImportacionComponent implements OnInit {
   //Obtiene Ordenes Descargadas.
   obtenerOrdenDescargaDocumentos() {
   this.documentosService.getOrdenesDescargadas().subscribe(data => {
-      // console.log(data);
+      console.log(data);
       this.documentosService.master = []
+      console.log(this.documentosService.master);
       if (data.length > 0) {
         // console.log('Si hay datos');
         // let detalleOrdenDescarga = new Array<any>();
-        for (let i = 0; i <= data.length - 1; i++) {
+        for (let i = 0; i < data.length ; i++) {
+          console.log(i);
           this.documentosService.master[i] = data[i];
           this.documentosService.master[i].detalleDocumento = [];
 
           this.documentosService.getDetalleOrdenDescargaId(data[i].IdOrdenDescarga).subscribe(dataOD => {
-            // console.log(dataOD);
+            console.log(dataOD);
             // detalleOrdenDescarga = dataOD;
             dataOD.forEach(element => {
+              console.log(element);
               // console.log(l);
               // console.log( detalleOrdenDescarga[l]);
               // let joinDescargaDocumento = dataOD[l];
               // console.log(element);
-              let joinDescargaDocumento = element;
-              console.log(joinDescargaDocumento);
+              // let joinDescargaDocumento = element;
+              // console.log(joinDescargaDocumento);
               // console.log(detalleOrdenDescarga[l]);
               //  this.documentosService.getJoinDodD(element.IdDetalleOrdenDescarga, element.ClaveProducto).subscribe(dataJoin => {
               //   console.log(dataJoin);
@@ -77,12 +131,13 @@ export class DocumentacionImportacionComponent implements OnInit {
               //     joinDescargaDocumento.Documento = false;
               //     console.log('no hay documento');
               //   }
-                this.documentosService.master[i].detalleDocumento.push(joinDescargaDocumento);
+                this.documentosService.master[i].detalleDocumento.push(element);
                 this.listData = new MatTableDataSource(this.documentosService.master);
                 this.listData.sort = this.sort;
                 // this.listData.paginator = this.paginator;
                 //         // console.log(this.documentosService.master);
               // })
+              console.log(this.documentosService.master);
           });
           })
         }
@@ -91,7 +146,6 @@ export class DocumentacionImportacionComponent implements OnInit {
         this.listData.sort = this.sort;
         this.listData.paginator = this.paginator;
       }
-      // console.log(this.documentosService.master);
 
       // this.listData.paginator._intl.itemsPerPageLabel = 'Compras por Pagina';
     })
@@ -110,7 +164,7 @@ export class DocumentacionImportacionComponent implements OnInit {
     this.router.navigate(['/documentacion-formulario-importacion']);
   }
 
-  applyFilter(filtervalue: string) {
+    applyFilter(filtervalue: string) {
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
   }
 

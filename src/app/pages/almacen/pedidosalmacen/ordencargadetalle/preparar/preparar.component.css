@@ -70,3 +70,13 @@ tr.example-element-row:not(.example-expanded-row):active {
     background-color: #000000;
     color: white
 }
+
+.btn-prolacto {
+    background-color: white;
+    color: black
+}
+
+.btn-prolacto:hover {
+    background-color: black;
+    color: white
+}

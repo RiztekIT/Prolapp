@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewChecked } from '@angular/core';
+import { CalendarioService } from 'src/app/services/calendario/calendario.service';
 
 @Component({
   selector: 'app-dashboardcxp',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardcxpComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(public calendarioService:CalendarioService) { }
   ngOnInit() {
+    this.calendarioService.filter('CxP');
+    this.altura = 10;
   }
+  
+  altura;
+
+  ngAfterViewChecked(): void {
+    this.altura = document.getElementById("importacion").offsetHeight
+  }
+
+
+
 
 }

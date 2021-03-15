@@ -3,6 +3,7 @@ import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, BaseChartDirective, Color } from 'ng2-charts';
 import { OrdenDescargaService } from '../../../../services/almacen/orden-descarga/orden-descarga.service';
 import { ProveedoresService } from '../../../../services/catalogos/proveedores.service';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -19,6 +20,15 @@ export class AlmacenOrdenDescargaMesesComponent implements OnInit {
     this.checked = 'True'
     this.Cliente = 'Todos'
     this.reporte();
+  }
+
+  ngOnDestroy(): void {
+    if(this.subs1){
+      this.subs1.unsubscribe();
+    }
+    if(this.subs2){
+      this.subs2.unsubscribe();
+    }
   }
 
   @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;
@@ -114,10 +124,11 @@ export class AlmacenOrdenDescargaMesesComponent implements OnInit {
     }
   ];
 
-
+subs1: Subscription
   reporte(){
-    this.proveedorService.getProveedoresList().subscribe(dataProveedores => {
-      console.log(dataProveedores);  
+    this.iniciarTotales();
+    this.subs1 = this.proveedorService.getProveedoresList().subscribe(dataProveedores => {
+      // console.log(dataProveedores);  
       this.listaClientes=dataProveedores;
        this.obtenerReporte(dataProveedores.length, dataProveedores);
     })
@@ -172,14 +183,14 @@ export class AlmacenOrdenDescargaMesesComponent implements OnInit {
     // console.log(this.moneda);
     this.reporte()
   }
-
+subs2: Subscription
 datosCliente(data,i){
-  console.log(data);
-  this.odService.getReporteProveedorId(data[i].IdProveedor).subscribe(dataReporte => {
-    console.log(dataReporte);
+  // console.log(data);
+ this.subs2 = this.odService.getReporteProveedorId(data[i].IdProveedor).subscribe(dataReporte => {
+    // console.log(dataReporte);
     if(dataReporte.length>0){
-      console.log(dataReporte);
-      this.iniciarTotales();
+      // console.log(dataReporte);
+      
       for (let l = 0; l < dataReporte.length; l++) {
       
 
@@ -268,9 +279,6 @@ datosCliente(data,i){
     }
     this.chart.update();
      
-  }else{
-    this.iniciarTotales();
-    
   }
   })
 }

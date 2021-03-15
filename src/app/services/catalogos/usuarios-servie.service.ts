@@ -21,7 +21,7 @@ export class UsuariosServieService {
 
   // readonly APIUrl = "https://localhost:44361/api";
   readonly APIUrl = environment.APIUrl;
-  //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+  // readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
 
 
   getUsuariosList(): Observable <Usuario[]> {
@@ -70,5 +70,23 @@ export class UsuariosServieService {
     checadasfechas(fecha){
       return this.http.get(this.APIUrl+'/usuario/login/'+fecha);
     }
+    
+    checadorSemanaFechas(fecha1, fecha2):Observable<any[]> {
+      return this.http.get<any[]>(this.APIUrl+'/usuario/loginFechas/'+fecha1+'/'+fecha2);
+    }
+    checadorSemanaFechasIdUsuario(fecha1, fecha2, id):Observable<any[]> {
+      return this.http.get<any[]>(this.APIUrl+'/usuario/loginFechasId/'+fecha1+'/'+fecha2+'/'+id);
+    }
+    //^ Traer usuario que se logearon durante una semana en especifico
+    checadorFechasSemana(fecha1, fecha2):Observable<any[]> {
+      return this.http.get<any[]>(this.APIUrl+'/usuario/loginSemana/'+fecha1+'/'+fecha2);
+    }
+    checadorSemanaFechasUsuario(fecha1, fecha2, usuario:string):Observable<any[]> {
+      return this.http.get<any[]>(this.APIUrl+'/usuario/loginFechasUser/'+fecha1+'/'+fecha2+'/'+usuario);
+    }
 
+    //^ Obtener Earliest Inicio de Sesion dependiendo x fecha y por Usuario
+    checadorEarliestDateUsuario(diaLimite, diaInicio, diaFin, mesInicio, mesFin, yearInicio, yearFin, usuario):Observable<any[]> {
+      return this.http.get<any[]>(this.APIUrl+'/usuario/loginEarliestDatesUser/'+diaLimite+'/'+diaInicio+'/'+diaFin+'/'+mesInicio+'/'+mesFin+'/'+yearInicio+'/'+yearFin+'/'+usuario);
+    }
 }

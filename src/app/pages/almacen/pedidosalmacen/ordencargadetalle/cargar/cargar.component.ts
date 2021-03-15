@@ -336,11 +336,11 @@ export class CargarComponent implements OnInit {
       console.log(res);
       Oc= res[0];
       Oc.FechaFinalCarga = new Date();
-      if (res[0].Chofer) {
+      /* if (res[0].Chofer) { */
         if (res[0].Estatus == 'Preparada') {
-          this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(resq => {
-            console.log(resq)
-
+          // this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(resq => {
+            // console.log(resq)
+Oc.Estatus = 'Cargada';
             
 
   this.ordenCargaService.updateOrdenCarga(Oc).subscribe(res=>{
@@ -350,14 +350,14 @@ this.router.navigate(['/ordencargadetalle']);
 
             
             
-          })
+          // })
         }
         this.ordenCargaService.updateOrdenCarga(Oc).subscribe(res=>{
           console.log(res);
           this.router.navigate(['/ordencargadetalle']);
             })
-      } else{
-
+      /* } else{ */
+/* 
         Swal.fire({
           title: 'Ingresar Nombre de Chofer',
           icon: 'warning',
@@ -399,10 +399,10 @@ this.router.navigate(['/ordencargadetalle']);
             
             
           }
-        })
+        }) */
 
 
-      }
+      /* } */
     })
 
 
@@ -422,4 +422,43 @@ this.router.navigate(['/ordencargadetalle']);
 
 
 }
+
+
+
+descargar(name) {
+  console.log(name.ImageName);
+    const blobData = this.convertBase64ToBlobData(name.ImagePath.changingThisBreaksApplicationSecurity.toString().replace(/^data:image\/(png|jpeg|jpg);base64,/, ''));
+    const blob = new Blob([blobData], { type: 'contentType' });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = name.ImageName;
+    link.click();
+
+  }
+
+
+
+
+  convertBase64ToBlobData(base64Data: string, contentType: string = 'imagessssss/jpg', sliceSize = 512) {
+    const byteCharacters = atob(base64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
+  }
 }

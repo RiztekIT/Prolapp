@@ -4,7 +4,7 @@
             <div class="card-body">
                 <h2 style="text-align: start;">Orden Descarga</h2>
                 <div class="row">
-                    <div class="col-md-6 col-12">
+                    <div class="col-md-4 col-12">
                         <mat-button-toggle-group #group="matButtonToggleGroup">
                             <mat-button-toggle value="Kg" aria-label="Text align left" (change)='cambio($event)'>
                                 <mat-icon>attach_money </mat-icon>
@@ -14,14 +14,26 @@
                             </mat-button-toggle>
                         </mat-button-toggle-group>
                     </div>
-                    <div class="col-md-6 col-12">
+                    <div class="col-md-8 col-12">
                         <mat-slide-toggle class="example-margin btncoti" [(ngModel)]="checked" (change)='tipoProveedor($event)'>
-                            Todos los Clientes
+                            Todos los Proveedores
                         </mat-slide-toggle>
 
+                        <div *ngIf="!checked">
+                            <!-- <label class="input-group-text text-info">Seleccionar Cliente:</label> <br> -->
+                            <mat-form-field>
+                                <input type="text" placeholder="Seleccionar Proveedor" aria-label="Number" [formControl]="myControl" [ngModel]="proveedorSelect" matInput [matAutocomplete]="autoProducto">
+                                <mat-autocomplete #autoProducto="matAutocomplete">
+                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option" (onSelectionChange)='reporteProveedor($event)'>
+                                        {{option.Nombre}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                        <!-- 
                         <mat-select *ngIf="!checked">
                             <mat-option *ngFor="let cliente of listaProveedores" [value]="cliente" (onSelectionChange)='reporteProveedor($event)'>{{cliente.Nombre}}</mat-option>
-                        </mat-select>
+                        </mat-select> -->
                     </div>
                 </div>
                 <div style="display: block">

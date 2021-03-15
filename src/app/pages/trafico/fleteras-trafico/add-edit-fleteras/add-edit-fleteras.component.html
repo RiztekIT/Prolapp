@@ -1,0 +1,31 @@
+<div class="d-flex justify-content-between m-2">
+    <h4>{{titulo}}</h4>
+    <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+</button>
+</div>
+
+<hr>
+<div style="overflow: auto; height: 450px;">
+    <form #form="ngForm" autocomplete="off">
+
+
+        <div class="form-material">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-12">
+                        <label class="input-group-text text-info">Nombre</label>
+                        <input required type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="this.FleterasService.dataFleteras.Nombre">
+                        <label class="input-group-text text-info">Direccion</label>
+                        <input required type="text" class="form-control" name="Direccion" #Direccion="ngModel" [(ngModel)]="this.FleterasService.dataFleteras.Direccion">
+                        
+                    </div>
+                    <br>
+                    <button class="btn btn-success" mat-raised-button color="success" (click)="AddEditFletera()" [disabled]="form.invalid">{{tipo}} Fletera</button>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

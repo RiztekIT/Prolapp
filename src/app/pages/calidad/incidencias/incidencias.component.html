@@ -6,7 +6,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-3 col-sm-12" style="display: block; justify-content: center">
-                            <button style="margin-right: 15px;" title="Generar Incidencia" mat-fab (click)="accederIncidencia()" class="btncoti">
+                            <button [disabled]="AgregarIncidencia == false" style="margin-right: 15px;" title="Generar Incidencia" mat-fab (click)="accederIncidencia()" class="btncoti">
                 <mat-icon>note_add</mat-icon>
               </button>
                         </div>
@@ -82,7 +82,7 @@
                   <mat-icon>keyboard_arrow_down</mat-icon>
                 </button>
                                 <mat-menu #menu="matMenu">
-                                    <button title="documentos" mat-icon-button class="btn btn-dark" (click)="accederIncidencia(row)">
+                                    <button [disabled]="AgregarIncidenciaOC == false" title="documentos" mat-icon-button class="btn btn-dark" (click)="accederIncidencia(row)">
                     <mat-icon>note_add</mat-icon>
                   </button>
                                 </mat-menu>
@@ -165,7 +165,7 @@
                 </button>
                                 <mat-menu #menu="matMenu">
                                     <!--  -->
-                                    <button title="documentos" mat-icon-button class="btn btn-dark" (click)="accederIncidencia(row)">
+                                    <button [disabled]="AgregarIncidenciaOD == false" title="documentos" mat-icon-button class="btn btn-dark" (click)="accederIncidencia(row)">
                     <mat-icon>note_add</mat-icon>
                   </button>
                                 </mat-menu>

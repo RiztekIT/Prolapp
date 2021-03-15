@@ -16,6 +16,9 @@ import { startWith, map } from 'rxjs/operators';
 import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
 import { QrComponent } from 'src/app/components/qr/qr.component';
 import { OrdenTemporal } from 'src/app/Models/almacen/OrdenTemporal/ordenTemporal-model';
+import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-producto/entrada-producto.component';
+import Swal from 'sweetalert2';
+import { FormatoPDFComponent } from '../../../../components/almacen/formato-pdf/formato-pdf.component';
 
 
 @Component({
@@ -36,13 +39,15 @@ export class OrdendescargadetalleComponent implements OnInit {
 
   // Tabla Orden Temporal
   listDataOrdenTemporal: MatTableDataSource<any>;
-  displayedColumnsOrdenTemporal: string[] = ['QR', 'ClaveProducto', 'Producto', 'Lote', 'Sacos', 'PesoTotal', 'FechaCaducidad', 'Comentarios', 'Options'];
+  displayedColumnsOrdenTemporal: string[] = ['Factura', 'CBK', 'ClaveProducto', 'Producto', 'Lote', 'Sacos', 'PesoTotal', 'FechaCaducidad', 'Comentarios'];
+  // displayedColumnsOrdenTemporal: string[] = ['QR', 'ClaveProducto', 'Producto', 'Lote', 'Sacos', 'PesoTotal', 'FechaCaducidad', 'Comentarios', 'Options'];
   @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
 
   files: File[] = [];
   imagenes: any[];
   Folio: number;
+  Estatus: string="";
 
   imagePath: SafeResourceUrl;
   imageInfo: ImgInfo[] = [];
@@ -66,7 +71,61 @@ export class OrdendescargadetalleComponent implements OnInit {
     this.actualizarTablaOrdenTemporal();
     console.log(localStorage.getItem('IdOrdenDescarga'));
     this.ObtenerFolio(this.IdOrdenDescarga);
+  //^ **** PRIVILEGIOS POR USUARIO *****
+  this.obtenerPrivilegios();
+  //^ **** PRIVILEGIOS POR USUARIO *****
+}
+
+
+//^ **** PRIVILEGIOS POR USUARIO *****
+privilegios: any;
+privilegiosExistentes: boolean = false;
+modulo = 'Almacen';
+area = 'Orden de Descarga';
+
+//^ VARIABLES DE PERMISOS
+AgregarEvidencia: boolean = false;
+Enviar: boolean = false;
+Descargar: boolean = false;
+//^ VARIABLES DE PERMISOS
+
+
+obtenerPrivilegios() {
+  let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+  console.log(arrayPermisosMenu);
+  let arrayPrivilegios: any;
+  try {
+    arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+    // console.log(arrayPrivilegios);
+    arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+    // console.log(arrayPrivilegios);
+    this.privilegios = [];
+    arrayPrivilegios.privilegios.forEach(element => {
+      this.privilegios.push(element.nombreProceso);
+      this.verificarPrivilegio(element.nombreProceso);
+    });
+    // console.log(this.privilegios);
+  } catch {
+    console.log('Ocurrio algun problema');
   }
+}
+
+verificarPrivilegio(privilegio) {
+  switch (privilegio) {
+    case ('Agregar Evidencias'):
+      this.AgregarEvidencia = true;
+      break;
+    case ('Enviar Orden de Descarga'):
+      this.Enviar = true;
+      break;
+    case ('Agregar Productos'):
+      this.Descargar = true;
+      break;
+    default:
+      break;
+  }
+}
+//^ **** PRIVILEGIOS POR USUARIO *****
 
   regresar(){
     this.router.navigate(['/ordendescarga']);
@@ -170,8 +229,10 @@ leerDirImagenes() {
 ObtenerFolio(id: number) {
   this.service.getOrdenDescargaID(id).subscribe(dataOC => {
     console.log(dataOC);
+    this.Estatus = dataOC[0].Estatus
     this.Folio = dataOC[0].Folio;
     console.log(this.Folio);
+    console.log(this.Estatus);
     this.leerDirImagenes();
   })
 }
@@ -299,7 +360,68 @@ console.log(this.qrsearch,"filtro");
     this.dialog.open(QrComponent, dialogConfig);
   }
 
+  pdf(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "70%";
+    dialogConfig.data = {
+     IdOrdenDescarga: this.IdOrdenDescarga
+    }
+    this.dialog.open(EntradaProductoComponent, dialogConfig);
+  }
 
+  //^ Con este metodo le daremos formato a los detalles de la orden (En cuantas tarimas estara dividio x producto)
+  formatoDocumentoPDF(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "80%";
+    dialogConfig.data = {
+     IdOrden: this.IdOrdenDescarga,
+     Tipo: 'OrdenDescarga'
+    }
+    this.dialog.open(FormatoPDFComponent, dialogConfig);
+  }
+
+
+
+  descargar(name) {
+    console.log(name.ImageName);
+      const blobData = this.convertBase64ToBlobData(name.ImagePath.changingThisBreaksApplicationSecurity.toString().replace(/^data:image\/(png|jpeg|jpg);base64,/, ''));
+      const blob = new Blob([blobData], { type: 'contentType' });
+      const url = window.URL.createObjectURL(blob);
+  
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = name.ImageName;
+      link.click();
+  
+    }
+  
+  
+  
+  
+    convertBase64ToBlobData(base64Data: string, contentType: string = 'imagessssss/jpg', sliceSize = 512) {
+      const byteCharacters = atob(base64Data);
+      const byteArrays = [];
+  
+      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+  
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+  
+        const byteArray = new Uint8Array(byteNumbers);
+  
+        byteArrays.push(byteArray);
+      }
+  
+      const blob = new Blob(byteArrays, { type: contentType });
+      return blob;
+    }
 
 
 

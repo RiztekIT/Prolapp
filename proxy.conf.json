@@ -17,6 +17,12 @@
         "target": "https://factura.com ",
         "secure": false,
         "changeOrigin": true
+    },
+
+    "/signalr/*": {
+        "target": "https://riztekserver.ddns.net:44361 ",
+        "secure": false,
+        "changeOrigin": true
     }
 
 

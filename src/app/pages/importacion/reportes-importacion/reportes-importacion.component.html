@@ -2,128 +2,262 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
+                <div class="card mat-elevation-z8">
+                    <div class="card-body">
 
-                <h2>Importacion</h2>
 
-                <h4 class="card-title">Historial de importacion</h4>
-                <div class="table-responsive m-t-40">
-                    <table class="table stylish-table">
-                        <thead>
-                            <tr>
-                                <th colspan="2">ID Pedido</th>
-                                <th>Origen</th>
-                                <th>Destino</th>
-                                <th>Estado</th>
-                                <th>Hora Llegada</th>
-                                <th>Documentacion</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td style="width:50px;"><span class="round">ELP</span></td>
-                                <td>
-                                    <h6>EL PASO</h6><small class="text-muted">TEXAS</small></td>
-                                <td>
-                                    <h6>CHIHUAHUA</h6><small class="text-muted">CHIHUAHUA</small></td>
-                                <td><span class="label label-light-success">Aduana</span></td>
-                                <td>8:30 am</td>
-                                <td>
-                                    <a href="#" data-toggle="modal" data-target="#add-new-event" class="btn m-t-10 btn-info btn-block waves-effect waves-light">
-                                        <i class="ti-book"></i> Ver Documentacion
-                                    </a>
-                                </td>
 
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td style="width:50px;"><span class="round">ELP</span></td>
-                                <td>
-                                    <h6>EL PASO</h6><small class="text-muted">TEXAS</small></td>
-                                <td>
-                                    <h6>CHIHUAHUA</h6><small class="text-muted">CHIHUAHUA</small></td>
-                                <td><span class="label label-light-info">Carga</span></td>
-                                <td>2:00 pm</td>
-                                <td>
-                                    <a href="#" data-toggle="modal" data-target="#add-new-event" class="btn m-t-10 btn-info btn-block waves-effect waves-light">
-                                        <i class="ti-book"></i> Ver Documentacion
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td><span class="round round-success">LA</span></td>
-                                <td>
-                                    <h6>Los Angeles</h6><small class="text-muted">California</small></td>
-                                <td>
-                                    <h6>El Paso</h6><small class="text-muted">Texas</small></td>
-                                <td><span class="label label-light-danger">Almacen</span></td>
-                                <td>5:00 pm</td>
-                                <td>
-                                    <a href="#" data-toggle="modal" data-target="#add-new-event" class="btn m-t-10 btn-info btn-block waves-effect waves-light">
-                                        <i class="ti-book"></i> Ver Documentacion
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td><span class="round round-primary">CUU</span></td>
-                                <td>
-                                    <h6>Chihuahua</h6><small class="text-muted">Chihuahua</small></td>
-                                <td>
-                                    <h6>Monterrey</h6><small class="text-muted">Nuevo Leon</small></td>
-                                <td><span class="label label-light-primary">Descarga</span></td>
-                                <td>8:00 pm</td>
-                                <td>
-                                    <a href="#" data-toggle="modal" data-target="#responsive-modal" class="btn m-t-10 btn-info btn-block waves-effect waves-light">
-                                        <i class="ti-book"></i> Ver Documentacion
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                        <div class="d-flex justify-content-between">
+
+                            <h3 class="text-muted m-t-10 m-b-0">Reportes Importacion</h3>
+                        </div>
+                        <hr>
+
+
+
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                Reportes Documentos
+                                              </button>
+                            </h2>
+                        </div>
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <mat-card>
+
+                                <!-- <div class="col-4" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedEstatusCotizacion" (change)="onChangeEstatusCotizacion()">
+                                            Filtrar por Estatus de Cotizacion
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div class="col-8" *ngIf="checkedEstatusCotizacion == true">
+                                    <label class="input-group-text text-info">Seleccionar Estatus</label>
+
+                                    <select class="form-control" name="estatuss" #estatuss="ngModel" id="estatuss" (change)="changeEstatusCotizacion($event)" [(ngModel)]="estatusCotizacion">
+                                                                <option [ngValue]="null" selected disabled>Seleccionar Estatus Cotizacion</option>
+                                                                <option *ngFor="let dl of listEstatusCotizacion" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                                            </select>
+
+                                </div>
+
+                                <hr> -->
+
+                                <div class="col-12" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedDocumento" (change)="onChangeTodosDocumentos()">
+                                            Todos los Documentos
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div class="col-12" *ngIf="checkedDocumento == false">
+                                    <!-- <label class="input-group-text text-info">Seleccionar Documento</label> -->
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12">
+                                                <mat-form-field class="example-full-width">
+                                                    <input type="text" placeholder="Seleccionar Documento" aria-label="Number" [formControl]="myControlDocumento" matInput [matAutocomplete]="auto" name="documento" [(ngModel)]="DocumentoSeleccionado">
+                                                    <mat-autocomplete #auto="matAutocomplete">
+                                                        <mat-option *ngFor="let option of filteredOptionsDocumento | async" [value]="option.Tipo" (onSelectionChange)="onSelectionChangeDocumento(option, $event)">
+                                                            {{option.Modulo}} | {{option.Tipo}} | Folio: {{option.Folio}}
+                                                        </mat-option>
+                                                    </mat-autocomplete>
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-2">Modulo:</div>
+                                                <div class="col-md-4">
+                                                    <input type="string" class="form-control" readonly name="modulo" readonly [(ngModel)]="DocumentoModulo">
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-2">Tipo:</div>
+                                                <div class="col-md-4">
+                                                    <input type="string" class="form-control" readonly name="tipo" readonly [(ngModel)]="DocumentoTipo">
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-2">Folio:</div>
+                                                <div class="col-md-4">
+                                                    <input type="string" class="form-control" readonly name="folio" readonly [(ngModel)]="DocumentoFolio">
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="col-12" style="align-self: center">
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedFechasDocumento" (change)="onChangePorFechaDocumento()">
+                                            Filtrar por Fechas
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div *ngIf="checkedFechasDocumento == true" class="row">
+                                    <div class="col-2">
+
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Inicial </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="fechaInicial" [(ngModel)]="fechaInicialDocumento">
+                                            <mat-datepicker #picker1></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Final </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="fechaFinal" [(ngModel)]="fechaFinalDocumento">
+                                            <mat-datepicker #picker2></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-2">
+
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="((checkedFechasDocumento == true) && ((!fechaInicialDocumento)||(!fechaFinalDocumento)) || (checkedDocumento == false) && (!DocumentoSeleccionado))" class="btn btn-prolacto" id="abrirpdf" (click)="abrirReporte('Documento')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Documento</button>
+
+                                        </div>
+                                        <!-- <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusCotizacion == true && !estatusCotizacion) || (checkedFechasCotizacion == true && (!fechaInicialCotizacion || !fechaFinalCotizacion) || (checkedClientesCotizacion == false && !CotizacionClienteNombre))" class="btn btn-success"
+                                                id="abrirpdf" (click)="abrirReporte('DLLS', 'Cotizacion')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cotizacion Dlls</button>
+
+                                        </div>
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusCotizacion == true && !estatusCotizacion) || (checkedFechasCotizacion == true && (!fechaInicialCotizacion || !fechaFinalCotizacion) || (checkedClientesCotizacion == false && !CotizacionClienteNombre))" class="btn btn-info"
+                                                id="abrirpdf" (click)="abrirReporte('MXN', 'Cotizacion')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cotizacion Mxn</button>
+
+                                        </div> -->
+                                    </div>
+                                </div>
+
+                            </mat-card>
+                        </div>
+                        <br>
+                        <!-- REPORTE TRASPASO -------------------------------------------------------------------------------------------- -->
+                        <div class="card-header" id="headingTwo">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                Reportes Traspaso
+                                              </button>
+                            </h2>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample2">
+                            <mat-card>
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label class="input-group-text text-info">Seleccionar Bodega Origen</label>
+
+                                        <select class="form-control" name="origen" #origen="ngModel" id="origen" (change)="changeBodegaOrigen($event)" [(ngModel)]="bodegaOrigen">
+                                                                <option [ngValue]="null" selected disabled>Seleccionar Bodega Origen</option>
+                                                                <option *ngFor="let dl of listBodegas" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                                            </select>
+
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="input-group-text text-info">Seleccionar Bodega Destino</label>
+
+                                        <select class="form-control" name="Destino" #Destino="ngModel" id="Destino" (change)="changeBodegaDestino($event)" [(ngModel)]="bodegaDestino">
+                                                                <option [ngValue]="null" selected disabled>Seleccionar Bodega Destino</option>
+                                                                <option *ngFor="let dl of listBodegas" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                                            </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-12" style="align-self: center">
+
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedEstatusTraspaso" (change)="onChangeEstatusTraspaso()">
+                                            Filtrar por Estatus Traspaso
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div class="col-8" *ngIf="checkedEstatusTraspaso == true">
+                                    <label class="input-group-text text-info">Seleccionar Estatus</label>
+
+                                    <select class="form-control" name="estatusss" #estatusss="ngModel" id="estatusss" (change)="changeEstatusTraspaso($event)" [(ngModel)]="estatusTraspaso">
+                                                                <option [ngValue]="null" selected disabled>Seleccionar Estatus Traspaso</option>
+                                                                <option *ngFor="let dl of listEstatusTraspaso" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                                            </select>
+
+                                </div>
+
+                                <hr>
+
+                                <div class="col-12" style="align-self: center">
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedFechasTraspaso" (change)="onChangePorFechaTraspaso()">
+                                            Filtrar por Fechas
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div *ngIf="checkedFechasTraspaso == true" class="row">
+                                    <div class="col-2">
+
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Inicial </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker3" type="text" class="form-control" name="fechaInicialTraspaso" [(ngModel)]="fechaInicialTraspaso">
+                                            <mat-datepicker #picker3></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Final </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker4" type="text" class="form-control" name="fechaFinalTraspaso" [(ngModel)]="fechaFinalTraspaso">
+                                            <mat-datepicker #picker4></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-2">
+
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="((checkedFechasTraspaso == true) && ((!fechaInicialTraspaso)||(!fechaFinalTraspaso)) || ((checkedEstatusTraspaso == true) && (!estatusTraspaso)))" class="btn btn-prolacto" id="abrirpdf" (click)="abrirReporte('Traspaso')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Traspaso</button>
+
+                                        </div>
+                                        <!-- <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-success" id="abrirpdf" (click)="abrirReporte('DLLS', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido Dlls</button>
+
+                                        </div>
+                                        <div class="col-4 btnalign">
+                                            <button [disabled]="(checkedEstatusPedido == true && !estatusPedido) || (checkedFechasPedido == true && (!fechaInicialPedido || !fechaFinalPedido) || (checkedClientesPedido == false && !PedidoClienteNombre))" class="btn btn-info" id="abrirpdf" (click)="abrirReporte('MXN', 'Pedido')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pedido Mxn</button>
+
+                                        </div> -->
+                                    </div>
+                                </div>
+
+                            </mat-card>
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
-
-
-<div class="row">
-    <div class="col-lg-6 col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <h2>Documentacion</h2>
-
-                <h4 class="card-title">Subir Documentos de Reportes</h4>
-                <form action="#" class="dropzone">
-                    <div class="fallback">
-                        <input name="file" type="file" multiple />
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- sample modal content -->
-    <div id="responsive-modal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myLargeModalLabel">Documentos de Impotacion</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger waves-effect text-left" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-    <!-- /.modal -->

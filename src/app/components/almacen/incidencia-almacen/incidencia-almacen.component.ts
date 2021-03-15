@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { NgForm, FormControl } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -14,6 +14,9 @@ import { Imagenes } from '../../../Models/Imagenes/imagenes-model';
 import { ImagenService } from 'src/app/services/imagenes/imagen.service';
 
 
+import { MAT_DIALOG_DATA } from '@angular/material';
+
+
 
 @Component({
   selector: 'app-incidencia-almacen',
@@ -21,19 +24,32 @@ import { ImagenService } from 'src/app/services/imagenes/imagen.service';
   styleUrls: ['./incidencia-almacen.component.css']
 })
 export class IncidenciaAlmacenComponent implements OnInit {
+  modulo: string;
 
   constructor(public dialogbox: MatDialogRef<IncidenciaAlmacenComponent>, private dialog: MatDialog, public incidenciasService: IncidenciasService,
-    private _sanitizer: DomSanitizer,private imageCompress: NgxImageCompressService, public imageService: ImagenService, ) { }
+    private _sanitizer: DomSanitizer,private imageCompress: NgxImageCompressService, public imageService: ImagenService, 
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
+    console.log(this.data);
+    if (this.data) {
+      this.modulo = this.data.modulo      
+    }
     console.log(this.incidenciasService.incidenciaObject);
-    if(this.incidenciasService.incidenciaObject.FolioProcedencia){
-// console.log('Incidencia Existente');
-this.procedenciaSeleccionada = this.incidenciasService.incidenciaObject.Procedencia;
-this.IdDetalle = +this.incidenciasService.incidenciaObject.IdDetalle;
-this.tipoIncidenciaSeleccionada = this.incidenciasService.incidenciaObject.TipoIncidencia;
-this.estatusSeleccionado = this.incidenciasService.incidenciaObject.Estatus;
-this.obtenerInformacionOrden(this.incidenciasService.incidenciaObject.Procedencia);
+    if(this.incidenciasService.incidenciaObject.Estatus != 'Creada'){
+      console.log('Incidencia Existente');
+      this.procedenciaSeleccionada = this.incidenciasService.incidenciaObject.Procedencia;
+      this.IdDetalle = +this.incidenciasService.incidenciaObject.IdDetalle;
+      console.log('%c%s', 'color: #00ffa6', +this.incidenciasService.incidenciaObject.IdDetalle);
+      this.tipoIncidenciaSeleccionada = this.incidenciasService.incidenciaObject.TipoIncidencia;
+      this.estatusSeleccionado = this.incidenciasService.incidenciaObject.Estatus;
+      this.obtenerInformacionOrden(this.incidenciasService.incidenciaObject.Procedencia);
+    }
+    // si viene de OC u OD
+    if(this.modulo == 'OrdenCarga' || this.modulo == 'OrdenDescarga'){
+      console.log('%c⧭', 'color: #00736b', this.data);
+      this.procedenciaSeleccionada = this.modulo
+      this.obtenerInformacionOrden(this.modulo)
     }
   }
 
@@ -329,7 +345,10 @@ guardarImagenesOrdenCarga(tipo: string, tipoPath: string) {
 //Metodo para obtener el nombre de las imagenes y posteriormente traerse la imagen del servidor
 leerDirImagenes(tipo: string) {
   if(this.IdDetalle){
-console.log('ID DETALLE VALIDO');
+    console.log('ID DETALLE VALIDO');
+    console.log('%c%s', 'color: #ff4400', this.IdDetalle);
+  console.log('%c⧭', 'color: #607339', this.incidenciasService.incidenciaObject.FolioProcedencia);
+  console.log('%c⧭', 'color: #40fff2', tipo);
  //Obtener nombre de la imagen del servidor
  const formData = new FormData();
  formData.append('folio', this.incidenciasService.incidenciaObject.FolioProcedencia.toString())
@@ -410,28 +429,35 @@ obtenerImagen(a) {
 
 
 
+//  !select procedencia
  obtenerInformacionOrden(procedencia: string){
   if(procedencia == 'OrdenCarga'){
-    this.incidenciasService.getOrdenCargaFolio(this.incidenciasService.incidenciaObject.FolioProcedencia).subscribe(resOC=>{
-      // console.log(resOC);
-      if(resOC.length>0){
-        this.IdOrden = resOC[0].IdOrdenCarga
-        this.dropdownRefreshDetalles('OrdenCarga');
-        this.leerDirImagenes('OrdenCarga');
-        this.obtenerClaveProducto(resOC[0].IdOrdenCarga, this.incidenciasService.incidenciaObject.IdDetalle, 'OrdenCarga');
-        console.log('Orden Carga', this.IdOrden);
-      }else{
-        this.filteredOptionsDetalles = new Observable<any>();
-        this.detalleSeleccionado = "";
-        Swal.fire({
-          title: 'Error',
-          text: 'Favor de Verificar Informacion',
-          icon: 'error',  
-        });
-      }
-    })
+    // if(this.incidenciasService.incidenciaObject.FolioProcedencia != 0){
+
+      this.incidenciasService.getOrdenCargaFolio(this.incidenciasService.incidenciaObject.FolioProcedencia).subscribe(resOC=>{
+        
+        console.log(resOC);
+        console.log('%c⧭', 'color: #cc0036', this.incidenciasService.incidenciaObject.IdDetalle);
+        if(resOC.length>0){
+          this.IdOrden = resOC[0].IdOrdenCarga
+          this.dropdownRefreshDetalles('OrdenCarga');
+          this.leerDirImagenes('OrdenCarga');
+          this.obtenerClaveProducto(resOC[0].IdOrdenCarga, this.incidenciasService.incidenciaObject.IdDetalle, 'OrdenCarga');
+          console.log('Orden Carga', this.IdOrden);
+        }else{
+          this.filteredOptionsDetalles = new Observable<any>();
+          this.detalleSeleccionado = "";
+          Swal.fire({
+            title: 'Error',
+            text: 'Favor de Verificar Informacion',
+            icon: 'error',  
+          });
+        }
+      })
+    // }
 
   }else if(procedencia == 'OrdenDescarga'){
+    // if(this.incidenciasService.incidenciaObject.FolioProcedencia != 0){
     this.incidenciasService.getOrdenDescargaFolio(this.incidenciasService.incidenciaObject.FolioProcedencia).subscribe(resOD=>{
       // console.log(resOD);
       if(resOD.length > 0){
@@ -451,6 +477,7 @@ obtenerImagen(a) {
       }
    
     })
+  // }
   }
  }
 
@@ -459,6 +486,7 @@ obtenerImagen(a) {
     this.filteredOptionsDetalles = new Observable<any>();
     if(procedencia == 'OrdenCarga'){
       this.incidenciasService.getListOrdenCargaId(this.IdOrden).subscribe(dataP => {
+        console.log('%c⧭', 'color: #ff6600', dataP);
         for (let i = 0; i < dataP.length; i++) {
           let product = dataP[i];
           product.IdDetalle = dataP[i].IdDetalleOrdenCarga;
@@ -519,6 +547,8 @@ obtenerImagen(a) {
           console.log(event);
           this.detalleSeleccionado = options.ClaveProducto;
           this.IdDetalle = options.IdDetalle;
+          console.log('%c⧭', 'color: #8c0038', this.IdDetalle);
+          
           this.leerDirImagenes(this.incidenciasService.incidenciaObject.Procedencia);
           // this.NombreProveedor = options.Nombre;
           // this.compra.Proveedor = options.Nombre;
@@ -556,6 +586,8 @@ obtenerImagen(a) {
     this.incidenciasService.incidenciaObject.TipoIncidencia = this.tipoIncidenciaSeleccionada;
     this.incidenciasService.incidenciaObject.Estatus = this.estatusSeleccionado;
     this.incidenciasService.incidenciaObject.IdDetalle = this.IdDetalle;
+    this.incidenciasService.incidenciaObject.FechaElaboracion = new Date();
+    this.incidenciasService.incidenciaObject.FechaFinalizacion = new Date();
     console.log(this.incidenciasService.incidenciaObject);
     this.incidenciasService.updateIncidencia(this.incidenciasService.incidenciaObject).subscribe(res=>{
       console.log(res);
@@ -568,6 +600,41 @@ obtenerImagen(a) {
       });
     })
     
+  }
+
+  
+descargar(name) {
+  console.log(name.ImageName);
+    const blobData = this.convertBase64ToBlobData(name.ImagePath.changingThisBreaksApplicationSecurity.toString().replace(/^data:image\/(png|jpeg|jpg);base64,/, ''));
+    const blob = new Blob([blobData], { type: 'contentType' });
+    const url = window.URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = name.ImageName;
+    link.click();
+
+  }
+
+  convertBase64ToBlobData(base64Data: string, contentType: string = 'imagessssss/jpg', sliceSize = 512) {
+    const byteCharacters = atob(base64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
   }
 
   onClose() {

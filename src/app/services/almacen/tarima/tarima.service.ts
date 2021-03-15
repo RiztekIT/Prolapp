@@ -9,6 +9,7 @@ import { TraspasoTarima } from '../../../Models/almacen/Tarima/traspasoTarima-mo
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { Usuario } from 'src/app/Models/catalogos/usuarios-model';
 import { MasterDetalleTarima } from 'src/app/Models/almacen/OrdenDescarga/cuu/masterDetalleTarima-model';
+import { Producto } from 'src/app/Models/catalogos/productos-model';
 
 export const APIUrl = environment.APIUrl;
 // export const APIUrl = 'https://localhost:44361/api';
@@ -28,6 +29,11 @@ export class TarimaService {
   tarimaTrafico;
 
   master;
+  masterlotes;
+
+  /* Movimiento de Inventario */
+  formProd= new Producto();
+  /* Movimiento de Inventario */
 
   //^Tarima proviniente de un traspaso de OrdenCarga
   trapasoOrdenCarga: boolean;
@@ -56,6 +62,7 @@ export class TarimaService {
   TraspasoDescarga:boolean;
 
   compra;
+  detalleTarima;
 
   getTarima(): Observable <Tarima[]>{
     return this.http.get<Tarima[]>(APIUrl + '/Tarima');
@@ -99,8 +106,8 @@ updateTarima(t: Tarima) {
     return this.http.put(APIUrl+ '/Tarima/UpdateTarimaSacosPeso/' + id + '/' + sacos + '/' + peso , null);
     }
     //^Update Tarima ( Sacos y peso Total)
-  updateDetalleTarimaIdSacos(idt: number, iddt:number, sacos: string) {
-    return this.http.put(APIUrl+ '/Tarima/UpdateDetalleTarimaIdSacos/' + idt + '/' + iddt + '/' + sacos , null);
+  updateDetalleTarimaIdSacos(iddt:number, sacos: string, peso, lote) {
+    return this.http.put(APIUrl+ '/Tarima/UpdateDetalleTarimaIdSacos/' + iddt + '/' + sacos + '/' + peso  +'/'+ lote, null);
     }
 //^Insert Detalle Tarima
 addDetalleTarima(dt: DetalleTarima) {
@@ -108,7 +115,7 @@ addDetalleTarima(dt: DetalleTarima) {
 }
 //^Update Detalle Tarima
 updateDetalleTarima(dt: DetalleTarima) {
-  return this.http.put(APIUrl+ '/Tarima', dt);
+  return this.http.put(APIUrl+ '/Tarima/UpdateDetalleTarima', dt);
   }
 //^Insert Traspaso Tarima
 addTraspasoTarima(tt: TraspasoTarima) {
@@ -154,6 +161,9 @@ updateBodegaTarima(bodega:string, qr:string) {
 
   getProductos(){
     return this.http.get<any[]>(APIUrl + '/Producto');
+  }
+  getProductosMarcas(){
+    return this.http.get<any[]>(APIUrl + '/Producto/ProductosMarcas');
   }
   
   getProductoClave(producto){
@@ -211,6 +221,9 @@ updateDetalleTarimaSacosPesoTarimasBodega(dt: DetalleTarima) {
   getJOINCompraDetalleTarima(id: number){
     return this.http.get<any[]>(APIUrl + '/Tarima/GetJOINCompraDetalleTarima/'+id);
   }
+  getDetalleTarimaOT(id: number){
+    return this.http.get<any[]>(APIUrl + '/Tarima/DetalleTarimaOT/'+id);
+  }
   //^Obtener Detalle Compra por Id Compra y por Clave Producto (para obtener los Documentos)
   GetDetalleCompraIdClave(id: number, clave:string){
     return this.http.get<any[]>(APIUrl + '/Tarima/GetDetalleCompraIdClave/'+id+'/'+clave);
@@ -221,7 +234,12 @@ updateDetalleTarimaSacosPesoTarimasBodega(dt: DetalleTarima) {
   }
   //^Actualizar Detalle Tarima por Bodega 
   getUpdateDetalleTarimaBodega(id: number, bodega: string){
-    return this.http.get<any[]>(APIUrl + '/Tarima/UpdateDetalleTarimaBodega/'+id+'/'+bodega);
+    return this.http.put<any[]>(APIUrl + '/Tarima/UpdateDetalleTarimaBodega/'+id+'/'+bodega, null);
+  }
+
+
+  generarConsulta(consulta){
+    return this.http.post(APIUrl + '/Tarima/consulta',consulta)
   }
 
 

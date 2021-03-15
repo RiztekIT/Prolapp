@@ -6,6 +6,7 @@ import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import { SharedService } from '../../../../services/shared/shared.service';
 import { CalendarioService } from 'src/app/services/calendario/calendario.service';
 import { formatoReporte } from '../../../../Models/formato-reporte';
+import { EnviarfacturaService } from '../../../../services/facturacioncxc/enviarfactura.service';
 
 
 @Component({
@@ -16,13 +17,26 @@ import { formatoReporte } from '../../../../Models/formato-reporte';
 export class ShowreporteComprasComponent implements OnInit {
 
 
-  constructor(public comprasService: CompraService, @Inject(MAT_DIALOG_DATA) public data: any, public sharedService: SharedService) { }
+  constructor(public comprasService: CompraService, @Inject(MAT_DIALOG_DATA) public data: any, public sharedService: SharedService,
+  private EnviarfacturaService:EnviarfacturaService) { }
 
   ngOnInit() {
     this.reporteProveedor = this.data;
     console.log(this.reporteProveedor);
+    console.log('%c⧭', 'color: #86bf60', this.data);
     this.moneda = this.reporteProveedor.moneda;
     this.identificarTipoDeReporte(this.reporteProveedor.unsoloproveedor);
+
+    if (this.data.tipoReporte == 'Ambas' && this.data.moneda == 'ALL' ) {
+      this.EnviarfacturaService.titulo = 'Reporte Compras'
+      
+    } else if(this.data.tipoReporte == 'Ambas' && this.data.moneda == 'MXN'){
+      this.EnviarfacturaService.titulo = 'Reporte Compras MXN'
+
+    } else if(this.data.tipoReporte == 'Ambas' && this.data.moneda == 'DLLS') {
+      this.EnviarfacturaService.titulo ='Reporte Compras DLLS'
+
+    }
 
     //Obtener reporte Proveedor(es)
   }

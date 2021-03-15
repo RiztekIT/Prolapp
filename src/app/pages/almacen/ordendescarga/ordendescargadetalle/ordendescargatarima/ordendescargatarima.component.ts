@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatTableDataSource, MatSort, MatPaginator, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, NativeDateAdapter } from '@angular/material';
 import { Observable } from 'rxjs';
 import { FormControl, NgForm } from '@angular/forms';
 import { OrdenDescargaService } from '../../../../../services/almacen/orden-descarga/orden-descarga.service';
@@ -17,19 +17,62 @@ import { preOrdenTemporalODSacos } from '../../../../../Models/almacen/OrdenTemp
 import { OrdenDescargaConceptoComponent } from 'src/app/components/almacen/orden-descarga/ordendescargadetalle/ordendescargatarima/orden-descarga-concepto/orden-descarga-concepto.component';
 import { map, startWith } from 'rxjs/operators';
 import { QrComponent } from 'src/app/components/qr/qr.component';
+import { CalendarioService } from '../../../../../services/calendario/calendario.service';
 
+/* Constante y variables para la transformacion de los meses en los datetimepicker */
+// const months =['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DIC'];
+const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+export class AppDateAdapter extends NativeDateAdapter {
+  format(date: Date, displayFormat: Object): string {
+    if (displayFormat === 'input') {
+      const day = date.getDate();
+      const month = date.getMonth();
+      const year = date.getFullYear();
+      return `${day}/${months[month]}/${year}`
+    }
+    return date.toDateString();
+  }
+}
 
+export const APP_DATE_FORMATS =
+{
+  parse: {
+    dateInput: { month: 'short', year: 'numeric', day: 'numeric' },
+  },
+  display: {
+    dateInput: 'input',
+    // monthYearLabel: 'MMM YYYY',
+    // dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+    // monthYearA11yLabel: 'MMM YYYY',
+    monthYearLabel: { year: 'numeric', month: 'numeric' },
+    dateA11yLabel: { year: 'numeric', month: 'long', day: 'numeric' },
+    monthYearA11yLabel: { year: 'numeric', month: 'long' },
+  }
+};
+/* ----------------------------------------- */
 
 
 @Component({
   selector: 'app-ordendescargatarima',
   templateUrl: './ordendescargatarima.component.html',
-  styleUrls: ['./ordendescargatarima.component.css']
+  styleUrls: ['./ordendescargatarima.component.css'],
+  providers: [
+    {
+      provide: DateAdapter, useClass: AppDateAdapter
+    },
+    {
+      provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
+    },
+    {
+      provide: MAT_DATE_LOCALE, useValue: 'es-MX'
+    }
+  ]
 })
 export class OrdendescargatarimaComponent implements OnInit {
 
 
-  constructor(public router: Router, private dialog: MatDialog, public service: OrdenDescargaService, public ordenTemporalService: OrdenTemporalService, public Tarimaservice: TarimaService) {
+  constructor(public router: Router, private dialog: MatDialog, public service: OrdenDescargaService,
+    public ordenTemporalService: OrdenTemporalService, public Tarimaservice: TarimaService, public CalendarioService: CalendarioService, public serviceTarima: TarimaService) {
     this.service.listen().subscribe((m: any) => {
       console.log(m);
       this.refreshOrdenDescargaList();
@@ -44,33 +87,49 @@ export class OrdendescargatarimaComponent implements OnInit {
       console.log(m);
       this.actualizarTablaOrdenTemporal();
     });
-    this.ordenTemporalService.listenOrdenTemporalSI().subscribe((m: any) => {
-      console.log(m);
-      this.ActualizarOrdenTemporalSI();
-    });
+    // this.ordenTemporalService.listenOrdenTemporalSI().subscribe((m: any) => {
+    //   console.log(m);
+    //   this.ActualizarOrdenTemporalSI();
+    // });
 
 
   }
   ngOnInit() {
     this.IdOrdenDescarga = +(localStorage.getItem('IdOrdenDescarga'));
+    console.log('%c%s', 'color: #e50000', this.IdOrdenDescarga);
+    // this.service.formData = JSON.parse(localStorage.getItem('OrdenDescarga')); 
+ 
 
-    this.service.formData = JSON.parse(localStorage.getItem('OrdenDescarga')); 
-    console.log(this.service.formData);
 
-    
+    this.informacionOrden();
     this.refreshOrdenDescargaList();
     this.actualizarTablaOrdenTemporal();
-    this.updateOrdenDescarga(this.service.formData,'Proceso');
+    // this.updateOrdenDescarga(this.service.formData,'Proceso');
     //igualar en 0s el arreglo que se encuentra en el servicio
     this.ordenTemporalService.preOrdenTemporalOD = [];
     console.log(this.ordenTemporalService.preOrdenTemporalOD);
     this.Tarimaservice.tarimaDetalleDOD = [];
     this.ordenTemporalService.preOrdenTemporalSacos = [];
     this.sacosCero = true;
-    this.preOrdenTemporalSacos = new preOrdenTemporalODSacos();
+    // this.preOrdenTemporalSacos = new any();
     this.show = false;
     
   }
+
+  informacionOrden(){
+    this.service.getOrdenDescargaID(this.IdOrdenDescarga).subscribe(resOD=>{
+      console.log('%c⧭', 'color: #733d00', resOD);
+      console.log(resOD);
+      this.service.formData = resOD[0];
+      this.estatusOrdenDescarga = this.service.formData.Estatus;
+      console.log('%c%s', 'color: #aa00ff', this.estatusOrdenDescarga);
+      console.log(this.service.formData);
+    })
+  }
+
+//^Estatus de la orden
+  estatusOrdenDescarga: string = "";
+
   fecha2;
   rowDTOD: any;
   kilogramosSaldo: any;
@@ -89,6 +148,10 @@ export class OrdendescargatarimaComponent implements OnInit {
   cantidadMaximaKilogramos: number;
   sacosCero: boolean;
   numerofactura;
+  FechaFactura: Date;
+  PO;
+  PODescarga;
+  NumeroEntrada;
   
 
   // qrTarimaExistente
@@ -103,7 +166,7 @@ export class OrdendescargatarimaComponent implements OnInit {
 
 
 
-  preOrdenTemporalSacos: preOrdenTemporalODSacos;
+  preOrdenTemporalSacos: any;
 
   // isVisibleVisualizacion: boolean;
   // isVisibleOT: boolean;
@@ -116,36 +179,105 @@ export class OrdendescargatarimaComponent implements OnInit {
     od.Estatus=estatus
     this.service.updateOrdenDescarga(od).subscribe(data=>{
       console.log(data,'update od '+estatus);
+      this.informacionOrden();
+      // this.estatusOrdenDescarga = 'Proceso';
     })
     
   }
 
   finalizarOrden(){
 
-    let productos = this.listData.data;
+    // let productos = this.listData.data;
     // let productos = this.ordenTemporalService.preOrdenTemporalOD
 
     console.log(this.listData.data,'finalizarORdne');
-
-let saldo = 0;
-    for (let i =0; i<productos.length;i++){
-
-      saldo = saldo + +this.listData.data[i].Saldo
-      if(saldo==0){
-        this.service.formData.Estatus = 'Descargada'
-        console.log(this.service.formData);
-        this.updateOrdenDescarga(this.service.formData,'Descargada');
+    let OrdenCompletada = false;
+    // let saldo = 0;
+    for (let i =0; i<this.listData.data.length; i++){
+      // saldo = saldo + +this.listData.data[i].Saldo
+      if(+this.listData.data[i].Saldo == 0){
+          OrdenCompletada = true;
+      }else{
+        OrdenCompletada = false;
       }
-
-
-
     }
+
+    if(OrdenCompletada == true){
+      this.service.formData.Estatus = 'Descargada'
+      console.log(this.service.formData);
+      Swal.fire({
+        title: 'Orden Descargada',
+        icon: 'success',
+        timer: 2000,
+        showCancelButton: false,
+        showConfirmButton: false
+      });
+        this.updateOrdenDescarga(this.service.formData,'Descargada');
+        this.generarEventoCalendario(this.service.formData.Folio);
+    }
+    else{
+      Swal.fire({
+        title: 'Orden Incompleta',
+        icon: 'warning',
+        text:'No se han Descargado todos los productos. Si confirmas, el estatus de la Orden cambiara a Descargada.',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value) {
+          Swal.fire({
+            title: 'Orden Descargada',
+            icon: 'success',
+            timer: 2000,
+        showCancelButton: false,
+        showConfirmButton: false
+            
+            // text: 'No se han descargado todos los productos.',
+            // timer: 1000
+          });
+          this.updateOrdenDescarga(this.service.formData,'Descargada');
+          this.generarEventoCalendario(this.service.formData.Folio);
+        }
+      })
+    }
+
 
   }
 
+  generarEventoCalendario(folio){
+    // console.log(this.compra);
+    //idcalendario, folio, documento, descripcion, inicio, fin, titulo, color, allday, rezi ,rezi, dragga
+    // console.log(this.CalendarioService.DetalleCalendarioData);
+    //Obtener el id del calendario que le corresponde al usuario y al modulo
+    let usuario: any
+    usuario = localStorage.getItem('ProlappSession');
+    usuario = JSON.parse(usuario);
+    console.log(usuario.user);
+    this.CalendarioService.getCalendarioComprasUsuarioModulo(usuario.user, 'Almacen').subscribe(res=>{
+      console.log(res);
+      this.CalendarioService.DetalleCalendarioData.IdCalendario = res[0].IdCalendario;
+      //el folio corresponde con la Orden/Documento que se genera junto con el evento.
+      this.CalendarioService.DetalleCalendarioData.Folio = folio;
+      this.CalendarioService.DetalleCalendarioData.Documento = 'OrdenDescarga';
+      this.CalendarioService.DetalleCalendarioData.Descripcion = 'Evento Orden de Descarga con Folio: '+folio;
+      //Las fechas van a variar dependiendo en el modulo en el que se encuentre
+      this.CalendarioService.DetalleCalendarioData.Start = this.service.formData.FechaInicioDescarga;
+      this.CalendarioService.DetalleCalendarioData.Endd = this.service.formData.FechaFinalDescarga;
+      this.CalendarioService.DetalleCalendarioData.Title = 'Orden de Descarga Finalizada ' + folio;
+      this.CalendarioService.DetalleCalendarioData.Color = '#0fd8e6';
+      console.log(this.CalendarioService.DetalleCalendarioData);
+      this.CalendarioService.addDetalleCalendario(this.CalendarioService.DetalleCalendarioData).subscribe(resAdd=>{
+        console.log(resAdd);
+      })
+    })
+  }
+
+
   //tabla visualizacion
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Kg', 'Saldo', 'Options'];
+  displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Sacos','Kg',  'Saldo', 'Options'];
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -157,7 +289,8 @@ let saldo = 0;
 
   // Tabla Orden Temporal
   listDataOrdenTemporal: MatTableDataSource<any>;
-  displayedColumnsOrdenTemporal: string[] = ['ClaveProducto', 'Producto', 'Lote', 'Kg',  'FechaCaducidad', 'Comentarios', 'Options'];
+  displayedColumnsOrdenTemporal: string[] = ['PO','Factura','CBK','ClaveProducto', 'Producto', 'Lote', 'Kg',  'FechaCaducidad',  'FechaMFG', 'Options'];
+  // displayedColumnsOrdenTemporal: string[] = ['ClaveProducto', 'Producto', 'Lote', 'Kg',  'FechaCaducidad', 'Comentarios', 'Options'];
   @ViewChild(MatSort, null) sortOrdenTemporal: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorOrdenTemporal: MatPaginator;
 
@@ -184,9 +317,11 @@ let saldo = 0;
         console.log(dataID[i], 'ID OD-verificar tabla');
 
 
-        this.service.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga, this.dataODID[i].Lote, this.dataODID[i].ClaveProducto).subscribe(data => {
+        // this.service.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga, this.dataODID[i].Lote, this.dataODID[i].ClaveProducto).subscribe(data => {
 
-          console.log(data, 'IDLOTECP');
+          // console.log(data, 'IDLOTECP');
+
+          // let KilogramosDetalle = ((+this.dataODID[i].Sacos)*(+this.dataODID[i].PesoxSaco));
           let DOD = new preOrdenTemporalOD();
           let DTOD = new DetalleOrdenDescarga();
 
@@ -202,11 +337,12 @@ let saldo = 0;
           DOD.FechaCaducidad = this.dataODID[i].FechaCaducidad;
           DOD.KilogramosIngresados = '';
           DOD.Comentarios = 'NA';
-          DOD.KilogramosIngresadosTotales = (+this.dataODID[i].Sacos - +this.dataODID[i].Saldo).toString();
+          DOD.KilogramosIngresadosTotales = ((+this.dataODID[i].PesoxSaco) * (+this.dataODID[i].Sacos)).toString();
           DOD.Pedimento = this.dataODID[i].Pedimento
           DOD.Proveedor = this.dataODID[i].Proveedor
           DOD.IdProveedor = this.dataODID[i].IdProveedor
-          DOD.PO = this.service.formData.PO
+          // DOD.PO = this.service.formData.PO
+          DOD.PO = '';
           DOD.FechaMFG = this.dataODID[i].FechaMFG
           DOD.Shipper = this.dataODID[i].Shipper
           DOD.USDA = this.dataODID[i].USDA
@@ -218,7 +354,7 @@ let saldo = 0;
           this.listData.sort = this.sort;
           this.listData.paginator = this.paginator;
           this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Descarga por Pagina';
-          this.finalizarOrden()
+          // this.finalizarOrden();
 
 
 
@@ -243,7 +379,7 @@ let saldo = 0;
 
 
 
-        })
+        // })
       }
     })
   }
@@ -254,12 +390,18 @@ let saldo = 0;
   onEdit(preOD: preOrdenTemporalODSacos, id: any) {
     console.log(this.ordenTemporalService.preOrdenTemporalOD);
     this.NombreProducto = this.ordenTemporalService.preOrdenTemporalOD[id].Producto
+    this.PO = this.ordenTemporalService.preOrdenTemporalOD[id].PO
+    // this.NumeroEntrada = this.ordenTemporalService.preOrdenTemporalOD[id].Pedimento
     console.log(this.ordenTemporalService.preOrdenTemporalOD[id].Producto);
     console.log(preOD);
     console.log(id);
     // console.log(detalleordendescarga);
     // this.rowDTOD = detalleordendescarga;
     console.log(id, 'posicion');
+
+    this.preOrdenTemporalSacos = <any>{};
+    this.preOrdenTemporalSacos = preOD;
+    this.preOrdenTemporalSacos.posicionOrdenTemporalOD = id;
     this.ordenTemporalService.posicionOrdenTemporalOD = id;
     // console.log(this.ordenTemporalService.preOrdenTemporalSacos, 'oijfas');
 
@@ -281,11 +423,11 @@ let saldo = 0;
 
 
 
-    let oTSacos = new preOrdenTemporalODSacos();
-    oTSacos = preOD;
-    oTSacos.posicionArreglo = id;
-    this.preOrdenTemporalSacos.FechaCaducidad = new Date();
-    this.preOrdenTemporalSacos.FechaMFG = new Date();
+    // let oTSacos = new preOrdenTemporalODSacos();
+    // oTSacos = preOD;
+    // oTSacos.posicionArreglo = id;
+    // this.preOrdenTemporalSacos.FechaCaducidad = new Date();
+    // this.preOrdenTemporalSacos.FechaMFG = new Date();
 
 
 
@@ -322,9 +464,9 @@ let saldo = 0;
 
     // ingresar tambien lo de detalletarima]
 
-    console.log(oTSacos, 'OTSACOS');
+    // console.log(oTSacos, 'OTSACOS');
     // console.log(this.ordenTemporalService.preOrdenTemporalSacos, 'antes de push');
-    this.preOrdenTemporalSacos = oTSacos;
+    // this.preOrdenTemporalSacos = oTSacos;
     /* this.preOrdenTemporalSacos.KilogramosIngresadosTotales = oTSacos.SacosIngresadosTotales; */
 
   /*   for (let i = 0; i <= this.ordenTemporalService.preOrdenTemporalSacos.length - 1; i++) {
@@ -358,7 +500,7 @@ let saldo = 0;
     console.log(this.cantidadKilogramos);
     console.log(this.preOrdenTemporalSacos.KilogramosIngresadosTotales);
     this.preOrdenTemporalSacos.KilogramosIngresados = this.cantidadKilogramos.toString();
-    this.preOrdenTemporalSacos.KilogramosIngresadosTotales = ((+this.preOrdenTemporalSacos.KilogramosIngresadosTotales) + (+this.cantidadKilogramos)).toString();
+    // this.preOrdenTemporalSacos.KilogramosIngresadosTotales = ((+this.preOrdenTemporalSacos.KilogramosIngresadosTotales) + (+this.cantidadKilogramos)).toString();
 
   }
 
@@ -423,7 +565,9 @@ let saldo = 0;
   }
 
   addSacos(form?: NgForm) {
-    this.dropdownRefresh();
+    // this.dropdownRefresh();
+
+
 
     console.log(this.ordenTemporalService.preOrdenTemporalSacos, 'prueba doble');
     console.log(this.Tarimaservice.tarimaDetalleDOD, 'tarimadetallealinicio-----------');
@@ -451,44 +595,47 @@ let saldo = 0;
 
 
 
-    if (this.cantidadKilogramos == 0 || this.cantidadKilogramos == null) {
-      Swal.fire({
-        title: 'Ingresar Numero Valido',
-        icon: 'warning',
-        text: ''
-      });
-      return;
-    }
-    if (this.InputComentarios == '' || this.InputComentarios == null) {
-      console.log('comentario if');
-      // this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = 'NA'
-      this.preOrdenTemporalSacos.Comentarios = 'NA'
-    } else {
-      console.log('comentario else');
-      // this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = this.InputComentarios
-      this.preOrdenTemporalSacos.Comentarios = this.InputComentarios
-    }
+    // if (this.cantidadKilogramos == 0 || this.cantidadKilogramos == null) {
+    //   Swal.fire({
+    //     title: 'Ingresar Numero Valido',
+    //     icon: 'warning',
+    //     text: ''
+    //   });
+    //   return;
+    // }
+    // if (this.InputComentarios == '' || this.InputComentarios == null) {
+    //   console.log('comentario if');
+    //   // this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = 'NA'
+    //   this.preOrdenTemporalSacos.Comentarios = 'NA'
+    // } else {
+    //   console.log('comentario else');
+    //   // this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = this.InputComentarios
+    //   this.preOrdenTemporalSacos.Comentarios = this.InputComentarios
+    // }
 
-    console.log('////////////////');
+    // console.log('////////////////');
     console.log(this.fechaCaducidad);
     console.log(this.fechaMFG);
-
+//^ Asignar variables capturadas al objeto a ingresar
     this.preOrdenTemporalSacos.Lote = this.lote
     this.preOrdenTemporalSacos.FechaCaducidad = this.fechaCaducidad
     this.preOrdenTemporalSacos.FechaMFG = this.fechaMFG
-    this.preOrdenTemporalSacos.NumeroFactura = this.numerofactura;
+    //^ En shipper guardaremos Numero Facura
+    this.preOrdenTemporalSacos.Shipper = this.numerofactura;
+    //^ en Tarimas Totales guardaremos FechaFactura
+    this.preOrdenTemporalSacos.FechaFactura = this.FechaFactura;
+    //^ En Pedimento guardaremos Numero Entrada (CBK)
+    this.preOrdenTemporalSacos.Pedimento = this.NumeroEntrada;
     /* this.preOrdenTemporalSacos.Sacos = this.numerofactura; */
 
-    this.ordenTemporalService.preOrdenTemporalSacos.push(this.preOrdenTemporalSacos)
-    this.listDataSacosIngresados = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalSacos);
-    this.listData.sort = this.sort;
-    this.listData.paginator = this.paginator;
-    this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+    // this.ordenTemporalService.preOrdenTemporalSacos.push(this.preOrdenTemporalSacos)
+    // this.listDataSacosIngresados = new MatTableDataSource(this.preOrdenTemporalSacos);
+    // this.listData.sort = this.sort;
+    // this.listData.paginator = this.paginator;
+    // this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
 
-    this.cantidadKilogramos = null;
-    this.lote = null;
-    this.fechaCaducidad = null;
-    this.fechaMFG = null;
+
+    
 
 
 
@@ -539,57 +686,57 @@ let saldo = 0;
     // this.ingresoSacos();
 
     // }
-    console.log(this.ordenTemporalService.preOrdenTemporalSacos);
+    // console.log(this.ordenTemporalService.preOrdenTemporalSacos);
     this.agregarProductos();
   }
 
-  ingresoSacos() {
-    /* console.clear(); */
-    // this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresadosTotales = (+this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Sacos - +this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Saldo).toString()
-    if (this.InputComentarios == '' || this.InputComentarios == null) {
-      console.log('comentario if');
-      // this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = 'NA'
-      this.preOrdenTemporalSacos.Comentarios = 'Sin Comentarios'
-    } else {
-      console.log('comentario else');
-      // this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = this.InputComentarios
-      this.preOrdenTemporalSacos.Comentarios = this.InputComentarios
-    }
-    console.log('sipaso');
-    // console.log(this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Sacos, 'Cantidad de sacos');
-    // console.log(this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados, 'Sacos ingresados');
+  // ingresoSacos() {
+  //   /* console.clear(); */
+  //   // this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresadosTotales = (+this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Sacos - +this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Saldo).toString()
+  //   if (this.InputComentarios == '' || this.InputComentarios == null) {
+  //     console.log('comentario if');
+  //     // this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = 'NA'
+  //     this.preOrdenTemporalSacos.Comentarios = 'Sin Comentarios'
+  //   } else {
+  //     console.log('comentario else');
+  //     // this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = this.InputComentarios
+  //     this.preOrdenTemporalSacos.Comentarios = this.InputComentarios
+  //   }
+  //   console.log('sipaso');
+  //   // console.log(this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Sacos, 'Cantidad de sacos');
+  //   // console.log(this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados, 'Sacos ingresados');
 
-    // console.log(this.ordenTemporalService.preOrdenTemporalSacos);
-    // console.log(this.ordenTemporalService.posicionOrdenTemporalOD,'posicion');
-
-
-    //aqui
-
-    // this.ordenTemporalService.preOrdenTemporalSacos[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados;
-    // this.ordenTemporalService.preOrdenTemporalSacos[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios;
-
-    this.ordenTemporalService.preOrdenTemporalSacos.push(this.preOrdenTemporalSacos)
-    this.listDataSacosIngresados = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalSacos);
-    this.listData.sort = this.sort;
-    this.listData.paginator = this.paginator;
-    this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
-
-    this.kilogramosSaldo = null;
-    this.ordenTemporalService.posicionOrdenTemporalOD = null
+  //   // console.log(this.ordenTemporalService.preOrdenTemporalSacos);
+  //   // console.log(this.ordenTemporalService.posicionOrdenTemporalOD,'posicion');
 
 
-    // this.isVisibleVisualizacion = true;
+  //   //aqui
 
-    console.log(this.Tarimaservice.tarimaDetalleDOD, 'tarimadetallealinicio00000000000');
-  }
+  //   // this.ordenTemporalService.preOrdenTemporalSacos[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].SacosIngresados;
+  //   // this.ordenTemporalService.preOrdenTemporalSacos[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios = this.ordenTemporalService.preOrdenTemporalOD[this.ordenTemporalService.posicionOrdenTemporalOD].Comentarios;
 
-  ActualizarOrdenTemporalSI() {
-   /*  this.ordenTemporalService.preOrdenTemporalSacos = []
-    this.listDataSacosIngresados = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalSacos);
-    this.listData.sort = this.sort;
-    this.listData.paginator = this.paginator;
-    this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina'; */
-  }
+  //   this.ordenTemporalService.preOrdenTemporalSacos.push(this.preOrdenTemporalSacos)
+  //   // this.listDataSacosIngresados = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalSacos);
+  //   // this.listData.sort = this.sort;
+  //   // this.listData.paginator = this.paginator;
+  //   // this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+
+  //   this.kilogramosSaldo = null;
+  //   this.ordenTemporalService.posicionOrdenTemporalOD = null
+
+
+  //   // this.isVisibleVisualizacion = true;
+
+  //   console.log(this.Tarimaservice.tarimaDetalleDOD, 'tarimadetallealinicio00000000000');
+  // }
+
+  // ActualizarOrdenTemporalSI() {
+  //  /*  this.ordenTemporalService.preOrdenTemporalSacos = []
+  //   this.listDataSacosIngresados = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalSacos);
+  //   this.listData.sort = this.sort;
+  //   this.listData.paginator = this.paginator;
+  //   this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina'; */
+  // }
 
 
 
@@ -609,158 +756,177 @@ let saldo = 0;
 
     // console.log(this.ordenTemporalService.preOrdenTemporalOD[row.posicionArreglo].Saldo, 'saldo');
     // console.log(this.ordenTemporalService.preOrdenTemporalOD[row.posicionArreglo].SacosIngresados);
-    this.listDataSacosIngresados = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalSacos);
-    this.listData.sort = this.sort;
-    this.listData.paginator = this.paginator;
-    this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+    // this.listDataSacosIngresados = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalSacos);
+    // this.listData.sort = this.sort;
+    // this.listData.paginator = this.paginator;
+    // this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
 
 
 
 
   }
 
-  agregarProductos2(){
+  // agregarProductos2(){
+  //   console.log(this.ordenTemporalService.preOrdenTemporalSacos);
+  //   let POTS = this.ordenTemporalService.preOrdenTemporalSacos;
+
+
+  //   for (let j = 0; j <= POTS.length - 1; j++) {
+  //   let IdOD = POTS[j].IdOrdenDescarga
+  //   console.log(IdOD);
+  //   // Update a detalleordencompra para actualizar lote,y fechas
+  //   console.log(POTS[j].IdDetalleOrdenDescarga);
+  //   console.log(POTS[j].Lote);
+  //   console.log(POTS[j].FechaCaducidad);
+  //   console.log(POTS[j].FechaMFG);
+
+  //   console.log(POTS[j]);
+  
+  //    /*  this.service.OnEditDetalleOrdenDescarga(POTS[j]).subscribe(res => {
+  //       console.log(res);
+
+  //     }) */
+  //   }
+  // }
+
+  agregarProductos() {
     console.log(this.ordenTemporalService.preOrdenTemporalSacos);
-    let POTS = this.ordenTemporalService.preOrdenTemporalSacos;
+    console.log(this.preOrdenTemporalSacos);
+    let POTS = this.preOrdenTemporalSacos;
 
 
     for (let j = 0; j <= POTS.length - 1; j++) {
-    let IdOD = POTS[j].IdOrdenDescarga
-    console.log(IdOD);
-    // Update a detalleordencompra para actualizar lote,y fechas
-    console.log(POTS[j].IdDetalleOrdenDescarga);
-    console.log(POTS[j].Lote);
-    console.log(POTS[j].FechaCaducidad);
-    console.log(POTS[j].FechaMFG);
+      let IdOD = POTS[j].IdOrdenDescarga
+      console.log(IdOD);
+      // Update a detalleordencompra para actualizar lote,y fechas
+      console.log(POTS[j].IdDetalleOrdenDescarga);
+      console.log(POTS[j].Lote);
+      console.log(POTS[j].FechaCaducidad);
+      console.log(POTS[j].FechaMFG);
 
-    console.log(POTS[j]);
-  
-     /*  this.service.OnEditDetalleOrdenDescarga(POTS[j]).subscribe(res => {
-        console.log(res);
-
-      }) */
-    }
-  }
-
-  agregarProductos(){
-    console.log(this.ordenTemporalService.preOrdenTemporalSacos);
-    let POTS = this.ordenTemporalService.preOrdenTemporalSacos;
-
-
-    for (let j = 0; j <= POTS.length - 1; j++) {
-    let IdOD = POTS[j].IdOrdenDescarga
-    console.log(IdOD);
-    // Update a detalleordencompra para actualizar lote,y fechas
-    console.log(POTS[j].IdDetalleOrdenDescarga);
-    console.log(POTS[j].Lote);
-    console.log(POTS[j].FechaCaducidad);
-    console.log(POTS[j].FechaMFG);
-  
       this.service.OnEditDetalleOrdenDescarga(POTS[j]).subscribe(res => {
         console.log(res);
 
       })
     }
 
-    for (let i=0; i<this.ordenTemporalService.preOrdenTemporalSacos.length;i++){
+    // for (let i = 0; i < this.ordenTemporalService.preOrdenTemporalSacos.length; i++) {
 
       let detalletarimanueva = new DetalleTarima;
 
       detalletarimanueva = {
         IdDetalleTarima: 0,
-ClaveProducto: this.ordenTemporalService.preOrdenTemporalSacos[i].ClaveProducto,
-Producto: this.ordenTemporalService.preOrdenTemporalSacos[i].Producto,
-SacosTotales: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,
-PesoxSaco: this.ordenTemporalService.preOrdenTemporalSacos[i].PesoxSaco,
-Lote: this.ordenTemporalService.preOrdenTemporalSacos[i].Lote,
-PesoTotal: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,
-SacosxTarima: '',
-TarimasTotales: '',
-Bodega: this.service.formData.Destino,
-IdProveedor: 0,
-Proveedor: this.ordenTemporalService.preOrdenTemporalSacos[i].IdProveedor,
-PO: this.ordenTemporalService.preOrdenTemporalSacos[i].PO,
-FechaMFG: this.ordenTemporalService.preOrdenTemporalSacos[i].FechaMFG,
-FechaCaducidad: this.ordenTemporalService.preOrdenTemporalSacos[i].FechaCaducidad,
-Shipper: this.ordenTemporalService.preOrdenTemporalSacos[i].Shipper,
-USDA: this.ordenTemporalService.preOrdenTemporalSacos[i].USDA,
-Pedimento: this.ordenTemporalService.preOrdenTemporalSacos[i].Pedimento,
-Estatus: 'Creada',
+        ClaveProducto: this.preOrdenTemporalSacos.ClaveProducto,
+        Producto: this.preOrdenTemporalSacos.Producto,
+        SacosTotales: (+this.preOrdenTemporalSacos.KilogramosIngresados / + this.preOrdenTemporalSacos.PesoxSaco).toFixed(4),
+        PesoxSaco: this.preOrdenTemporalSacos.PesoxSaco,
+        Lote: this.preOrdenTemporalSacos.Lote,
+        PesoTotal: this.preOrdenTemporalSacos.KilogramosIngresados,
+        SacosxTarima: '',
+        TarimasTotales: '',
+        Bodega: this.service.formData.Destino,
+        IdProveedor: this.preOrdenTemporalSacos.IdProveedor,
+        Proveedor: this.preOrdenTemporalSacos.Proveedor,
+        PO: this.PODescarga,
+        FechaMFG: this.preOrdenTemporalSacos.FechaMFG,
+        FechaCaducidad: this.preOrdenTemporalSacos.FechaCaducidad,
+        Shipper: this.preOrdenTemporalSacos.Shipper,
+        USDA: this.preOrdenTemporalSacos.USDA,
+        Pedimento: this.preOrdenTemporalSacos.Pedimento,
+        Estatus: 'Creada',
       }
 
       console.log(detalletarimanueva);
 
 
-      this.Tarimaservice.addDetalleTarima(detalletarimanueva).subscribe(resp=>{
+      this.Tarimaservice.addDetalleTarima(detalletarimanueva).subscribe(resp => {
         console.log(resp);
-        this.Tarimaservice.getUltimoDetalleTarima().subscribe(ultimo=>{
+        this.Tarimaservice.getUltimoDetalleTarima().subscribe(ultimo => {
           console.log(ultimo);
           let ordentemporalnueva = new OrdenTemporal;
-  
-      ordentemporalnueva = {
-        IdOrdenTemporal: 0,
-  IdDetalleTarima: +ultimo,
-  IdOrdenCarga: 0,
-  IdOrdenDescarga: this.ordenTemporalService.preOrdenTemporalSacos[i].IdOrdenDescarga,
-  QR: '',
-  ClaveProducto: this.ordenTemporalService.preOrdenTemporalSacos[i].ClaveProducto,
-  Lote: this.ordenTemporalService.preOrdenTemporalSacos[i].Lote,
-  Sacos: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,
-  Producto: this.ordenTemporalService.preOrdenTemporalSacos[i].Producto,
-  PesoTotal: this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados,
-  FechaCaducidad: this.ordenTemporalService.preOrdenTemporalSacos[i].FechaCaducidad,
-  Comentarios: '',
-      }
-  
-      console.log(ordentemporalnueva); 
 
-      this.ordenTemporalService.addOrdenTemporal(ordentemporalnueva).subscribe(res=>{
-        console.log(resp);
-        let Lote = this.ordenTemporalService.preOrdenTemporalSacos[i].Lote;
-        let ClaveProducto = this.ordenTemporalService.preOrdenTemporalSacos[i].ClaveProducto;
-        let Sacos = this.ordenTemporalService.preOrdenTemporalSacos[i].KilogramosIngresados;
+          ordentemporalnueva = {
+            IdOrdenTemporal: 0,
+            IdDetalleTarima: +ultimo[0].IdDetalleTarima,
+            IdOrdenCarga: 0,
+            IdOrdenDescarga: this.preOrdenTemporalSacos.IdOrdenDescarga,
+            QR: '',
+            NumeroFactura: this.numerofactura,
+            NumeroEntrada: this.NumeroEntrada,
+            ClaveProducto: this.preOrdenTemporalSacos.ClaveProducto,
+            Lote: this.preOrdenTemporalSacos.Lote,
+            Sacos: (+this.preOrdenTemporalSacos.KilogramosIngresados / + this.preOrdenTemporalSacos.PesoxSaco).toFixed(4),
+            Producto: this.preOrdenTemporalSacos.Producto,
+            PesoTotal: this.preOrdenTemporalSacos.KilogramosIngresados,
+            FechaCaducidad: this.preOrdenTemporalSacos.FechaCaducidad,
+            FechaMFG: this.preOrdenTemporalSacos.FechaMFG,
+            Comentarios: '',
+            CampoExtra1: this.PODescarga,
+            CampoExtra2: '',
+            //^ Aqui Guardaremos la Fecha de la Factura
+            CampoExtra3: this.preOrdenTemporalSacos.FechaFactura
+          }
 
-        this.service.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga, Lote, ClaveProducto).subscribe(dataOD => {
-          console.log(dataOD);
-          console.log(Sacos);
-          let NuevoSaldo = ((+dataOD[0].Saldo) - (+Sacos)).toString();
-          this.service.updateDetalleOrdenDescargaSaldo(dataOD[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res => {
+          console.log(ordentemporalnueva);
+
+          this.ordenTemporalService.addOrdenTemporal(ordentemporalnueva).subscribe(res => {
             console.log(res);
+            // console.log(resp);
+            let Lote = this.preOrdenTemporalSacos.Lote;
+            let ClaveProducto = this.preOrdenTemporalSacos.ClaveProducto;
+            let Kilos = this.preOrdenTemporalSacos.KilogramosIngresados;
+            /* let Sacos = this.ordenTemporalService.preOrdenTemporalSacos[i]; */
 
-            POTS = [];
-            this.ordenTemporalService.preOrdenTemporalSacos = []
-            this.listDataSacosIngresados = new MatTableDataSource(POTS);
-            this.listData.sort = this.sort;
-            this.listData.paginator = this.paginator;
-            this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+            this.service.getDetalleOrdenDescargaIdClave(this.IdOrdenDescarga, ClaveProducto).subscribe(dataOD => {
+              console.log(dataOD);
+              console.log(dataOD[0].Saldo);
+              console.log(Kilos);
+              let NuevoSaldo = ((+dataOD[0].Saldo) - (+Kilos)).toString();
+              console.log(NuevoSaldo);
+                this.updateOrdenDescarga(this.service.formData,'Proceso');
+              this.service.updateDetalleOrdenDescargaSaldo(dataOD[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res => {
+                console.log(res);
 
-            this.refreshOrdenDescargaList();
-            this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalOD);
-            this.listData.sort = this.sort;
-            this.listData.paginator = this.paginator;
-            this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Descarga por Pagina';
-            // console.log('actualizar');
-            // this.isVisibleOT = true;
-            this.actualizarTablaOrdenTemporal();
+                  Swal.fire({
+        title: 'Producto Descargado',
+        icon: 'success',
+        text: '',
+        timer: 2000
+      });
+
+         //^Limpiar campos visuales
+    this.NombreProducto = null;
+    this.numerofactura = null;
+    this.FechaFactura = null;
+    this.PO = null;
+    this.PODescarga = null;
+    this.NumeroEntrada = null;
+    this.cantidadKilogramos = null;
+    this.lote = null;
+    this.fechaCaducidad = null;
+    this.fechaMFG = null;
+
+                // POTS = [];
+                // this.ordenTemporalService.preOrdenTemporalSacos = []
+                // this.listDataSacosIngresados = new MatTableDataSource(POTS);
+                // this.listData.sort = this.sort;
+                // this.listData.paginator = this.paginator;
+                // this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+
+                this.refreshOrdenDescargaList();
+                this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalOD);
+                this.listData.sort = this.sort;
+                this.listData.paginator = this.paginator;
+                this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Descarga por Pagina';
+                // console.log('actualizar');
+                // this.isVisibleOT = true;
+                this.actualizarTablaOrdenTemporal();
+              })
+            })
           })
         })
       })
-
-
-
-        })
-      })
-
-
-      
-    /*   */
-
-
-
-    }
-
-    
-    
+    // }
   }
 
   onAddTarimaOT() {
@@ -884,21 +1050,28 @@ Estatus: 'Creada',
                   this.service.updateDetalleOrdenDescargaSaldo(dataOD[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res => {
                     console.log(res);
 
-                    POTS = [];
-                    this.ordenTemporalService.preOrdenTemporalSacos = []
-                    this.listDataSacosIngresados = new MatTableDataSource(POTS);
-                    this.listData.sort = this.sort;
-                    this.listData.paginator = this.paginator;
-                    this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+                    // POTS = [];
+                    // this.ordenTemporalService.preOrdenTemporalSacos = []
+                    // this.listDataSacosIngresados = new MatTableDataSource(POTS);
+                    // this.listData.sort = this.sort;
+                    // this.listData.paginator = this.paginator;
+                    // this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
 
                     this.refreshOrdenDescargaList();
-                    this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalOD);
-                    this.listData.sort = this.sort;
-                    this.listData.paginator = this.paginator;
-                    this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Descarga por Pagina';
+                    // this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalOD);
+                    // this.listData.sort = this.sort;
+                    // this.listData.paginator = this.paginator;
+                    // this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Descarga por Pagina';
                     // console.log('actualizar');
                     // this.isVisibleOT = true;
                     this.actualizarTablaOrdenTemporal();
+                    Swal.fire({
+                      title: 'Producto Descargado',
+                      icon: 'success',
+                      timer: 2000,
+                      showCancelButton: false,
+                      showConfirmButton: false
+                    });
                   })
                 })
 
@@ -1062,87 +1235,97 @@ Estatus: 'Creada',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.value) {
+
+
+
         //Obtener Detalle Orden de descarga, para ser actualizado posteriormente
         console.log(this.IdOrdenDescarga);
         console.log(Lote);
         console.log(ClaveProducto);
-        this.service.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga, Lote, ClaveProducto).subscribe(dataOrdenDescarga => {
+        this.service.getDetalleOrdenDescargaIdClave(this.IdOrdenDescarga, ClaveProducto).subscribe(dataOrdenDescarga => {
           console.log(dataOrdenDescarga, 'dataOrdenDescarga');
           console.log(+dataOrdenDescarga[0].Saldo);
           console.log(ot.Sacos);
-          let NuevoSaldo = ((+dataOrdenDescarga[0].Saldo) + (+ot.Sacos)).toString();
+          let NuevoSaldo = ((+dataOrdenDescarga[0].Saldo) + (+ot.PesoTotal)).toString();
           let pesoSaco = dataOrdenDescarga[0].PesoxSaco;
           console.log(NuevoSaldo)
-          //   // Actualizar Saldo de la tabla Detalle Orden Descarga
+            // Actualizar Saldo de la tabla Detalle Orden Descarga
           this.service.updateDetalleOrdenDescargaSaldo(dataOrdenDescarga[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res => {
-            console.log(res, 'res');
-            dataOrdenDescarga[0].Lote = '0'
-            dataOrdenDescarga[0].FechaCaducidad = new Date()
-            dataOrdenDescarga[0].FechaMFG = new Date()
-            console.log(dataOrdenDescarga[0]);
-              this.service.OnEditDetalleOrdenDescarga(dataOrdenDescarga[0]).subscribe(res => {
-                console.log(res);
-                console.log('si actualizo el dT');
+          //   console.log(res, 'res');
+          //   dataOrdenDescarga[0].Lote = '0'
+          //   dataOrdenDescarga[0].FechaCaducidad = new Date()
+          //   dataOrdenDescarga[0].FechaMFG = new Date()
+          //   console.log(dataOrdenDescarga[0]);
+          //     this.service.OnEditDetalleOrdenDescarga(dataOrdenDescarga[0]).subscribe(res => {
+          //       console.log(res);
+          //       console.log('si actualizo el dT');
       
                 this.ordenTemporalService.deleteOrdenTemporal(ot.IdOrdenTemporal).subscribe(res => {
-                  this.actualizarTablaOrdenTemporal();
-                  this.Tarimaservice.getTarimaID(IdTarimaOD).subscribe(resDataTarima => {
-                    console.log(resDataTarima[0], 'lo que tiene la tarima');
-                    // que traiga el peso por saco ya que trae los sacos totales
-                    console.log(pesoSaco, 'peso por saco a multiplicar');
-                    console.log(sacosTup, 'Sacos a multiplicar');
-                    let pesoProd = +sacosTup * +pesoSaco;
-                    let idTarimaUpt = resDataTarima[0].IdTarima;
-                    let sacosTarimaUpt = (+resDataTarima[0].Sacos - +sacosTup).toString();
-                    let pesoTarimaUpt = (+resDataTarima[0].PesoTotal - +pesoProd).toString();
-                    console.log(pesoTarimaUpt, 'peso total a guardarse');
-                    this.Tarimaservice.updateTarimaSacosPeso(idTarimaUpt, sacosTarimaUpt, pesoTarimaUpt).subscribe(dataUptsacos => {
-                      console.log(dataUptsacos);
-                      console.log(idTarimaUpt, ClaveProducto, Lote, 'id,cp,L');
-                      this.Tarimaservice.getDetalleTarimaIdClaveLote(idTarimaUpt, ClaveProducto, Lote).subscribe(resDTTIDCL => {
-                        console.log(resDTTIDCL[0]);
-                        this.Tarimaservice.getDetalleTarimaID(resDTTIDCL[0].IdDetalleTarima).subscribe(resDataTarimadt => {
-                          console.log(resDataTarimadt, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-                      console.log(resDataTarimadt[0]);
-                      let delDTT = resDataTarimadt[0].IdDetalleTarima;
-                      console.log(delDTT);
-                      this.Tarimaservice.deleteDetalleTarima(delDTT).subscribe(resDOD => {
-                        console.log(resDOD);
-                        this.Tarimaservice.getDetalleTarimaID(resDataTarimadt[0].IdDetalleTarima).subscribe(resdetallet => {
-                          if (resdetallet.length == 0) {
-                            this.Tarimaservice.deleteTarima(IdTarimaOD).subscribe(resDeleteTarima => {
-                              console.log(resDeleteTarima);
+          //         this.actualizarTablaOrdenTemporal();
+          //         this.Tarimaservice.getTarimaID(IdTarimaOD).subscribe(resDataTarima => {
+          //           console.log(resDataTarima[0], 'lo que tiene la tarima');
+          //           // que traiga el peso por saco ya que trae los sacos totales
+          //           console.log(pesoSaco, 'peso por saco a multiplicar');
+          //           console.log(sacosTup, 'Sacos a multiplicar');
+          //           let pesoProd = +sacosTup * +pesoSaco;
+          //           let idTarimaUpt = resDataTarima[0].IdTarima;
+          //           let sacosTarimaUpt = (+resDataTarima[0].Sacos - +sacosTup).toString();
+          //           let pesoTarimaUpt = (+resDataTarima[0].PesoTotal - +pesoProd).toString();
+          //           console.log(pesoTarimaUpt, 'peso total a guardarse');
+          //           this.Tarimaservice.updateTarimaSacosPeso(idTarimaUpt, sacosTarimaUpt, pesoTarimaUpt).subscribe(dataUptsacos => {
+          //             console.log(dataUptsacos);
+          //             console.log(idTarimaUpt, ClaveProducto, Lote, 'id,cp,L');
+          //             this.Tarimaservice.getDetalleTarimaIdClaveLote(idTarimaUpt, ClaveProducto, Lote).subscribe(resDTTIDCL => {
+          //               console.log(resDTTIDCL[0]);
+          //               this.Tarimaservice.getDetalleTarimaID(resDTTIDCL[0].IdDetalleTarima).subscribe(resDataTarimadt => {
+          //                 console.log(resDataTarimadt, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
+          //             console.log(resDataTarimadt[0]);
+          //             let delDTT = resDataTarimadt[0].IdDetalleTarima;
+          //             console.log(delDTT);
+                      this.Tarimaservice.deleteDetalleTarima(ot.IdDetalleTarima).subscribe(resDOD => {
+          //               console.log(resDOD);
+          //               this.Tarimaservice.getDetalleTarimaID(resDataTarimadt[0].IdDetalleTarima).subscribe(resdetallet => {
+          //                 if (resdetallet.length == 0) {
+          //                   this.Tarimaservice.deleteTarima(IdTarimaOD).subscribe(resDeleteTarima => {
+          //                     console.log(resDeleteTarima);
                               
                               
                               
                               
                               
                               Swal.fire({
-                                title: 'Borrado',
+                                title: 'Producto Borrado',
                                 icon: 'success',
                                 timer: 1000,
                                 showCancelButton: false,
                                 showConfirmButton: false
                               });
-                              this.service.filter('Register click');
+                              // this.service.filter('Register click');
 
                               this.actualizarTablaOrdenTemporal();
-                              this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalOD);
-                              this.listData.sort = this.sort;
-                              this.listData.paginator = this.paginator;
-                              this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Descarga por Pagina';
-                            });
-                          }
-                        });
-                      });
-                    });
-                  });
-                });
-              });
+                              this.refreshOrdenDescargaList();
+                              // this.ref
+                              // this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalOD);
+                              // this.listData.sort = this.sort;
+                              // this.listData.paginator = this.paginator;
+                              // this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Descarga por Pagina';
+          //                   });
+          //                 }
+          //               });
+          //             });
+          //           });
+          //         });
+          //       });
+          //     });
             })
               
             });
-          });
+
+
+
+
+          });  
+          
           
         });
       }
@@ -1184,27 +1367,42 @@ Estatus: 'Creada',
     console.log(ordenTemporal.Lote);
     this.ordenTemporalService.ordenTemporalDataOD = ordenTemporal;
     this.ordenTemporalService.posicionOrdenTemporalOD = id;
-    // el lote no se esta guardando
-    this.service.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga, ordenTemporal.Lote, ordenTemporal.ClaveProducto).subscribe(dataed => {
+
+    this.service.getDetalleOrdenDescargaIdClave(this.IdOrdenDescarga, ordenTemporal.ClaveProducto).subscribe(dataed => {
       console.log(dataed);
-      this.ordenTemporalService.sacosETOD = +dataed[0].Sacos;
+      // this.ordenTemporalService.sacosETOD = +dataed[0].Sacos;
+      //^ Obtener el total de kilogramos
+      this.ordenTemporalService.sacosETOD = +ordenTemporal.Sacos;
+      this.ordenTemporalService.kgETOD = +ordenTemporal.PesoTotal;
+      // this.ordenTemporalService.pesoETOD = +ordenTemporal.PesoTotal;
       this.ordenTemporalService.pesoETOD = +dataed[0].PesoxSaco;
+      // this.ordenTemporalService.kgETOD = ((+dataed[0].Sacos)*(+dataed[0].PesoxSaco))
 
       console.log(this.ordenTemporalService.pesoETOD, 'sacos para tomar de base');
-
+      console.log(this.ordenTemporalService.kgETOD, 'kg para tomar de base');
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "70%";
+      dialogConfig.data = {
+        estatus: this.estatusOrdenDescarga
+      }
+      this.dialog.open(OrdenDescargaConceptoComponent, dialogConfig);
     });
 
 
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = "70%";
-    this.dialog.open(OrdenDescargaConceptoComponent, dialogConfig);
   }
 
-  changeMat(evento) {
-    this.preOrdenTemporalSacos.FechaCaducidad = evento.target.value;
-    this.change(this.preOrdenTemporalSacos.FechaCaducidad);
+  changeMat(evento, tipo) {
+    if(tipo == 'Caducidad'){
+      this.preOrdenTemporalSacos.FechaCaducidad = evento.target.value;
+      this.change(this.preOrdenTemporalSacos.FechaCaducidad);
+      
+    }else if(tipo == 'Factura'){
+      this.preOrdenTemporalSacos.FechaFactura = evento.target.value;
+      this.change(this.preOrdenTemporalSacos.FechaFactura);
+
+    }
   }
 
   change(date: any) {
@@ -1254,29 +1452,29 @@ Estatus: 'Creada',
 
   }
 
-  dropdownRefresh() {
-    this.Tarimaservice.getTarima().subscribe(data => {
-      for (let i = 0; i < data.length; i++) {
-        let Qr = data[i];
-        this.listQR.push(Qr);
-        this.options.push(Qr)
-        this.filteredOptions = this.myControl.valueChanges
-          .pipe(
-            startWith(''),
-            map(value => this._filter(value))
-          );
-      }
-    });
+  // dropdownRefresh() {
+  //   this.Tarimaservice.getTarima().subscribe(data => {
+  //     for (let i = 0; i < data.length; i++) {
+  //       let Qr = data[i];
+  //       this.listQR.push(Qr);
+  //       this.options.push(Qr)
+  //       this.filteredOptions = this.myControl.valueChanges
+  //         .pipe(
+  //           startWith(''),
+  //           map(value => this._filter(value))
+  //         );
+  //     }
+  //   });
 
-  }
+  // }
 
   //on blur se usa para que en caso de modificar el filtro no se borre el dato que esta dentro del select, limpia el arreglo y lo vuelve a llenar desde DB
-  onBlurQR() {
-    console.log('blur');
-    this.listQR = [];
-    this.options = [];
-    this.dropdownRefresh();
-  }
+  // onBlurQR() {
+  //   console.log('blur');
+  //   this.listQR = [];
+  //   this.options = [];
+  //   this.dropdownRefresh();
+  // }
 
   onSelectionChange(options: Tarima, event: any) {
     if (event.isUserInput) {
@@ -1327,6 +1525,7 @@ Estatus: 'Creada',
           Dt.PesoxSaco = this.POTSTE[i].PesoxSaco;
           Dt.Lote = this.POTSTE[i].Lote;
           Dt.IdProveedor = this.POTSTE[i].IdProveedor;
+          Dt.Proveedor = this.POTSTE[i].Proveedor;
           Dt.PO = this.POTSTE[i].PO;
           Dt.FechaMFG = this.POTSTE[i].FechaMFG;
           Dt.FechaCaducidad = this.POTSTE[i].FechaCaducidad;
@@ -1394,10 +1593,10 @@ Estatus: 'Creada',
 
                     this.POTSTE = [];
                     this.ordenTemporalService.preOrdenTemporalSacos = []
-                    this.listDataSacosIngresados = new MatTableDataSource(this.POTSTE);
-                    this.listData.sort = this.sort;
-                    this.listData.paginator = this.paginator;
-                    this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+                    // this.listDataSacosIngresados = new MatTableDataSource(this.POTSTE);
+                    // this.listData.sort = this.sort;
+                    // this.listData.paginator = this.paginator;
+                    // this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
 
                     this.refreshOrdenDescargaList();
                     this.listData = new MatTableDataSource(this.ordenTemporalService.preOrdenTemporalOD);
@@ -1434,6 +1633,29 @@ Estatus: 'Creada',
       console.log('displayed');
     else
       console.log('notdisplayed');
+  }
+
+
+  checarLote(){
+console.log(this.preOrdenTemporalSacos.ClaveProducto);
+
+      let consulta = {
+        'consulta':"select * from detalletarima where ClaveProducto='"+this.preOrdenTemporalSacos.ClaveProducto+ "' and lote='"+this.lote+"' and Bodega='"+this.service.formData.Destino+"';"
+      };
+  
+      console.log(consulta);
+      this.serviceTarima.generarConsulta(consulta).subscribe((data:any)=>{
+      console.log(data);
+        if (data.length>0){
+            
+          this.fechaCaducidad = new Date(data[0].FechaCaducidad);
+          this.fechaMFG = new Date(data[0].FechaMFG);
+  
+        }
+  
+      })
+  
+
   }
 
 }

@@ -48,6 +48,10 @@
     text-align: center;
 }
 
+.zindex{
+    z-index: 1;
+}
+
 @media only screen and (max-width: 800px) {
     .boton {
         display: block;
@@ -65,6 +69,9 @@
         /* height: 300px; */
         transition: .5s -webkit-filter;
         transition: .5s filter;
+    }
+    .btncel {
+        margin-top: 40px;
     }
 }
 

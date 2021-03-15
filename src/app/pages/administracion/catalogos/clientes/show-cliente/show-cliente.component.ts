@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { MatTableDataSource, MatSort, MatPaginator, MatTooltip } from '@angular/material';
 import { Cliente } from '../../../../../Models/catalogos/clientes-model';
@@ -24,7 +24,7 @@ import { Evento } from '../../../../../Models/eventos/evento-model';
   templateUrl: './show-cliente.component.html',
   styleUrls: ['./show-cliente.component.css']
 })
-export class ShowClienteComponent implements OnInit {
+export class ShowClienteComponent implements OnInit, OnDestroy {
   
   usuariosesion;
   listData: MatTableDataSource<any>;
@@ -58,7 +58,72 @@ export class ShowClienteComponent implements OnInit {
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     this.refreshClientesList();
     this.listaempresas();
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    this.obtenerPrivilegios();
+    //^ **** PRIVILEGIOS POR USUARIO *****
+
   }
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+
+  }
+
+
+  //^ **** PRIVILEGIOS POR USUARIO *****
+  privilegios: any;
+  privilegiosExistentes: boolean = false;
+  modulo = 'Administracion';
+  area = 'Catalogos';
+
+  //^ VARIABLES DE PERMISOS
+  Agregar: boolean = false;
+  AgregarDireccion: boolean = false;
+  Editar: boolean = false;
+  Borrar: boolean = false;
+  //^ VARIABLES DE PERMISOS
+
+
+  obtenerPrivilegios() {
+    let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+    console.log(arrayPermisosMenu);
+    let arrayPrivilegios: any;
+    try {
+      arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+      // console.log(arrayPrivilegios);
+      arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+      // console.log(arrayPrivilegios);
+      this.privilegios = [];
+      arrayPrivilegios.privilegios.forEach(element => {
+        this.privilegios.push(element.nombreProceso);
+        this.verificarPrivilegio(element.nombreProceso);
+      });
+      // console.log(this.privilegios);
+    } catch {
+      console.log('Ocurrio algun problema');
+    }
+  }
+
+  verificarPrivilegio(privilegio) {
+    switch (privilegio) {
+      case ('Agregar Clientes'):
+        this.Agregar = true;
+        break;
+      case ('Agregar Direccion Cliente'):
+        this.AgregarDireccion = true;
+        break;
+      case ('Editar Clientes'):
+        this.Editar = true;
+        break;
+      case ('Borrar Clientes'):
+        this.Borrar = true;
+        break;
+      default:
+        break;
+    }
+  }
+  //^ **** PRIVILEGIOS POR USUARIO *****
 
   estatusCambio(event){
     
@@ -107,7 +172,6 @@ export class ShowClienteComponent implements OnInit {
     this.serviceEmpresa.getEmpresaList().subscribe(data =>{
       console.log(data);
       this.listEmpresa = data;
-      console.clear();
       console.log(this.apicliente.empresa);
       this.apicliente.empresa = data[0];
       // this.enviarfact.rfc = data[0].RFC;

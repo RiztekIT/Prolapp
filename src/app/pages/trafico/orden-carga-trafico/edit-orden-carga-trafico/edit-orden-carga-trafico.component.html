@@ -25,9 +25,8 @@
 
                 <div class="row">
 
-                    <div class="col-12 col-md-4">
-                        <!-- onblur no estaba funcionando por eso se puso como click -->
-                        <mat-form-field (click)="onBlurQR()">
+                    <div class="col-12 col-md-8">
+                        <mat-form-field (click)="onBlurQR()" style="display: initial;">
                             <input type="text" placeholder="Seleccionar Fletera" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="traficoService.formrow.Nombre" name="Fletera">
                             <mat-autocomplete #auto="matAutocomplete">
                                 <mat-option *ngFor="let option of filteredOptions | async" [value]="option.Nombre" (onSelectionChange)="onSelectionChange(option, $event)">
@@ -35,21 +34,31 @@
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field>
-                        <br>
-
-                        <label class="input-group-text text-info"> Numero de Caja: </label>
-                        <input type="text" class="form-control" name="NumCaja" #NumCaja="ngModel" [(ngModel)]="traficoService.formData.Caja">
-
-                        <label class="input-group-text text-info txt"> Chofer: </label>
-                        <input type="text" class="form-control" name="Chofer" #Chofer="ngModel" [(ngModel)]="traficoService.formData.Chofer" readonly>
-
-                        <label class="input-group-text text-info txt"> Cliente: </label>
-                        <input type="text" class="form-control" name="Cliente" #Cliente="ngModel" [(ngModel)]="traficoService.formData.Cliente" readonly>
-
-
 
                     </div>
                     <div class="col-12 col-md-4">
+
+                        <label class="input-group-text text-info"> Numero de Caja: </label>
+                        <input type="text" class="form-control" name="NumCaja" #NumCaja="ngModel" [(ngModel)]="traficoService.formData.Caja">
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <label class="input-group-text text-info txt"> Chofer: </label>
+                        <input type="text" class="form-control" name="Chofer" #Chofer="ngModel" [(ngModel)]="traficoService.formData.Chofer" >
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="input-group-text text-info txt"> Cliente: </label>
+                        <input type="text" class="form-control" name="Cliente" #Cliente="ngModel" [(ngModel)]="traficoService.formData.Cliente" readonly>
+                    </div>
+                </div>
+
+                <div class="row">
+
+
+                    <div class="col-12 col-md-6">
 
                         <label class="input-group-text text-info"> KG: </label>
                         <input type="text" class="form-control" name="KG" #KG="ngModel" [(ngModel)]="traficoService.formData.Kg" readonly>
@@ -66,7 +75,7 @@
 
 
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-6">
 
 
 
@@ -83,8 +92,8 @@
                         <label class="input-group-text text-info txt"> FechaFinalCarga: </label>
                         <input type="text" class="form-control" name="FechaFinalCarga" #FechaFinalCarga="ngModel" [(ngModel)]="traficoService.formData.FechaFinalCarga" readonly>
 
-                        <label class="input-group-text text-info"> Observaciones: </label>
-                        <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="traficoService.formData.Observaciones" readonly>
+                        <!-- <label class="input-group-text text-info"> Observaciones: </label>
+                        <input type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="traficoService.formData.Observaciones" readonly> -->
 
 
                     </div>
@@ -92,13 +101,21 @@
 
 
                 </div>
+                <hr>
+                <div class="row">
+                    <div class="col-12">
+                        <!-- <button [disabled]="GuardarFlete == false" class="btn btn-success" mat-raised-button type="button" *ngIf="this.traficoService.formDatafactura.Estatus== 'Pendiente' " (click)="updateFacturaFlete()">Guardar Flete</button> -->
+                        <button [disabled]="GuardarFlete == false" class="btn btn-success" mat-raised-button type="button" (click)="updateFacturaFlete()">Guardar Flete</button>
+                    </div>
+                </div>
+                <hr>
                 <div class="container row">
                     <div class="col-12">
                         <h4>Actualizar Estatus del Pedido
-                            <span class="label label-light-warning">Estatus Actual - {{this.tarimaService.tarimaTrafico.Bodega}}</span>
+                            <!-- <span class="label label-light-warning">Estatus Actual - {{this.tarimaService.tarimaTrafico.Bodega}}</span> -->
                         </h4>
                     </div>
-                    <div *ngIf="this.tarimaService.tarimaTrafico.Bodega!='Terminada'" class="col-9">
+                    <!-- <div *ngIf="this.tarimaService.tarimaTrafico.Bodega!='Terminada'" class="col-9"> -->
 
                         <mat-form-field>
                             <mat-label> Estatus </mat-label>
@@ -113,12 +130,12 @@
                         <input *ngIf="this.estatusSelect=='Transito'" type="text" class="form-control" name="Ubicacion" #Ubicacion="ngModel" [(ngModel)]="UbicacionEstatus">
 
 
-                    </div>
-                    <div *ngIf="this.tarimaService.tarimaTrafico.Bodega!='Terminada'" class="col-3">
+                    <!-- </div> -->
+                    <!-- <div *ngIf="this.tarimaService.tarimaTrafico.Bodega!='Terminada'" class="col-3"> -->
 
-                        <button class="btn btn-success" mat-raised-button type="button" (click)="actualizarEstatus()">Actualizar Estatus</button>
+                        <!-- <button [disabled]="ActualizarEstatus == false" class="btn btn-success" mat-raised-button type="button" (click)="actualizarEstatus()">Actualizar Estatus</button> -->
 
-                    </div>
+                    <!-- </div> -->
                 </div>
             </div>
         </div>
@@ -153,7 +170,7 @@
                         </div>
                         <div class="col-3">
 
-                            <button class="btn btn-success" mat-raised-button type="button" *ngIf="this.traficoService.formDatafactura.Estatus== 'Pendiente' " (click)="updateFacturaFlete()">Guardar Flete</button>
+
                             <button class="btn btn-success" mat-raised-button type="button" *ngIf="this.traficoService.formDatafactura.Estatus== 'Capturada' " (click)="updateFacturaFlete2()">Guardar</button>
                         </div>
                     </div>

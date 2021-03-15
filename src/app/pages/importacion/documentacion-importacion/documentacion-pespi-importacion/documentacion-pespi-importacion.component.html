@@ -1,0 +1,166 @@
+<div class="row">
+    <div class="col-12">
+        <br>
+        <div class="col-12 mat-elevation-z5">
+            <div class="card">
+                <div class="card-body">
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="input-group-text text-info">Producto:</label> <br>
+
+                                <input readonly type="text" placeholder="Producto" aria-label="Number" [(ngModel)]="Producto" matInput>
+
+                            </div>
+                            <div class="col-6">
+                                <label class="input-group-text text-info">Clave Producto :</label> <br>
+
+                                <input readonly type="text" placeholder="Clave Producto" aria-label="Number" [(ngModel)]="ClaveProducto" matInput>
+
+                            </div>
+                        </div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <label class="input-group-text text-info">Producto:</label> <br>
+                                <mat-form-field>
+                                    <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl2" [(ngModel)]="ProductoSelect" matInput [matAutocomplete]="autoProducto">
+                                    <mat-autocomplete #autoProducto="matAutocomplete">
+                                        <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChangeProducto(option, $event)">
+                                            {{option.ClaveProducto}} || {{option.Nombre}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                                <label class="input-group-text text-info">Marca :</label> <br>
+                                <mat-form-field>
+                                    <input type="text" placeholder="Seleccionar Marca" aria-label="Number" [formControl]="myControl3" [(ngModel)]="MarcaSelect" matInput [matAutocomplete]="autoMarcaProducto">
+                                    <mat-autocomplete #autoMarcaProducto="matAutocomplete">
+                                        <mat-option *ngFor="let option of filteredOptions3 | async" [value]="option.NombreMarca" (onSelectionChange)="onSelectionChangeMarca(option, $event)">
+                                            {{option.NombreMarca}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-6">
+                                <label class="input-group-text text-info">Lote :</label> <br>
+
+                                <input type="text" placeholder="Ingresar Lote" aria-label="Number" [formControl]="myControl4" [(ngModel)]="Lote" matInput>
+
+                            </div>
+                            <div class="col-6">
+                                <label class="input-group-text text-info">Fecha Vigencia:</label>
+                                <mat-datepicker-toggle matSuffix [for]="pickerVigencia"></mat-datepicker-toggle>
+                                <input type="text" readonly="readonly" [matDatepicker]="pickerVigencia" class="form-control" name="FechaVigencia" #FechaVigencia="ngModel" [(ngModel)]="fechaVigencia">
+                                <mat-datepicker #pickerVigencia></mat-datepicker>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-4"></div>
+                            <div class="col-4">
+                                <button style="float: right; margin-top: 20px;" [disabled]="!ProductoSelect || !MarcaSelect || !Lote || !fechaVigencia" class="btn btn-info btn-lg" mat-raised-button (click)="addToList()">Agregar a Lista</button>
+
+                            </div>
+                            <div class="col-4">
+                                <button style="float: right; margin-top: 20px;" [disabled]="!ProductoSelect || !MarcaSelect || !Lote || !fechaVigencia" class="btn btn-info btn-lg" mat-raised-button (click)="obtenerDocumentos()">ObtenerDocumentos</button>
+
+                            </div>
+
+                        </div>
+                        <hr>
+                        <!-- TABLA DE DETALLES SELECCIONADOS -->
+                        <div class="col-12 col-lg-12">
+
+
+                            <table mat-table [dataSource]="listDataSeleccionados" matSort>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumnsSeleccionados"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsSeleccionados;"></tr>
+
+
+                                <ng-container matColumnDef="Producto">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                                    <td mat-cell *matCellDef="let element">{{element.Producto}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="ClaveProducto">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
+                                    <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="Lote">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                                    <td mat-cell *matCellDef="let element">{{element.Lote}}</td>
+                                </ng-container>
+
+
+                                <ng-container matColumnDef="Options">
+                                    <th mat-header-cell *matHeaderCellDef>Options</th>
+                                    <td mat-cell *matCellDef="let row">
+
+                                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                    <mat-icon>keyboard_arrow_down</mat-icon>
+                                  </button>
+                                        <mat-menu #menu="matMenu">
+                                            <button mat-icon-button class="btn btn-danger" color="warn" (click)="removeFromList(row)">
+                                                                <mat-icon>delete</mat-icon>
+                                                            </button>
+                                        </mat-menu>
+                                    </td>
+                                </ng-container>
+
+
+                            </table>
+                            <br>
+                            <br>
+                            <hr>
+                        </div>
+
+                        <div class="row">
+                            <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
+                            <div class="col-12 col-lg-6">
+                                <p style="font-weight: 400; margin-top: 10px;">Archivos:</p>
+                                <div style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                    <div *ngFor="let a of archivos">
+                                        <button class="btn " (click)='leerArchivos(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                        <button class="btn btn-danger" (click)='onRemove(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- DROPZONE DE DOCUMENTOS -->
+                            <div class="col-12 col-lg-6">
+                                <p style="font-weight: 400; margin-top: 10px;">Dropzone:</p>
+                                <ngx-dropzone [disabled]="seleccionados.length == 0" (change)="onSelect($event)">
+                                    <!-- <ngx-dropzone (change)="onSelect($event)"> -->
+                                    <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                                    <ngx-dropzone-preview *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemoveDocDropzone(f)">
+                                        <ngx-dropzone-label> {{ f.name }}</ngx-dropzone-label>
+                                    </ngx-dropzone-preview>
+                                </ngx-dropzone>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-8"></div>
+                            <div class="col-4">
+                                <button style="float: right; margin-top: 20px;" [disabled]="productosExistentes == false || files.length == 0" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentos()">Agregar Documento(s)</button>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

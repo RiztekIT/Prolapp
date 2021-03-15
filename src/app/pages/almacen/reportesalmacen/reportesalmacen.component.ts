@@ -13,6 +13,7 @@ import { OrdenDescargaService } from '../../../services/almacen/orden-descarga/o
 import { Producto } from '../../../Models/catalogos/productos-model';
 import { ProductosService } from '../../../services/catalogos/productos.service';
 import { ShowreporteAlmacenComponent } from './showreporte-almacen/showreporte-almacen.component';
+import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 
 
 @Component({
@@ -23,7 +24,13 @@ import { ShowreporteAlmacenComponent } from './showreporte-almacen/showreporte-a
 
 export class ReportesalmacenComponent implements OnInit {
 
-  constructor(public serviceCliente: ClientesService, public proveedorService: ProveedoresService, public productoService: ProductosService, private dialog: MatDialog, public ocService: OrdenCargaService, public odService: OrdenDescargaService) { }
+  constructor(public serviceCliente: ClientesService, 
+    public proveedorService: ProveedoresService, 
+    public productoService: ProductosService, 
+    private dialog: MatDialog, 
+    public ocService: OrdenCargaService, 
+    public odService: OrdenDescargaService, 
+    public enviarfact: EnviarfacturaService,) { }
 
   ngOnInit() {
     this.obtenerClientes();
@@ -71,6 +78,8 @@ export class ReportesalmacenComponent implements OnInit {
 
    checkedBodegaInventario = false;
    disabledBodegaInventario = true;
+
+  checkedLotesInventario = true;
  
  
    //variable estatus de Orden Carga (creada, preparada, cargada, envidada, transito, terminada)
@@ -108,6 +117,9 @@ export class ReportesalmacenComponent implements OnInit {
    InventarioProductoNombre: any;
    InventarioClaveProducto: string;
    InventarioLoteProducto: string;
+
+   bodegaOrigen: string = 'PasoTx'
+   bodegaDestino: string = 'Chihuahua'
  
  
    //Lista de Estatus Orden Carga / Traspaso
@@ -132,8 +144,16 @@ export class ReportesalmacenComponent implements OnInit {
    public listBodegasInventario: Array<Object> = [
      { tipo: 'PasoTx' },
      { tipo: 'Chihuahua' },
+     { tipo: 'SAN DIEGO' },
      { tipo: 'Transito' }
    ];
+
+   //Lista de Bodegas
+   public listBodegas: Array<Object> = [
+    { tipo: 'Chihuahua' },
+    { tipo: 'PasoTx' },
+    { tipo: 'SAN DIEGO' }
+  ];
 
      obtenerClientes(){
        this.serviceCliente.getClientesListIDN().subscribe(data=>{
@@ -199,6 +219,16 @@ export class ReportesalmacenComponent implements OnInit {
        option.Nombre.toLowerCase().includes(filterValue) ||
        option.ClaveProducto.toString().includes(filterValue));
    }
+
+   changeBodegaOrigen(event){
+    console.log(event);
+    this.bodegaOrigen = event.target.selectedOptions[0].text;
+  }
+
+  changeBodegaDestino(event){
+    console.log(event);
+    this.bodegaDestino = event.target.selectedOptions[0].text;
+  }
 
     //Al filtrar por fecha
     onChangePorFechaOrdenCarga(){
@@ -294,6 +324,14 @@ export class ReportesalmacenComponent implements OnInit {
       this.checkedBodegaInventario = true;
     }
   }
+      //cuando se filtarara por Lotes
+  onChangeLotesInventario(){
+    if(this.checkedLotesInventario == true){
+      this.checkedLotesInventario = false;
+    }else{
+      this.checkedLotesInventario = true;
+    }
+  }
   //cuando se selecciona un estatus OrdenCarga
   changeEstatusOrdenCarga(event){
     console.log(event);
@@ -332,6 +370,9 @@ export class ReportesalmacenComponent implements OnInit {
     let IdClienteProveedor: number;
 
     let ClaveProducto: string = '';
+
+    let bodegaOrigen: string = '';
+    let bodegaDestino: string = '';
 
 if(modulo == 'OrdenCarga'){
 IdClienteProveedor = this.OrdenCargaIdCliente;
@@ -405,6 +446,9 @@ console.log(ClaveProducto);
     estatusBodega = true;
     tipoEstatusBodega = this.bodegaInventario; 
   }
+  if(this.checkedLotesInventario == true){
+    filtrarFecha = true;
+  }
 }
     
 // console.log('TipoReporte', tipoReporte);
@@ -427,12 +471,17 @@ console.log(ClaveProducto);
       fechaInicial: fechaStart,
       fechaFinal: fechaEnd,
       estatus: estatusBodega,
-      tipoEstatus: tipoEstatusBodega
+      tipoEstatus: tipoEstatusBodega,
+      bodegaOrigen: this.bodegaOrigen,
+      bodegaDestino: this.bodegaDestino,
+      
       
     }
     this.dialog.open( ShowreporteAlmacenComponent, dialogConfig);
 
 
   }
+
+
      
 }

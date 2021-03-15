@@ -20,6 +20,10 @@ export class MessageService {
   cco;
   asunto;
   cuerpo;
+
+  //^ Aqui guardaremos todos los url de los archivos desde el componente donde se mando a llevar este.
+  documentosURL;
+  
   sendMessage(body){
     console.log(body);
     

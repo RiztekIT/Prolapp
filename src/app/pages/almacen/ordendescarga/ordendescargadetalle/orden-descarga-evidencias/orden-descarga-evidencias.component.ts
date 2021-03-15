@@ -7,6 +7,7 @@ import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
 import Swal from 'sweetalert2';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { OrdenDescargaService } from '../../../../../services/almacen/orden-descarga/orden-descarga.service';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { OrdenDescargaService } from '../../../../../services/almacen/orden-desc
 export class OrdenDescargaEvidenciasComponent implements OnInit {
 
   constructor(public router: Router, public imageService: ImagenService, public ordenDescargaService: OrdenDescargaService, private _sanitizer: DomSanitizer,
-    private imageCompress: NgxImageCompressService) { }
+    private imageCompress: NgxImageCompressService, public location: Location) { }
 
     ngOnInit() {
       this.IdOrdenDescarga = +localStorage.getItem('IdOrdenDescarga');
@@ -46,12 +47,13 @@ export class OrdenDescargaEvidenciasComponent implements OnInit {
     imagenSeleccionada: boolean;
   
     regresar() {
-      console.log(this.bodega);
-      if(this.bodega == 'PasoTx'){
+    /*   console.log(this.bodega);
+      if(this.bodega != 'Chihuahua'){
         this.router.navigate(['/ordenDescargadetalle']);
       }else if(this.bodega == 'Chihuahua'){
         this.router.navigate(['/ordenDescargadetallecuu']);
-      }
+      } */
+      this.location.back();
     }
   
     //Obtener Folio de Orden Descarga
@@ -312,7 +314,39 @@ leerDirImagenes() {
     }
   }
 
+  descargar(name) {
+    console.log(name.ImageName);
+      const blobData = this.convertBase64ToBlobData(name.ImagePath.changingThisBreaksApplicationSecurity.toString().replace(/^data:image\/(png|jpeg|jpg);base64,/, ''));
+      const blob = new Blob([blobData], { type: 'contentType' });
+      const url = window.URL.createObjectURL(blob);
+  
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = name.ImageName;
+      link.click();
+  
+    }
 
+    convertBase64ToBlobData(base64Data: string, contentType: string = 'imagessssss/jpg', sliceSize = 512) {
+      const byteCharacters = atob(base64Data);
+      const byteArrays = [];
+  
+      for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+  
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+  
+        const byteArray = new Uint8Array(byteNumbers);
+  
+        byteArrays.push(byteArray);
+      }
+  
+      const blob = new Blob(byteArrays, { type: contentType });
+      return blob;
+    }
 
 
 }

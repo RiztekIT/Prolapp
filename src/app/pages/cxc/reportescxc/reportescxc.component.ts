@@ -82,36 +82,39 @@ export class ReportescxcComponent implements OnInit {
   
   ngOnInit() {
     this.isVisible = true;
-    this.listaempresas();
+    // this.listaempresas();
     this.obtenerClientes();
+
+    console.log('%c⧭', 'color: #997326', this.enviarfact.empresa.RazonSocial);
+    console.log('%c⧭', 'color: #997326', this.enviarfact.empresa.RFC);
   }
 
 
-  listaempresas(){
-    this.serviceEmpresa.getEmpresaList().subscribe(data =>{
-      console.log(data);
-      this.listEmpresa = data;
+  // listaempresas(){
+  //   this.serviceEmpresa.getEmpresaList().subscribe(data =>{
+  //     console.log(data);
+  //     this.listEmpresa = data;
       
-      console.log(this.enviarfact.empresa);
-      this.enviarfact.empresa = data[0];
-      this.serviceFactura.rfcempresa = this.enviarfact.empresa.RFC;
-      // this.enviarfact.rfc = data[0].RFC;
-    })
-  }
+  //     console.log(this.enviarfact.empresa);
+  //     this.enviarfact.empresa = data[0];
+  //     this.serviceFactura.rfcempresa = this.enviarfact.empresa.RFC;
+  //     // this.enviarfact.rfc = data[0].RFC;
+  //   })
+  // }
 
-  cambioEmpresa(event){
+  // cambioEmpresa(event){
     
 
-    this.enviarfact.empresa = event;
-      this.serviceFactura.rfcempresa = event.RFC;
-      localStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
+  //   this.enviarfact.empresa = event;
+  //     this.serviceFactura.rfcempresa = event.RFC;
+  //     localStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
 
-      console.clear();
-      console.log(this.enviarfact.empresa);
-      console.log(this.serviceFactura.rfcempresa);
+  //     console.clear();
+  //     console.log(this.enviarfact.empresa);
+  //     console.log(this.serviceFactura.rfcempresa);
 
 
-  }
+  // }
 
   checkbox(event){
     this.todosClientes = event.checked;
@@ -340,6 +343,7 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
     dialogConfig.autoFocus = true;
     dialogConfig.width = "80%";
     let dl = this.dialog.open(ReportefacturacionfechasComponent, dialogConfig);
+    this.enviarfact.titulo = 'Reporte Detallado'
             }
 
             abrirReporteTotales(){
@@ -356,7 +360,7 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
     dialogConfig.autoFocus = true;
     dialogConfig.width = "80%";
     let dl = this.dialog.open(ReportefacturacionResumenComponent, dialogConfig);
-
+    this.enviarfact.titulo = 'Reporte Resumen'
             }
 
 
@@ -463,6 +467,7 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
     dialogConfig.data = {
       clientes: this.todosClientes
     }
+    this.enviarfact.titulo = 'Reporte Cobranza'
     let dl = this.dialog.open(ReporteComponent, dialogConfig);
 
             }
@@ -474,6 +479,7 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
     dialogConfig.data = {
       clientes: this.todosClientes
     }
+    this.enviarfact.titulo = 'Reporte Cobranza Dlls'
     let dl = this.dialog.open(ReporteDllsComponent, dialogConfig);
 
             }
@@ -485,6 +491,7 @@ var footerReportes ='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAxgAAAJkCAYAA
     dialogConfig.data = {
       clientes: this.todosClientes
     }
+    this.enviarfact.titulo = 'Reporte Cobranza MXN'
     let dl = this.dialog.open(ReporteMxnComponent, dialogConfig);
 
             }

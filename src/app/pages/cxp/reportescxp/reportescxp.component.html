@@ -1,1 +1,80 @@
-<p>reportescxp works!</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="card mat-elevation-z8">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="text-muted m-t-10 m-b-0">Reportes Cuentas por Pagar</h3>
+                        </div>
+                        <hr>
+                        <div class="card-header" id="headingOne">
+                            <h2 class="mb-0">
+                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                Reportes Pagos
+                                              </button>
+                            </h2>
+                        </div>
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <mat-card>
+                                <div class="col-4" style="align-self: center">
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedTipoDocumentoPago" (change)="onChangeTipoDocumentoPago()">
+                                            Filtrar por tipo Pago
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div class="col-8" *ngIf="checkedTipoDocumentoPago == true">
+                                    <label class="input-group-text text-info">Seleccionar tipo Pago</label>
+
+                                    <select class="form-control" name="estatuss" #estatuss="ngModel" id="estatuss" (change)="changeTipoDocumentoPago($event)" [(ngModel)]="tipoDocumentoPago">
+                                                                <option [ngValue]="null" selected disabled>Seleccionar tipo Pago</option>
+                                                                <option *ngFor="let dl of listTipoDocumentoPago" [ngValue]="dl.tipo"> {{dl.tipo}} </option>
+                                                            </select>
+                                </div>
+                                <hr>
+                                <div class="col-4" style="align-self: center">
+                                    <section class="example-section">
+                                        <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedFechasPago" (change)="onChangePorFechaPago()">
+                                            Filtrar por Fechas
+                                        </mat-slide-toggle>
+                                    </section>
+                                </div>
+                                <div *ngIf="checkedFechasPago == true" class="row">
+                                    <div class="col-2">
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Inicial </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="fechaInicial" [(ngModel)]="fechaInicialPago">
+                                            <mat-datepicker #picker1></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label> Fecha Final </mat-label>
+                                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                            <input matInput readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="fechaFinal" [(ngModel)]="fechaFinalPago">
+                                            <mat-datepicker #picker2></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-2">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4 btnalign">
+                                            <button  class="btn btn-prolacto" id="abrirpdf" (click)="abrirReporte('Pago')"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Pago</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-card>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

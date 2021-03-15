@@ -1,13 +1,13 @@
 <div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
 
-                <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between">
 
-                    <h3 class="text-muted m-t-10 m-b-0">Preparar</h3>
-                    <div>
-                        <!--  Estatus:
+          <h3 class="text-muted m-t-10 m-b-0">Preparar</h3>
+          <div>
+            <!--  Estatus:
                         <p [ngSwitch]=estatusOC>
                             <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
                             <span *ngSwitchCase="'Preparada'" class="label label-light-danger">PREPARADA</span>
@@ -16,14 +16,14 @@
                         </p> -->
 
 
-                    </div>
-                    <!-- <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button> -->
-                    <button mat-fab (click)="regresar()" class="btncoti">
-                        <mat-icon>undo</mat-icon>
-                      </button>
+          </div>
+          <!-- <button class="mt-2" mat-raised-button (click)="Regresar()" color="primary">Regresar</button> -->
+          <button mat-fab (click)="regresar()" class="btncoti">
+            <mat-icon>undo</mat-icon>
+          </button>
 
-                </div>
-                <!-- 
+        </div>
+        <!-- 
                 <h2>PREPARAR</h2>
                 <div class="container" style="margin-right: 0;">
                     <div class="row">
@@ -34,16 +34,16 @@
                     </div>
                 </div> -->
 
-                <hr>
+        <hr>
 
-                <!-- <div class="row">
+        <!-- <div class="row">
 
                     <div class="container" style="margin-right: 0;">
                         <div class="row">
                             <div class="col-md-6 col-12" style="display: grid"> -->
-                <!-- <label class="input-group-text text-info">Producto:</label> -->
-                <!-- <label class="input-group-text text-info">Producto:</label> <br> -->
-                <!-- <mat-form-field>
+        <!-- <label class="input-group-text text-info">Producto:</label> -->
+        <!-- <label class="input-group-text text-info">Producto:</label> <br> -->
+        <!-- <mat-form-field>
                                     <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControlProductos" [(ngModel)]="detalleSeleccionado" matInput [matAutocomplete]="autoProducto">
                                     <mat-autocomplete #autoProducto="matAutocomplete">
                                         <mat-option required *ngFor="let option of filteredOptionsProductos | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChangeProducto(option, $event)">
@@ -64,28 +64,89 @@
                         </div>
                     </div>
                 </div> -->
-                <div class="form-material mat-elevation-z5">
-                    <div class="container">
+        <div class="form-material mat-elevation-z5">
+          <div class="container">
+
+            <h3>Productos a Cargar</h3>
+
+            <div style="overflow:auto;">
+              <table mat-table [dataSource]="listDataProductosIngreso" matSort>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsProductosIngreso"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsProductosIngreso;"></tr>
+
+                <ng-container matColumnDef="Factura">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>N. Factura</th>
+                  <td mat-cell *matCellDef="let elementOT">{{elementOT.Shipper}}</td>
+                </ng-container>
+                <ng-container matColumnDef="Entrada">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>N. Entrada</th>
+                  <td mat-cell *matCellDef="let elementOT">{{elementOT.Pedimento}}</td>
+                </ng-container>
+                <ng-container matColumnDef="ClaveProducto">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
+                  <td mat-cell *matCellDef="let elementOT">{{elementOT.ClaveProducto}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Producto">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                  <td mat-cell *matCellDef="let elementOT">{{elementOT.Producto}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Lote">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                  <td mat-cell *matCellDef="let elementOT">{{elementOT.Lote}}</td>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="Kg">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Kg</th>
+                                <td mat-cell *matCellDef="let elementOT">{{elementOT.PesoTotal}}</td>
+                            </ng-container> -->
+                <ng-container matColumnDef="Saldo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo Kg</th>
+                  <td mat-cell *matCellDef="let elementOT">{{elementOT.Saldo}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Options">
+                  <th mat-header-cell *matHeaderCellDef>Options</th>
+                  <td mat-cell *matCellDef="let row; let i = index">
+
+                    <button [disabled]="row.Saldo == '0'" mat-icon-button class="btn btn-prolacto"
+                      (click)="IngresarProducto(row.ClaveProducto, row.Lote, row)">
+                      <mat-icon>add</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+
+              </table>
+              <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+              </mat-paginator>
+            </div>
+
+            <!-- <div class="row">
+                            <div class="col-md-12 col-12" style="display: grid">
+                                <mat-form-field>
+                                    <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControlProductos" [(ngModel)]="detalleSeleccionado" matInput [matAutocomplete]="autoProducto">
+                                    <mat-autocomplete #autoProducto="matAutocomplete">
+                                        <mat-option required *ngFor="let option of filteredOptionsProductos | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChangeProducto(option, $event)">
+                                            {{option.ClaveProducto}} || {{option.Producto}} || Lote: {{option.Lote}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
 
 
                         <div class="row">
                             <div class="col-10">
                                 <div class="container" style="margin-right: 0;">
                                     <div class="row">
-                                        <div class="col-md-7 col-12" style="display: grid">
-                                            <mat-form-field>
-                                                <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControlProductos" [(ngModel)]="detalleSeleccionado" matInput [matAutocomplete]="autoProducto">
-                                                <mat-autocomplete #autoProducto="matAutocomplete">
-                                                    <mat-option required *ngFor="let option of filteredOptionsProductos | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChangeProducto(option, $event)">
-                                                        {{option.ClaveProducto}} || {{option.Producto}} || Lote: {{option.Lote}}
-                                                    </mat-option>
-                                                </mat-autocomplete>
-                                            </mat-form-field>
-                                        </div>
-                                        <div class="col-md-3 col-12" style="display: grid">
+
+                                        <div class="col-md-6 col-12" style="display: grid">
                                             <input readonly placeholder="Clave Producto" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="ClaveProductoIngresado">
                                         </div>
-                                        <div class="col-md-2 col-12" style="display: grid">
+                                        <div class="col-md-6 col-12" style="display: grid">
                                             <input readonly placeholder="Lote" class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="LoteProductoIngresado">
                                         </div>
                                     </div>
@@ -94,14 +155,56 @@
                             </div>
 
                             <div class="col-12 col-md-2" style="padding-left: 0;">
-                                <button [disabled]="!ClaveProductoIngresado || !LoteProductoIngresado" class="btn btncoti btn-lg mt-3 mr-3" mat-raised-button type="button" (click)="IngresarProducto(ClaveProductoIngresado, LoteProductoIngresado)">Ingresar Producto</button>
-                                <!-- <button [disabled]="!ClaveProductoIngresado || !LoteProductoIngresado" class="btn btn-primary" type="button" (click)="IngresarProducto(ClaveProductoIngresado, LoteProductoIngresado)">Ingresar Producto</button> -->
+                                <button [disabled]="!ClaveProductoIngresado || !LoteProductoIngresado" class="btn btncoti btn-lg mt-3 mr-3" mat-raised-button type="button" (click)="IngresarProducto(ClaveProductoIngresado, LoteProductoIngresado)">Ingresar Producto</button>                                
                             </div>
-                        </div>
-                    </div>
-                </div>
+                        </div> -->
 
-                <!-- <div class="col-12 col-md-5">
+
+          </div>
+        </div>
+
+        <br>
+
+        <div *ngIf="this.elegirLote == true" class="container">
+          <div class="row">
+            <div class="col-12 col-md-2">
+              <p>Seleccionar Lote:</p>
+            </div>
+            <div class="col-12 col-md-2">
+              <p>{{claveProductoIngreso}}</p>
+            </div>
+            <div class="col-12 col-md-4">
+              <mat-form-field>
+                <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControlLote"
+                  matInput [matAutocomplete]="auto" [(ngModel)]="detalleSeleccionadoLote" name="Lote">
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredOptionsLote | async" [value]="option.Lote"
+                    (onSelectionChange)="onSelectionChangeLote(option, $event)">
+                    Lote: {{option.Lote}} | {{option.ClaveProducto}} | {{option.Producto}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+            <div class="col-12 col-md-2">
+              <input required type="number" class="form-control" name="cantidadKilo" #cantidadKilo="ngModel"
+                [(ngModel)]="cantidadKilosIngreso" (ngModelChange)="onChangeCantidadKilosIngreso($event)">
+            </div>
+            <div class="col-12 col-md-2">
+              <!-- <div *ngIf="this.detalleSeleccionadoLote"> -->
+              <!-- <div > -->
+              <button [disabled]="!this.detalleSeleccionadoLote || !cantidadKilosIngreso"
+                class="btn btn-prolacto btn-lg" mat-raised-button type="button"
+                (click)="IngresarLote()">Ingresar</button>
+
+              <!-- </div> -->
+            </div>
+          </div>
+        </div>
+
+
+
+
+        <!-- <div class="col-12 col-md-5">
                         <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}}
                         <div class="input-group">
 
@@ -112,9 +215,9 @@
                             <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" (blur)="simularQR(qrleido)">
                         </div>
                     </div> -->
-                <!-- <div class="col-12 col-md-5">
+        <!-- <div class="col-12 col-md-5">
                         <label class="input-group-text text-info">Producto:</label> <br> -->
-                <!-- <mat-form-field>
+        <!-- <mat-form-field>
                             <input type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControlDetalles" [(ngModel)]="detalleSeleccionado" matInput [matAutocomplete]="autoProducto">
                             <mat-autocomplete #autoProducto="matAutocomplete">
                                 <mat-option required *ngFor="let option of filteredOptionsDetalles | async" [value]="option.ClaveProducto" (onSelectionChange)="onSelectionChangeDetalle(option, $event)">
@@ -122,16 +225,16 @@
                                 </mat-option>
                             </mat-autocomplete>
                         </mat-form-field> -->
-                <!-- </div>
+        <!-- </div>
                     <div class="col-12 col-md-5"> -->
-                <!-- <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}} -->
+        <!-- <button disabled class="btn btn-primary" type="button" (click)="simularQR()">SIMULAR QR</button> QR Leido: {{qrleido}} -->
 
-                <!-- 
+        <!-- 
                             <span [style.display]="isVisibleQR ? 'block' : 'none'" class="input-group-addon" style="background-color: white;"><i class="btn btn-danger" type="button" (click)="escanear()">
                       <mat-icon>qr_code</mat-icon>
                     </i></span> -->
-                <!-- <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" (blur)="simularQR(qrleido)" (focus)="ActBtn()"> -->
-                <!-- <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" [(ngModel)]="qrleido" (blur)="CleanFieldQR()" (focus)="ActBtn()">
+        <!-- <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" (blur)="simularQR(qrleido)" (focus)="ActBtn()"> -->
+        <!-- <input required type="text" class="form-control" name="tarimaQR" #tarimaQR="ngModel" [(ngModel)]="qrleido" [(ngModel)]="qrleido" (blur)="CleanFieldQR()" (focus)="ActBtn()">
                             <span [style.display]="isVisible ? 'block' : 'none'" class="input-group-addon" style="background-color: white;"><i class="btn btn-success" type="button" (click)="simularQR(qrleido)">
                       <mat-icon>qr_code</mat-icon>
                     </i></span> -->
@@ -139,17 +242,17 @@
 
 
 
-                <!-- <label class="input-group-text text-info">Clave Producto:</label> -->
-                <!-- <input placeholder="Ingresar Clave Producto" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="ClaveProductoIngresado">
+        <!-- <label class="input-group-text text-info">Clave Producto:</label> -->
+        <!-- <input placeholder="Ingresar Clave Producto" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="ClaveProductoIngresado">
 
                     </div>
 
                     <div class="col-12 col-md-5"> -->
-                <!-- <p style="font-weight: 400; margin-bottom: 0;"> QR Leido: </p>
+        <!-- <p style="font-weight: 400; margin-bottom: 0;"> QR Leido: </p>
                         <input class="form-control" readonly name="QRleido" #QRleido="ngModel" [(ngModel)]="qrleido"> -->
-                <!-- <button class="btn btn-primary" type="button" (click)="cerrarescaner()">Cerrar ESCANER</button> -->
-                <!-- <label class="input-group-text text-info">Lote:</label> -->
-                <!-- <input placeholder="Ingresar Lote" class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="LoteProductoIngresado">
+        <!-- <button class="btn btn-primary" type="button" (click)="cerrarescaner()">Cerrar ESCANER</button> -->
+        <!-- <label class="input-group-text text-info">Lote:</label> -->
+        <!-- <input placeholder="Ingresar Lote" class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="LoteProductoIngresado">
 
 
 
@@ -157,247 +260,270 @@
 
                     <div class="col-2">
                         <button [disabled]="!ClaveProductoIngresado || !LoteProductoIngresado" class="btn btn-primary" type="button" (click)="IngresarProducto(ClaveProductoIngresado, LoteProductoIngresado)">Ingresar Producto</button> -->
-                <!-- <zxing-scanner (camerasFound)="camaras($event)" [enable]="enableScan" (scanSuccess)='escaner($event)'></zxing-scanner> -->
-                <!-- </div> -->
+        <!-- <zxing-scanner (camerasFound)="camaras($event)" [enable]="enableScan" (scanSuccess)='escaner($event)'></zxing-scanner> -->
+        <!-- </div> -->
 
 
-                <!-- <div class="scanner-shell" [hidden]="!hasDevices"> -->
+        <!-- <div class="scanner-shell" [hidden]="!hasDevices"> -->
 
 
-                <!-- <zxing-scanner #scanner start="true" [device]="currentDevice" (scanSuccess)="handleQrCodeResult($event)" [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']"></zxing-scanner>
+        <!-- <zxing-scanner #scanner start="true" [device]="currentDevice" (scanSuccess)="handleQrCodeResult($event)" [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']"></zxing-scanner>
 
                     <section class="results" *ngIf="qrResultString">
                         <small>Result</small>
                         <strong>{{ qrResultString}}</strong>
                     </section> -->
 
-                <!-- </div> -->
-                <hr>
-                <h5>Tabla de Productos</h5>
+        <!-- </div> -->
+        <hr>
+        <div *ngIf="seleccionManual == true">
 
-                <div style="overflow:auto;">
-                    <table mat-table [dataSource]="listData" matSort>
 
-                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <h5>Tabla de Productos</h5>
 
-                        <ng-container matColumnDef="ClaveProducto">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
-                            <!-- style="background-color: red;" -->
-                            <td mat-cell *matCellDef="let element">
-                                <div *ngIf="element.productoValido == false; else elseBlock" style="background-color: blue;">
-                                    {{element.ClaveProducto}}
-                                </div>
-                                <ng-template #elseBlock>
-                                    {{element.ClaveProducto}}
+          <div style="overflow:auto;">
+            <table mat-table [dataSource]="listData" matSort>
 
-                                </ng-template>
-                                <!-- <div *ngIf="element.IdOrdenCarga == 0" style="background-color: red;">
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+              <ng-container matColumnDef="ClaveProducto">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
+                <!-- style="background-color: red;" -->
+                <td mat-cell *matCellDef="let element">
+                  <div *ngIf="element.productoValido == false; else elseBlock" style="background-color: blue;">
+                    {{element.ClaveProducto}}
+                  </div>
+                  <ng-template #elseBlock>
+                    {{element.ClaveProducto}}
+
+                  </ng-template>
+                  <!-- <div *ngIf="element.IdOrdenCarga == 0" style="background-color: red;">
                                     {{element.ClaveProducto}}
                                 </div>
                                 <div *ngIf="element.IdOrdenCarga > 0">
                                     {{element.ClaveProducto}}
                                 </div> -->
-                            </td>
+                </td>
 
-                        </ng-container>
+              </ng-container>
 
-                        <ng-container matColumnDef="Lote">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
-                            <td mat-cell *matCellDef="let element">{{element.Lote}}</td>
-                        </ng-container>
+              <ng-container matColumnDef="Lote">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                <td mat-cell *matCellDef="let element">{{element.Lote}}</td>
+              </ng-container>
 
-                        <ng-container matColumnDef="Sacos">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Kilogramos</th>
-                            <td mat-cell *matCellDef="let element">{{element.PesoTotal}} Kg</td>
-                        </ng-container>
+              <ng-container matColumnDef="Sacos">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Kilogramos</th>
+                <td mat-cell *matCellDef="let element">{{element.PesoTotal}} Kg</td>
+              </ng-container>
 
-                        <ng-container matColumnDef="sacosSobra">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Kilogramos Sobrantes</th>
-                            <td mat-cell *matCellDef="let element">
-                                <div *ngIf="element.sacosSobra > 0; else elseBlockSobra" style="background-color: green;">
-                                    {{element.sacosSobra}} Kg
-                                </div>
-                                <ng-template #elseBlockSobra>
-                                    {{element.sacosSobra}} Kg
-                                </ng-template>
-                            </td>
-                        </ng-container>
+              <ng-container matColumnDef="sacosSobra">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Kilogramos Sobrantes</th>
+                <td mat-cell *matCellDef="let element">
+                  <div *ngIf="element.sacosSobra > 0; else elseBlockSobra" style="background-color: green;">
+                    {{element.sacosSobra}} Kg
+                  </div>
+                  <ng-template #elseBlockSobra>
+                    {{element.sacosSobra}} Kg
+                  </ng-template>
+                </td>
+              </ng-container>
 
-                        <ng-container matColumnDef="Comentarios">
+              <!-- <ng-container matColumnDef="Comentarios">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Comentarios</th>
                             <td mat-cell *matCellDef="let element">{{element.Comentarios}}</td>
-                        </ng-container>
+                        </ng-container> -->
 
-                        <ng-container matColumnDef="Options">
-                            <th mat-header-cell *matHeaderCellDef>Options</th>
-                            <td mat-cell *matCellDef="let row; let i = index">
+              <ng-container matColumnDef="Options">
+                <th mat-header-cell *matHeaderCellDef>Options</th>
+                <td mat-cell *matCellDef="let row; let i = index">
 
-                                <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                  <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                                     <mat-icon>keyboard_arrow_down</mat-icon>
                                   </button> -->
-                                <!-- <mat-menu #menu="matMenu"> -->
-                                <!--  -->
-                                <div *ngIf="row.productoValido == false; else elseBlock">
+                  <!-- <mat-menu #menu="matMenu"> -->
+                  <!--  -->
+                  <div *ngIf="row.productoValido == false; else elseBlock">
 
-                                    <!-- <button mat-icon-button class="btn btn-success" color="black" (click)="traspasoOrdenCarga(row)">
+                    <!-- <button mat-icon-button class="btn btn-success" color="black" (click)="traspasoOrdenCarga(row)">
                     <mat-icon>redo</mat-icon>
                   </button> -->
-                                </div>
-                                <ng-template #elseBlock>
-                                    <!-- {{element.ClaveProducto}} -->
-                                    <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
+                  </div>
+                  <ng-template #elseBlock>
+                    <!-- {{element.ClaveProducto}} -->
+                    <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
                     <mat-icon>edit</mat-icon>
-                  </button>
-                                    <button mat-icon-button class="btn btn-red" (click)="eliminarProductoTablaIngreso(row)">
-                    <mat-icon>clear</mat-icon>
-                  </button>
-                                    <!-- <button mat-icon-button class="btn btn-success" color="dark" (click)="traspasoOrdenCarga(row)">
+                  </button> -->
+                    <button mat-icon-button class="btn btn-red" (click)="eliminarProductoTablaIngreso(row)">
+                      <mat-icon>clear</mat-icon>
+                    </button>
+                    <!-- <button mat-icon-button class="btn btn-success" color="dark" (click)="traspasoOrdenCarga(row)">
                     <mat-icon>redo</mat-icon>
                   </button> -->
-                                </ng-template>
-                                <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
+                  </ng-template>
+                  <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
                                                             <mat-icon>edit</mat-icon>
                                                         </button> -->
-                                <!--  -->
-                                <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteRowTablaV(i)">
+                  <!--  -->
+                  <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteRowTablaV(i)">
                                                                 <mat-icon>delete_outline</mat-icon>
                                                             </button> -->
-                                <!-- </mat-menu> -->
-                            </td>
-                        </ng-container>
+                  <!-- </mat-menu> -->
+                </td>
+              </ng-container>
 
 
-                    </table>
-                    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
-                    </mat-paginator>
-                    <div class="container" style="margin-right: 0;">
-                        <div class="row">
-                            <div class="col-0 col-md-8"></div>
-                            <div class="col-12 col-md-2">
-                                <div *ngIf="showButtonAceptar == true">
-                                    <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="Aceptar()">Aceptar</button>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <div *ngIf="showButtonCancelar == true">
-                                    <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="Cancelar()">Cancelar</button>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-
+            </table>
+            <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+            </mat-paginator>
+            <div class="container" style="margin-right: 0;">
+              <div class="row">
+                <div class="col-0 col-md-8"></div>
+                <div class="col-12 col-md-2">
+                  <div *ngIf="showButtonAceptar == true">
+                    <button class="btn btn-info btn-lg" mat-raised-button type="button"
+                      (click)="Aceptar()">Aceptar</button>
+                  </div>
                 </div>
+                <div class="col-12 col-md-2">
+                  <div *ngIf="showButtonCancelar == true">
+                    <button class="btn btn-info btn-lg" mat-raised-button type="button"
+                      (click)="Cancelar()">Cancelar</button>
 
-                <hr>
-                <!-- <hr> -->
-                <h3>Tabla de Salida de Producto</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                <div style="overflow:auto;">
-                    <table mat-table [dataSource]="listDataOrdenTemporal" matSort>
 
-                        <tr mat-header-row *matHeaderRowDef="displayedColumnsOrdenTemporal"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedColumnsOrdenTemporal;"></tr>
 
-                        <!-- <ng-container matColumnDef="Options1">
+          </div>
+        </div>
+
+        <hr>
+        <!-- <hr> -->
+
+        <div class="row">
+
+          <div class="col-12 col-md-9">
+            <h3>Tabla de Salida de Producto</h3>
+          </div>
+          <div class="col-12 col-md-3">
+            {{KilogramosTotales | number: '1.0-0' }} Kg.
+          </div>
+        </div>
+
+        <div style="overflow:auto;">
+          <table mat-table [dataSource]="listDataOrdenTemporal" matSort>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsOrdenTemporal"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsOrdenTemporal;"></tr>
+
+            <!-- <ng-container matColumnDef="Options1">
                             <th mat-header-cell *matHeaderCellDef>Options</th>
                             <td mat-cell *matCellDef="let row; let i = index"> -->
 
-                        <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                                     <mat-icon>keyboard_arrow_down</mat-icon>
                                   </button> -->
-                        <!-- <mat-menu #menu="matMenu"> -->
-                        <!--  -->
-                        <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
+            <!-- <mat-menu #menu="matMenu"> -->
+            <!--  -->
+            <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
                                                             <mat-icon>edit</mat-icon>
                                                         </button> -->
-                        <!--  -->
-                        <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="regresarConceptos(row)">
+            <!--  -->
+            <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="regresarConceptos(row)">
                   <mat-icon>undo</mat-icon>
                 </button> -->
-                        <!-- </mat-menu> -->
-                        <!-- </td> -->
-                        <!-- </ng-container> -->
+            <!-- </mat-menu> -->
+            <!-- </td> -->
+            <!-- </ng-container> -->
 
-                        <!-- <ng-container matColumnDef="QR">
+            <!-- <ng-container matColumnDef="QR">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo QR</th>
                             <td mat-cell *matCellDef="let elementOT">{{elementOT.QR}}</td>
                         </ng-container> -->
 
-                        <ng-container matColumnDef="ClaveProducto">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
-                            <td mat-cell *matCellDef="let elementOT">{{elementOT.ClaveProducto}}</td>
-                        </ng-container>
+            <ng-container matColumnDef="Factura">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>N. Factura</th>
+              <td mat-cell *matCellDef="let elementOT">{{elementOT.NumeroFactura}}</td>
+            </ng-container>
+            <ng-container matColumnDef="Entrada">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>N. Entrada</th>
+              <td mat-cell *matCellDef="let elementOT">{{elementOT.NumeroEntrada}}</td>
+            </ng-container>
+            <ng-container matColumnDef="ClaveProducto">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
+              <td mat-cell *matCellDef="let elementOT">{{elementOT.ClaveProducto}}</td>
+            </ng-container>
 
-                        <ng-container matColumnDef="Producto">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
-                            <td mat-cell *matCellDef="let elementOT">{{elementOT.Producto}}</td>
-                        </ng-container>
+            <ng-container matColumnDef="Producto">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+              <td mat-cell *matCellDef="let elementOT">{{elementOT.Producto}}</td>
+            </ng-container>
 
-                        <ng-container matColumnDef="Lote">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
-                            <td mat-cell *matCellDef="let elementOT">{{elementOT.Lote}}</td>
-                        </ng-container>
-                        <!-- 
+            <ng-container matColumnDef="Lote">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+              <td mat-cell *matCellDef="let elementOT">{{elementOT.Lote}}</td>
+            </ng-container>
+            <!-- 
                         <ng-container matColumnDef="Sacos">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
                             <td mat-cell *matCellDef="let elementOT">{{elementOT.Sacos}}</td>
                         </ng-container> -->
 
-                        <ng-container matColumnDef="PesoTotal">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Kilogramos</th>
-                            <td mat-cell *matCellDef="let elementOT">{{elementOT.PesoTotal}} Kg</td>
-                        </ng-container>
+            <ng-container matColumnDef="PesoTotal">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Kilogramos</th>
+              <td mat-cell *matCellDef="let elementOT">{{elementOT.PesoTotal}} Kg</td>
+            </ng-container>
 
-                        <ng-container matColumnDef="FechaCaducidad">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Caducidad</th>
-                            <td mat-cell *matCellDef="let elementOT">{{elementOT.FechaCaducidad}}</td>
-                        </ng-container>
+            <ng-container matColumnDef="FechaCaducidad">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Caducidad</th>
+              <td mat-cell *matCellDef="let elementOT">{{elementOT.FechaCaducidad}}</td>
+            </ng-container>
 
-                        <ng-container matColumnDef="Comentarios">
+            <!-- <ng-container matColumnDef="Comentarios">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Comentarios</th>
                             <td mat-cell *matCellDef="let elementOT">{{elementOT.Comentarios}}</td>
-                        </ng-container>
+                        </ng-container> -->
 
-                        <ng-container matColumnDef="Options">
-                            <th mat-header-cell *matHeaderCellDef>Options</th>
-                            <td mat-cell *matCellDef="let row; let i = index">
+            <ng-container matColumnDef="Options">
+              <th mat-header-cell *matHeaderCellDef>Options</th>
+              <td mat-cell *matCellDef="let row; let i = index">
 
-                                <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                                     <mat-icon>keyboard_arrow_down</mat-icon>
                                   </button> -->
-                                <!-- <mat-menu #menu="matMenu"> -->
-                                <!--  -->
-                                <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
+                <!-- <mat-menu #menu="matMenu"> -->
+                <!--  -->
+                <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
                                                             <mat-icon>edit</mat-icon>
                                                         </button> -->
-                                <!--  -->
-                                <!-- <button mat-icon-button class="btn btn-success" color="dark" (click)="traspasoOrdenCargaTemporal(row)">
+                <!--  -->
+                <!-- <button mat-icon-button class="btn btn-success" color="dark" (click)="traspasoOrdenCargaTemporal(row)">
                   <mat-icon>redo</mat-icon>
                 </button> -->
-                                <!-- </mat-menu> -->
-                                <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteOrdenTemporal(row)">
-                                            <mat-icon>delete_outline</mat-icon>
-                                        </button>
-                            </td>
-                        </ng-container>
+                <!-- </mat-menu> -->
+                <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteOrdenTemporal(row)">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              </td>
+            </ng-container>
 
 
-                    </table>
-                    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
-                    </mat-paginator>
-                </div>
+          </table>
+          <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+          </mat-paginator>
+        </div>
 
-                <!-- <hr>
+        <!-- <hr>
                  -->
 
-                <hr>
+        <hr>
 
-                <!-- <hr> -->
-                <div *ngIf="MostrarConceptos == true">
+        <!-- <hr> -->
+        <!-- <div *ngIf="MostrarConceptos == true">
 
                     <h3>Tabla de Productos Faltantes</h3>
 
@@ -423,56 +549,60 @@
                             </ng-container>
 
                             <ng-container matColumnDef="Saldo">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo</th>
-                                <td mat-cell *matCellDef="let elementOT">{{elementOT.Saldo}} Kg</td>
-                            </ng-container>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo Sacos</th>
+                                <td mat-cell *matCellDef="let elementOT">{{elementOT.Saldo}}</td>
+                            </ng-container> -->
 
-                            <!-- <ng-container matColumnDef="Options">
+        <!-- <ng-container matColumnDef="Options">
                                 <th mat-header-cell *matHeaderCellDef>Options</th>
                                 <td mat-cell *matCellDef="let row; let i = index"> -->
 
-                            <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                                         <mat-icon>keyboard_arrow_down</mat-icon>
                                     </button> -->
-                            <!-- <mat-menu #menu="matMenu"> -->
-                            <!--  -->
-                            <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
+        <!-- <mat-menu #menu="matMenu"> -->
+        <!--  -->
+        <!-- <button mat-icon-button class="btn btn-dark" (click)="onEdit(row, i)">
                                             <mat-icon>edit</mat-icon>
                                         </button> -->
-                            <!--  -->
-                            <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteOrdenTemporal(row)">
+        <!--  -->
+        <!-- <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteOrdenTemporal(row)">
                                             <mat-icon>delete_outline</mat-icon>
                                         </button> -->
-                            <!-- </mat-menu> -->
-                            <!-- </td>
+        <!-- </mat-menu> -->
+        <!-- </td>
                             </ng-container> -->
 
 
-                        </table>
+        <!-- </table>
                         <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
                         </mat-paginator>
                     </div>
-                </div>
+                </div> -->
 
-                <!-- <hr> -->
-                <div class="container" style="margin-right: 0;">
-                    <div class="row">
-                        <div class="col-md-4 col-12" style="display: grid">
-                            <button *ngIf="MostrarConceptos == false" class="btn btn-info btn-lg" mat-raised-button type="button" (click)="conceptosFaltantes()"><mat-icon>pending</mat-icon> Faltantes</button>
-                            <button *ngIf="MostrarConceptos == true" class="btn btn-info btn-lg" mat-raised-button type="button" (click)="ocultarConceptosFaltantes()"><mat-icon>arrow_drop_down_circle</mat-icon> Ocultar Tabla</button>
-                        </div>
-                        <!-- <div class="col-md-3 col-12" style="display: grid">
+        <!-- <hr> -->
+        <div class="container" style="margin-right: 0;">
+          <div class="row">
+            <div class="col-md-4 col-12" style="display: grid">
+              <!-- <button *ngIf="MostrarConceptos == false" mat-raised-button class="btn btn-prolacto btn-lg"  type="button" (click)="conceptosFaltantes()"><mat-icon>pending</mat-icon> Faltantes</button> -->
+              <!-- <button *ngIf="MostrarConceptos == true" mat-raised-button class="btn btn-prolacto btn-lg"  type="button" (click)="ocultarConceptosFaltantes()"><mat-icon>arrow_drop_down_circle</mat-icon> Ocultar Tabla</button> -->
+            </div>
+            <!-- <div class="col-md-3 col-12" style="display: grid">
                             <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="traspaso()"><mat-icon>sync_alt</mat-icon> Traspasar</button>
                         </div> -->
-                        <div class="col-md-4 col-12" style="display: grid">
-                            <button lass="btn btn-info btn-lg" mat-raised-button type="button" (click)="pdf()"><mat-icon>picture_as_pdf</mat-icon> PDF</button>
-                        </div>
-                        <div class="col-md-4 col-12" style="display: grid">
-                            <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)="finalizar()"><mat-icon>done_all</mat-icon> Finalizar</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-md-4 col-12" style="display: grid">
+              <button mat-raised-button class="btn btn-prolacto btn-lg" type="button" (click)="pdf()">
+                <mat-icon>picture_as_pdf</mat-icon> PDF
+              </button>
             </div>
+            <div class="col-md-4 col-12" style="display: grid">
+              <button mat-raised-button class="btn btn-prolacto btn-lg" type="button" (click)="finalizar()">
+                <mat-icon>done_all</mat-icon> Finalizar
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

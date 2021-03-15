@@ -47,8 +47,8 @@ export class LoginClienteComponent implements OnInit {
       token:'',
       user: {
         ID: 0,
-        RFC: 'ARA111012C82',
-        contra: '123',
+        RFC: '',
+        contra: '',
     
       }
     }
@@ -93,16 +93,56 @@ console.log(form.value.RFC);
    form.resetForm();
    this.service.formDatalogin = {
         ID: 0,
-        RFC: 'ARA111012C82',
-        contra: '123',
+        RFC: '',
+        contra: '',
    }
 
   }
 
-  borrar(){
-    localStorage.removeItem('ProlappSessionCliente');
-    localStorage.removeItem('ClienteId');
-    localStorage.removeItem('inicioCliente');
+  // borrar(){
+  //   localStorage.removeItem('ProlappSessionCliente');
+  //   localStorage.removeItem('ClienteId');
+  //   localStorage.removeItem('inicioCliente');
+  // }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    clearInterval(this.intervalUpdate);
   }
+
+  private intervalUpdate: any = null;
+  propiedad1 = 'block';
+  propiedad2 = 'none';
+  propiedad3 = 'none';
+
+  carruselimagenes(){
+    this.intervalUpdate = setInterval(function(){
+      console.log(this.numimagen);
+      
+      if (this.numimagen==1){
+
+        this.propiedad1 = 'block'
+        this.propiedad2 = 'none'
+        this.propiedad3 = 'none'
+      }else if(this.numimagen==2){
+        this.propiedad1 = 'none'
+        this.propiedad2 = 'block'
+        this.propiedad3 = 'none'
+      }else if(this.numimagen==3){
+        this.propiedad1 = 'none'
+        this.propiedad2 = 'none'
+        this.propiedad3 = 'block'
+        this.numimagen=0;
+      }else if(this.numimagen==4){
+        this.propiedad1 = 'none'
+        this.propiedad2 = 'none'
+        this.propiedad3 = 'none'
+        this.numimagen=0;
+      }
+      this.numimagen = this.numimagen + 1;
+      
+     }.bind(this), 4000);
+  }
+
 
 }

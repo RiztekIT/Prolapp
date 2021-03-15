@@ -30,6 +30,16 @@ import { environment } from '../environments/environment';
 import { DocumentosclienteComponent } from './documentoscliente/documentoscliente.component';
 import { ReportetotalesComponent } from './components/cxc/reportetotales/reportetotales.component';
 
+import { InicioComponent } from './components/inicio/inicio.component';
+
+//Modificacion del apartado Clientes/Usuario Login
+import { MatTabsModule, MatIconModule } from '@angular/material';
+
+/* import { PdfViewerModule } from 'ng2-pdf-viewer'; */
+
+
+
+
 
 
 
@@ -70,6 +80,9 @@ import { ReportetotalesComponent } from './components/cxc/reportetotales/reporte
     LoginClienteComponent,
     DocumentosclienteComponent,
     
+    InicioComponent,
+
+
     
     
     
@@ -98,7 +111,10 @@ import { ReportetotalesComponent } from './components/cxc/reportetotales/reporte
     HttpClientModule,
     BrowserAnimationsModule,
     ZXingScannerModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),     
+    MatTabsModule,
+    MatIconModule,
+    
     // NgbModule
   ],
   bootstrap: [AppComponent],

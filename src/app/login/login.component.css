@@ -40,3 +40,61 @@
     position: absolute;
     height: 100%;
 }
+
+#myVideo {
+    position: fixed;
+    right: 30%;
+    bottom: 25%;
+    width: 60%;
+    /* min-width: 100%;
+    min-height: 100%; */
+}
+
+.imagen {
+    max-width: 800px;
+    /* margin-top: 5%; */
+    animation: bounce;
+}
+
+.imagen2 {
+    max-width: 800px;
+    margin-top: -15%;
+    transition-property: opacity, left, top, height;
+    transition-duration: 3s, 5s;
+}
+
+.divimg {
+    text-align: center;
+    margin-top: 8%;
+    animation: fadeIn;
+    animation-duration: 2s;
+    /*  */
+}
+
+.example-tab-icon {
+    margin-right: 8px;
+}
+
+::ng-deep .mat-tab-label {
+    background-color: white !important;
+    color: black !important;
+}
+
+::ng-deep .mat-tab-label:hover {
+    background-color: black !important;
+    color: white !important;
+}
+
+::ng-deep .mat-tab-label:focus {
+    background-color: black !important;
+    color: white !important;
+}
+
+::ng-deep .mat-tab-label-active {
+    background-color: black !important;
+    color: white !important;
+}
+
+::ng-deep .mat-tab-body-content {
+    overflow: hidden !important;
+}

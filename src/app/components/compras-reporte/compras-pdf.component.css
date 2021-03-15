@@ -20,9 +20,12 @@ body {
 }
 
 .bolder {
-    font-weight: 900;
+    font-weight: 600;
+    font-size: 13px;
 }
-
+.textdt{
+    font-size: 11px;
+}
 .card-outline-inverse {
     background: #ffffff;
     border-color: #000000;

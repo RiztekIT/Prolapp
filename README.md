@@ -81,3 +81,28 @@ npm i ngx-device-detector@2.0.0
 
 ## UUID
 npm install uuid
+
+
+## Carrusel
+npm i ng-image-slider
+
+
+## Signalir
+npm i signalr
+
+
+## Exportar Mat-Table a excel
+npm install --save mat-table-exporter
+
+## iconos
+npm install @mdi/font
+
+## Imprimir html
+npm install ngx-simple-print --save
+
+## PDF Viewer
+npm i ngx-extended-pdf-viewer
+npm i ng2-pdf-viewer
+
+## Update zone.js
+npm i zone.js@0.10.3

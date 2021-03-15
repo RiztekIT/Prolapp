@@ -70,7 +70,67 @@ constructor(public router: Router,private service:CompraService, private dialog:
     
     this.obtenerCompras();
     this.tipoDeCambio();
+
+      //^ **** PRIVILEGIOS POR USUARIO *****
+      this.obtenerPrivilegios();
+      //^ **** PRIVILEGIOS POR USUARIO *****
   }
+
+  
+    
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    privilegios: any;
+    privilegiosExistentes: boolean = false;
+    modulo = 'Compras';
+    area = 'Compras';
+  
+    //^ VARIABLES DE PERMISOS
+    AgregarCompra: boolean = false;
+    AgregarCompraAdministrativa: boolean = false;
+    BorrarCompra: boolean = false;
+    EditarCompra: boolean = false;
+    //^ VARIABLES DE PERMISOS
+  
+  
+    obtenerPrivilegios() {
+      let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+      console.log(arrayPermisosMenu);
+      let arrayPrivilegios: any;
+      try {
+        arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+        // console.log(arrayPrivilegios);
+        arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+        // console.log(arrayPrivilegios);
+        this.privilegios = [];
+        arrayPrivilegios.privilegios.forEach(element => {
+          this.privilegios.push(element.nombreProceso);
+          this.verificarPrivilegio(element.nombreProceso);
+        });
+        // console.log(this.privilegios);
+      } catch {
+        console.log('Ocurrio algun problema');
+      }
+    }
+  
+    verificarPrivilegio(privilegio) {
+      switch (privilegio) {
+        case ('Agregar Compra'):
+          this.AgregarCompra = true;
+          break;
+        case ('Agregar Compra Administrativa'):
+          this.AgregarCompraAdministrativa = true;
+          break;
+        case ('Borrar Compra'):
+          this.BorrarCompra = true;
+          break;
+        case ('Editar Compra'):
+          this.EditarCompra = true;
+          break;
+        default:
+          break;
+      }
+    }
+    //^ **** PRIVILEGIOS POR USUARIO *****
 
   public listEstatus: Array<Object> = [
     { Estatus: 'Todos' },

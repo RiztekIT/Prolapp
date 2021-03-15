@@ -9,6 +9,12 @@ import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+import * as signalr from 'signalr'
+import { NotificacionesService } from '../../services/notificaciones.service';
+import { Notificaciones } from '../../Models/Notificaciones/notificaciones-model';
+import { Router } from '@angular/router';
+
+declare var $: any;
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -39,17 +45,53 @@ export class HeaderComponent implements OnInit {
   clienteLogin;
   public usuario: Usuario;
   public user;
+  public IdUser;
 
-  constructor(private http : HttpClient, public storageService: StorageServiceService, private tipoCambio:TipoCambioService, public enviarfact: EnviarfacturaService,public servicefactura: FacturaService,private service: ReciboPagoService, public serviceEmpresa: EmpresaService,private recibopagoSVC: ReciboPagoService) { }
+  titulo = '';
+  descripcion = '';
+  fecha = new Date();
+
+
+  /* SIGNALR */
+  private connection: any;
+  private proxy: any;  
+  private proxyName: string = 'AlertasHub'; 
+ 
+   private hubconnection: signalr;  
+   notihub = 'https://riztekserver.ddns.net:44361/signalr'
+  /* FIN */
+
+  constructor(private http : HttpClient, public storageService: StorageServiceService, private tipoCambio:TipoCambioService, public enviarfact: EnviarfacturaService,
+    public servicefactura: FacturaService,private service: ReciboPagoService, public serviceEmpresa: EmpresaService,
+    private recibopagoSVC: ReciboPagoService, public notificacionService: NotificacionesService,
+    private router:Router) { }
 
   ngOnInit() {
-    // console.log(localStorage.getItem("inicioCliente"));
+    this.ConnectionHub();
+
+this.NotificacionesActivas = false;
+    
+    
+
+
+
+    // //console.log(localStorage.getItem("inicioCliente"));
     this.obtenerEmpresa();
   this.clienteLogin = localStorage.getItem("inicioCliente");
     this.tipoDeCambio();
     this.usuario = this.storageService.getCurrentUser();
     this.getUsuario();
+   
   }
+
+  //Variables Notificaciones
+  //^ Indica si hay mensajes sin leer.
+  NotificacionesActivas: boolean;
+  //^ Indica la cantidad de Mensajes que hay sin leer.
+  cantidadMensajes: number = 0;
+  //^Arreglo de Notificaciones
+  notificaciones;
+  //Variables Notificaciones
 
   getUsuario(){
     
@@ -63,22 +105,110 @@ export class HeaderComponent implements OnInit {
 
     let u = JSON.parse(localStorage.getItem('ProlappSession'));
     // console.log(JSON.parse(localStorage.getItem('ProlappSession')));
+    // console.log(u);
+    
     this.user = u.user;
-
+    
     this.storageService.getUserAuth(this.user).subscribe(usuario=>{
       localStorage.setItem('userAuth',JSON.stringify(usuario[0]))
       this.storageService.currentUser = usuario[0];
-      console.log(this.storageService.currentUser);
+      // console.log(this.storageService.currentUser);
+      // console.log(this.storageService.currentUser.IdUsuario);
+      this.IdUser = this.storageService.currentUser.IdUsuario;
+      this.obtenerNotificaciones();
     })
 
     }
     
   }
 
+  //^ buscar mensajes/notificaciones del usuario Logeado.
+  obtenerNotificaciones(){
+    // console.log(this.user);
+    // console.log(this.IdUser);
+    //^ Iniciarlizar en 0s las variables
+    this.NotificacionesActivas = false;
+    this.cantidadMensajes = 0;
+    this.notificaciones = [];
+    // this.notificaciones[0].master = [];
+    // this.notificaciones[0].detalle = [];
+    this.notificacionService.getDetalleNotificacionIdUsuarioBandera(this.IdUser, 0).subscribe(resDetalle=>{
+      // console.log(resDetalle);
+      //^ verificar si hay mensajes sin leer
+      if(resDetalle.length>0){
+        
+        //^ Asignar valores
+        this.NotificacionesActivas = true;
+        this.cantidadMensajes = resDetalle.length;
+        // console.clear();
+      //^ Obtener Informacion de las Notificaciones
+        resDetalle.forEach((element, i )=> {  
+          // console.log(element);       
+          // console.log(i);
+          this.notificacionService.getNotificacionId(element.IdNotificacion).subscribe(resNotificacion=>{
+            //console.log(resNotificacion);
+            //^ Guardar Valores de la notificacion
+            this.notificaciones[i]= [];
+            this.notificaciones[i] = resNotificacion[0];
+            this.notificaciones[i].Detalle = element; 
+            //^ Asignar Colores del div
+            this.notificaciones[i].color = '#FFFFFF';
+            if(Math.abs(i % 2) == 1){
+              //console.log(i);
+              this.notificaciones[i].color = '#F0F0F0';
+            }
+            // this.notificaciones[i].push(element); 
+            
+            // this.notificaciones[i].push(resNotificacion[0])
+            //console.log(this.notificaciones);
+          })
+        });
+      }
+    })
+  }
+
+  mensajeLeido(todos, mensaje?){
+    //^ Verificar si se actualizaran todos los mensajes o solo el seleccionado
+    if(todos == 'uno'){
+      //console.log('Se ha leido el mensaje');
+      //console.log(mensaje);
+      //^ Actualizar Informacion del mensaje
+      let detalleNotificacion = mensaje.Detalle;
+      detalleNotificacion.BanderaLeido = 1;
+      detalleNotificacion.FechaLeido = new Date();
+      //console.log(detalleNotificacion);
+      this.notificacionService.updateDetalleNotificacion(detalleNotificacion).subscribe(resUpdate=>{
+        //console.log(resUpdate);
+        this.obtenerNotificaciones();
+      })
+    }else{
+        //console.log('Leer todos los mensajes');
+        let ultimoMensaje = this.notificaciones.length;
+        //^ Recorrer Arreglo de notificaciones para actualizarlas a Leidas        
+        this.notificaciones.forEach((element, i) => {
+          //console.log(i);
+          //console.log(ultimoMensaje);
+      //^ Actualizar Informacion del mensaje
+      let detalleNotificacion = element.Detalle;
+      detalleNotificacion.BanderaLeido = 1;
+      detalleNotificacion.FechaLeido = new Date();
+      //console.log(detalleNotificacion);
+      this.notificacionService.updateDetalleNotificacion(detalleNotificacion).subscribe(resUpdate=>{
+        //console.log(resUpdate);
+        if(ultimoMensaje == (i+1)){
+          //console.log('Ultimo mensaje');
+          this.obtenerNotificaciones();
+        }
+      })
+    });
+     
+    }
+  }
+
   obtenerEmpresa(){
     let empresa = JSON.parse(localStorage.getItem('Empresa'));
     if (empresa=[]){
-      console.log('vacio');
+      // //console.log('vacio');
       empresa = {
         'CP': 31150,
         'Calle': "Fernando Montes de Oca",
@@ -95,7 +225,7 @@ export class HeaderComponent implements OnInit {
         'Regimen': "General de leyes",
       }
     }
-    console.log(empresa);
+    //console.log(empresa);
 this.serviceEmpresa.empresaActual = empresa;
     this.enviarfact.empresa = empresa;
     this.enviarfact.rfc = empresa.RFC;
@@ -127,20 +257,24 @@ if (hora>10){
   i=1;
 }
     this.traerApi().subscribe(data => {
+      //console.log(data,'TIPODECAMBIO');
+      console.log(JSON.parse(data),'TIPOCAMBIO');
       let l;
+      let json = JSON.parse(data);
       
-      l = data.bmx.series[0].datos.length;
-      // console.log(i);
-      // console.log(l);
-      // console.log(data.bmx.series[0].datos.length);
-      // console.log(data.bmx.series[0].datos[l-i].dato);
+      //l = data.bmx.series[0].datos.length;
+      l = json.bmx.series[0].datos.length;
+      // //console.log(i);
+      // //console.log(l);
+      // //console.log(data.bmx.series[0].datos.length);
+      // //console.log(data.bmx.series[0].datos[l-i].dato);
       
       
-      this.Cdolar = data.bmx.series[0].datos[l-i].dato;
+      this.Cdolar = json.bmx.series[0].datos[l-i].dato;
       this.tipoCambio.TipoCambio = this.Cdolar;
       this.tipoCambio.TC();
-      // console.log('------CAMBIO------');
-      // console.log(this.tipoCambio.TipoCambio);
+      // //console.log('------CAMBIO------');
+      // //console.log(this.tipoCambio.TipoCambio);
       
     })
 
@@ -148,7 +282,11 @@ if (hora>10){
 
   traerApi(): Observable<any>{
 
-    return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
+    /* return this.http.get("https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions) */
+    //return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
+    
+    return this.http.get("https://riztek.com.mx/php/Prolacto/GET_TipoCambio.php"
+    )
 
   }
 
@@ -161,6 +299,56 @@ if (hora>10){
       this.storageService.logout();
     }
   }
+
+  //^ Comentado Temporalmente
+  verMensajes(mensaje){
+
+    // this.titulo = mensaje.titulo;
+    // this.descripcion = mensaje.descripcion;
+    // this.fecha = mensaje.fecha;
+
+  }
+
+
+  
+
+  ConnectionHub(){
+  
+
+
+    this.connection = $.hubConnection(this.notihub);
+  
+    this.proxy = this.connection.createHubProxy(this.proxyName); 
+  
+    this.proxy.on('AlertasHub', (data) => {  
+      console.log('received in SignalRService: ', data);  
+      this.obtenerNotificaciones();
+      
+  }); 
+  
+  
+  
+    this.connection.start().done((data: any) => {  
+      console.log('Now connected ' + data.transport.name + ', connection ID= ' + data.id);  
+      /* this.connectionEstablished.emit(true);  */ 
+      /* this.connectionExists = true;   */
+  })
+  }
+
+  verTodos(){
+    
+console.log(this.IdUser);
+    this.router.navigate(['/mensajes']);
+  }
+  public on() {  
+  let mensaje = {
+      titulo: 'Venta',
+      descripcion: 'Mensaje desde Ventas',
+      fecha: new Date()
+    }
+    this.proxy.invoke('NuevaNotificacion',mensaje);
+} 
+
 
 
 

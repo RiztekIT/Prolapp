@@ -7,11 +7,15 @@ import { stringify } from 'querystring';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 import Swal from 'sweetalert2';
-import { Observable, Subscriber } from 'rxjs';
+import { Observable, Subscriber, Subscription } from 'rxjs';
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { OrdenDescargaService } from '../../../services/almacen/orden-descarga/orden-descarga.service';
 import { OrdenSalidaComponent } from 'src/app/components/almacen/orden-salida/orden-salida.component';
 import { OrdenDescarga } from '../../../Models/almacen/OrdenDescarga/ordenDescarga-model';
+import { Incidencias } from 'src/app/Models/Incidencias/incidencias-model';
+import { IncidenciaAlmacenComponent } from 'src/app/components/almacen/incidencia-almacen/incidencia-almacen.component';
+import { IncidenciasService } from 'src/app/services/almacen/incidencias/incidencias.service';
+import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-producto/entrada-producto.component';
 @Component({
   selector: 'app-ordendescarga',
   templateUrl: './ordendescarga.component.html',
@@ -40,7 +44,8 @@ export class OrdendescargaComponent implements OnInit {
   arrOrdenDescarga: any;
   estatusSelect;
 
-  constructor(public router: Router, private service: OrdenDescargaService, private dialog: MatDialog) {
+  constructor(public router: Router, private service: OrdenDescargaService, private dialog: MatDialog,
+    private incidenciasService: IncidenciasService) {
     this.service.listen().subscribe((m: any) => {
       console.log(m);
       this.refreshOrdenDescargaList();
@@ -49,7 +54,66 @@ export class OrdendescargaComponent implements OnInit {
 
   ngOnInit() {
     this.refreshOrdenDescargaList();
+
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    this.obtenerPrivilegios();
+    //^ **** PRIVILEGIOS POR USUARIO *****
   }
+  ngOnDestroy(): void {
+    if(this.subs1){
+      this.subs1.unsubscribe();
+    }
+    if(this.subs2){
+      this.subs2.unsubscribe();
+    }
+  }
+
+
+  //^ **** PRIVILEGIOS POR USUARIO *****
+  privilegios: any;
+  privilegiosExistentes: boolean = false;
+  modulo = 'Almacen';
+  area = 'Orden de Descarga';
+
+  //^ VARIABLES DE PERMISOS
+  Editar: boolean = false;
+  Borrar: boolean = false;
+  //^ VARIABLES DE PERMISOS
+
+
+  obtenerPrivilegios() {
+    let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+    console.log(arrayPermisosMenu);
+    let arrayPrivilegios: any;
+    try {
+      arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+      // console.log(arrayPrivilegios);
+      arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+      // console.log(arrayPrivilegios);
+      this.privilegios = [];
+      arrayPrivilegios.privilegios.forEach(element => {
+        this.privilegios.push(element.nombreProceso);
+        this.verificarPrivilegio(element.nombreProceso);
+      });
+      // console.log(this.privilegios);
+    } catch {
+      console.log('Ocurrio algun problema');
+    }
+  }
+
+  verificarPrivilegio(privilegio) {
+    switch (privilegio) {
+      case ('Editar Orden de Descarga'):
+        this.Editar = true;
+        break;
+      case ('Borrar Orden de Descarga'):
+        this.Borrar = true;
+        break;
+      default:
+        break;
+    }
+  }
+  //^ **** PRIVILEGIOS POR USUARIO *****
 
   estatusCambio(event){
     // console.log(event);
@@ -74,15 +138,16 @@ if (this.estatusSelect==='Todos'){
   ];
 
 
-
+subs1 : Subscription
+subs2 : Subscription
   refreshOrdenDescargaList() {
     this.arrOrdenDescarga = this.service.getOrdenDescargaList();
-    this.arrOrdenDescarga.subscribe(data => {
+    this.subs1 = this.arrOrdenDescarga.subscribe(data => {
       console.log(data);
       for (let i = 0; i <= data.length - 1; i++) {
         this.service.master[i] = data[i];
         this.service.master[i].detalleOrdenDescarga = [];
-        this.service.getOrdenDescargaIDList(data[i].IdOrdenDescarga).subscribe(res => {
+      this.subs2 =  this.service.getOrdenDescargaIDList(data[i].IdOrdenDescarga).subscribe(res => {
           console.log(res);
           for (let l = 0; l <= res.length - 1; l++) {
             this.service.master[i].detalleOrdenDescarga.push(res[l]);
@@ -113,16 +178,24 @@ if (this.estatusSelect==='Todos'){
   }
 
   openrep(row) {
-
-    this.service.formrow = row;
-    console.log(this.service.formrow);
+console.log(row);
     // this.service.formrow = row;
-    // console.log();
+    // console.log(this.service.formrow);
+    // // this.service.formrow = row;
+    // // console.log();
+    // const dialogConfig = new MatDialogConfig();
+    // dialogConfig.disableClose = false;
+    // dialogConfig.autoFocus = true;
+    // dialogConfig.width = "70%";
+    // this.dialog.open(OrdenSalidaComponent, dialogConfig);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "70%";
-    this.dialog.open(OrdenSalidaComponent, dialogConfig);
+    dialogConfig.data = {
+     IdOrdenDescarga: row.IdOrdenDescarga
+    }
+    this.dialog.open(EntradaProductoComponent, dialogConfig);
   }
 
   onEdit(ordenDescarga: OrdenDescarga) {
@@ -135,7 +208,7 @@ if (this.estatusSelect==='Todos'){
     console.log(localStorage.getItem('IdOrdenDescarga'));
 
 
-    if (ordenDescarga.Origen == "PasoTx") {
+    if (ordenDescarga.Origen != "COMPRA") {
       this.router.navigate(['/ordenDescargadetallecuu']);
     } else {
       this.router.navigate(['/ordenDescargadetalle']);
@@ -145,4 +218,84 @@ if (this.estatusSelect==='Todos'){
   }
 
 
+
+  public incidenciaBlanco: Incidencias ={
+    IdIncidencia: 0,
+    Folio: null,
+    FolioProcedencia: null,
+    TipoIncidencia: "",
+    Procedencia: "",
+    IdDetalle: null,
+    Cantidad: "",
+    Estatus: "Creada",
+    FechaElaboracion: new Date(),
+    FechaFinalizacion: new Date(0),
+    Observaciones: ""
+  }
+
+  IncidenciasRow(row?){
+    console.clear();
+
+    console.log('%c⧭', 'color: #994d75', row);
+
+this.incidenciasService.GetIncidenciaFolioProcedencia(row.Folio, 'OrdenDescarga').subscribe(resIP => {
+ this.incidenciasService.incidenciaObject = new Incidencias()
+ if (resIP.length > 0) {
+   console.log('%c⧭', 'color: #d0bfff', resIP);
+   console.log('%c⧭', 'color: #33cc99', resIP[0].FolioProcedencia);
+   // let folioP = resIP[0].FolioProcedencia
+   
+   console.log('%c%s', 'color: #7f2200', 'si hay');
+   
+   this.incidenciasService.incidenciaObject.FolioProcedencia = row.Folio;
+   this.incidenciasService.incidenciaObject.Procedencia = resIP[0].Procedencia;
+   // this.incidenciasService.incidenciaObject.IdDetalle = resIP[0].IdDetalle;
+   console.log('%c⧭', 'color: #364cd9', this.incidenciasService.incidenciaObject);
+   
+   
+   
+   const dialogConfig = new MatDialogConfig();
+   dialogConfig.disableClose = true;
+   dialogConfig.autoFocus = true;
+   dialogConfig.height = "90%";
+   dialogConfig.data = {
+     modulo: 'OrdenDescarga',
+   }
+   this.dialog.open(IncidenciaAlmacenComponent, dialogConfig);
+ }else{
+   // !FUNCIONA SI NO HAY EXISTENTE
+   console.log('%c%s', 'color: #e5de73', 'No hay');
+   console.log('%c⧭', 'color: #ffa280', this.incidenciaBlanco);
+
+   this.incidenciasService.incidenciaObject = null;
+     this.incidenciasService.getIncidenciaNewFolio().subscribe(resFolio=>{
+       console.log(resFolio);
+       this.incidenciaBlanco.Folio = +resFolio;
+       this.incidenciaBlanco.Procedencia = 'OrdenDescarga'
+       this.incidenciaBlanco.FolioProcedencia = row.Folio
+       this.incidenciaBlanco.IdDetalle = row.IdOrdenCarga
+       console.log('%c⧭', 'color: #ffa280', this.incidenciaBlanco);
+       this.incidenciasService.addIncidencia(this.incidenciaBlanco).subscribe(resAdd=>{
+         console.log(resAdd);
+         this.incidenciasService.getIncidenciaFolio(+resFolio).subscribe(resIncidencia=>{
+           console.log(resIncidencia[0]);
+           this.incidenciasService.incidenciaObject = resIncidencia[0];
+           const dialogConfig = new MatDialogConfig();
+           dialogConfig.disableClose = true;
+           dialogConfig.autoFocus = true;
+           dialogConfig.height = "90%";
+           dialogConfig.data = {
+             modulo: 'OrdenDescarga',
+           }
+           this.dialog.open(IncidenciaAlmacenComponent, dialogConfig);
+         })
+       })
+     })
+
+ }
+
+})
+
+
+}
 }

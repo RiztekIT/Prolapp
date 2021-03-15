@@ -11,7 +11,8 @@ import { preOrdenTemporalOD } from '../../../Models/almacen/OrdenTemporal/preOrd
 import { preOrdenTemporalODSacos } from 'src/app/Models/almacen/OrdenTemporal/preOrdenTemporalODSacos-model';
 
 export const APIUrl = environment.APIUrl;
-//export const APIUrl = "http://riztekserver.ddns.net:44361/api";
+// export const APIUrl = "http://riztekserver.ddns.net:44361/api";
+// export const APIUrl = 'https://localhost:44361/api';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class OrdenTemporalService {
   constructor(private http:HttpClient) { }
 
    //Tabla previsualizacion
-   preOrdenTemporal = new Array<preOrdenTemporal>();
+   preOrdenTemporal = new Array<any>();
    //Tabla previsualizacion OD
    preOrdenTemporalOD = new Array<preOrdenTemporalOD>();
    //Tabla previsualizacion OD
@@ -46,6 +47,8 @@ export class OrdenTemporalService {
    ordenTemporalt: OrdenTemporal;
    //Sacos a modificar en edit de OD
    sacosETOD: number;
+   //Kilogramos a modificar en edit de OD
+   kgETOD: number;
    //obtener el peso del saco para sacar el peso total en edit de OD
    pesoETOD: number;
 

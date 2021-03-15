@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h2 style="text-align: start;">Cobranza</h2>
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <mat-button-toggle-group #group="matButtonToggleGroup">
+                            <mat-button-toggle value="MX" aria-label="Text align left" (change)='cambio($event)'>
+                                <mat-icon>attach_money </mat-icon>
+                            </mat-button-toggle>
+                            <mat-button-toggle value="DLLS" aria-label="Text align center" (change)='cambio($event)'>
+                                <mat-icon>monetization_on</mat-icon>
+                            </mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <mat-slide-toggle class="example-margin btncoti" [(ngModel)]="checked" (change)='tipoCliente($event)'>
+                            Todos los Clientes
+                        </mat-slide-toggle>
+
+                        <mat-select *ngIf="!checked">
+                            <mat-option *ngFor="let cliente of listaClientes" [value]="cliente" (onSelectionChange)='reporteCliente($event)'>{{cliente.Nombre}}</mat-option>
+                        </mat-select>
+                    </div>
+                </div>
+                <div style="display: block">
+                    <canvas baseChart [datasets]="barChartData" [colors]="lineChartColors" [labels]="barChartLabels" [options]="barChartOptions" [legend]="barChartLegend" [chartType]="barChartType">
+                        </canvas>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

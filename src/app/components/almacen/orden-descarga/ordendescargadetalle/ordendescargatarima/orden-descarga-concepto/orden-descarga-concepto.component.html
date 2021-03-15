@@ -1,9 +1,9 @@
 <div class="d-flex justify-content-between m-2">
-    <h4>Concepto</h4>
+  <h4>Concepto</h4>
 
-    <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
+  <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
     <mat-icon>close</mat-icon>
-</button>
+  </button>
 
 
 </div>
@@ -14,43 +14,77 @@
 <div style="overflow: auto; height: 450px;">
 
 
-    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+  <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
 
 
-        <div class="form-material">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
+    <div class="form-material">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
 
 
-                        <label class="input-group-text text-info">Clave Producto</label>
-                        <input readonly="readonly" type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.ClaveProducto">
+            <label class="input-group-text text-info">Clave Producto</label>
+            <input readonly="readonly" type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel"
+              [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.ClaveProducto">
 
-                        <label class="input-group-text text-info">Producto</label>
-                        <input readonly="readonly" type="text" class="form-control" name="Producto" #Producto="ngModel" [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.Producto">
+            <label class="input-group-text text-info">Producto</label>
+            <input readonly="readonly" type="text" class="form-control" name="Producto" #Producto="ngModel"
+              [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.Producto">
 
-                        <label class="input-group-text text-info">Lote</label>
-                        <input readonly="readonly" type="text" class="form-control" name="Lote" #Lote="ngModel" [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.Lote">
+            <label class="input-group-text text-info">Fecha de Manufactura</label>
+
+            <mat-datepicker-toggle [disabled]="this.estatusOD == 'Descargada'" matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <input readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control"
+              name="FechaMFG" #FechaMFG="ngModel" [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.FechaMFG">
+            <mat-datepicker #picker2></mat-datepicker>
+
+            <label class="input-group-text text-info">Fecha de Caducidad</label>
+
+            <mat-datepicker-toggle [disabled]="this.estatusOD == 'Descargada'" matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <input readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control"
+              name="FechaCaducidad" #FechaCaducidad="ngModel"
+              [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.FechaCaducidad">
+            <mat-datepicker #picker1></mat-datepicker>
 
 
-                    </div>
-                    <div class="col-lg-6">
 
-                        <label class="input-group-text text-info">Sacos</label>
-                        <input type="number" class="form-control" id="sacos" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="cantidadSacos" (ngModelChange)="onChangeCantidadSacos($event)">
 
-                        <!-- <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched ||cantidadSacos == 0">
+          </div>
+          <div class="col-lg-6">
+
+            <label class="input-group-text text-info">Kilogramos</label>
+            <input [disabled]="this.estatusOD == 'Descargada'" type="number" class="form-control" id="sacos" name="Cantidad" #Cantidad="ngModel"
+              [(ngModel)]="cantidadKg" (ngModelChange)="onChangeCantidadSacos($event)">
+
+            <label class="input-group-text text-info">Lote</label>
+            <input [disabled]="this.estatusOD == 'Descargada'" type="text" class="form-control" name="Lote" #Lote="ngModel"
+              [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.Lote">
+
+            <label class="input-group-text text-info">Numero Factura</label>
+            <input [disabled]="this.estatusOD == 'Descargada'" type="text" class="form-control" name="factura" #factura="ngModel"
+              [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.NumeroFactura">
+
+            <label class="input-group-text text-info">Numero Entrada</label>
+            <input type="text" class="form-control" name="entrada" #entrada="ngModel"
+              [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.NumeroEntrada">
+
+            <label class="input-group-text text-info">PO</label>
+            <input [disabled]="this.estatusOD == 'Descargada'" type="text" class="form-control" name="po" #po="ngModel"
+              [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.CampoExtra1">
+
+            <!-- <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched ||cantidadSacos == 0">
                             Favor de Ingresar un valor mayor a 0.
                         </div> -->
 
-                        <label class="input-group-text text-info">Comentarios</label>
-                        <input type="text" class="form-control" name="Comentario" #Comentario="ngModel" [(ngModel)]="Comentarios">
-                    </div>
-                </div>
-                <br>
-                <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid || cantidadSacos==0">Actualizar Concepto</button>
-                <br>
-            </div>
+            <!-- <label class="input-group-text text-info">Comentarios</label> -->
+            <!-- <input type="text" class="form-control" name="Comentario" #Comentario="ngModel" [(ngModel)]="Comentarios"> -->
+          </div>
         </div>
-    </form>
+        <br>
+        <button class="btn btn-success" mat-raised-button color="success" type="submit"
+          [disabled]="form.invalid || cantidadSacos==0">Actualizar Concepto</button>
+        <br>
+      </div>
+    </div>
+  </form>
 </div>

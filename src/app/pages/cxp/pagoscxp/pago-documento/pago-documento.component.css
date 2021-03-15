@@ -2,3 +2,12 @@
     background-color: #000000;
     color: white
 }
+.btn-prolacto {
+    background-color: black;
+    color: white
+}
+
+.btn-prolacto:hover {
+    background-color: white;
+    color: black
+}

@@ -1,1 +1,434 @@
-<p>pago-nomina works!</p>
+<!-- <div class="card" style="height: 80vh;"> -->
+<div class="card">
+    <div class="card-body">
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-11">
+                    <h2 *ngIf="this.futuro" style="text-align: center;">Otros gastos</h2>
+                    <h2 *ngIf="!this.futuro" style="text-align: center;">Otros Pagos</h2>
+                    <!-- <h4>Estatus: -->
+                    <!-- <span class="label label-light-warning">{{estatusOC}}</span> -->
+                    <!-- </h4> -->
+                </div>
+                <div class="col-1">
+
+                    <mat-slide-toggle [(ngModel)]="this.futuro"> A Futuro </mat-slide-toggle>
+
+                    <!--     <button mat-fab (click)="onClose()" class="btncoti">
+                            <mat-icon>undo</mat-icon>
+                          </button> -->
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <mat-form-field style="width: 100% !important;">
+                    <mat-label> Proveedor </mat-label>
+                    <input type="text" placeholder="Seleccionar Proveedor" aria-label="Number" [formControl]="myControlProveedor" [(ngModel)]="IdProveedor" matInput [matAutocomplete]="autoProveedor">
+                    <mat-autocomplete #autoProveedor="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredOptionsProveedor | async" [value]="option.IdProveedor" (onSelectionChange)="onSelectionChangeProveedor(option, $event)">
+                            {{option.IdProveedor}} {{option.Nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-12">
+                <input readonly placeholder="Proveedor No seleccionado" type="text" class="form-control" [(ngModel)]="compra.Proveedor" name="first">
+            </div>
+
+        </div>
+        <div *ngIf="this.futuro" class="form-material">
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-md-3 col-12">
+                        <label class="input-group-text text-info">Concepto :</label>
+                        <input required type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="detalleCompra.Producto">
+                    </div>
+                    <div class="col-md-3 col-12">
+                        <label class="input-group-text text-info"> Costo :</label>
+                        <input required type="number" [disabled]="!detalleCompra.Producto" class="form-control" name="PrecioUnitario" #PrecioUnitario="ngModel" [(ngModel)]="ProductoPrecio">
+                    </div>
+                    <div class="col-md-3 col-12">
+                        <label class="input-group-text text-info">Fecha de Pago:</label>
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <input type="text" readonly="readonly" [matDatepicker]="picker2" class="form-control" name="FechaPromesa" #FechaPromesa="ngModel" [(ngModel)]="compra.FechaPromesa">
+                        <mat-datepicker #picker2></mat-datepicker>
+
+                    </div>
+                    <div class="col-md-3 col-12">
+                        <label class="input-group-text text-info txt"> Numero Documento: </label>
+                        <input type="text" class="form-control" name="FolioDocumento" #FolioDocumento="ngModel" [(ngModel)]="compra.PO">
+                    </div>
+                    <!--    <div class="col-md-6 col-12">
+
+                        <label class="input-group-text text-info"> Cantidad:</label>
+                        <input required  type="number" class="form-control" name="Cantidad" [(ngModel)]="Cantidad" (blur)="calcularTotal()">
+
+                    </div> -->
+                </div>
+
+                <div class="row">
+                    <div class="col-md-9 col-12">
+
+                    </div>
+                    <div class="col-md-3 col-12">
+                        <button class="btn btn-prolacto" mat-raised-button type="button" (click)="newGasto()">Generar Gasto</button>
+                        <!-- <button *ngIf="pagoService.nuevoPago == false" [disabled]="form.invalid" class="btn btn-prolacto" mat-raised-button type="button" (click)="updatePago()">Actualizar Pago</button> -->
+                    </div>
+                </div>
+            </div>
+
+
+            <div style="overflow:auto;">
+
+                <table mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+
+                    <ng-container matColumnDef="Folio" sticky>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Folio</th>
+                        <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Folio}} +
+                            <td>
+                    </ng-container>
+
+
+
+                    <ng-container matColumnDef="PO">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>PO</th>
+                        <td mat-cell *matCellDef="let element">{{element.PO}}
+                            <td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Proveedor">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Proveedor</th>
+                        <td mat-cell *matCellDef="let element">{{element.Proveedor}}
+
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="PesoTotal">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
+                        <td mat-cell *matCellDef="let element">{{element.Total}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="FechaElaboracion">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Elaboracion</th>
+                        <td mat-cell *matCellDef="let element">{{element.FechaElaboracion | date: 'yyyy/MM/dd'}}
+                            <td>
+                    </ng-container>
+                    <ng-container matColumnDef="FechaPromesa">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Promesa</th>
+                        <td mat-cell *matCellDef="let element">{{element.FechaPromesa | date: 'yyyy/MM/dd'}}
+                            <td>
+                    </ng-container>
+                    <!--      <ng-container matColumnDef="FechaEntrega">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Entrega</th>
+                        <td mat-cell *matCellDef="let element">{{element.FechaEntrega | date: 'yyyy/MM/dd'}}
+                            <td>
+                    </ng-container> -->
+
+                    <!--    <ng-container matColumnDef="Estatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                        <td mat-cell *matCellDef="let element">{{element.Estatus}}
+                        </td>
+                    </ng-container> -->
+
+                    <ng-container matColumnDef="Estatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                        <td mat-cell *matCellDef="let element" [ngSwitch]=element.Estatus>
+                            <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
+                            <span *ngSwitchCase="'Transito'" class="label label-light-primary">TRANSITO</span>
+                            <span *ngSwitchCase="'Finalizada'" class="label label-light-success">FINALIZADA</span>
+                            <span *ngSwitchCase="'Administrativa'" class="label label-light-inverse">ADMINISTRATIVA</span>
+                            <span *ngSwitchCase="'Otros'" class="label label-light-inverse">OTRO</span>
+                        </td>
+                    </ng-container>
+
+
+
+
+                    <ng-container matColumnDef="Options" stickyEnd>
+                        <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                        <td mat-cell *matCellDef="let row">
+
+                            <!--    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>keyboard_arrow_down</mat-icon>
+              </button> -->
+                            <!-- <mat-menu #menu="matMenu"> -->
+                            <!--  -->
+                            <button title="Editar" mat-icon-button class="btn btn-dark" (click)="nuevoPago(row)">
+                                            <mat-icon>price_check</mat-icon>
+                                        </button>
+                            <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="onDeleteCompra(row)">
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                            <!--  -->
+                            <!--     <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
+                                    <mat-icon>visibility</mat-icon>
+                                </button> -->
+                            <!--  -->
+                            <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
+                                            <mat-icon>visibility</mat-icon>
+                                        </button> -->
+                            <!--  -->
+                            <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
+                                <button title="Enviar Correo" mat-icon-button class="btn btn-dark" (click)="email()">
+                                            <mat-icon>alternate_email</mat-icon>
+                                          </button> -->
+                            <!--  -->
+                            <!-- <button title="Eliminar" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
+                                                <mat-icon>delete_outline</mat-icon>
+                                            </button> -->
+                            <!-- </mat-menu> -->
+                        </td>
+                    </ng-container>
+
+                    <!-- DETALLES COMPRA -->
+                    <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                            <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="element.detalleCompra.length > 0" (click)="expandedElement = 0">
+
+                                <table width="100%">
+                                    <tr>
+                                        <!-- <th> #Tarima </th>
+                                        <th> QR </th> -->
+                                        <th> Clave Producto </th>
+                                        <th> Producto </th>
+                                        <th> Cantidad </th>
+                                        <th> Precio Unitario </th>
+                                        <th> Costo Total </th>
+                                    </tr>
+                                    <tr *ngFor="let detalle of element.detalleCompra">
+                                        <!-- <td> {{detalle.IdTarima2}} </td>
+                                        <td> {{detalle.QR}} </td> -->
+                                        <td> {{detalle.ClaveProducto}} </td>
+                                        <td> {{detalle.Producto}} </td>
+                                        <td> {{ detalle.Cantidad}} </td>
+                                        <td> {{ detalle.PrecioUnitario | currency}} </td>
+                                        <td> {{ detalle.CostoTotal | currency}} </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <!-- DETALLES COMPRA-->
+
+                </table>
+                <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                </mat-paginator>
+            </div>
+
+        </div>
+
+
+        <!-- <hr> -->
+        <!-- <form #form="ngForm" autocomplete="off"> -->
+        <div *ngIf="!this.futuro" class="form-material">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-12 col-md-4">
+                        <label class="input-group-text text-info"> Folio: </label>
+                        <input readonly type="text" class="form-control" name="FolioPag" #FolioPag="ngModel" [(ngModel)]="this.FolioPago">
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label class="input-group-text text-info txt"> Cuenta Origen: </label>
+                        <input required type="text" class="form-control" name="CuentaOrigen" #CuentaOrigen="ngModel" [(ngModel)]="pagoService.objetoPago.CuentaOrigen">
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <label class="input-group-text text-info txt"> Cuenta Destino: </label>
+                        <input required type="text" class="form-control" name="CuentaDestino" #CuentaDestino="ngModel" [(ngModel)]="pagoService.objetoPago.CuentaDestino">
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <!--      <mat-form-field>
+
+
+                            <mat-select [(ngModel)]="tipoSelect">
+
+                                <mat-option *ngFor="let tipo of listTipos" [value]="tipo.tipo"> {{tipo.tipo}} </mat-option>
+                            </mat-select>
+                        </mat-form-field> -->
+
+                        <label class="input-group-text text-info">Fecha Pago:</label>
+                        <mat-datepicker-toggle matSuffix [for]="pickerPago"></mat-datepicker-toggle>
+                        <input required type="text" readonly="readonly" [matDatepicker]="pickerPago" class="form-control" name="FechaPago" #FechaPago="ngModel" [(ngModel)]="this.pagoService.objetoPago.FechaPago">
+                        <!-- <input type="text" readonly="readonly" [matDatepicker]="pickerPago" class="form-control" name="FechaPagozzz" #FechaPagozzz="ngModel" [(ngModel)]="pagoService.objetoPago.FechaPago"> -->
+                        <mat-datepicker #pickerPago></mat-datepicker>
+
+
+
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label class="input-group-text text-info txt"> Observaciones: </label>
+                        <input required type="text" class="form-control" name="Observaciones" #Observaciones="ngModel" [(ngModel)]="pagoService.objetoPago.Observaciones">
+                    </div>
+
+                </div>
+                <!--   <div class="row">
+                    <div class="col-12 col-md-6">
+                        <label class="input-group-text text-info txt"> Numero Documento: </label>
+                        <input type="text" class="form-control" name="FolioDocumento" #FolioDocumento="ngModel" [(ngModel)]="this.FolioModulo">
+
+                    </div>
+                   
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <label class="input-group-text text-info txt"> Cantidad: </label>
+                        <input required type="number" class="form-control" name="CantidadPago" #CantidadPago="ngModel" [(ngModel)]="Cantidad">
+                    </div>
+                  
+                </div> -->
+
+                <div class="row">
+                    <table mat-table [dataSource]="listData2" matSort class="scrollable" multiTemplateDataRows>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+
+
+
+                        <ng-container matColumnDef="Folio" sticky>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Folio</th>
+                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Folio}}
+                                <td>
+                        </ng-container>
+
+
+
+                        <ng-container matColumnDef="PO">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>PO</th>
+                            <td mat-cell *matCellDef="let element">{{element.PO}}
+                                <td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Proveedor">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Proveedor</th>
+                            <td mat-cell *matCellDef="let element">{{element.Proveedor}}
+
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Cantidad">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
+                            <td mat-cell *matCellDef="let element">{{element.Total}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Saldo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Saldo</th>
+                            <td mat-cell *matCellDef="let element">{{element.saldo}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="FechaElaboracion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Elaboracion</th>
+                            <td mat-cell *matCellDef="let element">{{element.FechaElaboracion | date: 'yyyy/MM/dd'}}
+                                <td>
+                        </ng-container>
+                        <ng-container matColumnDef="FechaPromesa">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Promesa</th>
+                            <td mat-cell *matCellDef="let element">{{element.FechaPromesa | date: 'yyyy/MM/dd'}}
+                                <td>
+                        </ng-container>
+                        <!--     <ng-container matColumnDef="FechaEntrega">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Entrega</th>
+                            <td mat-cell *matCellDef="let element">{{element.FechaEntrega | date: 'yyyy/MM/dd'}}
+                                <td>
+                        </ng-container> -->
+
+                        <!--    <ng-container matColumnDef="Estatus">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                            <td mat-cell *matCellDef="let element">{{element.Estatus}}
+                            </td>
+                        </ng-container> -->
+
+                        <ng-container matColumnDef="Estatus">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+                            <td mat-cell *matCellDef="let element" [ngSwitch]=element.Estatus>
+                                <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
+                                <span *ngSwitchCase="'Transito'" class="label label-light-primary">TRANSITO</span>
+                                <span *ngSwitchCase="'Finalizada'" class="label label-light-success">FINALIZADA</span>
+                                <span *ngSwitchCase="'Administrativa'" class="label label-light-inverse">ADMINISTRATIVA</span>
+                                <span *ngSwitchCase="'Otros'" class="label label-light-inverse">OTRO</span>
+                            </td>
+                        </ng-container>
+
+
+
+
+                        <ng-container matColumnDef="Options" stickyEnd>
+                            <th mat-header-cell *matHeaderCellDef>Opciones</th>
+                            <td mat-cell *matCellDef="let row">
+
+
+                                <button title="Editar" mat-icon-button class="btn btn-dark" (click)="addPago(row)">
+                                                <mat-icon>add_circle</mat-icon>
+                                            </button>
+                                <!--       <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="onDeleteCompra(row)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button> -->
+
+                            </td>
+                        </ng-container>
+
+
+
+                    </table>
+                    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+
+
+
+
+                <!--       <div class="container row">
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <label class="input-group-text text-info txt"> Cantidad: </label>
+                                <input class="form-control" name="CantidadPago" #CantidadPago="ngModel" [(ngModel)]="Cantidad">
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="col-5">
+             
+
+                    </div>
+                    <div class="col-3">
+                        <button class="btn btn-prolacto" mat-raised-button type="button" (click)="newPago()">Generar Pago</button>
+                        
+                    </div>
+                </div> -->
+
+
+            </div>
+        </div>
+        <!-- </form> -->
+
+
+
+
+    </div>
+</div>

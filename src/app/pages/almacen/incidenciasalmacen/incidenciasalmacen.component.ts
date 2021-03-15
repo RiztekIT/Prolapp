@@ -27,6 +27,9 @@ export class IncidenciasalmacenComponent implements OnInit {
   ngOnInit() {
     this.obtenerIncidenciasOrdenCarga();
     this.obtenerIncidenciasOrdenDescarga();
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    this.obtenerPrivilegios();
+    //^ **** PRIVILEGIOS POR USUARIO *****
   }
 
   listDataOrdenCarga: MatTableDataSource<any>;
@@ -64,6 +67,59 @@ export class IncidenciasalmacenComponent implements OnInit {
                 this.listDataOrdenDescarga.paginator = this.paginatorOD;
     })
   }
+
+  //^ **** PRIVILEGIOS POR USUARIO *****
+  privilegios: any;
+  privilegiosExistentes: boolean = false;
+  modulo = 'Almacen';
+  area = 'Incidencias';
+
+  //^ VARIABLES DE PERMISOS
+  Vista: boolean = false;
+Agregar: boolean = false;
+AgregarOC: boolean = false;
+AgregarOD: boolean = false;
+  //^ VARIABLES DE PERMISOS
+
+  obtenerPrivilegios() {
+    let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+    console.log(arrayPermisosMenu);
+    let arrayPrivilegios: any;
+    try {
+      arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+      // console.log(arrayPrivilegios);
+      arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+      // console.log(arrayPrivilegios);
+      this.privilegios = [];
+      arrayPrivilegios.privilegios.forEach(element => {
+        this.privilegios.push(element.nombreProceso);
+        this.verificarPrivilegio(element.nombreProceso);
+      });
+      // console.log(this.privilegios);
+    } catch {
+      console.log('Ocurrio algun problema');
+    }
+  }
+
+  verificarPrivilegio(privilegio) {
+   switch (privilegio) {
+     case ('Agregar Nueva Incidencia'):           
+       this.Agregar = true;
+       break;
+     case ('Agregar Incidencia Orden de Carga'):
+       this.AgregarOC = true;
+       break;
+     case ('Agregar Incidencia Orden de Descarga'):
+       this.AgregarOD = true;
+       break;
+     case ('Vista'):
+       this.Vista = true;
+       break;
+     default:
+       break;
+   }
+ }
+  //^ **** PRIVILEGIOS POR USUARIO *****
 
 
 public incidenciaBlanco: Incidencias ={

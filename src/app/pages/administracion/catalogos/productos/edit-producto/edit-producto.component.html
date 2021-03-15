@@ -7,7 +7,7 @@
 
 <hr>
 <div style="overflow: auto; height: 450px;">
-    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+    <form #form="ngForm" autocomplete="off">
 
 
         <div class="form-material">
@@ -19,74 +19,56 @@
                         <input readonly="readonly" type="text" class="form-control" name="IdProducto" #IdProducto="ngModel" [(ngModel)]="service.formData.IdProducto">
 
                         <label class="input-group-text text-info">Nombre</label>
-                        <input required minlength="2" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre">
+                        <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre">
 
-                        <div class="text-left text-danger" *ngIf="Nombre.invalid && Nombre.touched">
-                            Favor de Ingresar un Nombre.
-                        </div>
+
 
 
                         <label class="input-group-text text-info">Precio Venta</label>
-                        <input required minlength="1" type="number" class="form-control" name="PrecioVenta" #PrecioVenta="ngModel" [(ngModel)]="service.formData.PrecioVenta">
-                        <div class="text-left text-danger" *ngIf="PrecioVenta.invalid && PrecioVenta.touched">
-                            Favor de Ingresar Precio Venta.
-                        </div>
+                        <input type="number" class="form-control" name="PrecioVenta" #PrecioVenta="ngModel" [(ngModel)]="service.formData.PrecioVenta">
+
 
 
 
                         <label class="input-group-text text-info">Cantidad</label>
-                        <input required minlength="0" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formData.Cantidad">
-                        <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
-                            Favor de Ingresar Cantidad.
-                        </div>
+                        <input type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formData.Cantidad">
+
                         <!--               -------------------------------------------------------                                       -->
 
 
 
                         <label class="input-group-text text-info">Clave Producto</label>
-                        <input required minlength="2" type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="service.formData.ClaveProducto">
+                        <input type="text" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="service.formData.ClaveProducto">
 
-                        <div class="text-left text-danger" *ngIf="ClaveProducto.invalid && ClaveProducto.touched">
-                            Favor de Ingresar Clave Producto
-                        </div>
+
                         <!--               -------------------------------------------------------                                       -->
 
 
 
                         <label class="input-group-text text-info">Stock</label>
-                        <input required minlength="2" type="text" class="form-control" name="Stock" #Stock="ngModel" [(ngModel)]="service.formData.Stock">
-                        <div class="text-left text-danger" *ngIf="Stock.invalid && Stock.touched">
-                            Favor de Ingresar Stock
-                        </div>
+                        <input type="text" class="form-control" name="Stock" #Stock="ngModel" [(ngModel)]="service.formData.Stock">
+
                         <!--               -------------------------------------------------------  -->
 
                     </div>
                     <div class="col-lg-6">
 
                         <label class="input-group-text text-info">Descripcion Producto</label>
-                        <input required minlength="2" type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="service.formData.DescripcionProducto">
-                        <div class="text-left text-danger" *ngIf="DescripcionProducto.invalid && DescripcionProducto.touched">
-                            Favor de Ingresar Clave Producto
-                        </div>
+                        <input type="text" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="service.formData.DescripcionProducto">
+
                         <!--               -------------------------------------------------------                                       -->
 
 
 
                         <label class="input-group-text text-info">Estatus</label>
-                        <input required minlength="2" type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formData.Estatus">
-                        <div class="text-left text-danger" *ngIf="Estatus.invalid && Estatus.touched">
-                            Favor de Ingresar Estatus
-                        </div>
+                        <input type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formData.Estatus">
+
                         <!--               -------------------------------------------------------                                       -->
 
 
 
                         <label class="input-group-text text-info">Unidad Medida</label>
                         <br>
-                        <!-- <input required minlength="2" type="text" class="form-control" name="UnidadMedida" #UnidadMedida="ngModel" [(ngModel)]="service.formData.UnidadMedida">
-                        <div class="text-left text-danger" *ngIf="UnidadMedida.invalid && UnidadMedida.touched">
-                            Favor de Ingresar Unidad Medida
-                        </div> -->
                         <mat-form-field class="example-full-width">
                             <!-- <mat-form-field class="input-group-text text-info"> -->
                             <input type="text" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="service.formData.UnidadMedida" (focus)="unidadMedida()">
@@ -103,45 +85,69 @@
 
                         <label class="input-group-text text-info">IVA</label>
                         <mat-checkbox class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="iva"></mat-checkbox>
-                        <!-- <input required minlength="2" type="text" class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="service.formData.IVA"> -->
-                        <div class="text-left text-danger" *ngIf="IVA.invalid && IVA.touched">
-                            Favor de Ingresar IVA
-                        </div>
+                        <!-- <input  type="text" class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="service.formData.IVA"> -->
+
                         <!--               -------------------------------------------------------                                       -->
                         <br>
 
 
                         <label class="input-group-text text-info">Clave SAT</label>
-                        <input required minlength="2" type="text" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="service.formData.ClaveSAT">
-                        <div class="text-left text-danger" *ngIf="ClaveSAT.invalid && ClaveSAT.touched">
-                            Favor de Ingresar Clave SAT
-                        </div>
+                        <input type="text" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="service.formData.ClaveSAT">
+
 
 
 
                         <label class="input-group-text text-info">Precio Costo</label>
-                        <input required minlength="1" type="number" class="form-control" name="PrecioCosto" #PrecioCosto="ngModel" [(ngModel)]="service.formData.PrecioCosto">
-                        <div class="text-left text-danger" *ngIf="PrecioCosto.invalid && PrecioCosto.touched">
-                            Favor de Ingresar Precio Costo.
-                        </div>
+                        <input type="number" class="form-control" name="PrecioCosto" #PrecioCosto="ngModel" [(ngModel)]="service.formData.PrecioCosto">
+
 
 
                         <label class="input-group-text text-info">Cantidad</label>
-                        <input required minlength="0" type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formData.Cantidad">
-                        <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched">
-                            Favor de Ingresar Cantidad.
-                        </div>
+                        <input type="number" class="form-control" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="service.formData.Cantidad">
+
 
                         <label class="input-group-text text-info">Categoria</label>
-                        <input required minlength="0" type="number" class="form-control" name="Categoria" #Categoria="ngModel" [(ngModel)]="service.formData.Categoria">
-                        <div class="text-left text-danger" *ngIf="Categoria.invalid && Categoria.touched">
-                            Favor de Ingresar Cantidad.
-                        </div>
+                        <input type="number" class="form-control" name="Categoria" #Categoria="ngModel" [(ngModel)]="service.formData.Categoria">
+
                     </div>
                     <br>
-                    <button class="btn btn-success" mat-raised-button color="success" type="submit" [disabled]="form.invalid">Actualizar Producto</button>
                 </div>
             </div>
         </div>
+
+        <br>
+        <mat-checkbox #checkbox [(checked)]="MarcasRel" (change)='check(checkbox.checked)'>Marcas Relacionadas</mat-checkbox>
+        <br>
     </form>
+
+    <div class="form-material" *ngIf="this.MarcasRel == true">
+        <h5>Marcas Relacionadas</h5>
+        <div class="container row">
+            <div class="col-12">
+
+                <!-- <mat-form-field style="width: 100%;">
+                    <input matInput type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="this.productosService.productosRelForm.nombre" name="nombre">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.nombre" (blur)="onBlurProducto()" (onSelectionChange)="onSelectionChange(option, $event)">
+                            {{option.idProductos}} {{option.nombre}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field> -->
+            </div>
+        </div>
+        <div class="container row">
+            <div class="col-md-6 col-12">
+                <label class="input-group-text text-info">Clave</label>
+                <input matInput placeholder="Clave Marca" name="ClaveMarca" class="form-control" #ClaveMarca="ngModel" [(ngModel)]="this.service.MarcasRelForm.ClaveMarca">
+
+                <label class="input-group-text text-info">Nombre Marca</label>
+                <input matInput placeholder="Nombre Marca" name="NombreMarca" class="form-control" #NombreMarca="ngModel" [(ngModel)]="this.service.MarcasRelForm.NombreMarca">
+            </div>
+        </div>
+        <button class="btn btn-success" mat-raised-button (click)="agregarMarcaRel()" color="primary" [disabled]='!this.service.formData.Nombre'>Agregar Marca</button>
+    </div>
+
+    <br>
+    <button class="btn btn-success" mat-raised-button color="success" (click)="onSubmit(form)">Actualizar Producto</button>
+
 </div>

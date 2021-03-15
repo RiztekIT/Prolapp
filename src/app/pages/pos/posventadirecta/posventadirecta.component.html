@@ -1,0 +1,550 @@
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card card-header">
+                <div class="row">
+
+
+                    <div class="col-md-5 col-12">
+
+                        <!-- <h2 style="text-align: start;">PUNTO DE VENTA LACTOZONE</h2> -->
+                        <img src="../../../../assets/imglacteozone/Logo Lactozone.png" style="width: 100%;">
+                        <!-- <h5 class="card-title" style="text-align: start;">Folio </h5> -->
+
+                        <!-- <p class="card-text" style="text-align: center;"></p> -->
+                    </div>
+
+                    <div class="col-md-4 col-12" style="align-self: center;">
+                        <h5 class="card-title" style="text-align: center;">Folio:
+
+                            <span class="card-text label label-light-success" style="font-size: 150%;">{{this.posSVC.ventasForm.folio}}</span>
+                        </h5>
+                        <!-- <p class="card-text" style="text-align: center;"></p> -->
+                        <h5 class="card-title" style="text-align: center;">Estatus:
+
+                            <span *ngIf="this.Estatus=='Creada'" class="card-text label label-light-success">CREADA</span>
+                            <span *ngIf="this.Estatus=='Abierta'" class="card-text label label-light-info">ABIERTA</span>
+                            <span *ngIf="this.Estatus=='Pagada'" class="card-text label label-light-danger">PAGADA</span>
+                            <span *ngIf="this.Estatus=='Credito'" class="card-text label label-light-warning">CREDITO</span>
+
+                        </h5>
+                        <h5 class="card-title" style="text-align:center;">Fecha:
+                            <span class="card-text label label-light-warning" style="font-size: 90%;"> {{this.posSVC.ventasForm.fechaexpedicion | date: 'yyyy/MM/dd hh:mm:ss'}}</span>
+
+                        </h5>
+
+                    </div>
+
+                    <!--           <div class="col-md-3 col-12">
+
+
+
+
+                    </div> -->
+                    <div class="col-md-3 col-12" style="align-self: center;">
+                        <button mat-fab (click)="crearNuevaVenta()" class="btncoti" style="margin-right: 20px;">
+                            <mat-icon>note_add</mat-icon>
+                          </button>
+                        <button mat-fab (click)="verHistorial()" class="btncoti" style="margin-right: 20px;">
+                            <mat-icon>history</mat-icon>
+                          </button>
+                        <button mat-fab (click)="verSaldos()" class="btncoti">
+                            <mat-icon>request_quote</mat-icon>
+                          </button>
+                    </div>
+
+                </div>
+
+            </div>
+            <div>
+                <!-- <div class="card-body"> -->
+
+                <!--! Sucursal -->
+
+
+                <!-- CLIENTE -->
+                <!-- 
+                  <div class="form-material mat-elevation-z5">
+                    <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 col-12">
+                            <h3 class="bolder blacktxt text-center">
+                                Cliente
+                            </h3>
+                        </div>
+                        <div class="col-md-4 col-12"></div>
+                        <div class="col-md-4 col-12">
+
+                        </div>
+                    </div>
+
+                       </div> -->
+
+
+                <!-- Form del Cliente -->
+
+                <div class="form-material mat-elevation-z5" style="border: double;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-10 col-12">
+
+                                <mat-form-field style="width: 100%;">
+                                    <input [disabled]="this.Estatus=='Cerrada'" matInput type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" [(ngModel)]="this.posSVC.ventasForm.nombreCliente" name="idCliente">
+                                    <mat-autocomplete #auto="matAutocomplete">
+                                        <mat-option [disabled]="this.Estatus=='Cerrada'" *ngFor="let option of filteredOptions | async" [value]="option.nombre" (blur)="onBlurCliente()" (onSelectionChange)="onSelectionChange(option, $event)">
+                                            {{option.idCLiente}} {{option.nombre}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-2 col-12">
+
+
+                                <!-- <button mat-raised-button class="btn btn-muelles" (click)="onAdd()"><i class="mdi mdi-folder-plus btn-lg"></i></button> -->
+                                <button style="width: 100%;" mat-raised-button class="btn btn-muelles btn-lg" (click)="onAddCliente()"><mat-icon class="example-tab-icon">add_circle</mat-icon></button>
+
+                            </div>
+                        </div>
+
+                        <!-- datos orden -->
+                        <div class="row">
+                            <div class="col-6">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>ID Cliente</mat-label>
+                                    <input disabled='true' matInput placeholder="Id Cliente" name="idCliente" #idCliente="ngModel" [(ngModel)]="this.posSVC.ventasForm.idCliente">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Nombre</mat-label>
+                                    <input disabled='true' matInput placeholder="Nombre Cliente" name="nombreCliente" #nombreCliente="ngModel" [(ngModel)]="this.posSVC.ventasForm.nombreCliente">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+
+                                <mat-panel-title>
+                                    Datos del Cliente
+
+                                </mat-panel-title>
+
+
+                                <mat-panel-description style="justify-content: flex-end;">
+
+                                    <mat-icon>account_circle</mat-icon>
+                                </mat-panel-description>
+                            </mat-expansion-panel-header>
+
+
+                            <!-- datos generales -->
+                            <div class="container">
+                                <div class="row">
+
+                                    <div class="col-md-5 col-12">
+                                        <mat-form-field style="width: 100%;">
+                                            <mat-label>Clave</mat-label>
+                                            <input matInput disabled='true' placeholder="Clave" name="Clave" #Clave="ngModel" [(ngModel)]="this.cliente.Clave">
+                                        </mat-form-field>
+                                        <mat-form-field style="width: 100%;">
+                                            <mat-label>Razon Social</mat-label>
+                                            <input matInput disabled='true' placeholder="Razon Social" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="this.cliente.RazonSocial">
+                                        </mat-form-field>
+                                        <mat-form-field style="width: 100%;">
+                                            <mat-label>Calle</mat-label>
+                                            <input matInput disabled='true' placeholder="Calle" name="Calle" #Calle="ngModel" [(ngModel)]="this.cliente.Calle">
+                                        </mat-form-field>
+                                        <mat-form-field style="width: 100%;">
+                                            <mat-label>Colonia</mat-label>
+                                            <input matInput disabled='true' placeholder="Colonia" name="Colonia" #Colonia="ngModel" [(ngModel)]="this.cliente.Colonia">
+                                        </mat-form-field>
+                                        <mat-form-field style="width: 100%;">
+                                            <mat-label>Codigo Postal</mat-label>
+                                            <input matInput disabled='true' placeholder="Codigo Postal" name="CP" #CP="ngModel" [(ngModel)]="this.cliente.CP">
+                                        </mat-form-field>
+                                        <mat-form-field style="width: 100%;">
+                                            <mat-label>Limite de Credito</mat-label>
+                                            <input matInput disabled='true' placeholder="Limite de Credito" name="limitecredito" #limitecredito="ngModel" [(ngModel)]="this.cliente.limitecredito">
+                                        </mat-form-field>
+                                        <mat-form-field style="width: 100%;">
+                                            <mat-label>Uso del CFDI</mat-label>
+                                            <input matInput disabled='true' placeholder="usocfdi" name="usocfdi" #usocfdi="ngModel" [(ngModel)]="this.cliente.usocfdi">
+                                        </mat-form-field>
+
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <mat-form-field style="width: 100%;">
+                                            <mat-label>RFC</mat-label>
+                                            <input matInput disabled='true' placeholder="RFC" name="RFC" #RFC="ngModel" [(ngModel)]="this.cliente.RFC">
+                                        </mat-form-field>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <mat-form-field style="width: 100%;">
+                                                    <mat-label>No. Ext</mat-label>
+                                                    <input disabled='true' matInput placeholder="No. Exterior" name="NoExt" #NoExt="ngModel" [(ngModel)]="this.cliente.NoExt">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="col-6">
+                                                <mat-form-field style="width: 100%;">
+                                                    <mat-label>No. Int</mat-label>
+                                                    <input disabled='true' matInput placeholder="No. Interio" name="NoInt" #NoInt="ngModel" [(ngModel)]="this.cliente.NoInt">
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                        <mat-form-field style="width: 100%;">
+                                            <mat-label>Estado</mat-label>
+                                            <input matInput disabled='true' placeholder="No. Interio" name="Estado" #Estado="ngModel" [(ngModel)]="this.cliente.Estado">
+                                        </mat-form-field>
+
+
+                                        <mat-form-field style="width: 100%;">
+                                            <mat-label>Ciudad</mat-label>
+                                            <input matInput disabled='true' placeholder="Ciudad" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="this.cliente.Ciudad">
+                                        </mat-form-field>
+
+                                        <mat-form-field style="width: 100%;">
+                                            <mat-label>Dias de Credito</mat-label>
+                                            <input matInput disabled='true' placeholder="Limite de Credito" name="diascredito" #diascredito="ngModel" [(ngModel)]="this.cliente.diascredito">
+                                        </mat-form-field>
+                                        <mat-form-field style="width: 100%;">
+                                            <mat-label>Metodo de Pago</mat-label>
+                                            <input matInput disabled='true' placeholder="Limite de Credito" name="metodopago" #metodopago="ngModel" [(ngModel)]="this.cliente.metodopago">
+                                        </mat-form-field>
+
+
+                                        <!-- <button *ngIf="this.clienteService.addedit=='Editar'" style="width: 100%;" mat-raised-button class="btn btn-muelles btn-lg" (click)="ver()"><mat-icon class="example-tab-icon">done</mat-icon></button> -->
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+
+                        </mat-expansion-panel>
+
+                        <hr>
+
+
+
+                    </div>
+                </div>
+
+                <!-- </div> -->
+
+                <hr>
+
+
+
+
+                <!--  <div class="form-material mat-elevation-z5">
+                    <div class="card card-header">
+                        <div class="row">
+
+                        </div>
+                    </div>
+                </div> -->
+
+                <!-- VENTA DIRECTA -->
+
+
+                <!-- SELECCIONAR PRODUCTO -->
+                <div class="form-material mat-elevation-z5" style="border: double;">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+
+                                <mat-form-field style="width: 100%;">
+                                    <input matInput type="text" placeholder="Seleccionar Producto" aria-label="Number" [formControl]="myControl2" matInput [matAutocomplete]="auto2" [(ngModel)]="this.posSVC.detallesventasForm.nombreproducto" name="nombreproducto">
+                                    <mat-autocomplete #auto2="matAutocomplete">
+                                        <mat-option *ngFor="let option of filteredOptions2 | async" [value]="option.nombre" (blur)="onBlurProducto()" (onSelectionChange)="onSelectionChange2(option, $event)">
+                                            {{option.idProductos}} {{option.nombre}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>ID Producto</mat-label>
+                                    <input disabled='true' matInput placeholder="Id Servicio" name="idCliente" #idCliente="ngModel" [(ngModel)]="this.posSVC.detallesventasForm.idproducto">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Nombre</mat-label>
+                                    <input disabled='true' matInput placeholder="Nombre Producto" name="nombreproducto" #nombreproducto="ngModel" [(ngModel)]="this.posSVC.detallesventasForm.nombreproducto">
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+
+                            <div class="col-md-12 col-12">
+                                <div class="row">
+                                    <div class="col-md-4 col-12">
+                                        <mat-form-field style="width: 100%;">
+                                            <mat-label>Cantidad</mat-label>
+                                            <input style="text-align: right;" matInput type="number" placeholder="cantidad" name="cantidad" #cantidad="ngModel" [(ngModel)]="this.posSVC.detallesventasForm.cantidad" (blur)='calcularIVA()'>
+
+
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <mat-form-field style="width: 100%;">
+                                            <mat-label>Precio</mat-label>
+                                            <input style="text-align: right;" matInput type="number" placeholder="precioProducto" name="precioProducto" #precioProducto="ngModel" [(ngModel)]="this.posSVC.detallesventasForm.precioProducto" (blur)='calcularIVA()'>
+                                            <span matPrefix>$&nbsp;</span>
+
+                                        </mat-form-field>
+                                    </div>
+
+
+                                    <div class="col-md-4 col-12">
+                                        <button *ngIf="this.posSVC.addedit=='Agregar'" style="width: 100%;" mat-raised-button class="btn btncoti btn-lg" (click)="agregarDetalleVenta()"><mat-icon class="example-tab-icon">add_circle</mat-icon>Agregar Producto</button>
+                                        <button *ngIf="this.posSVC.addedit=='Editar'" style="width: 100%;" mat-raised-button class="btn btncoti btn-lg" (click)="actualizarVenta()"><mat-icon class="example-tab-icon">add_circle</mat-icon>Editar Producto</button>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-12">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Subtotal</mat-label>
+                                    <input style="text-align: right;" matInput disabled='true' type="number" placeholder="Subtotal" name="subtotal" #subtotal="ngModel" [(ngModel)]="this.posSVC.detallesventasForm.subtotal">
+                                    <span matPrefix>$&nbsp;</span>
+
+                                </mat-form-field>
+
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>IVA</mat-label>
+                                    <input style="text-align: right;" disabled='true' type="number" matInput placeholder="IVA" name="iva" #iva="ngModel" [(ngModel)]="this.posSVC.detallesventasForm.iva">
+                                    <span matPrefix>$&nbsp;</span>
+                                    <button mat-icon-button matSuffix (click)="quitarPonerIVA($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="IVA">
+                                        <mat-icon>{{IVA ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                        </button>
+
+                                </mat-form-field>
+
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Total</mat-label>
+                                    <input style="text-align: right;" disabled='true' type="number" matInput placeholder="Total" name="total" #total="ngModel" [(ngModel)]="this.posSVC.detallesventasForm.total">
+                                    <span matPrefix>$&nbsp;</span>
+
+                                </mat-form-field>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <!-- FIN SELECCIONAR PRODUCTO -->
+                <hr>
+
+                <div class="form-material mat-elevation-z5" style="border: double;">
+                    <!--  <div class="card card-header">
+                        <div class="row">
+                            <div class="col-md-4 col-12">
+                                <h3 class="bolder blacktxt text-center">
+                                    Productos
+                                </h3>
+                            </div>
+                            <div class="col-md-4 col-12"></div>
+                            <div class="col-md-4 col-12">
+
+
+
+                                
+
+                            </div>
+                        </div>
+
+                    </div> -->
+
+                    <div class="container">
+
+                        <div>
+                            <!--    <div class="col-12">
+
+                                <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>Descripcion del Servicio</mat-label>
+                                    <textarea rows="5" matInput></textarea>
+                                </mat-form-field>
+                            </div> -->
+
+                            <table style="width: 100% " mat-table [dataSource]="listData" matSort>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns; let i = index"></tr>
+
+                                <ng-container matColumnDef="Clave">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>
+                                    <td mat-cell *matCellDef="let element">{{element.claveproducto}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Producto">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                                    <td mat-cell *matCellDef="let element">{{element.nombreproducto}}</td>
+                                </ng-container>
+                                <ng-container matColumnDef="Cantidad">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
+                                    <td mat-cell *matCellDef="let element">{{element.cantidad | number: '1.0-2' }}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="PrecioUnitario">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>P. Unitario</th>
+                                    <td mat-cell *matCellDef="let element">{{element.precioProducto | currency}}</td>
+                                </ng-container>
+
+
+                                <ng-container matColumnDef="Precio">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Total</th>
+                                    <td mat-cell *matCellDef="let element">{{element.total | currency}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Options">
+                                    <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <div *ngIf="this.Estatus == 'Timbrada' || this.Estatus == 'Cancelada'; else elseBlock1">
+                                            <button type="button" class="btn btn-secondary">No Editable</button>
+                                        </div>
+
+                                        <ng-template #elseBlock1>
+
+                                            <!--  -->
+                                            <button mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                                            <!--  -->
+                                            <button mat-icon-button class="btn btn-danger" (click)="onDelete(row)">
+                      <mat-icon>delete_outline</mat-icon>
+                    </button>
+
+                                        </ng-template>
+                                    </td>
+                                </ng-container>
+                            </table>
+
+
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-4 col-12" style="display: grid">
+
+
+
+                                <button [disabled]="this.Estatus=='Cerrada'" style="width: 100%;" mat-raised-button class="btn btn-muelles btn-lg" (click)="pagar()"><mat-icon class="example-tab-icon">attach_money</mat-icon>PAGAR</button>
+                                <br>
+                                <button style="width: 100%; visibility: hidden;;" mat-raised-button class="btn btn-muelles btn-lg"><mat-icon class="example-tab-icon">add_circle</mat-icon>ENVIAR</button>
+                                <br>
+
+                            </div>
+                            <div class="col-md-4 col-12" style="display: grid">
+
+
+
+                                <button style="width: 100%; visibility: hidden;" mat-raised-button class="btn btn-muelles btn-lg"><mat-icon class="example-tab-icon">add_circle</mat-icon>REMISION</button>
+
+                                <br>
+                                <button style="width: 100%; visibility: hidden;;" mat-raised-button class="btn btn-muelles btn-lg"><mat-icon class="example-tab-icon">add_circle</mat-icon>ORDEN DE TRABAJO</button>
+
+                                <!-- <button style="width: 100%;" mat-raised-button class="btn btn-muelles btn-lg" (click)="onAddProducto()"><mat-icon class="example-tab-icon">add_circle</mat-icon>CANCELAR</button> -->
+                                <br>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <div class="form-material borderbox">
+                                    <div class="container">
+                                        <!--   <div class="row">
+
+                                            <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Subtotal</label>
+                                            <input class="form-control col-12 col-md-6 col-lg-6" style="text-align: right;" readonly="readonly" name="subtotal" #subtotal="ngModel" [ngModel]="this.ordenservicioService.servicioForm.subtotal | currency">
+
+                                            <label class="input-group-text text-info col-12 col-md-6 col-lg-6">I.V.A.</label>
+                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="iva" #iva="ngModel" [ngModel]="this.ordenservicioService.servicioForm.iva | currency">
+
+                                            <label class="input-group-text text-info col-12 col-md-6 col-lg-6">Total</label>
+                                            <input class="form-control col-12 col-md-6 col-lg-6" readonly="readonly" name="total" #total="ngModel" [ngModel]="this.ordenservicioService.servicioForm.total | currency">
+
+                                        </div> -->
+
+                                        <div class="row">
+                                            <div class="row">
+                                                <div class="col-md-4 col-12" style="align-self: center;">
+                                                    <mat-label>Subtotal</mat-label>
+                                                </div>
+                                                <div class="col-md-8 col-12">
+                                                    <mat-form-field style="width: 100%;">
+
+                                                        <input style="text-align: right;" matInput disabled='true' type="number" name="subtotal" #subtotal="ngModel" [(ngModel)]="this.posSVC.ventasForm.subtotal">
+                                                        <span matPrefix>$&nbsp;</span>
+
+                                                    </mat-form-field>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 col-12" style="align-self: center;">
+
+                                                    <mat-label>IVA</mat-label>
+                                                </div>
+                                                <div class="col-md-8 col-12">
+                                                    <mat-form-field style="width: 100%;">
+                                                        <input style="text-align: right;" disabled='true' type="number" matInput name="iva" #iva="ngModel" [(ngModel)]="this.posSVC.ventasForm.iva">
+                                                        <span matPrefix>$&nbsp;</span>
+
+
+                                                    </mat-form-field>
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4 col-12" style="align-self: center;">
+
+                                                    <mat-label>Total</mat-label>
+                                                </div>
+                                                <div class="col-md-8 col-12">
+                                                    <mat-form-field style="width: 100%;">
+                                                        <input style="text-align: right;" disabled='true' type="number" matInput name="total" #total="ngModel" [(ngModel)]="this.posSVC.ventasForm.total">
+                                                        <span matPrefix>$&nbsp;</span>
+
+                                                    </mat-form-field>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+
+                <!-- FIN VENTA DIRECTA -->
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

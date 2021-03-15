@@ -59,6 +59,48 @@ export class OrdenCargaTraficoService {
     return this.http.post(this.APIUrl + '/FacturaFlete/Actualizar', facturaflete);
   }
 
+
+  //^ -------  reportesTrafico -----------
+
+  //^ Obtener Reporte Trafico sin filtros
+  getTraficoGeneral(): Observable<any> {
+    return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTrafico');
+  }
+  //^ Obtener Reporte Trafico Fletera
+  getTraficoFletera(fletera: string): Observable<any> {
+    return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTraficoFletera/'+fletera);
+  }
+  //^ Obtener Reporte Trafico Id Orden Carga
+  getTraficoOC(id: number): Observable<any> {
+    return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTraficoOC/'+id);
+  }
+  //^ Obtener Reporte Trafico Estatus
+  getTraficoEstatus(estatus: string): Observable<any> {
+    return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTraficoEstatus/'+estatus);
+  }
+  //^ Obtener Reporte Trafico Fletera, Estatus
+  getTraficoFleteraEstatus(fletera:string , estatus: string): Observable<any> {
+    return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTraficoFleteraEstatus/'+fletera+'/'+estatus);
+  }
+  //^ Obtener Reporte Trafico IdOC Fletera
+  getTraficoOCFletera(id:number , fletera: string): Observable<any> {
+    return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTraficoOCFletera/'+id+'/'+fletera);
+  }
+  //^ Obtener Reporte Trafico IdOC Estatus
+  getTraficoOCEstatus(id:number , estatus: string): Observable<any> {
+    return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTraficoOCEstatus/'+id+'/'+estatus);
+  }
+  //^ Obtener Reporte Trafico IdOC Estatus Fletera
+  getTraficoOCEstatusFletera(id:number , estatus: string, fletera:string): Observable<any> {
+    return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTraficoOCEstatusFletera/'+id+'/'+estatus+'/'+fletera);
+  }
+  //^ Obtener grafico Trafico IdCliente
+  GetTraficoIdCliente(id:number ): Observable<any> {
+    return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTraficoIdCliente/'+id);
+  }
+
+
+  //^ -------  reportesTrafico -----------
   
 
 }

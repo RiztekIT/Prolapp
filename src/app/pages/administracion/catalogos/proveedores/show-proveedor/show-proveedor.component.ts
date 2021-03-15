@@ -26,7 +26,7 @@ export class ShowProveedorComponent implements OnInit {
   usuariosesion
   listData: MatTableDataSource<any>;
   // displayedColumns : string [] = [ 'Nombre', 'RFC', 'RazonSocial', 'Calle', 'Colonia', 'CP', 'Ciudad', 'Estado', 'NumeroExterior', 'ClaveProveedor', 'Estatus', 'Options'];
-  displayedColumns : string [] = [ 'Nombre', 'RFC', 'RazonSocial', 'Contacto', 'Telefono','Correo', 'Options'];
+  displayedColumns : string [] = [ 'Nombre', 'RFC', 'RazonSocial','Tipo', 'Contacto','Correo', 'Options'];
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -47,7 +47,62 @@ export class ShowProveedorComponent implements OnInit {
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     
     this.refreshProveedoresList();
-  }
+     //^ **** PRIVILEGIOS POR USUARIO *****
+     this.obtenerPrivilegios();
+     //^ **** PRIVILEGIOS POR USUARIO *****
+ 
+   }
+ 
+ 
+   //^ **** PRIVILEGIOS POR USUARIO *****
+   privilegios: any;
+   privilegiosExistentes: boolean = false;
+   modulo = 'Administracion';
+   area = 'Catalogos';
+ 
+   //^ VARIABLES DE PERMISOS
+   Agregar: boolean = false;
+   Editar: boolean = false;
+   Borrar: boolean = false;
+   //^ VARIABLES DE PERMISOS
+ 
+ 
+   obtenerPrivilegios() {
+     let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+     console.log(arrayPermisosMenu);
+     let arrayPrivilegios: any;
+     try {
+       arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+       // console.log(arrayPrivilegios);
+       arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+       // console.log(arrayPrivilegios);
+       this.privilegios = [];
+       arrayPrivilegios.privilegios.forEach(element => {
+         this.privilegios.push(element.nombreProceso);
+         this.verificarPrivilegio(element.nombreProceso);
+       });
+       // console.log(this.privilegios);
+     } catch {
+       console.log('Ocurrio algun problema');
+     }
+   }
+ 
+   verificarPrivilegio(privilegio) {
+     switch (privilegio) {
+       case ('Agregar Proveedores'):
+         this.Agregar = true;
+         break;
+       case ('Editar Proveedores'):
+         this.Editar = true;
+         break;
+       case ('Borrar Proveedores'):
+         this.Borrar = true;
+         break;
+       default:
+         break;
+     }
+   }
+   //^ **** PRIVILEGIOS POR USUARIO *****
 
   refreshProveedoresList() {
 
@@ -55,8 +110,8 @@ export class ShowProveedorComponent implements OnInit {
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
-      this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
-    //console.log(this.listData);
+      this.listData.paginator._intl.itemsPerPageLabel = 'Proveedores por Pagina';
+    console.log(this.listData);
     });
 
   }
@@ -122,7 +177,7 @@ export class ShowProveedorComponent implements OnInit {
 
   }
 
-  onEdit(proveedor: Proveedor,movimiento?){
+  onEdit(proveedor,movimiento?){
 // console.log(usuario);
 this.service.formData = proveedor;
     const dialogConfig = new MatDialogConfig();
@@ -130,7 +185,8 @@ this.service.formData = proveedor;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
     dialogConfig.data = {
-      movimiento: movimiento
+      movimiento: movimiento,
+      tipo: proveedor.tipo
     }
     this.dialog.open(EditProveedorComponent, dialogConfig);
   }

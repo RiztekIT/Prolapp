@@ -7,11 +7,13 @@
         <!-- Logo -->
         <!-- ============================================================== -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="index.html">
+            <!-- <a class="navbar-brand" href="index.html"> -->
+            <a routerLink="/inicio" class="navbar-brand">
                 <!-- Logo icon --><b>
                                 <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                                 <!-- Dark Logo icon -->
-                                <img src="assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+                                <img style="max-width: 50px;"  src="../assets/images/logonuevo.jpeg" alt="homepage" class="dark-logo" />
+                                <!-- <img src="assets/images/logo-icon.png" alt="homepage" class="dark-logo" /> -->
                                 <!-- Light Logo icon -->
                               <img src="assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
                             </b>
@@ -58,27 +60,36 @@
                 <!-- ============================================================== -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-email"></i>
-                        <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
+                        <div class="notify"> <span *ngIf="this.NotificacionesActivas == true" class="heartbit"></span><span *ngIf="this.NotificacionesActivas == true" class="point"></span> </div>
                     </a>
                     <div class="dropdown-menu mailbox dropdown-menu-right animated fadeIn" aria-labelledby="2">
                         <ul>
                             <li>
-                                <div class="drop-title">Tienes 2 Mensajes</div>
+                                <div class="container row">
+                                    <div class="col-6">
+                                        <p class="drop-title">Tienes {{cantidadMensajes}} Mensaje(s)</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="align-middle">
+                                            <button style="width: 100%; margin-top: 18%;" mat-raised-button class="btn btn-prolacto btn-sm" *ngIf="cantidadMensajes > 0" (click)="mensajeLeido('todos', 1)"><mat-icon class="example-tab-icon">done_all</mat-icon>Leer Todos</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </li>
                             <li>
-                                <div class="message-center">
+                                <div *ngIf="this.notificaciones" class="message-center">
                                     <!-- Message -->
-                                    <a>
+                                    <a *ngFor="let noti of notificaciones" style="cursor: pointer;" [ngStyle]="{'background-color' : noti.color}">
+
                                         <div class="user-img"> <img src="assets/images/users/10.jpg" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
-                                        <div class="mail-contnet">
-                                            <h5>Pedido Nuevo</h5> <span class="mail-desc">Nombre del Cliente</span> <span class="time">Dia Establecido</span> </div>
+                                        <div class="mail-contnet" (click)="mensajeLeido('uno', noti)">
+                                            <h6>Modulo Origen: {{noti.ModuloOrigen}}</h6>
+                                            <h6>Enviado por: {{noti.Usuario}}</h6> <span class="mail-desc">Mensaje: {{noti.Mensaje}}</span> <span class="time">Fecha Envio: {{noti.FechaEnvio | date: 'dd/MM/yyyy hh:mm:ss'}}</span>
+                                        </div>
+
                                     </a>
                                     <!-- Message -->
-                                    <a>
-                                        <div class="user-img"> <img src="assets/images/users/2.jpg" alt="user" class="img-circle"> <span class="profile-status busy pull-right"></span> </div>
-                                        <div class="mail-contnet">
-                                            <h5>Solicitud de Flete</h5> <span class="mail-desc">Nombre del Destino</span> <span class="time">Fecha</span> </div>
-                                    </a>
+
                                     <!-- Message -->
                                     <!-- <a href="#">
                                         <div class="user-img"> <img src="assets/images/users/3.jpg" alt="user" class="img-circle"> <span class="profile-status away pull-right"></span> </div>
@@ -91,12 +102,16 @@
                                         <div class="mail-contnet">
                                             <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span> </div>
                                     </a> -->
+
                                 </div>
                             </li>
                             <!-- <li>
                                 <a class="nav-link text-center" href="javascript:void(0);"> <strong>See all e-Mails</strong> <i class="fa fa-angle-right"></i> </a>
                             </li> -->
                         </ul>
+                        <a class="link ml-2" (click)="verTodos()" style="color: blue;">
+                            Ver Todos
+                        </a>
                     </div>
                 </li>
                 <!-- ============================================================== -->
@@ -121,13 +136,14 @@
                                     <div class="u-img"><img src="assets/images/users/1.jpg" alt="user"></div>
                                     <div class="u-text">
                                         <h4>{{user}}</h4>
-                                        <p class="text-muted">{{this.storageService.currentUser.Correo}}</p><a routerLink="/profile" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a></div>
+                                        <!-- <p class="text-muted">{{this.storageService.currentUser.Correo}}</p><a routerLink="/profile" class="btn btn-rounded btn-danger btn-sm">Ver Perfil</a> -->
+                                    </div>
                                 </div>
                             </li>
                             <li role="separator" class="divider"></li>
                             <!-- <li><a href="#"><i class="ti-user"></i> My Profile</a></li> -->
-                            <li><a href="#"><i class="ti-help"></i> Ayuda</a></li>
-                            <li><a href="#"><i class="ti-email"></i> Bandeja de Entrada</a></li>
+                            <!-- <li><a href="#"><i class="ti-help"></i> Ayuda</a></li> -->
+                            <li><a routerLink="/mensajes"><i class="ti-email"></i> Bandeja de Entrada</a></li>
                             <li role="separator" class="divider"></li>
                             <li><a routerLinkActive="active" routerLink="/account-settings"><i class="ti-settings"></i> Configuración </a></li>
                             <li role="separator" class="divider"></li>

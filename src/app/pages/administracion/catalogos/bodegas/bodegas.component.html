@@ -2,7 +2,7 @@
 
     <div class="row" style="align-items: center;">
         <div class="col-4">
-            <button style="width: 100%;" mat-raised-button class="btn btn-prolacto btn-lg" (click)="AEBodega('Agregar',1, 'Agregar Bodega')"><mat-icon class="example-tab-icon">add_circle</mat-icon></button>
+            <button [disabled]="Agregar == false" style="width: 100%;" mat-raised-button class="btn btn-prolacto btn-lg" (click)="AEBodega('Agregar',1, 'Agregar Bodega')"><mat-icon class="example-tab-icon">add_circle</mat-icon></button>
 
             <!-- <button class="btn btn-primary" (click)="crearapi()" color="primary"><i class="mdi mdi-plus btn-lg"></i>Crear Clientes</button> -->
         </div>
@@ -63,11 +63,11 @@
                   </button>
                 <mat-menu #menu="matMenu">
 
-                    <button mat-icon-button class="btn btn-success" color="warning" (click)="AEBodega('Editar', row, 'Editar Bodega')">
+                    <button [disabled]="Editar == false" mat-icon-button class="btn btn-success" color="warning" (click)="AEBodega('Editar', row, 'Editar Bodega')">
                         <mat-icon>edit</mat-icon>
                     </button>
                     <!--  -->
-                    <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdBodega,'Borrar Bodega')">
+                    <button [disabled]="Borrar == false" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdBodega,'Borrar Bodega')">
                                                     <mat-icon>delete_outline</mat-icon>
                                                 </button>
                 </mat-menu>

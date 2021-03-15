@@ -73,24 +73,23 @@ IMAGENES
                                 <div class="row fotos">
                                     <!-- <div class="row" style=" overflow-x: scroll; overflow-y: scroll"> -->
                                     <div class="d-flex flex-wrap ">
-                                        <div class="card containercard col-12 col-lg-3 " *ngFor="let image of imageInfo">
+                                        <div class="card containercard col-12 col-lg-6 " *ngFor="let image of imageInfo">
                                             <div class="imgcontainer">
-                                                <img [src]="image.ImagePath" class="img-fluid img-responsive imgblur">
-                                                <button class="btn-danger boton" (click)="deleteImage(image.ImageName)">
-                  <mat-icon>close</mat-icon>
-                </button>
-                                                <!-- <div class="row">
-                                    <div class="col-6">
-                                        <button class="btn btn-success">
-                                    <mat-icon>done</mat-icon>
-                                </button>
-                                    </div>
-                                    <div class="col-6">
-                                        <button class="btn btn-danger" (click)="deleteImage(image.ImageName)">
-                                    <mat-icon>close</mat-icon>
-                                </button>
-                                    </div>
-                                </div> -->
+                                                <div class="container row">
+                                                    <div class="col-md-8">
+                                                    </div>
+                                                    <div class="col-12 col-md-2 zindex ">
+                                                        <button class="btn-info boton mr-1 btncel" (click)="descargar(image)">
+                                                            <mat-icon>get_app</mat-icon>
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-12 col-md-2 zindex">
+                                                        <button class="btn-danger boton" (click)="deleteImage(image.ImageName)">
+                                                            <mat-icon>close</mat-icon>
+                                                        </button>                                        
+                                                    </div>
+                                                    <img [src]="image.ImagePath"  class="img-fluid img-responsive imgblur">
+                                                </div>
                                             </div>
                                         </div>
 

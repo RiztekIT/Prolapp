@@ -17,6 +17,11 @@ import Swal from 'sweetalert2';
 import { CotizacionpedidoComponent } from 'src/app/components/cotizacionpedido/cotizacionpedido.component';
 import { CotizacionEmailComponent } from 'src/app/components/cotizacion/cotizacion-email/cotizacion-email.component';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+import * as signalr from 'signalr'
+import { StorageServiceService } from '../../../services/shared/storage-service.service';
+import { Subscription } from 'rxjs';
+
+declare var $: any;
 
 @Component({
   selector: 'app-cotizaciones-ventas',
@@ -32,6 +37,12 @@ import { ngxLoadingAnimationTypes } from 'ngx-loading';
   ],
 })
 export class CotizacionesVentasComponent implements OnInit {
+  private connection: any;
+  private proxy: any;  
+  private proxyName: string = 'AlertasHub'; 
+ 
+   private hubconnection: signalr;  
+   notihub = 'https://riztekserver.ddns.net:44361/signalr'
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
   loadtable = true;
   folioparam;
@@ -43,7 +54,7 @@ export class CotizacionesVentasComponent implements OnInit {
   estatusSelect;
   public loading2 = false;
 
-  constructor( public router: Router, private dialog: MatDialog, public _MessageService: MessageService, private service: VentasCotizacionService, private service2: VentasPedidoService) {
+  constructor( public router: Router, private dialog: MatDialog, public _MessageService: MessageService, private service: VentasCotizacionService, private service2: VentasPedidoService, public storageSVC: StorageServiceService) {
 
     this.service.listen().subscribe((m: any) => {
       console.log(m);
@@ -53,8 +64,71 @@ export class CotizacionesVentasComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.ConnectionHub();
     this.refreshCotizacionesList();
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    this.obtenerPrivilegios();
+    //^ **** PRIVILEGIOS POR USUARIO *****
   }
+  ngOnDestroy(): void {
+    if(this.subs1){
+      this.subs1.unsubscribe();
+    }
+    if(this.subs2){
+      this.subs2.unsubscribe();
+    }
+  }
+
+    
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    privilegios: any;
+    privilegiosExistentes: boolean = false;
+    modulo = 'Ventas';
+    area = 'Cotizaciones';
+  
+    //^ VARIABLES DE PERMISOS
+    Agregar: boolean = false;
+    Editar: boolean = false;
+    Borrar: boolean = false;
+    //^ VARIABLES DE PERMISOS
+  
+  
+    obtenerPrivilegios() {
+      let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+      console.log(arrayPermisosMenu);
+      let arrayPrivilegios: any;
+      try {
+        arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+        // console.log(arrayPrivilegios);
+        arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+        // console.log(arrayPrivilegios);
+        this.privilegios = [];
+        arrayPrivilegios.privilegios.forEach(element => {
+          this.privilegios.push(element.nombreProceso);
+          this.verificarPrivilegio(element.nombreProceso);
+        });
+        // console.log(this.privilegios);
+      } catch {
+        console.log('Ocurrio algun problema');
+      }
+    }
+  
+    verificarPrivilegio(privilegio) {
+      switch (privilegio) {
+        case ('Agregar Nueva Cotizacion'):
+          this.Agregar = true;
+          break;
+        case ('Editar Cotizacion'):
+          this.Editar = true;
+          break;
+        case ('Borrar Cotizacion'):
+          this.Borrar = true;
+          break;
+        default:
+          break;
+      }
+    }
+    //^ **** PRIVILEGIOS POR USUARIO *****
 
   estatusCambio(event){
     // console.log(event);
@@ -92,13 +166,14 @@ if (this.estatusSelect==='Todos'){
   
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
-
+subs1: Subscription
+subs2: Subscription
   refreshCotizacionesList() {
     // this.service.getPedidoList().subscribe(data => {
-    this.service.getCotizaciones().subscribe(data => {
+    this.subs1 = this.service.getCotizaciones().subscribe(data => {
       console.log(data);
       for (let i = 0; i <= data.length - 1; i++) {
-        if (data[i].Estatus == 'Creada') {
+       /*  if (data[i].Estatus == 'Creada') {
           // console.log(data[i]);
           // console.log('ELIMINAR ESTE PEDIDO');
           // console.log(i + 1);
@@ -106,10 +181,10 @@ if (this.estatusSelect==='Todos'){
             console.log(data[i].IdCotizacion);
             this.refreshCotizacionesList();
           });
-        }
+        } */
         this.service.master[i] = data[i]
         this.service.master[i].DetalleCotizacion = [];
-        this.service.GetDetalleCotizacionId(data[i].IdCotizacion).subscribe(res => {
+        this.subs2 = this.service.GetDetalleCotizacionId(data[i].IdCotizacion).subscribe(res => {
           // console.log(res); 
           for (let l = 0; l <= res.length - 1; l++) {
             this.service.master[i].DetalleCotizacion.push(res[l]);
@@ -269,6 +344,7 @@ Vigencia: new Date()
       this.IdCotizacion = res[0].IdCotizacion;
       // console.log(this.IdPedido);
       localStorage.setItem('IdCotizacion', this.IdCotizacion.toString());
+      this.on();
       this.router.navigate(['/cotizacionesVentasAdd']);
     })
   }
@@ -314,7 +390,8 @@ Vigencia: new Date()
             icon: 'success',
             timer: 1000,
             showCancelButton: false,
-            showConfirmButton: false
+            showConfirmButton: false,
+            
           });
       }
     })
@@ -325,7 +402,8 @@ Vigencia: new Date()
     console.log(cotizacion);
     this.service.onDeleteAllDetalleCotizacion(cotizacion.IdCotizacion).subscribe(res => {
       this.service.onDeleteCotizacion(cotizacion.IdCotizacion).subscribe(res => {
-        this.refreshCotizacionesList();
+        this.on();
+        //this.refreshCotizacionesList();
       });
     });
 
@@ -383,6 +461,42 @@ Vigencia: new Date()
     // this.router.navigate(['/PedidosVentasAdd'])
 
   }
+
+  ConnectionHub(){
+  
+
+
+    this.connection = $.hubConnection(this.notihub);
+  
+    this.proxy = this.connection.createHubProxy(this.proxyName); 
+  
+    this.proxy.on('AlertasHub', (data) => {  
+      console.log('received in SignalRService: ', data);  
+      this.refreshCotizacionesList();
+      
+  }); 
+  
+  
+  
+    this.connection.start().done((data: any) => {  
+      console.log('Now connected ' + data.transport.name + ', connection ID= ' + data.id);  
+      /* this.connectionEstablished.emit(true);  */ 
+      /* this.connectionExists = true;   */
+  })
+  }
+
+  public on() {  
+  let mensaje = {
+      titulo: 'Venta',
+      descripcion: 'Mensaje desde Ventas',
+      fecha: new Date()
+    }
+     /*  
+    // server side hub method using proxy.invoke with method name pass as param  
+       */
+    /* this.proxy.invoke('NuevaNotificacion');   */
+    this.proxy.invoke('NuevaNotificacion',mensaje);
+} 
 
   
   

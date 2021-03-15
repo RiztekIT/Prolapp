@@ -149,13 +149,17 @@
                                 </button>
                                 <mat-menu #menu="matMenu">
                                     <!--  -->
-                                    <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                    <button [disabled]="Editar == false" title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
                                                 <mat-icon>edit</mat-icon>
                                             </button>
                                     <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
                                                 <mat-icon>visibility</mat-icon>
                                             </button>
                                     <!--  -->
+                                    <button title="Incidencia" mat-icon-button class="btn btn-dark" (click)="IncidenciasRow(row)">
+                                        <mat-icon>
+                                            add_to_photos</mat-icon>
+                                    </button>
                                     <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
                                                 <mat-icon>visibility</mat-icon>
                                             </button> -->
@@ -165,7 +169,7 @@
                                                 <mat-icon>alternate_email</mat-icon>
                                               </button> -->
                                     <!--  -->
-                                    <!-- <button title="Eliminar" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
+                                    <!-- <button [disabled]="Borrar == false" title="Eliminar" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row)">
                                                     <mat-icon>delete_outline</mat-icon>
                                                 </button> -->
                                 </mat-menu>
@@ -184,7 +188,7 @@
                                             <th> Clave Producto </th>
                                             <th> Producto </th>
                                             <th> Kilogramos </th>
-                                            <th> Lote </th>
+                                            <!-- <th> Lote </th> -->
                                             <th></th>
                                             <th></th>
                                             <th></th>
@@ -196,8 +200,8 @@
                                             <td> {{detalle.QR}} </td> -->
                                             <td> {{detalle.ClaveProducto}} </td>
                                             <td> {{detalle.Producto}} </td>
-                                            <td> {{ detalle.Sacos}} Kg</td>
-                                            <td> {{ detalle.Lote}} </td>
+                                            <td> {{ detalle.Sacos * detalle.PesoxSaco}} Kg</td>
+                                            <!-- <td> {{ detalle.Lote}} </td> -->
                                             <td></td>
                                             <td></td>
                                             <td></td>

@@ -1,15 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, BaseChartDirective, Color } from 'ng2-charts';
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
 import { OrdenCargaService } from '../../../../services/almacen/orden-carga/orden-carga.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-almacen-orden-carga-meses',
   templateUrl: './almacen-orden-carga-meses.component.html',
   styleUrls: ['./almacen-orden-carga-meses.component.css']
 })
-export class AlmacenOrdenCargaMesesComponent implements OnInit {
+export class AlmacenOrdenCargaMesesComponent implements OnInit, OnDestroy {
 
   constructor(public pedidoService: VentasPedidoService, public ordenCargaService: OrdenCargaService ) { }
 
@@ -18,6 +19,15 @@ export class AlmacenOrdenCargaMesesComponent implements OnInit {
     this.checked = 'True'
     this.Cliente = 'Todos'
     this.reporte();
+  }
+
+  ngOnDestroy(): void {
+    if(this.subs1){
+      this.subs1.unsubscribe();
+    }
+    if(this.subs2){
+      this.subs2.unsubscribe();
+    }
   }
 
   @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;
@@ -113,10 +123,11 @@ export class AlmacenOrdenCargaMesesComponent implements OnInit {
     }
   ];
 
-
+subs1:Subscription
   reporte(){
-    this.pedidoService.getDepDropDownValues().subscribe(dataClientes => {
-      console.log(dataClientes);  
+    this.iniciarTotales();
+   this.subs1 = this.pedidoService.getDepDropDownValues().subscribe(dataClientes => {
+      // console.log(dataClientes);  
       this.listaClientes=dataClientes;
        this.obtenerReporte(dataClientes.length, dataClientes);
     })
@@ -196,19 +207,28 @@ export class AlmacenOrdenCargaMesesComponent implements OnInit {
 //     }
 //   }
 
-
+subs2: Subscription
 datosCliente(data,i){
-  console.log(data);
-  this.ordenCargaService.getReporteClienteId(data[i].IdClientes).subscribe(dataReporte => {
-    console.log(dataReporte);
+  // console.log(data);
+  this.subs2 = this.ordenCargaService.getReporteClienteId(data[i].IdClientes).subscribe(dataReporte => {
+    
     if(dataReporte.length>0){
-      console.log(dataReporte);
-      this.iniciarTotales();
+      // console.log(dataReporte);
+      // console.log(dataReporte);
+      // let sac = 0;
+      // let kilo = 0;
       for (let l = 0; l < dataReporte.length; l++) {
       
 
           let fecha = new Date(dataReporte[l].FechaExpedicion)
           let mes = fecha.getMonth();
+
+          // sac = sac + +dataReporte[l].Sacos;
+          // kilo = kilo + +dataReporte[l].Kg;
+
+          // console.log(mes);
+          // console.log(sac);
+          // console.log(kilo);
 
           if ( mes == 0){
             this.totalEneroSacos = this.totalEneroSacos + +dataReporte[l].Sacos;
@@ -251,6 +271,7 @@ datosCliente(data,i){
             this.totalOctubreKg = this.totalOctubreKg + +dataReporte[l].Kg;
           }
           if ( mes == 10){
+            console.log('NOVIEMBRE');
             this.totalNoviembreSacos = this.totalNoviembreSacos + +dataReporte[l].Sacos;
             this.totalNoviembreKg = this.totalNoviembreKg + +dataReporte[l].Kg;
           }
@@ -259,6 +280,9 @@ datosCliente(data,i){
             this.totalDiciembreKg = this.totalDiciembreKg + +dataReporte[l].Kg;
           }
         }
+
+        // console.log(sac);
+          // console.log(kilo);
       
     if (this.informacion=='Sacos'){
       this.barChartData[0].label = 'Orden Carga Sacos'
@@ -290,11 +314,9 @@ datosCliente(data,i){
       this.barChartData[0].data[10] = this.totalNoviembreKg
       this.barChartData[0].data[11] = this.totalDiciembreKg
     }
+    
     this.chart.update();
      
-  }else{
-    this.iniciarTotales();
-    
   }
   })
 }

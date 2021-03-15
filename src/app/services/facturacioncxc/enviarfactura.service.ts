@@ -83,6 +83,7 @@ export class EnviarfacturaService {
   a = document.createElement('a');
   empresa;
   rfc;
+  titulo;
   // parche: string = 'https://cors-anywhere.herokuapp.com/'
   // parche: string = ''
   // readonly rootURL = this.parche +  "http://devfactura.in/api/v3/cfdi33/create"

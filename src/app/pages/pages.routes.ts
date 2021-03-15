@@ -97,6 +97,21 @@ import { DocumentacionComprasImportacionComponent } from './importacion/document
 import { EvidenciasOCComponent } from './calidad/evidencias/evidencias-oc/evidencias-oc.component';
 import { EvidenciasODComponent } from './calidad/evidencias/evidencias-od/evidencias-od.component';
 // import { DocumentosclienteComponent } from '../documentoscliente/documentoscliente.component';
+import { HistorialComprasComponent } from './compras/historial-compras/historial-compras.component';
+import { FleterasTraficoComponent } from './trafico/fleteras-trafico/fleteras-trafico.component';
+import { MensajesComponent } from './mensajes/mensajes.component';
+import { InicioComponent } from '../components/inicio/inicio.component';
+import { PoscatproductosComponent } from './pos/catalogos/poscatproductos/poscatproductos.component';
+import { PoscatusuariosComponent } from './pos/catalogos/poscatusuarios/poscatusuarios.component';
+import { EntradaproductosComponent } from './pos/entradaproductos/entradaproductos.component';
+import { PosinventariosComponent } from './pos/posinventarios/posinventarios.component';
+import { PosventadirectaComponent } from './pos/posventadirecta/posventadirecta.component';
+import { PosdashboardComponent } from './pos/posdashboard/posdashboard.component';
+import { AddeditposentradaComponent } from './pos/entradaproductos/addeditposentrada/addeditposentrada.component';
+import { PoscatclientesComponent } from './pos/catalogos/poscatclientes/poscatclientes.component';
+
+
+
 
 
 
@@ -207,6 +222,21 @@ const pagesRoutes: Routes = [
                 { path: 'ordencargatrafico', component: OrdenCargaTraficoComponent },
                 { path: 'evidenciasoc', component: EvidenciasOCComponent },
                 { path: 'evidenciasod', component: EvidenciasODComponent },   
+                { path: 'compras-historial', component: HistorialComprasComponent },
+                { path: 'embarque', component: EmbarqueImportacionComponent },
+                { path: 'fleterasCatalogo', component: FleterasTraficoComponent },
+                { path: 'mensajes', component: MensajesComponent },
+                { path: 'inicio', component: InicioComponent },
+                { path: 'poscatalogoproductos', component: PoscatproductosComponent },
+                { path: 'poscatalogousuarios', component: PoscatusuariosComponent },
+                { path: 'posentradamercancia', component: EntradaproductosComponent },
+                { path: 'posinventarios', component: PosinventariosComponent },
+                { path: 'posventadirecta', component: PosventadirectaComponent },
+                { path: 'pos', component: PosdashboardComponent },
+                { path: 'poscatalogoclientes', component: PoscatclientesComponent },
+                { path: 'posaddeditentrada', component: AddeditposentradaComponent },
+
+
                              
                 
 

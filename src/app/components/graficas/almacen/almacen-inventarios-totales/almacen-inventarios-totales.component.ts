@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef }
 import { FormControl } from '@angular/forms';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, BaseChartDirective, Color } from 'ng2-charts';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
 import { ProductosService } from 'src/app/services/catalogos/productos.service';
@@ -22,6 +22,13 @@ export class AlmacenInventariosTotalesComponent implements OnInit {
     this.checked = 'True'
     this.Bodega = 'Todos'
     this.verReporte();
+  }
+
+  ngOnDestroy(): void {
+    if(this.subs1){
+      this.subs1.unsubscribe();
+    }
+    // this.subs2.unsubscribe();
   }
 
   @ViewChild(BaseChartDirective, { static: true }) chart: BaseChartDirective;
@@ -172,10 +179,11 @@ export class AlmacenInventariosTotalesComponent implements OnInit {
 
   //   }
   // })
+  subs1: Subscription
   datosBodega(bodega, a) {
     console.log(bodega);
     console.log(a);
-    this.serviceTarima.GetSumatoriaBodega(bodega[a].Nombre).subscribe(dataBodega=>{
+   this.subs1 = this.serviceTarima.GetSumatoriaBodega(bodega[a].Nombre).subscribe(dataBodega=>{
       console.log(dataBodega);
       this.barChartData[0].data[a] = dataBodega[0].Sacos;
       this.barChartData[0].label = 'Inventario Sacos'

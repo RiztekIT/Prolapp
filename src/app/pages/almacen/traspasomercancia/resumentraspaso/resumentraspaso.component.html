@@ -1,0 +1,370 @@
+<mat-dialog-content>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <h1 style="text-align: center;">Resumen Traspaso de Mercancia</h1>
+                <div class="card-body">
+
+                    <div class="row" id="element-to-PDF">
+                        <div class="col-4">
+                            <label class="input-group-text text-info">Folio Trapaso:</label> <br>
+
+                            <input readonly type="text" placeholder="Folio" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.Folio" matInput>
+
+                        </div>
+                        <div class="col-4">
+                            <label class="input-group-text text-info">Folio Orden Carga :</label> <br>
+
+                            <input readonly type="text" placeholder="Orden de Carga" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.FolioOrdenCarga" matInput>
+
+                        </div>
+                        <div class="col-4">
+                            <label class="input-group-text text-info">Fecha Exp:</label> <br>
+
+                            <input readonly type="text" placeholder="Fecha" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.FechaExpedicion" matInput>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="input-group-text text-info">Sacos Totales:</label> <br>
+
+                            <input readonly type="text" placeholder="Sacos" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.SacosTotales" matInput>
+
+                        </div>
+                        <div class="col-4">
+                            <label class="input-group-text text-info">Kg Totales :</label> <br>
+
+                            <input readonly type="text" placeholder="Kilos" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.KilogramosTotales" matInput>
+
+                        </div>
+                        <div class="col-4">
+                            <label class="input-group-text text-info">Estatus :</label> <br>
+
+                            <input readonly type="text" placeholder="Estatus" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.Estatus" matInput>
+
+                        </div>
+                    </div>   
+                    <div class="row">
+                        <div class="col-4">
+                            <label class="input-group-text text-info">Descripcion Producto:</label> <br>
+                            <input title="Ingresar Descripcion de Productos que se mostrara en el Documento" (blur)="updateInformacionTraspaso()" type="text" placeholder="Descripcion de Productos" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.CampoExtra1" matInput>
+                        </div>
+                        <div class="col-4">
+                            <label class="input-group-text text-info">Fletera:</label> <br>
+                            <input title="Ingresar Fletera Orden Carga" (blur)="actualizarOrdenCarga()" type="text" placeholder="Ingrese Fletera" aria-label="Number" [(ngModel)]="this.Fletera" matInput>
+                        </div>
+                        <div class="col-4">
+                            <label class="input-group-text text-info">Caja:</label> <br>
+                            <input title="Ingresar Caja Orden Carga" (blur)="actualizarOrdenCarga()" type="text" placeholder="Ingrese Caja" aria-label="Number" [(ngModel)]="this.Caja" matInput>
+                        </div>
+                    </div>                
+                    <hr>
+
+
+                    <h2 style="text-align: center;">Productos</h2>
+ 
+                    
+
+                    <div class="row">
+                        <div class="col-12">
+
+                            <table style="width: 100%;" mat-table [dataSource]="listData" matSort class="scrollable" multiTemplateDataRows>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                <ng-container matColumnDef="PO">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>PO</th>
+                                    <td mat-cell *matCellDef="let element">{{element.PO}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Factura">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Factura</th>
+                                    <td mat-cell *matCellDef="let element">{{element.NumeroFactura}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="CBK">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>CBK</th>
+                                    <td mat-cell *matCellDef="let element">{{element.NumeroEntrada}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Usda">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>USDA</th>
+                                    <td mat-cell *matCellDef="let element">{{element.Usda}}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="Clave">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave</th>
+                                    <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Producto">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+                                    <td mat-cell *matCellDef="let element">{{element.Producto}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="PesoTotal">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>KG</th>
+                                    <td mat-cell *matCellDef="let element">{{element.PesoTotal}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Sacos">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
+                                    <td mat-cell *matCellDef="let element">{{element.Sacos| number: '1.0-0'}}
+                                    </td>
+                                </ng-container>
+
+
+                            </table>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-12 col-md-3">
+
+                     
+                        </div>
+                        
+                        <div class="col-12 col-md-3">
+
+                            <h2 style="text-align: center;">Archivos</h2>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button title="Enviar Correo Electronico" (click)="enviarTraspaso()"><mat-icon>contact_mail</mat-icon></button>
+                        </div>
+                        <div class="col-12 col-md-3">
+
+                     
+                        </div>
+                    </div>
+                    
+                    <br>
+
+                    <div class="row">
+                        <div class="col-md-4 col-12">
+                            <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p style="font-weight: 400; margin-top: 10px;">Facturas:</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentosFacturas()">Agregar</button>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+
+                                    <div style="padding: 0;" class="col-12">
+                                        <ngx-dropzone style="width: 100%;" (change)="onSelectFacturas($event)">
+                                            <!-- <ngx-dropzone (change)="onSelect($event)"> -->
+                                            <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                                            <ngx-dropzone-preview *ngFor="let f of filesFacturas" [file]="f" [removable]="true" (removed)="onRemoveDocDropzoneFacturas(f)">
+                                                <ngx-dropzone-label> {{ f.name }}</ngx-dropzone-label>
+                                            </ngx-dropzone-preview>
+                                        </ngx-dropzone>
+                                    </div>
+                                    <div class="col-12" style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                        <div *ngFor="let a of archivosfactura">
+                                            <button class="btn " (click)='leerArchivosfactura(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                            <button class="btn btn-danger" (click)='onRemoveFactura(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- FIN CARD -->
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p style="font-weight: 400; margin-top: 10px;">Certificado de Libre Venta:</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentosCLV()">Agregar</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div style="padding: 0;" class="col-12">
+                                        <ngx-dropzone style="width: 100%;" (change)="onSelectCLV($event)">
+                                            <!-- <ngx-dropzone (change)="onSelect($event)"> -->
+                                            <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                                            <ngx-dropzone-preview *ngFor="let f of filesCLV" [file]="f" [removable]="true" (removed)="onRemoveDocDropzoneCLV(f)">
+                                                <ngx-dropzone-label> {{ f.name }}</ngx-dropzone-label>
+                                            </ngx-dropzone-preview>
+                                        </ngx-dropzone>
+                                    </div>
+
+                                    <div class="col-12" style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                        <div *ngFor="let a of archivosCLV">
+                                            <button class="btn " (click)='leerArchivosCLV(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                            <button class="btn btn-danger" (click)='onRemoveCLV(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- FIN CARD -->
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p style="font-weight: 400; margin-top: 10px;">Certificado Origen:</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentosCO()">Agregar</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding: 0;" class="col-12">
+                                        <ngx-dropzone style="width: 100%;" (change)="onSelectCO($event)">
+                                            <!-- <ngx-dropzone (change)="onSelect($event)"> -->
+                                            <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                                            <ngx-dropzone-preview *ngFor="let f of filesCO" [file]="f" [removable]="true" (removed)="onRemoveDocDropzoneCO(f)">
+                                                <ngx-dropzone-label> {{ f.name }}</ngx-dropzone-label>
+                                            </ngx-dropzone-preview>
+                                        </ngx-dropzone>
+                                    </div>
+
+
+                                    <div class="col-12" style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                        <div *ngFor="let a of archivosCO">
+                                            <button class="btn " (click)='leerArchivosCO(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                            <button class="btn btn-danger" (click)='onRemoveCO(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- FIN CARD -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-12">
+                            <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p style="font-weight: 400; margin-top: 10px;">PESPI:</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentosPESPI()">Agregar</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding: 0;" class="col-12">
+                                        <ngx-dropzone style="width: 100%;" (change)="onSelectPESPI($event)">
+                                            <!-- <ngx-dropzone (change)="onSelect($event)"> -->
+                                            <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                                            <ngx-dropzone-preview *ngFor="let f of filesPESPI" [file]="f" [removable]="true" (removed)="onRemoveDocDropzonePESPI(f)">
+                                                <ngx-dropzone-label> {{ f.name }}</ngx-dropzone-label>
+                                            </ngx-dropzone-preview>
+                                        </ngx-dropzone>
+                                    </div>
+
+
+                                    <div class="col-12" style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                        <div *ngFor="let a of archivosPESPI">
+                                            <button class="btn " (click)='leerArchivosPESPI(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                            <button class="btn btn-danger" (click)='onRemovePESPI(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- FIN CARD -->
+                        </div>
+                        <div class="col-md-4 col-12">
+                            <!-- CARD DONDE SE MUESTRAN X DOCUMENTOS -->
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p style="font-weight: 400; margin-top: 10px;">Certificado de Analisis:</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentosCA()">Agregar</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding: 0;" class="col-12">
+                                        <ngx-dropzone style="width: 100%;" (change)="onSelectCA($event)">
+                                            <!-- <ngx-dropzone (change)="onSelect($event)"> -->
+                                            <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                                            <ngx-dropzone-preview *ngFor="let f of filesCA" [file]="f" [removable]="true" (removed)="onRemoveDocDropzoneCA(f)">
+                                                <ngx-dropzone-label> {{ f.name }}</ngx-dropzone-label>
+                                            </ngx-dropzone-preview>
+                                        </ngx-dropzone>
+                                    </div>
+
+                                    <div class="col-12" style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                        <div *ngFor="let a of archivosCA">
+                                            <button class="btn " (click)='leerArchivosCA(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                            <button class="btn btn-danger" (click)='onRemoveCA(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- FIN CARD -->
+                        </div>
+                        <div class="col-md-4 col-12">
+
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <p style="font-weight: 400; margin-top: 10px;">USDA:</p>
+                                    </div>
+                                    <div class="col-4">
+                                        <!-- <label class="input-group-text text-info">USDA:</label> <br> -->
+                                        <input title="En caso de ingresar mas de un usda, favor de dividirlos por comas. ej: usda1,usda2 etc" type="text" placeholder="Ingresar USDA" aria-label="Number" [formControl]="myControl4" [(ngModel)]="numUSDA" matInput>
+                                        <!-- <label class="input-group-text text-info">En caso de ingresar mas de un usda, favor de dividirlos por comas. ej: usda1,usda2 etc</label> <br> -->
+
+                                    </div>
+                                    <div class="col-4">
+                                        <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentosUSDA()">Agregar</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="padding: 0;" class="col-12">
+                                        <ngx-dropzone style="width: 100%;" (change)="onSelectUSDA($event)">
+                                            <!-- <ngx-dropzone (change)="onSelect($event)"> -->
+                                            <ngx-dropzone-label>Seleccionar Archivos</ngx-dropzone-label>
+                                            <ngx-dropzone-preview *ngFor="let f of filesUSDA" [file]="f" [removable]="true" (removed)="onRemoveDocDropzoneUSDA(f)">
+                                                <ngx-dropzone-label> {{ f.name }}</ngx-dropzone-label>
+                                            </ngx-dropzone-preview>
+                                        </ngx-dropzone>
+                                    </div>
+
+                                    <div class="col-12" style="border: .5px solid black; margin-top: 5px; padding-left: 5px; height: 200px; overflow-y: scroll;">
+                                        <div *ngFor="let a of archivosUSDA">
+                                            <button class="btn " (click)='leerArchivosUSDA(a)' style="margin-bottom: 5px; margin-top: 10px;"> {{a.name}} </button>
+                                            <button class="btn btn-danger" (click)='onRemoveUSDA(a)' style="margin-bottom: 5px; margin-left: 2px;"> X </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- FIN CARD -->
+
+
+
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

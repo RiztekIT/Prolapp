@@ -1,20 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 
-declare function graficaFlujo();
 
 @Component({
   selector: 'app-dashboard-importacion',
   templateUrl: './dashboard-importacion.component.html',
-  styles: []
+  styleUrls: ['./dashboard-importacion.component.css']
 })
 export class DashboardImportacionComponent implements OnInit {
 
   constructor() { }
 
   ngOnInit() {
-
-    graficaFlujo();
-
+    this.altura = 10;
   }
+  
+  altura;
+
+  ngAfterViewChecked(): void {
+    this.altura = document.getElementById("importacion").offsetHeight
+  }
+  
 
 }

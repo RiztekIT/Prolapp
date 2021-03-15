@@ -7,11 +7,11 @@
                     <div class="row">
                         <div class="col-md-3 col-sm-12" style="display: block; justify-content: center">
                             <!-- <button class="mt-2" mat-raised-button (click)="onAdd()" color="primary">Generar Cotizacion</button> -->
-                            <button style="margin-right: 15px;" title="Materia Prima" mat-fab (click)="onAdd()" class="btncoti">
+                            <button [disabled]="AgregarCompra == false" style="margin-right: 15px;" title="Materia Prima" mat-fab (click)="onAdd()" class="btncoti">
                                     <mat-icon>note_add</mat-icon>
                                   </button>
 
-                            <button title="Gastos" mat-fab (click)="onAddCompraAdministrativa()" class="btncoti">
+                            <button [disabled]="AgregarCompraAdministrativa == false" title="Gastos" mat-fab (click)="onAddCompraAdministrativa()" class="btncoti">
                                     <mat-icon>add_shopping_cart</mat-icon>
                                   </button>
                         </div>
@@ -129,16 +129,16 @@
                   </button>
                                 <mat-menu #menu="matMenu">
                                     <!--  -->
-                                    <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                    <button [disabled]="EditarCompra == false" title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
                                                 <mat-icon>edit</mat-icon>
                                             </button>
-                                    <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="onDelete(row)">
+                                    <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
+                                                <mat-icon>visibility</mat-icon>
+                                            </button>
+                                    <button [disabled]="BorrarCompra == false" title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="onDelete(row)">
                                                 <mat-icon>delete</mat-icon>
                                             </button>
                                     <!--  -->
-                                    <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
-                                        <mat-icon>visibility</mat-icon>
-                                    </button>
                                     <!--  -->
                                     <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
                                                 <mat-icon>visibility</mat-icon>
@@ -177,8 +177,8 @@
                                             <td> {{detalle.ClaveProducto}} </td>
                                             <td> {{detalle.Producto}} </td>
                                             <td> {{ detalle.Cantidad}} </td>
-                                            <td> {{ detalle.PrecioUnitario}} </td>
-                                            <td> {{ detalle.CostoTotal}} </td>
+                                            <td> {{ detalle.PrecioUnitario | currency}} </td>
+                                            <td> {{ detalle.CostoTotal | currency}} </td>
                                         </tr>
                                     </table>
                                 </div>

@@ -33,6 +33,9 @@ import { Cotizacion } from 'src/app/Models/ventas/cotizacion-model';
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
 import { Pedido } from 'src/app/Models/Pedidos/pedido-model';
 import { InventariosalmacenComponent } from 'src/app/pages/almacen/inventariosalmacen/inventariosalmacen.component';
+import * as signalr from 'signalr'
+import { environment } from 'src/environments/environment';
+import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -45,12 +48,23 @@ const httpOptions = {
   })
 }
 
+declare var $: any;
+
 @Component({
   selector: 'app-add-cotizacion',
   templateUrl: './add-cotizacion.component.html',
   styleUrls: ['./add-cotizacion.component.css']
 })
 export class AddCotizacionComponent implements OnInit {
+  
+
+ private connection: any;
+ private proxy: any;  
+ private proxyName: string = 'alertasHub'; 
+
+  private hubconnection: signalr;  
+  notihub = 'https://riztekserver.ddns.net:44361/signalr'
+
 
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
@@ -63,7 +77,7 @@ export class AddCotizacionComponent implements OnInit {
 
   constructor(public router: Router, private currencyPipe: CurrencyPipe, public service: VentasCotizacionService,private _formBuilder: FormBuilder,
     private serviceTipoCambio: TipoCambioService, private serviceProducto: ProductosService, private http: HttpClient, public ServiceUnidad: UnidadMedidaService,
-    private dialog: MatDialog, public serviceDireccion: ClienteDireccionService, public _MessageService: MessageService, public addproductos: AddsproductosService, public servicepedido: VentasPedidoService) { 
+    private dialog: MatDialog, public serviceDireccion: ClienteDireccionService, public _MessageService: MessageService, public addproductos: AddsproductosService, public servicepedido: VentasPedidoService, public traspasoSVC:TraspasoMercanciaService) { 
       this.MonedaBoolean = true;
 
       this.serviceDireccion.listen().subscribe((m:any)=>{
@@ -149,6 +163,7 @@ public PedidoBlanco: Pedido =
 
 
   ngOnInit() {  
+    this.ConnectionHub();
 
     this.Inicializar();
     this.dropdownRefresh();
@@ -159,6 +174,9 @@ public PedidoBlanco: Pedido =
     this.tipoDeCambio();
     this.service.formProd = new Producto();
 
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    this.obtenerPrivilegios();
+    //^ **** PRIVILEGIOS POR USUARIO *****
     // this.firstFormGroup = this._formBuilder.group({
     //   firstCtrl: ['', Validators.required]
     // });
@@ -178,6 +196,61 @@ public PedidoBlanco: Pedido =
       );
   
   }
+
+    
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    privilegios: any;
+    privilegiosExistentes: boolean = false;
+    modulo = 'Ventas';
+    area = 'Cotizaciones';
+  
+    //^ VARIABLES DE PERMISOS
+    Guardar: boolean = false;
+    Duplicar: boolean = false;
+    Convertir: boolean = false;
+    Enviar: boolean = false;
+    //^ VARIABLES DE PERMISOS
+  
+  
+    obtenerPrivilegios() {
+      let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+      console.log(arrayPermisosMenu);
+      let arrayPrivilegios: any;
+      try {
+        arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+        // console.log(arrayPrivilegios);
+        arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+        // console.log(arrayPrivilegios);
+        this.privilegios = [];
+        arrayPrivilegios.privilegios.forEach(element => {
+          this.privilegios.push(element.nombreProceso);
+          this.verificarPrivilegio(element.nombreProceso);
+        });
+        // console.log(this.privilegios);
+      } catch {
+        console.log('Ocurrio algun problema');
+      }
+    }
+  
+    verificarPrivilegio(privilegio) {
+      switch (privilegio) {
+        case ('Guardar Cotizacion'):
+          this.Guardar = true;
+          break;
+        case ('Duplicar Cotizacion'):
+          this.Duplicar = true;
+          break;
+        case ('Convertir Cotizacion'):
+          this.Convertir = true;
+          break;
+        case ('Enviar Cotizacion'):
+          this.Enviar = true;
+          break;
+        default:
+          break;
+      }
+    }
+    //^ **** PRIVILEGIOS POR USUARIO *****
 
   public listUM: Array<any> = [];
   //Filter Unidad
@@ -970,7 +1043,7 @@ onChangeCantidadP(cantidad: any) {
   console.log(cantidad);
   let elemHTML: any = document.getElementsByName('Cantidad')[0];
   // this.validarStock(cantidad);
-  elemHTML.value = this.Cantidad;
+  //elemHTML.value = this.Cantidad;
   //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
   this.calcularImportePedido();
   // console.log(this.Cantidad);
@@ -984,7 +1057,7 @@ onChangePrecio(precio: any) {
     console.log(precio);
     let elemHTML: any = document.getElementsByName('PrecioCosto')[0];
     // //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
-    elemHTML.value = +this.ProductoPrecio;
+    //elemHTML.value = +this.ProductoPrecio;
     this.calcularImportePedido();
   }
 }
@@ -994,7 +1067,7 @@ onChangePrecioDlls(precioDlls: any) {
     console.log(precioDlls);
     let elemHTML: any = document.getElementsByName('PrecioCostoDlls')[0];
     // //Transformar la Cantidad en entero e igualarlo a la variable Cantidad
-    elemHTML.value = +this.ProductoPrecioDLLS;
+    //elemHTML.value = +this.ProductoPrecioDLLS;
     this.calcularImportePedido();
   }
 }
@@ -1203,12 +1276,6 @@ onDeleteDetalleProducto(dp: DetalleCotizacion) {
 
     }
   })
-
-
-
-
-
-
 }
 
 cerrarCotizacion(){
@@ -1270,14 +1337,26 @@ crearCotizacion() {
       this.service.formprosp.IdCotizacion = this.service.formDataCotizacion.IdCotizacion;
   
       // console.log(this.service.formprosp);
-  
-      this.service.addProspecto(this.service.formprosp).subscribe(res => {
-        console.log(res);
-        console.log('Se agrego Prospecto');
 
-        this.service.formprosp = new Prospecto();
-
-      })
+      let query = 'select * from Prospecto where IdCotizacion = ' + this.IdCotizacion;
+    let consulta = {
+      'consulta': query
+    };
+    this.traspasoSVC.getQuery(consulta).subscribe((detallesConsulta: any) => {
+      console.log(detallesConsulta);
+    
+      //^ Valdiar si ya se genero el Prospecto. (PARA NO ESTAR GENERANDO EL MISMO PROSPECTO CADA VEZ QUE SE GUARDA LA COTIZACION)
+      if(detallesConsulta.length == 0){
+        this.service.addProspecto(this.service.formprosp).subscribe(res => {
+          console.log(res);
+          console.log('Se agrego Prospecto');
+          
+          this.service.formprosp = new Prospecto();
+          
+        })
+      }
+      
+    })
       
     }
   }
@@ -1580,6 +1659,30 @@ inventarios(detalle){
      
       this.dialog.open(InventariosalmacenComponent, dialogConfig);
 
+}
+
+
+
+ConnectionHub(){
+  
+
+
+  this.connection = $.hubConnection(this.notihub);
+
+  this.proxy = this.connection.createHubProxy(this.proxyName); 
+
+  this.proxy.on('alertasHub', (data) => {  
+    console.log('received in SignalRService: ' + JSON.stringify(data));  
+    
+}); 
+
+
+
+  this.connection.start().done((data: any) => {  
+    console.log('Now connected ' + data.transport.name + ', connection ID= ' + data.id);  
+    /* this.connectionEstablished.emit(true);  */ 
+    /* this.connectionExists = true;   */
+})
 }
 
 

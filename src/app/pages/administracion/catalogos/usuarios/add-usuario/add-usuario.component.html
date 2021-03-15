@@ -19,60 +19,40 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <label class="input-group-text text-info">Nombre</label>
-                        <input required minlength="2" placeholder="Escribe el nombre aqui" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre">
+                        <input required placeholder="Escribe el nombre aqui" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre">
 
-                        <div class="text-left text-danger" *ngIf="Nombre.invalid && Nombre.touched">
-                            Favor de Ingresar Nombre
-                        </div>
+                        
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Nombre Usuario</label>
-                        <input required minlength="2" placeholder="Escribe nombre de usuario" type="text" class="form-control" name="NombreUsuario" #NombreUsuario="ngModel" [(ngModel)]="service.formData.NombreUsuario">
+                        <input required placeholder="Escribe nombre de usuario" type="text" class="form-control" name="NombreUsuario" #NombreUsuario="ngModel" [(ngModel)]="service.formData.NombreUsuario">
 
-                        <div class="text-left text-danger" *ngIf="NombreUsuario.invalid && NombreUsuario.touched">
-                            Favor de Ingresar Nombre Usuario
-                        </div>
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Apellido Paterno</label>
-                        <input required minlength="2" placeholder="Escribe Apellido Paterno aqui" type="text" class="form-control" name="ApellidoPaterno" #ApellidoPaterno="ngModel" [(ngModel)]="service.formData.ApellidoPaterno">
+                        <input required placeholder="Escribe Apellido Paterno aqui" type="text" class="form-control" name="ApellidoPaterno" #ApellidoPaterno="ngModel" [(ngModel)]="service.formData.ApellidoPaterno">
 
-                        <div class="text-left text-danger" *ngIf="ApellidoPaterno.invalid && ApellidoPaterno.touched">
-                            Favor de Ingresar Apellido Paterno
-                        </div>
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Apellido Materno</label>
-                        <input required minlength="2" placeholder="Escribe Apellido Materno aqui" type="text" class="form-control" name="ApellidoMaterno" #ApellidoMaterno="ngModel" [(ngModel)]="service.formData.ApellidoMaterno">
+                        <input required placeholder="Escribe Apellido Materno aqui" type="text" class="form-control" name="ApellidoMaterno" #ApellidoMaterno="ngModel" [(ngModel)]="service.formData.ApellidoMaterno">
 
-                        <div class="text-left text-danger" *ngIf="ApellidoMaterno.invalid && ApellidoMaterno.touched">
-                            Favor de Ingresar Apellido Materno
-                        </div>
                     </div>
                     <!--               -------------------------------------------------------                                       -->
                     <div class="col-lg-6">
                         <label class="input-group-text text-info">Correo</label>
-                        <input required minlength="2" placeholder="Escribe el correo aqui" type="email" class="form-control" name="Correo" #Correo="ngModel" [(ngModel)]="service.formData.Correo">
+                        <input required placeholder="Escribe el correo aqui" type="email" class="form-control" name="Correo" #Correo="ngModel" [(ngModel)]="service.formData.Correo">
 
-                        <div class="text-left text-danger" *ngIf="Correo.invalid && Correo.touched">
-                            Favor de Ingresar Correo Valido
-                        </div>
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Telefono</label>
-                        <input required minlength="2" placeholder="Escribe el telefono aqui" type="number" class="form-control" name="Telefono" #Telefono="ngModel" [(ngModel)]="service.formData.Telefono">
+                        <input required placeholder="Escribe el telefono aqui" type="number" class="form-control" name="Telefono" #Telefono="ngModel" [(ngModel)]="service.formData.Telefono">
 
-                        <div class="text-left text-danger" *ngIf="Telefono.invalid && Telefono.touched">
-                            Favor de Ingresar Telefono
-                        </div>
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Contraseña</label>
-                        <input required minlength="2" placeholder="Escribe la contraseña aqui" type="password" class="form-control" name="Contra" #Contra="ngModel" [(ngModel)]="service.formData.Contra">
+                        <input required placeholder="Escribe la contraseña aqui" type="password" class="form-control" name="Contra" #Contra="ngModel" [(ngModel)]="service.formData.Contra">
 
-                        <div class="text-left text-danger" *ngIf="Contra.invalid && Contra.touched">
-                            Favor de Ingresar Contraseña Valida
-                        </div>
                         <!--Fecha Ultimo Acceso-->
                         <input type="hidden" class="form-control" name="FechaUltimoAcceso" #FechaUltimoAcceso="ngModel" value="2016-09-16T00:00:00" [(ngModel)]="service.formData.FechaUltimoAcceso">
 

@@ -5,10 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 // Importacion Angular Material
 import { MatSliderModule } from '@angular/material/slider';
-import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule, MatToolbarModule, MatTabsModule, MatProgressBarModule, MatButtonToggleModule } from '@angular/material';
+// import { MatSortModule, MatDialogModule, MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatDialogRef, MatSlideToggleModule, MatToolbarModule, MatTabsModule, MatProgressBarModule, MatButtonToggleModule } from '@angular/material';
+import { MatSortModule,  MatSnackBarModule, MatPaginatorModule, MatStepperModule, MatTooltipModule, MatSlideToggleModule, MatToolbarModule, MatTabsModule, MatProgressBarModule, MatButtonToggleModule, MatExpansionPanel, MatExpansionModule } from '@angular/material';
+import { MatDialogModule, MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material';
 import { MatDatepickerModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
+//import {MatTableExporterModule} from 'mat-table-exporter'
 import { MatIconModule, MatButtonModule } from '@angular/material';
 import { MatInputModule } from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
@@ -121,6 +124,9 @@ import { VentasPedidoService } from '../services/ventas/ventas-pedido.service';
 import { EmpresaService } from '../services/empresas/empresa.service';
 
 import { ImageUploadModule } from 'angular2-image-upload';
+
+//Imprimir HTML
+
 
   //qr code
 import { NgxQRCodeModule } from 'ngx-qrcode2'; 
@@ -301,6 +307,58 @@ import { CalidadTotalesComponent } from '../components/graficas/calidad/calidad-
 import { CalidadMesesComponent } from '../components/graficas/calidad/calidad-meses/calidad-meses.component';
 import { ReportetotalesComponent } from '../components/cxc/reportetotales/reportetotales.component';
 
+import { ShowreporteCalidadComponent } from './calidad/reportes/showreporte-calidad/showreporte-calidad.component';
+import { ImportacionMesesComponent } from '../components/graficas/importacion/importacion-meses/importacion-meses.component';
+import { ImportacionTotalesComponent } from '../components/graficas/importacion/importacion-totales/importacion-totales.component';
+import { ShowreporteImportacionComponent } from './importacion/reportes-importacion/showreporte-importacion/showreporte-importacion.component';
+import { ShowreporteTraficoComponent } from './trafico/reporte-trafico/showreporte-trafico/showreporte-trafico.component';
+import { TraficoTotalesComponent } from '../components/graficas/trafico/trafico-totales/trafico-totales.component';
+import { CxcCobranzaTotalesComponent } from '../components/graficas/cxc/cxc-cobranza-totales/cxc-cobranza-totales.component';
+import { CxcCobranzaMesesComponent } from '../components/graficas/cxc/cxc-cobranza-meses/cxc-cobranza-meses.component';
+import { CxcFacturaMesesComponent } from '../components/graficas/cxc/cxc-factura-meses/cxc-factura-meses.component';
+import { CxcFacturaTotalesComponent } from '../components/graficas/cxc/cxc-factura-totales/cxc-factura-totales.component';
+import { ShowreporteCxpComponent } from './cxp/reportescxp/showreporte-cxp/showreporte-cxp.component';
+import { CxpPagosTotalesComponent } from '../components/graficas/cxp/cxp-pagos-totales/cxp-pagos-totales.component';
+import { CxpPagosMesesComponent } from '../components/graficas/cxp/cxp-pagos-meses/cxp-pagos-meses.component';
+import { HistorialComprasComponent } from './compras/historial-compras/historial-compras.component';
+import { DocumentacionCLVImportacionComponent } from './importacion/documentacion-importacion/documentacion-clv-importacion/documentacion-clv-importacion.component';
+import { DocumentacionCOImportacionComponent } from './importacion/documentacion-importacion/documentacion-co-importacion/documentacion-co-importacion.component';
+import { DocumentacionPespiImportacionComponent } from './importacion/documentacion-importacion/documentacion-pespi-importacion/documentacion-pespi-importacion.component';
+import { DocumentacionCAImportacionComponent } from './importacion/documentacion-importacion/documentacion-ca-importacion/documentacion-ca-importacion.component';
+import { OrdenCargaDescargaComponent } from '../components/orden-carga-descarga/orden-carga-descarga.component';
+import { TraspasomercanciaComponent } from './almacen/traspasomercancia/traspasomercancia.component';
+import { ResumentraspasoComponent } from './almacen/traspasomercancia/resumentraspaso/resumentraspaso.component';
+import { FleterasTraficoComponent } from './trafico/fleteras-trafico/fleteras-trafico.component';
+import { AddEditFleterasComponent } from './trafico/fleteras-trafico/add-edit-fleteras/add-edit-fleteras.component';
+import { MarcasComponent } from './administracion/catalogos/productos/marcas/marcas.component';
+import { MensajesComponent } from './mensajes/mensajes.component';
+import { HistorialMensajesComponent } from '../components/mensajes/historial-mensajes/historial-mensajes.component';
+import { MatTableExporterModule } from 'mat-table-exporter';
+import { PoscatusuariosComponent } from './pos/catalogos/poscatusuarios/poscatusuarios.component';
+import { AddeditposusuariosComponent } from './pos/catalogos/poscatusuarios/addeditposusuarios/addeditposusuarios.component';
+import { PoscatproductosComponent } from './pos/catalogos/poscatproductos/poscatproductos.component';
+import { AddeditposproductosComponent } from './pos/catalogos/poscatproductos/addeditposproductos/addeditposproductos.component';
+import { EntradaproductosComponent } from './pos/entradaproductos/entradaproductos.component';
+import { AddeditposentradaComponent } from './pos/entradaproductos/addeditposentrada/addeditposentrada.component';
+import { PosventadirectaComponent } from './pos/posventadirecta/posventadirecta.component';
+import { AddeditposventadirectaComponent } from './pos/posventadirecta/addeditposventadirecta/addeditposventadirecta.component';
+import { PosinventariosComponent } from './pos/posinventarios/posinventarios.component';
+import { PosdashboardComponent } from './pos/posdashboard/posdashboard.component';
+import { AddeditposentradaproductosComponent } from './pos/entradaproductos/addeditposentrada/addeditposentradaproductos/addeditposentradaproductos.component';
+import { PospagoventaComponent } from './pos/posventadirecta/pospagoventa/pospagoventa.component';
+import { PosaddeditclientesComponent } from './pos/catalogos/poscatclientes/posaddeditclientes/posaddeditclientes.component';
+import { PoscatclientesComponent } from './pos/catalogos/poscatclientes/poscatclientes.component';
+
+import { FormatoPDFComponent } from '../components/almacen/formato-pdf/formato-pdf.component';
+import { NgxSimplePrintModule } from 'ngx-simple-print';
+import { PoshistoricoventasComponent } from './pos/posventadirecta/poshistoricoventas/poshistoricoventas.component';
+import { PossaldosclientesComponent } from './pos/posventadirecta/possaldosclientes/possaldosclientes.component';
+import { MovimientosinventariosComponent } from './almacen/inventariosalmacen/movimientosinventarios/movimientosinventarios.component';
+
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import {
+    NgxExtendedPdfViewerModule
+  } from 'ngx-extended-pdf-viewer';
 
 
 
@@ -517,7 +575,52 @@ import { ReportetotalesComponent } from '../components/cxc/reportetotales/report
         DisplaySaldosComponentp,
         CalidadTotalesComponent,
         CalidadMesesComponent,
-        ReportetotalesComponent
+        ReportetotalesComponent,
+        ShowreporteCalidadComponent,
+        ImportacionMesesComponent,
+        ImportacionTotalesComponent,
+        ShowreporteImportacionComponent,
+        ShowreporteTraficoComponent,
+        TraficoTotalesComponent,
+        CxcCobranzaTotalesComponent,
+        CxcCobranzaMesesComponent,
+        CxcFacturaMesesComponent,
+        CxcFacturaTotalesComponent,
+        ShowreporteCxpComponent,
+        CxpPagosTotalesComponent,
+        CxpPagosMesesComponent,
+        HistorialComprasComponent,
+        DocumentacionCLVImportacionComponent,
+        DocumentacionCOImportacionComponent,
+        DocumentacionPespiImportacionComponent,
+        DocumentacionCAImportacionComponent,
+        OrdenCargaDescargaComponent,
+        TraspasomercanciaComponent,
+        ResumentraspasoComponent,
+        FleterasTraficoComponent,
+        AddEditFleterasComponent,
+        MarcasComponent,
+        MensajesComponent,
+        HistorialMensajesComponent,
+        PoscatusuariosComponent,
+        AddeditposusuariosComponent,
+        PoscatproductosComponent,
+        AddeditposproductosComponent,
+        EntradaproductosComponent,
+        AddeditposentradaComponent,
+        PosventadirectaComponent,
+        AddeditposventadirectaComponent,
+        PosinventariosComponent,
+        PosdashboardComponent,
+        PoscatclientesComponent,
+        PosaddeditclientesComponent,        
+        AddeditposentradaproductosComponent,
+        PospagoventaComponent,
+        PosaddeditclientesComponent,
+        FormatoPDFComponent,
+        PoshistoricoventasComponent,
+        PossaldosclientesComponent,
+        MovimientosinventariosComponent,
     
     ],
     exports: [
@@ -571,6 +674,12 @@ import { ReportetotalesComponent } from '../components/cxc/reportetotales/report
         NgxPrintModule,
         MatProgressBarModule,
         MatButtonToggleModule,
+        MatTableExporterModule,        
+        MatExpansionModule,
+        NgxSimplePrintModule,
+        PdfViewerModule,
+        NgxExtendedPdfViewerModule
+        
         
     ],
     providers: [
@@ -595,7 +704,8 @@ import { ReportetotalesComponent } from '../components/cxc/reportetotales/report
         DatePipe,
         NotificacionespushService,
         DeviceDetectorService,
-        ThemeService
+        ThemeService,
+
         
         
     ],
@@ -671,7 +781,23 @@ import { ReportetotalesComponent } from '../components/cxc/reportetotales/report
         AEBodegaComponent,
         DocumentosComponent,
         DisplaySaldosComponentp,
-        ReportetotalesComponent
+        ReportetotalesComponent,
+        ShowreporteCalidadComponent,
+        ShowreporteImportacionComponent,
+        ShowreporteTraficoComponent,
+        ShowreporteCxpComponent,
+        ResumentraspasoComponent,
+        OrdenCargaDescargaComponent,
+        AddEditFleterasComponent,
+        MarcasComponent,
+        AddeditposproductosComponent,
+        AddeditposentradaproductosComponent,
+        PospagoventaComponent,
+        PosaddeditclientesComponent,
+        FormatoPDFComponent,
+        PoshistoricoventasComponent,
+        PossaldosclientesComponent,
+        MovimientosinventariosComponent
         
     ]
 })

@@ -9,6 +9,7 @@ import { ClienteDireccion } from 'src/app/Models/cliente-direccion/clienteDirecc
 import { Cliente } from '../../../Models/catalogos/clientes-model';
 import { environment } from 'src/environments/environment';
 import { DetalleOrdenCarga } from '../../../Models/almacen/OrdenCarga/detalleOrdenCarga-model';
+import { OrdenCargaInfo } from '../../../Models/almacen/OrdenCarga/ordenCargaInfo-model';
 
 //export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 export const APIUrl = environment.APIUrl;
@@ -79,9 +80,15 @@ export class OrdenCargaService {
   addOrdenCarga(ordencarga: OrdenCarga) {
     return this.http.post(APIUrl + '/OrdenCarga', ordencarga)
   }
+  addOrdenCarga2(ordencarga: OrdenCarga) {
+    return this.http.post(APIUrl + '/OrdenCarga/AddOrdenCarga', ordencarga)
+  }
 
   addDetalleOrdenCarga(detalleOC: DetalleOrdenCarga){
     return this.http.post(APIUrl + '/OrdenCarga/AddDetalleOrdenCarga', detalleOC)
+  }
+  updateDetalleOrdenCarga(detalleOC: DetalleOrdenCarga){
+    return this.http.put(APIUrl + '/OrdenCarga/UpdateDetalleOrdenCarga', detalleOC)
   }
 
   
@@ -105,8 +112,35 @@ export class OrdenCargaService {
     return this.http.put(APIUrl + '/OrdenCarga/ChoferDetalle/' + Id + '/' + Chofer, null);
   }
 
-  /* *************************************************** */
-  /* *************************************************** */
+  //^ Campos Extra a la Orden de Carga
+  // ***************************ORDEN CARGA INFO************************ */
+//^ Obtener OrdenCargaInfo por IdOrdenCargaInfo
+ getOrdenCargaInfoId(id: number): Observable<OrdenCargaInfo[]> {
+  return this.http.get<OrdenCargaInfo[]>(APIUrl + '/OrdenCarga/OrdenCargaInfoId/' + id);
+}
+//^ Obtener OrdenCargaInfo por IdOrdenCarga
+getOrdenCargaInfoIdOC(id: number): Observable<OrdenCargaInfo[]> {
+ return this.http.get<OrdenCargaInfo[]>(APIUrl + '/OrdenCarga/OrdenCargaInfoIdOC/' + id);
+}
+//^ Obtener OrdenCargaInfo por IdOrdenDescarga
+getOrdenDescargaInfoIdOD(id: number): Observable<OrdenCargaInfo[]> {
+ return this.http.get<OrdenCargaInfo[]>(APIUrl + '/OrdenCarga/OrdenCargaInfoIdOD/' + id);
+}
+//^ Agregar OrdenCargaInfo
+addOrdenCargaInfo(ordencargainf: OrdenCargaInfo) {
+  return this.http.post(APIUrl + '/OrdenCarga/AddOrdenCargaInfo', ordencargainf)
+}
+//^ Actualizar OrdenCargaInfo
+updateOrdenCargaInfo(ordencargainf: OrdenCargaInfo) {
+  return this.http.put(APIUrl + '/OrdenCarga/UpdateOrdenCargaInfo', ordencargainf)
+}
+//^ Eliminar OrdenCargaInfo por IdOrdenCargaInfo
+deleteOrdenCargaInf(id: number) {
+  return this.http.delete(APIUrl + '/OrdenCarga/DeleteOrdenCargaInfo/' + id)
+}
+
+  // ***************************ORDEN CARGA INFO************************ */
+  
 
   // *******************   REPORTES  ************************* //
 
@@ -128,6 +162,33 @@ export class OrdenCargaService {
     }
 
   // *******************   REPORTES  ************************* //
+
+
+//    // *******************   REPORTES IMPORTACION TRASPASO ************************* //
+// //SE OBTIENEN LOS REPORTES DE IMPORTACION (TRAPASO) DEBIDO A QUE ESTE NO TIENE UN SERVICIO COMO TAL. Y LA INFORMACION VIENE DIRECTAMENTE DE ORDEN DE CARGA.
+
+
+// //Obtener traspasos por Bodega Origen => Destino
+// getReporteTraspasoBodegas(bodegaOrigen: string, bodegaDestino: string):Observable<any[]>{
+//   return this.http.get<any[]>(APIUrl + '/reportes/GetTraspasoBodegas/'+bodegaOrigen+'/'+bodegaDestino);
+// }
+
+// //Obtener traspasos por Bodega Origen => Destino y Fecha de Expedicion
+// getReporteTraspasoBodegasFechas(bodegaOrigen: string, bodegaDestino: string, fecha1:string, fecha2:string):Observable<any[]>{
+//   return this.http.get<any[]>(APIUrl + '/reportes/GetTraspasoBodegasFechas/'+bodegaOrigen+'/'+bodegaDestino+'/'+fecha1+'/'+fecha2);
+// }
+
+// //Obtener traspasos por Bodega Origen => Destino y Estatus
+// getReporteTraspasoBodegasEstatus(bodegaOrigen: string, bodegaDestino: string, estatus:string):Observable<any[]>{
+//   return this.http.get<any[]>(APIUrl + '/reportes/GetTraspasoBodegasEstatus/'+bodegaOrigen+'/'+bodegaDestino+'/'+estatus);
+// }
+
+// //Obtener traspasos por Bodega Origen => Destino , Fecha de Expedicion y Estatus
+// getReporteTraspasoBodegasFechasEstatus(bodegaOrigen: string, bodegaDestino: string, fecha1:string, fecha2:string, estatus:string):Observable<any[]>{
+//   return this.http.get<any[]>(APIUrl + '/reportes/GetTraspasoBodegasFechasEstatus/'+bodegaOrigen+'/'+bodegaDestino+'/'+fecha1+'/'+fecha2+'/'+estatus);
+// }
+
+//     // *******************   REPORTES IMPORTACION TRASPASO ************************* //
 
   private _listeners = new Subject<any>();
   listen(): Observable<any> {

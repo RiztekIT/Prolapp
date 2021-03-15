@@ -5,6 +5,7 @@ import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label, BaseChartDirective, Color } from 'ng2-charts';
 import { getDate, getMonth } from 'date-fns';
 // import * as pluginAnnotations from 'chartjs-plugin-annotation';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-compras-meses',
@@ -88,6 +89,15 @@ export class ComprasMesesComponent implements OnInit {
 
   }
 
+  ngOnDestroy(): void {
+    if(this.subs1){
+      this.subs1.unsubscribe();
+    }
+    if(this.subs2){
+      this.subs2.unsubscribe();
+    }
+  }
+
   public barChartOptions: (ChartOptions & { annotation: any }) = {
     responsive: true,
     // We use these empty structures as placeholders for dynamic theming.
@@ -154,9 +164,9 @@ export class ComprasMesesComponent implements OnInit {
     
     
   }
-
+subs1: Subscription
   reporte(){
-    this.comprasService.getProveedoresList().subscribe(dataProveedores => {
+   this.subs1 = this.comprasService.getProveedoresList().subscribe(dataProveedores => {
       console.log(dataProveedores);  
       // this.barChartLabels = []; 
       this.listaproveedores=dataProveedores;
@@ -277,10 +287,10 @@ if(event.isUserInput){
     }
   }
 
-
+subs2: Subscription
   datosProveedor(data,i){
     console.log(data);
-    this.comprasService.getReporteProveedorId(data[i].IdProveedor).subscribe(dataReporte => {
+  this.subs2 =  this.comprasService.getReporteProveedorId(data[i].IdProveedor).subscribe(dataReporte => {
       console.log(dataReporte);
       if(dataReporte.length>0){
         console.log(dataReporte);

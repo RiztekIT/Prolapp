@@ -1,13 +1,32 @@
+<div class="row modal-header">
+    <div class="col-md-8 col-12">
+
+
+    </div>
+    <div class="col-md-4 col-12" style="text-align: center;">
+        <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()" style="margin-right: 10px;">
+            <mat-icon>download</mat-icon>
+        </button>
+        <button class="btn btn-primary waves-effect waves-light save-category" roNgxSimplePrint [printContentId]="'element-to-PDF'" style="margin-right: 10px;">
+            <mat-icon>print</mat-icon>
+        </button>
+        <button class="btn btn-danger waves-effect waves-light save-category" (click)="onClose()" style="margin-right: 10px;">
+            <mat-icon>close</mat-icon>
+          </button>
+
+    </div>
+</div>
+
 <div style="overflow: auto; height: 800px;">
-    <div>
+    <!-- <div>
         <button class="btn btn-danger" color="warn" (click)="onClose()">
         <mat-icon>close</mat-icon>
       </button>
-    </div>
+    </div> -->
 
 
 
-    <div class="modal0-body ">
+    <div [ngStyle]="{'display':style}" class="modal0-body ">
 
         <div id="element-to-PDF">
             <!-- TOP PAGE LOGO DESCRIPTION FACTURA -->
@@ -22,27 +41,28 @@
                                     <div class="card-body">
                                     </div> -->
 
-                            <img src="../../../assets/images/ProLactoLogo.png" class="logo">
+                            <!-- <img src="../../../assets/images/ProLactoLogo.png" class="logo"> -->
+                            <img [src]=logo class="logo">
 
                         </div>
                     </div>
                     <!-- descripcion -->
                     <div class="col-lg-6 col-md-6 col-sm-6 col-6">
-                        <h5 class="blacktxt bolder"> PROLACTO INGREDIENTES S DE RL MI DE CV
+                        <h5 class="blacktxt bolder"> {{this.enviarfact.empresa.RazonSocial}}
                         </h5>
-                        <p class="blacktxt bolder nomarginbottomP"><span class="bolder">R.F.C.:</span>PLA11011243A
+                        <p class="blacktxt bolder nomarginbottomP"><span class="bolder">R.F.C.:</span>{{this.enviarfact.empresa.RFC}}
                         </p>
-                        <p class="blacktxt bolder nomarginbottomP"> Calle: J. Matias de Anchondo No. 207, Col. San Felipe, CP: 31203, Chihuahua, Chihuahua, México
+                        <p class="text-center blacktxt">Calle: {{calle}} No. {{numeroext}} Int. {{numeroint}}, Col. {{colonia}}, CP: {{codigopostal}}, {{ciudad}}, {{estado}}, México
                         </p>
                         <div class="container row">
                             <div class="col-8 pl-0">
                                 <p class="blacktxt bolder nomarginbottomP">Lugar de Expedicion: <br>
-                                    <span>Calle: <i>Jose Matias de Anchondo, CP. 31203</i></span>
+                                    <span>Calle: <i>{{lugarExpedicion}}</i></span>
                                 </p>
                             </div>
                             <div class="col-4 mt-2">
                                 <p class="blacktxt bolder nomarginbottomP">Orden de Compra:
-                                    <span> {{service.formt.OrdenDeCompra}} </span>
+                                    <span> {{this.objconc.OrdenDeCompra}} </span>
                                 </p>
                             </div>
                         </div>
@@ -54,8 +74,8 @@
                                 <h5 class="text-center bolder blacktxt">Pedido No. : </h5>
                                 <!-- cambia POR FAVOR QUE ESTA COSA NO SE ACOMODA -->
                                 <div>
-                                    <h5 class="text-center bolder blacktxt"> {{service.formt.Folio}} </h5>
-                                    <h5 class="text-center bolder blacktxt"> {{service.formt.FechaDeEntrega | date: 'yyyy-MM-dd'}} </h5>
+                                    <h5 class="text-center bolder blacktxt"> {{this.objconc.Folio}} </h5>
+                                    <h5 class="text-center bolder blacktxt"> {{this.objconc.FechaDeEntrega | date: 'yyyy-MM-dd'}} </h5>
                                 </div>
                             </div>
                         </div>
@@ -73,15 +93,15 @@
                         <div class="col-lg-12 col-md-12 col-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <p class="nomarginbottomP"><span class="blacktxt bolder"> Cliente: ( {{service.formt.IdCliente}} )
-                              {{service.formt.Nombre}} </span></p>
+                                    <p class="nomarginbottomP"><span class="blacktxt bolder"> Cliente: ( {{this.objCliente.IdClientes}} )
+                              {{this.objCliente.Nombre}} </span></p>
                                     <p class="nomarginbottomP blacktxt">
-                                        <span class=" bolder">Calle:</span> {{service.formt.Calle}} No.{{service.formt.NumeroExterior}} {{service.formt.NumeroInterior}}, CP. {{service.formt.CP}}, {{service.formt.Colonia}} , {{service.formt.Ciudad}} ,
-                                        {{service.formt.Estado}}
-                                        <span class="bolder"> RFC: </span> {{service.formt.RFC}}
+                                        <span class=" bolder">Calle:</span> {{this.objCliente.Calle}} No.{{this.objCliente.NumeroExterior}} {{this.objCliente.NumeroInterior}}, CP. {{this.objCliente.CP}}, {{this.objCliente.Colonia}} , {{this.objCliente.Ciudad}}
+                                        , {{this.objCliente.Estado}}
+                                        <span class="bolder"> RFC: </span> {{this.objCliente.RFC}}
                                     </p>
-                                    <p class="bolder blacktxt nomarginbottomP">Vendedor: <span> {{service.formt.Vendedor}} </span></p>
-                                    <p class="bolder blacktxt nomarginbottomP">Enviar a: <span> {{service.formt.LugarDeEntrega}} </span>
+                                    <p class="bolder blacktxt nomarginbottomP">Vendedor: <span> {{this.objconc.Vendedor}} </span></p>
+                                    <p class="bolder blacktxt nomarginbottomP">Enviar a: <span> {{this.objconc.LugarDeEntrega}} </span>
                                     </p>
                                 </div>
                             </div>
@@ -91,8 +111,40 @@
 
 
                 <!-- cantidad-unidad-clave- -->
-                <div class="container" style="height:520px">
-                    <div class="col-lg-12 col-md-12 col-12">
+                <div class="container" style="height:530px">
+
+
+
+
+                    <table style="width: 100%; background: none">
+                        <thead>
+                            <tr>                            
+                                <th class="blacktxt bolder whitecolor text-center">Cantidad</th>
+                                <th class="blacktxt bolder whitecolor text-center">Clave</th>
+                                <th class="blacktxt bolder whitecolor text-center">Descripción</th>
+                                <th *ngIf="mostrarPrecios == true" class="blacktxt bolder whitecolor text-center">P/U</th>
+                                <th *ngIf="mostrarPrecios == true" class="blacktxt bolder whitecolor text-center">Importe</th>   
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let conceptos of arrcon;  let i = index">
+                            <tr class="pgbreak">
+                                <td class="textdt pgbreak text-center">{{conceptos.Cantidad | number: '1.0-0'}} </td>
+                                <td class="textdt text-center">{{conceptos.ClaveProducto}} </td>
+                                <td class=" textdt pgbreak text-center"> {{conceptos.Producto}} </td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitario | currency}} </td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'USD'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitarioDlls | currency}}</td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.Importe | currency}}</td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'USD'" class="textdt pgbreak text-center">{{conceptos.ImporteDlls | currency}}</td>
+                        </tbody>
+    
+                    </table>
+
+
+
+
+
+
+                    <!-- <div class="col-lg-12 col-md-12 col-12">
                         <div class="card card-outline-inverse">
                             <div class="card-header">
 
@@ -100,13 +152,29 @@
                                     <table class="table ">
                                         <thead>
                                             <tr>
-                                                <div class="container">
+                                                <div *ngIf="mostrarPrecios == true" class="container">
                                                     <div class="row">
-                                                        <div class="col-1">
+                                                        <div class="col-2">
                                                             <th class="bolder blacktxt pr-0">Cantidad</th>
                                                         </div>
                                                         <div class="col-2">
-                                                            <th class="bolder blacktxt">Unidad</th>
+                                                            <th class="bolder blacktxt text-center">Clave</th>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <th class="bolder blacktxt text-center">Descripción</th>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <th class="bolder blacktxt text-center">P/U</th>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <th class="bolder blacktxt text-center">Importe</th>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="mostrarPrecios == false" class="container">
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <th class="bolder blacktxt pr-0">Cantidad</th>
                                                         </div>
                                                         <div class="col-3">
                                                             <th class="bolder blacktxt text-center">Clave</th>
@@ -128,12 +196,28 @@
                                             <tr *ngFor="let conceptos of arrcon">
                                                 <div class="containter">
 
-                                                    <div class="row">
-                                                        <div class="col-1">
-                                                            <th class=" textoBodyAcomodo acomodoForzadoTh"> {{conceptos.Cantidad}} </th>
+                                                    <div *ngIf="mostrarPrecios == true" class="row">
+                                                        <div class="col-2">
+                                                            <th class=" textoBodyAcomodo acomodoForzadoTh" style="text-align: center;">  {{conceptos.Cantidad | number: '1.0-0'}} </th>
                                                         </div>
                                                         <div class="col-2">
-                                                            <th class=" textoBodyAcomodo acomodoForzadoTh2"> {{conceptos.Unidad}} </th>
+                                                            <th class=" textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.ClaveProducto}} </th>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <th class=" textoBodyAcomodo"> {{conceptos.Producto}}
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <th *ngIf="this.moneda == 'MXN'" class=" textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.PrecioUnitario | currency}} </th>
+                                                                <th *ngIf="this.moneda == 'USD'" class=" textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.PrecioUnitarioDlls | currency}} </th>
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <th *ngIf="this.moneda == 'MXN'" class=" textoBodyAcomodo acomodoForzadoTh3"> {{+conceptos.PrecioUnitario * +conceptos.Cantidad | currency}} </th>
+                                                                <th *ngIf="this.moneda == 'USD'" class=" textoBodyAcomodo acomodoForzadoTh3"> {{+conceptos.PrecioUnitarioDlls * +conceptos.Cantidad | currency}} </th>
+                                                            </div>
+                                                    </div>
+                                                    <div *ngIf="mostrarPrecios == false" class="row">
+                                                        <div class="col-3">
+                                                            <th class=" textoBodyAcomodo acomodoForzadoTh"> {{conceptos.Cantidad}} </th>
                                                         </div>
                                                         <div class="col-3">
                                                             <th class=" textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.ClaveProducto}} </th>
@@ -149,16 +233,115 @@
                                     </table>
                                 </div>
                             </div>
+
+                        </div>
+                    </div> -->
+                    <!-- Observaciones -->
+                    <!-- <div style="margin-top: 40%; position:relative">
+                        <b class="nomarginbottomP bolder">OBSERVACIONES DE PEDIDO:</b>
+                        <h5 class="bolder"> {{this.objconc.Observaciones}} </h5>
+                    </div> -->
+                </div>
+
+                <!-- <div *ngIf="mostrarPrecios == true" class="container row pgbreak" style="padding-right: 0;">
+                    <div class="col-6 pgbreak">
+
+                    </div>
+                    <div class="col-1"></div>
+                    <div class="col-5" style="padding-right: 0;">
+                        <div class="container row">
+                            <div class="col-6 containerborder">
+                                <p class="bolder blacktxt" style="text-align: center;">
+                                    Subtotal:
+                                </p>
+                            </div>
+                            <div class="col-6 containerborder">
+                                <p class="bolder blacktxt" style="text-align: center;">
+                                    $5,000,000.00
+                                   
+                                </p>
+                            </div>
+                        </div>
+                        <div class="container row">
+
+                            <div class="col-6 containerborder">
+                                <p class="bolder blacktxt" style="text-align: center;">
+                                    Total:
+                                </p>
+                            </div>
+                            <div class="col-6 containerborder nowrap">
+                                <p class="bolder blacktxt" style="text-align: center;">
+                                    $5,000,000.00
+                                </p>
+                            </div>
                         </div>
                     </div>
-                    <!-- Observaciones -->
-                    <div style="margin-top: 40%; position:relative">
-                        <b class="nomarginbottomP bolder">OBSERVACIONES DE PEDIDO:</b>
-                        <h5 class="bolder"> {{service.formt.Observaciones}} </h5>
+                </div> -->
+                <div  *ngIf="mostrarPrecios == true" class="container row">
+                    <div class="col-7">
+
+                    </div>
+
+
+                    <div class="col-5">
+                        <div class="card card-outline-inverse">
+                            <div class="card-body">
+                                <div class="container">
+                                    <div class="col-lg-12 col-md-12 col-12">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-7 col-7">
+                                                <p class="nomarginbottomP bolder"><b>Subtotal</b> </p>
+                                            </div>
+                                            <div class="col-lg-5 col-md-5 col-5">
+                                                <p *ngIf="this.moneda == 'MXN'" class="nomarginbottomP bolder"> {{this.objconc.Subtotal | currency}} </p>
+                                                <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP bolder"> {{this.objconc.SubtotalDlls | currency}} </p>
+                                                <!-- cambia -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-lg-12 col-md-12 col-12">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-7 col-7">
+                                                <p class="nomarginbottomP bolder"><b>IVA</b></p>
+                                            </div>
+                                            <div class="col-lg-5 col-md-5 col-5">
+                                                <p class="nomarginbottomP bolder"><b> {{this.objconc.iva | currency}} </b></p>
+
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-lg-12 col-md-12 col-12 bordeTopBottom">
+                                        <div class="row">
+                                            <div class="col-lg-7 col-md-7 col-7">
+                                                <p class="nomarginbottomP bolder"><b>Total</b></p>
+                                            </div>
+                                            <div class="col-lg-5 col-md-5 col-5">
+                                                <p *ngIf="this.moneda == 'MXN'" class="nomarginbottomP bolder"><b> {{this.objconc.Total | currency}} </b></p>
+                                                <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP bolder"><b> {{this.objconc.TotalDlls | currency}} </b></p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-lg-12 col-md-10 col-10">
+                                            <p   class="nomarginbottomP text-left bolder textoBodyAcomodo">{{textnum | uppercase}} {{this.objconc.Moneda}}</p>
+                                            <!-- <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP text-left bolder textoBodyAcomodo">{{textnumDlls | uppercase}} {{this.objconc.Moneda}}</p> -->
+                               
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-
+<br>
+<br>
+<br>
                 <!-- firma recibido -->
                 <div class="pgbreak">
                     <div class="row">
@@ -174,22 +357,22 @@
                 </div>
 
                 <!-- pagaré -->
-                <div class="col-lg-12 col-md-12 col-12">
+                <!-- <div class="col-lg-12 col-md-12 col-12">
                     <div class="card card-outline-inverse pgbreak">
                         <div class="card-body">
                             <div class="containerborder">
                                 <div class="container">
                                     <p>Esta factura será liquidada en dólares americanos y/o su equivalente en moneda nacional al tipo de cambio publicado en el diario oficial de la federación del día de la fecha de pago. Para cualquier aclaración, devolución
                                         o cambio cuenta con un máximo de 8 días naturales a partir de la fecha factura <span>
-                                {{service.formt.FechaDeEntrega | date}} </span>. Debo (emos) y Pagare (emos) incondicionalmente a la orden de PRO LACTOINGREDIENTES, S DE RL MI DE CV, en esta ciudad o en cualquier otra en que se me (nos) requiera el importe
-                                        de la mercancía que ampara este documento. Por la cantidad de <span> {{service.formt.Total |currency}}
-                                ( {{service.formt.TotalDlls | currency:'USD':'code'}} )</span></p>
-                                    <!-- cambia -->
+                                {{this.objconc.FechaDeEntrega | date}} </span>. Debo (emos) y Pagare (emos) incondicionalmente a la orden de PRO LACTOINGREDIENTES, S DE RL MI DE CV, en esta ciudad o en cualquier otra en que se me (nos) requiera el importe
+                                        de la mercancía que ampara este documento. Por la cantidad de <span> {{this.objconc.Total |currency}}
+                                ( {{this.objconc.TotalDlls | currency:'USD':'code'}} )</span></p>
+                             
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="col-lg-12 col-md-12 col-12">
                     <div class="card card-outline-inverse pgbreak">
@@ -199,9 +382,7 @@
                                     <h4 class="text-center bolder blacktxt"> ANOTACIONES Y OBSERVACIONES ADICIONALES </h4>
                                     <br>
                                     <br>
-                                    <br>
-                                    <br>
-                                    <br>
+
                                 </div>
                             </div>
                         </div>
@@ -212,9 +393,10 @@
 
         <div headerReporte></div>
     </div>
+    <ngx-extended-pdf-viewer [base64Src]="this.currentPdf" [printResolution]="600" useBrowserLocale="true" height="80vh" [showPrintButton]="false"></ngx-extended-pdf-viewer>
 
-    <div class="modal-footer">
+    <!-- <div class="modal-footer">
         <button type="button" class="btn btn-secondary waves-effect" (click)="onClose()">Cerrar</button>
         <button class="btn btn-primary waves-effect waves-light save-category" (click)="onExportClick()">Descargar</button>
-    </div>
+    </div> -->
 </div>

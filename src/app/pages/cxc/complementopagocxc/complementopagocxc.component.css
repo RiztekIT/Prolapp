@@ -63,3 +63,13 @@ tr.example-element-row:not(.example-expanded-row):active {
 .modal-lg {
     max-width: 850px;
 }
+
+.btn-prolacto {
+    background-color: black;
+    color: white
+}
+
+.btn-prolacto:hover {
+    background-color: white;
+    color: black
+}
