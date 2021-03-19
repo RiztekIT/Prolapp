@@ -154,8 +154,7 @@ export class ReportesalmacenComponent implements OnInit {
     { tipo: 'PasoTx' },
     { tipo: 'SAN DIEGO' }
   ];
-
-     obtenerClientes(){
+obtenerClientes(){
        this.serviceCliente.getClientesListIDN().subscribe(data=>{
          console.log(data);
          for (let i = 0; i < data.length; i++) {
@@ -176,6 +175,7 @@ export class ReportesalmacenComponent implements OnInit {
         option.Nombre.toLowerCase().includes(filterValue) ||
         option.IdClientes.toString().includes(filterValue));
     }
+     
      obtenerProveedores(){
        this.proveedorService.getProveedoresList().subscribe(data=>{
          console.log(data);

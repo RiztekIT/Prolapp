@@ -1,211 +1,330 @@
 <div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
 
-                <div>
-                    <label class="input-group-text text-info">{{this.enviarfact.empresa.RazonSocial}}</label>
-                    <!-- <select class="form-control" name="Empresa" #Empresa="ngModel" [(ngModel)]="this.enviarfact.empresa" required (ngModelChange)='cambioEmpresa($event)'>
+        <div>
+          <label class="input-group-text text-info">{{this.enviarfact.empresa.RazonSocial}}</label>
+          <!-- <select class="form-control" name="Empresa" #Empresa="ngModel" [(ngModel)]="this.enviarfact.empresa" required (ngModelChange)='cambioEmpresa($event)'>
                                 <option [ngValue]="null" selected disabled>Seleccionar Empresa</option>
                                 <option *ngFor="let e of listEmpresa" [ngValue]="e"> {{e.RazonSocial}} </option>
                               </select> -->
-                </div>
-                <!--    <div>
+        </div>
+        <!--    <div>
                             <button (click)='rfc()'>RFC</button>
                         </div> -->
 
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
 </div>
 
 <div class="card">
-    <div class="card">
-        <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                Reportes de Cobranza
-              </button>
-            </h2>
-        </div>
-        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-            <mat-card class="mat-elevation-z0">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-4" style="align-self: center">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
+          aria-expanded="false" aria-controls="collapseOne">
+          Reportes de Cobranza
+        </button>
+      </h2>
+    </div>
+    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <mat-card class="mat-elevation-z0">
+        <div class="container">
+          <div class="row">
+            <div class="col-4" style="align-self: center">
 
-                            <mat-checkbox class="checkbx" [(checked)]="todosClientes" (change)="checkbox($event)">
-                            </mat-checkbox>
-                            <label class="input-group-text text-info">
-                            Todos Los Clientes
-                        </label>
-                        </div>
-                        <div class="col-8" *ngIf="!todosClientes">
-                            <label class="input-group-text text-info">Seleccionar Cliente</label>
+              <mat-checkbox class="checkbx" [(checked)]="todosClientes" (change)="checkbox($event)">
+              </mat-checkbox>
+              <label class="input-group-text text-info">
+                Todos Los Clientes
+              </label>
+            </div>
+            <div class="col-8" *ngIf="!todosClientes">
+              <label class="input-group-text text-info">Seleccionar Cliente</label>
 
-                            <div class="row">
-                                <div class="col-12">
-                                    <mat-form-field class="example-full-width">
-                                        <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClienteId" [(ngModel)]="serviceCliente.Idclienteservicio">
-                                        <mat-autocomplete #auto="matAutocomplete">
-                                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChange(option, $event)">
-                                                {{option.IdClientes}} {{option.Nombre}}
-                                            </mat-option>
-                                        </mat-autocomplete>
-                                    </mat-form-field>
-                                    <input type="string" class="form-control" readonly name="ClienteNombre" readonly [(ngModel)]="ClienteNombre">
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
+              <div class="row">
+                <div class="col-12">
+                  <mat-form-field class="example-full-width">
+                    <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl"
+                      matInput [matAutocomplete]="auto" name="ClienteId" [(ngModel)]="serviceCliente.Idclienteservicio">
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes"
+                        (onSelectionChange)="onSelectionChange(option, $event)">
+                        {{option.IdClientes}} {{option.Nombre}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <input type="string" class="form-control" readonly name="ClienteNombre" readonly
+                    [(ngModel)]="ClienteNombre">
                 </div>
-                <hr>
-                <div class="row">
-                    <!--   <br>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <!--   <br>
                 <div class="col-12">
                     <h2 class="h1-responsive" style="text-align: center;"> Reportes de Cobranza </h2>
                 </div>
                 <br>
                 <br>
                 <br> -->
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-4 btnalign">
-                                <button class="btn btn-prolacto" id="abrirpdf" (click)='reporteCobranza()'><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza</button>
-                            </div>
-                            <div class="col-4 btnalign">
-                                <button class="btn btn-prolacto" id="abrirpdf" (click)="reporteCobranzaDlls()"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza Dlls</button>
-                            </div>
-                            <div class="col-4 btnalign">
-                                <button class="btn btn-prolacto" id="abrirpdf" (click)="reporteCobranzaMxn()"><i class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza Mxn</button>
-                            </div>
+          <div class="container">
+            <div class="row">
+              <div class="col-4 btnalign">
+                <button class="btn btn-prolacto" id="abrirpdf" (click)='reporteCobranza()'><i
+                    class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza</button>
+              </div>
+              <div class="col-4 btnalign">
+                <button class="btn btn-prolacto" id="abrirpdf" (click)="reporteCobranzaDlls()"><i
+                    class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza Dlls</button>
+              </div>
+              <div class="col-4 btnalign">
+                <button class="btn btn-prolacto" id="abrirpdf" (click)="reporteCobranzaMxn()"><i
+                    class="mdi mdi-file-outline btn-lg"></i>Reporte Cobranza Mxn</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- INICIO REPORTES FACTURACION -->
+
+  <div class="card">
+    <div class="card-header" id="headingOne">
+        <h2 class="mb-0">
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Reporte de Facturacion por Fechas
+                  </button>
+        </h2>
+    </div>
+    <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+        <mat-card class="mat-elevation-z0">
+            <div class="row">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-4">
+                            <mat-form-field>
+                                <mat-label> Fecha Inicial </mat-label>
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <input matInput readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="fechaInicial" [(ngModel)]="sharedService.fecha1">
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <mat-form-field>
+                                <mat-label> Fecha Final </mat-label>
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <input matInput readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="fechaFinal" [(ngModel)]="sharedService.fecha2">
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-4">
+                            <button (click)="abrirReporte()" class="btn btn-prolacto"> Reporte Detallado </button>
+                            <!-- <button (click)="reporteFechasExcel()" class="btn btn-info"> Reporte Resumen Excel</button> -->
+                            <button (click)="abrirReporteResumen()" class="btn btn-prolacto"> Reporte Resumen</button>
                         </div>
                     </div>
-
                 </div>
-
-            </mat-card>
-        </div>
+            </div>
+        </mat-card>
     </div>
+</div>
 
-    <div class="card">
-        <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Reporte de Facturacion por Fechas
-                      </button>
-            </h2>
+  <div class="card-header" id="headingOne">
+    <h2 class="mb-0">
+      <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false"
+        aria-controls="collapseThree">
+        Reporte de Facturacion Totales
+      </button>
+    </h2>
+  </div>
+  <div id="collapseThree" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+    <mat-card>
+      <!-- <div class="row">
+                    <div class="container">                
+                        <div class="row"> -->
+      <div class="row">
+
+        <div class="col-12 col-md-2" style="align-self: center">
+
+          <section class="example-section">
+            <mat-slide-toggle class="example-margin" [color]="color" [checked]="checkedClientesFacturacion"
+              (change)="onChangeTodosClientesFacturacion()">
+              Todos los Clientes
+            </mat-slide-toggle>
+          </section>
         </div>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-            <mat-card class="mat-elevation-z0">
+        <div class="col-12 col-md-8" *ngIf="checkedClientesFacturacion == false">
+          <label class="input-group-text text-info">Seleccionar Cliente</label>
+
+          <div class="row">
+            <div class="col-12 col-md-12">
+              <mat-form-field class="example-full-width">
+                <input type="text" placeholder="Seleccionar Cliente" aria-label="Number"
+                  [formControl]="myControlFacturacion" matInput [matAutocomplete]="auto" name="clienteId"
+                  [(ngModel)]="FacturacionIdCliente">
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredOptionsFacturacion | async" [value]="option.IdClientes"
+                    (onSelectionChange)="onSelectionChangeFacturacion(option, $event)">
+                    {{option.IdCliente}} {{option.Nombre}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <input type="string" class="form-control" readonly name="clienteNombre" readonly
+                [(ngModel)]="FacturacionClienteNombre">
+            </div>
+
+          </div>
+        </div>
+        <div class="col-12 col-md-2">
+
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+
+        <div class="col-12 col-md-2">
+
+        </div>
+        <div class="col-12 col-md-4">
+          <mat-form-field>
+            <mat-label> Fecha Inicial </mat-label>
+            <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+            <input matInput readonly="readonly" required [matDatepicker]="picker5" type="text" class="form-control"
+              name="fechaInicial" [(ngModel)]="this.fechaInicialFacturacion">
+            <mat-datepicker #picker5></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-4">
+          <mat-form-field>
+            <mat-label> Fecha Final </mat-label>
+            <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+            <input matInput readonly="readonly" required [matDatepicker]="picker4" type="text" class="form-control"
+              name="fechaFinal" [(ngModel)]="this.fechaFinalFacturacion">
+            <mat-datepicker #picker4></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-2">
+
+        </div>
+      </div>
+      <hr>
+      <div class="container">
+        <div class="row">
+          <div class="col-12 col-md-4">
+
+          </div>
+          <div class="col-12 col-md-4">
+            <button (click)="abrirReporteTotales('Facturacion')" class="btn btn-prolacto">Reporte Totales</button>
+            <!-- <button (click)="abrirReporteResumen()" class="btn btn-prolacto"> Reporte Resumen</button> -->
+          </div>
+         
+          <div class="col-12 col-md-4">
+
+          </div>
+        </div>
+      </div>
+      <!-- </div>
+                    </div>
+                </div> -->
+    </mat-card>
+  </div>
+
+  <br>
+
+  <!-- FIN REPORTES FACTURACION -->
+
+
+  <!-- <div class="card">
+    <div class="card-header" id="headingOne">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree"
+          aria-expanded="false" aria-controls="collapseTwo">
+          Reporte de Totales
+        </button>
+      </h2>
+    </div>
+    <div id="collapseThree" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+      <mat-card class="mat-elevation-z0">
+        <div class="row">
+          <div class="container">
+            <div class="row">
+              <div class="col-4" style="align-self: center">
+
+                <mat-checkbox class="checkbx" [(checked)]="todosClientes2" (change)="checkbox2($event)">
+                </mat-checkbox>
+                <label class="input-group-text text-info">
+                  Todos Los Clientes
+                </label>
+              </div>
+              <div class="col-8" *ngIf="!todosClientes2">
+                <label class="input-group-text text-info">Seleccionar Cliente</label>
+
                 <div class="row">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-4">
-                                <mat-form-field>
-                                    <mat-label> Fecha Inicial </mat-label>
-                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                                    <input matInput readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="fechaInicial" [(ngModel)]="sharedService.fecha1">
-                                    <mat-datepicker #picker1></mat-datepicker>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-4">
-                                <mat-form-field>
-                                    <mat-label> Fecha Final </mat-label>
-                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                                    <input matInput readonly="readonly" required [matDatepicker]="picker2" type="text" class="form-control" name="fechaFinal" [(ngModel)]="sharedService.fecha2">
-                                    <mat-datepicker #picker2></mat-datepicker>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-4">
-                                <button (click)="abrirReporte()" class="btn btn-prolacto"> Reporte Detallado </button>
-                                <!-- <button (click)="reporteFechasExcel()" class="btn btn-info"> Reporte Resumen Excel</button> -->
-                                <button (click)="abrirReporteResumen()" class="btn btn-prolacto"> Reporte Resumen</button>
-                            </div>
-                        </div>
-                    </div>
+                  <div class="col-12">
+                    <mat-form-field class="example-full-width">
+                      <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl"
+                        matInput [matAutocomplete]="auto" name="ClienteId"
+                        [(ngModel)]="serviceCliente.Idclienteservicio">
+                      <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes"
+                          (onSelectionChange)="onSelectionChange(option, $event)">
+                          {{option.IdClientes}} {{option.Nombre}}
+                        </mat-option>
+                      </mat-autocomplete>
+                    </mat-form-field>
+                    <input type="string" class="form-control" readonly name="ClienteNombre2" readonly
+                      [(ngModel)]="ClienteNombre">
+                  </div>
+
                 </div>
-            </mat-card>
+
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-4">
+                <mat-form-field>
+                  <mat-label> Fecha Inicial </mat-label>
+                  <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                  <input matInput readonly="readonly" required [matDatepicker]="picker3" type="text"
+                    class="form-control" name="fechaInicial2" [(ngModel)]="sharedService.fecha3">
+                  <mat-datepicker #picker3></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <mat-form-field>
+                  <mat-label> Fecha Final </mat-label>
+                  <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                  <input matInput readonly="readonly" required [matDatepicker]="picker4" type="text"
+                    class="form-control" name="fechaFinal2" [(ngModel)]="sharedService.fecha4">
+                  <mat-datepicker #picker4></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-4">
+                <button (click)="abrirReporteTotales()" class="btn btn-info"> Reporte Totales </button>
+    
+
+              </div>
+            </div>
+          </div>
         </div>
+      </mat-card>
     </div>
+  </div> -->
 
 
-
-    <div class="card">
-        <div class="card-header" id="headingOne">
-            <h2 class="mb-0">
-                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseTwo">
-                        Reporte de Totales
-                      </button>
-            </h2>
-        </div>
-        <div id="collapseThree" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-            <mat-card class="mat-elevation-z0">
-                <div class="row">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-4" style="align-self: center">
-    
-                                <mat-checkbox class="checkbx" [(checked)]="todosClientes2" (change)="checkbox2($event)">
-                                </mat-checkbox>
-                                <label class="input-group-text text-info">
-                                Todos Los Clientes
-                            </label>
-                            </div>
-                            <div class="col-8" *ngIf="!todosClientes2">
-                                <label class="input-group-text text-info">Seleccionar Cliente</label>
-    
-                                <div class="row">
-                                    <div class="col-12">
-                                        <mat-form-field class="example-full-width">
-                                            <input type="text" placeholder="Seleccionar Cliente" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="ClienteId" [(ngModel)]="serviceCliente.Idclienteservicio">
-                                            <mat-autocomplete #auto="matAutocomplete">
-                                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdClientes" (onSelectionChange)="onSelectionChange(option, $event)">
-                                                    {{option.IdClientes}} {{option.Nombre}}
-                                                </mat-option>
-                                            </mat-autocomplete>
-                                        </mat-form-field>
-                                        <input type="string" class="form-control" readonly name="ClienteNombre2" readonly [(ngModel)]="ClienteNombre">
-                                    </div>
-    
-                                </div>
-    
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-4">
-                                <mat-form-field>
-                                    <mat-label> Fecha Inicial </mat-label>
-                                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-                                    <input matInput readonly="readonly" required [matDatepicker]="picker3" type="text" class="form-control" name="fechaInicial2" [(ngModel)]="sharedService.fecha3">
-                                    <mat-datepicker #picker3></mat-datepicker>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-4">
-                                <mat-form-field>
-                                    <mat-label> Fecha Final </mat-label>
-                                    <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
-                                    <input matInput readonly="readonly" required [matDatepicker]="picker4" type="text" class="form-control" name="fechaFinal2" [(ngModel)]="sharedService.fecha4">
-                                    <mat-datepicker #picker4></mat-datepicker>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-4">
-                                <button (click)="abrirReporteTotales()" class="btn btn-info"> Reporte Totales </button>
-                                <!-- <button (click)="reporteFechasExcel()" class="btn btn-info"> Reporte Resumen Excel</button> -->
-                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </mat-card>
-        </div>
-    </div>
-
-
-    <!-- <div class="modal fade bs-example-modal-lg show" id="add-new-event">
+  <!-- <div class="modal fade bs-example-modal-lg show" id="add-new-event">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="container row">
@@ -247,7 +366,7 @@
 </div>
 </div>  -->
 
-    <!-- 
+  <!-- 
     <div class="modal fade bs-example-modal-lg show" id="add-new-event1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -293,7 +412,7 @@
         </div>
     </div> -->
 
-    <!--   <div class="modal fade bs-example-modal-lg show" id="add-new-event2">
+  <!--   <div class="modal fade bs-example-modal-lg show" id="add-new-event2">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="container row">
@@ -336,8 +455,8 @@
         </div>
     </div> -->
 
-    <hr>
-    <!-- <div class="row">
+  <hr>
+  <!-- <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
@@ -348,6 +467,6 @@
         </div>
     </div>
 </div> -->
-    <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
-    </ngx-loading>
+  <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+  </ngx-loading>
 </div>
