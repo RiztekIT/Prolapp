@@ -37,7 +37,7 @@ h6 {
     border: 1px solid black;
 }
 
-.col-lg-12 {
+/* .col-lg-12 {
     padding-right: 1px;
     padding-left: 20px;
 }
@@ -54,7 +54,7 @@ h6 {
 
 .col-lg-7 {
     padding-bottom: 0px;
-}
+} */
 
 th {
     font-size: 10px;
@@ -66,24 +66,22 @@ th {
     border-top: 2px solid black;
 }
 
-.card-body {
-    /* padding-bottom: -20px;
-    padding-top: 0rem; */
+/* .card-body {
     padding: 0rem;
 }
 
 .card {
     margin-bottom: 10px;
-}
+} */
 
 .logo {
     max-height: 100px;
 }
 
-.col-lg-12 .col-md-12 {
+/* .col-lg-12 .col-md-12 {
     padding-left: 0px;
     margin-left: 0px;
-}
+} */
 
 .pgbreak {
     page-break-before: auto;
@@ -109,15 +107,15 @@ th {
 .table {
     width: 100%;
 }
-
+/* 
 td {
     font-size: 16px !important;
     padding: 5px;
-}
+} */
 
-th {
+/* th {
     font-size: 16px;
-}
+} */
 
 .blacktxt {
     color: #000000;
@@ -138,9 +136,9 @@ th {
     padding-right: 0px;
 }
 
-::ng-deep .modal-lg {
+/* ::ng-deep .modal-lg {
     max-width: 850px;
-}
+} */
 
 .border3 {
     border-top-style: double !important;
@@ -148,4 +146,12 @@ th {
 
 .border2 {
     border-top-style: dotted;
+}
+
+.titulos {
+font-size: 15px;
+
+}
+.subtitulos {
+    font-size: 12px;
 }
