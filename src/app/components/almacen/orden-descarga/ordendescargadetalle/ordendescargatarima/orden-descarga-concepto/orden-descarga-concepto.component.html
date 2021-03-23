@@ -46,6 +46,14 @@
               [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.FechaCaducidad">
             <mat-datepicker #picker1></mat-datepicker>
 
+            <label class="input-group-text text-info">Fecha Factura</label>
+
+            <mat-datepicker-toggle [disabled]="this.estatusOD == 'Descargada'" matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <input readonly="readonly" required [matDatepicker]="picker3" type="text" class="form-control"
+              name="FechaFactura" #FechaFactura="ngModel"
+              [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.CampoExtra3">
+            <mat-datepicker #picker3></mat-datepicker>
+
 
 
 
@@ -71,6 +79,10 @@
             <label class="input-group-text text-info">PO</label>
             <input [disabled]="this.estatusOD == 'Descargada'" type="text" class="form-control" name="po" #po="ngModel"
               [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.CampoExtra1">
+
+            <label class="input-group-text text-info">Tipo Cambio</label>
+            <input [disabled]="this.estatusOD == 'Descargada'" type="text" class="form-control" name="tc" #tc="ngModel"
+              [(ngModel)]="ordenTemporalService.ordenTemporalDataOD.CampoExtra2">
 
             <!-- <div class="text-left text-danger" *ngIf="Cantidad.invalid && Cantidad.touched ||cantidadSacos == 0">
                             Favor de Ingresar un valor mayor a 0.

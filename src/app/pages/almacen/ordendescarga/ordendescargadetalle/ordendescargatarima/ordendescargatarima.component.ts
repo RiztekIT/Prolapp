@@ -18,6 +18,7 @@ import { OrdenDescargaConceptoComponent } from 'src/app/components/almacen/orden
 import { map, startWith } from 'rxjs/operators';
 import { QrComponent } from 'src/app/components/qr/qr.component';
 import { CalendarioService } from '../../../../../services/calendario/calendario.service';
+import { TipoCambioService } from '../../../../../services/tipo-cambio.service';
 
 /* Constante y variables para la transformacion de los meses en los datetimepicker */
 // const months =['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DIC'];
@@ -72,7 +73,7 @@ export class OrdendescargatarimaComponent implements OnInit {
 
 
   constructor(public router: Router, private dialog: MatDialog, public service: OrdenDescargaService,
-    public ordenTemporalService: OrdenTemporalService, public Tarimaservice: TarimaService, public CalendarioService: CalendarioService, public serviceTarima: TarimaService) {
+    public ordenTemporalService: OrdenTemporalService, public Tarimaservice: TarimaService, public CalendarioService: CalendarioService, public serviceTarima: TarimaService, public tipoCambioService: TipoCambioService) {
     this.service.listen().subscribe((m: any) => {
       console.log(m);
       this.refreshOrdenDescargaList();
@@ -149,6 +150,7 @@ export class OrdendescargatarimaComponent implements OnInit {
   sacosCero: boolean;
   numerofactura;
   FechaFactura: Date;
+  TipoCambio: string
   PO;
   PODescarga;
   NumeroEntrada;
@@ -403,6 +405,8 @@ export class OrdendescargatarimaComponent implements OnInit {
     this.preOrdenTemporalSacos = preOD;
     this.preOrdenTemporalSacos.posicionOrdenTemporalOD = id;
     this.ordenTemporalService.posicionOrdenTemporalOD = id;
+
+    this.TipoCambio = this.tipoCambioService.TipoCambio;
     // console.log(this.ordenTemporalService.preOrdenTemporalSacos, 'oijfas');
 
     // console.log(this.ordenTemporalService.posicionOrdenTemporalOD, 'wwwwwwwwwwwwwwwwwwwwwwwwwww');
@@ -622,8 +626,10 @@ export class OrdendescargatarimaComponent implements OnInit {
     this.preOrdenTemporalSacos.FechaMFG = this.fechaMFG
     //^ En shipper guardaremos Numero Facura
     this.preOrdenTemporalSacos.Shipper = this.numerofactura;
-    //^ en Tarimas Totales guardaremos FechaFactura
+    //^  guardaremos FechaFactura
     this.preOrdenTemporalSacos.FechaFactura = this.FechaFactura;
+    //^ guardaremos el tipo de cambio ingresado
+    this.preOrdenTemporalSacos.TipoCambio = this.TipoCambio;    
     //^ En Pedimento guardaremos Numero Entrada (CBK)
     this.preOrdenTemporalSacos.Pedimento = this.NumeroEntrada;
     /* this.preOrdenTemporalSacos.Sacos = this.numerofactura; */
@@ -862,7 +868,8 @@ export class OrdendescargatarimaComponent implements OnInit {
             FechaMFG: this.preOrdenTemporalSacos.FechaMFG,
             Comentarios: '',
             CampoExtra1: this.PODescarga,
-            CampoExtra2: '',
+            //^ Aqui Guardaremos el Tipo de Cambio
+            CampoExtra2: this.preOrdenTemporalSacos.TipoCambio,
             //^ Aqui Guardaremos la Fecha de la Factura
             CampoExtra3: this.preOrdenTemporalSacos.FechaFactura
           }
@@ -898,6 +905,7 @@ export class OrdendescargatarimaComponent implements OnInit {
     this.NombreProducto = null;
     this.numerofactura = null;
     this.FechaFactura = null;
+    this.TipoCambio = null;
     this.PO = null;
     this.PODescarga = null;
     this.NumeroEntrada = null;

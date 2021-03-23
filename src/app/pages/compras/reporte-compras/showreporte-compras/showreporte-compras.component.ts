@@ -7,6 +7,8 @@ import { SharedService } from '../../../../services/shared/shared.service';
 import { CalendarioService } from 'src/app/services/calendario/calendario.service';
 import { formatoReporte } from '../../../../Models/formato-reporte';
 import { EnviarfacturaService } from '../../../../services/facturacioncxc/enviarfactura.service';
+import Swal from 'sweetalert2';
+import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
 
 
 @Component({
@@ -18,24 +20,30 @@ export class ShowreporteComprasComponent implements OnInit {
 
 
   constructor(public comprasService: CompraService, @Inject(MAT_DIALOG_DATA) public data: any, public sharedService: SharedService,
-  private EnviarfacturaService:EnviarfacturaService) { }
+    public EnviarfacturaService: EnviarfacturaService, public traspasoSVC: TraspasoMercanciaService,) { }
 
   ngOnInit() {
     this.reporteProveedor = this.data;
     console.log(this.reporteProveedor);
     console.log('%c⧭', 'color: #86bf60', this.data);
-    this.moneda = this.reporteProveedor.moneda;
-    this.identificarTipoDeReporte(this.reporteProveedor.unsoloproveedor);
+    if (this.reporteProveedor.tipoReporte == 'Ambas' || this.reporteProveedor.tipoReporte == 'MateriaPrima' || this.reporteProveedor.tipoReporte == 'Administrativa') {
+      this.moneda = this.reporteProveedor.moneda;
+      this.identificarTipoDeReporte(this.reporteProveedor.unsoloproveedor);
 
-    if (this.data.tipoReporte == 'Ambas' && this.data.moneda == 'ALL' ) {
-      this.EnviarfacturaService.titulo = 'Reporte Compras'
-      
-    } else if(this.data.tipoReporte == 'Ambas' && this.data.moneda == 'MXN'){
-      this.EnviarfacturaService.titulo = 'Reporte Compras MXN'
+      if (this.data.tipoReporte == 'Ambas' && this.data.moneda == 'ALL') {
+        this.EnviarfacturaService.titulo = 'Reporte Compras'
 
-    } else if(this.data.tipoReporte == 'Ambas' && this.data.moneda == 'DLLS') {
-      this.EnviarfacturaService.titulo ='Reporte Compras DLLS'
+      } else if (this.data.tipoReporte == 'Ambas' && this.data.moneda == 'MXN') {
+        this.EnviarfacturaService.titulo = 'Reporte Compras MXN'
 
+      } else if (this.data.tipoReporte == 'Ambas' && this.data.moneda == 'DLLS') {
+        this.EnviarfacturaService.titulo = 'Reporte Compras DLLS'
+
+      }
+    } else if (this.reporteProveedor.tipoReporte == 'Factura') {
+      console.log('Filtro Factura');
+      this.EnviarfacturaService.titulo = 'Reporte Compras Factura';
+      this.obtenerReporteFacturas(this.data.idProveedor);
     }
 
     //Obtener reporte Proveedor(es)
@@ -336,6 +344,25 @@ export class ShowreporteComprasComponent implements OnInit {
   }
 
   exportarPDF() {
+    let variableFormato = new formatoReporte();
+    let header;
+    let nombre;
+    let array = []
+    if(this.EnviarfacturaService.empresa.RFC=='PLA11011243A'){
+      header = variableFormato.header;
+      nombre = this.EnviarfacturaService.empresa.RazonSocial;
+      array[0] = -3
+      array[1] = 0
+      array[2] = 25  
+      array[3] = 3  
+    }else if(this.EnviarfacturaService.empresa.RFC=='AIN140101ME3'){
+      header = variableFormato.headerAbarrotodo;
+      nombre = this.EnviarfacturaService.empresa.RazonSocial;
+      array[0] = -2
+      array[1] = .5
+      array[2] = 15  
+      array[3] = 2.2 
+    }
     setTimeout(() => {
       // setTimeout(this.onExportClick,5)
       const content: Element = document.getElementById('pdfreporte');
@@ -349,15 +376,17 @@ export class ShowreporteComprasComponent implements OnInit {
       };
 
       html2pdf().from(content).set(option).toPdf().get('pdf').then(function (pdf) {
-        let variableFormato = new formatoReporte();
+        // let variableFormato = new formatoReporte();
         // console.log(variableFormato);
         var totalPages = pdf.internal.getNumberOfPages();
         pdf.setFontSize(10);
         pdf.setTextColor(70);
         for (var i = 1; i <= totalPages; i++) {
           pdf.setPage(i);
-          pdf.addImage(variableFormato.header, "PNG", -3, 0, 25, 3)
-          pdf.text('Pro lactoIngredientes S. de R.L. M.I. de C.V.', 1, 26);
+          // pdf.addImage(variableFormato.header, "PNG", -3, 0, 25, 3)
+          // pdf.text('Pro lactoIngredientes S. de R.L. M.I. de C.V.', 1, 26);
+          pdf.addImage(header, "PNG", array[0], array[1], array[2], array[3])
+          pdf.text(nombre, 1, 26);
           pdf.addImage(variableFormato.footer, "PNG", 18, 25, 2, 2);
         }
       }).save();
@@ -366,5 +395,133 @@ export class ShowreporteComprasComponent implements OnInit {
 
   }
 
+  arrayFinal: any;
+  facturas = new Array<any>();
+  fechaInicial = new Date();
+  fechaFinal = new Date();
 
+  obtenerReporteFacturas(idProveedor) {
+    this.arrayFinal = []
+    this.facturas = []
+
+
+    let fecha1;
+    let fecha2;
+
+
+    this.fechaInicial = this.data.fechaInicial;
+    this.fechaFinal = this.data.fechaFinal;
+
+    let dia = this.fechaInicial.getDate();
+    let mes = this.fechaInicial.getMonth() + 1;
+    let anio = this.fechaInicial.getFullYear();
+    fecha1 = anio + '-' + mes + '-' + dia
+
+    let dia2 = this.fechaFinal.getDate();
+    let mes2 = this.fechaFinal.getMonth() + 1;
+    let anio2 = this.fechaFinal.getFullYear();
+    fecha2 = anio2 + '-' + mes2 + '-' + dia2
+
+    console.log(fecha1);
+    console.log(fecha2);
+
+
+
+
+
+    Swal.fire({
+      title: 'Cargando ...',
+      onBeforeOpen() {
+        Swal.showLoading()
+      },
+      onAfterClose() {
+        Swal.hideLoading()
+      },
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false
+    })
+    let query = 'select * from Compras where FechaElaboracion between ' + "'" + fecha1 + "'" + ' and ' + "'" + fecha2 + "' and IdProveedor ="  + idProveedor;
+    let consulta = {
+      'consulta': query
+    };
+    console.log(consulta);
+    this.traspasoSVC.getQuery(consulta).subscribe((dataFactura: any) => {
+      console.log('%c⧭', 'color: #aa00ff', dataFactura);
+      dataFactura.forEach((element, i) => {
+      this.facturas[i] = dataFactura[i];
+      this.facturas[i].detalles = [];
+
+        let query2 = 'select OrdenTemporal.* from Compras left join OrdenDescarga on Compras.PO = OrdenDescarga.PO  left join OrdenTemporal on OrdenDescarga.IdOrdenDescarga = OrdenTemporal.IdOrdenDescarga where Compras.PO != '+"''"+' and IdCompra = ' + dataFactura[i].IdCompra
+        let consulta2 = {
+          'consulta': query2
+        };
+        // // console.log(consulta2);
+        
+        
+        console.log('%c⧭', 'color: #e50000', consulta2);
+
+        this.traspasoSVC.getQuery(consulta2).subscribe((dataDetalle: any) => {
+        console.log('%c⧭', 'color: #733d00', dataDetalle);
+
+          this.facturas[i] = dataFactura[i];
+          this.facturas[i].detalles = dataDetalle;          
+          this.arrayFinal = this.facturas;
+          console.log(this.arrayFinal);
+        })
+        if (i == dataFactura.length - 1) {
+          Swal.close();
+        }
+      });
+    })
+  }
+
+
+  exportarPDFactura() {
+    let variableFormato = new formatoReporte();
+    let header;
+    let nombre;
+    let array = []
+    if(this.EnviarfacturaService.empresa.RFC=='PLA11011243A'){
+      header = variableFormato.header;
+      nombre = this.EnviarfacturaService.empresa.RazonSocial;
+      array[0] = -3
+      array[1] = 0
+      array[2] = 25  
+      array[3] = 3  
+    }else if(this.EnviarfacturaService.empresa.RFC=='AIN140101ME3'){
+      header = variableFormato.headerAbarrotodo;
+      nombre = this.EnviarfacturaService.empresa.RazonSocial;
+      array[0] = -2
+      array[1] = .5
+      array[2] = 15  
+      array[3] = 2.2 
+    }
+    setTimeout(() => {
+      const content: Element = document.getElementById('pdf2');
+      const option = {    
+        margin: [3, .2, 3, .2],
+        filename: 'Reporte.pdf',
+        image: { type: 'jpeg', quality: 1 },
+        html2canvas: { scale: 1, logging: true, scrollY: -2},
+        jsPDF: { unit: 'cm', format: 'letter', orientation: 'portrait' },
+        pagebreak: { avoid: '.pgbreak' }
+      };
+
+      
+      html2pdf().from(content).set(option).toPdf().get('pdf').then(function (pdf) {
+        // console.log(variableFormato);
+        var totalPages = pdf.internal.getNumberOfPages();
+        pdf.setFontSize(10);
+        pdf.setTextColor(70);
+        for (var i = 1; i <= totalPages; i++) {
+          pdf.setPage(i);
+          pdf.addImage(header, "PNG", array[0], array[1], array[2], array[3])
+          pdf.text(nombre, 1, 26);
+          pdf.addImage(variableFormato.footer, "PNG", 18, 25, 2, 2);
+        }
+      }).save();
+    }, 1000);
+    setTimeout(() => { }, 1000);
+  }
 }
