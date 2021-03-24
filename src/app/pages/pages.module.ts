@@ -305,6 +305,8 @@ import { DisplaySaldosComponent } from './cxc/saldoscxc/display-saldos/display-s
 import { DisplaySaldosComponentp } from './cxp/saldoscxp/display-saldos/display-saldos.component';
 import { CalidadTotalesComponent } from '../components/graficas/calidad/calidad-totales/calidad-totales.component';
 import { CalidadMesesComponent } from '../components/graficas/calidad/calidad-meses/calidad-meses.component';
+import { ReportetotalesComponent } from '../components/cxc/reportetotales/reportetotales.component';
+
 import { ShowreporteCalidadComponent } from './calidad/reportes/showreporte-calidad/showreporte-calidad.component';
 import { ImportacionMesesComponent } from '../components/graficas/importacion/importacion-meses/importacion-meses.component';
 import { ImportacionTotalesComponent } from '../components/graficas/importacion/importacion-totales/importacion-totales.component';
@@ -573,6 +575,7 @@ import {
         DisplaySaldosComponentp,
         CalidadTotalesComponent,
         CalidadMesesComponent,
+        ReportetotalesComponent,
         ShowreporteCalidadComponent,
         ImportacionMesesComponent,
         ImportacionTotalesComponent,
@@ -778,6 +781,7 @@ import {
         AEBodegaComponent,
         DocumentosComponent,
         DisplaySaldosComponentp,
+        ReportetotalesComponent,
         ShowreporteCalidadComponent,
         ShowreporteImportacionComponent,
         ShowreporteTraficoComponent,

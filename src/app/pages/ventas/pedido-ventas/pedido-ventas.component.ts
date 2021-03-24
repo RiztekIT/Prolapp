@@ -27,6 +27,10 @@ import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfact
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
 
 import Swal from 'sweetalert2';
+import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
+import { OrdenCargaService } from '../../../services/almacen/orden-carga/orden-carga.service';
+import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
+import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model';
 
 @Component({
   selector: 'app-pedido-ventas',
@@ -38,13 +42,13 @@ import Swal from 'sweetalert2';
       state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
       state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),  
+    ]),
   ],
 })
 
 export class PedidoVentasComponent implements OnInit {
-  constructor(public router: Router, private dialog: MatDialog, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, 
-    private _formBuilder: FormBuilder,  public _MessageService: MessageService,  public enviarfact: EnviarfacturaService,) {
+  constructor(public router: Router, private dialog: MatDialog, private currencyPipe: CurrencyPipe, public service: VentasPedidoService,
+    private _formBuilder: FormBuilder, public _MessageService: MessageService, public enviarfact: EnviarfacturaService, public traspasoSVC: TraspasoMercanciaService, public ocService: OrdenCargaService, public tarimaService: TarimaService) {
 
     this.service.listen().subscribe((m: any) => {
       console.log(m);
@@ -62,79 +66,79 @@ export class PedidoVentasComponent implements OnInit {
     //^ **** PRIVILEGIOS POR USUARIO *****
   }
   ngOnDestroy(): void {
-    if(this.subs1){
+    if (this.subs1) {
       this.subs1.unsubscribe();
     }
-    if(this.subs2){
+    if (this.subs2) {
       this.subs2.unsubscribe();
     }
   }
 
-    
-    //^ **** PRIVILEGIOS POR USUARIO *****
-    privilegios: any;
-    privilegiosExistentes: boolean = false;
-    modulo = 'Ventas';
-    area = 'Orden de Venta';
-  
-    //^ VARIABLES DE PERMISOS
-    Agregar: boolean = false;
-    Editar: boolean = false;
-    Enviar: boolean = false;
-    Borrar: boolean = false;
-    //^ VARIABLES DE PERMISOS
-  
-  
-    obtenerPrivilegios() {
-      let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
-      console.log(arrayPermisosMenu);
-      let arrayPrivilegios: any;
-      try {
-        arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
-        // console.log(arrayPrivilegios);
-        arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
-        // console.log(arrayPrivilegios);
-        this.privilegios = [];
-        arrayPrivilegios.privilegios.forEach(element => {
-          this.privilegios.push(element.nombreProceso);
-          this.verificarPrivilegio(element.nombreProceso);
-        });
-        // console.log(this.privilegios);
-      } catch {
-        console.log('Ocurrio algun problema');
-      }
-    }
-  
-    verificarPrivilegio(privilegio) {
-      switch (privilegio) {
-        case ('Agregar Nueva Orden de Venta'):
-          this.Agregar = true;
-          break;
-        case ('Editar Orden de Venta'):
-          this.Editar = true;
-          break;
-        case ('Borrar Orden de Venta'):
-          this.Borrar = true;
-          break;
-        case ('Enviar Orden de Venta'):
-          this.Enviar = true;
-          break;
-        default:
-          break;
-      }
-    }
-    //^ **** PRIVILEGIOS POR USUARIO *****
 
-  estatusCambio(event){
+  //^ **** PRIVILEGIOS POR USUARIO *****
+  privilegios: any;
+  privilegiosExistentes: boolean = false;
+  modulo = 'Ventas';
+  area = 'Orden de Venta';
+
+  //^ VARIABLES DE PERMISOS
+  Agregar: boolean = false;
+  Editar: boolean = false;
+  Enviar: boolean = false;
+  Borrar: boolean = false;
+  //^ VARIABLES DE PERMISOS
+
+
+  obtenerPrivilegios() {
+    let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+    console.log(arrayPermisosMenu);
+    let arrayPrivilegios: any;
+    try {
+      arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+      // console.log(arrayPrivilegios);
+      arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+      // console.log(arrayPrivilegios);
+      this.privilegios = [];
+      arrayPrivilegios.privilegios.forEach(element => {
+        this.privilegios.push(element.nombreProceso);
+        this.verificarPrivilegio(element.nombreProceso);
+      });
+      // console.log(this.privilegios);
+    } catch {
+      console.log('Ocurrio algun problema');
+    }
+  }
+
+  verificarPrivilegio(privilegio) {
+    switch (privilegio) {
+      case ('Agregar Nueva Orden de Venta'):
+        this.Agregar = true;
+        break;
+      case ('Editar Orden de Venta'):
+        this.Editar = true;
+        break;
+      case ('Borrar Orden de Venta'):
+        this.Borrar = true;
+        break;
+      case ('Enviar Orden de Venta'):
+        this.Enviar = true;
+        break;
+      default:
+        break;
+    }
+  }
+  //^ **** PRIVILEGIOS POR USUARIO *****
+
+  estatusCambio(event) {
     // console.log(event);
-this.estatusSelect = event.value;
-console.log(this.estatusSelect);
-if (this.estatusSelect==='Todos'){
-  this.applyFilter2('')
-}else {
+    this.estatusSelect = event.value;
+    console.log(this.estatusSelect);
+    if (this.estatusSelect === 'Todos') {
+      this.applyFilter2('')
+    } else {
 
-  this.applyFilter2(this.estatusSelect)
-}
+      this.applyFilter2(this.estatusSelect)
+    }
 
   }
 
@@ -142,16 +146,16 @@ if (this.estatusSelect==='Todos'){
     { Estatus: 'Todos' },
     { Estatus: 'Guardada' },
     { Estatus: 'Cerrada' },
-    
+
   ];
-  
+
   estatusSelect;
   IdPedido: any;
   MasterDetalle = new Array<pedidoMaster>();
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['Folio', 'Nombre', 'Subtotal', 'Total', 'FechaDeExpedicion', 'Estatus',  'Options'];
-  
+  displayedColumns: string[] = ['Folio', 'Nombre', 'Subtotal', 'Total', 'FechaDeExpedicion', 'Estatus', 'Options'];
+
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Cantidad'];
 
   expandedElement: any;
@@ -163,26 +167,26 @@ if (this.estatusSelect==='Todos'){
   folioparam;
   idparam;
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
-// FIN MODAL EMAIL
+  // FIN MODAL EMAIL
   detalle = new Array<DetallePedido>();
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
 
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-subs1: Subscription
-subs2: Subscription
+  subs1: Subscription
+  subs2: Subscription
   refreshPedidoList() {
     // this.service.getPedidoList().subscribe(data => {
-      this.service.master = new Array<pedidoMaster>();
-  this.subs1 =  this.service.getPedidoCliente().subscribe(data => {
+    this.service.master = new Array<pedidoMaster>();
+    this.subs1 = this.service.getPedidoCliente().subscribe(data => {
       console.log(data);
       for (let i = 0; i <= data.length - 1; i++) {
-       /*  if (data[i].Estatus == 'Creada') {      
-          this.service.onDelete(data[i].IdPedido).subscribe(res => {
-            this.refreshPedidoList();
-          });
-        } */
+        /*  if (data[i].Estatus == 'Creada') {      
+           this.service.onDelete(data[i].IdPedido).subscribe(res => {
+             this.refreshPedidoList();
+           });
+         } */
         this.service.master[i] = data[i]
         this.service.master[i].DetallePedido = [];
         this.subs2 = this.service.getDetallePedidoId(data[i].IdPedido).subscribe(res => {
@@ -221,8 +225,8 @@ subs2: Subscription
       Moneda: "MXN",
       Prioridad: "Normal",
       SubtotalDlls: "",
-      DescuentoDlls:"",
-      TotalDlls:"",
+      DescuentoDlls: "",
+      TotalDlls: "",
       Flete: "Sucursal",
       IdDireccion: 0,
       FechaDeExpedicion: new Date()
@@ -256,7 +260,7 @@ subs2: Subscription
     this.ObtenerFolio();
     // console.log(this.PedidoBlanco.Folio);
   }
-  
+
   //Obtener ultimo pedido y agregarlo al local Storage
   ObtenerUltimoPedido() {
     this.service.getUltimoPedido().subscribe(res => {
@@ -277,12 +281,40 @@ subs2: Subscription
     this.service.formDataPedido = pedido;
     this.service.IdCliente = pedido.IdCliente;
     let Id = pedido.IdPedido;
-    localStorage.setItem('pedidopdf',JSON.stringify(pedido))
+    localStorage.setItem('pedidopdf', JSON.stringify(pedido))
     localStorage.setItem('IdPedido', Id.toString());
     this.router.navigate(['/pedidoventasAdd']);
   }
 
 
+
+
+  deletePedido(pedido: Pedido) {
+    // //^Significa que si hay valores
+    // if (data.length > 0) {
+    //   console.log('Si hay valores');
+    //   for (let i = 0; i <= data.length - 1; i++) {
+    //     this.SumarStock(data[i].Cantidad, data[i].ClaveProducto, data[i].IdDetallePedido);
+    //     //^ Eliminar detalles de la Venta
+    //     this.DeletePedidoDetallePedido(pedido);
+    //   }
+    // }
+    // //^ No hay valores 
+    // else {
+    //   console.log('No hay valores');
+    //   //^ Eliminar detalles de la Venta
+    this.DeletePedidoDetallePedido(pedido.IdPedido);
+    // }
+
+
+    Swal.fire({
+      title: 'Borrado',
+      icon: 'success',
+      timer: 1000,
+      showCancelButton: false,
+      showConfirmButton: false
+    });
+  }
   //Eliminar pedido
   //A su vez verificar si existen detalles pedidos relacionados a ese pedido.
   //En caso que si existan, se regresara el stock original a esos productos y se eliminaran los Detalles pedidos y el pedido.
@@ -290,47 +322,234 @@ subs2: Subscription
   onDelete(pedido: Pedido) {
 
     Swal.fire({
-      title: '¿Segur@ de Borrar Pedido?',
+      title: '¿Segur@ de Borrar Venta?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.value) {
-        
-          this.service.GetDetallePedidoId(pedido.IdPedido).subscribe(data => {
-            console.log(data);
-            if (data.length > 0) {
-              console.log('Si hay valores');
-              for (let i = 0; i <= data.length - 1; i++) {
-                this.SumarStock(data[i].Cantidad, data[i].ClaveProducto, data[i].IdDetallePedido);
-                this.DeletePedidoDetallePedido(pedido);
-              }
-            } else {
-              console.log('No hay valores');
-              this.DeletePedidoDetallePedido(pedido);
-            }
-          })
 
-          Swal.fire({
-            title: 'Borrado',
-            icon: 'success',
-            timer: 1000,
-            showCancelButton: false,
-            showConfirmButton: false
-          });
+        //^ Verificamos los detalles de esta venta
+        this.service.GetDetallePedidoId(pedido.IdPedido).subscribe(dataDetallesVenta => {
+          console.log(dataDetallesVenta);
+
+
+
+
+          //^ Verificar si la venta ya esta Cerrada
+          if (pedido.Estatus == 'Cerrada') {
+            console.log('Venta Cerrada');
+            //^ Obtenemos la Orden de Carga que se genero apartir de esta Venta
+            let query1 = 'select * from OrdenCarga where IdPedido = ' + pedido.IdPedido;
+            let consulta1 = {
+              'consulta': query1
+            };
+            console.log(query1);
+            this.traspasoSVC.getQuery(consulta1).subscribe((dataOrdenCarga: any) => {
+              console.log(dataOrdenCarga);
+              //^ Verificamos el Estatus de la Orden.
+              if (dataOrdenCarga[0].Estatus == 'Terminada') {
+                console.log('Orden de Carga Terminada');
+                //^ Verificamos el Flete de la Venta. Si esta terminada la Orden de Carga y el Flete de la Venta es sucursal (solo si es sucursal, ya que este proceso se genera en automatico), entonces aprobaremos la eliminacion de la Venta.
+                if (pedido.Flete == 'Sucursal') {
+                  console.log('Borrando, Venta en sucursal');
+                  //^ Procederemos a regresar el stock a Detalle Tarima y eliminar los registros de esta Venta.
+                  let queryOT = 'select * from OrdenTemporal where IdOrdenCarga = ' + dataOrdenCarga[0].IdOrdenCarga;
+                  let consultaOT = {
+                    'consulta': queryOT
+                  };
+                  console.log(queryOT);
+                  this.traspasoSVC.getQuery(consultaOT).subscribe((dataOrdenTemporal: any) => {
+                    console.log(dataOrdenTemporal);
+                    this.regresarStock(dataOrdenTemporal, dataOrdenCarga[0].IdOrdenCarga, pedido.IdPedido);
+                  });
+                } else {
+                  console.log('ERROR NO SE PUEDE ELIMINAR ESTA VENTA YA QUE HA SIDO TERMINADA');
+                  Swal.fire({
+                    title: 'No se puede borrar esta Venta',
+                    icon: 'error',
+                    text: 'La orden de Carga ya ha sido Finalizada.',
+                    timer: 2000,
+                    showCancelButton: false,
+                    showConfirmButton: true
+                  });
+                }
+              } else {
+                //^ si no es terminada, se le da la opcion al Usuario de eliminar La Orden.
+                //^ Ahora verificaremos si existen registros en Orden Temporal sobre esta venta
+                let query2 = 'select * from OrdenTemporal where IdOrdenCarga = ' + dataOrdenCarga[0].IdOrdenCarga;
+                let consulta2 = {
+                  'consulta': query2
+                };
+                console.log(query2);
+                this.traspasoSVC.getQuery(consulta2).subscribe((dataOrdenTemporal: any) => {
+                  console.log(dataOrdenTemporal);
+
+                  if (dataOrdenTemporal.length > 0) {
+                    console.log('SI HUBO DESCARGA');
+                    //^ Si si existen registros, tendremos que regresar el stock a Detalle Tarima, y borrar los registros de las diferentes tablas 
+                    this.regresarStock(dataOrdenTemporal, dataOrdenCarga[0].IdOrdenCarga, pedido.IdPedido);
+                    
+                  } else {
+                    //^ Solamente borraremos La Orden Carga y sus detalles, asi como los de la Venta.
+                    console.log('NO SE DESCARGO NADA DE NADA');
+                    this.DeletePedidoDetallePedido(pedido.IdPedido);
+                    this.eliminarOrdenyDetalles(dataOrdenCarga[0].IdOrdenCarga);
+                  }
+                })
+              }
+            });
+          }
+          //^ Si el estatus no es 'Cerrada', entonces solo eliminaremos la Venta y sus Detalles.
+          else {
+
+            this.DeletePedidoDetallePedido(pedido.IdPedido);
+
+          }
+
+
+
+
+
+
+
+          // //^Significa que si hay valores
+          // if (data.length > 0) {
+          //   console.log('Si hay valores');
+          //   for (let i = 0; i <= data.length - 1; i++) {
+          //     this.SumarStock(data[i].Cantidad, data[i].ClaveProducto, data[i].IdDetallePedido);
+          //     //^ Eliminar detalles de la Venta
+          //     this.DeletePedidoDetallePedido(pedido);
+          //   }
+          // }
+          // //^ No hay valores 
+          // else {
+          //   console.log('No hay valores');
+          //   //^ Eliminar detalles de la Venta
+          //   this.DeletePedidoDetallePedido(pedido);
+          // }
+        })
+
+        Swal.fire({
+          title: 'Borrado',
+          icon: 'success',
+          timer: 1800,
+          showCancelButton: false,
+          showConfirmButton: false
+        });
       }
     })
 
   }
 
-  //ELiminar Pedidos y DetallePedido
-  DeletePedidoDetallePedido(pedido: Pedido) {
+  //^ Regresar stock a Detalle Tarima y eliminar Orden Temporal
+  regresarStock(ordenesTemporales: any, IdOrdenCarga: number, IdPedido: number) {
 
-    this.service.onDeleteAllDetallePedido(pedido.IdPedido).subscribe(res => {
-      this.service.onDelete(pedido.IdPedido).subscribe(res => {
+    ordenesTemporales.forEach(ordenTemporal => {
+
+
+
+      let Sacos = ordenTemporal.Sacos;
+      let Lote = ordenTemporal.Lote;
+      let ClaveProducto = ordenTemporal.ClaveProducto;
+      let bodegaOrigen = 'Chihuahua';
+      let kg = ordenTemporal.PesoTotal;
+
+
+      let query1 = 'select * from DetalleTarima where ClaveProducto = ' + "'" + ClaveProducto + "'" + ' and Lote =' + "'" + Lote + "'" + ' and Bodega =' + "'" + bodegaOrigen + "'";
+      let consulta1 = {
+        'consulta': query1
+      };
+      console.log(query1);
+      //^ Obetenemos la Informacion del Producto en la Bodega
+      this.traspasoSVC.getQuery(consulta1).subscribe((dataDetalleTarima: any) => {
+        console.log(dataDetalleTarima);
+
+        //^ Verificamos si existe ese producto, con cierto Lote en la Bodega
+        if (dataDetalleTarima.length > 0) {
+          //^ Si existe, actualizaremos su stock
+          let updateDetalleTarima: DetalleTarima = Object.assign({}, dataDetalleTarima[0]);
+          updateDetalleTarima.SacosTotales = (+updateDetalleTarima.SacosTotales + +Sacos).toString();
+          updateDetalleTarima.PesoTotal = (+updateDetalleTarima.PesoTotal + +kg).toString();
+          this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(updateDetalleTarima).subscribe(resUpdate => {
+            console.log(resUpdate);
+            let queryDeleteOT = 'delete OrdenTemporal where IdOrdenTemporal = ' + ordenTemporal.IdOrdenTemporal;
+            let consultaDeleteOT = {
+              'consulta': queryDeleteOT
+            };
+            this.traspasoSVC.getQuery(consultaDeleteOT).subscribe((dataOT: any) => {
+              console.log(dataOT);
+            });
+          })
+        }
+        else {
+          //^ Si no existe, crearemos el Detalle Tarima 
+
+          let detalleTarimaNueva: DetalleTarima = {
+            IdDetalleTarima: 0,
+            ClaveProducto: ordenTemporal.ClaveProducto,
+            Producto: ordenTemporal.Producto,
+            SacosTotales: ordenTemporal.Sacos,
+            PesoxSaco: ((+ordenTemporal.PesoTotal) / (+ordenTemporal.Sacos)).toString(),
+            Lote: ordenTemporal.Lote,
+            PesoTotal: ordenTemporal.PesoTotal,
+            SacosxTarima: '',
+            TarimasTotales: '',
+            Bodega: 'CHIHUAHUA',
+            IdProveedor: 0,
+            Proveedor: '',
+            PO: ordenTemporal.CampoExtra1,
+            FechaMFG: ordenTemporal.FechaMFG,
+            FechaCaducidad: ordenTemporal.FechaCaducidad,
+            Shipper: ordenTemporal.NumeroFactura,
+            USDA: '',
+            Pedimento: ordenTemporal.NumeroEntrada,
+            Estatus: 'Creada'
+          }
+          this.tarimaService.addDetalleTarima(detalleTarimaNueva).subscribe(resNuevaTarima => {
+            console.log(resNuevaTarima);
+            let queryDeleteOT = 'delete OrdenTemporal where IdOrdenTemporal = ' + ordenTemporal.IdOrdenTemporal;
+            let consultaDeleteOT = {
+              'consulta': queryDeleteOT
+            };
+            this.traspasoSVC.getQuery(consultaDeleteOT).subscribe((dataOT: any) => {
+              console.log(dataOT);
+            });
+          })
+        }
+      });
+      this.DeletePedidoDetallePedido(IdPedido);
+      this.eliminarOrdenyDetalles(IdOrdenCarga);
+    });
+  }
+
+  //^ Eliminar Orden Carga y Detalles
+  eliminarOrdenyDetalles(IdOrdenCarga) {
+    let queryDeleteOc = 'delete OrdenCarga where IdOrdenCarga = ' + IdOrdenCarga;
+    let consultaDeleteOc = {
+      'consulta': queryDeleteOc
+    };
+    let queryDeleteDetalleOc = 'delete DetalleOrdenCarga where IdOrdenCarga = ' + IdOrdenCarga;
+    let consultaDeleteDetalleOc = {
+      'consulta': queryDeleteDetalleOc
+    };
+    console.log(queryDeleteOc);
+    console.log(queryDeleteDetalleOc);
+    this.traspasoSVC.getQuery(consultaDeleteDetalleOc).subscribe((dataDetalleOrdenCarga: any) => {
+      console.log(dataDetalleOrdenCarga);
+      this.traspasoSVC.getQuery(consultaDeleteOc).subscribe((dataOrdenCarga: any) => {
+        console.log(dataOrdenCarga);
+      });
+    });
+  }
+
+  //ELiminar Pedidos y DetallePedido
+  DeletePedidoDetallePedido(IdPedido: number) {
+    this.service.onDeleteAllDetallePedido(IdPedido).subscribe(res => {
+      this.service.onDelete(IdPedido).subscribe(res => {
         this.refreshPedidoList();
       });
     });
@@ -340,30 +559,32 @@ subs2: Subscription
 
   //Metodo para sumar Stock Producto
   SumarStock(Cantidad: string, ClaveProducto: string, Id: number) {
-    console.log(ClaveProducto + 'claveproducto');
-    console.log(Id + 'IDDDDD');
-    this.service.GetProductoDetalleProducto(ClaveProducto, Id).subscribe(data => {
-      console.log(data[0]);
-      let stock = data[0].Stock;
-      console.log(stock);
-      stock = (+stock) + (+Cantidad);
-      console.log(stock);
-      this.service.updateStockProduto(ClaveProducto, stock.toString()).subscribe(res => {
-        console.log(res);
-      });
-    })
+    // console.log(ClaveProducto + 'claveproducto');
+    // console.log(Id + 'IDDDDD');
+    // this.service.GetProductoDetalleProducto(ClaveProducto, Id).subscribe(data => {
+    //   console.log(data[0]);
+    //   let stock = data[0].Stock;
+    //   console.log(stock);
+    //   stock = (+stock) + (+Cantidad);
+    //   console.log(stock);
+    //   this.service.updateStockProduto(ClaveProducto, stock.toString()).subscribe(res => {
+    //     console.log(res);
+    //   });
+    // })
 
+
+    //^ 
 
   }
 
 
-  openrep2(){
+  openrep2() {
 
     // console.log();
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.width="70%";
+    dialogConfig.width = "70%";
     this.dialog.open(ReportesModalComponent, dialogConfig);
 
   }
@@ -438,36 +659,36 @@ subs2: Subscription
 
   }
 
-/* Metodo para enviar por correo, abre el modal con los datos */
-email(id?: string, folio?:string){
-  localStorage.removeItem('xml'+folio);
-  localStorage.removeItem('pdf'+folio);
+  /* Metodo para enviar por correo, abre el modal con los datos */
+  email(id?: string, folio?: string) {
+    localStorage.removeItem('xml' + folio);
+    localStorage.removeItem('pdf' + folio);
     document.getElementById('enviaremail').click();
     this.folioparam = folio;
     this.idparam = id;
-    this._MessageService.correo='ivan.talamantes@live.com';
-    this._MessageService.cco='ivan.talamantes@riztek.com.mx';
-    this._MessageService.asunto='Envio Factura '+folio;
-    this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+folio;
-    this._MessageService.nombre='ProlactoIngredientes';
-      this.enviarfact.xml(id).subscribe(data => {
-        localStorage.setItem('xml' + folio, data)
-        this.xmlparam = folio;
-        setTimeout(()=>{
-          const content: Element = document.getElementById('element-to-PDF');
-          const option = {
-            margin: [0, 0, 0, 0],
-            filename: 'F-' + folio + '.pdf',
-            image: { type: 'jpeg', quality: 1 },
-            html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
-            jsPDF: { format: 'letter', orientation: 'portrait' },
-          };
-          html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
-            localStorage.setItem('pdf'+folio, pdfAsString);
-          })
-        },1000)
+    this._MessageService.correo = 'ivan.talamantes@live.com';
+    this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
+    this._MessageService.asunto = 'Envio Factura ' + folio;
+    this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + folio;
+    this._MessageService.nombre = 'ProlactoIngredientes';
+    this.enviarfact.xml(id).subscribe(data => {
+      localStorage.setItem('xml' + folio, data)
+      this.xmlparam = folio;
+      setTimeout(() => {
+        const content: Element = document.getElementById('element-to-PDF');
+        const option = {
+          margin: [0, 0, 0, 0],
+          filename: 'F-' + folio + '.pdf',
+          image: { type: 'jpeg', quality: 1 },
+          html2canvas: { scale: 2, logging: true, scrollY: content.scrollHeight },
+          jsPDF: { format: 'letter', orientation: 'portrait' },
+        };
+        html2pdf().from(content).set(option).output('datauristring').then(function (pdfAsString) {
+          localStorage.setItem('pdf' + folio, pdfAsString);
+        })
+      }, 1000)
     })
-  
+
   }
 
 

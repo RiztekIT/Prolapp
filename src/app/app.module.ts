@@ -28,7 +28,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 // import { DocumentosclienteComponent } from './documentoscliente/documentoscliente.component';
 import { DocumentosclienteComponent } from './documentoscliente/documentoscliente.component';
-import { MatTableExporterModule } from 'mat-table-exporter';
+import { ReportetotalesComponent } from './components/cxc/reportetotales/reportetotales.component';
+
 import { InicioComponent } from './components/inicio/inicio.component';
 
 //Modificacion del apartado Clientes/Usuario Login
@@ -78,6 +79,7 @@ import { MatTabsModule, MatIconModule } from '@angular/material';
     ScannerComponent,
     LoginClienteComponent,
     DocumentosclienteComponent,
+    
     InicioComponent,
 
 

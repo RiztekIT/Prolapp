@@ -106,8 +106,9 @@ export class ReporteEmisionComponent implements OnInit {
     // }
     try {    
       this.service.getPedidoId(this.IdPedido).subscribe(resPedido=>{
-        // console.log(resPedido);
+        console.log(resPedido);
         this.moneda = resPedido[0].Moneda;
+        console.log(this.moneda);
         this.objconc = resPedido[0];
         // console.log(this.objconc);
       if(resPedido[0].Moneda == 'MXN'){      
@@ -124,7 +125,7 @@ export class ReporteEmisionComponent implements OnInit {
             this.arrcon = resDetalle;
             // this.asyncCall();
             setTimeout(()=>{
-              let pdf =   this.onExportClick();  
+               let pdf =   this.onExportClick();  
               // console.log(pdf);
               // this.onExportClick();              
             },1000)

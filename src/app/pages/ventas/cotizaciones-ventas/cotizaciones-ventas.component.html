@@ -136,7 +136,7 @@
                         </ng-container>
                         <ng-container matColumnDef="FechaDeExpedicion">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>FechaDeExpedicion</th>
-                            <td mat-cell *matCellDef="let element">{{element.FechaDeExpedicion}}
+                            <td mat-cell *matCellDef="let element">{{element.FechaDeExpedicion | date: 'dd-MM-yyyy'}}
                             </td>
                         </ng-container>
                         <!-- <ng-container matColumnDef="Flete">

@@ -124,13 +124,13 @@ export class FacturaService {
   }
 //!Join Tabla Factura con Cliente
   getFacturasClienteID(id:number): Observable<any[]>{
-    //! if (this.rfcempresa==='PLA11011243A'){
+     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaCliente/'+id)
-    // !}
-    //! else if (this.rfcempresa=='AIN140101ME3'){
-      //! return this.http.get<any[]>(this.APIUrl+ '/Factura2/FacturaCliente/'+id)
-    //! }
+     }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.get<any[]>(this.APIUrl+ '/Factura2/FacturaCliente/'+id)
+     }
     
   }
   getFacturasClienteFolio(id:string): Observable<any[]>{
@@ -196,12 +196,12 @@ export class FacturaService {
   getFacturasFechasReporte(id,fechaini,fechafinal){
 
     console.log(this.rfcempresa);
-    //! if (this.rfcempresa==='PLA11011243A'){
+    if (this.rfcempresa==='PLA11011243A'){
       return this.http.get<any[]>(this.APIUrl + '/Factura/FacturaFechasReporte/' + id + '/' + fechaini+ '/' + fechafinal);
-    //! }
-    //! else if (this.rfcempresa=='AIN140101ME3'){
-      //! return this.http.get<any[]>(this.APIUrl + '/Factura2/FacturaFechasReporte/' + id + '/' +  fechaini+ '/' + fechafinal);
-    // !}
+     }
+     else if (this.rfcempresa=='AIN140101ME3'){
+       return this.http.get<any[]>(this.APIUrl + '/Factura2/FacturaFechasReporte/' + id + '/' +  fechaini+ '/' + fechafinal);
+    }
     
   }
 
@@ -353,12 +353,12 @@ getvendedor(id:number): Observable<any>{
 
 //! Obtener Reportes
 getReportes(id: number): Observable<any>{
-  //! if (this.rfcempresa==='PLA11011243A'){
+   if (this.rfcempresa==='PLA11011243A'){
     return this.http.get<any[]>(this.APIUrl + '/Factura/Reporte/' + id)
-  //! }
-  //! else if (this.rfcempresa=='AIN140101ME3'){
-  // !  return this.http.get<any[]>(this.APIUrl + '/Factura2/Reporte/' + id)
-  // !}
+   }
+  else if (this.rfcempresa=='AIN140101ME3'){
+    return this.http.get<any[]>(this.APIUrl + '/Factura2/Reporte/' + id)
+  }
   
 }
 getReportesU(id: number): Observable<any>{

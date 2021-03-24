@@ -136,6 +136,14 @@ return this.http.delete(this.APIUrl + '/NotaCredito/'+ id)
     return this.http.delete(this.APIUrl + '/NotaCredito/DeleteNotaCreada');
   }
 
+  updateCancelarNota(id){
+  
+
+ 
+      return this.http.put(this.APIUrl+ '/NotaCredito/Cancelar/' + id, null);
+  
+  }
+
   private _listeners = new Subject<any>(); 
 listen(): Observable<any> {
   return this._listeners.asObservable();

@@ -23,6 +23,7 @@ export class ReporteComprasComponent implements OnInit {
 
     
     this.obtenerProveedores();
+    this.obtenerProveedoresFactura();
   }
 
 
@@ -30,12 +31,19 @@ export class ReporteComprasComponent implements OnInit {
   fechaInicial: Date
   fechaFinal: Date
 
+  //Fechas de reportes a ser filtradas
+  fechaInicialFactura: Date
+  fechaFinalFactura: Date
+
 
 //Variable para Filtrar por fechas / proveedores
   color: ThemePalette = 'accent';
   checked = false;
   disabled = false;
   checkedProveedores = true;
+  checkedFactura = false;
+  disabledFactura = false;
+  checkedProveedoresFactura = true;
 
   checkedEstatus = false;
   disabledEstatus = true;
@@ -52,6 +60,13 @@ export class ReporteComprasComponent implements OnInit {
   options: Proveedor[] = [];
   ProveedroNombre: any;
   IdProveedor: number;
+
+  //variables dropdown proveedores
+  myControlFactura = new FormControl();
+  filteredOptionsFactura: Observable<any[]>
+  optionsFactura: Proveedor[] = [];
+  ProveedroNombreFactura: any;
+  IdProveedorFactura: number;
 
   //variables tipo de reporte (Materia Prima, Administrativa, Ambos)
   tipoCompra: string = 'Todo';
@@ -105,6 +120,13 @@ if(this.checked == true){
   this.checked = true;
 }
   }
+  onChangePorFechaFactura(){
+if(this.checkedFactura == true){
+  this.checkedFactura = false;
+}else{
+  this.checkedFactura = true;
+}
+  }
 
   obtenerProveedores(){
     this.comprasService.getProveedoresList().subscribe(data=>{
@@ -138,6 +160,40 @@ if(this.checked == true){
       this.checkedProveedores = false;
     }else{
       this.checkedProveedores = true;
+    }
+  }
+  obtenerProveedoresFactura(){
+    this.comprasService.getProveedoresList().subscribe(data=>{
+      console.log(data);
+      for (let i = 0; i < data.length; i++) {
+        let proveedor = data[i];
+        
+        this.optionsFactura.push(proveedor)
+        this.filteredOptionsFactura = this.myControlFactura.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filterFactura(value))
+          );
+      }
+    })
+  }
+
+  _filterFactura(value: any): any {
+     const filterValue = value.toString().toLowerCase();
+    return this.optionsFactura.filter(option =>
+      option.Nombre.toLowerCase().includes(filterValue) ||
+      option.IdProveedor.toString().includes(filterValue));
+  }
+
+  onSelectionChangeFactura(proveedor: Proveedor, event: any) {
+      console.log(proveedor);
+    this.ProveedroNombreFactura = proveedor.Nombre;
+  }
+  onChangeTodosProveedoresFactura(){
+    if(this.checkedProveedoresFactura == true){
+      this.checkedProveedoresFactura = false;
+    }else{
+      this.checkedProveedoresFactura = true;
     }
   }
 
@@ -201,6 +257,22 @@ if(this.checked == true){
       estatus: estatus,
       tipoEstatus: tipoEstatus
       
+    }
+    this.dialog.open(ShowreporteComprasComponent, dialogConfig);
+
+  }
+  abrirReporteFactura(){
+    
+// console.log(this.IdProveedorFactura);    
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "80%";
+    dialogConfig.data = {
+      tipoReporte: 'Factura',      
+      idProveedor: this.IdProveedorFactura,      
+      fechaInicial: this.fechaInicialFactura,
+      fechaFinal: this.fechaFinalFactura,            
     }
     this.dialog.open(ShowreporteComprasComponent, dialogConfig);
 

@@ -15,6 +15,9 @@ export class FacturacionService {
 
   fecha1;
   fecha2;
+  fecha3;
+  fecha4;
+  allClients;
 
   datosReporteDetalladoFechas;
   datePipe: any;

@@ -456,6 +456,9 @@ console.log('NUEVO CFDIIIIIIIIIII');
              this.Saldo = ((this.Saldo) + (+data[i].Cantidad)); 
            }
            this.Saldo = +this.service.formData.Cantidad - this.Saldo;
+           if (this.Saldo<=0.00001){
+             this.Saldo=0
+           }
           //  console.log('SI HAY VALORES');
           //  console.log(this.service.formData.IdCliente);
            (<HTMLInputElement> document.getElementById("ClaveCliente")).disabled = true;
@@ -537,27 +540,31 @@ console.log('NUEVO CFDIIIIIIIIIII');
     if (event.isUserInput) {
 
     this.notacreditService.getNotaCreditoFacturaID(factura.Id).subscribe(data=>{
-      console.clear();
+      //console.clear();
       console.log(data)
-      console.log(factura);
+      console.log('facura', factura);
       console.log(event);
-      console.log(i);
+      console.log('form',this.service.formData.Moneda);
       this.index = i;
 
       let notascreditototal = 0;
       let notascreditototaldlls = 0;
       if (data.length>0){
 
-        if(factura.Moneda==='MXN'){
+        if(this.service.formData.Moneda==='MXN'){
           for (let j=0;j<data.length; j++){
             notascreditototal = +notascreditototal + +data[j].Total;
             
           }
-        }else if(factura.Moneda==='USD'){
+        }else if(this.service.formData.Moneda==='USD'){
           for (let j=0;j<data.length; j++){
+            console.log('for dlls',data[j].TotalDlls);
           notascreditototal = +notascreditototal + +data[j].TotalDlls;
           }
         }
+
+        console.log('NOTAS',notascreditototal);
+        //console.log(i);
 
         
 
@@ -567,13 +574,13 @@ console.log('NUEVO CFDIIIIIIIIIII');
           this.SaldoF = +factura.Saldo - +notascreditototal;
           this.IdFactura = factura.Id;
         }else{
-          if(factura.Moneda==='MXN'){
+          if(this.service.formData.Moneda==='MXN'){
           console.log('NUEVO PAGO CFDI');
           this.TotalF = +factura.Total;
           this.SaldoF = +factura.Total - +notascreditototal;
           this.IdFactura = factura.Id;
         }
-              if(factura.Moneda==='USD'){
+              if(this.service.formData.Moneda==='USD'){
           console.log('NUEVO PAGO CFDI');
           this.TotalF = +factura.TotalDlls;
           this.SaldoF = +factura.TotalDlls - +notascreditototal;
@@ -592,13 +599,13 @@ console.log('NUEVO CFDIIIIIIIIIII');
           this.SaldoF = +factura.Saldo;
           this.IdFactura = factura.Id;
         }else{
-          if(factura.Moneda==='MXN'){
+          if(this.service.formData.Moneda==='MXN'){
           console.log('NUEVO PAGO CFDI');
           this.TotalF = +factura.Total;
           this.SaldoF = +factura.Total;
           this.IdFactura = factura.Id;
         }
-              if(factura.Moneda==='USD'){
+              if(this.service.formData.Moneda==='USD'){
           console.log('NUEVO PAGO CFDI');
           this.TotalF = +factura.TotalDlls;
           this.SaldoF = +factura.TotalDlls;
@@ -685,6 +692,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
   public listbancos2: Array<Object> = [
     { banco: 'BANORTE', cuenta:"072150004619216703"},
     { banco: 'SANTANDER', cuenta:"014150655081955339"},
+    { banco: 'BANCOMER', cuenta:"012150001158942041"},
     { banco: 'BANORTE DLLS', cuenta:"072150011196871531"},
     { banco: 'SANTANDER DLLS', cuenta:"014150825009889589"}
     
@@ -723,6 +731,9 @@ console.log('NUEVO CFDIIIIIIIIIII');
     }
     if (event.target.selectedOptions[0].text==='SANTANDER'){
       this.service.formData.Cuenta = '014150655081955339'
+    }
+    if (event.target.selectedOptions[0].text==='BANCOMER'){
+      this.service.formData.Cuenta = '012150001158942041'
     }
     if (event.target.selectedOptions[0].text==='BANORTE DLLS'){
       this.service.formData.Cuenta = '072150011196871531'
@@ -792,8 +803,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
       title: '¿Segur@ de Borrar Pago CFDI?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
