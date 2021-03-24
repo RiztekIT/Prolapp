@@ -58,7 +58,7 @@
         "ngx-doc-viewer": "^1.0.3",
         "ngx-dropzone": "^2.2.2",
         "ngx-dropzone-wrapper": "^9.0.0",
-        "ngx-extended-pdf-viewer": "^8.1.1",
+        "ngx-extended-pdf-viewer": "^8.2.0",
         "ngx-image-compress": "^8.0.4",
         "ngx-loading": "^8.0.0",
         "ngx-print": "^1.2.0-beta.5",
