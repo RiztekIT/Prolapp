@@ -14,16 +14,14 @@
             <div class="container">
                 <div class="row">
 
-                    <div class="col-12" style="background-color: black; height: 15px;"></div>
+                    <div class="col-12" style="background-color: black; height: 15px; z-index: 1000 "></div>
                 </div>
 
                 <div class="row">
                     <!-- logo -->
-                    <div class="col-2" style="padding-left: 0;">
-                        <div class="card card-outline-inverse">
+                    <div class="col-2 pl-0 pb-0 pt-0" style="padding-left: 0;">
                             <!-- <img [src]="'assets/images/logoCotizacion.jpg'" style="height: 150px; width: 250px;"> -->
-                            <img [src]=logo style="height: 150px; width: 250px;">
-                        </div>
+                            <img [src]=logo style="height: 100px; width: 300px; margin-top: -10px;">
                     </div>
                     <div class="col-5"></div>
                     <div class="col-5">
@@ -72,7 +70,7 @@
                         <tr>
 
                             <td style="vertical-align: middle;" class="pgbreak">{{conceptos.ClaveProducto}}</td>
-                            <td><img [src]="srcimageninicial+conceptos.imagen+'.png'" alt="Logo" style="width: 90px; " class="pgbreak"></td>
+                            <td class="pt-0 pb-0"><img [src]="srcimageninicial+conceptos.imagen+'.png'" alt="Logo" style="width: 70px; " class="pgbreak"></td>
                             <td style="vertical-align: middle;" class="pgbreak" >{{conceptos.Producto}}</td>
                             <td style="vertical-align: middle;" class="pgbreak"  *ngIf="this.service.formrow.Moneda=='MXN'">{{conceptos.PrecioUnitario | currency}}</td>
                             <td style="vertical-align: middle;" class="pgbreak"  *ngIf="this.service.formrow.Moneda=='USD'">{{conceptos.PrecioUnitarioDlls | currency}}</td>
@@ -193,7 +191,7 @@
 
 </div>
 
-<ngx-extended-pdf-viewer [base64Src]="this.currentPdf" [printResolution]="600" useBrowserLocale="true" height="80vh" [showPrintButton]="false"></ngx-extended-pdf-viewer>
+<!-- <ngx-extended-pdf-viewer [base64Src]="this.currentPdf" [printResolution]="600" useBrowserLocale="true" height="80vh" [showPrintButton]="false"></ngx-extended-pdf-viewer> -->
 </div>
 
 <div class="modal-footer">
