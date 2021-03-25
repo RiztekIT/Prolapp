@@ -1409,9 +1409,147 @@ const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
+    dialogConfig.data = {
+      origen: 'normal'
+     
+    }
     
   
     this.dialog.open(CotizacionComponent, dialogConfig);
+}
+
+whatsapp(form: any){
+
+
+  Swal.fire({
+    title: 'Telefono Receptor',
+    input: 'text',       
+    inputPlaceholder: '',
+    showCancelButton: true,  
+  }).then(result => {
+    console.log(result);
+
+    console.log(form);
+
+    this.service.formrow = form;
+  
+  const dialogConfig = new MatDialogConfig();
+      // dialogConfig.disableClose = true; 
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width="70%";
+      dialogConfig.data = {
+        origen: 'whatsapp'
+       
+      }
+      
+    
+      let dialog = this.dialog.open(CotizacionComponent, dialogConfig);
+  
+  
+  
+          dialog.afterClosed().subscribe(res=>{
+            let form = new FormData();
+            let blob = this.b64toBlob(localStorage.getItem('pdfOC'),'application/pdf',1024)          
+            let Archivo: File = new File([blob], 'Archivo.pdf', {
+              type: "application/pdf"
+            })
+       
+  
+            form.append('file', Archivo);
+            this.service.subirImagen(form).subscribe(
+              resp => {
+                console.log(resp);
+                this.loader = false;
+                if(resp.status){
+                  this.trueimg = true;
+                  this.myimg = resp.generatedName;
+                  this.msn = "Gracias por visitar unprogramador.com"
+                  console.log(this.myimg);
+                  
+                  let url = 'https://api.whatsapp.com/send?phone=+52'+result.value+'&text=Envio%20la%20siguiente%20cotizacion,%20https://riztek.com.mx/php/Prolacto/Docs/'+this.myimg
+            const link = document.createElement('a');
+            link.href = url;
+            link.target = '_blank'    
+            link.click();
+                }
+              },
+              error => {
+                this.loader = false;
+                alert('Imagen supera el tamaño permitido');
+                
+              }
+            );
+          })
+   
+    
+
+  })
+
+
+
+
+
+ 
+       
+
+      
+    
+
+}
+
+b64toBlob(b64Data, contentType, sliceSize) {
+  const byteCharacters = atob(b64Data);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  const blob = new Blob(byteArrays, {type: contentType});
+  return blob;
+}
+
+trueimg:Boolean = false;
+loader:Boolean = false;
+myimg:string;
+final:Boolean = true;
+msn:string;
+
+subiendoando(ev){
+ 
+  let img:any = ev.target;
+  if(img.files.length > 0){
+    this.loader = true;
+    let form = new FormData();
+    form.append('file',img.files[0]);
+    this.service.subirImagen(form).subscribe(
+      resp => {
+        
+        this.loader = false;
+        if(resp.status){
+          this.trueimg = true;
+          this.myimg = resp.generatedName;
+          this.msn = "Gracias por visitar unprogramador.com"
+          console.log(this.myimg);
+        }
+      },
+      error => {
+        this.loader = false;
+        alert('Imagen supera el tamaño permitido');
+        
+      }
+    );
+
+  }
 }
 
 email(cotizacion){
@@ -1432,6 +1570,10 @@ email(cotizacion){
   const dialogConfig2 = new MatDialogConfig();
   dialogConfig2.autoFocus = false;
   dialogConfig2.width = "0%";    
+  dialogConfig2.data = {
+    tipo: 'correo'
+   
+  }
   let dialogFact = this.dialog.open(CotizacionComponent, dialogConfig2); 
   
 
@@ -1447,7 +1589,9 @@ email(cotizacion){
         jsPDF: { format: 'letter', orientation: 'portrait' },
       };
       html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
-        localStorage.setItem('pdfcorreo'+cotizacion.Folio, pdfAsString);
+        //localStorage.setItem('pdfcorreo'+cotizacion.Folio, pdfAsString);
+        localStorage.setItem('pdfcorreo', pdfAsString);
+        
         this.statusparam=true;          
         console.log(this.statusparam);                
       })
@@ -1463,7 +1607,7 @@ email(cotizacion){
         foliop: cotizacion.Folio,
          cliente: cotizacion.Nombre,
         status: true,
-        tipo: 'Cotizacion'
+        tipo: 'Pedido'
       }
       this.dialog.open(EmailgeneralComponent, dialogConfig);
 

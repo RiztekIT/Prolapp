@@ -487,7 +487,7 @@
                                                 </div>
                                                 <div *ngIf="ActualizarDetallePedidoBool != false">
                                                     <button class="btn btn-prolacto" mat-raised-button (click)="OnEditDetallePedidodp(DetallePedidoForm)">Actualizar Producto</button>
-                                                    <button class="btn btn-prolacto"  mat-raised-button(click)="Cancelar(DetallePedidoForm)">Cancelar</button>
+                                                    <button class="btn btn-prolacto" mat-raised-button(click)="Cancelar(DetallePedidoForm)">Cancelar</button>
 
                                                 </div>
                                             </div>
@@ -618,7 +618,14 @@
                                                             <!-- <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button> -->
                                                             <button [disabled]="Enviar == false" class="btn btn-prolacto btn-lg" mat-raised-button type="button" (click)='email(service.formDataCotizacion)'><i
                                                         class="mdi mdi-email btn-lg"></i>Enviar</button>
+                                                            <br>
+                                                            <button [disabled]="Enviar == false" class="btn btn-prolacto btn-lg" mat-raised-button type="button" (click)='whatsapp(service.formDataCotizacion)'><i
+                                                        class="mdi mdi-whatsapp btn-lg"></i>Whatsapp</button>
                                                         </div>
+
+
+                                                        <!-- <input type="file" name="file" (change)="subiendoando($event)" accept="pdf/*" /> -->
+
 
                                                     </div>
 

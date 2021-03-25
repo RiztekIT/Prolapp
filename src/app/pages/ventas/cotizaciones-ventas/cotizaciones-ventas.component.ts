@@ -226,6 +226,10 @@ subs2: Subscription
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
+    dialogConfig.data = {
+      origen: 'normal'
+     
+    }
     this.dialog.open(CotizacionComponent, dialogConfig);
   }
 
