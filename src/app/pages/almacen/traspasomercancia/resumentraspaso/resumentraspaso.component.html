@@ -19,9 +19,10 @@
 
                         </div>
                         <div class="col-4">
-                            <label class="input-group-text text-info">Fecha Exp:</label> <br>
+                            <label class="input-group-text text-info">Fecha Expedicion:</label> <br>
 
-                            <input readonly type="text" placeholder="Fecha" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.FechaExpedicion" matInput>
+                            <!-- <input readonly type="text" placeholder="Fecha" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.FechaExpedicion" matInput> -->
+                            {{this.traspasoSVC.selectTraspaso.FechaExpedicion | date: 'dd/MM/yyyy' }}
 
                         </div>
                     </div>

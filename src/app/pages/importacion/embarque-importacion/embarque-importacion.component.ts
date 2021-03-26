@@ -479,16 +479,16 @@ console.log(traspaso);
 
                 console.log('%c%s', 'color: #007300', 'ULTIMO PRODUCTOOOOOOO');
 
-                const dialogConfig = new MatDialogConfig();
-                dialogConfig.disableClose = false;
-                dialogConfig.autoFocus = true;
-                dialogConfig.width = "70%";
-                dialogConfig.data = {
-                  tipo: 'Agregar',
-                }
+                // const dialogConfig = new MatDialogConfig();
+                // dialogConfig.disableClose = false;
+                // dialogConfig.autoFocus = true;
+                // dialogConfig.width = "70%";
+                // dialogConfig.data = {
+                //   tipo: 'Agregar',
+                // }
+                // this.traspasoSVC.selectTraspaso.IdTraspasoMercancia = this.traspasoSVC.idnuevo;
+                // let dl = this.dialog.open(ResumentraspasoComponent, dialogConfig);
                 /* let dl = this.dialog.open(DocumentacionFormularioImportacionComponent, dialogConfig); */
-                this.traspasoSVC.selectTraspaso.IdTraspasoMercancia = this.traspasoSVC.idnuevo;
-                 let dl = this.dialog.open(ResumentraspasoComponent, dialogConfig);
 
                 // dl.afterClosed().subscribe(res=>{
                 this.inicio = true;
@@ -563,8 +563,8 @@ console.log(traspaso);
         IdCliente: '0',
         Cliente: 'Traspaso',
         IdPedido: '0',
-        Fletera: '0',
-        Caja: '0',
+        Fletera: '',
+        Caja: '',
         Sacos: sacos,
         Kg: kg,
         Chofer: '',
@@ -596,6 +596,7 @@ console.log(traspaso);
           console.log(resp2);
 
           this.traspasoSVC.selectTraspaso.FolioOrdenCarga = resp2[0].Folio;
+          this.traspasoSVC.selectTraspaso.IdOrdenCarga = resp2[0].IdOrdenCarga;
 
            this.updateTrapspaso(resp2[0].IdOrdenCarga, resp2[0].Folio, idtraspaso)
 
@@ -630,6 +631,18 @@ console.log(traspaso);
                 icon: 'success',
                 title: 'Traspaso Creado'
               })
+              if (i == (this.listData2.data.length - 1)) {
+                const dialogConfig = new MatDialogConfig();
+                dialogConfig.disableClose = false;
+                dialogConfig.autoFocus = true;
+                dialogConfig.width = "70%";
+                dialogConfig.data = {
+                  tipo: 'Agregar',
+                }
+                this.traspasoSVC.selectTraspaso.IdTraspasoMercancia = this.traspasoSVC.idnuevo;
+                
+                let dl = this.dialog.open(ResumentraspasoComponent, dialogConfig);
+              }
 
              })
 

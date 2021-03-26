@@ -12,7 +12,7 @@ export const environment = {
   // APIUrl: 'http://riztekserver.ddns.net:44361/api',
   // APIUrlEmail: 'http://riztekserver.ddns.net:3000'
   //APIUrl: 'https://erpprolapp.ddns.net:44361/api',
-  //APIUrlEmail: 'https://erpprolapp.ddns.net:3000'
+  // APIUrlEmail: 'https://erpprolapp.ddns.net:3000'
   // APIUrlEmail: 'http://riztekserver.ddns.net:3000'
   //URLS de desarrollo
   //APIUrl: 'https://riztekserver.ddns.net:44361/api',
