@@ -19,11 +19,7 @@ export const environment = {
   APIUrlEmail: 'https://riztekserver.ddns.net:3000' 
   // URLS de Produccion
     //  APIUrl: 'https://erpprolapp.ddns.net:44361/api',
-<<<<<<< Updated upstream
    //    APIUrlEmail: 'https://erpprolapp.ddns.net:3000'
-=======
-      //  APIUrlEmail: 'https://erpprolapp.ddns.net:3000'
->>>>>>> Stashed changes
     // APIUrl: 'https://erpprolapp.ddns.net:44361/api',
     //APIUrlEmail: 'https://erpprolapp.ddns.net:3000'
 };
