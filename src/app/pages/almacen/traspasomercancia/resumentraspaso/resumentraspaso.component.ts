@@ -19,7 +19,7 @@ import { EmailgeneralComponent } from 'src/app/components/email/emailgeneral/ema
 export class ResumentraspasoComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['PO', 'Factura', 'CBK', 'Usda', 'Clave', 'Producto', 'PesoTotal', 'Sacos'];
+  displayedColumns: string[] = ['PO', 'Factura', 'CBK', 'Usda', 'Clave', 'Lote', 'Producto', 'PesoTotal', 'Sacos'];
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -78,7 +78,8 @@ this._MessageService.documentosURL = [];
     this.obtenerInformacionOrdenCarga(this.traspasoSVC.selectTraspaso.IdOrdenCarga);
 
     // let query = 'select DetalleTraspasoMercancia.*, DetalleTarima.*, OrdenTemporal.* from DetalleTraspasoMercancia left join detalletarima on DetalleTraspasoMercancia.IdDetalle=detalletarima.IdDetalleTarima left join OrdenTemporal on OrdenTemporal.IdDetalleTarima=DetalleTarima.IdDetalleTarima where DetalleTraspasoMercancia.IdTraspasoMercancia=' + this.traspasoSVC.selectTraspaso.IdTraspasoMercancia + ''
-    let query = 'select TraspasoMercancia.*, OrdenTemporal.* from TraspasoMercancia left join OrdenTemporal on OrdenTemporal.IdOrdenCarga = TraspasoMercancia.IdOrdenCarga where TraspasoMercancia.IdTraspasoMercancia =' + this.traspasoSVC.selectTraspaso.IdTraspasoMercancia + ''
+    // let query = 'select TraspasoMercancia.*, OrdenTemporal.* from TraspasoMercancia left join OrdenTemporal on OrdenTemporal.IdOrdenCarga = TraspasoMercancia.IdOrdenCarga where TraspasoMercancia.IdTraspasoMercancia =' + this.traspasoSVC.selectTraspaso.IdTraspasoMercancia + ''
+    let query = 'select * from TraspasoMercancia left join DetalleTraspasoMercancia on TraspasoMercancia.IdTraspasoMercancia = DetalleTraspasoMercancia.IdTraspasoMercancia where TraspasoMercancia.IdTraspasoMercancia =' + this.traspasoSVC.selectTraspaso.IdTraspasoMercancia + ''
     let consulta = {
       'consulta': query
     };
@@ -106,7 +107,7 @@ this._MessageService.documentosURL = [];
         this.archivosUSDA = [];
         for (let i = 0; i < detalles.length; i++) {
 
-          this.obtenerDocumentosFactura(detalles[i], detalles[i].IdDetalleTarima);
+          this.obtenerDocumentosFactura(detalles[i]);
           this.obtenerDocumentosCLV(detalles[i]);
           this.obtenerDocumentosCO(detalles[i]);
           this.obtenerPESPI(detalles[i]);
@@ -169,41 +170,33 @@ this._MessageService.documentosURL = [];
     });
   }
 
-  obtenerDocumentosFactura(row,  id: number) {
+  obtenerDocumentosFactura(row) {
 
-    console.log( id);
-    console.log(row, 'ROW');
+    // console.log( id);
+    // console.log(row, 'ROW');
     try {
       const formData = new FormData();
       formData.append('folio', row.Lote.toString());
-      formData.append('id', id.toString());
+      // formData.append('id', id.toString());
       // formData.append('direccionDocumento', 'Documentos/Importacion/Factura/'+folio.toString()+'/'+id.toString());
-      formData.append('direccionDocumento', 'Documentos/Importacion/Factura/' + row.IdOrdenDescarga + '/' + row.ClaveProducto + '/' + row.Lote);
+      formData.append('direccionDocumento', 'Documentos/Importacion/Factura/' + row.ClaveProducto + '/' + row.Lote);
       this.documentosService.readDirDocuemntosServer(formData, 'cargarNombreDocumentos').subscribe(res => {
-        console.log(res);
-        // this.archivosfactura = [];
+        // console.log(res);
+        this.archivosfactura = [];
         if (res) {
-          // console.log(res.length)
           for (let i = 0; i < res.length; i++) {
-            // let archivo = <any>{};
-            // archivo.name = res[i];
-            // archivo.id = id;
-            // archivo.folio = row.IdOrdenDescarga;
             let archivo = <any>{};
             archivo.name = res[i];
             archivo.id = row.IdOrdenDescarga;
             archivo.clave = row.ClaveProducto;
             archivo.lote = row.Lote;
-            archivo.path = 'Documentos/Importacion/Factura/' + row.IdOrdenDescarga + '/' + row.ClaveProducto + '/' + row.Lote + '/' + archivo.name
+            archivo.path = 'Documentos/Importacion/Factura/'+ row.ClaveProducto + '/' + row.Lote + '/' + archivo.name
             this.archivosfactura.push(archivo);
             const formDataDoc = new FormData();
-            // formDataDoc.append('folio', folio.toString());
-            // formDataDoc.append('id', id.toString());
-            // formDataDoc.append('archivo', res[i])
-            // formDataDoc.append('direccionDocumento', 'Documentos/Importacion/Factura/'+folio.toString()+'/'+id.toString());
-            formDataDoc.append('direccionDocumento', 'Documentos/Importacion/Factura/' + row.IdOrdenDescarga + '/' + row.ClaveProducto + '/' + row.Lote);
+            formDataDoc.append('direccionDocumento', 'Documentos/Importacion/Factura/' + row.ClaveProducto + '/' + row.Lote);
+            formDataDoc.append('archivo', res[i] );
             this.documentosService.readDocumentosServer(formDataDoc, 'ObtenerDocumento').subscribe(resDoc => {
-              console.log(resDoc)
+              // console.log(resDoc)
               const blob = new Blob([resDoc as BlobPart], { type: 'application/pdf' });
               //  console.log(blob)
               let fr = new FileReader();
@@ -227,54 +220,86 @@ this._MessageService.documentosURL = [];
 
   }
 
-  leerArchivosfactura(a) {
+  leerArchivosfactura(a, enviar?) {
+    // // console.log(a);
+    // // const formData = new FormData();
+    // // formData.append('folio', a.folio.toString())
+    // // formData.append('id', a.id.toString())
+    // // formData.append('archivo', a.name)
+    // // formData.append('direccionDocumento', 'Documentos/Importacion/Factura/'+a.folio.toString()+'/'+a.id.toString())
+    // // this.documentosService.readDocumentosServer(formData, 'ObtenerDocumento').subscribe(res => {
+    // //   // console.log(res);
+    // //   const blob = new Blob([res as BlobPart], { type: 'application/pdf' });
+    // //   let fr = new FileReader();
+
+    // //   fr.readAsDataURL(blob);
     // console.log(a);
     // const formData = new FormData();
-    // formData.append('folio', a.folio.toString())
-    // formData.append('id', a.id.toString())
+    // formData.append('clave', a.clave.toString())
+    // formData.append('lote', a.lote.toString())
+    // // formData.append('id', a.id.toString())
     // formData.append('archivo', a.name)
-    // formData.append('direccionDocumento', 'Documentos/Importacion/Factura/'+a.folio.toString()+'/'+a.id.toString())
+    // formData.append('direccionDocumento', 'Documentos/Importacion/Factura/' + a.clave + '/' + a.lote)
     // this.documentosService.readDocumentosServer(formData, 'ObtenerDocumento').subscribe(res => {
-    //   // console.log(res);
+    //   console.log(res);
     //   const blob = new Blob([res as BlobPart], { type: 'application/pdf' });
+    //   console.log(blob);
     //   let fr = new FileReader();
 
     //   fr.readAsDataURL(blob);
+    //   fr.onload = e => {
+    //     // console.log(e);
+    //     console.log(fr.result);
+    //     // this.fileUrl = fr.result;
+    //     this.pdfstatus = true;
+    //     // this.documentosService.fileUrl = this.fileUrl;
+    //     //^ Si es enviar, solo guardaremos el resultado en  una variable , para enviarla por correo.
+    //     // if(enviar == true){
+    //     //   let temp = Object.assign({}, fr.result);
+    //     //   let objeto = {
+    //     //     name: a.name,
+    //     //     file: btoa(temp.toString())
+    //     //   }
+    //     //     this._MessageService.documentosURL.push(objeto);
+    //     // }else{
+    //       const dialogConfig = new MatDialogConfig();
+    //       dialogConfig.disableClose = true;
+    //       dialogConfig.autoFocus = true;
+    //       dialogConfig.width = "70%";
+    //       this.dialog.open(DocumentacionImportacionVisorDocumentosComponent, dialogConfig);
+    //     // }
+    //   }
+    // })
+
     console.log(a);
     const formData = new FormData();
-    formData.append('clave', a.clave.toString())
-    formData.append('lote', a.lote.toString())
-    formData.append('id', a.id.toString())
+    formData.append('folio', '0')
+    formData.append('id', '0')
     formData.append('archivo', a.name)
-    formData.append('direccionDocumento', 'Documentos/Importacion/Factura/' + a.id.toString() + '/' + a.clave + '/' + a.lote)
+    formData.append('direccionDocumento', 'Documentos/Importacion/Factura/' + a.clave + '/' + a.lote)
     this.documentosService.readDocumentosServer(formData, 'ObtenerDocumento').subscribe(res => {
-      console.log(res);
+      // console.log(res);
       const blob = new Blob([res as BlobPart], { type: 'application/pdf' });
-      console.log(blob);
       let fr = new FileReader();
 
       fr.readAsDataURL(blob);
       fr.onload = e => {
         // console.log(e);
-        console.log(fr.result);
-        // this.fileUrl = fr.result;
+        // console.log(fr.result);
+        this.fileUrl = fr.result;
         this.pdfstatus = true;
-        // this.documentosService.fileUrl = this.fileUrl;
-        //^ Si es enviar, solo guardaremos el resultado en  una variable , para enviarla por correo.
-        // if(enviar == true){
-        //   let temp = Object.assign({}, fr.result);
-        //   let objeto = {
-        //     name: a.name,
-        //     file: btoa(temp.toString())
-        //   }
-        //     this._MessageService.documentosURL.push(objeto);
-        // }else{
-          const dialogConfig = new MatDialogConfig();
-          dialogConfig.disableClose = true;
-          dialogConfig.autoFocus = true;
-          dialogConfig.width = "70%";
-          this.dialog.open(DocumentacionImportacionVisorDocumentosComponent, dialogConfig);
-        // }
+        this.documentosService.fileUrl = this.fileUrl;
+      //^ Si es enviar, solo guardaremos el resultado en  una variable , para enviarla por correo.
+      if(enviar == true){
+        let temp = Object.assign({}, this.fileUrl);
+          this._MessageService.documentosURL.push(temp);
+      }else{
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width = "70%";
+        this.dialog.open(DocumentacionImportacionVisorDocumentosComponent, dialogConfig);
+      }
       }
     })
 
@@ -332,8 +357,8 @@ this._MessageService.documentosURL = [];
   obtenerDocumentosCLV(detalle) {
 
     // console.log(folio, id);
-    let clave = detalle.ClaveProducto
-    let ClaveProducto = clave.slice(0, -1)
+    let ClaveProducto = detalle.ClaveProducto
+    // let ClaveProducto = clave.slice(0, -1)
 
     const formData = new FormData();
     formData.append('folio', '0');
@@ -341,7 +366,7 @@ this._MessageService.documentosURL = [];
     formData.append('direccionDocumento', 'Documentos/Importacion/CLV/0/0/' + ClaveProducto);
     this.documentosService.readDirDocuemntosServer(formData, 'cargarNombreDocumentos').subscribe(res => {
       // console.log(res);
-      // this.archivosCLV = [];
+      this.archivosCLV = [];
       if (res) {
         // console.log(res.length)
         for (let i = 0; i < res.length; i++) {
@@ -381,8 +406,8 @@ this._MessageService.documentosURL = [];
   obtenerDocumentosCA(detalle) {
 
     // console.log(folio, id);
-    let clave = detalle.ClaveProducto
-    let ClaveProducto = clave.slice(0, -1);
+    let ClaveProducto = detalle.ClaveProducto
+    // let ClaveProducto = clave.slice(0, -1);
     let Lote = detalle.Lote;
 
     const formData = new FormData();
@@ -391,7 +416,7 @@ this._MessageService.documentosURL = [];
     formData.append('direccionDocumento', 'Documentos/Importacion/CA/0/0/' + ClaveProducto + '/' + Lote);
     this.documentosService.readDirDocuemntosServer(formData, 'cargarNombreDocumentos').subscribe(res => {
       // console.log(res);
-      // this.archivosCA = [];
+      this.archivosCA = [];
       if (res) {
         // console.log(res.length)
         for (let i = 0; i < res.length; i++) {
@@ -606,8 +631,8 @@ this._MessageService.documentosURL = [];
   obtenerDocumentosCO(detalle) {
 
     // console.log(folio, id);
-    let clave = detalle.ClaveProducto
-    let ClaveProducto = clave.slice(0, -1);
+    let ClaveProducto = detalle.ClaveProducto
+    // let ClaveProducto = clave.slice(0, -1);
 
     const formData = new FormData();
     formData.append('folio', '0');
@@ -615,7 +640,7 @@ this._MessageService.documentosURL = [];
     formData.append('direccionDocumento', 'Documentos/Importacion/CO/0/0/' + ClaveProducto);
     this.documentosService.readDirDocuemntosServer(formData, 'cargarNombreDocumentos').subscribe(res => {
       // console.log(res);
-      // this.archivosCO = [];
+      this.archivosCO = [];
       if (res) {
         // console.log(res.length)
         for (let i = 0; i < res.length; i++) {
@@ -741,8 +766,8 @@ this._MessageService.documentosURL = [];
   obtenerPESPI(detalle) {
     // console.log(folio, id);
 
-    let clave = detalle.ClaveProducto
-    let ClaveProducto = clave.slice(0, -1);
+    let ClaveProducto = detalle.ClaveProducto
+    // let ClaveProducto = clave.slice(0, -1);
     let Lote = detalle.Lote;
 
     const formData = new FormData();
@@ -751,7 +776,7 @@ this._MessageService.documentosURL = [];
     formData.append('direccionDocumento', 'Documentos/Importacion/PESPI/0/0/' + ClaveProducto + '/' + Lote);
     this.documentosService.readDirDocuemntosServer(formData, 'cargarNombreDocumentos').subscribe(res => {
       // console.log(res);
-      // this.archivosPESPI = [];
+      this.archivosPESPI = [];
       if (res) {
         // console.log(res.length)
         for (let i = 0; i < res.length; i++) {
@@ -904,7 +929,7 @@ this._MessageService.documentosURL = [];
     for (var l = 0; l < this.seleccionadosFacturas.length; l++) {
       // console.log(this.seleccionados[l]);
       //update OrdenTemporal
-      this.actualizarTipoDocumentoFactura(this.seleccionadosFacturas[l]);
+      // this.actualizarTipoDocumentoFactura(this.seleccionadosFacturas[l]);
       for (var i = 0; i < event.addedFiles.length; i++) {
         const formData = new FormData();
         formData.append('0', event.addedFiles[i])
@@ -1434,8 +1459,8 @@ this._MessageService.documentosURL = [];
 
   obtenerDocumentosUSDA(detalle) {
 
-    let clave = detalle.ClaveProducto
-    let ClaveProducto = clave.slice(0, -1);
+    let ClaveProducto = detalle.ClaveProducto
+    // let ClaveProducto = clave.slice(0, -1);
     let Lote = detalle.Lote;
 
     const formData = new FormData();
@@ -1444,7 +1469,7 @@ this._MessageService.documentosURL = [];
     formData.append('direccionDocumento', 'Documentos/Importacion/USDA/' + detalle.IdTraspasoMercancia.toString());
     this.documentosService.readDirDocuemntosServer(formData, 'cargarNombreDocumentos').subscribe(res => {
       // console.log(res);
-      // this.archivosUSDA = [];
+      this.archivosUSDA = [];
       if (res) {
         // console.log(res.length)
         for (let i = 0; i < res.length; i++) {

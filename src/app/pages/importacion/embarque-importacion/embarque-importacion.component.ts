@@ -411,7 +411,7 @@ export class EmbarqueImportacionComponent implements OnInit {
         CampoExtra1: '',
         CampoExtra2: '',
       }
-
+console.log(traspaso);
       this.traspasoSVC.addTraspasoMercancia(traspaso).subscribe(res => {
 
         console.log(res);
@@ -447,7 +447,7 @@ export class EmbarqueImportacionComponent implements OnInit {
               IdDetalleTraspasoMercancia: 0,
               IdTraspasoMercancia: this.traspasoSVC.idnuevo,
               IdDetalle: this.listData2.data[i].IdDetalleTarima,
-              Cbk: '',
+              Cbk: this.listData2.data[i].Pedimento,
               Usda: '',
               IdProveedor: this.listData2.data[i].IdProveedor,
               Proveedor: this.listData2.data[i].Proveedor,
@@ -459,7 +459,8 @@ export class EmbarqueImportacionComponent implements OnInit {
               PesoxSaco: this.listData2.data[i].PesoxSaco,
               PesoTotal: this.listData2.data[i].PesoTotal,
               Bodega: this.listData2.data[i].Bodega,
-              CampoExtra3: '',
+              //^ Guardaremos la Factura de este Producto
+              CampoExtra3: this.listData2.data[i].Shipper,
               CampoExtra4: '',
             }
 
@@ -467,8 +468,8 @@ export class EmbarqueImportacionComponent implements OnInit {
 
             console.log(detalletraspaso, 'DETALLE');
 
-            this.traspasoSVC.addDetalleTraspasoMercancia(detalletraspaso).subscribe(data => {
-              console.log(data);
+             this.traspasoSVC.addDetalleTraspasoMercancia(detalletraspaso).subscribe(data => {
+               console.log(data);
 
 
 
@@ -487,11 +488,11 @@ export class EmbarqueImportacionComponent implements OnInit {
                 }
                 /* let dl = this.dialog.open(DocumentacionFormularioImportacionComponent, dialogConfig); */
                 this.traspasoSVC.selectTraspaso.IdTraspasoMercancia = this.traspasoSVC.idnuevo;
-                let dl = this.dialog.open(ResumentraspasoComponent, dialogConfig);
+                 let dl = this.dialog.open(ResumentraspasoComponent, dialogConfig);
 
                 // dl.afterClosed().subscribe(res=>{
                 this.inicio = true;
-                this.crearOC(this.traspasoSVC.idnuevo);
+                 this.crearOC(this.traspasoSVC.idnuevo);
                 // })
 
 
@@ -500,7 +501,7 @@ export class EmbarqueImportacionComponent implements OnInit {
                   title: 'Traspaso Creado'
                 }) */
               }
-            })
+             })
 
 
 
@@ -508,7 +509,7 @@ export class EmbarqueImportacionComponent implements OnInit {
 
         })
       })
-    })
+     })
 
 
 
@@ -584,8 +585,8 @@ export class EmbarqueImportacionComponent implements OnInit {
 
       //this.crearTraspaso(data[0].Folio);
 
-      this.serviceordencarga.addOrdenCarga(ordencarga).subscribe(data => {
-        console.log(data);
+       this.serviceordencarga.addOrdenCarga(ordencarga).subscribe(data => {
+         console.log(data);
 
         let query2 = 'select top 1 OrdenCarga.* from OrdenCarga order by folio desc;'
         let consulta2 = {
@@ -596,7 +597,7 @@ export class EmbarqueImportacionComponent implements OnInit {
 
           this.traspasoSVC.selectTraspaso.FolioOrdenCarga = resp2[0].Folio;
 
-          this.updateTrapspaso(resp2[0].IdOrdenCarga, resp2[0].Folio, idtraspaso)
+           this.updateTrapspaso(resp2[0].IdOrdenCarga, resp2[0].Folio, idtraspaso)
 
           console.log(this.listData2.data);
 
@@ -605,7 +606,8 @@ export class EmbarqueImportacionComponent implements OnInit {
             detordencarga = {
 
               IdDetalleOrdenCarga: 0,
-              IdOrdenCarga: 0,
+              // IdOrdenCarga: 0,
+              IdOrdenCarga: resp2[0].IdOrdenCarga,
               ClaveProducto: this.listData2.data[i].ClaveProducto,
               Producto: this.listData2.data[i].Producto,
               Sacos: this.listData2.data[i].SacosTotales,
@@ -621,15 +623,15 @@ export class EmbarqueImportacionComponent implements OnInit {
               Pedimento: this.listData2.data[i].Pedimento,
               Saldo: ((this.listData2.data[i].PesoTotal)),
             }
-
-            this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data => {
-              console.log(data);
+              console.log(detordencarga);
+             this.serviceordencarga.addDetalleOrdenCarga(detordencarga).subscribe(data => {
+               console.log(data);
               Swal.fire({
                 icon: 'success',
                 title: 'Traspaso Creado'
               })
 
-            })
+             })
 
 
           }
@@ -637,7 +639,7 @@ export class EmbarqueImportacionComponent implements OnInit {
 
 
           //^ Mover Productos de traspaso a bodega = 'Transito';
-          this.moverProductosTransito();
+           this.moverProductosTransito();
 
 
    
@@ -658,7 +660,7 @@ export class EmbarqueImportacionComponent implements OnInit {
       )
 
 
-    })
+     })
 
   }
 

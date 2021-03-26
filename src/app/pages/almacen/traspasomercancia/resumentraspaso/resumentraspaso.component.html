@@ -81,12 +81,12 @@
                                 </ng-container>
                                 <ng-container matColumnDef="Factura">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Factura</th>
-                                    <td mat-cell *matCellDef="let element">{{element.NumeroFactura}}
+                                    <td mat-cell *matCellDef="let element">{{element.CampoExtra3}}
                                     </td>
                                 </ng-container>
                                 <ng-container matColumnDef="CBK">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>CBK</th>
-                                    <td mat-cell *matCellDef="let element">{{element.NumeroEntrada}}
+                                    <td mat-cell *matCellDef="let element">{{element.Cbk}}
                                     </td>
                                 </ng-container>
                                 <ng-container matColumnDef="Usda">
@@ -96,8 +96,13 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="Clave">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave</th>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave P.</th>
                                     <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Lote">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                                    <td mat-cell *matCellDef="let element">{{element.Lote}}
                                     </td>
                                 </ng-container>
                                 <ng-container matColumnDef="Producto">

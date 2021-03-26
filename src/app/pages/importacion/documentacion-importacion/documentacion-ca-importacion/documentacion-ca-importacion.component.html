@@ -49,14 +49,25 @@
 
 
                         <div class="row">
+                            <div class="col-12 col-md-6">
+                                <label class="input-group-text text-info">Origen :</label> <br>
+                                <mat-form-field>
+                                    <input type="text" placeholder="Seleccionar Origen" aria-label="Number" [formControl]="myControl4" [(ngModel)]="OrigenSelect" matInput [matAutocomplete]="autoOrigenProducto">
+                                    <mat-autocomplete #autoOrigenProducto="matAutocomplete">
+                                        <mat-option *ngFor="let option of filteredOptions4 | async" [value]="option.NombreOrigen" (onSelectionChange)="onSelectionChangeOrigen(option, $event)">
+                                            {{option.NombreOrigen}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
 
-                            <div class="col-6">
+                            <div class="col-12 col-md-3">
                                 <label class="input-group-text text-info">Lote :</label> <br>
 
                                 <input type="text" placeholder="Ingresar Lote" aria-label="Number" [formControl]="myControl4" [(ngModel)]="Lote" matInput>
 
                             </div>
-                            <div class="col-6">
+                            <div class="col-12 col-md-3">
                                 <label class="input-group-text text-info">Fecha Vigencia:</label>
                                 <mat-datepicker-toggle matSuffix [for]="pickerVigencia"></mat-datepicker-toggle>
                                 <input type="text" readonly="readonly" [matDatepicker]="pickerVigencia" class="form-control" name="FechaVigencia" #FechaVigencia="ngModel" [(ngModel)]="fechaVigencia">
@@ -67,11 +78,11 @@
                         <div class="row">
                             <div class="col-4"></div>
                             <div class="col-4">
-                                <button style="float: right; margin-top: 20px;" [disabled]="!ProductoSelect || !MarcaSelect || !Lote || !fechaVigencia" class="btn btn-info btn-lg" mat-raised-button (click)="addToList()">Agregar a Lista</button>
+                                <button style="float: right; margin-top: 20px;" [disabled]="!ProductoSelect || !MarcaSelect || !Lote || !fechaVigencia || !OrigenSelect" class="btn btn-info btn-lg" mat-raised-button (click)="addToList()">Agregar a Lista</button>
 
                             </div>
                             <div class="col-4">
-                                <button style="float: right; margin-top: 20px;" [disabled]="!ProductoSelect || !MarcaSelect || !Lote || !fechaVigencia" class="btn btn-info btn-lg" mat-raised-button (click)="obtenerDocumentos()">ObtenerDocumentos</button>
+                                <button style="float: right; margin-top: 20px;" [disabled]="!ProductoSelect || !MarcaSelect || !Lote || !fechaVigencia || !OrigenSelect" class="btn btn-info btn-lg" mat-raised-button (click)="obtenerDocumentos()">ObtenerDocumentos</button>
 
                             </div>
 
