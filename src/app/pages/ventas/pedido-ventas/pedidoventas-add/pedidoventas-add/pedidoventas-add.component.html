@@ -756,36 +756,38 @@
                                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Cantidad</th>
                                                                     <td mat-cell *matCellDef="let element">{{element.Cantidad}}</td>
                                                                 </ng-container>
-                                                                <ng-container matColumnDef="PU" *ngIf="MonedaBoolean == true">
+                                                                <ng-container matColumnDef="PU">
                                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>P/U</th>
-                                                                    <td mat-cell *matCellDef="let element">{{element.PrecioUnitario | currency }}</td>
+                                                                    <td mat-cell *matCellDef="let element"><span *ngIf="MonedaBoolean == true">{{element.PrecioUnitario | currency }}</span><span *ngIf="MonedaBoolean == false">{{element.PrecioUnitarioDlls | currency}}</span></td>
+                                                                    <!-- <td mat-cell *matCellDef="let element"></td> -->
                                                                 </ng-container>
-                                                                <ng-container matColumnDef="PU" *ngIf="MonedaBoolean == false">
+                                                                <!-- <ng-container matColumnDef="PU" *ngIf="MonedaBoolean == false">
                                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>P/U</th>
                                                                     <td mat-cell *matCellDef="let element">{{element.PrecioUnitarioDlls | currency}}</td>
-                                                                </ng-container>
-                                                                <ng-container matColumnDef="Importe" *ngIf="MonedaBoolean == true">
+                                                                </ng-container> -->
+                                                                <ng-container matColumnDef="Importe">
                                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
-                                                                    <td mat-cell *matCellDef="let element">{{element.Importe | currency}}</td>
+                                                                    <td mat-cell *matCellDef="let element"><span *ngIf="MonedaBoolean == true">{{element.Importe | currency }}</span><span *ngIf="MonedaBoolean == false">{{element.ImporteDlls | currency}}</span></td>
                                                                 </ng-container>
-                                                                <ng-container matColumnDef="Importe" *ngIf="MonedaBoolean == false">
+                                                                <!-- <ng-container matColumnDef="Importe" *ngIf="MonedaBoolean == false">
                                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
                                                                     <td mat-cell *matCellDef="let element">{{element.ImporteDlls | currency}}</td>
-                                                                </ng-container>
+                                                                </ng-container> -->
 
                                                                 <ng-container matColumnDef="Options">
                                                                     <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
                                                                     <td mat-cell *matCellDef="let row">
-                                                                        <button *ngIf="this.service.formDataPedido.Estatus != 'Cerrada'" [style.display]="clienteLogin ? 'none' : 'block'" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                                                        <button  [style.display]="clienteLogin ? 'none' : 'block'" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                                                 <mat-icon>keyboard_arrow_down</mat-icon>
                                               </button>
                                                                         <mat-menu #menu="matMenu">
-                                                                            <!--  -->
-                                                                            <!-- <button [style.display]="clienteLogin ? 'none' : 'block'" mat-icon-button class="btn btn-dark" (click)="OnEditProducto(row)">
+                                                                      
+                                                                            <button mat-icon-button class="btn btn-dark" (click)="OnEditProducto(row)">
                                                   <mat-icon>edit</mat-icon>
-                                                </button> -->
-                                                                            <!--  -->
-                                                                            <button [style.display]="clienteLogin ? 'none' : 'block'" mat-icon-button class="btn btn-danger" (click)="onDeleteDetalleProducto(row)">
+                                                </button>
+                                           
+                                                                        
+                                                                            <button *ngIf="this.service.formDataPedido.Estatus != 'Cerrada'" mat-icon-button class="btn btn-danger" (click)="onDeleteDetalleProducto(row)">
                                                   <mat-icon>delete_outline</mat-icon>
                                                 </button>
                                                                         </mat-menu>
