@@ -572,7 +572,7 @@
                                                     <div class="container">
                                                         <div class="row">
                                                             <div class="col-12 col-md-6">
-                                                                        {{productoSeleccionado}}
+                                                                {{productoSeleccionado}}
 
                                                                 <br>
                                                                 <div *ngIf="MonedaBoolean == true; else elseBlockPC">
@@ -718,20 +718,20 @@
                                                 </mat-card> -->
                                                 <div class="row">
                                                     <div class="col-12 col-md-6">
-                                                        
+
                                                         <h2>Productos</h2>
                                                     </div>
                                                     <div class="col-12 col-md-4">
-                                                        
-                                                        
-                                            </div>
-                                                    <div class="col-12 col-md-2">
-                                                        
-                                                        {{cantidadTotalKg}} Kg.
-                                            </div>
 
-                                        </div>
-                                                <div class="mat-elevation-z8 container">
+
+                                                    </div>
+                                                    <div class="col-12 col-md-2">
+
+                                                        {{cantidadTotalKg}} Kg.
+                                                    </div>
+
+                                                </div>
+                                                <div #menu id='menu' class="mat-elevation-z8 container">
                                                     <div style="overflow:auto;">
 
                                                         <div>
@@ -777,16 +777,16 @@
                                                                 <ng-container matColumnDef="Options">
                                                                     <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
                                                                     <td mat-cell *matCellDef="let row">
-                                                                        <button  [style.display]="clienteLogin ? 'none' : 'block'" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                                                        <button [style.display]="clienteLogin ? 'none' : 'block'" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                                                 <mat-icon>keyboard_arrow_down</mat-icon>
                                               </button>
                                                                         <mat-menu #menu="matMenu">
-                                                                      
+
                                                                             <button mat-icon-button class="btn btn-dark" (click)="OnEditProducto(row)">
                                                   <mat-icon>edit</mat-icon>
                                                 </button>
-                                           
-                                                                        
+
+
                                                                             <button *ngIf="this.service.formDataPedido.Estatus != 'Cerrada'" mat-icon-button class="btn btn-danger" (click)="onDeleteDetalleProducto(row)">
                                                   <mat-icon>delete_outline</mat-icon>
                                                 </button>
@@ -920,4 +920,3 @@
         </div>
     </div>
 </div>
-

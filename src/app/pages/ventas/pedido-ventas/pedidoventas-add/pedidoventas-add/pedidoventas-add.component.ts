@@ -1046,8 +1046,30 @@ export class PedidoventasAddComponent implements OnInit {
       }
       nodes = document.getElementById('step3').getElementsByTagName('*');
       for (let i = 0; i < nodes.length; i++) {
-        nodes[i].setAttribute('disabled', 'true')
+
+        
+          nodes[i].setAttribute('disabled', 'true')
+        
+        
+       
       }
+
+      let menu2 = document.getElementById('menu');
+      //menu2.setAttribute('disabled', 'false')
+      menu2.removeAttribute('disabled')
+
+      let menu = document.getElementById('menu').getElementsByTagName('*');
+      for (let i = 0; i < menu.length; i++) {
+
+        
+          menu[i].removeAttribute('disabled')
+        
+        
+       
+      }
+      
+      
+      
     }
   }
 

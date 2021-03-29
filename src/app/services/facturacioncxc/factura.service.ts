@@ -35,6 +35,9 @@ export class FacturaService {
    tipoCambioPago;
    rfcempresa = 'PLA11011243A';
    ClaveCliente;
+
+   Pedido;
+   ClaveSAT
    
 
    SaldoFacturaMXN: number;
@@ -408,6 +411,13 @@ addSaldos(saldo: Saldos){
 getSaldos(): Observable<any>{
   return this.http.get<any[]>(this.APIUrl + '/Saldos')
 }
+
+//GENERAL
+  //^ Consultas generales
+  getQuery(query) {
+    return this.http.post(this.APIUrl + '/TraspasoMercancia/general', query);
+  }
+  
 
 
 // private _listeners = new Subject<any>(); 

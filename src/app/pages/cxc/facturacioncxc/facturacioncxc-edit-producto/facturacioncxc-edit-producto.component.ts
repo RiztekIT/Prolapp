@@ -68,6 +68,8 @@ public listUM: Array<any> = [];
     this.obtenerProductos();
     console.log(this.service.formDataDF);
 
+    this.service.formDataDF.TextoExtra = (+this.service.formDataDF.TextoExtra + +this.service.formDataDF.Cantidad).toString();
+
 
 
 
@@ -412,6 +414,7 @@ if (diasemana == 6 || diasemana == 0){
  
   onSubmit(form: NgForm) {
     this.service.formDataDF.IdFactura = this.IdFactura;
+    this.service.formDataDF.TextoExtra = (+this.service.formDataDF.TextoExtra - +this.service.formDataDF.Cantidad).toString();
     console.log(this.service.formDataDF);
     this.service.updateDetalleFactura(this.service.formDataDF).subscribe(res => {
       Swal.fire({

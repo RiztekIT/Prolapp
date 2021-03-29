@@ -192,6 +192,47 @@ console.log('this.clienteLogin: ', this.clienteLogin);
     this.refreshPagoCFDIList();
 
     console.log(this.service.SaldoFacturaMXN +' || '+ this.service.SaldoFacturaDLLS);
+
+    if (this.service.Pedido=="1"){
+      let event = {
+        isUserInput: true
+      }
+
+      let query
+
+      if (this.service.rfcempresa==='PLA11011243A'){
+
+        query = 'select * from cliente2 where IdClientes='+this.service.formData.IdCliente
+      }
+      else if (this.service.rfcempresa=='AIN140101ME3'){
+        query = 'select * from cliente where IdClientes='+this.service.formData.IdCliente
+      }
+
+      let consulta = {
+        'consulta':query
+      };
+
+      this.service.getQuery(consulta).subscribe((res:any)=>{
+        if (res.length>0){
+
+          this.onSelectionChange(res[0], event)
+        }
+      })
+
+
+      query = "insert into ovfactura values("+this.service.formData.Id+","+this.service.formData.OrdenDeCompra+")"
+
+      consulta = {
+        'consulta':query
+      };
+
+      this.service.getQuery(consulta).subscribe((res:any)=>{
+       console.log(res);
+      })
+
+      
+
+    }
   }
 
 
