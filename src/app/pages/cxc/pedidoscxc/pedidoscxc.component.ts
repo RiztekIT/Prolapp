@@ -166,14 +166,14 @@ if (this.estatusSelect==='Todos'){
     this.service.getPedidoCliente().subscribe(data => {
       console.log(data);
       for (let i = 0; i <= data.length - 1; i++) {
-        if (data[i].Estatus == 'Creada') {
+      /*   if (data[i].Estatus == 'Creada') {
           // console.log(data[i]);
           // console.log('ELIMINAR ESTE PEDIDO');
           // console.log(i + 1);
           this.service.onDelete(data[i].IdPedido).subscribe(res => {
             this.refreshPedidoList();
           });
-        }
+        } */
         this.service.master[i] = data[i]
         this.service.master[i].DetallePedido = [];
         this.service.getDetallePedidoId(data[i].IdPedido).subscribe(res => {

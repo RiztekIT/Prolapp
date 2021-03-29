@@ -35,6 +35,7 @@ import { AcusecancelacionComponent } from 'src/app/components/acusecancelacion/a
 import xml2js from 'xml2js';
 import { processors } from 'xml2js'
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
+import { OrdenventacxcComponent } from '../ordenventacxc/ordenventacxc.component';
 
 /* Headers para el envio de la factura */
 const httpOptions = {
@@ -1978,6 +1979,31 @@ this.enviarfact.acuseCancelacion(fact.UUID).subscribe((data:any)=>{
     }
     );
 
+
+  }
+
+
+  ordenventa(fact){
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    
+  /*   dialogConfig.data = {
+      rfcemisor: rfcemisor,
+    fechahorasolicitud:    fechahorasolicitud,
+    fechahoracancel:    fechahoracancel,
+    foliofiscal:    foliofiscal,
+    estatus:    estatus,
+    sellodigitalsat:    sellodigitalsat
+    } */
+    let dl = this.dialog.open(OrdenventacxcComponent, dialogConfig);
+
+    dl.afterClosed().subscribe(res=>{
+      this.refreshDetallesFacturaList();
+
+    })
 
   }
 
