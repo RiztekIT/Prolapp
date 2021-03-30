@@ -293,7 +293,7 @@ export class EmbarqueImportacionComponent implements OnInit {
   }
 
   onEdit(row) {
-    console.log(row);
+     
 
     Swal.fire({
       title: 'Ingresar Kg',
@@ -588,18 +588,22 @@ console.log(traspaso);
 
       //this.crearTraspaso(data[0].Folio);
 
-       this.serviceordencarga.addOrdenCarga(ordencarga).subscribe(data => {
-         console.log(data);
+       this.serviceordencarga.addOrdenCarga(ordencarga).subscribe(resp2 => {
+         /* console.log(data); */
 
-        let query2 = 'select top 1 OrdenCarga.* from OrdenCarga order by folio desc;'
+       /*  let query2 = 'select top 1 OrdenCarga.* from OrdenCarga order by folio desc;'
         let consulta2 = {
           'consulta': query2
-        };
-        this.traspasoSVC.getQuery(consulta2).subscribe((resp2: any) => {
+        }; */
+        /* this.traspasoSVC.getQuery(consulta2).subscribe((resp2: any) => { */
           console.log(resp2);
 
           this.traspasoSVC.selectTraspaso.FolioOrdenCarga = resp2[0].Folio;
           this.traspasoSVC.selectTraspaso.IdOrdenCarga = resp2[0].IdOrdenCarga;
+
+          console.log(resp2[0].IdOrdenCarga, 'IDCARGA');
+          console.log(resp2[0].Folio, 'FOLIO');
+          console.log(idtraspaso,'IDTRASPASO');
 
            this.updateTrapspaso(resp2[0].IdOrdenCarga, resp2[0].Folio, idtraspaso)
 
@@ -672,7 +676,7 @@ console.log(traspaso);
 
 
           /* this.Inicializar(); */
-        })
+        /* }) */
 
       }
       )
