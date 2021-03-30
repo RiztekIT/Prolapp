@@ -293,7 +293,7 @@ export class EmbarqueImportacionComponent implements OnInit {
   }
 
   onEdit(row) {
-    console.log(row);
+     
 
     Swal.fire({
       title: 'Ingresar Kg',
