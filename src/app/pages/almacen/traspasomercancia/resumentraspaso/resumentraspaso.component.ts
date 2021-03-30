@@ -1595,14 +1595,15 @@ this._MessageService.documentosURL = [];
 
 
   onAddDocumentosUSDA() {
-
+  
     let event = this.eventsUSDA;
-    // console.log(event)
+    console.log(event)
     // console.log(this.seleccionados.length);
     let ultimoSeleccionado = this.seleccionadosUSDA.length
     for (var l = 0; l < this.seleccionadosUSDA.length; l++) {
       // console.log(this.seleccionados[l]);
-      for (var i = 0; i < event.addedFiles.length; i++) {
+      if(event){
+for (var i = 0; i < event.addedFiles.length; i++) {
         let ClaveProducto = this.seleccionadosUSDA[l].ClaveProducto.slice(0, -1);
         const formData = new FormData();
         formData.append('0', event.addedFiles[i])
@@ -1685,6 +1686,17 @@ this._MessageService.documentosURL = [];
 
         })
       }
+      }else{
+        Swal.fire({
+          title: 'USDA Agregado',
+          icon: 'success',
+          timer: 1500,
+          showCancelButton: false,
+          showConfirmButton: false
+        });
+          this.updateUSDA();
+      }
+      
 
     }
     // this.files.push(...event.addedFiles);
@@ -1723,6 +1735,24 @@ this._MessageService.documentosURL = [];
     })
 
   }
+  updateInformacionTraspaso() {
+    console.log(this.traspasoSVC.selectTraspaso);
+    this.traspasoSVC.updateTraspasoMercancia(this.traspasoSVC.selectTraspaso).subscribe(resUpdate => {
+      console.log(resUpdate);
+    })
+  }
+
+  actualizarInformacionAdicional(){
+    Swal.fire({
+      title: 'Actualizado',
+      icon: 'success',
+      timer: 1000,
+      showCancelButton: false,
+      showConfirmButton: false
+    });
+    this.actualizarOrdenCarga();
+    this.updateInformacionTraspaso();
+  }
 
   onSelectUSDA(event) {
 
@@ -1739,12 +1769,7 @@ this._MessageService.documentosURL = [];
   }
 
 
-  updateInformacionTraspaso() {
-    console.log(this.traspasoSVC.selectTraspaso);
-    this.traspasoSVC.updateTraspasoMercancia(this.traspasoSVC.selectTraspaso).subscribe(resUpdate => {
-      console.log(resUpdate);
-    })
-  }
+
 
 
 

@@ -305,37 +305,40 @@ export class EmbarqueImportacionComponent implements OnInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Aceptar',
     }).then((result) => {
-      console.log(result);
-      row.PesoTotal = result.value
-      row.PesoTotal1 = result.value
-      row.Sacos = (+row.PesoTotal / +row.PesoxSaco)
-      row.SacosTotales = (+row.PesoTotal / +row.PesoxSaco)
-      /*   this.detalletraspaso.push({
-          "Bodega": row.Bodega,
-  "ClaveProducto" :  row.ClaveProducto,
-  "FechaCaducidad" :  row.FechaCaducidad,
-  "FechaMFG" :  row.FechaMFG,
-  "IdDetalleTarima" :  row.IdDetalleTarima,
-  "IdProveedor" :  row.IdProveedor,
-  "IdTarima" :  row.IdTarima,
-  "IdTarima1" :  row.IdTarima1,
-  "Lote" :  row.Lote,
-  "PO" :  row.PO,
-  "Pedimento" :  row.Pedimento,
-  "PesoTotal" :  row.PesoTotal,
-  "PesoxSaco" :  row.PesoxSaco,
-  "Producto" :  row.Producto,
-  "Proveedor" :  row.Proveedor,
-  "QR" :  row.QR,
-  "Sacos" :  result.value,
-  "Sacos1" :  row.Sacos1,
-  "Shipper" :  row.Shipper,
-  "USDA" :  row.USDA,
-        }) */
+      if(result.value){
 
-      //console.log(this.selection.selected.indexOf(row));
-      //console.log(this.detalletraspaso);
-      console.log(this.listData2.data);
+        console.log(result);
+        row.PesoTotal = result.value
+        row.PesoTotal1 = result.value
+        row.Sacos = (+row.PesoTotal / +row.PesoxSaco)
+        row.SacosTotales = (+row.PesoTotal / +row.PesoxSaco)
+        /*   this.detalletraspaso.push({
+          "Bodega": row.Bodega,
+          "ClaveProducto" :  row.ClaveProducto,
+          "FechaCaducidad" :  row.FechaCaducidad,
+          "FechaMFG" :  row.FechaMFG,
+          "IdDetalleTarima" :  row.IdDetalleTarima,
+          "IdProveedor" :  row.IdProveedor,
+          "IdTarima" :  row.IdTarima,
+          "IdTarima1" :  row.IdTarima1,
+          "Lote" :  row.Lote,
+          "PO" :  row.PO,
+          "Pedimento" :  row.Pedimento,
+          "PesoTotal" :  row.PesoTotal,
+          "PesoxSaco" :  row.PesoxSaco,
+          "Producto" :  row.Producto,
+          "Proveedor" :  row.Proveedor,
+          "QR" :  row.QR,
+          "Sacos" :  result.value,
+          "Sacos1" :  row.Sacos1,
+          "Shipper" :  row.Shipper,
+          "USDA" :  row.USDA,
+        }) */
+        
+        //console.log(this.selection.selected.indexOf(row));
+        //console.log(this.detalletraspaso);
+        console.log(this.listData2.data);
+      }
     })
 
 
@@ -640,6 +643,8 @@ console.log(traspaso);
                   tipo: 'Agregar',
                 }
                 this.traspasoSVC.selectTraspaso.IdTraspasoMercancia = this.traspasoSVC.idnuevo;
+
+                
                 
                 let dl = this.dialog.open(ResumentraspasoComponent, dialogConfig);
               }
@@ -758,6 +763,8 @@ console.log(traspaso);
       if (i == (this.listData2.data.length - 1)) {
        //^ regresar a pantalla principal
         this.router.navigateByUrl('/importacionesalmacen');
+        //^ Actualizar Tabla Principal
+        this.traspasoSVC.filter('');
       }
     }
   }

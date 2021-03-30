@@ -28,7 +28,7 @@ export class FacturaService {
    formDataDF: DetalleFactura;
    formDataP: Producto;
    IdFactura: number;
-   master = new Array<facturaMasterDetalle>();
+   master = new Array<any>();
    Moneda: string;
    Cliente;
    saldos = new Saldos();

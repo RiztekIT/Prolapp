@@ -251,6 +251,7 @@ export class PedidoventasAddComponent implements OnInit {
   //^ VARIABLES DE PERMISOS
   Guardar: boolean = false;
   Cerrar: boolean = false;
+  editarPrecio: boolean = false;
   //^ VARIABLES DE PERMISOS
 
 
@@ -281,6 +282,9 @@ export class PedidoventasAddComponent implements OnInit {
         break;
       case ('Cerrar Orden de Venta'):
         this.Cerrar = true;
+        break;
+        case ('Editar Precio Producto'):
+        this.editarPrecio = true;
         break;
       default:
         break;

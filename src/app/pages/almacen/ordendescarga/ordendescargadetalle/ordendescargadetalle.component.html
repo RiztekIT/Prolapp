@@ -159,6 +159,10 @@
                                             <th mat-header-cell *matHeaderCellDef mat-sort-header>CBK</th>
                                             <td mat-cell *matCellDef="let elementOT">{{elementOT.NumeroEntrada}}</td>
                                         </ng-container>
+                                        <ng-container matColumnDef="PO">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>PO</th>
+                                            <td mat-cell *matCellDef="let elementOT">{{elementOT.CampoExtra1}}</td>
+                                        </ng-container>
 
                                         <ng-container matColumnDef="ClaveProducto">
                                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave Producto</th>

@@ -27,7 +27,13 @@ export class TraspasomercanciaComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   
 
-  constructor(public traspasoSVC: TraspasoMercanciaService, public router: Router, private dialog: MatDialog, public serviceTarima: TarimaService, public ocService:OrdenCargaService) { }
+  constructor(public traspasoSVC: TraspasoMercanciaService, public router: Router, private dialog: MatDialog, public serviceTarima: TarimaService, public ocService:OrdenCargaService) { 
+    this.traspasoSVC.listen().subscribe((m:any)=>{
+      console.log('Actualizando Tabla Principal');
+      this.obtenerTraspasos();
+      this.obtenerPrivilegios();
+    });
+  }
 
   ngOnInit() {
     this.obtenerTraspasos();

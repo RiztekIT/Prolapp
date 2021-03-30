@@ -782,7 +782,7 @@
                                               </button>
                                                                         <mat-menu #menu="matMenu">
 
-                                                                            <button mat-icon-button class="btn btn-dark" (click)="OnEditProducto(row)">
+                                                                            <button [disabled]="editarPrecio == false" mat-icon-button class="btn btn-dark" (click)="OnEditProducto(row)">
                                                   <mat-icon>edit</mat-icon>
                                                 </button>
 

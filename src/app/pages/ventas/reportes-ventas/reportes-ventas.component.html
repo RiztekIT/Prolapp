@@ -340,6 +340,10 @@
                                                 <td mat-cell *matCellDef="let element">{{element.FechaDeExpedicion | date: 'yyyy-MM-dd' }}</td>
                                             </ng-container>
 
+                                            <ng-container matColumnDef="Cantidad">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>CANTIDAD</th>
+                                                <td mat-cell *matCellDef="let element">{{element.KGTOTALES| number}}</td>
+                                            </ng-container>
                                             <ng-container matColumnDef="Subtotal">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>SUBTOTAL MXN/USD</th>
                                                 <td mat-cell *matCellDef="let element">{{element.Subtotal| currency}} MXN / {{element.SubtotalDlls | currency}} USD</td>
