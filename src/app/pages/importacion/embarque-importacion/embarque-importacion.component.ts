@@ -79,7 +79,7 @@ export class EmbarqueImportacionComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
   listData2: MatTableDataSource<any>;
-  displayedColumns: string[] = ['select', 'PO', 'CBK', 'Clave', 'Producto', 'Lote', 'Fecha Caducidad', 'FechaMFG', 'Cantidad'];
+  displayedColumns: string[] = ['select', 'PO', 'CBK', 'Factura', 'Clave', 'Producto', 'Lote', 'Fecha Caducidad', 'FechaMFG', 'Cantidad'];
   displayedColumns2: string[] = ['PO', 'CBK', 'Clave', 'Producto', 'Lote', 'Fecha Caducidad', 'FechaMFG', 'Cantidad', 'Options'];
   bodegaSelect;
   @ViewChild(MatSort, null) sort: MatSort;
@@ -705,7 +705,13 @@ console.log(traspaso);
 
       // this.agregarOrdenTemporal(i, Lote, ClaveProducto, Sacos, kg);
 //^ Obtenemos la informacion del producto a traspasar
-      this.serviceTarima.GetGetProductoInformacionBodega(this.listData2.data[i].ClaveProducto, this.listData2.data[i].Lote, this.listData2.data[i].Bodega).subscribe(dataDetalleTarima => {
+      // this.serviceTarima.GetGetProductoInformacionBodega(this.listData2.data[i].ClaveProducto, this.listData2.data[i].Lote, this.listData2.data[i].Bodega).subscribe(dataDetalleTarima => {
+        let consulta = {
+          'consulta':"select * from detalletarima where ClaveProducto='"+this.listData2.data[i].ClaveProducto+ "' and lote='"+this.listData2.data[i].Lote+"' and Bodega='"+this.listData2.data[i].Bodega+"' and Shipper = '"+this.listData2.data[i].Shipper+"';"
+        };
+    
+        console.log(consulta);
+        this.serviceTarima.generarConsulta(consulta).subscribe((dataDetalleTarima:any)=>{
         console.log(dataDetalleTarima);
 
         let dataDetalleTarimaOriginal = dataDetalleTarima;

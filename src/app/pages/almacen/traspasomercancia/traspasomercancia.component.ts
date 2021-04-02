@@ -239,7 +239,13 @@ subs1: Subscription
           
           
           //^ Obtenemos la informacion del producto a regresar
-          this.serviceTarima.GetGetProductoInformacionBodega(detalles[i].ClaveProducto, detalles[i].Lote, row.Origen).subscribe(dataDetalleTarima => {
+          // this.serviceTarima.GetGetProductoInformacionBodega(detalles[i].ClaveProducto, detalles[i].Lote, row.Origen).subscribe(dataDetalleTarima => {
+            let consulta = {
+              'consulta':"select * from detalletarima where ClaveProducto='"+detalles[i].ClaveProducto+ "' and lote='"+detalles[i].Lote+"' and Bodega='"+detalles[i].Bodega+"' and Shipper = '"+detalles[i].CampoExtra3+"';"
+            };
+        
+            console.log(consulta);
+            this.serviceTarima.generarConsulta(consulta).subscribe((dataDetalleTarima:any)=>{
             console.log(dataDetalleTarima);
 
             //^ Verificamos si en la bodega origen existe el mismo producto con el mismo Lote
