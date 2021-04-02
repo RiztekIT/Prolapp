@@ -108,13 +108,13 @@
                     </thead>
                     <tbody *ngFor="let conceptos of arrcon;  let i = index">
                         <tr class="pgbreak">
-                            <td class="textdt pgbreak text-center">{{conceptos.Cantidad | number: '1.0-0'}} </td>
+                            <td class="textdt pgbreak text-center">{{conceptos.Cantidad | number: '1.4-4'}} </td>
                             <td class="textdt text-center">{{conceptos.ClaveProducto}} </td>
                             <td class=" textdt pgbreak text-center"> {{conceptos.Producto}} </td>
-                            <td *ngIf="this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitario | currency}} </td>
-                            <td *ngIf="this.moneda == 'DLLS'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitarioDlls | currency}}</td>
-                            <td *ngIf="this.moneda == 'MXN'" class="textdt text-center pgbreak">{{((+conceptos.PrecioUnitario)*(+conceptos.Cantidad)) | currency}}</td>
-                            <td *ngIf="this.moneda == 'DLLS'" class="textdt pgbreak text-center">{{((+conceptos.PrecioUnitarioDlls)*(+conceptos.Cantidad)) | currency}}</td>
+                            <td *ngIf="this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitario | currency : 'MXN' : 'symbol'  : '1.4-4'}} </td>
+                            <td *ngIf="this.moneda == 'DLLS'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitarioDlls | currency : 'USD' : 'symbol'  : '1.4-4'}}</td>
+                            <td *ngIf="this.moneda == 'MXN'" class="textdt text-center pgbreak">{{((+conceptos.PrecioUnitario)*(+conceptos.Cantidad)) | currency : 'MXN' : 'symbol'  : '1.4-4'}}</td>
+                            <td *ngIf="this.moneda == 'DLLS'" class="textdt pgbreak text-center">{{((+conceptos.PrecioUnitarioDlls)*(+conceptos.Cantidad)) | currency : 'USD' : 'symbol'  : '1.4-4'}}</td>
                     </tbody>
 
                 </table>
@@ -175,12 +175,12 @@
                                                             <th class=" textoBodyAcomodo text-center"> {{conceptos.Producto}} </th>
                                                         </div>
                                                         <div class="col-1">
-                                                            <th *ngIf="this.moneda == 'MXN'" class=" textoBodyAcomodo text-center"> {{conceptos.PrecioUnitario | currency}} </th>
-                                                            <th *ngIf="this.moneda == 'USD'" class=" textoBodyAcomodo text-center"> {{conceptos.PrecioUnitarioDlls | currency}}</th>
+                                                            <th *ngIf="this.moneda == 'MXN'" class=" textoBodyAcomodo text-center"> {{conceptos.PrecioUnitario | currency : 'MXN' : 'symbol'  : '1.4-4'}} </th>
+                                                            <th *ngIf="this.moneda == 'USD'" class=" textoBodyAcomodo text-center"> {{conceptos.PrecioUnitarioDlls | currency : 'MXN' : 'symbol'  : '1.4-4'}}</th>
                                                         </div>
                                                         <div class="col-3">
-                                                            <th *ngIf="this.moneda == 'MXN'" class=" textoBodyAcomodo text-center "> {{((+conceptos.PrecioUnitario)*(+conceptos.Cantidad)) | currency}}</th>
-                                                            <th *ngIf="this.moneda == 'USD'" class=" textoBodyAcomodo text-center"> {{((+conceptos.PrecioUnitarioDlls)*(+conceptos.Cantidad)) | currency}}</th>
+                                                            <th *ngIf="this.moneda == 'MXN'" class=" textoBodyAcomodo text-center "> {{((+conceptos.PrecioUnitario)*(+conceptos.Cantidad)) | currency : 'MXN' : 'symbol'  : '1.4-4'}}</th>
+                                                            <th *ngIf="this.moneda == 'USD'" class=" textoBodyAcomodo text-center"> {{((+conceptos.PrecioUnitarioDlls)*(+conceptos.Cantidad)) | currency : 'MXN' : 'symbol'  : '1.4-4'}}</th>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -202,12 +202,12 @@
                 </div> -->
 
                 <div class="container row">
-                    <div class="col-7">
+                    <div class="col-6">
 
                     </div>
 
 
-                    <div class="col-5">
+                    <div class="col-6">
                         <div class="card card-outline-inverse">
                             <div class="card-body">
                                 <div class="container">
@@ -217,8 +217,8 @@
                                                 <p class="nomarginbottomP bolder"><b>Subtotal</b> </p>
                                             </div>
                                             <div class="col-lg-5 col-md-5 col-5">
-                                                <p *ngIf="this.moneda == 'MXN'" class="nomarginbottomP bolder"> {{ComprasService.formt.Subtotal | currency}} </p>
-                                                <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP bolder"> {{ComprasService.formt.SubtotalDlls | currency}} </p>
+                                                <p *ngIf="this.moneda == 'MXN'" class="nomarginbottomP bolder"> {{ComprasService.formt.Subtotal | currency : 'MXN' : 'symbol'  : '1.4-4'}} </p>
+                                                <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP bolder"> {{ComprasService.formt.SubtotalDlls | currency : 'USD' : 'symbol'  : '1.4-4'}} </p>
                                                 <!-- cambia -->
                                             </div>
                                         </div>
@@ -240,7 +240,7 @@
                                                 <p class="nomarginbottomP bolder"><b>IVA</b></p>
                                             </div>
                                             <div class="col-lg-5 col-md-5 col-5">
-                                                <p class="nomarginbottomP bolder"><b> {{ComprasService.formt.iva | currency}} </b></p>
+                                                <p class="nomarginbottomP bolder"><b> {{ComprasService.formt.iva | currency : 'MXN' : 'symbol'  : '1.4-4'}} </b></p>
                                                 <!-- cambia -->
                                             </div>
                                         </div>
@@ -251,8 +251,8 @@
                                                 <p class="nomarginbottomP bolder"><b>Total</b></p>
                                             </div>
                                             <div class="col-lg-5 col-md-5 col-5">
-                                                <p *ngIf="this.moneda == 'MXN'" class="nomarginbottomP bolder"><b> {{ComprasService.formt.Total | currency}} </b></p>
-                                                <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP bolder"><b> {{ComprasService.formt.TotalDlls | currency}} </b></p>
+                                                <p *ngIf="this.moneda == 'MXN'" class="nomarginbottomP bolder"><b> {{ComprasService.formt.Total | currency : 'MXN' : 'symbol'  : '1.4-4'}} </b></p>
+                                                <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP bolder"><b> {{ComprasService.formt.TotalDlls | currency : 'USD' : 'symbol'  : '1.4-4'}} </b></p>
                                                 <!-- cambia -->
                                             </div>
                                         </div>
@@ -300,7 +300,7 @@
                                         o cambio cuenta con un máximo de 8 días naturales a partir de la fecha factura <span>
                                 {{ComprasService.formt.FechaEntrega | date}} </span>. Debo (emos) y Pagare (emos) incondicionalmente a la orden de PRO LACTOINGREDIENTES, S DE RL MI DE CV, en esta ciudad o en cualquier otra en que se me (nos) requiera
                                         el importe de la mercancía que ampara este documento. Por la cantidad de <span> {{ComprasService.formt.Total |currency}}
-                                ( {{ComprasService.formt.TotalDlls | currency:'USD':'code'}} )</span></p>
+                                ( {{ComprasService.formt.TotalDlls | currency : 'MXN' : 'symbol'  : '1.4-4':'USD':'code'}} )</span></p>
                                     
                                 </div>
                             </div>

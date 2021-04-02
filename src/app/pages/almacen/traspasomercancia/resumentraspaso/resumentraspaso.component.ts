@@ -920,36 +920,48 @@ this._MessageService.documentosURL = [];
 
   onAddDocumentosFacturas() {
 
-    console.log(this.seleccionadosFacturas, 'seleccionados');
+    // console.log(this.seleccionadosFacturas, 'seleccionados');
 
     let event = this.eventsFacturas;
     // console.log(event)
     // console.log(this.seleccionados.length);
+    console.log('%c⧭', 'color: #00e600', this.seleccionadosFacturas);
     let ultimoSeleccionado = this.seleccionadosFacturas.length
     for (var l = 0; l < this.seleccionadosFacturas.length; l++) {
+      console.log('%c%s', 'color: #00a3cc', this.seleccionadosFacturas.length);
       // console.log(this.seleccionados[l]);
       //update OrdenTemporal
       // this.actualizarTipoDocumentoFactura(this.seleccionadosFacturas[l]);
       for (var i = 0; i < event.addedFiles.length; i++) {
         const formData = new FormData();
         formData.append('0', event.addedFiles[i])
-        formData.append('folio', this.seleccionadosFacturas[l].IdOrdenDescarga.toString())
-        formData.append('id', this.seleccionadosFacturas[l].IdDetalleTarima)
+        // formData.append('folio', this.seleccionadosFacturas[l].IdOrdenCarga.toString())
+        formData.append('folio', '0')
+        formData.append('id', '0')
         formData.append('tipo', 'Factura')
+        formData.append('lote', this.seleccionadosFacturas[l].Lote)
+        formData.append('clave', this.seleccionadosFacturas[l].ClaveProducto)
         // console.log(res);
         // Buscar ultimo folio Documento
         let documento = new Documento();
+        // documento.IdDocumneto = 0;
+        // documento.Folio = this.seleccionadosFacturas[l].IdOrdenCarga;
+        // documento.IdDetalle = this.seleccionadosFacturas[l].IdDetalleTarima;
         documento.IdDocumneto = 0;
-        documento.Folio = this.seleccionadosFacturas[l].IdOrdenDescarga;
-        documento.IdDetalle = this.seleccionadosFacturas[l].IdDetalleTarima;
+        documento.Folio = 0;
+        documento.IdDetalle = 0;
         documento.Modulo = 'Importacion';
         documento.Tipo = 'Factura';
         documento.ClaveProducto = this.seleccionadosFacturas[l].ClaveProducto;
         documento.NombreDocumento = event.addedFiles[i].name;
-        documento.Path = 'Documentos/Factura/' + this.seleccionadosFacturas[l].IdOrdenDescarga.toString() + '/' + this.seleccionadosFacturas[l].IdDetalleTarima.toString() + '/' + event.addedFiles[i].name;
-        documento.Observaciones = "";
+        // documento.Path = 'Documentos/Factura/' + this.seleccionadosFacturas[l].IdOrdenCarga.toString() + '/' + this.seleccionadosFacturas[l].IdDetalleTarima.toString() + '/' + event.addedFiles[i].name;
+        documento.Path = 'Documentos/Factura/' + this.seleccionadosFacturas[l].ClaveProducto + '/' + this.seleccionadosFacturas[l].Lote + '/' + event.addedFiles[i].name;
+        // documento.Observaciones = "";
+        //Las observaciones se usaran como Lote
+        documento.Observaciones = this.seleccionadosFacturas[l].Lote;
         documento.Vigencia = new Date();
         // console.log(documento);
+        console.log('%c⧭', 'color: #aa00ff', documento);
 
         //verificar que no exista ese documento en la base de datos
 
@@ -1033,7 +1045,7 @@ this._MessageService.documentosURL = [];
 
 
   onAddDocumentosCLV() {
-
+console.clear();
     let event = this.eventsCLV;
     // console.log(event)
     // console.log(this.seleccionados.length);
@@ -1041,7 +1053,7 @@ this._MessageService.documentosURL = [];
     for (var l = 0; l < this.seleccionadosCLV.length; l++) {
       // console.log(this.seleccionados[l]);
       for (var i = 0; i < event.addedFiles.length; i++) {
-        let ClaveProducto = this.seleccionadosCLV[l].ClaveProducto.slice(0, -1);
+        let ClaveProducto = this.seleccionadosCLV[l].ClaveProducto;
         const formData = new FormData();
         formData.append('0', event.addedFiles[i])
         formData.append('folio', '0')
@@ -1062,6 +1074,7 @@ this._MessageService.documentosURL = [];
         documento.Observaciones = "";
         documento.Vigencia = new Date();
         // console.log(documento);
+        console.log('%c⧭', 'color: #e50000', documento);
 
         //verificar que no exista ese documento en la base de datos
 
@@ -1146,7 +1159,7 @@ this._MessageService.documentosURL = [];
     for (var l = 0; l < this.seleccionadosCO.length; l++) {
       // console.log(this.seleccionados[l]);
       for (var i = 0; i < event.addedFiles.length; i++) {
-        let ClaveProducto = this.seleccionadosCO[l].ClaveProducto.slice(0, -1);
+        let ClaveProducto = this.seleccionadosCO[l].ClaveProducto;
         const formData = new FormData();
         formData.append('0', event.addedFiles[i])
         formData.append('folio', '0')
@@ -1251,7 +1264,7 @@ this._MessageService.documentosURL = [];
     for (var l = 0; l < this.seleccionadosPESPI.length; l++) {
       // console.log(this.seleccionados[l]);
       for (var i = 0; i < event.addedFiles.length; i++) {
-        let ClaveProducto = this.seleccionadosCO[l].ClaveProducto.slice(0, -1);
+        let ClaveProducto = this.seleccionadosCO[l].ClaveProducto;
         const formData = new FormData();
         formData.append('0', event.addedFiles[i])
         formData.append('folio', '0')
@@ -1357,7 +1370,7 @@ this._MessageService.documentosURL = [];
     for (var l = 0; l < this.seleccionadosCA.length; l++) {
       // console.log(this.seleccionados[l]);
       for (var i = 0; i < event.addedFiles.length; i++) {
-        let ClaveProducto = this.seleccionadosCA[l].ClaveProducto.slice(0, -1);
+        let ClaveProducto = this.seleccionadosCA[l].ClaveProducto;
         const formData = new FormData();
         formData.append('0', event.addedFiles[i])
         formData.append('folio', '0')

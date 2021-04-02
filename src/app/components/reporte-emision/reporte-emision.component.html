@@ -128,13 +128,13 @@
                         </thead>
                         <tbody *ngFor="let conceptos of arrcon;  let i = index">
                             <tr class="pgbreak">
-                                <td class="textdt pgbreak text-center">{{conceptos.Cantidad | number: '1.0-0'}} </td>
+                                <td class="textdt pgbreak text-center">{{conceptos.Cantidad | number: '1.4-4'}} </td>
                                 <td class="textdt text-center">{{conceptos.ClaveProducto}} </td>
                                 <td class=" textdt pgbreak text-center"> {{conceptos.Producto}} </td>
-                                <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitario | currency}} </td>
-                                <td *ngIf="mostrarPrecios == true && this.moneda == 'USD'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitarioDlls | currency}}</td>
-                                <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.Importe | currency}}</td>
-                                <td *ngIf="mostrarPrecios == true && this.moneda == 'USD'" class="textdt pgbreak text-center">{{conceptos.ImporteDlls | currency}}</td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitario | currency : 'MXN' : 'symbol'  : '1.4-4'}} </td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'USD'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitarioDlls | currency : 'USD' : 'symbol'  : '1.4-4'}}</td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.Importe | currency : 'MXN' : 'symbol'  : '1.4-4'}}</td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'USD'" class="textdt pgbreak text-center">{{conceptos.ImporteDlls | currency : 'USD' : 'symbol'  : '1.4-4'}}</td>
                         </tbody>
     
                     </table>
@@ -278,12 +278,12 @@
                     </div>
                 </div> -->
                 <div  *ngIf="mostrarPrecios == true" class="container row">
-                    <div class="col-7">
+                    <div class="col-6">
 
                     </div>
 
 
-                    <div class="col-5">
+                    <div class="col-6">
                         <div class="card card-outline-inverse">
                             <div class="card-body">
                                 <div class="container">
@@ -293,8 +293,8 @@
                                                 <p class="nomarginbottomP bolder"><b>Subtotal</b> </p>
                                             </div>
                                             <div class="col-lg-5 col-md-5 col-5">
-                                                <p *ngIf="this.moneda == 'MXN'" class="nomarginbottomP bolder"> {{this.objconc.Subtotal | currency}} </p>
-                                                <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP bolder"> {{this.objconc.SubtotalDlls | currency}} </p>
+                                                <p *ngIf="this.moneda == 'MXN'" class="nomarginbottomP bolder"> {{this.objconc.Subtotal | currency : 'MXN' : 'symbol' : '1.4-4'}} </p>
+                                                <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP bolder"> {{this.objconc.SubtotalDlls | currency : 'USD' : 'symbol' : '1.4-4'}} </p>
                                                 <!-- cambia -->
                                             </div>
                                         </div>
@@ -317,8 +317,8 @@
                                                 <p class="nomarginbottomP bolder"><b>Total</b></p>
                                             </div>
                                             <div class="col-lg-5 col-md-5 col-5">
-                                                <p *ngIf="this.moneda == 'MXN'" class="nomarginbottomP bolder"><b> {{this.objconc.Total | currency}} </b></p>
-                                                <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP bolder"><b> {{this.objconc.TotalDlls | currency}} </b></p>
+                                                <p *ngIf="this.moneda == 'MXN'" class="nomarginbottomP bolder"><b> {{this.objconc.Total | currency : 'MXN' : 'symbol' : '1.4-4'}} </b></p>
+                                                <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP bolder"><b> {{this.objconc.TotalDlls | currency : 'USD' : 'symbol' : '1.4-4'}} </b></p>
 
                                             </div>
                                         </div>
