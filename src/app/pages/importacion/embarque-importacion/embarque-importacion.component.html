@@ -79,6 +79,11 @@
                             <td mat-cell *matCellDef="let element">{{element.Pedimento}}
                             </td>
                         </ng-container>
+                        <ng-container matColumnDef="Factura">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Factura</th>
+                            <td mat-cell *matCellDef="let element">{{element.Shipper}}
+                            </td>
+                        </ng-container>
 
                         <ng-container matColumnDef="Clave">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave</th>
@@ -199,7 +204,7 @@
 
                         <ng-container matColumnDef="CBK">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>CBK</th>
-                            <td mat-cell *matCellDef="let element">{{element.NumeroEntrada}}
+                            <td mat-cell *matCellDef="let element">{{element.Pedimento}}
                             </td>
                         </ng-container>
 
