@@ -1990,14 +1990,14 @@ this.enviarfact.acuseCancelacion(fact.UUID).subscribe((data:any)=>{
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
     
-  /*   dialogConfig.data = {
+  /*  dialogConfig.data = {
       rfcemisor: rfcemisor,
     fechahorasolicitud:    fechahorasolicitud,
     fechahoracancel:    fechahoracancel,
     foliofiscal:    foliofiscal,
     estatus:    estatus,
     sellodigitalsat:    sellodigitalsat
-    } */
+    }  */
     let dl = this.dialog.open(OrdenventacxcComponent, dialogConfig);
 
     dl.afterClosed().subscribe(res=>{

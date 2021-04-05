@@ -81,8 +81,15 @@ if (this.estatusSelect==='Todos'){
   }
 
   refreshPedidoList() {
+
+    let consulta = {
+      'consulta':"select Pedidos.*, Cliente.*, (select Top 1 case idovfactura when NULL then 'False' else 'True' end from OvFactura where folioPedido = Pedidos.Folio and idfactura="+this.facturaSVC.formData.Id+") as checked from Pedidos Left join Cliente on Pedidos.IdCliente = Cliente.IdClientes order by FechaDeExpedicion desc;"
+    };
+    console.log(consulta);
+    
+    this.facturaSVC.getQuery(consulta).subscribe((data:any)=>{
     // this.service.getPedidoList().subscribe(data => {
-    this.ventasPedidoSVC.getPedidoCliente().subscribe(data => {
+    //this.ventasPedidoSVC.getPedidoCliente().subscribe(data => {
       console.log(data);
       for (let i = 0; i <= data.length - 1; i++) {
       /*   if (data[i].Estatus == 'Creada') {
@@ -113,6 +120,42 @@ if (this.estatusSelect==='Todos'){
 
   seleccion(event, row){
     console.log(event);
+    if (this.facturaSVC.formData.Estatus=='Timbrada' || this.facturaSVC.formData.Estatus=='Pagada' ){
+
+      if (event.checked){
+        let query = "insert into ovfactura values("+this.facturaSVC.formData.Id+","+row.Folio+")"
+
+      let consulta = {
+        'consulta':query
+      };
+
+      console.log(consulta);
+
+      this.facturaSVC.getQuery(consulta).subscribe((res:any)=>{
+       console.log(res);
+      })
+      }else{
+
+        let query = "delete from ovfactura where idFactura="+this.facturaSVC.formData.Id+" and folioPedido="+row.Folio+""
+
+      let consulta = {
+        'consulta':query
+      };
+
+      console.log(consulta);
+
+      this.facturaSVC.getQuery(consulta).subscribe((res:any)=>{
+       console.log(res);
+      })
+
+      }
+
+      
+
+
+    }else{
+
+    
     if (event.checked){
 
       
@@ -161,6 +204,7 @@ if (this.estatusSelect==='Todos'){
 
 
     }
+  }
     console.log(row);
   }
 

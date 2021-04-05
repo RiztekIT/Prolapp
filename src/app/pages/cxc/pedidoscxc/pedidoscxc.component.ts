@@ -361,13 +361,23 @@ if (this.estatusSelect==='Todos'){
 
   openrep(row){
 
-    console.log(row);
+  /*   console.log(row);
     this.service.formt = row
     // console.log();
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
+    this.dialog.open(ReporteEmisionComponent, dialogConfig); */
+    let mostrarPrecio = true;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "70%";
+    dialogConfig.data = {
+      IdPedido: row.IdPedido,
+      mostrarPrecio: mostrarPrecio
+    }
     this.dialog.open(ReporteEmisionComponent, dialogConfig);
 
   }
@@ -529,7 +539,7 @@ email(id?: string, folio?:string){
             saldoanterior = res[0].TextoExtra
           }else{
             saldo = row.DetallePedido[i].Cantidad
-            saldoanterior = 0;
+            saldoanterior = row.DetallePedido[i].Cantidad;
           }
 
           if (+saldo>0){
@@ -565,8 +575,8 @@ email(id?: string, folio?:string){
             PrecioUnitario: row.DetallePedido[i].PrecioUnitario,
             PrecioUnitarioDlls: row.DetallePedido[i].PrecioUnitarioDlls,
             Cantidad: saldo,
-            Importe: row.DetallePedido[i].Importe,
-            ImporteDlls: row.DetallePedido[i].ImporteDlls,
+            Importe: (+saldo * +row.DetallePedido[i].PrecioUnitario).toFixed(4),
+            ImporteDlls: (+saldo * +row.DetallePedido[i].PrecioUnitarioDlls).toFixed(4),
             Observaciones: '',
             TextoExtra: (+saldo - +saldoanterior).toString(),
             ImporteIVA: '0.00',
