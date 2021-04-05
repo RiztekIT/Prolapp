@@ -208,7 +208,7 @@ export class FacturaService {
   getFacturasFechas2(fechaini,fechafinal){
     if (this.rfcempresa==='PLA11011243A'){
 
-      return this.http.get<any[]>(this.APIUrl + '/Factura/FacturaFechas2/' + fechaini+ '/' + fechafinal);
+      return this.http.get<any[]>(this.APIUrl + '/Factura/FacturaFechas/' + fechaini+ '/' + fechafinal);
     }
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<any[]>(this.APIUrl + '/Factura2/FacturaFechas2/' + fechaini+ '/' + fechafinal);
