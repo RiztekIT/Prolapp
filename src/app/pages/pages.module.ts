@@ -359,6 +359,9 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import {
     NgxExtendedPdfViewerModule
   } from 'ngx-extended-pdf-viewer';
+import { OrdenventacxcComponent } from './cxc/facturacioncxc/ordenventacxc/ordenventacxc.component';
+import { ReportessaldosventasComponent } from '../components/cxc/reportessaldosventas/reportessaldosventas.component';
+
 
 
 
@@ -621,6 +624,8 @@ import {
         PoshistoricoventasComponent,
         PossaldosclientesComponent,
         MovimientosinventariosComponent,
+        OrdenventacxcComponent,
+        ReportessaldosventasComponent
     
     ],
     exports: [
@@ -797,7 +802,9 @@ import {
         FormatoPDFComponent,
         PoshistoricoventasComponent,
         PossaldosclientesComponent,
-        MovimientosinventariosComponent
+        MovimientosinventariosComponent,
+        OrdenventacxcComponent,
+        ReportessaldosventasComponent
         
     ]
 })

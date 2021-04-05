@@ -35,7 +35,7 @@ import { TraspasoMercanciaService } from '../../../../../services/importacion/tr
   ],
 })
 export class OrdendescargatarimacuuComponent implements OnInit {
-  
+
   constructor(public router: Router, public tarimaService: TarimaService, public ordenDescargaService: OrdenDescargaService, private dialog: MatDialog, public ordenTemporalService: OrdenTemporalService, public traspasoSVC: TraspasoMercanciaService) {
     // this.tarimaService.listenDt().subscribe((m: any) => {
     //   console.log(m);
@@ -99,7 +99,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   listDataScan: MatTableDataSource<any>;
-  displayedColumnsScan: string[] = ['ClaveProducto', 'Producto', 'Lote', 'PesoTotal', 'FechaCaducidad', 'Comentarios', 'Options'];
+  displayedColumnsScan: string[] = ['ClaveProducto', 'Producto', 'Lote', 'PesoTotal', 'FechaCaducidad', 'Options'];
   @ViewChild(MatSort, null) sortScan: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginatorScan: MatPaginator;
 
@@ -128,25 +128,25 @@ export class OrdendescargatarimacuuComponent implements OnInit {
   dropdownRefreshProductos() {
     this.optionsProductos = new Array<any[]>();
     this.optionsProductos = [];
-    this.filteredOptionsProductos =  of([]);
+    this.filteredOptionsProductos = of([]);
 
-    this.ordenDescargaService.getOrdenDescargaIDList(this.IdOrdenDescarga).subscribe(dataDOD=>{
-      dataDOD.forEach(element => { 
-            this.obtenerInformacionProducto(element);          
-        });
+    this.ordenDescargaService.getOrdenDescargaIDList(this.IdOrdenDescarga).subscribe(dataDOD => {
+      dataDOD.forEach(element => {
+        this.obtenerInformacionProducto(element);
+      });
     });
   }
 
-  obtenerInformacionProducto(element:any){
+  obtenerInformacionProducto(element: any) {
     console.log(element);
     // this.tarimaService.getDetalleTarimaClaveLoteBodega(element.ClaveProducto, element.Lote, 'Transito').subscribe(dataP => {
-      let query1 = 'select * from DetalleTarima where ClaveProducto = '+"'"+element.ClaveProducto+"'"+' and Lote ='+"'"+element.Lote+"'"+' and Bodega ='+"'Transito'";
-        let consulta1 = {
-          'consulta':query1
-        };
-        console.log(query1);
-        this.traspasoSVC.getQuery(consulta1).subscribe((dataP: any)=>{
-        console.log(dataP);
+    let query1 = 'select * from DetalleTarima where ClaveProducto = ' + "'" + element.ClaveProducto + "'" + ' and Lote =' + "'" + element.Lote + "'" + ' and Shipper =' + "'" + element.Shipper + "'" + ' and Bodega =' + "'Transito'";
+    let consulta1 = {
+      'consulta': query1
+    };
+    console.log(query1);
+    this.traspasoSVC.getQuery(consulta1).subscribe((dataP: any) => {
+      console.log(dataP);
       console.log(dataP);
       for (let i = 0; i < dataP.length; i++) {
         let product = dataP[i];
@@ -155,20 +155,20 @@ export class OrdendescargatarimacuuComponent implements OnInit {
         product.PesoOriginal = (+element.Sacos * +element.PesoxSaco).toFixed(4);
         product.SacosOriginal = element.Sacos;
         // product.NuevoSaldo = ((+product.Saldo) - (+dataP[i].PesoTotal)).toString();
-        product.KilogramosSobrantes = ((+product.Saldo)-(+dataP[i].PesoTotal)).toFixed(4);
+        product.KilogramosSobrantes = ((+product.Saldo) - (+dataP[i].PesoTotal)).toFixed(4);
 
-          this.optionsProductos.push(product)
-          this.filteredOptionsProductos = this.myControlProductos.valueChanges
+        this.optionsProductos.push(product)
+        this.filteredOptionsProductos = this.myControlProductos.valueChanges
           .pipe(
             startWith(''),
             map(value => this._filterProductos(value))
-            );
-        
-      
-        
-       
-        }
-      });
+          );
+
+
+
+
+      }
+    });
   }
 
   private _filterProductos(value: any): any[] {
@@ -194,7 +194,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
     }
   }
 
-  deleteProductoIngresado(prodInfo){
+  deleteProductoIngresado(prodInfo) {
     console.log(prodInfo);
     this.arrayProductosIngresados.splice(this.ordenTemporalService.preOrdenTemporal.indexOf(prodInfo), 1);
     this.listData = new MatTableDataSource(this.arrayProductosIngresados);
@@ -202,14 +202,14 @@ export class OrdendescargatarimacuuComponent implements OnInit {
     this.listData.paginator = this.paginator;
     this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
     console.log(this.arrayProductosIngresados.length);
-    if(this.arrayProductosIngresados.length>0){
+    if (this.arrayProductosIngresados.length > 0) {
       this.productoValido = true;
-    }else{
+    } else {
       this.productoValido = false;
     }
   }
 
-  clearCamposIngresados(){
+  clearCamposIngresados() {
     this.ClaveProductoIngresado = "";
     this.LoteProductoIngresado = "";
     this.ProductoIngresado = "";
@@ -222,10 +222,16 @@ export class OrdendescargatarimacuuComponent implements OnInit {
 
     console.log(+informacionProducto.KilogramosSobrantes);
 
-    this.ordenDescargaService.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga, informacionProducto.Lote, informacionProducto.ClaveProducto).subscribe(dataOD=>{
-        console.log(dataOD);
+    // this.ordenDescargaService.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga, informacionProducto.Lote, informacionProducto.ClaveProducto).subscribe(dataOD => {
+      let query = 'select * from DetalleOrdenDescarga where IdOrdenDescarga = ' + this.IdOrdenDescarga + ' and Lote =' + "'" + informacionProducto.Lote + "'" + ' and ClaveProducto =' + "'" + informacionProducto.ClaveProducto + "'" + ' and Shipper =' + "'" + informacionProducto.Shipper + "';";
+      let consulta = {
+        'consulta': query
+      };
+      console.log(query);
+      this.traspasoSVC.getQuery(consulta).subscribe((dataOD: any) => {
+      console.log(dataOD);
       if (+dataOD[0].Saldo > 0) {
-        
+
         this.arrayProductosIngresados.forEach(element => {
           if ((informacionProducto.ClaveProducto == element.ClaveProducto) && (informacionProducto.Lote == element.Lote)) {
             Swal.fire({
@@ -258,17 +264,17 @@ export class OrdendescargatarimacuuComponent implements OnInit {
         })
       }
     })
-      
-    }
-    //^ Llenamos informaicon en la tabla Orden temporal (Nos indica los productos que ya han sido descargados)
-    actualizarTablaOrdenTemporal() {
-      this.ordenTemporalService.GetOrdenTemporalIDOD(this.IdOrdenDescarga).subscribe(dataOrdenTemporal => {
-        console.log(dataOrdenTemporal);
-        this.listDataScan = new MatTableDataSource(dataOrdenTemporal);
-        console.log(this.listDataScan);
-        this.listDataScan.sort = this.sortScan;
-        this.listDataScan.paginator = this.paginatorScan;
-        this.listDataScan.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+
+  }
+  //^ Llenamos informaicon en la tabla Orden temporal (Nos indica los productos que ya han sido descargados)
+  actualizarTablaOrdenTemporal() {
+    this.ordenTemporalService.GetOrdenTemporalIDOD(this.IdOrdenDescarga).subscribe(dataOrdenTemporal => {
+      console.log(dataOrdenTemporal);
+      this.listDataScan = new MatTableDataSource(dataOrdenTemporal);
+      console.log(this.listDataScan);
+      this.listDataScan.sort = this.sortScan;
+      this.listDataScan.paginator = this.paginatorScan;
+      this.listDataScan.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
 
     })
   }
@@ -371,7 +377,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
     this.productoValido = false;
   }
 
-//^ Metodo que Descargara el Producto (Actualiza detalla tarima)
+  //^ Metodo que Descargara el Producto (Actualiza detalla tarima)
   descargarProductos() {
 
     console.log('DESCARGAR PRODUCTOS');
@@ -379,7 +385,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
     //Generar Orden Temporal
     //Actualizar Saldos Detalle Orden Descarga
     //Verificar si se generara otro detalle tarima o se actualizara
-    
+
     for (let i = 0; i < this.arrayProductosIngresados.length; i++) {
       // console.log(this.ordenTemporalService.preOrdenTemporal[i].Lote);
       // console.log(this.ordenTemporalService.preOrdenTemporal[i].ClaveProducto);
@@ -390,16 +396,23 @@ export class OrdendescargatarimacuuComponent implements OnInit {
       let Sacos = +this.arrayProductosIngresados[i].SacosOriginal;
       let Lote = this.arrayProductosIngresados[i].Lote;
       let ClaveProducto = this.arrayProductosIngresados[i].ClaveProducto;
+      let Factura = this.arrayProductosIngresados[i].Shipper;
 
       let kg = +this.arrayProductosIngresados[i].PesoOriginal;
 
       let kgSobra = +this.arrayProductosIngresados[i].KilogramosSobrantes;
 
-       this.agregarOrdenTemporalActualizarSaldos(i, Lote, ClaveProducto, Sacos, kg);
+      this.agregarOrdenTemporalActualizarSaldos(i, Lote, ClaveProducto, Sacos, kg, Factura);
 
-     
 
-      this.tarimaService.GetGetProductoInformacionBodega(this.arrayProductosIngresados[i].ClaveProducto, this.arrayProductosIngresados[i].Lote, 'Transito').subscribe(dataDetalleTarima => {
+
+      // this.tarimaService.GetGetProductoInformacionBodega(this.arrayProductosIngresados[i].ClaveProducto, this.arrayProductosIngresados[i].Lote, 'Transito').subscribe(dataDetalleTarima => {
+      let query = 'select * from DetalleTarima where ClaveProducto = ' + "'" + ClaveProducto + "'" + ' and Lote =' + "'" + Lote + "'" + ' and Shipper =' + "'" + Factura + "'" + ' and Bodega =' + "'Transito'";
+      let consulta = {
+        'consulta': query
+      };
+      console.log(query);
+      this.traspasoSVC.getQuery(consulta).subscribe((dataDetalleTarima: any) => {
         console.log(dataDetalleTarima);
 
         let dataDetalleTarimaOriginal = dataDetalleTarima;
@@ -416,38 +429,52 @@ export class OrdendescargatarimacuuComponent implements OnInit {
           //^ si se utilizan todos, solo se cambiara la bodega del producto (CHIHUAHUA)
           console.log('Se utilizaran todos los Sacos');
           //^ Verificar si ya existe este producto en la bodega destino
+          //   let query = 'select * from DetalleTarima where ClaveProducto = '+"'"+ClaveProducto+"'"+' and Lote ='+"'"+Lote+"'"+' and Shipper ='+"'"+Factura+"'"+' and Bodega ='+"'CHIHUAHUA'";
+          // let consulta = {
+          //   'consulta': query
+          // };
+          // console.log(query);
+          // this.traspasoSVC.getQuery(consulta).subscribe((dataDetalleTarimaDestino: any) => {
           this.tarimaService.GetGetProductoInformacionBodega(ClaveProducto, Lote, 'CHIHUAHUA').subscribe(dataDetalleTarimaDestino => {
-              console.log(dataDetalleTarimaDestino);
-              let updateDetalleTarima: DetalleTarima = dataDetalleTarima[0];
+            console.log(dataDetalleTarimaDestino);
+            let updateDetalleTarima: DetalleTarima = dataDetalleTarima[0];
 
-              let detalleTarimaDestino: DetalleTarima = dataDetalleTarimaDestino[0];
+            let detalleTarimaDestino: DetalleTarima = dataDetalleTarimaDestino[0];
 
-              if(dataDetalleTarimaDestino.length>0){
-                //^ si existen datos, se actualizara el numero de sacos y el peso total
-                detalleTarimaDestino.PesoTotal = ((+detalleTarimaDestino.PesoTotal) + (+kg)).toString(); 
-                detalleTarimaDestino.SacosTotales = ((+detalleTarimaDestino.SacosTotales) + (+Sacos)).toString(); 
-                 this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(detalleTarimaDestino).subscribe(resUpdate => {
-                   console.log(resUpdate);
-                   this.dropdownRefreshProductos();
-                 })
-              }else{
-                //^ si no existen datos, se actualizara nomas la bodega origen (en este caso TRANSITO)
-                updateDetalleTarima.Bodega = 'CHIHUAHUA';
-                 this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(updateDetalleTarima).subscribe(resUpdate => {
-                   console.log(resUpdate);
-                   this.dropdownRefreshProductos();
-                 })
-              }
+            if (dataDetalleTarimaDestino.length > 0) {
+              //^ si existen datos, se actualizara el numero de sacos y el peso total y eliminaremos el Detalle Tarima en Transito
+              detalleTarimaDestino.PesoTotal = ((+detalleTarimaDestino.PesoTotal) + (+kg)).toString();
+              detalleTarimaDestino.SacosTotales = ((+detalleTarimaDestino.SacosTotales) + (+Sacos)).toString();
+              this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(detalleTarimaDestino).subscribe(resUpdate => {
+                console.log(resUpdate);
+                let query = 'delete DetalleTarima where IdDetalleTarima = ' + dataDetalleTarima[0].IdDetalleTarima
+                let consulta = {
+                  'consulta': query
+                };
+                console.log(query);
+                this.traspasoSVC.getQuery(consulta).subscribe((deleteDetalleTarima: any) => {
+                  console.log('%c%s', 'color: #0088cc', deleteDetalleTarima);
+                })
+                this.dropdownRefreshProductos();
+              })
+            } else {
+              //^ si no existen datos, se actualizara nomas la bodega origen (en este caso TRANSITO)
+              updateDetalleTarima.Bodega = 'CHIHUAHUA';
+              this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(updateDetalleTarima).subscribe(resUpdate => {
+                console.log(resUpdate);
+                this.dropdownRefreshProductos();
+              })
+            }
           });
         } else {
 
-       
+
 
           //^ Si no coincide el # de sacos, entonces se creara un nuevo detalle tarima con los sacos utilizados
           console.log('No todos los sacos seran Utilizados');
           //^ Actualizar Detalle Tarima Origen (original)//Agregar Nuevo Detalle Tarima con Bodega (CHIHUAHUA)
           let detalleTarimaNueva: DetalleTarima = dataDetalleTarimaNueva[0];
-     
+
 
           console.log(detalleTarimaNueva);
           console.log(dataDetalleTarimaNueva[0]);
@@ -474,12 +501,12 @@ export class OrdendescargatarimacuuComponent implements OnInit {
     }
     // this.agregarOrdenTemporal();
     this.resetQR();
-    
+
   }
 
-// ^ Metodo para Generar Orden Temporal y Actualizar Saldos Detalle Orden Descarga
-// & Recibe como parametro la posicion del arreglo, Lote, ClaveProducto, Sacos y Kg
-  agregarOrdenTemporalActualizarSaldos(i, Lote, ClaveProducto, Sacos, kg) {
+  // ^ Metodo para Generar Orden Temporal y Actualizar Saldos Detalle Orden Descarga
+  // & Recibe como parametro la posicion del arreglo, Lote, ClaveProducto, Sacos y Kg
+  agregarOrdenTemporalActualizarSaldos(i, Lote, ClaveProducto, Sacos, kg, Factura) {
     //^ asignar valores al objeto que sera insertado en orden temporal.
     let ordenT = new OrdenTemporal();
 
@@ -488,7 +515,7 @@ export class OrdendescargatarimacuuComponent implements OnInit {
 
     ordenT.IdDetalleTarima = this.arrayProductosIngresados[i].IdDetalleTarima;
     ordenT.IdOrdenCarga = 0;
-    ordenT.IdOrdenDescarga = this.arrayProductosIngresados[i].IdOrdenDescarga;    
+    ordenT.IdOrdenDescarga = this.arrayProductosIngresados[i].IdOrdenDescarga;
     ordenT.QR = '';
     ordenT.NumeroFactura = this.arrayProductosIngresados[i].Shipper;
     ordenT.NumeroEntrada = this.arrayProductosIngresados[i].Pedimento;
@@ -508,21 +535,28 @@ export class OrdendescargatarimacuuComponent implements OnInit {
     //^ Insert a Orden Temporal
     this.ordenTemporalService.addOrdenTemporal(ordenT).subscribe(resAdd => {
       console.log(resAdd);
-        // ^Obtener Detalle Orden de Descarga, para ser actualizado posteriormente
-      this.ordenDescargaService.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga, Lote, ClaveProducto).subscribe(dataOrdenDescarga => {
+      // ^Obtener Detalle Orden de Descarga, para ser actualizado posteriormente
+      // this.ordenDescargaService.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga, Lote, ClaveProducto).subscribe(dataOrdenDescarga => {
+      let query = 'select * from DetalleOrdenDescarga where IdOrdenDescarga = ' + this.IdOrdenDescarga + ' and Lote =' + "'" + Lote + "'" + ' and ClaveProducto =' + "'" + ClaveProducto + "'" + ' and Shipper =' + "'" + Factura + "';";
+      let consulta = {
+        'consulta': query
+      };
+      console.log(query);
+      this.traspasoSVC.getQuery(consulta).subscribe((dataOrdenDescarga: any) => {
         console.log(dataOrdenDescarga);
         console.log(Sacos);
         let NuevoSaldo = ((+dataOrdenDescarga[0].Saldo) - (+kg)).toString();
         console.log(NuevoSaldo);
         //^ Actualizar Saldo de la tabla Detalle Orden Descarga
-         this.ordenDescargaService.updateDetalleOrdenDescargaSaldo(dataOrdenDescarga[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res => {
-           console.log(res);
-           this.actualizarTablaOrdenTemporal();
-         });
-       });
-     });
+        this.ordenDescargaService.updateDetalleOrdenDescargaSaldo(dataOrdenDescarga[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res => {
+          console.log(res);
+          this.actualizarTablaOrdenTemporal();
+        });
+      });
+    });
 
   }
+
 
   onDeleteOrdenTemporal(ot: OrdenTemporal) {
     console.log(ot);
@@ -530,96 +564,163 @@ export class OrdendescargatarimacuuComponent implements OnInit {
     let ClaveProducto = ot.ClaveProducto;
     let Bodega = 'Transito';
     let IdDetalleTarima = ot.IdDetalleTarima;
-
+    let Factura = ot.NumeroFactura;
     let Sacos = ot.Sacos;
     let PesoTotal = ot.PesoTotal;
+
+    //? PROCESO ELIMINAR PRODUCTO INGRESADO
+    //? VERIFICAR SI ESE PRODUCTO EXISTE EN LA BODEGA DESTINO (TRANSITO)
+    //? ----  SI EXISTE
+    //? DESCONTAR LA CANTIDAD DE LA BODEGA ORIGEN Y SI QUEDA EN 0, ELIMINAMOS ESE DETALLE TARIMA
+    //? ACTUALIZAMOS LA CANTIDAD EN LA BODEGA DESTINO
+
+    //? ----  NO EXISTE
+    //? DESCONTAR LA CANTIDAD DE LA BODEGA ORIGEN Y SI QUEDA EN 0, ELIMINAMOS ESE DETALLE TARIMA
+    //? CREAMOS EL DETALLE TARIMA CON BODEGA DESTINO (TRANSITO)
+
+    //? METODO ACTUALIZAR DETALLEBORRARORDENTEMPORAL
+    //? OBTENEMOS Y ACTUALIZAMOS DETALLE ORDEN DESCARGA
+    //? ELIMINAMOS ORDEN TEMPORAL
 
     Swal.fire({
       title: '¿Seguro de Borrar Ingreso?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.value) {
-        this.tarimaService.GetGetProductoInformacionBodega(ClaveProducto, Lote, Bodega).subscribe(dataDT => {
-          console.log(dataDT);
-          if (dataDT.length > 0) {
-            //^ en este caso, se tendra que actualizar el detalle tarima origen y eliminar el detalle que se encuentra en transito
-            //^ Actualizar tarima origen
-            let detalleTarima = new DetalleTarima();
-            detalleTarima = dataDT[0];
-            detalleTarima.SacosTotales = ((+detalleTarima.SacosTotales) + (+Sacos)).toString();
-            detalleTarima.PesoTotal = ((+detalleTarima.PesoTotal) + (+PesoTotal)).toString();
-            this.tarimaService.updateDetalleTarimaSacosPesoTarimasBodega(detalleTarima).subscribe(resUpdate => {
-              console.log(resUpdate);
-              //^ eliminar detalle tarima Transito
-              this.tarimaService.deleteDetalleTarima(IdDetalleTarima).subscribe(resDelete => {
-                console.log(resDelete);
-                //^ Obtener Detalle Orden de Descarga, para ser actualizado posteriormente
-                this.ordenDescargaService.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga, Lote, ClaveProducto).subscribe(dataOrdenDescarga => {
-                  console.log(dataOrdenDescarga);
-                  let NuevoSaldo = ((+dataOrdenDescarga[0].Saldo) + (+ot.PesoTotal)).toString();
-                  console.log(NuevoSaldo)
-                    //^ Actualizar Saldo de la tabla Detalle Orden Descarga
-                  this.ordenDescargaService.updateDetalleOrdenDescargaSaldo(dataOrdenDescarga[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res => {
-                    console.log(res);
-                    this.ordenTemporalService.deleteOrdenTemporal(ot.IdOrdenTemporal).subscribe(DeleteOrden=>{
-                    console.log(DeleteOrden);
-                    this.actualizarTablaOrdenTemporal();
-                      Swal.fire({
-                        title: 'Borrado',
-                        icon: 'success',
-                        timer: 1000,
-                        showCancelButton: false,
-                        showConfirmButton: false
-                      });
-                      this.dropdownRefreshProductos();
-                    })
-                  })
-                });
-              })
-            })
-
-          } else {
-            //^ si no se encuntran resultados, solo se actualizara la bodega en el detalle que se encuentra en transito
-            this.tarimaService.getUpdateDetalleTarimaBodega(IdDetalleTarima, Bodega).subscribe(resUpdate => {
-              console.log(resUpdate);
-              //^ Obtener Detalle Orden de Descarga, para ser actualizado posteriormente
-              this.ordenDescargaService.getDetalleOrdenDescargaIdLoteClave(this.IdOrdenDescarga, Lote, ClaveProducto).subscribe(dataOrdenDescarga => {
-                console.log(dataOrdenDescarga);
-                let NuevoSaldo = ((+dataOrdenDescarga[0].Saldo) + (+ot.PesoTotal)).toString();
-                console.log(NuevoSaldo)
-                  //^ Actualizar Saldo de la tabla Detalle Orden Descarga
-                this.ordenDescargaService.updateDetalleOrdenDescargaSaldo(dataOrdenDescarga[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res => {
-                  console.log(res);
-                  this.ordenTemporalService.deleteOrdenTemporal(ot.IdOrdenTemporal).subscribe(DeleteOrden=>{
-                    console.log(DeleteOrden);
-                    this.actualizarTablaOrdenTemporal();
-                  Swal.fire({
-                    title: 'Borrado',
-                    icon: 'success',
-                    timer: 1000,
-                    showCancelButton: false,
-                    showConfirmButton: false
-                  });
-                  this.dropdownRefreshProductos();
-                  });
-                });
-              });
+        // this.tarimaService.GetGetProductoInformacionBodega(ClaveProducto, Lote, Bodega).subscribe(dataDT => {
+        //^ OBTENDREMOS EL DETALLE TARIMA ORIGEN (CHIHUAHUA) 
+        let consultaTarimaOrigen = {
+          'consulta': 'select * from DetalleTarima where ClaveProducto = ' + "'" + ClaveProducto + "'" + ' and Lote =' + "'" + Lote + "'" + ' and Bodega =' + "'Chihuahua'"
+        };
+        console.log(consultaTarimaOrigen);
+        this.traspasoSVC.getQuery(consultaTarimaOrigen).subscribe((dataTO: any) => {
+          console.log(dataTO);
+          //^ DESCONTAREMOS LOS KG.
+          let kgTO = dataTO[0].PesoTotal;
+          let sacosTO = dataTO[0].SacosTotales;
+          let kgRestantesTO = +kgTO - +PesoTotal;
+          let sacosRestantesTO = +sacosTO - +Sacos;
+          //^ SI LOS KG RESTANTES NOS DAN 0, ENTONCES LA ELIMINAMOS
+          if (kgRestantesTO == 0) {
+            //^ ELIMINAR DETALLE TARIMA ORIGEN
+            let eliminarDetalleTarimaOrigen = {
+              'consulta': 'delete DetalleTarima where IdDetalleTarima =' + dataTO[0].IdDetalleTarima
+            }
+            console.log(eliminarDetalleTarimaOrigen);
+            this.traspasoSVC.getQuery(eliminarDetalleTarimaOrigen).subscribe((eliminarTO: any) => {
+              console.log(eliminarTO);
             })
           }
-        });
-        
+          //^ SI LOS KG RESTANTES NO SON 0, ENTONCES ACTUALIZAREMOS SUS KG            
+          else {
+            //^ ACTUALIZAR DETALLE TARIMA ORIGEN
+            console.log('Sobran Sacos en Chihuahua');
+            let actualizarCantidadesTarimaOrigen = {
+              'consulta': 'update DetalleTarima set SacosTotales =' + "'" + sacosRestantesTO + "'" + ', PesoTotal =' + "'" + kgRestantesTO + "'" + ' where IdDetalleTarima =' + dataTO[0].IdDetalleTarima
+            }
+            console.log(actualizarCantidadesTarimaOrigen);
+            this.traspasoSVC.getQuery(actualizarCantidadesTarimaOrigen).subscribe((eliminarTO: any) => {
+              console.log(eliminarTO);
+            })
+          }
+          //^ OBTENER DETALLE TARIMA DESTINO (TRANSITO)
+          let consultaTarimaDestino = {
+            'consulta': 'select * from DetalleTarima where ClaveProducto = ' + "'" + ClaveProducto + "'" + ' and Lote =' + "'" + Lote + "'" + ' and Shipper =' + "'" + Factura + "'" + ' and Bodega =' + "'Transito'"
+          };
+          console.log(consultaTarimaDestino);
+          this.traspasoSVC.getQuery(consultaTarimaDestino).subscribe((dataTD: any) => {
+            if (dataTD.length > 0) {
+              console.log('si hay resultados');
+              //^ ACTUALIZAR DETALLE TARIMA DESTINO (TRANSITO)
+              let kgActualizados = +dataTD[0].PesoTotal + +PesoTotal;
+              let sacosActualizados = +dataTD[0].SacosTotales + +Sacos;
+              let actualizarCantidadesTarimaDestino = {
+                'consulta': 'update DetalleTarima set SacosTotales =' + "'" + sacosActualizados + "'" + ', PesoTotal =' + "'" + kgActualizados + "'" + ' where IdDetalleTarima =' + dataTD[0].IdDetalleTarima
+              }
+              console.log(actualizarCantidadesTarimaDestino);
+              this.traspasoSVC.getQuery(actualizarCantidadesTarimaDestino).subscribe((eliminarTD: any) => {
+                console.log(eliminarTD);
+                //^ ACTUALIZAMOS DETALLE ORDEN DESCARGA Y ELIMINAMOS ORDEN TEMPORAL
+                this.actualizarDetalleBorrarOT(ot);
+              })
+            } else {
+              console.log('no hay resultados, crearemos detalle Tarima');
+              //^ CREAR DETALLE TAIRMA DESTINO (TRANSITO)
+              let detalleTarimaNueva: DetalleTarima
+              detalleTarimaNueva = {
+                IdDetalleTarima: 0,
+                ClaveProducto: ot.ClaveProducto,
+                Producto: ot.Producto,
+                SacosTotales: ot.Sacos,
+                PesoxSaco: ((+ot.PesoTotal) / (+ot.Sacos)).toString(),
+                Lote: ot.Lote,
+                PesoTotal: ot.PesoTotal,
+                SacosxTarima: '',
+                TarimasTotales: '',
+                Bodega: 'Transito',
+                IdProveedor: 0,
+                Proveedor: '',
+                PO: ot.CampoExtra1,
+                FechaMFG: ot.FechaMFG,
+                FechaCaducidad: ot.FechaCaducidad,
+                Shipper: ot.NumeroFactura,
+                USDA: '',
+                Pedimento: ot.NumeroEntrada,
+                Estatus: 'Creada'
+              }        
+              console.log(detalleTarimaNueva);
+              this.tarimaService.addDetalleTarima(detalleTarimaNueva).subscribe(resNuevaTarima => {
+              console.log('%c%s', 'color: #917399', resNuevaTarima);
+              //^ ACTUALIZAMOS DETALLE ORDEN DESCARGA Y ELIMINAMOS ORDEN TEMPORAL
+              this.actualizarDetalleBorrarOT(ot);
+            })
+            }
+          });
+        })
       }
     })
+  }
 
+  //^ Metodo para actualizar el Saldo x Detalle Orden de Carga y  borrar Orden Temporal
+  actualizarDetalleBorrarOT(ot: OrdenTemporal) {
+    let ClaveProducto = ot.ClaveProducto;
+    let Lote = ot.Lote;
+    let Factura = ot.NumeroFactura;
+    //^ Obtener Detalle Orden de Descarga, para ser actualizado posteriormente
+    let query = 'select * from DetalleOrdenDescarga where IdOrdenDescarga = ' + this.IdOrdenDescarga + ' and Lote =' + "'" + Lote + "'" + ' and ClaveProducto =' + "'" + ClaveProducto + "'" + ' and Shipper =' + "'" + Factura + "';";
+    let consulta = {
+      'consulta': query
+    };
+    console.log(query);
+    this.traspasoSVC.getQuery(consulta).subscribe((dataOrdenDescarga: any) => {
+      console.log(dataOrdenDescarga);
+      let NuevoSaldo = ((+dataOrdenDescarga[0].Saldo) + (+ot.PesoTotal)).toString();
+      console.log(NuevoSaldo)
+      //^ Actualizar Saldo de la tabla Detalle Orden Descarga
+      this.ordenDescargaService.updateDetalleOrdenDescargaSaldo(dataOrdenDescarga[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res => {
+        console.log(res);
+        this.ordenTemporalService.deleteOrdenTemporal(ot.IdOrdenTemporal).subscribe(DeleteOrden => {
+          console.log(DeleteOrden);
+          this.actualizarTablaOrdenTemporal();
+          Swal.fire({
+            title: 'Borrado',
+            icon: 'success',
+            timer: 1000,
+            showCancelButton: false,
+            showConfirmButton: false
+          });
+          this.dropdownRefreshProductos();
+        });
+      });
+    });
 
   }
 
-  
 
   //Metodo para obtener la bodega origen hardcode
   obtenerBodegaOrigen() {
@@ -642,54 +743,54 @@ export class OrdendescargatarimacuuComponent implements OnInit {
   }
 
 
-  finalizar(){
+  finalizar() {
 
     //this.ordenDescargaService.formData.Estatus = 'Descargada'
-        console.log(this.ordenDescargaService.formData);
-        console.log(this.listDataScan.data);
+    console.log(this.ordenDescargaService.formData);
+    console.log(this.listDataScan.data);
 
-        let kg;
-        let kg2;
-        let saldo;
-        kg=0;
-        kg2=0;
-        saldo=1;
-        
-        for (let i=0; i<this.listDataScan.data.length; i++ ){
-          kg2 = kg2 + +this.listDataScan.data[i].PesoTotal;
-        }
+    let kg;
+    let kg2;
+    let saldo;
+    kg = 0;
+    kg2 = 0;
+    saldo = 1;
 
-        console.log(this.ordenDescargaService.formData.Sacos);
-        console.log(kg2);
-        
-        saldo = +this.ordenDescargaService.formData.Kg - kg2;
+    for (let i = 0; i < this.listDataScan.data.length; i++) {
+      kg2 = kg2 + +this.listDataScan.data[i].PesoTotal;
+    }
+
+    console.log(this.ordenDescargaService.formData.Sacos);
+    console.log(kg2);
+
+    saldo = +this.ordenDescargaService.formData.Kg - kg2;
 
 
 
-        if (saldo==0){
-          this.ordenDescargaService.formData.Estatus = 'Descargada'
-        console.log(this.ordenDescargaService.formData);
-        this.updateOrdenDescarga(this.ordenDescargaService.formData,'Descargada');
-        Swal.fire({
-          title: 'Orden Descarga Completada',
-          icon: 'success',
-          text: 'Productos Descargados Correctamente.',
-          timer: 2000,
-          showCancelButton: false,
-          showConfirmButton: false
-        });
-        this.router.navigate(['/ordenDescargadetallecuu']);
-        }else{
-          Swal.fire({
-            title: 'Orden Descarga Incompleta',
-            icon: 'warning',
-            text: 'No se han terminado de Descargar los productos.',
-            timer: 2000,
-            showCancelButton: false,
-            showConfirmButton: false
-          });
-        }
-        //this.updateOrdenDescarga(this.service.formData,'Descargada');
+    if (saldo == 0) {
+      this.ordenDescargaService.formData.Estatus = 'Descargada'
+      console.log(this.ordenDescargaService.formData);
+      this.updateOrdenDescarga(this.ordenDescargaService.formData, 'Descargada');
+      Swal.fire({
+        title: 'Orden Descarga Completada',
+        icon: 'success',
+        text: 'Productos Descargados Correctamente.',
+        timer: 2000,
+        showCancelButton: false,
+        showConfirmButton: false
+      });
+      this.router.navigate(['/ordenDescargadetallecuu']);
+    } else {
+      Swal.fire({
+        title: 'Orden Descarga Incompleta',
+        icon: 'warning',
+        text: 'No se han terminado de Descargar los productos.',
+        timer: 2000,
+        showCancelButton: false,
+        showConfirmButton: false
+      });
+    }
+    //this.updateOrdenDescarga(this.service.formData,'Descargada');
 
     /*  let productos = this.listData.data;
     // let productos = this.ordenTemporalService.preOrdenTemporalOD
@@ -711,20 +812,20 @@ let saldo = 0;
     } */
 
 
-    
+
   }
 
-  updateOrdenDescarga(od,estatus){
-    od.Estatus=estatus
+  updateOrdenDescarga(od, estatus) {
+    od.Estatus = estatus
     // od.FechaFinalDescarga = new Date();
-    this.ordenDescargaService.updateOrdenDescarga(od).subscribe(data=>{
-      console.log(data,'update od '+estatus);
+    this.ordenDescargaService.updateOrdenDescarga(od).subscribe(data => {
+      console.log(data, 'update od ' + estatus);
     })
-    
+
   }
 
 
-  Ingresa(){
+  Ingresa() {
 
   }
 

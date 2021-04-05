@@ -96,8 +96,8 @@ export class EmpresaComponent implements OnInit {
       title: '¿Seguro que quiere eliminar la empresa?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result)=>{

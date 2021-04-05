@@ -147,7 +147,7 @@ ClaveProducto: string = "";
         this.ClaveSelect = option.ClaveProducto
         this.generarClaveProducto();
         this.dropdownMarcas(option.Nombre);
-        // this.dropdownOrigen();
+        this.dropdownOrigen();
       // this.dropdownPresentacion();
       }
       
@@ -192,37 +192,38 @@ ClaveProducto: string = "";
 
       //******************** METODOS ORIGEN ********************//
 
-      // dropdownOrigen(){
-      //   this.options4 = [];
-      //   this.addproductos.getOrigen().subscribe((origen: any) =>{
-      //     for (let i=0; i < origen.length; i++){
+      dropdownOrigen(){
+        this.options4 = [];
+        this.addproductos.getOrigen().subscribe((origen: any) =>{
+          console.log(origen);
+          for (let i=0; i < origen.length; i++){
             
-      //       this.options4.push(origen[i])
-      //       this.filteredOptions4 = this.myControl4.valueChanges
-      //         .pipe(
-      //           startWith(''),
-      //           map(value => this._filterorigen(value))
-      //         );
-      //     }
+            this.options4.push(origen[i])
+            this.filteredOptions4 = this.myControl4.valueChanges
+              .pipe(
+                startWith(''),
+                map(value => this._filterorigen(value))
+              );
+          }
           
-      //   })
-      // }
-      // private _filterorigen(value: any): any[] {
-      //   // console.clear();
-      //   // console.log(value);
-      //   if (typeof (value) == 'string') {
-      //     const filterValue2 = value.toLowerCase();
-      //     return this.options4.filter(option => option.NombreOrigen.toString().toLowerCase().includes(filterValue2));
-      //   } 
-      // }
-      // onSelectionChangeOrigen(options2, event: any){
-      //   console.log(options2);
-      //   this.claveorigen = options2.ClaveOrigen;
-      //   this.OrigenSelect = options2.NombreOrigen;
+        })
+      }
+      private _filterorigen(value: any): any[] {
+        // console.clear();
+        // console.log(value);
+        if (typeof (value) == 'string') {
+          const filterValue2 = value.toLowerCase();
+          return this.options4.filter(option => option.NombreOrigen.toString().toLowerCase().includes(filterValue2));
+        } 
+      }
+      onSelectionChangeOrigen(options2, event: any){
+        console.log(options2);
+        this.claveorigen = options2.ClaveOrigen;
+        this.OrigenSelect = options2.NombreOrigen;
 
-      //   this.generarClaveProducto();
+        this.generarClaveProducto();
     
-      // }
+      }
 
       //******************** METODOS ORIGEN ********************//
 
@@ -263,9 +264,9 @@ ClaveProducto: string = "";
       generarClaveProducto(){
         this.ClaveProducto = "";
         this.Producto = "";
-        this.ClaveProducto = this.ClaveSelect + this.clavemarca;
-        // this.ClaveProducto = this.ClaveSelect + this.clavemarca + this.claveorigen;
-        this.Producto = this.ProductoSelect + ' ' + this.MarcaSelect; 
+        // this.ClaveProducto = this.ClaveSelect + this.clavemarca;
+        this.ClaveProducto = this.ClaveSelect + this.clavemarca + this.claveorigen;
+        this.Producto = this.ProductoSelect + ' ' + this.MarcaSelect + ' '+ this.OrigenSelect; 
         // this.Producto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect;
       }
 
@@ -522,8 +523,8 @@ ClaveProducto: string = "";
       title: '¿Seguro de Borrar Documento?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {

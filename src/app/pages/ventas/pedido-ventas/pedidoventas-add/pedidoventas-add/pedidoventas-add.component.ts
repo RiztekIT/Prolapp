@@ -251,6 +251,7 @@ export class PedidoventasAddComponent implements OnInit {
   //^ VARIABLES DE PERMISOS
   Guardar: boolean = false;
   Cerrar: boolean = false;
+  editarPrecio: boolean = false;
   //^ VARIABLES DE PERMISOS
 
 
@@ -281,6 +282,9 @@ export class PedidoventasAddComponent implements OnInit {
         break;
       case ('Cerrar Orden de Venta'):
         this.Cerrar = true;
+        break;
+        case ('Editar Precio Producto'):
+        this.editarPrecio = true;
         break;
       default:
         break;
@@ -999,17 +1003,18 @@ export class PedidoventasAddComponent implements OnInit {
 
         this.Moneda = this.service.formDataPedido.Moneda;
 
-        if (this.MonedaBoolean == true) {
-          this.descuento = this.service.formDataPedido.Descuento;
-        } else {
-          this.descuentoDlls = this.service.formDataPedido.DescuentoDlls;
-
-        }
         if (this.Moneda == 'MXN') {
           this.MonedaBoolean = true;
 
         } else {
           this.MonedaBoolean = false;
+        }
+        console.log(this.MonedaBoolean);
+        if (this.MonedaBoolean == true) {
+          this.descuento = this.service.formDataPedido.Descuento;
+        } else {
+          this.descuentoDlls = this.service.formDataPedido.DescuentoDlls;
+
         }
         console.log(this.service.formDataPedido);
         if (data[0].IdCliente == 0) {
@@ -1045,8 +1050,30 @@ export class PedidoventasAddComponent implements OnInit {
       }
       nodes = document.getElementById('step3').getElementsByTagName('*');
       for (let i = 0; i < nodes.length; i++) {
-        nodes[i].setAttribute('disabled', 'true')
+
+        
+          nodes[i].setAttribute('disabled', 'true')
+        
+        
+       
       }
+
+      let menu2 = document.getElementById('menu');
+      //menu2.setAttribute('disabled', 'false')
+      menu2.removeAttribute('disabled')
+
+      let menu = document.getElementById('menu').getElementsByTagName('*');
+      for (let i = 0; i < menu.length; i++) {
+
+        
+          menu[i].removeAttribute('disabled')
+        
+        
+       
+      }
+      
+      
+      
     }
   }
 
@@ -1446,60 +1473,114 @@ export class PedidoventasAddComponent implements OnInit {
 
   //Al Click en Edit va a buscar el JN y traer DP y Pedido para llenar los campos a editar
   OnEditProducto(dp: DetallePedido) {
-    //Iniciar en 0 las variables de totales, stock y
-    this.IniciarTotales();
+    console.log(dp);
+    let precioUnitario
+    if(this.MonedaBoolean == true){
+      precioUnitario = dp.PrecioUnitario
+    }else{
+      precioUnitario = dp.PrecioUnitarioDlls
+    }
 
-    this.ActualizarDetallePedidoBool = true;
-    this.service.formDataDP = dp;
-    this.service.GetProductoDetalleProducto(dp.ClaveProducto, dp.IdDetallePedido).subscribe(data => {
+    Swal.fire({
+      title: 'Precio Unitario',
+      icon: 'info',
+      input: 'text',
+      inputValue: precioUnitario,
+      showCancelButton: false,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Aceptar',
+    }).then((result) => {
+      if(result.value){
 
-      // if (this.service.formDataPedido.Moneda == 'MXN') {
-      //   this.importeP = data[0].Importe;
-      //   console.clear();
-      //   console.log(this.importeP);
-      //   console.log('mxn');
-      // }
-      // else {
-      //   this.importeP = data[0].ImporteDlls;
-      //   console.clear();
-      //   console.log(this.importeP);
-      //   console.log('dlls');
-      // }
-      if (this.MonedaBoolean == true) {
-        this.importeP = data[0].Importe;
-        this.ProductoPrecio = data[0].PrecioUnitario;
+      
+      console.log(result);
+      console.log(result.value);     
+      if (this.Moneda == 'MXN') {
+        console.log('LA MONEDA ES MXN');
+        this.ProductoPrecioMXN = +result.value;
+        this.ProductoPrecioDLLS = +result.value / this.TipoCambio;
+        this.importeP = +dp.Cantidad * +result.value;
+        this.importePDLLS = +dp.Cantidad * (+result.value / this.TipoCambio);
       } else {
-        this.importePDLLS = data[0].ImporteDlls;
-        this.ProductoPrecio = data[0].PrecioUnitarioDlls;
+        console.log('LA MONEDA ES USD');
+        console.log(this.ProductoPrecio);
+        console.log(this.TipoCambio);
+        this.ProductoPrecioDLLS = +result.value;
+        this.ProductoPrecioMXN = +result.value * this.TipoCambio;
+        this.importePDLLS = +dp.Cantidad * +result.value;
+        this.importeP = +dp.Cantidad * (+result.value * this.TipoCambio);
       }
-
-      this.ProductoSelect = data[0].IdProducto;
-      this.service.formProd.Nombre = data[0].Nombre;
-      // this.ProductoPrecio = data[0].PrecioUnitario;
-      // this.ProductoPrecioDLLS = data[0].PrecioUnitarioDlls;
-      this.Cantidad = data[0].Cantidad;
-      this.service.formDataPedido.Moneda;
-      this.service.formProd.ClaveProducto = data[0].ClaveProducto;
-      // this.service.formDataDP.Unidad = data[0].Unidad;
-      this.service.formProd.Stock = data[0].Stock;
-      this.service.formProd.DescripcionProducto = data[0].DescripcionProducto;
-      this.service.formProd.Estatus = data[0].Estatus;
-      this.service.formProd.IVA = data[0].IVA;
-      this.service.formProd.ClaveSAT = data[0].ClaveSAT;
-      // this.service.formDataDP.Observaciones = data[0].Observaciones;
-      // this.service.formDataDP.TextoExtra = data[0].TextoExtra;
-
-      //Asignar Clave producto a Editar, para ser validado despues
-      this.ClaveP = data[0].ClaveProducto;
-      this.CantidadP = this.Cantidad;
-
-      this.StockReal = (+this.Cantidad) + (+this.service.formProd.Stock);
-      console.log(this.StockReal);
-      this.service.formProd.Stock = this.StockReal.toString();
-      this.PStock = this.service.formProd.Stock;
-      this.onChangePrecio(this.ProductoPrecio);
-      this.onChangeCantidadP(this.Cantidad);
+      let query1 = 'update DetallePedidos set PrecioUnitario = '+"'"+this.ProductoPrecioMXN+"'"+' , PrecioUnitarioDlls ='+"'"+this.ProductoPrecioDLLS+"'"+' , Importe ='+"'"+this.importeP+"'"+' , ImporteDlls ='+"'"+this.importePDLLS+"'"+' where IdDetallePedido ='+dp.IdDetallePedido;
+      let consulta1 = {
+        'consulta':query1
+      };
+      console.log(query1);
+      this.traspasoSVC.getQuery(consulta1).subscribe((resDetalle: any)=>{
+                this.ProductoPrecio = 0
+                this.ProductoPrecioDLLS = 0
+                this.importeP = 0
+                this.importePDLLS = 0
+      this.refreshDetallesPedidoList(); 
     })
+  }
+    })
+
+
+    // //Iniciar en 0 las variables de totales, stock y
+    // this.IniciarTotales();
+
+    // this.ActualizarDetallePedidoBool = true;
+    // this.service.formDataDP = dp;
+    // this.service.GetProductoDetalleProducto(dp.ClaveProducto, dp.IdDetallePedido).subscribe(data => {
+
+    //   // if (this.service.formDataPedido.Moneda == 'MXN') {
+    //   //   this.importeP = data[0].Importe;
+    //   //   console.clear();
+    //   //   console.log(this.importeP);
+    //   //   console.log('mxn');
+    //   // }
+    //   // else {
+    //   //   this.importeP = data[0].ImporteDlls;
+    //   //   console.clear();
+    //   //   console.log(this.importeP);
+    //   //   console.log('dlls');
+    //   // }
+    //   if (this.MonedaBoolean == true) {
+    //     this.importeP = data[0].Importe;
+    //     this.ProductoPrecio = data[0].PrecioUnitario;
+    //   } else {
+    //     this.importePDLLS = data[0].ImporteDlls;
+    //     this.ProductoPrecio = data[0].PrecioUnitarioDlls;
+    //   }
+
+    //   this.ProductoSelect = data[0].IdProducto;
+    //   this.service.formProd.Nombre = data[0].Nombre;
+    //   // this.ProductoPrecio = data[0].PrecioUnitario;
+    //   // this.ProductoPrecioDLLS = data[0].PrecioUnitarioDlls;
+    //   this.Cantidad = data[0].Cantidad;
+    //   this.service.formDataPedido.Moneda;
+    //   this.service.formProd.ClaveProducto = data[0].ClaveProducto;
+    //   // this.service.formDataDP.Unidad = data[0].Unidad;
+    //   this.service.formProd.Stock = data[0].Stock;
+    //   this.service.formProd.DescripcionProducto = data[0].DescripcionProducto;
+    //   this.service.formProd.Estatus = data[0].Estatus;
+    //   this.service.formProd.IVA = data[0].IVA;
+    //   this.service.formProd.ClaveSAT = data[0].ClaveSAT;
+    //   // this.service.formDataDP.Observaciones = data[0].Observaciones;
+    //   // this.service.formDataDP.TextoExtra = data[0].TextoExtra;
+
+    //   //Asignar Clave producto a Editar, para ser validado despues
+    //   this.ClaveP = data[0].ClaveProducto;
+    //   this.CantidadP = this.Cantidad;
+
+    //   this.StockReal = (+this.Cantidad) + (+this.service.formProd.Stock);
+    //   console.log(this.StockReal);
+    //   this.service.formProd.Stock = this.StockReal.toString();
+    //   this.PStock = this.service.formProd.Stock;
+    //   this.onChangePrecio(this.ProductoPrecio);
+    //   this.onChangeCantidadP(this.Cantidad);
+    // })
   }
 
   OnEditDetallePedidodp(form: NgForm) {
@@ -1605,8 +1686,8 @@ export class PedidoventasAddComponent implements OnInit {
       title: '¿Segur@ de Borrar Concepto?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {

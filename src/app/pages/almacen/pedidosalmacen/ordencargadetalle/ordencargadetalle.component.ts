@@ -21,6 +21,7 @@ import { CalendarioService } from '../../../../services/calendario/calendario.se
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
 import { OrdenCargaInfo } from '../../../../Models/almacen/OrdenCarga/ordenCargaInfo-model';
 import { FormatoPDFComponent } from 'src/app/components/almacen/formato-pdf/formato-pdf.component';
+import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
 
 @Component({
   selector: 'app-ordencargadetalle',
@@ -39,7 +40,9 @@ export class OrdencargadetalleComponent implements OnInit {
   Folio: number;
 
   constructor(public router: Router, private dialog: MatDialog, public service: OrdenCargaService, public _MessageService: MessageService,
-    public AlmacenEmailService: AlmacenEmailService, public tarimaService: TarimaService, public ordenDescargaService: OrdenDescargaService, public CalendarioService: CalendarioService, public pedidoSVC: VentasPedidoService) {
+    public AlmacenEmailService: AlmacenEmailService, public tarimaService: TarimaService,
+     public ordenDescargaService: OrdenDescargaService, public CalendarioService: CalendarioService, public pedidoSVC: VentasPedidoService,
+     public traspasoSVC: TraspasoMercanciaService) {
 
     this.service.listen().subscribe((m: any) => {
       console.log(m);
@@ -187,8 +190,14 @@ export class OrdencargadetalleComponent implements OnInit {
          this.listData.sort = this.sort;
          this.listData.paginator = this.paginator;
        }); */
-    this.service.getOrdenCargaIDList2(this.IdOrdenCarga).subscribe(data => {
-      console.log(data);
+    // this.service.getOrdenCargaIDList2(this.IdOrdenCarga).subscribe(data => {
+      let query2 = 'select * from DetalleOrdenCarga where IdOrdenCarga  = '+ this.IdOrdenCarga
+      let consulta2 = {
+        'consulta':query2
+      };
+      console.log(query2);
+      this.traspasoSVC.getQuery(consulta2).subscribe((dataOrdenTemporal: any)=>{
+      console.log(dataOrdenTemporal);
       // if (this.estatusOC=='Cargada'){
       //   for (let i=0; i<data.length; i++){
       //     console.log('Transito');
@@ -196,8 +205,8 @@ export class OrdencargadetalleComponent implements OnInit {
       //   }
 
       // }
-      this.service.formDataDOC = data[0];
-      this.listData = new MatTableDataSource(data);
+      this.service.formDataDOC = dataOrdenTemporal[0];
+      this.listData = new MatTableDataSource(dataOrdenTemporal);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
     });
@@ -372,7 +381,7 @@ export class OrdencargadetalleComponent implements OnInit {
       kg = 0;
       for (let i = 0; i < this.listData.data.length; i++) {
         sacos = sacos + +this.listData.data[i].Sacos;
-        kg = kg + +this.listData.data[i].PesoTotal;
+        kg = kg + ((+this.listData.data[i].Sacos)*(+this.listData.data[i].PesoxSaco));
       }
 
       this.od.FechaLlegada = new Date(this.service.formData.FechaInicioCarga)
@@ -416,7 +425,9 @@ export class OrdencargadetalleComponent implements OnInit {
             this.dod.Shipper = this.listData.data[i].Shipper;
             this.dod.USDA = this.listData.data[i].USDA;
             this.dod.Pedimento = this.listData.data[i].Pedimento;
-            this.dod.Saldo = this.listData.data[i].PesoTotal;
+            // this.dod.Saldo = this.listData.data[i].PesoTotal;
+            this.dod.Saldo = ((+this.listData.data[i].Sacos)*(+this.listData.data[i].PesoxSaco)).toString();
+
             console.log(this.dod);
             this.ordenDescargaService.addDetalleOrdenDescarga(this.dod).subscribe(resDetalle => {
               //         console.log(resDetalle);

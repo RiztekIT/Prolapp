@@ -18,6 +18,21 @@ import { OrdenDescargaConceptoComponent } from 'src/app/components/almacen/orden
 import { map, startWith } from 'rxjs/operators';
 import { QrComponent } from 'src/app/components/qr/qr.component';
 import { CalendarioService } from '../../../../../services/calendario/calendario.service';
+import { TipoCambioService } from '../../../../../services/tipo-cambio.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    // 'Bmx-Token': '19b7c18b48291872e37dbfd89ee7e4ea26743de4777741f90b79059950c34544',
+    'Bmx-Token': '410db2afc39118c6917da0778cf81b6becdf5614dabd10b92815768bc0a87e26',
+    //'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/json;charset=UTF-8',
+    'Access-Control-Allow-Headers': 'Bmx-Token, Accept, Accept-Encoding, Content-Type, Origin',
+    'Access-Control-Allow-Methods': 'GET, OPTIONS'
+
+  })
+  
+}
 
 /* Constante y variables para la transformacion de los meses en los datetimepicker */
 // const months =['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DIC'];
@@ -72,7 +87,7 @@ export class OrdendescargatarimaComponent implements OnInit {
 
 
   constructor(public router: Router, private dialog: MatDialog, public service: OrdenDescargaService,
-    public ordenTemporalService: OrdenTemporalService, public Tarimaservice: TarimaService, public CalendarioService: CalendarioService, public serviceTarima: TarimaService) {
+    public ordenTemporalService: OrdenTemporalService, public Tarimaservice: TarimaService, public CalendarioService: CalendarioService, public serviceTarima: TarimaService, public tipoCambioService: TipoCambioService, private http : HttpClient) {
     this.service.listen().subscribe((m: any) => {
       console.log(m);
       this.refreshOrdenDescargaList();
@@ -149,6 +164,7 @@ export class OrdendescargatarimaComponent implements OnInit {
   sacosCero: boolean;
   numerofactura;
   FechaFactura: Date;
+  TipoCambio: string
   PO;
   PODescarga;
   NumeroEntrada;
@@ -403,6 +419,8 @@ export class OrdendescargatarimaComponent implements OnInit {
     this.preOrdenTemporalSacos = preOD;
     this.preOrdenTemporalSacos.posicionOrdenTemporalOD = id;
     this.ordenTemporalService.posicionOrdenTemporalOD = id;
+
+    this.TipoCambio = this.tipoCambioService.TipoCambio;
     // console.log(this.ordenTemporalService.preOrdenTemporalSacos, 'oijfas');
 
     // console.log(this.ordenTemporalService.posicionOrdenTemporalOD, 'wwwwwwwwwwwwwwwwwwwwwwwwwww');
@@ -622,8 +640,10 @@ export class OrdendescargatarimaComponent implements OnInit {
     this.preOrdenTemporalSacos.FechaMFG = this.fechaMFG
     //^ En shipper guardaremos Numero Facura
     this.preOrdenTemporalSacos.Shipper = this.numerofactura;
-    //^ en Tarimas Totales guardaremos FechaFactura
+    //^  guardaremos FechaFactura
     this.preOrdenTemporalSacos.FechaFactura = this.FechaFactura;
+    //^ guardaremos el tipo de cambio ingresado
+    this.preOrdenTemporalSacos.TipoCambio = this.TipoCambio;    
     //^ En Pedimento guardaremos Numero Entrada (CBK)
     this.preOrdenTemporalSacos.Pedimento = this.NumeroEntrada;
     /* this.preOrdenTemporalSacos.Sacos = this.numerofactura; */
@@ -862,7 +882,8 @@ export class OrdendescargatarimaComponent implements OnInit {
             FechaMFG: this.preOrdenTemporalSacos.FechaMFG,
             Comentarios: '',
             CampoExtra1: this.PODescarga,
-            CampoExtra2: '',
+            //^ Aqui Guardaremos el Tipo de Cambio
+            CampoExtra2: this.preOrdenTemporalSacos.TipoCambio,
             //^ Aqui Guardaremos la Fecha de la Factura
             CampoExtra3: this.preOrdenTemporalSacos.FechaFactura
           }
@@ -898,6 +919,7 @@ export class OrdendescargatarimaComponent implements OnInit {
     this.NombreProducto = null;
     this.numerofactura = null;
     this.FechaFactura = null;
+    this.TipoCambio = null;
     this.PO = null;
     this.PODescarga = null;
     this.NumeroEntrada = null;
@@ -1123,8 +1145,8 @@ export class OrdendescargatarimaComponent implements OnInit {
       title: '¿Seguro de Borrar Ingreso(s)?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
@@ -1229,8 +1251,8 @@ export class OrdendescargatarimaComponent implements OnInit {
       title: '¿Seguro de Borrar Producto?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
@@ -1282,6 +1304,7 @@ export class OrdendescargatarimaComponent implements OnInit {
           //             console.log(resDataTarimadt[0]);
           //             let delDTT = resDataTarimadt[0].IdDetalleTarima;
           //             console.log(delDTT);
+          //^ AQUI NO VERIFICAMOS SI QUEDAN SACOS SOBRANTES EN EL DETALLE TARIMA PORQUE TODOS LOS PRODUCTOS QUE SE INGRESAN AL DESCARGAR SON UNICOS. Y EN TEORIA NO DE SEBERIA DE REPETIR X PRODUCTO CON X LOTE CON X #DEFACTURA
                       this.Tarimaservice.deleteDetalleTarima(ot.IdDetalleTarima).subscribe(resDOD => {
           //               console.log(resDOD);
           //               this.Tarimaservice.getDetalleTarimaID(resDataTarimadt[0].IdDetalleTarima).subscribe(resdetallet => {
@@ -1401,8 +1424,94 @@ export class OrdendescargatarimaComponent implements OnInit {
     }else if(tipo == 'Factura'){
       this.preOrdenTemporalSacos.FechaFactura = evento.target.value;
       this.change(this.preOrdenTemporalSacos.FechaFactura);
+      this.tc(this.preOrdenTemporalSacos.FechaFactura);
 
     }
+  }
+
+  tc(date){
+
+    console.log(date);
+    const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    const days = ['00','01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12','13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
+    let dia;
+    let dia2;
+    let mes;
+    let mes2;
+    let año;
+    let hora;
+    let min;
+    let seg;
+    let diaf;
+    
+    let fecha = new Date(date);
+
+    if (((fecha.getDate()+1)==31) && ((fecha.getMonth()==1) || (fecha.getMonth()==3) || (fecha.getMonth()==5) || (fecha.getMonth()==8) || (fecha.getMonth()==10))){
+      diaf = 1;
+      mes2 = `${months[fecha.getMonth()+1]}`;
+    }else if ((fecha.getDate()+1)==32){
+      diaf = 1;
+      mes2 = `${months[fecha.getMonth()+1]}`;
+    }else{
+      diaf = fecha.getDate()+1
+      mes2 = `${months[fecha.getMonth()]}`;
+    }
+
+
+
+    mes = `${months[fecha.getMonth()]}`;
+    dia = `${days[fecha.getDate()]}`;
+    dia2 = `${days[diaf]}`;
+    
+    año = fecha.getFullYear();
+    hora = fecha.getHours();
+    min = fecha.getMinutes();
+    seg = fecha.getSeconds();
+
+    hora = '00';
+    min = '00';
+    seg = '00';
+
+    this.fecha2 = año + '-' + mes + '-' + dia + 'T' + hora + ':' + min + ':' + seg
+    console.log(fecha);
+    console.log(this.fecha2);
+
+    //let fechaapi = año + '-' + mes2 + '-' + dia2
+    let fechaapi = dia2 + '/' + mes2 + '/' + año
+
+
+    this.traerApi(fechaapi).subscribe(data =>{
+      let l;
+      console.log(data);
+      let json = JSON.parse(data);
+      console.log(json);
+
+      let f = json.bmx.series[0].datos.length;
+      console.log(fechaapi);
+
+      for (let i=16700; i<f; i++){
+        //console.log(i);
+        if (json.bmx.series[0].datos[i].fecha==fechaapi){
+          this.TipoCambio = json.bmx.series[0].datos[i].dato
+          break
+        }
+      }
+      /* 
+      l = data.bmx.series[0].datos[0].dato;
+      console.log(l);
+      this.TipoCambio = parseFloat(l).toFixed(4); */
+  
+      
+    })
+  }
+
+  traerApi(fecha): Observable<any>{
+
+    //return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/"+fecha+'/'+fecha, httpOptions)
+    //return this.http.get("/SieAPIRest/service/v1/series/SF60653/datos/"+fecha+'/'+fecha, httpOptions)
+    return this.http.get("https://riztek.com.mx/php/Prolacto/GET_TipoCambio.php")
+    //return this.http.get("/SieAPIRest/service/v1/series/SF60653/datos/"+fecha+'/'+fecha, httpOptions)
+
   }
 
   change(date: any) {

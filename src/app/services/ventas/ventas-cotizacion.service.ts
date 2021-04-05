@@ -182,6 +182,11 @@ export class VentasCotizacionService {
   }
 
 
+  subirImagen(datos:any):Observable<any>{
+    return this.http.post('https://riztek.com.mx/php/Prolacto/POST_SubirArchivo.php', datos);
+  }
+
+
 
   // *******************   REPORTES COTIZACION ************************* //
 

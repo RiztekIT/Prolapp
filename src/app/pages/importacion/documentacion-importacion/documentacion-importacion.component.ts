@@ -8,6 +8,7 @@ import { Observable, Subscriber } from 'rxjs';
 import { DocumentosImportacionService } from '../../../services/importacion/documentos-importacion.service';
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { mergeMap, last, scan } from 'rxjs/operators';
+import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
 
 @Component({
   selector: 'app-documentacion-importacion',
@@ -24,10 +25,11 @@ import { mergeMap, last, scan } from 'rxjs/operators';
 export class DocumentacionImportacionComponent implements OnInit {
 
 
-  constructor(public router: Router, public documentosService: DocumentosImportacionService) { }
+  constructor(public router: Router, public documentosService: DocumentosImportacionService, public traspasoSVC: TraspasoMercanciaService) { }
 
   ngOnInit() {
-    this.obtenerOrdenDescargaDocumentos();
+    // this.obtenerOrdenDescargaDocumentos();
+    this.obtenerDocumentos();
     //^ **** PRIVILEGIOS POR USUARIO *****
     this.obtenerPrivilegios();
     //^ **** PRIVILEGIOS POR USUARIO *****
@@ -82,7 +84,7 @@ export class DocumentacionImportacionComponent implements OnInit {
     //^ **** PRIVILEGIOS POR USUARIO *****
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['Folio', 'PO', 'Sacos', 'Fletera', 'Origen', 'FechaDescarga', 'Options'];
+  displayedColumns: string[] = ['Tipo', 'CP', 'Documento', 'Lote', 'FechaV'];
   // displayedColumnsVersion: string[] = ['ClaveProducto', 'Sacos', 'Lote', 'USDA', 'Pedimento', 'Documentos'];
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Sacos', 'Lote', 'USDA', 'Pedimento'];
   expandedElement: any;
@@ -149,6 +151,20 @@ export class DocumentacionImportacionComponent implements OnInit {
 
       // this.listData.paginator._intl.itemsPerPageLabel = 'Compras por Pagina';
     })
+  }
+
+
+  obtenerDocumentos(){
+    let query = ' select * from Documentos'
+    let consulta = {
+      'consulta':query
+    };
+this.traspasoSVC.getQuery(consulta).subscribe((resDocumentos:any)=>{
+  console.log(resDocumentos);
+  this.listData = new MatTableDataSource(resDocumentos);
+        this.listData.sort = this.sort;
+        this.listData.paginator = this.paginator;
+})
   }
 
   //puede llegar como parametro el idDetalleOrdenDescarga

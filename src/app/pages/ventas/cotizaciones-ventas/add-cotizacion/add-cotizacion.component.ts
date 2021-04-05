@@ -99,7 +99,7 @@ export class AddCotizacionComponent implements OnInit {
   optionsUnidad = ['Pieza'];
   um: boolean;
   ProductoSelect: string;
-  MarcaSelect: string;
+  MarcaSelect: string[];
   OrigenSelect:string;
   clavemarca:string;
   claveorigen:string;
@@ -750,10 +750,16 @@ this.changeDireccion(this.isDireccion);
 
   onSelectionChangeMarca(options2, event?: any){
     console.log(options2);
-    this.clavemarca = options2.ClaveMarca
-    this.MarcaSelect = options2.NombreMarca
+    console.log(this.MarcaSelect);
+    console.log(event);
+    console.log(event);
+    // this.clavemarca = options2.ClaveMarca
+    // this.MarcaSelect = options2.NombreMarca
     
-    this.service.formProd.DescripcionProducto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+    // this.service.formProd.DescripcionProducto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+  }
+  arregloMarcas(){
+    console.log(this.MarcaSelect);
   }
   onSelectionChangeOrigen(options2, event: any){
     console.log(options2);
@@ -921,7 +927,7 @@ displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Cantidad', 'Importe'
 IniciarTotales() {
   //Inicializar en 0 el select del producto
   this.ProductoSelect = "";
-  this.MarcaSelect ="";
+  //! this.MarcaSelect ="";
   this.OrigenSelect ="";
   this.PresentacionSelect="";
 
@@ -1250,8 +1256,8 @@ onDeleteDetalleProducto(dp: DetalleCotizacion) {
     title: '¿Segur@ de Borrar Concepto?',
     icon: 'warning',
     showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
+    confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
     confirmButtonText: 'Borrar',
     cancelButtonText: 'Cancelar'
   }).then((result) => {

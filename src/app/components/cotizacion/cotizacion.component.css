@@ -193,6 +193,10 @@ th {
     padding: 0px;
 }
 
+tbody > tr > td{
+    color: rgb(67, 67, 67);
+}
+
 
 /* .cowcontainer {
     /* clip-path: polygon(50% 20%, 90% 80%, 10% 80%); */

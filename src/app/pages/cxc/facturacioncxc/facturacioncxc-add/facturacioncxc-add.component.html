@@ -234,13 +234,17 @@
                                         </div>
                                         <!--               -------------------------------------------------------                                       -->
 
-                                        <label class="input-group-text text-info">Orden De Compra</label>
+                                        <label *ngIf="ClienteNombre!='VENTA AL PUBLICO EN GENERAL'" class="input-group-text text-info">Orden De Venta</label>
 
-                                        <input type="string" class="form-control" name="OrdenDeCompra" #OrdenDeCompra="ngModel" [(ngModel)]="service.formData.OrdenDeCompra">
+                                        <input *ngIf="ClienteNombre!='VENTA AL PUBLICO EN GENERAL'" type="string" class="form-control" name="OrdenDeCompra" #OrdenDeCompra="ngModel" [(ngModel)]="service.formData.OrdenDeCompra">
 
-                                        <div class="text-left text-danger" *ngIf="OrdenDeCompra.invalid && OrdenDeCompra.touched">
+                                        <!--   <div *ngIf="service.ClaveCliente!=78" class="text-left text-danger">
                                             Favor de Ingresar Orden De Compra
-                                        </div>
+                                        </div> -->
+
+                                        <button *ngIf="ClienteNombre=='VENTA AL PUBLICO EN GENERAL'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='ordenventa(service.formData)' [disabled]="form.invalid"><i
+                                            class="mdi mdi-code-tags btn-lg"></i>Ordenes de Venta</button>
+                                        <br *ngIf="ClienteNombre=='VENTA AL PUBLICO EN GENERAL'">
                                         <!--               -------------------------------------------------------                                       -->
 
 
@@ -693,7 +697,7 @@
                                 <button [style.display]="clienteLogin ? 'none' : 'block'" *ngIf="this.Estatus=='Pagada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='nosaldar(service.formData)' [disabled]="form.invalid"><i
                         class="mdi mdi-currency-usd btn-lg"></i>No Saldar</button>
 
-                            <!--     <button  class="btn btn-info btn-lg" mat-raised-button type="button" (click)='crearjsonfactura(service.formData.Id)' [disabled]="form.invalid"><i
+                                <!--     <button  class="btn btn-info btn-lg" mat-raised-button type="button" (click)='crearjsonfactura(service.formData.Id)' [disabled]="form.invalid"><i
                             class="mdi mdi-currency-usd btn-lg"></i>JSON</button> -->
 
 

@@ -226,6 +226,10 @@ subs2: Subscription
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
+    dialogConfig.data = {
+      origen: 'normal'
+     
+    }
     this.dialog.open(CotizacionComponent, dialogConfig);
   }
 
@@ -365,8 +369,8 @@ Vigencia: new Date()
       title: '¿Segur@ de Borrar Cotizacion  ?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {

@@ -693,6 +693,7 @@ export class PrepararComponent implements OnInit {
     //Verificara que no exista el producto en la tabla
     console.log(this.ordenTemporalService.preOrdenTemporal);
     for (let l = 0; l <= this.ordenTemporalService.preOrdenTemporal.length - 1; l++) {
+      console.log('%c⧭', 'color: #00bf00', this.ordenTemporalService.preOrdenTemporal[l]);
       if ((Lote == this.ordenTemporalService.preOrdenTemporal[l].Lote) && (ClaveProducto == this.ordenTemporalService.preOrdenTemporal[l].ClaveProducto)) {
         Swal.fire({
           icon: 'error',
@@ -713,7 +714,7 @@ export class PrepararComponent implements OnInit {
       //Obtener Datos de la bodega para verfificar que ese producto si Existe y tiene sacos necesarios      
       //^ Marca error por lotes con "/" this.tarimaService.GetGetProductoInformacionBodega(ClaveProducto, Lote, this.bodegaOrigen).subscribe(prodInfo => {
         // let query = 'select * from DetalleTarima where ClaveProducto = ' + "'" + ClaveProducto + "'" + ' and bodega =' + "'" + this.bodegaOrigen + "'" + '';
-        let query = 'select * from DetalleTarima where ClaveProducto = '+"'"+ClaveProducto+"'"+' and Lote ='+"'"+Lote+"'"+' and Bodega ='+"'"+this.bodegaOrigen+"'";
+        let query = 'select * from DetalleTarima where ClaveProducto = '+"'"+ClaveProducto+"'"+' and Lote ='+"'"+Lote+"'"+' and Shipper ='+"'"+productoIngreso.Shipper+"'"+' and Bodega ='+"'"+this.bodegaOrigen+"'";
         let consulta = {
           'consulta': query
         };
@@ -745,7 +746,7 @@ export class PrepararComponent implements OnInit {
 
           //Verificar match de detalle tarima con detalle Orden Carga
           // this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, lote2, ClaveProducto).subscribe(dataOrdenCarga => {
-            let query2 = 'select * from DetalleOrdenCarga where IdOrdenCarga  = '+""+this.IdOrdenCarga+""+' and Lote ='+"'"+lote2+"'"+' and ClaveProducto ='+"'"+ClaveProducto+"'";
+            let query2 = 'select * from DetalleOrdenCarga where IdOrdenCarga  = '+""+this.IdOrdenCarga+""+' and Lote ='+"'"+lote2+"'"+' and ClaveProducto ='+"'"+ClaveProducto+"'"+' and Shipper ='+"'"+productoIngreso.Shipper+"'";
             let consulta2 = {
               'consulta':query2
             };
@@ -1033,8 +1034,8 @@ export class PrepararComponent implements OnInit {
       title: '¿Seguro de Borrar Ingreso(s)?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
@@ -1237,12 +1238,13 @@ export class PrepararComponent implements OnInit {
       let Sacos = this.ordenTemporalService.preOrdenTemporal[i].Sacos;
       let Lote = this.ordenTemporalService.preOrdenTemporal[i].Lote;
       let ClaveProducto = this.ordenTemporalService.preOrdenTemporal[i].ClaveProducto;
+      let Factura = this.ordenTemporalService.preOrdenTemporal[i].NumeroFactura
 
       let kg = this.ordenTemporalService.preOrdenTemporal[i].PesoTotal;
 
-      this.agregarOrdenTemporal(i, Lote, ClaveProducto, Sacos, kg);
+      this.agregarOrdenTemporal(i, Lote, ClaveProducto, Sacos, kg, Factura);
       // this.tarimaService.GetGetProductoInformacionBodega(this.ordenTemporalService.preOrdenTemporal[i].ClaveProducto, this.ordenTemporalService.preOrdenTemporal[i].Lote, this.bodegaOrigen).subscribe(dataDetalleTarima => {
-        let query1 = 'select * from DetalleTarima where ClaveProducto = '+"'"+this.ordenTemporalService.preOrdenTemporal[i].ClaveProducto+"'"+' and Lote ='+"'"+this.ordenTemporalService.preOrdenTemporal[i].Lote+"'"+' and Bodega ='+"'"+this.bodegaOrigen+"'";
+        let query1 = 'select * from DetalleTarima where ClaveProducto = '+"'"+this.ordenTemporalService.preOrdenTemporal[i].ClaveProducto+"'"+' and Lote ='+"'"+this.ordenTemporalService.preOrdenTemporal[i].Lote+"'"+' and Bodega ='+"'"+this.bodegaOrigen+"'"+' and Shipper ='+"'"+Factura+"'";
         let consulta1 = {
           'consulta':query1
         };
@@ -1366,7 +1368,7 @@ export class PrepararComponent implements OnInit {
   }
 
   // agregarOrdenTemporal() {
-  agregarOrdenTemporal(i, Lote, ClaveProducto, Sacos, kg) {
+  agregarOrdenTemporal(i, Lote, ClaveProducto, Sacos, kg, Factura) {
     //asignar valores al objeto que sera insertado en orden temporal.
     let ordenT = new OrdenTemporal();
 
@@ -1398,7 +1400,7 @@ export class PrepararComponent implements OnInit {
       console.log(resAdd);
       //   //Obtener Detalle Orden de Carga, para ser actualizado posteriormente
       // this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, Lote, ClaveProducto).subscribe(dataOrdenCarga => {
-        let query2 = 'select * from DetalleOrdenCarga where IdOrdenCarga  = '+""+this.IdOrdenCarga+""+' and Lote ='+"'"+Lote+"'"+' and ClaveProducto ='+"'"+ClaveProducto+"'";
+        let query2 = 'select * from DetalleOrdenCarga where IdOrdenCarga  = '+""+this.IdOrdenCarga+""+' and Lote ='+"'"+Lote+"'"+' and ClaveProducto ='+"'"+ClaveProducto+"'"+' and Shipper ='+"'"+Factura+"'";
         let consulta2 = {
           'consulta':query2
         };
@@ -1422,7 +1424,8 @@ export class PrepararComponent implements OnInit {
         else {
 
           // this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, '0', ClaveProducto).subscribe(dataOrdenCarga => {
-            let query2 = 'select * from DetalleOrdenCarga where IdOrdenCarga  = '+""+this.IdOrdenCarga+""+' and Lote ='+"'"+0+"'"+' and ClaveProducto ='+"'"+ClaveProducto+"'";
+            // let query2 = 'select * from DetalleOrdenCarga where IdOrdenCarga  = '+""+this.IdOrdenCarga+""+' and Lote ='+"'"+0+"'"+' and ClaveProducto ='+"'"+ClaveProducto+"'";
+            let query2 =  'select * from DetalleOrdenCarga where IdOrdenCarga  = '+""+this.IdOrdenCarga+""+' and Lote ='+"'"+Lote+"'"+' and ClaveProducto ='+"'"+ClaveProducto+"'"+' and Shipper ='+"'"+this.ordenTemporalService.preOrdenTemporal[i].NumeroFactura+"'";
             let consulta2 = {
               'consulta':query2
             };
@@ -1524,6 +1527,7 @@ export class PrepararComponent implements OnInit {
     console.log(ot);
     let Lote = ot.Lote;
     let ClaveProducto = ot.ClaveProducto;
+    let Factura  = ot.NumeroFactura;
     let Bodega = this.bodegaOrigen;
     let IdDetalleTarima = ot.IdDetalleTarima;
 
@@ -1534,8 +1538,8 @@ export class PrepararComponent implements OnInit {
       title: '¿Seguro de Borrar Ingreso?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
@@ -1556,7 +1560,7 @@ export class PrepararComponent implements OnInit {
             // console.log(resUpdate);
             //Obtener Detalle Orden de Carga, para ser actualizado posteriormente
             // this.ordenCargaService.getDetalleOrdenCargaIdLoteClave(this.IdOrdenCarga, Lote, ClaveProducto).subscribe(dataOrdenCarga => {
-              let query2 = 'select * from DetalleOrdenCarga where IdOrdenCarga  = '+""+this.IdOrdenCarga+""+' and Lote ='+"'"+Lote+"'"+' and ClaveProducto ='+"'"+ClaveProducto+"'";
+              let query2 = 'select * from DetalleOrdenCarga where IdOrdenCarga  = '+""+this.IdOrdenCarga+""+' and Lote ='+"'"+Lote+"'"+' and ClaveProducto ='+"'"+ClaveProducto+"'"+' and Shipper ='+"'"+Factura+"'";
               let consulta2 = {
                 'consulta':query2
               };

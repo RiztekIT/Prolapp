@@ -1036,8 +1036,8 @@ export class FormatoComprasComprasComponent implements OnInit {
       title: '¿Segur@ de Borrar producto?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
@@ -1527,8 +1527,8 @@ export class FormatoComprasComprasComponent implements OnInit {
       title: '¿Segur@ de Borrar Compra?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {

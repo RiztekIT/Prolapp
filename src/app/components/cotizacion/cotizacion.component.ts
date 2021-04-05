@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import * as html2pdf from 'html2pdf.js';
 import { MessageService } from 'src/app/services/message.service';
 import { VentasCotizacionService } from '../../services/ventas/ventas-cotizacion.service';
@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 })
 export class CotizacionComponent implements OnInit {
 
-  constructor(public dialogbox: MatDialogRef<CotizacionComponent>, public _MessageService: MessageService, public service: VentasCotizacionService, public empresaSVC: EmpresaService) { }
+  constructor(public dialogbox: MatDialogRef<CotizacionComponent>, public _MessageService: MessageService, public service: VentasCotizacionService, public empresaSVC: EmpresaService, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   con : string| number;
   arrcon: Array<any> = [];
@@ -271,14 +271,18 @@ onExportClick2(Folio?:string) {
 reloadPDF(event){
   console.log(event);
   this.currentPdf = localStorage.getItem('pdfOC');
+  //localStorage.setItem('pdfcorreo',this.currentPdf)
   let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
   const url = window.URL.createObjectURL(blob);
 
-  const link = document.createElement('a');
-  link.href = url;
-  link.target = '_blank'    
-  link.click();
-  this.style = 'none'
+  if (this.data.origen=='normal'){
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank'    
+    link.click();
+    this.style = 'none'
+  }
   
   Swal.close();
   this.onClose()
@@ -324,6 +328,7 @@ onExportClick(Folio?: string) {
   worker.then(function(pdfAsString){
     console.log(pdfAsString);
     this.pdf = pdfAsString;
+    localStorage.setItem('pdfCorreo', this.pdf);
     this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
     localStorage.setItem('pdfOC', this.pdf);
     this.currentPdf = this.pdf

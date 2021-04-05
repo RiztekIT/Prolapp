@@ -16,6 +16,9 @@ import Swal from 'sweetalert2';
 import * as html2pdf from 'html2pdf.js';
 import { ReportesModalComponent } from 'src/app/components/reportes-modal/reportes-modal.component';
 import { ReporteEmisionComponent } from 'src/app/components/reporte-emision/reporte-emision.component';
+import { Factura } from 'src/app/Models/facturacioncxc/factura-model';
+import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
+import { DetalleFactura } from '../../../Models/facturacioncxc/detalleFactura-model';
 
 
 @Component({
@@ -24,16 +27,17 @@ import { ReporteEmisionComponent } from 'src/app/components/reporte-emision/repo
   styleUrls: ['./pedidoscxc.component.css'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
+      // state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
+      state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
       state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
-  ]
+  ],
 })
 export class PedidoscxcComponent implements OnInit {
 
   constructor(public router: Router, private dialog: MatDialog, private currencyPipe: CurrencyPipe, public service: VentasPedidoService, 
-    private _formBuilder: FormBuilder,  public _MessageService: MessageService,  public enviarfact: EnviarfacturaService) {
+    private _formBuilder: FormBuilder,  public _MessageService: MessageService,  public enviarfact: EnviarfacturaService, private facturaSVC:FacturaService) {
 
       this.service.listen().subscribe((m: any) => {
         console.log(m);
@@ -65,7 +69,10 @@ export class PedidoscxcComponent implements OnInit {
     Enviar: boolean = false;
     Borrar: boolean = false;
     //^ VARIABLES DE PERMISOS
-  
+
+    
+    //VARIABLE DE CONVERSION A FACTURACION
+    IdFactura: any;
   
     obtenerPrivilegios() {
       let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
@@ -159,14 +166,14 @@ if (this.estatusSelect==='Todos'){
     this.service.getPedidoCliente().subscribe(data => {
       console.log(data);
       for (let i = 0; i <= data.length - 1; i++) {
-        if (data[i].Estatus == 'Creada') {
+      /*   if (data[i].Estatus == 'Creada') {
           // console.log(data[i]);
           // console.log('ELIMINAR ESTE PEDIDO');
           // console.log(i + 1);
           this.service.onDelete(data[i].IdPedido).subscribe(res => {
             this.refreshPedidoList();
           });
-        }
+        } */
         this.service.master[i] = data[i]
         this.service.master[i].DetallePedido = [];
         this.service.getDetallePedidoId(data[i].IdPedido).subscribe(res => {
@@ -277,8 +284,8 @@ if (this.estatusSelect==='Todos'){
       title: '¿Segur@ de Borrar Pedido?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
@@ -354,13 +361,23 @@ if (this.estatusSelect==='Todos'){
 
   openrep(row){
 
-    console.log(row);
+  /*   console.log(row);
     this.service.formt = row
     // console.log();
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
+    this.dialog.open(ReporteEmisionComponent, dialogConfig); */
+    let mostrarPrecio = true;
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "70%";
+    dialogConfig.data = {
+      IdPedido: row.IdPedido,
+      mostrarPrecio: mostrarPrecio
+    }
     this.dialog.open(ReporteEmisionComponent, dialogConfig);
 
   }
@@ -411,6 +428,244 @@ email(id?: string, folio?:string){
       return data.Estatus.toString().toLowerCase().includes(filter);
     };
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+
+  }
+
+
+  //CONVERTIR EN FACTURA
+  onfact(row){
+
+
+    
+      this.facturaSVC.getFolio().subscribe(data => {
+        
+         
+      
+    
+
+
+
+
+    console.log(row);
+
+    let factura: Factura  = 
+    {
+      Id:0,
+      IdCliente:row.IdCliente,
+      Serie: "",
+      Folio: data,
+      Tipo: "",
+      FechaDeExpedicion: new Date(),
+      LugarDeExpedicion: "",
+      Certificado: "",
+      NumeroDeCertificado: "",
+      UUID: "",
+      UsoDelCFDI: "",
+      Subtotal: parseFloat(row.Subtotal).toFixed(4),
+      SubtotalDlls: parseFloat(row.SubtotalDlls).toFixed(4),
+      Descuento: "0",
+      ImpuestosRetenidos: "0",
+      ImpuestosTrasladados: "0",
+      ImpuestosTrasladadosDlls: "0",
+      Total: parseFloat(row.Total).toFixed(4),
+      TotalDlls: parseFloat(row.TotalDlls).toFixed(4),
+      FormaDePago: "",
+      MetodoDePago: "",
+      Cuenta: "",
+      Moneda: row.Moneda,
+      CadenaOriginal: "",
+      SelloDigitalSAT: "",
+      SelloDigitalCFDI: "",
+      NumeroDeSelloSAT: "",
+      RFCdelPAC: "",
+      Observaciones: "",
+      FechaVencimiento:  new Date(),
+      OrdenDeCompra: row.Folio,
+      TipoDeCambio: "0",
+      FechaDeEntrega:  new Date(),
+      CondicionesDePago: "",
+      Vendedor: row.Vendedor,
+      Estatus: "Creada",
+      Version: "",
+      Usuario: row.Usuario
+  }
+
+  console.log(factura);
+
+  console.log(this.facturaSVC.rfcempresa);
+  this.facturaSVC.Pedido = "1";
+
+  this.facturaSVC.addFactura(factura).subscribe(res => {
+    console.log(res);
+    this.facturaSVC.getUltimaFactura().subscribe(data => {
+      this.facturaSVC.formData = new Factura();
+      this.facturaSVC.formData = factura;
+      this.IdFactura = data[0].Id; 
+      console.log(this.IdFactura);          
+      let Id = this.IdFactura;
+      this.facturaSVC.formData.Id=Id;
+
+      let count = 0;
+      
+
+
+      for (let i=0; i<row.DetallePedido.length; i++){
+
+        let query
+        let clave = row.DetallePedido[i].ClaveProducto;
+        let saldo;
+        let saldoanterior
+
+        if (this.facturaSVC.rfcempresa==='PLA11011243A'){
+
+          query = "select top 1 factura.*, DetalleFactura.* from factura left join ovfactura on factura.Id=ovfactura.idFactura left join DetalleFactura on Factura.Id=DetalleFactura.IdFactura where ovfactura.FolioPedido='"+row.Folio+"' and DetalleFactura.ClaveProducto='"+clave+"' order by Factura.Id desc"
+        }
+        else if (this.facturaSVC.rfcempresa=='AIN140101ME3'){
+          query = "select top 1 factura2.*, DetalleFactura2.* from factura2 left join ovfactura on factura2.Id=ovfactura.idFactura left join DetalleFactura2 on Factura2.Id=DetalleFactura2.IdFactura where ovfactura.FolioPedido='"+row.Folio+"' and DetalleFactura2.ClaveProducto='"+clave+"' order by Factura2.Id desc"
+        }
+  
+        let consulta = {
+          'consulta':query
+        };
+
+
+        console.log(consulta);
+
+        this.facturaSVC.getQuery(consulta).subscribe((res:any)=>{
+          console.log(res,'SALDO');
+          if (res.length>0){
+
+            saldo = res[0].TextoExtra
+            saldoanterior = res[0].TextoExtra
+          }else{
+            saldo = row.DetallePedido[i].Cantidad
+            saldoanterior = row.DetallePedido[i].Cantidad;
+          }
+
+          if (+saldo>0){
+
+            count = count + 1;
+
+        consulta = {
+          'consulta':"select ClaveSAT from Producto where ClaveProducto='"+clave.slice(0,2)+"'"
+        };
+    
+        console.log(consulta);
+    
+        this.facturaSVC.getQuery(consulta).subscribe((res1:any)=>{
+          console.log(res1,'CLAVESAT');
+          if(res1.length>0){
+            
+            let temp = Object.assign({}, res1[0]); 
+            console.log(temp);
+            this.facturaSVC.ClaveSAT =  temp.ClaveSAT
+          }else{
+            this.facturaSVC.ClaveSAT = '01010101'
+          }
+
+          //this.obtenerClaveSAT(row.DetallePedido[i].ClaveProducto)
+
+          let detalleFactura : DetalleFactura = {
+            IdDetalle: 0,
+            IdFactura: this.IdFactura,
+            ClaveProducto: row.DetallePedido[i].ClaveProducto,
+            Producto: row.DetallePedido[i].Producto,
+            Unidad: row.DetallePedido[i].Unidad,
+            ClaveSAT: this.facturaSVC.ClaveSAT,
+            PrecioUnitario: row.DetallePedido[i].PrecioUnitario,
+            PrecioUnitarioDlls: row.DetallePedido[i].PrecioUnitarioDlls,
+            Cantidad: saldo,
+            Importe: (+saldo * +row.DetallePedido[i].PrecioUnitario).toFixed(4),
+            ImporteDlls: (+saldo * +row.DetallePedido[i].PrecioUnitarioDlls).toFixed(4),
+            Observaciones: '',
+            TextoExtra: (+saldo - +saldoanterior).toString(),
+            ImporteIVA: '0.00',
+            ImporteIVADlls: '0.00'
+          }
+
+          console.log(detalleFactura);
+  
+          this.facturaSVC.addDetalleFactura(detalleFactura).subscribe(res => {                    
+           console.log(res);
+
+           if ((i+1)==row.DetallePedido.length){
+
+            if (count>0){
+
+              localStorage.setItem('FacturaID',this.facturaSVC.formData.Id.toString())
+            this.router.navigate(['/facturacionCxcAdd', Id]);
+            }else{
+              Swal.fire({
+                title: 'No hay productos para agregar',
+                icon: 'error',
+              });
+            }
+
+
+  
+          }
+          });
+    
+    
+        })
+
+
+          }else{
+
+            if ((i+1)==row.DetallePedido.length){
+    
+              if (count==0){
+                Swal.fire({
+                  title: 'No hay productos para agregar',
+                  icon: 'error',
+                });
+              }
+            }
+          }//fin del si del saldo
+          
+
+
+        })
+
+
+
+
+
+        
+        
+       
+      }
+
+
+
+      /* localStorage.setItem('FacturaID',this.facturaSVC.formData.Id.toString())
+    this.router.navigate(['/facturacionCxcAdd', Id]); */
+      
+      });
+    
+  });
+});
+
+  }
+
+  obtenerClaveSAT(clave){
+    let consulta = {
+      'consulta':"select ClaveSAT from Producto where ClaveProducto='"+clave.slice(0,2)+"'"
+    };
+
+    console.log(consulta);
+
+    this.facturaSVC.getQuery(consulta).subscribe((res:any)=>{
+      if(res.length>0){
+        let temp = Object.assign({}, res[0]); 
+        console.log(temp);
+        this.facturaSVC.ClaveSAT =  temp.ClaveSAT
+      }else{
+        this.facturaSVC.ClaveSAT = '01010101'
+      }
+
+
+    })
 
   }
 }

@@ -6,83 +6,181 @@
     <app-header-reportes></app-header-reportes>
 
 </div>
-<div class="container">
-    <div class="row">
-        <div class="col-8"></div>
-        <div class="col-4">
-            <button (click)="exportarXLS()" class="btn btn-success"> <i class="mdi mdi-file-excel-box" ></i> Excel </button>
-            <button (click)="exportarPDF()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
+<div *ngIf="this.reporteProveedor.tipoReporte == 'Ambas' || this.reporteProveedor.tipoReporte == 'MateriaPrima' || this.reporteProveedor.tipoReporte == 'Administrativa'">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-8"></div>
+            <div class="col-4">
+                <!-- <button (click)="exportarXLS()" class="btn btn-success"> <i class="mdi mdi-file-excel-box" ></i> Excel </button> -->
+                <button (click)="exportarPDF()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
+            </div>
         </div>
     </div>
-</div>
-<mat-dialog-content>
-    <div class="container row" id="pdfreporte">
-        <!-- <div class="col-1"></div> -->
-        <div class="col-11">
+    <mat-dialog-content>
+        <div class="container row" id="pdfreporte">
+            <!-- <div class="col-1"></div> -->
+            <div class="col-11">
+                
+                
+                <table class="table-hover">
+                    <thead>
+                        <tr>
+                            <th class="blacktxt bolder nowrap">ID Proveedor</th>
+                            <th class="blacktxt bolder">Nombre</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <!-- <th></th>
+                                <th></th> -->
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            <tr>
+                                <th class="blacktxt bolder ">Folio</th>
+                                <!-- <th class="blacktxt bolder ">Tipo</th> -->
+                                <th class="blacktxt bolder nowrap">Fecha Elab </th>
+                                <th class="blacktxt bolder nowrap">Fecha Entr </th>
+                                <th *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="blacktxt bolder ">Total MXN</th>
+                                <th *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="blacktxt bolder ">Total DLLS</th>
+                                <th class="blacktxt bolder ">Sacos Totales</th>
+                                <th class="blacktxt bolder ">Peso Total</th>
+                                <!-- <th class="blacktxt bolder ">Saldo MXN</th> -->
+                                <!-- <th class="blacktxt bolder ">Saldo DLLS</th> -->
+                                <th class="blacktxt bolder ">Mon</th>
+                                <th class="blacktxt bolder ">T.C.</th>
+                            </tr>
+                        </thead>
+                        <tbody *ngFor="let info of arrcon; let i = index">
+                            <tr class="pgbreak border3">
+                                <td class="wrap lightback pgbreak"> {{info.IdProveedor}} </td>
+                                <!-- <td class="wrap lightback"> {{info.Nombre | slice:0:35}} <br> {{info.Nombre | slice:35:this.textoNombre[i]}} </td> -->
+                                <!-- <td class="wrap lightback"> {{info.Nombre}}</td> -->
+                                <td class="wrap lightback pgbreak" [attr.colspan]="8"> {{info.Nombre}}</td>
+                                
+                                <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
+                                    <td class="pgbreak"> {{info.Folio}} </td>
+                                    <!-- <td class="pgbreak"> {{info.Tipo}} </td> -->
+                                    <td class="pgbreak texto"> {{info.FechaElaboracion| date: 'yyyy/MM/dd'}} </td>
+                                    <td class="pgbreak texto"> {{info.FechaEntrega| date: 'yyyy/MM/dd'}} </td>
+                                    <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="pgbreak texto"> {{info.Total | currency}} </td>
+                                    <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="pgbreak texto"> {{info.TotalDlls | currency }} </td>
+                                    <td class="pgbreak texto"> {{info.SacosTotales}} </td>
+                                    <td class="pgbreak texto"> {{info.PesoTotal}} KG </td>
+                                    <!-- <td class="pgbreak"> </td>
+                                        <td class="pgbreak"> </td> -->
+                                        <td class="pgbreak texto"> {{info.Moneda}} </td>
+                                        <td class="pgbreak texto"> {{info.TipoCambio |currency}} </td>
+                                    </tr>
+                                    <td class="wrap lightback pgbreak texto" [attr.colspan]="2"> </td>
+                                    <td class="wrap lightback pgbreak"> Total </td>
+                                    <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="wrap lightback pgbreak texto"> {{info.TotalMXN |currency}} </td>
+                                    <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="wrap lightback pgbreak texto"> {{info.TotalDLLS |currency}} </td>
+                                    <td class="wrap lightback pgbreak texto"> {{info.sacosTotales}} </td>
+                                    <td class="wrap lightback pgbreak texto"> {{info.pesoTotal}} KG </td>
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                        <!-- <div class="col-2"></div> -->
+                        <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
+                        </ngx-loading>
+                    </div>
+                </mat-dialog-content>
+            </div>
 
+            <div  *ngIf="this.reporteProveedor.tipoReporte == 'Factura'">
+                
+                <div class="container">
+                  <div class="row">
+                      <div class="col-8"></div>
+                      <div class="col-4">                        
+                          <button (click)="exportarPDFactura()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
+                      </div>
+                  </div>
+              </div>
+                 
+                    <table id="pdf2" style="width: 100%;" class="table-hover">
+                        <thead>
+                          <tr class="pgbreak" style="background-color: black; color: white;">
+                            <th class="titulos bolder">Folio</th>
+                            <th class="titulos bolder">Id Proveedor</th>
+                            <th class="titulos bolder">Nombre</th>
+                            <th class="titulos bolder">Kg</th>
+                            <th class="titulos bolder">Total MXN</th> 
+                            <th class="titulos bolder">Total Dlls</th> 
+                            <th class="titulos bolder">Fecha Elab</th>
 
-            <table class="table-hover">
-                <thead>
-                    <tr>
-                        <th class="blacktxt bolder nowrap">ID Proveedor</th>
-                        <th class="blacktxt bolder">Nombre</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <!-- <th></th>
-                    <th></th> -->
-                        <th></th>
-                        <th></th>
-                    </tr>
-                    <tr>
-                        <th class="blacktxt bolder ">Folio</th>
-                        <!-- <th class="blacktxt bolder ">Tipo</th> -->
-                        <th class="blacktxt bolder nowrap">Fecha Elab </th>
-                        <th class="blacktxt bolder nowrap">Fecha Entr </th>
-                        <th *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="blacktxt bolder ">Total MXN</th>
-                        <th *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="blacktxt bolder ">Total DLLS</th>
-                        <th class="blacktxt bolder ">Sacos Totales</th>
-                        <th class="blacktxt bolder ">Peso Total</th>
-                        <!-- <th class="blacktxt bolder ">Saldo MXN</th> -->
-                        <!-- <th class="blacktxt bolder ">Saldo DLLS</th> -->
-                        <th class="blacktxt bolder ">Mon</th>
-                        <th class="blacktxt bolder ">T.C.</th>
-                    </tr>
-                </thead>
-                <tbody *ngFor="let info of arrcon; let i = index">
-                    <tr class="pgbreak border3">
-                        <td class="wrap lightback pgbreak"> {{info.IdProveedor}} </td>
-                        <!-- <td class="wrap lightback"> {{info.Nombre | slice:0:35}} <br> {{info.Nombre | slice:35:this.textoNombre[i]}} </td> -->
-                        <!-- <td class="wrap lightback"> {{info.Nombre}}</td> -->
-                        <td class="wrap lightback pgbreak" [attr.colspan]="8"> {{info.Nombre}}</td>
-
-                        <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
-                            <td class="pgbreak"> {{info.Folio}} </td>
-                            <!-- <td class="pgbreak"> {{info.Tipo}} </td> -->
-                            <td class="pgbreak texto"> {{info.FechaElaboracion| date: 'yyyy/MM/dd'}} </td>
-                            <td class="pgbreak texto"> {{info.FechaEntrega| date: 'yyyy/MM/dd'}} </td>
-                            <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="pgbreak texto"> {{info.Total | currency}} </td>
-                            <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="pgbreak texto"> {{info.TotalDlls | currency }} </td>
-                            <td class="pgbreak texto"> {{info.SacosTotales}} </td>
-                            <td class="pgbreak texto"> {{info.PesoTotal}} KG </td>
-                            <!-- <td class="pgbreak"> </td>
-                        <td class="pgbreak"> </td> -->
-                            <td class="pgbreak texto"> {{info.Moneda}} </td>
-                            <td class="pgbreak texto"> {{info.TipoCambio |currency}} </td>
-                        </tr>
-                        <td class="wrap lightback pgbreak texto" [attr.colspan]="2"> </td>
-                        <td class="wrap lightback pgbreak"> Total </td>
-                        <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="wrap lightback pgbreak texto"> {{info.TotalMXN |currency}} </td>
-                        <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="wrap lightback pgbreak texto"> {{info.TotalDLLS |currency}} </td>
-                        <td class="wrap lightback pgbreak texto"> {{info.sacosTotales}} </td>
-                        <td class="wrap lightback pgbreak texto"> {{info.pesoTotal}} KG </td>
-                </tbody>
-            </table>
-
-        </div>
-        <!-- <div class="col-2"></div> -->
-        <ngx-loading [show]="loading" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}">
-        </ngx-loading>
-    </div>
-</mat-dialog-content>
+                
+                          </tr>
+                        </thead>
+                        <ng-container *ngFor="let fact of arrayFinal; let i = index">
+                          <tbody>
+                            <tr class="pgbreak border3 text-center" style="background-color: rgb(219, 219, 219); color: black;">
+                              <td class="pgbreak"> {{fact.Folio}} </td>
+                              <td class="pgbreak"> {{fact.IdProveedor}} </td>
+                              <td class="pgbreak"> {{fact.Proveedor}} </td>
+                              <td class="pgbreak"> {{fact.PesoTotal | number}} </td>
+                              <td class="pgbreak"> {{fact.Total | currency}} </td>
+                              <td class="pgbreak"> {{fact.TotalDlls | currency}} </td>
+                              <td class="pgbreak"> {{fact.FechaElaboracion | date: 'yyyy/MM/dd'}} </td>
+                
+                            </tr>
+                            
+                              <td [attr.colspan]="7">
+                                <table style="width: 100%;">    
+                                  <thead>
+                                    <tr class="pgbreak">
+                                      <th class="subtitulos bolder">Factura</th>
+                                      <th class="subtitulos bolder">Clave P.</th>
+                                      <th class="subtitulos bolder">Producto</th>
+                                      <th class="subtitulos bolder">Lote</th>
+                                      <th class="subtitulos bolder">TC</th>
+                                      <th class="subtitulos bolder">Kg</th>
+                                    </tr>
+                                  </thead>                    
+                                  
+                                  <tbody *ngFor="let detalle of arrayFinal[i].detalles">
+                                    <tr class="pgbreak border2">
+                                      <td> {{detalle.NumeroFactura}} </td>
+                                      <!-- <td> {{detalle.FechaDeExpedicion | date: 'yyyy/MM/dd'}} </td> -->                                      
+                                      <td> {{detalle.ClaveProducto}} </td>
+                                      <td> {{detalle.Producto}} </td>
+                                      <td> {{detalle.Lote}}</td>                                
+                                      <td> {{detalle.CampoExtra2}} </td>                                
+                                      <td> {{detalle.PesoTotal | number}}</td>                                
+                                    </tr>
+                                  </tbody>            
+                                </table>
+                              </td>
+                            
+                          </tbody>
+                          
+                  
+                        </ng-container>
+                      </table>
+                      <br>
+                      <hr>
+                      <br>
+                      <br>
+                      <!-- <table style="float: right; border-style: groove">
+                        <thead>
+                  
+                          <tr>
+                            <th class="titulos bolder">Total Importe MXN</th>
+                            <th class="titulos bolder">Total Importe USD</th>
+                            <th class="titulos bolder">Total Kilogramos</th>
+                          </tr>
+                  
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td class="subtitulos bolder text-center">{{ totalmxn | currency }}</td>
+                            <td class="subtitulos bolder text-center">{{ totaldlls | currency }}</td>
+                            <td class="subtitulos bolder text-center">{{ totalkilos | number }}</td>
+                          </tr>
+                        </tbody>
+                  
+                      </table> -->
+            </div>

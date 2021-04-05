@@ -27,7 +27,13 @@ export class TraspasomercanciaComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   
 
-  constructor(public traspasoSVC: TraspasoMercanciaService, public router: Router, private dialog: MatDialog, public serviceTarima: TarimaService, public ocService:OrdenCargaService) { }
+  constructor(public traspasoSVC: TraspasoMercanciaService, public router: Router, private dialog: MatDialog, public serviceTarima: TarimaService, public ocService:OrdenCargaService) { 
+    this.traspasoSVC.listen().subscribe((m:any)=>{
+      console.log('Actualizando Tabla Principal');
+      this.obtenerTraspasos();
+      this.obtenerPrivilegios();
+    });
+  }
 
   ngOnInit() {
     this.obtenerTraspasos();
@@ -189,8 +195,8 @@ subs1: Subscription
       title: '¿Seguro de Borrar Traspaso?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
@@ -233,7 +239,13 @@ subs1: Subscription
           
           
           //^ Obtenemos la informacion del producto a regresar
-          this.serviceTarima.GetGetProductoInformacionBodega(detalles[i].ClaveProducto, detalles[i].Lote, row.Origen).subscribe(dataDetalleTarima => {
+          // this.serviceTarima.GetGetProductoInformacionBodega(detalles[i].ClaveProducto, detalles[i].Lote, row.Origen).subscribe(dataDetalleTarima => {
+            let consulta = {
+              'consulta':"select * from detalletarima where ClaveProducto='"+detalles[i].ClaveProducto+ "' and lote='"+detalles[i].Lote+"' and Bodega='"+detalles[i].Bodega+"' and Shipper = '"+detalles[i].CampoExtra3+"';"
+            };
+        
+            console.log(consulta);
+            this.serviceTarima.generarConsulta(consulta).subscribe((dataDetalleTarima:any)=>{
             console.log(dataDetalleTarima);
 
             //^ Verificamos si en la bodega origen existe el mismo producto con el mismo Lote

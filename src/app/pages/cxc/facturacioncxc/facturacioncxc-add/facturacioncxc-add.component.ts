@@ -35,6 +35,7 @@ import { AcusecancelacionComponent } from 'src/app/components/acusecancelacion/a
 import xml2js from 'xml2js';
 import { processors } from 'xml2js'
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
+import { OrdenventacxcComponent } from '../ordenventacxc/ordenventacxc.component';
 
 /* Headers para el envio de la factura */
 const httpOptions = {
@@ -192,6 +193,47 @@ console.log('this.clienteLogin: ', this.clienteLogin);
     this.refreshPagoCFDIList();
 
     console.log(this.service.SaldoFacturaMXN +' || '+ this.service.SaldoFacturaDLLS);
+
+    if (this.service.Pedido=="1"){
+      let event = {
+        isUserInput: true
+      }
+
+      let query
+
+      if (this.service.rfcempresa==='PLA11011243A'){
+
+        query = 'select * from cliente2 where IdClientes='+this.service.formData.IdCliente
+      }
+      else if (this.service.rfcempresa=='AIN140101ME3'){
+        query = 'select * from cliente where IdClientes='+this.service.formData.IdCliente
+      }
+
+      let consulta = {
+        'consulta':query
+      };
+
+      this.service.getQuery(consulta).subscribe((res:any)=>{
+        if (res.length>0){
+
+          this.onSelectionChange(res[0], event)
+        }
+      })
+
+
+      query = "insert into ovfactura values("+this.service.formData.Id+","+this.service.formData.OrdenDeCompra+")"
+
+      consulta = {
+        'consulta':query
+      };
+
+      this.service.getQuery(consulta).subscribe((res:any)=>{
+       console.log(res);
+      })
+
+      
+
+    }
   }
 
 
@@ -546,8 +588,8 @@ console.log(this.service.formData.Id);
       title: '¿Segur@ de Borrar Nota Credito?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
@@ -1014,8 +1056,8 @@ CFDISumatoria(){
       title: '¿Seguro de Borrar Concepto?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
@@ -1937,6 +1979,31 @@ this.enviarfact.acuseCancelacion(fact.UUID).subscribe((data:any)=>{
     }
     );
 
+
+  }
+
+
+  ordenventa(fact){
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    
+  /*  dialogConfig.data = {
+      rfcemisor: rfcemisor,
+    fechahorasolicitud:    fechahorasolicitud,
+    fechahoracancel:    fechahoracancel,
+    foliofiscal:    foliofiscal,
+    estatus:    estatus,
+    sellodigitalsat:    sellodigitalsat
+    }  */
+    let dl = this.dialog.open(OrdenventacxcComponent, dialogConfig);
+
+    dl.afterClosed().subscribe(res=>{
+      this.refreshDetallesFacturaList();
+
+    })
 
   }
 

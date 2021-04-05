@@ -34,7 +34,7 @@ declare function btn_table();
 export class ReportesVentasComponent implements OnInit {
 
   listDetalleData;
-  displayedColumns : string [] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Subtotal', 'ImpuestosTrasladadosDlls', 'Total', 'Estado'];
+  displayedColumns : string [] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Cantidad', 'Subtotal', 'ImpuestosTrasladadosDlls', 'Total', 'Estado'];
   displayedColumnsVersion : string [] = ['ClaveProducto'];
   listData: MatTableDataSource<any>;
   MasterDetalle = new Array<facturaMasterDetalle>();
@@ -339,7 +339,10 @@ console.log(data)
           
           this.facturaSVC.getDetallesFacturaListProd(data[i].Id).subscribe(res => {
             this.facturaSVC.master[i].detalle.pop();
+            let kgTotales = 0;
             for (let l = 0; l <=res.length-1; l++){
+               kgTotales = +res[l].Cantidad + +kgTotales
+               this.facturaSVC.master[i].KGTOTALES = kgTotales;
               this.facturaSVC.master[i].detalle.push(res[l]);
             }
             

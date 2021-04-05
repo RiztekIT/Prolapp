@@ -6,39 +6,40 @@
                 <div class="card-body">
 
                     <div class="row" id="element-to-PDF">
-                        <div class="col-4">
+                        <div class="col-12 col-md-4">
                             <label class="input-group-text text-info">Folio Trapaso:</label> <br>
 
                             <input readonly type="text" placeholder="Folio" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.Folio" matInput>
 
                         </div>
-                        <div class="col-4">
+                        <div class="col-12 col-md-4">
                             <label class="input-group-text text-info">Folio Orden Carga :</label> <br>
 
                             <input readonly type="text" placeholder="Orden de Carga" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.FolioOrdenCarga" matInput>
 
                         </div>
-                        <div class="col-4">
-                            <label class="input-group-text text-info">Fecha Exp:</label> <br>
+                        <div class="col-12 col-md-4">
+                            <label class="input-group-text text-info">Fecha Expedicion:</label> <br>
 
-                            <input readonly type="text" placeholder="Fecha" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.FechaExpedicion" matInput>
+                            <!-- <input readonly type="text" placeholder="Fecha" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.FechaExpedicion" matInput> -->
+                            {{this.traspasoSVC.selectTraspaso.FechaExpedicion | date: 'dd/MM/yyyy' }}
 
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-12 col-md-4">
                             <label class="input-group-text text-info">Sacos Totales:</label> <br>
 
                             <input readonly type="text" placeholder="Sacos" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.SacosTotales" matInput>
 
                         </div>
-                        <div class="col-4">
+                        <div class="col-12 col-md-4">
                             <label class="input-group-text text-info">Kg Totales :</label> <br>
 
                             <input readonly type="text" placeholder="Kilos" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.KilogramosTotales" matInput>
 
                         </div>
-                        <div class="col-4">
+                        <div class="col-12 col-md-4">
                             <label class="input-group-text text-info">Estatus :</label> <br>
 
                             <input readonly type="text" placeholder="Estatus" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.Estatus" matInput>
@@ -46,17 +47,29 @@
                         </div>
                     </div>   
                     <div class="row">
-                        <div class="col-4">
+                        <div class="col-12 col-md-4">
                             <label class="input-group-text text-info">Descripcion Producto:</label> <br>
-                            <input title="Ingresar Descripcion de Productos que se mostrara en el Documento" (blur)="updateInformacionTraspaso()" type="text" placeholder="Descripcion de Productos" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.CampoExtra1" matInput>
+                            <input title="Ingresar Descripcion de Productos que se mostrara en el Documento" type="text" placeholder="Descripcion de Productos" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.CampoExtra1" matInput>
                         </div>
-                        <div class="col-4">
+                        <div class="col-12 col-md-4">
                             <label class="input-group-text text-info">Fletera:</label> <br>
-                            <input title="Ingresar Fletera Orden Carga" (blur)="actualizarOrdenCarga()" type="text" placeholder="Ingrese Fletera" aria-label="Number" [(ngModel)]="this.Fletera" matInput>
+                            <input title="Ingresar Fletera Orden Carga"  type="text" placeholder="Ingrese Fletera" aria-label="Number" [(ngModel)]="this.Fletera" matInput>
                         </div>
-                        <div class="col-4">
+                        <div class="col-12 col-md-4">
                             <label class="input-group-text text-info">Caja:</label> <br>
-                            <input title="Ingresar Caja Orden Carga" (blur)="actualizarOrdenCarga()" type="text" placeholder="Ingrese Caja" aria-label="Number" [(ngModel)]="this.Caja" matInput>
+                            <input title="Ingresar Caja Orden Carga"  type="text" placeholder="Ingrese Caja" aria-label="Number" [(ngModel)]="this.Caja" matInput>
+                        </div>
+                    </div>     
+                    <br>           
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            
+                        </div>
+                        <div class="col-12 col-md-4">
+                            
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="actualizarInformacionAdicional()">Actualizar</button>
                         </div>
                     </div>                
                     <hr>
@@ -81,12 +94,12 @@
                                 </ng-container>
                                 <ng-container matColumnDef="Factura">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Factura</th>
-                                    <td mat-cell *matCellDef="let element">{{element.NumeroFactura}}
+                                    <td mat-cell *matCellDef="let element">{{element.CampoExtra3}}
                                     </td>
                                 </ng-container>
                                 <ng-container matColumnDef="CBK">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>CBK</th>
-                                    <td mat-cell *matCellDef="let element">{{element.NumeroEntrada}}
+                                    <td mat-cell *matCellDef="let element">{{element.Cbk}}
                                     </td>
                                 </ng-container>
                                 <ng-container matColumnDef="Usda">
@@ -96,8 +109,13 @@
                                 </ng-container>
 
                                 <ng-container matColumnDef="Clave">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave</th>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave P.</th>
                                     <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Lote">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                                    <td mat-cell *matCellDef="let element">{{element.Lote}}
                                     </td>
                                 </ng-container>
                                 <ng-container matColumnDef="Producto">

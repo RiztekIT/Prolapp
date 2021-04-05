@@ -12,14 +12,6 @@
                                   </button>
                         </div>
 
-                        <!-- <div class="col-md-3 col-sm-12" style="display: grid">                         
-                            <mat-form-field>
-                                <mat-label> Estatus </mat-label>                            
-                                <mat-select (selectionChange)="estatusCambio($event)" [(ngModel)]="estatusSelect">                              
-                                    <mat-option *ngFor="let dl of listEstatus" [value]="dl.Estatus"> {{dl.Estatus}} </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div> -->
                         <div class="col-md-6 col-sm-12" style="display: grid">
                             <mat-form-field>
                                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
@@ -28,18 +20,6 @@
                     </div>
                 </div>
 
-                <!-- <div fxLayoutAlign="row">
-                    <mat-card style="text-align: right;" class="mat-elevation-z0">
-                        <mat-form-field>
-                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
-                        </mat-form-field>
-                    </mat-card>
-                </div>
-                <div fxLayoutAlign="row">
-                    <mat-card style="text-align: left;" class="mat-elevation-z0">
-                        <button (click)="accederDocumentos()">Agregar Documentos</button>
-                    </mat-card>
-                </div> -->
 
                 <div style="overflow:auto;">
 
@@ -47,45 +27,41 @@
 
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                        <!-- <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr> -->
 
-                        <ng-container matColumnDef="Folio" sticky>
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>N° Folio</th>
-                            <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Folio}} +
+                        <ng-container matColumnDef="Tipo" sticky>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
+                            <!-- <td class="folio" mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Folio}} + -->
+                                <td mat-cell *matCellDef="let element">{{element.Tipo}}
                                 <td>
                         </ng-container>
 
-                        <ng-container matColumnDef="PO">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>PO</th>
-                            <td mat-cell *matCellDef="let element">{{element.PO}}
+                        <ng-container matColumnDef="CP">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Clave P.</th>
+                            <td mat-cell *matCellDef="let element">{{element.ClaveProducto}}
                                 <td>
                         </ng-container>
 
-                        <ng-container matColumnDef="Sacos">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sacos</th>
-                            <td mat-cell *matCellDef="let element">{{element.Sacos}}
+                        <ng-container matColumnDef="Documento">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Documento</th>
+                            <td mat-cell *matCellDef="let element">{{element.NombreDocumento}}
 
                             </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="Fletera">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fletera</th>
-                            <td mat-cell *matCellDef="let element">{{element.Fletera}}
+                        <ng-container matColumnDef="Lote">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Lote</th>
+                            <td mat-cell *matCellDef="let element">{{element.Observaciones}}
                             </td>
                         </ng-container>
 
-                        <ng-container matColumnDef="Origen">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Origen</th>
-                            <td mat-cell *matCellDef="let element">{{element.Origen}}
+                        <ng-container matColumnDef="FechaV">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Vigencia</th>
+                            <td mat-cell *matCellDef="let element">{{element.Vigencia | date: 'dd/MM/yyyy'}}
                                 <td>
-                        </ng-container>
-                        <ng-container matColumnDef="FechaDescarga">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Descarga</th>
-                            <td mat-cell *matCellDef="let element">{{element.FechaFinDescarga | date: 'yyyy/MM/dd'}}
-                                <td>
-                        </ng-container>
+                        </ng-container>            
 
-                        <ng-container matColumnDef="Options" stickyEnd>
+                        <!-- <ng-container matColumnDef="Options" stickyEnd>
                             <th mat-header-cell *matHeaderCellDef>Opciones</th>
                             <td mat-cell *matCellDef="let row">
 
@@ -93,27 +69,14 @@
                     <mat-icon>keyboard_arrow_down</mat-icon>
                   </button>
                                 <mat-menu #menu="matMenu">
-                                    <!--  -->
+                 
                                     <button [disabled]="Agregar == false" title="documentos" mat-icon-button class="btn btn-dark" (click)="accederDocumentos(row.Folio)">
                                                 <mat-icon>note_add</mat-icon>
                                             </button>
-                                    <!-- <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
-                                                <mat-icon>edit</mat-icon>
-                                            </button> -->
-                                    <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="onDelete(row)">
-                                                <mat-icon>delete</mat-icon>
-                                            </button> -->
-                                    <!--  -->
-                                    <!-- <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
-                                        <mat-icon>visibility</mat-icon>
-                                    </button> -->
-
                                 </mat-menu>
                             </td>
-                        </ng-container>
-
-                        <!-- DETALLES Documento -->
-                        <ng-container matColumnDef="expandedDetail">
+                        </ng-container> -->
+                        <!-- <ng-container matColumnDef="expandedDetail">
                             <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
                                 <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'" *ngIf="element.detalleDocumento.length > 0" (click)="expandedElement = 0">
 
@@ -122,33 +85,17 @@
                                             <th> Clave Producto </th>
                                             <th> Sacos </th>
                                             <th> Lote </th>
-                                            <!-- <th> USDA </th> -->
-                                            <!-- <th> Pedimento </th> -->
-                                            <!-- <th> Documentos </th> -->
                                         </tr>
                                         <tr *ngFor="let detalle of element.detalleDocumento">
 
                                             <td> {{detalle.ClaveProducto}} </td>
                                             <td> {{detalle.Sacos}} </td>
                                             <td> {{ detalle.Lote}} </td>
-                                            <!-- <td> {{ detalle.USDA}} </td> -->
-                                            <!-- <td> {{ detalle.Pedimento}} </td> -->
-                                            <!-- <td *ngIf="detalle.Documento == true; else documentoBoton">
-                                                <mat-icon>check</mat-icon>
-                                            </td>
-                                            <ng-template #documentoBoton>
-                                                <td>
-                                                    <mat-icon>close</mat-icon>
-                                                </td>
-                                            </ng-template> -->
-                                            <!-- <td> {{ detalle.Documento}} </td> -->
                                         </tr>
                                     </table>
                                 </div>
                             </td>
-                        </ng-container>
-                        <!-- DETALLES Documento-->
-
+                        </ng-container> -->
                     </table>
                     <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
                     </mat-paginator>

@@ -35,6 +35,7 @@ import { InicioComponent } from './components/inicio/inicio.component';
 //Modificacion del apartado Clientes/Usuario Login
 import { MatTabsModule, MatIconModule } from '@angular/material';
 
+
 /* import { PdfViewerModule } from 'ng2-pdf-viewer'; */
 
 
@@ -81,6 +82,8 @@ import { MatTabsModule, MatIconModule } from '@angular/material';
     DocumentosclienteComponent,
     
     InicioComponent,
+    
+    
 
 
     
