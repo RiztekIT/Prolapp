@@ -1304,6 +1304,7 @@ export class OrdendescargatarimaComponent implements OnInit {
           //             console.log(resDataTarimadt[0]);
           //             let delDTT = resDataTarimadt[0].IdDetalleTarima;
           //             console.log(delDTT);
+          //^ AQUI NO VERIFICAMOS SI QUEDAN SACOS SOBRANTES EN EL DETALLE TARIMA PORQUE TODOS LOS PRODUCTOS QUE SE INGRESAN AL DESCARGAR SON UNICOS. Y EN TEORIA NO DE SEBERIA DE REPETIR X PRODUCTO CON X LOTE CON X #DEFACTURA
                       this.Tarimaservice.deleteDetalleTarima(ot.IdDetalleTarima).subscribe(resDOD => {
           //               console.log(resDOD);
           //               this.Tarimaservice.getDetalleTarimaID(resDataTarimadt[0].IdDetalleTarima).subscribe(resdetallet => {

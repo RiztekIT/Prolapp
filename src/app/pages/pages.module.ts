@@ -360,6 +360,8 @@ import {
     NgxExtendedPdfViewerModule
   } from 'ngx-extended-pdf-viewer';
 import { OrdenventacxcComponent } from './cxc/facturacioncxc/ordenventacxc/ordenventacxc.component';
+import { ReportessaldosventasComponent } from '../components/cxc/reportessaldosventas/reportessaldosventas.component';
+
 
 
 
@@ -623,6 +625,7 @@ import { OrdenventacxcComponent } from './cxc/facturacioncxc/ordenventacxc/orden
         PossaldosclientesComponent,
         MovimientosinventariosComponent,
         OrdenventacxcComponent,
+        ReportessaldosventasComponent
     
     ],
     exports: [
@@ -800,7 +803,8 @@ import { OrdenventacxcComponent } from './cxc/facturacioncxc/ordenventacxc/orden
         PoshistoricoventasComponent,
         PossaldosclientesComponent,
         MovimientosinventariosComponent,
-        OrdenventacxcComponent
+        OrdenventacxcComponent,
+        ReportessaldosventasComponent
         
     ]
 })

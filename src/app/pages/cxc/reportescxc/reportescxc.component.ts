@@ -20,6 +20,7 @@ import { ReporteDllsComponent } from 'src/app/components/cxc/reporte-dlls/report
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 import { ReportetotalesComponent } from 'src/app/components/cxc/reportetotales/reportetotales.component';
+import { ReportessaldosventasComponent } from 'src/app/components/cxc/reportessaldosventas/reportessaldosventas.component';
 
 
 /* Constante y variables para la transformacion de los meses en los datetimepicker */
@@ -579,6 +580,24 @@ this.enviarfact.titulo = 'Reporte Resumen'
     }
     let dl = this.dialog.open(ReportetotalesComponent, dialogConfig);
     // this.enviarfact.titulo = 'Reporte Detallado'
+  }
+
+  abrirReporteSaldos(){
+    
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "80%";
+   /*  dialogConfig.data = {
+      tipo: tipo,
+      filtrarCliente: unCliente,
+      idCliente: idCliente,
+      fechaInicio: this.fechaInicialFacturacion,
+      fechaFin: this.fechaFinalFacturacion,
+      rfcEmpresa: this.enviarfact.empresa.RFC
+    } */
+    let dl = this.dialog.open(ReportessaldosventasComponent, dialogConfig);
+
   }
 
 
