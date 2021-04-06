@@ -64,7 +64,9 @@ export class ResumentraspasoComponent implements OnInit {
   fileUrl;
 
   constructor(public traspasoSVC: TraspasoMercanciaService, public documentosService: DocumentosImportacionService, 
-    private dialog: MatDialog, public otService: OrdenTemporalService, @Inject(MAT_DIALOG_DATA) public data: any,  public _MessageService: MessageService) { }
+    private dialog: MatDialog, public otService: OrdenTemporalService, @Inject(MAT_DIALOG_DATA) public data: any, 
+    public _MessageService: MessageService, public traspasoService: TraspasoMercanciaService,
+    ) { }
 
   ngOnInit() {
 
@@ -305,24 +307,41 @@ this._MessageService.documentosURL = [];
 
   }
 
-  onRemoveFactura(event) {
+  //Eliminar Documento del Servidor
+    onRemoveFactura(event) {
+      
+      console.log('%c⧭', 'color: #00bf00', this.seleccionadosFacturas);
+      let datosLote = []
+      let datosCP = []
+
+      // this.seleccionadosFacturas.forEach((element, i) => {
+      //   if (datosCP.indexOf(element.ClaveProducto) === -1) datosCP.push(element.ClaveProducto);
+      //   if (datosLote.indexOf(element.Lote) === -1) datosLote.push(element.Lote);
+        
+      // });
+      // console.log('%c⧭', 'color: #f200e2', datosCP);
+      // console.log('%c⧭', 'color: #f200e2', datosLote);
+
     console.log(event);
-    this.archivosfactura.splice(this.archivosfactura.indexOf(event), 1);
-    /* Swal.fire({
+    Swal.fire({
       title: '¿Seguro de Borrar Documento?',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
       confirmButtonText: 'Borrar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.value) {
+        this.seleccionadosFacturas.forEach(element => {
+          
         const formData = new FormData();
         formData.append('name', event.name.toString())
-        formData.append('folio', event.folio.toString())
-        formData.append('id', event.id.toString())
+        formData.append('folio', '0')
+        formData.append('id', '0')
         formData.append('tipo', 'Factura')
+        formData.append('clave', element.ClaveProducto)
+        formData.append('lote', element.Lote)
         console.log(formData);
         let docu = new Documento();
         docu.Folio = event.folio;
@@ -330,10 +349,19 @@ this._MessageService.documentosURL = [];
         docu.Tipo = 'Factura';
         docu.NombreDocumento = event.name;
         docu.IdDetalle = event.id
-        this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
-          console.log(resDelete);
+      
+        // this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
+          let query = 'delete Documentos where Path = ' + "'Documentos/Factura/" + element.ClaveProducto + "/" + element.Lote + "/" + event.name + "'"  +''
+          let consulta = {
+            'consulta': query
+          };
+          console.log('%c⧭', 'color: #9c66cc', consulta);
+         this.traspasoService.getQuery(consulta).subscribe((detallesConsulta: any) => {
+            console.log(detallesConsulta);
+          // console.log(resDelete);
           this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
             console.log(res)
+            // this.files.splice(this.files.indexOf(event),1);
             this.archivosfactura.splice(this.archivosfactura.indexOf(event), 1);
             this.pdfstatus = false;
             
@@ -345,13 +373,62 @@ this._MessageService.documentosURL = [];
               showConfirmButton: false
             });
           })
+          })
+          
+          
         })
-
-
       }
-    }) */
+    })
 
   }
+
+  // onRemoveFactura(event) {
+  //   console.log(event);
+  //   this.archivosfactura.splice(this.archivosfactura.indexOf(event), 1);
+  //   /* Swal.fire({
+  //     title: '¿Seguro de Borrar Documento?',
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonColor: '#3085d6',
+  //     cancelButtonColor: '#d33',
+  //     confirmButtonText: 'Borrar',
+  //     cancelButtonText: 'Cancelar'
+  //   }).then((result) => {
+  //     if (result.value) {
+  //       const formData = new FormData();
+  //       formData.append('name', event.name.toString())
+  //       formData.append('folio', event.folio.toString())
+  //       formData.append('id', event.id.toString())
+  //       formData.append('tipo', 'Factura')
+  //       console.log(formData);
+  //       let docu = new Documento();
+  //       docu.Folio = event.folio;
+  //       docu.Modulo = 'Importacion';
+  //       docu.Tipo = 'Factura';
+  //       docu.NombreDocumento = event.name;
+  //       docu.IdDetalle = event.id
+  //       this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
+  //         console.log(resDelete);
+  //         this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
+  //           console.log(res)
+  //           this.archivosfactura.splice(this.archivosfactura.indexOf(event), 1);
+  //           this.pdfstatus = false;
+            
+  //           Swal.fire({
+  //             title: 'Borrado',
+  //             icon: 'success',
+  //             timer: 1000,
+  //             showCancelButton: false,
+  //             showConfirmButton: false
+  //           });
+  //         })
+  //       })
+
+
+  //     }
+  //   }) */
+
+  // }
 
 
   obtenerDocumentosCLV(detalle) {
@@ -493,53 +570,106 @@ this._MessageService.documentosURL = [];
 
   onRemoveCA(event) {
     console.log(event);
-    this.archivosCA.splice(this.archivosCA.indexOf(event), 1);
-    /*  Swal.fire({
-       title: '¿Seguro de Borrar Documento?',
-       icon: 'warning',
-       showCancelButton: true,
-       confirmButtonColor: '#3085d6',
-       cancelButtonColor: '#d33',
-       confirmButtonText: 'Borrar',
-       cancelButtonText: 'Cancelar'
-     }).then((result) => {
-       if (result.value) {
-         const formData = new FormData();
-         formData.append('name', event.name.toString())
-         formData.append('folio', '0')
-         formData.append('id', '0')
-         formData.append('tipo', 'CA')
-         formData.append('clave', event.clave)
-         formData.append('lote', event.lote)
-         console.log(formData);
-         let docu = new Documento();
-         docu.Folio = event.folio;
-         docu.Modulo = 'Importacion';
-         docu.Tipo = 'CA';
-         docu.NombreDocumento = event.name;
-         docu.IdDetalle = event.id
-         this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
-           console.log(resDelete);
-           this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
-             console.log(res)
-             this.archivosCA.splice(this.archivosCA.indexOf(event), 1);
-             this.pdfstatus = false;
-             
-             Swal.fire({
-               title: 'Borrado',
-               icon: 'success',
-               timer: 1000,
-               showCancelButton: false,
-               showConfirmButton: false
-             });
-           })
-         })
- 
- 
-       }
-     }) */
+    Swal.fire({
+      title: '¿Seguro de Borrar Documento?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        
+      this.seleccionadosCA.forEach(element => {
+        const formData = new FormData();
+        formData.append('name', event.name.toString())
+        formData.append('folio', '0')
+        formData.append('id', '0')
+        formData.append('tipo', 'CA')
+        formData.append('clave', element.ClaveProducto)
+        formData.append('lote', element.Lote)
+        console.log(formData);
+        let docu = new Documento();
+        docu.Folio = event.folio;
+        docu.Modulo = 'Importacion';
+        docu.Tipo = 'CA';
+        docu.NombreDocumento = event.name;
+        docu.IdDetalle = event.id
+        this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
+          console.log(resDelete);
+          this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
+            console.log(res)
+            // this.files.splice(this.files.indexOf(event),1);
+            this.archivosCA.splice(this.archivosCA.indexOf(event), 1);
+            this.pdfstatus = false;
+            
+            Swal.fire({
+              title: 'Borrado',
+              icon: 'success',
+              timer: 1000,
+              showCancelButton: false,
+              showConfirmButton: false
+            });
+          })
+        })
+        })
+
+
+      }
+    })
 
   }
+
+  // onRemoveCA(event) {
+  //   console.log(event);
+  //   this.archivosCA.splice(this.archivosCA.indexOf(event), 1);
+  //   /*  Swal.fire({
+  //      title: '¿Seguro de Borrar Documento?',
+  //      icon: 'warning',
+  //      showCancelButton: true,
+  //      confirmButtonColor: '#3085d6',
+  //      cancelButtonColor: '#d33',
+  //      confirmButtonText: 'Borrar',
+  //      cancelButtonText: 'Cancelar'
+  //    }).then((result) => {
+  //      if (result.value) {
+  //        const formData = new FormData();
+  //        formData.append('name', event.name.toString())
+  //        formData.append('folio', '0')
+  //        formData.append('id', '0')
+  //        formData.append('tipo', 'CA')
+  //        formData.append('clave', event.clave)
+  //        formData.append('lote', event.lote)
+  //        console.log(formData);
+  //        let docu = new Documento();
+  //        docu.Folio = event.folio;
+  //        docu.Modulo = 'Importacion';
+  //        docu.Tipo = 'CA';
+  //        docu.NombreDocumento = event.name;
+  //        docu.IdDetalle = event.id
+  //        this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
+  //          console.log(resDelete);
+  //          this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
+  //            console.log(res)
+  //            this.archivosCA.splice(this.archivosCA.indexOf(event), 1);
+  //            this.pdfstatus = false;
+             
+  //            Swal.fire({
+  //              title: 'Borrado',
+  //              icon: 'success',
+  //              timer: 1000,
+  //              showCancelButton: false,
+  //              showConfirmButton: false
+  //            });
+  //          })
+  //        })
+ 
+ 
+  //      }
+  //    }) */
+
+  // }
   leerArchivosCLV(a, enviar?) {
 
     console.log(a);
@@ -576,56 +706,106 @@ this._MessageService.documentosURL = [];
 
   }
 
-  onRemoveCLV(event) {
-
-    console.log(event);
-    this.archivosCLV.splice(this.archivosCLV.indexOf(event), 1);
-    /* Swal.fire({
-      title: '¿Seguro de Borrar Documento?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Borrar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.value) {
-        const formData = new FormData();
-        formData.append('name', event.name.toString())
-        formData.append('folio', '0')
-        formData.append('id', '0')
-        formData.append('tipo', 'CLV')
-        formData.append('clave', event.id)
-        console.log(formData);
-        let docu = new Documento();
-        docu.Folio = event.folio;
-        docu.Modulo = 'Importacion';
-        docu.Tipo = 'CLV';
-        docu.NombreDocumento = event.name;
-        docu.IdDetalle = event.id
-        this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
-          console.log(resDelete);
-          this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
-            console.log(res)
-            // this.files.splice(this.files.indexOf(event),1);
-            this.archivosCLV.splice(this.archivosCLV.indexOf(event), 1);
-            this.pdfstatus = false;
-            
-            Swal.fire({
-              title: 'Borrado',
-              icon: 'success',
-              timer: 1000,
-              showCancelButton: false,
-              showConfirmButton: false
-            });
+    //Eliminar Documento del Servidor
+    onRemoveCLV(event) {
+      console.log(event);
+      Swal.fire({
+        title: '¿Seguro de Borrar Documento?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Borrar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value) {
+          const formData = new FormData();
+          formData.append('name', event.name.toString())
+          formData.append('folio', '0')
+          formData.append('id', '0')
+          formData.append('tipo', 'CLV')
+          formData.append('clave', event.id)
+          console.log(formData);
+          let docu = new Documento();
+          docu.Folio = event.folio;
+          docu.Modulo = 'Importacion';
+          docu.Tipo = 'CLV';
+          docu.NombreDocumento = event.name;
+          docu.IdDetalle = event.id
+          this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
+            console.log(resDelete);
+            this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
+              console.log(res)
+              // this.files.splice(this.files.indexOf(event),1);
+              this.archivosCLV.splice(this.archivosCLV.indexOf(event), 1);
+              this.pdfstatus = false;
+              
+              Swal.fire({
+                title: 'Borrado',
+                icon: 'success',
+                timer: 1000,
+                showCancelButton: false,
+                showConfirmButton: false
+              });
+            })
           })
-        })
+          
+          
+        }
+      })
+  
+    }
+
+  // onRemoveCLV(event) {
+
+  //   console.log(event);
+  //   this.archivosCLV.splice(this.archivosCLV.indexOf(event), 1);
+  //   /* Swal.fire({
+  //     title: '¿Seguro de Borrar Documento?',
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonColor: '#3085d6',
+  //     cancelButtonColor: '#d33',
+  //     confirmButtonText: 'Borrar',
+  //     cancelButtonText: 'Cancelar'
+  //   }).then((result) => {
+  //     if (result.value) {
+  //       const formData = new FormData();
+  //       formData.append('name', event.name.toString())
+  //       formData.append('folio', '0')
+  //       formData.append('id', '0')
+  //       formData.append('tipo', 'CLV')
+  //       formData.append('clave', event.id)
+  //       console.log(formData);
+  //       let docu = new Documento();
+  //       docu.Folio = event.folio;
+  //       docu.Modulo = 'Importacion';
+  //       docu.Tipo = 'CLV';
+  //       docu.NombreDocumento = event.name;
+  //       docu.IdDetalle = event.id
+  //       this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
+  //         console.log(resDelete);
+  //         this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
+  //           console.log(res)
+  //           // this.files.splice(this.files.indexOf(event),1);
+  //           this.archivosCLV.splice(this.archivosCLV.indexOf(event), 1);
+  //           this.pdfstatus = false;
+            
+  //           Swal.fire({
+  //             title: 'Borrado',
+  //             icon: 'success',
+  //             timer: 1000,
+  //             showCancelButton: false,
+  //             showConfirmButton: false
+  //           });
+  //         })
+  //       })
 
 
-      }
-    }) */
+  //     }
+  //   }) */
 
-  }
+  // }
 
 
   obtenerDocumentosCO(detalle) {
@@ -712,55 +892,105 @@ this._MessageService.documentosURL = [];
 
   }
 
-  onRemoveCO(event) {
-    console.log(event);
-    this.archivosCO.splice(this.archivosCO.indexOf(event), 1);
-    /* Swal.fire({
-      title: '¿Seguro de Borrar Documento?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Borrar',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.value) {
-        const formData = new FormData();
-        formData.append('name', event.name.toString())
-        formData.append('folio', '0')
-        formData.append('id', '0')
-        formData.append('tipo', 'CO')
-        formData.append('clave', event.id)
-        console.log(formData);
-        let docu = new Documento();
-        docu.Folio = event.folio;
-        docu.Modulo = 'Importacion';
-        docu.Tipo = 'CO';
-        docu.NombreDocumento = event.name;
-        docu.IdDetalle = event.id
-        this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
-          console.log(resDelete);
-          this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
-            console.log(res)
-            // this.files.splice(this.files.indexOf(event),1);
-            this.archivosCO.splice(this.archivosCO.indexOf(event), 1);
-            this.pdfstatus = false;
-            
-            Swal.fire({
-              title: 'Borrado',
-              icon: 'success',
-              timer: 1000,
-              showCancelButton: false,
-              showConfirmButton: false
-            });
+    //Eliminar Documento del Servidor
+    onRemoveCO(event) {
+      console.log(event);
+      Swal.fire({
+        title: '¿Seguro de Borrar Documento?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Borrar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value) {
+          const formData = new FormData();
+          formData.append('name', event.name.toString())
+          formData.append('folio', '0')
+          formData.append('id', '0')
+          formData.append('tipo', 'CO')
+          formData.append('clave', event.id)
+          console.log(formData);
+          let docu = new Documento();
+          docu.Folio = event.folio;
+          docu.Modulo = 'Importacion';
+          docu.Tipo = 'CO';
+          docu.NombreDocumento = event.name;
+          docu.IdDetalle = event.id
+          this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
+            console.log(resDelete);
+            this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
+              console.log(res)
+              // this.files.splice(this.files.indexOf(event),1);
+              this.archivosCO.splice(this.archivosCO.indexOf(event), 1);
+              this.pdfstatus = false;
+              
+              Swal.fire({
+                title: 'Borrado',
+                icon: 'success',
+                timer: 1000,
+                showCancelButton: false,
+                showConfirmButton: false
+              });
+            })
           })
-        })
+  
+  
+        }
+      })
+  
+    }
+
+  // onRemoveCO(event) {
+  //   console.log(event);
+  //   this.archivosCO.splice(this.archivosCO.indexOf(event), 1);
+  //   /* Swal.fire({
+  //     title: '¿Seguro de Borrar Documento?',
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonColor: '#3085d6',
+  //     cancelButtonColor: '#d33',
+  //     confirmButtonText: 'Borrar',
+  //     cancelButtonText: 'Cancelar'
+  //   }).then((result) => {
+  //     if (result.value) {
+  //       const formData = new FormData();
+  //       formData.append('name', event.name.toString())
+  //       formData.append('folio', '0')
+  //       formData.append('id', '0')
+  //       formData.append('tipo', 'CO')
+  //       formData.append('clave', event.id)
+  //       console.log(formData);
+  //       let docu = new Documento();
+  //       docu.Folio = event.folio;
+  //       docu.Modulo = 'Importacion';
+  //       docu.Tipo = 'CO';
+  //       docu.NombreDocumento = event.name;
+  //       docu.IdDetalle = event.id
+  //       this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
+  //         console.log(resDelete);
+  //         this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
+  //           console.log(res)
+  //           // this.files.splice(this.files.indexOf(event),1);
+  //           this.archivosCO.splice(this.archivosCO.indexOf(event), 1);
+  //           this.pdfstatus = false;
+            
+  //           Swal.fire({
+  //             title: 'Borrado',
+  //             icon: 'success',
+  //             timer: 1000,
+  //             showCancelButton: false,
+  //             showConfirmButton: false
+  //           });
+  //         })
+  //       })
 
 
-      }
-    }) */
+  //     }
+  //   }) */
 
-  }
+  // }
 
 
   obtenerPESPI(detalle) {
@@ -853,60 +1083,113 @@ this._MessageService.documentosURL = [];
 
   }
 
+    //Eliminar Documento del Servidor
+    onRemovePESPI(event) {
+      console.log(event);
+      Swal.fire({
+        title: '¿Seguro de Borrar Documento?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Borrar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value) {
+          this.seleccionadosPESPI.forEach(element => {
+          const formData = new FormData();
+          formData.append('name', event.name.toString())
+          formData.append('folio', '0')
+          formData.append('id', '0')
+          formData.append('tipo', 'PESPI')
+          formData.append('clave', element.ClaveProducto)
+          formData.append('lote', element.Lote)
+          console.log(formData);
+          let docu = new Documento();
+          docu.Folio = event.folio;
+          docu.Modulo = 'Importacion';
+          docu.Tipo = 'PESPI';
+          docu.NombreDocumento = event.name;
+          docu.IdDetalle = event.id
+          this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
+            console.log(resDelete);
+            this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
+              console.log(res)
+              // this.files.splice(this.files.indexOf(event),1);
+              this.archivosPESPI.splice(this.archivosPESPI.indexOf(event), 1);
+              this.pdfstatus = false;
+              
+              Swal.fire({
+                title: 'Borrado',
+                icon: 'success',
+                timer: 1000,
+                showCancelButton: false,
+                showConfirmButton: false
+              });
+            })
+          })
+  
+  
+        })
+        }
+      })
+  
+    }
 
-  onRemovePESPI(event) {
-    console.log(event);
-    this.archivosPESPI.splice(this.archivosPESPI.indexOf(event), 1);
-    /*  Swal.fire({
-       title: '¿Seguro de Borrar Documento?',
-       icon: 'warning',
-       showCancelButton: true,
-       confirmButtonColor: '#3085d6',
-       cancelButtonColor: '#d33',
-       confirmButtonText: 'Borrar',
-       cancelButtonText: 'Cancelar'
-     }).then((result) => {
-       if (result.value) {
-         const formData = new FormData();
-         formData.append('name', event.name.toString())
-         formData.append('folio', '0')
-         formData.append('id', '0')
-         formData.append('tipo', 'PESPI')
-         formData.append('clave', event.clave)
-         formData.append('lote', event.lote)
-         console.log(formData);
-         let docu = new Documento();
-         docu.Folio = event.folio;
-         docu.Modulo = 'Importacion';
-         docu.Tipo = 'PESPI';
-         docu.NombreDocumento = event.name;
-         docu.IdDetalle = event.id
-         this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
-           console.log(resDelete);
-           this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
-             console.log(res)
-             // this.files.splice(this.files.indexOf(event),1);
-             this.archivosPESPI.splice(this.archivosPESPI.indexOf(event), 1);
-             this.pdfstatus = false;
+  // onRemovePESPI(event) {
+  //   console.log(event);
+  //   this.archivosPESPI.splice(this.archivosPESPI.indexOf(event), 1);
+  //   /*  Swal.fire({
+  //      title: '¿Seguro de Borrar Documento?',
+  //      icon: 'warning',
+  //      showCancelButton: true,
+  //      confirmButtonColor: '#3085d6',
+  //      cancelButtonColor: '#d33',
+  //      confirmButtonText: 'Borrar',
+  //      cancelButtonText: 'Cancelar'
+  //    }).then((result) => {
+  //      if (result.value) {
+  //        const formData = new FormData();
+  //        formData.append('name', event.name.toString())
+  //        formData.append('folio', '0')
+  //        formData.append('id', '0')
+  //        formData.append('tipo', 'PESPI')
+  //        formData.append('clave', event.clave)
+  //        formData.append('lote', event.lote)
+  //        console.log(formData);
+  //        let docu = new Documento();
+  //        docu.Folio = event.folio;
+  //        docu.Modulo = 'Importacion';
+  //        docu.Tipo = 'PESPI';
+  //        docu.NombreDocumento = event.name;
+  //        docu.IdDetalle = event.id
+  //        this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
+  //          console.log(resDelete);
+  //          this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
+  //            console.log(res)
+  //            // this.files.splice(this.files.indexOf(event),1);
+  //            this.archivosPESPI.splice(this.archivosPESPI.indexOf(event), 1);
+  //            this.pdfstatus = false;
              
-             Swal.fire({
-               title: 'Borrado',
-               icon: 'success',
-               timer: 1000,
-               showCancelButton: false,
-               showConfirmButton: false
-             });
-           })
-         })
+  //            Swal.fire({
+  //              title: 'Borrado',
+  //              icon: 'success',
+  //              timer: 1000,
+  //              showCancelButton: false,
+  //              showConfirmButton: false
+  //            });
+  //          })
+  //        })
  
  
-       }
-     }) */
+  //      }
+  //    }) */
 
-  }
+  // }
 
 
   onSelectFacturas(event) {
+  console.log('%c⧭', 'color: #007300', event);
 
     this.eventsFacturas = event
     this.filesFacturas.push(...event.addedFiles);
