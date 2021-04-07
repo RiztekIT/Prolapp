@@ -81,10 +81,20 @@ if (this.estatusSelect==='Todos'){
   }
 
   refreshPedidoList() {
+    let consulta;
 
-    let consulta = {
-      'consulta':"select Pedidos.*, Cliente.*, (select Top 1 case idovfactura when NULL then 'False' else 'True' end from OvFactura where folioPedido = Pedidos.Folio and idfactura="+this.facturaSVC.formData.Id+") as checked from Pedidos Left join Cliente on Pedidos.IdCliente = Cliente.IdClientes order by FechaDeExpedicion desc;"
-    };
+    if(this.facturaSVC.formData.IdCliente==78){
+      
+      consulta = {
+        'consulta':"select Pedidos.*, Cliente.*, (select Top 1 case idovfactura when NULL then 'False' else 'True' end from OvFactura where folioPedido = Pedidos.Folio and idfactura="+this.facturaSVC.formData.Id+") as checked from Pedidos Left join Cliente on Pedidos.IdCliente = Cliente.IdClientes order by FechaDeExpedicion desc;"
+      };
+    }else{
+      consulta = {
+        'consulta':"select Pedidos.*, Cliente.*, (select Top 1 case idovfactura when NULL then 'False' else 'True' end from OvFactura where folioPedido = Pedidos.Folio and idfactura="+this.facturaSVC.formData.Id+") as checked from Pedidos Left join Cliente on Pedidos.IdCliente = Cliente.IdClientes where IdCliente="+this.facturaSVC.formData.IdCliente+" order by FechaDeExpedicion desc;"
+      };
+
+    }
+
     console.log(consulta);
     
     this.facturaSVC.getQuery(consulta).subscribe((data:any)=>{
