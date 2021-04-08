@@ -9,6 +9,8 @@ import { DocumentosImportacionService } from '../../../services/importacion/docu
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { mergeMap, last, scan } from 'rxjs/operators';
 import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
+import { MessageService } from 'src/app/services/message.service';
+import { DocumentacionImportacionVisorDocumentosComponent } from '../documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
 
 @Component({
   selector: 'app-documentacion-importacion',
@@ -25,7 +27,10 @@ import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-
 export class DocumentacionImportacionComponent implements OnInit {
 
 
-  constructor(public router: Router, public documentosService: DocumentosImportacionService, public traspasoSVC: TraspasoMercanciaService) { }
+  constructor(public router: Router, public documentosService: DocumentosImportacionService, 
+    public traspasoSVC: TraspasoMercanciaService, public _MessageService: MessageService, 
+    private dialog: MatDialog,
+    ) { }
 
   ngOnInit() {
     // this.obtenerOrdenDescargaDocumentos();
@@ -33,6 +38,8 @@ export class DocumentacionImportacionComponent implements OnInit {
     //^ **** PRIVILEGIOS POR USUARIO *****
     this.obtenerPrivilegios();
     //^ **** PRIVILEGIOS POR USUARIO *****
+    
+    this._MessageService.documentosURL = [];
   }
 
 
@@ -84,7 +91,7 @@ export class DocumentacionImportacionComponent implements OnInit {
     //^ **** PRIVILEGIOS POR USUARIO *****
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['Tipo', 'CP', 'Documento', 'Lote', 'FechaV'];
+  displayedColumns: string[] = ['Tipo', 'CP', 'Documento', 'Lote', 'FechaV', 'Options'];
   // displayedColumnsVersion: string[] = ['ClaveProducto', 'Sacos', 'Lote', 'USDA', 'Pedimento', 'Documentos'];
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Sacos', 'Lote', 'USDA', 'Pedimento'];
   expandedElement: any;
@@ -182,6 +189,51 @@ this.traspasoSVC.getQuery(consulta).subscribe((resDocumentos:any)=>{
 
     applyFilter(filtervalue: string) {
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+  }
+
+    //File URL del pdf, para ser mostrado en el visor de decumentos
+    fileUrl;
+
+      //Estatus
+  pdfstatus = false;
+
+  leerArchivos(row, enviar?){
+    
+    console.log(row);
+    const formData = new FormData();
+    formData.append('folio', '0')
+    formData.append('id', '0')
+    formData.append('archivo', row.name)
+    // formData.append('direccionDocumento', 'Documentos/Importacion/Factura/01A1/LOT1')
+    formData.append('direccionDocumento', 'Documentos/Importacion/' + row.Tipo + '/' + row.ClaveProducto + '/' +row.Observaciones)
+    // console.log('%c%s', 'color: #f279ca', 'Documentos/Importacion/' + a.Tipo + '/' + a.ClaveProducto + '/' + a.Observaciones);
+    console.log('%c⧭', 'color: #408059', formData);
+    this.documentosService.readDocumentosServer(formData, 'ObtenerDocumento').subscribe(res => {
+      console.log(res);
+      const blob = new Blob([res as BlobPart], { type: 'application/pdf' });
+      let fr = new FileReader();
+
+      fr.readAsDataURL(blob);
+      fr.onload = e => {
+        // console.log(e);
+        // console.log(fr.result);
+        this.fileUrl = fr.result;
+        this.pdfstatus = true;
+        this.documentosService.fileUrl = this.fileUrl;
+      // ^ Si es enviar, solo guardaremos el resultado en  una variable , para enviarla por correo.
+      if(enviar == true){
+        let temp = Object.assign({}, this.fileUrl);
+          this._MessageService.documentosURL.push(temp);
+      }else{
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width = "70%";
+        this.dialog.open(DocumentacionImportacionVisorDocumentosComponent, dialogConfig);
+      }
+      }
+    })
+
   }
 
 }
