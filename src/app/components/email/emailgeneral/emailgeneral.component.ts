@@ -83,7 +83,7 @@ export class EmailgeneralComponent implements OnInit {
   
                                       <td style="color: #153643; font-family: Arial, sans-serif; font-size: 24px;">
   
-                                          Cliente: `+ this.data.cliente + `
+                                          
   
                                       </td>
   
@@ -93,7 +93,7 @@ export class EmailgeneralComponent implements OnInit {
   
                                       <td style="padding: 20px 0 30px 0; color: #153643; font-family: Arial, sans-serif; font-size: 16px; line-height: 20px;">
   
-                                          Agradecemos de antemano la oportunidad de brindar esta `+ this.data.tipo + `, y aprovechamos la misma, para que conozca mas nuestra organizacion.
+                                     
   
                                       </td>
   
@@ -281,7 +281,14 @@ export class EmailgeneralComponent implements OnInit {
         } else if (this.data.tipo == 'Traspaso') {
             // console.log('Es un traspaso');
             this.files = this._MessageService.documentosURL;
+            this.fileUrl = localStorage.getItem('OC');
         }
+        
+    }
+    
+    pdf(){
+        this.fileUrl = localStorage.getItem('pdfOC');
+
     }
 
     onClose() {
@@ -373,6 +380,7 @@ export class EmailgeneralComponent implements OnInit {
                 //^ Este archivo se manda en base64 listo para ser enviado.
                 formData.append('pdf', localStorage.getItem('pdfcorreo' + this.data.foliop))
             }
+            formData.append('pdf', localStorage.getItem('OC'))
             //^ Aqui se guarda la cantidad de archivos que se estan subiendo en el dropzone (despues son obtenidos en el sever y adjuntados)
             formData.append('adjuntos', this.files.length.toString())
             this._MessageService.enviarCorreo(formData).subscribe(() => {
