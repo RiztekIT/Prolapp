@@ -99,7 +99,7 @@ export class AddCotizacionComponent implements OnInit {
   optionsUnidad = ['Pieza'];
   um: boolean;
   ProductoSelect: string;
-  MarcaSelect: string[];
+  MarcaSelect: string;
   OrigenSelect:string;
   clavemarca:string;
   claveorigen:string;
@@ -515,8 +515,9 @@ public PedidoBlanco: Pedido =
     });
   }
 
-  droddownMarcas(producto){
+  droddownMarcas(producto, edit){
     this.options3 = [];
+    this.filteredOptions3 = new Observable();
     this.addproductos.getMarcas(producto).subscribe((marca: any) =>{
       for (let i=0; i < marca.length; i++){
         
@@ -533,6 +534,7 @@ public PedidoBlanco: Pedido =
 
   droddownOrigen(){
     this.options4 = [];
+    this.filteredOptions4 = new Observable();
     this.addproductos.getOrigen().subscribe((origen: any) =>{
       for (let i=0; i < origen.length; i++){
         
@@ -548,6 +550,7 @@ public PedidoBlanco: Pedido =
   }
   droddownPresentacion(){
     this.options5 = [];
+    this.filteredOptions5 = new Observable();
     this.addproductos.getPresentacion().subscribe((Presentacion: any) =>{
       for (let i=0; i < Presentacion.length; i++){
         
@@ -727,7 +730,7 @@ this.changeDireccion(this.isDireccion);
 
   onSelectionChange2(options2: Producto, event?: any) {
     console.log(event);
-    // if (event.isUserInput) {
+    if (event.isUserInput) {
       this.service.formProd = options2;
       // this.PStock = this.service.formProd.Stock;
       this.ProductoPrecio = +this.service.formProd.PrecioVenta;
@@ -737,7 +740,7 @@ this.changeDireccion(this.isDireccion);
       }
 
       this.ClaveProducto = this.service.formProd.ClaveProducto;
-      this.droddownMarcas(this.service.formProd.Nombre);
+      this.droddownMarcas(this.service.formProd.Nombre, false);
       this.droddownOrigen();
       this.droddownPresentacion();
 
@@ -745,22 +748,60 @@ this.changeDireccion(this.isDireccion);
       this.claveorigen = '1'
       this.PresentacionSelect = '25 Kg'
       // console.log(+this.PStock + " STOCKKKK");
-    // }
+    }
   }
 
   onSelectionChangeMarca(options2, event?: any){
-    console.log(options2);
-    console.log(this.MarcaSelect);
-    console.log(event);
-    console.log(event);
-    // this.clavemarca = options2.ClaveMarca
-    // this.MarcaSelect = options2.NombreMarca
-    
-    // this.service.formProd.DescripcionProducto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+    if(event.isUserInput){
+      console.log(options2);
+      console.log(this.MarcaSelect);
+      console.log(event);
+      // console.log(event);
+      // this.clavemarca = options2.ClaveMarca
+      // this.MarcaSelect = options2.NombreMarca
+      // if(this.MarcaSelect.length>1){
+      //   console.log('Varios productos');
+      // }else{
+      //   console.log('un solo producto');
+      // }
+      // this.service.formProd.DescripcionProducto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+      // this.generarDescripcionProducto();
+    }
   }
-  arregloMarcas(){
-    console.log(this.MarcaSelect);
+  comparer(o1: any, o2: any): boolean {
+    // if possible compare by object's name, and not by reference.
+    return o1 && o2 ? o1.NombreMarca === o2.NombreMarca : o2 === o2;
   }
+  //^ Variable para identificar si el detalle a ingresar tiene varias marcas. En dado caso que si tenga, no permitira convertir la Cotizacion a Pedido.
+  variosMarcas = 'no';
+  selectedProducts : any[];
+  seleccionMarca(data){
+    console.log(data.value);
+      let marca: string = '';
+      this.variosMarcas = 'no';
+      if(data.value.length == 1){
+      marca = data.value[0].NombreMarca;
+      this.clavemarca = data.value[0].ClaveMarca;
+      }else if(data.value.length > 1){
+        data.value.forEach((element,i) => {
+          this.variosMarcas = 'si';
+          if(i == 0){
+            marca = element.NombreMarca
+            this.clavemarca = element.ClaveMarca
+          }else{
+            marca = marca + ', ' + element.NombreMarca
+            // this.clavemarca = this.clavemarca+','+element.ClaveMarca;
+          }
+        });
+        // this.clavemarca = '+';
+      }
+      // console.log(marca);
+      this.MarcaSelect = marca;
+      // console.log(this.MarcaSelect);
+      // console.log(this.variosMarcas);
+      this.service.formProd.DescripcionProducto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
+  }
+
   onSelectionChangeOrigen(options2, event: any){
     console.log(options2);
     this.claveorigen = options2.ClaveOrigen;
@@ -927,7 +968,9 @@ displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Cantidad', 'Importe'
 IniciarTotales() {
   //Inicializar en 0 el select del producto
   this.ProductoSelect = "";
-  //! this.MarcaSelect ="";
+  
+   this.MarcaSelect ="";
+   this.myControl3.reset();
   this.OrigenSelect ="";
   this.PresentacionSelect="";
 
@@ -949,9 +992,11 @@ IniciarTotales() {
   this.subtotal = 0;
   this.descuentoDlls = 0;
 }
-
+//^ Variable General para ver si un Detalle de Cotizacion Contiene Diferentes Marcas (si es cierto, deshabilitamos el boton Converter)
+productosConDiferentesMarcas: boolean = false;
 refreshDetallesPedidoList() {
-
+  this.productosConDiferentesMarcas = false;
+  this.selectedProducts = [];
   this.IniciarTotales();
 
   this.service.GetDetalleCotizacionId(this.IdCotizacion).subscribe(data => {
@@ -959,6 +1004,11 @@ refreshDetallesPedidoList() {
     console.log(data);
     //Verificar si hay datos en la tabla
     if (data.length > 0) {
+      data.forEach(element => {
+        if(element.CampoExtra1 == 'si'){
+          this.productosConDiferentesMarcas = true;
+        }
+      });
 
       this.service.formrow = this.service.formDataCotizacion;
       this.service.formrow.DetalleCotizacion = data;
@@ -1010,11 +1060,15 @@ console.log(this.PresentacionSelect);
   this.service.formDataDP.Producto = this.service.formProd.Nombre + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect ;
   this.service.formDataDP.Unidad = this.service.formProd.UnidadMedida;
   this.service.formDataDP.PrecioUnitario = this.ProductoPrecioMXN.toString();
-  this.service.formDataDP.PrecioUnitarioDLLS = this.ProductoPrecioDLLS.toString();
+  this.service.formDataDP.PrecioUnitarioDlls = this.ProductoPrecioDLLS.toString();
   this.service.formDataDP.Cantidad = this.Cantidad.toString();
   this.service.formDataDP.Importe = this.importeP.toString();
   this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
   this.service.formDataCotizacion.TipoDeCambio = this.TipoCambio;
+  //^ Aqui guardaremos si se esta haciendo la cotizacion a un producto con varias Marcas
+  this.service.formDataDP.CampoExtra1 = this.variosMarcas;
+  this.service.formDataDP.CampoExtra2 = '';
+  this.service.formDataDP.CampoExtra3 = '';
 
 
   this.Vigencia = new Date();
@@ -1029,19 +1083,15 @@ console.log(this.PresentacionSelect);
    console.log('DETALLE a AGREGAR',this.service.formDataDP);
 
   this.service.addDetalleCotizacion(this.service.formDataDP).subscribe(res => {
-    // console.log(res);
-    //Restar el Stock
-    // this.RestarStock();
-    // this.IniciarTotales();
     form.resetForm();
     this.refreshDetallesPedidoList();
+  this.crearCotizacion()
     Swal.fire({
       icon: 'success',
       title: 'Concepto Agregado'
     })
   })
 
-  this.crearCotizacion()
 
 }
 
@@ -1077,75 +1127,116 @@ onChangePrecioDlls(precioDlls: any) {
     this.calcularImportePedido();
   }
 }
+IdDetalleCotizacion: number;
 OnEditProducto(dp: DetalleCotizacion) {
+  console.log(dp);
+  this.IdDetalleCotizacion = dp.IdDetalleCotizacion;
+  // this.iniciarCantidades();
+  // this.addproducto = false;
+  // console.log(detalleCompra);
+  // this.detalleCompra = detalleCompra;
+  // this.ProductoSelect = detalleCompra.ClaveProducto;
+  // this.PresentacionSelect = detalleCompra.PesoxSaco;
+
+  // this.Cantidad = +this.detalleCompra.Cantidad;
+  // this.onChangeCantidadP(this.Cantidad);
+
+  // if (this.compra.Estatus != 'Administrativa') {
+  //   this.droddownMarcas(this.detalleCompra.Producto);
+  //   this.droddownOrigen();
+  //   this.droddownPresentacion();
+  //   this.OrigenSelect = 'USA'
+  //   this.claveorigen = '1'
+  // }
+
+
+  // if (this.MonedaBoolean == true) {
+  //   this.ProductoPrecio = +this.detalleCompra.PrecioUnitario
+  //   this.onChangePrecio(this.ProductoPrecio);
+
+  // } else {
+  //   this.ProductoPrecio = +this.detalleCompra.PrecioUnitarioDlls
+  //   this.onChangePrecio(this.ProductoPrecio);
+  // }
+
+  //----------------------------------------
   //Iniciar en 0 las variables de totales, stock y
+  // this.service.formDataDP.IdCotizacion = this.IdCotizacion;
+  // this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen;
+  // this.service.formDataDP.Producto = this.service.formProd.Nombre + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect ;
+  // this.service.formDataDP.Unidad = this.service.formProd.UnidadMedida;
+  // this.service.formDataDP.PrecioUnitario = this.ProductoPrecioMXN.toString();
+  // this.service.formDataDP.PrecioUnitarioDlls = this.ProductoPrecioDLLS.toString();
+  // this.service.formDataDP.Cantidad = this.Cantidad.toString();
+  // this.service.formDataDP.Importe = this.importeP.toString();
+  // this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
+  // this.service.formDataCotizacion.TipoDeCambio = this.TipoCambio;
+  // //^ Aqui guardaremos si se esta haciendo la cotizacion a un producto con varias Marcas
+  // this.service.formDataDP.CampoExtra1 = this.variosMarcas;
+  // this.service.formDataDP.CampoExtra2 = '';
+  // this.service.formDataDP.CampoExtra3 = '';
   this.IniciarTotales();
   let clavep;
   clavep = dp.ClaveProducto.substr(0,2);
 
   this.ActualizarDetallePedidoBool = true;
   this.service.formDataDP = dp;
-  this.service.GetProductoDetalleCotizacion(clavep, dp.IdDetalleCotizacion).subscribe(data => {
+  this.service.formDataDP.CampoExtra1 = 'no';
+  console.log(clavep);
+  
+let query = "select * from DetalleCotizaciones join Producto on DetalleCotizaciones.ClaveProducto like Producto.ClaveProducto+'%' left join MarcasProductos on DetalleCotizaciones.ClaveProducto like '%'+MarcasProductos.ClaveMarca+'%' left join OrigenProductos on DetalleCotizaciones.ClaveProducto like '%'+OrigenProductos.ClaveOrigen   where DetalleCotizaciones.ClaveProducto like '"+clavep+"'+'%'"+
+" and detalleCotizaciones.IdDetalleCotizacion = "+dp.IdDetalleCotizacion+" and Producto.Nombre = MarcasProductos.ProductoMarca"
+          let consulta = {
+            'consulta': query
+          };
+          console.log('%c%s', 'color: #ff0000', query);
+          this.traspasoSVC.getQuery(consulta).subscribe((data: any) => {  
+// this.service.GetProductoDetalleCotizacion(clavep, dp.IdDetalleCotizacion).subscribe(data => {
 
     console.log(data);
-
-    // if (this.service.formDataPedido.Moneda == 'MXN') {
-    //   this.importeP = data[0].Importe;
-    //   console.clear();
-    //   console.log(this.importeP);
-    //   console.log('mxn');
-    // }
-    // else {
-    //   this.importeP = data[0].ImporteDlls;
-    //   console.clear();
-    //   console.log(this.importeP);
-    //   console.log('dlls');
-    // }
+ 
     if (this.MonedaBoolean == true) {
-      this.importeP = data[0].Importe;
-      this.ProductoPrecio = data[0].PrecioUnitario;
+      this.importeP = +dp.Importe;
+      this.ProductoPrecio = +dp.PrecioUnitario;
     } else {
-      this.importePDLLS = data[0].ImporteDlls;
-      this.ProductoPrecioDLLS = data[0].PrecioUnitarioDlls;
+      this.importePDLLS = +dp.ImporteDlls;
+      this.ProductoPrecioDLLS = +dp.PrecioUnitarioDlls;
     }
+    this.MarcaSelect = data[0].NombreMarca;
+    // let tipoMarca = {
+    //   NombreMarca : this.MarcaSelect
+    // }
+    // this.selectedProducts.push(this.MarcaSelect);
+    
+    
+    this.ProductoSelect = data[0].Nombre;
+    this.OrigenSelect = data[0].NombreOrigen;
+    this.PresentacionSelect = '25 Kg'
+    this.service.formProd.DescripcionProducto = dp.Producto;
+    this.Cantidad = +dp.Cantidad;
+    this.service.formProd.IVA = '0';
+    this.service.formDataDP.Observaciones = dp.Observaciones;
+    
+    this.droddownMarcas(data[0].Nombre, true);
+    this.droddownOrigen();
+    this.droddownPresentacion();
 
-    this.droddownMarcas(data[0].Nombre);
-      this.droddownOrigen();
-      this.droddownPresentacion();
-
-    // this.ProductoSelect = data[0].IdProducto;
     this.service.formProd.ClaveProducto = data[0].ClaveProducto1;
     this.clavemarca = data[0].ClaveMarca;
     this.claveorigen = data[0].ClaveOrigen;
-    console.log(this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen);
-    this.ProductoSelect = data[0].Nombre
-    this.MarcaSelect = data[0].NombreMarca;
-    this.OrigenSelect = data[0].NombreOrigen;
-    this.PresentacionSelect = '25 Kg'
+  //   console.log(this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen);
     this.service.formProd.Nombre = data[0].Nombre;
-    // this.ProductoPrecio = data[0].PrecioUnitario;
-    // this.ProductoPrecioDLLS = data[0].PrecioUnitarioDlls;
-    this.Cantidad = data[0].Cantidad;
-    this.service.formDataCotizacion.Moneda;
-    // this.service.formProd.ClaveProducto = data[0].ClaveProducto;
-    // this.service.formDataDP.Unidad = data[0].Unidad;
-    // this.service.formProd.Stock = data[0].Stock;
-    this.service.formProd.DescripcionProducto = data[0].Producto;
+ 
+  //   this.Cantidad = data[0].Cantidad;
+  //   this.service.formDataCotizacion.Moneda;
     this.service.formProd.Estatus = data[0].Estatus;
-    this.service.formProd.IVA = data[0].IVA;
     this.service.formProd.ClaveSAT = data[0].ClaveSAT;
-    // this.service.formDataDP.Observaciones = data[0].Observaciones;
-    // this.service.formDataDP.TextoExtra = data[0].TextoExtra;
 
-    //Asignar Clave producto a Editar, para ser validado despues
+  //   //Asignar Clave producto a Editar, para ser validado despues
     this.ClaveP = data[0].ClaveProducto;
     this.CantidadP = this.Cantidad;
-
-    // this.StockReal = (+this.Cantidad) + (+this.service.formProd.Stock);
-    // console.log(this.StockReal);
-    // this.service.formProd.Stock = this.StockReal.toString();
-    // this.PStock = this.service.formProd.Stock;
-    this.onChangePrecio(this.ProductoPrecio);
+    this.service.formProd.UnidadMedida = data[0].Unidad
+    this.onChangePrecio(this.ProductoPrecio)
     this.onChangeCantidadP(this.Cantidad);
   })
 }
@@ -1157,24 +1248,37 @@ OnEditDetallePedidodp(form: NgForm) {
  console.log(this.service.formProd.Nombre + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect);
  console.log(this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen);
 
+ this.service.formDataDP.IdDetalleCotizacion = this.IdDetalleCotizacion;
+ this.service.formDataDP.IdCotizacion = this.IdCotizacion;
+ this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen;
+ this.service.formDataDP.Producto = this.service.formProd.Nombre + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect ;
+ this.service.formDataDP.Unidad = this.service.formProd.UnidadMedida;
+ this.service.formDataDP.PrecioUnitario = this.ProductoPrecioMXN.toString();
+ this.service.formDataDP.PrecioUnitarioDlls = this.ProductoPrecioDLLS.toString();
+ this.service.formDataDP.Cantidad = this.Cantidad.toString();
+ this.service.formDataDP.Importe = this.importeP.toString();
+ this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
+ this.service.formDataCotizacion.TipoDeCambio = this.TipoCambio;
+ //^ Aqui guardaremos si se esta haciendo la cotizacion a un producto con varias Marcas
+ this.service.formDataDP.CampoExtra1 = this.variosMarcas;
+ this.service.formDataDP.CampoExtra2 = '';
+ this.service.formDataDP.CampoExtra3 = '';
 
 
-
-  this.service.formDataDP.IdCotizacion = this.IdCotizacion;
-  this.service.formDataDP.ClaveProducto = this.service.formProd.ClaveProducto + this.clavemarca + this.claveorigen;
-  this.service.formDataDP.Producto = this.service.formProd.Nombre + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect ;
-  this.service.formDataDP.Unidad = this.service.formProd.UnidadMedida;
-  //this.onSelectionChange2(this.service.formDataDP.Producto);
-  this.service.formDataDP.PrecioUnitario = this.ProductoPrecioMXN.toString();
-  this.service.formDataDP.PrecioUnitarioDLLS = this.ProductoPrecioDLLS.toString();
-  this.service.formDataDP.Cantidad = this.Cantidad.toString();
-  this.service.formDataDP.Importe = this.importeP.toString();
-  this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
   console.log(this.service.formDataDP);
 
-  if (this.ClaveP == this.service.formDataDP.ClaveProducto) {
-    console.log('SIGUE SIENDO EL MISMO PRODUCTO');
-    this.service.OnEditDetalleCotizacion(this.service.formDataDP).subscribe(res => {
+  // if (this.ClaveP == this.service.formDataDP.ClaveProducto) {
+    // console.log('SIGUE SIENDO EL MISMO PRODUCTO');
+    // this.service.OnEditDetalleCotizacion(this.service.formDataDP).subscribe(res => {
+      let query = "update DetalleCotizaciones set ClaveProducto = '"+this.service.formDataDP.ClaveProducto+"', Producto ='"+this.service.formDataDP.Producto+"', Unidad='"+this.service.formDataDP.Unidad+
+      "', PrecioUnitario='"+this.service.formDataDP.PrecioUnitario+"', PrecioUnitarioDlls='"+this.service.formDataDP.PrecioUnitarioDlls+"', Cantidad='"+this.service.formDataDP.Cantidad+"', Importe='"+this.service.formDataDP.Importe+
+      "', ImporteDlls='"+this.service.formDataDP.ImporteDlls+"', Observaciones='"+this.service.formDataDP.Observaciones+"', CampoExtra1='"+this.service.formDataDP.CampoExtra1+"', CampoExtra2='"+this.service.formDataDP.CampoExtra2+
+      "', CampoExtra3='"+this.service.formDataDP.CampoExtra3+"' where IdDetalleCotizacion="+this.service.formDataDP.IdDetalleCotizacion;
+          let consulta = {
+            'consulta': query
+          };
+          console.log('%c%s', 'color: #ff0000', query);
+          this.traspasoSVC.getQuery(consulta).subscribe((detallesConsulta: any) => {
       this.ActualizarDetallePedidoBool = false;
       // this.RestarStock();
       this.refreshDetallesPedidoList();
@@ -1186,33 +1290,33 @@ OnEditDetallePedidodp(form: NgForm) {
       })
     })
 
-  } else {
-    console.log('NUEVO PRODUCTO');
+  // } else {
+  //   console.log('NUEVO PRODUCTO');
 
-    console.clear();
-    console.log(this.CantidadP.toString());
-    console.log(this.ClaveP.toString());
-    console.log(this.service.formDataDP.IdDetalleCotizacion);
-
-
-
-    // this.SumarStock(this.CantidadP.toString(), this.ClaveP.toString(), this.service.formDataDP.IdDetallePedido);
-    // console.log(this.service.formDataDP);
-
-    this.service.OnEditDetalleCotizacion(this.service.formDataDP).subscribe(res => {
-      this.ActualizarDetallePedidoBool = false;
-      // this.RestarStock();
-      this.refreshDetallesPedidoList();
-      this.IniciarTotales();
-      form.resetForm();
-      Swal.fire({
-        icon: 'success',
-        title: 'Pedido Actualizado'
-      })
-    })
+  //   console.clear();
+  //   console.log(this.CantidadP.toString());
+  //   console.log(this.ClaveP.toString());
+  //   console.log(this.service.formDataDP.IdDetalleCotizacion);
 
 
-  }
+
+  //   // this.SumarStock(this.CantidadP.toString(), this.ClaveP.toString(), this.service.formDataDP.IdDetallePedido);
+  //   // console.log(this.service.formDataDP);
+
+  //   this.service.OnEditDetalleCotizacion(this.service.formDataDP).subscribe(res => {
+  //     this.ActualizarDetallePedidoBool = false;
+  //     // this.RestarStock();
+  //     this.refreshDetallesPedidoList();
+  //     this.IniciarTotales();
+  //     form.resetForm();
+  //     Swal.fire({
+  //       icon: 'success',
+  //       title: 'Pedido Actualizado'
+  //     })
+  //   })
+
+
+  // }
 
 
 }
@@ -1415,7 +1519,10 @@ const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
-    
+    dialogConfig.data = {
+      origen: 'normal'
+     
+    }
   
     this.dialog.open(CotizacionComponent, dialogConfig);
 }
@@ -1438,6 +1545,9 @@ email(cotizacion){
   const dialogConfig2 = new MatDialogConfig();
   dialogConfig2.autoFocus = false;
   dialogConfig2.width = "0%";    
+  dialogConfig2.data = {
+    origen: 'nonormal'
+  }
   let dialogFact = this.dialog.open(CotizacionComponent, dialogConfig2); 
   
 

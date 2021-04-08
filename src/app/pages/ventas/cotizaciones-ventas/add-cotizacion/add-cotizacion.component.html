@@ -358,9 +358,13 @@
                                     <div class="col-12 col-md-6">
                                         <label class="input-group-text text-info">Marca :</label> <br>
                                         <mat-form-field>
-                                            <mat-select placeholder="Seleccionar Marca" [formControl]="myControl3" multiple [(ngModel)]="MarcaSelect">
+                                            <!-- <mat-select placeholder="Seleccionar Marca" [formControl]="myControl3" multiple [(ngModel)]="MarcaSelect">
                                               <mat-option *ngFor="let option of options3 " [value]="option.NombreMarca" (onSelectionChange)="onSelectionChangeMarca(option, $event)">{{option.NombreMarca}}</mat-option>
-                                            </mat-select>
+                                            </mat-select> -->
+                                            <mat-select placeholder="Seleccionar Marca" [formControl]="myControl3" multiple  [compareWith]="comparer" (selectionChange)="seleccionMarca($event)" [ngModel]="selectedProducts">
+                                            <!-- <mat-select placeholder="Seleccionar Marca"  multiple (selectionChange)="filterMarca($event)" [ngModel]="selectedProducts"> -->
+                                                <mat-option *ngFor="let option of options3 " [value]="option">{{option.NombreMarca}}</mat-option>
+                                              </mat-select>
                                           </mat-form-field>
                                         <!-- <mat-form-field>
                                             <input type="text" placeholder="Seleccionar Marca" aria-label="Number" [formControl]="myControl3" [(ngModel)]="MarcaSelect" matInput [matAutocomplete]="autoMarcaProducto">
@@ -494,7 +498,7 @@
                                                 </div>
                                                 <div *ngIf="ActualizarDetallePedidoBool != false">
                                                     <button class="btn btn-prolacto" mat-raised-button (click)="OnEditDetallePedidodp(DetallePedidoForm)">Actualizar Producto</button>
-                                                    <button class="btn btn-prolacto"  mat-raised-button(click)="Cancelar(DetallePedidoForm)">Cancelar</button>
+                                                    <button class="btn btn-prolacto"  mat-raised-button (click)="Cancelar(DetallePedidoForm)">Cancelar</button>
 
                                                 </div>
                                             </div>
@@ -618,7 +622,7 @@
                                                             <!-- <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button> -->
                                                             <!-- <button *ngIf="this.service.formDataCotizacion.Estatus == 'Guardada'" class="btn btn-danger btn-lg" mat-raised-button (click)='cerrarCotizacion()'><i class="mdi mdi-send btn-lg"></i>Cerrar</button>
                                                             <br> -->
-                                                            <button [disabled]="Convertir == false" *ngIf="this.service.formDataCotizacion.Estatus == 'Guardada'" class="btn btn-prolacto btn-lg" mat-raised-button type="button" (click)='nuevaoc(service.formDataCotizacion)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-forward btn-lg"></i> Convertir </button>
+                                                            <button [disabled]="Convertir == false || this.productosConDiferentesMarcas == true" *ngIf="this.service.formDataCotizacion.Estatus == 'Guardada'" class="btn btn-prolacto btn-lg" mat-raised-button type="button" (click)='nuevaoc(service.formDataCotizacion)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-forward btn-lg"></i> Convertir </button>
                                                             <br>
 
 

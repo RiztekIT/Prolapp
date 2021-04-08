@@ -177,8 +177,10 @@
                                             <td> {{detalle.ClaveProducto}} </td>
                                             <td> {{detalle.Producto}} </td>
                                             <td> {{ detalle.Cantidad}} </td>
-                                            <td> {{ detalle.PrecioUnitario | currency}} </td>
-                                            <td> {{ detalle.CostoTotal | currency}} </td>
+                                            <td *ngIf="element.Moneda == 'MXN'"> {{ detalle.PrecioUnitario | currency}} </td>
+                                            <td *ngIf="element.Moneda == 'USD'"> {{ detalle.PrecioUnitarioDlls | currency}} </td>
+                                            <td *ngIf="element.Moneda == 'MXN'"> {{ detalle.CostoTotal | currency}} </td>
+                                            <td *ngIf="element.Moneda == 'USD'"> {{ detalle.CostoTotalDlls | currency}} </td>
                                         </tr>
                                     </table>
                                 </div>
