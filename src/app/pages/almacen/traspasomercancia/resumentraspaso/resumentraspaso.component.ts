@@ -283,8 +283,9 @@ this._MessageService.documentosURL = [];
     formData.append('id', '0')
     formData.append('archivo', a.name)
     formData.append('direccionDocumento', 'Documentos/Importacion/Factura/' + a.clave + '/' + a.lote)
+    console.log('%c⧭', 'color: #99adcc', formData);
     this.documentosService.readDocumentosServer(formData, 'ObtenerDocumento').subscribe(res => {
-      // console.log(res);
+      console.log(res);
       const blob = new Blob([res as BlobPart], { type: 'application/pdf' });
       let fr = new FileReader();
 
