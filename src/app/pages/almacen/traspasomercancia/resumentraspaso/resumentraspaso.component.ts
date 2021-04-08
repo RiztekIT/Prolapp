@@ -10,6 +10,7 @@ import { FormControl } from '@angular/forms';
 import { MessageService } from 'src/app/services/message.service';
 import * as html2pdf from 'html2pdf.js';
 import { EmailgeneralComponent } from 'src/app/components/email/emailgeneral/emailgeneral.component';
+import { OrdenCargaDescargaComponent } from 'src/app/components/orden-carga-descarga/orden-carga-descarga.component';
 
 @Component({
   selector: 'app-resumentraspaso',
@@ -2245,21 +2246,45 @@ for (var i = 0; i < event.addedFiles.length; i++) {
     this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + this.traspasoSVC.selectTraspaso.Folio;
     this._MessageService.nombre = 'ProlactoIngredientes';
 
+
+    const dialogConfig2 = new MatDialogConfig();
+    dialogConfig2.disableClose = false;
+    dialogConfig2.autoFocus = true;
+    dialogConfig2.width = "0%";
+    dialogConfig2.height = "0%";
+    dialogConfig2.data = {
+      IdOrdenCarga: this.traspasoSVC.selectTraspaso.IdOrdenCarga,
+      origen: 'correo'
+    }
+
+    
+
+    
+    
+    let dl = this.dialog.open(OrdenCargaDescargaComponent, dialogConfig2);
+    
+
     //^ Generamos el modal del Correo
 
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = false;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = "90%";
-    //^ Asignamos variables en base a la Informacion del Documento.
-    dialogConfig.data = {
-      foliop: this.traspasoSVC.selectTraspaso.Folio,
-      cliente: this.traspasoSVC.selectTraspaso.Nombre,
-      status: true,
-      //^ Indicamos que es de Tipo Traspaso
-      tipo: 'Traspaso'
-    }
-     this.dialog.open(EmailgeneralComponent, dialogConfig);
+    dl.afterClosed().subscribe(res=>{
+
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "90%";
+      //^ Asignamos variables en base a la Informacion del Documento.
+      dialogConfig.data = {
+        foliop: this.traspasoSVC.selectTraspaso.Folio,
+        cliente: this.traspasoSVC.selectTraspaso.Nombre,
+        status: true,
+        //^ Indicamos que es de Tipo Traspaso
+        tipo: 'Traspaso'
+      }
+       this.dialog.open(EmailgeneralComponent, dialogConfig);
+    })
+
+    
+
 
 
 

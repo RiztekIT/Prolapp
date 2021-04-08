@@ -59,6 +59,11 @@ USDA: string="";
 
   ngOnInit() {
     this.style = 'block'
+    Swal.fire({
+      allowOutsideClick: false,
+      text: 'Espere por favor...',
+      icon: 'info'
+    });
     Swal.showLoading()
     // this.obtenerDetallesTraspaso()
     // this.ver()
@@ -281,11 +286,15 @@ this.traspasoSVC.getQuery(consulta).subscribe((resTraspaso:any)=>{
     let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
     const url = window.URL.createObjectURL(blob);
 
-    const link = document.createElement('a');
-    link.href = url;
-    link.target = '_blank'    
-    link.click();
-    this.style = 'none'
+    if(this.dataComponente.origen=='traspaso'){
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.target = '_blank'    
+      link.click();
+      this.style = 'none'
+    }
+
     
     Swal.close();
     this.onClose()
@@ -331,6 +340,7 @@ this.traspasoSVC.getQuery(consulta).subscribe((resTraspaso:any)=>{
     worker.then(function(pdfAsString){
       console.log(pdfAsString);
       this.pdf = pdfAsString;
+      localStorage.setItem('OC', this.pdf);
       this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
       localStorage.setItem('pdfOC', this.pdf);
       this.currentPdf = this.pdf

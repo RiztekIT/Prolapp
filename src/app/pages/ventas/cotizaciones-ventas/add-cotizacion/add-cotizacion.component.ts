@@ -1017,6 +1017,7 @@ refreshDetallesPedidoList() {
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
       //Suma Total de importes de detalle pedidos
+      
 
       this.service.GetSumaImporte(this.IdCotizacion).subscribe(data => {
         console.clear;
@@ -1035,6 +1036,19 @@ refreshDetallesPedidoList() {
         this.descuentoDlls = this.service.formDataCotizacion.DescuentoDlls;
         this.subtotalDlls = data[0].ImporteDlls;
         this.totalDlls = data[0].ImporteDlls - this.descuentoDlls;
+
+        this.service.formDataCotizacion.Estatus = 'Guardada';        
+  this.service.formDataCotizacion.Total = this.total;
+  this.service.formDataCotizacion.Subtotal = this.subtotal;
+  this.service.formDataCotizacion.TotalDlls = this.totalDlls;
+  this.service.formDataCotizacion.SubtotalDlls = this.subtotalDlls;
+  
+  // console.clear();  
+  console.log(this.service.formDataCotizacion);
+  //^ Actualizar Cotizacion
+  this.service.onEditCotizacion(this.service.formDataCotizacion).subscribe(res => {
+console.log(res);
+  })
 
 
     /*    console.log(this.descuentoDlls);
@@ -1085,7 +1099,7 @@ console.log(this.PresentacionSelect);
   this.service.addDetalleCotizacion(this.service.formDataDP).subscribe(res => {
     form.resetForm();
     this.refreshDetallesPedidoList();
-  this.crearCotizacion()
+  // this.crearCotizacion()
     Swal.fire({
       icon: 'success',
       title: 'Concepto Agregado'
