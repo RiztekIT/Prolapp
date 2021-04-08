@@ -5,9 +5,12 @@ export class DetalleCotizacion{
     Producto: string;
     Unidad: string;
     PrecioUnitario: string;
-    PrecioUnitarioDLLS: string;
+    PrecioUnitarioDlls: string;
     Cantidad: string;
     Importe: string;
     Observaciones: string;
     ImporteDlls: string;
+    CampoExtra1: string;
+    CampoExtra2: string;
+    CampoExtra3: string;
 }

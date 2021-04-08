@@ -275,6 +275,7 @@ reloadPDF(event){
   let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
   const url = window.URL.createObjectURL(blob);
 
+  console.log(this.data);
   if (this.data.origen=='normal'){
 
     const link = document.createElement('a');

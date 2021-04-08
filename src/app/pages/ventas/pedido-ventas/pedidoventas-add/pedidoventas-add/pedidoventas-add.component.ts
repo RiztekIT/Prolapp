@@ -1339,12 +1339,14 @@ export class PedidoventasAddComponent implements OnInit {
         element.Importe = this.importeP.toString();
         element.ImporteDlls = this.importePDLLS.toString();
         element.PrecioUnitario = this.ProductoPrecioMXN.toString();
-        element.PrecioUnitarioDlls = this.ProductoPrecioDLLS.toString();
-        element.Unidad = '';
+        element.PrecioUnitarioDlls = this.ProductoPrecioDLLS.toString();        
+        // element.Unidad = '';
         //^ Usar TextoExtra como Lote
         element.TextoExtra = element.Lote;
         // //^ Usar Observaciones como Peso x Saco
         element.Observaciones = element.PesoxSaco;
+        
+        console.log('%c⧭', 'color: #d90000', element);
         // productosIngreso.push(element);
         this.service.addDetallePedido(element).subscribe(res => {
           console.log('DETALLE', res);
@@ -2936,6 +2938,15 @@ Swal.fire({
   toggle(row) {
 
     console.log(row);
+  console.log(row.Producto.slice(-2));
+    let unidad = row.Producto.slice(-2);
+    if(unidad == 'Kg'){
+      unidad = 'KGM'
+    }else{
+      unidad ='LB'
+    }
+
+
     this.seleccionadosSeleccion = [];
     // for (let i=0; i<row.length;i++){
     // if(i == 0){
@@ -2947,7 +2958,8 @@ Swal.fire({
       Producto: row.Producto,
       Lote: row.Lote,
       KgMaximos: row.PesoTotal,
-      PesoxSaco: row.PesoxSaco
+      PesoxSaco: row.PesoxSaco,
+      Unidad: unidad
     })
     this.verificarKilogramosMaximosSeleccion(row.PesoTotal);
 

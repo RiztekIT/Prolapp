@@ -76,6 +76,7 @@ ver(){
 
   console.log(this.ComprasService.formt)
   this.moneda = this.ComprasService.formt.Moneda;
+  console.log(this.moneda);
 
 
   this.logo = '../../../assets/images/'+this.empresaSVC.empresaActual.RFC+'.png'
