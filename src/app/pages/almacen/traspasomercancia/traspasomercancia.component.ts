@@ -178,7 +178,8 @@ subs1: Subscription
         dialogConfig.autoFocus = true;
         dialogConfig.width = "70%";
         dialogConfig.data = {
-          IdOrdenCarga: row.IdOrdenCarga
+          IdOrdenCarga: row.IdOrdenCarga,
+          origen: 'traspaso'
         }
         this.dialog.open(OrdenCargaDescargaComponent, dialogConfig);
       // }
