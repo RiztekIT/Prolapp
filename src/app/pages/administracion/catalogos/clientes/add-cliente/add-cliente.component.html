@@ -21,50 +21,50 @@
                         <label class="input-group-text text-info">Nombre</label>
                         <input required placeholder="Escribe el nombre" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre">
 
-                        
+
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">RFC</label>
                         <input required minlength="12" type="text" placeholder="Escribe el RFC" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="service.formData.RFC">
 
-                        
+
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Razon Social</label>
                         <input required type="text" placeholder="Escribe la razon social" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="service.formData.RazonSocial">
 
-                        
+
 
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Calle</label>
                         <input required type="text" placeholder="Escribe la calle" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle">
 
-                        
+
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Colonia</label>
                         <input required type="text" placeholder="Escribe la colonia" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia">
 
-                        
+
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">CP</label>
                         <input required minlength="5" type="text" placeholder="Escribe el codigo postal" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP">
 
-                        
+
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Ciudad</label>
                         <input required type="text" placeholder="Escribe la ciudad" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad">
 
-                        
+
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Estado</label>
                         <input required type="text" placeholder="Escribe el estado" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado">
 
-                        
+
                         <!--               -------------------------------------------------------                                       -->
 
                     </div>
@@ -73,13 +73,13 @@
                         <label class="input-group-text text-info">Clave Cliente</label>
                         <input required type="text" placeholder="Escribe la clave de cliente" class="form-control" name="ClaveCliente" #ClaveCliente="ngModel" [(ngModel)]="service.formData.ClaveCliente">
 
-                        
+
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Numero Exterior</label>
                         <input required type="text" placeholder="Escribe el numero exterior" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior">
 
-                        
+
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Numero Interior</label>
@@ -94,15 +94,15 @@
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Limite Credito</label>
-                        <input required  type="text" placeholder="Escribe el limite de credito" class="form-control" name="LimiteCredito" #LimiteCredito="ngModel" [(ngModel)]="service.formData.LimiteCredito">
+                        <input required type="text" placeholder="Escribe el limite de credito" class="form-control" name="LimiteCredito" #LimiteCredito="ngModel" [(ngModel)]="service.formData.LimiteCredito">
 
-                        
+
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Dias Credito</label>
-                        <input required  type="text" placeholder="Escribe los dias de credito" class="form-control" name="DiasCredito" #DiasCredito="ngModel" [(ngModel)]="service.formData.DiasCredito">
+                        <input required type="text" placeholder="Escribe los dias de credito" class="form-control" name="DiasCredito" #DiasCredito="ngModel" [(ngModel)]="service.formData.DiasCredito">
 
-                        
+
                         <!--               -------------------------------------------------------                                       -->
 
                         <label class="input-group-text text-info">Forma de Pago</label>
@@ -113,7 +113,7 @@
                                 <option *ngFor="let dl of listFP" [ngValue] = "dl.FormaDePago"> {{dl.text}} </option>
                             </select>
 
-                        
+
 
 
                         <!--               -------------------------------------------------------                                       -->
@@ -126,7 +126,7 @@
                             <option *ngFor="let dl of listCFDI" [ngValue] = "dl.UsoDelCFDI"> {{dl.text}} </option>
                         </select>
 
-                        
+
 
                         <label class="input-group-text text-info">Vendedor</label>
                         <mat-form-field>
@@ -149,7 +149,7 @@
         </div>
 
         <br>
-        <button class="mt-4" mat-raised-button color="primary" type="submit" [disabled]="form.invalid">Agregar Cliente</button>
+        <button class="mt-4" mat-raised-button color="primary" type="submit">Agregar Cliente</button>
 
     </form>
 

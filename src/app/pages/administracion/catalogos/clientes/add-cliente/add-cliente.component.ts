@@ -204,7 +204,7 @@ this.movimiento;
     }
     
     datos = JSON.stringify(datos);
-    // this.apicliente.crearCliente(datos).subscribe(data =>{
+     //this.apicliente.crearCliente(datos).subscribe(data =>{
         
       // if (data.status==='success'){
         // console.log(data);
@@ -217,6 +217,71 @@ this.movimiento;
           console.log(res);
           
         this.movimientos(this.movimiento)
+
+        this.otrocliente()
+          
+      /*     Swal.fire({
+            icon: 'success',
+            title: 'Cliente Agregado',
+            text: ''+this.service.formData.RazonSocial+'',
+            timer: 1500
+          }) */
+          
+        }
+        );
+
+        
+    
+      // }
+      // else{
+      //   console.log(data);
+        
+      // }
+      // this.resetForm(form);
+
+    // })
+
+
+
+    
+    
+  }
+
+  otrocliente(){
+    let email;
+    let rfc;
+    let razon;
+    let codpos;
+    let datos;
+   
+    email = 'riztekti@gmail.com';
+    rfc = this.service.formData.RFC;
+    razon = this.service.formData.RazonSocial;
+    codpos = this.service.formData.CP;
+    datos = {
+      "email" : email,
+      "razons" : razon,
+      "rfc" : rfc,
+      "codpos" : codpos
+    }
+    
+    datos = JSON.stringify(datos);
+
+      //this.apicliente.crearCliente2(datos).subscribe(data =>{
+        
+      // if (data.status==='success'){
+        // console.log(data);
+
+        // this.service.formData.IdApi=data.Data.UID
+        this.service.formData.IdApi='';
+        this.service.formData.Estatus = 'Activo'
+        //
+        this.service.addCliente2(this.service.formData).subscribe(res => {
+          console.log(res);
+          
+        this.movimientos(this.movimiento)
+
+        /* this.otrocliente() */
           
           Swal.fire({
             icon: 'success',
@@ -239,10 +304,6 @@ this.movimiento;
 
     // })
 
-
-
-    
-    
   }
 
   	

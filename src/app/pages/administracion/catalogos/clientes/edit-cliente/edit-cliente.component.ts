@@ -26,6 +26,7 @@ import { DatePipe } from '@angular/common';
   templateUrl: './edit-cliente.component.html',
   styleUrls: ['./edit-cliente.component.css']
 })
+
 export class EditClienteComponent implements OnInit {
 
   constructor(public dialogbox: MatDialogRef<EditClienteComponent>,
@@ -44,8 +45,9 @@ export class EditClienteComponent implements OnInit {
   this.BodegaInfo = this.data;
   this.movimiento = this.BodegaInfo.movimiento
     this.dropdownRefresh();
+    this.EstatusCliente()
   }
-
+  estatuscliente;
   BodegaInfo
   movimiento
   usuariosesion
@@ -60,6 +62,28 @@ export class EditClienteComponent implements OnInit {
      return this.options.filter(option =>
        option.Nombre.toLowerCase().includes(filterValue) ||
        option.IdVendedor.toString().includes(filterValue));
+  }
+
+  EstatusCliente(){
+
+    if (this.service.formData.Estatus=='Activo'){
+      this.estatuscliente = true
+
+    }else if (this.service.formData.Estatus=='Inactivo'){
+      this.estatuscliente = false
+    }
+
+  }
+  changeEstatus(event){
+    console.log(event);
+    if (event.checked){
+      this.service.formData.Estatus='Activo'
+      
+    }else{
+      this.service.formData.Estatus='Inactivo'
+
+    }
+    
   }
 
   dropdownRefresh(){
@@ -113,6 +137,15 @@ export class EditClienteComponent implements OnInit {
       this.apicliente.actualizarCliente(datos,this.service.formData.IdApi).subscribe(data =>{
         if (data.status==='success'){
           console.log(data);
+          this.apicliente.actualizarCliente2(datos,this.service.formData.IdApi).subscribe(data =>{
+            if (data.status==='success'){
+              console.log(data);
+            }
+            else{
+              console.log(data);
+              
+            }
+          })
         }
         else{
           console.log(data);
@@ -126,14 +159,22 @@ export class EditClienteComponent implements OnInit {
       //   duration: 5000,
       //   verticalPosition: 'top'
       // });
-      
-      this.movimientos(this.movimiento)
-      Swal.fire({
-        icon: 'success',
-        title: 'Cliente Actualizado',
-        text: ''+this.service.formData.RazonSocial+'',
-        timer: 1500
-      })
+      this.service.updateCliente2(this.service.formData).subscribe(res => {
+        // this.snackBar.open(res.toString(), '', {
+        //   duration: 5000,
+        //   verticalPosition: 'top'
+        // });
+        
+        this.movimientos(this.movimiento)
+        Swal.fire({
+          icon: 'success',
+          title: 'Cliente Actualizado',
+          text: ''+this.service.formData.RazonSocial+'',
+          timer: 1500
+        })
+        
+      });
+   
       
     });
     // console.log(this.service.formData);

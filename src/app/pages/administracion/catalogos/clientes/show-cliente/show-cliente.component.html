@@ -10,15 +10,15 @@
                             <option *ngFor="let e of listEmpresa" [ngValue]="e"> {{e.RazonSocial}} </option>
                           </select> -->
 
-
+                    <!-- 
                     <mat-form-field style="width: 100%;">
                         <mat-label> Empresa </mat-label>
-                        <!--  class="form-control" name="EstatusS" #EstatusS="ngModel" id="EstatusS" -->
+                        
                         <mat-select (selectionChange)="estatusCambio($event)" [(ngModel)]="apicliente.empresa">
-                            <!-- <mat-option [value]="" selected disabled>Seleccionar Estatus</mat-option> -->
+                            
                             <mat-option *ngFor="let e of listEmpresa" [value]="e"> {{e.RazonSocial}} </mat-option>
                         </mat-select>
-                    </mat-form-field>
+                    </mat-form-field> -->
 
 
 
