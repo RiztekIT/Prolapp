@@ -579,8 +579,8 @@ email(id?: string, folio?:string){
             ImporteDlls: (+saldo * +row.DetallePedido[i].PrecioUnitarioDlls).toFixed(4),
             Observaciones: '',
             TextoExtra: (+saldo - +saldoanterior).toString(),
-            ImporteIVA: '0.00',
-            ImporteIVADlls: '0.00'
+            ImporteIVA: '0.0000',
+            ImporteIVADlls: '0.0000'
           }
 
           console.log(detalleFactura);
