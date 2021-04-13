@@ -286,12 +286,12 @@ if (this.estatusSelect==='Todos'){
           PrecioUnitario: row.DetallePedido[i].PrecioUnitario,
           PrecioUnitarioDlls: row.DetallePedido[i].PrecioUnitarioDlls,
           Cantidad: saldo,
-          Importe: row.DetallePedido[i].Importe,
-          ImporteDlls: row.DetallePedido[i].ImporteDlls,
+          Importe: (+saldo * +row.DetallePedido[i].PrecioUnitario).toFixed(4),
+          ImporteDlls: (+saldo * +row.DetallePedido[i].PrecioUnitarioDlls).toFixed(4),
           Observaciones: '',
           TextoExtra: (+saldo - +saldoanterior).toString(),
-          ImporteIVA: '0.00',
-          ImporteIVADlls: '0.00'
+          ImporteIVA: '0.0000',
+          ImporteIVADlls: '0.0000'
         }
 
         console.log(detalleFactura);
