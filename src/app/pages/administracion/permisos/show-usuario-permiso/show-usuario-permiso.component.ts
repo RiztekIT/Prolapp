@@ -6,6 +6,7 @@ import { UsuariosServieService } from '../../../../services/catalogos/usuarios-s
 
 import { MatDialog, MatDialogConfig } from '@angular/material';
 import { ShowUsuarioPrivilegioComponent } from '../show-usuario-privilegio/show-usuario-privilegio.component';
+import { SidebarService } from '../../../../services/shared/sidebar.service';
 
 
 
@@ -23,7 +24,8 @@ export class ShowUsuarioPermisoComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
 
-  constructor(private service:UsuariosServieService, private dialog: MatDialog) { 
+  constructor(private service:UsuariosServieService, private dialog: MatDialog,
+    private SidebarService: SidebarService) { 
     
 
   this.service.listen().subscribe((m:any)=>{
@@ -73,7 +75,12 @@ this.service.formData=usuario;
     dialogConfig.autoFocus = true;
     dialogConfig.width="85%";
     dialogConfig.height = "70%";
-    this.dialog.open(ShowUsuarioPrivilegioComponent, dialogConfig);
+    let dlg = this.dialog.open(ShowUsuarioPrivilegioComponent, dialogConfig);
+    dlg.afterClosed().subscribe(resp=>{
+      // ! DESCOMENTAR SI SE QUIERE QUE SE HAGA EL CAMBIO DE LOS PERMISOS AL CERRAR LA VENTANA MODAL
+      // this.SidebarService.filter('Register click');
+    })
+    // this.dialog.open(ShowUsuarioPrivilegioComponent, dialogConfig);
     });
   }
 
