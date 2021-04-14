@@ -11,6 +11,7 @@ import { mergeMap, last, scan } from 'rxjs/operators';
 import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
 import { MessageService } from 'src/app/services/message.service';
 import { DocumentacionImportacionVisorDocumentosComponent } from '../documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
+import { Documento } from 'src/app/Models/documentos/documento-model';
 
 @Component({
   selector: 'app-documentacion-importacion',
@@ -29,7 +30,8 @@ export class DocumentacionImportacionComponent implements OnInit {
 
   constructor(public router: Router, public documentosService: DocumentosImportacionService, 
     public traspasoSVC: TraspasoMercanciaService, public _MessageService: MessageService, 
-    private dialog: MatDialog,
+    private dialog: MatDialog, public traspasoService: TraspasoMercanciaService,
+
     ) { }
 
   ngOnInit() {
@@ -197,17 +199,45 @@ this.traspasoSVC.getQuery(consulta).subscribe((resDocumentos:any)=>{
       //Estatus
   pdfstatus = false;
 
+  // ^ desplegar el visor de archivos
   leerArchivos(row, enviar?){
     
     console.log(row);
     const formData = new FormData();
     formData.append('folio', '0')
     formData.append('id', '0')
-    formData.append('archivo', row.name)
+    formData.append('archivo', row.NombreDocumento)
     // formData.append('direccionDocumento', 'Documentos/Importacion/Factura/01A1/LOT1')
-    formData.append('direccionDocumento', 'Documentos/Importacion/' + row.Tipo + '/' + row.ClaveProducto + '/' +row.Observaciones)
-    // console.log('%c%s', 'color: #f279ca', 'Documentos/Importacion/' + a.Tipo + '/' + a.ClaveProducto + '/' + a.Observaciones);
-    console.log('%c⧭', 'color: #408059', formData);
+    console.log('%c%s', 'color: #7f7700','Documentos/Importacion/',row.Tipo,'/',row.ClaveProducto,'/', row.Observaciones,'/', row.NombreDocumento );
+
+    switch(row.Tipo) {
+      case 'Factura':
+        console.log('%c%s', 'color: #00ff88', 'Factura');
+        formData.append('direccionDocumento', 'Documentos/Importacion/Factura/' + row.ClaveProducto + '/' +row.Observaciones)        
+        break;
+      case 'CLV':
+        console.log('%c%s', 'color: #00ff88', 'CLV');
+        formData.append('direccionDocumento', 'Documentos/Importacion/CLV/0/0/'+ row.ClaveProducto)        
+        break;
+      case 'USDA':
+        console.log('%c%s', 'color: #00ff88', 'USDA');
+        formData.append('direccionDocumento', 'Documentos/Importacion/USDA/' + row.Folio)        
+        break;
+      case 'CA':
+        console.log('%c%s', 'color: #00ff88', 'CA');
+        formData.append('direccionDocumento', 'Documentos/Importacion/CA/0/0/' + row.ClaveProducto + '/' +row.Observaciones)        
+        break;
+      case 'PESPI':
+        console.log('%c%s', 'color: #00ff88', 'PESPI');
+        formData.append('direccionDocumento', 'Documentos/Importacion/PESPI/0/0/'+ row.ClaveProducto + '/' +row.Observaciones)        
+        break;
+      case 'CO':
+        console.log('%c%s', 'color: #00ff88', 'CO');
+        formData.append('direccionDocumento', 'Documentos/Importacion/CO/0/0/' + row.ClaveProducto)        
+        break;
+        
+    }
+
     this.documentosService.readDocumentosServer(formData, 'ObtenerDocumento').subscribe(res => {
       console.log(res);
       const blob = new Blob([res as BlobPart], { type: 'application/pdf' });
@@ -235,5 +265,93 @@ this.traspasoSVC.getQuery(consulta).subscribe((resDocumentos:any)=>{
     })
 
   }
+
+      //^Eliminar Documento del Servidor
+      onRemove(event) {
+        console.log(event);
+        Swal.fire({
+          title: '¿Seguro de Borrar Documento?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Borrar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.value) {
+            const formData = new FormData();
+            if (event.Tipo != 'USDA') {
+              formData.append('name', event.NombreDocumento.toString())
+              formData.append('folio', '0')
+              formData.append('id', '0')
+              formData.append('tipo', event.Tipo)
+              formData.append('clave', event.ClaveProducto)
+              formData.append('lote', event.Observaciones)
+              
+            }else{
+              formData.append('name', event.NombreDocumento.toString())
+              formData.append('folio', event.Folio.toString())
+              formData.append('id', '')
+              formData.append('tipo', 'USDA')
+            }
+            
+            // this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
+              // console.log(resDelete);
+              let query = ''
+              switch(event.Tipo) {
+                case 'Factura':
+                  console.log('%c%s', 'color: #00ff88', 'Factura');
+                  query = 'delete Documentos where Path = ' + "'Documentos/Factura/" + event.ClaveProducto + "/" + event.Observaciones  + "/" + event.NombreDocumento + "'"  +''
+                  break;
+                case 'CLV':
+                  console.log('%c%s', 'color: #00ff88', 'CLV');
+                  query = 'delete Documentos where Path = ' + "'Documentos/CLV/0/0/" + event.ClaveProducto + "/" + event.NombreDocumento + "'"  +''
+                  break;
+                  case 'USDA':
+                    console.log('%c%s', 'color: #00ff88', 'USDA');
+                    query = 'delete Documentos where Path = ' + "'Documentos/USDA/" + event.Folio + "/" + event.NombreDocumento + "'"  +''
+                  break;
+                case 'CA':
+                  console.log('%c%s', 'color: #00ff88', 'CA');
+                  query = 'delete Documentos where Path = ' + "'Documentos/CA/0/0/" + event.ClaveProducto + "/" + event.Observaciones  + "/" + event.NombreDocumento + "'"  +''
+                  break;
+                case 'PESPI':
+                  console.log('%c%s', 'color: #00ff88', 'PESPI');
+                  query = 'delete Documentos where Path = ' + "'Documentos/PESPI/0/0/" + event.ClaveProducto + "/" + event.Observaciones  + "/" + event.NombreDocumento +  "'"  +''
+                  break;
+                case 'CO':
+                  console.log('%c%s', 'color: #00ff88', 'CO');
+                  query = 'delete Documentos where Path = ' + "'Documentos/CO/0/0/" + event.ClaveProducto + "/" + event.NombreDocumento + "'"  +''
+                  break;
+                // default:
+                  
+              } 
+              let consulta = {
+                'consulta': query
+              };
+              
+              console.log('%c⧭', 'color: #9c66cc', consulta);
+             this.traspasoService.getQuery(consulta).subscribe((detallesConsulta: any) => {
+                console.log(detallesConsulta);
+              this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
+                console.log(res)
+                this.pdfstatus = false;
+                this.obtenerDocumentos();
+                Swal.fire({
+                  title: 'Borrado',
+                  icon: 'success',
+                  timer: 1000,
+                  showCancelButton: false,
+                  showConfirmButton: false
+                });
+              })
+            })
+            
+            
+          }
+        })
+    
+      }
+
 
 }
