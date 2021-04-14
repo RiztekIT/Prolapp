@@ -134,7 +134,7 @@ export class EditClienteComponent implements OnInit {
         "codpos" : codpos
       }
       datos = JSON.stringify(datos);
-      this.apicliente.actualizarCliente(datos,this.service.formData.IdApi).subscribe(data =>{
+   /*    this.apicliente.actualizarCliente(datos,this.service.formData.IdApi).subscribe(data =>{
         if (data.status==='success'){
           console.log(data);
           this.apicliente.actualizarCliente2(datos,this.service.formData.IdApi).subscribe(data =>{
@@ -151,7 +151,7 @@ export class EditClienteComponent implements OnInit {
           console.log(data);
           
         }
-      })
+      }) */
 
     // this.service.formData.IdApi = '5de771f1a1203';
     this.service.updateCliente(this.service.formData).subscribe(res => {
