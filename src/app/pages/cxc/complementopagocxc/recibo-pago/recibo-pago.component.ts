@@ -1104,7 +1104,7 @@ console.log(this.json1);
     this.service.formData.FechaPago = evento.target.value;
     this.change(this.service.formData.FechaPago);
   }
-
+//
   change(date:any){
     //2020-02-26T07:00:00
     console.log(date);
