@@ -289,7 +289,14 @@ export class EmailgeneralComponent implements OnInit {
             }, 1000)
         } else if (this.data.tipo == 'Traspaso') {
             // console.log('Es un traspaso');
-          this.obtenerDocumentosTraspaso();
+        //   this.obtenerDocumentosTraspaso();
+            this.files = this._MessageService.documentosURL;
+            this.fileUrl = localStorage.getItem('OC');
+        }else if (this.data.tipo == 'Cotizacion') {
+            // console.log('Es un traspaso');
+            this.Intevalo = setInterval(() => {
+                this.urlPDF();
+            }, 1000)
         }
         
     }

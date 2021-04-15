@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ClientesService } from '../catalogos/clientes.service';
 import { DatePipe } from '@angular/common';
 import { StorageServiceService } from './storage-service.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { UsuariosServieService } from '../catalogos/usuarios-servie.service';
 
 export const APIUrl = environment.APIUrl;
@@ -175,8 +175,14 @@ export class SidebarService {
       // console.log('Constructor SideBar');
     this.getMenu();
   }
-    
-  }
+
+  
+  this.listen().subscribe((m:any)=>{
+    console.log(m);
+    console.log('%c%s', 'color: #33cc99', 'le pegaste constructor');
+    this.getMenu();
+    });
+}
   getMenu() {
 
     let u = JSON.parse(localStorage.getItem('ProlappSession'));
@@ -375,6 +381,16 @@ getMenucliente(){
   //   body.appendChild(script); 
   // } 
 
+
+  private _listeners = new Subject<any>(); 
+  listen(): Observable<any> {
+
+    console.log('%c%s', 'color: #e5de73', 'le pegaste');
+    return this._listeners.asObservable();
+  }
+  filter(filterBy: string) {
+    this._listeners.next(filterBy);
+  }
 
 
 }

@@ -9,6 +9,7 @@ import { procesoMasterDetalle } from '../../../../Models/procesomaster-model';
 import { Privilegio } from '../../../../Models/privilegio-model';
 import { CalendarioService } from '../../../../services/calendario/calendario.service';
 import { Calendario } from '../../../../Models/calendario/calendario-model';
+import { SidebarService } from '../../../../services/shared/sidebar.service';
 
 
 
@@ -25,7 +26,7 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
   PermisoBool :boolean;
 
   constructor(public service: ProcesoService, private service2:UsuariosServieService, public dialogbox: MatDialogRef<ShowUsuarioPrivilegioComponent>,
-     private dialog: MatDialog, public CalendarioService: CalendarioService) {
+     private dialog: MatDialog, public CalendarioService: CalendarioService, private SidebarService:SidebarService) {
 
 
   }
@@ -49,7 +50,7 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
 
   onClose() {
     this.dialogbox.close();
-    this.service.filter('Register click');
+    // this.service.filter('Register click');
   }
 
   checkbox(event,f,i,b){
@@ -68,13 +69,19 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
   onDelete(f,i){
     //solo se pasa como parametro la posicion en la que esta ya que estas indican el usuario y el proceso
   this.service.PermisoDelete(f, i).subscribe(res =>{
-    this.refreshProcesosList();
+    console.log('%c%s', 'color: #7f2200', res);
+    
+    this.SidebarService.filter('Register click');
+    // this.refreshProcesosList();
  })
   }
 
 onAdd(f,i){
   // console.log(f, i);
   this.service.PermisoPost(f,i).subscribe(res =>{
+    
+    this.SidebarService.filter('Register click');
+    console.log('%c%s', 'color: #994d75', res);
     //Obtener nombre de usuario
     this.CalendarioService.getUsuarioId(f).subscribe(usuarioId=>{
       // console.log(usuarioId[0]);
@@ -100,7 +107,7 @@ onAdd(f,i){
     });
     //si no existe, se crea
     //si existe, no pasa nada
-    this.refreshProcesosList();
+    // this.refreshProcesosList();
   });
 }
 
@@ -170,9 +177,9 @@ onAdd(f,i){
                 });
 
               
-                console.log('%c⧭', 'color: #f200e2', this.service.master);             
-            }) //fin del for anidado
-          } //fin del main for
+              }) //fin del for anidado
+            } //fin del main for
+            console.log('%c⧭', 'color: #f200e2', this.service.master);             
 
 
           

@@ -4,7 +4,7 @@ import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { trigger, state, transition, animate, style } from '@angular/animations';
 import Swal from 'sweetalert2';
-import { Observable, Subscriber } from 'rxjs';
+import { Observable, Subscriber, Subscription } from 'rxjs';
 import { DocumentosImportacionService } from '../../../services/importacion/documentos-importacion.service';
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { mergeMap, last, scan } from 'rxjs/operators';
@@ -35,6 +35,7 @@ export class DocumentacionImportacionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getTipos();
     // this.obtenerOrdenDescargaDocumentos();
     this.obtenerDocumentos();
     //^ **** PRIVILEGIOS POR USUARIO *****
@@ -45,51 +46,92 @@ export class DocumentacionImportacionComponent implements OnInit {
   }
 
 
+    
+    //^ **** PRIVILEGIOS POR USUARIO *****
+    privilegios: any;
+    privilegiosExistentes: boolean = false;
+    modulo = 'Importacion';
+    area = 'Documentacion';
+  
+    //^ VARIABLES DE PERMISOS
+    AgregarNueva: boolean = false;
+    Agregar: boolean = false;
+    //^ VARIABLES DE PERMISOS
 
-  //^ **** PRIVILEGIOS POR USUARIO *****
-  privilegios: any;
-  privilegiosExistentes: boolean = false;
-  modulo = 'Importacion';
-  area = 'Documentacion';
-
-  //^ VARIABLES DE PERMISOS
-  AgregarNueva: boolean = false;
-  Agregar: boolean = false;
-  //^ VARIABLES DE PERMISOS
-
-
-  obtenerPrivilegios() {
-    let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
-    console.log(arrayPermisosMenu);
-    let arrayPrivilegios: any;
-    try {
-      arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
-      // console.log(arrayPrivilegios);
-      arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
-      // console.log(arrayPrivilegios);
-      this.privilegios = [];
-      arrayPrivilegios.privilegios.forEach(element => {
-        this.privilegios.push(element.nombreProceso);
-        this.verificarPrivilegio(element.nombreProceso);
-      });
-      // console.log(this.privilegios);
-    } catch {
-      console.log('Ocurrio algun problema');
+    // VARIABLES DEL SELECT
+    tipoSelect;
+    public listTipos: Array<any> = [];
+  
+  
+    obtenerPrivilegios() {
+      let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+      console.log(arrayPermisosMenu);
+      let arrayPrivilegios: any;
+      try {
+        arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+        // console.log(arrayPrivilegios);
+        arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+        // console.log(arrayPrivilegios);
+        this.privilegios = [];
+        arrayPrivilegios.privilegios.forEach(element => {
+          this.privilegios.push(element.nombreProceso);
+          this.verificarPrivilegio(element.nombreProceso);
+        });
+        // console.log(this.privilegios);
+      } catch {
+        console.log('Ocurrio algun problema');
+      }
     }
-  }
 
-  verificarPrivilegio(privilegio) {
-    switch (privilegio) {
-      case ('Agregar Nueva Documentacion'):
-        this.AgregarNueva = true;
-        break;
-      case ('Agregar Documento'):
-        this.Agregar = true;
-        break;
-      default:
-        break;
-    }
+    subs1: Subscription
+    tipoCambio(event){
+      // console.log(event);
+this.tipoSelect = event.value;
+console.log(this.tipoSelect);
+let filtro = this.tipoSelect;
+//this.obtenerProductos(this.tipoSelect)
+if (this.tipoSelect=='Todos'){
+  filtro = ''
+
+}
+this.applyFilterTipos(filtro)
+
+
+ }
+
+ getTipos(){
+  let query = ' select distinct Tipo from Documentos'
+  let consulta = {
+    'consulta':query
+  };
+  this.listTipos = []
+this.subs1 = this.traspasoSVC.getQuery(consulta).subscribe((resTipos:any)=>{
+
+  console.clear();
+  console.log(resTipos);
+  this.listTipos.push('Todos')
+  for (let i = 0; i <= resTipos.length -1; i++) {
+    let b = resTipos[i].Tipo
+    this.listTipos.push(b)
   }
+})
+
+  
+ }
+  
+    verificarPrivilegio(privilegio) {
+      switch (privilegio) {
+        case ('Agregar Nueva Documentacion'):
+          this.AgregarNueva = true;
+          break;
+        case ('Agregar Documento'):
+          this.Agregar = true;
+          break;
+        default:
+          break;
+      }
+    }
+  
   //^ **** PRIVILEGIOS POR USUARIO *****
 
   listData: MatTableDataSource<any>;
@@ -190,6 +232,12 @@ export class DocumentacionImportacionComponent implements OnInit {
   }
 
   applyFilter(filtervalue: string) {
+    this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+  }
+    applyFilterTipos(filtervalue: string) {
+      this.listData.filterPredicate = (data, filter: string) => {
+        return data.Tipo.toString().toLowerCase().includes(filter);
+      };
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
   }
 
