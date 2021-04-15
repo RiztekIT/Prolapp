@@ -282,6 +282,11 @@ export class EmailgeneralComponent implements OnInit {
             // console.log('Es un traspaso');
             this.files = this._MessageService.documentosURL;
             this.fileUrl = localStorage.getItem('OC');
+        }else if (this.data.tipo == 'Cotizacion') {
+            // console.log('Es un traspaso');
+            this.Intevalo = setInterval(() => {
+                this.urlPDF();
+            }, 1000)
         }
         
     }

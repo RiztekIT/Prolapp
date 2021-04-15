@@ -1577,7 +1577,7 @@ email(cotizacion){
         jsPDF: { format: 'letter', orientation: 'portrait' },
       };
       html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
-        localStorage.setItem('pdfcorreo'+cotizacion.Folio, pdfAsString);
+        localStorage.setItem('pdfcorreo', pdfAsString);
         this.statusparam=true;          
         console.log(this.statusparam);                
       })

@@ -62,6 +62,11 @@ style;
   ngOnInit() {
     console.clear();
     this.style = 'block'
+    Swal.fire({
+      allowOutsideClick: false,
+      text: 'Espere por favor...',
+      icon: 'info'
+    });
 
     Swal.showLoading()
     // if (localStorage.getItem('pdfOC')){
@@ -438,6 +443,7 @@ style;
 
     let pdf = await worker.then(function(pdfAsString){
       this.pdf = pdfAsString;
+      localStorage.setItem('pdfCorreo', this.pdf);
       this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
       return this.pdf;
     })
@@ -447,15 +453,18 @@ style;
 
   reloadPDF(event){
     console.log(event);
-    this.currentPdf = localStorage.getItem('pdfOC');
+    this.currentPdf = localStorage.getItem('pdfCorreo');
     let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
     const url = window.URL.createObjectURL(blob);
+
+    if (this.dataComponente.origen=='normal'){
 
     const link = document.createElement('a');
     link.href = url;
     link.target = '_blank'    
     link.click();
     this.style = 'none'
+    }
     
     Swal.close();
     this.onClose()
@@ -464,14 +473,19 @@ style;
 
   reloadPDFFINAL(event){
     this.currentPdf = event
+    this.currentPdf = localStorage.getItem('pdfOC');
     let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
     const url = window.URL.createObjectURL(blob);
+
+    if (this.dataComponente.origen=='normal'){
 
     const link = document.createElement('a');
     link.href = url;
     link.target = '_blank'    
     link.click();
     this.style = 'none'
+
+    }
     
     Swal.close();
     this.onClose()

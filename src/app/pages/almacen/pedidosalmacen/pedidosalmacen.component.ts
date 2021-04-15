@@ -265,7 +265,8 @@ export class PedidosalmacenComponent implements OnInit, OnDestroy {
     dialogConfig.autoFocus = true;
     dialogConfig.width = "70%";
     dialogConfig.data = {
-      IdOrdenCarga: row.IdOrdenCarga
+      IdOrdenCarga: row.IdOrdenCarga,
+      origen:'normal'
     }
     this.dialog.open(SalidaProductoComponent, dialogConfig);
   }
