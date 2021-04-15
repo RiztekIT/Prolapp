@@ -154,7 +154,7 @@ export class PedidoVentasComponent implements OnInit {
   MasterDetalle = new Array<pedidoMaster>();
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['Folio', 'Nombre', 'Subtotal', 'Total', 'FechaDeExpedicion', 'Estatus', 'Options'];
+  displayedColumns: string[] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Cantidad', 'Subtotal', 'Total',  'Estatus', 'Options'];
 
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Cantidad'];
 
@@ -189,10 +189,13 @@ export class PedidoVentasComponent implements OnInit {
          } */
         this.service.master[i] = data[i]
         this.service.master[i].DetallePedido = [];
+        let cantidad = 0;
         this.subs2 = this.service.getDetallePedidoId(data[i].IdPedido).subscribe(res => {
           for (let l = 0; l <= res.length - 1; l++) {
             this.service.master[i].DetallePedido.push(res[l]);
+            cantidad = cantidad + +res[l].Cantidad;
           }
+          this.service.master[i].Cantidad = cantidad;
         });
       }
 

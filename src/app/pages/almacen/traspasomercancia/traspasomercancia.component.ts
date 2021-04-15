@@ -13,6 +13,7 @@ import { TarimaService } from '../../../services/almacen/tarima/tarima.service';
 import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model';
 import { OrdenCargaService } from '../../../services/almacen/orden-carga/orden-carga.service';
 import { OrdenTemporal } from '../../../Models/almacen/OrdenTemporal/ordenTemporal-model';
+import { VisorExploradorComponent } from 'src/app/components/explorador-documentos/visor-explorador/visor-explorador.component';
 
 @Component({
   selector: 'app-traspasomercancia',
@@ -386,6 +387,19 @@ subs1: Subscription
       console.log(detalleTarima);
     })
   }
+
+  explorador(){
+    const dialogConfig2 = new MatDialogConfig();
+dialogConfig2.disableClose = false;
+dialogConfig2.autoFocus = true;
+dialogConfig2.width = "60%";
+dialogConfig2.height = "60%";
+// dialogConfig2.data = {
+//   IdOrdenCarga: this.traspasoSVC.selectTraspaso.IdOrdenCarga,
+//   origen: 'correo'
+// }            
+let dl = this.dialog.open(VisorExploradorComponent, dialogConfig2);
+}
   
 
  

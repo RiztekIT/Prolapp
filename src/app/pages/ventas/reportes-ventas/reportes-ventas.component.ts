@@ -34,7 +34,7 @@ declare function btn_table();
 export class ReportesVentasComponent implements OnInit {
 
   listDetalleData;
-  displayedColumns : string [] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Cantidad', 'Subtotal', 'ImpuestosTrasladadosDlls', 'Total', 'Estado'];
+  displayedColumns : string [] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Cantidad', 'Total', 'Estado'];
   displayedColumnsVersion : string [] = ['ClaveProducto'];
   listData: MatTableDataSource<any>;
   MasterDetalle = new Array<facturaMasterDetalle>();

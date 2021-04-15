@@ -28,11 +28,11 @@ import { Documento } from 'src/app/Models/documentos/documento-model';
 export class DocumentacionImportacionComponent implements OnInit {
 
 
-  constructor(public router: Router, public documentosService: DocumentosImportacionService, 
-    public traspasoSVC: TraspasoMercanciaService, public _MessageService: MessageService, 
+  constructor(public router: Router, public documentosService: DocumentosImportacionService,
+    public traspasoSVC: TraspasoMercanciaService, public _MessageService: MessageService,
     private dialog: MatDialog, public traspasoService: TraspasoMercanciaService,
 
-    ) { }
+  ) { }
 
   ngOnInit() {
     // this.obtenerOrdenDescargaDocumentos();
@@ -40,57 +40,57 @@ export class DocumentacionImportacionComponent implements OnInit {
     //^ **** PRIVILEGIOS POR USUARIO *****
     this.obtenerPrivilegios();
     //^ **** PRIVILEGIOS POR USUARIO *****
-    
+
     this._MessageService.documentosURL = [];
   }
 
 
-    
-    //^ **** PRIVILEGIOS POR USUARIO *****
-    privilegios: any;
-    privilegiosExistentes: boolean = false;
-    modulo = 'Importacion';
-    area = 'Documentacion';
-  
-    //^ VARIABLES DE PERMISOS
-    AgregarNueva: boolean = false;
-    Agregar: boolean = false;
-    //^ VARIABLES DE PERMISOS
-  
-  
-    obtenerPrivilegios() {
-      let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
-      console.log(arrayPermisosMenu);
-      let arrayPrivilegios: any;
-      try {
-        arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
-        // console.log(arrayPrivilegios);
-        arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
-        // console.log(arrayPrivilegios);
-        this.privilegios = [];
-        arrayPrivilegios.privilegios.forEach(element => {
-          this.privilegios.push(element.nombreProceso);
-          this.verificarPrivilegio(element.nombreProceso);
-        });
-        // console.log(this.privilegios);
-      } catch {
-        console.log('Ocurrio algun problema');
-      }
+
+  //^ **** PRIVILEGIOS POR USUARIO *****
+  privilegios: any;
+  privilegiosExistentes: boolean = false;
+  modulo = 'Importacion';
+  area = 'Documentacion';
+
+  //^ VARIABLES DE PERMISOS
+  AgregarNueva: boolean = false;
+  Agregar: boolean = false;
+  //^ VARIABLES DE PERMISOS
+
+
+  obtenerPrivilegios() {
+    let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
+    console.log(arrayPermisosMenu);
+    let arrayPrivilegios: any;
+    try {
+      arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
+      // console.log(arrayPrivilegios);
+      arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
+      // console.log(arrayPrivilegios);
+      this.privilegios = [];
+      arrayPrivilegios.privilegios.forEach(element => {
+        this.privilegios.push(element.nombreProceso);
+        this.verificarPrivilegio(element.nombreProceso);
+      });
+      // console.log(this.privilegios);
+    } catch {
+      console.log('Ocurrio algun problema');
     }
-  
-    verificarPrivilegio(privilegio) {
-      switch (privilegio) {
-        case ('Agregar Nueva Documentacion'):
-          this.AgregarNueva = true;
-          break;
-        case ('Agregar Documento'):
-          this.Agregar = true;
-          break;
-        default:
-          break;
-      }
+  }
+
+  verificarPrivilegio(privilegio) {
+    switch (privilegio) {
+      case ('Agregar Nueva Documentacion'):
+        this.AgregarNueva = true;
+        break;
+      case ('Agregar Documento'):
+        this.Agregar = true;
+        break;
+      default:
+        break;
     }
-    //^ **** PRIVILEGIOS POR USUARIO *****
+  }
+  //^ **** PRIVILEGIOS POR USUARIO *****
 
   listData: MatTableDataSource<any>;
   displayedColumns: string[] = ['Tipo', 'CP', 'Documento', 'Lote', 'FechaV', 'Options'];
@@ -104,18 +104,18 @@ export class DocumentacionImportacionComponent implements OnInit {
 
   arrOrdenDescarga: any;
 
- 
+
 
   //Obtiene Ordenes Descargadas.
   obtenerOrdenDescargaDocumentos() {
-  this.documentosService.getOrdenesDescargadas().subscribe(data => {
+    this.documentosService.getOrdenesDescargadas().subscribe(data => {
       console.log(data);
       this.documentosService.master = []
       console.log(this.documentosService.master);
       if (data.length > 0) {
         // console.log('Si hay datos');
         // let detalleOrdenDescarga = new Array<any>();
-        for (let i = 0; i < data.length ; i++) {
+        for (let i = 0; i < data.length; i++) {
           console.log(i);
           this.documentosService.master[i] = data[i];
           this.documentosService.master[i].detalleDocumento = [];
@@ -142,14 +142,14 @@ export class DocumentacionImportacionComponent implements OnInit {
               //     joinDescargaDocumento.Documento = false;
               //     console.log('no hay documento');
               //   }
-                this.documentosService.master[i].detalleDocumento.push(element);
-                this.listData = new MatTableDataSource(this.documentosService.master);
-                this.listData.sort = this.sort;
-                // this.listData.paginator = this.paginator;
-                //         // console.log(this.documentosService.master);
+              this.documentosService.master[i].detalleDocumento.push(element);
+              this.listData = new MatTableDataSource(this.documentosService.master);
+              this.listData.sort = this.sort;
+              // this.listData.paginator = this.paginator;
+              //         // console.log(this.documentosService.master);
               // })
               console.log(this.documentosService.master);
-          });
+            });
           })
         }
       } else {
@@ -163,17 +163,17 @@ export class DocumentacionImportacionComponent implements OnInit {
   }
 
 
-  obtenerDocumentos(){
-    let query = ' select * from Documentos'
+  obtenerDocumentos() {
+    let query = 'select * from Documentos order by IdDocumento desc'
     let consulta = {
-      'consulta':query
+      'consulta': query
     };
-this.traspasoSVC.getQuery(consulta).subscribe((resDocumentos:any)=>{
-  console.log(resDocumentos);
-  this.listData = new MatTableDataSource(resDocumentos);
-        this.listData.sort = this.sort;
-        this.listData.paginator = this.paginator;
-})
+    this.traspasoSVC.getQuery(consulta).subscribe((resDocumentos: any) => {
+      console.log(resDocumentos);
+      this.listData = new MatTableDataSource(resDocumentos);
+      this.listData.sort = this.sort;
+      this.listData.paginator = this.paginator;
+    })
   }
 
   //puede llegar como parametro el idDetalleOrdenDescarga
@@ -189,53 +189,57 @@ this.traspasoSVC.getQuery(consulta).subscribe((resDocumentos:any)=>{
     this.router.navigate(['/documentacion-formulario-importacion']);
   }
 
-    applyFilter(filtervalue: string) {
+  applyFilter(filtervalue: string) {
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
   }
 
-    //File URL del pdf, para ser mostrado en el visor de decumentos
-    fileUrl;
+  //File URL del pdf, para ser mostrado en el visor de decumentos
+  fileUrl;
 
-      //Estatus
+  //Estatus
   pdfstatus = false;
 
   // ^ desplegar el visor de archivos
-  leerArchivos(row, enviar?){
-    
+  leerArchivos(row, enviar?) {
+
     console.log(row);
     const formData = new FormData();
     formData.append('folio', '0')
     formData.append('id', '0')
     formData.append('archivo', row.NombreDocumento)
     // formData.append('direccionDocumento', 'Documentos/Importacion/Factura/01A1/LOT1')
-    console.log('%c%s', 'color: #7f7700','Documentos/Importacion/',row.Tipo,'/',row.ClaveProducto,'/', row.Observaciones,'/', row.NombreDocumento );
+    console.log('%c%s', 'color: #7f7700', 'Documentos/Importacion/', row.Tipo, '/', row.ClaveProducto, '/', row.Observaciones, '/', row.NombreDocumento);
 
-    switch(row.Tipo) {
+    switch (row.Tipo) {
       case 'Factura':
         console.log('%c%s', 'color: #00ff88', 'Factura');
-        formData.append('direccionDocumento', 'Documentos/Importacion/Factura/' + row.ClaveProducto + '/' +row.Observaciones)        
+        formData.append('direccionDocumento', 'Documentos/Importacion/Factura/' + row.ClaveProducto + '/' + row.Observaciones)
         break;
       case 'CLV':
         console.log('%c%s', 'color: #00ff88', 'CLV');
-        formData.append('direccionDocumento', 'Documentos/Importacion/CLV/0/0/'+ row.ClaveProducto)        
+        formData.append('direccionDocumento', 'Documentos/Importacion/CLV/0/0/' + row.ClaveProducto)
         break;
       case 'USDA':
         console.log('%c%s', 'color: #00ff88', 'USDA');
-        formData.append('direccionDocumento', 'Documentos/Importacion/USDA/' + row.Folio)        
+        formData.append('direccionDocumento', 'Documentos/Importacion/USDA/' + row.Folio)
         break;
       case 'CA':
         console.log('%c%s', 'color: #00ff88', 'CA');
-        formData.append('direccionDocumento', 'Documentos/Importacion/CA/0/0/' + row.ClaveProducto + '/' +row.Observaciones)        
+        formData.append('direccionDocumento', 'Documentos/Importacion/CA/0/0/' + row.ClaveProducto + '/' + row.Observaciones)
         break;
       case 'PESPI':
         console.log('%c%s', 'color: #00ff88', 'PESPI');
-        formData.append('direccionDocumento', 'Documentos/Importacion/PESPI/0/0/'+ row.ClaveProducto + '/' +row.Observaciones)        
+        formData.append('direccionDocumento', 'Documentos/Importacion/PESPI/0/0/' + row.ClaveProducto + '/' + row.Observaciones)
         break;
       case 'CO':
         console.log('%c%s', 'color: #00ff88', 'CO');
-        formData.append('direccionDocumento', 'Documentos/Importacion/CO/0/0/' + row.ClaveProducto)        
+        formData.append('direccionDocumento', 'Documentos/Importacion/CO/0/0/' + row.ClaveProducto)
         break;
-        
+      case 'General':
+        console.log('%c%s', 'color: #00ff88', 'CO');
+        formData.append('direccionDocumento', 'Documentos/Importacion/General')
+        break;
+
     }
 
     this.documentosService.readDocumentosServer(formData, 'ObtenerDocumento').subscribe(res => {
@@ -250,108 +254,113 @@ this.traspasoSVC.getQuery(consulta).subscribe((resDocumentos:any)=>{
         this.fileUrl = fr.result;
         this.pdfstatus = true;
         this.documentosService.fileUrl = this.fileUrl;
-      // ^ Si es enviar, solo guardaremos el resultado en  una variable , para enviarla por correo.
-      if(enviar == true){
-        let temp = Object.assign({}, this.fileUrl);
+        // ^ Si es enviar, solo guardaremos el resultado en  una variable , para enviarla por correo.
+        if (enviar == true) {
+          let temp = Object.assign({}, this.fileUrl);
           this._MessageService.documentosURL.push(temp);
-      }else{
-        const dialogConfig = new MatDialogConfig();
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.width = "70%";
-        this.dialog.open(DocumentacionImportacionVisorDocumentosComponent, dialogConfig);
-      }
+        } else {
+          const dialogConfig = new MatDialogConfig();
+          dialogConfig.disableClose = true;
+          dialogConfig.autoFocus = true;
+          dialogConfig.width = "70%";
+          this.dialog.open(DocumentacionImportacionVisorDocumentosComponent, dialogConfig);
+        }
       }
     })
 
   }
 
-      //^Eliminar Documento del Servidor
-      onRemove(event) {
-        console.log(event);
-        Swal.fire({
-          title: '¿Seguro de Borrar Documento?',
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-          confirmButtonText: 'Borrar',
-          cancelButtonText: 'Cancelar'
-        }).then((result) => {
-          if (result.value) {
-            const formData = new FormData();
-            if (event.Tipo != 'USDA') {
-              formData.append('name', event.NombreDocumento.toString())
-              formData.append('folio', '0')
-              formData.append('id', '0')
-              formData.append('tipo', event.Tipo)
-              formData.append('clave', event.ClaveProducto)
-              formData.append('lote', event.Observaciones)
-              
-            }else{
-              formData.append('name', event.NombreDocumento.toString())
-              formData.append('folio', event.Folio.toString())
-              formData.append('id', '')
-              formData.append('tipo', 'USDA')
-            }
-            
-            // this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
-              // console.log(resDelete);
-              let query = ''
-              switch(event.Tipo) {
-                case 'Factura':
-                  console.log('%c%s', 'color: #00ff88', 'Factura');
-                  query = 'delete Documentos where Path = ' + "'Documentos/Factura/" + event.ClaveProducto + "/" + event.Observaciones  + "/" + event.NombreDocumento + "'"  +''
-                  break;
-                case 'CLV':
-                  console.log('%c%s', 'color: #00ff88', 'CLV');
-                  query = 'delete Documentos where Path = ' + "'Documentos/CLV/0/0/" + event.ClaveProducto + "/" + event.NombreDocumento + "'"  +''
-                  break;
-                  case 'USDA':
-                    console.log('%c%s', 'color: #00ff88', 'USDA');
-                    query = 'delete Documentos where Path = ' + "'Documentos/USDA/" + event.Folio + "/" + event.NombreDocumento + "'"  +''
-                  break;
-                case 'CA':
-                  console.log('%c%s', 'color: #00ff88', 'CA');
-                  query = 'delete Documentos where Path = ' + "'Documentos/CA/0/0/" + event.ClaveProducto + "/" + event.Observaciones  + "/" + event.NombreDocumento + "'"  +''
-                  break;
-                case 'PESPI':
-                  console.log('%c%s', 'color: #00ff88', 'PESPI');
-                  query = 'delete Documentos where Path = ' + "'Documentos/PESPI/0/0/" + event.ClaveProducto + "/" + event.Observaciones  + "/" + event.NombreDocumento +  "'"  +''
-                  break;
-                case 'CO':
-                  console.log('%c%s', 'color: #00ff88', 'CO');
-                  query = 'delete Documentos where Path = ' + "'Documentos/CO/0/0/" + event.ClaveProducto + "/" + event.NombreDocumento + "'"  +''
-                  break;
-                // default:
-                  
-              } 
-              let consulta = {
-                'consulta': query
-              };
-              
-              console.log('%c⧭', 'color: #9c66cc', consulta);
-             this.traspasoService.getQuery(consulta).subscribe((detallesConsulta: any) => {
-                console.log(detallesConsulta);
-              this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
-                console.log(res)
-                this.pdfstatus = false;
-                this.obtenerDocumentos();
-                Swal.fire({
-                  title: 'Borrado',
-                  icon: 'success',
-                  timer: 1000,
-                  showCancelButton: false,
-                  showConfirmButton: false
-                });
-              })
-            })
-            
-            
-          }
+  //^Eliminar Documento del Servidor
+  onRemove(event) {
+    console.log(event);
+    Swal.fire({
+      title: '¿Seguro de Borrar Documento?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        const formData = new FormData();
+        if (event.Tipo != 'USDA') {
+          formData.append('name', event.NombreDocumento.toString())
+          formData.append('folio', '0')
+          formData.append('id', '0')
+          formData.append('tipo', event.Tipo)
+          formData.append('clave', event.ClaveProducto)
+          formData.append('lote', event.Observaciones)
+
+        } else {
+          formData.append('name', event.NombreDocumento.toString())
+          formData.append('folio', event.Folio.toString())
+          formData.append('id', '')
+          formData.append('tipo', 'USDA')
+        }
+
+        // this.documentosService.borrarDocumentoFMTDID(docu).subscribe(resDelete=>{
+        // console.log(resDelete);
+        let query = ''
+        switch (event.Tipo) {
+          case 'Factura':
+            console.log('%c%s', 'color: #00ff88', 'Factura');
+            query = 'delete Documentos where Path = ' + "'Documentos/Factura/" + event.ClaveProducto + "/" + event.Observaciones + "/" + event.NombreDocumento + "'" + ''
+            break;
+          case 'CLV':
+            console.log('%c%s', 'color: #00ff88', 'CLV');
+            query = 'delete Documentos where Path = ' + "'Documentos/CLV/0/0/" + event.ClaveProducto + "/" + event.NombreDocumento + "'" + ''
+            break;
+          case 'USDA':
+            console.log('%c%s', 'color: #00ff88', 'USDA');
+            query = 'delete Documentos where Path = ' + "'Documentos/USDA/" + event.Folio + "/" + event.NombreDocumento + "'" + ''
+            break;
+          case 'CA':
+            console.log('%c%s', 'color: #00ff88', 'CA');
+            query = 'delete Documentos where Path = ' + "'Documentos/CA/0/0/" + event.ClaveProducto + "/" + event.Observaciones + "/" + event.NombreDocumento + "'" + ''
+            break;
+          case 'PESPI':
+            console.log('%c%s', 'color: #00ff88', 'PESPI');
+            query = 'delete Documentos where Path = ' + "'Documentos/PESPI/0/0/" + event.ClaveProducto + "/" + event.Observaciones + "/" + event.NombreDocumento + "'" + ''
+            break;
+          case 'CO':
+            console.log('%c%s', 'color: #00ff88', 'CO');
+            query = 'delete Documentos where Path = ' + "'Documentos/CO/0/0/" + event.ClaveProducto + "/" + event.NombreDocumento + "'" + ''
+            break;
+          case 'General':
+            console.log('%c%s', 'color: #00ff88', 'General');
+            query = "delete Documentos where Path = 'Documentos/General/" + event.NombreDocumento + "'"; 
+            break;
+          // default:
+
+        }
+        let consulta = {
+          'consulta': query
+        };
+
+        console.log('%c⧭', 'color: #9c66cc', consulta);
+        //^ Borrar documento de la base de datos.
+        this.traspasoService.getQuery(consulta).subscribe((detallesConsulta: any) => {
+          console.log(detallesConsulta);
+          this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
+            console.log(res)
+            this.pdfstatus = false;
+            this.obtenerDocumentos();
+            Swal.fire({
+              title: 'Borrado',
+              icon: 'success',
+              timer: 1000,
+              showCancelButton: false,
+              showConfirmButton: false
+            });
+          })
         })
-    
+
+
       }
+    })
+
+  }
 
 
 }
