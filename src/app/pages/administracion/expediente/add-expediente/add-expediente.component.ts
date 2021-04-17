@@ -1,16 +1,32 @@
 import { Component, OnInit } from '@angular/core';  
+
 import { ClientesService } from '../../../../services/catalogos/clientes.service';
+
 import { DocumentosImportacionService } from '../../../../services/importacion/documentos-importacion.service';
+
 import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
+
 import { Documento } from '../../../../Models/documentos/documento-model';
+
 import Swal from 'sweetalert2';
+
 import { MatDialogRef, MatSnackBar, MatDialogConfig, MatDialog } from '@angular/material';
+
 import { FormControl } from '@angular/forms';
+
 import { Cliente } from 'src/app/Models/catalogos/clientes-model';
+
 import { Observable } from 'rxjs';
+
 import { map, startWith } from 'rxjs/operators';
+
 import { DocumentacionImportacionVisorDocumentosComponent } from '../../../importacion/documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
+
 import * as html2pdf from 'html2pdf.js';
+import { DatePipe } from '@angular/common';
+import { Evento } from 'src/app/Models/eventos/evento-model';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
+
 @Component({
   selector: 'app-add-expediente',
   templateUrl: './add-expediente.component.html',
@@ -18,7 +34,9 @@ import * as html2pdf from 'html2pdf.js';
 })
 export class AddExpedienteComponent implements OnInit {
 
-  constructor(public clienteService: ClientesService, private dialog: MatDialog, public documentosService: DocumentosImportacionService, public dialogbox: MatDialogRef<AddExpedienteComponent>,) { }
+  constructor(public clienteService: ClientesService, private dialog: MatDialog, public documentosService: DocumentosImportacionService, public dialogbox: MatDialogRef<AddExpedienteComponent>,
+    private datePipe:DatePipe,
+    private eventosService:EventosService,) { }
 
   ngOnInit() {
     this.IdCliente = this.clienteService.objetoCliente.IdClientes;
@@ -230,6 +248,9 @@ onAddDocumentos() {
                 this.files = [];
                 this.archivos = [];
                 this.obtenerDocumentos(this.IdCliente);
+
+                this.movimientos('Expediente Agregado')
+
                 Swal.fire({
                   title: 'Documentos Guardados',
                   icon: 'success',
@@ -249,6 +270,8 @@ onAddDocumentos() {
   
   // this.files.push(...event.addedFiles);
 }
+
+
 
     //Eliminar documento de arreglos locales
     onRemoveDocDropzone(event) {
@@ -286,7 +309,7 @@ onAddDocumentos() {
               this.files.splice(this.files.indexOf(event),1);
               this.archivos.splice(this.archivos.indexOf(event), 1);
               this.pdfstatus = false;
-              
+              this.movimientos('Expediente Eliminado')
               Swal.fire({
                 title: 'Borrado',
                 icon: 'success',
@@ -358,4 +381,22 @@ onAddDocumentos() {
   onClose(){
     this.dialogbox.close();
   }
+
+  
+  movimientos(movimiento?){
+    let userData = JSON.parse(localStorage.getItem("userAuth"))
+    let idUser = userData.IdUsuario
+    let evento = new Evento();
+    let fecha = new Date();
+    evento.IdUsuario = idUser
+    evento.Autorizacion = '0'
+    evento.Fecha = this.datePipe.transform(fecha, 'yyyy-MM-dd, h:mm:ss a');
+    evento.Movimiento = movimiento
+    console.log(evento);
+    if (movimiento) {
+      this.eventosService.addEvento(evento).subscribe(respuesta =>{
+        console.log(respuesta);
+      })      
+    }
+}
 }

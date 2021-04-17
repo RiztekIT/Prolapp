@@ -4,6 +4,7 @@ import {Observable } from 'rxjs';
 import { Evento } from '../../Models/eventos/evento-model';
 import {Subject} from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { DatePipe } from '@angular/common';
 
 
 
@@ -12,7 +13,8 @@ import { environment } from 'src/environments/environment';
 })
 export class EventosService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient, 
+    private datePipe:DatePipe,) { }
 
 
 
@@ -44,6 +46,23 @@ export class EventosService {
 
 
 
+    movimientos(movimiento?){
+      console.log('%c%s', 'color: #99614d', 'Le pegaste al Evento');
+      let userData = JSON.parse(localStorage.getItem("userAuth"))
+      let idUser = userData.IdUsuario
+      let evento = new Evento();
+      let fecha = new Date();
+      evento.IdUsuario = idUser
+      evento.Autorizacion = '0'
+      evento.Fecha = this.datePipe.transform(fecha, 'yyyy-MM-dd, h:mm:ss a');
+      evento.Movimiento = movimiento
+      console.log(evento);
+      if (movimiento) {
+        this.addEvento(evento).subscribe(respuesta =>{
+          console.log(respuesta);
+        })      
+      }
+  }
 
 
 

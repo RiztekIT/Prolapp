@@ -7,6 +7,9 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
 import { ImagenService } from 'src/app/services/imagenes/imagen.service';
 import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
+import { DatePipe } from '@angular/common';
+import { Evento } from 'src/app/Models/eventos/evento-model';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 
 
@@ -18,7 +21,9 @@ import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-ca
 export class EnviarOrdenCargaComponent implements OnInit {
 
   constructor(public router: Router, public AlmacenEmailService: AlmacenEmailService, private sanitizer: DomSanitizer, public dialogRef: MatDialogRef<EnviarOrdenCargaComponent>,
-   public imageService: ImagenService,  private _sanitizer: DomSanitizer, public ordenCargaService:OrdenCargaService) { }
+   public imageService: ImagenService,  private _sanitizer: DomSanitizer, public ordenCargaService:OrdenCargaService,
+   private datePipe:DatePipe,
+   private eventosService:EventosService,) { }
 
   ngOnInit() {
     this.Folio = this.AlmacenEmailService.folio;
@@ -319,6 +324,7 @@ this.obtenerDocumentos();
                 if (res[0].Estatus == 'Cargada') {
               this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, "Enviada").subscribe(data => {
               Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
+              this.movimientos('Enviar OC')
               this.ordenCargaService.filter('');
               this.dialogRef.close();
             });
@@ -332,4 +338,20 @@ this.obtenerDocumentos();
       }
 
 
+      movimientos(movimiento?){
+        let userData = JSON.parse(localStorage.getItem("userAuth"))
+        let idUser = userData.IdUsuario
+        let evento = new Evento();
+        let fecha = new Date();
+        evento.IdUsuario = idUser
+        evento.Autorizacion = '0'
+        evento.Fecha = this.datePipe.transform(fecha, 'yyyy-MM-dd, h:mm:ss a');
+        evento.Movimiento = movimiento
+        console.log(evento);
+        if (movimiento) {
+          this.eventosService.addEvento(evento).subscribe(respuesta =>{
+            console.log(respuesta);
+          })      
+        }
+    }
 }
