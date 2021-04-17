@@ -31,6 +31,9 @@ import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-
 import { OrdenCargaService } from '../../../services/almacen/orden-carga/orden-carga.service';
 import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
 import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model';
+import * as signalr from 'signalr'
+
+declare var $: any;
 
 @Component({
   selector: 'app-pedido-ventas',
@@ -57,7 +60,17 @@ export class PedidoVentasComponent implements OnInit {
 
   }
 
+
+  /* variables websocket */
+  private connection: any;
+  private proxy: any;  
+  private proxyName: string = 'alertasHub'; 
+ 
+   private hubconnection: signalr;  
+   notihub = 'https://erpprolapp.ddns.net:44361/signalr'
+
   ngOnInit() {
+    this.ConnectionHub();
     this.refreshPedidoList();
 
 
@@ -154,7 +167,7 @@ export class PedidoVentasComponent implements OnInit {
   MasterDetalle = new Array<pedidoMaster>();
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['Folio', 'Nombre', 'Subtotal', 'Total', 'FechaDeExpedicion', 'Estatus', 'Options'];
+  displayedColumns: string[] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Cantidad', 'Subtotal', 'Total',  'Estatus', 'Options'];
 
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Cantidad'];
 
@@ -189,10 +202,13 @@ export class PedidoVentasComponent implements OnInit {
          } */
         this.service.master[i] = data[i]
         this.service.master[i].DetallePedido = [];
+        let cantidad = 0;
         this.subs2 = this.service.getDetallePedidoId(data[i].IdPedido).subscribe(res => {
           for (let l = 0; l <= res.length - 1; l++) {
             this.service.master[i].DetallePedido.push(res[l]);
+            cantidad = cantidad + +res[l].Cantidad;
           }
+          this.service.master[i].Cantidad = cantidad;
         });
       }
 
@@ -707,5 +723,43 @@ export class PedidoVentasComponent implements OnInit {
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
 
   }
+
+
+  /* tabla en tiempo real */
+  ConnectionHub(){
+  
+
+
+    this.connection = $.hubConnection(this.notihub);
+  
+    this.proxy = this.connection.createHubProxy(this.proxyName); 
+  
+    this.proxy.on('AlertasHub', (data) => {  
+      console.log('received in SignalRService: ', data);  
+      this.refreshPedidoList();
+      
+  }); 
+  
+  
+  
+    this.connection.start().done((data: any) => {  
+      console.log('Now connected ' + data.transport.name + ', connection ID= ' + data.id);  
+      /* this.connectionEstablished.emit(true);  */ 
+      /* this.connectionExists = true;   */
+  })
+  }
+
+  public on() {  
+  let mensaje = {
+      titulo: 'Venta',
+      descripcion: 'Mensaje desde Ventas',
+      fecha: new Date()
+    }
+     /*  
+    // server side hub method using proxy.invoke with method name pass as param  
+       */
+    /* this.proxy.invoke('NuevaNotificacion');   */
+    this.proxy.invoke('NuevaNotificacion',mensaje);
+} 
 
 }

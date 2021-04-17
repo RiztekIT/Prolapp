@@ -51,6 +51,9 @@ objetoCliente = new Cliente();
   addCliente(cliente: Cliente) {
     return this.http.post(this.APIUrl + '/cliente', cliente);
  }
+  addCliente2(cliente: Cliente) {
+    return this.http.post(this.APIUrl + '/cliente2', cliente);
+ }
   addVendedor(vendedor: Vendedor) {
     return this.http.post(this.APIUrl + '/vendedor', vendedor);
  }
@@ -68,6 +71,9 @@ objetoCliente = new Cliente();
 
  updateCliente(cliente: Cliente) {
  return this.http.put(this.APIUrl+ '/cliente', cliente);
+ }
+ updateCliente2(cliente: Cliente) {
+ return this.http.put(this.APIUrl+ '/cliente2', cliente);
  }
  updateVendedor(vendedor: Vendedor) {
  return this.http.put(this.APIUrl+ '/vendedor', vendedor);

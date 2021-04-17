@@ -1440,9 +1440,12 @@ export class OrdendescargatarimaComponent implements OnInit {
       this.preOrdenTemporalSacos.FechaFactura = evento.target.value;
       this.change(this.preOrdenTemporalSacos.FechaFactura);
       this.tc(this.preOrdenTemporalSacos.FechaFactura);
+      
 
     }
   }
+
+
 
   tc(date){
 
@@ -1495,7 +1498,7 @@ export class OrdendescargatarimaComponent implements OnInit {
     let fechaapi = dia2 + '/' + mes2 + '/' + año
 
 
-    this.traerApi(fechaapi).subscribe(data =>{
+    this.traerApi().subscribe(data =>{
       let l;
       console.log(data);
       let json = JSON.parse(data);
@@ -1504,7 +1507,7 @@ export class OrdendescargatarimaComponent implements OnInit {
       let f = json.bmx.series[0].datos.length;
       console.log(fechaapi);
 
-      for (let i=16700; i<f; i++){
+      for (let i=0; i<f; i++){
         //console.log(i);
         if (json.bmx.series[0].datos[i].fecha==fechaapi){
           this.TipoCambio = json.bmx.series[0].datos[i].dato
@@ -1520,12 +1523,13 @@ export class OrdendescargatarimaComponent implements OnInit {
     })
   }
 
-  traerApi(fecha): Observable<any>{
+  traerApi(): Observable<any>{
 
-    //return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/"+fecha+'/'+fecha, httpOptions)
-    //return this.http.get("/SieAPIRest/service/v1/series/SF60653/datos/"+fecha+'/'+fecha, httpOptions)
-    return this.http.get("https://riztek.com.mx/php/Prolacto/GET_TipoCambio.php")
-    //return this.http.get("/SieAPIRest/service/v1/series/SF60653/datos/"+fecha+'/'+fecha, httpOptions)
+    /* return this.http.get("https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions) */
+    //return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
+    
+    return this.http.get("https://riztek.com.mx/php/Prolacto/GET_TipoCambio2.php"
+    )
 
   }
 

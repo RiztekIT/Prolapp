@@ -1,8 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { MessageService } from 'src/app/services/message.service';
 import Swal from 'sweetalert2';
+import { ExploradorDocumentosComponent } from '../../explorador-documentos/explorador-documentos.component';
+import { VisorExploradorComponent } from '../../explorador-documentos/visor-explorador/visor-explorador.component';
+import { FileService } from 'src/app/services/explorador-archivos/explorador.service';
 
 export interface parametros {
     foliop: string,
@@ -22,7 +25,13 @@ export interface parametros {
 export class EmailgeneralComponent implements OnInit {
     public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
-    constructor(public dialogRef: MatDialogRef<EmailgeneralComponent>, public _MessageService: MessageService, @Inject(MAT_DIALOG_DATA) public data: parametros) { }
+    constructor(public dialogRef: MatDialogRef<EmailgeneralComponent>, public _MessageService: MessageService, @Inject(MAT_DIALOG_DATA) public data: parametros, private dialog: MatDialog, public fileService: FileService,) { 
+        this.fileService.listen().subscribe((m:any)=>{
+            console.log(m);
+            console.log('Adjuntar Documentos Seleccionados');
+            this.adjuntarDocumentosExplorador();
+            });
+    }
     pdfstatus = false;
     fileUrl;
     //   files: File[] = [];
@@ -280,10 +289,22 @@ export class EmailgeneralComponent implements OnInit {
             }, 1000)
         } else if (this.data.tipo == 'Traspaso') {
             // console.log('Es un traspaso');
+        //   this.obtenerDocumentosTraspaso();
             this.files = this._MessageService.documentosURL;
             this.fileUrl = localStorage.getItem('OC');
+        }else if (this.data.tipo == 'Cotizacion') {
+            // console.log('Es un traspaso');
+            this.Intevalo = setInterval(() => {
+                this.urlPDF();
+            }, 1000)
         }
         
+    }
+
+    obtenerDocumentosTraspaso(){
+        this.files = [];
+        this.files = this._MessageService.documentosURL;
+        this.fileUrl = localStorage.getItem('OC');
     }
     
     pdf(){
@@ -386,9 +407,34 @@ export class EmailgeneralComponent implements OnInit {
             this._MessageService.enviarCorreo(formData).subscribe(() => {
                 this.loading2 = false;
                 this.files = []
+                this.fileService.archivosAdjuntadosCorreo = [];
                 Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
             });
         }, 5000);
+    }
+
+
+    explorador(){
+        const dialogConfig2 = new MatDialogConfig();
+    dialogConfig2.disableClose = false;
+    dialogConfig2.autoFocus = true;
+    dialogConfig2.width = "60%";
+    dialogConfig2.height = "60%";
+    dialogConfig2.data = {
+      origen: 'correo'
+    }            
+    let dl = this.dialog.open(VisorExploradorComponent, dialogConfig2);
+    }
+
+    adjuntarDocumentosExplorador(){
+        console.log(this.fileService.archivosAdjuntadosCorreo);
+        this.fileService.archivosAdjuntadosCorreo.forEach(element => {
+            let archivo = <any>{};
+            archivo.name = element.name;
+            archivo.path = element.path
+            this.files.push(archivo);
+        });
+        console.log(this.files);
     }
 
 

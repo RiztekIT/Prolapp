@@ -64,3 +64,35 @@ tr.example-element-row:not(.example-expanded-row):active {
     background-color: #000000;
     color: white
 }
+
+/* .todoelespacio {
+    white-space: nowrap;
+} */
+ /* .table-container{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    overflow: auto;
+  
+    
+}
+
+
+.mat-header-cell {
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .mat-cell {
+    text-align: center;
+    justify-content:center;
+  }  */
+
+  /* .w-75{
+    width: 75px;
+  }
+  .w-100{
+      width: 100px;
+  } */
