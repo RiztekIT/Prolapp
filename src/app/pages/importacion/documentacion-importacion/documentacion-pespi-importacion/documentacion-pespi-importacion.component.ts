@@ -1,18 +1,34 @@
+
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { FormControl } from '@angular/forms';
+
 import { Observable } from 'rxjs';
+
 import { map, startWith } from 'rxjs/operators';
+
 import { Producto } from 'src/app/Models/catalogos/productos-model';
+
 import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
+
 import { AddsproductosService } from 'src/app/services/addsproductos.service';
+
 import { ProductosService } from 'src/app/services/catalogos/productos.service';
+
 import { DocumentosImportacionService } from 'src/app/services/importacion/documentos-importacion.service';
+
 import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
+
 import { DocumentacionImportacionVisorDocumentosComponent } from '../../documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
+
 import { Documento } from 'src/app/Models/documentos/documento-model';
+
 import Swal from 'sweetalert2';
+
 import { MatSort } from '@angular/material/sort';
+
 import { DatePipe } from '@angular/common'
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 @Component({
   selector: 'app-documentacion-pespi-importacion',
@@ -21,7 +37,11 @@ import { DatePipe } from '@angular/common'
 })
 export class DocumentacionPespiImportacionComponent implements OnInit {
 
-  constructor(public ServiceProducto: ProductosService, public addproductos: AddsproductosService, public documentosService: DocumentosImportacionService,  private dialog: MatDialog,) { 
+  constructor(public ServiceProducto: ProductosService,
+    public addproductos: AddsproductosService, 
+    public documentosService: DocumentosImportacionService, 
+    private dialog: MatDialog,
+    private eventosService:EventosService,) { 
     this.productosExistentes = false;
   }
 
@@ -374,6 +394,8 @@ ClaveProducto: string = "";
                   this.events = [];
                   this.files = [];
                   this.archivos = [];
+                  
+                  this.eventosService.movimientos('Agregar Documento PESPI')
                   Swal.fire({
                     title: 'Documentos Guardados',
                     icon: 'success',
@@ -551,6 +573,7 @@ ClaveProducto: string = "";
             this.archivos.splice(this.archivos.indexOf(event), 1);
             this.pdfstatus = false;
             
+            this.eventosService.movimientos('Documento PESPI Borrado')
             Swal.fire({
               title: 'Borrado',
               icon: 'success',

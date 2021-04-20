@@ -15,6 +15,7 @@ import { ImagenService } from 'src/app/services/imagenes/imagen.service';
 
 
 import { MAT_DIALOG_DATA } from '@angular/material';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 
 
@@ -28,7 +29,8 @@ export class IncidenciaAlmacenComponent implements OnInit {
 
   constructor(public dialogbox: MatDialogRef<IncidenciaAlmacenComponent>, private dialog: MatDialog, public incidenciasService: IncidenciasService,
     private _sanitizer: DomSanitizer,private imageCompress: NgxImageCompressService, public imageService: ImagenService, 
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private eventosService:EventosService,) { }
 
   ngOnInit() {
     console.log(this.data);
@@ -591,6 +593,8 @@ obtenerImagen(a) {
     console.log(this.incidenciasService.incidenciaObject);
     this.incidenciasService.updateIncidencia(this.incidenciasService.incidenciaObject).subscribe(res=>{
       console.log(res);
+      
+      this.eventosService.movimientos('Incidencia Generada')
       Swal.fire({
         title: 'Incidencia Generada',
         icon: 'success',

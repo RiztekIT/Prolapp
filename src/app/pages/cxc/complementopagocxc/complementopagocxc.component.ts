@@ -16,6 +16,7 @@ import { MessageService } from 'src/app/services/message.service';
 import { EmailComponent } from 'src/app/components/email/email/email.component';
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 
 @Component({
@@ -35,7 +36,13 @@ export class ComplementopagocxcComponent implements OnInit {
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
   
-  constructor(private service: ReciboPagoService, private router: Router, private dialog: MatDialog, public enviarfact: EnviarfacturaService, public _MessageService: MessageService, public serviceEmpresa: EmpresaService, public servicefactura: FacturaService) {
+  constructor(private service: ReciboPagoService, private router: Router, 
+    private dialog: MatDialog, 
+    public enviarfact: EnviarfacturaService, 
+    public _MessageService: MessageService, 
+    public serviceEmpresa: EmpresaService, 
+    public servicefactura: FacturaService,
+    private eventosService:EventosService,) {
     
     this.service.listen().subscribe((m: any) => {
       // this.refreshReciboPagoList();
@@ -240,6 +247,8 @@ export class ComplementopagocxcComponent implements OnInit {
         console.log(this.service.IdReciboPago);
         console.log(this.ReciboPagoBlanco);
         console.log(this.IdReciboPago);
+        
+        this.eventosService.movimientos('Generar Pago')
         localStorage.setItem('IdRecibo', this.IdReciboPago.toString());
         this.router.navigate(['/recibopago']);
       });
@@ -273,6 +282,8 @@ export class ComplementopagocxcComponent implements OnInit {
     localStorage.setItem('rowpago',JSON.stringify(reciboPago));
     let Id = reciboPago.Id;
     localStorage.setItem('IdRecibo', Id.toString());
+    
+    this.eventosService.movimientos('Editar Pago')
     this.router.navigate(['/recibopago']);
     // console.log(Id);
 

@@ -14,6 +14,7 @@ import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model
 import { OrdenCargaService } from '../../../services/almacen/orden-carga/orden-carga.service';
 import { OrdenTemporal } from '../../../Models/almacen/OrdenTemporal/ordenTemporal-model';
 import { VisorExploradorComponent } from 'src/app/components/explorador-documentos/visor-explorador/visor-explorador.component';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 @Component({
   selector: 'app-traspasomercancia',
@@ -28,7 +29,8 @@ export class TraspasomercanciaComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   
 
-  constructor(public traspasoSVC: TraspasoMercanciaService, public router: Router, private dialog: MatDialog, public serviceTarima: TarimaService, public ocService:OrdenCargaService) { 
+  constructor(public traspasoSVC: TraspasoMercanciaService, public router: Router, private dialog: MatDialog, public serviceTarima: TarimaService, public ocService:OrdenCargaService,
+    private eventosService:EventosService,) { 
     this.traspasoSVC.listen().subscribe((m:any)=>{
       console.log('Actualizando Tabla Principal');
       this.obtenerTraspasos();
@@ -106,6 +108,8 @@ export class TraspasomercanciaComponent implements OnInit {
    //^ **** PRIVILEGIOS POR USUARIO *****
 
   nuevoTraspaso(){
+    
+    this.eventosService.movimientos('Generar Traspaso Mercancia')
     this.router.navigateByUrl('/embarque');
     
   }
@@ -142,6 +146,8 @@ subs1: Subscription
           dialogConfig.data = {
             IdTraspaso: row.IdTraspasoMercancia
           }
+          
+          this.eventosService.movimientos('Editar Traspaso')
           /* let dl = this.dialog.open(DocumentacionFormularioImportacionComponent, dialogConfig); */
           let dl = this.dialog.open(ResumentraspasoComponent, dialogConfig);
   }

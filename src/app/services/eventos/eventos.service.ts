@@ -47,7 +47,10 @@ export class EventosService {
 
 
     movimientos(movimiento?){
-      console.log('%c%s', 'color: #99614d', 'Le pegaste al Evento');
+
+      console.log('%c%s', 'color: #4400ff', '-----------------------------------------');
+      console.log('%c%s', 'color: #00ffee', movimiento);
+      console.log('%c%s', 'color: #4400ff', '-----------------------------------------');
       let userData = JSON.parse(localStorage.getItem("userAuth"))
       let idUser = userData.IdUsuario
       let evento = new Evento();

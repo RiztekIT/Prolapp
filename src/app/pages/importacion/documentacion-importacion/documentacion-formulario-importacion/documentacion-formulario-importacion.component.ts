@@ -393,7 +393,7 @@ ClaveProducto: string = "";
                   this.files = [];
                   this.archivos = [];
                   
-                  this.eventosService.movimientos('Agregar Documento')
+                  this.eventosService.movimientos('Agregar Documento Factura')
 
                   Swal.fire({
                     title: 'Documentos Guardados',
@@ -580,7 +580,7 @@ ClaveProducto: string = "";
             this.archivos.splice(this.archivos.indexOf(event), 1);
             this.pdfstatus = false;
             
-          this.eventosService.movimientos('Documento Borrado')
+          this.eventosService.movimientos('Documento Factura Borrado')
           
             Swal.fire({
               title: 'Borrado',

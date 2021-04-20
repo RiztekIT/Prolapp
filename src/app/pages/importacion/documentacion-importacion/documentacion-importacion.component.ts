@@ -1,17 +1,33 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
+
 import { MatSort } from '@angular/material/sort';
+
 import { Router } from '@angular/router';
+
 import { trigger, state, transition, animate, style } from '@angular/animations';
+
 import Swal from 'sweetalert2';
+
 import { Observable, Subscriber, Subscription } from 'rxjs';
+
 import { DocumentosImportacionService } from '../../../services/importacion/documentos-importacion.service';
+
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
+
 import { mergeMap, last, scan } from 'rxjs/operators';
+
 import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
+
 import { MessageService } from 'src/app/services/message.service';
+
 import { DocumentacionImportacionVisorDocumentosComponent } from '../documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
+
 import { Documento } from 'src/app/Models/documentos/documento-model';
+
+import { EventosService } from 'src/app/services/eventos/eventos.service';
+
 
 @Component({
   selector: 'app-documentacion-importacion',
@@ -31,6 +47,7 @@ export class DocumentacionImportacionComponent implements OnInit {
   constructor(public router: Router, public documentosService: DocumentosImportacionService,
     public traspasoSVC: TraspasoMercanciaService, public _MessageService: MessageService,
     private dialog: MatDialog, public traspasoService: TraspasoMercanciaService,
+    private eventosService:EventosService,
 
   ) { }
 
@@ -227,6 +244,8 @@ this.subs1 = this.traspasoSVC.getQuery(consulta).subscribe((resTipos:any)=>{
       this.documentosService.folioOrdenDescarga = null;
 
     }
+    
+    this.eventosService.movimientos('Nueva Documentacion')
     console.log(this.documentosService.folioOrdenDescarga);
     this.router.navigate(['/documentacion-formulario-importacion']);
   }
@@ -394,6 +413,8 @@ this.subs1 = this.traspasoSVC.getQuery(consulta).subscribe((resTipos:any)=>{
             console.log(res)
             this.pdfstatus = false;
             this.obtenerDocumentos();
+            
+          this.eventosService.movimientos('Documento '+ event.Tipo +' Borrado')
             Swal.fire({
               title: 'Borrado',
               icon: 'success',

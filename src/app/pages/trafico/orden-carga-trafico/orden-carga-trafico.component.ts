@@ -1,18 +1,34 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import {MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar, MatDialogConfig} from '@angular/material';
+
 import {MatSort} from '@angular/material/sort';
+
 import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
+
 import { OrdenCarga } from '../../../Models/almacen/OrdenCarga/ordencarga.model';
+
 import { Router } from '@angular/router';
+
 import { stringify } from 'querystring';
+
 import { trigger, state, transition, animate, style } from '@angular/animations';
+
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+
 import Swal from 'sweetalert2';
+
 import { DetalleOrdenCarga } from '../../../Models/almacen/OrdenCarga/detalleOrdenCarga-model';
+
 import { Observable, Subscriber } from 'rxjs';
+
 import { EditOrdenCargaTraficoComponent } from './edit-orden-carga-trafico/edit-orden-carga-trafico.component';
+
 import { OrdenCargaTraficoService } from '../../../services/trafico/orden-carga-trafico.service';
+
+import { EventosService } from 'src/app/services/eventos/eventos.service';
+
+
 
 @Component({
   selector: 'app-orden-carga-trafico',
@@ -45,7 +61,8 @@ export class OrdenCargaTraficoComponent implements OnInit {
  // FIN VARIABLES TABLA ORDEN CARGA
 
 
- constructor(public router: Router,private service:OrdenCargaService, private dialog: MatDialog, private traficoService: OrdenCargaTraficoService) {
+ constructor(public router: Router,private service:OrdenCargaService, private dialog: MatDialog, private traficoService: OrdenCargaTraficoService,
+  private eventosService:EventosService,) {
   this.service.listen().subscribe((m:any)=>{
     console.log(m);
     this.refreshOrdenCargaList();
@@ -141,6 +158,8 @@ export class OrdenCargaTraficoComponent implements OnInit {
         console.log(this.traficoService.formrow);
         // this.service.formrow = row;
         // console.log();
+        
+        this.eventosService.movimientos('Editar Orden Carga Trafico')
         const dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = false;
         dialogConfig.autoFocus = true;

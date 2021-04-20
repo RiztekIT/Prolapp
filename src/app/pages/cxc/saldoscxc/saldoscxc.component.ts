@@ -1,17 +1,31 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
+
 import { MatSort } from '@angular/material/sort';
+
 import { Router } from '@angular/router';
+
 import { trigger, state, transition, animate, style } from '@angular/animations';
+
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+
 import Swal from 'sweetalert2';
+
 import { Observable, Subscriber } from 'rxjs';
+
 import { ClientesService } from 'src/app/services/catalogos/clientes.service';
+
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
+
 import { SharedService } from 'src/app/services/service.index';
+
 import { ReporteMaster } from 'src/app/Models/cxc/reportecxcmaster-model';
+
 import { DisplaySaldosComponent } from './display-saldos/display-saldos.component';
+
+import { EventosService } from 'src/app/services/eventos/eventos.service';
+
 
 
 
@@ -57,7 +71,8 @@ export class SaldoscxcComponent implements OnInit {
 
 
 
-  constructor(public serviceFactura: FacturaService, public serviceCliente: ClientesService, public sharedService: SharedService, private dialog: MatDialog) { }
+  constructor(public serviceFactura: FacturaService, public serviceCliente: ClientesService, public sharedService: SharedService, private dialog: MatDialog,
+    private eventosService:EventosService,) { }
 
   con: string | number;
   arrcon: Array<any> = [];
@@ -307,6 +322,8 @@ export class SaldoscxcComponent implements OnInit {
     data: row
   };
   console.log(dialogConfig.data);
+  
+  this.eventosService.movimientos('Editar Saldos de Cuentas')
   this.dialog.open(DisplaySaldosComponent, dialogConfig);
 
   }

@@ -1,25 +1,49 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { Router } from '@angular/router';
+
 import { MatDialog, MatDialogConfig } from '@angular/material';
+
 import { MatTableDataSource, MatPaginator, MatTable, MatSnackBar,  } from '@angular/material';
+
 import { MatSort } from '@angular/material/sort';
+
 import { CotizacionComponent } from 'src/app/components/cotizacion/cotizacion.component';
+
 import { trigger, state, transition, animate, style } from '@angular/animations';
+
 import * as html2pdf from 'html2pdf.js';
+
 import { MessageService } from 'src/app/services/message.service';
+
 import { EmailComponent } from 'src/app/components/email/email/email.component';
+
 import { VentasCotizacionService } from '../../../services/ventas/ventas-cotizacion.service';
+
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
+
 import { DetalleCotizacion } from '../../../Models/ventas/detalleCotizacion-model';
+
 import { Cotizacion } from '../../../Models/ventas/cotizacion-model';
+
 import { cotizacionMaster } from '../../../Models/ventas/cotizacion-master';
+
 import Swal from 'sweetalert2';
+
 import { CotizacionpedidoComponent } from 'src/app/components/cotizacionpedido/cotizacionpedido.component';
+
 import { CotizacionEmailComponent } from 'src/app/components/cotizacion/cotizacion-email/cotizacion-email.component';
+
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+
 import * as signalr from 'signalr'
+
 import { StorageServiceService } from '../../../services/shared/storage-service.service';
+
 import { Subscription } from 'rxjs';
+
+import { EventosService } from 'src/app/services/eventos/eventos.service';
+
 
 declare var $: any;
 
@@ -54,7 +78,11 @@ export class CotizacionesVentasComponent implements OnInit {
   estatusSelect;
   public loading2 = false;
 
-  constructor( public router: Router, private dialog: MatDialog, public _MessageService: MessageService, private service: VentasCotizacionService, private service2: VentasPedidoService, public storageSVC: StorageServiceService) {
+  constructor( public router: Router, 
+    private dialog: MatDialog, public _MessageService: MessageService, 
+    private service: VentasCotizacionService, private service2: VentasPedidoService, 
+    public storageSVC: StorageServiceService,
+    private eventosService:EventosService,) {
 
     this.service.listen().subscribe((m: any) => {
       console.log(m);
@@ -333,6 +361,8 @@ Vigencia: new Date()
       console.log(this.CotizacionBlanco);
       //Agregar el nuevo pedido. NECESITA ESTAR DENTRO DEL SUBSCRIBEEEEEEEE :(
       this.service.addCotizacion(this.CotizacionBlanco).subscribe(res => {
+        
+        this.eventosService.movimientos('Nueva Cotizacion')
         console.log(res);
         //Obtener el pedido que se acaba de generar
         this.ObtenerUltimoPedido();
@@ -358,6 +388,8 @@ Vigencia: new Date()
     this.service.formDataCotizacion = cotizacion;
     this.service.IdCliente = cotizacion.IdCliente;
     let Id = cotizacion.IdCotizacion;
+    
+    this.eventosService.movimientos('Editar Cotizacion')
     localStorage.setItem('IdCotizacion', Id.toString());
     this.router.navigate(['/cotizacionesVentasAdd']);
   }
@@ -389,6 +421,7 @@ Vigencia: new Date()
             }
           })
 
+          this.eventosService.movimientos('Cotizacion Borrada')
           Swal.fire({
             title: 'Borrado',
             icon: 'success',

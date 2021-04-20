@@ -1,13 +1,25 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { ForwardsService } from '../../../services/cxp/forwards/forwards.service';
+
 import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialogRef, MatDialog } from '@angular/material';
+
 import { Router } from '@angular/router';
+
 import { AddUsuarioComponent } from '../../administracion/catalogos/usuarios/add-usuario/add-usuario.component';
+
 import { Usuario } from 'src/app/Models/catalogos/usuarios-model';
+
 import { EditUsuarioComponent } from '../../administracion/catalogos/usuarios/edit-usuario/edit-usuario.component';
+
 import { AddfordwardComponent } from './addfordward/addfordward.component';
+
 import { Forwards } from 'src/app/Models/cxp/forwards-model';
+
 import { DatePipe } from '@angular/common';
+
+import { EventosService } from 'src/app/services/eventos/eventos.service';
+
 
 @Component({
   selector: 'app-forwardscxp',
@@ -24,7 +36,8 @@ export class ForwardscxpComponent implements OnInit {
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(public ForwardsService:ForwardsService, private datePipe: DatePipe, public router: Router,private dialog: MatDialog,) {
+  constructor(public ForwardsService:ForwardsService, private datePipe: DatePipe, public router: Router,private dialog: MatDialog,
+    private eventosService:EventosService,) {
     this.ForwardsService.listen().subscribe((m: any) => {
       console.log(m);
       this.getforwards();
@@ -132,6 +145,8 @@ export class ForwardscxpComponent implements OnInit {
       console.log(this.ForwardBlanco);
       this.ForwardsService.addForward(this.ForwardBlanco).subscribe(res => {
         console.log(res);
+        
+        this.eventosService.movimientos('Generar Forward')
         this.ForwardsService.onadd = true;
         this.ForwardsService.formDataForwards = this.ForwardBlanco;
         const dialogConfig = new MatDialogConfig();
@@ -155,6 +170,8 @@ export class ForwardscxpComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width="70%";
+    
+    this.eventosService.movimientos('Editar Forward')
     this.dialog.open(AddfordwardComponent, dialogConfig);
   }
 

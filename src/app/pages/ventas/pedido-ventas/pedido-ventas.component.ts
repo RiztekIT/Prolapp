@@ -33,6 +33,8 @@ import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
 import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model';
 import * as signalr from 'signalr'
 
+import { EventosService } from 'src/app/services/eventos/eventos.service';
+
 declare var $: any;
 
 @Component({
@@ -51,7 +53,12 @@ declare var $: any;
 
 export class PedidoVentasComponent implements OnInit {
   constructor(public router: Router, private dialog: MatDialog, private currencyPipe: CurrencyPipe, public service: VentasPedidoService,
-    private _formBuilder: FormBuilder, public _MessageService: MessageService, public enviarfact: EnviarfacturaService, public traspasoSVC: TraspasoMercanciaService, public ocService: OrdenCargaService, public tarimaService: TarimaService) {
+    private _formBuilder: FormBuilder, public _MessageService: MessageService, 
+    public enviarfact: EnviarfacturaService, 
+    public traspasoSVC: TraspasoMercanciaService, 
+    public ocService: OrdenCargaService, 
+    public tarimaService: TarimaService,
+    private eventosService:EventosService,) {
 
     this.service.listen().subscribe((m: any) => {
       console.log(m);
@@ -263,6 +270,8 @@ export class PedidoVentasComponent implements OnInit {
       console.log(this.PedidoBlanco);
       //Agregar el nuevo pedido. NECESITA ESTAR DENTRO DEL SUBSCRIBEEEEEEEE :(
       this.service.addPedido(this.PedidoBlanco).subscribe(res => {
+        
+        this.eventosService.movimientos('Agregar Nuevo Pedido')
         console.log(res);
         //Obtener el pedido que se acaba de generar
         this.ObtenerUltimoPedido();
@@ -297,6 +306,8 @@ export class PedidoVentasComponent implements OnInit {
     this.service.formDataPedido = pedido;
     this.service.IdCliente = pedido.IdCliente;
     let Id = pedido.IdPedido;
+    
+    this.eventosService.movimientos('Editar Pedido')
     localStorage.setItem('pedidopdf', JSON.stringify(pedido))
     localStorage.setItem('IdPedido', Id.toString());
     this.router.navigate(['/pedidoventasAdd']);
@@ -566,6 +577,8 @@ export class PedidoVentasComponent implements OnInit {
   DeletePedidoDetallePedido(IdPedido: number) {
     this.service.onDeleteAllDetallePedido(IdPedido).subscribe(res => {
       this.service.onDelete(IdPedido).subscribe(res => {
+        
+        this.eventosService.movimientos('Venta Borrada')
         this.refreshPedidoList();
       });
     });

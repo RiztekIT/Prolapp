@@ -3,6 +3,7 @@ import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogConfig }
 import { FleterasService } from '../../../services/trafico/Fleteras/fleteras.service';
 import { Fleteras } from '../../../Models/trafico/fleteras-model';
 import { AddEditFleterasComponent } from './add-edit-fleteras/add-edit-fleteras.component';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 @Component({
   selector: 'app-fleteras-trafico',
@@ -18,7 +19,8 @@ export class FleterasTraficoComponent implements OnInit {
 
 
   constructor(private FleterasService: FleterasService,
-    private dialog: MatDialog,) { }
+    private dialog: MatDialog,
+    private eventosService:EventosService,) { }
 
   ngOnInit() {
     this.refreshTablaFleteras();
@@ -47,6 +49,8 @@ export class FleterasTraficoComponent implements OnInit {
       movimiento: movimiento,
       tipo: 'Agregar'
     }
+    
+    this.eventosService.movimientos('Agregar Fletera')
     let dlg =this.dialog.open(AddEditFleterasComponent, dialogConfig);
     dlg.afterClosed().subscribe(resp=>{
       this.refreshTablaFleteras();
@@ -65,6 +69,8 @@ export class FleterasTraficoComponent implements OnInit {
       data: fletera,
       tipo: 'Editar'
     }
+    
+    this.eventosService.movimientos('Editar Fletera')
     let dlg = this.dialog.open(AddEditFleterasComponent, dialogConfig);
     dlg.afterClosed().subscribe(resp=>{
       this.refreshTablaFleteras();
@@ -74,8 +80,10 @@ export class FleterasTraficoComponent implements OnInit {
   onDelete(row:Fleteras){
     let id = row.IdFletera
     this.FleterasService.deletefleteras(id).subscribe(res =>{
-    
+         
       console.log('%c%s', 'color: #006dcc', res);
+      
+      this.eventosService.movimientos('Fletera Borrada')
       this.refreshTablaFleteras();
     })
       }

@@ -1,30 +1,57 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { Router } from '@angular/router';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
+
 import { MatSort } from '@angular/material/sort';
+
 import { trigger, state, transition, animate, style } from '@angular/animations';
+
 import { CurrencyPipe, DatePipe } from '@angular/common';
+
 import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
+
 import Swal from 'sweetalert2';
+
 import { EmailComponent } from 'src/app/components/email/email/email.component';
+
 import { MessageService } from 'src/app/services/message.service';
+
 import { EnviarOrdenCargaComponent } from './enviar-orden-carga/enviar-orden-carga.component';
+
 import { AlmacenEmailService } from 'src/app/services/almacen/almacen-email.service';
+
 import { TarimaService } from '../../../../services/almacen/tarima/tarima.service';
+
 import { OrdenDescarga } from 'src/app/Models/almacen/OrdenDescarga/ordenDescarga-model';
+
 import { DetalleOrdenDescarga } from 'src/app/Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
+
 import { OrdenDescargaService } from 'src/app/services/almacen/orden-descarga/orden-descarga.service';
+
 import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-producto/entrada-producto.component';
+
 import { SalidaProductoComponent } from '../../../../components/almacen/salida-producto/salida-producto.component';
+
 import { CalendarioService } from '../../../../services/calendario/calendario.service';
+
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
+
 import { OrdenCargaInfo } from '../../../../Models/almacen/OrdenCarga/ordenCargaInfo-model';
+
 import { FormatoPDFComponent } from 'src/app/components/almacen/formato-pdf/formato-pdf.component';
+
 import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
+
 import { Evento } from 'src/app/Models/eventos/evento-model';
+
 import { EventosService } from 'src/app/services/eventos/eventos.service';
+
 import * as html2pdf from 'html2pdf.js';
+
 
 @Component({
   selector: 'app-ordencargadetalle',

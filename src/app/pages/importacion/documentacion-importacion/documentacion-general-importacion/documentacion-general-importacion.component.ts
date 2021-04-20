@@ -1,18 +1,35 @@
+
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { FormControl } from '@angular/forms';
+
 import { Observable } from 'rxjs';
+
 import { map, startWith } from 'rxjs/operators';
+
 import { Producto } from 'src/app/Models/catalogos/productos-model';
+
 import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
+
 import { AddsproductosService } from 'src/app/services/addsproductos.service';
+
 import { ProductosService } from 'src/app/services/catalogos/productos.service';
+
 import { DocumentosImportacionService } from 'src/app/services/importacion/documentos-importacion.service';
+
 import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
+
 import { DocumentacionImportacionVisorDocumentosComponent } from '../../documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
+
 import { Documento } from 'src/app/Models/documentos/documento-model';
+
 import Swal from 'sweetalert2';
+
 import { MatSort } from '@angular/material/sort';
+
 import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
+
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 @Component({
   selector: 'app-documentacion-general-importacion',
@@ -21,7 +38,12 @@ import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-
 })
 export class DocumentacionGeneralImportacionComponent implements OnInit {
 
-  constructor(public ServiceProducto: ProductosService, public addproductos: AddsproductosService, public documentosService: DocumentosImportacionService,  private dialog: MatDialog, public traspasoSVC:TraspasoMercanciaService) { 
+  constructor(public ServiceProducto: ProductosService, 
+    public addproductos: AddsproductosService, 
+    public documentosService: DocumentosImportacionService,  
+    private dialog: MatDialog, 
+    public traspasoSVC:TraspasoMercanciaService,
+    private eventosService:EventosService,) { 
     this.productosExistentes = false;
   }
 
@@ -142,6 +164,8 @@ obtenerDocumentosGenerales(){
                  this.files = [];
                  this.archivos = [];
                  this.obtenerDocumentosGenerales();
+                 
+                 this.eventosService.movimientos('Agregar Documento General')
                  Swal.fire({
                    title: 'Documentos Guardados',
                    icon: 'success',
@@ -324,6 +348,8 @@ obtenerDocumentosGenerales(){
            this.archivos.splice(this.archivos.indexOf(event), 1);
            this.pdfstatus = false;
            this.obtenerDocumentosGenerales();
+           
+           this.eventosService.movimientos('Documento General Borrado')
            Swal.fire({
              title: 'Borrado',
              icon: 'success',
