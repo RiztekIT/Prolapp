@@ -56,6 +56,12 @@ export class ReporteEmisionComponent implements OnInit {
 
   ngOnInit() {
     this.style = 'block'
+    Swal.fire({
+      allowOutsideClick: false,
+      text: 'Espere por favor...',
+      icon: 'info'
+    });
+    
     Swal.showLoading()
     this.rfcE = this.enviarfact.empresa.RFC;
     this.logo = '../../../assets/images/'+this.rfcE+'.png'

@@ -263,7 +263,8 @@ export class PedidosalmacenComponent implements OnInit, OnDestroy {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "70%";
+    dialogConfig.width = "0%";
+    dialogConfig.height = "0%";
     dialogConfig.data = {
       IdOrdenCarga: row.IdOrdenCarga,
       origen:'normal'

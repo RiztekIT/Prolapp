@@ -27,6 +27,7 @@ import { DocumentacionImportacionVisorDocumentosComponent } from '../documentaci
 import { Documento } from 'src/app/Models/documentos/documento-model';
 
 import { EventosService } from 'src/app/services/eventos/eventos.service';
+import { EmailgeneralComponent } from 'src/app/components/email/emailgeneral/emailgeneral.component';
 
 
 @Component({
@@ -429,6 +430,30 @@ this.subs1 = this.traspasoSVC.getQuery(consulta).subscribe((resTipos:any)=>{
       }
     })
 
+  }
+
+  email(){
+    this._MessageService.correo = 'javier.sierra@riztek.com.mx';
+    this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
+    this._MessageService.asunto = 'Envio de Documentacion ';
+    this._MessageService.cuerpo = 'Se ha enviado la siguiente Documentacion';
+    this._MessageService.nombre = 'Abarrotodo';
+    this._MessageService.pdf = false;
+
+
+    const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "90%";
+      //^ Asignamos variables en base a la Informacion del Documento.
+      dialogConfig.data = {
+        foliop: '',
+        cliente: '',
+        status: true,
+        //^ Indicamos que es de Tipo Traspaso
+        tipo: 'Docuemntos'
+      }
+       this.dialog.open(EmailgeneralComponent, dialogConfig);
   }
 
 

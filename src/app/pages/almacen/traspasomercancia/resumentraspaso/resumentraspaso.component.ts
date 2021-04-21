@@ -2262,7 +2262,8 @@ for (var i = 0; i < event.addedFiles.length; i++) {
     this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
     this._MessageService.asunto = 'Envio Orden de Traspaso ' + this.traspasoSVC.selectTraspaso.Folio;
     this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + this.traspasoSVC.selectTraspaso.Folio;
-    this._MessageService.nombre = 'ProlactoIngredientes';
+    this._MessageService.nombre = 'Abarrotodo';
+    this._MessageService.pdf = true;
 
 
     const dialogConfig2 = new MatDialogConfig();
@@ -2283,6 +2284,7 @@ for (var i = 0; i < event.addedFiles.length; i++) {
     
 
     //^ Generamos el modal del Correo
+
 
     dl.afterClosed().subscribe(res=>{
 

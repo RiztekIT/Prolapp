@@ -47,6 +47,11 @@ export class EntradaProductoComponent implements OnInit {
 
   ngOnInit() {
     this.style = 'block'
+    Swal.fire({
+      allowOutsideClick: false,
+      text: 'Espere por favor...',
+      icon: 'info'
+    });
     Swal.showLoading()
     // console.clear();
     // this.dataComponente.IdOrdenDescarga

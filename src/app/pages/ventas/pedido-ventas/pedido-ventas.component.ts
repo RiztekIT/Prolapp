@@ -663,7 +663,8 @@ export class PedidoVentasComponent implements OnInit {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = false;
         dialogConfig.autoFocus = true;
-        dialogConfig.width = "70%";
+        dialogConfig.width = "0%";
+        dialogConfig.height = "0%";
         dialogConfig.data = {
           IdPedido: id,
           mostrarPrecio: mostrarPrecio
@@ -675,7 +676,8 @@ export class PedidoVentasComponent implements OnInit {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = false;
         dialogConfig.autoFocus = true;
-        dialogConfig.width = "70%";
+        dialogConfig.width = "0%";
+        dialogConfig.height = "0%";
         dialogConfig.data = {
           IdPedido: id,
           mostrarPrecio: mostrarPrecio
