@@ -1,24 +1,43 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogConfig } from '@angular/material';
+
 import { MatDialogRef, MatSnackBar } from '@angular/material';
+
 import { NgForm } from '@angular/forms';
+
 import Swal from 'sweetalert2';
+
 import { Router } from '@angular/router';
+
 import { trigger, state, transition, animate, style } from '@angular/animations';
 
-
 import { NotaCreditoService } from '../../../services/cuentasxcobrar/NotasCreditocxc/notaCredito.service';
+
 import { NotaCredito } from '../../../Models/nota-credito/notaCredito-model';
+
 import { DetalleNotaCredito } from '../../../Models/nota-credito/detalleNotaCredito-model';
+
 import { NotaCreditoMaster } from 'src/app/Models/nota-credito/notaCreditoMaster-model';
+
 import { MessageService } from '../../../services/message.service';
+
 import { ThrowStmt } from '@angular/compiler';
+
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+
 import { NotacreditoComponent } from 'src/app/components/notacredito/notacredito/notacredito.component';
+
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
+
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
+
 import * as html2pdf from 'html2pdf.js';
+
+import { EventosService } from 'src/app/services/eventos/eventos.service';
+
 
 
 
@@ -52,7 +71,10 @@ export class NotaCreditocxcComponent implements OnInit {
   a = document.createElement('a');
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  constructor(private service: NotaCreditoService, private dialog: MatDialog, private snackbar: MatSnackBar, private router: Router, public _MessageService: MessageService,public enviarfact: EnviarfacturaService, private serviceFactura:FacturaService, public serviceEmpresa: EmpresaService) { 
+  constructor(private service: NotaCreditoService, private dialog: MatDialog, private snackbar: MatSnackBar,
+     private router: Router, public _MessageService: MessageService,public enviarfact: EnviarfacturaService,
+     private serviceFactura:FacturaService, public serviceEmpresa: EmpresaService,
+     private eventosService:EventosService,) { 
     // this.service.listen().subscribe((m:any)=>{
     //   this.refreshNotaList();
     // });
@@ -161,6 +183,8 @@ export class NotaCreditocxcComponent implements OnInit {
     console.log(nota.IdFactura.toString());
     // localStorage.removeItem('FacturaID');
     localStorage.setItem('FacturaID', nota.IdFactura.toString())
+    
+    this.eventosService.movimientos('Editar Nota de Credito')
     this.router.navigate(['/facturacionCxcAdd', nota.IdFactura]);
         
   }

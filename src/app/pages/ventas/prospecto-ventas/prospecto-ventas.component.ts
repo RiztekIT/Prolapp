@@ -11,6 +11,7 @@ import { ClientesService } from '../../../services/catalogos/clientes.service';
 import { ProspectoclienteComponent } from 'src/app/components/prospecto/prospectocliente/prospectocliente.component';
 import { Cliente } from 'src/app/Models/catalogos/clientes-model';
 import { isThisSecond } from 'date-fns';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 
 
@@ -21,7 +22,8 @@ import { isThisSecond } from 'date-fns';
 })
 export class ProspectoVentasComponent implements OnInit {
 
-  constructor(public router: Router, private dialog: MatDialog, public service: VentasCotizacionService, public service2: ClientesService, private _formBuilder: FormBuilder) {
+  constructor(public router: Router, private dialog: MatDialog, public service: VentasCotizacionService, public service2: ClientesService, private _formBuilder: FormBuilder,
+    private eventosService:EventosService,) {
     this.service.listen().subscribe((m:any)=>{
       this.refreshProspectoList();
     });
@@ -111,6 +113,8 @@ export class ProspectoVentasComponent implements OnInit {
       if (result.value) {
         console.log(row);
         this.service.deleteProspecto(row.IdProspecto).subscribe(res=>{
+          
+          this.eventosService.movimientos('Prospecto Borrado')
           this.refreshProspectoList();
           Swal.fire({
             title: 'Borrado',
@@ -137,6 +141,7 @@ export class ProspectoVentasComponent implements OnInit {
     dialogConfig.width="70%";
     this.dialog.open(ProspectoclienteComponent, dialogConfig);
     
+    this.eventosService.movimientos('Edit Prospecto Cliente')
     this.service2.formData.Nombre = prospecto.Nombre;
     this.service2.formData.Calle = prospecto.Direccion;
     this.service2.formData.RazonSocial = prospecto.Empresa;

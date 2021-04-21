@@ -1,15 +1,29 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { Location } from '@angular/common';
+
 import { Cliente, PosserviceService, Ventas, Producto, DetalleVentas } from '../posservice.service';
+
 import { FormControl } from '@angular/forms';
+
 import { Observable } from 'rxjs';
+
 import { map, startWith } from 'rxjs/operators';
+
 import Swal from 'sweetalert2';
+
 import { MatTableDataSource, MatSort, MatDialogConfig, MatDialog } from '@angular/material';
+
 import { PospagoventaComponent } from './pospagoventa/pospagoventa.component';
+
 import { PosaddeditclientesComponent } from '../catalogos/poscatclientes/posaddeditclientes/posaddeditclientes.component';
+
 import { PoshistoricoventasComponent } from './poshistoricoventas/poshistoricoventas.component';
+
 import { PossaldosclientesComponent } from './possaldosclientes/possaldosclientes.component';
+
+import { EventosService } from 'src/app/services/eventos/eventos.service';
+
 
 @Component({
   selector: 'app-posventadirecta',
@@ -33,7 +47,8 @@ export class PosventadirectaComponent implements OnInit {
   IVA;
   @ViewChild(MatSort, null) sort: MatSort;
 
-  constructor(private location: Location,public posSVC: PosserviceService, private dialog: MatDialog) { }
+  constructor(private location: Location,public posSVC: PosserviceService, private dialog: MatDialog,
+    private eventosService:EventosService,) { }
 
   public ventaBlanco: Ventas =  {
     idVentas:0,
@@ -697,6 +712,8 @@ export class PosventadirectaComponent implements OnInit {
 
     this.posSVC.generarConsulta(consulta).subscribe((data:any) => {
       console.log(data);
+      
+      this.eventosService.movimientos('Nueva Venta Directa')
   let folio    
 if (data.length>0){
   folio = +data[0].folio + 1
@@ -766,6 +783,8 @@ if (data.length>0){
     dialogConfig.width="80%";
     let dlg = this.dialog.open(PospagoventaComponent, dialogConfig);
     dlg.afterClosed().subscribe(resp=>{
+      
+      this.eventosService.movimientos('Pagar Venta Directa')
     this.refreshTablaProductos();
     this.Estatus = this.posSVC.ventasForm.estatus;
     if (this.Estatus=='Pagada'){

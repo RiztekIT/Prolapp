@@ -10,6 +10,7 @@ import { BodegasService } from 'src/app/services/catalogos/bodegas.service';
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
 import Swal from 'sweetalert2';
 import { NativeDateAdapter, MAT_DATE_FORMATS, DateAdapter } from "@angular/material"
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 class detalletarima{
 
@@ -86,7 +87,8 @@ export const APP_DATE_FORMATS =
 })
 export class MovimientosinventariosComponent implements OnInit {
 
-  constructor(public serviceTarima: TarimaService, public addproductos: AddsproductosService, public ventasSVC: VentasPedidoService, private bodegaservice: BodegasService) { }
+  constructor(public serviceTarima: TarimaService, public addproductos: AddsproductosService, public ventasSVC: VentasPedidoService, private bodegaservice: BodegasService,
+    private eventosService:EventosService,) { }
 
   filteredOptions2: Observable<any[]>;
   filteredOptions3: Observable<any[]>;
@@ -392,6 +394,8 @@ getbodegas(){
 
         this.serviceTarima.generarConsulta(consulta2).subscribe((data2:any)=>{
           console.log(data2);
+          
+          this.eventosService.movimientos('Salida de Mercancia')
           if (data2.length==0){
 
             Swal.fire({
@@ -442,6 +446,7 @@ getbodegas(){
         this.serviceTarima.generarConsulta(consulta2).subscribe((data2:any)=>{
           console.log(data2);
 
+          this.eventosService.movimientos('Entrada de Mercancia')
           if (data2.length==0){
 
             Swal.fire({

@@ -133,7 +133,8 @@
                 <h4 class=" blacktxt nomarginbottomP">Subtotal</h4>
             </div>
             <div class="col-6">
-                <p class=" blacktxt nomarginbottomP">{{this.service.formrow.Subtotal | currency}}</p>
+                <p *ngIf="this.service.formrow.Moneda=='MXN'"class=" blacktxt nomarginbottomP">{{this.service.formrow.Subtotal | currency}}</p>
+                <p *ngIf="this.service.formrow.Moneda=='USD'"class=" blacktxt nomarginbottomP">{{this.service.formrow.SubtotalDlls | currency}}</p>
             </div>
             <!--   <div class="col-6">
                 <h4 class=" blacktxt nomarginbottomP">IVA</h4>
@@ -146,7 +147,8 @@
                 <h4 class=" blacktxt nomarginbottomP">Total</h4>
             </div>
             <div class="col-6">
-                <h5 class=" blacktxt nomarginbottomP">{{this.service.formrow.Total | currency}}</h5>
+                <h5 *ngIf="this.service.formrow.Moneda=='MXN'" class=" blacktxt nomarginbottomP">{{this.service.formrow.Total | currency}}</h5>
+                <h5 *ngIf="this.service.formrow.Moneda=='USD'" class=" blacktxt nomarginbottomP">{{this.service.formrow.TotalDlls | currency}}</h5>
             </div>
         </div>
     </div>

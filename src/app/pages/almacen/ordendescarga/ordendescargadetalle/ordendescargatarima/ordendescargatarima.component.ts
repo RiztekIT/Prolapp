@@ -20,6 +20,7 @@ import { QrComponent } from 'src/app/components/qr/qr.component';
 import { CalendarioService } from '../../../../../services/calendario/calendario.service';
 import { TipoCambioService } from '../../../../../services/tipo-cambio.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -87,7 +88,13 @@ export class OrdendescargatarimaComponent implements OnInit {
 
 
   constructor(public router: Router, private dialog: MatDialog, public service: OrdenDescargaService,
-    public ordenTemporalService: OrdenTemporalService, public Tarimaservice: TarimaService, public CalendarioService: CalendarioService, public serviceTarima: TarimaService, public tipoCambioService: TipoCambioService, private http : HttpClient) {
+    public ordenTemporalService: OrdenTemporalService, 
+    public Tarimaservice: TarimaService,
+     public CalendarioService: CalendarioService, 
+     public serviceTarima: TarimaService, 
+     public tipoCambioService: TipoCambioService, 
+     private http : HttpClient,
+     private eventosService:EventosService,) {
     this.service.listen().subscribe((m: any) => {
       console.log(m);
       this.refreshOrdenDescargaList();
@@ -228,6 +235,8 @@ export class OrdendescargatarimaComponent implements OnInit {
         showCancelButton: false,
         showConfirmButton: false
       });
+      // ! AGREGA EVENTO A DB
+      this.eventosService.movimientos('Finalizar OD')
         this.updateOrdenDescarga(this.service.formData,'Descargada');
         this.generarEventoCalendario(this.service.formData.Folio);
     }
@@ -253,6 +262,9 @@ export class OrdendescargatarimaComponent implements OnInit {
             // text: 'No se han descargado todos los productos.',
             // timer: 1000
           });
+// ! AGREGA EVENTO A DB
+          this.eventosService.movimientos('Finalizar OD')
+
           this.updateOrdenDescarga(this.service.formData,'Descargada');
           this.generarEventoCalendario(this.service.formData.Folio);
         }
@@ -907,6 +919,8 @@ export class OrdendescargatarimaComponent implements OnInit {
                 this.updateOrdenDescarga(this.service.formData,'Proceso');
               this.service.updateDetalleOrdenDescargaSaldo(dataOD[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res => {
                 console.log(res);
+                
+          this.eventosService.movimientos('OD Producto Descargado')
 
                   Swal.fire({
         title: 'Producto Descargado',
@@ -1314,6 +1328,7 @@ export class OrdendescargatarimaComponent implements OnInit {
                               
                               
                               
+                              this.eventosService.movimientos('Borrar Producto Ingresado OD')
                               
                               
                               Swal.fire({
@@ -1770,5 +1785,7 @@ console.log(this.preOrdenTemporalSacos.ClaveProducto);
   
 
   }
+
+
 
 }

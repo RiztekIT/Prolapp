@@ -1,7 +1,7 @@
 import { Component, InjectionToken, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm, FormControl } from "@angular/forms";
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Cliente } from 'src/app/Models/catalogos/clientes-model';
 import { map, startWith } from 'rxjs/operators';
 import { VentasPedidoService } from '../../../../../services/ventas/ventas-pedido.service';
@@ -239,6 +239,12 @@ export class PedidoventasAddComponent implements OnInit {
         startWith(''),
         map(value => this._filterUnidad(value))
       );
+  }
+
+  ngOnDestroy(): void {
+    if(this.subscribeClientes){
+      this.subscribeClientes.unsubscribe();
+    }
   }
 
 
@@ -509,10 +515,17 @@ export class PedidoventasAddComponent implements OnInit {
 
   private _filter(value: any): any[] {
     // console.log(value);
-    const filterValue = value.toString().toLowerCase();
-    return this.options.filter(option =>
-      option.Nombre.toLowerCase().includes(filterValue) ||
-      option.IdClientes.toString().includes(filterValue));
+    if (typeof value != 'undefined') {
+      const filterValue = value.toString().toLowerCase();
+      return this.listClientes.filter(option =>
+        option.Nombre.toLowerCase().includes(filterValue) ||
+        option.IdClientes.toString().includes(filterValue));      
+      }else{
+        return this.listClientes.filter(option =>
+          option.Nombre.toLowerCase().includes('') ||
+          option.IdClientes.toString().includes(''));  
+      }
+    
   }
 
 
@@ -541,8 +554,13 @@ export class PedidoventasAddComponent implements OnInit {
     }
   }
 
-
+subscribeClientes: Subscription
   dropdownRefresh() {
+    // this.filteredOptions = new Observable();
+    // this.myControl = new FormControl();
+    if(!this.service.formData.IdClientes){
+      this.service.formData.IdClientes = 0;
+        }
     this.service.getDepDropDownValues().subscribe(data => {
       for (let i = 0; i < data.length; i++) {
         let client = data[i];

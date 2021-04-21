@@ -1,18 +1,33 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import xml2js from 'xml2js';
+
 import { processors } from 'xml2js'
 
 import {MatTableDataSource, MatSort, MatPaginator, MatDialogRef} from '@angular/material';
+
 import { Empresa } from '../../../../Models/Empresas/empresa-model';
+
 import { EmpresaService } from '../../../../services/empresas/empresa.service';
 
 import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
+
 import { EditEmpresaComponent } from '../edit-empresa/edit-empresa.component';
 
 import Swal from 'sweetalert2';
+
 import { NgForm } from '@angular/forms';
+
 import { DomSanitizer } from '@angular/platform-browser';
+
 import { HttpClient } from '@angular/common/http';
+
+import { DatePipe } from '@angular/common';
+
+import { Evento } from 'src/app/Models/eventos/evento-model';
+
+import { EventosService } from 'src/app/services/eventos/eventos.service';
+
 
 
 @Component({
@@ -26,13 +41,17 @@ export class ShowEmpresaComponent implements OnInit {
   empresaFoto: any;
   arrfoto: Array<any> = [];
 
+  modulo: string = 'Editar Empresa'
+
   // listData: MatTableDataSource<any>;
   // displayedColumns: string [] = [ 'Razon Social', 'RFC', 'Calle', 'Numero Interior', 'Numero Exterior', 'Codigo Postal', 
   // 'Colonia', 'Ciudad', 'Estado', 'Pais', 'Regimen', 'Options'];
   // @ViewChild(MatSort, null) sort : MatSort;
   // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(public dialogbox: MatDialogRef<ShowEmpresaComponent>, public service:EmpresaService, private dialog: MatDialog, private snackBar: MatSnackBar, private sanitizer: DomSanitizer, private http: HttpClient ) {
+  constructor(public dialogbox: MatDialogRef<ShowEmpresaComponent>, public service:EmpresaService, private dialog: MatDialog, private snackBar: MatSnackBar, private sanitizer: DomSanitizer, private http: HttpClient,
+    private datePipe:DatePipe,
+    private eventosService:EventosService, ) {
     // this.Iniciar();
 
     this.service.listen().subscribe((m:any) =>{
@@ -151,6 +170,7 @@ export class ShowEmpresaComponent implements OnInit {
     
     this.service.updateEmpresa(form.value).subscribe(res => {
       console.log(res);
+this.movimientos(this.modulo)    
       
       Swal.fire({
         icon: 'success',
@@ -158,9 +178,26 @@ export class ShowEmpresaComponent implements OnInit {
       })
     });
   }
-
-
-
+  
+  
+  
+  movimientos(movimiento?){
+    let userData = JSON.parse(localStorage.getItem("userAuth"))
+    let idUser = userData.IdUsuario
+    let evento = new Evento();
+    let fecha = new Date();
+    evento.IdUsuario = idUser
+    evento.Autorizacion = '0'
+    evento.Fecha = this.datePipe.transform(fecha, 'yyyy-MM-dd, h:mm:ss a');
+    evento.Movimiento = movimiento
+    console.log(evento);
+    if (movimiento) {
+      console.log('%c%s', 'color: #8c0038', movimiento);
+      this.eventosService.addEvento(evento).subscribe(respuesta =>{
+        console.log(respuesta);
+      })      
+    }
+}
     
   
 

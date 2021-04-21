@@ -1,28 +1,51 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, SimpleChanges, TemplateRef, ElementRef } from '@angular/core';
+
 import * as html2pdf from 'html2pdf.js';
 
 import {MatTableDataSource, MatPaginator, MatTable} from '@angular/material';
+
 import {MatSort} from '@angular/material/sort';
+
 import { Factura } from '../../../Models/facturacioncxc/factura-model';
+
 import { FacturaService } from '../../../services/facturacioncxc/factura.service';
 
 import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
+
 import { FacturacioncxcAddComponent } from './facturacioncxc-add/facturacioncxc-add.component';
+
 import { FacturacioncxcEditComponent } from './facturacioncxc-edit/facturacioncxc-edit.component';
+
 import { Router } from '@angular/router';
+
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+
 import { trigger, state, transition, animate, style } from '@angular/animations';
+
 import { DetalleFactura } from '../../../Models/facturacioncxc/detalleFactura-model';
+
 import { Observable } from 'rxjs';
+
 import { facturaMasterDetalle } from 'src/app/Models/facturacioncxc/facturamasterdetalle';
+
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+
 import Swal from 'sweetalert2';
+
 import { MessageService } from 'src/app/services/message.service';
+
 import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.service';
+
 import { EmailComponent } from 'src/app/components/email/email/email.component';
+
 import { FacturaComponent } from 'src/app/components/factura/factura.component';
+
 import { ComppagoComponent } from '../comppago/comppago/comppago.component';
+
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
+
+import { EventosService } from 'src/app/services/eventos/eventos.service';
+
 
 
 @Component({
@@ -66,7 +89,15 @@ export class FacturacioncxcComponent implements OnInit {
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private service:FacturaService, private dialog: MatDialog, private snackBar: MatSnackBar, private router:Router, public enviarfact: EnviarfacturaService, public _MessageService: MessageService,public servicerecibo: ReciboPagoService, public serviceEmpresa: EmpresaService) {
+  constructor(private service:FacturaService, 
+    private dialog: MatDialog, 
+    private snackBar: MatSnackBar, 
+    private router:Router, 
+    public enviarfact: EnviarfacturaService, 
+    public _MessageService: MessageService,
+    public servicerecibo: ReciboPagoService, 
+    public serviceEmpresa: EmpresaService,
+    private eventosService:EventosService,) {
   
     this.service.listen2().subscribe((m:any)=>{
       // console.log(m);
@@ -371,6 +402,8 @@ console.log(data)
         let Id = this.IdFactura;
         this.service.formData.Id=Id;
         localStorage.setItem('FacturaID',this.service.formData.Id.toString())
+        
+        this.eventosService.movimientos('Factura Generada')
       this.router.navigate(['/facturacionCxcAdd', Id]);
 
         });
@@ -397,6 +430,8 @@ this.service.formData = factura;
 let Id = factura.Id;
 localStorage.setItem('rowfact',JSON.stringify(factura));
 localStorage.setItem('FacturaID',this.service.formData.Id.toString())
+
+this.eventosService.movimientos('Editar Factura')
     this.router.navigate(['/facturacionCxcAdd', Id]);
   }
 

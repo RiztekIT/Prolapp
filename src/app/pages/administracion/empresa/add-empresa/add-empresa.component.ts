@@ -9,6 +9,9 @@ import { map, startWith } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { Evento } from 'src/app/Models/eventos/evento-model';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 @Component({
   selector: 'app-add-empresa',
@@ -24,8 +27,13 @@ export class AddEmpresaComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
 
+  modulo:string = 'CrearEmpresa'
+
+
   constructor(public dialogbox: MatDialogRef<AddEmpresaComponent>, public router: Router,
-    public service: EmpresaService, private snackBar: MatSnackBar, private _formBuilder: FormBuilder ) { }
+    public service: EmpresaService, private snackBar: MatSnackBar, private _formBuilder: FormBuilder,
+    private datePipe:DatePipe,
+    private eventosService:EventosService, ) { }
 
 
 
@@ -121,6 +129,7 @@ export class AddEmpresaComponent implements OnInit {
   onCreate(){
     this.service.addEmpresa(this.service.formData).subscribe(res =>{
       console.log(res);
+      this.movimientos(this.modulo)
          
     });
   }
@@ -150,6 +159,31 @@ export class AddEmpresaComponent implements OnInit {
   final(){
     this.dialogbox.close();
     this.service.filter('Register click');
+  
   }
+
+
+  
+  movimientos(movimiento?){
+    let userData = JSON.parse(localStorage.getItem("userAuth"))
+    let idUser = userData.IdUsuario
+    let evento = new Evento();
+    let fecha = new Date();
+    evento.IdUsuario = idUser
+    evento.Autorizacion = '0'
+    evento.Fecha = this.datePipe.transform(fecha, 'yyyy-MM-dd, h:mm:ss a');
+    evento.Movimiento = movimiento
+    console.log(evento);
+    if (movimiento) {
+      this.eventosService.addEvento(evento).subscribe(respuesta =>{
+        console.log(respuesta);
+      })      
+    }
+}
+
+
+
+
+
 
 }

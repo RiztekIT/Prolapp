@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog } from '@angular/material';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 import Swal from 'sweetalert2';
 import { Cliente, PosserviceService } from '../../posservice.service';
 import { PosaddeditclientesComponent } from './posaddeditclientes/posaddeditclientes.component';
@@ -16,7 +17,8 @@ export class PoscatclientesComponent implements OnInit {
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(public posSVC: PosserviceService, private dialog: MatDialog) { }
+  constructor(public posSVC: PosserviceService, private dialog: MatDialog,
+    private eventosService:EventosService,) { }
 
   ngOnInit() {
     this.refreshTabla()
@@ -52,6 +54,7 @@ export class PoscatclientesComponent implements OnInit {
     this.posSVC.clientesForm = cliente;
     this.posSVC.addeditclientes = 'Editar';
 
+    this.eventosService.movimientos('POS Editar Cliente')
 const dialogConfig = new MatDialogConfig();
 dialogConfig.disableClose = false;
 dialogConfig.autoFocus = true;
@@ -81,6 +84,8 @@ this.dialog.open(PosaddeditclientesComponent, dialogConfig);
         console.log(consulta2);
         this.posSVC.generarConsulta(consulta2).subscribe(res => {
           this.refreshTabla();
+          
+          this.eventosService.movimientos('POS Cliente Borrado')
           Swal.fire({
             title: 'Borrado',
             icon: 'success',
@@ -100,6 +105,7 @@ this.dialog.open(PosaddeditclientesComponent, dialogConfig);
     this.posSVC.clientesForm = new Cliente();
     this.posSVC.addeditclientes = 'Agregar';
 
+    this.eventosService.movimientos('POS Agregar Cliente')
 const dialogConfig = new MatDialogConfig();
 dialogConfig.disableClose = false;
 dialogConfig.autoFocus = true;

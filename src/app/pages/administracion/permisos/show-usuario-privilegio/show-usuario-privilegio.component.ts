@@ -1,15 +1,34 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { MatDialogRef } from '@angular/material';
+
 import { ProcesoService } from '../../../../services/permisos/procesos.service';
+
 import { Proceso } from '../../../../Models/proceso-model';
+
 import { NgForm } from '@angular/forms';
+
 import { MatDialog, MatDialogConfig } from '@angular/material';
+
 import { UsuariosServieService } from 'src/app/services/catalogos/usuarios-servie.service';
+
 import { procesoMasterDetalle } from '../../../../Models/procesomaster-model';
+
 import { Privilegio } from '../../../../Models/privilegio-model';
+
 import { CalendarioService } from '../../../../services/calendario/calendario.service';
+
 import { Calendario } from '../../../../Models/calendario/calendario-model';
+
 import { SidebarService } from '../../../../services/shared/sidebar.service';
+
+import { DatePipe } from '@angular/common';
+
+import { Evento } from 'src/app/Models/eventos/evento-model';
+
+import { EventosService } from '../../../../services/eventos/eventos.service';
+
+
 
 
 
@@ -25,8 +44,15 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
   id:number;
   PermisoBool :boolean;
 
-  constructor(public service: ProcesoService, private service2:UsuariosServieService, public dialogbox: MatDialogRef<ShowUsuarioPrivilegioComponent>,
-     private dialog: MatDialog, public CalendarioService: CalendarioService, private SidebarService:SidebarService) {
+  constructor(public service: ProcesoService, 
+    private service2:UsuariosServieService, 
+    public dialogbox: MatDialogRef<ShowUsuarioPrivilegioComponent>,
+     private dialog: MatDialog, 
+     public CalendarioService: CalendarioService, 
+     private SidebarService:SidebarService,
+     private datePipe:DatePipe,
+     private eventosService:EventosService,
+     ) {
 
 
   }
@@ -66,19 +92,12 @@ export class ShowUsuarioPrivilegioComponent implements OnInit {
    }
   }
 
-  onDelete(f,i){
-    //solo se pasa como parametro la posicion en la que esta ya que estas indican el usuario y el proceso
-  this.service.PermisoDelete(f, i).subscribe(res =>{
-    console.log('%c%s', 'color: #7f2200', res);
-    
-    this.SidebarService.filter('Register click');
-    // this.refreshProcesosList();
- })
-  }
+
 
 onAdd(f,i){
   // console.log(f, i);
   this.service.PermisoPost(f,i).subscribe(res =>{
+    this.movimientos('Agregar Permiso')
     
     this.SidebarService.filter('Register click');
     console.log('%c%s', 'color: #994d75', res);
@@ -111,6 +130,17 @@ onAdd(f,i){
   });
 }
 
+  onDelete(f,i){
+    //solo se pasa como parametro la posicion en la que esta ya que estas indican el usuario y el proceso
+  this.service.PermisoDelete(f, i).subscribe(res =>{
+    console.log('%c%s', 'color: #7f2200', res);
+    
+    this.movimientos('Borrar Permiso')
+    
+    this.SidebarService.filter('Register click');
+    // this.refreshProcesosList();
+ })
+  }
 
    refreshProcesosList() {
      this.service.master = [];
@@ -230,10 +260,21 @@ onAdd(f,i){
 
   //  }
 
-
-
-
-
-
+  movimientos(movimiento?){
+    let userData = JSON.parse(localStorage.getItem("userAuth"))
+    let idUser = userData.IdUsuario
+    let evento = new Evento();
+    let fecha = new Date();
+    evento.IdUsuario = idUser
+    evento.Autorizacion = '0'
+    evento.Fecha = this.datePipe.transform(fecha, 'yyyy-MM-dd, h:mm:ss a');
+    evento.Movimiento = movimiento
+    console.log(evento);
+    if (movimiento) {
+      this.eventosService.addEvento(evento).subscribe(respuesta =>{
+        console.log(respuesta);
+      })      
+    }
+}
 
 }
