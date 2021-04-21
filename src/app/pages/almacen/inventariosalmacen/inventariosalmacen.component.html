@@ -96,17 +96,28 @@
 
                             </td>
                         </ng-container> -->
+                        <ng-container matColumnDef="PesoDisponible">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Inv. Disponible</th>
+                            <td mat-cell *matCellDef="let element">{{disponibles(element) | number}} Kg
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Muestra">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Muestra</th>
+                            <td mat-cell *matCellDef="let element">{{muestra(element) | number}} Kg
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Merma">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Merma</th>
+                            <td mat-cell *matCellDef="let element">{{merma(element) | number}} Kg
+                            </td>
+                        </ng-container>
 
                         <ng-container matColumnDef="PesoTotal">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Inv. Fisico</th>
                             <td mat-cell *matCellDef="let element">{{element.Stock | number}} Kg
                             </td>
                         </ng-container>
-                        <ng-container matColumnDef="PesoDisponible">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Inv. Disponible</th>
-                            <td mat-cell *matCellDef="let element">{{disponibles(element) | number}} Kg
-                            </td>
-                        </ng-container>
+
 
                         <!--  <ng-container matColumnDef="Documentos">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Ver Documentos</th>
@@ -130,18 +141,20 @@
                                             <th> Producto </th>
                                             <th> PO </th>
                                             <th> Lote </th>
-                                            <th> Kg Fisicos</th>
                                             <th> Kg Disponibles</th>
+                                            <th> Kg Fisicos</th>
+                                            <th> Estatus</th>
                                             <th> Ver Documentos</th>
                                         </tr>
-                                        <tr *ngFor="let detalle of element.detalle">
+                                        <tr [ngStyle]="{'background-color': getColor(detalle)}" *ngFor="let detalle of element.detalle">
                                             <!-- <td> {{detalle.QR}} </td> -->
                                             <td (click)="expandedElement = 0"> {{detalle.ClaveProducto}} </td>
                                             <td (click)="expandedElement = 0"> {{detalle.Producto }} </td>
                                             <td (click)="expandedElement = 0"> {{detalle.PO}} </td>
                                             <td (click)="expandedElement = 0"> {{detalle.Lote}} </td>
-                                            <td (click)="expandedElement = 0"> {{detalle.KgT | number}} </td>
                                             <td (click)="expandedElement = 0"> {{detalle.KgD | number}} </td>
+                                            <td (click)="expandedElement = 0"> {{detalle.KgT | number}} </td>
+                                            <td (click)="expandedElement = 0"> {{detalle.Estatus}} </td>
                                             <td> <button mat-icon-button class="btn btn-dark" (click)="obtenerDocumentos(detalle)">
                                       
                                                 <mat-icon>plagiarism</mat-icon>
