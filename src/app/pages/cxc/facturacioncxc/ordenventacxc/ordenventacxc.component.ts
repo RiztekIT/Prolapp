@@ -229,10 +229,10 @@ if (this.estatusSelect==='Todos'){
 
       if (this.facturaSVC.rfcempresa==='PLA11011243A'){
 
-        query = "select top 1 factura.*, DetalleFactura.* from factura left join ovfactura on factura.Id=ovfactura.idFactura left join DetalleFactura on Factura.Id=DetalleFactura.IdFactura where ovfactura.FolioPedido='"+row.Folio+"' and DetalleFactura.ClaveProducto='"+clave+"' order by Factura.Id desc"
+        query = "select top 1 factura.*, DetalleFactura.* from factura left join ovfactura on factura.Id=ovfactura.idFactura left join DetalleFactura on Factura.Id=DetalleFactura.IdFactura where ovfactura.FolioPedido='"+row.Folio+"' and DetalleFactura.ClaveProducto='"+clave+"' order by Factura.Id desc, DetalleFactura.IdDetalle desc"
       }
       else if (this.facturaSVC.rfcempresa=='AIN140101ME3'){
-        query = "select top 1 factura2.*, DetalleFactura2.* from factura2 left join ovfactura on factura2.Id=ovfactura.idFactura left join DetalleFactura2 on Factura2.Id=DetalleFactura2.IdFactura where ovfactura.FolioPedido='"+row.Folio+"' and DetalleFactura2.ClaveProducto='"+clave+"' order by Factura2.Id desc"
+        query = "select top 1 factura2.*, DetalleFactura2.* from factura2 left join ovfactura on factura2.Id=ovfactura.idFactura left join DetalleFactura2 on Factura2.Id=DetalleFactura2.IdFactura where ovfactura.FolioPedido='"+row.Folio+"' and DetalleFactura2.ClaveProducto='"+clave+"' order by Factura2.Id desc, DetalleFactura2.IdDetalle desc"
       }
 
       let consulta = {
@@ -285,7 +285,7 @@ if (this.estatusSelect==='Todos'){
           ClaveSAT: this.facturaSVC.ClaveSAT,
           PrecioUnitario: row.DetallePedido[i].PrecioUnitario,
           PrecioUnitarioDlls: row.DetallePedido[i].PrecioUnitarioDlls,
-          Cantidad: saldo,
+          Cantidad: (+saldo).toFixed(4),
           Importe: (+saldo * +row.DetallePedido[i].PrecioUnitario).toFixed(4),
           ImporteDlls: (+saldo * +row.DetallePedido[i].PrecioUnitarioDlls).toFixed(4),
           Observaciones: '',
