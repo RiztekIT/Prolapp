@@ -11,6 +11,7 @@ import { MessageService } from 'src/app/services/message.service';
 import * as html2pdf from 'html2pdf.js';
 import { EmailgeneralComponent } from 'src/app/components/email/emailgeneral/emailgeneral.component';
 import { OrdenCargaDescargaComponent } from 'src/app/components/orden-carga-descarga/orden-carga-descarga.component';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 @Component({
   selector: 'app-resumentraspaso',
@@ -71,6 +72,7 @@ export class ResumentraspasoComponent implements OnInit {
   constructor(public traspasoSVC: TraspasoMercanciaService, public documentosService: DocumentosImportacionService, 
     private dialog: MatDialog, public otService: OrdenTemporalService, @Inject(MAT_DIALOG_DATA) public data: any, 
     public _MessageService: MessageService, public traspasoService: TraspasoMercanciaService,
+    private eventosService:EventosService,
     ) { }
 
   ngOnInit() {
@@ -373,6 +375,7 @@ this._MessageService.documentosURL = [];
               this.archivosfactura.splice(this.archivosfactura.indexOf(event), 1);
               this.pdfstatus = false;
               
+              this.eventosService.movimientos('Documento Factura Borrado')
               Swal.fire({
                 title: 'Borrado',
                 icon: 'success',
@@ -668,6 +671,7 @@ this._MessageService.documentosURL = [];
             this.archivosCA.splice(this.archivosCA.indexOf(event), 1);
             this.pdfstatus = false;
             
+            this.eventosService.movimientos('Documento CA Borrado')
             Swal.fire({
               title: 'Borrado',
               icon: 'success',
@@ -816,6 +820,7 @@ this._MessageService.documentosURL = [];
               this.archivosCLV.splice(this.archivosCLV.indexOf(event), 1);
               this.pdfstatus = false;
               
+              this.eventosService.movimientos('Documento CLV Borrado')
               Swal.fire({
                 title: 'Borrado',
                 icon: 'success',
@@ -1010,6 +1015,7 @@ this._MessageService.documentosURL = [];
               this.archivosCO.splice(this.archivosCO.indexOf(event), 1);
               this.pdfstatus = false;
               
+              this.eventosService.movimientos('Documento CO Borrado')
               Swal.fire({
                 title: 'Borrado',
                 icon: 'success',
@@ -1217,6 +1223,7 @@ this._MessageService.documentosURL = [];
               this.archivosPESPI.splice(this.archivosPESPI.indexOf(event), 1);
               this.pdfstatus = false;
               
+              this.eventosService.movimientos('Documento PESPI Borrado')
               Swal.fire({
                 title: 'Borrado',
                 icon: 'success',
@@ -1388,6 +1395,7 @@ this._MessageService.documentosURL = [];
                   this.obtenerDetallesTraspaso()
                   //this.obtenerDocumentosFactura(this.seleccionadosFacturas[l],this.seleccionadosFacturas[i].IdOrdenDescarga,this.seleccionadosFacturas[i].IdDetalleTarima);
                   /* this.archivosfactura = []; */
+                  this.eventosService.movimientos('Documento Factura Guardado')
                   Swal.fire({
                     title: 'Documentos Guardados',
                     icon: 'success',
@@ -1474,6 +1482,8 @@ console.clear();
               this.filesCLV = [];
               this.obtenerDetallesTraspaso()
               /* this.archivos = []; */
+              
+              this.eventosService.movimientos('Documento CLV Guardado')
               Swal.fire({
                 title: 'Documentos Guardados',
                 icon: 'success',
@@ -1602,6 +1612,7 @@ console.clear();
                   this.filesCO = [];
                   this.obtenerDetallesTraspaso();
 
+                  this.eventosService.movimientos('Documento CO Guardado')
                   Swal.fire({
                     title: 'Documentos Guardados',
                     icon: 'success',
@@ -1687,6 +1698,8 @@ console.clear();
               this.filesPESPI = [];
               this.obtenerDetallesTraspaso();
               /* this.archivos = []; */
+              
+              this.eventosService.movimientos('Documento PESPI Guardado')
               Swal.fire({
                 title: 'Documentos Guardados',
                 icon: 'success',
@@ -1793,6 +1806,8 @@ console.clear();
               this.filesCA = [];
               this.obtenerDetallesTraspaso();
               /* this.archivos = []; */
+              
+              this.eventosService.movimientos('Documento CA Guardado')
               Swal.fire({
                 title: 'Documentos Guardados',
                 icon: 'success',
@@ -1973,6 +1988,7 @@ console.clear();
             this.archivosfactura.splice(this.archivosfactura.indexOf(event), 1);
             this.pdfstatus = false;
 
+            this.eventosService.movimientos('Documento USDA Borrado')
             Swal.fire({
               title: 'Borrado',
               icon: 'success',
@@ -2042,6 +2058,8 @@ for (var i = 0; i < event.addedFiles.length; i++) {
               // this.refrescarDocumentos();
               this.updateUSDA();
               /* this.archivos = []; */
+              
+              this.eventosService.movimientos('Documento USDA Guardado')
               Swal.fire({
                 title: 'Documentos Guardados',
                 icon: 'success',
@@ -2244,7 +2262,8 @@ for (var i = 0; i < event.addedFiles.length; i++) {
     this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
     this._MessageService.asunto = 'Envio Orden de Traspaso ' + this.traspasoSVC.selectTraspaso.Folio;
     this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + this.traspasoSVC.selectTraspaso.Folio;
-    this._MessageService.nombre = 'ProlactoIngredientes';
+    this._MessageService.nombre = 'Abarrotodo';
+    this._MessageService.pdf = true;
 
 
     const dialogConfig2 = new MatDialogConfig();
@@ -2265,6 +2284,7 @@ for (var i = 0; i < event.addedFiles.length; i++) {
     
 
     //^ Generamos el modal del Correo
+
 
     dl.afterClosed().subscribe(res=>{
 

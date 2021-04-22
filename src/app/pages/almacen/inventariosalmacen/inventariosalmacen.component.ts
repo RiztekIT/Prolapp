@@ -34,7 +34,7 @@ export class InventariosalmacenComponent implements OnInit {
   listData: MatTableDataSource<any>;
   listData2: MatTableDataSource<any>;
   
-  displayedColumns: string[] = ['Clave','Producto', 'PesoTotal','PesoDisponible'];
+  displayedColumns: string[] = ['Clave','Producto','PesoDisponible','Muestra','Merma','PesoTotal'];
   displayedColumns2: string[] = ['Clave','Producto', 'Lote','Kg Fisicos', 'Kg Disponibles'];
 
 
@@ -247,7 +247,10 @@ subs1: Subscription
     let kgdisponibles = 0;
 
     for (let n=0; n<producto.detalle.length;n++){
-      kgdisponibles = +kgdisponibles + +producto.detalle[n].KgD;
+      if (producto.detalle[n].Estatus=='Creada'){
+
+        kgdisponibles = +kgdisponibles + +producto.detalle[n].KgD;
+      }
       // console.log(kgdisponibles,'KG');
 
     } 
@@ -255,6 +258,40 @@ subs1: Subscription
     return kgdisponibles;
 
   }
+  muestra(producto){
+    
+
+    let kgdisponibles = 0;
+
+    for (let n=0; n<producto.detalle.length;n++){
+      if (producto.detalle[n].Estatus=='Muestra'){
+
+        kgdisponibles = +kgdisponibles + +producto.detalle[n].KgD;
+      }
+      // console.log(kgdisponibles,'KG');
+
+    } 
+
+    return kgdisponibles;
+
+  }
+  merma(producto){
+
+    let kgdisponibles = 0;
+
+    for (let n=0; n<producto.detalle.length;n++){
+      if (producto.detalle[n].Estatus=='Merma'){
+
+        kgdisponibles = +kgdisponibles + +producto.detalle[n].KgD;
+      }
+      // console.log(kgdisponibles,'KG');
+
+    } 
+
+    return kgdisponibles;
+
+  }
+ 
 
   bodegaCambio(event){
        // console.log(event);
@@ -333,6 +370,12 @@ this.obtenerProductos(this.bodegaSelect)
         this.obtenerProductos('CHIHUAHUA')
       })
       
+
+  }
+
+  getColor(element){
+    /* console.log(element,'Elemento'); */
+    return element.Estatus === 'Creada' ? 'white' : 'darksalmon';
 
   }
 

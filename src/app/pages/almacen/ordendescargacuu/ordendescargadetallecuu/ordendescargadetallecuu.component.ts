@@ -15,6 +15,7 @@ import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-pro
 import { OrdenCargaInfo } from 'src/app/Models/almacen/OrdenCarga/ordenCargaInfo-model';
 import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
 import { FormatoPDFComponent } from 'src/app/components/almacen/formato-pdf/formato-pdf.component';
+import Swal from 'sweetalert2';
 
 
 
@@ -69,6 +70,9 @@ export class OrdendescargadetallecuuComponent implements OnInit {
     // this.actualizarTablaOrdenTemporal();
     console.log('this.IdOrdenDescarga: ', this.IdOrdenDescarga);
     this.service.formData = JSON.parse(localStorage.getItem('OrdenDescarga')); 
+    //this.service.formData.FechaInicioDescarga = new Date('21/04/21')
+    //this.service.formData.FechaFinalDescarga = new Date('21/04/21')
+    //this.onBlurInformacionGeneral()
     console.log(this.service.formData);
     console.log(localStorage.getItem('IdOrdenDescarga'));
     this.actualizarTablaTarimaEscaneada();
@@ -153,7 +157,11 @@ console.warn('hello');
 
 
   CheckTarima(){
+    this.service.formData.FechaInicioDescarga = new Date('21/04/21')
+    this.service.formData.FechaFinalDescarga = new Date('21/04/21')
+    this.onBlurInformacionGeneral()
     this.router.navigate(['/ordenDescargaTarimacuu']);
+
   }
   
   // ObtenerFolio() {
@@ -343,7 +351,8 @@ usdaOrden: string = "";
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "70%";
+    dialogConfig.width = "0%";
+    dialogConfig.height = "0%";
     dialogConfig.data = {
      IdOrdenDescarga: this.IdOrdenDescarga
     }
@@ -401,6 +410,30 @@ usdaOrden: string = "";
   
       const blob = new Blob(byteArrays, { type: contentType });
       return blob;
+    }
+
+
+
+    guardarDatos(){
+
+      console.log('Actualizar Orden Descarga');
+      this.ordenDescargaInfo.SelloCaja = this.selloCaja;
+      this.ordenDescargaInfo.Campo2 = this.pedimentoOrden;
+      this.ordenDescargaInfo.Campo3 = this.usdaOrden;
+      //^ Actualizar Informacion de la OrdenCargaInfo
+      this.serviceOC.updateOrdenCargaInfo(this.ordenDescargaInfo).subscribe(resUp=>{
+        console.log(resUp);
+        //^ Actualizar Informacion De la Orden Carga      
+        console.log('%c⧭', 'color: #994d75', this.service.formData);
+        this.service.updateOrdenDescarga(this.service.formData).subscribe(resOD=>{
+          console.log(resOD);
+          Swal.fire({
+            icon: 'success',
+            title: 'Datos Guardados'
+          })
+        })
+      })
+
     }
 
 

@@ -1,9 +1,18 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+
 import { startWith, map } from 'rxjs/operators';
+
 import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
+
 import { OrdenDescargaService } from '../../../services/almacen/orden-descarga/orden-descarga.service';
+
 import { OrdenCargaService } from '../../../services/almacen/orden-carga/orden-carga.service';
+
 import Swal from 'sweetalert2';
+import { DatePipe } from '@angular/common';
+import { Evento } from 'src/app/Models/eventos/evento-model';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
+
 
 @Component({
   selector: 'app-formato-pdf',
@@ -18,7 +27,9 @@ export class FormatoPDFComponent implements OnInit {
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public dataComponente: any, public odService: OrdenDescargaService, public ocService: OrdenCargaService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public dataComponente: any, public odService: OrdenDescargaService, public ocService: OrdenCargaService,
+  private datePipe:DatePipe,
+  private eventosService:EventosService,) { }
 
   ngOnInit() {
     this.IdOrden = this.dataComponente.IdOrden;
@@ -99,15 +110,36 @@ export class FormatoPDFComponent implements OnInit {
       console.log('Actualizar OD');
       this.odService.OnEditDetalleOrdenDescarga(detalle).subscribe(resODupdate => {
         console.log(resODupdate);
+        this.movimientos('Formato Tarimas OD');
         this.dataDetalles();
       })
     } else if (this.tipoOrden == 'OrdenCarga') {
       console.log('Actualizar OC');
       this.ocService.updateDetalleOrdenCarga(detalle).subscribe(resOCupdate => {
         console.log(resOCupdate);
+        this.movimientos('Formato Tarimas OC');
         this.dataDetalles();
       })
     }
   }
+
+
+  
+  movimientos(movimiento?){
+    let userData = JSON.parse(localStorage.getItem("userAuth"))
+    let idUser = userData.IdUsuario
+    let evento = new Evento();
+    let fecha = new Date();
+    evento.IdUsuario = idUser
+    evento.Autorizacion = '0'
+    evento.Fecha = this.datePipe.transform(fecha, 'yyyy-MM-dd, h:mm:ss a');
+    evento.Movimiento = movimiento
+    console.log(evento);
+    if (movimiento) {
+      this.eventosService.addEvento(evento).subscribe(respuesta =>{
+        console.log(respuesta);
+      })      
+    }
+}
 
 }

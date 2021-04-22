@@ -20,6 +20,7 @@ import { QrComponent } from 'src/app/components/qr/qr.component';
 import { CalendarioService } from '../../../../../services/calendario/calendario.service';
 import { TipoCambioService } from '../../../../../services/tipo-cambio.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -87,7 +88,13 @@ export class OrdendescargatarimaComponent implements OnInit {
 
 
   constructor(public router: Router, private dialog: MatDialog, public service: OrdenDescargaService,
-    public ordenTemporalService: OrdenTemporalService, public Tarimaservice: TarimaService, public CalendarioService: CalendarioService, public serviceTarima: TarimaService, public tipoCambioService: TipoCambioService, private http : HttpClient) {
+    public ordenTemporalService: OrdenTemporalService, 
+    public Tarimaservice: TarimaService,
+     public CalendarioService: CalendarioService, 
+     public serviceTarima: TarimaService, 
+     public tipoCambioService: TipoCambioService, 
+     private http : HttpClient,
+     private eventosService:EventosService,) {
     this.service.listen().subscribe((m: any) => {
       console.log(m);
       this.refreshOrdenDescargaList();
@@ -228,6 +235,8 @@ export class OrdendescargatarimaComponent implements OnInit {
         showCancelButton: false,
         showConfirmButton: false
       });
+      // ! AGREGA EVENTO A DB
+      this.eventosService.movimientos('Finalizar OD')
         this.updateOrdenDescarga(this.service.formData,'Descargada');
         this.generarEventoCalendario(this.service.formData.Folio);
     }
@@ -253,6 +262,9 @@ export class OrdendescargatarimaComponent implements OnInit {
             // text: 'No se han descargado todos los productos.',
             // timer: 1000
           });
+// ! AGREGA EVENTO A DB
+          this.eventosService.movimientos('Finalizar OD')
+
           this.updateOrdenDescarga(this.service.formData,'Descargada');
           this.generarEventoCalendario(this.service.formData.Folio);
         }
@@ -907,6 +919,8 @@ export class OrdendescargatarimaComponent implements OnInit {
                 this.updateOrdenDescarga(this.service.formData,'Proceso');
               this.service.updateDetalleOrdenDescargaSaldo(dataOD[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res => {
                 console.log(res);
+                
+          this.eventosService.movimientos('OD Producto Descargado')
 
                   Swal.fire({
         title: 'Producto Descargado',
@@ -916,13 +930,13 @@ export class OrdendescargatarimaComponent implements OnInit {
       });
 
          //^Limpiar campos visuales
-    this.NombreProducto = null;
+   /*  this.NombreProducto = null;
     this.numerofactura = null;
     this.FechaFactura = null;
     this.TipoCambio = null;
     this.PO = null;
     this.PODescarga = null;
-    this.NumeroEntrada = null;
+    this.NumeroEntrada = null; */
     this.cantidadKilogramos = null;
     this.lote = null;
     this.fechaCaducidad = null;
@@ -1314,6 +1328,7 @@ export class OrdendescargatarimaComponent implements OnInit {
                               
                               
                               
+                              this.eventosService.movimientos('Borrar Producto Ingresado OD')
                               
                               
                               Swal.fire({
@@ -1425,9 +1440,12 @@ export class OrdendescargatarimaComponent implements OnInit {
       this.preOrdenTemporalSacos.FechaFactura = evento.target.value;
       this.change(this.preOrdenTemporalSacos.FechaFactura);
       this.tc(this.preOrdenTemporalSacos.FechaFactura);
+      
 
     }
   }
+
+
 
   tc(date){
 
@@ -1480,7 +1498,7 @@ export class OrdendescargatarimaComponent implements OnInit {
     let fechaapi = dia2 + '/' + mes2 + '/' + año
 
 
-    this.traerApi(fechaapi).subscribe(data =>{
+    this.traerApi().subscribe(data =>{
       let l;
       console.log(data);
       let json = JSON.parse(data);
@@ -1489,7 +1507,7 @@ export class OrdendescargatarimaComponent implements OnInit {
       let f = json.bmx.series[0].datos.length;
       console.log(fechaapi);
 
-      for (let i=16700; i<f; i++){
+      for (let i=0; i<f; i++){
         //console.log(i);
         if (json.bmx.series[0].datos[i].fecha==fechaapi){
           this.TipoCambio = json.bmx.series[0].datos[i].dato
@@ -1505,12 +1523,13 @@ export class OrdendescargatarimaComponent implements OnInit {
     })
   }
 
-  traerApi(fecha): Observable<any>{
+  traerApi(): Observable<any>{
 
-    //return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/"+fecha+'/'+fecha, httpOptions)
-    //return this.http.get("/SieAPIRest/service/v1/series/SF60653/datos/"+fecha+'/'+fecha, httpOptions)
-    return this.http.get("https://riztek.com.mx/php/Prolacto/GET_TipoCambio.php")
-    //return this.http.get("/SieAPIRest/service/v1/series/SF60653/datos/"+fecha+'/'+fecha, httpOptions)
+    /* return this.http.get("https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions) */
+    //return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
+    
+    return this.http.get("https://riztek.com.mx/php/Prolacto/GET_TipoCambio2.php"
+    )
 
   }
 
@@ -1766,5 +1785,23 @@ console.log(this.preOrdenTemporalSacos.ClaveProducto);
   
 
   }
+
+  limpiarDatos(){
+
+    this.NombreProducto = null;
+    this.numerofactura = null;
+    this.FechaFactura = null;
+    this.TipoCambio = null;
+    this.PO = null;
+    this.PODescarga = null;
+    this.NumeroEntrada = null;
+    //this.cantidadKilogramos = null;
+    //this.lote = null;
+    //this.fechaCaducidad = null;
+    //this.fechaMFG = null;
+
+  }
+
+
 
 }

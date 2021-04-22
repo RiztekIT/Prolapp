@@ -1,18 +1,32 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import {MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar, MatDialogConfig} from '@angular/material';
+
 import {MatSort} from '@angular/material/sort';
+
 import { Router } from '@angular/router';
+
 import { stringify } from 'querystring';
+
 import { trigger, state, transition, animate, style } from '@angular/animations';
+
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+
 import Swal from 'sweetalert2';
+
 import { Observable, Subscriber } from 'rxjs';
+
 import { DetalleCompra } from '../../../Models/Compras/detalleCompra-model';
+
 import { CompraService } from '../../../services/compras/compra.service';
+
 import { Compras } from 'src/app/Models/Compras/compra-model';
+
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+
 import { ComprasPdfComponent } from '../../../components/compras-reporte/compras-pdf.component';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
+
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -57,7 +71,8 @@ TipoCambio: string;
 estatusSelect;
 hola = 'hola'
 
-constructor(public router: Router,private service:CompraService, private dialog: MatDialog, private http: HttpClient, public CompraService: CompraService,) {
+constructor(public router: Router,private service:CompraService, private dialog: MatDialog, private http: HttpClient, public CompraService: CompraService,
+  private eventosService:EventosService,) {
   
   // this.service.listen().subscribe((m:any)=>{
     //   console.log(m);
@@ -206,6 +221,8 @@ this.service.master = []
           //BorrarCompra
           this.service.deleteCompra(compra.IdCompra).subscribe(res=>{
             console.log(res);
+            
+          this.eventosService.movimientos('Compra Borrada')
             this.obtenerCompras();
           })
         })
@@ -313,6 +330,8 @@ console.log(this.compraBlanco);
         this.service.getUltimoIdCompra().subscribe(res=>{
           console.log(res);
           localStorage.setItem('IdCompra', res.toString())
+          
+          this.eventosService.movimientos('Compra Generada')
           this.router.navigate(['/formatoCompras']);
         })
     })
@@ -357,6 +376,8 @@ console.log(this.compraBlanco);
         this.service.getUltimoIdCompra().subscribe(res=>{
           console.log(res);
           localStorage.setItem('IdCompra', res.toString())
+          
+          this.eventosService.movimientos('Compra Administrativa Generada')
           this.router.navigate(['/formatoCompras']);
         })
     })

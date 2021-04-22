@@ -1,27 +1,57 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { Router } from '@angular/router';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
+
 import { MatSort } from '@angular/material/sort';
+
 import { trigger, state, transition, animate, style } from '@angular/animations';
-import { CurrencyPipe } from '@angular/common';
+
+import { CurrencyPipe, DatePipe } from '@angular/common';
+
 import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
+
 import Swal from 'sweetalert2';
+
 import { EmailComponent } from 'src/app/components/email/email/email.component';
+
 import { MessageService } from 'src/app/services/message.service';
+
 import { EnviarOrdenCargaComponent } from './enviar-orden-carga/enviar-orden-carga.component';
+
 import { AlmacenEmailService } from 'src/app/services/almacen/almacen-email.service';
+
 import { TarimaService } from '../../../../services/almacen/tarima/tarima.service';
+
 import { OrdenDescarga } from 'src/app/Models/almacen/OrdenDescarga/ordenDescarga-model';
+
 import { DetalleOrdenDescarga } from 'src/app/Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
+
 import { OrdenDescargaService } from 'src/app/services/almacen/orden-descarga/orden-descarga.service';
+
 import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-producto/entrada-producto.component';
+
 import { SalidaProductoComponent } from '../../../../components/almacen/salida-producto/salida-producto.component';
+
 import { CalendarioService } from '../../../../services/calendario/calendario.service';
+
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
+
 import { OrdenCargaInfo } from '../../../../Models/almacen/OrdenCarga/ordenCargaInfo-model';
+
 import { FormatoPDFComponent } from 'src/app/components/almacen/formato-pdf/formato-pdf.component';
+
 import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
+
+import { Evento } from 'src/app/Models/eventos/evento-model';
+
+import { EventosService } from 'src/app/services/eventos/eventos.service';
+
+import * as html2pdf from 'html2pdf.js';
+
 
 @Component({
   selector: 'app-ordencargadetalle',
@@ -42,7 +72,9 @@ export class OrdencargadetalleComponent implements OnInit {
   constructor(public router: Router, private dialog: MatDialog, public service: OrdenCargaService, public _MessageService: MessageService,
     public AlmacenEmailService: AlmacenEmailService, public tarimaService: TarimaService,
      public ordenDescargaService: OrdenDescargaService, public CalendarioService: CalendarioService, public pedidoSVC: VentasPedidoService,
-     public traspasoSVC: TraspasoMercanciaService) {
+     public traspasoSVC: TraspasoMercanciaService,
+     private datePipe:DatePipe,
+     private eventosService:EventosService,) {
 
     this.service.listen().subscribe((m: any) => {
       console.log(m);
@@ -236,6 +268,7 @@ export class OrdencargadetalleComponent implements OnInit {
 
       this.service.updateOrdenCarga(Oc).subscribe(res => {
         console.log(res);
+        this.movimientos('Cargar OC')
         this.router.navigate(['/ordenCargaCargar']);
       })
 
@@ -254,6 +287,7 @@ export class OrdencargadetalleComponent implements OnInit {
 
       this.service.updateOrdenCarga(Oc).subscribe(res => {
         console.log(res);
+        this.movimientos('Salida OC')
         this.getOrdenCarga();
         this.terminar()
       })
@@ -269,15 +303,56 @@ export class OrdencargadetalleComponent implements OnInit {
     this.AlmacenEmailService.cco = 'javier.sierra@riztek.com.mx';
     this.AlmacenEmailService.asunto = 'Envio Orden Carga con Folio ' + this.Folio.toString();
     this.AlmacenEmailService.cuerpo = 'Se han enviado Documentos de Orden Carga con el Folio ' + this.Folio.toString();
-    this.AlmacenEmailService.nombre = 'ProlactoIngredientes';
+    this.AlmacenEmailService.nombre = 'Abarrotodo';
     this.AlmacenEmailService.folio = this.Folio;
 
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.height = "90%";
 
-    this.dialog.open(EnviarOrdenCargaComponent, dialogConfig);
+
+    const dialogConfig2 = new MatDialogConfig();
+    dialogConfig2.disableClose = false;
+    dialogConfig2.autoFocus = true;
+    dialogConfig2.width = "0%";
+    dialogConfig2.height = "0%";
+    dialogConfig2.data = {
+    IdOrdenCarga: this.IdOrdenCarga,
+    origen:'Correo'
+    }
+    let dialogFact = this.dialog.open(SalidaProductoComponent, dialogConfig2);
+
+    dialogFact.afterClosed().subscribe(res=>{
+
+      setTimeout(()=>{
+  
+        // this.xmlparam = folio;
+          const content: Element = document.getElementById('EntradaProducto-PDF');
+          const option = {
+            margin: [0, 0, 0, 0],
+            filename: 'OC-' + this.Folio + '.pdf',
+            image: { type: 'jpeg', quality: 1 },
+            html2canvas: { scale: 2, logging: true, scrollY: 0 },
+            jsPDF: { format: 'letter', orientation: 'portrait' },
+          };
+          html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
+            localStorage.setItem('pdfcorreo', pdfAsString);
+            this.statusparam=true;          
+            console.log(this.statusparam);                
+          })
+          dialogFact.close()
+          
+        },1000)
+  
+  
+  
+  
+  
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.height = "90%";
+  
+      this.dialog.open(EnviarOrdenCargaComponent, dialogConfig);
+    })
+
 
   }
   terminar() {
@@ -304,6 +379,7 @@ export class OrdencargadetalleComponent implements OnInit {
           this.generarEventoCalendario(this.Folio);
         } else {
           this.service.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Terminada').subscribe(rese => {
+            this.movimientos('Terminar OC')
 
             Swal.fire({
               title: 'Terminada',
@@ -397,8 +473,8 @@ export class OrdencargadetalleComponent implements OnInit {
       this.od.Destino = 'CHIHUAHUA';
       this.od.Observaciones = '';
       this.od.Estatus = 'Transito';
-      this.od.FechaInicioDescarga = new Date('10/10/10');
-      this.od.FechaFinalDescarga = new Date('10/10/10');
+      this.od.FechaInicioDescarga = new Date();
+      this.od.FechaFinalDescarga = new Date();
       this.od.FechaExpedicion = new Date();
       this.od.IdUsuario = 0;
 
@@ -465,9 +541,11 @@ export class OrdencargadetalleComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "70%";
+    dialogConfig.width = "0%";
+    dialogConfig.height = "0%";
     dialogConfig.data = {
-    IdOrdenCarga: this.IdOrdenCarga
+    IdOrdenCarga: this.IdOrdenCarga,
+    origen:'normal'
     }
     this.dialog.open(SalidaProductoComponent, dialogConfig);
     // this.dialog.open(EntradaProductoComponent, dialogConfig);
@@ -510,5 +588,25 @@ export class OrdencargadetalleComponent implements OnInit {
       // this.refreshDetalleOrdenCargaList();
     })
   }
+
+
+  
+  movimientos(movimiento?){
+    let userData = JSON.parse(localStorage.getItem("userAuth"))
+    let idUser = userData.IdUsuario
+    let evento = new Evento();
+    let fecha = new Date();
+    evento.IdUsuario = idUser
+    evento.Autorizacion = '0'
+    evento.Fecha = this.datePipe.transform(fecha, 'yyyy-MM-dd, h:mm:ss a');
+    evento.Movimiento = movimiento
+    console.log(evento);
+    if (movimiento) {
+      this.eventosService.addEvento(evento).subscribe(respuesta =>{
+        console.log(respuesta);
+      })      
+    }
+}
+
 
 }

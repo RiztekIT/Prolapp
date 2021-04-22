@@ -13,6 +13,8 @@ import { TarimaService } from '../../../services/almacen/tarima/tarima.service';
 import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model';
 import { OrdenCargaService } from '../../../services/almacen/orden-carga/orden-carga.service';
 import { OrdenTemporal } from '../../../Models/almacen/OrdenTemporal/ordenTemporal-model';
+import { VisorExploradorComponent } from 'src/app/components/explorador-documentos/visor-explorador/visor-explorador.component';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 @Component({
   selector: 'app-traspasomercancia',
@@ -27,7 +29,8 @@ export class TraspasomercanciaComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   
 
-  constructor(public traspasoSVC: TraspasoMercanciaService, public router: Router, private dialog: MatDialog, public serviceTarima: TarimaService, public ocService:OrdenCargaService) { 
+  constructor(public traspasoSVC: TraspasoMercanciaService, public router: Router, private dialog: MatDialog, public serviceTarima: TarimaService, public ocService:OrdenCargaService,
+    private eventosService:EventosService,) { 
     this.traspasoSVC.listen().subscribe((m:any)=>{
       console.log('Actualizando Tabla Principal');
       this.obtenerTraspasos();
@@ -105,6 +108,8 @@ export class TraspasomercanciaComponent implements OnInit {
    //^ **** PRIVILEGIOS POR USUARIO *****
 
   nuevoTraspaso(){
+    
+    this.eventosService.movimientos('Generar Traspaso Mercancia')
     this.router.navigateByUrl('/embarque');
     
   }
@@ -141,6 +146,8 @@ subs1: Subscription
           dialogConfig.data = {
             IdTraspaso: row.IdTraspasoMercancia
           }
+          
+          this.eventosService.movimientos('Editar Traspaso')
           /* let dl = this.dialog.open(DocumentacionFormularioImportacionComponent, dialogConfig); */
           let dl = this.dialog.open(ResumentraspasoComponent, dialogConfig);
   }
@@ -176,7 +183,8 @@ subs1: Subscription
         const dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = false;
         dialogConfig.autoFocus = true;
-        dialogConfig.width = "70%";
+        dialogConfig.width = "0%";
+        dialogConfig.height = "0%";
         dialogConfig.data = {
           IdOrdenCarga: row.IdOrdenCarga,
           origen: 'traspaso'
@@ -386,6 +394,19 @@ subs1: Subscription
       console.log(detalleTarima);
     })
   }
+
+  explorador(){
+    const dialogConfig2 = new MatDialogConfig();
+dialogConfig2.disableClose = false;
+dialogConfig2.autoFocus = true;
+dialogConfig2.width = "60%";
+dialogConfig2.height = "60%";
+// dialogConfig2.data = {
+//   IdOrdenCarga: this.traspasoSVC.selectTraspaso.IdOrdenCarga,
+//   origen: 'correo'
+// }            
+let dl = this.dialog.open(VisorExploradorComponent, dialogConfig2);
+}
   
 
  

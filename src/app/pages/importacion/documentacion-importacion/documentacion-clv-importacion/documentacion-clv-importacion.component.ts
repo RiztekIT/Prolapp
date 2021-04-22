@@ -12,6 +12,7 @@ import { DocumentacionImportacionVisorDocumentosComponent } from '../../document
 import { Documento } from 'src/app/Models/documentos/documento-model';
 import Swal from 'sweetalert2';
 import { MatSort } from '@angular/material/sort';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 @Component({
   selector: 'app-documentacion-clv-importacion',
@@ -20,7 +21,8 @@ import { MatSort } from '@angular/material/sort';
 })
 export class DocumentacionCLVImportacionComponent implements OnInit {
 
-  constructor(public ServiceProducto: ProductosService, public addproductos: AddsproductosService, public documentosService: DocumentosImportacionService,  private dialog: MatDialog,) { 
+  constructor(public ServiceProducto: ProductosService, public addproductos: AddsproductosService, public documentosService: DocumentosImportacionService,  private dialog: MatDialog,
+    private eventosService:EventosService,) { 
     this.productosExistentes = false;
   }
 
@@ -370,6 +372,8 @@ ClaveProducto: string = "";
                   this.events = [];
                   this.files = [];
                   this.archivos = [];
+                  
+                  this.eventosService.movimientos('Agregar Documento CLV')
                   Swal.fire({
                     title: 'Documentos Guardados',
                     icon: 'success',
@@ -550,6 +554,7 @@ ClaveProducto: string = "";
             this.archivos.splice(this.archivos.indexOf(event), 1);
             this.pdfstatus = false;
             
+            this.eventosService.movimientos('Documento CLV Borrado')
             Swal.fire({
               title: 'Borrado',
               icon: 'success',

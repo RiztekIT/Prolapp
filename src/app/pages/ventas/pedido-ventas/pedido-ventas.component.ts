@@ -31,6 +31,11 @@ import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-
 import { OrdenCargaService } from '../../../services/almacen/orden-carga/orden-carga.service';
 import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
 import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model';
+import * as signalr from 'signalr'
+
+import { EventosService } from 'src/app/services/eventos/eventos.service';
+
+declare var $: any;
 
 @Component({
   selector: 'app-pedido-ventas',
@@ -48,7 +53,12 @@ import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model
 
 export class PedidoVentasComponent implements OnInit {
   constructor(public router: Router, private dialog: MatDialog, private currencyPipe: CurrencyPipe, public service: VentasPedidoService,
-    private _formBuilder: FormBuilder, public _MessageService: MessageService, public enviarfact: EnviarfacturaService, public traspasoSVC: TraspasoMercanciaService, public ocService: OrdenCargaService, public tarimaService: TarimaService) {
+    private _formBuilder: FormBuilder, public _MessageService: MessageService, 
+    public enviarfact: EnviarfacturaService, 
+    public traspasoSVC: TraspasoMercanciaService, 
+    public ocService: OrdenCargaService, 
+    public tarimaService: TarimaService,
+    private eventosService:EventosService,) {
 
     this.service.listen().subscribe((m: any) => {
       console.log(m);
@@ -57,7 +67,17 @@ export class PedidoVentasComponent implements OnInit {
 
   }
 
+
+  /* variables websocket */
+  private connection: any;
+  private proxy: any;  
+  private proxyName: string = 'alertasHub'; 
+ 
+   private hubconnection: signalr;  
+   notihub = 'https://erpprolapp.ddns.net:44361/signalr'
+
   ngOnInit() {
+    this.ConnectionHub();
     this.refreshPedidoList();
 
 
@@ -154,7 +174,7 @@ export class PedidoVentasComponent implements OnInit {
   MasterDetalle = new Array<pedidoMaster>();
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['Folio', 'Nombre', 'Subtotal', 'Total', 'FechaDeExpedicion', 'Estatus', 'Options'];
+  displayedColumns: string[] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Cantidad', 'Subtotal', 'Total',  'Estatus', 'Options'];
 
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Cantidad'];
 
@@ -189,10 +209,13 @@ export class PedidoVentasComponent implements OnInit {
          } */
         this.service.master[i] = data[i]
         this.service.master[i].DetallePedido = [];
+        let cantidad = 0;
         this.subs2 = this.service.getDetallePedidoId(data[i].IdPedido).subscribe(res => {
           for (let l = 0; l <= res.length - 1; l++) {
             this.service.master[i].DetallePedido.push(res[l]);
+            cantidad = cantidad + +res[l].Cantidad;
           }
+          this.service.master[i].Cantidad = cantidad;
         });
       }
 
@@ -247,6 +270,8 @@ export class PedidoVentasComponent implements OnInit {
       console.log(this.PedidoBlanco);
       //Agregar el nuevo pedido. NECESITA ESTAR DENTRO DEL SUBSCRIBEEEEEEEE :(
       this.service.addPedido(this.PedidoBlanco).subscribe(res => {
+        
+        this.eventosService.movimientos('Agregar Nuevo Pedido')
         console.log(res);
         //Obtener el pedido que se acaba de generar
         this.ObtenerUltimoPedido();
@@ -281,6 +306,8 @@ export class PedidoVentasComponent implements OnInit {
     this.service.formDataPedido = pedido;
     this.service.IdCliente = pedido.IdCliente;
     let Id = pedido.IdPedido;
+    
+    this.eventosService.movimientos('Editar Pedido')
     localStorage.setItem('pedidopdf', JSON.stringify(pedido))
     localStorage.setItem('IdPedido', Id.toString());
     this.router.navigate(['/pedidoventasAdd']);
@@ -550,6 +577,8 @@ export class PedidoVentasComponent implements OnInit {
   DeletePedidoDetallePedido(IdPedido: number) {
     this.service.onDeleteAllDetallePedido(IdPedido).subscribe(res => {
       this.service.onDelete(IdPedido).subscribe(res => {
+        
+        this.eventosService.movimientos('Venta Borrada')
         this.refreshPedidoList();
       });
     });
@@ -634,7 +663,8 @@ export class PedidoVentasComponent implements OnInit {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = false;
         dialogConfig.autoFocus = true;
-        dialogConfig.width = "70%";
+        dialogConfig.width = "0%";
+        dialogConfig.height = "0%";
         dialogConfig.data = {
           IdPedido: id,
           mostrarPrecio: mostrarPrecio
@@ -646,7 +676,8 @@ export class PedidoVentasComponent implements OnInit {
         const dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = false;
         dialogConfig.autoFocus = true;
-        dialogConfig.width = "70%";
+        dialogConfig.width = "0%";
+        dialogConfig.height = "0%";
         dialogConfig.data = {
           IdPedido: id,
           mostrarPrecio: mostrarPrecio
@@ -707,5 +738,43 @@ export class PedidoVentasComponent implements OnInit {
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
 
   }
+
+
+  /* tabla en tiempo real */
+  ConnectionHub(){
+  
+
+
+    this.connection = $.hubConnection(this.notihub);
+  
+    this.proxy = this.connection.createHubProxy(this.proxyName); 
+  
+    this.proxy.on('AlertasHub', (data) => {  
+      console.log('received in SignalRService: ', data);  
+      this.refreshPedidoList();
+      
+  }); 
+  
+  
+  
+    this.connection.start().done((data: any) => {  
+      console.log('Now connected ' + data.transport.name + ', connection ID= ' + data.id);  
+      /* this.connectionEstablished.emit(true);  */ 
+      /* this.connectionExists = true;   */
+  })
+  }
+
+  public on() {  
+  let mensaje = {
+      titulo: 'Venta',
+      descripcion: 'Mensaje desde Ventas',
+      fecha: new Date()
+    }
+     /*  
+    // server side hub method using proxy.invoke with method name pass as param  
+       */
+    /* this.proxy.invoke('NuevaNotificacion');   */
+    this.proxy.invoke('NuevaNotificacion',mensaje);
+} 
 
 }

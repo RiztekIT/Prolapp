@@ -15,6 +15,7 @@ import { ProductosService } from 'src/app/services/catalogos/productos.service';
 import { AddsproductosService } from 'src/app/services/addsproductos.service';
 import { map, startWith } from 'rxjs/operators';
 import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 
 
@@ -28,7 +29,8 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
   
 
   constructor(public documentosService: DocumentosImportacionService, public router: Router, private dialog: MatDialog, public otService: OrdenTemporalService, public ServiceProducto: ProductosService, 
-    public addproductos: AddsproductosService, public traspasoService: TraspasoMercanciaService) {
+    public addproductos: AddsproductosService, public traspasoService: TraspasoMercanciaService,
+    private eventosService:EventosService,) {
     this.productosExistentes = false;
   }
 
@@ -390,6 +392,9 @@ ClaveProducto: string = "";
                   this.events = [];
                   this.files = [];
                   this.archivos = [];
+                  
+                  this.eventosService.movimientos('Agregar Documento Factura')
+
                   Swal.fire({
                     title: 'Documentos Guardados',
                     icon: 'success',
@@ -575,6 +580,8 @@ ClaveProducto: string = "";
             this.archivos.splice(this.archivos.indexOf(event), 1);
             this.pdfstatus = false;
             
+          this.eventosService.movimientos('Documento Factura Borrado')
+          
             Swal.fire({
               title: 'Borrado',
               icon: 'success',

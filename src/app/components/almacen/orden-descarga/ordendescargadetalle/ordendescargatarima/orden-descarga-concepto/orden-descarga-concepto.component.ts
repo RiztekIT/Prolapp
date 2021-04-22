@@ -8,6 +8,7 @@ import { OrdenDescargaService } from '../../../../../../services/almacen/orden-d
 import Swal from 'sweetalert2';
 import { DetalleTarima } from '../../../../../../Models/almacen/Tarima/detalleTarima-model';
 import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class OrdenDescargaConceptoComponent implements OnInit {
 
   constructor(public ordenTemporalService: OrdenTemporalService, public dialogbox: MatDialogRef<OrdenDescargaConceptoComponent>,
     public tarimaService: TarimaService, public OrdenDescargaService: OrdenDescargaService, @Inject(MAT_DIALOG_DATA) public dataOrdenDescarga: any,
-    public traspasoSVC:TraspasoMercanciaService) { }
+    public traspasoSVC:TraspasoMercanciaService,
+    private eventosService:EventosService,) { }
 
   ngOnInit() {
     console.log(this.ordenTemporalService.ordenTemporalDataOD);
@@ -131,6 +133,8 @@ estatusOD
 //^ Actualizar Orden Temporal
     this.ordenTemporalService.updateOrdenTemporal(ordenTempEt).subscribe(res => {
       console.log(res);
+      
+      this.eventosService.movimientos('Editar Producto Ingresado ODTarima')
 
       // this.ordenTemporalService.GetOrdenTemporalIdTarima(this.ordenTemporalService.ordenTemporalDataOD.IdDetalleTarima).subscribe(dataOTT =>{
         // console.log(dataOTT,'OT por IDdeTarima');

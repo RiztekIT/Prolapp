@@ -13,7 +13,7 @@
     </div>
     <div class="row">
         <div class="col-12 col-md-6">
-            <div *ngIf="pdfstatus == true">
+            <div>
                 <ngx-doc-viewer [url]="fileUrl" viewer="pdf" style="width:100%;height:80vh;"></ngx-doc-viewer>
             </div>
             <!-- <ngx-loading [show]="!pdfstatus" [config]="{animationType: ngxLoadingAnimationTypes.circleSwish}"> -->
@@ -51,6 +51,7 @@
                     </ngx-dropzone>
 
                     <button type="button" class="btn btn-secondary waves-effect" (click)="onEnviar()">Enviar</button>
+                    <button type="button" class="btn btn-secondary waves-effect" (click)="explorador()">Explorador</button>
                     <!-- <button type="button" class="btn btn-secondary waves-effect" (click)="leerArchivo()" file-hander>leer</button> -->
                     <!-- <button type="button" class="btn btn-secondary waves-effect" (click)="leerDir()" file-hander>leerDir</button> -->
                     <!-- <button type="button" class="btn btn-secondary waves-effect" (click)="urlPDF()">leer</button> -->

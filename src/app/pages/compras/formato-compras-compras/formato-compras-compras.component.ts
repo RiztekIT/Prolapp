@@ -1,33 +1,65 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { Router } from '@angular/router';
+
 import { NgForm, FormControl } from "@angular/forms";
+
 import { Observable, Subscriber } from 'rxjs';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import Swal from 'sweetalert2';
+
 import { CurrencyPipe } from '@angular/common';
+
 import { MatTableDataSource, MatSort, MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
+
 import { CompraService } from '../../../services/compras/compra.service';
+
 import { Compras } from 'src/app/Models/Compras/compra-model';
+
 import { ProveedoresService } from '../../../services/catalogos/proveedores.service';
+
 import { Proveedor } from '../../../Models/catalogos/proveedores-model';
+
 import { map, startWith } from 'rxjs/operators';
+
 import { Producto } from 'src/app/Models/catalogos/productos-model';
+
 import { UnidadMedidaService } from '../../../services/unidadmedida/unidad-medida.service';
+
 import { ProductosService } from '../../../services/catalogos/productos.service';
+
 import { DetalleCompra } from '../../../Models/Compras/detalleCompra-model';
+
 import { OrdenDescarga } from '../../../Models/almacen/OrdenDescarga/ordenDescarga-model';
+
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
+
 import { OrdenDescargaService } from '../../../services/almacen/orden-descarga/orden-descarga.service';
+
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+
 import { AddsproductosService } from '../../../services/addsproductos.service';
+
 import { CalendarioService } from '../../../services/calendario/calendario.service';
+
 import { ComprasPdfComponent } from '../../../components/compras-reporte/compras-pdf.component';
+
 import { BodegasService } from 'src/app/services/catalogos/bodegas.service';
+
 import { NotificacionesService } from 'src/app/services/notificaciones.service';
+
 import { Notificaciones } from '../../../Models/Notificaciones/notificaciones-model';
+
 import { StorageServiceService } from 'src/app/services/shared/storage-service.service';
+
 import { DetalleNotificacion } from '../../../Models/Notificaciones/detalleNoticacion-model';
+
 import * as signalr from 'signalr'
+
+import { EventosService } from 'src/app/services/eventos/eventos.service';
+
 declare var $: any;
 
 const httpOptions = {
@@ -60,7 +92,10 @@ export class FormatoComprasComprasComponent implements OnInit {
 
   constructor(public router: Router, private _formBuilder: FormBuilder, private currencyPipe: CurrencyPipe, public CompraService: CompraService,
     public proveedorService: ProveedoresService, public ServiceUnidad: UnidadMedidaService, public ServiceProducto: ProductosService,
-    public ordenDescargaService: OrdenDescargaService, private http: HttpClient, public addproductos: AddsproductosService, private dialog: MatDialog, public CalendarioService: CalendarioService, private bodegaservice: BodegasService, public notificacionService: NotificacionesService, public storageService: StorageServiceService) {
+    public ordenDescargaService: OrdenDescargaService, private http: HttpClient, public addproductos: AddsproductosService, 
+    private dialog: MatDialog, public CalendarioService: CalendarioService, private bodegaservice: BodegasService,
+     public notificacionService: NotificacionesService, public storageService: StorageServiceService,
+     private eventosService:EventosService,) {
     this.MonedaBoolean = true;
   }
 
@@ -762,6 +797,8 @@ export class FormatoComprasComprasComponent implements OnInit {
       this.refreshDetallesCompra();
       this.iniciarCantidades();
       form.resetForm();
+      
+      this.eventosService.movimientos('Producto Agregado Compra')
       Swal.fire({
         icon: 'success',
         title: 'Producto Agregado',
@@ -813,6 +850,8 @@ export class FormatoComprasComprasComponent implements OnInit {
       console.log(res);
       this.refreshDetallesCompra();
       this.iniciarCantidades();
+      
+      this.eventosService.movimientos('Producto Agregado Compra Administrativa')
       Swal.fire({
         icon: 'success',
         title: 'Producto Agregado',
@@ -1044,10 +1083,13 @@ export class FormatoComprasComprasComponent implements OnInit {
       if (result.value) {
 
         this.CompraService.deleteDetalleCompra(detalleCompra.IdDetalleCompra).subscribe(res => {
+
           console.log('//////////////////////////////////////////////////////');
           console.log(res);
           console.log('//////////////////////////////////////////////////////');
           this.refreshDetallesCompra();
+          
+          this.eventosService.movimientos('Producto Borrado Compra')
           Swal.fire({
             title: 'Borrado',
             icon: 'success',

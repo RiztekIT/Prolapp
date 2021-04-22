@@ -172,28 +172,46 @@ export class EnviarfacturaService {
   }
 
   crearCliente(datos:string): Observable<any>{
+    //CLIENTE ABARROTODO
     console.log(datos);
     console.log(httpOptions)
     
     let rootURLcliente = "/api/v1/clients/create";
-    if (this.empresa.RFC==='PLA11011243A'){
+      
+  
+    
+      return this.http.post(rootURLcliente,datos,httpOptions3)
+  
+    
+  }
+  crearCliente2(datos:string): Observable<any>{
+    //CLIENTE PROLACTO
+    console.log(datos);
+    console.log(httpOptions)
+    
+    let rootURLcliente = "/api/v1/clients/create";
+
 
       return this.http.post(rootURLcliente,datos,httpOptions)
-    }
-    else if (this.empresa.RFC=='AIN140101ME3'){
-      return this.http.post(rootURLcliente,datos,httpOptions3)
-    }
+  
     
   }
   actualizarCliente(datos:string,id: string): Observable<any>{
+    //ABARROTODO
     let rootURLcliente = "/api/v1/clients/"+id+"/update";
-    if (this.empresa.RFC==='PLA11011243A'){
+   
+    
+      return this.http.post(rootURLcliente,datos,httpOptions3)
+    
+    
+  }
+  actualizarCliente2(datos:string,id: string): Observable<any>{
+    //PROLACTO
+    let rootURLcliente = "/api/v1/clients/"+id+"/update";
+    
 
       return this.http.post(rootURLcliente,datos,httpOptions)
-    }
-    else if (this.empresa.RFC=='AIN140101ME3'){
-      return this.http.post(rootURLcliente,datos,httpOptions3)
-    }
+   
     
   }
   

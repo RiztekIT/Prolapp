@@ -53,6 +53,11 @@ export class CotizacionComponent implements OnInit {
 
   ngOnInit() {
     this.style = 'block'
+    Swal.fire({
+      allowOutsideClick: false,
+      text: 'Espere por favor...',
+      icon: 'info'
+    });
     Swal.showLoading()
     this.ver();
     // this.srcimagen = '../../../assets/images/sacos/7.DairyAmerica-grade A nonfat drymil.png'
@@ -280,6 +285,7 @@ reloadPDF(event){
 
     const link = document.createElement('a');
     link.href = url;
+    //link.target = '_self'    
     link.target = '_blank'    
     link.click();
     this.style = 'none'

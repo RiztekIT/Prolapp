@@ -106,3 +106,5 @@ npm i ng2-pdf-viewer
 
 ## Update zone.js
 npm i zone.js@0.10.3
+
+ng --max-old-space-size=8192 ./node_modules/@angular/cli/bin/ng build --prod

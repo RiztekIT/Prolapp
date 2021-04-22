@@ -25,6 +25,9 @@ import { SalidaProductoComponent } from '../../../../../components/almacen/salid
 import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
 import { PedidoService } from '../../../../../services/pedidos/pedido.service';
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
+import { DatePipe } from '@angular/common';
+import { Evento } from 'src/app/Models/eventos/evento-model';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 
 
@@ -41,7 +44,9 @@ export class PrepararComponent implements OnInit {
 
 
   constructor(public router: Router, public tarimaService: TarimaService, public ordenCargaService: OrdenCargaService,
-    public ordenTemporalService: OrdenTemporalService, private dialog: MatDialog, public traspasoSVC: TraspasoMercanciaService, public pedidoService: VentasPedidoService) {
+    public ordenTemporalService: OrdenTemporalService, private dialog: MatDialog, public traspasoSVC: TraspasoMercanciaService, public pedidoService: VentasPedidoService,
+    private datePipe:DatePipe,
+    private eventosService:EventosService,) {
 
     //Actualiza la tabla visualizacion cuando se hace un traspaso (YA NO SE HARAN TRASPASOS, NO SE NECESITA ESTE SUBJECT)
     // this.ordenTemporalService.listen().subscribe((m: any) => {
@@ -1829,6 +1834,7 @@ export class PrepararComponent implements OnInit {
         this.ordenCargaService.getOCID(this.IdOrdenCarga).subscribe(res => {
           if (res[0].Estatus == 'Creada') {
             this.ordenCargaService.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, "Preparada").subscribe(data => {
+              this.movimientos('Carga Preparada')
               Swal.fire({
                 title: 'Preparado',
                 icon: 'success',
@@ -1870,5 +1876,22 @@ export class PrepararComponent implements OnInit {
     this.isVisibleQR = false;
   }
 
+  
+  movimientos(movimiento?){
+    let userData = JSON.parse(localStorage.getItem("userAuth"))
+    let idUser = userData.IdUsuario
+    let evento = new Evento();
+    let fecha = new Date();
+    evento.IdUsuario = idUser
+    evento.Autorizacion = '0'
+    evento.Fecha = this.datePipe.transform(fecha, 'yyyy-MM-dd, h:mm:ss a');
+    evento.Movimiento = movimiento
+    console.log(evento);
+    if (movimiento) {
+      this.eventosService.addEvento(evento).subscribe(respuesta =>{
+        console.log(respuesta);
+      })      
+    }
+}
 
 }

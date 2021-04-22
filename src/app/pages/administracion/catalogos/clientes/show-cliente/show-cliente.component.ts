@@ -169,12 +169,12 @@ export class ShowClienteComponent implements OnInit, OnDestroy {
   }
 
   listaempresas(){
+    console.log(this.apicliente.empresa);
     this.serviceEmpresa.getEmpresaList().subscribe(data =>{
       console.log(data);
       this.listEmpresa = data;
       console.log(this.apicliente.empresa);
-      this.apicliente.empresa = data[0];
-      // this.enviarfact.rfc = data[0].RFC;
+      //this.apicliente.empresa = data[0];    
     })
   }
 

@@ -20,6 +20,7 @@ export class MessageService {
   cco;
   asunto;
   cuerpo;
+  pdf;
 
   //^ Aqui guardaremos todos los url de los archivos desde el componente donde se mando a llevar este.
   documentosURL;

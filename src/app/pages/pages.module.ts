@@ -361,6 +361,10 @@ import {
   } from 'ngx-extended-pdf-viewer';
 import { OrdenventacxcComponent } from './cxc/facturacioncxc/ordenventacxc/ordenventacxc.component';
 import { ReportessaldosventasComponent } from '../components/cxc/reportessaldosventas/reportessaldosventas.component';
+import { DocumentacionGeneralImportacionComponent } from './importacion/documentacion-importacion/documentacion-general-importacion/documentacion-general-importacion.component';
+import { ExploradorDocumentosComponent } from '../components/explorador-documentos/explorador-documentos.component';
+import { FileService } from '../services/explorador-archivos/explorador.service';
+import { VisorExploradorComponent } from '../components/explorador-documentos/visor-explorador/visor-explorador.component';
 
 
 
@@ -625,7 +629,10 @@ import { ReportessaldosventasComponent } from '../components/cxc/reportessaldosv
         PossaldosclientesComponent,
         MovimientosinventariosComponent,
         OrdenventacxcComponent,
-        ReportessaldosventasComponent
+        ReportessaldosventasComponent,
+        DocumentacionGeneralImportacionComponent,
+        ExploradorDocumentosComponent,
+        VisorExploradorComponent
     
     ],
     exports: [
@@ -710,6 +717,7 @@ import { ReportessaldosventasComponent } from '../components/cxc/reportessaldosv
         NotificacionespushService,
         DeviceDetectorService,
         ThemeService,
+        FileService
 
         
         
@@ -804,7 +812,9 @@ import { ReportessaldosventasComponent } from '../components/cxc/reportessaldosv
         PossaldosclientesComponent,
         MovimientosinventariosComponent,
         OrdenventacxcComponent,
-        ReportessaldosventasComponent
+        ReportessaldosventasComponent,
+        ExploradorDocumentosComponent,
+        VisorExploradorComponent
         
     ]
 })

@@ -3,6 +3,7 @@ import { PosserviceService } from '../../posservice.service';
 import Swal from 'sweetalert2';
 import { MatDialog, MatDialogConfig, MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { AddeditposproductosComponent } from './addeditposproductos/addeditposproductos.component';
+import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 @Component({
   selector: 'app-poscatproductos',
@@ -11,7 +12,8 @@ import { AddeditposproductosComponent } from './addeditposproductos/addeditpospr
 })
 export class PoscatproductosComponent implements OnInit {
 
-  constructor(public posSVC: PosserviceService,private dialog: MatDialog) { }
+  constructor(public posSVC: PosserviceService,private dialog: MatDialog,
+    private eventosService:EventosService,) { }
 
   arrcon: Array<any> = [];
   listData: MatTableDataSource<any>;
@@ -50,6 +52,8 @@ export class PoscatproductosComponent implements OnInit {
   onAdd(){
     //this.posSVC.productosForm = new Producto();
     this.posSVC.addedit = 'Agregar Producto';
+    
+    this.eventosService.movimientos('POS Agregar Producto')
 
 const dialogConfig = new MatDialogConfig();
 dialogConfig.disableClose = false;
@@ -95,6 +99,8 @@ dlg.afterClosed().subscribe(resp=>{
       this.posSVC.productosForm = producto;
       this.posSVC.addedit = 'Editar Producto';
       
+      
+      this.eventosService.movimientos('POS Editar Producto')
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = false;
       dialogConfig.autoFocus = true;
@@ -125,6 +131,7 @@ Swal.fire({
     this.posSVC.generarConsulta(consulta).subscribe(res => {
       this.refreshTablaP();
       
+      this.eventosService.movimientos('POS Producto Borrado')
       Swal.fire({
         title: 'Borrado',
         icon: 'success',
