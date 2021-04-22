@@ -473,8 +473,8 @@ export class OrdencargadetalleComponent implements OnInit {
       this.od.Destino = 'CHIHUAHUA';
       this.od.Observaciones = '';
       this.od.Estatus = 'Transito';
-      this.od.FechaInicioDescarga = new Date('10/10/10');
-      this.od.FechaFinalDescarga = new Date('10/10/10');
+      this.od.FechaInicioDescarga = new Date();
+      this.od.FechaFinalDescarga = new Date();
       this.od.FechaExpedicion = new Date();
       this.od.IdUsuario = 0;
 

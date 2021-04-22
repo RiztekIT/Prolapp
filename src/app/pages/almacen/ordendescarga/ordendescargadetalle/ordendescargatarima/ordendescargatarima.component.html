@@ -158,24 +158,31 @@
                                                     <label class="input-group-text text-info">Factura:</label>
                                                     <input type="text" class="form-control" name="NombreProd" #NombreProd="ngModel" [(ngModel)]="this.numerofactura">
                                                 </div>
-                                                
-                                                
+
+
                                             </div>
 
                                             <div class="row">
-                                                <div class="col-md-6 col-12">
-                                                    <label class="input-group-text text-info">Kilogramos:</label>
-                                                    <input type="number" class="form-control" name="Kilogramos" #Kilogramos="ngModel" [(ngModel)]="this.cantidadKilogramos" (ngModelChange)="onChangeCantidadKilogramos($event)">
-                                                </div>
-                                                
-                                               
                                                 <div class="col-md-3 col-12">
                                                     <label class="input-group-text text-info">Numero Entrada (CBK):</label>
-                                                    <input type="text"  class="form-control" name="NumeroEntra" #NumeroEntra="ngModel" [(ngModel)]="this.NumeroEntrada">
+                                                    <input type="text" class="form-control" name="NumeroEntra" #NumeroEntra="ngModel" [(ngModel)]="this.NumeroEntrada">
                                                 </div>
+
+                                                <div class="col-md-3 col-12">
+                                                    <label class="input-group-text text-info">Factura Fecha</label>
+                                                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                                    <input readonly="readonly" required [matDatepicker]="picker3" type="text" class="form-control" name="FacturaFecha" #FacturaFecha="ngModel" [(ngModel)]="this.FechaFactura" (dateChange)="changeMat($event, 'Factura')">
+                                                    <mat-datepicker #picker3></mat-datepicker>
+                                                </div>
+
+
+
                                                 <div class="col-md-3 col-12">
                                                     <label class="input-group-text text-info">Tipo Cambio:</label>
-                                                    <input type="text"  class="form-control" name="tc" #tc="ngModel" [(ngModel)]="this.TipoCambio">
+                                                    <input type="text" class="form-control" name="tc" #tc="ngModel" [(ngModel)]="this.TipoCambio">
+                                                </div>
+                                                <div class="col-md-3 col-12" style="align-self: center;">
+                                                    <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="limpiarDatos()"><mat-icon>auto_fix_high</mat-icon> Limpiar Datos</button>
                                                 </div>
                                                 <!--     <div class="col-md-6 col-12">
                                                 <label class="input-group-text text-info">Comentarios:</label>
@@ -184,6 +191,11 @@
                                             </div> -->
                                             </div>
                                             <div class="row">
+
+                                                <div class="col-md-3 col-12">
+                                                    <label class="input-group-text text-info">Kilogramos:</label>
+                                                    <input type="number" class="form-control" name="Kilogramos" #Kilogramos="ngModel" [(ngModel)]="this.cantidadKilogramos" (ngModelChange)="onChangeCantidadKilogramos($event)">
+                                                </div>
 
 
                                                 <div class="col-md-3 col-12">
@@ -199,19 +211,14 @@
                                                 </div>
                                                 <div class="col-md-3 col-12">
                                                     <label class="input-group-text text-info">Fecha de Caducidad</label>
-                                                    
+
                                                     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                                     <input readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="FechaCaducidad" #FechaCaducidad="ngModel" [(ngModel)]="this.fechaCaducidad" (dateChange)="changeMat($event, 'Caducidad')">
                                                     <mat-datepicker #picker1></mat-datepicker>
-                                                    
-                                                    
+
+
                                                 </div>
-                                                <div class="col-md-3 col-12">
-                                                    <label class="input-group-text text-info">Factura Fecha</label>
-                                                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-                                                    <input readonly="readonly" required [matDatepicker]="picker3" type="text" class="form-control" name="FacturaFecha" #FacturaFecha="ngModel" [(ngModel)]="this.FechaFactura" (dateChange)="changeMat($event, 'Factura')">
-                                                    <mat-datepicker #picker3></mat-datepicker>
-                                                </div>
+
                                             </div>
                                         </div>
                                         <br>
@@ -416,11 +423,11 @@
                                             <tr mat-header-row *matHeaderRowDef="displayedColumnsOrdenTemporal"></tr>
                                             <tr mat-row *matRowDef="let row; columns: displayedColumnsOrdenTemporal;"></tr>
 
-                                               <ng-container matColumnDef="PO">
+                                            <ng-container matColumnDef="PO">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>PO</th>
                                                 <td mat-cell *matCellDef="let elementOT">{{elementOT.CampoExtra1}}</td>
                                             </ng-container>
-                                               <ng-container matColumnDef="Factura">
+                                            <ng-container matColumnDef="Factura">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Factura</th>
                                                 <td mat-cell *matCellDef="let elementOT">{{elementOT.NumeroFactura}}</td>
                                             </ng-container>
@@ -519,27 +526,27 @@
                             </div>
 
 
-                          
-
-<hr>
 
 
-<div class="container" style="margin-right: 0;">
-    <div class="row">
-        <div class="col-md-3 col-12" style="display: grid">
+                            <hr>
 
-        </div>
-        <div class="col-md-3 col-12" style="display: grid">
-            <!-- <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="traspaso()"><mat-icon>sync_alt</mat-icon> Traspasar</button> -->
-        </div>
-        <div class="col-md-3 col-12" style="display: grid">
 
-        </div>
-        <div class="col-md-3 col-12" style="display: grid">
-            <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="finalizarOrden()"><mat-icon>done_all</mat-icon> Finalizar</button>
-        </div>
-    </div>
-</div>
+                            <div class="container" style="margin-right: 0;">
+                                <div class="row">
+                                    <div class="col-md-3 col-12" style="display: grid">
+
+                                    </div>
+                                    <div class="col-md-3 col-12" style="display: grid">
+                                        <!-- <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="traspaso()"><mat-icon>sync_alt</mat-icon> Traspasar</button> -->
+                                    </div>
+                                    <div class="col-md-3 col-12" style="display: grid">
+
+                                    </div>
+                                    <div class="col-md-3 col-12" style="display: grid">
+                                        <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="finalizarOrden()"><mat-icon>done_all</mat-icon> Finalizar</button>
+                                    </div>
+                                </div>
+                            </div>
 
                             <!-- tabla de orden temporal -->
                             <!-- <div class="container">
@@ -553,8 +560,8 @@
                             </div>
                             </div>
                             </div> -->
-                            
-                           
+
+
                         </div>
                     </div>
                 </div>

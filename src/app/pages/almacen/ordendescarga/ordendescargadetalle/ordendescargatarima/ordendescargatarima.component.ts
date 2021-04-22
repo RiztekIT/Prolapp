@@ -930,13 +930,13 @@ export class OrdendescargatarimaComponent implements OnInit {
       });
 
          //^Limpiar campos visuales
-    this.NombreProducto = null;
+   /*  this.NombreProducto = null;
     this.numerofactura = null;
     this.FechaFactura = null;
     this.TipoCambio = null;
     this.PO = null;
     this.PODescarga = null;
-    this.NumeroEntrada = null;
+    this.NumeroEntrada = null; */
     this.cantidadKilogramos = null;
     this.lote = null;
     this.fechaCaducidad = null;
@@ -1783,6 +1783,22 @@ console.log(this.preOrdenTemporalSacos.ClaveProducto);
   
       })
   
+
+  }
+
+  limpiarDatos(){
+
+    this.NombreProducto = null;
+    this.numerofactura = null;
+    this.FechaFactura = null;
+    this.TipoCambio = null;
+    this.PO = null;
+    this.PODescarga = null;
+    this.NumeroEntrada = null;
+    //this.cantidadKilogramos = null;
+    //this.lote = null;
+    //this.fechaCaducidad = null;
+    //this.fechaMFG = null;
 
   }
 

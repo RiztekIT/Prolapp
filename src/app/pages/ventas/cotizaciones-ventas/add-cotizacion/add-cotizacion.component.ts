@@ -1555,6 +1555,7 @@ email(cotizacion){
   this._MessageService.asunto = 'Envio Cotizacion ' + cotizacion.Folio;
   this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + cotizacion.Folio;
   this._MessageService.nombre = 'ProlactoIngredientes';
+  this._MessageService.pdf = true;
 
   this.service.formrow = cotizacion;
   const dialogConfig2 = new MatDialogConfig();

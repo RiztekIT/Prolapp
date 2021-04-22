@@ -20,8 +20,8 @@
                 <div class="row">
                     <!-- logo -->
                     <div class="col-2 pl-0 pb-0 pt-0" style="padding-left: 0;">
-                            <!-- <img [src]="'assets/images/logoCotizacion.jpg'" style="height: 150px; width: 250px;"> -->
-                            <img [src]=logo style="height: 100px; width: 250px; margin-top: -10px;">
+                        <!-- <img [src]="'assets/images/logoCotizacion.jpg'" style="height: 150px; width: 250px;"> -->
+                        <img [src]=logo style="height: 100px; width: 250px; margin-top: -10px;">
                     </div>
                     <div class="col-5"></div>
                     <div class="col-5">
@@ -46,7 +46,7 @@
             <!-- End TOP -->
             <!-- ../../../assets/images/sacos/3.DARIGOLDmilk.png -->
             <!-- contenido -->
-            <div style="background-image: url('/assets/images/prolactopngopacidad2.png'); min-height: 500px; background-size: cover">
+            <div style="background-image: url('/assets/images/prolactopngopacidad2.png'); min-height: 600px; background-size: cover">
                 <table class="table">
                     <thead>
                         <tr>
@@ -71,12 +71,12 @@
 
                             <td style="vertical-align: middle; text-align: center;" class="pgbreak">{{conceptos.ClaveProducto}}</td>
                             <td class="pt-0 pb-0"><img [src]="srcimageninicial+conceptos.imagen+'.png'" alt="Logo" style="width: 70px; text-align: center;" class="pgbreak"></td>
-                            <td style="vertical-align: middle; text-align: center;" class="pgbreak" >{{conceptos.Producto}}</td>
-                            <td style="vertical-align: middle; text-align: center;" class="pgbreak"  *ngIf="this.service.formrow.Moneda=='MXN'">{{conceptos.PrecioUnitario | currency}}</td>
-                            <td style="vertical-align: middle; text-align: center;" class="pgbreak"  *ngIf="this.service.formrow.Moneda=='USD'">{{conceptos.PrecioUnitarioDlls | currency}}</td>
-                            <td style="vertical-align: middle; text-align: center;" class="pgbreak" >{{conceptos.Cantidad}}</td>
-                            <td style="vertical-align: middle; text-align: center;" class="pgbreak"  *ngIf="this.service.formrow.Moneda=='MXN'">{{conceptos.Importe | currency}}</td>
-                            <td style="vertical-align: middle; text-align: center;" class="pgbreak"  *ngIf="this.service.formrow.Moneda=='USD'">{{conceptos.ImporteDlls | currency}}</td>
+                            <td style="vertical-align: middle; text-align: center;" class="pgbreak">{{conceptos.Producto}}</td>
+                            <td style="vertical-align: middle; text-align: center;" class="pgbreak" *ngIf="this.service.formrow.Moneda=='MXN'">{{conceptos.PrecioUnitario | currency}}</td>
+                            <td style="vertical-align: middle; text-align: center;" class="pgbreak" *ngIf="this.service.formrow.Moneda=='USD'">{{conceptos.PrecioUnitarioDlls | currency}}</td>
+                            <td style="vertical-align: middle; text-align: center;" class="pgbreak">{{conceptos.Cantidad}}</td>
+                            <td style="vertical-align: middle; text-align: center;" class="pgbreak" *ngIf="this.service.formrow.Moneda=='MXN'">{{conceptos.Importe | currency}}</td>
+                            <td style="vertical-align: middle; text-align: center;" class="pgbreak" *ngIf="this.service.formrow.Moneda=='USD'">{{conceptos.ImporteDlls | currency}}</td>
                         </tr>
                         <!--            <tr>
                             <th scope="col"></th>
@@ -95,106 +95,106 @@
 
             <!-- fin contenido 2 -->
 
-<div class="pgbreak">
+            <div class="pgbreak">
 
-    <div class="container row ">
-        <div class="col-4 container row">
-            <h5>INFORMACION:</h5>
-            <div class="col-12">
-                <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Cliente: <span style="font-weight: 100;">{{this.service.formrow.Nombre}}</span></p>
-            </div>
-            <div class="col-12">
-                <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Telefono: <span style="font-weight: 100;">{{this.service.formrow.Telefono}}</span></p>
-            </div>
-            <div class="col-12">
-                <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Correo: <span style="font-weight: 100;">{{this.service.formrow.Correo}}</span></p>
-            </div>
-        </div>
-        <div class="col-4">
-            <h5>DATOS ADICIONALES:</h5>
-            <div class="col-12">
-                <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Moneda: <span style="font-weight: 100;">{{this.service.formrow.Moneda}}</span></p>
-            </div>
-            <div class="col-12">
-                <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Tipo de Cambio: <span style="font-weight: 100;">{{this.service.formrow.TipoDeCambio}}</span></p>
-            </div>
-            <div class="col-12">
-                <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Vigencia: <span style="font-weight: 100;">{{this.service.formrow.Vigencia | date: 'yyyy/MM/dd'}}</span></p>
-            </div>
-            <div class="col-12">
-                <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Tipo de Flete: <span style="font-weight: 100;">{{this.service.formrow.Flete}}</span></p>
-            </div>
-            <div class="col-12">
-                <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;"><span style="font-weight: 100;">{{this.service.formrow.Observaciones}}</span></p>
-            </div>
-        </div>
-        <div class="col-4 container row">
-            <div class="col-6">
-                <h4 class=" blacktxt nomarginbottomP">Subtotal</h4>
-            </div>
-            <div class="col-6">
-                <p *ngIf="this.service.formrow.Moneda=='MXN'"class=" blacktxt nomarginbottomP">{{this.service.formrow.Subtotal | currency}}</p>
-                <p *ngIf="this.service.formrow.Moneda=='USD'"class=" blacktxt nomarginbottomP">{{this.service.formrow.SubtotalDlls | currency}}</p>
-            </div>
-            <!--   <div class="col-6">
+                <div class="container row ">
+                    <div class="col-4 container row">
+                        <h5>INFORMACION:</h5>
+                        <div class="col-12">
+                            <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Cliente: <span style="font-weight: 100;">{{this.service.formrow.Nombre}}</span></p>
+                        </div>
+                        <div class="col-12">
+                            <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Telefono: <span style="font-weight: 100;">{{this.service.formrow.Telefono}}</span></p>
+                        </div>
+                        <div class="col-12">
+                            <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Correo: <span style="font-weight: 100;">{{this.service.formrow.Correo}}</span></p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <h5>DATOS ADICIONALES:</h5>
+                        <div class="col-12">
+                            <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Moneda: <span style="font-weight: 100;">{{this.service.formrow.Moneda}}</span></p>
+                        </div>
+                        <div class="col-12">
+                            <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Tipo de Cambio: <span style="font-weight: 100;">{{this.service.formrow.TipoDeCambio}}</span></p>
+                        </div>
+                        <div class="col-12">
+                            <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Vigencia: <span style="font-weight: 100;">{{this.service.formrow.Vigencia | date: 'yyyy/MM/dd'}}</span></p>
+                        </div>
+                        <div class="col-12">
+                            <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Tipo de Flete: <span style="font-weight: 100;">{{this.service.formrow.Flete}}</span></p>
+                        </div>
+                        <div class="col-12">
+                            <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;"><span style="font-weight: 100;">{{this.service.formrow.Observaciones}}</span></p>
+                        </div>
+                    </div>
+                    <div class="col-4 container row">
+                        <div class="col-6">
+                            <h4 class=" blacktxt nomarginbottomP">Subtotal</h4>
+                        </div>
+                        <div class="col-6">
+                            <p *ngIf="this.service.formrow.Moneda=='MXN'" class=" blacktxt nomarginbottomP">{{this.service.formrow.Subtotal | currency}}</p>
+                            <p *ngIf="this.service.formrow.Moneda=='USD'" class=" blacktxt nomarginbottomP">{{this.service.formrow.SubtotalDlls | currency}}</p>
+                        </div>
+                        <!--   <div class="col-6">
                 <h4 class=" blacktxt nomarginbottomP">IVA</h4>
             </div>
             <div class="col-6">
                 <p class=" blacktxt nomarginbottomP">***</p>
             </div> -->
-            <div class="line"></div>
-            <div class="col-6">
-                <h4 class=" blacktxt nomarginbottomP">Total</h4>
-            </div>
-            <div class="col-6">
-                <h5 *ngIf="this.service.formrow.Moneda=='MXN'" class=" blacktxt nomarginbottomP">{{this.service.formrow.Total | currency}}</h5>
-                <h5 *ngIf="this.service.formrow.Moneda=='USD'" class=" blacktxt nomarginbottomP">{{this.service.formrow.TotalDlls | currency}}</h5>
-            </div>
-        </div>
-    </div>
-    
-    
-    <div class="container">
-        <div class="row">
-            <div class="col-8">
-                
-                
-                <p class=" blacktxt nomarginbottomP nowrap" style="font-size: 10px !important; text-align: left;">Para fines informativos y de comparacion, calculado al {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</p>
-                <br>
-                <br>
-                <br>
-            </div>
-        </div>
-        <div class="row" style="background-color: black">
-            
-            <div class="col-4" style="color: white; text-align: end">
-                
-                <h3 style="color: white"> <i class="fa fa-phone"></i> {{telefonousuario}}</h3>
-                <!-- <div class="card card-outline-inverse">
+                        <div class="line"></div>
+                        <div class="col-6">
+                            <h4 class=" blacktxt nomarginbottomP">Total</h4>
+                        </div>
+                        <div class="col-6">
+                            <h5 *ngIf="this.service.formrow.Moneda=='MXN'" class=" blacktxt nomarginbottomP">{{this.service.formrow.Total | currency}}</h5>
+                            <h5 *ngIf="this.service.formrow.Moneda=='USD'" class=" blacktxt nomarginbottomP">{{this.service.formrow.TotalDlls | currency}}</h5>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-8">
+
+
+                            <p class=" blacktxt nomarginbottomP nowrap" style="font-size: 10px !important; text-align: left;">Para fines informativos y de comparacion, calculado al {{this.service.formrow.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</p>
+                            <br>
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="row" style="background-color: black">
+
+                        <div class="col-4" style="color: white; text-align: end">
+
+                            <h3 style="color: white"> <i class="fa fa-phone"></i> {{telefonousuario}}</h3>
+                            <!-- <div class="card card-outline-inverse">
                     <img src="../../../assets/images/footerCotizacion.jpg" style="height: 200px; width: 300px;">
                 </div> -->
+                        </div>
+                        <div class="col-1">
+                            <h3 style="color: white"> | </h3>
+                        </div>
+                        <div *ngIf="this.empresaSVC.empresaActual.RFC=='PLA11011243A'" class="col-7" style="color: white; text-align:start">
+
+                            <h3 style="color: white"><i class="fa fa-globe"></i> www.prolactoingredientes.com.mx </h3>
+                        </div>
+                        <div *ngIf="this.empresaSVC.empresaActual.RFC=='AIN140101ME3'" class="col-7" style="color: white; text-align:start">
+
+                            <h3 style="color: white"><i class="fa fa-globe"></i> www.abarrotodo.com </h3>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-1">
-                <h3 style="color: white"> | </h3>
-            </div>
-            <div *ngIf="this.empresaSVC.empresaActual.RFC=='PLA11011243A'" class="col-7" style="color: white; text-align:start">
-                
-                <h3 style="color: white"><i class="fa fa-globe"></i> www.prolactoingredientes.com.mx </h3>
-            </div>
-            <div *ngIf="this.empresaSVC.empresaActual.RFC=='AIN140101ME3'" class="col-7" style="color: white; text-align:start">
-                
-                <h3 style="color: white"><i class="fa fa-globe"></i> www.abarrotodo.com </h3>
-            </div>
+
+            <!-- fin pdf -->
         </div>
+
     </div>
-</div>
-    
-    <!-- fin pdf -->
-</div>
 
-</div>
-
-<!-- <ngx-extended-pdf-viewer [base64Src]="this.currentPdf" [printResolution]="600" useBrowserLocale="true" height="80vh" [showPrintButton]="false"></ngx-extended-pdf-viewer> -->
+    <!-- <ngx-extended-pdf-viewer [base64Src]="this.currentPdf" [printResolution]="600" useBrowserLocale="true" height="80vh" [showPrintButton]="false"></ngx-extended-pdf-viewer> -->
 </div>
 
 <div class="modal-footer">

@@ -3,13 +3,14 @@ import { Router } from '@angular/router';
 import { AlmacenEmailService } from 'src/app/services/almacen/almacen-email.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogConfig, MatDialog } from '@angular/material';
 import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
 import { ImagenService } from 'src/app/services/imagenes/imagen.service';
 import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
 import { DatePipe } from '@angular/common';
 import { Evento } from 'src/app/Models/eventos/evento-model';
 import { EventosService } from 'src/app/services/eventos/eventos.service';
+import { VisorExploradorComponent } from 'src/app/components/explorador-documentos/visor-explorador/visor-explorador.component';
 
 
 
@@ -23,7 +24,7 @@ export class EnviarOrdenCargaComponent implements OnInit {
   constructor(public router: Router, public AlmacenEmailService: AlmacenEmailService, private sanitizer: DomSanitizer, public dialogRef: MatDialogRef<EnviarOrdenCargaComponent>,
    public imageService: ImagenService,  private _sanitizer: DomSanitizer, public ordenCargaService:OrdenCargaService,
    private datePipe:DatePipe,
-   private eventosService:EventosService,) { }
+   private eventosService:EventosService,private dialog: MatDialog) { }
 
    html = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -574,6 +575,7 @@ this.obtenerDocumentos();
         formData.append('asunto', this.AlmacenEmailService.asunto)
         formData.append('html', this.html)
         formData.append('pdf', localStorage.getItem('pdfcorreo'))
+        
 
         // formData.append('pdf', localStorage.getItem('pdf'+this.data.foliop))
         // formData.append('xml', localStorage.getItem('xml'+this.data.foliop))
@@ -622,4 +624,16 @@ this.obtenerDocumentos();
           })      
         }
     }
+
+    explorador(){
+      const dialogConfig2 = new MatDialogConfig();
+  dialogConfig2.disableClose = false;
+  dialogConfig2.autoFocus = true;
+  dialogConfig2.width = "60%";
+  dialogConfig2.height = "60%";
+  dialogConfig2.data = {
+    origen: 'correo'
+  }            
+  let dl = this.dialog.open(VisorExploradorComponent, dialogConfig2);
+  }
 }

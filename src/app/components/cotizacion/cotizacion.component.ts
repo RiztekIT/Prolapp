@@ -285,8 +285,8 @@ reloadPDF(event){
 
     const link = document.createElement('a');
     link.href = url;
-    link.target = '_self'    
-    //link.target = '_blank'    
+    //link.target = '_self'    
+    link.target = '_blank'    
     link.click();
     this.style = 'none'
   }
