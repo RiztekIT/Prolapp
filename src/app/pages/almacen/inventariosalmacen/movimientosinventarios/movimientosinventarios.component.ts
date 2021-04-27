@@ -131,6 +131,7 @@ export class MovimientosinventariosComponent implements OnInit {
     { tipo: 'Entrada' },
     { tipo: 'Salida' },    
     { tipo: 'Muestra' },    
+    { tipo: 'Muestra Entrada' },    
     { tipo: 'Merma' },    
   ];
   
@@ -365,6 +366,9 @@ getbodegas(){
 
     }else if(this.tipoSelect=='Muestra'){
       this.muestraMercancia();
+
+    }else if(this.tipoSelect=='Muestra Entrada'){
+      this.muestraentradaMercancia();
 
     }else if(this.tipoSelect=='Merma'){
       this.mermaMercancia();
@@ -613,6 +617,133 @@ getbodegas(){
         this.FechaCaducidad = new Date(data[0].FechaCaducidad);
         this.FechaMFG = new Date(data[0].FechaMFG);
 
+      }
+
+    })
+
+  }
+
+  muestraentradaMercancia(){
+
+    let consulta = {
+      'consulta':"select * from detalletarima where Producto='"+this.serviceTarima.formProd.DescripcionProducto+ "' and lote='"+this.Lote+"' and Bodega='"+this.bodegaSelect+"' and Estatus='Muestra';"
+    };
+
+    console.log(consulta);
+    this.serviceTarima.generarConsulta(consulta).subscribe((data:any)=>{
+      console.log(data);
+
+      if (data.length>0){
+
+          let PesoNuevo = (+data[0].PesoTotal - +this.PesoTotal )
+
+          let SacosTotales = (+PesoNuevo / +data[0].PesoxSaco).toFixed(4);
+
+
+          if (PesoNuevo<=0){
+
+
+            let consulta3 = {
+              'consulta':"update detalletarima set Estatus='Creada'  where Producto='"+this.serviceTarima.formProd.DescripcionProducto+ "' and lote='"+this.Lote+"' and Bodega='"+this.bodegaSelect+"' and Estatus='Muestra';"
+            };
+
+            this.serviceTarima.generarConsulta(consulta3).subscribe((data:any)=>{
+
+              this.eventosService.movimientos('Muestra de Mercancia')
+              if (data.length==0){
+    
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Producto Actualizado',
+                  text: ''+this.serviceTarima.formProd.DescripcionProducto+'',
+                  timer: 1500
+                })
+              }
+
+            })
+
+            
+
+          }else{
+
+
+
+          
+        
+  
+  
+  
+          let consulta2 = {
+            'consulta':"update detalletarima set SacosTotales='"+SacosTotales+"', PesoTotal='"+PesoNuevo+"'  where Producto='"+this.serviceTarima.formProd.DescripcionProducto+ "' and lote='"+this.Lote+"' and Bodega='"+this.bodegaSelect+"' and Estatus='Muestra';"
+          };
+  
+          this.serviceTarima.generarConsulta(consulta2).subscribe((data2:any)=>{
+            console.log(data2);
+
+
+        let movimiento = data[0]
+
+        
+        //movimiento.ClaveProducto = this.serviceTarima.formProd.ClaveProducto + this.clavemarca + this.claveorigen;
+        //movimiento.Producto = this.serviceTarima.formProd.DescripcionProducto;
+        movimiento.PesoTotal = this.PesoTotal;
+        if (this.PresentacionSelect=='25 Kg'){
+          movimiento.PesoxSaco = '25';
+        }else  if (this.PresentacionSelect=='50 Kg'){
+          movimiento.PesoxSaco = '50';
+        }else  if (this.PresentacionSelect=='1000 Kg'){
+          movimiento.PesoxSaco = '1000';
+        }else  if (this.PresentacionSelect=='22.68 Lb'){
+          movimiento.PesoxSaco = '22.68';
+        }else  if (this.PresentacionSelect=='1 Kg'){
+          movimiento.PesoxSaco = '1';
+        }else{
+          movimiento.PesoxSaco = '25';
+        }
+        movimiento.SacosTotales = (+movimiento.PesoTotal / +movimiento.PesoxSaco).toFixed(4);
+        movimiento.Estatus = 'Creada'
+        //movimiento.Lote = this.Lote;
+        //movimiento.Bodega = this.bodegaSelect;
+        //movimiento.FechaMFG = new Date(this.FechaMFG)
+        //movimiento.FechaCaducidad = new Date(this.FechaCaducidad)
+
+
+
+        let consulta = {
+          'consulta':"insert into detalletarima output inserted.* values ('"+movimiento.ClaveProducto+"','"+movimiento.Producto+"','"+movimiento.SacosTotales+"','"+movimiento.PesoxSaco+"','"+movimiento.Lote+"','"+movimiento.PesoTotal+"','"+movimiento.SacosxTarima+"','"+movimiento.TarimasTotales+"','"+movimiento.Bodega+"',"+movimiento.IdProveedor+",'"+movimiento.Proveedor+"','"+movimiento.PO+"','"+movimiento.FechaMFG+"','"+movimiento.FechaCaducidad+"','"+movimiento.Shipper+"','"+movimiento.USDA+"','"+movimiento.Pedimento+"','"+movimiento.Estatus+"');"
+        };
+
+        this.serviceTarima.generarConsulta(consulta).subscribe(res=>{
+
+        })
+            
+            this.eventosService.movimientos('Muestra de Mercancia')
+            if (data2.length==0){
+  
+              Swal.fire({
+                icon: 'success',
+                title: 'Producto Actualizado',
+                text: ''+this.serviceTarima.formProd.DescripcionProducto+'',
+                timer: 1500
+              })
+            }
+  
+          }) 
+
+
+        
+
+
+
+
+    /*    */
+        }
+
+      }else{
+        Swal.fire({
+          text: 'Producto No Existe en el Inventario',
+          icon: 'error'
+        });
       }
 
     })
