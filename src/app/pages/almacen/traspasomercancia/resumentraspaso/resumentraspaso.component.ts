@@ -114,6 +114,7 @@ this._MessageService.documentosURL = [];
         this.archivosPESPI = [];
         this.archivosCA = [];
         this.archivosUSDA = [];
+        this.numUSDA = detalles[0].Usda
         for (let i = 0; i < detalles.length; i++) {
 
           this.obtenerDocumentosFactura(detalles[i]);
@@ -2056,7 +2057,8 @@ for (var i = 0; i < event.addedFiles.length; i++) {
               this.filesUSDA = [];
               // this.numUSDA = '';
               // this.refrescarDocumentos();
-              this.updateUSDA();
+              //this.updateUSDA();
+              this.obtenerDetallesTraspaso();
               /* this.archivos = []; */
               
               this.eventosService.movimientos('Documento USDA Guardado')
@@ -2083,7 +2085,8 @@ for (var i = 0; i < event.addedFiles.length; i++) {
                   this.filesUSDA = [];
                   // this.numUSDA = '';
                   // this.refrescarDocumentos();
-                  this.updateUSDA();
+                  //this.updateUSDA();
+                  this.obtenerDetallesTraspaso();
                   /* this.archivos = []; */
                   Swal.fire({
                     title: 'Documentos Guardados',
@@ -2108,7 +2111,8 @@ for (var i = 0; i < event.addedFiles.length; i++) {
           showCancelButton: false,
           showConfirmButton: false
         });
-          this.updateUSDA();
+          //this.updateUSDA();
+          this.obtenerDetallesTraspaso();
       }
     }
     // this.files.push(...event.addedFiles);
@@ -2125,7 +2129,7 @@ for (var i = 0; i < event.addedFiles.length; i++) {
 
     this.traspasoSVC.getQuery(consulta).subscribe((detalles: any) => {
       console.log(detalles);
-      this.numUSDA = '';
+      //this.numUSDA = '';
       this.obtenerDetallesTraspaso();
     })
 
@@ -2161,6 +2165,7 @@ for (var i = 0; i < event.addedFiles.length; i++) {
       showConfirmButton: false
     });
     this.actualizarOrdenCarga();
+    this.updateUSDA();
     this.updateInformacionTraspaso();
   }
 

@@ -45,7 +45,7 @@
                             <input readonly type="text" placeholder="Estatus" aria-label="Number" [(ngModel)]="this.traspasoSVC.selectTraspaso.Estatus" matInput>
 
                         </div>
-                    </div>   
+                    </div>
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <label class="input-group-text text-info">Descripcion Producto:</label> <br>
@@ -53,31 +53,37 @@
                         </div>
                         <div class="col-12 col-md-4">
                             <label class="input-group-text text-info">Fletera:</label> <br>
-                            <input title="Ingresar Fletera Orden Carga"  type="text" placeholder="Ingrese Fletera" aria-label="Number" [(ngModel)]="this.Fletera" matInput>
+                            <input title="Ingresar Fletera Orden Carga" type="text" placeholder="Ingrese Fletera" aria-label="Number" [(ngModel)]="this.Fletera" matInput>
                         </div>
                         <div class="col-12 col-md-4">
                             <label class="input-group-text text-info">Caja:</label> <br>
-                            <input title="Ingresar Caja Orden Carga"  type="text" placeholder="Ingrese Caja" aria-label="Number" [(ngModel)]="this.Caja" matInput>
+                            <input title="Ingresar Caja Orden Carga" type="text" placeholder="Ingrese Caja" aria-label="Number" [(ngModel)]="this.Caja" matInput>
                         </div>
-                    </div>     
-                    <br>           
+                    </div>
+
+                    <br>
                     <div class="row">
                         <div class="col-12 col-md-4">
-                            
+
+                            <label class="input-group-text text-info">USDA:</label> <br>
+                            <input title="En caso de ingresar mas de un usda, favor de dividirlos por comas. ej: usda1,usda2 etc" type="text" placeholder="Ingresar USDA" aria-label="Number" [formControl]="myControl4" [(ngModel)]="numUSDA" matInput>
+
+
+
                         </div>
                         <div class="col-12 col-md-4">
-                            
+
                         </div>
                         <div class="col-12 col-md-4">
                             <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="actualizarInformacionAdicional()">Actualizar</button>
                         </div>
-                    </div>                
+                    </div>
                     <hr>
 
 
                     <h2 style="text-align: center;">Productos</h2>
- 
-                    
+
+
 
                     <div class="row">
                         <div class="col-12">
@@ -144,9 +150,9 @@
                     <div class="row">
                         <div class="col-12 col-md-3">
 
-                     
+
                         </div>
-                        
+
                         <div class="col-12 col-md-3">
 
                             <h2 style="text-align: center;">Archivos</h2>
@@ -156,10 +162,10 @@
                         </div>
                         <div class="col-12 col-md-3">
 
-                     
+
                         </div>
                     </div>
-                    
+
                     <br>
 
                     <div class="row">
@@ -338,16 +344,11 @@
 
                             <div class="col-12">
                                 <div class="row">
-                                    <div class="col-4">
+                                    <div class="col-6">
                                         <p style="font-weight: 400; margin-top: 10px;">USDA:</p>
                                     </div>
-                                    <div class="col-4">
-                                        <!-- <label class="input-group-text text-info">USDA:</label> <br> -->
-                                        <input title="En caso de ingresar mas de un usda, favor de dividirlos por comas. ej: usda1,usda2 etc" type="text" placeholder="Ingresar USDA" aria-label="Number" [formControl]="myControl4" [(ngModel)]="numUSDA" matInput>
-                                        <!-- <label class="input-group-text text-info">En caso de ingresar mas de un usda, favor de dividirlos por comas. ej: usda1,usda2 etc</label> <br> -->
 
-                                    </div>
-                                    <div class="col-4">
+                                    <div class="col-6">
                                         <button style="float: right; margin-top: 20px;" class="btn btn-info btn-lg" mat-raised-button (click)="onAddDocumentosUSDA()">Agregar</button>
                                     </div>
                                 </div>
