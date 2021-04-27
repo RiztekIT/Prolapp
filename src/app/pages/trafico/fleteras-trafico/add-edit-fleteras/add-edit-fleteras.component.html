@@ -19,13 +19,118 @@
                         <input required type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="this.FleterasService.dataFleteras.Nombre">
                         <label class="input-group-text text-info">Direccion</label>
                         <input required type="text" class="form-control" name="Direccion" #Direccion="ngModel" [(ngModel)]="this.FleterasService.dataFleteras.Direccion">
-                        
+
                     </div>
                     <br>
-                    <button class="btn btn-success" mat-raised-button color="success" (click)="AddEditFletera()" [disabled]="form.invalid">{{tipo}} Fletera</button>
+                    <button class="btn btn-success" mat-raised-button color="success" (click)="AddEditFletera()">{{tipo}} Fletera</button>
                     <br>
                 </div>
             </div>
         </div>
     </form>
+
+    <hr>
+
+    <!-- TABLA DE CONTACTOS -->
+    <div class="form-material">
+        <div class="row" style="align-items: center;">
+            <div class="col-4">
+                <h3>Contacto</h3>
+
+
+            </div>
+            <div class="col-4"></div>
+            <div class="col-4">
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-12">
+                <label class="input-group-text text-info">Nombre</label>
+                <input required type="text" class="form-control" name="NombreContacto" #NombreContacto="ngModel" [(ngModel)]="this.nombreContacto">
+            </div>
+            <div class="col-md-6 col-12">
+                <label class="input-group-text text-info">Telefono</label>
+                <input required type="text" class="form-control" name="NombreContacto" #NombreContacto="ngModel" [(ngModel)]="this.telefonoContacto">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-12">
+                <label class="input-group-text text-info">Celular</label>
+                <input required type="text" class="form-control" name="NombreContacto" #NombreContacto="ngModel" [(ngModel)]="this.celularContacto">
+            </div>
+            <div class="col-md-6 col-12">
+                <label class="input-group-text text-info">Correo</label>
+                <input required type="text" class="form-control" name="NombreContacto" #NombreContacto="ngModel" [(ngModel)]="this.correoContacto">
+            </div>
+        </div>
+
+        <div class="row" style="align-items: center;">
+            <div class="col-4">
+
+
+
+            </div>
+            <div class="col-4"></div>
+            <div class="col-4">
+                <button *ngIf="!this.editar" class="btn btn-success" mat-raised-button color="success" (click)="onAddContacto()">Guardar</button>
+                <button *ngIf="this.editar" class="btn btn-success" mat-raised-button color="success" (click)="editContacto()">Editar</button>
+                <button *ngIf="this.editar" class="btn btn-success" mat-raised-button color="success" (click)="cancelarEditContacto()">Cancelar</button>
+            </div>
+
+
+        </div>
+    </div>
+
+    <hr>
+
+
+    <table mat-table [dataSource]="listData" matSort>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        <ng-container matColumnDef="Nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+            <td mat-cell *matCellDef="let element">{{element.nombreContacto}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Telefono">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Telefono</th>
+            <td mat-cell *matCellDef="let element">{{element.telefonoContacto}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Celular">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Celular</th>
+            <td mat-cell *matCellDef="let element">{{element.celularContacto}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Correo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Correo</th>
+            <td mat-cell *matCellDef="let element">{{element.correoContacto}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Options">
+            <th mat-header-cell *matHeaderCellDef>Options</th>
+            <td mat-cell *matCellDef="let row">
+
+
+                <button mat-icon-button class="btn btn-dark" (click)="onEditContacto(row)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+
+                <button mat-icon-button class="btn btn-danger" color="warn" (click)="onDeleteContacto(row)">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+
+            </td>
+        </ng-container>
+
+    </table>
+    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+    </mat-paginator>
+
+    <br>
+    <br>
 </div>

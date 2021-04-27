@@ -37,6 +37,11 @@ export class FleterasService {
  }
 
 
+ getQuery(query) {
+  return this.http.post(this.APIUrl + '/TraspasoMercancia/general', query);
+}
+
+
 
 
 

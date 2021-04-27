@@ -33,7 +33,7 @@ export class FleterasTraficoComponent implements OnInit {
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
-      this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+      this.listData.paginator._intl.itemsPerPageLabel = 'Fleteras por Pagina';
     console.log(this.listData);
     })
   }
