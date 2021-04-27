@@ -1,15 +1,29 @@
 import { Component, OnInit } from '@angular/core';
+
 import { MatDialogRef, MatSnackBar } from '@angular/material';
+
 import { UsuariosServieService } from '../../../../../services/catalogos/usuarios-servie.service';
+
 import { NgForm } from '@angular/forms';
+
 import Swal from 'sweetalert2';
 
 //evento
 import {Inject} from '@angular/core';
+
 import {MAT_DIALOG_DATA } from "@angular/material";
+
 import { EventosService } from '../../../../../services/eventos/eventos.service';
+
 import { Evento } from 'src/app/Models/eventos/evento-model';
+
 import { DatePipe } from '@angular/common';
+
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Usuario'}
+]
 
 @Component({
   selector: 'app-add-usuario',
@@ -25,12 +39,13 @@ export class AddUsuarioComponent implements OnInit {
 
   constructor(  public dialogbox: MatDialogRef<AddUsuarioComponent>,
     public service: UsuariosServieService, 
-    private snackBar: MatSnackBar,
     private datePipe: DatePipe,
     private eventosService: EventosService,
-    @Inject(MAT_DIALOG_DATA) public data: any,) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private ConnectionHubService: ConnectionHubServiceService,) { }
 
   ngOnInit() { 
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     this.BodegaInfo = this.data;
     this.movimiento = this.BodegaInfo.movimiento
@@ -72,6 +87,7 @@ onSubmit(form: NgForm) {
       // });
       
       this.movimientos(this.movimiento)
+      this.ConnectionHubService.on(origen[0])
       Swal.fire({
         icon: 'success',
         title: 'Usuario Agregado'

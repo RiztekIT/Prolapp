@@ -18,6 +18,13 @@ import { Evento } from '../../../../../Models/eventos/evento-model';
 import { MarcasProductos } from '../../../../../Models/catalogos/marcasproductos-model';
 import { MarcasComponent } from '../marcas/marcas.component';
 
+import { ConnectionHubServiceService } from '../../../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Producto'}
+]
+
 
 @Component({
   selector: 'app-show-producto',
@@ -44,11 +51,22 @@ export class ShowProductoComponent implements OnInit {
     private dialog: MatDialog, private snackBar: MatSnackBar,
     private usuarioService: UsuariosServieService,
     private datePipe: DatePipe,
-    private eventosService: EventosService,) {
+    private eventosService: EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) {
 
     this.service.listen().subscribe((m:any)=>{
-      console.log(m);
+      // console.log(m);
       this.refreshProductosList();
+      
+    this.ConnectionHubService.listenProductos().subscribe((m:any)=>{
+      this.refreshProductosList();
+      });
+
+    this.ConnectionHubService.listenMarca().subscribe((m:any)=>{
+      this.refreshMarcasList();
+      });
+
+
       });
 
    }
@@ -56,6 +74,7 @@ export class ShowProductoComponent implements OnInit {
   ngOnInit() {
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.refreshProductosList();
     //^ **** PRIVILEGIOS POR USUARIO *****
     this.obtenerPrivilegios();
@@ -79,21 +98,21 @@ export class ShowProductoComponent implements OnInit {
 
   obtenerPrivilegios() {
     let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
-    console.log(arrayPermisosMenu);
+    // console.log(arrayPermisosMenu);
     let arrayPrivilegios: any;
     try {
       arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
-      // console.log(arrayPrivilegios);
+      // // console.log(arrayPrivilegios);
       arrayPrivilegios = arrayPrivilegios.submenu.find(area => area.titulo == this.area);
-      // console.log(arrayPrivilegios);
+      // // console.log(arrayPrivilegios);
       this.privilegios = [];
       arrayPrivilegios.privilegios.forEach(element => {
         this.privilegios.push(element.nombreProceso);
         this.verificarPrivilegio(element.nombreProceso);
       });
-      // console.log(this.privilegios);
+      // // console.log(this.privilegios);
     } catch {
-      console.log('Ocurrio algun problema');
+      // console.log('Ocurrio algun problema');
     }
   }
 
@@ -119,7 +138,7 @@ export class ShowProductoComponent implements OnInit {
 
     this.service.getProductosList().subscribe(data => {
       this.listData = new MatTableDataSource(data);
-      //console.log(this.listData);
+      //// console.log(this.listData);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
       this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
@@ -130,19 +149,19 @@ export class ShowProductoComponent implements OnInit {
   refreshMarcasList() {
 
     this.service.GetMarcasProductos().subscribe(marcasres => {
-      console.log('%c⧭', 'color: #d90000', marcasres);
+      // console.log('%c⧭', 'color: #d90000', marcasres);
       this.listDataMarcas = new MatTableDataSource(marcasres);
-      //console.log(this.listData);
+      //// console.log(this.listData);
       this.listDataMarcas.sort = this.sortM;
       this.listDataMarcas.paginator = this.paginatorM;
       this.listDataMarcas.paginator._intl.itemsPerPageLabel = 'Marcas por Pagina';
-      console.log('%c⧭', 'color: #ffaa00', this.listDataMarcas);
+      // console.log('%c⧭', 'color: #ffaa00', this.listDataMarcas);
     });
 
   }
 
   onDelete( id:number, movimiento?){
-    //console.log(id);
+    //// console.log(id);
     Swal.fire({
       title: '¿Seguro de Borrar Producto?',
       icon: 'warning',
@@ -154,6 +173,8 @@ export class ShowProductoComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.service.deleteProducto(id).subscribe(res => {
+          
+          this.ConnectionHubService.on(origen[0]);
           this.refreshProductosList();
     this.movimiento(movimiento)
           Swal.fire({
@@ -193,9 +214,9 @@ export class ShowProductoComponent implements OnInit {
     evento.Fecha = this.datePipe.transform(fecha, 'yyyy-MM-dd, h:mm:ss a');
     evento.Movimiento = movimiento
     
-    console.log(evento);
+    // console.log(evento);
     this.eventosService.addEvento(evento).subscribe(respuesta =>{
-      console.log(respuesta);
+      // console.log(respuesta);
     })
     })
   }
@@ -214,7 +235,7 @@ export class ShowProductoComponent implements OnInit {
   }
 
   onEdit(producto: Producto,movimiento?){
-// console.log(usuario);
+// // console.log(usuario);
     this.service.formData = producto;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -250,7 +271,7 @@ export class ShowProductoComponent implements OnInit {
   }
 
   onEditMarcas(marcas: MarcasProductos,movimiento?){
-    // console.log(usuario);
+    // // console.log(usuario);
         const dialogConfig = new MatDialogConfig();
         dialogConfig.disableClose = true;
         dialogConfig.autoFocus = true;
@@ -270,7 +291,8 @@ export class ShowProductoComponent implements OnInit {
         let id = row.IdMarca
         this.service.deleteMarcasProductos(id).subscribe(res =>{
         
-          console.log('%c%s', 'color: #006dcc', res);
+          this.ConnectionHubService.on(origen[0]);
+          // console.log('%c%s', 'color: #006dcc', res);
           this.refreshMarcasList();
         })
           }

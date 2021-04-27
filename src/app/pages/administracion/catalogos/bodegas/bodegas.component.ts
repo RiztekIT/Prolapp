@@ -10,6 +10,14 @@ import { DatePipe } from '@angular/common';
 import { EventosService } from '../../../../services/eventos/eventos.service';
 import { Evento } from '../../../../Models/eventos/evento-model';
 
+import { ConnectionHubServiceService } from '../../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Bodega'}
+]
+
+
 @Component({
   selector: 'app-bodegas',
   templateUrl: './bodegas.component.html',
@@ -29,6 +37,7 @@ export class BodegasComponent implements OnInit {
     private usuarioService: UsuariosServieService,
     private datePipe: DatePipe,
     private eventosService: EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,
 
     ) {
 
@@ -36,10 +45,15 @@ export class BodegasComponent implements OnInit {
         this.BodegasList();
       });
 
+      this.ConnectionHubService.listenBodega().subscribe((m:any)=>{
+        console.log(m);
+        this.BodegasList();
+        });
+
      }
 
   ngOnInit() {
-    console.log('oninitbodega');
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.BodegasList();
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
 
@@ -154,6 +168,7 @@ console.log(tipo);
         }).then((result) => {
           if (result.value) {
             this.Bodegaservice.deleteBodega(id).subscribe(res => {
+              this.ConnectionHubService.on(origen[0]);
               this.BodegasList();
               Swal.fire({
                 title: 'Borrado',

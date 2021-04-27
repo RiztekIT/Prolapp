@@ -21,6 +21,12 @@ import { EventosService } from '../../../../../services/eventos/eventos.service'
 import { Evento } from 'src/app/Models/eventos/evento-model';
 import { DatePipe } from '@angular/common';
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Cliente'}
+]
+
 @Component({
   selector: 'app-edit-cliente',
   templateUrl: './edit-cliente.component.html',
@@ -37,10 +43,12 @@ export class EditClienteComponent implements OnInit {
     private datePipe: DatePipe,
     private eventosService: EventosService,
     @Inject(MAT_DIALOG_DATA) public data: any, 
+    private ConnectionHubService: ConnectionHubServiceService,
 	) { }
 
   ngOnInit() {
     
+    this.ConnectionHubService.ConnectionHub(origen[0]);
   this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
   this.BodegaInfo = this.data;
   this.movimiento = this.BodegaInfo.movimiento
@@ -155,6 +163,8 @@ export class EditClienteComponent implements OnInit {
 
     // this.service.formData.IdApi = '5de771f1a1203';
     this.service.updateCliente(this.service.formData).subscribe(res => {
+      
+      this.ConnectionHubService.on(origen[0])
       // this.snackBar.open(res.toString(), '', {
       //   duration: 5000,
       //   verticalPosition: 'top'

@@ -18,6 +18,13 @@ import { UsuariosServieService } from '../../../../../services/catalogos/usuario
 import { EventosService } from '../../../../../services/eventos/eventos.service';
 import { Evento } from 'src/app/Models/eventos/evento-model';
 
+import { ConnectionHubServiceService } from '../../../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Vendedor'}
+]
+
 @Component({
   selector: 'app-add-vendedor',
   templateUrl: './add-vendedor.component.html',
@@ -38,7 +45,8 @@ export class AddVendedorComponent implements OnInit {
     private usuarioService: UsuariosServieService,
     private datePipe: DatePipe,
     private eventosService: EventosService,
-    @Inject(MAT_DIALOG_DATA) public data: any, ) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private ConnectionHubService: ConnectionHubServiceService, ) { }
 
   ngOnInit() {
     
@@ -50,8 +58,10 @@ export class AddVendedorComponent implements OnInit {
 
   onSubmit(form: NgForm){
 
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.service.addVendedor(this.service.formDataV).subscribe(res =>{
       
+      this.ConnectionHubService.on(origen[0])
       this.movimientos(this.movimiento)
       console.log(res);
       Swal.fire({

@@ -11,6 +11,12 @@ import { EventosService } from '../../../../../services/eventos/eventos.service'
 import { Evento } from 'src/app/Models/eventos/evento-model';
 import { DatePipe } from '@angular/common';
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Usuario'}
+]
+
 @Component({
   selector: 'app-edit-usuario',
   templateUrl: './edit-usuario.component.html',
@@ -27,9 +33,12 @@ export class EditUsuarioComponent implements OnInit {
     public service: UsuariosServieService, private snackBar: MatSnackBar,
     private datePipe: DatePipe,
     private eventosService: EventosService,
-    @Inject(MAT_DIALOG_DATA) public data: any, ) { }
+    @Inject(MAT_DIALOG_DATA) public data: any, 
+    private ConnectionHubService: ConnectionHubServiceService,) { }
 
   ngOnInit() {
+    
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     this.BodegaInfo = this.data;
     this.movimiento = this.BodegaInfo.movimiento
@@ -42,6 +51,8 @@ export class EditUsuarioComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     this.service.updateUsuario(form.value).subscribe(res => {
+      
+      this.ConnectionHubService.on(origen[0])
       // this.snackBar.open(res.toString(), '', {
       //   duration: 5000,
       //   verticalPosition: 'top'

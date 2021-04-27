@@ -22,6 +22,11 @@ import { UsuariosServieService } from '../../../../../services/catalogos/usuario
 import { EventosService } from '../../../../../services/eventos/eventos.service';
 import { Evento } from 'src/app/Models/eventos/evento-model';
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Cliente'}
+]
 
 @Component({
   selector: 'app-add-cliente',
@@ -40,9 +45,11 @@ export class AddClienteComponent implements OnInit {
     private usuarioService: UsuariosServieService,
     private datePipe: DatePipe,
     private eventosService: EventosService,
-    @Inject(MAT_DIALOG_DATA) public data: any, ) { }
+    @Inject(MAT_DIALOG_DATA) public data: any, 
+    private ConnectionHubService: ConnectionHubServiceService,) { }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     // console.log(this.service2.formprosp);
     // this.service.formData = new Cliente();
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
@@ -214,6 +221,7 @@ this.movimiento;
         this.service.formData.Estatus = 'Activo'
         //
         this.service.addCliente(this.service.formData).subscribe(res => {
+          this.ConnectionHubService.on(origen[0])
           console.log(res);
           
         this.movimientos(this.movimiento)

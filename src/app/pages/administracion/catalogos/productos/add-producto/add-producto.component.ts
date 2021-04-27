@@ -18,6 +18,11 @@ import { Evento } from 'src/app/Models/eventos/evento-model';
 import { DatePipe } from '@angular/common';
 import { MarcasProductos } from 'src/app/Models/catalogos/marcasproductos-model';
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Producto'}
+]
 
 @Component({
   selector: 'app-add-producto',
@@ -43,9 +48,11 @@ MarcasRel = false;
     private usuarioService: UsuariosServieService,
     private datePipe: DatePipe,
     private eventosService: EventosService,
-    @Inject(MAT_DIALOG_DATA) public data: any, ) { }
+    @Inject(MAT_DIALOG_DATA) public data: any, 
+    private ConnectionHubService: ConnectionHubServiceService,) { }
 
   ngOnInit() {    
+  this.ConnectionHubService.ConnectionHub(origen[0]);
   this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
   this.BodegaInfo = this.data;
   this.movimiento = this.BodegaInfo.movimiento
@@ -125,6 +132,7 @@ MarcasRel = false;
     // console.log(this.service.formData.IVA);
     console.log( this.service.formData);
     this.service.addProducto(this.service.formData).subscribe(res => {
+      this.ConnectionHubService.on(origen[0])
       console.log(res);
       this.movimientos(this.movimiento)
       Swal.fire({

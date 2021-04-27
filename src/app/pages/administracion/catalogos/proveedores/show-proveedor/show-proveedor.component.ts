@@ -1,20 +1,33 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
+
 import { Proveedor } from '../../../../../Models/catalogos/proveedores-model';
+
 import { ProveedoresService } from '../../../../../services/catalogos/proveedores.service';
 
 import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
+
 import { AddProveedorComponent } from '../add-proveedor/add-proveedor.component';
+
 import { EditProveedorComponent } from '../edit-proveedor/edit-proveedor.component';
 
 import Swal from 'sweetalert2';
 
 //Registro de eventos
 import { DatePipe } from '@angular/common';
+
 import { UsuariosServieService } from '../../../../../services/catalogos/usuarios-servie.service';
+
 import { EventosService } from '../../../../../services/eventos/eventos.service';
+
 import { Evento } from '../../../../../Models/eventos/evento-model';
+
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Proveedor'}
+]
 
 
 @Component({
@@ -34,9 +47,15 @@ export class ShowProveedorComponent implements OnInit {
     private dialog: MatDialog, private snackBar: MatSnackBar,
     private usuarioService: UsuariosServieService,
     private datePipe: DatePipe,
-    private eventosService: EventosService,) {
+    private eventosService: EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) {
 
     this.service.listen().subscribe((m:any)=>{
+      // console.log(m);
+      this.refreshProveedoresList();
+      });
+
+    this.ConnectionHubService.listenProveedores().subscribe((m:any)=>{
       // console.log(m);
       this.refreshProveedoresList();
       });
@@ -44,6 +63,8 @@ export class ShowProveedorComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
+
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     
     this.refreshProveedoresList();
@@ -69,7 +90,7 @@ export class ShowProveedorComponent implements OnInit {
  
    obtenerPrivilegios() {
      let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
-     console.log(arrayPermisosMenu);
+    //  console.log(arrayPermisosMenu);
      let arrayPrivilegios: any;
      try {
        arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
@@ -129,6 +150,7 @@ export class ShowProveedorComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.service.deleteProveedor(id).subscribe(res => {
+          this.ConnectionHubService.on(origen[0]);
           this.refreshProveedoresList();
     this.movimiento(movimiento)
           Swal.fire({
