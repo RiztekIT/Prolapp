@@ -159,11 +159,11 @@ export class LecheHistorialComponent implements OnInit {
 
       
     
-//obtener la fecha de hoy, para desplegar en la tabla ya sea como dia en letras o la fecha yyyy/MM/dd
+//obtener la fecha de hoy, para desplegar en la tabla ya sea como dia en letras o la fecha dd/MM/yyyy
 let fechavarianza
     this.myDate= (new Date()).toString();
     this.myDateD= (new Date()).toString();
-    this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
+    this.myDate = this.datePipe.transform(this.myDate, 'dd/MM/yyyy');
     this.myDateD = this.datePipe.transform(this.myDate, 'EEEE');
     console.log(this.myDate);
     console.log(this.myDateD);

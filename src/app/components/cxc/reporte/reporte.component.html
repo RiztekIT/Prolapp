@@ -61,8 +61,8 @@
                         <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
                             <td class="pgbreak"> {{info.Folio}} </td>
                             <!-- <td class="pgbreak"> {{info.Tipo}} </td> -->
-                            <td class="pgbreak texto"> {{info.FechaDeExpedicion| date: 'yyyy/MM/dd'}} </td>
-                            <td class="pgbreak texto"> {{info.FechaVencimiento| date: 'yyyy/MM/dd'}} </td>
+                            <td class="pgbreak texto"> {{info.FechaDeExpedicion| date: 'dd/MM/yyyy'}} </td>
+                            <td class="pgbreak texto"> {{info.FechaVencimiento| date: 'dd/MM/yyyy'}} </td>
                             <td class="pgbreak texto"> {{info.Total | currency}} </td>
                             <td class="pgbreak texto"> {{info.TotalDlls | currency }} </td>
                             <td class="pgbreak texto"> {{info.Abonos | currency }} </td>

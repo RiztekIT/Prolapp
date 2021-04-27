@@ -57,8 +57,8 @@
                             <td class="wrap lightback pgbreak" [attr.colspan]="3"> {{info.RFC}}</td>
                             <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
                                 <td class="text-center pgbreak"> {{info.Folio}} </td>
-                                <td class="text-center pgbreak texto"> {{info.FechaDeExpedicion| date: 'yyyy/MM/dd'}} </td>
-                                <td class="text-center pgbreak texto"> {{info.Vigencia| date: 'yyyy/MM/dd'}} </td>
+                                <td class="text-center pgbreak texto"> {{info.FechaDeExpedicion| date: 'dd/MM/yyyy'}} </td>
+                                <td class="text-center pgbreak texto"> {{info.Vigencia| date: 'dd/MM/yyyy'}} </td>
                                 <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="pgbreak texto text-center"> {{info.Total | currency}} </td>
                                 <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="pgbreak texto text-center"> {{info.TotalDlls | currency }} </td>
                                 <td class="text-center pgbreak texto"> {{info.Flete}} </td>
@@ -82,9 +82,9 @@
 
                             <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
                                 <td class=" text-center pgbreak"> {{info.Folio}} </td>
-                                <td class=" text-center pgbreak texto"> {{info.FechaDeExpedicion| date: 'yyyy/MM/dd'}} </td>
-                                <td class=" text-center pgbreak texto"> {{info.FechaVencimiento| date: 'yyyy/MM/dd'}} </td>
-                                <td class=" text-center pgbreak texto"> {{info.FechaDeEntrega| date: 'yyyy/MM/dd'}} </td>
+                                <td class=" text-center pgbreak texto"> {{info.FechaDeExpedicion| date: 'dd/MM/yyyy'}} </td>
+                                <td class=" text-center pgbreak texto"> {{info.FechaVencimiento| date: 'dd/MM/yyyy'}} </td>
+                                <td class=" text-center pgbreak texto"> {{info.FechaDeEntrega| date: 'dd/MM/yyyy'}} </td>
                                 <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="pgbreak texto text-center "> {{info.Total | currency}} </td>
                                 <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="pgbreak texto text-center "> {{info.TotalDlls | currency }} </td>
                                 <td class="text-center pgbreak texto"> {{info.Flete}} </td>

@@ -2484,7 +2484,8 @@ Swal.fire({
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "70%";
+    dialogConfig.width = "0%";
+    dialogConfig.height = "0%";
     dialogConfig.data = {
       IdPedido: id,
       mostrarPrecio: mostrarPrecio
@@ -2497,7 +2498,8 @@ Swal.fire({
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "70%";
+    dialogConfig.width = "0%";
+    dialogConfig.height = "0%";
     dialogConfig.data = {
       IdPedido: id,
       mostrarPrecio: mostrarPrecio
@@ -2650,7 +2652,8 @@ Swal.fire({
     const dialogConfig2 = new MatDialogConfig();
     dialogConfig2.disableClose = false;
     dialogConfig2.autoFocus = true;
-    dialogConfig2.width = "70%";
+    dialogConfig2.width = "0%";
+    dialogConfig2.height = "0%";
     let dialogFact = this.dialog.open(ReporteEmisionComponent, dialogConfig2);
 
 
@@ -2754,7 +2757,7 @@ Swal.fire({
 
     this.service.addValidacion(validacion).subscribe(resp => {
       console.log(resp);
-      this.enviarPedidoAuto()
+      //this.enviarPedidoAuto()
     })
 
 

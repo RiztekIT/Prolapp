@@ -124,7 +124,7 @@
 
                         <aside class="col-2 border" style="background-color: #f2f2f2">
                             <h4 class="bolder">Fecha:</h4>
-                            <h4>{{Compras.FechaElaboracion | date: 'yyyy/MM/dd'}}</h4>
+                            <h4>{{Compras.FechaElaboracion | date: 'dd/MM/yyyy'}}</h4>
 
                             <h4 class="bolder">SacosTotales:</h4>
                             <h4>{{Compras.SacosTotales}}</h4>
@@ -194,7 +194,7 @@
                                         </div>
                                         <div class="col-2">
                                             <h6 class="boldersub">Fecha Descarga:</h6>
-                                            <p>{{this.Compras.OrdenDescargaDODCompras[j].FechaInicioDescarga | date: 'yyyy/MM/dd'}}</p>
+                                            <p>{{this.Compras.OrdenDescargaDODCompras[j].FechaInicioDescarga | date: 'dd/MM/yyyy'}}</p>
                                         </div>
                                         <div class="col-2">
                                             <h6 class="boldersub">Kg Descargados:</h6>

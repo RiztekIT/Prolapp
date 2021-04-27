@@ -87,7 +87,7 @@
                     <tbody *ngFor="let detalle of arrayFinal[i].detalle">
                       <tr class="pgbreak border2">
                         <td> {{detalle.Folio}} </td>
-                        <td> {{detalle.FechaDeExpedicion | date: 'yyyy/MM/dd'}} </td>
+                        <td> {{detalle.FechaDeExpedicion | date: 'dd/MM/yyyy'}} </td>
                         <td *ngIf="detalle.Moneda==='MXN'"> {{detalle.Total | currency}} </td>
                         <td *ngIf="detalle.Moneda==='USD'"> {{detalle.TotalDlls | currency}} </td>
                         <td> {{detalle.Moneda}} </td>
