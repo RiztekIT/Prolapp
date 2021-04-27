@@ -181,8 +181,16 @@ for (this.con in this.objconc){
 
               }
       }
-    this.total = this.ComprasService.formt.Total
-    this.textnum = cantidad(this.total);
+
+      if(this.moneda=='USD'){
+        this.total = this.ComprasService.formt.TotalDlls
+      }else if (this.moneda=='MXN'){
+
+        this.total = this.ComprasService.formt.Total
+      }
+      
+    console.log(this.total,'TOTAL');
+    this.textnum = cantidad(+this.total);
     console.log('this.unidad : ', this.unidad );
     // console.log(this.arrcon);
     
