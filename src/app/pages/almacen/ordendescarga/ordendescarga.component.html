@@ -94,6 +94,12 @@
                             </td>
                         </ng-container>
 
+                        <ng-container matColumnDef="Caja">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Caja</th>
+                            <td mat-cell *matCellDef="let element">{{element.Caja}}
+                            </td>
+                        </ng-container>
+
                         <!--  <ng-container matColumnDef="Caja">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Caja</th>
                             <td mat-cell *matCellDef="let element">{{element.Caja}}

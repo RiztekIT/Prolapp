@@ -33,7 +33,7 @@ export class OrdendescargaComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
   //displayedColumns: string[] = ['Folio', 'FechaLlegada', 'Proveedor', 'PO', 'Fletera', 'Caja', 'Sacos', 'Kg', 'Origen', 'Destino', 'Estatus', 'Options'];
-  displayedColumns: string[] = ['Folio', 'PO', 'FechaLlegada', 'Proveedor', 'Fletera','Origen','Destino','Estatus','Options'];
+  displayedColumns: string[] = ['Folio', 'PO', 'FechaLlegada', 'Proveedor', 'Fletera','Caja','Origen','Destino','Estatus','Options'];
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Sacos', 'Lote','','','','',''];
   expandedElement: any;
   detalle = new Array<DetalleOrdenDescarga>();
