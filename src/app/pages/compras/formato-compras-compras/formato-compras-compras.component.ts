@@ -1464,7 +1464,8 @@ export class FormatoComprasComprasComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "70%";
+    dialogConfig.width = "0%";
+    dialogConfig.height = "0%";
     this.dialog.open(ComprasPdfComponent, dialogConfig);
 
   }
