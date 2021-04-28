@@ -167,13 +167,20 @@ subs1: Subscription
                 }else{
                   datadet[i].KgD = datadet[i].KgD
                 }
+                if (datadet[i].Estatus=='Muestra'){
+                  datadet[i].KgD = 0;
+    
+                }
               }) 
 
-
+           
             }
+
 
             this.serviceTarima.master[contador].detalle = datadet;
             for (let p=0; p<datadet.length;p++){
+
+             
 
               this.serviceTarima.masterlotes.push(datadet[p]);
             }
@@ -266,7 +273,7 @@ subs1: Subscription
     for (let n=0; n<producto.detalle.length;n++){
       if (producto.detalle[n].Estatus=='Muestra'){
 
-        kgdisponibles = +kgdisponibles + +producto.detalle[n].KgD;
+        kgdisponibles = +kgdisponibles + +producto.detalle[n].KgT;
       }
       // console.log(kgdisponibles,'KG');
 
@@ -282,7 +289,7 @@ subs1: Subscription
     for (let n=0; n<producto.detalle.length;n++){
       if (producto.detalle[n].Estatus=='Merma'){
 
-        kgdisponibles = +kgdisponibles + +producto.detalle[n].KgD;
+        kgdisponibles = +kgdisponibles + +producto.detalle[n].KgT;
       }
       // console.log(kgdisponibles,'KG');
 

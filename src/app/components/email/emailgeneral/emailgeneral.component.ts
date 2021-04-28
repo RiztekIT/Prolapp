@@ -401,7 +401,7 @@ export class EmailgeneralComponent implements OnInit {
                 //^ Este archivo se manda en base64 listo para ser enviado.
                 formData.append('pdf', localStorage.getItem('pdfcorreo' + this.data.foliop))
             }
-            formData.append('pdf', localStorage.getItem('OC'))
+            //formData.append('pdf', localStorage.getItem('OC'))
             //^ Aqui se guarda la cantidad de archivos que se estan subiendo en el dropzone (despues son obtenidos en el sever y adjuntados)
             formData.append('adjuntos', this.files.length.toString())
             this._MessageService.enviarCorreo(formData).subscribe(() => {

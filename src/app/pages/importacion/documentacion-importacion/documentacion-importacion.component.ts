@@ -28,6 +28,7 @@ import { Documento } from 'src/app/Models/documentos/documento-model';
 
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 import { EmailgeneralComponent } from 'src/app/components/email/emailgeneral/emailgeneral.component';
+import { FileService } from 'src/app/services/explorador-archivos/explorador.service';
 
 
 @Component({
@@ -48,7 +49,7 @@ export class DocumentacionImportacionComponent implements OnInit {
   constructor(public router: Router, public documentosService: DocumentosImportacionService,
     public traspasoSVC: TraspasoMercanciaService, public _MessageService: MessageService,
     private dialog: MatDialog, public traspasoService: TraspasoMercanciaService,
-    private eventosService:EventosService,
+    private eventosService:EventosService,public fileService: FileService
 
   ) { }
 
@@ -439,6 +440,48 @@ this.subs1 = this.traspasoSVC.getQuery(consulta).subscribe((resTipos:any)=>{
     this._MessageService.cuerpo = 'Se ha enviado la siguiente Documentacion';
     this._MessageService.nombre = 'Abarrotodo';
     this._MessageService.pdf = false;
+
+
+    const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "90%";
+      //^ Asignamos variables en base a la Informacion del Documento.
+      dialogConfig.data = {
+        foliop: '',
+        cliente: '',
+        status: true,
+        //^ Indicamos que es de Tipo Traspaso
+        tipo: 'Docuemntos'
+      }
+       this.dialog.open(EmailgeneralComponent, dialogConfig);
+  }
+
+
+  emailDoc(row){
+    console.log(row);
+    this._MessageService.correo = 'javier.sierra@riztek.com.mx';
+    this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
+    this._MessageService.asunto = 'Envio de Documentacion ';
+    this._MessageService.cuerpo = 'Se ha enviado la siguiente Documentacion';
+    this._MessageService.nombre = 'Abarrotodo';
+    this._MessageService.pdf = false;
+
+
+    /* let archivo = {
+      'name': 
+      'path': 
+    }; */
+
+    let archivo = <any>{};
+    archivo.name = row.NombreDocumento,
+    archivo.path = 'Documentos/Importacion/CLV/0/0/01A1/F-1.pdf'
+
+
+
+    this.fileService.archivosAdjuntadosCorreo = []
+    this.fileService.archivosAdjuntadosCorreo.push(archivo);
+    this.fileService.filter('');
 
 
     const dialogConfig = new MatDialogConfig();
