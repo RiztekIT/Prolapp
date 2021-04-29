@@ -1555,7 +1555,7 @@ email(cotizacion){
   this._MessageService.asunto = 'Envio Cotizacion ' + cotizacion.Folio;
   this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + cotizacion.Folio;
   this._MessageService.nombre = 'Abarrotodo';
-  this._MessageService.pdf = true;
+  this._MessageService.pdf = false;
 
   this.service.formrow = cotizacion;
   const dialogConfig2 = new MatDialogConfig();
@@ -1579,7 +1579,7 @@ email(cotizacion){
         jsPDF: { format: 'letter', orientation: 'portrait' },
       };
       html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
-        localStorage.setItem('pdfcorreo', pdfAsString);
+        localStorage.setItem('pdfcorreo'+ cotizacion.Folio, pdfAsString);
         this.statusparam=true;          
         console.log(this.statusparam);                
       })

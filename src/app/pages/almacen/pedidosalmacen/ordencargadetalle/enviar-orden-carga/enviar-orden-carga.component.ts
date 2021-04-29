@@ -282,7 +282,7 @@ export class EnviarOrdenCargaComponent implements OnInit {
     // let file = new File(blob,'pdf.pdf')
     // console.log(this.data.foliop);
     //this.fileUrl = localStorage.getItem('pdfcorreo' + this.data.foliop);
-    this.fileUrl = localStorage.getItem('pdfCorreo');
+    this.fileUrl = localStorage.getItem('pdfcorreo');
     // this.fileUrl = localStorage.getItem('pdfnuevo2');
     // this.fileUrl = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(localStorage.getItem('pdf'+this.foliop)))
     // this.fileUrl = localStorage.getItem('pdf'+this.foliop); 

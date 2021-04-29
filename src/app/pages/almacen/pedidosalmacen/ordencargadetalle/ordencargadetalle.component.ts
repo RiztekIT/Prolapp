@@ -299,8 +299,8 @@ export class OrdencargadetalleComponent implements OnInit {
 
   enviar() {
 
-    this.AlmacenEmailService.correo = 'ivan.talamantes@live.com';
-    this.AlmacenEmailService.cco = 'javier.sierra@riztek.com.mx';
+    this.AlmacenEmailService.correo = '';
+    this.AlmacenEmailService.cco = '';
     this.AlmacenEmailService.asunto = 'Envio Orden Carga con Folio ' + this.Folio.toString();
     this.AlmacenEmailService.cuerpo = 'Se han enviado Documentos de Orden Carga con el Folio ' + this.Folio.toString();
     this.AlmacenEmailService.nombre = 'Abarrotodo';
@@ -321,9 +321,9 @@ export class OrdencargadetalleComponent implements OnInit {
 
     dialogFact.afterClosed().subscribe(res=>{
 
-      setTimeout(()=>{
+     /*  setTimeout(()=>{
   
-        // this.xmlparam = folio;
+        
           const content: Element = document.getElementById('EntradaProducto-PDF');
           const option = {
             margin: [0, 0, 0, 0],
@@ -339,7 +339,7 @@ export class OrdencargadetalleComponent implements OnInit {
           })
           dialogFact.close()
           
-        },1000)
+        },1000) */
   
   
   

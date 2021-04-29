@@ -376,7 +376,8 @@ if (this.estatusSelect==='Todos'){
     dialogConfig.width = "70%";
     dialogConfig.data = {
       IdPedido: row.IdPedido,
-      mostrarPrecio: mostrarPrecio
+      mostrarPrecio: mostrarPrecio,
+      origen: 'normal'
     }
     this.dialog.open(ReporteEmisionComponent, dialogConfig);
 

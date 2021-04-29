@@ -35,6 +35,11 @@ export class ComprasPdfComponent implements OnInit {
 
   ngOnInit() {
     this.style = 'block'
+    Swal.fire({
+      allowOutsideClick: false,
+      text: 'Espere por favor...',
+      icon: 'info'
+    });
     Swal.showLoading()
     this.OrigenConsulta = null
     console.log('%c%s', 'color: #8c0038', this.data);

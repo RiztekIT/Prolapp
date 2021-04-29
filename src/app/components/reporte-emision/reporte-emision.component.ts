@@ -11,6 +11,7 @@ import * as html2pdf from 'html2pdf.js';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import { Cliente } from '../../Models/catalogos/clientes-model';
 import Swal from 'sweetalert2';
+import { MessageService } from 'src/app/services/message.service';
 
 declare function cantidad(n);
 // declare function cantidadDlls(n);
@@ -23,7 +24,7 @@ declare function cantidad(n);
 export class ReporteEmisionComponent implements OnInit {
 
   constructor(public dialogbox: MatDialogRef<ReporteEmisionComponent>, public router: Router, private _formBuilder: FormBuilder, 
-    public service: VentasPedidoService, public enviarfact: EnviarfacturaService,@Inject(MAT_DIALOG_DATA) public dataComponente: any  ) { }
+    public service: VentasPedidoService, public enviarfact: EnviarfacturaService,@Inject(MAT_DIALOG_DATA) public dataComponente: any, public _MessageService: MessageService  ) { }
 
     con : string| number;
     arrcon: Array<any> = [];
@@ -180,11 +181,19 @@ export class ReporteEmisionComponent implements OnInit {
     let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
     const url = window.URL.createObjectURL(blob);
 
-    const link = document.createElement('a');
-    link.href = url;
-    link.target = '_blank'    
-    link.click();
-    this.style = 'none'
+
+    if (this.dataComponente.origen=='correo'){
+      this._MessageService.pdf = true;
+
+    }else{
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.target = '_blank'    
+      link.click();
+      this.style = 'none'
+    }
+
     
     Swal.close();
     this.onClose()

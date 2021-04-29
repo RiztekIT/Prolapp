@@ -262,8 +262,8 @@ ObtenerFolio(id: number) {
 
   email(){
    
-    this.AlmacenEmailService.correo='ivan.talamantes@live.com';
-    this.AlmacenEmailService.cco='javier.sierra@riztek.com.mx';
+    this.AlmacenEmailService.correo='';
+    this.AlmacenEmailService.cco='';
     this.AlmacenEmailService.asunto='Envio Orden Descarga con Folio '+this.Folio.toString();
     this.AlmacenEmailService.cuerpo='Se han enviado Documentos de Orden Descarga con el Folio '+this.Folio.toString();
     this.AlmacenEmailService.nombre='ProlactoIngredientes';

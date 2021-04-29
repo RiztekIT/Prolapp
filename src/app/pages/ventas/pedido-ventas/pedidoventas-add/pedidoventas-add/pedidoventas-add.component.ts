@@ -2365,14 +2365,22 @@ subscribeClientes: Subscription
     this._MessageService.asunto = 'Envio Orden de Compra ' + pedido.Folio;
     this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + pedido.Folio;
     this._MessageService.nombre = 'Abarrotodo';
+    this._MessageService.pdf = false;
 
     this.service.formt = JSON.parse(localStorage.getItem('pedidopdf'));
 
     // console.log();
+    let mostrarPrecio = true;
     const dialogConfig2 = new MatDialogConfig();
     dialogConfig2.disableClose = false;
     dialogConfig2.autoFocus = true;
-    dialogConfig2.width = "70%";
+    dialogConfig2.width = "0%";
+    dialogConfig2.height = "0%";
+    dialogConfig2.data = {
+      IdPedido: pedido.IdPedido,
+      mostrarPrecio: mostrarPrecio,
+      origen: 'correo'
+    }
     let dialogFact = this.dialog.open(ReporteEmisionComponent, dialogConfig2);
 
 
@@ -2391,7 +2399,7 @@ subscribeClientes: Subscription
         jsPDF: { format: 'letter', orientation: 'portrait' },
       };
       html2pdf().from(content).set(option).output('datauristring').then(function (pdfAsString) {
-        localStorage.setItem('pdfcorreo' + pedido.Folio, pdfAsString);
+        localStorage.setItem('pdfcorreo'+ pedido.Folio, pdfAsString);
         this.statusparam = true;
         console.log(this.statusparam);
       })
@@ -2502,7 +2510,8 @@ Swal.fire({
     dialogConfig.height = "0%";
     dialogConfig.data = {
       IdPedido: id,
-      mostrarPrecio: mostrarPrecio
+      mostrarPrecio: mostrarPrecio,
+      origen:'pdf'
     }
     dialogo.open(ReporteEmisionComponent, dialogConfig);
   }

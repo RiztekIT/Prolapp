@@ -667,7 +667,8 @@ export class PedidoVentasComponent implements OnInit {
         dialogConfig.height = "0%";
         dialogConfig.data = {
           IdPedido: id,
-          mostrarPrecio: mostrarPrecio
+          mostrarPrecio: mostrarPrecio,
+          origen: 'normal'
         }
         dialogo.open(ReporteEmisionComponent, dialogConfig);
       } else if (result.value == 2) {
@@ -680,7 +681,8 @@ export class PedidoVentasComponent implements OnInit {
         dialogConfig.height = "0%";
         dialogConfig.data = {
           IdPedido: id,
-          mostrarPrecio: mostrarPrecio
+          mostrarPrecio: mostrarPrecio,
+          origen: 'normal'
         }
         dialogo.open(ReporteEmisionComponent, dialogConfig);
       }
