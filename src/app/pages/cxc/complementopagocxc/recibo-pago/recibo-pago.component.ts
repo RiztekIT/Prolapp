@@ -1306,11 +1306,11 @@ onExportClick(folio?: string) {
 
   this.folioparam = id;
   this.idparam = uuid;
-  this._MessageService.correo='ivan.talamantes@live.com';
-  this._MessageService.cco='ivan.talamantes@riztek.com.mx';
+  this._MessageService.correo='';
+  this._MessageService.cco='';
   this._MessageService.asunto='Envio Complemento de Pago '+id;
   this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+id;
-  this._MessageService.nombre='ProlactoIngredientes';
+  this._MessageService.nombre='Abarrotodo';
     this.servicetimbrado.xml(uuid).subscribe(data => {
       localStorage.setItem('xml' + id, data)
     })

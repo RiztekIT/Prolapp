@@ -2360,11 +2360,11 @@ subscribeClientes: Subscription
 
     // this.folioparam = folio;
     // this.idparam = id;
-    this._MessageService.correo = 'ivan.talamantes@live.com';
-    this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
+    this._MessageService.correo = '';
+    this._MessageService.cco = '';
     this._MessageService.asunto = 'Envio Orden de Compra ' + pedido.Folio;
     this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + pedido.Folio;
-    this._MessageService.nombre = 'ProlactoIngredientes';
+    this._MessageService.nombre = 'Abarrotodo';
 
     this.service.formt = JSON.parse(localStorage.getItem('pedidopdf'));
 
@@ -2640,11 +2640,11 @@ Swal.fire({
 
     // this.folioparam = folio;
     // this.idparam = id;
-    this._MessageService.correo = 'ivan.talamantes@live.com';
-    this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
+    this._MessageService.correo = '';
+    this._MessageService.cco = '';
     this._MessageService.asunto = 'Envio Orden de Compra ' + pedido.Folio;
     this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + pedido.Folio;
-    this._MessageService.nombre = 'ProlactoIngredientes';
+    this._MessageService.nombre = 'Abarrotodo';
 
     this.service.formt = JSON.parse(localStorage.getItem('pedidopdf'));
 

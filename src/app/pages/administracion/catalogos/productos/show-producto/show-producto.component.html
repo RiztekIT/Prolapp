@@ -19,7 +19,7 @@
 <hr>
 
 <div style="overflow:auto;">
-    <table mat-table [dataSource]="listData" matSort>
+    <table mat-table [dataSource]="listDataProductos" matSort>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -78,7 +78,7 @@
 
 
     </table>
-    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+    <mat-paginator #pag1 [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
     </mat-paginator>
 </div>
 
@@ -170,6 +170,6 @@
 
 
     </table>
-    <mat-paginator [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
+    <mat-paginator #pag2 [pageSize]='10' [pageSizeOptions]='[5,10,25,50]' showFirstLastButtons>
     </mat-paginator>
 </div>

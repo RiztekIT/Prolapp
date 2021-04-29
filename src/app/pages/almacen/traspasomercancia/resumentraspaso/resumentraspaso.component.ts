@@ -2263,8 +2263,8 @@ for (var i = 0; i < event.addedFiles.length; i++) {
 
 //^ Variables que iran adjuntas al enviar el Correo.
 
-    this._MessageService.correo = 'javier.sierra@riztek.com.mx';
-    this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
+    this._MessageService.correo = '';
+    this._MessageService.cco = '';
     this._MessageService.asunto = 'Envio Orden de Traspaso ' + this.traspasoSVC.selectTraspaso.Folio;
     this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + this.traspasoSVC.selectTraspaso.Folio;
     this._MessageService.nombre = 'Abarrotodo';

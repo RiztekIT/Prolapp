@@ -416,11 +416,11 @@ localStorage.setItem('rowpago',JSON.stringify(row));
 
   this.folioparam = row.Id;
   this.idparam = row.UUID;
-  this._MessageService.correo='ivan.talamantes@live.com';
-  this._MessageService.cco='ivan.talamantes@riztek.com.mx';
+  this._MessageService.correo='';
+  this._MessageService.cco='';
   this._MessageService.asunto='Envio Complemento de Pago '+row.Id;
   this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+row.Id;
-  this._MessageService.nombre='ProlactoIngredientes';
+  this._MessageService.nombre='Abarrotodo';
     this.enviarfact.xml(row.UUID).subscribe(data => {
       localStorage.setItem('xml' + row.Id, data)
     })

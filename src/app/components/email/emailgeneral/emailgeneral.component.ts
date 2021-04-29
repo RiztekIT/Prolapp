@@ -297,6 +297,9 @@ export class EmailgeneralComponent implements OnInit {
             this.Intevalo = setInterval(() => {
                 this.urlPDF();
             }, 1000)
+        }else if (this.data.tipo == 'Documento') {
+            // console.log('Es un traspaso');
+           this.adjuntarDocumento();
         }
         
     }
@@ -409,6 +412,7 @@ export class EmailgeneralComponent implements OnInit {
                 this.files = []
                 this.fileService.archivosAdjuntadosCorreo = [];
                 Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
+                this.onClose();
             });
         }, 5000);
     }
@@ -429,12 +433,35 @@ export class EmailgeneralComponent implements OnInit {
     adjuntarDocumentosExplorador(){
         console.log(this.fileService.archivosAdjuntadosCorreo);
         this.fileService.archivosAdjuntadosCorreo.forEach(element => {
+            console.log(element,'elemento');
             let archivo = <any>{};
             archivo.name = element.name;
             archivo.path = element.path
             this.files.push(archivo);
         });
         console.log(this.files);
+    }
+
+
+    ver(){
+        console.log(this.fileService.archivosAdjuntadosCorreo,'adjuntos');
+        console.log(this.files,'files');
+
+    }
+
+
+    adjuntarDocumento(){
+
+        console.log(this.fileService.archivosAdjuntadosCorreo);
+        this.fileService.archivosAdjuntadosCorreo.forEach(element => {
+            console.log(element,'elemento');
+            let archivo = <any>{};
+            archivo.name = element.name;
+            archivo.path = element.path
+            this.files.push(archivo);
+        });
+        console.log(this.files);
+
     }
 
 

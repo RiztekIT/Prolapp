@@ -230,11 +230,11 @@ onEdit(factura: Factura){
       
         this.folioparam = folio;
         this.idparam = id;
-        this._MessageService.correo='ivan.talamantes@live.com';
-        this._MessageService.cco='ivan.talamantes@riztek.com.mx';
+        this._MessageService.correo='';
+        this._MessageService.cco='';
         this._MessageService.asunto='Envio Factura '+folio;
         this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+folio;
-        this._MessageService.nombre='ProlactoIngredientes';
+        this._MessageService.nombre='Abarrotodo';
           this.enviarfact.xml(id).subscribe(data => {
             localStorage.setItem('xml' + folio, data)
           })

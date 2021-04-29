@@ -34,17 +34,17 @@ let origen: { origen: string, titulo: string }[] = [
 export class ShowProductoComponent implements OnInit {
 
   usuariosesion
-  listData: MatTableDataSource<any>;
+  listDataProductos: MatTableDataSource<any>;
   // displayedColumns : string [] = [ 'Nombre', 'PrecioVenta', 'PrecioCosto', 'Cantidad', 'Options'];
   displayedColumns : string [] = [ 'Nombre',  'Options'];
   @ViewChild(MatSort, null) sort: MatSort;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild('pag1', {static: true}) paginator: MatPaginator;
 
   // Marcas
   listDataMarcas: MatTableDataSource<any>;
   displayedColumnsMarcas : string [] = [ 'Clave','Nombre','Producto' , 'Options'];
-  @ViewChild(MatSort, null) sortM: MatSort;
-  @ViewChild(MatPaginator, {static: true}) paginatorM: MatPaginator;
+  @ViewChild(MatSort, null) sortMarcas: MatSort;
+  @ViewChild('pag2', {static: true}) paginatorMarcas: MatPaginator;
 
 
   constructor(private service:ProductosService, 
@@ -137,11 +137,12 @@ export class ShowProductoComponent implements OnInit {
   refreshProductosList() {
 
     this.service.getProductosList().subscribe(data => {
-      this.listData = new MatTableDataSource(data);
+      this.listDataProductos = new MatTableDataSource(data);
       //// console.log(this.listData);
-      this.listData.sort = this.sort;
-      this.listData.paginator = this.paginator;
-      this.listData.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+      this.listDataProductos.sort = this.sort;
+      this.listDataProductos.paginator = this.paginator;
+      this.listDataProductos.paginator._intl.itemsPerPageLabel = 'Productos por Pagina';
+      console.log('%c⧭', 'color: #ffaa00', this.listDataProductos);
     });
 
   }
@@ -152,10 +153,10 @@ export class ShowProductoComponent implements OnInit {
       // console.log('%c⧭', 'color: #d90000', marcasres);
       this.listDataMarcas = new MatTableDataSource(marcasres);
       //// console.log(this.listData);
-      this.listDataMarcas.sort = this.sortM;
-      this.listDataMarcas.paginator = this.paginatorM;
+      this.listDataMarcas.sort = this.sortMarcas;
+      this.listDataMarcas.paginator = this.paginatorMarcas;
       this.listDataMarcas.paginator._intl.itemsPerPageLabel = 'Marcas por Pagina';
-      // console.log('%c⧭', 'color: #ffaa00', this.listDataMarcas);
+       console.log('%c⧭', 'color: #ffaa00', this.listDataMarcas);
     });
 
   }
@@ -248,7 +249,7 @@ export class ShowProductoComponent implements OnInit {
   }
 
   applyFilter(filtervalue: string){  
-    this.listData.filter= filtervalue.trim().toLocaleLowerCase();
+    this.listDataProductos.filter= filtervalue.trim().toLocaleLowerCase();
 
   }
 

@@ -434,8 +434,8 @@ this.subs1 = this.traspasoSVC.getQuery(consulta).subscribe((resTipos:any)=>{
   }
 
   email(){
-    this._MessageService.correo = 'javier.sierra@riztek.com.mx';
-    this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
+    this._MessageService.correo = '';
+    this._MessageService.cco = '';
     this._MessageService.asunto = 'Envio de Documentacion ';
     this._MessageService.cuerpo = 'Se ha enviado la siguiente Documentacion';
     this._MessageService.nombre = 'Abarrotodo';
@@ -460,8 +460,8 @@ this.subs1 = this.traspasoSVC.getQuery(consulta).subscribe((resTipos:any)=>{
 
   emailDoc(row){
     console.log(row);
-    this._MessageService.correo = 'javier.sierra@riztek.com.mx';
-    this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
+    this._MessageService.correo = '';
+    this._MessageService.cco = '';
     this._MessageService.asunto = 'Envio de Documentacion ';
     this._MessageService.cuerpo = 'Se ha enviado la siguiente Documentacion';
     this._MessageService.nombre = 'Abarrotodo';
@@ -472,16 +472,51 @@ this.subs1 = this.traspasoSVC.getQuery(consulta).subscribe((resTipos:any)=>{
       'name': 
       'path': 
     }; */
+let path;
+    switch (row.Tipo) {
+      case 'Factura':
+        console.log('%c%s', 'color: #00ff88', 'Factura');
+        path = 'Documentos/Importacion/Factura/' + row.ClaveProducto + '/' + row.Observaciones
+        break;
+      case 'CLV':
+        console.log('%c%s', 'color: #00ff88', 'CLV');
+        path =  'Documentos/Importacion/CLV/0/0/' + row.ClaveProducto
+        break;
+      case 'USDA':
+        console.log('%c%s', 'color: #00ff88', 'USDA');
+        path = 'Documentos/Importacion/USDA/' + row.Folio
+        break;
+      case 'CA':
+        console.log('%c%s', 'color: #00ff88', 'CA');
+        path = 'Documentos/Importacion/CA/0/0/' + row.ClaveProducto + '/' + row.Observaciones
+        break;
+      case 'PESPI':
+        console.log('%c%s', 'color: #00ff88', 'PESPI');
+        path = 'Documentos/Importacion/PESPI/0/0/' + row.ClaveProducto + '/' + row.Observaciones
+        break;
+      case 'CO':
+        console.log('%c%s', 'color: #00ff88', 'CO');
+        path = 'Documentos/Importacion/CO/0/0/' + row.ClaveProducto
+        break;
+      case 'General':
+        console.log('%c%s', 'color: #00ff88', 'CO');
+        path = 'Documentos/Importacion/General'
+        break;
 
-    let archivo = <any>{};
-    archivo.name = row.NombreDocumento,
-    archivo.path = 'Documentos/Importacion/CLV/0/0/01A1/F-1.pdf'
+    }
 
+    let archivo = {
+      'name': row.NombreDocumento,
+      'path': path+'/'+row.NombreDocumento
+  }
 
+  this.fileService.archivosAdjuntadosCorreo = [];
+  this.fileService.archivosAdjuntadosCorreo.push(archivo)
+  this.leerArchivos(row,true)  
+  console.log(archivo,'1');
+  console.log(this.fileService.archivosAdjuntadosCorreo,'2');
+  
 
-    this.fileService.archivosAdjuntadosCorreo = []
-    this.fileService.archivosAdjuntadosCorreo.push(archivo);
-    this.fileService.filter('');
 
 
     const dialogConfig = new MatDialogConfig();
@@ -494,7 +529,7 @@ this.subs1 = this.traspasoSVC.getQuery(consulta).subscribe((resTipos:any)=>{
         cliente: '',
         status: true,
         //^ Indicamos que es de Tipo Traspaso
-        tipo: 'Docuemntos'
+        tipo: 'Documento'
       }
        this.dialog.open(EmailgeneralComponent, dialogConfig);
   }
