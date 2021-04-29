@@ -85,7 +85,7 @@ export class ConnectionHubServiceService {
           }
           this.proxy.invoke('NuevaNotificacion',mensaje);
         break;
-      case 'Productos':
+      case 'Producto':
         let mensajeProductos = {
             titulo: origen.titulo,
             descripcion: 'Mensaje desde '+ origen.origen +'',
@@ -160,7 +160,7 @@ export class ConnectionHubServiceService {
 // ! Listener Productos
   private _listenersProductos = new Subject<any>(); 
   listenProductos(): Observable<any> {
-    return this._listeners.asObservable();
+    return this._listenersProductos.asObservable();
   }
   filterProductos(filterBy: string) {
     this._listenersProductos.next(filterBy);

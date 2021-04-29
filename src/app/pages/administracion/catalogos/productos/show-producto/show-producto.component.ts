@@ -57,8 +57,11 @@ export class ShowProductoComponent implements OnInit {
     this.service.listen().subscribe((m:any)=>{
       // console.log(m);
       this.refreshProductosList();
+
+    });
       
     this.ConnectionHubService.listenProductos().subscribe((m:any)=>{
+      
       this.refreshProductosList();
       });
 
@@ -67,7 +70,7 @@ export class ShowProductoComponent implements OnInit {
       });
 
 
-      });
+   
 
    }
 

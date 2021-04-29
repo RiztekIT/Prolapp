@@ -536,6 +536,11 @@ Vigencia: new Date()
     this.proxy.invoke('NuevaNotificacion',mensaje);
 } 
 
+
+ver(){
+  console.log(this.CotizacionBlanco);
+}
+
   
   
 
