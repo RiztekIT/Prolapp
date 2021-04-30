@@ -65,7 +65,7 @@
 
 
                             <label class="input-group-text text-info ">Cantidad:</label>
-                            <input [disabled]="service.Timbrada == true" matInput required type="number" class="form-control " name="CantidadConcepto" #CantidadConcepto="ngModel" [(ngModel)]="CantidadDetalle" (ngModelChange)="onChangeCantidad($event)">
+                            <input [disabled]="service.Timbrada == true" matInput required  class="form-control " name="CantidadConcepto" #CantidadConcepto="ngModel" [(ngModel)]="CantidadDetalle" (ngModelChange)="onChangeCantidad($event)">
                             <!-- <input matInput required type="number" class="form-control" name="Cantidad3" #Cantidad="ngModel" [min]="0" [max]="100" [(ngModel)]="CantidadF2" (ngModelChange)="onChangeCantidad($event)"> -->
                             <div class="text-left text-danger" *ngIf="CantidadConcepto.invalid && CantidadConcepto.touched">
                                 Favor de Ingresar Cantidad

@@ -293,12 +293,12 @@ onChangeCantidad(Cantidad: any){
 
   //Metodo para calcular/multiplicar importes
   MultiplicarImportes(Cantidad: any){
-    this.service.DetalleformData.Importe = (Cantidad * +this.service.DetalleformData.PrecioUnitario).toString();
-    this.service.DetalleformData.ImporteDlls = (Cantidad * +this.service.DetalleformData.PrecioUnitarioDlls).toString();
+    this.service.DetalleformData.Importe = (Cantidad * +this.service.DetalleformData.PrecioUnitario).toFixed(4);
+    this.service.DetalleformData.ImporteDlls = (Cantidad * +this.service.DetalleformData.PrecioUnitarioDlls).toFixed(4);
     if (+this.service.DetalleformData.ImporteIVA > 0) {
       console.log('SI LLEVA IVAAAAAAA');
-      this.service.DetalleformData.ImporteIVA = (+this.service.DetalleformData.PrecioUnitario * this.iva).toString();
-      this.service.DetalleformData.ImporteIVADlls = (+this.service.DetalleformData.PrecioUnitarioDlls * this.iva).toString();
+      this.service.DetalleformData.ImporteIVA = (+this.service.DetalleformData.PrecioUnitario * this.iva).toFixed(4);
+      this.service.DetalleformData.ImporteIVADlls = (+this.service.DetalleformData.PrecioUnitarioDlls * this.iva).toFixed(4);
     }
   }
 
@@ -309,7 +309,7 @@ onChangeCantidad(Cantidad: any){
 
 
   onSubmit(form: NgForm){
-    this.service.DetalleformData.Cantidad = this.CantidadDetalle.toString();
+    this.service.DetalleformData.Cantidad = this.CantidadDetalle.toFixed(4);
     this.service.DetalleformData.IdNotaCredito = this.IdNotaCredito;
 console.log(form);
 console.log(this.service.DetalleformData);
@@ -360,7 +360,7 @@ this.service.getDetalleFactura(this.service.IdFactura, detalle.ClaveProducto).su
 //Activar boton de cancelar operacion
 
 
-    this.service.DetalleformData.Cantidad = this.CantidadDetalle.toString();
+    this.service.DetalleformData.Cantidad = this.CantidadDetalle.toFixed(4);
     this.service.DetalleformData.IdNotaCredito = this.IdNotaCredito;
     console.log(this.service.DetalleformData.IdDetalleNotaCredito);
     console.log(this.service.DetalleformData);
