@@ -336,7 +336,7 @@ async onExportClick(Folio?: string) {
   let pdf = await  worker.then(function(pdfAsString){
     console.log(pdfAsString);
     this.pdf = pdfAsString;
-    localStorage.setItem('pdfCorreo', this.pdf);
+    localStorage.setItem('pdfcorreo', this.pdf);
     this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
     localStorage.setItem('pdfOC', this.pdf);
     this.currentPdf = this.pdf

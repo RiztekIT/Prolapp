@@ -473,7 +473,7 @@ style;
 
   reloadPDFFINAL(event){
     this.currentPdf = event
-    this.currentPdf = localStorage.getItem('pdfCorreo');
+    this.currentPdf = localStorage.getItem('pdfcorreo');
     let pdf = this.currentPdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
     console.log(pdf);
     let blob = this.b64toBlob(pdf,'application/pdf',1024)
