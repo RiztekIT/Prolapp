@@ -74,7 +74,6 @@ numimagen = 3;
 
   carruselimagenes(){
     this.intervalUpdate = setInterval(function(){
-      console.log(this.numimagen);
       
       if (this.numimagen==1){
 

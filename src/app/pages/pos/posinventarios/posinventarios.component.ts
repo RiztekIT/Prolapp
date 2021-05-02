@@ -3,6 +3,13 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import Swal from 'sweetalert2';
 import { PosserviceService } from '../posservice.service';
 
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "POS", "titulo": 'Inventario'}
+]
+
 @Component({
   selector: 'app-posinventarios',
   templateUrl: './posinventarios.component.html',
@@ -15,10 +22,15 @@ export class PosinventariosComponent implements OnInit {
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(public posSVC: PosserviceService) { }
+  constructor(public posSVC: PosserviceService,
+    private ConnectionHubService: ConnectionHubServiceService,) { 
+      this.ConnectionHubService.listenPOSInventario().subscribe((m:any)=>{
+        this.obtenerProductos();
+        });}
 
   ngOnInit() {
     
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     
 
 

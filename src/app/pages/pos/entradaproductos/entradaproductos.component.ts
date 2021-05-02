@@ -5,6 +5,14 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Entrada, PosserviceService } from '../posservice.service';
 
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "POS", "titulo": 'POSEntrada'}
+]
+
+
 @Component({
   selector: 'app-entradaproductos',
   templateUrl: './entradaproductos.component.html',
@@ -27,7 +35,11 @@ export class EntradaproductosComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   idEntrada;
 
-  constructor(public posSVC: PosserviceService, public router: Router) { }
+  constructor(public posSVC: PosserviceService, public router: Router,
+    private ConnectionHubService: ConnectionHubServiceService,) { 
+      this.ConnectionHubService.listenPOSEntrada().subscribe((m:any)=>{
+        this.refreshEntradaList();
+        });}
 
   public entradaBlanco: Entrada = {
     idEntrada: 0,
@@ -54,6 +66,7 @@ export class EntradaproductosComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     //this.SucursalSelect = localStorage.getItem('sucursal')
     //this.arrcon = []
     //this.PermisosService.permisos =[]
@@ -140,6 +153,7 @@ console.log(consulta);
       };
       this.posSVC.generarConsulta(consulta2).subscribe(res => {
         console.log(res);
+        this.ConnectionHubService.on(origen[0]);
       
         this.ObtenerUltimoServicio();
       });
@@ -203,6 +217,7 @@ Swal.fire({
       this.posSVC.generarConsulta(consulta).subscribe(res=>{
         this.posSVC.generarConsulta(consulta2).subscribe(res1=>{
 
+          this.ConnectionHubService.on(origen[0]);
           Swal.fire({
             title: 'Borrado',
             icon: 'success',

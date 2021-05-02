@@ -21,6 +21,13 @@ import { DatePipe } from '@angular/common';
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Cxp", "titulo": 'Forward'}
+]
+
 @Component({
   selector: 'app-forwardscxp',
   templateUrl: './forwardscxp.component.html',
@@ -37,11 +44,16 @@ export class ForwardscxpComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(public ForwardsService:ForwardsService, private datePipe: DatePipe, public router: Router,private dialog: MatDialog,
-    private eventosService:EventosService,) {
+    private eventosService:EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) {
     this.ForwardsService.listen().subscribe((m: any) => {
       console.log(m);
       this.getforwards();
     });
+    
+    this.ConnectionHubService.listenForward().subscribe((m:any)=>{
+      this.getforwards();
+      });
    }
 
   ngOnInit() {
@@ -145,6 +157,8 @@ export class ForwardscxpComponent implements OnInit {
       console.log(this.ForwardBlanco);
       this.ForwardsService.addForward(this.ForwardBlanco).subscribe(res => {
         console.log(res);
+        
+        this.ConnectionHubService.on(origen[0]);
         
         this.eventosService.movimientos('Generar Forward')
         this.ForwardsService.onadd = true;

@@ -27,6 +27,12 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { ComprasPdfComponent } from '../../../components/compras-reporte/compras-pdf.component';
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Compras", "titulo": 'Compra'}
+]
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -72,17 +78,22 @@ estatusSelect;
 hola = 'hola'
 
 constructor(public router: Router,private service:CompraService, private dialog: MatDialog, private http: HttpClient, public CompraService: CompraService,
-  private eventosService:EventosService,) {
+  private eventosService:EventosService,
+  private ConnectionHubService: ConnectionHubServiceService,) {
   
   // this.service.listen().subscribe((m:any)=>{
     //   console.log(m);
     //   this.refreshOrdenCargaList();
     //   });
     
+    this.ConnectionHubService.listenCompra().subscribe((m:any)=>{
+      this.obtenerCompras();
+      });
   }
   
   ngOnInit() {
     
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.obtenerCompras();
     this.tipoDeCambio();
 
@@ -221,6 +232,7 @@ this.service.master = []
           //BorrarCompra
           this.service.deleteCompra(compra.IdCompra).subscribe(res=>{
             console.log(res);
+            this.ConnectionHubService.on(origen[0]);
             
           this.eventosService.movimientos('Compra Borrada')
             this.obtenerCompras();
@@ -326,6 +338,8 @@ ImpuestosTrasladadosDlls: ""
 console.log(this.compraBlanco);
 
       this.service.addCompra(this.compraBlanco).subscribe(res=>{
+        
+        this.ConnectionHubService.on(origen[0]);
         console.log(res);
         this.service.getUltimoIdCompra().subscribe(res=>{
           console.log(res);
@@ -376,6 +390,7 @@ console.log(this.compraBlanco);
 
       this.service.addCompra(this.compraBlanco).subscribe(res=>{
         console.log(res);
+        this.ConnectionHubService.on(origen[0]);
         this.service.getUltimoIdCompra().subscribe(res=>{
           console.log(res);
           localStorage.setItem('IdCompra', res.toString())

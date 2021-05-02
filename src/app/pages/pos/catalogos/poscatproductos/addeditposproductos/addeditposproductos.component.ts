@@ -4,6 +4,14 @@ import { PosserviceService } from '../../../posservice.service';
 import Swal from 'sweetalert2';
 import { startWith, map } from 'rxjs/operators';
 
+
+import { ConnectionHubServiceService } from '../../../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "POS", "titulo": 'POSProducto'}
+]
+
 @Component({
   selector: 'app-addeditposproductos',
   templateUrl: './addeditposproductos.component.html',
@@ -16,10 +24,14 @@ export class AddeditposproductosComponent implements OnInit {
   Info;
   idproductoservicio: number;
 
-  constructor(public posSVC: PosserviceService,public dialogbox: MatDialogRef<AddeditposproductosComponent>,@Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(public posSVC: PosserviceService,
+    public dialogbox: MatDialogRef<AddeditposproductosComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any, 
+    private ConnectionHubService: ConnectionHubServiceService,) { }
 
   ngOnInit() {
 
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     
     
     if(this.data){
@@ -106,6 +118,7 @@ export class AddeditposproductosComponent implements OnInit {
       // this.productosService.productosForm.campoextra1 = id.toString();
       this.posSVC.generarConsulta(consulta).subscribe((resp:any) => {
         console.log(resp);
+        this.ConnectionHubService.on(origen[0]);
         // ! paquetes agregar el idservicio para relacionar paquete con servicio
     
 
@@ -167,6 +180,7 @@ export class AddeditposproductosComponent implements OnInit {
     console.log(consulta);
     this.posSVC.generarConsulta(consulta).subscribe((resp:any) => {
       console.log(resp);
+      this.ConnectionHubService.on(origen[0]);
       if (resp.length==0 ) {
         Swal.fire({
           icon: 'success',

@@ -17,6 +17,16 @@ import { ImagenService } from 'src/app/services/imagenes/imagen.service';
 import { MAT_DIALOG_DATA } from '@angular/material';
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Almacen", "titulo": 'Incidencia'}
+]
+let origen1: { origen: string, titulo: string }[] = [
+  {"origen": "Calidad", "titulo": 'Incidencia'}
+]
+
 
 
 @Component({
@@ -30,9 +40,12 @@ export class IncidenciaAlmacenComponent implements OnInit {
   constructor(public dialogbox: MatDialogRef<IncidenciaAlmacenComponent>, private dialog: MatDialog, public incidenciasService: IncidenciasService,
     private _sanitizer: DomSanitizer,private imageCompress: NgxImageCompressService, public imageService: ImagenService, 
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private eventosService:EventosService,) { }
+    private eventosService:EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) { }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
+    this.ConnectionHubService.ConnectionHub(origen1[0]);
     console.log(this.data);
     if (this.data) {
       this.modulo = this.data.modulo      
@@ -243,6 +256,9 @@ deleteImage(imageName: string) {
       //Eliminar imagen del servidor
       this.imageService.deleteImagenServidor(formData,'borrarIncidenciaImagen'+this.procedenciaSeleccionada).subscribe(res => {
         console.log(res);
+        
+      this.ConnectionHubService.on(origen[0])
+      this.ConnectionHubService.on(origen1[0])
         this.leerDirImagenes(this.incidenciasService.incidenciaObject.Procedencia);
         let imagen = new Imagenes();
         imagen.Folio = this.incidenciasService.incidenciaObject.FolioProcedencia;
@@ -329,6 +345,8 @@ guardarImagenesOrdenCarga(tipo: string, tipoPath: string) {
             console.log('IMAGEN NUEVA')
             this.imageService.addImagen(imagen).subscribe(resDB => {
               console.log(resDB)
+              this.ConnectionHubService.on(origen[0])
+              this.ConnectionHubService.on(origen1[0])
               // this.leerDirImagenes()
               if (i = this.files.length) {
                 this.leerDirImagenes(tipo);
@@ -593,6 +611,8 @@ obtenerImagen(a) {
     console.log(this.incidenciasService.incidenciaObject);
     this.incidenciasService.updateIncidencia(this.incidenciasService.incidenciaObject).subscribe(res=>{
       console.log(res);
+      this.ConnectionHubService.on(origen[0])
+      this.ConnectionHubService.on(origen1[0])
       
       this.eventosService.movimientos('Incidencia Generada')
       Swal.fire({

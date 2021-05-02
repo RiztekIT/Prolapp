@@ -5,6 +5,14 @@ import { PagoscxpService } from '../../../services/cuentasxpagar/pagoscxp.servic
 import { Pagos } from '../../../Models/Pagos/pagos-model';
 import { PagoDocumentoComponent } from './pago-documento/pago-documento.component';
 
+
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Cxp", "titulo": 'Pago'}
+]
+
 @Component({
   selector: 'app-pagoscxp',
   templateUrl: './pagoscxp.component.html',
@@ -12,8 +20,13 @@ import { PagoDocumentoComponent } from './pago-documento/pago-documento.componen
 })
 export class PagoscxpComponent implements OnInit {
 
-  constructor(public pagosService: PagoscxpService , private dialog: MatDialog) {
+  constructor(public pagosService: PagoscxpService , private dialog: MatDialog,
+    private ConnectionHubService: ConnectionHubServiceService,) {
     this.pagosService.listen().subscribe((m:any)=>{
+      this.obtenerPagos();
+      });
+      
+    this.ConnectionHubService.listenPago().subscribe((m:any)=>{
       this.obtenerPagos();
       });
    }

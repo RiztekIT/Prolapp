@@ -30,6 +30,13 @@ import { EventosService } from 'src/app/services/eventos/eventos.service';
 import { EmailgeneralComponent } from 'src/app/components/email/emailgeneral/emailgeneral.component';
 import { FileService } from 'src/app/services/explorador-archivos/explorador.service';
 
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Almacen", "titulo": 'Documento'}
+]
+
 
 @Component({
   selector: 'app-documentacion-importacion',
@@ -46,14 +53,20 @@ import { FileService } from 'src/app/services/explorador-archivos/explorador.ser
 export class DocumentacionImportacionComponent implements OnInit {
 
 
-  constructor(public router: Router, public documentosService: DocumentosImportacionService,
+  constructor(
+    private ConnectionHubService: ConnectionHubServiceService,
+    public router: Router, public documentosService: DocumentosImportacionService,
     public traspasoSVC: TraspasoMercanciaService, public _MessageService: MessageService,
     private dialog: MatDialog, public traspasoService: TraspasoMercanciaService,
-    private eventosService:EventosService,public fileService: FileService
+    private eventosService:EventosService,public fileService: FileService,
 
-  ) { }
+  ) {
+    this.ConnectionHubService.listenDocumento().subscribe((m:any)=>{
+      this.obtenerDocumentos();
+      }); }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.getTipos();
     // this.obtenerOrdenDescargaDocumentos();
     this.obtenerDocumentos();
@@ -413,6 +426,7 @@ this.subs1 = this.traspasoSVC.getQuery(consulta).subscribe((resTipos:any)=>{
           console.log(detallesConsulta);
           this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
             console.log(res)
+            this.ConnectionHubService.on(origen[0]);
             this.pdfstatus = false;
             this.obtenerDocumentos();
             

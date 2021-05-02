@@ -13,6 +13,13 @@ import { AddEmpresaComponent } from './add-empresa/add-empresa.component';
 import { ShowEmpresaComponent } from './show-empresa/show-empresa.component';
 
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Empresa'}
+]
+
+
 @Component({
   selector: 'app-empresa',
   templateUrl: './empresa.component.html',
@@ -23,15 +30,24 @@ export class EmpresaComponent implements OnInit {
   empresaFoto: any;
   arrfoto: Array<any> = [];
 
-  constructor(public router: Router, private dialog: MatDialog, public service: EmpresaService, private _formBuilder: FormBuilder, private sanitizer: DomSanitizer ) { 
+  constructor(public router: Router, private dialog: MatDialog, 
+    public service: EmpresaService, 
+    private _formBuilder: FormBuilder,
+     private sanitizer: DomSanitizer,
+     private ConnectionHubService: ConnectionHubServiceService, ) { 
 
     this.service.listen().subscribe((m:any)=>{
       this.refreshEmpresaList();
     });
+    
+    this.ConnectionHubService.listenEmpresa().subscribe((m:any)=>{
+      this.refreshEmpresaList();
+      });
 
   }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.refreshEmpresaList();
     this.refreshEmpresaFoto();
   }
@@ -104,6 +120,7 @@ export class EmpresaComponent implements OnInit {
       if (result.value == true) {
         this.service.deleteEmpresa(row.IdEmpresa).subscribe(res => {
           this.refreshEmpresaList();
+          this.ConnectionHubService.on(origen[0]);
           Swal.fire({
             title: ' Empresa Eliminada',
             icon: 'success',

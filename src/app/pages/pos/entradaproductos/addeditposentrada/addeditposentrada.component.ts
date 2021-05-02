@@ -8,6 +8,13 @@ import { Location } from '@angular/common';
 import { AddeditposentradaproductosComponent } from './addeditposentradaproductos/addeditposentradaproductos.component';
 
 
+import { ConnectionHubServiceService } from './../../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "POS", "titulo": 'POSEntrada'}
+]
+
 
 @Component({
   selector: 'app-addeditposentrada',
@@ -19,7 +26,8 @@ export class AddeditposentradaComponent implements OnInit {
 
 
   constructor(public posSVC: PosserviceService, public router: Router,
-    private location: Location, private dialog: MatDialog) { }
+    private location: Location, private dialog: MatDialog,
+    private ConnectionHubService: ConnectionHubServiceService,) { }
     Estatus;
     listData: MatTableDataSource<any>;
     @ViewChild(MatSort, null) sort: MatSort;
@@ -28,6 +36,7 @@ export class AddeditposentradaComponent implements OnInit {
 
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.Estatus = 'Cerrada';
     this.posSVC.entradaForm = JSON.parse(localStorage.getItem('entradaMercancia'));
     console.log(this.posSVC.entradaForm);
@@ -141,6 +150,8 @@ dlg.afterClosed().subscribe(resp=>{
       'consulta':"update EntradaMercancia set idProveedor=" + entrada.idProveedor + ",nombreProveedor='" + entrada.nombreProveedor + "',folio='" + entrada.folio + "',descripcion='" + entrada.descripcion + "',estatus='" + entrada.estatus + "',categoria1='" + entrada.categoria1 + "',categoria2='" + entrada.categoria2 + "',categoria3='" + entrada.categoria3 + "',tipo='" + entrada.tipo + "',fechaexpedicion='" + fecha + "',campoextra1='" + entrada.campoextra1 + "',campoextra2='" + entrada.campoextra2 + "',campoextra3='" + entrada.campoextra3 + "',subtotal='" + entrada.subtotal + "',iva='" + entrada.iva + "',total='" + entrada.total + "',subtotaldlls='" + entrada.subtotaldlls + "',ivadlls='" + entrada.ivadlls + "',totaldlls='" + entrada.totaldlls + "',sucursal='" + entrada.sucursal + "' where idEntrada=" +entrada.idEntrada+""
     };
     this.posSVC.generarConsulta(consulta).subscribe((res:any)=>{
+      
+      this.ConnectionHubService.on(origen[0]);
       console.log(res);
       if (res.length==0){
         Swal.fire({
@@ -212,6 +223,7 @@ onDelete(row){
         this.posSVC.generarConsulta(consulta).subscribe(res=>{
           this.posSVC.generarConsulta(consulta2).subscribe(resp=>{
 
+            this.ConnectionHubService.on(origen[0]);
             Swal.fire({
               title: 'Borrado',
               icon: 'success',

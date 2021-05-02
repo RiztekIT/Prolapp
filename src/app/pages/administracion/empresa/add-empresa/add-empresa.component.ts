@@ -1,17 +1,32 @@
 import { Component, OnInit } from '@angular/core';
+
 import { MatDialogRef, MatSnackBar } from '@angular/material';
+
 import { EmpresaService } from '../../../../services/empresas/empresa.service';
+
 import Swal from 'sweetalert2';
+
 import { NgForm, FormControl } from '@angular/forms';
 
 import { map, startWith } from 'rxjs/operators';
 
 import { Router } from '@angular/router';
+
 import { Observable } from 'rxjs';
+
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+
 import { DatePipe } from '@angular/common';
+
 import { Evento } from 'src/app/Models/eventos/evento-model';
+
 import { EventosService } from 'src/app/services/eventos/eventos.service';
+
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Empresa'}
+]
 
 @Component({
   selector: 'app-add-empresa',
@@ -33,11 +48,13 @@ export class AddEmpresaComponent implements OnInit {
   constructor(public dialogbox: MatDialogRef<AddEmpresaComponent>, public router: Router,
     public service: EmpresaService, private snackBar: MatSnackBar, private _formBuilder: FormBuilder,
     private datePipe:DatePipe,
-    private eventosService:EventosService, ) { }
+    private eventosService:EventosService,
+    private ConnectionHubService: ConnectionHubServiceService, ) { }
 
 
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
      this.resetForm();
     this.onCreate();
 
@@ -129,6 +146,7 @@ export class AddEmpresaComponent implements OnInit {
   onCreate(){
     this.service.addEmpresa(this.service.formData).subscribe(res =>{
       console.log(res);
+      this.ConnectionHubService.on(origen[0])
       this.movimientos(this.modulo)
          
     });
@@ -136,6 +154,7 @@ export class AddEmpresaComponent implements OnInit {
 
   onSubmit(){
     this.service.updateEmpresa(this.service.formData).subscribe(resp =>{
+      this.ConnectionHubService.on(origen[0])
       console.log(resp);
     })
   }

@@ -6,6 +6,13 @@ import { IncidenciasService } from '../../../services/almacen/incidencias/incide
 import { Incidencias } from '../../../Models/Incidencias/incidencias-model';
 import { IncidenciaAlmacenComponent } from '../../../components/almacen/incidencia-almacen/incidencia-almacen.component';
 
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Calidad", "titulo": 'Incidencia'}
+]
+
 
 // declare function steps();
 // declare function upload();
@@ -18,15 +25,23 @@ import { IncidenciaAlmacenComponent } from '../../../components/almacen/incidenc
 
 export class IncidenciasComponent implements OnInit {
 
-  constructor(public router: Router, public incidenciasService: IncidenciasService,  private dialog: MatDialog,) {
+  constructor(public router: Router, public incidenciasService: IncidenciasService,  private dialog: MatDialog,
+    private ConnectionHubService: ConnectionHubServiceService,) {
     this.incidenciasService.listen().subscribe((m:any)=>{
       // console.log(m);
+      this.obtenerIncidenciasOrdenCarga();
+      this.obtenerIncidenciasOrdenDescarga();
+      });
+      
+    this.ConnectionHubService.listenUsuarios().subscribe((m:any)=>{
+      
       this.obtenerIncidenciasOrdenCarga();
       this.obtenerIncidenciasOrdenDescarga();
       });
     }
 
     ngOnInit() {
+      this.ConnectionHubService.ConnectionHub(origen[0]);
       this.obtenerIncidenciasOrdenCarga();
       this.obtenerIncidenciasOrdenDescarga();
 

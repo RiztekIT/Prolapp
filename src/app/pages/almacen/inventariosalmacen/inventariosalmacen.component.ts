@@ -8,6 +8,12 @@ import { Bodega } from '../../../Models/catalogos/bodegas-model';
 import { Subscription } from 'rxjs';
 import { MovimientosinventariosComponent } from './movimientosinventarios/movimientosinventarios.component';
 
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Almacen", "titulo": 'Inventario'}
+]
 
 @Component({
   selector: 'app-inventariosalmacen',
@@ -25,8 +31,12 @@ import { MovimientosinventariosComponent } from './movimientosinventarios/movimi
 export class InventariosalmacenComponent implements OnInit {
 
   constructor(public serviceTarima: TarimaService, private dialog: MatDialog,
-    private bodegaservice: BodegasService) { 
+    private bodegaservice: BodegasService,
+    private ConnectionHubService: ConnectionHubServiceService,) { 
    
+      this.ConnectionHubService.listenInventario().subscribe((m:any)=>{
+        this.obtenerProductos(this.bodegaSelect);
+        });
   }
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -50,6 +60,7 @@ export class InventariosalmacenComponent implements OnInit {
   
   
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.getbodegas()
     this.bodegaSelect = 'CHIHUAHUA';
     this.obtenerProductos(this.bodegaSelect)

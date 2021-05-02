@@ -19,6 +19,14 @@ import { FacturaService } from 'src/app/services/facturacioncxc/factura.service'
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Cxc", "titulo": 'Complemento'}
+]
+
+
 @Component({
   selector: 'app-complementopagocxc',
   templateUrl: './complementopagocxc.component.html',
@@ -42,16 +50,21 @@ export class ComplementopagocxcComponent implements OnInit {
     public _MessageService: MessageService, 
     public serviceEmpresa: EmpresaService, 
     public servicefactura: FacturaService,
-    private eventosService:EventosService,) {
+    private eventosService:EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) {
     
     this.service.listen().subscribe((m: any) => {
       // this.refreshReciboPagoList();
       // this.detallesFactura();
     });
+    this.ConnectionHubService.listenComplemento().subscribe((m:any)=>{
+      this.refreshReciboPagoList();
+      });
     
   }
   
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.listaempresas()
     this.refreshReciboPagoList();
     // this.detallesFactura();
@@ -241,6 +254,8 @@ export class ComplementopagocxcComponent implements OnInit {
   onAdd() {
 
     this.service.addReciboPago(this.ReciboPagoBlanco).subscribe(res => {
+      
+      this.ConnectionHubService.on(origen[0]);
       this.service.getUltimoReciboPago().subscribe(data => {
         this.service.IdReciboPago = data[0].Id;
         this.IdReciboPago = this.service.IdReciboPago
@@ -308,6 +323,8 @@ export class ComplementopagocxcComponent implements OnInit {
         // console.log(reciboPago);
         this.service.deleteReciboPago(reciboPago.Id).subscribe(data => {
           this.refreshReciboPagoList();
+          
+          this.ConnectionHubService.on(origen[0]);
           console.log(data);
           Swal.fire({
             title: 'Borrado',

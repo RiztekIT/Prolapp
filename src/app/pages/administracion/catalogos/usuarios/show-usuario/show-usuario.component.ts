@@ -52,7 +52,6 @@ export class ShowUsuarioComponent implements OnInit {
     private ConnectionHubService: ConnectionHubServiceService,) {
 
     this.ConnectionHubService.listenUsuarios().subscribe((m:any)=>{
-      console.log(m);
       this.refreshUsuariosList();
       });
 
@@ -60,6 +59,7 @@ export class ShowUsuarioComponent implements OnInit {
 
   ngOnInit() {
     this.ConnectionHubService.ConnectionHub(origen[0]);
+
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     this.refreshUsuariosList();
  
@@ -146,9 +146,9 @@ export class ShowUsuarioComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.service.deleteUsuario(id).subscribe(res => {
-          
           this.movimiento(movimiento)
           this.refreshUsuariosList();
+          
           this.ConnectionHubService.on(origen[0]);
           Swal.fire({
             title: 'Borrado',

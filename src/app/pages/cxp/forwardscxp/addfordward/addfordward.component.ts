@@ -6,6 +6,14 @@ import { NgForm } from '@angular/forms';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+
+import { ConnectionHubServiceService } from '../../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Usuario'}
+]
+
 const httpOptions = {
   headers: new HttpHeaders({
     'Bmx-Token': 'd83c7088f2823be9f29cc124cf95dc37056de37c340da5477a09ca1ee91a80a6',
@@ -29,10 +37,14 @@ export class AddfordwardComponent implements OnInit {
   edited;
   IdForward: number;
 
-  constructor(public dialogbox: MatDialogRef<AddfordwardComponent>, private http: HttpClient, private datePipe: DatePipe, public ForwardsService: ForwardsService,) { }
+  constructor(public dialogbox: MatDialogRef<AddfordwardComponent>, 
+    private http: HttpClient, private datePipe: DatePipe, 
+    public ForwardsService: ForwardsService,
+    private ConnectionHubService: ConnectionHubServiceService,) { }
   
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.edited = false;
    this.onadd = this.ForwardsService.onadd
   //  this.tipoDeCambio();
@@ -49,6 +61,7 @@ export class AddfordwardComponent implements OnInit {
   onEdit(form: NgForm) {
     this.edited = true;
       this.ForwardsService.OnEditForward(this.ForwardsService.formDataForwards).subscribe(res =>{
+        this.ConnectionHubService.on(origen[0]);
       console.log(res);
       this.ForwardsService.filter('Register click');
     })
@@ -77,6 +90,7 @@ export class AddfordwardComponent implements OnInit {
       if(this.edited == false && this.onadd == true){
         this.ForwardsService.deleteForward(this.IdForward).subscribe(data =>{
 console.log(data);
+this.ConnectionHubService.on(origen[0]);
         })
 
       }

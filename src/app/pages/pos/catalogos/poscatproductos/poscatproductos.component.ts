@@ -5,6 +5,14 @@ import { MatDialog, MatDialogConfig, MatPaginator, MatSort, MatTableDataSource }
 import { AddeditposproductosComponent } from './addeditposproductos/addeditposproductos.component';
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 
+
+import { ConnectionHubServiceService } from './../../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "POS", "titulo": 'POSProducto'}
+]
+
 @Component({
   selector: 'app-poscatproductos',
   templateUrl: './poscatproductos.component.html',
@@ -13,7 +21,11 @@ import { EventosService } from 'src/app/services/eventos/eventos.service';
 export class PoscatproductosComponent implements OnInit {
 
   constructor(public posSVC: PosserviceService,private dialog: MatDialog,
-    private eventosService:EventosService,) { }
+    private eventosService:EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) {
+      this.ConnectionHubService.listenPOSProducto().subscribe((m:any)=>{
+        this.getProductos();
+        }); }
 
   arrcon: Array<any> = [];
   listData: MatTableDataSource<any>;
@@ -22,6 +34,7 @@ export class PoscatproductosComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.getProductos()
   }
 
@@ -130,6 +143,7 @@ Swal.fire({
   if (result.value) {
     this.posSVC.generarConsulta(consulta).subscribe(res => {
       this.refreshTablaP();
+      this.ConnectionHubService.on(origen[0]);
       
       this.eventosService.movimientos('POS Producto Borrado')
       Swal.fire({

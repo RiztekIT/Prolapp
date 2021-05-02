@@ -47,9 +47,6 @@ export class ConnectionHubServiceService {
         case 'Proveedor':
           this.filterProveedores('Register click');
           break;
-        case 'Proveedor':
-          this.filterProveedores('Register click');
-          break;
         case 'Cliente':
           this.filterCliente('Register click');
           break;
@@ -59,7 +56,112 @@ export class ConnectionHubServiceService {
         case 'Bodega':
           this.filterBodega('Register click');
           break;
-      
+          case 'Empresa':
+            this.filterEmpresa('Register click');
+            break;
+          case 'Expediente':
+            this.filterExpediente('Register click');
+            break;
+            // !Almacen
+            case 'OC':
+              this.filterOC('Register Click')
+              break;
+            case 'OD':
+              this.filterOD('Register Click')
+              break;
+            // case 'Importacion':
+            //   this.filterImportacion('Register Click')
+            //   break;
+            case 'Inventario':
+              this.filterInventario('Register Click')
+              break;
+            case 'Documento':
+              this.filterDocumento('Register Click')
+              break;
+            case 'Incidencia':
+              this.filterIncidencia('Register Click')
+              // Calidad
+              this.filterIncidencia('Register Click')
+              break;
+            // !FIN Almacen
+            // !Calidad
+            // case '':
+            //   this.filter('Register Click')
+            //   break;
+            // case '':
+            //   this.filter('Register Click')
+            //   break;
+            // !FIN Calidad
+            // !Compras
+            case 'Compra':
+              this.filterCompra('Register Click')
+              break;
+            // !FIN Compras
+            // !CxC
+            case 'OCompra':
+              this.filterOCompra('Register Click')
+              break;
+            case 'Facturacion':
+              this.filterFacturacion('Register Click')
+              break;
+            case 'Complemento':
+              this.filterComplemento('Register Click')
+              break;
+            case 'Nota':
+              this.filterNota('Register Click')
+              break;
+            case 'Poliza':
+              this.filterPoliza('Register Click')
+              break;
+            case 'Saldo':
+              this.filterSaldo('Register Click')
+              break;
+            // !FIN CxC
+            // !CxP
+            case 'Pago':
+              this.filterPago('Register Click')
+              break;
+            case 'Forward':
+              this.filterForward('Register Click')
+              break;
+            // !FIN CxP
+            // !Direccion
+            // case '':
+            //   this.filter('Register Click')
+            //   break;
+            // !FIN Direccion
+            // !Importacion
+            // case '':
+            //   this.filter('Register Click')
+            //   break;
+            // !FIN Importacion
+            // !POS
+            case 'POSProducto':
+              this.filterPOSProducto('Register Click')
+              break;
+            case 'POSCliente':
+              this.filterPOSCliente('Register Click')
+              break;
+            case 'POSEntrada':
+              this.filterPOSEntrada('Register Click')
+              break;
+            case 'POSInventario':
+              this.filterPOSInventario('Register Click')
+              break;
+            case 'POSVenta':
+              this.filterPOSVenta('Register Click')
+              break;
+            // !FIN POS
+            // !Trafico
+            case 'Fletera':
+              this.filterFletera('Register Click')
+              break;
+            // !FIN Trafico
+            // !Ventas
+            case 'Prospecto':
+              this.filterProspecto('Register Click')
+              break;
+            // !FIN Ventas
         default:
 
           console.log('%c%s', 'color: #86bf60', 'error en connectionhub');
@@ -133,6 +235,198 @@ export class ConnectionHubServiceService {
           }
           this.proxy.invoke('NuevaNotificacion',mensajeBodega);
         break;
+      case 'Empresa':
+        let mensajeEmpresa = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeEmpresa);
+        break;
+      case 'Expediente':
+        let mensajeExpediente = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeExpediente);
+        break;
+      case 'OC':
+        let mensajeOC = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeOC);
+        break;
+      case 'OD':
+        let mensajeOD = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeOD);
+        break;
+      case 'Traspaso':
+        let mensajeTraspaso = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeTraspaso);
+        break;
+      case 'Inventario':
+        let mensajeInventario = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeInventario);
+        break;
+      case 'Documento':
+        let mensajeDocumento = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeDocumento);
+        break;
+      case 'Incidencia':
+        let mensajeIncidencia = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeIncidencia);
+        break;
+      case 'Compra':
+        let mensajeCompra = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeCompra);
+        break;
+      case 'OCompra':
+        let mensajeOCompra = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeOCompra);
+        break;
+      case 'Facturacion':
+        let mensajeFacturacion = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeFacturacion);
+        break;
+      case 'Complemento':
+        let mensajeComplemento = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeComplemento);
+        break;
+      case 'Nota':
+        let mensajeNota = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeNota);
+        break;
+      case 'Poliza':
+        let mensajePoliza = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajePoliza);
+        break;
+      case 'Saldo':
+        let mensajeSaldo = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeSaldo);
+        break;
+      case 'Pago':
+        let mensajePago = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajePago);
+        break;
+      case 'Forward':
+        let mensajeForward = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeForward);
+        break;
+      case 'POSProducto':
+        let mensajePOSProducto = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajePOSProducto);
+        break;
+      case 'POSCliente':
+        let mensajePOSCliente = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajePOSCliente);
+        break;
+      case 'POSEntrada':
+        let mensajePOSEntrada = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajePOSEntrada);
+        break;
+      case 'POSInventario':
+        let mensajePOSInventario = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajePOSInventario);
+        break;
+      case 'POSVenta':
+        let mensajePOSVenta = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajePOSVenta);
+        break;
+      case 'Fletera':
+        let mensajeFletera = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeFletera);
+        break;
+      case 'Prospecto':
+        let mensajeProspecto = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeProspecto);
+        break;
     
       default:
 
@@ -169,7 +463,7 @@ export class ConnectionHubServiceService {
 // ! Listener Marcas
   private _listenersMarca = new Subject<any>(); 
   listenMarca(): Observable<any> {
-    return this._listeners.asObservable();
+    return this._listenersMarca.asObservable();
   }
   filterMarca(filterBy: string) {
     this._listenersMarca.next(filterBy);
@@ -178,7 +472,7 @@ export class ConnectionHubServiceService {
 // ! Listener Proveedores
   private _listenersProveedores = new Subject<any>(); 
   listenProveedores(): Observable<any> {
-    return this._listeners.asObservable();
+    return this._listenersProveedores.asObservable();
   }
   filterProveedores(filterBy: string) {
     this._listenersProveedores.next(filterBy);
@@ -187,7 +481,7 @@ export class ConnectionHubServiceService {
 // ! Listener Cliente
   private _listenersCliente = new Subject<any>(); 
   listenCliente(): Observable<any> {
-    return this._listeners.asObservable();
+    return this._listenersCliente.asObservable();
   }
   filterCliente(filterBy: string) {
     this._listenersCliente.next(filterBy);
@@ -196,7 +490,7 @@ export class ConnectionHubServiceService {
 // ! Listener Vendedor
   private _listenersVendedor = new Subject<any>(); 
   listenVendedor(): Observable<any> {
-    return this._listeners.asObservable();
+    return this._listenersVendedor.asObservable();
   }
   filterVendedor(filterBy: string) {
     this._listenersVendedor.next(filterBy);
@@ -205,25 +499,279 @@ export class ConnectionHubServiceService {
 // ! Listener Bodega
   private _listenersBodega = new Subject<any>(); 
   listenBodega(): Observable<any> {
-    return this._listeners.asObservable();
+    return this._listenersBodega.asObservable();
   }
   filterBodega(filterBy: string) {
     this._listenersBodega.next(filterBy);
   }
-//////////////////////////////////// & FIN CATALOGOS /////////////////////////////////////////////////////////////////
-//////////////////////////////////// &  CATALOGOS /////////////////////////////////////////////////////////////////
+  //////////////////////////////////// &  Empresa /////////////////////////////////////////////////////////////////
+  // ! Listener Empresa
+  private _listenersEmpresa = new Subject<any>(); 
+  listenEmpresa(): Observable<any> {
+    return this._listenersEmpresa.asObservable();
+  }
+  filterEmpresa(filterBy: string) {
+    this._listenersEmpresa.next(filterBy);
+  }
+  //////////////////////////////////// & FIN Empresa /////////////////////////////////////////////////////////////////
+  
+  //////////////////////////////////// & Expedientes  /////////////////////////////////////////////////////////////////
+  // ! Listener Expediente
+    private _listenersExpediente = new Subject<any>(); 
+    listenExpediente(): Observable<any> {
+      return this._listenersExpediente.asObservable();
+    }
+    filterExpediente(filterBy: string) {
+      this._listenersExpediente.next(filterBy);
+    }
+//////////////////////////////////// & FIN Expedientes /////////////////////////////////////////////////////////////////
+  //////////////////////////////////// & OC  /////////////////////////////////////////////////////////////////
+  // ! Listener OC
+    private _listenersOC = new Subject<any>(); 
+    listenOC(): Observable<any> {
+      return this._listenersOC.asObservable();
+    }
+    filterOC(filterBy: string) {
+      this._listenersOC.next(filterBy);
+    }
 //////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
-//////////////////////////////////// &  CATALOGOS /////////////////////////////////////////////////////////////////
+
+  //////////////////////////////////// & OD  /////////////////////////////////////////////////////////////////
+  // ! Listener OD
+    private _listenersOD = new Subject<any>(); 
+    listenOD(): Observable<any> {
+      return this._listenersOD.asObservable();
+    }
+    filterOD(filterBy: string) {
+      this._listenersOD.next(filterBy);
+    }
+//////////////////////////////////// & FIN OD /////////////////////////////////////////////////////////////////
+
+  //////////////////////////////////// &  Traspaso /////////////////////////////////////////////////////////////////
+  // ! Listener Traspaso
+    private _listenersTraspaso = new Subject<any>(); 
+    listenTraspaso(): Observable<any> {
+      return this._listenersTraspaso.asObservable();
+    }
+    filterTraspaso(filterBy: string) {
+      this._listenersTraspaso.next(filterBy);
+    }
+//////////////////////////////////// & FIN Traspaso /////////////////////////////////////////////////////////////////
+
+  //////////////////////////////////// &  Inventario /////////////////////////////////////////////////////////////////
+  // ! Listener Inventario
+    private _listenersInventario = new Subject<any>(); 
+    listenInventario(): Observable<any> {
+      return this._listenersInventario.asObservable();
+    }
+    filterInventario(filterBy: string) {
+      this._listenersInventario.next(filterBy);
+    }
+//////////////////////////////////// & FIN Inventario /////////////////////////////////////////////////////////////////
+
+  //////////////////////////////////// &  Documento /////////////////////////////////////////////////////////////////
+  // ! Listener Documento
+    private _listenersDocumento = new Subject<any>(); 
+    listenDocumento(): Observable<any> {
+      return this._listenersDocumento.asObservable();
+    }
+    filterDocumento(filterBy: string) {
+      this._listenersDocumento.next(filterBy);
+    }
+//////////////////////////////////// & FIN Documento /////////////////////////////////////////////////////////////////
+
+  //////////////////////////////////// & Incidencia  /////////////////////////////////////////////////////////////////
+  // ! Listener Incidencia
+    private _listenersIncidencia = new Subject<any>(); 
+    listenIncidencia(): Observable<any> {
+      return this._listenersIncidencia.asObservable();
+    }
+    filterIncidencia(filterBy: string) {
+      this._listenersIncidencia.next(filterBy);
+    }
 //////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
-//////////////////////////////////// &  CATALOGOS /////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////// &  Compra /////////////////////////////////////////////////////////////////
+  // ! Listener Compra
+    private _listenersCompra = new Subject<any>(); 
+    listenCompra(): Observable<any> {
+      return this._listenersCompra.asObservable();
+    }
+    filterCompra(filterBy: string) {
+      this._listenersCompra.next(filterBy);
+    }
 //////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
-//////////////////////////////////// &  CATALOGOS /////////////////////////////////////////////////////////////////
+
+
+//////////////////////////////////// &  OCompra /////////////////////////////////////////////////////////////////
+  // ! Listener OCompra
+    private _listenersOCompra = new Subject<any>(); 
+    listenOCompra(): Observable<any> {
+      return this._listenersOCompra.asObservable();
+    }
+    filterOCompra(filterBy: string) {
+      this._listenersOCompra.next(filterBy);
+    }
 //////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
-//////////////////////////////////// &  CATALOGOS /////////////////////////////////////////////////////////////////
+
+//////////////////////////////////// &  Facturacion /////////////////////////////////////////////////////////////////
+  // ! Listener Facturacion
+    private _listenersFacturacion = new Subject<any>(); 
+    listenFacturacion(): Observable<any> {
+      return this._listenersFacturacion.asObservable();
+    }
+    filterFacturacion(filterBy: string) {
+      this._listenersFacturacion.next(filterBy);
+    }
 //////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
-//////////////////////////////////// &  CATALOGOS /////////////////////////////////////////////////////////////////
+
+//////////////////////////////////// &  Complemento /////////////////////////////////////////////////////////////////
+  // ! Listener Complemento
+    private _listenersComplemento = new Subject<any>(); 
+    listenComplemento(): Observable<any> {
+      return this._listenersComplemento.asObservable();
+    }
+    filterComplemento(filterBy: string) {
+      this._listenersComplemento.next(filterBy);
+    }
+//////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
+
+//////////////////////////////////// &   /////////////////////////////////////////////////////////////////
+  // ! Listener Nota
+    private _listenersNota = new Subject<any>(); 
+    listenNota(): Observable<any> {
+      return this._listenersNota.asObservable();
+    }
+    filterNota(filterBy: string) {
+      this._listenersNota.next(filterBy);
+    }
+//////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
+
+//////////////////////////////////// &  Poliza /////////////////////////////////////////////////////////////////
+  // ! Listener Poliza
+    private _listenersPoliza = new Subject<any>(); 
+    listenPoliza(): Observable<any> {
+      return this._listenersPoliza.asObservable();
+    }
+    filterPoliza(filterBy: string) {
+      this._listenersPoliza.next(filterBy);
+    }
+//////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
+
+//////////////////////////////////// & Saldo  /////////////////////////////////////////////////////////////////
+  // ! Listener Saldo
+    private _listenersSaldo = new Subject<any>(); 
+    listenSaldo(): Observable<any> {
+      return this._listenersSaldo.asObservable();
+    }
+    filterSaldo(filterBy: string) {
+      this._listenersSaldo.next(filterBy);
+    }
+//////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
+
+//////////////////////////////////// &  Pago /////////////////////////////////////////////////////////////////
+  // ! Listener Pago
+    private _listenersPago = new Subject<any>(); 
+    listenPago(): Observable<any> {
+      return this._listenersPago.asObservable();
+    }
+    filterPago(filterBy: string) {
+      this._listenersPago.next(filterBy);
+    }
 //////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
 //////////////////////////////////// &  CATALOGOS /////////////////////////////////////////////////////////////////
 
+//////////////////////////////////// &  Forward /////////////////////////////////////////////////////////////////
+  // ! Listener Forward
+    private _listenersForward = new Subject<any>(); 
+    listenForward(): Observable<any> {
+      return this._listenersForward.asObservable();
+    }
+    filterForward(filterBy: string) {
+      this._listenersForward.next(filterBy);
+    }
+//////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
+//////////////////////////////////// &  CATALOGOS /////////////////////////////////////////////////////////////////
 
+//////////////////////////////////// &  POSProducto /////////////////////////////////////////////////////////////////
+  // ! Listener POSProducto
+    private _listenersPOSProducto = new Subject<any>(); 
+    listenPOSProducto(): Observable<any> {
+      return this._listenersPOSProducto.asObservable();
+    }
+    filterPOSProducto(filterBy: string) {
+      this._listenersPOSProducto.next(filterBy);
+    }
+//////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
+//////////////////////////////////// &  CATALOGOS /////////////////////////////////////////////////////////////////
+
+//////////////////////////////////// &  POSCliente /////////////////////////////////////////////////////////////////
+  // ! Listener POSCliente
+    private _listenersPOSCliente = new Subject<any>(); 
+    listenPOSCliente(): Observable<any> {
+      return this._listenersPOSCliente.asObservable();
+    }
+    filterPOSCliente(filterBy: string) {
+      this._listenersPOSCliente.next(filterBy);
+    }
+//////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
+//////////////////////////////////// &  CATALOGOS /////////////////////////////////////////////////////////////////
+
+//////////////////////////////////// &  POSEntrada /////////////////////////////////////////////////////////////////
+  // ! Listener POSEntrada
+    private _listenersPOSEntrada = new Subject<any>(); 
+    listenPOSEntrada(): Observable<any> {
+      return this._listenersPOSEntrada.asObservable();
+    }
+    filterPOSEntrada(filterBy: string) {
+      this._listenersPOSEntrada.next(filterBy);
+    }
+//////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
+//////////////////////////////////// &  CATALOGOS /////////////////////////////////////////////////////////////////
+
+//////////////////////////////////// &  POSInventario /////////////////////////////////////////////////////////////////
+  // ! Listener POSInventario
+    private _listenersPOSInventario = new Subject<any>(); 
+    listenPOSInventario(): Observable<any> {
+      return this._listenersPOSInventario.asObservable();
+    }
+    filterPOSInventario(filterBy: string) {
+      this._listenersPOSInventario.next(filterBy);
+    }
+//////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
+//////////////////////////////////// &  CATALOGOS /////////////////////////////////////////////////////////////////
+
+//////////////////////////////////// &  POSVenta /////////////////////////////////////////////////////////////////
+  // ! Listener POSVenta
+    private _listenersPOSVenta = new Subject<any>(); 
+    listenPOSVenta(): Observable<any> {
+      return this._listenersPOSVenta.asObservable();
+    }
+    filterPOSVenta(filterBy: string) {
+      this._listenersPOSVenta.next(filterBy);
+    }
+//////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
+
+//////////////////////////////////// &  Fletera /////////////////////////////////////////////////////////////////
+  // ! Listener Fletera
+    private _listenersFletera = new Subject<any>(); 
+    listenFletera(): Observable<any> {
+      return this._listenersFletera.asObservable();
+    }
+    filterFletera(filterBy: string) {
+      this._listenersFletera.next(filterBy);
+    }
+//////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
+
+//////////////////////////////////// & Prospecto  /////////////////////////////////////////////////////////////////
+  // ! Listener Prospecto
+    private _listenersProspecto = new Subject<any>(); 
+    listenProspecto(): Observable<any> {
+      return this._listenersProspecto.asObservable();
+    }
+    filterProspecto(filterBy: string) {
+      this._listenersProspecto.next(filterBy);
+    }
+//////////////////////////////////// & FIN  /////////////////////////////////////////////////////////////////
 }
