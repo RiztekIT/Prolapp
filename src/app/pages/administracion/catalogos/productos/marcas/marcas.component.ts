@@ -13,6 +13,21 @@ let origen: { origen: string, titulo: string }[] = [
   {"origen": "Administracion", "titulo": 'Marca'}
 ]
 
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Administracion", 
+  "titulo": 'Marca',
+  "datosExtra": '',
+  },
+]
+
 @Component({
   selector: 'app-marcas',
   templateUrl: './marcas.component.html',
@@ -66,6 +81,9 @@ export class MarcasComponent implements OnInit {
       
       this.ProductosService.addMarcasProductos(data).subscribe(res => {
         this.ConnectionHubService.on(origen[0])
+        
+        let datosExtra = this.ProductosService.dataMarcas.NombreMarca
+        this.ConnectionHubService.generarNotificacion(origenNotificacion[0], datosExtra)
         console.log('%c⧭', 'color: #ff8800', res);
         this.onClose()
       })

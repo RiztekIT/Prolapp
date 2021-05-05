@@ -17,7 +17,8 @@ export class ClienteDireccionService {
   IdCliente: number;
 
   //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
-  readonly APIUrl = environment.APIUrl;
+  // readonly APIUrl = environment.APIUrl;
+  readonly APIUrl = "https://localhost:44361/api";
 
   //Obtener list Clientes Direccion
   getClientesDireccionList(): Observable <ClienteDireccion[]> {

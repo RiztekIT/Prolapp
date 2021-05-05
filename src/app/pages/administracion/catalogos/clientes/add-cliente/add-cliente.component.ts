@@ -27,6 +27,20 @@ import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionH
 let origen: { origen: string, titulo: string }[] = [
   {"origen": "Administracion", "titulo": 'Cliente'}
 ]
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Administracion", 
+  "titulo": 'Cliente',
+  "datosExtra": '',
+  },
+]
 
 @Component({
   selector: 'app-add-cliente',
@@ -220,7 +234,10 @@ this.movimiento;
         this.service.formData.IdApi='';
         this.service.formData.Estatus = 'Activo'
         //
+        let datosExtra = this.service.formData.Nombre
+        this.ConnectionHubService.generarNotificacion(origenNotificacion[0], datosExtra)
         this.service.addCliente(this.service.formData).subscribe(res => {
+
           this.ConnectionHubService.on(origen[0])
           console.log(res);
           
@@ -228,24 +245,24 @@ this.movimiento;
 
         this.otrocliente()
           
-      /*     Swal.fire({
+      Swal.fire({
             icon: 'success',
             title: 'Cliente Agregado',
             text: ''+this.service.formData.RazonSocial+'',
             timer: 1500
-          }) */
+          }) 
           
-        }
-        );
+        
+        });
 
         
     
-      // }
-      // else{
-      //   console.log(data);
+    //   }
+    //   else{
+    //     console.log(data);
         
-      // }
-      // this.resetForm(form);
+    //   }
+      this.resetForm(form);
 
     // })
 

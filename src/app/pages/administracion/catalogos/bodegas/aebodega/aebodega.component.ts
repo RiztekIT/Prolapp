@@ -17,6 +17,20 @@ import { ConnectionHubServiceService } from '../../../../../services/shared/Conn
 let origen: { origen: string, titulo: string }[] = [
   {"origen": "Administracion", "titulo": 'Bodega'}
 ]
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Administracion", 
+  "titulo": 'Bodega',
+  "datosExtra": '',
+  },
+]
 
 @Component({
   selector: 'app-aebodega',
@@ -97,6 +111,9 @@ if(tipoAE == 'Editar'){
       console.log('this.BodegaService.formData: ', this.BodegaService.formData);
       this.BodegaService.formData.IdBodega = 0;
       this.BodegaService.addBodega(this.BodegaService.formData).subscribe(res=> {
+        
+        let datosExtra = this.BodegaService.formData.Nombre
+        this.ConnectionHubService.generarNotificacion(origenNotificacion[0], datosExtra)
         this.ConnectionHubService.on(origen[0])
         console.log(res);
 

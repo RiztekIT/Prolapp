@@ -1,7 +1,16 @@
 import { Injectable } from '@angular/core';
+
 import { Observable, Subject } from 'rxjs';
 
 import * as signalr from 'signalr' 
+
+import { DetalleNotificacion } from 'src/app/Models/Notificaciones/detalleNoticacion-model';
+
+import { Notificaciones } from 'src/app/Models/Notificaciones/notificaciones-model';
+
+import { NotificacionesService } from '../../notificaciones.service';
+
+import { StorageServiceService } from '../storage-service.service';
 
 declare var $: any;
 
@@ -21,8 +30,52 @@ export class ConnectionHubServiceService {
   
 
 
-  constructor() { }
+  constructor(private notificacionService:NotificacionesService, private storageService: StorageServiceService) { }
 
+// ! Notificaciones
+generarNotificacion(notificacionData, datosExtra?) {
+  console.log(notificacionData);
+  // notificacionData.titulo = 'Notificacion'
+
+  let noti = new Notificaciones()
+  noti.Folio = 0;
+  noti.IdNotificacion = 0;
+  noti.IdUsuario = this.storageService.currentUser.IdUsuario;
+  noti.Usuario = this.storageService.currentUser.NombreUsuario;
+  // ^se condiciona si la notificacion viene con folio, para tener mensajes especificos para con/sin folio
+  if (notificacionData.Folio) {
+    noti.Mensaje = notificacionData.titulo + ' Realizado/a Folio ' + notificacionData.Folio
+  }else{
+    noti.Mensaje = notificacionData.titulo+ ' '+ datosExtra + ' Creado/a'
+  }
+  noti.ModuloOrigen = notificacionData.origen
+  noti.FechaEnvio = new Date();
+  
+  let detallenoti = new DetalleNotificacion()
+  console.log('%c⧭', 'color: #aa00ff', noti);
+
+  this.notificacionService.addNotificacion(noti).subscribe(resp => {
+    console.log(resp, 'Respuesta de notificacion');
+    detallenoti.IdDetalleNotificacion = 0;
+    detallenoti.IdNotificacion = resp[0].IdNotificacion;
+    detallenoti.IdUsuarioDestino = 1;
+    detallenoti.UsuarioDestino = 'IvanTa';
+    detallenoti.BanderaLeido = 0;
+    detallenoti.FechaLeido = new Date(10 / 10 / 10);
+    this.notificacionService.addDetalleNotificacion(detallenoti).subscribe(res => {
+      console.log(res, 'Respuesta de detalle de notificacion');
+      console.log('%c⧭', 'color: #733d00', notificacionData);
+      this.on(notificacionData);
+    })
+
+
+  })
+}
+
+
+
+
+// ! Tablas con Signal R
 
   ConnectionHub(origen){
     console.log('%c⧭', 'color: #cc7033', origen);
@@ -426,6 +479,16 @@ export class ConnectionHubServiceService {
             fecha: new Date()
           }
           this.proxy.invoke('NuevaNotificacion',mensajeProspecto);
+        break;
+
+        // !NOTIFICACION
+      case 'Notificacion':
+        let mensajeNotificacion = {
+            titulo: origen.titulo,
+            descripcion: 'Mensaje desde '+ origen.origen +'',
+            fecha: new Date()
+          }
+          this.proxy.invoke('NuevaNotificacion',mensajeNotificacion);
         break;
     
       default:

@@ -1,23 +1,54 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog } from '@angular/material';
-import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
-import { SelectionModel } from '@angular/cdk/collections';
-import Swal from 'sweetalert2';
-import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
-import { BodegasService } from 'src/app/services/catalogos/bodegas.service';
-import { DocumentacionImportacionComponent } from '../documentacion-importacion/documentacion-importacion.component';
-import { DocumentacionFormularioImportacionComponent } from '../documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
-import { DocumentosImportacionService } from 'src/app/services/importacion/documentos-importacion.service';
-import { Location } from '@angular/common';
-import { TraspasoMercanciaService } from '../../../services/importacion/traspaso-mercancia.service';
-import { TraspasomercanciaComponent } from '../../almacen/traspasomercancia/traspasomercancia.component';
-import { ResumentraspasoComponent } from '../../almacen/traspasomercancia/resumentraspaso/resumentraspaso.component';
-import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model';
 
+import { Router } from '@angular/router';
+
+import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog } from '@angular/material';
+
+import { TarimaService } from 'src/app/services/almacen/tarima/tarima.service';
+
+import { SelectionModel } from '@angular/cdk/collections';
+
+import Swal from 'sweetalert2';
+
+import { OrdenCargaService } from 'src/app/services/almacen/orden-carga/orden-carga.service';
+
+import { BodegasService } from 'src/app/services/catalogos/bodegas.service';
+
+import { DocumentacionImportacionComponent } from '../documentacion-importacion/documentacion-importacion.component';
+
+import { DocumentacionFormularioImportacionComponent } from '../documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
+
+import { DocumentosImportacionService } from 'src/app/services/importacion/documentos-importacion.service';
+
+import { Location } from '@angular/common';
+
+import { TraspasoMercanciaService } from '../../../services/importacion/traspaso-mercancia.service';
+
+import { TraspasomercanciaComponent } from '../../almacen/traspasomercancia/traspasomercancia.component';
+
+import { ResumentraspasoComponent } from '../../almacen/traspasomercancia/resumentraspaso/resumentraspaso.component';
+
+import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model';
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
 
 declare function steps();
 declare function upload();
+
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Almacen", 
+  "titulo": 'Traspaso',
+  "datosExtra": '',
+  },
+]
 
 @Component({
   selector: 'app-embarque-importacion',
@@ -75,7 +106,8 @@ export class EmbarqueImportacionComponent implements OnInit {
   constructor(public router: Router, public serviceTarima: TarimaService,
     public serviceordencarga: OrdenCargaService,
     private bodegaservice: BodegasService, private dialog: MatDialog, public documentosService: DocumentosImportacionService, public location: Location, 
-    public traspasoSVC: TraspasoMercanciaService) { }
+    public traspasoSVC: TraspasoMercanciaService,
+    private ConnectionHubService: ConnectionHubServiceService,) { }
 
   listData: MatTableDataSource<any>;
   listData2: MatTableDataSource<any>;
@@ -417,6 +449,8 @@ export class EmbarqueImportacionComponent implements OnInit {
 console.log(traspaso);
       this.traspasoSVC.addTraspasoMercancia(traspaso).subscribe(res => {
 
+        origenNotificacion[0].Folio = this.traspasoSVC.folionuevo
+        this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
         console.log(res);
 
         let query = 'select top 1 folio, idtraspasomercancia from traspasomercancia order by folio desc;'

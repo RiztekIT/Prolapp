@@ -22,7 +22,8 @@ export class OrdenCargaTraficoService {
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
   // readonly APIUrl = "https://localhost:44361/api";
   // readonly APIUrl = "http://192.168.1.67:32767/api";
-  readonly APIUrl = environment.APIUrl;
+  // readonly APIUrl = environment.APIUrl;
+  readonly APIUrl = "https://localhost:44361/api";
   //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
   
 

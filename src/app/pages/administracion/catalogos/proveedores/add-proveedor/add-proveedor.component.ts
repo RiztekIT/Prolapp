@@ -28,6 +28,20 @@ import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionH
 let origen: { origen: string, titulo: string }[] = [
   {"origen": "Administracion", "titulo": 'Proveedor'}
 ]
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Administracion", 
+  "titulo": 'Proveedor',
+  "datosExtra": '',
+  },
+]
 
 @Component({
   selector: 'app-add-proveedor',
@@ -110,6 +124,8 @@ export class AddProveedorComponent implements OnInit {
         console.log(data);
         this.resetForm(form);
         this.movimientos(this.movimiento)
+        let datosExtra = this.service.formData.Nombre
+        this.ConnectionHubService.generarNotificacion(origenNotificacion[0], datosExtra)
         this.ConnectionHubService.on(origen[0])
         Swal.fire({
           icon: 'success',

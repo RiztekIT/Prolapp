@@ -6,4 +6,8 @@ export class Notificaciones {
     Mensaje: string;
     ModuloOrigen: string;
     FechaEnvio: Date;
+
+    // ^Opcionales para notificacion
+    titulo?: string;
+    origen?: string;
 }

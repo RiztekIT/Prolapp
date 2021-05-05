@@ -27,6 +27,20 @@ import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionH
 let origen: { origen: string, titulo: string }[] = [
   {"origen": "Administracion", "titulo": 'Empresa'}
 ]
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Administracion", 
+  "titulo": 'Empresa',
+  "datosExtra": '',
+  },
+]
 
 @Component({
   selector: 'app-add-empresa',
@@ -146,6 +160,8 @@ export class AddEmpresaComponent implements OnInit {
   onCreate(){
     this.service.addEmpresa(this.service.formData).subscribe(res =>{
       console.log(res);
+      let datosExtra = this.service.formData.RazonSocial
+      this.ConnectionHubService.generarNotificacion(origenNotificacion[0], datosExtra)
       this.ConnectionHubService.on(origen[0])
       this.movimientos(this.modulo)
          

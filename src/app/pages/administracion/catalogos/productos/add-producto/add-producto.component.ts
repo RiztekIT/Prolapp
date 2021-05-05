@@ -23,6 +23,20 @@ import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionH
 let origen: { origen: string, titulo: string }[] = [
   {"origen": "Administracion", "titulo": 'Producto'}
 ]
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Administracion", 
+  "titulo": 'Producto',
+  "datosExtra": '',
+  },
+]
 
 @Component({
   selector: 'app-add-producto',
@@ -133,6 +147,10 @@ MarcasRel = false;
     console.log( this.service.formData);
     this.service.addProducto(this.service.formData).subscribe(res => {
       this.ConnectionHubService.on(origen[0])
+      
+      let datosExtra = this.service.formData.Nombre
+      this.ConnectionHubService.generarNotificacion(origenNotificacion[0], datosExtra)
+
       console.log(res);
       this.movimientos(this.movimiento)
       Swal.fire({

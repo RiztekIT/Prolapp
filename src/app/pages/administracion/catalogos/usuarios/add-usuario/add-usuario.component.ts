@@ -24,6 +24,20 @@ import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionH
 let origen: { origen: string, titulo: string }[] = [
   {"origen": "Administracion", "titulo": 'Usuario'}
 ]
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Administracion", 
+  "titulo": 'Usuario',
+  "datosExtra": '',
+  },
+]
 
 @Component({
   selector: 'app-add-usuario',
@@ -87,6 +101,8 @@ onSubmit(form: NgForm) {
       // });
       
       this.movimientos(this.movimiento)
+      let datosExtra = this.service.formData.Nombre
+      this.ConnectionHubService.generarNotificacion(origenNotificacion[0], datosExtra)
       this.ConnectionHubService.on(origen[0])
       Swal.fire({
         icon: 'success',

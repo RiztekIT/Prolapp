@@ -5,7 +5,8 @@ import { environment } from 'src/environments/environment';
 import { PrecioLeche } from '../../Models/precioLeche-model';
 
 
-export const APIUrl = environment.APIUrl;
+// export const APIUrl = environment.APIUrl;
+ export const APIUrl = "https://localhost:44361/api";
 //export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 
 

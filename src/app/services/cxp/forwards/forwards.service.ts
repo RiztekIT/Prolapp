@@ -8,7 +8,8 @@ import { environment } from 'src/environments/environment';
 
 
 
-export const APIUrl = environment.APIUrl;
+// export const APIUrl = environment.APIUrl;
+ export const APIUrl = "https://localhost:44361/api";
 
 @Injectable({
   providedIn: 'root'

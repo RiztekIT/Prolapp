@@ -1,20 +1,37 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+
 import { TraspasoMercanciaService } from '../../../services/importacion/traspaso-mercancia.service';
+
 import { MatTableDataSource, MatSort, MatPaginator, MatDialogConfig, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
+
 import { SelectionModel } from '@angular/cdk/collections';
+
 import { Router } from '@angular/router';
+
 import { ResumentraspasoComponent } from './resumentraspaso/resumentraspaso.component';
+
 import { DocumentacionFormularioImportacionComponent } from '../../importacion/documentacion-importacion/documentacion-formulario-importacion/documentacion-formulario-importacion.component';
+
 import { OrdenCargaDescargaComponent } from 'src/app/components/orden-carga-descarga/orden-carga-descarga.component';
+
 import Swal from 'sweetalert2';
+
 import { Subscription } from 'rxjs';
+
 import { TraspasoMercancia } from '../../../Models/importacion/detalleTraspasoMercancia-model';
+
 import { TarimaService } from '../../../services/almacen/tarima/tarima.service';
+
 import { DetalleTarima } from 'src/app/Models/almacen/Tarima/detalleTarima-model';
+
 import { OrdenCargaService } from '../../../services/almacen/orden-carga/orden-carga.service';
+
 import { OrdenTemporal } from '../../../Models/almacen/OrdenTemporal/ordenTemporal-model';
+
 import { VisorExploradorComponent } from 'src/app/components/explorador-documentos/visor-explorador/visor-explorador.component';
+
 import { EventosService } from 'src/app/services/eventos/eventos.service';
+
 
 @Component({
   selector: 'app-traspasomercancia',

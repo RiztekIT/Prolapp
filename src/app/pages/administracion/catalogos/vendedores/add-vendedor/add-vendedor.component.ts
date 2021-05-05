@@ -25,6 +25,22 @@ let origen: { origen: string, titulo: string }[] = [
   {"origen": "Administracion", "titulo": 'Vendedor'}
 ]
 
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Administracion", 
+  "titulo": 'Vendedor',
+  "datosExtra": '',
+  },
+]
+
 @Component({
   selector: 'app-add-vendedor',
   templateUrl: './add-vendedor.component.html',
@@ -61,6 +77,8 @@ export class AddVendedorComponent implements OnInit {
     this.ConnectionHubService.ConnectionHub(origen[0]);
     this.service.addVendedor(this.service.formDataV).subscribe(res =>{
       
+      let datosExtra = this.service.formDataV.Nombre
+      this.ConnectionHubService.generarNotificacion(origenNotificacion[0], datosExtra)
       this.ConnectionHubService.on(origen[0])
       this.movimientos(this.movimiento)
       console.log(res);
