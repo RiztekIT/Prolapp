@@ -108,3 +108,14 @@ npm i ng2-pdf-viewer
 npm i zone.js@0.10.3
 
 node --max-old-space-size=8192 ./node_modules/@angular/cli/bin/ng build --prod
+
+<!-- EN CASO DE ERROR CON PDF PROMISE -->
+
+
+interface PDFPromise<T>{
+    isResolved():boolean;
+    isRejected():boolean;
+    resolve(value: T): void;
+    reject(reason: string): void;
+    then<U>(onResolve:(promise: T) => U, onReject?: (reason:string) => void): PDFPromise<U>;
+}
