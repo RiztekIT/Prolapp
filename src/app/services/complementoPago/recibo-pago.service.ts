@@ -42,9 +42,8 @@ export class ReciboPagoService {
   constructor(private http: HttpClient) { }
 
   // URL donde mandaremos el request al servidor para obtener los Datos de la DB
-  // readonly APIUrl = environment.APIUrl;
-  readonly APIUrl = "https://localhost:44361/api";
-  //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+   readonly APIUrl = environment.APIUrl;
+  
 
   //Obtener Lista de ReciboPago
   getRecibosPagoList(): Observable<ReciboPago[]> {

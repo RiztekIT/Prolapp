@@ -9,9 +9,9 @@ import { Compras } from '../../Models/Compras/compra-model';
 import { DetalleCompra } from '../../Models/Compras/detalleCompra-model';
 import { DetalleOrdenDescarga } from '../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 
-// export const APIUrl = environment.APIUrl;
- export const APIUrl = "https://localhost:44361/api";
-// export const APIUrl = "https://localhost:44361/api";
+export const APIUrl = environment.APIUrl;
+
+
 export const URLApiEMail = environment.APIUrlEmail;
 
 @Injectable({ 

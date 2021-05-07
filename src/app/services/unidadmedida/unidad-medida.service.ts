@@ -31,9 +31,8 @@ export class UnidadMedidaService {
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
   formData: UnidadMedida;
   master = new Array<UnidadMedidaDetalle>();
-  // readonly APIUrl = environment.APIUrl;
-  readonly APIUrl = "https://localhost:44361/api";
-  //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+  readonly APIUrl = environment.APIUrl;
+  
 
 //Get unidades medida API SAT
  //Get Unidades De Medida

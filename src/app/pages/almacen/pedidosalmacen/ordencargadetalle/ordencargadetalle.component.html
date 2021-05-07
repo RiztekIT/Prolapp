@@ -57,12 +57,12 @@
                                         <div class="col-12 col-md-3">
 
                                             <label class="input-group-text text-info txt">Fletera: </label>
-                                            <input type="text" class="form-control" name="Fletera" #Fletera="ngModel" (blur)="onBlurInformacionGeneral()" [(ngModel)]="service.formData.Fletera" >
+                                            <input type="text" class="form-control" name="Fletera" #Fletera="ngModel" (blur)="onBlurInformacionGeneral()" [(ngModel)]="service.formData.Fletera">
                                         </div>
                                         <div class="col-12 col-md-3">
 
                                             <label class="input-group-text text-info">Numero de Caja: </label>
-                                            <input type="text" class="form-control" name="NumCaja" #NumCaja="ngModel" (blur)="onBlurInformacionGeneral()" [(ngModel)]="service.formData.Caja" >
+                                            <input type="text" class="form-control" name="NumCaja" #NumCaja="ngModel" (blur)="onBlurInformacionGeneral()" [(ngModel)]="service.formData.Caja">
 
                                         </div>
                                         <div class="col-12 col-md-3">
@@ -86,24 +86,18 @@
                                         <div class="col-12 col-md-4">
 
                                             <label class="input-group-text text-info txt">Embarca: </label>
-                                            <input title="La persona que cargo la mercancia" matInput type="text"
-                                            name="envio" #envio="ngModel" (blur)="onBlurInformacionGeneral()"
-                                            [(ngModel)]="service.formData.Usuario">
+                                            <input title="La persona que cargo la mercancia" matInput type="text" name="envio" #envio="ngModel" (blur)="onBlurInformacionGeneral()" [(ngModel)]="service.formData.Usuario">
                                         </div>
                                         <div class="col-12 col-md-4">
 
                                             <label class="input-group-text text-info">Inicio Carga: </label>
-                                            <input title="Dia y hora en la que se realizo el Envio" matInput type="datetime-local"
-                                            name="inicio" #inicio="ngModel" (blur)="onBlurInformacionGeneral()"
-                                            [(ngModel)]="service.formData.FechaInicioCarga">
+                                            <input title="Dia y hora en la que se realizo el Envio" matInput type="datetime-local" name="inicio" #inicio="ngModel" (blur)="onBlurInformacionGeneral()" [(ngModel)]="service.formData.FechaInicioCarga">
 
                                         </div>
                                         <div class="col-12 col-md-4">
 
                                             <label class="input-group-text text-info">Fin Carga: </label>
-                                            <input title="Dia y hora en la que se realizo el Envio" matInput type="datetime-local"
-                                            name="fin" #fin="ngModel" (blur)="onBlurInformacionGeneral()"
-                                            [(ngModel)]="service.formData.FechaFinalCarga">
+                                            <input title="Dia y hora en la que se realizo el Envio" matInput type="datetime-local" name="fin" #fin="ngModel" (blur)="onBlurInformacionGeneral()" [(ngModel)]="service.formData.FechaFinalCarga">
 
                                         </div>
 
@@ -213,7 +207,7 @@
                                         <br>
                                     </div>
                                     <div style="display: grid;" class="col-12 col-md-2">
-                                    <!-- <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' || estatusOC == 'Terminada'"> -->
+                                        <!-- <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' || estatusOC == 'Terminada'"> -->
                                         <button id="EnviarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
                                         <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="pdf()">PDF</button>
                                         <br>
@@ -246,7 +240,13 @@
                                         <button [disabled]="Enviar == false" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="enviar()">Enviar</button>
                                         <br>
                                     </div>
-                                   
+
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="estatusOC == 'Terminada'">
+                                        <button id="EnviarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
+                                        <button [disabled]="Enviar == false" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="abrir()">Abrir</button>
+                                        <br>
+                                    </div>
+
                                     <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' && ((this.service.formData.Fletera==='Foraneo') || (this.service.formData.Fletera!=='Sucursal' && this.service.formData.Fletera!=='Local' && this.service.formData.Fletera!=='Paqueteria'))">
                                         <button id="TerminarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
                                         <button [disabled]="Terminar == false" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="terminar()">Terminar</button>

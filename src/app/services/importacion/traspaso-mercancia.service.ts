@@ -6,9 +6,9 @@ import { environment } from 'src/environments/environment';
 import { TraspasoMercancia } from '../../Models/importacion/detalleTraspasoMercancia-model';
 import { DetalleTraspasoMercancia } from '../../Models/importacion/traspasoMercancia-model';
 
- // export const APIUrl = environment.APIUrl;
- export const APIUrl = "https://localhost:44361/api";
-// export const APIUrl = "https://localhost:44361/api";
+ export const APIUrl = environment.APIUrl;
+ 
+
 
 @Injectable({
   providedIn: 'root'

@@ -7,9 +7,8 @@ import { StorageServiceService } from './storage-service.service';
 import { Observable, Subject } from 'rxjs';
 import { UsuariosServieService } from '../catalogos/usuarios-servie.service';
 
-// export const APIUrl = environment.APIUrl;
- export const APIUrl = "https://localhost:44361/api";
-// export const APIUrl = "https://localhost:44361/api";
+export const APIUrl = environment.APIUrl;
+
 declare function init_plugins();
 
 @Injectable({

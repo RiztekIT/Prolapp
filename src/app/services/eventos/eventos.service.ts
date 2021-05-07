@@ -18,10 +18,10 @@ export class EventosService {
 
 
 
-  // readonly APIUrl = "https://localhost:44361/api";
-  // readonly APIUrl = environment.APIUrl;
-  readonly APIUrl = "https://localhost:44361/api";
-  //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+  
+  readonly APIUrl = environment.APIUrl;
+  
+  
 
   getEventosList(): Observable <Evento[]> {
     return this.http.get<Evento[]>(this.APIUrl + '/Eventos');

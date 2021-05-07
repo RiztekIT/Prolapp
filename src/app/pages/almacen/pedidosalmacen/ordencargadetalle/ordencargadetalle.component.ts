@@ -608,5 +608,25 @@ export class OrdencargadetalleComponent implements OnInit {
     }
 }
 
+abrir(){
+
+  this.service.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(rese => {
+    this.movimientos('Abrir OC')
+
+    Swal.fire({
+      title: 'Abierta',
+      icon: 'success',
+      timer: 1000,
+      showCancelButton: false,
+      showConfirmButton: false
+    });
+
+    this.getOrdenCarga();
+    this.generarEventoCalendario(this.Folio);
+
+  })
+
+}
+
 
 }

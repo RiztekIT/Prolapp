@@ -212,8 +212,8 @@ export class Pagos {
   providedIn: 'root'
 })
 export class PosserviceService {
-  // readonly APIUrl = environment.APIUrl;
-  readonly APIUrl = "https://localhost:44361/api";
+   readonly APIUrl = environment.APIUrl;
+  
   productosForm = new Producto();
   entradaForm = new Entrada();
   masterEntrada;

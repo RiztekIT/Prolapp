@@ -16,8 +16,8 @@ export class FleterasService {
   constructor(private http:HttpClient) { }
 
   
-  // readonly APIUrl = environment.APIUrl;
-  readonly APIUrl = "https://localhost:44361/api";
+  readonly APIUrl = environment.APIUrl;
+  
 
 
   getFleterasList(): Observable <Fleteras[]> {

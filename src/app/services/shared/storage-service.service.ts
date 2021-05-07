@@ -28,8 +28,8 @@ export class StorageServiceService {
   private localStorageService;
   private currentSession : Session = null;
   private currentSessionCliente : sessionCliente = null;
-  // readonly APIUrl = environment.APIUrl;
-  readonly APIUrl = "https://localhost:44361/api";
+  readonly APIUrl = environment.APIUrl;
+  
   currentUser;
   
   constructor(private router: Router,private http : HttpClient) { 
