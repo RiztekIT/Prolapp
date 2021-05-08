@@ -33,6 +33,20 @@ import { ConnectionHubServiceService } from './../../../services/shared/Connecti
 let origen: { origen: string, titulo: string }[] = [
   {"origen": "Compras", "titulo": 'Compra'}
 ]
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Compras", 
+  "titulo": 'Compra',
+  "datosExtra": '',
+  },
+]
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -338,9 +352,13 @@ ImpuestosTrasladadosDlls: ""
 console.log(this.compraBlanco);
 
       this.service.addCompra(this.compraBlanco).subscribe(res=>{
+        console.log(res);
         
         this.ConnectionHubService.on(origen[0]);
-        console.log(res);
+
+        origenNotificacion[0].Folio = this.compraBlanco.Folio
+        this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
+      
         this.service.getUltimoIdCompra().subscribe(res=>{
           console.log(res);
           localStorage.setItem('IdCompra', res.toString())

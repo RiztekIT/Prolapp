@@ -2,8 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 import { PosserviceService, Cliente } from '../../../posservice.service';
 import Swal from 'sweetalert2';
-import { ConnectionHubServiceService } from '../../../../../services/shared/ConnectionHub/connection-hub-service.service';
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "POS", 
+  "titulo": 'Cliente',
+  "datosExtra": '',
+  },
+]
 
 let origen: { origen: string, titulo: string }[] = [
   {"origen": "POS", "titulo": 'Cliente'}
@@ -276,6 +291,7 @@ let fecha = new Date().toISOString().slice(0,10);
         console.log(consulta2);
         this.posSVC.generarConsulta(consulta2).subscribe((resp:any) =>{
           this.ConnectionHubService.on(origen[0]);
+          this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
           console.log(resp);
           this.posSVC.clientesForm.idCLiente = resp[0].idCLiente
           if (resp){

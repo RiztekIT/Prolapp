@@ -8,8 +8,23 @@ import { Location } from '@angular/common';
 import { AddeditposentradaproductosComponent } from './addeditposentradaproductos/addeditposentradaproductos.component';
 
 
-import { ConnectionHubServiceService } from './../../../../services/shared/ConnectionHub/connection-hub-service.service';
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "POS", 
+  "titulo": 'POSEntrada',
+  "datosExtra": '',
+  },
+]
 
 let origen: { origen: string, titulo: string }[] = [
   {"origen": "POS", "titulo": 'POSEntrada'}

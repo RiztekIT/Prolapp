@@ -21,8 +21,23 @@ import { DatePipe } from '@angular/common';
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 
-import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Cxp", 
+  "titulo": 'Forward',
+  "datosExtra": '',
+  },
+]
 
 let origen: { origen: string, titulo: string }[] = [
   {"origen": "Cxp", "titulo": 'Forward'}
@@ -159,6 +174,8 @@ export class ForwardscxpComponent implements OnInit {
         console.log(res);
         
         this.ConnectionHubService.on(origen[0]);
+        this.ConnectionHubService.generarNotificacion(origenNotificacion[0]);
+        
         
         this.eventosService.movimientos('Generar Forward')
         this.ForwardsService.onadd = true;

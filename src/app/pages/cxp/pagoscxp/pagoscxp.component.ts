@@ -6,7 +6,23 @@ import { Pagos } from '../../../Models/Pagos/pagos-model';
 import { PagoDocumentoComponent } from './pago-documento/pago-documento.component';
 
 
-import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Cxp", 
+  "titulo": 'Pago',
+  "datosExtra": '',
+  },
+]
 
 
 let origen: { origen: string, titulo: string }[] = [

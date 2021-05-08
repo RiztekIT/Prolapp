@@ -7,8 +7,23 @@ import Swal from 'sweetalert2';
 import { map, startWith } from 'rxjs/operators';
 
 
-import { ConnectionHubServiceService } from '../../../../../services/shared/ConnectionHub/connection-hub-service.service';
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "POS", 
+  "titulo": 'POSEntrada',
+  "datosExtra": '',
+  },
+]
 
 let origen: { origen: string, titulo: string }[] = [
   {"origen": "POS", "titulo": 'POSEntrada'}
@@ -125,6 +140,7 @@ export class AddeditposentradaproductosComponent implements OnInit {
     this.posSVC.generarConsulta(consulta).subscribe((res:any)=>{
       console.log(res);
       this.ConnectionHubService.on(origen[0]);
+      this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
       this.agregarInventario();
       if (res.length==0){
         Swal.fire({

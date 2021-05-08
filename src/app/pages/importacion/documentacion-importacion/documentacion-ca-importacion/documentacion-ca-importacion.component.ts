@@ -28,7 +28,27 @@ import Swal from 'sweetalert2';
 import { MatSort } from '@angular/material/sort';
 
 import { DatePipe } from '@angular/common'
+
 import { EventosService } from 'src/app/services/eventos/eventos.service';
+
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Almacen", 
+  "titulo": 'Documento CA',
+  "datosExtra": '',
+  },
+]
 
 @Component({
   selector: 'app-documentacion-ca-importacion',
@@ -41,7 +61,8 @@ export class DocumentacionCAImportacionComponent implements OnInit {
     public addproductos: AddsproductosService, 
     public documentosService: DocumentosImportacionService,  
     private dialog: MatDialog,
-    private eventosService:EventosService,) { 
+    private eventosService:EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) { 
     this.productosExistentes = false;
   }
 
@@ -395,6 +416,9 @@ ClaveProducto: string = "";
                   this.archivos = [];
                   
                   this.eventosService.movimientos('Agregar Documento CA')
+                  
+                  this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
+                  
                   Swal.fire({
                     title: 'Documentos Guardados',
                     icon: 'success',

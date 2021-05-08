@@ -44,7 +44,7 @@ generarNotificacion(notificacionData, datosExtra?) {
   noti.Usuario = this.storageService.currentUser.NombreUsuario;
   // ^se condiciona si la notificacion viene con folio, para tener mensajes especificos para con/sin folio
   if (notificacionData.Folio) {
-    noti.Mensaje = notificacionData.titulo + ' Realizado/a Folio ' + notificacionData.Folio
+    noti.Mensaje = notificacionData.titulo + ' Creado/a Folio ' + notificacionData.Folio
   }else{
     noti.Mensaje = notificacionData.titulo+ ' '+ datosExtra + ' Creado/a'
   }

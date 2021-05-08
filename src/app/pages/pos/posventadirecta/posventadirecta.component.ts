@@ -24,8 +24,23 @@ import { PossaldosclientesComponent } from './possaldosclientes/possaldoscliente
 
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 
-import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "POS", 
+  "titulo": 'Venta',
+  "datosExtra": '',
+  },
+]
 
 let origen: { origen: string, titulo: string }[] = [
   {"origen": "POS", "titulo": 'Venta'}
@@ -758,6 +773,7 @@ if (data.length>0){
       this.posSVC.generarConsulta(consulta).subscribe(res => {
          console.log(res);
          this.ConnectionHubService.on(origen[0]);
+         this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
          this.posSVC.ventasForm = res[0];
 
          this.posSVC.detallesventasForm = new DetalleVentas;

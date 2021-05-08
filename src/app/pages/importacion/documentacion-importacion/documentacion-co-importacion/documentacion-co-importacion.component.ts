@@ -29,6 +29,24 @@ import { MatSort } from '@angular/material/sort';
 
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Almacen", 
+  "titulo": 'Documento CO',
+  "datosExtra": '',
+  },
+]
 @Component({
   selector: 'app-documentacion-co-importacion',
   templateUrl: './documentacion-co-importacion.component.html',
@@ -40,7 +58,8 @@ export class DocumentacionCOImportacionComponent implements OnInit {
      public addproductos: AddsproductosService, 
      public documentosService: DocumentosImportacionService,  
      private dialog: MatDialog,
-     private eventosService:EventosService,) { 
+     private eventosService:EventosService,
+     private ConnectionHubService: ConnectionHubServiceService,) { 
     this.productosExistentes = false;
   }
 
@@ -386,6 +405,8 @@ ClaveProducto: string = "";
                   this.archivos = [];
                   
                   this.eventosService.movimientos('Agregar Documento CO')
+                  
+                  this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
                   Swal.fire({
                     title: 'Documentos Guardados',
                     icon: 'success',

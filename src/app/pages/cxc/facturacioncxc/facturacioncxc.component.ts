@@ -53,6 +53,20 @@ import { ConnectionHubServiceService } from './../../../services/shared/Connecti
 let origen: { origen: string, titulo: string }[] = [
   {"origen": "Cxc", "titulo": 'Facturacion'}
 ]
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "CxC", 
+  "titulo": 'Factura',
+  "datosExtra": '',
+  },
+]
 
 
 @Component({
@@ -404,6 +418,9 @@ console.log(data)
   onAdd(){
     console.log(this.FacturaBlanco);
     this.service.addFactura(this.FacturaBlanco).subscribe(res => {
+      
+      origenNotificacion[0].Folio = +this.FacturaBlanco.Folio
+      this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
       
       this.ConnectionHubService.on(origen[0]);
       this.service.getUltimaFactura().subscribe(data => {

@@ -30,7 +30,23 @@ import { EventosService } from 'src/app/services/eventos/eventos.service';
 import { EmailgeneralComponent } from 'src/app/components/email/emailgeneral/emailgeneral.component';
 import { FileService } from 'src/app/services/explorador-archivos/explorador.service';
 
-import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Almacen/Importacion", 
+  "titulo": 'Documento',
+  "datosExtra": '',
+  },
+]
 
 
 let origen: { origen: string, titulo: string }[] = [

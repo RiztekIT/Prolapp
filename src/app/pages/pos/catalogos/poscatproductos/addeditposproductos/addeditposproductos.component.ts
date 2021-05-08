@@ -5,8 +5,23 @@ import Swal from 'sweetalert2';
 import { startWith, map } from 'rxjs/operators';
 
 
-import { ConnectionHubServiceService } from '../../../../../services/shared/ConnectionHub/connection-hub-service.service';
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "POS", 
+  "titulo": 'POSProducto',
+  "datosExtra": '',
+  },
+]
 
 let origen: { origen: string, titulo: string }[] = [
   {"origen": "POS", "titulo": 'POSProducto'}
@@ -119,6 +134,8 @@ export class AddeditposproductosComponent implements OnInit {
       this.posSVC.generarConsulta(consulta).subscribe((resp:any) => {
         console.log(resp);
         this.ConnectionHubService.on(origen[0]);
+        this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
+        
         // ! paquetes agregar el idservicio para relacionar paquete con servicio
     
 

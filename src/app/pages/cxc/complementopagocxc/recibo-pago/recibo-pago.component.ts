@@ -1,38 +1,85 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { ReciboPagoService } from '../../../../services/complementoPago/recibo-pago.service';
+
 import { Router } from '@angular/router';
+
 import { NgForm, FormControl } from '@angular/forms';
+
 import { ReciboPago } from '../../../../Models/ComplementoPago/recibopago';
+
 import { Observable, empty, timer } from 'rxjs';
+
 import { Cliente } from 'src/app/Models/catalogos/clientes-model';
+
 //Importacion Angular Material Tables and Sort
+
 import { MatTableDataSource, MatSort, NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+
 //Importacion para utilizar Pipe de DropDown Clientes
+
 import { map, startWith } from 'rxjs/operators';
+
 import { Factura } from 'src/app/Models/facturacioncxc/factura-model';
+
 import { PagoCFDI } from '../../../../Models/ComplementoPago/pagocfdi';
+
 //Importacion Modal
+
 import { MatDialog, MatDialogConfig } from '@angular/material';
+
 //Importacion Edit Pago CFDI
+
 import { PagoCFDIEditComponent } from '../pago-cfdi-edit/pago-cfdi-edit.component';
+
 import { pagoTimbre } from 'src/app/Models/ComplementoPago/pagotimbre';
+
 import { TipoCambioService } from 'src/app/services/tipo-cambio.service';
+
 import { CurrencyPipe } from '@angular/common';
+
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+
 import Swal from 'sweetalert2';
+
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+
 import { FoliosService } from 'src/app/services/direccion/folios.service';
+
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
+
 import * as html2pdf from 'html2pdf.js';
+
 import { ComplementoPagoComponent } from 'src/app/components/complemento-pago/complemento-pago.component';
+
 import { MessageService } from 'src/app/services/message.service';
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { EmailComponent } from 'src/app/components/email/email/email.component';
+
 import { NotaCreditoService } from 'src/app/services/cuentasxcobrar/NotasCreditocxc/notaCredito.service';
+
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 // import { MatDialogRef } from '@angular/material';
 
 import { ConnectionHubServiceService } from './../../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Cxc", 
+  "titulo": 'Complemento',
+  "datosExtra": '',
+  },
+]
 
 
 let origen: { origen: string, titulo: string }[] = [
@@ -938,6 +985,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
       this.Estatus = this.service.formData.Estatus;
       
+      this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
       this.ConnectionHubService.on(origen[0]);
       console.log(data);
       this.refreshPagoCFDITList();

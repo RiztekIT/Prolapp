@@ -27,6 +27,20 @@ let origen1: { origen: string, titulo: string }[] = [
   {"origen": "Calidad", "titulo": 'Incidencia'}
 ]
 
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Almacen/Calidad", 
+  "titulo": 'Incidencia',
+  "datosExtra": '',
+  },
+]
 
 
 @Component({
@@ -613,6 +627,9 @@ obtenerImagen(a) {
       console.log(res);
       this.ConnectionHubService.on(origen[0])
       this.ConnectionHubService.on(origen1[0])
+      
+      origenNotificacion[0].Folio = this.incidenciasService.incidenciaObject.FolioProcedencia
+      this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
       
       this.eventosService.movimientos('Incidencia Generada')
       Swal.fire({
