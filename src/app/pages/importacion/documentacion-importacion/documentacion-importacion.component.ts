@@ -495,7 +495,7 @@ this.subs1 = this.traspasoSVC.getQuery(consulta).subscribe((resTipos:any)=>{
     this._MessageService.asunto = 'Envio de Documentacion ';
     this._MessageService.cuerpo = 'Se ha enviado la siguiente Documentacion';
     this._MessageService.nombre = 'Abarrotodo';
-    this._MessageService.pdf = false;
+    this._MessageService.pdf = true;
 
 
     /* let archivo = {
@@ -563,6 +563,10 @@ let path;
       }
        this.dialog.open(EmailgeneralComponent, dialogConfig);
   }
+
+
+
+
 
 
 }

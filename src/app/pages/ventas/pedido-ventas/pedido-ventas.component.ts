@@ -475,6 +475,10 @@ export class PedidoVentasComponent implements OnInit {
   //^ Regresar stock a Detalle Tarima y eliminar Orden Temporal
   regresarStock(ordenesTemporales: any, IdOrdenCarga: number, IdPedido: number) {
 
+    if (ordenesTemporales.length>0){
+
+    
+
     ordenesTemporales.forEach(ordenTemporal => {
 
 
@@ -551,6 +555,11 @@ export class PedidoVentasComponent implements OnInit {
       this.DeletePedidoDetallePedido(IdPedido);
       this.eliminarOrdenyDetalles(IdOrdenCarga);
     });
+  }else{
+    this.DeletePedidoDetallePedido(IdPedido);
+    this.eliminarOrdenyDetalles(IdOrdenCarga);
+
+  }
   }
 
   //^ Eliminar Orden Carga y Detalles

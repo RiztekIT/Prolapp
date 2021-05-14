@@ -54,6 +54,7 @@
         "ng2-imageupload": "^1.4.2",
         "ng2-pdf-viewer": "^6.4.0",
         "ng2-qrcode-reader": "0.0.1",
+        "ngx-cookie-service": "^2.3.0",
         "ngx-device-detector": "^2.0.0",
         "ngx-doc-viewer": "^1.0.3",
         "ngx-dropzone": "^2.2.2",

@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { ExploradorDocumentosComponent } from '../../explorador-documentos/explorador-documentos.component';
 import { VisorExploradorComponent } from '../../explorador-documentos/visor-explorador/visor-explorador.component';
 import { FileService } from 'src/app/services/explorador-archivos/explorador.service';
+import { DocumentosImportacionService } from 'src/app/services/importacion/documentos-importacion.service';
 
 export interface parametros {
     foliop: string,
@@ -25,7 +26,7 @@ export interface parametros {
 export class EmailgeneralComponent implements OnInit {
     public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
-    constructor(public dialogRef: MatDialogRef<EmailgeneralComponent>, public _MessageService: MessageService, @Inject(MAT_DIALOG_DATA) public data: parametros, private dialog: MatDialog, public fileService: FileService,) { 
+    constructor(public dialogRef: MatDialogRef<EmailgeneralComponent>, public _MessageService: MessageService, @Inject(MAT_DIALOG_DATA) public data: parametros, private dialog: MatDialog, public fileService: FileService,public documentosService: DocumentosImportacionService) { 
         this.fileService.listen().subscribe((m:any)=>{
             console.log(m);
             console.log('Adjuntar Documentos Seleccionados');
@@ -299,7 +300,12 @@ export class EmailgeneralComponent implements OnInit {
             }, 1000)
         }else if (this.data.tipo == 'Documento') {
             // console.log('Es un traspaso');
-           this.adjuntarDocumento();
+            this.Intevalo = setInterval(() => {
+                this.urlPDF2();
+            }, 1000)
+                
+                
+            
         }
         
     }
@@ -339,6 +345,23 @@ export class EmailgeneralComponent implements OnInit {
             this.leerDir();
         }
         // console.log(this.fileUrl);
+
+    }
+    urlPDF2() {
+
+    
+        
+        this.fileUrl = this.documentosService.fileUrl;
+    
+
+        if (this.fileUrl) {
+    
+            this.pdfstatus = true;
+            clearInterval(this.Intevalo);
+            this.adjuntarDocumento();
+            
+        }
+    
 
     }
     //! Modificar en la forma en la que trabaja el pedido

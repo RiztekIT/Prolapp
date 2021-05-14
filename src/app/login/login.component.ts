@@ -13,6 +13,7 @@ import { interval } from 'rxjs';
 import { ClientesService } from '../services/catalogos/clientes.service';
 
 import { sessionCliente } from '../Models/ClienteLogin/sessionCliente-model';
+import { CookieService } from 'ngx-cookie-service';
 
 
 declare function init_plugins();
@@ -27,7 +28,7 @@ export class LoginComponent implements OnInit {
   constructor(public router: Router, public service: UsuariosServieService,
      private snackBar: MatSnackBar, private storageServce: StorageServiceService, 
      public sidebarservice: SidebarService, private deviceService: DeviceDetectorService, 
-     public clienteService: ClientesService, public siderbarservice: SidebarService) { }
+     public clienteService: ClientesService, public siderbarservice: SidebarService, private cookieSVC: CookieService ) { }
 numimagen = 3;
   token;
   deviceinfo;
@@ -56,6 +57,7 @@ numimagen = 3;
   ngOnInit() {
 
     init_plugins();
+    this.cookiesborrar();
     this.resetForm();
     this.obtenerdevice();
     this.carruselimagenes()
@@ -267,6 +269,42 @@ console.log(form.RFC);
         contra: '',
    }
 
+  }
+
+  cookiesborrar(){
+    this.cookieSVC.deleteAll()
+    localStorage.clear();
+    sessionStorage.clear();
+
+  this.cookieSVC.set('prueba','todos')
+  console.log(this.cookieSVC.getAll(),'cookies')
+  let cookies = document.cookie.split(";");
+  console.log(cookies);
+
+  for (var i = 0; i < cookies.length; i++) {
+    var cookie = cookies[i];
+    var eqPos = cookie.indexOf("=");
+    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+}
+    
+  }
+
+  keydownusuario(event){
+    /* console.log(event); */
+
+  }
+
+  keydownpass(event, form){
+/*     console.log(event); 
+ 
+    console.log(form.value); */
+
+    if (event.keyCode == 13) {
+
+      this.autentificar(form)
+
+    }
   }
 
 
