@@ -230,10 +230,11 @@ export class OrdendescargatarimacuuComponent implements OnInit {
       console.log(query);
       this.traspasoSVC.getQuery(consulta).subscribe((dataOD: any) => {
       console.log(dataOD);
+      console.log(this.arrayProductosIngresados);
       if (+dataOD[0].Saldo > 0) {
 
         this.arrayProductosIngresados.forEach(element => {
-          if ((informacionProducto.ClaveProducto == element.ClaveProducto) && (informacionProducto.Lote == element.Lote)) {
+          if ((informacionProducto.ClaveProducto == element.ClaveProducto) && (informacionProducto.Lote == element.Lote) && (informacionProducto.Shipper == element.Shipper)) {
             Swal.fire({
               icon: 'error',
               showCancelButton: false,

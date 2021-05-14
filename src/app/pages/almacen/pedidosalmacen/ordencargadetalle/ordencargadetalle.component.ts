@@ -464,11 +464,11 @@ export class OrdencargadetalleComponent implements OnInit {
       this.od.IdProveedor = 0;
       this.od.Proveedor = this.service.formData.Origen;
       this.od.PO = '0';
-      this.od.Fletera = '';
-      this.od.Caja = '';
+      this.od.Fletera = this.service.formData.Fletera;
+      this.od.Caja = this.service.formData.Caja;
       this.od.Sacos = sacos.toString();
       this.od.Kg = kg.toString();
-      this.od.Chofer = '';
+      this.od.Chofer = this.service.formData.Chofer;
       this.od.Origen = this.service.formData.Origen;
       this.od.Destino = 'CHIHUAHUA';
       this.od.Observaciones = '';
