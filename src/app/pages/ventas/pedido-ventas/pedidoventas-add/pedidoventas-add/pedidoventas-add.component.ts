@@ -2362,7 +2362,7 @@ subscribeClientes: Subscription
     // this.idparam = id;
     this._MessageService.correo = '';
     this._MessageService.cco = '';
-    this._MessageService.asunto = 'Envio Orden de Compra ' + pedido.Folio;
+    this._MessageService.asunto = 'Envio Orden de Venta ' + pedido.Folio;
     this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + pedido.Folio;
     this._MessageService.nombre = 'Abarrotodo';
     this._MessageService.pdf = false;
