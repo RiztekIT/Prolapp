@@ -245,53 +245,71 @@ this.service.master = []
     }).then((result) => {
       if (result.value) {
         //obtener estatus de la orden de descarga
-        
-
-        let consulta = 'select * from ordendescarga where idOrdendescarga='+compra.Ver
+        if (compra.Ver!=''){
+          let consulta = 'select * from ordendescarga where idOrdendescarga='+compra.Ver
           
 
-        console.log(consulta);
-
-        this.CompraService.generarConsulta(consulta).subscribe((resp:any)=>{
-          console.log(resp);
-          if (resp.length>0){
-            if (resp[0].Estatus=='Transito'){
-              let consulta2 = 'delete from DetalleOrdenDescarga where idOrdenDescarga='+resp[0].IdOrdenDescarga
-              this.CompraService.generarConsulta(consulta2).subscribe((res:any)=>{
-                let consulta3 = 'delete from OrdenDescarga where idOrdenDescarga='+resp[0].IdOrdenDescarga
-                this.CompraService.generarConsulta(consulta2).subscribe((respo:any)=>{
-                  //Borrar todos los detalles compra
-        this.service.deleteDetalleCompraID(compra.IdCompra).subscribe(resDetalle=>{
-          console.log(resDetalle);
-          //BorrarCompra
-          this.service.deleteCompra(compra.IdCompra).subscribe(res=>{
-            console.log(res);
-            this.ConnectionHubService.on(origen[0]);
-            
-            
-          this.eventosService.movimientos('Compra Borrada')
-            this.obtenerCompras();
+          console.log(consulta);
+  
+          this.CompraService.generarConsulta(consulta).subscribe((resp:any)=>{
+            console.log(resp);
+            if (resp.length>0){
+              if (resp[0].Estatus=='Transito'){
+                let consulta2 = 'delete from DetalleOrdenDescarga where idOrdenDescarga='+resp[0].IdOrdenDescarga
+                this.CompraService.generarConsulta(consulta2).subscribe((res:any)=>{
+                  let consulta3 = 'delete from OrdenDescarga where idOrdenDescarga='+resp[0].IdOrdenDescarga
+                  this.CompraService.generarConsulta(consulta2).subscribe((respo:any)=>{
+                    //Borrar todos los detalles compra
+          this.service.deleteDetalleCompraID(compra.IdCompra).subscribe(resDetalle=>{
+            console.log(resDetalle);
+            //BorrarCompra
+            this.service.deleteCompra(compra.IdCompra).subscribe(res=>{
+              console.log(res);
+              this.ConnectionHubService.on(origen[0]);
+              
+              
+            this.eventosService.movimientos('Compra Borrada')
+              this.obtenerCompras();
+            })
           })
-        })
-
+  
+                  })
                 })
-              })
-            }else{
-              //no borrar porque la orden ya a sido descargada
-
-              Swal.fire({
-                title: 'No se puede borrar la compra',
-                icon: 'error',
-                timer: 1000,
-                showCancelButton: false,
-                showConfirmButton: false
-              });
-
+              }else{
+                //no borrar porque la orden ya a sido descargada
+  
+                Swal.fire({
+                  title: 'No se puede borrar la compra',
+                  icon: 'error',
+                  timer: 1000,
+                  showCancelButton: false,
+                  showConfirmButton: false
+                });
+  
+              }
+  
             }
+  
+          })
+        }else{
 
-          }
+                    //Borrar todos los detalles compra
+                    this.service.deleteDetalleCompraID(compra.IdCompra).subscribe(resDetalle=>{
+                      console.log(resDetalle);
+                      //BorrarCompra
+                      this.service.deleteCompra(compra.IdCompra).subscribe(res=>{
+                        console.log(res);
+                        this.ConnectionHubService.on(origen[0]);
+                        
+                        
+                      this.eventosService.movimientos('Compra Borrada')
+                        this.obtenerCompras();
+                      })
+                    })
 
-        })
+        }
+
+       
 
     
           Swal.fire({
