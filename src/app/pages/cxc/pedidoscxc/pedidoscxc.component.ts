@@ -61,7 +61,7 @@ export class PedidoscxcComponent implements OnInit {
     privilegios: any;
     privilegiosExistentes: boolean = false;
     modulo = 'Cuentas por Cobrar';
-    area = 'Orden de Compra';
+    area = 'Orden de Venta';
   
     //^ VARIABLES DE PERMISOS
     Editar: boolean = false;
@@ -96,16 +96,16 @@ export class PedidoscxcComponent implements OnInit {
   
     verificarPrivilegio(privilegio) {
       switch (privilegio) {
-        case ('Crear Orden de Compra'):
+        case ('Crear Orden de Venta'):
           this.Agregar = true;
           break;
-        case ('Editar Orden de compra'):
+        case ('Editar Orden de Venta'):
           this.Editar = true;
           break;
-        case ('Borrar Orden de compra'):
+        case ('Borrar Orden de Venta'):
           this.Borrar = true;
           break;
-        case ('Enviar Orden de compra'):
+        case ('Enviar Orden de Venta'):
           this.Enviar = true;
           break;
         default:

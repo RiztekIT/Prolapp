@@ -309,7 +309,7 @@ onChangeCantidad(Cantidad: any){
 
 
   onSubmit(form: NgForm){
-    this.service.DetalleformData.Cantidad = this.CantidadDetalle.toFixed(4);
+    this.service.DetalleformData.Cantidad = (+this.CantidadDetalle).toFixed(4);
     this.service.DetalleformData.IdNotaCredito = this.IdNotaCredito;
 console.log(form);
 console.log(this.service.DetalleformData);
