@@ -27,6 +27,13 @@ import { DisplaySaldosComponent } from './display-saldos/display-saldos.componen
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Cxc", "titulo": 'Saldo'}
+]
+
 
 
 @Component({
@@ -72,7 +79,12 @@ export class SaldoscxcComponent implements OnInit {
 
 
   constructor(public serviceFactura: FacturaService, public serviceCliente: ClientesService, public sharedService: SharedService, private dialog: MatDialog,
-    private eventosService:EventosService,) { }
+    private eventosService:EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) {
+      this.ConnectionHubService.listenSaldo().subscribe((m:any)=>{
+        this.getClientes();
+        });
+   }
 
   con: string | number;
   arrcon: Array<any> = [];
@@ -88,6 +100,7 @@ export class SaldoscxcComponent implements OnInit {
   objconc: Array<any> = [];
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     console.clear();
       this.getClientes();
 

@@ -443,7 +443,7 @@ style;
 
     let pdf = await worker.then(function(pdfAsString){
       this.pdf = pdfAsString;
-      localStorage.setItem('pdfCorreo', this.pdf);      
+      localStorage.setItem('pdfcorreo', this.pdf);      
       this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
       return this.pdf;
     })
@@ -453,7 +453,7 @@ style;
 
   reloadPDF(event){
     console.log(event);
-    this.currentPdf = localStorage.getItem('pdfCorreo');
+    this.currentPdf = localStorage.getItem('pdfcorreo');
     let blob = this.b64toBlob(this.currentPdf,'application/pdf',1024)
     const url = window.URL.createObjectURL(blob);
 
@@ -473,7 +473,7 @@ style;
 
   reloadPDFFINAL(event){
     this.currentPdf = event
-    this.currentPdf = localStorage.getItem('pdfCorreo');
+    this.currentPdf = localStorage.getItem('pdfcorreo');
     let pdf = this.currentPdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
     console.log(pdf);
     let blob = this.b64toBlob(pdf,'application/pdf',1024)

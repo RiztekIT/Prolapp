@@ -28,6 +28,11 @@ import { Evento } from 'src/app/Models/eventos/evento-model';
 
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Empresa'}
+]
 
 
 @Component({
@@ -51,7 +56,8 @@ export class ShowEmpresaComponent implements OnInit {
 
   constructor(public dialogbox: MatDialogRef<ShowEmpresaComponent>, public service:EmpresaService, private dialog: MatDialog, private snackBar: MatSnackBar, private sanitizer: DomSanitizer, private http: HttpClient,
     private datePipe:DatePipe,
-    private eventosService:EventosService, ) {
+    private eventosService:EventosService, 
+    private ConnectionHubService: ConnectionHubServiceService,) {
     // this.Iniciar();
 
     this.service.listen().subscribe((m:any) =>{
@@ -64,6 +70,7 @@ export class ShowEmpresaComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     // this.refreshEmpresaList();
     this.refreshEmpresaFoto();
   }
@@ -144,6 +151,7 @@ export class ShowEmpresaComponent implements OnInit {
 
     this.service.updateEmpresaFoto(FotoFinal).subscribe(resp =>{
       console.log(resp)
+      this.ConnectionHubService.on(origen[0])
         Swal.fire({
         icon: 'success',
         title: ' Foto de Empresa Actualizada'
@@ -169,6 +177,8 @@ export class ShowEmpresaComponent implements OnInit {
   onSubmit(form: NgForm) {
     
     this.service.updateEmpresa(form.value).subscribe(res => {
+      
+      this.ConnectionHubService.on(origen[0])
       console.log(res);
 this.movimientos(this.modulo)    
       

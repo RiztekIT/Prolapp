@@ -47,6 +47,27 @@ import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Cxc", "titulo": 'Facturacion'}
+]
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "CxC", 
+  "titulo": 'Factura',
+  "datosExtra": '',
+  },
+]
+
 
 @Component({
   selector: 'app-facturacioncxc',
@@ -97,7 +118,8 @@ export class FacturacioncxcComponent implements OnInit {
     public _MessageService: MessageService,
     public servicerecibo: ReciboPagoService, 
     public serviceEmpresa: EmpresaService,
-    private eventosService:EventosService,) {
+    private eventosService:EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) {
   
     this.service.listen2().subscribe((m:any)=>{
       // console.log(m);
@@ -105,10 +127,15 @@ export class FacturacioncxcComponent implements OnInit {
       // this.detallesFactura();
       });
 
+      this.ConnectionHubService.listenFacturacion().subscribe((m:any)=>{
+        this.refreshFacturaList();
+        });
    }
 
   ngOnInit() {
     /* this.service.rfcempresa = 'PLA11011243A'*/
+    
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.listaempresas()
     console.log(this.enviarfact.empresa);
     this.refreshFacturaList();
@@ -316,6 +343,7 @@ console.log(data)
           this.service.deleteFactura(factura.Id).subscribe(res => {
             this.refreshFacturaList();
       
+            this.ConnectionHubService.on(origen[0]);
             Swal.fire({
               title: 'Factura Eliminada',
               icon: 'success',
@@ -390,6 +418,11 @@ console.log(data)
   onAdd(){
     console.log(this.FacturaBlanco);
     this.service.addFactura(this.FacturaBlanco).subscribe(res => {
+      
+      origenNotificacion[0].Folio = +this.FacturaBlanco.Folio
+      this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
+      
+      this.ConnectionHubService.on(origen[0]);
       this.service.getUltimaFactura().subscribe(data => {
         this.IdFactura = data[0].Id;         
         if (!this.IdFactura){
@@ -563,11 +596,11 @@ localStorage.setItem('rowfact',JSON.stringify(row));
 
   this.folioparam = folio;
   this.idparam = id;
-  this._MessageService.correo='ivan.talamantes@live.com';
-  this._MessageService.cco='ivan.talamantes@riztek.com.mx';
+  this._MessageService.correo='';
+  this._MessageService.cco='';
   this._MessageService.asunto='Envio Factura '+folio;
   this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+folio;
-  this._MessageService.nombre='ProlactoIngredientes';
+  this._MessageService.nombre='Abarrotodo';
     this.enviarfact.xml(id).subscribe(data => {
       localStorage.setItem('xml' + folio, data)
     })

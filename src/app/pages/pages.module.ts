@@ -365,6 +365,7 @@ import { DocumentacionGeneralImportacionComponent } from './importacion/document
 import { ExploradorDocumentosComponent } from '../components/explorador-documentos/explorador-documentos.component';
 import { FileService } from '../services/explorador-archivos/explorador.service';
 import { VisorExploradorComponent } from '../components/explorador-documentos/visor-explorador/visor-explorador.component';
+import { CookieService } from 'ngx-cookie-service';
 
 
 
@@ -717,7 +718,8 @@ import { VisorExploradorComponent } from '../components/explorador-documentos/vi
         NotificacionespushService,
         DeviceDetectorService,
         ThemeService,
-        FileService
+        FileService,
+        CookieService
 
         
         

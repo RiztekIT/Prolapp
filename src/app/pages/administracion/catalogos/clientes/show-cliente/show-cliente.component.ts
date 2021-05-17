@@ -19,6 +19,14 @@ import { UsuariosServieService } from '../../../../../services/catalogos/usuario
 import { EventosService } from '../../../../../services/eventos/eventos.service';
 import { Evento } from '../../../../../Models/eventos/evento-model';
 
+import { ConnectionHubServiceService } from '../../../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Cliente'}
+]
+
+
 @Component({
   selector: 'app-show-cliente',
   templateUrl: './show-cliente.component.html',
@@ -44,17 +52,23 @@ export class ShowClienteComponent implements OnInit, OnDestroy {
     public serviceEmpresa: EmpresaService,
     private usuarioService: UsuariosServieService,
     private datePipe: DatePipe,
-    private eventosService: EventosService,) {
+    private eventosService: EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) {
 
     this.service.listen().subscribe((m:any)=>{
       console.log(m);
       this.refreshClientesList();
       });
 
+      this.ConnectionHubService.listenCliente().subscribe((m:any)=>{
+        console.log(m);
+        this.refreshClientesList();
+        });
    }
    
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     this.refreshClientesList();
     this.listaempresas();
@@ -196,6 +210,7 @@ export class ShowClienteComponent implements OnInit, OnDestroy {
       if (result.value) {
         this.service.deleteCliente(id).subscribe(res => {
         this.movimiento(movimiento)
+        this.ConnectionHubService.on(origen[0]);
           this.refreshClientesList();
           Swal.fire({
             title: 'Borrado',

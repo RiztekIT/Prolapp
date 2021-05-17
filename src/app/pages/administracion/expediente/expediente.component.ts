@@ -5,6 +5,13 @@ import { Cliente } from '../../../Models/catalogos/clientes-model';
 import { ClientesService } from '../../../services/catalogos/clientes.service';
 import { AddExpedienteComponent } from './add-expediente/add-expediente.component';
 
+
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Expediente'}
+]
+
 @Component({
   selector: 'app-expediente',
   templateUrl: './expediente.component.html',
@@ -13,11 +20,16 @@ import { AddExpedienteComponent } from './add-expediente/add-expediente.componen
 export class ExpedienteComponent implements OnInit {
 
 
-  constructor(private service:ClientesService, private dialog: MatDialog) {
+  constructor(private service:ClientesService, private dialog: MatDialog,
+    private ConnectionHubService: ConnectionHubServiceService,) {
 
+      this.ConnectionHubService.listenExpediente().subscribe((m:any)=>{
+        this.refreshClientesList();
+        });
   }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.refreshClientesList();
   }
 

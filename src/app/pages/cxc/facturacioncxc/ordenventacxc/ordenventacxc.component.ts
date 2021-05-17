@@ -7,6 +7,13 @@ import { FacturaService } from 'src/app/services/facturacioncxc/factura.service'
 import { VentasPedidoService } from 'src/app/services/ventas/ventas-pedido.service';
 import Swal from 'sweetalert2';
 
+import { ConnectionHubServiceService } from '../../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Cxc", "titulo": 'OCompra'}
+]
+
 @Component({
   selector: 'app-ordenventacxc',
   templateUrl: './ordenventacxc.component.html',
@@ -42,9 +49,17 @@ export class OrdenventacxcComponent implements OnInit {
 
   expandedElement: any;
 
-  constructor(public ventasPedidoSVC: VentasPedidoService, public facturaSVC: FacturaService, public dialogbox: MatDialogRef<OrdenventacxcComponent>) { }
+  constructor(public ventasPedidoSVC: VentasPedidoService, 
+    public facturaSVC: FacturaService, 
+    public dialogbox: MatDialogRef<OrdenventacxcComponent>,
+    private ConnectionHubService: ConnectionHubServiceService,) {
+
+      this.ConnectionHubService.listenOCompra().subscribe((m:any)=>{
+        this.refreshPedidoList();
+        }); }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.refreshPedidoList();
   }
 

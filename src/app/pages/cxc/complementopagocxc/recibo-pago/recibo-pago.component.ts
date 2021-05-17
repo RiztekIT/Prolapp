@@ -1,36 +1,91 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { ReciboPagoService } from '../../../../services/complementoPago/recibo-pago.service';
+
 import { Router } from '@angular/router';
+
 import { NgForm, FormControl } from '@angular/forms';
+
 import { ReciboPago } from '../../../../Models/ComplementoPago/recibopago';
+
 import { Observable, empty, timer } from 'rxjs';
+
 import { Cliente } from 'src/app/Models/catalogos/clientes-model';
+
 //Importacion Angular Material Tables and Sort
+
 import { MatTableDataSource, MatSort, NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+
 //Importacion para utilizar Pipe de DropDown Clientes
+
 import { map, startWith } from 'rxjs/operators';
+
 import { Factura } from 'src/app/Models/facturacioncxc/factura-model';
+
 import { PagoCFDI } from '../../../../Models/ComplementoPago/pagocfdi';
+
 //Importacion Modal
+
 import { MatDialog, MatDialogConfig } from '@angular/material';
+
 //Importacion Edit Pago CFDI
+
 import { PagoCFDIEditComponent } from '../pago-cfdi-edit/pago-cfdi-edit.component';
+
 import { pagoTimbre } from 'src/app/Models/ComplementoPago/pagotimbre';
+
 import { TipoCambioService } from 'src/app/services/tipo-cambio.service';
+
 import { CurrencyPipe } from '@angular/common';
+
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
+
 import Swal from 'sweetalert2';
+
 import { ngxLoadingAnimationTypes } from 'ngx-loading';
+
 import { FoliosService } from 'src/app/services/direccion/folios.service';
+
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
+
 import * as html2pdf from 'html2pdf.js';
+
 import { ComplementoPagoComponent } from 'src/app/components/complemento-pago/complemento-pago.component';
+
 import { MessageService } from 'src/app/services/message.service';
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { EmailComponent } from 'src/app/components/email/email/email.component';
+
 import { NotaCreditoService } from 'src/app/services/cuentasxcobrar/NotasCreditocxc/notaCredito.service';
+
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 // import { MatDialogRef } from '@angular/material';
+
+import { ConnectionHubServiceService } from './../../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Cxc", 
+  "titulo": 'Complemento',
+  "datosExtra": '',
+  },
+]
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Cxc", "titulo": 'Complemento'}
+]
+
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -110,7 +165,18 @@ export class ReciboPagoComponent implements OnInit {
 
   
 
-  constructor(public _MessageService: MessageService,public service: ReciboPagoService, private router: Router, private dialog: MatDialog,private tipoCambio:TipoCambioService,private currencyPipe: CurrencyPipe,public servicetimbrado:EnviarfacturaService, public servicefolios: FoliosService, public servicefactura: FacturaService,private http : HttpClient, public notacreditService: NotaCreditoService ) {
+  constructor(public _MessageService: MessageService,
+    public service: ReciboPagoService, 
+    private router: Router, 
+    private dialog: MatDialog,
+    private tipoCambio:TipoCambioService,
+    private currencyPipe: CurrencyPipe,
+    public servicetimbrado:EnviarfacturaService, 
+    public servicefolios: FoliosService, 
+    public servicefactura: FacturaService,
+    private http : HttpClient, 
+    public notacreditService: NotaCreditoService,
+    private ConnectionHubService: ConnectionHubServiceService, ) {
     this.service.listen().subscribe((m:any)=>{
       // console.log(m);
       this.refreshPagoCFDITList();
@@ -126,6 +192,8 @@ export class ReciboPagoComponent implements OnInit {
   }
 
   ngOnInit() {
+    
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.service.rfcempresa = this.servicefactura.rfcempresa
     console.log(localStorage.getItem("inicioCliente"));
     this.clienteLogin = localStorage.getItem("inicioCliente");
@@ -814,8 +882,9 @@ console.log('NUEVO CFDIIIIIIIIIII');
         console.log(CFDI);
         //Borrar pagoCFDI
         this.service.deletePagoCFDI(CFDI.Id).subscribe(res =>{
+          
         console.log(res);
-    
+        
         this.service.getPagoCFDIFacturaID(CFDI.IdFactura).subscribe(data => {
           this.CFDI = data;
           let SaldoP = this.Total
@@ -828,12 +897,13 @@ console.log('NUEVO CFDIIIIIIIIIII');
             NoP = NoP + 1
             this.CFDI[i].NoParcialidad = NoP.toString();
             this.service.updatePagoCFDI(this.CFDI[i]).subscribe(res =>{
-             console.log(res);
+              console.log(res);
             });
-           }
-           console.log(this.CFDI);
-          });
-    
+          }
+          console.log(this.CFDI);
+        });
+        
+        this.ConnectionHubService.on(origen[0]);
         this.refreshPagoCFDITList();
         Swal.fire({
           title: 'Borrado',
@@ -884,6 +954,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
     console.log(this.service.formDataPagoCFDI);
       this.service.addPagoCFDI(this.service.formDataPagoCFDI).subscribe(res =>{
         this.options2 = [];
+        
+        this.ConnectionHubService.on(origen[0]);
         this.CleanPagoCFDI();
         this.refreshPagoCFDITList();
         // this.borrarfact(this.index);
@@ -912,6 +984,9 @@ console.log('NUEVO CFDIIIIIIIIIII');
     console.log(this.service.formData)
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
       this.Estatus = this.service.formData.Estatus;
+      
+      this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
+      this.ConnectionHubService.on(origen[0]);
       console.log(data);
       this.refreshPagoCFDITList();
     })
@@ -1306,11 +1381,11 @@ onExportClick(folio?: string) {
 
   this.folioparam = id;
   this.idparam = uuid;
-  this._MessageService.correo='ivan.talamantes@live.com';
-  this._MessageService.cco='ivan.talamantes@riztek.com.mx';
+  this._MessageService.correo='';
+  this._MessageService.cco='';
   this._MessageService.asunto='Envio Complemento de Pago '+id;
   this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+id;
-  this._MessageService.nombre='ProlactoIngredientes';
+  this._MessageService.nombre='Abarrotodo';
     this.servicetimbrado.xml(uuid).subscribe(data => {
       localStorage.setItem('xml' + id, data)
     })

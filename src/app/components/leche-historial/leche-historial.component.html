@@ -35,7 +35,7 @@
                                 <h3 class="text-white m-b-0" *ngSwitchCase="'Friday'">Viernes</h3>
                                 <!-- <h3 class="text-white m-b-0" *ngSwitchCase="'SATURDAY'">SABADO</h3>
                                 <h3 class="text-white m-b-0" *ngSwitchCase="'SUNDAY'">DOMINGO</h3> -->
-                                <h3 class="text-white m-b-0">{{ this.diaPrecio | date: 'yyyy/MM/dd'}}</h3>
+                                <h3 class="text-white m-b-0">{{ this.diaPrecio | date: 'dd/MM/yyyy'}}</h3>
                             </div>
                         </div>
                         <div class="col-md-4 col-12 active">
@@ -84,7 +84,7 @@
 
                             <ng-container matColumnDef="FechaPrecio" sticky>
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>FechaPrecio</th>
-                                <td class="FechaPrecio" mat-cell *matCellDef="let element">{{element.FechaPrecio | date: 'yyyy/MM/dd'}}
+                                <td class="FechaPrecio" mat-cell *matCellDef="let element">{{element.FechaPrecio | date: 'dd/MM/yyyy'}}
                                     <td>
                             </ng-container>
 
@@ -122,6 +122,6 @@
                                 <h3 class="text-white m-b-0" *ngSwitchCase="'FRIDAY'">VIERNES</h3>
                                 <h3 class="text-white m-b-0" *ngSwitchCase="'SATURDAY'">SABADO</h3>
                                 <h3 class="text-white m-b-0" *ngSwitchCase="'SUNDAY'">DOMINGO</h3>
-                                <h3 class="text-white m-b-0">{{this.myDate | date: 'yyyy/MM/dd'}}</h3>
+                                <h3 class="text-white m-b-0">{{this.myDate | date: 'dd/MM/yyyy'}}</h3>
                             </div>
                         </div> -->

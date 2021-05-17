@@ -1,19 +1,34 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import {MatTableDataSource, MatSort, MatPaginator} from '@angular/material';
+
 import { Usuario } from '../../../../../Models/catalogos/usuarios-model';
+
 import { UsuariosServieService } from '../../../../../services/catalogos/usuarios-servie.service';
 
 import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
+
 import { AddUsuarioComponent } from '../add-usuario/add-usuario.component';
+
 import { EditUsuarioComponent } from '../edit-usuario/edit-usuario.component';
 
 //Registro de eventos
 import { DatePipe } from '@angular/common';
+
 import { EventosService } from '../../../../../services/eventos/eventos.service';
+
 import { Evento } from '../../../../../Models/eventos/evento-model';
 
+
 import Swal from 'sweetalert2';
+
+import { ConnectionHubServiceService } from '../../../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Usuario'}
+]
+
 
 @Component({
   selector: 'app-show-usuario',
@@ -28,21 +43,23 @@ export class ShowUsuarioComponent implements OnInit {
   @ViewChild(MatSort, null) sort : MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
+
+  
   constructor(private service:UsuariosServieService, 
     private dialog: MatDialog, 
-    private snackBar: MatSnackBar,
     private datePipe: DatePipe,
-    private eventosService: EventosService,) {
+    private eventosService: EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) {
 
-    this.service.listen().subscribe((m:any)=>{
-      console.log(m);
+    this.ConnectionHubService.listenUsuarios().subscribe((m:any)=>{
       this.refreshUsuariosList();
       });
 
    }
 
   ngOnInit() {
-    
+    this.ConnectionHubService.ConnectionHub(origen[0]);
+
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     this.refreshUsuariosList();
  
@@ -68,7 +85,7 @@ export class ShowUsuarioComponent implements OnInit {
 
   obtenerPrivilegios() {
     let arrayPermisosMenu = JSON.parse(localStorage.getItem('Permisos'));
-    console.log(arrayPermisosMenu);
+    
     let arrayPrivilegios: any;
     try {
       arrayPrivilegios = arrayPermisosMenu.find(modulo => modulo.titulo == this.modulo);
@@ -105,6 +122,7 @@ export class ShowUsuarioComponent implements OnInit {
 
   refreshUsuariosList() {
 
+    console.log('%c%s', 'color: #9c66cc', 'Lista Usuarios');
     this.service.getUsuariosList().subscribe(data => {
       this.listData = new MatTableDataSource(data);
       this.listData.sort = this.sort;
@@ -128,10 +146,10 @@ export class ShowUsuarioComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.service.deleteUsuario(id).subscribe(res => {
-          
-        this.movimiento(movimiento)
+          this.movimiento(movimiento)
           this.refreshUsuariosList();
-    
+          
+          this.ConnectionHubService.on(origen[0]);
           Swal.fire({
             title: 'Borrado',
             icon: 'success',

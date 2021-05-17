@@ -7,11 +7,24 @@ import Swal from 'sweetalert2';
 
 //evento
 import {Inject} from '@angular/core';
+
 import {MAT_DIALOG_DATA } from "@angular/material";
+
 import { UsuariosServieService } from '../../../../../services/catalogos/usuarios-servie.service';
+
 import { EventosService } from '../../../../../services/eventos/eventos.service';
+
 import { Evento } from 'src/app/Models/eventos/evento-model';
+
 import { DatePipe } from '@angular/common';
+
+
+
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Proveedor'}
+]
 
 @Component({
   selector: 'app-edit-proveedor',
@@ -37,9 +50,13 @@ export class EditProveedorComponent implements OnInit {
     private usuarioService: UsuariosServieService,
     private datePipe: DatePipe,
     private eventosService: EventosService,
-    @Inject(MAT_DIALOG_DATA) public data: any, ) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private ConnectionHubService: ConnectionHubServiceService, ) {
+      
+     }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     this.BodegaInfo = this.data;
     this.movimiento = this.BodegaInfo.movimiento
@@ -59,6 +76,7 @@ export class EditProveedorComponent implements OnInit {
       
       this.service.generarConsulta(query).subscribe(data=>{
 
+        this.ConnectionHubService.on(origen[0])
         this.movimientos(this.movimiento)
         Swal.fire({
           icon: 'success',

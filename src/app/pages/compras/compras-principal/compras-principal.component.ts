@@ -27,6 +27,26 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { ComprasPdfComponent } from '../../../components/compras-reporte/compras-pdf.component';
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Compras", "titulo": 'Compra'}
+]
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Compras", 
+  "titulo": 'Compra',
+  "datosExtra": '',
+  },
+]
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -72,17 +92,22 @@ estatusSelect;
 hola = 'hola'
 
 constructor(public router: Router,private service:CompraService, private dialog: MatDialog, private http: HttpClient, public CompraService: CompraService,
-  private eventosService:EventosService,) {
+  private eventosService:EventosService,
+  private ConnectionHubService: ConnectionHubServiceService,) {
   
   // this.service.listen().subscribe((m:any)=>{
     //   console.log(m);
     //   this.refreshOrdenCargaList();
     //   });
     
+    this.ConnectionHubService.listenCompra().subscribe((m:any)=>{
+      this.obtenerCompras();
+      });
   }
   
   ngOnInit() {
     
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.obtenerCompras();
     this.tipoDeCambio();
 
@@ -204,6 +229,10 @@ this.service.master = []
 
   onDelete(compra: Compras){
     console.log(compra)
+
+    if (compra.Estatus=='Guardada'){
+
+    
     
     Swal.fire({
       title: '¿Segur@ de Borrar Pedido?',
@@ -215,17 +244,74 @@ this.service.master = []
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.value) {
-        //Borrar todos los detalles compra
-        this.service.deleteDetalleCompraID(compra.IdCompra).subscribe(resDetalle=>{
-          console.log(resDetalle);
-          //BorrarCompra
-          this.service.deleteCompra(compra.IdCompra).subscribe(res=>{
-            console.log(res);
-            
-          this.eventosService.movimientos('Compra Borrada')
-            this.obtenerCompras();
+        //obtener estatus de la orden de descarga
+        if (compra.Ver!=''){
+          let consulta = 'select * from ordendescarga where idOrdendescarga='+compra.Ver
+          
+
+          console.log(consulta);
+  
+          this.CompraService.generarConsulta(consulta).subscribe((resp:any)=>{
+            console.log(resp);
+            if (resp.length>0){
+              if (resp[0].Estatus=='Transito'){
+                let consulta2 = 'delete from DetalleOrdenDescarga where idOrdenDescarga='+resp[0].IdOrdenDescarga
+                this.CompraService.generarConsulta(consulta2).subscribe((res:any)=>{
+                  let consulta3 = 'delete from OrdenDescarga where idOrdenDescarga='+resp[0].IdOrdenDescarga
+                  this.CompraService.generarConsulta(consulta2).subscribe((respo:any)=>{
+                    //Borrar todos los detalles compra
+          this.service.deleteDetalleCompraID(compra.IdCompra).subscribe(resDetalle=>{
+            console.log(resDetalle);
+            //BorrarCompra
+            this.service.deleteCompra(compra.IdCompra).subscribe(res=>{
+              console.log(res);
+              this.ConnectionHubService.on(origen[0]);
+              
+              
+            this.eventosService.movimientos('Compra Borrada')
+              this.obtenerCompras();
+            })
           })
-        })
+  
+                  })
+                })
+              }else{
+                //no borrar porque la orden ya a sido descargada
+  
+                Swal.fire({
+                  title: 'No se puede borrar la compra',
+                  icon: 'error',
+                  timer: 1000,
+                  showCancelButton: false,
+                  showConfirmButton: false
+                });
+  
+              }
+  
+            }
+  
+          })
+        }else{
+
+                    //Borrar todos los detalles compra
+                    this.service.deleteDetalleCompraID(compra.IdCompra).subscribe(resDetalle=>{
+                      console.log(resDetalle);
+                      //BorrarCompra
+                      this.service.deleteCompra(compra.IdCompra).subscribe(res=>{
+                        console.log(res);
+                        this.ConnectionHubService.on(origen[0]);
+                        
+                        
+                      this.eventosService.movimientos('Compra Borrada')
+                        this.obtenerCompras();
+                      })
+                    })
+
+        }
+
+       
+
+    
           Swal.fire({
             title: 'Borrado',
             icon: 'success',
@@ -235,6 +321,22 @@ this.service.master = []
           });
       }
     })
+  }else{
+    //no borrar porque la orden ya a sido descargada
+
+    Swal.fire({
+      title: 'No se puede borrar la compra',
+      icon: 'error',
+      timer: 1000,
+      showCancelButton: false,
+      showConfirmButton: false
+    });
+
+  }
+  }
+
+  borrarOrdenDescarga(){
+
   }
 
 
@@ -327,6 +429,12 @@ console.log(this.compraBlanco);
 
       this.service.addCompra(this.compraBlanco).subscribe(res=>{
         console.log(res);
+        
+        this.ConnectionHubService.on(origen[0]);
+
+        origenNotificacion[0].Folio = this.compraBlanco.Folio
+        this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
+      
         this.service.getUltimoIdCompra().subscribe(res=>{
           console.log(res);
           localStorage.setItem('IdCompra', res.toString())
@@ -346,11 +454,14 @@ openrep(row){
 console.clear();
   console.log(row);
   this.CompraService.formt = row
+  this.CompraService.formt.detalleCompra = row.detalleCompra;
+
   // console.log();
   const dialogConfig = new MatDialogConfig();
   dialogConfig.disableClose = false;
   dialogConfig.autoFocus = true;
-  dialogConfig.width="70%";
+  dialogConfig.width = "0%";
+  dialogConfig.height = "0%";
   this.dialog.open(ComprasPdfComponent, dialogConfig);
 
 }
@@ -373,6 +484,7 @@ console.log(this.compraBlanco);
 
       this.service.addCompra(this.compraBlanco).subscribe(res=>{
         console.log(res);
+        this.ConnectionHubService.on(origen[0]);
         this.service.getUltimoIdCompra().subscribe(res=>{
           console.log(res);
           localStorage.setItem('IdCompra', res.toString())

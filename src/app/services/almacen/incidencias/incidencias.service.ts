@@ -9,8 +9,9 @@ import { OrdenDescarga } from '../../../Models/almacen/OrdenDescarga/ordenDescar
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { DetalleOrdenCarga } from '../../../Models/almacen/OrdenCarga/detalleOrdenCarga-model';
 
-export const APIUrl = environment.APIUrl;
-// export const APIUrl = "https://localhost:44361/api";
+ export const APIUrl = environment.APIUrl;
+
+
 export const URLApiEMail = environment.APIUrlEmail;
 
 @Injectable({

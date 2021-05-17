@@ -5,6 +5,15 @@ import Swal from 'sweetalert2';
 import { Cliente, PosserviceService } from '../../posservice.service';
 import { PosaddeditclientesComponent } from './posaddeditclientes/posaddeditclientes.component';
 
+
+import { ConnectionHubServiceService } from './../../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "POS", "titulo": 'Cliente'}
+]
+
+
 @Component({
   selector: 'app-poscatclientes',
   templateUrl: './poscatclientes.component.html',
@@ -18,15 +27,20 @@ export class PoscatclientesComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(public posSVC: PosserviceService, private dialog: MatDialog,
-    private eventosService:EventosService,) { }
+    private eventosService:EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) { }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.refreshTabla()
   }
 
   applyFilter(filtervalue: string){  
     this.listData.filter= filtervalue.trim().toLocaleLowerCase();
 
+    this.ConnectionHubService.listenPOSCliente().subscribe((m:any)=>{
+      this.refreshTabla();
+      });
   }
 
   refreshTabla(){
@@ -84,6 +98,7 @@ this.dialog.open(PosaddeditclientesComponent, dialogConfig);
         console.log(consulta2);
         this.posSVC.generarConsulta(consulta2).subscribe(res => {
           this.refreshTabla();
+          this.ConnectionHubService.on(origen[0]);
           
           this.eventosService.movimientos('POS Cliente Borrado')
           Swal.fire({

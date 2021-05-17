@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { ExploradorDocumentosComponent } from '../../explorador-documentos/explorador-documentos.component';
 import { VisorExploradorComponent } from '../../explorador-documentos/visor-explorador/visor-explorador.component';
 import { FileService } from 'src/app/services/explorador-archivos/explorador.service';
+import { DocumentosImportacionService } from 'src/app/services/importacion/documentos-importacion.service';
 
 export interface parametros {
     foliop: string,
@@ -25,7 +26,7 @@ export interface parametros {
 export class EmailgeneralComponent implements OnInit {
     public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
-    constructor(public dialogRef: MatDialogRef<EmailgeneralComponent>, public _MessageService: MessageService, @Inject(MAT_DIALOG_DATA) public data: parametros, private dialog: MatDialog, public fileService: FileService,) { 
+    constructor(public dialogRef: MatDialogRef<EmailgeneralComponent>, public _MessageService: MessageService, @Inject(MAT_DIALOG_DATA) public data: parametros, private dialog: MatDialog, public fileService: FileService,public documentosService: DocumentosImportacionService) { 
         this.fileService.listen().subscribe((m:any)=>{
             console.log(m);
             console.log('Adjuntar Documentos Seleccionados');
@@ -297,6 +298,14 @@ export class EmailgeneralComponent implements OnInit {
             this.Intevalo = setInterval(() => {
                 this.urlPDF();
             }, 1000)
+        }else if (this.data.tipo == 'Documento') {
+            // console.log('Es un traspaso');
+            this.Intevalo = setInterval(() => {
+                this.urlPDF2();
+            }, 1000)
+                
+                
+            
         }
         
     }
@@ -323,7 +332,7 @@ export class EmailgeneralComponent implements OnInit {
         // let file = new File(blob,'pdf.pdf')
         // console.log(this.data.foliop);
         //this.fileUrl = localStorage.getItem('pdfcorreo' + this.data.foliop);
-        this.fileUrl = localStorage.getItem('pdfcorreo');
+        this.fileUrl = localStorage.getItem('pdfcorreo' + this.data.foliop);
         // this.fileUrl = localStorage.getItem('pdfnuevo2');
         // this.fileUrl = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(localStorage.getItem('pdf'+this.foliop)))
         // this.fileUrl = localStorage.getItem('pdf'+this.foliop); 
@@ -336,6 +345,23 @@ export class EmailgeneralComponent implements OnInit {
             this.leerDir();
         }
         // console.log(this.fileUrl);
+
+    }
+    urlPDF2() {
+
+    
+        
+        this.fileUrl = this.documentosService.fileUrl;
+    
+
+        if (this.fileUrl) {
+    
+            this.pdfstatus = true;
+            clearInterval(this.Intevalo);
+            this.adjuntarDocumento();
+            
+        }
+    
 
     }
     //! Modificar en la forma en la que trabaja el pedido
@@ -401,7 +427,7 @@ export class EmailgeneralComponent implements OnInit {
                 //^ Este archivo se manda en base64 listo para ser enviado.
                 formData.append('pdf', localStorage.getItem('pdfcorreo' + this.data.foliop))
             }
-            formData.append('pdf', localStorage.getItem('OC'))
+            //formData.append('pdf', localStorage.getItem('OC'))
             //^ Aqui se guarda la cantidad de archivos que se estan subiendo en el dropzone (despues son obtenidos en el sever y adjuntados)
             formData.append('adjuntos', this.files.length.toString())
             this._MessageService.enviarCorreo(formData).subscribe(() => {
@@ -409,6 +435,7 @@ export class EmailgeneralComponent implements OnInit {
                 this.files = []
                 this.fileService.archivosAdjuntadosCorreo = [];
                 Swal.fire("Correo Enviado", "Mensaje enviado correctamente", "success");
+                this.onClose();
             });
         }, 5000);
     }
@@ -429,12 +456,35 @@ export class EmailgeneralComponent implements OnInit {
     adjuntarDocumentosExplorador(){
         console.log(this.fileService.archivosAdjuntadosCorreo);
         this.fileService.archivosAdjuntadosCorreo.forEach(element => {
+            console.log(element,'elemento');
             let archivo = <any>{};
             archivo.name = element.name;
             archivo.path = element.path
             this.files.push(archivo);
         });
         console.log(this.files);
+    }
+
+
+    ver(){
+        console.log(this.fileService.archivosAdjuntadosCorreo,'adjuntos');
+        console.log(this.files,'files');
+
+    }
+
+
+    adjuntarDocumento(){
+
+        console.log(this.fileService.archivosAdjuntadosCorreo);
+        this.fileService.archivosAdjuntadosCorreo.forEach(element => {
+            console.log(element,'elemento');
+            let archivo = <any>{};
+            archivo.name = element.name;
+            archivo.path = element.path
+            this.files.push(archivo);
+        });
+        console.log(this.files);
+
     }
 
 

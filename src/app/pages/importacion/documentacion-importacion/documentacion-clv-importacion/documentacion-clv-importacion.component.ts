@@ -1,18 +1,50 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { FormControl } from '@angular/forms';
+
 import { Observable } from 'rxjs';
+
 import { map, startWith } from 'rxjs/operators';
+
 import { Producto } from 'src/app/Models/catalogos/productos-model';
+
 import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
+
 import { AddsproductosService } from 'src/app/services/addsproductos.service';
+
 import { ProductosService } from 'src/app/services/catalogos/productos.service';
+
 import { DocumentosImportacionService } from 'src/app/services/importacion/documentos-importacion.service';
+
 import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
+
 import { DocumentacionImportacionVisorDocumentosComponent } from '../../documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
 import { Documento } from 'src/app/Models/documentos/documento-model';
+
 import Swal from 'sweetalert2';
+
 import { MatSort } from '@angular/material/sort';
+
 import { EventosService } from 'src/app/services/eventos/eventos.service';
+
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Almacen", 
+  "titulo": 'Documento CLV',
+  "datosExtra": '',
+  },
+]
 
 @Component({
   selector: 'app-documentacion-clv-importacion',
@@ -22,7 +54,8 @@ import { EventosService } from 'src/app/services/eventos/eventos.service';
 export class DocumentacionCLVImportacionComponent implements OnInit {
 
   constructor(public ServiceProducto: ProductosService, public addproductos: AddsproductosService, public documentosService: DocumentosImportacionService,  private dialog: MatDialog,
-    private eventosService:EventosService,) { 
+    private eventosService:EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) { 
     this.productosExistentes = false;
   }
 
@@ -374,6 +407,7 @@ ClaveProducto: string = "";
                   this.archivos = [];
                   
                   this.eventosService.movimientos('Agregar Documento CLV')
+                  this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
                   Swal.fire({
                     title: 'Documentos Guardados',
                     icon: 'success',

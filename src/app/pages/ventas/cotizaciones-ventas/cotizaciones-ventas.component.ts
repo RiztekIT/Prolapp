@@ -271,11 +271,11 @@ console.log('asdasd');
 
 this.folioparam = folio;
 this.idparam = id;
-this._MessageService.correo='ivan.talamantes@live.com';
-this._MessageService.cco='ivan.talamantes@riztek.com.mx';
+this._MessageService.correo='';
+this._MessageService.cco='';
 this._MessageService.asunto='Envio Factura ';
 this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio ';
-this._MessageService.nombre='ProlactoIngredientes';
+this._MessageService.nombre='Abarrotodo';
 
 
 
@@ -535,6 +535,11 @@ Vigencia: new Date()
     /* this.proxy.invoke('NuevaNotificacion');   */
     this.proxy.invoke('NuevaNotificacion',mensaje);
 } 
+
+
+ver(){
+  console.log(this.CotizacionBlanco);
+}
 
   
   

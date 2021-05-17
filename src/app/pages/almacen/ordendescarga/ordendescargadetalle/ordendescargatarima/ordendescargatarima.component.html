@@ -463,11 +463,11 @@
 
                                             <ng-container matColumnDef="FechaCaducidad">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Caducidad</th>
-                                                <td mat-cell *matCellDef="let elementOT">{{elementOT.FechaCaducidad | date: 'yyyy/MM/dd' }}</td>
+                                                <td mat-cell *matCellDef="let elementOT">{{elementOT.FechaCaducidad | date: 'dd/MM/yyyy' }}</td>
                                             </ng-container>
                                             <ng-container matColumnDef="FechaMFG">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Manufactura</th>
-                                                <td mat-cell *matCellDef="let elementOT">{{elementOT.FechaMFG | date: 'yyyy/MM/dd' }}</td>
+                                                <td mat-cell *matCellDef="let elementOT">{{elementOT.FechaMFG | date: 'dd/MM/yyyy' }}</td>
                                             </ng-container>
 
                                             <!-- <ng-container matColumnDef="Comentarios">

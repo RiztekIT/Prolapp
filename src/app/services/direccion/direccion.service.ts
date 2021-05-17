@@ -6,7 +6,8 @@ import { PrecioLeche } from '../../Models/precioLeche-model';
 
 
 export const APIUrl = environment.APIUrl;
-//export const APIUrl = "http://riztekserver.ddns.net:44361/api";
+ 
+
 
 
 @Injectable({

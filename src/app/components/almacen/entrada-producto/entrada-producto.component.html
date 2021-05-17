@@ -114,7 +114,7 @@
                                 <p class="bolder blacktxt">FECHA </p>
                             </div>
                             <div class="col-4" style="padding-right:0">
-                                <span style="font-weight:400">{{this.odInfo.FechaLlegada | date: 'yyyy/MM/dd'}}</span>
+                                <span style="font-weight:400">{{this.odInfo.FechaLlegada | date: 'dd/MM/yyyy'}}</span>
                             </div>
                         </div>
                         <div class="containerborder container row" style="margin-left: 0; padding-left: 0;">
@@ -180,8 +180,8 @@
                                 <td style="text-align: center; border:1px; border-style: solid;" class="wrap lightback pgbreak"> {{conceptos.Kg}}</td>
                                 <!-- <td style="text-align: center;" class="pgbreak">{{conceptos.USDA}}</td> -->
                                 <td style="text-align: center; border:1px; border-style: solid;" class="pgbreak">{{conceptos.Lote}} </td>
-                                <td style="text-align: center; border:1px; border-style: solid;" class="pgbreak">{{conceptos.FechaMFG | date: 'yyyy/MM/dd'}} </td>
-                                <td style="text-align: center; border:1px; border-style: solid;" class="pgbreak">{{conceptos.FechaCaducidad | date: 'yyyy/MM/dd'}} </td>
+                                <td style="text-align: center; border:1px; border-style: solid;" class="pgbreak">{{conceptos.FechaMFG | date: 'dd/MM/yyyy'}} </td>
+                                <td style="text-align: center; border:1px; border-style: solid;" class="pgbreak">{{conceptos.FechaCaducidad | date: 'dd/MM/yyyy'}} </td>
                                 <!-- <td style="text-align: center;" class="pgbreak">{{conceptos.Comentarios}}</td> -->
                         </tbody>
 

@@ -475,6 +475,10 @@ export class PedidoVentasComponent implements OnInit {
   //^ Regresar stock a Detalle Tarima y eliminar Orden Temporal
   regresarStock(ordenesTemporales: any, IdOrdenCarga: number, IdPedido: number) {
 
+    if (ordenesTemporales.length>0){
+
+    
+
     ordenesTemporales.forEach(ordenTemporal => {
 
 
@@ -551,6 +555,11 @@ export class PedidoVentasComponent implements OnInit {
       this.DeletePedidoDetallePedido(IdPedido);
       this.eliminarOrdenyDetalles(IdOrdenCarga);
     });
+  }else{
+    this.DeletePedidoDetallePedido(IdPedido);
+    this.eliminarOrdenyDetalles(IdOrdenCarga);
+
+  }
   }
 
   //^ Eliminar Orden Carga y Detalles
@@ -667,7 +676,8 @@ export class PedidoVentasComponent implements OnInit {
         dialogConfig.height = "0%";
         dialogConfig.data = {
           IdPedido: id,
-          mostrarPrecio: mostrarPrecio
+          mostrarPrecio: mostrarPrecio,
+          origen: 'normal'
         }
         dialogo.open(ReporteEmisionComponent, dialogConfig);
       } else if (result.value == 2) {
@@ -680,7 +690,8 @@ export class PedidoVentasComponent implements OnInit {
         dialogConfig.height = "0%";
         dialogConfig.data = {
           IdPedido: id,
-          mostrarPrecio: mostrarPrecio
+          mostrarPrecio: mostrarPrecio,
+          origen: 'normal'
         }
         dialogo.open(ReporteEmisionComponent, dialogConfig);
       }
@@ -697,11 +708,11 @@ export class PedidoVentasComponent implements OnInit {
     document.getElementById('enviaremail').click();
     this.folioparam = folio;
     this.idparam = id;
-    this._MessageService.correo = 'ivan.talamantes@live.com';
-    this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
+    this._MessageService.correo = '';
+    this._MessageService.cco = '';
     this._MessageService.asunto = 'Envio Factura ' + folio;
     this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + folio;
-    this._MessageService.nombre = 'ProlactoIngredientes';
+    this._MessageService.nombre = 'Abarrotodo';
     this.enviarfact.xml(id).subscribe(data => {
       localStorage.setItem('xml' + folio, data)
       this.xmlparam = folio;

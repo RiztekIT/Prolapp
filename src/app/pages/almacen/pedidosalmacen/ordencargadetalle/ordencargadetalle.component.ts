@@ -299,8 +299,8 @@ export class OrdencargadetalleComponent implements OnInit {
 
   enviar() {
 
-    this.AlmacenEmailService.correo = 'ivan.talamantes@live.com';
-    this.AlmacenEmailService.cco = 'javier.sierra@riztek.com.mx';
+    this.AlmacenEmailService.correo = '';
+    this.AlmacenEmailService.cco = '';
     this.AlmacenEmailService.asunto = 'Envio Orden Carga con Folio ' + this.Folio.toString();
     this.AlmacenEmailService.cuerpo = 'Se han enviado Documentos de Orden Carga con el Folio ' + this.Folio.toString();
     this.AlmacenEmailService.nombre = 'Abarrotodo';
@@ -321,9 +321,9 @@ export class OrdencargadetalleComponent implements OnInit {
 
     dialogFact.afterClosed().subscribe(res=>{
 
-      setTimeout(()=>{
+     /*  setTimeout(()=>{
   
-        // this.xmlparam = folio;
+        
           const content: Element = document.getElementById('EntradaProducto-PDF');
           const option = {
             margin: [0, 0, 0, 0],
@@ -339,7 +339,7 @@ export class OrdencargadetalleComponent implements OnInit {
           })
           dialogFact.close()
           
-        },1000)
+        },1000) */
   
   
   
@@ -464,11 +464,11 @@ export class OrdencargadetalleComponent implements OnInit {
       this.od.IdProveedor = 0;
       this.od.Proveedor = this.service.formData.Origen;
       this.od.PO = '0';
-      this.od.Fletera = '';
-      this.od.Caja = '';
+      this.od.Fletera = this.service.formData.Fletera;
+      this.od.Caja = this.service.formData.Caja;
       this.od.Sacos = sacos.toString();
       this.od.Kg = kg.toString();
-      this.od.Chofer = '';
+      this.od.Chofer = this.service.formData.Chofer;
       this.od.Origen = this.service.formData.Origen;
       this.od.Destino = 'CHIHUAHUA';
       this.od.Observaciones = '';
@@ -606,6 +606,26 @@ export class OrdencargadetalleComponent implements OnInit {
         console.log(respuesta);
       })      
     }
+}
+
+abrir(){
+
+  this.service.updatedetalleOrdenCargaEstatus(this.IdOrdenCarga, 'Cargada').subscribe(rese => {
+    this.movimientos('Abrir OC')
+
+    Swal.fire({
+      title: 'Abierta',
+      icon: 'success',
+      timer: 1000,
+      showCancelButton: false,
+      showConfirmButton: false
+    });
+
+    this.getOrdenCarga();
+    this.generarEventoCalendario(this.Folio);
+
+  })
+
 }
 
 

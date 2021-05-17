@@ -6,19 +6,12 @@ import { APIUrl } from 'src/app/services/pedidos/pedido.service';
 
 export const environment = {
   production: false,
-  // APIUrl: 'http://74.208.251.38:44361/api',
-// export const APIUrl = "https://localhost:44361/api";
-  // APIUrlEmail: 'http://74.208.251.38:3000'
-  // APIUrl: 'http://riztekserver.ddns.net:44361/api',
-  // APIUrlEmail: 'http://riztekserver.ddns.net:3000'
-  // APIUrl: 'https://erpprolapp.ddns.net:44361/api',
-  // APIUrlEmail: 'https://erpprolapp.ddns.net:3000'
-  // APIUrlEmail: 'http://riztekserver.ddns.net:3000'
+
   //URLS de desarrollo
-  //APIUrl: 'https://riztekserver.ddns.net:44361/api',
+  APIUrl: 'https://riztekserver.ddns.net:44361/api',
   APIUrlEmail: 'https://riztekserver.ddns.net:3000', 
   // URLS de Produccion
-        APIUrl: 'https://erpprolapp.ddns.net:44361/api',
+   //    APIUrl: 'https://erpprolapp.ddns.net:44361/api',
       // APIUrlEmail: 'https://erpprolapp.ddns.net:3000'
     // APIUrl: 'https://erpprolapp.ddns.net:44361/api',
     //APIUrlEmail: 'https://erpprolapp.ddns.net:3000'

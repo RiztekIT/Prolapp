@@ -158,12 +158,12 @@
                                     </ng-container>
                                     <!-- <ng-container matColumnDef="FechaCaducidad">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>FechaCaducidad</th>
-                                        <td class="FechaCaducidad" mat-cell *matCellDef="let element">{{element.FechaCaducidad | date: 'yyyy/MM/dd'}}
+                                        <td class="FechaCaducidad" mat-cell *matCellDef="let element">{{element.FechaCaducidad | date: 'dd/MM/yyyy'}}
                                             <td>
                                     </ng-container>
                                     <ng-container matColumnDef="FechaMFG">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>FechaMFG</th>
-                                        <td class="FechaMFG" mat-cell *matCellDef="let element">{{element.FechaMFG | date: 'yyyy/MM/dd'}}
+                                        <td class="FechaMFG" mat-cell *matCellDef="let element">{{element.FechaMFG | date: 'dd/MM/yyyy'}}
                                             <td>
                                     </ng-container> -->
                                     <ng-container matColumnDef="Bodega">
@@ -220,8 +220,8 @@
                                                         <td> {{ detalle.Lote}} </td>
                                                         <td> {{ detalle.Proveedor}} </td>
                                                         <td> {{ detalle.PO}} </td>
-                                                        <td> {{ detalle.FechaMFG | date: 'yyyy/MM/dd'}} </td>
-                                                        <td> {{ detalle.FechaCaducidad | date: 'yyyy/MM/dd'}} </td>
+                                                        <td> {{ detalle.FechaMFG | date: 'dd/MM/yyyy'}} </td>
+                                                        <td> {{ detalle.FechaCaducidad | date: 'dd/MM/yyyy'}} </td>
                                                         <td> {{ detalle.Shipper}} </td>
                                                         <td> {{ detalle.USDA}} </td>
                                                         <td> {{ detalle.Pedimento}} </td>

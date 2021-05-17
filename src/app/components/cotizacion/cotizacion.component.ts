@@ -34,7 +34,6 @@ export class CotizacionComponent implements OnInit {
   pdf
   style;
 
-
   public imagessacos: Array<Object> = [
     {producto: "LECHE DESCREMADA EN POLVO LH DFA", imagen: "2.DFAMILK.png"},
     {producto: "LECHE DESCREMADA EN POLVO LH DAIRIGOLD", imagen: "3.DARIGOLDmilk.png"},
@@ -233,11 +232,11 @@ ver(){
       // console.log(this.defaultpx,"pixeles");
   }
   setTimeout(()=>{
-    this.onExportClick();
+    let pdf = this.onExportClick();
   },1000)
-  setTimeout(()=>{
+/*   setTimeout(()=>{
     this.reloadPDF('entro')
-  },4500)
+  },4500) */
   console.log(this.arrcon);
 
 
@@ -289,6 +288,8 @@ reloadPDF(event){
     link.target = '_blank'    
     link.click();
     this.style = 'none'
+  }else{
+    this._MessageService.pdf = true;
   }
   
   Swal.close();
@@ -316,7 +317,7 @@ b64toBlob(b64Data, contentType, sliceSize) {
   return blob;
 }
 
-onExportClick(Folio?: string) {
+async onExportClick(Folio?: string) {
 
   
   const content: Element = document.getElementById('Cotizacion-PDF');
@@ -332,13 +333,14 @@ onExportClick(Folio?: string) {
 
   let worker = html2pdf().from(content).set(option).output('datauristring')
 
-  worker.then(function(pdfAsString){
+  let pdf = await  worker.then(function(pdfAsString){
     console.log(pdfAsString);
     this.pdf = pdfAsString;
-    localStorage.setItem('pdfCorreo', this.pdf);
+    localStorage.setItem('pdfcorreo', this.pdf);
     this.pdf = this.pdf.toString().replace(/^data:application\/pdf;filename=generated.pdf;base64,/, '')
     localStorage.setItem('pdfOC', this.pdf);
     this.currentPdf = this.pdf
+    return this.pdf
 
     
     
@@ -347,6 +349,8 @@ onExportClick(Folio?: string) {
     
     
   })
+
+  this.reloadPDF(pdf);
 
 
     

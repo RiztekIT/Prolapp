@@ -39,6 +39,14 @@ import * as html2pdf from 'html2pdf.js';
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Cxc", "titulo": 'Nota'}
+]
+
+
 
 
 @Component({
@@ -74,14 +82,22 @@ export class NotaCreditocxcComponent implements OnInit {
   constructor(private service: NotaCreditoService, private dialog: MatDialog, private snackbar: MatSnackBar,
      private router: Router, public _MessageService: MessageService,public enviarfact: EnviarfacturaService,
      private serviceFactura:FacturaService, public serviceEmpresa: EmpresaService,
-     private eventosService:EventosService,) { 
+     private eventosService:EventosService,
+     private ConnectionHubService: ConnectionHubServiceService,) { 
     // this.service.listen().subscribe((m:any)=>{
     //   this.refreshNotaList();
     // });
+    
+    this.ConnectionHubService.listenNota().subscribe((m:any)=>{
+      this.refreshNotaList();
+      });
+
   }
 
 
   ngOnInit() {
+    
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.serviceFactura.rfcempresa = 'PLA11011243A'
     this.listaempresas()
     this.refreshNotaList();
@@ -206,6 +222,8 @@ export class NotaCreditocxcComponent implements OnInit {
         let id: any = row.IdNotaCredito;
         this.service.deleteNotaCredito(id).subscribe(data=>{
           console.log(data);
+          
+          this.ConnectionHubService.on(origen[0]);
           this.refreshNotaList();
 
           Swal.fire({

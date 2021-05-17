@@ -17,6 +17,7 @@ export class FleterasService {
 
   
   readonly APIUrl = environment.APIUrl;
+  
 
 
   getFleterasList(): Observable <Fleteras[]> {
@@ -35,6 +36,11 @@ export class FleterasService {
  updatefleteras(fleteras: Fleteras) {
  return this.http.put(this.APIUrl+ '/Trafico', fleteras);
  }
+
+
+ getQuery(query) {
+  return this.http.post(this.APIUrl + '/TraspasoMercancia/general', query);
+}
 
 
 

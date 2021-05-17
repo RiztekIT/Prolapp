@@ -23,9 +23,32 @@ import { map, startWith } from 'rxjs/operators';
 import { DocumentacionImportacionVisorDocumentosComponent } from '../../../importacion/documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
 
 import * as html2pdf from 'html2pdf.js';
+
 import { DatePipe } from '@angular/common';
+
 import { Evento } from 'src/app/Models/eventos/evento-model';
+
 import { EventosService } from 'src/app/services/eventos/eventos.service';
+
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Expediente'}
+]
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Administracion", 
+  "titulo": 'Expediente',
+  "datosExtra": '',
+  },
+]
 
 @Component({
   selector: 'app-add-expediente',
@@ -36,9 +59,11 @@ export class AddExpedienteComponent implements OnInit {
 
   constructor(public clienteService: ClientesService, private dialog: MatDialog, public documentosService: DocumentosImportacionService, public dialogbox: MatDialogRef<AddExpedienteComponent>,
     private datePipe:DatePipe,
-    private eventosService:EventosService,) { }
+    private eventosService:EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) { }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.IdCliente = this.clienteService.objetoCliente.IdClientes;
     console.log(this.IdCliente);
     //Si el IdCliente es valido, se procede a traer los documentos del Servidor
@@ -249,7 +274,11 @@ onAddDocumentos() {
                 this.archivos = [];
                 this.obtenerDocumentos(this.IdCliente);
 
+                
+        this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
+                this.ConnectionHubService.on(origen[0])
                 this.movimientos('Expediente Agregado')
+
 
                 Swal.fire({
                   title: 'Documentos Guardados',

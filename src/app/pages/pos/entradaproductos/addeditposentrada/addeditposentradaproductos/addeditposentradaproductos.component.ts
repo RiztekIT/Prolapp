@@ -6,6 +6,33 @@ import { PosserviceService, Producto } from '../../../posservice.service';
 import Swal from 'sweetalert2';
 import { map, startWith } from 'rxjs/operators';
 
+
+
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "POS", 
+  "titulo": 'POSEntrada',
+  "datosExtra": '',
+  },
+]
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "POS", "titulo": 'POSEntrada'}
+]
+let origen1: { origen: string, titulo: string }[] = [
+  {"origen": "Almacen", "titulo": 'Inventario'}
+]
+
+
 @Component({
   selector: 'app-addeditposentradaproductos',
   templateUrl: './addeditposentradaproductos.component.html',
@@ -13,7 +40,8 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class AddeditposentradaproductosComponent implements OnInit {
 
-  constructor(public posSVC: PosserviceService, public dialogbox: MatDialogRef<AddeditposentradaproductosComponent>) { }
+  constructor(public posSVC: PosserviceService, public dialogbox: MatDialogRef<AddeditposentradaproductosComponent>,
+    private ConnectionHubService: ConnectionHubServiceService,) { }
   myControl = new FormControl();
   filteredOptions: Observable<any[]>;
   producto = new Producto;
@@ -23,6 +51,7 @@ export class AddeditposentradaproductosComponent implements OnInit {
   detalleservicio: any;
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.dropdownRefresh()
     console.log(this.posSVC.detalleentradaForm);  
     this.detalleservicio = this.posSVC.detalleentradaForm;  
@@ -110,6 +139,8 @@ export class AddeditposentradaproductosComponent implements OnInit {
 
     this.posSVC.generarConsulta(consulta).subscribe((res:any)=>{
       console.log(res);
+      this.ConnectionHubService.on(origen[0]);
+      this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
       this.agregarInventario();
       if (res.length==0){
         Swal.fire({
@@ -172,6 +203,8 @@ export class AddeditposentradaproductosComponent implements OnInit {
       console.log(consulta2);
       this.posSVC.generarConsulta(consulta2).subscribe(res=>{
         console.log(res);
+        
+        this.ConnectionHubService.on(origen1[0]);
       })
     })
   }
@@ -189,6 +222,7 @@ export class AddeditposentradaproductosComponent implements OnInit {
 console.log(consulta2);
     this.posSVC.generarConsulta(consulta2).subscribe((res:any)=>{
       console.log(res);
+      this.ConnectionHubService.on(origen[0]);
       this.actualizarInventario();
       if (res.length==0){
         Swal.fire({
@@ -246,6 +280,7 @@ console.log(consulta2);
 
     this.posSVC.generarConsulta(consulta).subscribe(res=>{
       console.log(res);
+      this.ConnectionHubService.on(origen[0]);
     })
 
   }

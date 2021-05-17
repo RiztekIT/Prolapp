@@ -1550,12 +1550,12 @@ email(cotizacion){
 
   // this.folioparam = folio;
   // this.idparam = id;
-  this._MessageService.correo = 'ivan.talamantes@live.com';
-  this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
+  this._MessageService.correo = '';
+  this._MessageService.cco = '';
   this._MessageService.asunto = 'Envio Cotizacion ' + cotizacion.Folio;
   this._MessageService.cuerpo = 'Se ha enviado un comprobante fiscal digital con folio ' + cotizacion.Folio;
-  this._MessageService.nombre = 'ProlactoIngredientes';
-  this._MessageService.pdf = true;
+  this._MessageService.nombre = 'Abarrotodo';
+  this._MessageService.pdf = false;
 
   this.service.formrow = cotizacion;
   const dialogConfig2 = new MatDialogConfig();
@@ -1579,7 +1579,7 @@ email(cotizacion){
         jsPDF: { format: 'letter', orientation: 'portrait' },
       };
       html2pdf().from(content).set(option).output('datauristring').then(function(pdfAsString){
-        localStorage.setItem('pdfcorreo', pdfAsString);
+        localStorage.setItem('pdfcorreo'+ cotizacion.Folio, pdfAsString);
         this.statusparam=true;          
         console.log(this.statusparam);                
       })

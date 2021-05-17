@@ -14,6 +14,12 @@ import { UsuariosServieService } from '../../../../../services/catalogos/usuario
 import { EventosService } from '../../../../../services/eventos/eventos.service';
 import { Evento } from '../../../../../Models/eventos/evento-model';
 
+import { ConnectionHubServiceService } from '../../../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Vendedor'}
+]
 
 @Component({
   selector: 'app-show-vendedor',
@@ -35,15 +41,21 @@ export class ShowVendedorComponent implements OnInit {
     private snackBar: MatSnackBar,
     private usuarioService: UsuariosServieService,
     private datePipe: DatePipe,
-    private eventosService: EventosService,) { 
+    private eventosService: EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) { 
 
     this.service.listen().subscribe((m:any)=>{
       this.refreshVendedorList();
     });
+    this.ConnectionHubService.listenVendedor().subscribe((m:any)=>{
+      console.log(m);
+      this.refreshVendedorList();
+      });
   }
 
   ngOnInit() {
     
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     this.refreshVendedorList();
     //^ **** PRIVILEGIOS POR USUARIO *****
@@ -130,6 +142,7 @@ export class ShowVendedorComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.service.deleteVendedor(id).subscribe(res => {
+          this.ConnectionHubService.on(origen[0]);
           this.movimiento(movimiento)
           this.refreshVendedorList();
           Swal.fire({

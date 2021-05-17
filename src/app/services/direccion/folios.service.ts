@@ -5,7 +5,8 @@ import { Folio } from 'src/app/Models/direccion/folio-model';
 import { environment } from 'src/environments/environment';
 
 export const APIUrl = environment.APIUrl;
-//export const APIUrl = "http://riztekserver.ddns.net:44361/api";
+ 
+
 
 
 @Injectable({

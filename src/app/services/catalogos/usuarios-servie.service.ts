@@ -19,9 +19,9 @@ export class UsuariosServieService {
   areaData: Proceso;
   master = new Array<procesoMasterDetalle>();
 
-  // readonly APIUrl = "https://localhost:44361/api";
-  readonly APIUrl = environment.APIUrl;
-  // readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+  
+   readonly APIUrl = environment.APIUrl;
+  
 
 
   getUsuariosList(): Observable <Usuario[]> {

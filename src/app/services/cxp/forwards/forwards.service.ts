@@ -9,6 +9,7 @@ import { environment } from 'src/environments/environment';
 
 
 export const APIUrl = environment.APIUrl;
+ 
 
 @Injectable({
   providedIn: 'root'

@@ -13,10 +13,11 @@ import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/deta
 
 
 //export const APIUrl = "http://riztekserver.ddns.net:44361/api";
-export const APIUrl = environment.APIUrl;
-// export const APIUrl = "http://riztekserver.ddns.net:44361/api";
-// export const APIUrl = "https://localhost:44361/api";
 // export const APIUrl = environment.APIUrl;
+// export const APIUrl = "http://riztekserver.ddns.net:44361/api";
+
+ export const APIUrl = environment.APIUrl;
+
 
 @Injectable({
   providedIn: 'root'

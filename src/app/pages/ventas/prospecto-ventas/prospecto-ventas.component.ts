@@ -14,6 +14,13 @@ import { isThisSecond } from 'date-fns';
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Ventas", "titulo": 'Prospecto'}
+]
+
 
 @Component({
   selector: 'app-prospecto-ventas',
@@ -23,13 +30,19 @@ import { EventosService } from 'src/app/services/eventos/eventos.service';
 export class ProspectoVentasComponent implements OnInit {
 
   constructor(public router: Router, private dialog: MatDialog, public service: VentasCotizacionService, public service2: ClientesService, private _formBuilder: FormBuilder,
-    private eventosService:EventosService,) {
+    private eventosService:EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) {
     this.service.listen().subscribe((m:any)=>{
       this.refreshProspectoList();
     });
+    
+    this.ConnectionHubService.listenProspecto().subscribe((m:any)=>{
+      this.refreshProspectoList();
+      });
    }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.refreshProspectoList();
     //^ **** PRIVILEGIOS POR USUARIO *****
     this.obtenerPrivilegios();
@@ -116,6 +129,7 @@ export class ProspectoVentasComponent implements OnInit {
           
           this.eventosService.movimientos('Prospecto Borrado')
           this.refreshProspectoList();
+          this.ConnectionHubService.on(origen[0]);
           Swal.fire({
             title: 'Borrado',
             icon: 'success',

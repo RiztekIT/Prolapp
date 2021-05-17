@@ -21,6 +21,12 @@ import { OrdenCargaDescargaComponent } from 'src/app/components/orden-carga-desc
 import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
 import { MasterOrdenCarga } from 'src/app/Models/almacen/OrdenCarga/masterOrdenCarga-model';
 
+import { ConnectionHubServiceService } from '././../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Almacen", "titulo": 'OC'}
+]
 @Component({
   selector: 'app-pedidosalmacen',
   templateUrl: './pedidosalmacen.component.html',
@@ -54,12 +60,18 @@ export class PedidosalmacenComponent implements OnInit, OnDestroy {
 
   constructor(public router: Router, private service: OrdenCargaService,
     private dialog: MatDialog, public privilegiosService: SidebarService,
-    private incidenciasService: IncidenciasService, public traspasoSVC: TraspasoMercanciaService) {
+    private incidenciasService: IncidenciasService, public traspasoSVC: TraspasoMercanciaService,
+    private ConnectionHubService: ConnectionHubServiceService,) {
 
     this.service.listen().subscribe((m: any) => {
       console.log(m);
       this.refreshOrdenCargaList();
     });
+
+    
+    this.ConnectionHubService.listenOC().subscribe((m:any)=>{
+      this.refreshOrdenCargaList();
+      });
 
     // console.log('Constructor Orden de Carga');
     this.service.master = new Array<MasterOrdenCarga>();
@@ -67,6 +79,7 @@ export class PedidosalmacenComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.refreshOrdenCargaList();
 
     //^ **** PRIVILEGIOS POR USUARIO *****
@@ -296,6 +309,7 @@ export class PedidosalmacenComponent implements OnInit, OnDestroy {
     Swal.showLoading();
     this.service.deleteOrdenCarga(row.IdOrdenCarga).subscribe(res => {
       Swal.close();
+      this.ConnectionHubService.on(origen[0]);
       if (res == 'Se elimino Correctamente') {
         Swal.fire({
           title: 'Borrado',

@@ -3,6 +3,28 @@ import { MatDialogRef } from '@angular/material';
 import { PosserviceService, Cliente } from '../../../posservice.service';
 import Swal from 'sweetalert2';
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "POS", 
+  "titulo": 'Cliente',
+  "datosExtra": '',
+  },
+]
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "POS", "titulo": 'Cliente'}
+]
+
+
 @Component({
   selector: 'app-posaddeditclientes',
   templateUrl: './posaddeditclientes.component.html',
@@ -217,9 +239,11 @@ export class PosaddeditclientesComponent implements OnInit {
 
  }
 
-  constructor(public posSVC: PosserviceService, public dialogbox: MatDialogRef<PosaddeditclientesComponent>) { }
+  constructor(public posSVC: PosserviceService, public dialogbox: MatDialogRef<PosaddeditclientesComponent>,
+    private ConnectionHubService: ConnectionHubServiceService,) { }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.posSVC.clientesForm = this.clienteBlanco;
   }
 
@@ -253,6 +277,7 @@ export class PosaddeditclientesComponent implements OnInit {
 
     this.posSVC.generarConsulta(consulta).subscribe((res:any) =>{
       
+      this.ConnectionHubService.on(origen[0]);
       if (res == [] || res.length == 0) {
     
         
@@ -265,6 +290,8 @@ let fecha = new Date().toISOString().slice(0,10);
         
         console.log(consulta2);
         this.posSVC.generarConsulta(consulta2).subscribe((resp:any) =>{
+          this.ConnectionHubService.on(origen[0]);
+          this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
           console.log(resp);
           this.posSVC.clientesForm.idCLiente = resp[0].idCLiente
           if (resp){
@@ -315,6 +342,7 @@ let fecha = new Date().toISOString().slice(0,10);
 
     this.posSVC.generarConsulta(consulta2).subscribe((resp:any) =>{
       console.log(resp);
+      this.ConnectionHubService.on(origen[0]);
       if (resp.length==0){
         Swal.fire({
           icon: 'success',

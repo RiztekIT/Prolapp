@@ -51,7 +51,7 @@ export class VentasCotizacionService {
   IdCotizacion: number;
   IdCliente : number;
   readonly APIUrl = environment.APIUrl;
-  //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+  
   
   updateVentasPedido(pedido: any) {
     return this.http.put(this.APIUrl + '/Pedido', pedido);

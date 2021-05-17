@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AddsproductosService {
   readonly APIUrl = environment.APIUrl;
+  
 
   constructor(private http:HttpClient) { }
 

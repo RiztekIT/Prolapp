@@ -22,7 +22,7 @@
                         <div class="col-md-4 col-sm-12" style="display: grid">
 
                             <!-- <label class="input-group-text text-info">Estatus</label> -->
-                            <mat-form-field >
+                            <mat-form-field>
                                 <mat-label> {{bodegaSelect}} </mat-label>
 
                                 <mat-select [disabled]="this.inicio == false" (selectionChange)="bodegaCambio($event)" [(ngModel)]="bodegaSelect">
@@ -110,12 +110,12 @@
 
                         <ng-container matColumnDef="Fecha Caducidad">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha De Caducidad</th>
-                            <td mat-cell *matCellDef="let element">{{element.FechaCaducidad |  date: 'yyyy/MM/dd'}}
+                            <td mat-cell *matCellDef="let element">{{element.FechaCaducidad | date: 'dd/MM/yyyy'}}
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="FechaMFG">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Prod</th>
-                            <td mat-cell *matCellDef="let element">{{element.FechaMFG |  date: 'yyyy/MM/dd'}}
+                            <td mat-cell *matCellDef="let element">{{element.FechaMFG | date: 'dd/MM/yyyy'}}
                             </td>
                         </ng-container>
 
@@ -238,7 +238,7 @@
 
                         <ng-container matColumnDef="FechaMFG">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Prod</th>
-                            <td mat-cell *matCellDef="let element">{{element.FechaMFG |  date: 'yyyy/MM/dd'}}
+                            <td mat-cell *matCellDef="let element">{{element.FechaMFG | date: 'dd/MM/yyyy'}}
                             </td>
                         </ng-container>
 
@@ -270,11 +270,11 @@
                   </button>
                                 <mat-menu #menu="matMenu"> -->
 
-                                    <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
+                                <button title="Editar" mat-icon-button class="btn btn-dark" (click)="onEdit(row)">
                                                 <mat-icon>edit</mat-icon>
                                             </button>
 
-                                    <!--  <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
+                                <!--  <button title="Vista Previa" mat-icon-button class="btn btn-dark" (click)="openrep(row)">
                                     <mat-icon>visibility</mat-icon>
                                     </button>
 

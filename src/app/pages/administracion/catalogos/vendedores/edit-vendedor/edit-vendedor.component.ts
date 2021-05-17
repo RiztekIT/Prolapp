@@ -12,6 +12,12 @@ import { EventosService } from '../../../../../services/eventos/eventos.service'
 import { Evento } from 'src/app/Models/eventos/evento-model';
 import { DatePipe } from '@angular/common';
 
+import { ConnectionHubServiceService } from '../../../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Vendedor'}
+]
 
 @Component({
   selector: 'app-edit-vendedor',
@@ -32,9 +38,11 @@ export class EditVendedorComponent implements OnInit {
     private datePipe: DatePipe,
     private eventosService: EventosService,
     @Inject(MAT_DIALOG_DATA) public data: any, 
+    private ConnectionHubService: ConnectionHubServiceService,
     ) { }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     this.BodegaInfo = this.data;
     this.movimiento = this.BodegaInfo.movimiento
@@ -48,11 +56,8 @@ export class EditVendedorComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     this.service.updateVendedor(form.value).subscribe(res => {
-      // this.snackBar.open(res.toString(), '', {
-      //   duration: 5000,
-      //   verticalPosition: 'top'
-      // });
       
+      this.ConnectionHubService.on(origen[0])
       this.movimientos(this.movimiento)
       Swal.fire({
         icon: 'success',

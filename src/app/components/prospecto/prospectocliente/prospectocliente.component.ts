@@ -16,6 +16,16 @@ import { Vendedor } from '../../../Models/catalogos/vendedores.model';
 import { ClientesService } from '../../../services/catalogos/clientes.service';
 
 
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Ventas", "titulo": 'Prospecto'}
+]
+let origen1: { origen: string, titulo: string }[] = [
+  {"origen": "Catalogos", "titulo": 'Cliente'}
+]
+
 @Component({
   selector: 'app-prospectocliente',
   templateUrl: './prospectocliente.component.html',
@@ -24,9 +34,13 @@ import { ClientesService } from '../../../services/catalogos/clientes.service';
 export class ProspectoclienteComponent implements OnInit {
 
   constructor(public dialogbox: MatDialogRef<ProspectoclienteComponent>, public router: Router,
-    public service: ClientesService, public service2: VentasCotizacionService, private snackBar: MatSnackBar, public apicliente: EnviarfacturaService, private _formBuilder: FormBuilder) { }
+    public service: ClientesService, public service2: VentasCotizacionService, 
+    private snackBar: MatSnackBar, public apicliente: EnviarfacturaService, 
+    private _formBuilder: FormBuilder, 
+    private ConnectionHubService: ConnectionHubServiceService,) { }
 
   ngOnInit() {
+    this.ConnectionHubService.on(origen[0]);
     console.log(this.service.formData.Nombre);
     // console.log(this.service2.formprosp);
     // this.service.formData = new Cliente();
@@ -177,6 +191,7 @@ export class ProspectoclienteComponent implements OnInit {
 
     this.service2.editProspecto(data[0]).subscribe(datau => {
       console.log(datau);
+      this.ConnectionHubService.on(origen[0]);
       this.service2.filter('');
     })
   })
@@ -202,6 +217,7 @@ export class ProspectoclienteComponent implements OnInit {
     datos = JSON.stringify(datos);
     this.apicliente.crearCliente(datos).subscribe(data =>{
         
+      this.ConnectionHubService.on(origen1[0]);
       if (data.status==='success'){
         console.log(data);
 
@@ -210,6 +226,7 @@ export class ProspectoclienteComponent implements OnInit {
         //
         this.service.addCliente(this.service.formData).subscribe(res => {
           console.log(res);
+          this.ConnectionHubService.on(origen1[0]);
           
           Swal.fire({
             icon: 'success',

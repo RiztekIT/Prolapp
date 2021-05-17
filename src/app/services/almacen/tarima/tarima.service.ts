@@ -11,8 +11,9 @@ import { Usuario } from 'src/app/Models/catalogos/usuarios-model';
 import { MasterDetalleTarima } from 'src/app/Models/almacen/OrdenDescarga/cuu/masterDetalleTarima-model';
 import { Producto } from 'src/app/Models/catalogos/productos-model';
 
-export const APIUrl = environment.APIUrl;
-// export const APIUrl = 'https://localhost:44361/api';
+ export const APIUrl = environment.APIUrl;
+
+
 
 @Injectable({
   providedIn: 'root'

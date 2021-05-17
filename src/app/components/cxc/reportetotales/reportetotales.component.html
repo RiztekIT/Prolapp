@@ -1,132 +1,130 @@
 <!-- TOP PAGE LOGO DESCRIPTION FACTURA -->
-<div class="modal0-body" style="overflow: auto; height: 80vh;"  >
+<div class="modal0-body" style="overflow: auto; height: 80vh;">
     <div class="container">
-      <div class="row">
-        <div class="col-8"></div>
-        <div class="col-4">
-          <!-- <button (click)="exportarXLS()" class="btn btn-success"> <i class="mdi mdi-file-excel-box"></i> Excel </button> -->
-          <button (click)="exportarPDF()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
-          <!-- <button *ngIf="this.enviarfact.empresa.RFC=='AIN140101ME3'" (click)="exportarPDFAbarrotodo()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button> -->
+        <div class="row">
+            <div class="col-8"></div>
+            <div class="col-4">
+                <!-- <button (click)="exportarXLS()" class="btn btn-success"> <i class="mdi mdi-file-excel-box"></i> Excel </button> -->
+                <button (click)="exportarPDF()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
+                <!-- <button *ngIf="this.enviarfact.empresa.RFC=='AIN140101ME3'" (click)="exportarPDFAbarrotodo()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button> -->
+            </div>
         </div>
-      </div>
     </div>
     <div class="container">
-      <div class="row">
-        <!-- logo -->
-        <div class="col-lg-3 col-md-3 col-sm-3 col-3">
-          <div class="card card-outline-inverse">
-            <!-- <div class="card-header">
+        <div class="row">
+            <!-- logo -->
+            <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                <div class="card card-outline-inverse">
+                    <!-- <div class="card-header">
                               <h6 class="m-b-0 text-white">Logo</h6>
                           </div>
                           <div class="card-body">
                           </div> -->
-  
-            <!-- <img src="../../../assets/images/ProLactoLogo.png" class="logo">-->
-            <img [src]=logo class="logo">
-  
-          </div>
-        </div>
-        <!-- descripcion -->
-        <div class="col-lg-9 col-md-9 col-sm-9 col-9">
-          <h5> {{nombreE}}
-          </h5>
-          <p class="     nomarginbottomP"><span class=" ">R.F.C.:</span>{{rfcE}}
-          </p>
-          <p class="     nomarginbottomP"> Calle: Fernando Montes de OCa No. 4505, Col. Nombre de Dios, CP: 31150,
-            Chihuahua, Chihuahua, México
-          </p>
-          <div class="container row">
-            <div class="col-8 pl-0">
-              <p class="     nomarginbottomP">Lugar de Expedicion <span>Calle: <i>Fernando Montes de Oca, CP.
-                    31150</i></span>
-              </p>
+
+                    <!-- <img src="../../../assets/images/ProLactoLogo.png" class="logo">-->
+                    <img [src]=logo class="logo">
+
+                </div>
             </div>
-          </div>
+            <!-- descripcion -->
+            <div class="col-lg-9 col-md-9 col-sm-9 col-9">
+                <h5> {{nombreE}}
+                </h5>
+                <p class="     nomarginbottomP"><span class=" ">R.F.C.:</span>{{rfcE}}
+                </p>
+                <p class="     nomarginbottomP"> Calle: Fernando Montes de OCa No. 4505, Col. Nombre de Dios, CP: 31150, Chihuahua, Chihuahua, México
+                </p>
+                <div class="container row">
+                    <div class="col-8 pl-0">
+                        <p class="     nomarginbottomP">Lugar de Expedicion <span>Calle: <i>Fernando Montes de Oca, CP.
+                    31150</i></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
     <!-- End TOP -->
-  
+
     <div id="pdf2">
-      <table  style="width: 100%;" class="table-hover">
-        <thead>
-          <tr class="pgbreak" style="background-color: black; color: white;">
-            <th class="titulos bolder">ID Cliente</th>
-            <th class="titulos bolder">Nombre</th>
-            <th class="titulos bolder">Total MXN</th> 
-            <th class="titulos bolder">Total Dlls</th> 
-            <th class="titulos bolder">Kg</th>
+        <table style="width: 100%;" class="table-hover">
+            <thead>
+                <tr class="pgbreak" style="background-color: black; color: white;">
+                    <th class="titulos bolder">ID Cliente</th>
+                    <th class="titulos bolder">Nombre</th>
+                    <th class="titulos bolder">Total MXN</th>
+                    <th class="titulos bolder">Total Dlls</th>
+                    <th class="titulos bolder">Kg</th>
 
-          </tr>
-        </thead>
-        <ng-container *ngFor="let fact of arrayFinal; let i = index">
-          <tbody>
-            <tr class="pgbreak border3" >
-              <td class="pgbreak"> {{fact.IdCliente}} </td>
-              <td class="pgbreak"> {{fact.Nombre}} </td>
-              <td class="pgbreak"> {{fact.Total | currency}} </td>
-              <td class="pgbreak"> {{fact.TotalDlls | currency}} </td>
-              <td class="pgbreak"> {{fact.Kg | number}} </td>
+                </tr>
+            </thead>
+            <ng-container *ngFor="let fact of arrayFinal; let i = index">
+                <tbody>
+                    <tr class="pgbreak border3">
+                        <td class="pgbreak"> {{fact.IdCliente}} </td>
+                        <td class="pgbreak"> {{fact.Nombre}} </td>
+                        <td class="pgbreak"> {{fact.Total | currency}} </td>
+                        <td class="pgbreak"> {{fact.TotalDlls | currency}} </td>
+                        <td class="pgbreak"> {{fact.Kg | number}} </td>
 
-            </tr>
-            <tr *ngIf="this.data.filtrarCliente == true">
-              <td [attr.colspan]="5">
-                <table style="width: 100%;">    
-                  <thead>
-                    <tr class="pgbreak">
-                      <th class="subtitulos bolder">Folio</th>
-                      <th class="subtitulos bolder">Fecha Exp.</th>
-                      <th class="subtitulos bolder">Importe</th>
-                      <th class="subtitulos bolder">Moneda</th>
-                      <th class="subtitulos bolder">TC</th>
-                      <th class="subtitulos bolder">Estatus</th>
                     </tr>
-                  </thead>                    
-                  
-                  <tbody *ngFor="let detalle of arrayFinal[i].detalle">
-                    <tr class="pgbreak border2">
-                      <td> {{detalle.Folio}} </td>
-                      <td> {{detalle.FechaDeExpedicion | date: 'yyyy/MM/dd'}} </td>
-                      <td *ngIf="detalle.Moneda==='MXN'"> {{detalle.Total | currency}} </td>
-                      <td *ngIf="detalle.Moneda==='USD'"> {{detalle.TotalDlls | currency}} </td>
-                      <td> {{detalle.Moneda}} </td>
-                      <td> {{detalle.TipoDeCambio}} </td>
-                      <td> {{detalle.Estatus}} </td>                                
+                    <tr *ngIf="this.data.filtrarCliente == true">
+                        <td [attr.colspan]="5">
+                            <table style="width: 100%;">
+                                <thead>
+                                    <tr class="pgbreak">
+                                        <th class="subtitulos bolder">Folio</th>
+                                        <th class="subtitulos bolder">Fecha Exp.</th>
+                                        <th class="subtitulos bolder">Importe</th>
+                                        <th class="subtitulos bolder">Moneda</th>
+                                        <th class="subtitulos bolder">TC</th>
+                                        <th class="subtitulos bolder">Estatus</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody *ngFor="let detalle of arrayFinal[i].detalle">
+                                    <tr class="pgbreak border2">
+                                        <td> {{detalle.Folio}} </td>
+                                        <td> {{detalle.FechaDeExpedicion | date: 'dd/MM/yyyy'}} </td>
+                                        <td *ngIf="detalle.Moneda==='MXN'"> {{detalle.Total | currency}} </td>
+                                        <td *ngIf="detalle.Moneda==='USD'"> {{detalle.TotalDlls | currency}} </td>
+                                        <td> {{detalle.Moneda}} </td>
+                                        <td> {{detalle.TipoDeCambio}} </td>
+                                        <td> {{detalle.Estatus}} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
                     </tr>
-                  </tbody>            
-                </table>
-              </td>
-            </tr>
-          </tbody>
-          
-  
-        </ng-container>
-      </table>
-      <br>
-      <hr>
-      <br>
-      <br>
-      <table style="float: right; border-style: groove">
-        <thead>
-  
-          <tr>
-            <th class="titulos bolder">Total Importe MXN</th>
-            <th class="titulos bolder">Total Importe USD</th>
-            <th class="titulos bolder">Total Kilogramos</th>
-          </tr>
-  
-        </thead>
-        <tbody>
-          <tr>
-            <td class="subtitulos bolder text-center">{{ totalmxn | currency }}</td>
-            <td class="subtitulos bolder text-center">{{ totaldlls | currency }}</td>
-            <td class="subtitulos bolder text-center">{{ totalkilos | number }}</td>
-          </tr>
-        </tbody>
-  
-      </table>
-  
+                </tbody>
+
+
+            </ng-container>
+        </table>
+        <br>
+        <hr>
+        <br>
+        <br>
+        <table style="float: right; border-style: groove">
+            <thead>
+
+                <tr>
+                    <th class="titulos bolder">Total Importe MXN</th>
+                    <th class="titulos bolder">Total Importe USD</th>
+                    <th class="titulos bolder">Total Kilogramos</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="subtitulos bolder text-center">{{ totalmxn | currency }}</td>
+                    <td class="subtitulos bolder text-center">{{ totaldlls | currency }}</td>
+                    <td class="subtitulos bolder text-center">{{ totalkilos | number }}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
     </div>
-  
-  </div>
-  
+
+</div>

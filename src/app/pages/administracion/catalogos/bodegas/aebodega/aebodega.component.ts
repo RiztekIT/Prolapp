@@ -11,6 +11,27 @@ import { UsuariosServieService } from '../../../../../services/catalogos/usuario
 import { EventosService } from '../../../../../services/eventos/eventos.service';
 import { Evento } from '../../../../../Models/eventos/evento-model';
 
+import { ConnectionHubServiceService } from '../../../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Bodega'}
+]
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Administracion", 
+  "titulo": 'Bodega',
+  "datosExtra": '',
+  },
+]
+
 @Component({
   selector: 'app-aebodega',
   templateUrl: './aebodega.component.html',
@@ -31,10 +52,12 @@ export class AEBodegaComponent implements OnInit {
     private usuarioService: UsuariosServieService,
     private datePipe: DatePipe,
     private eventosService: EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,
     ) { }
 
   ngOnInit() {
     
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     this.BodegaInfo = this.data;
     this.tipoAE = this.BodegaInfo.tipo
@@ -72,6 +95,7 @@ if(tipoAE == 'Editar'){
     if (this.tipoAE == 'Editar') {
       console.log('this.BodegaService.formData: ', this.BodegaService.formData);
       this.BodegaService.editBodega(this.BodegaService.formData).subscribe(res=> {
+        this.ConnectionHubService.on(origen[0])
         console.log(res);
 
         this.movimientos(this.movimiento)
@@ -87,6 +111,10 @@ if(tipoAE == 'Editar'){
       console.log('this.BodegaService.formData: ', this.BodegaService.formData);
       this.BodegaService.formData.IdBodega = 0;
       this.BodegaService.addBodega(this.BodegaService.formData).subscribe(res=> {
+        
+        let datosExtra = this.BodegaService.formData.Nombre
+        this.ConnectionHubService.generarNotificacion(origenNotificacion[0], datosExtra)
+        this.ConnectionHubService.on(origen[0])
         console.log(res);
 
         this.movimientos(this.movimiento)

@@ -825,22 +825,23 @@ export class OrdendescargatarimaComponent implements OnInit {
     console.log(this.ordenTemporalService.preOrdenTemporalSacos);
     console.log(this.preOrdenTemporalSacos);
     let POTS = this.preOrdenTemporalSacos;
+    console.log(POTS.length, 'POTS');
 
 
-    for (let j = 0; j <= POTS.length - 1; j++) {
-      let IdOD = POTS[j].IdOrdenDescarga
+    //for (let j = 0; j <= POTS.length - 1; j++) {
+      let IdOD = POTS.IdOrdenDescarga
       console.log(IdOD);
       // Update a detalleordencompra para actualizar lote,y fechas
-      console.log(POTS[j].IdDetalleOrdenDescarga);
-      console.log(POTS[j].Lote);
-      console.log(POTS[j].FechaCaducidad);
-      console.log(POTS[j].FechaMFG);
+      console.log(POTS.IdDetalleOrdenDescarga);
+      console.log(POTS.Lote);
+      console.log(POTS.FechaCaducidad);
+      console.log(POTS.FechaMFG);
 
-      this.service.OnEditDetalleOrdenDescarga(POTS[j]).subscribe(res => {
+      this.service.OnEditDetalleOrdenDescarga(POTS).subscribe(res => {
         console.log(res);
 
       })
-    }
+    //}
 
     // for (let i = 0; i < this.ordenTemporalService.preOrdenTemporalSacos.length; i++) {
 

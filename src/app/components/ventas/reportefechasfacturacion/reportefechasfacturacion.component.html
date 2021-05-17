@@ -68,11 +68,11 @@
                 </thead>
                 <tbody *ngFor="let fact of facturas; let i = index">
                     <tr class="pgbreak border3" [style.font-size]="tamletra+'px'">
-                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.FechaDeExpedicion | date: 'yyyy/MM/dd'}} </td>
+                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.FechaDeExpedicion | date: 'dd/MM/yyyy'}} </td>
                         <!-- <td class="wrap lightback"> {{info.Nombre | slice:0:35}} <br> {{info.Nombre | slice:35:this.textoNombre[i]}} </td> -->
                         <!-- <td class="wrap lightback"> {{info.Nombre}}</td> -->
                         <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Folio}}</td>
-                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.FechaPago | date: 'yyyy/MM/dd'}}</td>
+                        <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.FechaPago | date: 'dd/MM/yyyy'}}</td>
                         <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Nombre}}</td>
                         <td class="wrap lightback pgbreak" style="text-align: end;" [attr.colspan]="1"> {{fact.Cantidad | number}}</td>
                         <td class="wrap lightback pgbreak" [attr.colspan]="1"> {{fact.Producto}}</td>

@@ -8,6 +8,12 @@ import { Bodega } from '../../../Models/catalogos/bodegas-model';
 import { Subscription } from 'rxjs';
 import { MovimientosinventariosComponent } from './movimientosinventarios/movimientosinventarios.component';
 
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Almacen", "titulo": 'Inventario'}
+]
 
 @Component({
   selector: 'app-inventariosalmacen',
@@ -25,8 +31,12 @@ import { MovimientosinventariosComponent } from './movimientosinventarios/movimi
 export class InventariosalmacenComponent implements OnInit {
 
   constructor(public serviceTarima: TarimaService, private dialog: MatDialog,
-    private bodegaservice: BodegasService) { 
+    private bodegaservice: BodegasService,
+    private ConnectionHubService: ConnectionHubServiceService,) { 
    
+      this.ConnectionHubService.listenInventario().subscribe((m:any)=>{
+        this.obtenerProductos(this.bodegaSelect);
+        });
   }
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -50,6 +60,7 @@ export class InventariosalmacenComponent implements OnInit {
   
   
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.getbodegas()
     this.bodegaSelect = 'CHIHUAHUA';
     this.obtenerProductos(this.bodegaSelect)
@@ -167,13 +178,20 @@ subs1: Subscription
                 }else{
                   datadet[i].KgD = datadet[i].KgD
                 }
+                if (datadet[i].Estatus=='Muestra'){
+                  datadet[i].KgD = 0;
+    
+                }
               }) 
 
-
+           
             }
+
 
             this.serviceTarima.master[contador].detalle = datadet;
             for (let p=0; p<datadet.length;p++){
+
+             
 
               this.serviceTarima.masterlotes.push(datadet[p]);
             }
@@ -266,7 +284,7 @@ subs1: Subscription
     for (let n=0; n<producto.detalle.length;n++){
       if (producto.detalle[n].Estatus=='Muestra'){
 
-        kgdisponibles = +kgdisponibles + +producto.detalle[n].KgD;
+        kgdisponibles = +kgdisponibles + +producto.detalle[n].KgT;
       }
       // console.log(kgdisponibles,'KG');
 
@@ -282,7 +300,7 @@ subs1: Subscription
     for (let n=0; n<producto.detalle.length;n++){
       if (producto.detalle[n].Estatus=='Merma'){
 
-        kgdisponibles = +kgdisponibles + +producto.detalle[n].KgD;
+        kgdisponibles = +kgdisponibles + +producto.detalle[n].KgT;
       }
       // console.log(kgdisponibles,'KG');
 

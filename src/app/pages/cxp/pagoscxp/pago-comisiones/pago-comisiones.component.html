@@ -52,12 +52,12 @@
 
                         <ng-container matColumnDef="FechaVencimiento">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Vencimiento</th>
-                            <td mat-cell *matCellDef="let element">{{element.FechaVencimiento | date: 'yyyy/MM/dd'}}
+                            <td mat-cell *matCellDef="let element">{{element.FechaVencimiento | date: 'dd/MM/yyyy'}}
                                 <td>
                         </ng-container>
                         <ng-container matColumnDef="FechaDeEntrega">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Entrega</th>
-                            <td mat-cell *matCellDef="let element">{{element.FechaDeEntrega | date: 'yyyy/MM/dd'}}
+                            <td mat-cell *matCellDef="let element">{{element.FechaDeEntrega | date: 'dd/MM/yyyy'}}
                                 <td>
                         </ng-container>
 

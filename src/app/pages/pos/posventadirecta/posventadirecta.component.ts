@@ -25,6 +25,32 @@ import { PossaldosclientesComponent } from './possaldosclientes/possaldoscliente
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "POS", 
+  "titulo": 'Venta',
+  "datosExtra": '',
+  },
+]
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "POS", "titulo": 'Venta'}
+]
+
+let origen1: { origen: string, titulo: string }[] = [
+  {"origen": "Catalogos", "titulo": 'Cliente'}
+]
+
+
 @Component({
   selector: 'app-posventadirecta',
   templateUrl: './posventadirecta.component.html',
@@ -48,7 +74,8 @@ export class PosventadirectaComponent implements OnInit {
   @ViewChild(MatSort, null) sort: MatSort;
 
   constructor(private location: Location,public posSVC: PosserviceService, private dialog: MatDialog,
-    private eventosService:EventosService,) { }
+    private eventosService:EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) { }
 
   public ventaBlanco: Ventas =  {
     idVentas:0,
@@ -82,6 +109,7 @@ export class PosventadirectaComponent implements OnInit {
 
   ngOnInit() {
 
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.crearNuevaVenta();
 
     
@@ -228,6 +256,7 @@ export class PosventadirectaComponent implements OnInit {
     };
     console.log(consulta);
     this.posSVC.generarConsulta(consulta).subscribe((res:any)=>{
+      this.ConnectionHubService.on(origen[0]);
 
     
       console.log(res);
@@ -275,6 +304,7 @@ export class PosventadirectaComponent implements OnInit {
       console.log(consulta);
       this.posSVC.generarConsulta(consulta).subscribe((res:any)=>{
           console.log(res);
+          this.ConnectionHubService.on(origen[0]);
       
       if (res.length==0){
       /*   Swal.fire({
@@ -406,6 +436,7 @@ export class PosventadirectaComponent implements OnInit {
 
     this.posSVC.generarConsulta(consulta).subscribe((res:any)=>{
       console.log(res);
+      this.ConnectionHubService.on(origen[0]);
       this.actualizarInventario();
       if (res.length==0){
         this.posSVC.addedit = 'Agregar'
@@ -533,6 +564,7 @@ export class PosventadirectaComponent implements OnInit {
         this.posSVC.generarConsulta(consulta).subscribe(res=>{
           this.posSVC.generarConsulta(consulta2).subscribe(resp=>{
             
+          this.ConnectionHubService.on(origen[0]);
             // this.files.splice(this.files.indexOf(event),1);
           });
         })
@@ -740,6 +772,8 @@ if (data.length>0){
       this.posSVC.ventasForm = this.ventaBlanco;
       this.posSVC.generarConsulta(consulta).subscribe(res => {
          console.log(res);
+         this.ConnectionHubService.on(origen[0]);
+         this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
          this.posSVC.ventasForm = res[0];
 
          this.posSVC.detallesventasForm = new DetalleVentas;
@@ -806,6 +840,7 @@ let dlg = this.dialog.open(PosaddeditclientesComponent, dialogConfig);
 dlg.afterClosed().subscribe(resp=>{
   let event = {isUserInput:true}
   this.onSelectionChange(this.posSVC.clientesForm, event)
+  this.ConnectionHubService.on(origen1[0]);
 })
 
   }

@@ -7,6 +7,7 @@ import { Imagenes } from '../../Models/Imagenes/imagenes-model';
 
 export const APIUrl = environment.APIUrl;
 
+
 @Injectable({
   providedIn: 'root'
 })

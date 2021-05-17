@@ -28,6 +28,30 @@ import { Documento } from 'src/app/Models/documentos/documento-model';
 
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 import { EmailgeneralComponent } from 'src/app/components/email/emailgeneral/emailgeneral.component';
+import { FileService } from 'src/app/services/explorador-archivos/explorador.service';
+
+
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Almacen/Importacion", 
+  "titulo": 'Documento',
+  "datosExtra": '',
+  },
+]
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Almacen", "titulo": 'Documento'}
+]
 
 
 @Component({
@@ -45,14 +69,20 @@ import { EmailgeneralComponent } from 'src/app/components/email/emailgeneral/ema
 export class DocumentacionImportacionComponent implements OnInit {
 
 
-  constructor(public router: Router, public documentosService: DocumentosImportacionService,
+  constructor(
+    private ConnectionHubService: ConnectionHubServiceService,
+    public router: Router, public documentosService: DocumentosImportacionService,
     public traspasoSVC: TraspasoMercanciaService, public _MessageService: MessageService,
     private dialog: MatDialog, public traspasoService: TraspasoMercanciaService,
-    private eventosService:EventosService,
+    private eventosService:EventosService,public fileService: FileService,
 
-  ) { }
+  ) {
+    this.ConnectionHubService.listenDocumento().subscribe((m:any)=>{
+      this.obtenerDocumentos();
+      }); }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.getTipos();
     // this.obtenerOrdenDescargaDocumentos();
     this.obtenerDocumentos();
@@ -412,6 +442,7 @@ this.subs1 = this.traspasoSVC.getQuery(consulta).subscribe((resTipos:any)=>{
           console.log(detallesConsulta);
           this.documentosService.deleteDocumentoServer(formData, 'borrarDocumentoImportacion').subscribe(res => {
             console.log(res)
+            this.ConnectionHubService.on(origen[0]);
             this.pdfstatus = false;
             this.obtenerDocumentos();
             
@@ -433,8 +464,8 @@ this.subs1 = this.traspasoSVC.getQuery(consulta).subscribe((resTipos:any)=>{
   }
 
   email(){
-    this._MessageService.correo = 'javier.sierra@riztek.com.mx';
-    this._MessageService.cco = 'ivan.talamantes@riztek.com.mx';
+    this._MessageService.correo = '';
+    this._MessageService.cco = '';
     this._MessageService.asunto = 'Envio de Documentacion ';
     this._MessageService.cuerpo = 'Se ha enviado la siguiente Documentacion';
     this._MessageService.nombre = 'Abarrotodo';
@@ -455,6 +486,87 @@ this.subs1 = this.traspasoSVC.getQuery(consulta).subscribe((resTipos:any)=>{
       }
        this.dialog.open(EmailgeneralComponent, dialogConfig);
   }
+
+
+  emailDoc(row){
+    console.log(row);
+    this._MessageService.correo = '';
+    this._MessageService.cco = '';
+    this._MessageService.asunto = 'Envio de Documentacion ';
+    this._MessageService.cuerpo = 'Se ha enviado la siguiente Documentacion';
+    this._MessageService.nombre = 'Abarrotodo';
+    this._MessageService.pdf = true;
+
+
+    /* let archivo = {
+      'name': 
+      'path': 
+    }; */
+let path;
+    switch (row.Tipo) {
+      case 'Factura':
+        console.log('%c%s', 'color: #00ff88', 'Factura');
+        path = 'Documentos/Importacion/Factura/' + row.ClaveProducto + '/' + row.Observaciones
+        break;
+      case 'CLV':
+        console.log('%c%s', 'color: #00ff88', 'CLV');
+        path =  'Documentos/Importacion/CLV/0/0/' + row.ClaveProducto
+        break;
+      case 'USDA':
+        console.log('%c%s', 'color: #00ff88', 'USDA');
+        path = 'Documentos/Importacion/USDA/' + row.Folio
+        break;
+      case 'CA':
+        console.log('%c%s', 'color: #00ff88', 'CA');
+        path = 'Documentos/Importacion/CA/0/0/' + row.ClaveProducto + '/' + row.Observaciones
+        break;
+      case 'PESPI':
+        console.log('%c%s', 'color: #00ff88', 'PESPI');
+        path = 'Documentos/Importacion/PESPI/0/0/' + row.ClaveProducto + '/' + row.Observaciones
+        break;
+      case 'CO':
+        console.log('%c%s', 'color: #00ff88', 'CO');
+        path = 'Documentos/Importacion/CO/0/0/' + row.ClaveProducto
+        break;
+      case 'General':
+        console.log('%c%s', 'color: #00ff88', 'CO');
+        path = 'Documentos/Importacion/General'
+        break;
+
+    }
+
+    let archivo = {
+      'name': row.NombreDocumento,
+      'path': path+'/'+row.NombreDocumento
+  }
+
+  this.fileService.archivosAdjuntadosCorreo = [];
+  this.fileService.archivosAdjuntadosCorreo.push(archivo)
+  this.leerArchivos(row,true)  
+  console.log(archivo,'1');
+  console.log(this.fileService.archivosAdjuntadosCorreo,'2');
+  
+
+
+
+    const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "90%";
+      //^ Asignamos variables en base a la Informacion del Documento.
+      dialogConfig.data = {
+        foliop: '',
+        cliente: '',
+        status: true,
+        //^ Indicamos que es de Tipo Traspaso
+        tipo: 'Documento'
+      }
+       this.dialog.open(EmailgeneralComponent, dialogConfig);
+  }
+
+
+
+
 
 
 }

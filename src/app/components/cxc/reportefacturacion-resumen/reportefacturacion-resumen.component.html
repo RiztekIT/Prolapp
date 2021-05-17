@@ -20,7 +20,7 @@
                             <div class="card-body">
                             </div> -->
 
-                            <img [src]=logo class="logo">
+                    <img [src]=logo class="logo">
 
                 </div>
             </div>
@@ -65,7 +65,7 @@
                     <tr class="pgbreak border3">
                         <td class="wrap lightback pgbreak font" [attr.colspan]="1"> {{fact.Folio}} </td>
                         <td class="wrap lightback pgbreak font" [attr.colspan]="1"> {{fact.IdCliente}} - {{fact.Nombre}}</td>
-                        <td class="wrap lightback pgbreak font" [attr.colspan]="1"> {{fact.FechaDeExpedicion | date: 'yyyy/MM/dd'}}</td>
+                        <td class="wrap lightback pgbreak font" [attr.colspan]="1"> {{fact.FechaDeExpedicion | date: 'dd/MM/yyyy'}}</td>
                         <td *ngIf="fact.Moneda==='MXN'" class="wrap lightback pgbreak font" [attr.colspan]="1"> {{fact.Total | currency}}</td>
                         <td *ngIf="fact.Moneda==='USD'" class="wrap lightback pgbreak font" [attr.colspan]="1"> {{fact.TotalDlls | currency}}</td>
                         <td class="wrap lightback pgbreak font " [attr.colspan]="1"> {{fact.TipoDeCambio}}</td>

@@ -11,8 +11,7 @@ import { ComprasHistorial } from 'src/app/Models/Compras/comprahistorial-model';
 
 
 export const APIUrl = environment.APIUrl;
-
-// export const APIUrl = "https://localhost:44361/api";
+ 
 
 @Injectable({
   providedIn: 'root'

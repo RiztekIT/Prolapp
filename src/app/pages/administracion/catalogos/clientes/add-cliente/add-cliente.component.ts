@@ -22,6 +22,25 @@ import { UsuariosServieService } from '../../../../../services/catalogos/usuario
 import { EventosService } from '../../../../../services/eventos/eventos.service';
 import { Evento } from 'src/app/Models/eventos/evento-model';
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Cliente'}
+]
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Administracion", 
+  "titulo": 'Cliente',
+  "datosExtra": '',
+  },
+]
 
 @Component({
   selector: 'app-add-cliente',
@@ -40,9 +59,11 @@ export class AddClienteComponent implements OnInit {
     private usuarioService: UsuariosServieService,
     private datePipe: DatePipe,
     private eventosService: EventosService,
-    @Inject(MAT_DIALOG_DATA) public data: any, ) { }
+    @Inject(MAT_DIALOG_DATA) public data: any, 
+    private ConnectionHubService: ConnectionHubServiceService,) { }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     // console.log(this.service2.formprosp);
     // this.service.formData = new Cliente();
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
@@ -213,31 +234,35 @@ this.movimiento;
         this.service.formData.IdApi='';
         this.service.formData.Estatus = 'Activo'
         //
+        let datosExtra = this.service.formData.Nombre
+        this.ConnectionHubService.generarNotificacion(origenNotificacion[0], datosExtra)
         this.service.addCliente(this.service.formData).subscribe(res => {
+
+          this.ConnectionHubService.on(origen[0])
           console.log(res);
           
         this.movimientos(this.movimiento)
 
         this.otrocliente()
           
-      /*     Swal.fire({
+      Swal.fire({
             icon: 'success',
             title: 'Cliente Agregado',
             text: ''+this.service.formData.RazonSocial+'',
             timer: 1500
-          }) */
+          }) 
           
-        }
-        );
+        
+        });
 
         
     
-      // }
-      // else{
-      //   console.log(data);
+    //   }
+    //   else{
+    //     console.log(data);
         
-      // }
-      // this.resetForm(form);
+    //   }
+      this.resetForm(form);
 
     // })
 

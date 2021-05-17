@@ -7,6 +7,27 @@ import { map, startWith } from 'rxjs/operators';
 import { Producto } from 'src/app/Models/catalogos/productos-model';
 import { ProductosService } from '../../../../../services/catalogos/productos.service';
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Administracion", "titulo": 'Marca'}
+]
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Administracion", 
+  "titulo": 'Marca',
+  "datosExtra": '',
+  },
+]
+
 @Component({
   selector: 'app-marcas',
   templateUrl: './marcas.component.html',
@@ -29,9 +50,11 @@ export class MarcasComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public ProductosService:ProductosService,
-    public dialogbox: MatDialogRef<MarcasComponent>,) { }
+    public dialogbox: MatDialogRef<MarcasComponent>,
+    private ConnectionHubService: ConnectionHubServiceService,) { }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     console.clear();
     this.AsignarDatos()
     this.dropdownRefresh()
@@ -57,11 +80,16 @@ export class MarcasComponent implements OnInit {
     if (this.tipo == 'Agregar') {
       
       this.ProductosService.addMarcasProductos(data).subscribe(res => {
+        this.ConnectionHubService.on(origen[0])
+        
+        let datosExtra = this.ProductosService.dataMarcas.NombreMarca
+        this.ConnectionHubService.generarNotificacion(origenNotificacion[0], datosExtra)
         console.log('%c⧭', 'color: #ff8800', res);
         this.onClose()
       })
     } else {
       this.ProductosService.updateMarcas(data).subscribe(res => {
+        this.ConnectionHubService.on(origen[0])
         console.log('%c⧭', 'color: #ff8800', res);
         this.onClose()
 

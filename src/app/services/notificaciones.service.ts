@@ -6,7 +6,7 @@ import { Notificaciones } from '../Models/Notificaciones/notificaciones-model';
 import { DetalleNotificacion } from '../Models/Notificaciones/detalleNoticacion-model';
 
 export const APIUrl = environment.APIUrl;
-// export const APIUrl = "https://localhost:44361/api";
+
 
 @Injectable({
   providedIn: 'root'

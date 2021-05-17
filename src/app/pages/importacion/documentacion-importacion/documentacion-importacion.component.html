@@ -82,18 +82,21 @@
                             <th mat-header-cell *matHeaderCellDef>Opciones</th>
                             <td mat-cell *matCellDef="let row">
 
-                                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                <!--      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                     <mat-icon>keyboard_arrow_down</mat-icon>
                   </button>
-                                <mat-menu #menu="matMenu">
+                                <mat-menu #menu="matMenu"> -->
 
-                                    <button title="documentos" mat-icon-button class="btn btn-dark" (click)='leerArchivos(row)'>
+                                <button title="documentos" mat-icon-button class="btn btn-dark" (click)='leerArchivos(row)'>
                                                 <mat-icon>visibility</mat-icon>
                                             </button>
-                                    <button title="documentos" mat-icon-button class="btn btn-danger" (click)='onRemove(row)'>
+                                <button title="documentos" mat-icon-button class="btn btn-danger" (click)='onRemove(row)'>
                                                 <mat-icon>cancel</mat-icon>
                                             </button>
-                                </mat-menu>
+                                <button title="documentos" mat-icon-button class="btn btn-danger" (click)='emailDoc(row)'>
+                                                <mat-icon>alternate_email</mat-icon>
+                                            </button>
+                                <!-- </mat-menu> -->
                             </td>
                         </ng-container>
                         <!-- <ng-container matColumnDef="expandedDetail">

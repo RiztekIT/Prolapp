@@ -16,6 +16,15 @@ import { Incidencias } from 'src/app/Models/Incidencias/incidencias-model';
 import { IncidenciaAlmacenComponent } from 'src/app/components/almacen/incidencia-almacen/incidencia-almacen.component';
 import { IncidenciasService } from 'src/app/services/almacen/incidencias/incidencias.service';
 import { EntradaProductoComponent } from 'src/app/components/almacen/entrada-producto/entrada-producto.component';
+
+import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+
+
+let origen: { origen: string, titulo: string }[] = [
+  {"origen": "Almacen", "titulo": 'OD'}
+]
+
+
 @Component({
   selector: 'app-ordendescarga',
   templateUrl: './ordendescarga.component.html',
@@ -33,7 +42,7 @@ export class OrdendescargaComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
   //displayedColumns: string[] = ['Folio', 'FechaLlegada', 'Proveedor', 'PO', 'Fletera', 'Caja', 'Sacos', 'Kg', 'Origen', 'Destino', 'Estatus', 'Options'];
-  displayedColumns: string[] = ['Folio', 'PO', 'FechaLlegada', 'Proveedor', 'Fletera','Origen','Destino','Estatus','Options'];
+  displayedColumns: string[] = ['Folio', 'PO', 'FechaLlegada', 'Proveedor', 'Fletera','Caja','Origen','Destino','Estatus','Options'];
   displayedColumnsVersion: string[] = ['ClaveProducto', 'Producto', 'Sacos', 'Lote','','','','',''];
   expandedElement: any;
   detalle = new Array<DetalleOrdenDescarga>();
@@ -45,14 +54,20 @@ export class OrdendescargaComponent implements OnInit {
   estatusSelect;
 
   constructor(public router: Router, private service: OrdenDescargaService, private dialog: MatDialog,
-    private incidenciasService: IncidenciasService) {
+    private incidenciasService: IncidenciasService,
+    private ConnectionHubService: ConnectionHubServiceService,) {
     this.service.listen().subscribe((m: any) => {
       console.log(m);
       this.refreshOrdenDescargaList();
     });
+       
+    this.ConnectionHubService.listenOD().subscribe((m:any)=>{
+      this.refreshOrdenDescargaList();
+      });
   }
 
   ngOnInit() {
+    this.ConnectionHubService.ConnectionHub(origen[0]);
     this.refreshOrdenDescargaList();
 
     //^ **** PRIVILEGIOS POR USUARIO *****

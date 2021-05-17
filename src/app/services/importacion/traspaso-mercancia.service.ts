@@ -7,7 +7,8 @@ import { TraspasoMercancia } from '../../Models/importacion/detalleTraspasoMerca
 import { DetalleTraspasoMercancia } from '../../Models/importacion/traspasoMercancia-model';
 
  export const APIUrl = environment.APIUrl;
-// export const APIUrl = "https://localhost:44361/api";
+ 
+
 
 @Injectable({
   providedIn: 'root'

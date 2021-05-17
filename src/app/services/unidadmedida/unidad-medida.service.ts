@@ -32,7 +32,7 @@ export class UnidadMedidaService {
   formData: UnidadMedida;
   master = new Array<UnidadMedidaDetalle>();
   readonly APIUrl = environment.APIUrl;
-  //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
+  
 
 //Get unidades medida API SAT
  //Get Unidades De Medida

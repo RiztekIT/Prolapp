@@ -79,13 +79,13 @@
                             <td class="wrap lightback pgbreak" [attr.colspan]="6"> {{info.Nombre}}</td>
                             <tr *ngFor="let info of arrcon[i].Docs" class="pgbreak">
                                 <td class="text-center pgbreak"> {{info.Folio}} </td>
-                                <td class="text-center pgbreak texto"> {{info.FechaExpedicion| date: 'yyyy/MM/dd'}} </td>
-                                <td *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso'" class="text-center pgbreak texto"> {{info.FechaInicioCarga| date: 'yyyy/MM/dd'}} </td>
-                                <td *ngIf="ReporteInformacion.modulo == 'OrdenDescarga' " class="text-center pgbreak texto"> {{info.FechaInicioDescarga| date: 'yyyy/MM/dd'}} </td>
-                                <td *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso'" class="text-center pgbreak texto"> {{info.FechaFinalCarga| date: 'yyyy/MM/dd'}} </td>
-                                <td *ngIf="ReporteInformacion.modulo == 'OrdenDescarga' " class="text-center pgbreak texto"> {{info.FechaFinalDescarga| date: 'yyyy/MM/dd'}} </td>
-                                <td *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso'" class="text-center pgbreak texto"> {{info.FechaEnvio| date: 'yyyy/MM/dd'}} </td>
-                                <td *ngIf="ReporteInformacion.modulo == 'OrdenDescarga'" class="text-center pgbreak texto"> {{info.FechaLlegada| date: 'yyyy/MM/dd'}} </td>
+                                <td class="text-center pgbreak texto"> {{info.FechaExpedicion| date: 'dd/MM/yyyy'}} </td>
+                                <td *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso'" class="text-center pgbreak texto"> {{info.FechaInicioCarga| date: 'dd/MM/yyyy'}} </td>
+                                <td *ngIf="ReporteInformacion.modulo == 'OrdenDescarga' " class="text-center pgbreak texto"> {{info.FechaInicioDescarga| date: 'dd/MM/yyyy'}} </td>
+                                <td *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso'" class="text-center pgbreak texto"> {{info.FechaFinalCarga| date: 'dd/MM/yyyy'}} </td>
+                                <td *ngIf="ReporteInformacion.modulo == 'OrdenDescarga' " class="text-center pgbreak texto"> {{info.FechaFinalDescarga| date: 'dd/MM/yyyy'}} </td>
+                                <td *ngIf="ReporteInformacion.modulo == 'OrdenCarga' || ReporteInformacion.modulo == 'Traspaso'" class="text-center pgbreak texto"> {{info.FechaEnvio| date: 'dd/MM/yyyy'}} </td>
+                                <td *ngIf="ReporteInformacion.modulo == 'OrdenDescarga'" class="text-center pgbreak texto"> {{info.FechaLlegada| date: 'dd/MM/yyyy'}} </td>
                                 <td class="text-center pgbreak texto"> {{info.Fletera}} </td>
                                 <td class="text-center pgbreak texto"> {{info.Caja }} </td>
                                 <!-- <td class="text-center pgbreak texto"> {{info.Sacos}} </td> -->
@@ -109,7 +109,7 @@
                             <td class="wrap lightback pgbreak"> Origen: {{info.Origen}}</td>
                             <td class="wrap lightback pgbreak"> Destino: {{info.Destino}}</td>
                             <td class="wrap lightback pgbreak"> Estatus: {{info.Estatus}}</td>
-                            <td class="wrap lightback pgbreak"> Fecha Expedicion: {{info.FechaExpedicion | date: 'yyyy/MM/dd'}}</td>
+                            <td class="wrap lightback pgbreak"> Fecha Expedicion: {{info.FechaExpedicion | date: 'dd/MM/yyyy'}}</td>
                             <td class="wrap lightback pgbreak"></td>
                             <td class="wrap lightback pgbreak"></td>
                             <td class="wrap lightback pgbreak"></td>
@@ -125,9 +125,9 @@
                                 <td class="text-center pgbreak texto"> {{info.Sacos}}</td>
                                 <td class="text-center pgbreak texto"> {{info.PesoTotal}}</td>
                                 <td class="text-center pgbreak texto"> {{info.Bodega}}</td>
-                                <!-- <td class="text-center pgbreak texto"> {{info.FechaExpedicion | date: 'yyyy/MM/dd'}}</td> -->
-                                <!-- <td class="text-center pgbreak texto"> {{info.FechaInicioCarga | date: 'yyyy/MM/dd'}}</td> -->
-                                <!-- <td class="text-center pgbreak texto"> {{info.FechaFinalCarga | date: 'yyyy/MM/dd'}}</td> -->
+                                <!-- <td class="text-center pgbreak texto"> {{info.FechaExpedicion | date: 'dd/MM/yyyy'}}</td> -->
+                                <!-- <td class="text-center pgbreak texto"> {{info.FechaInicioCarga | date: 'dd/MM/yyyy'}}</td> -->
+                                <!-- <td class="text-center pgbreak texto"> {{info.FechaFinalCarga | date: 'dd/MM/yyyy'}}</td> -->
                             </tr>
                             <td class="wrap lightback pgbreak " [attr.colspan]="2"> </td>
                             <td class="wrap lightback pgbreak text-center"> Total: </td>
@@ -153,12 +153,12 @@
                                 <td class=" text-center pgbreak"> {{info.ClaveProducto}} </td>
                                 <td class=" text-center pgbreak"> {{info.Producto}} </td>
                                 <td *ngIf="this.reporteFechas == false" class=" text-center pgbreak"> {{info.Lote}} </td>
-                                <td *ngIf="this.reporteFechas == false" class=" text-center pgbreak texto"> {{info.FechaCaducidad| date: 'yyyy/MM/dd'}} </td>
-                                <td *ngIf="this.reporteFechas == false" class=" text-center pgbreak texto"> {{info.FechaMFG| date: 'yyyy/MM/dd'}} </td>
+                                <td *ngIf="this.reporteFechas == false" class=" text-center pgbreak texto"> {{info.FechaCaducidad| date: 'dd/MM/yyyy'}} </td>
+                                <td *ngIf="this.reporteFechas == false" class=" text-center pgbreak texto"> {{info.FechaMFG| date: 'dd/MM/yyyy'}} </td>
                                 <!-- <td class=" text-center pgbreak"> {{info.Sacos1}} </td> -->
                                 <!-- <td class=" text-center pgbreak"> {{info.PesoxSaco}} </td> -->
                                 <td class=" text-center pgbreak"> {{info.PesoTotal | number: '1.0-0'}} Kg </td>
-                                <!-- <td class=" text-center pgbreak texto"> {{info.FechaDeEntrega| date: 'yyyy/MM/dd'}} </td> -->
+                                <!-- <td class=" text-center pgbreak texto"> {{info.FechaDeEntrega| date: 'dd/MM/yyyy'}} </td> -->
                                 <!-- <td *ngIf="moneda == 'MXN' || moneda== 'ALL'" class="pgbreak texto text-center "> {{info.Total | currency}} </td> -->
                                 <!-- <td *ngIf="moneda == 'DLLS' || moneda== 'ALL'" class="pgbreak texto text-center "> {{info.TotalDlls | currency }} </td> -->
                                 <!-- <td class="text-center pgbreak texto"> {{info.Flete}} </td> -->

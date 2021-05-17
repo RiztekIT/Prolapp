@@ -24,7 +24,7 @@
 
         <div class="login-box card col-md-4 col-12">
             <div style="overflow: hidden;" class="card-body">
-                <form #form="ngForm" class="form-horizontal form-material">
+                <form id='form' #form="ngForm" class="form-horizontal form-material">
                     <a href="javascript:void(0)" class="text-center db"><img style="max-width: 60px;" src="../assets/images/logonuevo.jpeg" alt="Home" /><br/><img src="../assets/images/logo-text.png" alt="Home" /></a>
                     <hr>
                     <mat-tab-group color="#2d5b9e" animationDuration="0ms" mat-align-tabs="end">
@@ -40,7 +40,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-xs-12">
-                                    <input class="form-control" type="password" required="" placeholder="Contraseña" name="Contra" #Contra="ngModel" [(ngModel)]="service.formData.Contra">
+                                    <input (keyup)="keydownpass($event,form)" class="form-control" type="password" required="" placeholder="Contraseña" name="Contra" #Contra="ngModel" [(ngModel)]="service.formData.Contra">
                                 </div>
                             </div>
                             <div class="form-group row">

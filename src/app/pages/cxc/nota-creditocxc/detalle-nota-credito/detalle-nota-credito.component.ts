@@ -751,11 +751,11 @@ this.refreshTablaDetalles();
 
     this.folioparam = this.service.formData.Folio;
     this.idparam = this.service.formData.UUID;
-    this._MessageService.correo='ivan.talamantes@live.com';
-    this._MessageService.cco='ivan.talamantes@riztek.com.mx';
+    this._MessageService.correo='';
+    this._MessageService.cco='';
     this._MessageService.asunto='Envio Nota de Credito '+this.service.formData.Folio;
     this._MessageService.cuerpo='Se ha enviado un comprobante fiscal digital con folio '+this.service.formData.Folio;
-    this._MessageService.nombre='ProlactoIngredientes';
+    this._MessageService.nombre='Abarrotodo';
       this.enviarfact.xml(this.service.formData.UUID).subscribe(data => {
         localStorage.setItem('xml' + this.service.formData.Folio, data)
         const dialogConfig2 = new MatDialogConfig();

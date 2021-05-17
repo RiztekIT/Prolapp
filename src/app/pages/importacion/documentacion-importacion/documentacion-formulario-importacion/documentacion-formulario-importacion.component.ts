@@ -1,24 +1,57 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { MatTableDataSource, MatPaginator, MatTable, MatDialog, MatSnackBar, MatDialogConfig } from '@angular/material';
+
 import { MatSort } from '@angular/material/sort';
+
 import { Router } from '@angular/router';
+
 import Swal from 'sweetalert2';
+
 import { DocumentosImportacionService } from '../../../../services/importacion/documentos-importacion.service';
+
 import { FormControl } from '@angular/forms';
+
 import { Observable } from 'rxjs';
+
 import { ImgInfo } from 'src/app/Models/Imagenes/imgInfo-model';
+
 import { DocumentacionImportacionVisorDocumentosComponent } from '../../documentacion-importacion-visor-documentos/documentacion-importacion-visor-documentos.component';
+
 import { Documento } from '../../../../Models/documentos/documento-model';
+
 import { Producto } from 'src/app/Models/catalogos/productos-model';
+
 import { OrdenTemporalService } from '../../../../services/almacen/orden-temporal/orden-temporal.service';
+
 import { ProductosService } from 'src/app/services/catalogos/productos.service';
+
 import { AddsproductosService } from 'src/app/services/addsproductos.service';
+
 import { map, startWith } from 'rxjs/operators';
+
 import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
+
 import { EventosService } from 'src/app/services/eventos/eventos.service';
 
+import { ConnectionHubServiceService } from 'src/app/services/shared/ConnectionHub/connection-hub-service.service';
 
 
+
+let origenNotificacion =[] = [
+  {
+  "IdNotificacion": 0,
+  "Folio": 0,
+  "IdUsuario": '',
+  "Usuario": '',
+  "Mensaje": '',
+  "ModuloOrigen": '',
+  "FechaEnvio": '',
+  "origen": "Almacen", 
+  "titulo": 'Documento Factura',
+  "datosExtra": '',
+  },
+]
 
 @Component({
   selector: 'app-documentacion-formulario-importacion',
@@ -30,7 +63,8 @@ export class DocumentacionFormularioImportacionComponent implements OnInit {
 
   constructor(public documentosService: DocumentosImportacionService, public router: Router, private dialog: MatDialog, public otService: OrdenTemporalService, public ServiceProducto: ProductosService, 
     public addproductos: AddsproductosService, public traspasoService: TraspasoMercanciaService,
-    private eventosService:EventosService,) {
+    private eventosService:EventosService,
+    private ConnectionHubService: ConnectionHubServiceService,) {
     this.productosExistentes = false;
   }
 
@@ -392,8 +426,10 @@ ClaveProducto: string = "";
                   this.events = [];
                   this.files = [];
                   this.archivos = [];
+
                   
                   this.eventosService.movimientos('Agregar Documento Factura')
+                  this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
 
                   Swal.fire({
                     title: 'Documentos Guardados',

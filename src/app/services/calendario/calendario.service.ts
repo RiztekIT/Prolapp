@@ -6,8 +6,9 @@ import { environment } from 'src/environments/environment';
 import { detalleCalendario } from 'src/app/Models/calendario/detalleCalendario-model';
 import { Compras } from '../../Models/Compras/compra-model';
 
-export const APIUrl = environment.APIUrl;
-// export const APIUrl = "https://localhost:44361/api";
+ export const APIUrl = environment.APIUrl;
+ 
+
 @Injectable({
   providedIn: 'root'
 })

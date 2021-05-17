@@ -35,6 +35,11 @@ export class ComprasPdfComponent implements OnInit {
 
   ngOnInit() {
     this.style = 'block'
+    Swal.fire({
+      allowOutsideClick: false,
+      text: 'Espere por favor...',
+      icon: 'info'
+    });
     Swal.showLoading()
     this.OrigenConsulta = null
     console.log('%c%s', 'color: #8c0038', this.data);
@@ -181,8 +186,16 @@ for (this.con in this.objconc){
 
               }
       }
-    this.total = this.ComprasService.formt.Total
-    this.textnum = cantidad(this.total);
+
+      if(this.moneda=='USD'){
+        this.total = this.ComprasService.formt.TotalDlls
+      }else if (this.moneda=='MXN'){
+
+        this.total = this.ComprasService.formt.Total
+      }
+      
+    console.log(this.total,'TOTAL');
+    this.textnum = cantidad(+this.total);
     console.log('this.unidad : ', this.unidad );
     // console.log(this.arrcon);
     
