@@ -41,7 +41,7 @@ import { EventosService } from 'src/app/services/eventos/eventos.service';
 export class TraspasomercanciaComponent implements OnInit {
 
   listData: MatTableDataSource<any>;
-  displayedColumns: string[] = ['Folio', 'Kg', 'Origen', 'Destino', 'Fecha','Estatus','Options'];
+  displayedColumns: string[] = ['Folio','USDA', 'Kg', 'Origen', 'Destino', 'Fecha','Estatus','Options'];
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   
@@ -141,9 +141,32 @@ export class TraspasomercanciaComponent implements OnInit {
 subs1: Subscription
   obtenerTraspasos(){
 
-  this.subs1 =  this.traspasoSVC.getTraspasoMercancia().subscribe(data=>{
+  this.subs1 =  this.traspasoSVC.getTraspasoMercancia().subscribe((data:any)=>{
       console.log(data,'TRASPASO');
+      let traspaso: any = [];
+      let temp = Object.assign({}, data);    //! ATENCION ESTO TE PUEDE SERVIR
+      traspaso = temp;
+      traspaso.detalles = [];
+      for (let i=0; i<data.length;i++){
+        let query = 'select * from TraspasoMercancia left join DetalleTraspasoMercancia on TraspasoMercancia.IdTraspasoMercancia = DetalleTraspasoMercancia.IdTraspasoMercancia where TraspasoMercancia.IdTraspasoMercancia =' + data[i].IdTraspasoMercancia + ''
+      let consulta = {
+        'consulta': query
+      };
+
+      this.traspasoSVC.getQuery(consulta).subscribe((detalles: any) => {
+
+        console.log(detalles);
+
+        data[i].detalles = detalles;
+
+        
+
+      })
+
+      }
+      console.log(data);
       this.listData = new MatTableDataSource(data);
+      /* this.listData = new MatTableDataSource(data); */
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
       this.listData.paginator._intl.itemsPerPageLabel = 'Traspasos por Pagina';
