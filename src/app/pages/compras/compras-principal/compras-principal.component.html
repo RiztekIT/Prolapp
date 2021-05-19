@@ -167,7 +167,7 @@
                                             <th> QR </th> -->
                                             <th> Clave Producto </th>
                                             <th> Producto </th>
-                                            <th> Cantidad </th>
+                                            <th> Kg </th>
                                             <th> Precio Unitario </th>
                                             <th> Costo Total </th>
                                         </tr>
@@ -177,10 +177,11 @@
                                             <td> {{detalle.ClaveProducto}} </td>
                                             <td> {{detalle.Producto}} </td>
                                             <td> {{ detalle.Cantidad}} </td>
-                                            <td *ngIf="element.Moneda == 'MXN'"> {{ detalle.PrecioUnitario | currency}} </td>
-                                            <td *ngIf="element.Moneda == 'USD'"> {{ detalle.PrecioUnitarioDlls | currency}} </td>
-                                            <td *ngIf="element.Moneda == 'MXN'"> {{ detalle.CostoTotal | currency}} </td>
-                                            <td *ngIf="element.Moneda == 'USD'"> {{ detalle.CostoTotalDlls | currency}} </td>
+                                            <!-- <td *ngIf="element.Moneda == 'MXN'"> {{ detalle.PrecioUnitario | currency : '0.4-4'}} </td> -->
+                                            <td *ngIf="element.Moneda == 'MXN'"> {{ detalle.PrecioUnitario | currency : undefined : 'symbol' : '0.4-4'}} </td>
+                                            <td *ngIf="element.Moneda == 'USD'"> {{ detalle.PrecioUnitarioDlls | currency : undefined : 'symbol' : '0.4-4'}} </td>
+                                            <td *ngIf="element.Moneda == 'MXN'"> {{ detalle.CostoTotal | currency : undefined : 'symbol' : '0.4-4'}} </td>
+                                            <td *ngIf="element.Moneda == 'USD'"> {{ detalle.CostoTotalDlls | currency : undefined : 'symbol' : '0.4-4'}} </td>
                                         </tr>
                                     </table>
                                 </div>
