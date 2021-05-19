@@ -88,16 +88,16 @@ export class NotaCreditocxcComponent implements OnInit {
     //   this.refreshNotaList();
     // });
     
-    this.ConnectionHubService.listenNota().subscribe((m:any)=>{
+  /*   this.ConnectionHubService.listenNota().subscribe((m:any)=>{
       this.refreshNotaList();
-      });
+      }); */
 
   }
 
 
   ngOnInit() {
     
-    this.ConnectionHubService.ConnectionHub(origen[0]);
+ /*    this.ConnectionHubService.ConnectionHub(origen[0]); */
     this.serviceFactura.rfcempresa = 'PLA11011243A'
     this.listaempresas()
     this.refreshNotaList();
@@ -223,7 +223,7 @@ export class NotaCreditocxcComponent implements OnInit {
         this.service.deleteNotaCredito(id).subscribe(data=>{
           console.log(data);
           
-          this.ConnectionHubService.on(origen[0]);
+       /*    this.ConnectionHubService.on(origen[0]); */
           this.refreshNotaList();
 
           Swal.fire({

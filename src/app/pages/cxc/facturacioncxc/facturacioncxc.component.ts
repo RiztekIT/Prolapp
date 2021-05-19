@@ -127,15 +127,15 @@ export class FacturacioncxcComponent implements OnInit {
       // this.detallesFactura();
       });
 
-      this.ConnectionHubService.listenFacturacion().subscribe((m:any)=>{
+   /*    this.ConnectionHubService.listenFacturacion().subscribe((m:any)=>{
         this.refreshFacturaList();
-        });
+        }); */
    }
 
   ngOnInit() {
     /* this.service.rfcempresa = 'PLA11011243A'*/
     
-    this.ConnectionHubService.ConnectionHub(origen[0]);
+    /* this.ConnectionHubService.ConnectionHub(origen[0]); */
     this.listaempresas()
     console.log(this.enviarfact.empresa);
     this.refreshFacturaList();
@@ -343,7 +343,7 @@ console.log(data)
           this.service.deleteFactura(factura.Id).subscribe(res => {
             this.refreshFacturaList();
       
-            this.ConnectionHubService.on(origen[0]);
+         /*    this.ConnectionHubService.on(origen[0]); */
             Swal.fire({
               title: 'Factura Eliminada',
               icon: 'success',
@@ -420,9 +420,9 @@ console.log(data)
     this.service.addFactura(this.FacturaBlanco).subscribe(res => {
       
       origenNotificacion[0].Folio = +this.FacturaBlanco.Folio
-      this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
+   /*    this.ConnectionHubService.generarNotificacion(origenNotificacion[0]) */
       
-      this.ConnectionHubService.on(origen[0]);
+    /*   this.ConnectionHubService.on(origen[0]); */
       this.service.getUltimaFactura().subscribe(data => {
         this.IdFactura = data[0].Id;         
         if (!this.IdFactura){

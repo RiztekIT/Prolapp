@@ -193,7 +193,7 @@ export class ReciboPagoComponent implements OnInit {
 
   ngOnInit() {
     
-    this.ConnectionHubService.ConnectionHub(origen[0]);
+ /*    this.ConnectionHubService.ConnectionHub(origen[0]); */
     this.service.rfcempresa = this.servicefactura.rfcempresa
     console.log(localStorage.getItem("inicioCliente"));
     this.clienteLogin = localStorage.getItem("inicioCliente");
@@ -903,7 +903,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
           console.log(this.CFDI);
         });
         
-        this.ConnectionHubService.on(origen[0]);
+    /*     this.ConnectionHubService.on(origen[0]); */
         this.refreshPagoCFDITList();
         Swal.fire({
           title: 'Borrado',
@@ -955,7 +955,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
       this.service.addPagoCFDI(this.service.formDataPagoCFDI).subscribe(res =>{
         this.options2 = [];
         
-        this.ConnectionHubService.on(origen[0]);
+   /*      this.ConnectionHubService.on(origen[0]); */
         this.CleanPagoCFDI();
         this.refreshPagoCFDITList();
         // this.borrarfact(this.index);
@@ -985,8 +985,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
     this.service.updateReciboPago(this.service.formData).subscribe(data =>{
       this.Estatus = this.service.formData.Estatus;
       
-      this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
-      this.ConnectionHubService.on(origen[0]);
+ /*      this.ConnectionHubService.generarNotificacion(origenNotificacion[0])
+      this.ConnectionHubService.on(origen[0]); */
       console.log(data);
       this.refreshPagoCFDITList();
     })

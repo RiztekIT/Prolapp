@@ -960,6 +960,16 @@ CFDISumatoria(){
       this.service.formData.TotalDlls = this.totalDlls;
       console.log(this.service.formData);
       // console.log(this.service.formData);
+      let fecha = new Date(this.service.formData.FechaDeEntrega)
+      fecha.setHours(fecha.getHours()-6)
+      this.service.formData.FechaDeEntrega = new Date(fecha)
+      let fecha2 = new Date(this.service.formData.FechaDeExpedicion)
+      fecha2.setHours(fecha2.getHours()-6)
+      this.service.formData.FechaDeExpedicion = new Date(fecha2)
+      let fecha3 = new Date(this.service.formData.FechaVencimiento)
+      fecha3.setHours(fecha3.getHours()-6)
+      this.service.formData.FechaVencimiento = new Date(fecha3)
+      
 
       this.service.updateFactura(this.service.formData).subscribe(res => {
         console.log(res);
@@ -1090,7 +1100,15 @@ CFDISumatoria(){
     } else {
       this.service.formData.TipoDeCambio = '0';
     }
-    console.log(this.service.formData);
+    let fecha = new Date(this.service.formData.FechaDeEntrega)
+    fecha.setHours(fecha.getHours()-6)
+    this.service.formData.FechaDeEntrega = new Date(fecha)
+    let fecha2 = new Date(this.service.formData.FechaDeExpedicion)
+    fecha2.setHours(fecha2.getHours()-6)
+    this.service.formData.FechaDeExpedicion = new Date(fecha2)
+    let fecha3 = new Date(this.service.formData.FechaVencimiento)
+    fecha3.setHours(fecha3.getHours()-6)
+    this.service.formData.FechaVencimiento = new Date(fecha3)
 
     this.service.updateFactura(this.service.formData).subscribe(res => {
       console.log(res);
@@ -1286,6 +1304,16 @@ console.log(data);
     } else {
       this.service.formData.TipoDeCambio = '0';
     }
+    let fecha = new Date(this.service.formData.FechaDeEntrega)
+      fecha.setHours(fecha.getHours()-6)
+      this.service.formData.FechaDeEntrega = new Date(fecha)
+      let fecha2 = new Date(this.service.formData.FechaDeExpedicion)
+      fecha2.setHours(fecha2.getHours()-6)
+      this.service.formData.FechaDeExpedicion = new Date(fecha2)
+      let fecha3 = new Date(this.service.formData.FechaVencimiento)
+      fecha3.setHours(fecha3.getHours()-6)
+      this.service.formData.FechaVencimiento = new Date(fecha3)
+
     this.service.updateFactura(this.service.formData).subscribe(res => {
       this.resetForm(form);
       this.IniciarTotales();
@@ -1322,6 +1350,15 @@ console.log(data);
       this.service.formData.TipoDeCambio = '0';
     }
     // this.service.formData.Id = +this.IdFactura;
+    let fecha = new Date(this.service.formData.FechaDeEntrega)
+    fecha.setHours(fecha.getHours()-6)
+    this.service.formData.FechaDeEntrega = new Date(fecha)
+    let fecha2 = new Date(this.service.formData.FechaDeExpedicion)
+    fecha2.setHours(fecha2.getHours()-6)
+    this.service.formData.FechaDeExpedicion = new Date(fecha2)
+    let fecha3 = new Date(this.service.formData.FechaVencimiento)
+    fecha3.setHours(fecha3.getHours()-6)
+    this.service.formData.FechaVencimiento = new Date(fecha3)
     this.service.updateFactura(this.service.formData).subscribe(res => {
       console.log(this.service.formData);
       this.resetForm(form);
@@ -1368,6 +1405,15 @@ console.log(data);
 
         
         this.numfact = data.UUID;
+        let fecha = new Date(this.service.formData.FechaDeEntrega)
+        fecha.setHours(fecha.getHours()-6)
+        this.service.formData.FechaDeEntrega = new Date(fecha)
+        let fecha2 = new Date(this.service.formData.FechaDeExpedicion)
+        fecha2.setHours(fecha2.getHours()-6)
+        this.service.formData.FechaDeExpedicion = new Date(fecha2)
+        let fecha3 = new Date(this.service.formData.FechaVencimiento)
+        fecha3.setHours(fecha3.getHours()-6)
+        this.service.formData.FechaVencimiento = new Date(fecha3)
         console.log(this.service.formData);
         this.service.updateFactura(this.service.formData).subscribe(data => {
           this.loading = false;
@@ -1649,6 +1695,7 @@ const dialogConfig = new MatDialogConfig();
         this.enviarfact.cancelar(id).subscribe(data => {
           let data2 = JSON.parse(data);
           if (data2.response === 'success') {
+            
             this.service.updateCancelarFactura(this.service.formData.Id).subscribe(data => {
               this.loading = false;
               Swal.fire({

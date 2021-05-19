@@ -54,12 +54,13 @@ export class OrdenventacxcComponent implements OnInit {
     public dialogbox: MatDialogRef<OrdenventacxcComponent>,
     private ConnectionHubService: ConnectionHubServiceService,) {
 
-      this.ConnectionHubService.listenOCompra().subscribe((m:any)=>{
+     /*  this.ConnectionHubService.listenOCompra().subscribe((m:any)=>{
         this.refreshPedidoList();
-        }); }
+        });  */
+      }
 
   ngOnInit() {
-    this.ConnectionHubService.ConnectionHub(origen[0]);
+   /*  this.ConnectionHubService.ConnectionHub(origen[0]); */
     this.refreshPedidoList();
   }
 

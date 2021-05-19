@@ -57,14 +57,14 @@ export class ComplementopagocxcComponent implements OnInit {
       // this.refreshReciboPagoList();
       // this.detallesFactura();
     });
-    this.ConnectionHubService.listenComplemento().subscribe((m:any)=>{
+ /*    this.ConnectionHubService.listenComplemento().subscribe((m:any)=>{
       this.refreshReciboPagoList();
-      });
+      }); */
     
   }
   
   ngOnInit() {
-    this.ConnectionHubService.ConnectionHub(origen[0]);
+   /*  this.ConnectionHubService.ConnectionHub(origen[0]); */
     this.listaempresas()
     this.refreshReciboPagoList();
     // this.detallesFactura();
@@ -255,7 +255,7 @@ export class ComplementopagocxcComponent implements OnInit {
 
     this.service.addReciboPago(this.ReciboPagoBlanco).subscribe(res => {
       
-      this.ConnectionHubService.on(origen[0]);
+  /*     this.ConnectionHubService.on(origen[0]); */
       this.service.getUltimoReciboPago().subscribe(data => {
         this.service.IdReciboPago = data[0].Id;
         this.IdReciboPago = this.service.IdReciboPago
@@ -324,7 +324,7 @@ export class ComplementopagocxcComponent implements OnInit {
         this.service.deleteReciboPago(reciboPago.Id).subscribe(data => {
           this.refreshReciboPagoList();
           
-          this.ConnectionHubService.on(origen[0]);
+      /*     this.ConnectionHubService.on(origen[0]); */
           console.log(data);
           Swal.fire({
             title: 'Borrado',
