@@ -52,6 +52,7 @@ export class OrdendescargaComponent implements OnInit {
 
   arrOrdenDescarga: any;
   estatusSelect;
+  tipoSelect;
 
   constructor(public router: Router, private service: OrdenDescargaService, private dialog: MatDialog,
     private incidenciasService: IncidenciasService,
@@ -140,6 +141,20 @@ if (this.estatusSelect==='Todos'){
 
   this.applyFilter2(this.estatusSelect)
 }
+console.log(this.listData);
+
+  }
+
+  tipoCambio(event){
+    // console.log(event);
+this.tipoSelect = event.value;
+console.log(this.tipoSelect);
+if (this.tipoSelect==='Todos'){
+  this.applyFilter3('')
+}else {
+
+  this.applyFilter3(this.tipoSelect)
+}
 
   }
 
@@ -151,6 +166,13 @@ if (this.estatusSelect==='Todos'){
     { Estatus: 'Transito' },
     { Estatus: 'Sin Validar' }    
   ];
+  public listTipo: Array<Object> = [
+    { Tipo: 'Todos' },
+    { Tipo: 'Compra' },
+    { Tipo: 'Traspaso' },  
+  ];
+
+
 
 
 subs1 : Subscription
@@ -174,6 +196,7 @@ subs2 : Subscription
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
       this.listData.paginator._intl.itemsPerPageLabel = 'Ordenes de Descarga por Pagina';
+      console.log(this.listData);
     })
     // this.service.getOrdenCargaList().subscribe(data => {
     //   console.log(data);
@@ -189,6 +212,40 @@ subs2 : Subscription
       return data.Estatus.toString().toLowerCase().includes(filter);
     };
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+
+  }
+  applyFilter3(filtervalue: string) {
+    
+    if (filtervalue==''){
+
+      this.listData.filterPredicate = (data, filter: string) => {
+        return data.Origen.toString().toLowerCase().includes(filter);
+      };
+      this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+
+
+    }else if(filtervalue=='Compra'){
+      filtervalue = 'COMPRA'
+      this.listData.filterPredicate = (data, filter: string) => {
+        return data.Origen.toString().toLowerCase().includes(filter);
+      };
+      this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+
+    }else {
+
+      let string: string;
+      filtervalue = 'COMPRA'
+      
+
+
+      this.listData.filterPredicate = (data, filter: string) => {
+        data.Origen.toString().toLowerCase()
+        return data.Origen.toString().toLowerCase().indexOf(filter) == -1;
+      };
+      this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+
+    }
+  
 
   }
 
