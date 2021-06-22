@@ -12,6 +12,15 @@
 
                         <div class="col-md-3 col-sm-12" style="display: grid; justify-content: center">
 
+                            <mat-form-field>
+                                <mat-label> Tipo </mat-label>
+                                <!--  class="form-control" name="EstatusS" #EstatusS="ngModel" id="EstatusS" -->
+                                <mat-select (selectionChange)="tipoCambio($event)" [(ngModel)]="tipoSelect">
+                                    <!-- <mat-option [value]="" selected disabled>Seleccionar Estatus</mat-option> -->
+                                    <mat-option *ngFor="let dl of listTipo" [value]="dl.Tipo"> {{dl.Tipo}} </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
                         </div>
 
                         <div class="col-md-3 col-sm-12" style="display: grid">

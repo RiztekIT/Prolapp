@@ -56,6 +56,13 @@ export class PedidosalmacenComponent implements OnInit, OnDestroy {
   arrOrdenCarga: any;
   estatusSelect;
 
+  tipoSelect
+  public listTipo: Array<Object> = [
+    { Tipo: 'Todos' },
+    { Tipo: 'Venta' },
+    { Tipo: 'Traspaso' },  
+  ];
+
   // FIN VARIABLES TABLA ORDEN CARGA
 
   constructor(public router: Router, private service: OrdenCargaService,
@@ -176,6 +183,53 @@ export class PedidosalmacenComponent implements OnInit, OnDestroy {
       return data.Estatus.toString().toLowerCase().includes(filter);
     };
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+
+  }
+  applyFilter3(filtervalue: string) {
+    
+    if (filtervalue==''){
+
+      this.listData.filterPredicate = (data, filter: string) => {
+        return data.Cliente.toString().toLowerCase().includes(filter);
+      };
+      this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+
+
+    }else if(filtervalue=='Traspaso'){
+      filtervalue = 'Traspaso'
+      this.listData.filterPredicate = (data, filter: string) => {
+        return data.Cliente.toString().toLowerCase().includes(filter);
+      };
+      this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+
+    }else {
+
+      let string: string;
+      filtervalue = 'Traspaso'
+      
+
+
+      this.listData.filterPredicate = (data, filter: string) => {
+        data.Cliente.toString().toLowerCase()
+        return data.Cliente.toString().toLowerCase().indexOf(filter) == -1;
+      };
+      this.listData.filter = filtervalue.trim().toLocaleLowerCase();
+
+    }
+  
+
+  }
+
+  tipoCambio(event){
+    // console.log(event);
+this.tipoSelect = event.value;
+console.log(this.tipoSelect);
+if (this.tipoSelect==='Todos'){
+  this.applyFilter3('')
+}else {
+
+  this.applyFilter3(this.tipoSelect)
+}
 
   }
   subs1: Subscription

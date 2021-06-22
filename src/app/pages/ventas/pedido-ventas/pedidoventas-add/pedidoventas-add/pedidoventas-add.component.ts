@@ -2159,8 +2159,8 @@ subscribeClientes: Subscription
           Destino: this.service.formData.Estado,
           Observaciones: Observaciones,
           Estatus: validacion,
-          FechaInicioCarga: new Date('10/10/10'),
-          FechaFinalCarga: new Date('10/10/10'),
+          FechaInicioCarga: new Date(),
+          FechaFinalCarga: new Date(),
           FechaExpedicion: new Date(),
           IdUsuario: '0',
           Usuario: user
