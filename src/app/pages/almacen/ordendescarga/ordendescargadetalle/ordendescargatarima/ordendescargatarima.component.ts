@@ -658,7 +658,8 @@ export class OrdendescargatarimaComponent implements OnInit {
     this.preOrdenTemporalSacos.TipoCambio = this.TipoCambio;    
     //^ En Pedimento guardaremos Numero Entrada (CBK)
     this.preOrdenTemporalSacos.Pedimento = this.NumeroEntrada;
-    /* this.preOrdenTemporalSacos.Sacos = this.numerofactura; */
+    /* this.preOrdenTemporalSacos.Sacos = this.numerofactura; 
+    preOrdenTemporalSacos*/
 
     // this.ordenTemporalService.preOrdenTemporalSacos.push(this.preOrdenTemporalSacos)
     // this.listDataSacosIngresados = new MatTableDataSource(this.preOrdenTemporalSacos);
@@ -917,6 +918,7 @@ export class OrdendescargatarimaComponent implements OnInit {
               console.log(Kilos);
               let NuevoSaldo = ((+dataOD[0].Saldo) - (+Kilos)).toString();
               console.log(NuevoSaldo);
+              this.preOrdenTemporalSacos.Saldo = NuevoSaldo;
                 this.updateOrdenDescarga(this.service.formData,'Proceso');
               this.service.updateDetalleOrdenDescargaSaldo(dataOD[0].IdDetalleOrdenDescarga, NuevoSaldo).subscribe(res => {
                 console.log(res);

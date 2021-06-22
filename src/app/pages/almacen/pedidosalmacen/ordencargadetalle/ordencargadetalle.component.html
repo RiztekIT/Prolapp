@@ -247,7 +247,7 @@
                                         <br>
                                     </div>
 
-                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="this.estatusOC == 'Cargada' && ((this.service.formData.Fletera==='Foraneo') || (this.service.formData.Fletera!=='Sucursal' && this.service.formData.Fletera!=='Local' && this.service.formData.Fletera!=='Paqueteria'))">
+                                    <div style="display: grid;" class="col-12 col-md-2" *ngIf="((this.estatusOC == 'Preparada') || (this.estatusOC == 'Cargada')) && ((this.service.formData.Fletera==='Foraneo') || (this.service.formData.Fletera!=='Sucursal' && this.service.formData.Fletera!=='Local' && this.service.formData.Fletera!=='Paqueteria'))">
                                         <button id="TerminarCarga" [hidden]="true" class="btn btn-info btn-lg" data-toggle="modal"></button>
                                         <button [disabled]="Terminar == false" class="btn btncoti btn-lg" mat-raised-button type="button" (click)="terminar()">Terminar</button>
                                         <br>

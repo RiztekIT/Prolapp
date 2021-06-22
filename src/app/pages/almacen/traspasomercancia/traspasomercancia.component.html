@@ -64,6 +64,11 @@
                             <td mat-cell *matCellDef="let element">{{element.Folio}}
                             </td>
                         </ng-container>
+                        <ng-container matColumnDef="USDA">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>USDA</th>
+                            <td mat-cell *matCellDef="let element">{{element.detalles[0].Usda}}
+                            </td>
+                        </ng-container>
                         <!-- <ng-container matColumnDef="FolioOrden">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio OC</th>
                             <td mat-cell *matCellDef="let element">{{element.FolioOrdenCarga}}
