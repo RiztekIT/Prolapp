@@ -416,6 +416,19 @@ console.log(data)
 
 /* Crear Factura y abrir nueva pantalla */
   onAdd(){
+    let fecha = new Date(this.FacturaBlanco.FechaDeEntrega)
+    fecha.setHours(fecha.getHours()-6)
+    this.FacturaBlanco.FechaDeEntrega = new Date(fecha)
+    let fecha2 = new Date(this.FacturaBlanco.FechaDeExpedicion)
+    fecha2.setHours(fecha2.getHours()-6)
+    this.FacturaBlanco.FechaDeExpedicion = new Date(fecha2)
+    let fecha3 = new Date(this.FacturaBlanco.FechaVencimiento)
+    fecha3.setHours(fecha3.getHours()-6)
+    this.FacturaBlanco.FechaVencimiento = new Date(fecha3)
+
+
+    
+
     console.log(this.FacturaBlanco);
     this.service.addFactura(this.FacturaBlanco).subscribe(res => {
       

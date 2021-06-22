@@ -83,7 +83,7 @@
                             <div *ngIf="service.Moneda == 'USD'">
 
                                 <label class="input-group-text text-info ">Precio Unitario DLLS:</label>
-                                <input readonly type="text " class="form-control " name="PrecioUnitarioDlls" #PrecioUnitarioDlls="ngModel" [(ngModel)]="service.DetalleformData.PrecioUnitarioDlls ">
+                                <input [readonly]="PUlectura" type="text " class="form-control " name="PrecioUnitarioDlls" #PrecioUnitarioDlls="ngModel" [(ngModel)]="service.DetalleformData.PrecioUnitarioDlls " (ngModelChange)="onChangeCantidad(CantidadDetalle)">
 
                                 <label class="input-group-text text-info ">Importe DLLS:</label>
                                 <input readonly type="text " class="form-control " name="ImporteDlls" #ImporteDlls="ngModel" [(ngModel)]="service.DetalleformData.ImporteDlls">
