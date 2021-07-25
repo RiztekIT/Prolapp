@@ -47,7 +47,7 @@
                             </p>
                         </div>
 
-                        <div *ngIf="Estatus == 'Timbrada' && (EstatusNota == 'Timbrada' || EstatusNota == 'NoHay') ; else NoseArma">
+                        <div *ngIf="Estatus == 'Timbrada' && (EstatusNota == 'Timbrada' || EstatusNota == 'NoHay' || EstatusNota == 'Cancelada') ; else NoseArma">
                             <button class="mt-2" mat-raised-button (click)="GenerarNota()" color="primary">Generar Nota Credito</button>
                         </div>
                         <ng-template #NoseArma>
@@ -474,6 +474,7 @@
                                         <span *ngSwitchCase="'Timbrada'" class="label label-light-success">TIMBRADA</span>
                                         <span *ngSwitchCase="'Guardada'" class="label label-light-info">GUARDADA</span>
                                         <span *ngSwitchCase="'Creada'" class="label label-light-danger">CREADA</span>
+                                        <span *ngSwitchCase="'Cancelada'" class="label label-light-danger">CANCELADA</span>
                                     </td>
                                 </ng-container>
 

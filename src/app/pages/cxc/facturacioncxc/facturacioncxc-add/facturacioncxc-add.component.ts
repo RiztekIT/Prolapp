@@ -622,10 +622,17 @@ this.service.SaldoFacturaDLLS = 0;
 console.log('---------------------------------------');
 console.log(this.serviceNota.master);
 if(this.serviceNota.master.length > 0){
+
   for (let i = 0; i < this.serviceNota.master.length; i++) {
+
+    if (this.serviceNota.master[i].Relacion!='07'){
+
+      this.service.SaldoFacturaMXN = (this.service.SaldoFacturaMXN + +this.serviceNota.master[i].Total);
+      this.service.SaldoFacturaDLLS = (this.service.SaldoFacturaDLLS + +this.serviceNota.master[i].TotalDlls);
+
+    }
   
-    this.service.SaldoFacturaMXN = (this.service.SaldoFacturaMXN + +this.serviceNota.master[i].Total);
-    this.service.SaldoFacturaDLLS = (this.service.SaldoFacturaDLLS + +this.serviceNota.master[i].TotalDlls);
+  
   
   }
 }

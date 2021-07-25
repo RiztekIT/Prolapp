@@ -207,6 +207,26 @@ Producto: "DIFERENCIA EN PRECIO",
 TextoExtra: "",
 Unidad: "XNA"
       })
+
+      this.service.DetalleFactura.push({
+        Cantidad: "1",
+ClaveProducto: "SERV0141",
+ClaveSAT: "84111506",
+IdDetalle: 0,
+IdFactura: this.service.formData.IdFactura,
+Importe: "0.0000",
+ImporteDlls: "0.0000",
+ImporteIVA: "0.0000",
+ImporteIVADlls: "0.0000",
+Observaciones: "",
+PrecioUnitario: "0.0000",
+PrecioUnitarioDlls: "0.0000",
+Producto: "APLICACION DE ANTICIPO",
+TextoExtra: "",
+Unidad: "XNA"
+      })
+
+
          this.listDetalle = this.service.DetalleFactura;
          
       this.filteredOptionsDetalles = this.myControlDetalle.valueChanges
@@ -245,6 +265,9 @@ onSelectionChange(detalle: DetalleNotaCredito, event: any){
     this.CantidadOriginal = +detalle.Cantidad;
     console.log(this.ProductoSelect);
     if(detalle.ClaveProducto=='SERV010'){
+      this.PUlectura = false;
+    }
+    if(detalle.ClaveProducto=='SERV014'){
       this.PUlectura = false;
     }
   }
@@ -395,7 +418,11 @@ this.refreshTablaDetalles();
     
     this.service.formData.LugarDeExpedicion = this.serviceFactura.formData.LugarDeExpedicion;
     this.service.formData.MetodoDePago = this.serviceFactura.formData.MetodoDePago;
-    this.service.formData.FormaDePago = this.serviceFactura.formData.FormaDePago;
+   
+      this.service.formData.FormaDePago = this.serviceFactura.formData.FormaDePago;
+
+    
+   
     this.service.formData.UsoDelCFDI = this.serviceFactura.formData.UsoDelCFDI;
     this.service.formData.Tipo = 'Egreso';
     this.service.formData.Estatus = 'Guardada';
@@ -565,12 +592,24 @@ this.refreshTablaDetalles();
 
       this.json1.Impuestos.Retenidos.pop();
       this.json1.Impuestos.Locales.pop();
-      this.json1.CfdiRelacionados.TipoRelacion = this.service.formData.Relacion;
-      this.json1.CfdiRelacionados.UUID.pop();
-      this.json1.CfdiRelacionados.UUID.push(this.serviceFactura.formData.UUID);
+   
+        this.json1.CfdiRelacionados.TipoRelacion = this.service.formData.Relacion;
+      
+        this.json1.CfdiRelacionados.UUID.pop();
+        this.json1.CfdiRelacionados.UUID.push(this.serviceFactura.formData.UUID);
+      
+      
+   
       this.json1.UsoCFDI = this.service.formData.UsoDelCFDI;
       this.json1.Serie = this.service.formData.Serie;
-      this.json1.FormaPago = this.service.formData.FormaDePago;
+      if (this.service.formData.Relacion=='07'){
+        this.service.formData.FormaDePago = '30'
+        this.json1.FormaPago = '30'
+
+      }else{
+        this.json1.FormaPago = this.service.formData.FormaDePago;
+      }
+     
       this.json1.MetodoPago = this.service.formData.MetodoDePago;
 
       this.json1.EnviarCorreo = false;
