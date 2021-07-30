@@ -1,0 +1,156 @@
+<div class="d-flex justify-content-between">
+
+
+    <div class="row">
+        <div class="col-md-4">
+
+            <h4>{{this.movimiento}} Producto</h4>
+
+        </div>
+        <div class="col-md-4">
+            <mat-slide-toggle *ngIf="this.movimiento=='Editar'" [(ngModel)]="estatusproducto" (change)="changeEstatus($event)">{{redhgSVC.formDataProductos.Estatus}}</mat-slide-toggle>
+        </div>
+        <div class="col-md-4">
+
+            <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
+                    <mat-icon>close</mat-icon>
+                </button>
+        </div>
+    </div>
+
+
+
+
+</div>
+<hr>
+
+<div style="overflow: auto; height: 450px;">
+
+
+    <form #form="ngForm" autocomplete="off">
+
+        <div class="form-material">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <label class="input-group-text text-info">Nombre</label>
+                        <input required type="text" placeholder="Escribe el nombre" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="redhgSVC.formDataProductos.Nombre">
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Precio Costo</label>
+                        <input required type="number" class="form-control" placeholder="Escribe el precio costo" name="PrecioCosto" #PrecioCosto="ngModel" [(ngModel)]="redhgSVC.formDataProductos.PrecioCosto">
+
+                        <!--               -------------------------------------------------------                                       -->
+                        <label class="input-group-text text-info">Precio Venta</label>
+                        <input required type="number" class="form-control" placeholder="Escribe el precio venta" name="PrecioVenta" #PrecioVenta="ngModel" [(ngModel)]="redhgSVC.formDataProductos.PrecioVenta">
+
+                        <!--               -------------------------------------------------------                                       -->
+
+
+
+                        <div class="input-group-prepend">
+                            <label class="input-group-text text-info">Cantidad</label>
+                            <input required type="number" class="form-control" placeholder="Escribe la cantidad" name="Cantidad" #Cantidad="ngModel" [(ngModel)]="redhgSVC.formDataProductos.Cantidad">
+                        </div>
+
+                        <!--               -------------------------------------------------------                                       -->
+                        <label class="input-group-text text-info">Clave Producto</label>
+                        <input required type="text" placeholder="Escribe la clave del producto" class="form-control" name="ClaveProducto" #ClaveProducto="ngModel" [(ngModel)]="redhgSVC.formDataProductos.ClaveProducto">
+
+                        <!--               -------------------------------------------------------                                       -->
+                        <label class="input-group-text text-info">Stock</label>
+                        <input required type="text" class="form-control" placeholder="Escribe el stock" name="Stock" #Stock="ngModel" [(ngModel)]="redhgSVC.formDataProductos.Stock">
+
+                        <!--               -------------------------------------------------------                                       -->
+                        <!--               -------------------------------------------------------                                       -->
+                        <label class="input-group-text text-info">Codigo de Barras</label>
+                        <input required type="text" class="form-control" placeholder="Escribe el CodigoBarras" name="CodigoBarras" #CodigoBarras="ngModel" [(ngModel)]="redhgSVC.formDataProductos.CodigoBarras">
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                    </div>
+                    <div class="col-lg-6">
+
+                        <label class="input-group-text text-info">Descripcion Producto</label>
+                        <input required type="text" placeholder="Escribe la Descripcion del producto" class="form-control" name="DescripcionProducto" #DescripcionProducto="ngModel" [(ngModel)]="redhgSVC.formDataProductos.DescripcionProducto">
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <!-- <label class="input-group-text text-info">Estatus</label>
+                        <input required type="text" placeholder="Escribe el estatus" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="redhgSVC.formDataProductos.Estatus"> -->
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Unidad Medida</label>
+                        <br>
+                        <!-- <input required  type="text" placeholder="Escribe la unidad de medida" class="form-control" name="UnidadMedida" #UnidadMedida="ngModel" [(ngModel)]="service.formData.UnidadMedida">
+                        <div class="text-left text-danger" *ngIf="UnidadMedida.invalid && UnidadMedida.touched">
+                            Favor de Ingresar Unidad Medida
+                        </div> -->
+
+                        <mat-form-field class="example-full-width">
+                            <!-- <mat-form-field class="input-group-text text-info"> -->
+                            <input type="text" placeholder="Seleccionar Medida" aria-label="Number" matInput [formControl]="myControlUnidad" [matAutocomplete]="autoUnidad" [(ngModel)]="redhgSVC.formDataProductos.UnidadMedida">
+                            <mat-autocomplete #autoUnidad="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptionsUnidad | async" [value]="option.ClaveSAT">
+                                    {{option.ClaveSAT}} {{option.Nombre}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <br>
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">IVA</label>
+                        <mat-checkbox class="example-margin" name="IVA" #IVA="ngModel" [(ngModel)]="this.iva"></mat-checkbox>
+                        <label class="input-group-text text-info">Retencion</label>
+                        <mat-checkbox class="example-margin" name="RETIVA" #RETIVA="ngModel" [(ngModel)]="this.retiva"></mat-checkbox>
+                        <!-- <input type="checkbox" class="form-control" name="IVA" #IVA="ngModel" [(ngModel)]="service.formData.IVA"> -->
+                        <!--               -------------------------------------------------------                                       -->
+                        <br>
+
+                        <label class="input-group-text text-info">Clave SAT</label>
+                        <input required type="text" placeholder="Escribe la clave SAT" class="form-control" name="ClaveSAT" #ClaveSAT="ngModel" [(ngModel)]="redhgSVC.formDataProductos.ClaveSAT">
+
+
+                        <label class="input-group-text text-info">Categoria</label>
+                        <input required type="text" placeholder="Escribe la Categoria" class="form-control" name="Categoria" #Categoria="ngModel" [(ngModel)]="redhgSVC.formDataProductos.Categoria">
+
+                        <br>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- <mat-checkbox #checkbox [(checked)]="MarcasRel" (change)='check(checkbox.checked)'>Marcas Relacionadas</mat-checkbox> -->
+        <br>
+
+    </form>
+
+    <!--     <div class="form-material" *ngIf="this.MarcasRel == true">
+        <h5>Marcas Relacionadas</h5>
+        <div class="container row">
+            <div class="col-12">
+
+
+                
+            </div>
+        </div>
+        <div class="container row">
+            <div class="col-md-6 col-12">
+                <label class="input-group-text text-info">Clave</label>
+                <input matInput placeholder="Clave Marca" name="ClaveMarca" class="form-control" #ClaveMarca="ngModel" [(ngModel)]="this.service.MarcasRelForm.ClaveMarca">
+
+                <label class="input-group-text text-info">Nombre Marca</label>
+                <input matInput placeholder="Nombre Marca" name="NombreMarca" class="form-control" #NombreMarca="ngModel" [(ngModel)]="this.service.MarcasRelForm.NombreMarca">
+            </div>
+        </div>
+        <button class="btn btn-success" mat-raised-button (click)="agregarMarcaRel()" color="primary" [disabled]='!this.service.formData.Nombre'>Agregar Marca</button>
+    </div> -->
+
+    <br>
+    <button class="btn btn-success" mat-raised-button (click)="onSubmit(form)" color="success">Guardar</button>
+
+</div>

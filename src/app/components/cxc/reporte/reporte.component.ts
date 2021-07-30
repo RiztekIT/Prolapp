@@ -27,7 +27,8 @@ export class ReporteComponent implements OnInit {
 
   isVisible: boolean;
 
-  constructor(public serviceFactura: FacturaService, public serviceCliente: ClientesService, public sharedService: SharedService, @Inject(MAT_DIALOG_DATA) public data: any, public enviarfact: EnviarfacturaService) { }
+  constructor(public serviceFactura: FacturaService, public serviceCliente: ClientesService, public sharedService: SharedService, 
+    @Inject(MAT_DIALOG_DATA) public data: any, public enviarfact: EnviarfacturaService) { }
 
   con : string| number;
   arrcon: Array<any> = [];
