@@ -109,6 +109,12 @@ import { PosventadirectaComponent } from './pos/posventadirecta/posventadirecta.
 import { PosdashboardComponent } from './pos/posdashboard/posdashboard.component';
 import { AddeditposentradaComponent } from './pos/entradaproductos/addeditposentrada/addeditposentrada.component';
 import { PoscatclientesComponent } from './pos/catalogos/poscatclientes/poscatclientes.component';
+import { redhgFacturacionComponent } from './redholding/facturacion/redhgfacturacion.component';
+import { DashboardredhgComponent } from './redholding/dashboardredhg/dashboardredhg.component';
+import { RedhgaddfacturacionComponent } from './redholding/facturacion/redhgaddfacturacion/redhgaddfacturacion.component';
+import { RedhgclientesComponent } from './redholding/clientes/redhgclientes/redhgclientes.component';
+import { RedhgproductosComponent } from './redholding/productos/redhgproductos/redhgproductos.component';
+import { RedhgreportesComponent } from './redholding/facturacion/redhgreportes/redhgreportes.component';
 
 
 
@@ -235,6 +241,12 @@ const pagesRoutes: Routes = [
                 { path: 'pos', component: PosdashboardComponent },
                 { path: 'poscatalogoclientes', component: PoscatclientesComponent },
                 { path: 'posaddeditentrada', component: AddeditposentradaComponent },
+                { path: 'redhgfacturacion', component: redhgFacturacionComponent },
+                { path: 'redhgdashboard', component: DashboardredhgComponent },
+                { path: 'redhgaddfacturacion/:id', component: RedhgaddfacturacionComponent },
+                { path: 'redhgclientes', component: RedhgclientesComponent },
+                { path: 'redhgproductos', component: RedhgproductosComponent },
+                { path: 'redhgreportes', component: RedhgreportesComponent },
 
 
                              

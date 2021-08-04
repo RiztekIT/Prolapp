@@ -1376,8 +1376,8 @@ export class FormatoComprasComprasComponent implements OnInit {
     //Con que estatus se generara?
     this.od.Estatus = 'Transito';
     //Fechas y usuario
-    this.od.FechaInicioDescarga = new Date('10/10/10');
-    this.od.FechaFinalDescarga = new Date('10/10/10');
+    this.od.FechaInicioDescarga = new Date();
+    this.od.FechaFinalDescarga = new Date();
     this.od.FechaExpedicion = new Date();
     this.od.IdUsuario = 1;
     let usuario: any

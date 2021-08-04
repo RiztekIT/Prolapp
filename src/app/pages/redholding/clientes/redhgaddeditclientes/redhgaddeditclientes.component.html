@@ -1,0 +1,171 @@
+<div>
+    <!-- <div class="d-flex justify-content-between"> -->
+
+    <div class="row">
+        <div class="col-md-4">
+
+            <h4 class="text-inverse">{{movimiento}} Cliente</h4>
+        </div>
+        <div class="col-md-4">
+            <mat-slide-toggle *ngIf="this.movimiento=='Editar'" [(ngModel)]="estatuscliente" (change)="changeEstatus($event)">{{redhgSVC.formDataClientes.Estatus}}</mat-slide-toggle>
+        </div>
+        <div class="col-md-4">
+
+            <button mat-button class="btn btn-danger" color="warn" (click)="onClose()">
+                    <mat-icon>close</mat-icon>
+                </button>
+        </div>
+    </div>
+
+
+
+</div>
+<hr>
+
+<div style="overflow: auto; height: 450px;">
+
+
+    <form #form="ngForm" (submit)="onSubmit(form)" autocomplete="off">
+
+        <div class="form-material">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label class="input-group-text text-info">Nombre</label>
+                        <input required placeholder="Escribe el nombre" type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="redhgSVC.formDataClientes.Nombre">
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">RFC</label>
+                        <input required minlength="12" type="text" placeholder="Escribe el RFC" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="redhgSVC.formDataClientes.RFC">
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Razon Social</label>
+                        <input required type="text" placeholder="Escribe la razon social" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="redhgSVC.formDataClientes.RazonSocial">
+
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Calle</label>
+                        <input required type="text" placeholder="Escribe la calle" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="redhgSVC.formDataClientes.Calle">
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Colonia</label>
+                        <input required type="text" placeholder="Escribe la colonia" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="redhgSVC.formDataClientes.Colonia">
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">CP</label>
+                        <input required minlength="5" type="text" placeholder="Escribe el codigo postal" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="redhgSVC.formDataClientes.CP">
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Ciudad</label>
+                        <input required type="text" placeholder="Escribe la ciudad" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="redhgSVC.formDataClientes.Ciudad">
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Estado</label>
+                        <input required type="text" placeholder="Escribe el estado" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="redhgSVC.formDataClientes.Estado">
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                    </div>
+                    <div class="col-lg-6">
+
+                        <label class="input-group-text text-info">Clave Cliente</label>
+                        <input required type="text" placeholder="Escribe la clave de cliente" class="form-control" name="ClaveCliente" #ClaveCliente="ngModel" [(ngModel)]="redhgSVC.formDataClientes.ClaveCliente">
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Numero Exterior</label>
+                        <input required type="text" placeholder="Escribe el numero exterior" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="redhgSVC.formDataClientes.NumeroExterior">
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Numero Interior</label>
+                        <input type="text" class="form-control" placeholder="Escribe el numero interior" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="redhgSVC.formDataClientes.NumeroInterior">
+
+                        <!--               -------------------------------------------------------                                       -->
+
+
+                        <label style="display: none" class="input-group-text text-info">Estatus</label>
+                        <input style="display: none" type="text" placeholder="Escribe Estado" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="redhgSVC.formDataClientes.Estatus">
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Limite Credito</label>
+                        <input required type="text" placeholder="Escribe el limite de credito" class="form-control" name="LimiteCredito" #LimiteCredito="ngModel" [(ngModel)]="redhgSVC.formDataClientes.LimiteCredito">
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Dias Credito</label>
+                        <input required type="text" placeholder="Escribe los dias de credito" class="form-control" name="DiasCredito" #DiasCredito="ngModel" [(ngModel)]="redhgSVC.formDataClientes.DiasCredito">
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Forma de Pago</label>
+                        <!-- <input required type="text" placeholder="Escribe metodo de pago" class="form-control" name="MetodoPago" #MetodoPago="ngModel" [(ngModel)]="service.formData.MetodoPago"> -->
+
+                        <select class="form-control" name="MetodoPago" #MetodoPago="ngModel" [(ngModel)]="redhgSVC.formDataClientes.MetodoPago" required>
+                                <option [ngValue] = "null" selected disabled >Seleccionar Forma Pago</option>
+                                <option *ngFor="let dl of listFP" [ngValue] = "dl.FormaDePago"> {{dl.text}} </option>
+                            </select>
+
+
+
+
+                        <!--               -------------------------------------------------------                                       -->
+
+                        <label class="input-group-text text-info">Uso CFDI</label>
+                        <!-- <input required type="text" placeholder="Escribe el uso de CFDI" class="form-control" name="UsoCFDI" #UsoCFDI="ngModel" [(ngModel)]="service.formData.UsoCFDI"> -->
+                        <select class="form-control" name="UsoCFDI" #UsoCFDI="ngModel" [(ngModel)]="redhgSVC.formDataClientes.UsoCFDI" required>
+
+                        <option [ngValue] = "null" selected disabled >Seleccionar CFDI</option>
+                            <option *ngFor="let dl of listCFDI" [ngValue] = "dl.UsoDelCFDI"> {{dl.text}} </option>
+                        </select>
+
+
+
+                        <label class="input-group-text text-info">Vendedor</label>
+                        <mat-form-field>
+                            <input type="text" placeholder="Seleccionar Vendedor" [(ngModel)]="redhgSVC.formDataClientes.Vendedor" aria-label="Number" [formControl]="myControl" matInput [matAutocomplete]="auto" name="IdVendedor">
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.IdVendedor" (onSelectionChange)="onSelectionChange(option, $event)">
+                                    {{option.IdVendedor}} {{option.Nombre}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+
+
+
+                        <input type="hidden" class="form-control" name="IdApi" #IdApi="ngModel" value="" [(ngModel)]="redhgSVC.formDataClientes.IdApi">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <button class="mt-4" mat-raised-button color="primary" type="submit">{{movimiento}} Cliente</button>
+        <!-- <button class="mt-4" mat-raised-button color="primary" type="button" (click)="verdata()">Ver Cliente</button> -->
+
+
+    </form>
+
+</div>

@@ -48,11 +48,13 @@ export class ShowProductoComponent implements OnInit {
 
 
   constructor(private service:ProductosService, 
-    private dialog: MatDialog, private snackBar: MatSnackBar,
+    private dialog: MatDialog, 
+    private snackBar: MatSnackBar,
     private usuarioService: UsuariosServieService,
     private datePipe: DatePipe,
     private eventosService: EventosService,
-    private ConnectionHubService: ConnectionHubServiceService,) {
+    private ConnectionHubService: ConnectionHubServiceService,
+    ) {
 
     this.service.listen().subscribe((m:any)=>{
       // console.log(m);

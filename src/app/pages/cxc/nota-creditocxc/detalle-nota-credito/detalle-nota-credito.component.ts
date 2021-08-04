@@ -93,7 +93,7 @@ PUlectura
   //Variable para ver si se agregara o actualizara un detalle Nota Credito
   agregar: boolean;
 
-  public listRel: Array<Object> = [
+  public listRel = [
     { Relacion: '01', text: 'Nota de crédito de los documentos relacionados' },
     { Relacion: '02', text: 'Nota de débito de los documentos relacionados' },
     { Relacion: '03', text: 'Devolución de mercancía sobre facturas o traslados previos' },

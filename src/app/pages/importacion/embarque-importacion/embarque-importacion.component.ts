@@ -610,8 +610,8 @@ console.log(traspaso);
         //^ Se Genera las observaciones en Transito, para saber que esta orden de carga Se encuentra en Transito y no en la bodega Origen
         Observaciones: 'Transito',
         Estatus: 'Creada',
-        FechaInicioCarga: new Date('10/10/10'),
-        FechaFinalCarga: new Date('10/10/10'),
+        FechaInicioCarga: new Date(),
+        FechaFinalCarga: new Date(),
         FechaExpedicion: new Date(),
         IdUsuario: '0',
         Usuario: user

@@ -1,0 +1,809 @@
+<mat-dialog-content>
+    <button mat-button class="btn btn-danger btnh" color="warn" (click)="onClose()">
+        <mat-icon>close</mat-icon>
+    </button>
+    <div class="modal0-body" style="overflow: auto; height: 80vh;">
+        <div class="container" style=" width: 1200px;">
+            <!-- <div id="Factura-PDF" style="min-width: 1100px !important;"> -->
+            <div id="Factura-PDF">
+                <!-- TOP PAGE LOGO DESCRIPTION FACTURA -->
+                <div class="container">
+                    <div class="row">
+                        <!-- logo -->
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                            <div class="card card-outline-inverse">
+                                <!-- <div class="card-header">
+                                <h6 class="m-b-0 text-white">Logo</h6>
+                            </div>
+                            <div class="card-body">
+                            </div> -->
+
+                                <img [src]=logo class="logo">
+
+                            </div>
+                        </div>
+
+                        <!-- descripcion -->
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+                            <h5 class="blacktxt bolder"> {{nombreE}}
+                            </h5>
+                            <p class="text-center blacktxt "><span class="bolder">R.F.C.:</span> {{rfcE}} </p>
+                            <p class="text-center blacktxt">Calle: {{calle}} No. {{numeroext}} Int. {{numeroint}}, Col. {{colonia}}, CP: {{codigopostal}}, {{ciudad}}, {{estado}}, México
+                            </p>
+                            <!-- <p class=" text-center"><span class="linkp bolder">www.prolactoingredientes.com.mx</span> </p> -->
+
+                        </div>
+                        <!-- factura folio -->
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-3">
+                            <div class="card card-outline-inverse borderContainer mg-r">
+                                <div class="card-header">
+                                    <h6 class="m-b-0 text-white text-center bolder">FACTURA</h6>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="text-center bolder blacktxt">Serie y Folio: </h5>
+                                    <!-- cambia POR FAVOR QUE ESTA COSA NO SE ACOMODA -->
+                                    <div>
+
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-6 col-6">
+                                                    <h5 class="text-right bolder blacktxt"> {{seriefactura}} </h5>
+                                                </div>
+                                                <div class="col-6 col-6">
+                                                    <h5 class="text-left bolder blacktxt"> {{folio}} </h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End TOP -->
+
+                <!-- facturado-lugar expedicion -->
+
+                <div class="container">
+                    <!-- div facturado a -->
+                    <div class="row">
+                        <div class="container col-lg-6 col-md-6 col-6">
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="card card-outline-inverse">
+                                    <div class="card-header">
+                                        <h6 class="m-b-0 text-white">FACTURADO A:
+                                            <SPAN class="bolder"> {{ claveCliente }} </SPAN>
+                                            <!-- cambia -->
+                                        </h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <p><span class="blacktxt bolder"> {{nombreR}} </span></p>
+                                        <!-- cambia -->
+                                        <p class="nomarginbottomP blacktxt">
+                                            <span class=" bolder">R.F.C</span> {{rfcR}} <br> <span class="bolder">DIRECCIÓN:</span> {{ direccionCalle }}
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12 col-md-12 col-12">
+                                <div class="card card-outline-inverse">
+                                    <div class="card-header">
+                                        <h6 class="m-b-0 text-white">ENVIAR A:
+                                        </h6>
+
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="col-lg-12 col-md-12 col-12">
+                                            <!-- cambia -->
+                                            <p class="nomarginbottomP">
+                                                <br>
+                                                <br>
+                                            </p>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-12">
+                                            <!-- cambia -->
+                                            <p class="nomarginbottomP blacktxt"><span class="bolder">Vendedor:</span> {{ vendedor }} </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container col-lg-6 col-md-6 col-6">
+                            <div class="container">
+                                <div class="col-lg-12 col-md-12 noleftpadding">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-12">
+                                            <div class="card card-outline-inverse">
+                                                <div class="card-header">
+
+                                                    <div class="table-responsive no-scroll">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="m-b-0 text-white">LUGAR DE EXPEDICION</th>
+                                                                    <th class="m-b-0 text-white">FECHA Y HORA DE EMISION</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body tablaBodyAcomodo">
+                                                    <!-- se ingresan valores en tablas, derecha e izquierda -->
+                                                    <div>
+                                                        <table class="table">
+                                                            <thead>
+
+                                                                <tr>
+                                                                    <!-- AQUI TIENEN QUE IR SEPARADOS -->
+                                                                    <th class="text-center textoBodyAcomodo">
+                                                                        {{lugarExpedicion}}
+                                                                    </th>
+                                                                    <th class="text-center textoBodyAcomodo"> {{fecha | slice:0:10}} </th>
+                                                                </tr>
+
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-12">
+                                            <div class="card card-outline-inverse">
+                                                <div class="card-header">
+                                                    <div class="table-responsive no-scroll">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="m-b-0 text-white">ORDEN DE COMPRA</th>
+                                                                    <th class="m-b-0 text-white">FECHA DE VENCIMIENTO</th>
+                                                                    <th class="m-b-0 text-white">FORMA DE PAGO</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body tablaBodyAcomodo">
+                                                    <!-- se ingresan valores en tablas 3* -->
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <div class="container">
+                                                                    <div class="row">
+                                                                        <div class="col-2"></div>
+                                                                        <div class="col-3">
+                                                                            <th class="text-right textoBodyAcomodo"> {{ ordenCompra }} </th>
+                                                                        </div>
+
+                                                                        <div class="col-3">
+                                                                            <th class="text-center textoBodyAcomodo"> {{ fechaVencimiento | slice:0:10 }} </th>
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <th class="text-right textoBodyAcomodo"> {{formaDePago}} </th>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+
+
+
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-12">
+                                            <div class="card card-outline-inverse">
+                                                <div class="card-header">
+                                                    <div class="table-responsive no-scroll">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="m-b-0 text-white">TIPO DE CAMBIO</th>
+                                                                    <th class="m-b-0 text-white">FECHA DE ENTREGA</th>
+                                                                    <th class="m-b-0 text-white">CONDICIONES DE PAGO</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body tablaBodyAcomodo">
+                                                    <!-- se ingresan valores en las tablas -->
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-center textoBodyAcomodo"> {{ tipoCambio |currency: '':'symbol':'1.4-4' }} </th>
+                                                                <th class="text-center textoBodyAcomodo"> {{ fechaEntrega | slice:0:10 }} </th>
+                                                                <th class="text-center textoBodyAcomodo"> {{ condicionesPago }} </th>
+                                                            </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12 col-md-12 col-12">
+                                            <div class="card card-outline-inverse">
+                                                <div class="card-header">
+                                                    <div class="table-responsive no-scroll">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="m-b-0 text-white">METODO DE PAGO Y CUENTA</th>
+                                                                    <th class="m-b-0 text-white">REGIMEN</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body tablaBodyAcomodo">
+                                                    <!-- se ingresan valores en las tablas -->
+                                                    <div class="col-lg-12 col-md-12 col-12">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <div class="container">
+                                                                        <div class="row">
+
+                                                                            <div class="col-4">
+                                                                                <th class="text-left textoBodyAcomodo"> {{metodoPago}} </th>
+                                                                            </div>
+                                                                            <div class="col-4"></div>
+                                                                            <div class="col-3">
+                                                                                <th class="text-center textoBodyAcomodo"> {{regimen}} </th>
+                                                                            </div>
+                                                                            <div class="col-1"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- SEPARARLOS POFAVO-->
+
+
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+
+                                                        <!-- al final de la tabla se pone el Uso de CFDI -->
+                                                        <div class="col-lg-12 col-md-12 col-12">
+                                                            <p class=" bottomR"><span class="bolder">Uso de CFDI:</span> {{usoCFDI}} {{cfdiNombre}} </p>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- fin lugar expedicion -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- fin facturado a -->
+                    <!-- lugar expedicion -->
+
+                    <!-- fin facturado-lugar -->
+
+                    <!-- cuentas para deposito -->
+
+                    <div class="container">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <div class="card card-outline-inverse">
+                                <div class="card-header">
+                                    <h6 class="m-b-0 text-white text-center bolder">CUENTAS PARA DEPOSITO</h6>
+                                </div>
+                                <div class="card-body">
+                                    <!-- CUENTAS  -->
+                                    <div class="containter textoBodyAcomodo">
+                                        <div class="row">
+                                            <div class="col-lg-2 col-md-2 col-2"></div>
+                                            <!-- ************************************************************** -->
+                                            <div class="col-lg-8 col-md-8 col-12">
+                                                <div class="containter textoBodyAcomodo">
+                                                    <div class="row">
+                                                        <!--  -->
+                                                        <div class="col-lg-3 col-md-3 col-3 no-padding-bottom nowrap">
+                                                            <p class="bolder nowrap text-let textoBodyAcomodo nomarginbottomP">Banorte</p>
+                                                            <!-- <p class="bolder nowrap text-let textoBodyAcomodo nomarginbottomP">HSBC</p>
+                                                            <p class="bolder nowrap text-let textoBodyAcomodo nomarginbottomP">HSBC DLLS</p>
+                                                            <p class="bolder nowrap text-let textoBodyAcomodo nomarginbottomP">SANTANDER DLLS</p>
+                                                            <p class="bolder nowrap text-let textoBodyAcomodo nomarginbottomP">BANCOMER</p> -->
+                                                        </div>
+                                                        <div class="col-lg-2 col-md-2 col-2 no-padding-bottom nowrap">
+                                                            <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">0461688124</p>
+                                                            <!-- <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">4053151822</p>
+                                                            <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">7003038338</p>
+                                                            <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">82500724021</p>
+                                                            <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">0111944843</p> -->
+                                                        </div>
+                                                        <div class="col-lg-1 col-md-1 col-1"></div>
+                                                        <div class="col-lg-1 col-md-1 col-1 no-padding-bottom nowrap">
+                                                            <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">CLABE</p>
+                                                            <!-- <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">CLABE</p>
+                                                            <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">CLABE</p>
+                                                            <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">CLABE</p>
+                                                            <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">CLABE</p> -->
+                                                        </div>
+                                                        <div class="col-lg-1 col-md-1 col-1"></div>
+                                                        <div class="col-lg-2 col-md-2 col-2 no-padding-bottom nowrap">
+                                                            <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">072150004616881241</p>
+                                                            <!-- <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">021150040537518226</p>
+                                                            <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">021150070030383384</p>
+                                                            <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">014150825007240214</p>
+                                                            <p class="bolder nowrap textoBodyAcomodo nomarginbottomP">012150001119448432</p> -->
+                                                        </div>
+                                                        <div class="col-lg-1 col-md-1 col-1"></div>
+                                                    </div>
+
+
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 col-md-2 col-2"></div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- cantidad-unidad-clave- -->
+                    <div class="container">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <div class="card card-outline-inverse">
+                                <div class="card-header">
+
+                                    <div class="table-responsive no-scroll">
+                                        <table class="table ">
+                                            <thead>
+                                                <tr>
+                                                    <th width="8.3%" class="m-b-0 text-white">Cantidad</th>
+                                                    <th width="8.3%" class="m-b-0 text-white">Unidad</th>
+                                                    <th width="8.3%" class="m-b-0 text-white text-center">Clave</th>
+                                                    <th width="41.6%" class="m-b-0 text-white text-center">Descripción</th>
+                                                    <th width="16.6%" class="m-b-0 text-white text-center">P. Unitario</th>
+                                                    <th width="16.6%" class="m-b-0 text-white text-center">Importe</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <!-- MODIFICAR PARA QUE QUEPAN LOS CAMPOS -->
+                                    <div class="col-lg-12 col-md-12 col-12">
+                                        <table class="table">
+                                            <tbody>
+                                                <tr *ngFor="let conceptos of arrcon">
+                                                    <div class="containter">
+
+                                                        <div class="row">
+                                                            <div class="col-1">
+                                                                <th class="text-left textoBodyAcomodo acomodoForzadoTh"> {{conceptos.cantidad | number: '1.0-2'}} </th>
+                                                            </div>
+                                                            <div class="col-1">
+                                                                <th class="text-right textoBodyAcomodo acomodoForzadoTh2"> {{conceptos.unidad}} </th>
+                                                            </div>
+                                                            <div class="col-1">
+                                                                <th class="text-right textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.claveunidad}} </th>
+                                                            </div>
+                                                            <div class="col-5">
+                                                                <th style="white-space: normal;" class="text-left textoBodyAcomodo"> {{conceptos.descripcion}}</th>
+                                                                <!-- <th class="text-left textoBodyAcomodo"> {{conceptos.descripcion | slice:0:41}} <br> {{conceptos.descripcion | slice:41:70}} </th> -->
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <th class="text-left textoBodyAcomodo "> {{ conceptos.valorunitario | currency}} </th>
+                                                            </div>
+                                                            <div class="col-2">
+                                                                <th class="text-left textoBodyAcomodo "> {{ conceptos.importe | currency }} </th>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" *ngIf="conceptos.observaciones">
+                                                            <div class="col-1"></div>
+                                                            <div class="col-1"></div>
+                                                            <div class="col-1"></div>
+                                                            <div class="col-5">
+                                                                <th class="text-left textoBodyAcomodo"> {{conceptos.observaciones | slice:0:40}} <br> {{conceptos.observaciones | slice:40:80}} <br> {{conceptos.observaciones | slice:80:120}} <br> {{conceptos.observaciones | slice:120:160}} <br>                                                                    {{conceptos.observaciones | slice:160:200}} <br> {{conceptos.observaciones | slice:200:240}} <br> {{conceptos.observaciones | slice:240:300}} </th>
+                                                                <!-- <textarea rows="5" type="string" class="form-control area" name="cuerpo">{{conceptos.observaciones}}</textarea> -->
+                                                            </div>
+                                                            <div class="col-2"></div>
+                                                            <div class="col-2"></div>
+                                                        </div>
+                                                    </div>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- row- QR-Observaciones-Total -->
+                    <!-- <div class="html2pdf__page-break"></div> -->
+                    <div class="container">
+                        <div class="row">
+                            <!-- QR -->
+                            <div class="col-lg-3 col-md-3 col-3">
+                                <div class="card card-outline-inverse">
+                                    <div class="card-body">
+                                        <qrcode [qrdata]=myAngularxQrCode [size]=QRsize></qrcode>
+                                        <!-- <ngx-qrcode qrc-element-type="url" [qrc-value]="QRString"></ngx-qrcode> -->
+                                        <!-- cambia el qr string que esta en el TS -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Observaciones -->
+                            <div class="col-lg-4 col-md-4 col-4">
+                                <div class="card card-outline-inverse">
+                                    <div class="card-body">
+                                        <div class="containerborder">
+                                            <div class="container">
+                                                <p class="text-justify">{{observaciones}}</p>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- total -->
+                            <div class="col-lg-5 col-md-5 col-5">
+                                <div class="card card-outline-inverse">
+                                    <div class="card-body">
+                                        <div class="container">
+                                            <div class="col-lg-12 col-md-12 col-12">
+                                                <div class="row">
+                                                    <div class="col-lg-7 col-md-7 col-7">
+                                                        <p class="nomarginbottomP bolder"><b>Subtotal</b> </p>
+                                                    </div>
+                                                    <div class="col-lg-5 col-md-5 col-5">
+                                                        <p class="nomarginbottomP bolder"> {{subtotal | currency}} </p>
+                                                        <!-- cambia -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-12">
+                                                <div class="row">
+                                                    <div class="col-lg-7 col-md-7 col-7">
+                                                        <p class="nomarginbottomP bolder"><b>RET IVA</b></p>
+                                                    </div>
+                                                    <div class="col-lg-5 col-md-5 col-5">
+                                                        <p class="nomarginbottomP bolder text-center"><b> {{RetIva|currency}} </b></p>
+                                                        <!-- cambia -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-12">
+                                                <div class="row">
+                                                    <div class="col-lg-7 col-md-7 col-7">
+                                                        <p class="nomarginbottomP bolder"><b>IVA</b></p>
+                                                    </div>
+                                                    <div class="col-lg-5 col-md-5 col-5">
+                                                        <p class="nomarginbottomP bolder"><b> {{iva | currency}} </b></p>
+                                                        <!-- cambia -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-12 bordeTopBottom">
+                                                <div class="row">
+                                                    <div class="col-lg-7 col-md-7 col-7">
+                                                        <p class="nomarginbottomP bolder"><b>Total</b></p>
+                                                    </div>
+                                                    <div class="col-lg-5 col-md-5 col-5">
+                                                        <p class="nomarginbottomP bolder"><b> {{total | currency}} </b></p>
+                                                        <!-- cambia -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col-lg-12 col-md-10 col-10">
+                                                    <p class="nomarginbottomP text-left bolder textoBodyAcomodo">{{textnum | uppercase}} {{monedaT}}
+                                                    </p>
+                                                    <!-- cambia -->
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-3">
+                                <p class="nomarginbottomP PSellosQR"><span class="bolder">Folio fiscal:</span> {{uuid}} </p>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-3">
+                                <p class="nomarginbottomP PSellosQR"><span class="bolder">Fecha y hora de certificacion:</span> 2019-12-05T13:57:14
+                                </p>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-2">
+                                <p class="nomarginbottomP PSellosQR"><span class="bolder">Número de serie del CSD:</span> {{nocertificado}} </p>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-2">
+                                <p class="nomarginbottomP PSellosQR"><span class="bolder">Número de serie del CSD del SAT:</span> {{noCertificadoSAT}} </p>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-2">
+                                <p class="nomarginbottomP PSellosQR"><span class="bolder">"Este documento es una representación impresa de
+                  un CFDI"</span></p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- sello digital -->
+
+                    <!--       <table>
+                        <tbody> -->
+                    <div class="card-body">
+                        <div class="container">
+
+                            <div class="row">
+                                <div class="col-md-12" style="word-break: break-all; font-size: 8px;">
+
+                                    <p style="margin-bottom: 0px;"><b>Digital del CFDI:</b></p>
+
+
+                                </div>
+                                <!-- <div class="col-md-1"></div> -->
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12" style="word-break: break-all; font-size: 8px;">
+
+                                    <span>{{selloCFDI}}</span>
+
+
+                                </div>
+                                <!-- <div class="col-md-2"></div> -->
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" style="word-break: break-all; font-size: 8px;">
+
+
+                                    <p style="margin-bottom: 0px;"><b>Digital del SAT:</b></p>
+
+
+                                </div>
+                                <!-- <div class="col-md-2"></div> -->
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" style="word-break: break-all; font-size: 8px;">
+
+                                    <span>{{selloSAT}}</span>
+
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" style="word-break: break-all; font-size: 8px;">
+                                    <p style="margin-bottom: 0px;"><b>Cadena Original del Complemento de Certificacion del SAT:</b></p>
+
+                                </div>
+                                <!-- <div class="col-md-2"></div> -->
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12" style="word-break: break-all; font-size: 8px;">
+                                    <span>{{certificado}}</span>
+
+                                </div>
+                                <!-- <div class="col-md-2"></div> -->
+                            </div>
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+                    <!--       </tbody>
+
+                    </table> -->
+
+
+
+
+
+                    <!--     <div class="pgbreak">
+                        <div class="col-lg-10 col-md-10 col-10">
+                            <div class="col-1g-5 col-5">
+                                <p class="PSellosQR nomarginbottomP"><span class="bolder">Digital del CFDI: </span><br> {{ selloCFDI | slice:1:95 }} {{ selloCFDI | slice:95:215 }} {{ selloCFDI | slice:215:274 }} {{ selloCFDI | slice:274:346 }}
+                                </p>
+
+                                
+                                <p class="PSellosQR nomarginbottomP"><span class="bolder">Digital del SAT:</span><br> {{ selloSAT | slice:1:95 }} {{ selloSAT | slice:95:215 }} {{ selloSAT | slice:215:274 }} {{ selloSAT | slice:274:346 }}
+                                </p>
+                                
+                                <p class="PSellosQR nomarginbottomP" style="white-space: wrap"><span class="bolder">Cadena Original del
+                Complemento de Certificacion del SAT:</span><br> {{ certificado | slice:1:95 }} {{ certificado | slice:95:215 }} {{ certificado | slice:215:274 }} {{ certificado | slice:274:346 }}
+                                </p>
+
+                            </div>
+                            
+                        </div>
+                    </div> -->
+                    <!--                     <br> -->
+
+
+
+                    <div class="container">
+                        <div class="col-lg-12 col-md-12 col-12">
+                            <div class="card card-outline-inverse">
+                                <h3>Gastos por Cuenta de Terceros</h3>
+                                <div class="card-header">
+
+                                    <div class="table-responsive no-scroll">
+                                        <table class="table ">
+                                            <thead>
+                                                <tr>
+                                                    <th width="8.3%" class="m-b-0 text-white">Cantidad</th>
+                                                    <th width="8.3%" class="m-b-0 text-white">Unidad</th>
+                                                    <th width="8.3%" class="m-b-0 text-white text-center">Clave</th>
+                                                    <th width="41.6%" class="m-b-0 text-white text-center">Descripción</th>
+                                                    <th width="16.6%" class="m-b-0 text-white text-center">P. Unitario</th>
+                                                    <th width="16.6%" class="m-b-0 text-white text-center">Importe</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr *ngFor="let conceptos of arrcon2">
+                                                <div class="containter">
+
+                                                    <div class="row">
+                                                        <div class="col-1">
+                                                            <th class="text-left textoBodyAcomodo acomodoForzadoTh"> {{conceptos.cantidad | number: '1.0-2'}} </th>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <th class="text-right textoBodyAcomodo acomodoForzadoTh2"> {{conceptos.unidad}} </th>
+                                                        </div>
+                                                        <div class="col-1">
+                                                            <th class="text-right textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.claveunidad}} </th>
+                                                        </div>
+                                                        <div class="col-5">
+                                                            <th style="white-space: normal;" class="text-left textoBodyAcomodo"> {{conceptos.descripcion}}</th>
+                                                            <!-- <th class="text-left textoBodyAcomodo"> {{conceptos.descripcion | slice:0:41}} <br> {{conceptos.descripcion | slice:41:70}} </th> -->
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <th class="text-left textoBodyAcomodo "> {{ conceptos.valorunitario | currency}} </th>
+                                                        </div>
+                                                        <div class="col-2">
+                                                            <th class="text-left textoBodyAcomodo "> {{ conceptos.importe | currency }} </th>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" *ngIf="conceptos.observaciones">
+                                                        <div class="col-1"></div>
+                                                        <div class="col-1"></div>
+                                                        <div class="col-1"></div>
+                                                        <div class="col-5">
+                                                            <th class="text-left textoBodyAcomodo"> {{conceptos.observaciones | slice:0:40}} <br> {{conceptos.observaciones | slice:40:80}} <br> {{conceptos.observaciones | slice:80:120}} <br> {{conceptos.observaciones | slice:120:160}} <br> {{conceptos.observaciones
+                                                                | slice:160:200}} <br> {{conceptos.observaciones | slice:200:240}} <br> {{conceptos.observaciones | slice:240:300}} </th>
+                                                            <!-- <textarea rows="5" type="string" class="form-control area" name="cuerpo">{{conceptos.observaciones}}</textarea> -->
+                                                        </div>
+                                                        <div class="col-2"></div>
+                                                        <div class="col-2"></div>
+                                                    </div>
+                                                </div>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-5"></div>
+                        <div class="col-md-7">
+                            <div class="card card-outline-inverse">
+                                <div class="card-body">
+                                    <div class="container">
+                                        <div class="col-lg-12 col-md-12 col-12">
+                                            <div class="row">
+                                                <div class="col-lg-7 col-md-7 col-7">
+                                                    <p class="nomarginbottomP bolder"><b>Total Gastos Cuenta de Terceros</b> </p>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5 col-5">
+                                                    <p class="nomarginbottomP bolder"> {{subtotalT | currency}} </p>
+                                                    <!-- cambia -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-12">
+                                            <div class="row">
+                                                <div class="col-lg-7 col-md-7 col-7">
+                                                    <p class="nomarginbottomP bolder"><b>Gastos de Agencia</b></p>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5 col-5">
+                                                    <p class="nomarginbottomP bolder"><b> {{total|currency}} </b></p>
+                                                    <!-- cambia -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--   <div class="col-lg-12 col-md-12 col-12">
+                                            <div class="row">
+                                                <div class="col-lg-7 col-md-7 col-7">
+                                                    <p class="nomarginbottomP bolder"><b>IVA</b></p>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5 col-5">
+                                                    <p class="nomarginbottomP bolder"><b> {{ivaT | currency}} </b></p>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <div class="col-lg-12 col-md-12 col-12 bordeTopBottom">
+                                            <div class="row">
+                                                <div class="col-lg-7 col-md-7 col-7">
+                                                    <p class="nomarginbottomP bolder"><b>Total</b></p>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5 col-5">
+                                                    <p class="nomarginbottomP bolder"><b> {{totalT | currency}} </b></p>
+                                                    <!-- cambia -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+                                            <div class="col-lg-12 col-md-10 col-10">
+                                                <p class="nomarginbottomP text-left bolder textoBodyAcomodo">{{textnum2 | uppercase}} {{monedaT}}
+                                                </p>
+                                                <!-- cambia -->
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- firma recibido -->
+                    <!--     <div class="pgbreak">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-3 col-3">
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-6">
+                                <div class="campofirma"></div>
+                                <p class="text-center">Recibo esta mercancia a mi entera satisfacción</p>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-3">
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <!-- pagaré -->
+                    <!--    <div class="col-lg-12 col-md-12 col-12">
+                        <div class="card card-outline-inverse pgbreak">
+                            <div class="card-body">
+                                <div class="containerborder mg-r">
+                                    <div class="container">
+                                        <p class="mg-b">Esta factura será liquidada en dólares americanos y/o su equivalente en moneda nacional al tipo de cambio publicado en el diario oficial de la federación del día de la fecha de pago. Para cualquier aclaración, devolución
+                                            o cambio cuenta con un máximo de 8 días naturales a partir de la fecha factura <span>
+                        {{fecha | slice:0:10}} </span>. Debo (emos) y Pagare (emos) incondicionalmente a la orden de {{nombreE}}, en esta ciudad o en cualquier otra en que se me (nos) requiera el importe de la mercancía que ampara este documento. Por
+                                            la cantidad de <span> {{total | currency}} ({{textnum | uppercase}} {{monedaT}})</span></p>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>

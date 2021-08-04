@@ -37,5 +37,5 @@ export class Factura {
     Vendedor: string;
     Estatus: string;
     Version: string;
-    Usuario: string
+    Usuario: string  
 }

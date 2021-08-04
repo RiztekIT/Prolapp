@@ -36,6 +36,7 @@ import xml2js from 'xml2js';
 import { processors } from 'xml2js'
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 import { OrdenventacxcComponent } from '../ordenventacxc/ordenventacxc.component';
+import { CfdirelacionadoscxcComponent } from '../../cfdirelacionadoscxc/cfdirelacionadoscxc.component';
 
 /* Headers para el envio de la factura */
 const httpOptions = {
@@ -130,6 +131,9 @@ export class FacturacioncxcAddComponent implements OnInit {
   public loading = false;
   public loading2 = false;
 
+  TipoRelacion;
+  CFDIRelacinadosUUID : any[];
+
   constructor(
     public service: FacturaService, private snackBar: MatSnackBar, private dialog: MatDialog,
     private router: Router, public enviarfact: EnviarfacturaService,
@@ -179,6 +183,7 @@ export class FacturacioncxcAddComponent implements OnInit {
     console.log(localStorage.getItem("inicioCliente"));
 this.clienteLogin = localStorage.getItem("inicioCliente");
 console.log('this.clienteLogin: ', this.clienteLogin);
+this.TipoRelacion = '';
     // this.idFactura();
     // console.log(this.IdFactura);
     this.listaempresas();
@@ -261,16 +266,20 @@ console.log('this.clienteLogin: ', this.clienteLogin);
   // TipoCambioFactura: number;
 
   /* list Metodo Pago */
-  public listMP: Array<Object> = [
+  public listMP= [
     { MetodoDePago: 'PUE', text: 'PUE-Pago en una sola exhibicion' },
     { MetodoDePago: 'PPD', text: 'PPD-Pago en parcialidades o diferido' }
   ];
 
   /* list Metodo Pago */
-  public listMoneda: Array<Object> = [
+  public listMoneda = [
     { Moneda: 'MXN' },
     { Moneda: 'USD' }
   ];
+ /*  public listMoneda: Array<Object> = [
+    { Moneda: 'MXN' },
+    { Moneda: 'USD' }
+  ]; */
 
 
   IniciarSaldo(){
@@ -995,7 +1004,7 @@ CFDISumatoria(){
   }
 
   /* Forma Pago */
-  public listFP: Array<Object> = [
+  public listFP = [
     { FormaDePago: "01", text: "01-Efectivo" },
     { FormaDePago: "02", text: "02-Cheque nominativo" },
     { FormaDePago: "03", text: "03-Transferencia electrónica de fondos" },
@@ -1020,7 +1029,7 @@ CFDISumatoria(){
     { FormaDePago: "99", text: "99-Por definir" }
   ];
   /* list CFDI */
-  public listCFDI: Array<Object> = [
+  public listCFDI = [
     { UsoDelCFDI: "G01", text: "G01-Adquisición de mercancias" },
     { UsoDelCFDI: "G02", text: "G02-Devoluciones, descuentos o bonificaciones" },
     { UsoDelCFDI: "G03", text: "G03-Gastos en general" },
@@ -1203,8 +1212,9 @@ console.log(data);
 
       this.json1.Impuestos.Retenidos.pop();
       this.json1.Impuestos.Locales.pop();
-      this.json1.CfdiRelacionados.TipoRelacion = '';
-      this.json1.CfdiRelacionados.UUID.push();
+      this.json1.CfdiRelacionados.TipoRelacion = this.TipoRelacion;
+      this.json1.CfdiRelacionados.UUID = this.CFDIRelacinadosUUID;
+      //this.json1.CfdiRelacionados.UUID.push();
       this.json1.UsoCFDI = data[0].UsoDelCFDI;
       this.json1.Serie = data[0].Serie;
       this.json1.FormaPago = data[0].FormaDePago;
@@ -1292,7 +1302,7 @@ console.log(data);
           }
         }
         cadena = JSON.stringify(this.json1);
-        this.enviar(cadena);
+        //this.enviar(cadena);
         console.log(this.json1)
       })
     });
@@ -2058,6 +2068,57 @@ this.enviarfact.acuseCancelacion(fact.UUID).subscribe((data:any)=>{
       this.refreshDetallesFacturaList();
 
     })
+
+  }
+
+
+  cfdiRelacionados(fact){
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    dialogConfig.data = {
+      factura: fact
+    }
+    
+  /*  dialogConfig.data = {
+      rfcemisor: rfcemisor,
+    fechahorasolicitud:    fechahorasolicitud,
+    fechahoracancel:    fechahoracancel,
+    foliofiscal:    foliofiscal,
+    estatus:    estatus,
+    sellodigitalsat:    sellodigitalsat
+    }  */
+    let dl = this.dialog.open(CfdirelacionadoscxcComponent, dialogConfig);
+
+    dl.afterClosed().subscribe(res=>{
+      console.log(res);
+      this.TipoRelacion = res.TipoRelacion;
+      this.CFDIRelacinadosUUID = []
+      for (let i=0; i<res.UUID.length;i++){
+
+        this.CFDIRelacinadosUUID.push(res.UUID[i].UUID);
+      }
+      console.log(this.CFDIRelacinadosUUID);
+      //this.refreshDetallesFacturaList();
+
+
+
+    })
+
+  }
+
+  notacredito(fact){
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+
+
+
+    this.dialog.open(DetalleNotaCreditoComponent, dialogConfig);
 
   }
 

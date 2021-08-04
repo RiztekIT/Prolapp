@@ -66,7 +66,7 @@ export class FacturaTimbre{
       };
       CfdiRelacionados: {
               TipoRelacion: String,
-              UUID: []
+              UUID: any[]
             };
       UsoCFDI: String;
       Serie: Number;

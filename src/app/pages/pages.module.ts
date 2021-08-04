@@ -366,6 +366,19 @@ import { ExploradorDocumentosComponent } from '../components/explorador-document
 import { FileService } from '../services/explorador-archivos/explorador.service';
 import { VisorExploradorComponent } from '../components/explorador-documentos/visor-explorador/visor-explorador.component';
 import { CookieService } from 'ngx-cookie-service';
+import { redhgFacturacionComponent } from './redholding/facturacion/redhgfacturacion.component';
+import { DashboardredhgComponent } from './redholding/dashboardredhg/dashboardredhg.component';
+import { RedhgaddfacturacionComponent } from './redholding/facturacion/redhgaddfacturacion/redhgaddfacturacion.component';
+import { RedhgfacturaComponent } from '../components/redhgfactura/redhgfactura.component';
+import { RedhgclientesComponent } from './redholding/clientes/redhgclientes/redhgclientes.component';
+import { RedhgproductosComponent } from './redholding/productos/redhgproductos/redhgproductos.component';
+import { RedhgaddeditclientesComponent } from './redholding/clientes/redhgaddeditclientes/redhgaddeditclientes.component';
+import { RedhgaddeditproductosComponent } from './redholding/productos/redhgaddeditproductos/redhgaddeditproductos.component';
+import { RedhgaddeditproductosfacturaComponent } from './redholding/facturacion/redhgaddeditproductosfactura/redhgaddeditproductosfactura.component';
+import { RedhgaddeditproductostercerosComponent } from './redholding/facturacion/redhgaddeditproductosterceros/redhgaddeditproductosterceros.component';
+import { RedhgreportesComponent } from './redholding/facturacion/redhgreportes/redhgreportes.component';
+import { RedhgreporteplantillaComponent } from './redholding/facturacion/redhgreporteplantilla/redhgreporteplantilla.component';
+import { CfdirelacionadoscxcComponent } from './cxc/cfdirelacionadoscxc/cfdirelacionadoscxc.component';
 
 
 
@@ -633,7 +646,21 @@ import { CookieService } from 'ngx-cookie-service';
         ReportessaldosventasComponent,
         DocumentacionGeneralImportacionComponent,
         ExploradorDocumentosComponent,
-        VisorExploradorComponent
+        VisorExploradorComponent,
+        redhgFacturacionComponent,
+        DashboardredhgComponent,
+        RedhgaddfacturacionComponent,
+        RedhgclientesComponent,
+        RedhgproductosComponent,
+        RedhgaddeditclientesComponent,
+        RedhgaddeditproductosComponent,
+        RedhgaddeditproductosfacturaComponent,
+        RedhgaddeditproductostercerosComponent,
+        RedhgfacturaComponent,
+        RedhgreportesComponent,
+        RedhgreporteplantillaComponent,
+        CfdirelacionadoscxcComponent
+
     
     ],
     exports: [
@@ -816,7 +843,16 @@ import { CookieService } from 'ngx-cookie-service';
         OrdenventacxcComponent,
         ReportessaldosventasComponent,
         ExploradorDocumentosComponent,
-        VisorExploradorComponent
+        VisorExploradorComponent,
+        RedhgfacturaComponent,
+        RedhgaddeditclientesComponent,
+        RedhgaddeditproductosComponent,
+        RedhgaddeditproductosfacturaComponent,
+        RedhgaddeditproductostercerosComponent,
+        RedhgfacturaComponent,
+        RedhgreporteplantillaComponent,
+        CfdirelacionadoscxcComponent
+        
         
     ]
 })
