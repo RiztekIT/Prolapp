@@ -1336,7 +1336,7 @@ let FechaDeEntrega = this.datepipe.transform(factura.FechaDeEntrega, 'yyyy-MM-dd
       //this.service.formData.Serie = '5628';
       
   
-        this.redhgSVC.formData.Serie = '547096';
+        this.redhgSVC.formData.Serie = '548444';
       
         
       

@@ -159,6 +159,16 @@ export class FacturaService {
     }
     
   }
+  getFacturaIDCliente(id:number): Observable<any[]>{
+    if (this.rfcempresa==='PLA11011243A'){
+
+      return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaidCliente/'+id)
+    }
+    else if (this.rfcempresa=='AIN140101ME3'){
+      return this.http.get<any[]>(this.APIUrl+ '/Factura2/FacturaidCliente/'+id)
+    }
+    
+  }
   //Obtener ultima factura Creada
   getUltimaFactura(): Observable<any> {
     if (this.rfcempresa==='PLA11011243A'){
@@ -466,6 +476,19 @@ getDetallesFacturaListVentas(id: number): Observable <DetalleFactura[]> {
   else if (this.rfcempresa=='AIN140101ME3'){
     return this.http.get<DetalleFactura[]>(this.APIUrl + '/ReporteVentas/DetalleFactura/'+ id);
   }
+  
+}
+
+consultaGeneral(query){
+
+  let consulta = {
+    'consulta': query
+  };
+  
+
+  return this.http.post(this.APIUrl + '/General/Consulta', consulta);
+  
+
   
 }
 
