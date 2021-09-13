@@ -46,7 +46,7 @@
             <!-- End TOP -->
             <!-- ../../../assets/images/sacos/3.DARIGOLDmilk.png -->
             <!-- contenido -->
-            <div style="background-image: url('/assets/images/prolactopngopacidad2.png'); min-height: 600px; background-size: cover">
+            <div style="background-image: url('/assets/images/prolactopngopacidad2.png'); min-height: 550px; background-size: cover">
                 <table class="table">
                     <thead>
                         <tr>
@@ -88,88 +88,121 @@
                         </tr> -->
                     </tbody>
                 </table>
+
             </div>
             <!-- fin contenido -->
             <!-- contenido 2 -->
             <!-- <div class="containerborderbottom" [ngStyle]="{'height.px': defaultpx}"> -->
 
             <!-- fin contenido 2 -->
-
-            <div class="pgbreak">
-
-                <div class="container row ">
-                    <div class="col-4 container row">
-                        <h5>INFORMACION:</h5>
-                        <div class="col-12">
-                            <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Cliente: <span style="font-weight: 100;">{{this.service.formrow.Nombre}}</span></p>
-                        </div>
-                        <div class="col-12">
-                            <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Telefono: <span style="font-weight: 100;">{{this.service.formrow.Telefono}}</span></p>
-                        </div>
-                        <div class="col-12">
-                            <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Correo: <span style="font-weight: 100;">{{this.service.formrow.Correo}}</span></p>
-                        </div>
+            <hr>
+            <div class="row">
+                <div class="col-4 container row"></div>
+                <div class="col-4 container row"></div>
+                <div class="col-4 container row">
+                    <div class="col-6">
+                        <h3 class=" blacktxt nomarginbottomP">Subtotal</h3>
                     </div>
-                    <div class="col-4">
-                        <h5>DATOS ADICIONALES:</h5>
-                        <div class="col-12">
-                            <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Moneda: <span style="font-weight: 100;">{{this.service.formrow.Moneda}}</span></p>
-                        </div>
-                        <div class="col-12">
-                            <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Tipo de Cambio: <span style="font-weight: 100;">{{this.service.formrow.TipoDeCambio}}</span></p>
-                        </div>
-                        <div class="col-12">
-                            <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Vigencia: <span style="font-weight: 100;">{{this.service.formrow.Vigencia | date: 'dd/MM/yyyy'}}</span></p>
-                        </div>
-                        <div class="col-12">
-                            <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;">Tipo de Flete: <span style="font-weight: 100;">{{this.service.formrow.Flete}}</span></p>
-                        </div>
-                        <div class="col-12">
-                            <p class=" blacktxt nomarginbottomP" style="font-size: 13px !important; font-weight: 420;"><span style="font-weight: 100;">{{this.service.formrow.Observaciones}}</span></p>
-                        </div>
+                    <div class="col-6">
+                        <p *ngIf="this.service.formrow.Moneda=='MXN'" style="font-size: 16px !important; font-weight: 420;" class=" blacktxt nomarginbottomP">{{this.service.formrow.Subtotal | currency}}</p>
+                        <p *ngIf="this.service.formrow.Moneda=='USD'" style="font-size: 16px !important; font-weight: 420;" class=" blacktxt nomarginbottomP">{{this.service.formrow.SubtotalDlls | currency}}</p>
                     </div>
-                    <div class="col-4 container row">
-                        <div class="col-6">
-                            <h4 class=" blacktxt nomarginbottomP">Subtotal</h4>
-                        </div>
-                        <div class="col-6">
-                            <p *ngIf="this.service.formrow.Moneda=='MXN'" class=" blacktxt nomarginbottomP">{{this.service.formrow.Subtotal | currency}}</p>
-                            <p *ngIf="this.service.formrow.Moneda=='USD'" class=" blacktxt nomarginbottomP">{{this.service.formrow.SubtotalDlls | currency}}</p>
-                        </div>
-                        <!--   <div class="col-6">
-                <h4 class=" blacktxt nomarginbottomP">IVA</h4>
-            </div>
-            <div class="col-6">
-                <p class=" blacktxt nomarginbottomP">***</p>
-            </div> -->
-                        <div class="line"></div>
-                        <div class="col-6">
-                            <h4 class=" blacktxt nomarginbottomP">Total</h4>
-                        </div>
-                        <div class="col-6">
-                            <h5 *ngIf="this.service.formrow.Moneda=='MXN'" class=" blacktxt nomarginbottomP">{{this.service.formrow.Total | currency}}</h5>
-                            <h5 *ngIf="this.service.formrow.Moneda=='USD'" class=" blacktxt nomarginbottomP">{{this.service.formrow.TotalDlls | currency}}</h5>
-                        </div>
+                    <div class="line"></div>
+                    <div class="col-6">
+                        <h3 class=" blacktxt nomarginbottomP">Total</h3>
+                    </div>
+                    <div class="col-6">
+                        <h5 *ngIf="this.service.formrow.Moneda=='MXN'" style="font-size: 16px !important; font-weight: 420;" class=" blacktxt nomarginbottomP">{{this.service.formrow.Total | currency}}</h5>
+                        <h5 *ngIf="this.service.formrow.Moneda=='USD'" style="font-size: 16px !important; font-weight: 420;" class=" blacktxt nomarginbottomP">{{this.service.formrow.TotalDlls | currency}}</h5>
                     </div>
                 </div>
 
+            </div>
 
+            <div class="pgbreak">
+
+                <hr>
+                <div class="container row ">
+                    <div class="col-6">
+                        <h4>INFORMACION:</h4>
+                        <div class="row">
+
+                            <div class="col-12">
+                                <p class=" blacktxt nomarginbottomP" style="font-size: 15px !important; font-weight: 420;">Cliente: <span style="font-weight: 100;">{{this.service.formrow.Nombre}}</span></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p class=" blacktxt nomarginbottomP" style="font-size: 15px !important; font-weight: 420;">Telefono: <span style="font-weight: 100;">{{this.service.formrow.Telefono}}</span></p>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p class=" blacktxt nomarginbottomP" style="font-size: 15px !important; font-weight: 420;">Correo: <span style="font-weight: 100;">{{this.service.formrow.Correo}}</span></p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <h5>DATOS ADICIONALES:</h5>
+                        <div class="row">
+
+                            <div class="col-6">
+                                <p class=" blacktxt nomarginbottomP" style="font-size: 15px !important; font-weight: 420;">Moneda: <span style="font-weight: 100;">{{this.service.formrow.Moneda}}</span></p>
+                            </div>
+                            <div class="col-6">
+                                <p class=" blacktxt nomarginbottomP" style="font-size: 15px !important; font-weight: 420;">Tipo de Cambio: <span style="font-weight: 100;">{{this.service.formrow.TipoDeCambio}}</span></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <p class=" blacktxt nomarginbottomP" style="font-size: 15px !important; font-weight: 420;">Vigencia: <span style="font-weight: 100;">{{this.service.formrow.Vigencia | date: 'dd/MM/yyyy'}}</span></p>
+                            </div>
+                            <div class="col-6">
+                                <p class=" blacktxt nomarginbottomP" style="font-size: 15px !important; font-weight: 420;">Tipo de Flete: <span style="font-weight: 100;">{{this.service.formrow.Flete}}</span></p>
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col-12">
+                                <p class=" blacktxt nomarginbottomP" style="font-size: 15px !important; font-weight: 420;"><span style="font-weight: 100;">{{this.service.formrow.Observaciones}}</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  <div class="col-4 container row">
+                        <div class="col-6">
+                            <h3 class=" blacktxt nomarginbottomP">Subtotal</h3>
+                        </div>
+                        <div class="col-6">
+                            <p *ngIf="this.service.formrow.Moneda=='MXN'" style="font-size: 16px !important; font-weight: 420;" class=" blacktxt nomarginbottomP">{{this.service.formrow.Subtotal | currency}}</p>
+                            <p *ngIf="this.service.formrow.Moneda=='USD'" style="font-size: 16px !important; font-weight: 420;" class=" blacktxt nomarginbottomP">{{this.service.formrow.SubtotalDlls | currency}}</p>
+                        </div>                     
+                        <div class="line"></div>
+                        <div class="col-6">
+                            <h3 class=" blacktxt nomarginbottomP">Total</h3>
+                        </div>
+                        <div class="col-6">
+                            <h5 *ngIf="this.service.formrow.Moneda=='MXN'" style="font-size: 16px !important; font-weight: 420;" class=" blacktxt nomarginbottomP">{{this.service.formrow.Total | currency}}</h5>
+                            <h5 *ngIf="this.service.formrow.Moneda=='USD'" style="font-size: 16px !important; font-weight: 420;" class=" blacktxt nomarginbottomP">{{this.service.formrow.TotalDlls | currency}}</h5>
+                        </div>
+                    </div> -->
+                </div>
                 <div class="container">
                     <div class="row">
-                        <div class="col-6">
+                        <div class="col-12">
 
 
-                            <p class=" blacktxt nomarginbottomP nowrap" style="font-size: 10px !important; text-align: left;">Para fines informativos y de comparacion, calculado al {{this.service.formrow.FechaDeExpedicion | date: 'dd/MM/yyyy'}}</p>
-                            <br>
-                            <br>
+                            <p class=" blacktxt nomarginbottomP nowrap" style="font-size: 14px !important; text-align: left;">Para fines informativos y de comparacion, calculado al {{this.service.formrow.FechaDeExpedicion | date: 'dd/MM/yyyy'}}</p>
+                            <p class=" blacktxt nomarginbottomP nowrap" style="font-size: 14px !important; text-align: left;">Se tomará el Tipo de Cambio del dia que se realice el pago</p>
                             <br>
                         </div>
-                        <div class="col-6">
 
 
-                            <p class=" blacktxt nomarginbottomP nowrap" style="font-size: 12px !important; text-align: left;">Se tomará el Tipo de Cambio del dia que se realice el pago</p>
 
-                        </div>
+
+
 
                     </div>
                     <div class="row" style="background-color: black">
