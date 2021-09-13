@@ -1240,19 +1240,19 @@ console.log(data);
               ClaveUnidad: data[i].Unidad,
               Unidad: data[i].Unidad,
               Descripcion: data[i].Producto + ' ' + data[i].Observaciones,
-              ValorUnitario: data[i].PrecioUnitario,
-              Importe: data[i].Importe,
+              ValorUnitario: (+data[i].PrecioUnitario).toFixed(4),
+              Importe: (+data[i].Importe).toFixed(4),
               Descuento: '0',
               tipoDesc: 'porcentaje',
               honorarioInverso: '',
               montoHonorario: '0',
               Impuestos: {
                 Traslados: [{
-                  Base: data[i].Importe,
+                  Base: (+data[i].Importe).toFixed(4),
                   Impuesto: '002',
                   TipoFactor: 'Tasa',
                   TasaOCuota: IVAproducto,
-                  Importe: ((parseFloat(data[i].Importe) * parseFloat(IVAproducto)).toFixed(6)).toString()
+                  Importe: ((parseFloat((+data[i].Importe).toFixed(4)) * parseFloat(IVAproducto)).toFixed(6)).toString()
                 }]
               },
               NumeroPedimento: "",
@@ -1279,19 +1279,19 @@ console.log(data);
               ClaveUnidad: data[i].Unidad,
               Unidad: data[i].Unidad,
               Descripcion: data[i].Producto,
-              ValorUnitario: data[i].PrecioUnitarioDlls,
-              Importe: data[i].ImporteDlls,
+              ValorUnitario: (+data[i].PrecioUnitarioDlls).toFixed(4),
+              Importe: (+data[i].ImporteDlls).toFixed(4),
               Descuento: '0',
               tipoDesc: 'porcentaje',
               honorarioInverso: '',
               montoHonorario: '0',
               Impuestos: {
                 Traslados: [{
-                  Base: data[i].ImporteDlls,
+                  Base:(+data[i].ImporteDlls).toFixed(4),
                   Impuesto: '002',
                   TipoFactor: 'Tasa',
                   TasaOCuota: IVAproducto,
-                  Importe: ((parseFloat(data[i].ImporteDlls) * parseFloat(IVAproducto)).toFixed(6)).toString()
+                  Importe: ((parseFloat((+data[i].ImporteDlls).toFixed(4)) * parseFloat(IVAproducto)).toFixed(6)).toString()
                 }]
               },
               NumeroPedimento: "",
