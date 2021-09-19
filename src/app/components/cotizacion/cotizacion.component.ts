@@ -66,6 +66,8 @@ export class CotizacionComponent implements OnInit {
 
     this.logo = '../../../assets/images/'+this.empresaSVC.empresaActual.RFC+'.png'
 
+    console.log(this.service.formData);
+
     
   }
 

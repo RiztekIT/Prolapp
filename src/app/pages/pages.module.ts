@@ -379,6 +379,7 @@ import { RedhgaddeditproductostercerosComponent } from './redholding/facturacion
 import { RedhgreportesComponent } from './redholding/facturacion/redhgreportes/redhgreportes.component';
 import { RedhgreporteplantillaComponent } from './redholding/facturacion/redhgreporteplantilla/redhgreporteplantilla.component';
 import { CfdirelacionadoscxcComponent } from './cxc/cfdirelacionadoscxc/cfdirelacionadoscxc.component';
+import { ClienteContactoComponent } from '../components/cliente-contacto/cliente-contacto.component';
 
 
 
@@ -659,7 +660,8 @@ import { CfdirelacionadoscxcComponent } from './cxc/cfdirelacionadoscxc/cfdirela
         RedhgfacturaComponent,
         RedhgreportesComponent,
         RedhgreporteplantillaComponent,
-        CfdirelacionadoscxcComponent
+        CfdirelacionadoscxcComponent,
+        ClienteContactoComponent
 
     
     ],
@@ -851,7 +853,8 @@ import { CfdirelacionadoscxcComponent } from './cxc/cfdirelacionadoscxc/cfdirela
         RedhgaddeditproductostercerosComponent,
         RedhgfacturaComponent,
         RedhgreporteplantillaComponent,
-        CfdirelacionadoscxcComponent
+        CfdirelacionadoscxcComponent,
+        ClienteContactoComponent
         
         
     ]

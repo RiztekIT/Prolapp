@@ -132,14 +132,20 @@
                             </div>
                         </div>
                         <div class="row">
+
                             <div class="col-12">
-                                <p class=" blacktxt nomarginbottomP" style="font-size: 15px !important; font-weight: 420;">Telefono: <span style="font-weight: 100;">{{this.service.formrow.Telefono}}</span></p>
+                                <p class=" blacktxt nomarginbottomP" style="font-size: 15px !important; font-weight: 420;">Atencion a: <span style="font-weight: 100;">{{this.service.formData.contacto}}</span></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p class=" blacktxt nomarginbottomP" style="font-size: 15px !important; font-weight: 420;">Telefono: <span style="font-weight: 100;">{{this.service.formData.telefono}}</span></p>
                             </div>
 
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <p class=" blacktxt nomarginbottomP" style="font-size: 15px !important; font-weight: 420;">Correo: <span style="font-weight: 100;">{{this.service.formrow.Correo}}</span></p>
+                                <p class=" blacktxt nomarginbottomP" style="font-size: 15px !important; font-weight: 420;">Correo: <span style="font-weight: 100;">{{this.service.formData.correo}}</span></p>
                             </div>
 
                         </div>
@@ -170,6 +176,13 @@
                                 <p class=" blacktxt nomarginbottomP" style="font-size: 15px !important; font-weight: 420;"><span style="font-weight: 100;">{{this.service.formrow.Observaciones}}</span></p>
                             </div>
                         </div>
+                        <div class="row">
+
+                            <div class="col-12">
+                                <p class=" blacktxt nomarginbottomP nowrap" style="font-size: 14px !important; text-align: left;">Para fines informativos y de comparacion, calculado al {{this.service.formrow.FechaDeExpedicion | date: 'dd/MM/yyyy'}}</p>
+                                <p class=" blacktxt nomarginbottomP nowrap" style="font-size: 14px !important; text-align: left;">Se tomará el Tipo de Cambio del dia que se realice el pago</p>
+                            </div>
+                        </div>
                     </div>
                     <!--  <div class="col-4 container row">
                         <div class="col-6">
@@ -194,8 +207,8 @@
                         <div class="col-12">
 
 
-                            <p class=" blacktxt nomarginbottomP nowrap" style="font-size: 14px !important; text-align: left;">Para fines informativos y de comparacion, calculado al {{this.service.formrow.FechaDeExpedicion | date: 'dd/MM/yyyy'}}</p>
-                            <p class=" blacktxt nomarginbottomP nowrap" style="font-size: 14px !important; text-align: left;">Se tomará el Tipo de Cambio del dia que se realice el pago</p>
+                            <!--                             <p class=" blacktxt nomarginbottomP nowrap" style="font-size: 14px !important; text-align: left;">Para fines informativos y de comparacion, calculado al {{this.service.formrow.FechaDeExpedicion | date: 'dd/MM/yyyy'}}</p>
+                            <p class=" blacktxt nomarginbottomP nowrap" style="font-size: 14px !important; text-align: left;">Se tomará el Tipo de Cambio del dia que se realice el pago</p> -->
                             <br>
                         </div>
 

@@ -870,6 +870,7 @@ this.changeDireccion(this.isDireccion);
         this.ChecarClienteSeleccionado();
       } else {
         console.log('ID Diferente a 0');
+        this.show = true;
         this.service.GetCliente(data[0].IdCliente).subscribe(data => {
           console.log(data);
           this.service.formData = data[0];
@@ -901,7 +902,7 @@ this.changeDireccion(this.isDireccion);
       this.isFlete = true;
     }
   }
-  public listFlete: Array<Object> = [
+  public listFlete: Array<any> = [
     { Flete: 'Local' },
     { Flete: 'Foraneo' },
     { Flete: 'Paqueteria' }
@@ -929,7 +930,7 @@ MonedaSelected(event: any) {
   // console.log(this.service.Moneda);
 }
 
-public listMoneda: Array<Object> = [
+public listMoneda: Array<any> = [
   { Moneda: 'MXN' },
   { Moneda: 'USD' }
 ];

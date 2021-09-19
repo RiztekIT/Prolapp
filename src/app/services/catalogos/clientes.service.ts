@@ -20,6 +20,8 @@ export class ClientesService {
   prospEstatus = "";
   Idclienteservicio;
 
+  contactoCliente = new Cliente();
+
   //Expedientes
 
 objetoCliente = new Cliente();
@@ -104,4 +106,8 @@ objetoCliente = new Cliente();
     getIDCLienteRFC(rfc: string): Observable <Cliente[]> {
       return this.http.get<Cliente[]>(this.APIUrl + '/cliente/rfc/'+ rfc);
     }
+
+    addContactoCliente(cliente: Cliente) {
+      return this.http.post(this.APIUrl + '/cliente/AgregarContacto', cliente);
+   }
 }

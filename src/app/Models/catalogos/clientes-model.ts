@@ -19,5 +19,10 @@ export class Cliente {
     IdApi: string;
     MetodoPagoCliente: string;
     Vendedor: number;
+    correo?: string;
+    telefono?: string;
+    contacto?: string;
+    idcliente?: number;
+    idcontacto?: number;
 
 }

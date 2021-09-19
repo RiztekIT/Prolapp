@@ -91,6 +91,10 @@ export class EnviarfacturaService {
   readonly rootURL =  "/api/v3/cfdi33/create"
   // readonly rootURLxml = "/api/v3/cfdi33/5e06601d92802/xml"
 
+  URLphp = "https://riztek.com.mx/php/Prolacto/"
+
+  //return this.http.get("https://riztek.com.mx/php/Prolacto/GET_TipoCambio.php"
+
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
 
   saberRFC(){
@@ -176,11 +180,17 @@ export class EnviarfacturaService {
     console.log(datos);
     console.log(httpOptions)
     
-    let rootURLcliente = "/api/v1/clients/create";
+    /* let rootURLcliente = "/api/v1/clients/create";
+      
+  return this.http.get(this.URLphp + 'GET_ClientesAPI.php')
+    
+      return this.http.post(rootURLcliente,datos,httpOptions3) */
+
+      let rootURLcliente = this.URLphp + "POST_Cliente.php";
       
   
     
-      return this.http.post(rootURLcliente,datos,httpOptions3)
+      return this.http.post(rootURLcliente,datos) 
   
     
   }
@@ -189,10 +199,11 @@ export class EnviarfacturaService {
     console.log(datos);
     console.log(httpOptions)
     
-    let rootURLcliente = "/api/v1/clients/create";
-
-
-      return this.http.post(rootURLcliente,datos,httpOptions)
+    let rootURLcliente = this.URLphp + "POST_Cliente2.php";
+      
+  
+    
+    return this.http.post(rootURLcliente,datos) 
   
     
   }
@@ -251,6 +262,10 @@ export class EnviarfacturaService {
     
     /* 
   */
+  }
+
+  ObtenerClientesAPI(){
+    return this.http.get(this.URLphp + 'GET_ClientesAPI.php')
   }
   
 

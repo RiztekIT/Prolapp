@@ -20,6 +20,7 @@ import { EventosService } from '../../../../../services/eventos/eventos.service'
 import { Evento } from '../../../../../Models/eventos/evento-model';
 
 import { ConnectionHubServiceService } from '../../../../../services/shared/ConnectionHub/connection-hub-service.service';
+import { ClienteContactoComponent } from '../../../../../components/cliente-contacto/cliente-contacto.component';
 
 
 let origen: { origen: string, titulo: string }[] = [
@@ -257,6 +258,16 @@ export class ShowClienteComponent implements OnInit, OnDestroy {
     this.dialog.open(ClienteDireccionComponent, dialogConfig);
   }
 
+  onAddContactoCliente(row){
+    this.service.contactoCliente = row
+    
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = false;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width="70%";
+    this.dialog.open(ClienteContactoComponent, dialogConfig);
+  }
+
   onAdd(movimiento?){
     this.service.formData = new Cliente();
 
@@ -338,6 +349,15 @@ this.service.formData = cliente;
 
   applyFilter(filtervalue: string){  
     this.listData.filter= filtervalue.trim().toLocaleLowerCase();
+
+  }
+
+  verCliente(){
+
+    this.apicliente.ObtenerClientesAPI().toPromise().then((resp:any)=>{
+      console.log(resp);
+      /*  */
+    })
 
   }
 

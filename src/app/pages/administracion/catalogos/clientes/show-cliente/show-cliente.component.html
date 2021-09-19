@@ -1,16 +1,16 @@
-<div class="row">
+<!-- <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
 
                 <div>
-                    <!--   <label class="input-group-text text-info">Empresa</label>
+                     <label class="input-group-text text-info">Empresa</label>
                     <select class="form-control" name="Empresa" #Empresa="ngModel" [(ngModel)]="apicliente.empresa" required>
                             <option [ngValue]="null" selected disabled>Seleccionar Empresa</option>
                             <option *ngFor="let e of listEmpresa" [ngValue]="e"> {{e.RazonSocial}} </option>
-                          </select> -->
+                          </select> 
 
-                    <!-- 
+                    
                     <mat-form-field style="width: 100%;">
                         <mat-label> Empresa </mat-label>
                         
@@ -18,19 +18,19 @@
                             
                             <mat-option *ngFor="let e of listEmpresa" [value]="e"> {{e.RazonSocial}} </mat-option>
                         </mat-select>
-                    </mat-form-field> -->
+                    </mat-form-field> 
 
 
 
                 </div>
                 <div>
-                    <!-- <button (click)='rfc()'>RFC</button> -->
+                     <button (click)='verCliente()'>Clientes</button> 
                 </div>
 
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <mat-card class="mat-elevation-z0">
 
     <div class="row" style="align-items: center;">
@@ -190,6 +190,9 @@
                     <!--  -->
                     <button [disabled]="AgregarDireccion == false" mat-icon-button class="btn btn-success" color="warning" (click)="onAddDireccionCliente(row.IdClientes)">
                         <mat-icon>add_location</mat-icon>
+                    </button>
+                    <button [disabled]="Editar == false" mat-icon-button class="btn btn-success" color="warning" (click)="onAddContactoCliente(row)">
+                        <mat-icon>contact_phone</mat-icon>
                     </button>
                     <!--  -->
                     <button [disabled]="Borrar == false" mat-icon-button class="btn btn-danger" color="warn" (click)="onDelete(row.IdClientes, 'Borrar Cliente')">

@@ -76,7 +76,7 @@ export class AddClienteComponent implements OnInit {
   
 
   //Forma Pago
-  public listFP: Array<Object> = [
+  public listFP: Array<any> = [
     { FormaDePago: "01", text: "01-Efectivo" },
     { FormaDePago: "02", text: "02-Cheque nominativo" },
     { FormaDePago: "03", text: "03-Transferencia electrónica de fondos" },
@@ -101,7 +101,7 @@ export class AddClienteComponent implements OnInit {
     { FormaDePago: "99", text: "99-Por definir" }
   ];
   //list CFDI
-  public listCFDI: Array<Object> = [
+  public listCFDI: Array<any> = [
     { UsoDelCFDI: "G01", text: "G01-Adquisición de mercancias" },
     { UsoDelCFDI: "G02", text: "G02-Devoluciones, descuentos o bonificaciones" },
     { UsoDelCFDI: "G03", text: "G03-Gastos en general" },
@@ -133,6 +133,9 @@ export class AddClienteComponent implements OnInit {
   usuariosesion;
   movimiento;
   BodegaInfo;
+
+  datos;
+  cliente2;
 
   private _filter(value: any): any[] {
     console.log(value);
@@ -211,7 +214,9 @@ this.movimiento;
     let rfc;
     let razon;
     let codpos;
+
     let datos;
+    
    
     email = 'riztekti@gmail.com';
     rfc = this.service.formData.RFC;
@@ -223,19 +228,23 @@ this.movimiento;
       "rfc" : rfc,
       "codpos" : codpos
     }
+    let temp = Object.assign(this.service.formData)
+        this.cliente2 = temp;
     
-    datos = JSON.stringify(datos);
-     //this.apicliente.crearCliente(datos).subscribe(data =>{
+    this.datos = JSON.stringify(datos);
+     this.apicliente.crearCliente(this.datos).subscribe(data =>{
         
-      // if (data.status==='success'){
-        // console.log(data);
+       if (data.status==='success'){
+        console.log(data);
+       /* if (data.status==='suc'){ */
 
-        // this.service.formData.IdApi=data.Data.UID
-        this.service.formData.IdApi='';
+         this.service.formData.IdApi=data.Data.UID
+       // this.service.formData.IdApi='';
         this.service.formData.Estatus = 'Activo'
         //
         let datosExtra = this.service.formData.Nombre
         this.ConnectionHubService.generarNotificacion(origenNotificacion[0], datosExtra)
+        
         this.service.addCliente(this.service.formData).subscribe(res => {
 
           this.ConnectionHubService.on(origen[0])
@@ -243,28 +252,34 @@ this.movimiento;
           
         this.movimientos(this.movimiento)
 
-        this.otrocliente()
+        this.otrocliente(form)
           
-      Swal.fire({
+    /*   Swal.fire({
             icon: 'success',
             title: 'Cliente Agregado',
             text: ''+this.service.formData.RazonSocial+'',
             timer: 1500
-          }) 
+          })  */
           
         
         });
 
         
     
-    //   }
-    //   else{
-    //     console.log(data);
+       }
+       else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al Crear Cliente',
+          text: ''+JSON.stringify(data.message)+'',
+          timer: 1500
+        })
+         console.log(data);
         
-    //   }
-      this.resetForm(form);
+      }
+      //this.resetForm(form);
 
-    // })
+    })
 
 
 
@@ -272,8 +287,8 @@ this.movimiento;
     
   }
 
-  otrocliente(){
-    let email;
+  otrocliente(form: NgForm){
+  /*   let email;
     let rfc;
     let razon;
     let codpos;
@@ -288,20 +303,21 @@ this.movimiento;
       "razons" : razon,
       "rfc" : rfc,
       "codpos" : codpos
-    }
+    } */
     
-    datos = JSON.stringify(datos);
+    //this.datos = JSON.stringify(this.datos);
 
-      //this.apicliente.crearCliente2(datos).subscribe(data =>{
+      this.apicliente.crearCliente2(this.datos).subscribe(data =>{
         
-      // if (data.status==='success'){
-        // console.log(data);
+       if (data.status==='success'){
+         console.log(data);
 
-        // this.service.formData.IdApi=data.Data.UID
-        this.service.formData.IdApi='';
-        this.service.formData.Estatus = 'Activo'
+         this.cliente2.IdApi=data.Data.UID
+        //this.service.formData.IdApi='';
+        this.cliente2.Estatus = 'Activo'
         //
-        this.service.addCliente2(this.service.formData).subscribe(res => {
+        console.log(this.cliente2);
+        this.service.addCliente2(this.cliente2).subscribe(res => {
           console.log(res);
           
         this.movimientos(this.movimiento)
@@ -314,20 +330,28 @@ this.movimiento;
             text: ''+this.service.formData.RazonSocial+'',
             timer: 1500
           })
+
+          this.onClose();
           
         }
         );
 
         
     
-      // }
-      // else{
-      //   console.log(data);
+       }
+       else{
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al Crear Cliente',
+          text: ''+JSON.stringify(data.message)+'',
+          timer: 1500
+        })
+         console.log(data);
         
-      // }
-      // this.resetForm(form);
+       }
+       this.resetForm(form);
 
-    // })
+     })
 
   }
 

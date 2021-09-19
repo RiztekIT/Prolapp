@@ -34,6 +34,7 @@ import { InicioComponent } from './components/inicio/inicio.component';
 
 //Modificacion del apartado Clientes/Usuario Login
 import { MatTabsModule, MatIconModule } from '@angular/material';
+/* import { ClienteContactoComponent } from './components/cliente-contacto/cliente-contacto.component'; */
 
 
 
@@ -83,6 +84,8 @@ import { MatTabsModule, MatIconModule } from '@angular/material';
     DocumentosclienteComponent,
     
     InicioComponent,
+    
+    
     
     
     

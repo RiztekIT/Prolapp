@@ -1,0 +1,43 @@
+<div class="d-flex justify-content-between">
+    <h4 style="font-weight: 900;">Direcciones del Cliente:
+        <p style="font-weight: 400; ">{{NombreCliente}} </p>
+    </h4>
+    <h4 style="font-weight: 900;">IdCliente:
+        <p style="font-weight: 400; ">{{IdCliente}} </p>
+    </h4>
+
+    <button mat-button class="btn btn-danger" style="height: 50px;" color="warn" (click)="onClose()">
+        <mat-icon>close</mat-icon>
+    </button>
+
+
+</div>
+
+<div class="form-material">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-8">
+                <label class="input-group-text text-info ">Nombre Contacto</label>
+                <input type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="clienteSVC.contactoCliente.contacto" autocomplete="off">
+            </div>
+            <div class="col-md-4">
+                <label class="input-group-text text-info ">Telefono</label>
+                <input required type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="clienteSVC.contactoCliente.telefono" autocomplete="off">
+            </div>
+
+        </div>
+        <div class="row">
+
+            <div class="col-md-8">
+                <label class="input-group-text text-info ">Correo</label>
+                <input required type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="clienteSVC.contactoCliente.correo" autocomplete="off">
+            </div>
+            <div class="col-md-4">
+                <button (click)="agregarContacto()" class="btn btn-success" mat-raised-button color="success">Aceptar</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
