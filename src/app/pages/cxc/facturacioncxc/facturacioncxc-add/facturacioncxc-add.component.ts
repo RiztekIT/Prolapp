@@ -186,6 +186,7 @@ console.log('this.clienteLogin: ', this.clienteLogin);
 this.TipoRelacion = '';
     // this.idFactura();
     // console.log(this.IdFactura);
+    this.CFDIRelacinadosUUID = []
     this.listaempresas();
     this.resetForm();
     this.setfacturatimbre();
@@ -1302,7 +1303,7 @@ console.log(data);
           }
         }
         cadena = JSON.stringify(this.json1);
-        //this.enviar(cadena);
+        this.enviar(cadena);
         console.log(this.json1)
       })
     });

@@ -10,6 +10,7 @@ import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfact
 import { CurrencyPipe } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UnidadMedidaService } from 'src/app/services/unidadmedida/unidad-medida.service';
+import { TipoCambioService } from 'src/app/services/tipo-cambio.service';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -62,7 +63,7 @@ public listUM: Array<any> = [];
   
 
   constructor(public dialogbox: MatDialogRef<FacturacioncxcEditProductoComponent>,
-    public service: FacturaService, private snackBar: MatSnackBar,public enviarfact: EnviarfacturaService, private currencyPipe: CurrencyPipe, private http : HttpClient,public ServiceUnidad: UnidadMedidaService) { }
+    public service: FacturaService, private snackBar: MatSnackBar,public enviarfact: EnviarfacturaService, private currencyPipe: CurrencyPipe, private http : HttpClient,public ServiceUnidad: UnidadMedidaService, private tipoCambio: TipoCambioService) { }
 
   ngOnInit() {
     this.obtenerProductos();
@@ -202,12 +203,44 @@ public listUM: Array<any> = [];
   }
 
   tipoDeCambio(){
+   // this.Cdolar = this.tipoCambio.TipoCambio;
+   // this.sumar()
+   // this.formato()
+   let hora = new Date().getHours();
+   let fechahoy = new Date();
+   let fechaayer = new Date();
+   
+
+   fechaayer.setDate(fechahoy.getDate() - 1)
+   let diaayer = new Date(fechaayer).getDate();
+   let mesayer = new Date(fechaayer).getMonth();
+   let añoayer = new Date(fechaayer).getFullYear();
+   let diasemana = new Date(fechahoy).getDay();
+
+   let i;
+if (hora>10){
+ i=2;
+}else{
+ i=1;
+}
     this.traerApi().subscribe(data => {
-      this.Cdolar = data.bmx.series[0].datos[0].dato;
+      //this.Cdolar = data.bmx.series[0].datos[0].dato;
+      let l;
+      let json = JSON.parse(data);
+      
+      //l = data.bmx.series[0].datos.length;
+      l = json.bmx.series[0].datos.length;
+      // //console.log(i);
+      // //console.log(l);
+      // //console.log(data.bmx.series[0].datos.length);
+      // //console.log(data.bmx.series[0].datos[l-i].dato);
+      
+      
+      this.Cdolar = json.bmx.series[0].datos[l-i].dato;
       console.log(this.Cdolar);
       this.sumar();
       this.formato();
-      
+     
     })
   }
 
@@ -225,10 +258,7 @@ public listUM: Array<any> = [];
     let diasemana = new Date(fechahoy).getDay();
     
     
-    // console.log(fechaayer.getDay());
-    // console.log(hora);
-    // console.log('dia semana '+ diasemana);
-    //2020-01-03/2020-01-03
+    
 if (diasemana == 6 || diasemana == 0){
   this.rootURL = this.rootURL+'oportuno'
 }else{
@@ -243,21 +273,21 @@ if (diasemana == 6 || diasemana == 0){
     let añoayer = new Date(fechaayer).getFullYear();
     mesayer = mesayer+1;
     let fecha = añoayer+'-'+mesayer+'-'+diaayer;
-    // console.log(fecha);
+    
     this.rootURL = this.rootURL+fecha+'/'+fecha
 
     }else{
     mesayer = mesayer+1;
     let fecha = añoayer+'-'+mesayer+'-'+diaayer;
-    // console.log(fecha);
+    
     this.rootURL = this.rootURL+fecha+'/'+fecha
     }
   }
 }
-    // console.log(this.http.get(this.rootURL, httpOptions));
-    console.log(this.rootURL);
     
-    return this.http.get(this.rootURL, httpOptions)
+    console.log(this.rootURL);
+    return this.http.get("https://riztek.com.mx/php/Prolacto/GET_TipoCambio.php")
+    //return this.http.get(this.rootURL, httpOptions)
 
   }
   

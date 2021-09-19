@@ -762,7 +762,8 @@ console.log('NUEVO CFDIIIIIIIIIII');
     { banco: 'SANTANDER', cuenta:"014150655081955339"},
     { banco: 'BANCOMER', cuenta:"012150001158942041"},
     { banco: 'BANORTE DLLS', cuenta:"072150011196871531"},
-    { banco: 'SANTANDER DLLS', cuenta:"014150825009889589"}
+    { banco: 'SANTANDER DLLS', cuenta:"014150825009889589"},
+    { banco: 'BANCOMER DLLS', cuenta:"012150001159680386"}
     
   ]
 
@@ -808,6 +809,9 @@ console.log('NUEVO CFDIIIIIIIIIII');
     }
     if (event.target.selectedOptions[0].text==='SANTANDER DLLS'){
       this.service.formData.Cuenta = '014150825009889589'
+    }
+    if (event.target.selectedOptions[0].text==='BANCOMER DLLS'){
+      this.service.formData.Cuenta = '012150001159680386'
     }
     
   }

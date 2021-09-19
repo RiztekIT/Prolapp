@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import { CurrencyPipe } from '@angular/common';
 import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfactura.service';
 import { UnidadMedidaService } from 'src/app/services/unidadmedida/unidad-medida.service';
+import { TipoCambioService } from 'src/app/services/tipo-cambio.service';
 
 
 
@@ -61,7 +62,7 @@ export class FacturacioncxcProductoComponent implements OnInit {
   
 
   constructor(public dialogbox: MatDialogRef<FacturacioncxcProductoComponent>,
-    public service: FacturaService, private snackBar: MatSnackBar, public ServiceUnidad: UnidadMedidaService, private http : HttpClient, private currencyPipe: CurrencyPipe, public enviarfact: EnviarfacturaService) { }
+    public service: FacturaService, private snackBar: MatSnackBar, public ServiceUnidad: UnidadMedidaService, private http : HttpClient, private currencyPipe: CurrencyPipe, public enviarfact: EnviarfacturaService, private tipoCambio: TipoCambioService) { }
 
   ngOnInit() {
     this.resetForm();
@@ -407,10 +408,11 @@ public listUM: Array<any> = [];
   }
 
   tipoDeCambio(){
-    this.traerApi().subscribe(data => {
-      this.Cdolar = data.bmx.series[0].datos[0].dato;
+    this.Cdolar = this.tipoCambio.TipoCambio;
+    //this.traerApi().subscribe(data => {
+    //  this.Cdolar = data.bmx.series[0].datos[0].dato;
       
-    })
+   // })
 
   }
 
