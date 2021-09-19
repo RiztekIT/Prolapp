@@ -154,7 +154,7 @@
                                                         <th class="textoBodyAcomodo acomodoForzadoTh3"> {{conceptos.UUID1 }} </th>
                                                     </div>
                                                     <div class="col-2 " style="margin-left: 20px;">
-                                                        <th class="text-left textoBodyAcomodo"> {{this.SaldoAnterior | currency}} </th>
+                                                        <th class="text-left textoBodyAcomodo"> {{(+conceptos.Cantidad + +conceptos.Saldo) | currency}} </th>
                                                     </div>
                                                     <div class="col-2 " style="margin-left: 5px;">
                                                         <th class="text-left textoBodyAcomodo"> {{conceptos.Cantidad | currency}} </th>
