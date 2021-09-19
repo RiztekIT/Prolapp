@@ -175,6 +175,8 @@ export class OrdendescargatarimaComponent implements OnInit {
   PO;
   PODescarga;
   NumeroEntrada;
+
+  PrecioUnitario;
   
 
   // qrTarimaExistente
@@ -658,6 +660,7 @@ export class OrdendescargatarimaComponent implements OnInit {
     this.preOrdenTemporalSacos.TipoCambio = this.TipoCambio;    
     //^ En Pedimento guardaremos Numero Entrada (CBK)
     this.preOrdenTemporalSacos.Pedimento = this.NumeroEntrada;
+    this.preOrdenTemporalSacos.Comentarios = this.PrecioUnitario;
     /* this.preOrdenTemporalSacos.Sacos = this.numerofactura; 
     preOrdenTemporalSacos*/
 
@@ -894,7 +897,7 @@ export class OrdendescargatarimaComponent implements OnInit {
             PesoTotal: this.preOrdenTemporalSacos.KilogramosIngresados,
             FechaCaducidad: this.preOrdenTemporalSacos.FechaCaducidad,
             FechaMFG: this.preOrdenTemporalSacos.FechaMFG,
-            Comentarios: '',
+            Comentarios: this.preOrdenTemporalSacos.Comentarios,
             CampoExtra1: this.PODescarga,
             //^ Aqui Guardaremos el Tipo de Cambio
             CampoExtra2: this.preOrdenTemporalSacos.TipoCambio,
@@ -1798,6 +1801,7 @@ console.log(this.preOrdenTemporalSacos.ClaveProducto);
     this.PO = null;
     this.PODescarga = null;
     this.NumeroEntrada = null;
+    this.PrecioUnitario = null;
     //this.cantidadKilogramos = null;
     //this.lote = null;
     //this.fechaCaducidad = null;

@@ -177,11 +177,15 @@
 
 
 
-                                                <div class="col-md-3 col-12">
+                                                <div class="col-md-2 col-12">
                                                     <label class="input-group-text text-info">Tipo Cambio:</label>
                                                     <input type="text" class="form-control" name="tc" #tc="ngModel" [(ngModel)]="this.TipoCambio">
                                                 </div>
-                                                <div class="col-md-3 col-12" style="align-self: center;">
+                                                <div class="col-md-2 col-12">
+                                                    <label class="input-group-text text-info">Precio Unitario:</label>
+                                                    <input type="text" class="form-control" name="pu" #pu="ngModel" [(ngModel)]="this.PrecioUnitario">
+                                                </div>
+                                                <div class="col-md-2 col-12" style="align-self: center;">
                                                     <button class="btn btncoti btn-lg" mat-raised-button type="button" (click)="limpiarDatos()"><mat-icon>auto_fix_high</mat-icon> Limpiar Datos</button>
                                                 </div>
                                                 <!--     <div class="col-md-6 col-12">

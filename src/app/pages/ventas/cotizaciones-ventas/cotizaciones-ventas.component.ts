@@ -77,6 +77,11 @@ export class CotizacionesVentasComponent implements OnInit {
   fileUrl;
   estatusSelect;
   public loading2 = false;
+  trueimg:Boolean = false;
+loader:Boolean = false;
+myimg:string;
+final:Boolean = true;
+msn:string;
 
   constructor( public router: Router, 
     private dialog: MatDialog, public _MessageService: MessageService, 
@@ -539,6 +544,108 @@ Vigencia: new Date()
 
 ver(){
   console.log(this.CotizacionBlanco);
+}
+
+
+whatsapp(form: any){
+
+
+  Swal.fire({
+    title: 'Telefono Receptor',
+    input: 'text',       
+    inputPlaceholder: '',
+    showCancelButton: true,  
+  }).then(result => {
+    console.log(result);
+
+    console.log(form);
+
+    this.service.formrow = form;
+  
+  const dialogConfig = new MatDialogConfig();
+      // dialogConfig.disableClose = true; 
+      dialogConfig.disableClose = false;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width="0%";
+      dialogConfig.height="0%";
+      dialogConfig.data = {
+        origen: 'whatsapp'
+       
+      }
+      
+    
+      let dialog = this.dialog.open(CotizacionComponent, dialogConfig);
+  
+  
+  
+          dialog.afterClosed().subscribe(res=>{
+            let form = new FormData();
+            let blob = this.b64toBlob(localStorage.getItem('pdfOC'),'application/pdf',1024)          
+            let Archivo: File = new File([blob], 'Archivo.pdf', {
+              type: "application/pdf"
+            })
+       
+  
+            form.append('file', Archivo);
+            this.service.subirImagen(form).subscribe(
+              resp => {
+                console.log(resp);
+                this.loader = false;
+                if(resp.status){
+                  this.trueimg = true;
+                  this.myimg = resp.generatedName;
+                  this.msn = "Gracias por visitar riztek.com.mx"
+                  console.log(this.myimg);
+                  
+                  let url = 'https://api.whatsapp.com/send?phone=+52'+result.value+'&text=Envio%20la%20siguiente%20cotizacion,%20https://riztek.com.mx/php/Prolacto/Docs/'+this.myimg
+            const link = document.createElement('a');
+            link.href = url;
+            link.target = '_blank'    
+            link.click();
+                }
+              },
+              error => {
+                this.loader = false;
+                alert('Imagen supera el tamaño permitido');
+                
+              }
+            );
+          })
+   
+    
+
+  })
+
+
+
+
+
+ 
+       
+
+      
+    
+
+}
+
+b64toBlob(b64Data, contentType, sliceSize) {
+  const byteCharacters = atob(b64Data);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  const blob = new Blob(byteArrays, {type: contentType});
+  return blob;
 }
 
   
