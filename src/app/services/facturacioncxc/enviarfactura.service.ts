@@ -64,6 +64,18 @@ import { pagoTimbre } from 'src/app/Models/ComplementoPago/pagotimbre';
     }),
     responseType: 'text' as 'json'
   }
+  const httpOptions5 = {
+    headers: new HttpHeaders({
+      'F-Api-Key':'JDJ5JDEwJDZqbDNyU2dWOVpiVnlHVmhHeHNpVC4yRkxvUWdMNmp6NGlpWG1LY3IyUjZYa1BtdDA4aGxt',
+    //'F-Api-Key':'JDJ5JDEwJDdRdWdpL05PMW5qb2M0c3BmdXpSZC5SdFVDd0JTT2RCeHguQ2FEdUZud0JNSXFoOC5DR25x', //Pruebas
+      'F-Secret-Key':'JDJ5JDEwJGpRVzVlLnMyMGR5d0h1UWREVkJqMGVYalNmMHk4czZYU3VvRVlYOWN5T3hwd3d6RVBoRFdt',
+      //'F-Secret-Key':'JDJ5JDEwJHJ0ZWRaRVhNU3cwQ1B2VzRZc2ZaRWV5c3ZNTWs3WFhoZThOOFg0YkdmQUZsQWc3UzQxZ25t', //PRuebas
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Access-Control-Allow-Headers': 'F-Secret-Key,Accept, Accept-Encoding, Content-Type',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS'
+    })
+  }
 
     
     
@@ -112,6 +124,8 @@ export class EnviarfacturaService {
     }
     else if (this.empresa.RFC=='AIN140101ME3'){
       return this.http.post(this.rootURL,datos,httpOptions3);  
+    }  else if (this.empresa.RFC=='DTM200220KRA'){
+      return this.http.post(this.rootURL,datos,httpOptions5);  
     }
   }
 
@@ -124,6 +138,9 @@ export class EnviarfacturaService {
     }
     else if (this.empresa.RFC=='AIN140101ME3'){
       return this.http.get(rootURLxml,httpOptions4);
+    }
+    else if (this.empresa.RFC=='DTM200220KRA'){
+      return this.http.get(rootURLxml,httpOptions5);
     }
 
     
@@ -146,6 +163,9 @@ export class EnviarfacturaService {
         }
         else if (this.empresa.RFC=='AIN140101ME3'){
           observer.next(this.http.get(rootURLxml,httpOptions4));
+        }
+        else if (this.empresa.RFC=='DTM200220KRA'){
+          observer.next(this.http.get(rootURLxml,httpOptions5));
         }
         
         // return 
@@ -170,6 +190,9 @@ export class EnviarfacturaService {
     }
     else if (this.empresa.RFC=='AIN140101ME3'){
       return this.http.get(rootURLxml,httpOptions4);
+    }
+    else if (this.empresa.RFC=='DTM200220KRA'){
+      return this.http.get(rootURLxml,httpOptions5);
     }
     
 
@@ -235,6 +258,9 @@ export class EnviarfacturaService {
     else if (this.empresa.RFC=='AIN140101ME3'){
       return this.http.get(rootURLUM,httpOptions4);
     }
+    else if (this.empresa.RFC=='DTM200220KRA'){
+      return this.http.get(rootURLUM,httpOptions5);
+    }
     
     
   }
@@ -248,6 +274,9 @@ export class EnviarfacturaService {
     else if (this.empresa.RFC=='AIN140101ME3'){
       return this.http.post(rootURLUM,pago,httpOptions3);  
     }
+    else if (this.empresa.RFC=='DTM200220KRA'){
+      return this.http.post(rootURLUM,pago,httpOptions5);  
+    }
     
   }
 
@@ -258,6 +287,9 @@ export class EnviarfacturaService {
     }
     else if (this.empresa.RFC=='AIN140101ME3'){
       return this.http.get('/api/v3/cfdi33/'+uuid+'/cancel',httpOptions3)
+    }
+    else if (this.empresa.RFC=='DTM200220KRA'){
+      return this.http.get('/api/v3/cfdi33/'+uuid+'/cancel',httpOptions5)
     }
     
     /* 

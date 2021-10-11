@@ -232,6 +232,7 @@ if (hora>10){
       l = json.bmx.series[0].datos.length;
       // //console.log(i);
       // //console.log(l);
+      
       // //console.log(data.bmx.series[0].datos.length);
       // //console.log(data.bmx.series[0].datos[l-i].dato);
       

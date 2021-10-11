@@ -6,6 +6,7 @@ import { NotaCreditoMaster } from '../../../Models/nota-credito/notaCreditoMaste
 import { DetalleNotaCredito } from '../../../Models/nota-credito/detalleNotaCredito-model';
 import { DetalleFactura } from '../../../Models/facturacioncxc/detalleFactura-model';
 import { environment } from 'src/environments/environment';
+import { EnviarfacturaService } from '../../facturacioncxc/enviarfactura.service';
 
 export const APIUrl = environment.APIUrl;
  
@@ -17,7 +18,7 @@ export const APIUrl = environment.APIUrl;
 
   export class NotaCreditoService {
 
-    constructor(private http:HttpClient) { }
+    constructor(private http:HttpClient, public enviarfact: EnviarfacturaService) { }
 
     idNotaCredito: number;
 
@@ -61,7 +62,14 @@ export const APIUrl = environment.APIUrl;
 
   //GetNotas de credito en base a id Factura
   getNotaCreditoFacturaID(id: number): Observable<any[]>{
-    return this.http.get<[]>(this.APIUrl + '/NotaCredito/NotaCreditoID/'+ id);
+    if (this.enviarfact.empresa.RFC==='PLA11011243A'){
+      return this.http.get<[]>(this.APIUrl + '/NotaCredito/NotaCreditoID2/'+ id);
+    }else  if (this.enviarfact.empresa.RFC==='AIN140101ME3'){
+      return this.http.get<[]>(this.APIUrl + '/NotaCredito/NotaCreditoID/'+ id);
+    }else  if (this.enviarfact.empresa.RFC==='DTM200220KRA'){
+      return this.http.get<[]>(this.APIUrl + '/NotaCredito/NotaCreditoID3/'+ id);
+    }
+   
    }
 
   getNotaCreditoDetalles(id: number): Observable <DetalleNotaCredito[]> {

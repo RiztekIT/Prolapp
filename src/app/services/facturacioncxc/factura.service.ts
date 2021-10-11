@@ -57,6 +57,9 @@ export class FacturaService {
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<Factura[]>(this.APIUrl + '/Factura2');  
     }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<Factura[]>(this.APIUrl + '/Factura3');  
+    }
 
     
   }
@@ -68,6 +71,9 @@ export class FacturaService {
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<[]>(this.APIUrl + '/Factura2/FacturaCliente');
     }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<[]>(this.APIUrl + '/Factura3/FacturaCliente');
+    }
     
   }
   getFacturasListCLienteProd(): Observable <any[]> {
@@ -77,6 +83,9 @@ export class FacturaService {
     }
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<[]>('https://erpprolapp.ddns.net:44361/api' + '/Factura2/FacturaCliente');
+    }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<[]>('https://erpprolapp.ddns.net:44361/api' + '/Factura3/FacturaCliente');
     }
     
   }
@@ -90,6 +99,9 @@ export class FacturaService {
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura2/DetalleFactura/'+ id);
     }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura3/DetalleFactura/'+ id);
+    }
     
   }
   getDetallesFacturaListProd(id: number): Observable <DetalleFactura[]> {
@@ -99,6 +111,9 @@ export class FacturaService {
     }
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<DetalleFactura[]>('https://erpprolapp.ddns.net:44361/api' + '/Factura2/DetalleFactura/'+ id);
+    }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<DetalleFactura[]>('https://erpprolapp.ddns.net:44361/api' + '/Factura3/DetalleFactura/'+ id);
     }
     
   }
@@ -111,6 +126,9 @@ export class FacturaService {
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura2/DetalleFactura/');
     }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura3/DetalleFactura/');
+    }
     
   }
 
@@ -121,6 +139,9 @@ export class FacturaService {
     }
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<any[]>(this.APIUrl + '/Factura2/DetalleFacturaProducto/'+ id);
+    }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<any[]>(this.APIUrl + '/Factura3/DetalleFacturaProducto/'+ id);
     }
     
   }
@@ -133,6 +154,9 @@ export class FacturaService {
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<any[]>(this.APIUrl+ '/Factura2/FacturaCliente/'+id)
      }
+     else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<any[]>(this.APIUrl+ '/Factura3/FacturaCliente/'+id)
+     }
     
   }
   getFacturasClienteFolio(id:string): Observable<any[]>{
@@ -142,6 +166,9 @@ export class FacturaService {
     }
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<any[]>(this.APIUrl+ '/Factura2/FacturaClienteFolio/'+id)
+    }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<any[]>(this.APIUrl+ '/Factura3/FacturaClienteFolio/'+id)
     }
     
   }
@@ -157,6 +184,9 @@ export class FacturaService {
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<any[]>(this.APIUrl+ '/Factura2/FacturaClienteID/'+id)
     }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<any[]>(this.APIUrl+ '/Factura3/FacturaClienteID/'+id)
+    }
     
   }
   getFacturaIDCliente(id:number): Observable<any[]>{
@@ -166,6 +196,9 @@ export class FacturaService {
     }
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<any[]>(this.APIUrl+ '/Factura2/FacturaidCliente/'+id)
+    }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<any[]>(this.APIUrl+ '/Factura3/FacturaidCliente/'+id)
     }
     
   }
@@ -178,6 +211,9 @@ export class FacturaService {
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<Factura[]>(this.APIUrl + '/Factura2/UltimaFactura');
     }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<Factura[]>(this.APIUrl + '/Factura3/UltimaFactura');
+    }
     
   }
   //Obtener Factura por Id
@@ -188,6 +224,9 @@ export class FacturaService {
     }
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<Factura[]>(this.APIUrl + '/Factura2/Id/' + id);
+    }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<Factura[]>(this.APIUrl + '/Factura3/Id/' + id);
     }
       
     
@@ -202,6 +241,9 @@ export class FacturaService {
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<any[]>(this.APIUrl + '/Factura2/FacturaFechas/' + fechaini+ '/' + fechafinal);
     }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<any[]>(this.APIUrl + '/Factura3/FacturaFechas/' + fechaini+ '/' + fechafinal);
+    }
     
   }
   // ^ Obtener factura entre fechas Reporte
@@ -214,6 +256,9 @@ export class FacturaService {
      else if (this.rfcempresa=='AIN140101ME3'){
        return this.http.get<any[]>(this.APIUrl + '/Factura2/FacturaFechasReporte/' + id + '/' +  fechaini+ '/' + fechafinal);
     }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<any[]>(this.APIUrl + '/Factura3/FacturaFechasReporte/' + id + '/' +  fechaini+ '/' + fechafinal);
+   }
     
   }
 
@@ -225,6 +270,9 @@ export class FacturaService {
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<any[]>(this.APIUrl + '/Factura2/FacturaFechas2/' + fechaini+ '/' + fechafinal);
     }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<any[]>(this.APIUrl + '/Factura3/FacturaFechas2/' + fechaini+ '/' + fechafinal);
+    }
     
   }
   //Obtener el ultimo Folio
@@ -235,6 +283,9 @@ export class FacturaService {
     }
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.get<Factura[]>(this.APIUrl+'/Factura2/Folio');
+    }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.get<Factura[]>(this.APIUrl+'/Factura3/Folio');
     }
     
   }
@@ -248,6 +299,9 @@ export class FacturaService {
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.delete(this.APIUrl + '/Factura2/' + id);
     }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.delete(this.APIUrl + '/Factura3/' + id);
+    }
     
   }
   deleteFacturaCreada() {
@@ -257,6 +311,9 @@ export class FacturaService {
     }
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.delete(this.APIUrl + '/Factura2/DeleteFacturaCreada');
+    }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.delete(this.APIUrl + '/Factura3/DeleteFacturaCreada');
     }
     
   }
@@ -268,6 +325,9 @@ export class FacturaService {
     }
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.delete(this.APIUrl + '/Factura2/DeleteDetalleFactura/' + id);
+    }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.delete(this.APIUrl + '/Factura3/DeleteDetalleFactura/' + id);
     }
     
   }
@@ -281,6 +341,10 @@ export class FacturaService {
       return this.http.post(this.APIUrl + '/Factura2', factura);
     }
     
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.post(this.APIUrl + '/Factura3', factura);
+    }
+    
   }
  //Insertar Detalle Factura
  addDetalleFactura(detalleFactura: DetalleFactura) {
@@ -290,6 +354,9 @@ export class FacturaService {
   }
   else if (this.rfcempresa=='AIN140101ME3'){
     return this.http.post(this.APIUrl + '/Factura2/InsertDetalleFactura', detalleFactura);
+  }
+  else if (this.rfcempresa=='DTM200220KRA'){
+    return this.http.post(this.APIUrl + '/Factura3/InsertDetalleFactura', detalleFactura);
   }
    
   }
@@ -302,6 +369,9 @@ export class FacturaService {
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.put(this.APIUrl+ '/Factura2', factura);
     }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.put(this.APIUrl+ '/Factura3', factura);
+    }
   
 }
 updateCancelarFactura(id: number) {
@@ -311,6 +381,9 @@ updateCancelarFactura(id: number) {
   }
   else if (this.rfcempresa=='AIN140101ME3'){
     return this.http.put(this.APIUrl+ '/Factura2/Cancelar/' + id, null);
+  }
+  else if (this.rfcempresa=='DTM200220KRA'){
+    return this.http.put(this.APIUrl+ '/Factura3/Cancelar/' + id, null);
   }
 
 }
@@ -323,6 +396,9 @@ updatePagadaFactura(id: String) {
   else if (this.rfcempresa=='AIN140101ME3'){
     return this.http.put(this.APIUrl+ '/Factura2/Pagada/' + id, null);
   }
+  else if (this.rfcempresa=='DTM200220KRA'){
+    return this.http.put(this.APIUrl+ '/Factura3/Pagada/' + id, null);
+  }
   
 }
   //Editar Detalle Factura
@@ -333,6 +409,9 @@ updatePagadaFactura(id: String) {
     }
     else if (this.rfcempresa=='AIN140101ME3'){
       return this.http.put(this.APIUrl+ '/Factura2/UpdateDetalleFactura', detalleFactura);
+    }
+    else if (this.rfcempresa=='DTM200220KRA'){
+      return this.http.put(this.APIUrl+ '/Factura3/UpdateDetalleFactura', detalleFactura);
     }
   
 }
@@ -345,6 +424,9 @@ getProductos(): Observable<any>{
   else if (this.rfcempresa=='AIN140101ME3'){
     return this.http.get<Producto[]>(this.APIUrl + '/Factura2/getProductos');
   }
+  else if (this.rfcempresa=='DTM200220KRA'){
+    return this.http.get<Producto[]>(this.APIUrl + '/Factura3/getProductos');
+  }
   
 }
 //Obtener Clientes de la Base de Datos
@@ -355,6 +437,9 @@ getDepDropDownValues(): Observable<any>{
   }
   else if (this.rfcempresa=='AIN140101ME3'){
     return this.http.get<Cliente[]>(this.APIUrl+'/cliente/Facturar2');
+  }
+  else if (this.rfcempresa=='DTM200220KRA'){
+    return this.http.get<Cliente[]>(this.APIUrl+'/cliente/Facturar3');
   }
   
 }
@@ -371,6 +456,9 @@ getReportes(id: number): Observable<any>{
   else if (this.rfcempresa=='AIN140101ME3'){
     return this.http.get<any[]>(this.APIUrl + '/Factura2/Reporte/' + id)
   }
+  else if (this.rfcempresa=='DTM200220KRA'){
+    return this.http.get<any[]>(this.APIUrl + '/Factura3/Reporte/' + id)
+  }
   
 }
 getReportesU(id: number): Observable<any>{
@@ -381,6 +469,9 @@ getReportesU(id: number): Observable<any>{
   else if (this.rfcempresa=='AIN140101ME3'){
     return this.http.get<any[]>(this.APIUrl + '/Factura2/ReporteU/' + id)
   }
+  else if (this.rfcempresa=='DTM200220KRA'){
+    return this.http.get<any[]>(this.APIUrl + '/Factura3/ReporteU/' + id)
+  }
   
 }
 getReportesM(id: number): Observable<any>{
@@ -390,6 +481,9 @@ getReportesM(id: number): Observable<any>{
   }
   else if (this.rfcempresa=='AIN140101ME3'){
     return this.http.get<any[]>(this.APIUrl + '/Factura2/ReporteM/' + id)
+  }
+  else if (this.rfcempresa=='DTM200220KRA'){
+    return this.http.get<any[]>(this.APIUrl + '/Factura3/ReporteM/' + id)
   }
   
 }
@@ -403,6 +497,9 @@ getPagosCFDI(id: number): Observable<any>{
   else if (this.rfcempresa=='AIN140101ME3'){
     return this.http.get<any[]>(this.APIUrl + '/Factura2/PagoCFDI/' + id)
   }
+  else if (this.rfcempresa=='DTM200220KRA'){
+    return this.http.get<any[]>(this.APIUrl + '/Factura3/PagoCFDI/' + id)
+  }
   
 }
 
@@ -413,6 +510,9 @@ addSaldos(saldo: Saldos){
   }
   else if (this.rfcempresa=='AIN140101ME3'){
     return this.http.post(this.APIUrl + '/Saldos', saldo)
+  }
+  else if (this.rfcempresa=='DTM200220KRA'){
+    return this.http.post(this.APIUrl + '/Saldos3', saldo)
   }
   
 }
@@ -465,6 +565,9 @@ getFacturasFechasVentas(fechaini,fechafinal){
   else if (this.rfcempresa=='AIN140101ME3'){
     return this.http.get<any[]>(this.APIUrl + '/ReporteVentas/Fechas/' + fechaini+ '/' + fechafinal);
   }
+  else if (this.rfcempresa=='DTM200220KRA'){
+    return this.http.get<any[]>(this.APIUrl + '/ReporteVentas/Fechas/' + fechaini+ '/' + fechafinal);
+  }
   
 }
 
@@ -474,6 +577,9 @@ getDetallesFacturaListVentas(id: number): Observable <DetalleFactura[]> {
     return this.http.get<DetalleFactura[]>(this.APIUrl + '/ReporteVentas/DetalleFactura/'+ id);
   }
   else if (this.rfcempresa=='AIN140101ME3'){
+    return this.http.get<DetalleFactura[]>(this.APIUrl + '/ReporteVentas/DetalleFactura/'+ id);
+  }
+  else if (this.rfcempresa=='DTM200220KRA'){
     return this.http.get<DetalleFactura[]>(this.APIUrl + '/ReporteVentas/DetalleFactura/'+ id);
   }
   

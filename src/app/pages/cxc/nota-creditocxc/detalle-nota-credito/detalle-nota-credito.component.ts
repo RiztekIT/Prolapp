@@ -435,6 +435,9 @@ this.refreshTablaDetalles();
     else if (this.enviarfact.empresa.RFC==='AIN140101ME3'){
       
       this.service.formData.Serie = '407292';
+    } else if (this.enviarfact.empresa.RFC==='DTM200220KRA'){
+      
+      this.service.formData.Serie = '558311';
     }
     //this.service.formData.Serie = '5631';
     this.crearJson();

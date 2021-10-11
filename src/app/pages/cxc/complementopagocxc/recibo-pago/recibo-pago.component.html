@@ -147,6 +147,14 @@
                                                 <option *ngFor="let banco of listbancos2" [ngValue]="banco.banco"> {{banco.banco}} </option>
                                             </select>
                                         </div>
+                                        <div *ngIf="servicetimbrado.empresa.RFC=='DTM200220KRA'" class="col-12">
+                                            <label class="input-group-text text-info">Banco</label>
+
+                                            <select class="form-control" name="Banco3" #Banco2="ngModel" (change)="BancoSelected3($event)" [(ngModel)]="banco3" required>
+                                                <option [ngValue]="null" selected disabled>Seleccionar Banco</option>
+                                                <option *ngFor="let banco of listbancos3" [ngValue]="banco.banco"> {{banco.banco}} </option>
+                                            </select>
+                                        </div>
                                     </div>
 
 

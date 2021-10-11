@@ -363,6 +363,14 @@ export class ShowreporteComprasComponent implements OnInit {
       array[2] = 15  
       array[3] = 2.2 
     }
+    else if(this.EnviarfacturaService.empresa.RFC=='DTM200220KRA'){
+      header = variableFormato.headerAbarrotodo;
+      nombre = this.EnviarfacturaService.empresa.RazonSocial;
+      array[0] = -2
+      array[1] = .5
+      array[2] = 15  
+      array[3] = 2.2 
+    }
     setTimeout(() => {
       // setTimeout(this.onExportClick,5)
       const content: Element = document.getElementById('pdfreporte');
@@ -490,6 +498,13 @@ export class ShowreporteComprasComponent implements OnInit {
       array[2] = 25  
       array[3] = 3  
     }else if(this.EnviarfacturaService.empresa.RFC=='AIN140101ME3'){
+      header = variableFormato.headerAbarrotodo;
+      nombre = this.EnviarfacturaService.empresa.RazonSocial;
+      array[0] = -2
+      array[1] = .5
+      array[2] = 15  
+      array[3] = 2.2 
+    }else if(this.EnviarfacturaService.empresa.RFC=='DTM200220KRA'){
       header = variableFormato.headerAbarrotodo;
       nombre = this.EnviarfacturaService.empresa.RazonSocial;
       array[0] = -2

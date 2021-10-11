@@ -83,7 +83,9 @@ UUIDRelacionados: any[]
  consulta = "select Factura2.*, Cliente2.*, (select Top 1 case IdRelacion when NULL then 'False' else 'True' end from Relacion where IdFactura = Factura.Id and UUID=Factura.UUID) as checked from Factura Left join Cliente2 on Factura.IdCliente = Cliente2.IdClientes where IdCliente="+this.data.factura.IdCliente+" order by FechaDeExpedicion desc;"
     }else if(this.facturaSVC.rfcempresa=='AIN140101ME3'){
 consulta = "select Factura2.*, Cliente.*, (select Top 1 case IdRelacion when NULL then 'False' else 'True' end from Relacion where IdFactura = Factura2.Id and UUID=Factura2.UUID) as checked from Factura2 Left join Cliente on Factura2.IdCliente = Cliente.IdClientes where IdCliente="+this.data.factura.IdCliente+" order by FechaDeExpedicion desc;"
-    }
+    }else if(this.facturaSVC.rfcempresa=='DTM200220KRA'){
+      consulta = "select Factura3.*, Cliente3.*, (select Top 1 case IdRelacion when NULL then 'False' else 'True' end from Relacion3 where IdFactura = Factura3.Id and UUID=Factura3.UUID) as checked from Factura3 Left join Cliente3 on Factura3.IdCliente = Cliente3.IdClientes where IdCliente="+this.data.factura.IdCliente+" order by FechaDeExpedicion desc;"
+          }
 
 
     console.log(consulta);

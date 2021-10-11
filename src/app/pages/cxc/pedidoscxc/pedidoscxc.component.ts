@@ -523,6 +523,8 @@ email(id?: string, folio?:string){
         }
         else if (this.facturaSVC.rfcempresa=='AIN140101ME3'){
           query = "select top 1 factura2.*, DetalleFactura2.* from factura2 left join ovfactura on factura2.Id=ovfactura.idFactura left join DetalleFactura2 on Factura2.Id=DetalleFactura2.IdFactura where ovfactura.FolioPedido='"+row.Folio+"' and DetalleFactura2.ClaveProducto='"+clave+"' order by Factura2.Id desc"
+        } else if (this.facturaSVC.rfcempresa=='DTM200220KRA'){
+          query = "select top 1 factura3.*, DetalleFactura3.* from factura3 left join ovfactura3 on factura3.Id=ovfactura3.idFactura left join DetalleFactura3 on Factura3.Id=DetalleFactura3.IdFactura where ovfactura3.FolioPedido='"+row.Folio+"' and DetalleFactura3.ClaveProducto='"+clave+"' order by Factura3.Id desc"
         }
   
         let consulta = {

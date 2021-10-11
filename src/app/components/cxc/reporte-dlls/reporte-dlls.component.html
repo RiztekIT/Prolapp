@@ -56,6 +56,7 @@
             <button (click)="exportarXLS()" class="btn btn-success"> <i class="mdi mdi-file-excel-box" ></i> Excel </button>
             <button *ngIf="this.enviarfact.empresa.RFC=='PLA11011243A'" (click)="exportarPDF()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
             <button *ngIf="this.enviarfact.empresa.RFC=='AIN140101ME3'" (click)="exportarPDFAbarrotodo()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
+            <button *ngIf="this.enviarfact.empresa.RFC=='DTM200220KRA'" (click)="exportarPDFAbarrotodo()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
         </div>
     </div>
 </div>
@@ -82,7 +83,7 @@
                     <tr>
                         <th class="blacktxt bolder ">Folio</th>
                         <!-- <th class="blacktxt bolder ">Tipo</th> -->
-                        <th class="blacktxt bolder nowrap" style="width: ">Fecha Exp </th>
+                        <th class="blacktxt bolder nowrap">Fecha Exp </th>
                         <th class="blacktxt bolder nowrap">Fecha Ven </th>
                         <th class="blacktxt bolder ">Total MXN</th>
                         <th class="blacktxt bolder ">Total DLLS</th>

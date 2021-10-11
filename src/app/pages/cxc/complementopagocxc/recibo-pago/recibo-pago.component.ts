@@ -145,6 +145,7 @@ export const APP_DATE_FORMATS =
 export class ReciboPagoComponent implements OnInit {
   banco;
   banco2;
+  banco3;
   folioparam;
   xmlparam;
   idparam;
@@ -766,6 +767,11 @@ console.log('NUEVO CFDIIIIIIIIIII');
     { banco: 'BANCOMER DLLS', cuenta:"012150001159680386"}
     
   ]
+  public listbancos3: Array<Object> = [
+    { banco: '', cuenta:""},
+  
+    
+  ]
 
   MonedaSelected(event: any) {
     this.Moneda = event.target.selectedOptions[0].text;
@@ -813,6 +819,28 @@ console.log('NUEVO CFDIIIIIIIIIII');
     if (event.target.selectedOptions[0].text==='BANCOMER DLLS'){
       this.service.formData.Cuenta = '012150001159680386'
     }
+    
+  }
+
+  BancoSelected3(event:any){
+   /* if (event.target.selectedOptions[0].text==='BANORTE'){
+      this.service.formData.Cuenta = '072150004619216703'
+    }
+    if (event.target.selectedOptions[0].text==='SANTANDER'){
+      this.service.formData.Cuenta = '014150655081955339'
+    }
+    if (event.target.selectedOptions[0].text==='BANCOMER'){
+      this.service.formData.Cuenta = '012150001158942041'
+    }
+    if (event.target.selectedOptions[0].text==='BANORTE DLLS'){
+      this.service.formData.Cuenta = '072150011196871531'
+    }
+    if (event.target.selectedOptions[0].text==='SANTANDER DLLS'){
+      this.service.formData.Cuenta = '014150825009889589'
+    }
+    if (event.target.selectedOptions[0].text==='BANCOMER DLLS'){
+      this.service.formData.Cuenta = '012150001159680386'
+    }*/
     
   }
 
@@ -1057,6 +1085,10 @@ console.log('NUEVO CFDIIIIIIIIIII');
     else if (this.servicetimbrado.empresa.RFC==='AIN140101ME3'){
       
       this.json1.Serie = "421147";
+    }
+    else if (this.servicetimbrado.empresa.RFC==='DTM200220KRA'){
+      
+      this.json1.Serie = "558457";
     }
     this.json1.Moneda = 'XXX';
     console.log(this.json1.Receptor.UID);

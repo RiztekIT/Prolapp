@@ -213,6 +213,8 @@ this.TipoRelacion = '';
       }
       else if (this.service.rfcempresa=='AIN140101ME3'){
         query = 'select * from cliente where IdClientes='+this.service.formData.IdCliente
+      } else if (this.service.rfcempresa=='DTM200220KRA'){
+        query = 'select * from cliente3 where IdClientes='+this.service.formData.IdCliente
       }
 
       let consulta = {
@@ -1360,6 +1362,9 @@ console.log(data);
     else if (this.enviarfact.empresa.RFC==='AIN140101ME3'){
       
       this.service.formData.Serie = '420126';
+    } else if (this.enviarfact.empresa.RFC==='DTM200220KRA'){
+      
+      this.service.formData.Serie = '558456';
     }
     
     if (this.service.formData.Moneda == 'USD') {

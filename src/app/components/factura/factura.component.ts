@@ -217,7 +217,10 @@ if (this.rfcE==='PLA11011243A'){
 this.seriefactura = 'B'
 }else if(this.rfcE==='AIN140101ME3') {
   this.seriefactura = 'W'
+}else if(this.rfcE==='DTM200220KRA') {
+  this.seriefactura = 'D'
 }
+
 
 
 this.objconc = row.detalle;
