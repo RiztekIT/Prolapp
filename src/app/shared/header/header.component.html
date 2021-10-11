@@ -77,9 +77,9 @@
                                 </div>
                             </li>
                             <li>
-                                <div *ngIf="this.notificaciones" class="message-center">
+                                <div *ngIf="this.notificaciones.length>0" class="message-center">
                                     <!-- Message -->
-                                    <a *ngFor="let noti of notificaciones" style="cursor: pointer;" [ngStyle]="{'background-color' : noti.color}">
+                                    <a *ngFor="let noti of notificaciones" style="cursor: pointer;">
 
                                         <div class="user-img"> <img src="assets/images/users/10.jpg" alt="user" class="img-circle"> <span class="profile-status online pull-right"></span> </div>
                                         <div class="mail-contnet" (click)="mensajeLeido('uno', noti)">

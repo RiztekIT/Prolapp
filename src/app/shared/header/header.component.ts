@@ -81,6 +81,7 @@ this.NotificacionesActivas = false;
     this.tipoDeCambio();
     this.usuario = this.storageService.getCurrentUser();
     this.getUsuario();
+    this.obtenerNotificaciones();
    
   }
 
