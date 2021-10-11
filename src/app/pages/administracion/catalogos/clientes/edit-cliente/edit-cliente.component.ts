@@ -174,14 +174,16 @@ export class EditClienteComponent implements OnInit {
         //   duration: 5000,
         //   verticalPosition: 'top'
         // });
-        
-        this.movimientos(this.movimiento)
-        Swal.fire({
-          icon: 'success',
-          title: 'Cliente Actualizado',
-          text: ''+this.service.formData.RazonSocial+'',
-          timer: 1500
+        this.service.updateCliente3(this.service.formData).subscribe(res => {
+          this.movimientos(this.movimiento)
+          Swal.fire({
+            icon: 'success',
+            title: 'Cliente Actualizado',
+            text: ''+this.service.formData.RazonSocial+'',
+            timer: 1500
+          })
         })
+      
         
       });
    

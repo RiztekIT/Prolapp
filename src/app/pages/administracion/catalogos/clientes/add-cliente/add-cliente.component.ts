@@ -322,16 +322,16 @@ this.movimiento;
           
         this.movimientos(this.movimiento)
 
-        /* this.otrocliente() */
+         this.otrocliente2(form) 
           
-          Swal.fire({
+       /*   Swal.fire({
             icon: 'success',
             title: 'Cliente Agregado',
             text: ''+this.service.formData.RazonSocial+'',
             timer: 1500
           })
 
-          this.onClose();
+          this.onClose();*/
           
         }
         );
@@ -354,6 +354,74 @@ this.movimiento;
      })
 
   }
+
+  otrocliente2(form: NgForm){
+    /*   let email;
+      let rfc;
+      let razon;
+      let codpos;
+      let datos;
+     
+      email = 'riztekti@gmail.com';
+      rfc = this.service.formData.RFC;
+      razon = this.service.formData.RazonSocial;
+      codpos = this.service.formData.CP;
+      datos = {
+        "email" : email,
+        "razons" : razon,
+        "rfc" : rfc,
+        "codpos" : codpos
+      } */
+      
+      //this.datos = JSON.stringify(this.datos);
+  
+        this.apicliente.crearCliente3(this.datos).subscribe(data =>{
+          
+         if (data.status==='success'){
+           console.log(data);
+  
+           this.cliente2.IdApi=data.Data.UID
+          //this.service.formData.IdApi='';
+          this.cliente2.Estatus = 'Activo'
+          //
+          console.log(this.cliente2);
+          this.service.addCliente3(this.cliente2).subscribe(res => {
+            console.log(res);
+            
+          this.movimientos(this.movimiento)
+  
+          /* this.otrocliente() */
+            
+            Swal.fire({
+              icon: 'success',
+              title: 'Cliente Agregado',
+              text: ''+this.service.formData.RazonSocial+'',
+              timer: 1500
+            })
+  
+            this.onClose();
+            
+          }
+          );
+  
+          
+      
+         }
+         else{
+          Swal.fire({
+            icon: 'error',
+            title: 'Error al Crear Cliente',
+            text: ''+JSON.stringify(data.message)+'',
+            timer: 1500
+          })
+           console.log(data);
+          
+         }
+         this.resetForm(form);
+  
+       })
+  
+    }
 
   	
   movimientos(movimiento){

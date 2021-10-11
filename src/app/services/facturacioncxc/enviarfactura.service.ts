@@ -230,6 +230,19 @@ export class EnviarfacturaService {
   
     
   }
+  crearCliente3(datos:string): Observable<any>{
+    //CLIENTE PROLACTO
+    console.log(datos);
+    console.log(httpOptions)
+    
+    let rootURLcliente = this.URLphp + "POST_Cliente3.php";
+      
+  
+    
+    return this.http.post(rootURLcliente,datos) 
+  
+    
+  }
   actualizarCliente(datos:string,id: string): Observable<any>{
     //ABARROTODO
     let rootURLcliente = "/api/v1/clients/"+id+"/update";
