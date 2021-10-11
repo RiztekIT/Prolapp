@@ -345,7 +345,7 @@ this.service.master = []
     let hora = new Date().getHours();
     let fechahoy = new Date();
     let fechaayer = new Date();
-
+    
 
     fechaayer.setDate(fechahoy.getDate() - 1)
     let diaayer = new Date(fechaayer).getDate();
@@ -354,22 +354,21 @@ this.service.master = []
     let diasemana = new Date(fechahoy).getDay();
 
     let i;
-    if (hora > 11) {
-      i = 2;
-    } else {
-      i = 1;
-    }
+if (hora>10){
+  i=2;
+}else{
+  i=1;
+}
     this.traerApi().subscribe(data => {
+
       let l;
-
-      l = data.bmx.series[0].datos.length;
-      // console.log(i);
-      // console.log(l);
-      // console.log(data.bmx.series[0].datos.length);
-      // console.log(data.bmx.series[0].datos[l-i].dato);
+      let json = JSON.parse(data);
 
 
-      this.TipoCambio = data.bmx.series[0].datos[l - i].dato;
+      l = json.bmx.series[0].datos.length;
+
+      this.TipoCambio = json.bmx.series[0].datos[l-i].dato;
+    
       console.log('------CAMBIO------');
       console.log(this.TipoCambio);
       console.log('------CAMBIO------');
@@ -379,7 +378,9 @@ this.service.master = []
 
   traerApi(): Observable<any> {
 
-    return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
+   // return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
+    return this.http.get("https://riztek.com.mx/php/Prolacto/GET_TipoCambio.php")
+    
 
   }
 
