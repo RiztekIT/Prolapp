@@ -768,7 +768,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
     
   ]
   public listbancos3: Array<Object> = [
-    { banco: '', cuenta:""},
+    { banco: 'SANTANDER', cuenta:"014150655087979539"},
   
     
   ]
@@ -823,13 +823,13 @@ console.log('NUEVO CFDIIIIIIIIIII');
   }
 
   BancoSelected3(event:any){
-   /* if (event.target.selectedOptions[0].text==='BANORTE'){
+  /*   if (event.target.selectedOptions[0].text==='BANORTE'){
       this.service.formData.Cuenta = '072150004619216703'
-    }
+    } */
     if (event.target.selectedOptions[0].text==='SANTANDER'){
-      this.service.formData.Cuenta = '014150655081955339'
+      this.service.formData.Cuenta = '014150655087979539'
     }
-    if (event.target.selectedOptions[0].text==='BANCOMER'){
+  /*   if (event.target.selectedOptions[0].text==='BANCOMER'){
       this.service.formData.Cuenta = '012150001158942041'
     }
     if (event.target.selectedOptions[0].text==='BANORTE DLLS'){
@@ -840,7 +840,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
     }
     if (event.target.selectedOptions[0].text==='BANCOMER DLLS'){
       this.service.formData.Cuenta = '012150001159680386'
-    }*/
+    } */
     
   }
 
