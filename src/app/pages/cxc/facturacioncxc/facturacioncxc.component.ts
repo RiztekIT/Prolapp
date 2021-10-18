@@ -131,6 +131,7 @@ export class FacturacioncxcComponent implements OnInit {
         this.refreshFacturaList();
         }); */
    }
+   logo;
 
   ngOnInit() {
     /* this.service.rfcempresa = 'PLA11011243A'*/
@@ -138,6 +139,7 @@ export class FacturacioncxcComponent implements OnInit {
     /* this.ConnectionHubService.ConnectionHub(origen[0]); */
     this.listaempresas()
     console.log(this.enviarfact.empresa);
+    this.logo = '../../../assets/images/' + this.enviarfact.empresa.RFC + '.png'
     this.refreshFacturaList();
     // this.detallesFactura();
     this.Folio();
