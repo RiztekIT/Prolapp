@@ -168,7 +168,7 @@ export class ComplementopagocxcComponent implements OnInit {
     this.loadtable = true;
     this.listData = new MatTableDataSource();
     this.service.master = []
-    this.service.deleteReciboCreado().subscribe(data=>{
+    //this.service.deleteReciboCreado().subscribe(data=>{
 
     this.service.getReciboPagoClienteList().subscribe(data => {
       console.log(data);
@@ -189,7 +189,7 @@ export class ComplementopagocxcComponent implements OnInit {
       this.loadtable = false;
       // console.log(this.service.master);
     });
-  })
+  //})
 
 
   }

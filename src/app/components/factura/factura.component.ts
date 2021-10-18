@@ -292,7 +292,8 @@ this.service.getFacturasClienteFolio(this.folio).subscribe(data=>{
    this.condicionesPago = data[0].CondicionesDePago
    this.direccionCalle = data[0].Calle + ' , ' + data[0].NumeroExterior + ' , ' + data[0].NumeroInterior + ' , ' + data[0].Colonia + ' , ' +  data[0].CP + ' , ' + data[0].Ciudad + ' , ' + data[0].Estado;
    this.observaciones = data[0].Observaciones;
-   this.claveCliente = data[0].IdCliente;
+   this.claveCliente = data[0].ClaveCliente;
+   //this.claveCliente = data[0].IdCliente;
    
  })
  
