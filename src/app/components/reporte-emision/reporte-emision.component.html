@@ -118,12 +118,12 @@
 
                     <table style="width: 100%; background: none">
                         <thead>
-                            <tr>                            
+                            <tr>
                                 <th class="blacktxt bolder whitecolor text-center">Cantidad</th>
                                 <th class="blacktxt bolder whitecolor text-center">Clave</th>
                                 <th class="blacktxt bolder whitecolor text-center">Descripción</th>
                                 <th *ngIf="mostrarPrecios == true" class="blacktxt bolder whitecolor text-center">P/U</th>
-                                <th *ngIf="mostrarPrecios == true" class="blacktxt bolder whitecolor text-center">Importe</th>   
+                                <th *ngIf="mostrarPrecios == true" class="blacktxt bolder whitecolor text-center">Importe</th>
                             </tr>
                         </thead>
                         <tbody *ngFor="let conceptos of arrcon;  let i = index">
@@ -131,12 +131,12 @@
                                 <td class="textdt pgbreak text-center">{{conceptos.Cantidad | number: '1.4-4'}} </td>
                                 <td class="textdt text-center">{{conceptos.ClaveProducto}} </td>
                                 <td class=" textdt pgbreak text-center"> {{conceptos.Producto}} </td>
-                                <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitario | currency : 'MXN' : 'symbol'  : '1.4-4'}} </td>
-                                <td *ngIf="mostrarPrecios == true && this.moneda == 'USD'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitarioDlls | currency : 'USD' : 'symbol'  : '1.4-4'}}</td>
-                                <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.Importe | currency : 'MXN' : 'symbol'  : '1.4-4'}}</td>
-                                <td *ngIf="mostrarPrecios == true && this.moneda == 'USD'" class="textdt pgbreak text-center">{{conceptos.ImporteDlls | currency : 'USD' : 'symbol'  : '1.4-4'}}</td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitario | currency : 'MXN' : 'symbol' : '1.4-4'}} </td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'USD'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitarioDlls | currency : 'USD' : 'symbol' : '1.4-4'}}</td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.Importe | currency : 'MXN' : 'symbol' : '1.4-4'}}</td>
+                                <td *ngIf="mostrarPrecios == true && this.moneda == 'USD'" class="textdt pgbreak text-center">{{conceptos.ImporteDlls | currency : 'USD' : 'symbol' : '1.4-4'}}</td>
                         </tbody>
-    
+
                     </table>
 
 
@@ -277,7 +277,7 @@
                         </div>
                     </div>
                 </div> -->
-                <div  *ngIf="mostrarPrecios == true" class="container row">
+                <div *ngIf="mostrarPrecios == true" class="container row">
                     <div class="col-6">
 
                     </div>
@@ -326,9 +326,9 @@
                                     <div class="row">
 
                                         <div class="col-lg-12 col-md-10 col-10">
-                                            <p   class="nomarginbottomP text-left bolder textoBodyAcomodo">{{textnum | uppercase}} {{this.objconc.Moneda}}</p>
+                                            <p class="nomarginbottomP text-left bolder textoBodyAcomodo">{{textnum | uppercase}} {{this.objconc.Moneda}}</p>
                                             <!-- <p *ngIf="this.moneda == 'USD'" class="nomarginbottomP text-left bolder textoBodyAcomodo">{{textnumDlls | uppercase}} {{this.objconc.Moneda}}</p> -->
-                               
+
                                         </div>
                                     </div>
 
@@ -339,9 +339,9 @@
                     </div>
                 </div>
 
-<br>
-<br>
-<br>
+                <br>
+                <br>
+                <br>
                 <!-- firma recibido -->
                 <div class="pgbreak">
                     <div class="row">

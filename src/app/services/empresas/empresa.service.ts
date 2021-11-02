@@ -7,7 +7,8 @@ import {Subject} from 'rxjs';
 import { Empresa } from '../../Models/Empresas/empresa-model';
 import { environment } from 'src/environments/environment';
 
-export const APIUrl = environment.APIUrl;
+
+
 
 
 
@@ -15,6 +16,8 @@ export const APIUrl = environment.APIUrl;
   providedIn: 'root'
 })
 export class EmpresaService {
+
+  
   
 
   constructor(private http:HttpClient) { }
@@ -25,33 +28,35 @@ export class EmpresaService {
 
   EmpresaFoto: Empresa;
 
+  APIUrl = environment.APIUrl;
+
   getEmpresaList(): Observable <Empresa[]> {
-    return this.http.get<Empresa[]>(APIUrl + '/empresa');
+    return this.http.get<Empresa[]>(this.APIUrl + '/empresa');
   }
 
   getEmpresaFoto():Observable <any[]>{
-    return this.http.get<any[]>(APIUrl + '/empresa/EmpresaFoto');
+    return this.http.get<any[]>(this.APIUrl + '/empresa/EmpresaFoto');
   }
 
   getLastEmpresa(): Observable <any> {
-    return this.http.get<any>(APIUrl + '/empresa/LastEmpresa');
+    return this.http.get<any>(this.APIUrl + '/empresa/LastEmpresa');
   }
 
   updateEmpresa(empresa: Empresa) {
-    return this.http.put(APIUrl+ '/empresa', empresa);
+    return this.http.put(this.APIUrl+ '/empresa', empresa);
     }    
   
   updateEmpresaFoto(fotofinal) {
    
-   return this.http.put( APIUrl + '/Empresa/EditarEmpresaFoto/', fotofinal)
+   return this.http.put( this.APIUrl + '/Empresa/EditarEmpresaFoto/', fotofinal)
   }
   
   addEmpresa(empresa: Empresa){
-    return this.http.post(APIUrl + '/empresa', empresa )
+    return this.http.post(this.APIUrl + '/empresa', empresa )
   }
 
   deleteEmpresa(id: number){
-    return this.http.delete(APIUrl +'/empresa/BorrarEmpresa/'+ id)
+    return this.http.delete(this.APIUrl +'/empresa/BorrarEmpresa/'+ id)
   }
 
 

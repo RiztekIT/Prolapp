@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { Folio } from 'src/app/Models/direccion/folio-model';
 import { environment } from 'src/environments/environment';
 
-export const APIUrl = environment.APIUrl;
+
  
 
 
@@ -18,11 +18,13 @@ export class FoliosService {
 
   formData: Folio;
 
+  APIUrl = environment.APIUrl;
+
   getFolios(): Observable<Folio[]> {
-    return this.http.get<Folio[]>(APIUrl + '/folio');
+    return this.http.get<Folio[]>(this.APIUrl + '/folio');
   }
   updateFolios(){
-    return this.http.post(APIUrl + '/folio', null);
+    return this.http.post(this.APIUrl + '/folio', null);
   }
 
   private _listeners = new Subject<any>(); 

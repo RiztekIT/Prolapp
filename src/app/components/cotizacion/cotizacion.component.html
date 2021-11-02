@@ -19,11 +19,12 @@
 
                 <div class="row">
                     <!-- logo -->
-                    <div class="col-2 pl-0 pb-0 pt-0" style="padding-left: 0;">
+                    <div class="col-5 pl-0 pb-0 pt-0" style="padding-left: 0; text-align: center;">
                         <!-- <img [src]="'assets/images/logoCotizacion.jpg'" style="height: 150px; width: 250px;"> -->
-                        <img [src]=logo style="height: 100px; width: 250px; margin-top: -10px;">
+                        <img *ngIf="this.empresaSVC.empresaActual.RFC=='DTM200220KRA'" [src]=logo style="height: 100px; width: 200px;">
+                        <img *ngIf="this.empresaSVC.empresaActual.RFC!='DTM200220KRA'" [src]=logo style="height: 100px; width: 200px; margin-top: -10px;">
                     </div>
-                    <div class="col-5"></div>
+                    <div class="col-2"></div>
                     <div class="col-5">
 
 
@@ -46,7 +47,8 @@
             <!-- End TOP -->
             <!-- ../../../assets/images/sacos/3.DARIGOLDmilk.png -->
             <!-- contenido -->
-            <div style="background-image: url('/assets/images/prolactopngopacidad2.png'); min-height: 550px; background-size: cover">
+            <div [ngStyle]="{'background-image': this.imagenfondo }" style="min-height: 550px; background-size: cover">
+                <!-- <div [ngStyle]="background-image: url('/assets/images/{{this.imagenfondo}}'); min-height: 550px; background-size: cover"> -->
                 <table class="table">
                     <thead>
                         <tr>

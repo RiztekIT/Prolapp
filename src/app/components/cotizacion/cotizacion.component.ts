@@ -48,6 +48,8 @@ export class CotizacionComponent implements OnInit {
     {producto: "SUERO DULCE KRAFT", imagen: "1.KraftMilk.png"}    
   ]
 
+  imagenfondo;
+
   
 
   ngOnInit() {
@@ -67,6 +69,17 @@ export class CotizacionComponent implements OnInit {
     this.logo = '../../../assets/images/'+this.empresaSVC.empresaActual.RFC+'.png'
 
     console.log(this.service.formData);
+
+    if (this.empresaSVC.empresaActual.RFC=='DTM200220KRA'){
+
+      
+      this.imagenfondo = "url('/assets/images/dairyterrapngopacidad2.png')"
+    }else{
+      this.imagenfondo = "url('/assets/images/prolactopngopacidad2.png')"
+
+    }
+
+    //this.imagenfondo = 'prolactopngopacidad2.png'
 
     
   }

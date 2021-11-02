@@ -42,7 +42,7 @@ export class ReciboPagoService {
   constructor(private http: HttpClient) { }
 
   // URL donde mandaremos el request al servidor para obtener los Datos de la DB
-   readonly APIUrl = environment.APIUrl;
+  APIUrl = environment.APIUrl;
   
 
   //Obtener Lista de ReciboPago

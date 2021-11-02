@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 
 
 
-export const APIUrl = environment.APIUrl;
+
  
 
 @Injectable({
@@ -19,30 +19,32 @@ export class ForwardsService {
   formDataForwards = new Forwards();
   onadd: boolean;
 
+  APIUrl = environment.APIUrl;
+
   constructor(private http: HttpClient) { }
 
   getForwardsList(): Observable<Forwards[]> {
-    return this.http.get<Forwards[]>(APIUrl + '/Forwards');
+    return this.http.get<Forwards[]>(this.APIUrl + '/Forwards');
   }
 
   getForwardsIDList(id: number): Observable<Forwards[]> {
-    return this.http.get<Forwards[]>(APIUrl + '/Forwards/GetForwardID/' + id);
+    return this.http.get<Forwards[]>(this.APIUrl + '/Forwards/GetForwardID/' + id);
   }
 
   getUltimoForward(): Observable<any> {
-    return this.http.get<any>(APIUrl + '/Forwards/getUltimoForward');
+    return this.http.get<any>(this.APIUrl + '/Forwards/getUltimoForward');
   }
 
   addForward(forward: Forwards) {
-    return this.http.post(APIUrl + '/Forwards', forward);
+    return this.http.post(this.APIUrl + '/Forwards', forward);
   }
 
   OnEditForward(forward: Forwards){
-    return this.http.put(APIUrl + '/Forwards', forward)
+    return this.http.put(this.APIUrl + '/Forwards', forward)
   }
 
   deleteForward(id:number) {
-    return this.http.delete(APIUrl + '/Forwards/BorrarForward/' + id);
+    return this.http.delete(this.APIUrl + '/Forwards/BorrarForward/' + id);
  
   }
  

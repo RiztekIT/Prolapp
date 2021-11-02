@@ -22,7 +22,7 @@ export class ProductosService {
 
 
 
-   readonly APIUrl = environment.APIUrl;
+  APIUrl = environment.APIUrl;
   
   
 

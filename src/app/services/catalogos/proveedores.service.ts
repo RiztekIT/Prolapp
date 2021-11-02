@@ -17,7 +17,7 @@ export class ProveedoresService {
 
   
   
-   readonly APIUrl = environment.APIUrl;
+  APIUrl = environment.APIUrl;
   
   
 

@@ -5,16 +5,26 @@ import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfact
 import { FacturaService } from 'src/app/services/facturacioncxc/factura.service';
 import { ReciboPagoService } from 'src/app/services/complementoPago/recibo-pago.service';
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
+import { environment } from '../../../environments/environment';
+import Swal from 'sweetalert2';
+
+
+
 
 @Component({
   selector: 'app-account-settings',
   templateUrl: './account-settings.component.html',
   styles: []
 })
+
+
+
 export class AccountSettingsComponent implements OnInit {
   listEmpresa;
 
-  constructor(public _ajustes: SettingsService,public enviarfact: EnviarfacturaService,public servicefactura: FacturaService, public serviceEmpresa: EmpresaService,private recibopagoSVC: ReciboPagoService ) { }
+  constructor(public _ajustes: SettingsService,public enviarfact: EnviarfacturaService,public servicefactura: FacturaService, public serviceEmpresa: EmpresaService,private recibopagoSVC: ReciboPagoService ) { 
+    
+  }
 
   ngOnInit() {
     this.colocarCheck();
@@ -56,21 +66,80 @@ export class AccountSettingsComponent implements OnInit {
     }  
   }
 
-  cambioEmpresa(event){
+  cambioEmpresa(){
+
+    Swal.fire({
+      title: '¿Seguro de Cambiar de Empresa?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',      
+      confirmButtonText: 'Cambiar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+
+        console.log(this.enviarfact.empresa);
     
 
-    this.enviarfact.empresa = event;
-    this.serviceEmpresa.empresaActual = event;
-    this.enviarfact.rfc = event.RFC;
-    this.servicefactura.rfcempresa=event.RFC;
-      this.recibopagoSVC.rfcempresa = event.RFC;
-      this.servicefactura.rfcempresa = event.RFC;
-      this.recibopagoSVC.rfcempresa = event.RFC
-      localStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
+        //this.enviarfact.empresa = event;
+        this.serviceEmpresa.empresaActual = this.enviarfact.empresa;
+        this.enviarfact.rfc = this.enviarfact.empresa.RFC;
+        this.servicefactura.rfcempresa=this.enviarfact.empresa.RFC;
+          this.recibopagoSVC.rfcempresa = this.enviarfact.empresa.RFC;
+          this.servicefactura.rfcempresa = this.enviarfact.empresa.RFC;
+          this.recibopagoSVC.rfcempresa = this.enviarfact.empresa.RFC
+          localStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
+    
+          //console.clear();
+          console.log(this.enviarfact.empresa);
+          console.log(this.recibopagoSVC.rfcempresa);
+    
+          if (localStorage.getItem('Empresa')){
+      
+      
+            if (this.enviarfact.empresa.RFC=='DTM200220KRA'){
+              environment.APIUrl = 'https://riztekserver.ddns.net:44381/api';
+            }else if (this.enviarfact.empresa.RFC=='AIN140101ME3'){
+              environment.APIUrl = 'https://riztekserver.ddns.net:44361/api';
+            }else if (this.enviarfact.empresa.RFC=='PLA11011243A'){
+              environment.APIUrl = 'https://riztekserver.ddns.net:44371/api';
+            }else{
+              environment.APIUrl = 'https://riztekserver.ddns.net:44361/api';
+      
+            }
+      
+          }else{
+            environment.APIUrl = 'https://riztekserver.ddns.net:44361/api';
+          }
+    
+          console.log(environment.APIUrl,'URL');
 
-      console.clear();
-      console.log(this.enviarfact.empresa);
-      console.log(this.recibopagoSVC.rfcempresa);
+
+          Swal.fire({
+            title: 'Espere...',
+            icon: 'success',
+            timer: 1000,
+            showCancelButton: false,
+            showConfirmButton: false
+          }).then(r=>{
+            window.location.reload()
+          });
+  
+      
+      }else{
+
+        this.enviarfact.empresa = this.serviceEmpresa.empresaActual;
+
+      }
+    })
+
+
+
+   
+      
+
+      //
 
       //this.refreshFacturaList();
       // this.detallesFactura();
@@ -80,6 +149,7 @@ export class AccountSettingsComponent implements OnInit {
 
   obtenerEmpresa(){
     let empresa = JSON.parse(localStorage.getItem('Empresa'));
+    console.log(empresa);
     
 
     this.enviarfact.empresa = empresa;
@@ -90,6 +160,28 @@ export class AccountSettingsComponent implements OnInit {
       this.recibopagoSVC.rfcempresa = empresa.RFC
       this.serviceEmpresa.empresaActual = empresa;
 
+      if (localStorage.getItem('Empresa')){
+
+        
+  
+  
+        if (empresa.RFC=='DTM200220KRA'){
+          environment.APIUrl = 'https://riztekserver.ddns.net:44381/api';
+        }else if (empresa.RFC=='AIN140101ME3'){
+          environment.APIUrl = 'https://riztekserver.ddns.net:44361/api';
+        }else if (empresa.RFC=='PLA11011243A'){
+          environment.APIUrl = 'https://riztekserver.ddns.net:44371/api';
+        }else{
+          environment.APIUrl = 'https://riztekserver.ddns.net:44361/api';
+  
+        }
+  
+      }else{
+        environment.APIUrl = 'https://riztekserver.ddns.net:44361/api';
+      }
+
+      console.log(environment.APIUrl,'URL');
+
 
   }
 
@@ -97,6 +189,7 @@ export class AccountSettingsComponent implements OnInit {
     this.serviceEmpresa.getEmpresaList().subscribe(data =>{
       console.log(data);
       this.listEmpresa = data;
+      console.log(this.listEmpresa);
       
       // console.log(this.enviarfact.empresa);
       //this.enviarfact.empresa = data[0];

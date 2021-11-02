@@ -2,16 +2,22 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-import { APIUrl } from 'src/app/services/pedidos/pedido.service';
 
-export const environment = {
+
+
+export var environment = {
   production: false,
 
+
   //URLS de desarrollo
-  //APIUrl: 'https://riztekserver.ddns.net:44361/api',
+  //APIUrl3: 'https://riztekserver.ddns.net:44381/api',
+  //APIUrl2: 'https://riztekserver.ddns.net:44371/api',
+  
+  
+  APIUrl: 'https://riztekserver.ddns.net:44361/api',
   APIUrlEmail: 'https://riztekserver.ddns.net:3000', 
   // URLS de Produccion
-        APIUrl: 'https://erpprolapp.ddns.net:44361/api',
+       // APIUrl: 'https://erpprolapp.ddns.net:44361/api',
       // APIUrlEmail: 'https://erpprolapp.ddns.net:3000'
     // APIUrl: 'https://erpprolapp.ddns.net:44361/api',
     //APIUrlEmail: 'https://erpprolapp.ddns.net:3000'

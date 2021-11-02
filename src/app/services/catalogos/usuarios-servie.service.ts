@@ -20,7 +20,7 @@ export class UsuariosServieService {
   master = new Array<procesoMasterDetalle>();
 
   
-   readonly APIUrl = environment.APIUrl;
+  APIUrl = environment.APIUrl;
   
 
 

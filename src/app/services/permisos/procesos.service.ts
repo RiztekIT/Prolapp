@@ -19,7 +19,7 @@ export class ProcesoService {
   privilegioData: Privilegio;
 
   
-   readonly APIUrl = environment.APIUrl;
+  APIUrl = environment.APIUrl;
   
 
 

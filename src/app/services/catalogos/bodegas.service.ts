@@ -18,7 +18,7 @@ export class BodegasService {
 
  
   // readonly APIUrl = "http://192.168.1.67:32767/api";;
-   readonly APIUrl = environment.APIUrl;
+  APIUrl = environment.APIUrl;
   
   //readonly APIUrl = "http://riztekserver.ddns.net:44361/api";
 

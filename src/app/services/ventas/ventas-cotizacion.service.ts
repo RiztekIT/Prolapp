@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable, Subject, observable } from 'rxjs';
@@ -37,7 +37,9 @@ export class VentasCotizacionService {
   formdata = new Cotizacion();
   formrow: any;
   
-  constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
+  constructor(private http:HttpClient, private sanitizer: DomSanitizer) {
+ 
+   }
   
   formprosp= new Prospecto();
   formcotped: any;
@@ -50,7 +52,8 @@ export class VentasCotizacionService {
   Moneda: string;
   IdCotizacion: number;
   IdCliente : number;
-  readonly APIUrl = environment.APIUrl;
+  //readonly APIUrl = environment.APIUrl;
+  APIUrl = environment.APIUrl
   
   
   updateVentasPedido(pedido: any) {
@@ -142,6 +145,8 @@ export class VentasCotizacionService {
    
 
   getCotizaciones(): Observable<any[]> {
+    console.log(this.APIUrl,'APIURL');
+    console.log(environment.APIUrl,'APIURL');
     return this.http.get<any>(this.APIUrl + '/Cotizaciones');
   }
 

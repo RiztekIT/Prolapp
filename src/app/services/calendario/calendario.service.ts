@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { detalleCalendario } from 'src/app/Models/calendario/detalleCalendario-model';
 import { Compras } from '../../Models/Compras/compra-model';
 
- export const APIUrl = environment.APIUrl;
+ 
  
 
 @Injectable({
@@ -23,6 +23,7 @@ export class CalendarioService {
   IdCalendario: number;
   formDataCalendario = new Calendario();
   formDataDetalleCalendario: detalleCalendario;
+  APIUrl = environment.APIUrl;
 
   DetalleCalendarioData :  detalleCalendario = {
     IdDetalleCalendario: 0,
@@ -48,43 +49,43 @@ export class CalendarioService {
 
   //Obtener Calendario por Modulo
   getCalendarioCompras(modulo: string): Observable <Calendario[]> {
-    return this.http.get<Calendario[]>(APIUrl + '/calendario/getCalendarioModulo/'+modulo);
+    return this.http.get<Calendario[]>(this.APIUrl + '/calendario/getCalendarioModulo/'+modulo);
   }
   //Obtener Calendario por Usuario y Modulo
   getCalendarioComprasUsuarioModulo(usuario: string, modulo: string): Observable <Calendario[]> {
-    return this.http.get<Calendario[]>(APIUrl + '/calendario/getCalendarioUsuarioModulo/'+usuario+'/'+modulo);  
+    return this.http.get<Calendario[]>(this.APIUrl + '/calendario/getCalendarioUsuarioModulo/'+usuario+'/'+modulo);  
   }
   //Obtener DetallesCalendario por IdCalendario
   getDetallesCalendarioId(id:number): Observable<detalleCalendario[]>{
-    return this.http.get<detalleCalendario[]>(APIUrl + '/calendario/getDetalleCalendario/'+id);
+    return this.http.get<detalleCalendario[]>(this.APIUrl + '/calendario/getDetalleCalendario/'+id);
   }
   //Obtener DetallesCalendario por IdDetalleCalendario
   getDetallesCalendarioIdDetalle(id:number): Observable<detalleCalendario[]>{
-    return this.http.get<detalleCalendario[]>(APIUrl + '/calendario/getDetalleCalendarioIdDetalle/'+id);
+    return this.http.get<detalleCalendario[]>(this.APIUrl + '/calendario/getDetalleCalendarioIdDetalle/'+id);
   }
   //Obtener Calendario JOIN Proceso
   getCalendarioProceso(id: number, modulo: string, proceso:string): Observable<any[]>{
-    return this.http.get<any[]>(APIUrl + '/calendario/getCalendarioProceso/'+id+'/'+modulo+'/'+proceso);
+    return this.http.get<any[]>(this.APIUrl + '/calendario/getCalendarioProceso/'+id+'/'+modulo+'/'+proceso);
   }
   //Obtener Usuario por ID
   getUsuarioId(id: number): Observable<any[]>{
-    return this.http.get<any[]>(APIUrl + '/calendario/getCalendarioUsuarioId/'+id);
+    return this.http.get<any[]>(this.APIUrl + '/calendario/getCalendarioUsuarioId/'+id);
   }
   //agregar Calendario
   addCalendario(calendario: Calendario){
-    return this.http.post(APIUrl + '/calendario', calendario);
+    return this.http.post(this.APIUrl + '/calendario', calendario);
   }
   //agregar detalle Calendario
   addDetalleCalendario(detalle: detalleCalendario){
-    return this.http.post(APIUrl + '/calendario/AddDetalleCalendario', detalle);
+    return this.http.post(this.APIUrl + '/calendario/AddDetalleCalendario', detalle);
   }
   //editar detalle Calendario
   editDetalleCalendario(detalle: detalleCalendario){
-    return this.http.put(APIUrl + '/calendario/UpdateDetalleCalendario', detalle);
+    return this.http.put(this.APIUrl + '/calendario/UpdateDetalleCalendario', detalle);
   }
   //elimina detalle Calendario
   deleteDetalleCalendario(id:number){
-    return this.http.delete(APIUrl + '/calendario/DeleteDetalleCalendario/' + id);
+    return this.http.delete(this.APIUrl + '/calendario/DeleteDetalleCalendario/' + id);
   }
 
   private _listeners = new Subject<any>(); 

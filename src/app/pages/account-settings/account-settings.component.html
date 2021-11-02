@@ -3,13 +3,42 @@
         <div class="card">
             <div class="card-body">
 
-                <div>
-                    <label class="input-group-text text-info">Empresa</label>
-                    <select class="form-control" name="Empresa" #Empresa="ngModel" [(ngModel)]="this.enviarfact.empresa" required (ngModelChange)='cambioEmpresa($event)'>
-                                <!-- <option [ngValue]="null" selected disabled>Seleccionar Empresa</option> -->
-                                <option *ngFor="let e of listEmpresa" [(ngValue)]="e"> {{e.RazonSocial}} </option>
-                              </select>
+                <div class="row">
+
+                    <div class="col-md-8">
+
+                        <label class="input-group-text text-info">Empresa Seleccionada: </label>
+                        <br>
+                        <label class="input-group-text text-info">{{ enviarfact.empresa.RazonSocial }}</label>
+                    </div>
+                    <div class="col-md-4">
+
+                        <div class="col-lg-5 col-md-5 col-5">
+                            <div>
+                                <img width="100%" height="100%" [src]="enviarfact.empresa.Foto" alt="Foto">
+                            </div>
+                        </div>
+
+                        <!-- <label class="input-group-text text-info">Empresa Seleccionada: </label>
+                    <br>
+                    <label class="input-group-text text-info">{{ enviarfact.empresa.RazonSocial }}</label> -->
+                    </div>
+
                 </div>
+
+                <div class="row">
+
+
+                    <div class="col-lg-12 col-md-12 col-12">
+                        <label class="input-group-text text-info">Listado de Empresas</label>
+                        <select class="form-control" name="Empresa" #Empresa="ngModel" [(ngModel)]="this.enviarfact.empresa" required (change)='cambioEmpresa()'>
+                                <!-- <option [ngValue]="null" selected disabled>Seleccionar Empresa</option> -->
+                                <option *ngFor="let e of listEmpresa" [(ngValue)]="e" [selected]="e === this.enviarfact.empresa"> {{e.RazonSocial}} </option>
+                              </select>
+                    </div>
+
+                </div>
+
                 <!--    <div>
                             <button (click)='rfc()'>RFC</button>
                         </div> -->
@@ -29,7 +58,7 @@
                     <ul id="themecolors" class="m-t-20">
                         <li><b>Con el sidebar claro</b></li>
                         <li><a #link1 (click)="cambiarColor('default', link1)" data-theme="default" class="selector default-theme">1</a></li> -->
-                        <!-- <li><a #link2 (click)="cambiarColor('green', link2)" data-theme="green" class="selector green-theme">2</a></li>
+<!-- <li><a #link2 (click)="cambiarColor('green', link2)" data-theme="green" class="selector green-theme">2</a></li>
                         <li><a #link3 (click)="cambiarColor('red', link3)" data-theme="red" class="selector red-theme">3</a></li>
                         <li><a #link4 (click)="cambiarColor('blue', link4)" data-theme="blue" class="selector blue-theme">4</a></li>
                         <li><a #link5 (click)="cambiarColor('purple', link5)" data-theme="purple" class="selector purple-theme">5</a></li>
@@ -42,7 +71,7 @@
                         <li><a #link10 (click)="cambiarColor('blue-dark', link10)" data-theme="blue-dark" class="selector blue-dark-theme">10</a></li>
                         <li><a #link11 (click)="cambiarColor('purple-dark', link11)" data-theme="purple-dark" class="selector purple-dark-theme">11</a></li>
                         <li><a #link12 (click)="cambiarColor('megna-dark', link12)" data-theme="megna-dark" class="selector megna-dark-theme">12</a></li> -->
-                    <!-- </ul>
+<!-- </ul>
 
                 </div>
 

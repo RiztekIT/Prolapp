@@ -5,42 +5,43 @@ import {Subject} from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Imagenes } from '../../Models/Imagenes/imagenes-model';
 
-export const APIUrl = environment.APIUrl;
+
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImagenService {
+  APIUrl = environment.APIUrl;
 
   constructor(private http:HttpClient) { }
 
  //Obtener Imagenes
  getImagenes(): Observable <Imagenes[]>{
-  return this.http.get<Imagenes[]>(APIUrl + '/Imagenes');
+  return this.http.get<Imagenes[]>(this.APIUrl + '/Imagenes');
 }
  //Obtener Imagen por Folio, Tipo y nombre
  getImagenFTN(imagen: Imagenes):Observable<Imagenes[]>{
-  return this.http.post<Imagenes[]>(APIUrl + '/Imagenes/GetImagenFTN', imagen);
+  return this.http.post<Imagenes[]>(this.APIUrl + '/Imagenes/GetImagenFTN', imagen);
 }
 //Insert Imagen
 addImagen(imagen: Imagenes) {
-  return this.http.post(APIUrl + '/Imagenes', imagen);
+  return this.http.post(this.APIUrl + '/Imagenes', imagen);
 }
 //Update Imagen
 updateImagen(imagen: Imagenes) {
-  return this.http.put(APIUrl+ '/Imagenes', imagen);
+  return this.http.put(this.APIUrl+ '/Imagenes', imagen);
   }
   //Eliminar Imagen
   deleteImagen(id: number){
-    return this.http.delete(APIUrl+ '/Imagenes/BorrarImagen/' + id);
+    return this.http.delete(this.APIUrl+ '/Imagenes/BorrarImagen/' + id);
   }
   //Eliminar imagen por Tipo, Folio y Nombre
   // deleteImagenTipoFolioNombre(tipo: string, folio: string, nombre: string){
-  //   return this.http.delete(APIUrl+ '/Imagenes/BorrarImagenOC/'+tipo+'/'+folio+'/'+nombre);
+  //   return this.http.delete(this.APIUrl+ '/Imagenes/BorrarImagenOC/'+tipo+'/'+folio+'/'+nombre);
   // }
   deleteImagenOC(imagen: Imagenes) {
-    return this.http.post(APIUrl + '/Imagenes/BorrarImagenOC', imagen);
+    return this.http.post(this.APIUrl + '/Imagenes/BorrarImagenOC', imagen);
   }
 
 

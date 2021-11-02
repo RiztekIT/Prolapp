@@ -16,7 +16,7 @@ import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/deta
 // export const APIUrl = environment.APIUrl;
 // export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 
- export const APIUrl = environment.APIUrl;
+ 
 
 
 @Injectable({
@@ -28,7 +28,7 @@ export class OrdenDescargaService {
   formDataTarima = new Tarima();
   //form data que se llena con los datos de detalle tarima
   formDataTarimaDT = new DetalleTarima();
-
+  APIUrl = environment.APIUrl;
 
 
   constructor(private http: HttpClient) { }
@@ -40,47 +40,47 @@ export class OrdenDescargaService {
 
 
   getOrdenDescargaList(): Observable<OrdenDescarga[]> {
-    return this.http.get<OrdenDescarga[]>(APIUrl + '/OrdenDescarga');
+    return this.http.get<OrdenDescarga[]>(this.APIUrl + '/OrdenDescarga');
   }
 
   //trae los DOD dependiendo del ID de OD
   getOrdenDescargaIDList(id: number): Observable<DetalleOrdenDescarga[]> {
-    return this.http.get<DetalleOrdenDescarga[]>(APIUrl + '/OrdenDescarga/MasterID/' + id);
+    return this.http.get<DetalleOrdenDescarga[]>(this.APIUrl + '/OrdenDescarga/MasterID/' + id);
   }
 
   getDetalleOrdenDescarga(): Observable<any> {
-    return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetDetalleOrdenDescarga');
+    return this.http.get<any[]>(this.APIUrl + '/OrdenDescarga/GetDetalleOrdenDescarga');
   }
 
   OnEditDetalleOrdenDescarga(dtod: DetalleOrdenDescarga) {
-    return this.http.put(APIUrl + '/OrdenDescarga/UpdateDetalleOrdenDescarga', dtod)
+    return this.http.put(this.APIUrl + '/OrdenDescarga/UpdateDetalleOrdenDescarga', dtod)
   }
 
   getDetalleOrdenDescargaIdLoteClave(id: number, lote: string, clave: string): Observable<DetalleOrdenDescarga[]> {
-    return this.http.get<DetalleOrdenDescarga[]>(APIUrl + '/OrdenDescarga/DetalleOrdenDescarga/' + id + '/' + lote + '/' + clave);
+    return this.http.get<DetalleOrdenDescarga[]>(this.APIUrl + '/OrdenDescarga/DetalleOrdenDescarga/' + id + '/' + lote + '/' + clave);
   }
   getDetalleOrdenDescargaIdClave(id: number, clave: string): Observable<DetalleOrdenDescarga[]> {
-    return this.http.get<DetalleOrdenDescarga[]>(APIUrl + '/OrdenDescarga/DetalleOrdenDescargaIdClave/' + id + '/' + clave);
+    return this.http.get<DetalleOrdenDescarga[]>(this.APIUrl + '/OrdenDescarga/DetalleOrdenDescargaIdClave/' + id + '/' + clave);
   }
 
   //get Orden Descarga por Id
   getOrdenDescargaID(id: number): Observable<OrdenDescarga> {
-    return this.http.get<OrdenDescarga>(APIUrl + '/OrdenDescarga/GetOrdenDescargaID/' + id);
+    return this.http.get<OrdenDescarga>(this.APIUrl + '/OrdenDescarga/GetOrdenDescargaID/' + id);
   }
   //get ultimo id Orden Descarga 
   getUltimoIdOrdenDescarga(): Observable<any> {
-    return this.http.get<any>(APIUrl + '/OrdenDescarga/GetUltimoIdOrdenDescarga');
+    return this.http.get<any>(this.APIUrl + '/OrdenDescarga/GetUltimoIdOrdenDescarga');
   }
   //get folio y sumarle 1
   getFolioOrdenDescarga(): Observable<any> {
-    return this.http.get<any>(APIUrl + '/OrdenDescarga/OrdenDescargaFolio');
+    return this.http.get<any>(this.APIUrl + '/OrdenDescarga/OrdenDescargaFolio');
   }
 
   borrarOD(id): Observable<any>{
-    return this.http.delete(APIUrl + '/OrdenDescarga/BorrarOrdenDescarga/'+id);
+    return this.http.delete(this.APIUrl + '/OrdenDescarga/BorrarOrdenDescarga/'+id);
   }
   borrarDetallesOD(id): Observable<any>{
-    return this.http.delete(APIUrl + '/OrdenDescarga/BorrarDetalleOrdenDescarga/'+id);
+    return this.http.delete(this.APIUrl + '/OrdenDescarga/BorrarDetalleOrdenDescarga/'+id);
   }
 
   
@@ -88,37 +88,37 @@ export class OrdenDescargaService {
 
   //Actualizar saldo de DetalleOrdenDescarga por ID
   updateDetalleOrdenDescargaSaldo(id: number, saldo: string) {
-    return this.http.put(APIUrl + '/OrdenDescarga/UpdateSaldo/' + id + '/' + saldo, null);
+    return this.http.put(this.APIUrl + '/OrdenDescarga/UpdateSaldo/' + id + '/' + saldo, null);
   }
   //Agregar Orden Descarga
   addOrdenDescarga(od: OrdenDescarga) {
-    return this.http.post(APIUrl + '/OrdenDescarga', od);
+    return this.http.post(this.APIUrl + '/OrdenDescarga', od);
   }
 
   updateOrdenDescarga(od: OrdenDescarga) {
-    return this.http.put(APIUrl + '/OrdenDescarga', od);
+    return this.http.put(this.APIUrl + '/OrdenDescarga', od);
   }
 
   //Agregar Orden Descarga
   addDetalleOrdenDescarga(dod: DetalleOrdenDescarga) {
-    return this.http.post(APIUrl + '/OrdenDescarga/AddDetalleOrdenDescarga', dod);
+    return this.http.post(this.APIUrl + '/OrdenDescarga/AddDetalleOrdenDescarga', dod);
   }
 
   UpdateDtODIDLoteFechaCadFechaMFG(id: number, lote: string, fechacad: Date, fechamdf: Date) {
-    return this.http.put(APIUrl + '/OrdenDescarga/UpdateDtODIDLoteFechaCadFechaMFG/' + id + '/' + lote + '/' + fechacad + '/' + fechamdf, null);
+    return this.http.put(this.APIUrl + '/OrdenDescarga/UpdateDtODIDLoteFechaCadFechaMFG/' + id + '/' + lote + '/' + fechacad + '/' + fechamdf, null);
   }
 
   GetODOT(id: number): Observable<any[]> {
-    return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetODOT/' + id);
+    return this.http.get<any[]>(this.APIUrl + '/OrdenDescarga/GetODOT/' + id);
   }
   GetODOTQR(id: number): Observable<any[]> {
-    return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetODOTQR/' + id);
+    return this.http.get<any[]>(this.APIUrl + '/OrdenDescarga/GetODOTQR/' + id);
   }
   GetODOTTB(id: number, bodega: string): Observable<any[]> {
-    return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetODOTTB/' + id + '/' + bodega);
+    return this.http.get<any[]>(this.APIUrl + '/OrdenDescarga/GetODOTTB/' + id + '/' + bodega);
   }
   GetQROD(id: number): Observable<any[]> {
-    return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetQROD/' + id);
+    return this.http.get<any[]>(this.APIUrl + '/OrdenDescarga/GetQROD/' + id);
   }
   
   
@@ -127,19 +127,19 @@ export class OrdenDescargaService {
   
   //Obtener reporte por Proveedor ID
   getReporteProveedorId(id: number):Observable<any[]>{
-    return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenDescargaProveedor/'+id);
+    return this.http.get<any[]>(this.APIUrl + '/reportes/GetReporteOrdenDescargaProveedor/'+id);
   }
   //obtener reporte  por Proveedor ID y por estatus
   getReporteProveedorIdEstatus(id:number, estatus:string):Observable<any[]>{
-    return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdeDescargaProveedorEstatus/'+id+'/'+estatus);
+    return this.http.get<any[]>(this.APIUrl + '/reportes/GetReporteOrdeDescargaProveedorEstatus/'+id+'/'+estatus);
   }
   //obtener reporte  por Fecha Inicial / final y  Proveedor ID
   getReporteFechasProveedorId(fechaini, fechafinal, id:number):Observable<any[]>{
-    return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenDescargaFechaProveedor/'+fechaini+'/'+fechafinal+'/'+id);
+    return this.http.get<any[]>(this.APIUrl + '/reportes/GetReporteOrdenDescargaFechaProveedor/'+fechaini+'/'+fechafinal+'/'+id);
   }
   //obtener reporte  por Fecha Inicial / final ,  Proveedor ID y estatus
   getReporteFechasProveedorIdEstatus(fechaini, fechafinal, id:number, estatus: string):Observable<any[]>{
-    return this.http.get<any[]>(APIUrl + '/reportes/GetReporteOrdenDescargaFechaProveedorEstatus/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
+    return this.http.get<any[]>(this.APIUrl + '/reportes/GetReporteOrdenDescargaFechaProveedorEstatus/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
   }
   
   // *******************   REPORTES  ************************* //
@@ -164,7 +164,7 @@ export class OrdenDescargaService {
   // *******************   COMPRAS  ************************* //
   
   GetODDOD(id: number): Observable<any[]> {
-    return this.http.get<any[]>(APIUrl + '/OrdenDescarga/GetODDOD/' + id);
+    return this.http.get<any[]>(this.APIUrl + '/OrdenDescarga/GetODDOD/' + id);
   }
 
 
