@@ -17,7 +17,7 @@ export class ClienteDireccionService {
   IdCliente: number;
 
   
-   readonly APIUrl = environment.APIUrl;
+  APIUrl = environment.APIUrl;
   
 
   //Obtener list Clientes Direccion

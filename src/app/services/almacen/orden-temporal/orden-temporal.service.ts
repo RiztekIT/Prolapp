@@ -10,7 +10,7 @@ import { preOrdenTemporal } from '../../../Models/almacen/OrdenTemporal/preOrden
 import { preOrdenTemporalOD } from '../../../Models/almacen/OrdenTemporal/preOrdenTemporalOD-model';
 import { preOrdenTemporalODSacos } from 'src/app/Models/almacen/OrdenTemporal/preOrdenTemporalODSacos-model';
 
- export const APIUrl = environment.APIUrl;
+ 
 
 // export const APIUrl = "http://riztekserver.ddns.net:44361/api";
 
@@ -53,51 +53,53 @@ export class OrdenTemporalService {
    //obtener el peso del saco para sacar el peso total en edit de OD
    pesoETOD: number;
 
+   APIUrl = environment.APIUrl;
+
 
 //Insertar Orden Temporal
 addOrdenTemporal(oT: OrdenTemporal) {
-  return this.http.post(APIUrl + '/OrdenTemporal', oT);
+  return this.http.post(this.APIUrl + '/OrdenTemporal', oT);
 }
 //update Orden Temporal
 updateOrdenTemporal(ot: OrdenTemporal){
-  return this.http.put(APIUrl + '/OrdenTemporal', ot);
+  return this.http.put(this.APIUrl + '/OrdenTemporal', ot);
 }
 //Obtener Orden Temporal por ID Orden Carga, LOTE y Clave Producto
 getDetalleOrdenCargaIdLoteClave(id: number, lote: string, clave: string): Observable <OrdenTemporal[]>{
-  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporal/'+ id + '/' + lote + '/' + clave);
+  return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/OrdenTemporal/'+ id + '/' + lote + '/' + clave);
 }
 
 //Obtener Orden Temporal por ID Orden Carga
 GetOrdenTemporalID(id: number): Observable <OrdenTemporal[]>{
-  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalID/'+ id);
+  return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/OrdenTemporalID/'+ id);
 }
 //Obtener Orden Temporal por ID Orden Descarga
 GetOrdenTemporalIDOD(id: number): Observable <OrdenTemporal[]>{
-  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIDOD/'+ id);
+  return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/OrdenTemporalIDOD/'+ id);
 }
 //Obtener Orden Temporal por ID Tarima
 GetOrdenTemporalIdTarima(id: number): Observable <OrdenTemporal[]>{
-  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIdTarima/'+ id);
+  return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/OrdenTemporalIdTarima/'+ id);
 }
 GetOrdenTemporalIdTarimaOC(id: number, oc: number): Observable <OrdenTemporal[]>{
-  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIdTarimaOC/'+ id+ '/'+oc);
+  return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/OrdenTemporalIdTarimaOC/'+ id+ '/'+oc);
 }
 //Obtener Orden Temporal por ID carga y qr
 GetOrdenTemporalIdqr(id: number, qr: string): Observable <OrdenTemporal[]>{
-  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIdqr/'+ id + '/' + qr);
+  return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/OrdenTemporalIdqr/'+ id + '/' + qr);
 }
 GetOrdenTemporalIdqrOD(id: number, qr: string): Observable <OrdenTemporal[]>{
-  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/OrdenTemporalIdqrOD/'+ id + '/' + qr);
+  return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/OrdenTemporalIdqrOD/'+ id + '/' + qr);
 }
 GetTracking(fechaini,fechafinal): Observable <OrdenTemporal[]>{
-  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/tracking/' + fechaini+ '/' + fechafinal);
+  return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/tracking/' + fechaini+ '/' + fechafinal);
 }
 GetTrackingCliente(fechaini,fechafinal,id): Observable <OrdenTemporal[]>{
-  return this.http.get<OrdenTemporal[]>(APIUrl + '/OrdenTemporal/trackingCliente/' + fechaini+ '/' + fechafinal+ '/' + id);
+  return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/trackingCliente/' + fechaini+ '/' + fechafinal+ '/' + id);
 }
 
 deleteOrdenTemporal(id:number){
-  return this.http.delete(APIUrl + '/OrdenTemporal/BorrarOrdenTemporal/' + id)
+  return this.http.delete(this.APIUrl + '/OrdenTemporal/BorrarOrdenTemporal/' + id)
 }
 
 

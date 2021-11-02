@@ -5,7 +5,7 @@ import {Subject} from 'rxjs';
 import { Pedido } from '../../Models/Pedidos/pedido-model';
 import { environment } from 'src/environments/environment';
 
- export const APIUrl = environment.APIUrl;
+ 
 
 
 @Injectable({
@@ -17,9 +17,10 @@ export class PedidoService {
     constructor(private http:HttpClient) { }
 
     formData: Pedido;
+    APIUrl = environment.APIUrl;
 
     getPedidoList(): Observable <Pedido[]> {
-        return this.http.get<Pedido[]>(APIUrl + '/pedido');
+        return this.http.get<Pedido[]>(this.APIUrl + '/pedido');
       }
 
     private _listeners = new Subject<any>(); 

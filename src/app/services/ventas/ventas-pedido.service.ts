@@ -36,7 +36,10 @@ export class VentasPedidoService {
   
   
 
-  constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
+  constructor(private http:HttpClient, private sanitizer: DomSanitizer) {    
+
+    
+  }
 
   pedidoCliente;
 
@@ -53,6 +56,7 @@ export class VentasPedidoService {
 
   
   readonly APIUrl = environment.APIUrl;
+//  readonly APIUrl = environment.APIUrl;
   
 
 

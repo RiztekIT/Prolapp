@@ -10,7 +10,7 @@ import { MasterCompra } from '../../Models/Compras/masterCompra-model';
 import { ComprasHistorial } from 'src/app/Models/Compras/comprahistorial-model';
 
 
-export const APIUrl = environment.APIUrl;
+
  
 
 @Injectable({
@@ -35,68 +35,70 @@ export class CompraService {
 
     compra;
 
+    APIUrl = environment.APIUrl;
+
 
 //Obtener Compras
 generarConsulta(consulta) {
   let query = {
     'consulta':consulta
   };
-  return this.http.post(APIUrl + '/Compras/consulta', query);
+  return this.http.post(this.APIUrl + '/Compras/consulta', query);
 }
     getComprasList(): Observable<any[]> {
-      return this.http.get<any[]>(APIUrl + '/Compras');
+      return this.http.get<any[]>(this.APIUrl + '/Compras');
     }
     //Obtener Compra por ID
     getComprasId(id:number): Observable<Compras[]> {
-      return this.http.get<Compras[]>(APIUrl + '/compras/getComprasID/'+id);
+      return this.http.get<Compras[]>(this.APIUrl + '/compras/getComprasID/'+id);
     }
     //Obtener Compra por Folio
     getComprasFolio(folio:number): Observable<Compras[]> {
-      return this.http.get<Compras[]>(APIUrl + '/compras/getComprasFolio/'+folio);
+      return this.http.get<Compras[]>(this.APIUrl + '/compras/getComprasFolio/'+folio);
     }
     //Obtener Detalles Compra por IdCompra
     getDetalleComprasID(id:number): Observable<DetalleCompra[]> {
-      return this.http.get<DetalleCompra[]>(APIUrl + '/compras/getDetalleComprasID/'+id);
+      return this.http.get<DetalleCompra[]>(this.APIUrl + '/compras/getDetalleComprasID/'+id);
     }
 //Obtener FolioCompra +1
 getNewFolio():Observable<any[]>{
-  return this.http.get<any[]>(APIUrl + '/compras/CompraFolio');
+  return this.http.get<any[]>(this.APIUrl + '/compras/CompraFolio');
 }
 //Obtener Id Ultima Compra
 getUltimoIdCompra():Observable<any[]>{
-  return this.http.get<any[]>(APIUrl + '/compras/GetUltimoIdCompra');
+  return this.http.get<any[]>(this.APIUrl + '/compras/GetUltimoIdCompra');
 }
 //Obtener sumatoria de totales en base a IdCompra
 getSumatoriaIdCompra(id: number):Observable<any[]>{
-  return this.http.get<any[]>(APIUrl + '/compras/GetDCsumatoria/'+id);
+  return this.http.get<any[]>(this.APIUrl + '/compras/GetDCsumatoria/'+id);
 }
 
     addCompra(compra: Compras) {
-      return this.http.post(APIUrl + '/Compras', compra)
+      return this.http.post(this.APIUrl + '/Compras', compra)
     }
     deleteCompra(id: number) {
-      return this.http.delete(APIUrl + '/Compras/DeleteCompra/' + id)
+      return this.http.delete(this.APIUrl + '/Compras/DeleteCompra/' + id)
     }
     updateCompra(compra:Compras) {
-      return this.http.put(APIUrl + '/Compras',compra);
+      return this.http.put(this.APIUrl + '/Compras',compra);
     }
     addDetalleCompra(dcompra: DetalleCompra) {
-      return this.http.post(APIUrl + '/Compras/AddDetalleCompra', dcompra)
+      return this.http.post(this.APIUrl + '/Compras/AddDetalleCompra', dcompra)
     }
     deleteDetalleCompra(id: number) {
-      return this.http.delete(APIUrl + '/Compras/DeleteDetalleCompra/' + id)
+      return this.http.delete(this.APIUrl + '/Compras/DeleteDetalleCompra/' + id)
     }
     //Eliminar todos los detalles compra por IDCompra
     deleteDetalleCompraID(id: number) {
-      return this.http.delete(APIUrl + '/Compras/DeleteAllDetalleCompras/' + id)
+      return this.http.delete(this.APIUrl + '/Compras/DeleteAllDetalleCompras/' + id)
     }
     updateDetalleCompra(dcompra:DetalleCompra) {
-      return this.http.put(APIUrl + '/Compras/EditDetalleCompra',dcompra);
+      return this.http.put(this.APIUrl + '/Compras/EditDetalleCompra',dcompra);
     }
 
     //^ Obtener Compra por Estatus
     getCompraEstatus(estatus):Observable<Compras[]>{
-      return this.http.get<Compras[]>(APIUrl + '/Compras/GetCompraEstatus/'+estatus);
+      return this.http.get<Compras[]>(this.APIUrl + '/Compras/GetCompraEstatus/'+estatus);
     }
 
 
@@ -104,53 +106,53 @@ getSumatoriaIdCompra(id: number):Observable<any[]>{
 
     //obtener lista de proveedores
     getProveedoresList():Observable<any[]>{
-      return this.http.get<any[]>(APIUrl + '/proveedor');
+      return this.http.get<any[]>(this.APIUrl + '/proveedor');
     }
 
     //Obtener Proveedor por Id
     getProveedorId(id: number):Observable<any[]>{
-      return this.http.get<any[]>(APIUrl + '/proveedor/getProveedorId/'+id);
+      return this.http.get<any[]>(this.APIUrl + '/proveedor/getProveedorId/'+id);
     }
 
     //Obtener reporte compras por proveedor ID
     getReporteProveedorId(id: number):Observable<any[]>{
-      return this.http.get<any[]>(APIUrl + '/reportes/ReporteCompras/'+id);
+      return this.http.get<any[]>(this.APIUrl + '/reportes/ReporteCompras/'+id);
     }
     //obtener reporte compras por proveedor ID y por estatus de la compra
     getReporteProveedorIdEstatus(id:number, estatus:string):Observable<any[]>{
-      return this.http.get<any[]>(APIUrl + '/reportes/ReporteComprasStatus/'+id+'/'+estatus);
+      return this.http.get<any[]>(this.APIUrl + '/reportes/ReporteComprasStatus/'+id+'/'+estatus);
     }
     //obtener reporte compras por Fecha Inicial / final y  proveedor ID
     getReporteFechasProveedorId(fechaini, fechafinal, id:number):Observable<any[]>{
-      return this.http.get<any[]>(APIUrl + '/reportes/ComprasFechas/'+fechaini+'/'+fechafinal+'/'+id);
+      return this.http.get<any[]>(this.APIUrl + '/reportes/ComprasFechas/'+fechaini+'/'+fechafinal+'/'+id);
     }
     //obtener reporte compras por Fecha Inicial / final ,  proveedor ID y estatus
     getReporteFechasProveedorIdEstatus(fechaini, fechafinal, id:number, estatus: string):Observable<any[]>{
-      return this.http.get<any[]>(APIUrl + '/reportes/ComprasFechas/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
+      return this.http.get<any[]>(this.APIUrl + '/reportes/ComprasFechas/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
     }
 
     //!  ------------ Historial ------------------  //
     
     // ^ get compras que esten relacionadas con OD
     getComprasHistorialList(): Observable<any[]> {
-      return this.http.get<any[]>(APIUrl + '/Compras/GetComprasHistorial');
+      return this.http.get<any[]>(this.APIUrl + '/Compras/GetComprasHistorial');
     }
     GetComprasOrderFolio(): Observable<any[]> {
-      return this.http.get<any[]>(APIUrl + '/Compras/GetComprasOrderFolio');
+      return this.http.get<any[]>(this.APIUrl + '/Compras/GetComprasOrderFolio');
     }
     // ^ Obtener Compra por rango de Fechas y que esten relacionadas con OD
     getComprasFecha(fecha, fecha1): Observable<Compras[]> {
-      return this.http.get<Compras[]>(APIUrl + '/compras/GetComprasFecha/'+fecha+'/'+fecha1);
+      return this.http.get<Compras[]>(this.APIUrl + '/compras/GetComprasFecha/'+fecha+'/'+fecha1);
     }
     
     //Obtener reporte compras por proveedor ID
     GetComprasODDIdProveedor(id: number):Observable<any[]>{
-      return this.http.get<any[]>(APIUrl + '/compras/GetComprasODDIdProveedor/'+id);
+      return this.http.get<any[]>(this.APIUrl + '/compras/GetComprasODDIdProveedor/'+id);
     }
 
     //Obtener reporte compras por Estatus
     GetComprasODDEstatus(estatus: string):Observable<any[]>{
-      return this.http.get<any[]>(APIUrl + '/compras/GetComprasODDEstatus/'+estatus);
+      return this.http.get<any[]>(this.APIUrl + '/compras/GetComprasODDEstatus/'+estatus);
     }
 
 

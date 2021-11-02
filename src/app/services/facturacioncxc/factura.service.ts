@@ -45,7 +45,7 @@ export class FacturaService {
 
 
   
-   readonly APIUrl = environment.APIUrl;
+  APIUrl = environment.APIUrl;
   
 
   //Obtener lista de Facturas

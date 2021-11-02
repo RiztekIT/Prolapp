@@ -16,7 +16,7 @@ export class FleterasService {
   constructor(private http:HttpClient) { }
 
   
-  readonly APIUrl = environment.APIUrl;
+ APIUrl = environment.APIUrl;
   
 
 

@@ -43,6 +43,7 @@ import { StorageServiceService } from '../../../services/shared/storage-service.
 import { Subscription } from 'rxjs';
 
 import { EventosService } from 'src/app/services/eventos/eventos.service';
+import { environment } from 'src/environments/environment';
 
 
 declare var $: any;
@@ -97,6 +98,7 @@ msn:string;
    }
 
   ngOnInit() {
+    console.log(environment.APIUrl);
     this.ConnectionHub();
     this.refreshCotizacionesList();
     //^ **** PRIVILEGIOS POR USUARIO *****
@@ -176,7 +178,7 @@ if (this.estatusSelect==='Todos'){
 
   }
 
-  public listEstatus: Array<Object> = [
+  public listEstatus: Array<any> = [
     { Estatus: 'Todos' },
     { Estatus: 'Guardada' },
     { Estatus: 'Cerrada' },

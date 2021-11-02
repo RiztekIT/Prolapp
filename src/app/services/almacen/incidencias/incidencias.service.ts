@@ -9,7 +9,7 @@ import { OrdenDescarga } from '../../../Models/almacen/OrdenDescarga/ordenDescar
 import { DetalleOrdenDescarga } from '../../../Models/almacen/OrdenDescarga/detalleOrdenDescarga-model';
 import { DetalleOrdenCarga } from '../../../Models/almacen/OrdenCarga/detalleOrdenCarga-model';
 
- export const APIUrl = environment.APIUrl;
+ 
 
 
 export const URLApiEMail = environment.APIUrlEmail;
@@ -20,6 +20,7 @@ export const URLApiEMail = environment.APIUrlEmail;
 export class IncidenciasService {
 
   constructor(private http:HttpClient) { }
+  APIUrl = environment.APIUrl;
 
 
   incidenciaObject: Incidencias;
@@ -27,90 +28,90 @@ export class IncidenciasService {
 
 //Obtener Incidencias
 getIncidencias(): Observable <Incidencias[]>{
-  return this.http.get<Incidencias[]>(APIUrl + '/Incidencias');
+  return this.http.get<Incidencias[]>(this.APIUrl + '/Incidencias');
 }
 //Obtener Incidencia ID
 getIncidenciaId(id: number): Observable <Incidencias[]>{
-  return this.http.get<Incidencias[]>(APIUrl + '/Incidencias/GetIncidenciaId/'+id);
+  return this.http.get<Incidencias[]>(this.APIUrl + '/Incidencias/GetIncidenciaId/'+id);
 }
 //Obtener Incidencia Folio
 getIncidenciaFolio(folio: number): Observable <Incidencias[]>{
-  return this.http.get<Incidencias[]>(APIUrl + '/Incidencias/GetIncidenciaFolio/'+folio);
+  return this.http.get<Incidencias[]>(this.APIUrl + '/Incidencias/GetIncidenciaFolio/'+folio);
 }
 //Obtener Incidencia Procedencia
 getIncidenciaProcedencia(procedencia: string): Observable <Incidencias[]>{
-  return this.http.get<Incidencias[]>(APIUrl + '/Incidencias/GetIncidenciaProcedencia/'+procedencia);
+  return this.http.get<Incidencias[]>(this.APIUrl + '/Incidencias/GetIncidenciaProcedencia/'+procedencia);
 }
 //Obtener Incidencia Por FolioProcedencia
 GetIncidenciaFolioProcedencia(Folio: string, procedencia: string): Observable <Incidencias[]>{
-  return this.http.get<Incidencias[]>(APIUrl + '/Incidencias/GetIncidenciaFolioProcedencia/'+Folio+ '/' +procedencia);
+  return this.http.get<Incidencias[]>(this.APIUrl + '/Incidencias/GetIncidenciaFolioProcedencia/'+Folio+ '/' +procedencia);
 }
 //Obtener Incidencia Estatus
 getIncidenciaEstatus(estatus: string): Observable <Incidencias[]>{
-  return this.http.get<Incidencias[]>(APIUrl + '/Incidencias/GetIncidenciaEstatus/'+estatus);
+  return this.http.get<Incidencias[]>(this.APIUrl + '/Incidencias/GetIncidenciaEstatus/'+estatus);
 }
 //Obtener Incidencia new Folio
 getIncidenciaNewFolio(): Observable <any[]>{
-  return this.http.get<any[]>(APIUrl + '/Incidencias/GetNewFolio');
+  return this.http.get<any[]>(this.APIUrl + '/Incidencias/GetNewFolio');
 }
 //Obtener Orden Carga Folio
 getOrdenCargaFolio(folio: number): Observable <OrdenCarga[]>{
-  return this.http.get<OrdenCarga[]>(APIUrl + '/Incidencias/GetOrdenCargaFolio/'+folio);
+  return this.http.get<OrdenCarga[]>(this.APIUrl + '/Incidencias/GetOrdenCargaFolio/'+folio);
 }
 //Obtener Orden Descarga Folio
 getOrdenDescargaFolio(folio: number): Observable <OrdenDescarga[]>{
-  return this.http.get<OrdenDescarga[]>(APIUrl + '/Incidencias/GetOrdenDescargaFolio/'+folio);
+  return this.http.get<OrdenDescarga[]>(this.APIUrl + '/Incidencias/GetOrdenDescargaFolio/'+folio);
 }
 //Obtener List Orden Carga ID
 getListOrdenCargaId(id: number): Observable <any[]>{
-  return this.http.get<any[]>(APIUrl + '/Incidencias/GetListOrdenesCargaId/'+id);
+  return this.http.get<any[]>(this.APIUrl + '/Incidencias/GetListOrdenesCargaId/'+id);
 }
 //Obtener List Orden Descarga ID
 getListOrdenDescargaId(id: number): Observable <any[]>{
-  return this.http.get<any[]>(APIUrl + '/Incidencias/GetListOrdenesDescargaId/'+id);
+  return this.http.get<any[]>(this.APIUrl + '/Incidencias/GetListOrdenesDescargaId/'+id);
 }
 //Obtener detalleOrdenCarga Id / Iddetalle
 getDetalleOrdenCargaIddetalle(id: number, iddetalle:number): Observable <any[]>{
-  return this.http.get<any[]>(APIUrl + '/Incidencias/GetDetalleCargaIdDetalle/'+id+'/'+iddetalle);
+  return this.http.get<any[]>(this.APIUrl + '/Incidencias/GetDetalleCargaIdDetalle/'+id+'/'+iddetalle);
 }
 //Obtener detalleOrdenDescarga Id / Iddetalle
 getDetalleOrdenDescargaIddetalle(id: number, iddetalle:number): Observable <any[]>{
-  return this.http.get<any[]>(APIUrl + '/Incidencias/GetDetalleDescargaIdDetalle/'+id+'/'+iddetalle);
+  return this.http.get<any[]>(this.APIUrl + '/Incidencias/GetDetalleDescargaIdDetalle/'+id+'/'+iddetalle);
 }
 
 
 //Insert Incidencia
 addIncidencia(incidencia: Incidencias) {
-  return this.http.post(APIUrl + '/incidencias', incidencia);
+  return this.http.post(this.APIUrl + '/incidencias', incidencia);
 }
 //Update Incidencia
 updateIncidencia(incidencia: Incidencias) {
-  return this.http.put(APIUrl+ '/incidencias', incidencia);
+  return this.http.put(this.APIUrl+ '/incidencias', incidencia);
   }
   //Eliminar Incidencia por IdIncidencia
   deleteIncidencia(id: number){
-    return this.http.delete(APIUrl+ '/Incidencias/BorrarIncidencia/' + id);
+    return this.http.delete(this.APIUrl+ '/Incidencias/BorrarIncidencia/' + id);
   }
 
   //REPORTES
 
   GetIncidenciasFechasProcedencia(fecha1, fecha2, procedencia){
-    return this.http.get<any[]>(APIUrl+ '/Reportes/GetIncidenciasFechasProcedencia/'+fecha1+'/'+fecha2+'/'+procedencia);
+    return this.http.get<any[]>(this.APIUrl+ '/Reportes/GetIncidenciasFechasProcedencia/'+fecha1+'/'+fecha2+'/'+procedencia);
   }
   GetIncidenciasFechas(fecha1, fecha2){
-    return this.http.get<any[]>(APIUrl+ '/Reportes/GetIncidenciasFechas/'+fecha1+'/'+fecha2);
+    return this.http.get<any[]>(this.APIUrl+ '/Reportes/GetIncidenciasFechas/'+fecha1+'/'+fecha2);
   }
   GetIncidenciasEstatusProcedencia(estatus, procedencia){
-    return this.http.get<any[]>(APIUrl+ '/Reportes/GetIncidenciasEstatusProcedencia/'+estatus+'/'+procedencia);
+    return this.http.get<any[]>(this.APIUrl+ '/Reportes/GetIncidenciasEstatusProcedencia/'+estatus+'/'+procedencia);
   }
   GetIncidenciasEstatus(estatus){
-    return this.http.get<any[]>(APIUrl+ '/Reportes/GetIncidenciasEstatus/'+estatus);
+    return this.http.get<any[]>(this.APIUrl+ '/Reportes/GetIncidenciasEstatus/'+estatus);
   }
   GetIncidenciasFechasProcedenciaEstatus(fecha1, fecha2, procedencia, estatus){
-    return this.http.get<any[]>(APIUrl+ '/Reportes/GetIncidenciasFechasProcedenciaEstatus/'+fecha1+'/'+fecha2+'/'+procedencia+'/'+estatus);
+    return this.http.get<any[]>(this.APIUrl+ '/Reportes/GetIncidenciasFechasProcedenciaEstatus/'+fecha1+'/'+fecha2+'/'+procedencia+'/'+estatus);
   }
   GetIncidenciasFechasEstatus(fecha1, fecha2, estatus){
-    return this.http.get<any[]>(APIUrl+ '/Reportes/GetIncidenciasFechasEstatus/'+fecha1+'/'+fecha2+'/'+estatus);
+    return this.http.get<any[]>(this.APIUrl+ '/Reportes/GetIncidenciasFechasEstatus/'+fecha1+'/'+fecha2+'/'+estatus);
   }
 
   private _listeners = new Subject<any>(); 

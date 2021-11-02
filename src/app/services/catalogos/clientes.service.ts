@@ -30,7 +30,7 @@ objetoCliente = new Cliente();
 
   
   
-   readonly APIUrl = environment.APIUrl;
+  APIUrl = environment.APIUrl;
   
 
   getClientesList(): Observable <Cliente[]> {

@@ -7,7 +7,7 @@ import { StorageServiceService } from './storage-service.service';
 import { Observable, Subject } from 'rxjs';
 import { UsuariosServieService } from '../catalogos/usuarios-servie.service';
 
-export const APIUrl = environment.APIUrl;
+
 
 declare function init_plugins();
 
@@ -22,6 +22,8 @@ export class SidebarService {
 
   idusuario: number
   usuario: any
+
+  APIUrl = environment.APIUrl;
 
 
   /* menu: any = [
@@ -197,7 +199,7 @@ export class SidebarService {
       this.idusuario = res[0].IdUsuario
       // console.log('%c⧭', 'color: #00ff00', this.idusuario);
     //! Obtener el Id Usuario del Usuario LOGEADO!
-    return this.http.get(APIUrl + '/Menu/'+this.idusuario).subscribe((data:any)=>{
+    return this.http.get(this.APIUrl + '/Menu/'+this.idusuario).subscribe((data:any)=>{
       // console.log(data);
       this.menu = [];
       
@@ -216,7 +218,7 @@ export class SidebarService {
         // console.log(this.menu);
         // this.menu[i].submenu
         //! Obtener el Id Usuario del Usuario LOGEADO!
-        this.http.get(APIUrl+ '/Menu/Submenu/'+this.idusuario+'/'+data[i].idmenu+'/'+data[i].titulo).subscribe((submenu:any)=>{
+        this.http.get(this.APIUrl+ '/Menu/Submenu/'+this.idusuario+'/'+data[i].idmenu+'/'+data[i].titulo).subscribe((submenu:any)=>{
           // console.log(data[i].idmenu);
           // console.log(submenu);
           this.submenu = [];
@@ -230,7 +232,7 @@ export class SidebarService {
             }
             this.menu[i].submenu[j].privilegios = [];
             //! Obtener el Id Usuario del Usuario LOGEADO!
-            this.http.get(APIUrl + '/Menu/ObtenerPrivilegios/'+this.idusuario+'/'+data[i].titulo+'/'+submenu[j].titulo).subscribe((resPrivilegios:any)=>{
+            this.http.get(this.APIUrl + '/Menu/ObtenerPrivilegios/'+this.idusuario+'/'+data[i].titulo+'/'+submenu[j].titulo).subscribe((resPrivilegios:any)=>{
               if(resPrivilegios){
                 for (let a=0; a< resPrivilegios.length; a++){
                   this.menu[i].submenu[j].privilegios[a] = {

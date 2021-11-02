@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { PrecioLeche } from '../../Models/precioLeche-model';
 
 
-export const APIUrl = environment.APIUrl;
+
  
 
 
@@ -20,6 +20,8 @@ export class DireccionService {
    //Tabla previsualizacion OD
    PreHistoricoLeche = new Array<PrecioLeche>();
 
+   APIUrl = environment.APIUrl;
+
 
 
 
@@ -27,16 +29,16 @@ export class DireccionService {
 
     //obtener historico PrecioLeche
     GetHistorialLeche():  Observable <any[]>{
-      return this.http.get<any[]>(APIUrl + '/Direccion');
+      return this.http.get<any[]>(this.APIUrl + '/Direccion');
     }
 
   //trae el precio de la leche dependiendo de la fecha seleccionada
   GetHistorialLecheFecha(fecha: string): Observable <PrecioLeche[]>{
-    return this.http.get<PrecioLeche[]>(APIUrl + '/Direccion/'+ fecha);
+    return this.http.get<PrecioLeche[]>(this.APIUrl + '/Direccion/'+ fecha);
   }
 
   addHistoricoLeche(precioleche: PrecioLeche) {
-    return this.http.post(APIUrl + '/Direccion', precioleche)
+    return this.http.post(this.APIUrl + '/Direccion', precioleche)
   }
 
 

@@ -51,7 +51,7 @@ export const APIUrl = environment.APIUrl;
 
     
     
-     readonly APIUrl = environment.APIUrl;
+    APIUrl = environment.APIUrl;
   
 
     //Get Join Notas y Detalle Notas

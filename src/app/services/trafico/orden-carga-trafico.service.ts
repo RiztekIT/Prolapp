@@ -21,7 +21,7 @@ export class OrdenCargaTraficoService {
   
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
   
-  readonly APIUrl = environment.APIUrl;
+   APIUrl = environment.APIUrl;
   
   
 

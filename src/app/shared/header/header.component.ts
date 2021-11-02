@@ -13,6 +13,7 @@ import * as signalr from 'signalr'
 import { NotificacionesService } from '../../services/notificaciones.service';
 import { Notificaciones } from '../../Models/Notificaciones/notificaciones-model';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 declare var $: any;
 
@@ -64,7 +65,9 @@ export class HeaderComponent implements OnInit {
   constructor(private http : HttpClient, public storageService: StorageServiceService, private tipoCambio:TipoCambioService, public enviarfact: EnviarfacturaService,
     public servicefactura: FacturaService,private service: ReciboPagoService, public serviceEmpresa: EmpresaService,
     private recibopagoSVC: ReciboPagoService, public notificacionService: NotificacionesService,
-    private router:Router) { }
+    private router:Router) { 
+      this.obtenerEmpresa();
+    }
 
   ngOnInit() {
     this.ConnectionHub();
@@ -76,7 +79,7 @@ this.NotificacionesActivas = false;
 
 
     // //console.log(localStorage.getItem("inicioCliente"));
-    this.obtenerEmpresa();
+    
   this.clienteLogin = localStorage.getItem("inicioCliente");
     this.tipoDeCambio();
     this.usuario = this.storageService.getCurrentUser();
@@ -206,34 +209,37 @@ this.NotificacionesActivas = false;
     }
   }
 
-  obtenerEmpresa(){
+  async obtenerEmpresa(){
     let empresa = JSON.parse(localStorage.getItem('Empresa'));
-    if (empresa=[]){
+    if (empresa == null){
       // //console.log('vacio');
-      empresa = {
-        'CP': 31150,
-        'Calle': "Fernando Montes de Oca",
-        'Ciudad': "Chihuahua",
-        'Colonia': "Nombre de Dios",
-        'Estado': "Chihuahua",
-        'Foto': "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAB4AA",
-        'IdEmpresa': 20089,
-        'NumeroExterior': 3903,
-        'NumeroInterior': 4,
-        'Pais': "Mexico",
-        'RFC': "AIN140101ME3",
-        'RazonSocial': "ABARROTODO INSTITUCIONAL S. DE R.L. M.I.",
-        'Regimen': "General de leyes",
-      }
+      await this.serviceEmpresa.getEmpresaList().toPromise().then(data=>{
+        console.log(data);
+
+        empresa = data[1]
+
+      })
+  
     }
-    //console.log(empresa);
-this.serviceEmpresa.empresaActual = empresa;
+
+    console.log(empresa);
+    if (empresa.RFC=='DTM200220KRA'){
+      environment.APIUrl = 'https://riztekserver.ddns.net:44381/api';
+    }else if (empresa.RFC=='AIN140101ME3'){
+      environment.APIUrl = 'https://riztekserver.ddns.net:44361/api';
+    }else if (empresa.RFC=='PLA11011243A'){
+      environment.APIUrl = 'https://riztekserver.ddns.net:44371/api';
+    }else{
+      environment.APIUrl = 'https://riztekserver.ddns.net:44361/api';
+
+    }
+    
+    this.serviceEmpresa.empresaActual = empresa;
     this.enviarfact.empresa = empresa;
     this.enviarfact.rfc = empresa.RFC;
-    this.servicefactura.rfcempresa=empresa.RFC;
-      // this.service.rfcempresa = empresa.RFC;
-      this.servicefactura.rfcempresa = empresa.RFC;
-      this.recibopagoSVC.rfcempresa = empresa.RFC
+    this.servicefactura.rfcempresa=empresa.RFC;      
+    this.servicefactura.rfcempresa = empresa.RFC;
+    this.recibopagoSVC.rfcempresa = empresa.RFC
 
 
   }

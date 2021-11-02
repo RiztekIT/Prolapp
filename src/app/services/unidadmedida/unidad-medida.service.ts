@@ -31,7 +31,7 @@ export class UnidadMedidaService {
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
   formData: UnidadMedida;
   master = new Array<UnidadMedidaDetalle>();
-  readonly APIUrl = environment.APIUrl;
+   APIUrl = environment.APIUrl;
   
 
 //Get unidades medida API SAT

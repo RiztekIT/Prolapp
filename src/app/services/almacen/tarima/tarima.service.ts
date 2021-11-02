@@ -11,7 +11,7 @@ import { Usuario } from 'src/app/Models/catalogos/usuarios-model';
 import { MasterDetalleTarima } from 'src/app/Models/almacen/OrdenDescarga/cuu/masterDetalleTarima-model';
 import { Producto } from 'src/app/Models/catalogos/productos-model';
 
- export const APIUrl = environment.APIUrl;
+ 
 
 
 
@@ -21,6 +21,8 @@ import { Producto } from 'src/app/Models/catalogos/productos-model';
 export class TarimaService {
 
   constructor(private http:HttpClient) { }
+
+  APIUrl = environment.APIUrl;
 
   tarimaData = new Tarima();
   dataTarima: any;
@@ -66,130 +68,130 @@ export class TarimaService {
   detalleTarima;
 
   getTarima(): Observable <Tarima[]>{
-    return this.http.get<Tarima[]>(APIUrl + '/Tarima');
+    return this.http.get<Tarima[]>(this.APIUrl + '/Tarima');
   }
 
   //^Obtener detalles de Tarima por IdTarima
 getDetalleTarimaID(id: number): Observable <DetalleTarima[]>{
-  return this.http.get<DetalleTarima[]>(APIUrl + '/Tarima/GetDetalleTarimaID/'+ id);
+  return this.http.get<DetalleTarima[]>(this.APIUrl + '/Tarima/GetDetalleTarimaID/'+ id);
 }
  //^Obtener detalles de Tarima por IdDetalleTarima
  getDetalleTarimaIDdetalle(id: number): Observable <DetalleTarima[]>{
-  return this.http.get<DetalleTarima[]>(APIUrl + '/Tarima/GetDetalleTarimaIDdetalle/'+ id);
+  return this.http.get<DetalleTarima[]>(this.APIUrl + '/Tarima/GetDetalleTarimaIDdetalle/'+ id);
 }
   //^Obtener Tarima por IdTarima
 getTarimaID(id: number): Observable <any[]>{
-  return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaID/'+ id);
+  return this.http.get<any[]>(this.APIUrl + '/Tarima/GetTarimaID/'+ id);
 }
   //^Obtener Ultima Tarima
   getUltimaTarima(): Observable <Tarima[]>{
-    return this.http.get<Tarima[]>(APIUrl + '/Tarima/GetUltimaTarima');
+    return this.http.get<Tarima[]>(this.APIUrl + '/Tarima/GetUltimaTarima');
   }
   //^Obtener Tarima por QR code
   getTarimaQR(qr : string): Observable <any[]>{
-    return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaQR/'+ qr);
+    return this.http.get<any[]>(this.APIUrl + '/Tarima/GetTarimaQR/'+ qr);
   }
   //^Obtener detalle tarima por IdTarima, claveProducto, lote
   getDetalleTarimaIdClaveLote(id: number, clave: string, lote: string): Observable <DetalleTarima[]>{
-    return this.http.get<DetalleTarima[]>(APIUrl + '/Tarima/GetDetalleTarimaIdClaveLote/' + id + '/' + clave + '/' + lote);
+    return this.http.get<DetalleTarima[]>(this.APIUrl + '/Tarima/GetDetalleTarimaIdClaveLote/' + id + '/' + clave + '/' + lote);
   }
 
 //^Insert Tarima
 addTarima(t: Tarima) {
-  return this.http.post(APIUrl + '/Tarima', t);
+  return this.http.post(this.APIUrl + '/Tarima', t);
 }
 //^Update Tarima
 updateTarima(t: Tarima) {
-  return this.http.put(APIUrl+ '/Tarima', t);
+  return this.http.put(this.APIUrl+ '/Tarima', t);
   }
   //^Update Tarima ( Sacos y peso Total)
   updateTarimaSacosPeso(id: number, sacos: string, peso: string) {
-    return this.http.put(APIUrl+ '/Tarima/UpdateTarimaSacosPeso/' + id + '/' + sacos + '/' + peso , null);
+    return this.http.put(this.APIUrl+ '/Tarima/UpdateTarimaSacosPeso/' + id + '/' + sacos + '/' + peso , null);
     }
     //^Update Tarima ( Sacos y peso Total)
   updateDetalleTarimaIdSacos(iddt:number, sacos: string, peso, lote) {
-    return this.http.put(APIUrl+ '/Tarima/UpdateDetalleTarimaIdSacos/' + iddt + '/' + sacos + '/' + peso  +'/'+ lote, null);
+    return this.http.put(this.APIUrl+ '/Tarima/UpdateDetalleTarimaIdSacos/' + iddt + '/' + sacos + '/' + peso  +'/'+ lote, null);
     }
 //^Insert Detalle Tarima
 addDetalleTarima(dt: DetalleTarima) {
-  return this.http.post(APIUrl + '/Tarima/AddDetalleTarima', dt);
+  return this.http.post(this.APIUrl + '/Tarima/AddDetalleTarima', dt);
 }
 //^Update Detalle Tarima
 updateDetalleTarima(dt: DetalleTarima) {
-  return this.http.put(APIUrl+ '/Tarima/UpdateDetalleTarima', dt);
+  return this.http.put(this.APIUrl+ '/Tarima/UpdateDetalleTarima', dt);
   }
 //^Insert Traspaso Tarima
 addTraspasoTarima(tt: TraspasoTarima) {
-  return this.http.post(APIUrl + '/TraspasoTarima', tt);
+  return this.http.post(this.APIUrl + '/TraspasoTarima', tt);
 }
 //^Update Traspaso Tarima
 updateTraspasoTarima(tt: TraspasoTarima) {
-  return this.http.put(APIUrl+ '/TraspasoTarima', tt);
+  return this.http.put(this.APIUrl+ '/TraspasoTarima', tt);
   }
   //^Eliminar detalle tarima
   deleteDetalleTarima(id: number){
-    return this.http.delete(APIUrl+ '/Tarima/BorrarDetalleTarima/' + id);
+    return this.http.delete(this.APIUrl+ '/Tarima/BorrarDetalleTarima/' + id);
   }
 //^Eliminar tarima
 deleteTarima(id: number){
-  return this.http.delete(APIUrl+ '/Tarima/BorrarTarima/' + id);
+  return this.http.delete(this.APIUrl+ '/Tarima/BorrarTarima/' + id);
 }
 
 //^Obtener Informacion de Usuario por NombreUsuario
 //^Obtener Tarima por QR code
 getUsuario(nombreUsuario : string): Observable <Usuario[]>{
-  return this.http.get<Usuario[]>(APIUrl + '/usuario/userinfo/'+ nombreUsuario);
+  return this.http.get<Usuario[]>(this.APIUrl + '/usuario/userinfo/'+ nombreUsuario);
 }
 
 GetTarimaDttqr(qr: string): Observable<Tarima[]> {
-  return this.http.get<Tarima[]>(APIUrl + '/Tarima/GetTarimaDttqr/' + qr);
+  return this.http.get<Tarima[]>(this.APIUrl + '/Tarima/GetTarimaDttqr/' + qr);
 
 }
 GetTarimaBodegaQR(qr: string, bodega:string): Observable<Tarima[]> {
-  return this.http.get<Tarima[]>(APIUrl + '/Tarima/GetTarimaBodegaQR/'+qr+'/'+bodega);
+  return this.http.get<Tarima[]>(this.APIUrl + '/Tarima/GetTarimaBodegaQR/'+qr+'/'+bodega);
 }
 GetTarimaOC(idoc): Observable<Tarima[]> {
-  return this.http.get<Tarima[]>(APIUrl + '/Tarima/TarimaOC/'+idoc);
+  return this.http.get<Tarima[]>(this.APIUrl + '/Tarima/TarimaOC/'+idoc);
 }
 
 GetTarimaBodega(): Observable<any[]> {
-  return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaBodega');
+  return this.http.get<any[]>(this.APIUrl + '/Tarima/GetTarimaBodega');
 }
 
 updateBodegaTarima(bodega:string, qr:string) {
-  return this.http.put(APIUrl+ '/Tarima/UpdateBodega/'+bodega+'/'+qr,null);
+  return this.http.put(this.APIUrl+ '/Tarima/UpdateBodega/'+bodega+'/'+qr,null);
   }
 
   getProductos(){
-    return this.http.get<any[]>(APIUrl + '/Producto');
+    return this.http.get<any[]>(this.APIUrl + '/Producto');
   }
   getProductosMarcas(){
-    return this.http.get<any[]>(APIUrl + '/Producto/ProductosMarcas');
+    return this.http.get<any[]>(this.APIUrl + '/Producto/ProductosMarcas');
   }
   
   getProductoClave(producto){
-    return this.http.get<any[]>(APIUrl + '/Tarima/GetProductoClaveProducto/'+producto);
+    return this.http.get<any[]>(this.APIUrl + '/Tarima/GetProductoClaveProducto/'+producto);
   }
 
   GetTarimaProducto(producto: string, bodega: string): Observable<any[]> {
-    return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaProducto?producto='+ producto+ '&bodega='+bodega);
+    return this.http.get<any[]>(this.APIUrl + '/Tarima/GetTarimaProducto?producto='+ producto+ '&bodega='+bodega);
   }
   GetTarimaProductoAllBodegas(producto: string): Observable<any[]> {
-    return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaProductoAllBodegas/'+producto);
+    return this.http.get<any[]>(this.APIUrl + '/Tarima/GetTarimaProductoAllBodegas/'+producto);
   }
   GetTarimaProductoD(producto: string, lote: string): Observable<any[]> {
-    return this.http.get<any[]>(APIUrl + '/Tarima/GetTarimaProductoD?producto='+ producto+'&lote='+lote);
+    return this.http.get<any[]>(this.APIUrl + '/Tarima/GetTarimaProductoD?producto='+ producto+'&lote='+lote);
   }
   GetSumatoriaAllBodegas(): Observable<any[]> {
-    return this.http.get<any[]>(APIUrl + '/Tarima/GetSumatoriaAllBodegas');
+    return this.http.get<any[]>(this.APIUrl + '/Tarima/GetSumatoriaAllBodegas');
   }
   GetSumatoriaBodega(bodega: string): Observable<any[]> {
-    return this.http.get<any[]>(APIUrl + '/Tarima/GetSumatoriaBodega/'+bodega);
+    return this.http.get<any[]>(this.APIUrl + '/Tarima/GetSumatoriaBodega/'+bodega);
   }
   
 
   getTarimaCompra(id): Observable <any[]>{
-    return this.http.get<any[]>(APIUrl + '/Tarima/GetCompraTarima/'+id);
+    return this.http.get<any[]>(this.APIUrl + '/Tarima/GetCompraTarima/'+id);
   }
 
 
@@ -197,50 +199,50 @@ updateBodegaTarima(bodega:string, qr:string) {
 
   //^Obtener Informacion Producto en base a Clave, Lote y Bodega
   GetGetProductoInformacionBodega(ClaveProducto: string, Lote: string, bodega: string): Observable <DetalleTarima[]>{
-    return this.http.get<DetalleTarima[]>(APIUrl + '/Tarima/GetProductoInformacionBodega/'+ClaveProducto+'/'+Lote+'/'+bodega);
+    return this.http.get<DetalleTarima[]>(this.APIUrl + '/Tarima/GetProductoInformacionBodega/'+ClaveProducto+'/'+Lote+'/'+bodega);
   }
 
   //^Update campos detalle tarima
 updateDetalleTarimaSacosPesoTarimasBodega(dt: DetalleTarima) {
-  return this.http.put(APIUrl+ '/Tarima/UpdateDetalleTarimaSacosPesoTarimasBodega', dt);
+  return this.http.put(this.APIUrl+ '/Tarima/UpdateDetalleTarimaSacosPesoTarimasBodega', dt);
   }
 
   //^Obtener Ultimo Detalle Tarima 
   getUltimoDetalleTarima(){
-    return this.http.get<any[]>(APIUrl + '/Tarima/GetUltimoDetalleTarima');
+    return this.http.get<any[]>(this.APIUrl + '/Tarima/GetUltimoDetalleTarima');
   }
 
   //^Obtener Detalle Tarima por Bodega 
   getDetalleTarimaBodega(bodega: string){
-    return this.http.get<any[]>(APIUrl + '/Tarima/GetDetalleTarimaBodega/'+bodega);
+    return this.http.get<any[]>(this.APIUrl + '/Tarima/GetDetalleTarimaBodega/'+bodega);
   }
   //^Obtener Detalle Tarima por Bodega (ORDENADO POR CLAVE PRODUCTO)
   getDetalleTarimaBodegaOrdenado(bodega: string){
-    return this.http.get<any[]>(APIUrl + '/Tarima/GetDetalleTarimaBodegaOrdernado/'+bodega);
+    return this.http.get<any[]>(this.APIUrl + '/Tarima/GetDetalleTarimaBodegaOrdernado/'+bodega);
   }
   //^Obtener JOIN Compra con detalle Tarima (para obtener los Documentos)
   getJOINCompraDetalleTarima(id: number){
-    return this.http.get<any[]>(APIUrl + '/Tarima/GetJOINCompraDetalleTarima/'+id);
+    return this.http.get<any[]>(this.APIUrl + '/Tarima/GetJOINCompraDetalleTarima/'+id);
   }
   getDetalleTarimaOT(id: number){
-    return this.http.get<any[]>(APIUrl + '/Tarima/DetalleTarimaOT/'+id);
+    return this.http.get<any[]>(this.APIUrl + '/Tarima/DetalleTarimaOT/'+id);
   }
   //^Obtener Detalle Compra por Id Compra y por Clave Producto (para obtener los Documentos)
   GetDetalleCompraIdClave(id: number, clave:string){
-    return this.http.get<any[]>(APIUrl + '/Tarima/GetDetalleCompraIdClave/'+id+'/'+clave);
+    return this.http.get<any[]>(this.APIUrl + '/Tarima/GetDetalleCompraIdClave/'+id+'/'+clave);
   }
   //^Obtener Detalle Tarima por Bodega 
   getDetalleTarimaClaveLoteBodega(Clave: string, Lote: string, bodega: string){
-    return this.http.get<any[]>(APIUrl + '/Tarima/GetDetalleTarimaClaveLoteBodega/'+Clave+'/'+Lote+'/'+bodega);
+    return this.http.get<any[]>(this.APIUrl + '/Tarima/GetDetalleTarimaClaveLoteBodega/'+Clave+'/'+Lote+'/'+bodega);
   }
   //^Actualizar Detalle Tarima por Bodega 
   getUpdateDetalleTarimaBodega(id: number, bodega: string){
-    return this.http.put<any[]>(APIUrl + '/Tarima/UpdateDetalleTarimaBodega/'+id+'/'+bodega, null);
+    return this.http.put<any[]>(this.APIUrl + '/Tarima/UpdateDetalleTarimaBodega/'+id+'/'+bodega, null);
   }
 
 
   generarConsulta(consulta){
-    return this.http.post(APIUrl + '/Tarima/consulta',consulta)
+    return this.http.post(this.APIUrl + '/Tarima/consulta',consulta)
   }
 
 
