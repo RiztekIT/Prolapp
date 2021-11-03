@@ -490,6 +490,8 @@ getbodegas(){
       movimiento.PesoxSaco = '22.68';
     }else  if (this.PresentacionSelect=='1 Kg'){
       movimiento.PesoxSaco = '1';
+    }else if (this.PresentacionSelect=='20 Kg'){
+      movimiento.PesoxSaco = '20';
     }else{
       movimiento.PesoxSaco = '25';
     }
@@ -697,6 +699,8 @@ getbodegas(){
           movimiento.PesoxSaco = '22.68';
         }else  if (this.PresentacionSelect=='1 Kg'){
           movimiento.PesoxSaco = '1';
+        }else  if (this.PresentacionSelect=='20 Kg'){
+          movimiento.PesoxSaco = '20';
         }else{
           movimiento.PesoxSaco = '25';
         }
@@ -792,6 +796,8 @@ getbodegas(){
           movimiento.PesoxSaco = '22.68';
         }else  if (this.PresentacionSelect=='1 Kg'){
           movimiento.PesoxSaco = '1';
+        }else  if (this.PresentacionSelect=='20 Kg'){
+          movimiento.PesoxSaco = '20';
         }else{
           movimiento.PesoxSaco = '25';
         }
@@ -886,6 +892,8 @@ getbodegas(){
         }else  if (this.PresentacionSelect=='22.68 Lb'){
           movimiento.PesoxSaco = '22.68';
         }else  if (this.PresentacionSelect=='1 Kg'){
+          movimiento.PesoxSaco = '1';
+        }else  if (this.PresentacionSelect=='20 Kg'){
           movimiento.PesoxSaco = '1';
         }else{
           movimiento.PesoxSaco = '25';

@@ -456,7 +456,9 @@ export class FormatoComprasComprasComponent implements OnInit {
       this.detalleCompra.Unidad = 'Kilogramo';
     } else if (this.PresentacionSelect == '1 Kg') {
       this.detalleCompra.Unidad = 'Kilogramo';
-    }  else if (this.PresentacionSelect == '22.68 Lb') {
+    }else if (this.PresentacionSelect == '20 Kg') {
+      this.detalleCompra.Unidad = 'Kilogramo';
+    }   else if (this.PresentacionSelect == '22.68 Lb') {
       this.detalleCompra.Unidad = 'Libra';
     }
     // this.service.formProd.DescripcionProducto = this.ProductoSelect + ' ' + this.MarcaSelect + ' ' + this.OrigenSelect + ' ' + this.PresentacionSelect
@@ -765,6 +767,8 @@ export class FormatoComprasComprasComponent implements OnInit {
       this.detalleCompra.PesoxSaco = '22.68';
     }else if (this.PresentacionSelect == '1 Kg') {
       this.detalleCompra.PesoxSaco = '1';
+    }else if (this.PresentacionSelect == '20 Kg') {
+      this.detalleCompra.PesoxSaco = '20';
     }
 
     if (!this.detalleCompra.Observaciones) {
@@ -1023,6 +1027,8 @@ export class FormatoComprasComprasComponent implements OnInit {
       this.detalleCompra.PesoxSaco = '22.68';
     }else if (this.PresentacionSelect == '1 Kg') {
       this.detalleCompra.PesoxSaco = '1';
+    }else if (this.PresentacionSelect == '20 Kg') {
+      this.detalleCompra.PesoxSaco = '20';
     }
     /* this.detalleCompra.PesoxSaco = this.PresentacionSelect; */
 
