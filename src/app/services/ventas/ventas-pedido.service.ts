@@ -37,7 +37,7 @@ export class VentasPedidoService {
   
 
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) {    
-
+    console.log(this.APIUrl);
     
   }
 
@@ -80,6 +80,7 @@ export class VentasPedidoService {
 
   //Get JOIN pedido-cliente
   getPedidoCliente(): Observable <any>{
+    console.log(this.APIUrl);
     return this.http.get<any>(this.APIUrl + '/Pedido/PedidoCliente');
   }
   //Get Detalles Pedido en base a IdPedido

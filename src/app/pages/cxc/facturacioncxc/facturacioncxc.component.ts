@@ -48,6 +48,7 @@ import { EventosService } from 'src/app/services/eventos/eventos.service';
 
 
 import { ConnectionHubServiceService } from './../../../services/shared/ConnectionHub/connection-hub-service.service';
+import { environment } from 'src/environments/environment';
 
 
 let origen: { origen: string, titulo: string }[] = [
@@ -121,11 +122,11 @@ export class FacturacioncxcComponent implements OnInit {
     private eventosService:EventosService,
     private ConnectionHubService: ConnectionHubServiceService,) {
   
-    this.service.listen2().subscribe((m:any)=>{
+    //this.service.listen2().subscribe((m:any)=>{
       // console.log(m);
-      this.refreshFacturaList();
+      //this.refreshFacturaList();
       // this.detallesFactura();
-      });
+      //});
 
    /*    this.ConnectionHubService.listenFacturacion().subscribe((m:any)=>{
         this.refreshFacturaList();
@@ -134,10 +135,11 @@ export class FacturacioncxcComponent implements OnInit {
    logo;
 
   ngOnInit() {
+    
     /* this.service.rfcempresa = 'PLA11011243A'*/
     
     /* this.ConnectionHubService.ConnectionHub(origen[0]); */
-    this.listaempresas()
+    //this.listaempresas()
     console.log(this.enviarfact.empresa);
     this.logo = '../../../assets/images/' + this.enviarfact.empresa.RFC + '.png'
     this.refreshFacturaList();
@@ -147,7 +149,7 @@ export class FacturacioncxcComponent implements OnInit {
     // this.listData.connect();
 
      //^ **** PRIVILEGIOS POR USUARIO *****
-     this.obtenerPrivilegios();
+    this.obtenerPrivilegios();
      //^ **** PRIVILEGIOS POR USUARIO *****
   }
 
@@ -293,9 +295,9 @@ this.service.master = [];
       console.log(data); */
       
   
-
-  
-    this.service.getFacturasListCLiente().subscribe(data => {
+      
+      this.service.getFacturasListCLiente().subscribe(data => {
+      console.log(environment.APIUrl);
 console.log(data)
       for (let i = 0; i <= data.length-1; i++){
         this.service.master[i] = data[i]

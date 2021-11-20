@@ -77,6 +77,20 @@ import { pagoTimbre } from 'src/app/Models/ComplementoPago/pagotimbre';
     })
   }
 
+  const httpOptions6 = {
+    headers: new HttpHeaders({
+      'F-Api-Key':'JDJ5JDEwJDZqbDNyU2dWOVpiVnlHVmhHeHNpVC4yRkxvUWdMNmp6NGlpWG1LY3IyUjZYa1BtdDA4aGxt',
+      //'F-Api-Key':'JDJ5JDEwJDdRdWdpL05PMW5qb2M0c3BmdXpSZC5SdFVDd0JTT2RCeHguQ2FEdUZud0JNSXFoOC5DR25x', //Pruebas
+      'F-Secret-Key':'JDJ5JDEwJGpRVzVlLnMyMGR5d0h1UWREVkJqMGVYalNmMHk4czZYU3VvRVlYOWN5T3hwd3d6RVBoRFdt',
+      //'F-Secret-Key':'JDJ5JDEwJHJ0ZWRaRVhNU3cwQ1B2VzRZc2ZaRWV5c3ZNTWs3WFhoZThOOFg0YkdmQUZsQWc3UzQxZ25t', //Pruebas
+      'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Access-Control-Allow-Headers': 'F-Secret-Key,Accept, Accept-Encoding, Content-Type',
+      'Access-Control-Allow-Methods': 'GET, OPTIONS'
+    }),
+    responseType: 'text' as 'json'
+  }
+
     
     
 
@@ -140,7 +154,7 @@ export class EnviarfacturaService {
       return this.http.get(rootURLxml,httpOptions4);
     }
     else if (this.empresa.RFC=='DTM200220KRA'){
-      return this.http.get(rootURLxml,httpOptions5);
+      return this.http.get(rootURLxml,httpOptions6);
     }
 
     

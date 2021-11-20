@@ -233,6 +233,8 @@ this.NotificacionesActivas = false;
       environment.APIUrl = 'https://erpprolapp.ddns.net:44361/api';
 
     }
+
+    console.log(environment.APIUrl);
    /*  if (empresa.RFC=='DTM200220KRA'){
       environment.APIUrl = 'https://riztekserver.ddns.net:44381/api';
     }else if (empresa.RFC=='AIN140101ME3'){

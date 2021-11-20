@@ -21,7 +21,9 @@ import { environment } from 'src/environments/environment';
 })
 export class FacturaService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) {
+    console.log(this.APIUrl);
+   }
   //  formData: Factura;
    formData = new Factura();
    saldoF;
@@ -33,7 +35,8 @@ export class FacturaService {
    Cliente;
    saldos = new Saldos();
    tipoCambioPago;
-   rfcempresa = 'PLA11011243A';
+   //rfcempresa = 'PLA11011243A';
+   rfcempresa;
    ClaveCliente;
 
    Pedido;
@@ -64,15 +67,17 @@ export class FacturaService {
     
   }
   getFacturasListCLiente(): Observable <any[]> {
+    this.APIUrl = environment.APIUrl;
+    console.log(this.APIUrl);
     if (this.rfcempresa==='PLA11011243A'){
 
-      return this.http.get<[]>(this.APIUrl + '/Factura/FacturaCliente');
+      return this.http.get<any[]>(this.APIUrl + '/Factura/FacturaCliente');
     }
     else if (this.rfcempresa=='AIN140101ME3'){
-      return this.http.get<[]>(this.APIUrl + '/Factura2/FacturaCliente');
+      return this.http.get<any[]>(this.APIUrl + '/Factura2/FacturaCliente');
     }
     else if (this.rfcempresa=='DTM200220KRA'){
-      return this.http.get<[]>(this.APIUrl + '/Factura3/FacturaCliente');
+      return this.http.get<any[]>(this.APIUrl + '/Factura3/FacturaCliente');
     }
     
   }
@@ -92,6 +97,8 @@ export class FacturaService {
 
   //Obtener Lista de Detalles Factura
   getDetallesFacturaList(id: number): Observable <DetalleFactura[]> {
+    console.log(this.APIUrl);
+    console.log(environment.APIUrl);
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura/DetalleFactura/'+ id);

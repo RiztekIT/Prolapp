@@ -725,16 +725,16 @@ import { ClienteContactoComponent } from '../components/cliente-contacto/cliente
         
     ],
     providers: [
+        EmpresaService,
         UsuariosServieService,
         ProductosService,
         ProveedoresService,
         ClientesService,
-        FacturaService,
         ReciboPagoService,
-        EmpresaService,
         PedidoService,
         CurrencyPipe,
         VentasPedidoService,
+        FacturaService,
         NotaCreditoService,
         OrdenCargaService,
         OrdenDescargaService,
