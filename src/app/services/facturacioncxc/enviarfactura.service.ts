@@ -179,7 +179,7 @@ export class EnviarfacturaService {
           observer.next(this.http.get(rootURLxml,httpOptions4));
         }
         else if (this.empresa.RFC=='DTM200220KRA'){
-          observer.next(this.http.get(rootURLxml,httpOptions5));
+          observer.next(this.http.get(rootURLxml,httpOptions6));
         }
         
         // return 
@@ -206,7 +206,7 @@ export class EnviarfacturaService {
       return this.http.get(rootURLxml,httpOptions4);
     }
     else if (this.empresa.RFC=='DTM200220KRA'){
-      return this.http.get(rootURLxml,httpOptions5);
+      return this.http.get(rootURLxml,httpOptions6);
     }
     
 
@@ -286,7 +286,7 @@ export class EnviarfacturaService {
       return this.http.get(rootURLUM,httpOptions4);
     }
     else if (this.empresa.RFC=='DTM200220KRA'){
-      return this.http.get(rootURLUM,httpOptions5);
+      return this.http.get(rootURLUM,httpOptions6);
     }
     
     
