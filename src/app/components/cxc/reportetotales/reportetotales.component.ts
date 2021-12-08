@@ -342,8 +342,8 @@ export class ReportetotalesComponent implements OnInit {
           pdf.addImage(footerReportes, "PNG", 18, 25, 2, 2);
         }
       }).save();
-    }, 1000);
-    setTimeout(() => { this.isVisible = true; }, 1000);
+    }, 3000);
+    setTimeout(() => { this.isVisible = true; }, 3000);
   }
 
 

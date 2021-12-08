@@ -6,7 +6,7 @@
             <button (click)="exportarXLS()" class="btn btn-success"> <i class="mdi mdi-file-excel-box" ></i> Excel </button>
             <button *ngIf="this.enviarfact.empresa.RFC=='PLA11011243A'" (click)="exportarPDF()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
             <button *ngIf="this.enviarfact.empresa.RFC=='AIN140101ME3'" (click)="exportarPDFAbarrotodo()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
-            <button *ngIf="this.enviarfact.empresa.RFC=='DTM200220KRA'" (click)="exportarPDFAbarrotodo()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
+            <button *ngIf="this.enviarfact.empresa.RFC=='DTM200220KRA'" (click)="exportarPDFDT()" class="btn btn-danger"><i class="mdi mdi-file-pdf-box"></i> PDF </button>
         </div>
     </div>
 </div>
@@ -100,6 +100,7 @@
                                         <th class="blacktxt bolder " style="font-size: 10px">Producto</th>
                                         <th class="blacktxt bolder " style="font-size: 10px">Precio</th>
                                         <th class="blacktxt bolder " style="font-size: 10px">Importe</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody *ngFor="let detalle of facturas[i].detalle">
@@ -110,7 +111,7 @@
                                         <td *ngIf="fact.Moneda==='USD'" class="wrap pgbreak" style="font-size: 10px"> {{detalle.PrecioUnitarioDlls | currency}} </td>
                                         <td *ngIf="fact.Moneda==='MXN'" class="wrap pgbreak" style="font-size: 10px"> {{detalle.Importe | currency}} </td>
                                         <td *ngIf="fact.Moneda==='USD'" class="wrap pgbreak" style="font-size: 10px"> {{detalle.ImporteDlls | currency}} </td>
-
+                                        <td></td>
                                     </tr>
                                 </tbody>
                             </table>
