@@ -62,6 +62,7 @@ export class ReciboPagoService {
   }
   //Obtener Join ReciboPago - Cliente
   getReciboPagoClienteList(): Observable<any[]> {
+    this.APIUrl = environment.APIUrl;
     if (this.rfcempresa==='PLA11011243A'){
 
      

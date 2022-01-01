@@ -57,11 +57,13 @@ export const APIUrl = environment.APIUrl;
     //Get Join Notas y Detalle Notas
 
   getNotasjoinDetalle(): Observable<any[]>{
+    this.APIUrl = environment.APIUrl;
    return this.http.get<[]>(this.APIUrl + '/NotaCredito');
   }
 
   //GetNotas de credito en base a id Factura
   getNotaCreditoFacturaID(id: number): Observable<any[]>{
+    this.APIUrl = environment.APIUrl;
     if (this.enviarfact.empresa.RFC==='PLA11011243A'){
       return this.http.get<[]>(this.APIUrl + '/NotaCredito/NotaCreditoID2/'+ id);
     }else  if (this.enviarfact.empresa.RFC==='AIN140101ME3'){
