@@ -115,7 +115,7 @@
 
                 <ng-container matColumnDef="Folio">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Folio</th>
-                    <td mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.Folio}} +
+                    <td mat-cell *matCellDef="let element" (click)="expandedElement = element">{{element.IdFactura}}
                         <td>
                 </ng-container>
 
@@ -130,20 +130,6 @@
 
 
 
-                <!-- 
-                <ng-container matColumnDef="Options" stickyEnd>
-                    <th mat-header-cell *matHeaderCellDef>Opciones</th>
-                    <td mat-cell *matCellDef="let row">
-
-
-                        <button mat-icon-button class="btn btn-danger" (click)="onDeleteRel(row.IdDetalle)">
-                            <mat-icon>delete_outline</mat-icon>
-                          </button>
-
-
-
-                    </td>
-                </ng-container> -->
 
 
             </table>

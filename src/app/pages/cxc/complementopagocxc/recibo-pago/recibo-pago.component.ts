@@ -1372,7 +1372,9 @@ onExportClick(folio?: string) {
     }).then((result) => {
       if (result.value) {
         this.loading = true;
-        this.servicetimbrado.cancelar(uuid).subscribe(data => {
+        let resp = {motivo: '02', folioSustituto: ''}
+  console.log(resp);
+        this.servicetimbrado.cancelar(uuid,resp).subscribe(data => {
           let data2 = JSON.parse(data);
           if (data2.response === 'success') {
             this.service.formData.Estatus='Cancelada';

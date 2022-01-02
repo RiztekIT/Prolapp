@@ -195,18 +195,18 @@ export class EnviarfacturaService {
     // const blob = new Blob([], { type: 'application/octet-stream' });    
   }
 
-  cancelar(url:string): Observable<any>{
+  cancelar(url:string,datos): Observable<any>{
     let rootURLxml = "/api/v3/cfdi33/"+ url  +"/cancel";
 
     if (this.empresa.RFC==='PLA11011243A'){
 
-      return this.http.get(rootURLxml,httpOptions2);
+      return this.http.post(rootURLxml,datos,httpOptions2);
     }
     else if (this.empresa.RFC=='AIN140101ME3'){
-      return this.http.get(rootURLxml,httpOptions4);
+      return this.http.post(rootURLxml,datos,httpOptions4);
     }
     else if (this.empresa.RFC=='DTM200220KRA'){
-      return this.http.get(rootURLxml,httpOptions6);
+      return this.http.post(rootURLxml,datos,httpOptions6);
     }
     
 

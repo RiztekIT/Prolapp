@@ -858,7 +858,9 @@ this.refreshTablaDetalles();
     }).then((result) => {
       if (result.value) {
         this.loading = true;
-        this.enviarfact.cancelar(id).subscribe(data => {
+        let resp = {motivo: '02', folioSustituto: ''}
+  console.log(resp);
+        this.enviarfact.cancelar(id,resp).subscribe(data => {
           let data2 = JSON.parse(data);
           if (data2.response === 'success') {
              this.service.updateCancelarNota(id).subscribe(data => {

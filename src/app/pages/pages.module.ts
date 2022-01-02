@@ -380,6 +380,7 @@ import { RedhgreportesComponent } from './redholding/facturacion/redhgreportes/r
 import { RedhgreporteplantillaComponent } from './redholding/facturacion/redhgreporteplantilla/redhgreporteplantilla.component';
 import { CfdirelacionadoscxcComponent } from './cxc/cfdirelacionadoscxc/cfdirelacionadoscxc.component';
 import { ClienteContactoComponent } from '../components/cliente-contacto/cliente-contacto.component';
+import { CancelarcfdiComponent } from './cxc/cancelarcfdi/cancelarcfdi.component';
 
 
 
@@ -661,7 +662,8 @@ import { ClienteContactoComponent } from '../components/cliente-contacto/cliente
         RedhgreportesComponent,
         RedhgreporteplantillaComponent,
         CfdirelacionadoscxcComponent,
-        ClienteContactoComponent
+        ClienteContactoComponent,
+        CancelarcfdiComponent
 
     
     ],
@@ -854,7 +856,8 @@ import { ClienteContactoComponent } from '../components/cliente-contacto/cliente
         RedhgfacturaComponent,
         RedhgreporteplantillaComponent,
         CfdirelacionadoscxcComponent,
-        ClienteContactoComponent
+        ClienteContactoComponent,
+        CancelarcfdiComponent
         
         
     ]

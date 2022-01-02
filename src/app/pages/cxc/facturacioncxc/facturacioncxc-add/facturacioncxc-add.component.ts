@@ -37,6 +37,7 @@ import { processors } from 'xml2js'
 import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 import { OrdenventacxcComponent } from '../ordenventacxc/ordenventacxc.component';
 import { CfdirelacionadoscxcComponent } from '../../cfdirelacionadoscxc/cfdirelacionadoscxc.component';
+import { CancelarcfdiComponent } from '../../cancelarcfdi/cancelarcfdi.component';
 
 /* Headers para el envio de la factura */
 const httpOptions = {
@@ -564,30 +565,92 @@ console.log(this.service.formData.Id);
     }).then((result) => {
       if (result.value) {
         this.loading = true;
-        this.enviarfact.cancelar(row.UUID).subscribe(data => {
-          let data2 = JSON.parse(data);
-          if (data2.response === 'success') {
-            // this.service.updateCancelarFactura(this.service.formData.Id).subscribe(data => {
-            //   this.loading = false;
-            //   Swal.fire({
-            //     title: 'Factura Cancelada',
-            //     icon: 'success',
-            //     timer: 1000,
-            //     showCancelButton: false,
-            //     showConfirmButton: false
-            //   });
-            // });
-          }
-          else if (data2.response === 'error') {
-            this.loading = false;
-            // this.resetForm();
-            Swal.fire(
-              'Error en Cancelacion',
-              '' + data2.message + '',
-              'error'
-            )
-          }
-        })
+/*  */
+
+console.log(row.IdNotaCredito);
+console.log(row.Folio);
+/* const dialogConfig = new MatDialogConfig();
+dialogConfig.disableClose = true;
+dialogConfig.autoFocus = true;
+dialogConfig.width="70%";
+dialogConfig.data = {
+  uuid: row.UUID,
+  folio:row.Folio,
+  factura: row
+}
+
+
+let dl = this.dialog.open(CancelarcfdiComponent, dialogConfig); */
+
+/* dl.afterClosed().toPromise().then(resp=>{ */
+  let resp = {motivo: '02', folioSustituto: ''}
+  console.log(resp);
+  if (resp){
+
+
+    /*  */
+    this.enviarfact.cancelar(row.UUID,resp).subscribe(data => {
+      let data2 = JSON.parse(data);
+      if (data2.response === 'success') {
+        // this.service.updateCancelarFactura(this.service.formData.Id).subscribe(data => {
+        //   this.loading = false;
+        //   Swal.fire({
+        //     title: 'Factura Cancelada',
+        //     icon: 'success',
+        //     timer: 1000,
+        //     showCancelButton: false,
+        //     showConfirmButton: false
+        //   });
+        // });
+      }
+      else if (data2.response === 'error') {
+        this.loading = false;
+        // this.resetForm();
+        Swal.fire(
+          'Error en Cancelacion',
+          '' + data2.message + '',
+          'error'
+        )
+      }
+    })
+
+    /*  */
+
+
+/* 
+    this.enviarfact.cancelar(id,resp).subscribe(data => {
+      let data2 = JSON.parse(data);
+      if (data2.response === 'success') {
+        
+        this.service.updateCancelarFactura(this.service.formData.Id).subscribe(data => {
+          this.loading = false;
+          Swal.fire({
+            title: 'Factura Cancelada',
+            icon: 'success',
+            timer: 1000,
+            showCancelButton: false,
+            showConfirmButton: false
+          });
+        });
+      }
+      else if (data2.response === 'error') {
+        this.loading = false;
+        this.resetForm();
+        Swal.fire(
+          'Error en Cancelacion',
+          '' + data2.message + '',
+          'error'
+        )
+      }
+    }) */
+
+  }
+/* }) */
+
+
+
+        /*  */
+        
       }
 
     })
@@ -1703,7 +1766,7 @@ const dialogConfig = new MatDialogConfig();
   }
 
   /* Metodo para cancelar la factura */
-  cancelar(id: string, folio: string) {
+  cancelar(id: string, folio: string,fact) {
     Swal.fire({
       title: '¿Segur@ de Cancelar la Factura?',
       icon: 'warning',
@@ -1715,7 +1778,64 @@ const dialogConfig = new MatDialogConfig();
     }).then((result) => {
       if (result.value) {
         this.loading = true;
-        this.enviarfact.cancelar(id).subscribe(data => {
+        /* this.loading = false; */
+        console.log(id);
+        console.log(folio);
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width="70%";
+        dialogConfig.data = {
+          uuid: id,
+          folio:folio,
+          factura: fact
+        }
+        
+      /*  dialogConfig.data = {
+          rfcemisor: rfcemisor,
+        fechahorasolicitud:    fechahorasolicitud,
+        fechahoracancel:    fechahoracancel,
+        foliofiscal:    foliofiscal,
+        estatus:    estatus,
+        sellodigitalsat:    sellodigitalsat
+        }  */
+        //let dl2 = this.dialog.open(CfdirelacionadoscxcComponent, dialogConfig);
+        let dl = this.dialog.open(CancelarcfdiComponent, dialogConfig);
+
+        dl.afterClosed().toPromise().then(resp=>{
+          console.log(resp);
+          if (resp){
+            this.enviarfact.cancelar(id,resp).subscribe(data => {
+              let data2 = JSON.parse(data);
+              if (data2.response === 'success') {
+                
+                this.service.updateCancelarFactura(this.service.formData.Id).subscribe(data => {
+                  this.loading = false;
+                  Swal.fire({
+                    title: 'Factura Cancelada',
+                    icon: 'success',
+                    timer: 1000,
+                    showCancelButton: false,
+                    showConfirmButton: false
+                  });
+                });
+              }
+              else if (data2.response === 'error') {
+                this.loading = false;
+                this.resetForm();
+                Swal.fire(
+                  'Error en Cancelacion',
+                  '' + data2.message + '',
+                  'error'
+                )
+              }
+            })
+
+          }
+        })
+
+        //3665
+   /*      this.enviarfact.cancelar(id).subscribe(data => {
           let data2 = JSON.parse(data);
           if (data2.response === 'success') {
             
@@ -1739,7 +1859,7 @@ const dialogConfig = new MatDialogConfig();
               'error'
             )
           }
-        })
+        }) */
       }
 
     })

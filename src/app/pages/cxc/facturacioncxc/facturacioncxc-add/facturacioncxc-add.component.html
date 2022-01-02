@@ -689,7 +689,7 @@
                                 <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml2(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid" data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
                       PDF</button>
                                 <br>
-                                <button [style.display]="clienteLogin ? 'none' : 'block'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='cancelar(service.formData.UUID,service.formData.Folio)' [disabled]="form.invalid"><i
+                                <button [style.display]="clienteLogin ? 'none' : 'block'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='cancelar(service.formData.UUID,service.formData.Folio,service.formData)' [disabled]="form.invalid"><i
                         class="mdi mdi-candle btn-lg"></i>Cancelar</button>
                                 <br>
                                 <button id="enviaremail2" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#modalcorreo"></button>
