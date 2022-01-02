@@ -162,7 +162,7 @@ export class PedidoVentasComponent implements OnInit {
 
   }
 
-  public listEstatus: Array<Object> = [
+  public listEstatus: Array<any> = [
     { Estatus: 'Todos' },
     { Estatus: 'Guardada' },
     { Estatus: 'Cerrada' },

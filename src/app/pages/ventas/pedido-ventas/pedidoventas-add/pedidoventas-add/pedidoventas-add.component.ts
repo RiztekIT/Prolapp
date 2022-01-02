@@ -1158,15 +1158,15 @@ subscribeClientes: Subscription
     })
   }
 
-  public listMoneda: Array<Object> = [
+  public listMoneda: Array<any> = [
     { Moneda: 'MXN' },
     { Moneda: 'USD' }
   ];
-  public listPrioridad: Array<Object> = [
+  public listPrioridad: Array<any> = [
     { Prioridad: 'Normal' },
     { Prioridad: 'Urgente' }
   ];
-  public listFlete: Array<Object> = [
+  public listFlete: Array<any> = [
     { Flete: 'Local' },
     { Flete: 'Foraneo' },
     { Flete: 'Paqueteria' }

@@ -63,7 +63,7 @@ this.dialogbox.close();
     if (this.facturaSVC.rfcempresa=='PLA11011243A'){
       
       
- consulta = "select Factura2.*, Cliente2.*, (select Top 1 case IdRelacion when NULL then 'False' else 'True' end from RelacionCancelaciones where IdFactura = Factura.Id and UUID=Factura.UUID) as checked from Factura Left join Cliente2 on Factura.IdCliente = Cliente2.IdClientes where IdCliente="+this.data.factura.IdCliente+" order by FechaDeExpedicion desc;"
+ consulta = "select Factura.*, Cliente2.*, (select Top 1 case IdRelacion when NULL then 'False' else 'True' end from RelacionCancelaciones where IdFactura = Factura.Id and UUID=Factura.UUID) as checked from Factura Left join Cliente2 on Factura.IdCliente = Cliente2.IdClientes where IdCliente="+this.data.factura.IdCliente+" order by FechaDeExpedicion desc;"
     }else if(this.facturaSVC.rfcempresa=='AIN140101ME3'){
 consulta = "select Factura2.*, Cliente.*, (select Top 1 case IdRelacion when NULL then 'False' else 'True' end from RelacionCancelaciones where IdFactura = Factura2.Id and UUID=Factura2.UUID) as checked from Factura2 Left join Cliente on Factura2.IdCliente = Cliente.IdClientes where IdCliente="+this.data.factura.IdCliente+" order by FechaDeExpedicion desc;"
     }else if(this.facturaSVC.rfcempresa=='DTM200220KRA'){

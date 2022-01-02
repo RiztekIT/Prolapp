@@ -34,7 +34,7 @@ declare function btn_table();
 export class ReportesVentasComponent implements OnInit {
 
   listDetalleData;
-  displayedColumns : string [] = ['Folio', 'Nombre', 'FechaDeExpedicion', 'Cantidad', 'Total', 'Estado'];
+  displayedColumns : string [] = ['Folio','FolioPedido' ,'Nombre', 'FechaDeExpedicion', 'Cantidad', 'Total', 'Estado'];
   displayedColumnsVersion : string [] = ['ClaveProducto'];
   listData: MatTableDataSource<any>;
   MasterDetalle = new Array<facturaMasterDetalle>();
@@ -98,13 +98,13 @@ export class ReportesVentasComponent implements OnInit {
  
  
    //Lista de Estatus Pedido
-   public listEstatusPedido: Array<Object> = [
+   public listEstatusPedido: Array<any> = [
      { tipo: 'Guardada' },
      { tipo: 'Cerrada' },
    ];
  
    //Lista de Estatus Cotizacion
-   public listEstatusCotizacion: Array<Object> = [
+   public listEstatusCotizacion: Array<any> = [
      { tipo: 'Guardada' },
      { tipo: 'Cerrada' },
      { tipo: 'Duplicada' },
@@ -324,13 +324,60 @@ else if(modulo == 'Pedido' && moneda == 'MXN'){
 this.listData = new MatTableDataSource();
 this.facturaSVC.master = [];
 
-    /* this.facturaSVC.deleteFacturaCreada().subscribe(data=>{ */
-      /* console.log(data); */
+    
       
       Swal.showLoading();
 
+      let consulta
+
+      if (this.facturaSVC.rfcempresa=='PLA11011243A'){
+        
+        
+   consulta = "select f.*,ov.*,c.* from OvFactura ov  left join factura f on f.Id=ov.idFactura left join Cliente2 c on f.IdCliente=c.IdClientes where f.Estatus<>'Cancelada' order by f.Folio desc"
+      }else if(this.facturaSVC.rfcempresa=='AIN140101ME3'){
+  consulta = "select f.*,ov.*,c.* from OvFactura ov  left join factura2 f on f.Id=ov.idFactura left join Cliente c on f.IdCliente=c.IdClientes where f.Estatus<>'Cancelada' order by f.Folio desc"
+      }else if(this.facturaSVC.rfcempresa=='DTM200220KRA'){
+        consulta = "select f.*,ov.*,c.* from OvFactura ov  left join factura3 f on f.Id=ov.idFactura left join Cliente3 c on f.IdCliente=c.IdClientes where f.Estatus<>'Cancelada' order by f.Folio desc"
+            }
   
-    this.facturaSVC.getFacturasListCLienteProd().subscribe(data => {
+  
+      console.log(consulta);
+  
+  
+      this.facturaSVC.consultaGeneral(consulta).toPromise().then((data:any)=>{
+        console.log(data);
+        for (let i = 0; i <= data.length-1; i++){
+          this.facturaSVC.master[i] = data[i]
+          this.facturaSVC.master[i].detalle = [];
+          if (data[i].IdCliente != 0){
+            
+            this.facturaSVC.getDetallesFacturaListProd(data[i].Id).subscribe(res => {
+              this.facturaSVC.master[i].detalle.pop();
+              let kgTotales = 0;
+              for (let l = 0; l <=res.length-1; l++){
+                 kgTotales = +res[l].Cantidad + +kgTotales
+                 this.facturaSVC.master[i].KGTOTALES = kgTotales;
+                this.facturaSVC.master[i].detalle.push(res[l]);
+              }
+              
+              this.listData = new MatTableDataSource(this.facturaSVC.master);
+              this.listData.sort = this.sort;    
+              this.listData.paginator = this.paginator;
+              this.listData.paginator._intl.itemsPerPageLabel = 'Facturas por Pagina';
+              Swal.close();
+            })
+  
+          }}
+       /*  console.log(data);
+        this.listData = new MatTableDataSource(resp);
+        this.listData.sort = this.sort;
+        this.listData.paginator = this.paginator;
+        this.listData.paginator._intl.itemsPerPageLabel = 'Facturas por Pagina';
+        Swal.close(); */
+      })
+
+  
+ /*    this.facturaSVC.getFacturasListCLienteProd().subscribe(data => {
 console.log(data)
       for (let i = 0; i <= data.length-1; i++){
         this.facturaSVC.master[i] = data[i]
@@ -355,9 +402,9 @@ console.log(data)
 
         }}
         
-        // console.log(this.listData);
-      });
-    /* }) */
+        
+      }); */
+    
   }
 
   applyFilter(filtervalue: string){  

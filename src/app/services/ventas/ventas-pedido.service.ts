@@ -55,7 +55,7 @@ export class VentasPedidoService {
   IdCliente : number;
 
   
-  readonly APIUrl = environment.APIUrl;
+  APIUrl = environment.APIUrl;
 //  readonly APIUrl = environment.APIUrl;
   
 
@@ -75,11 +75,14 @@ export class VentasPedidoService {
 
   //Get Pedido por IdPedido
   getPedidoId(id: number): Observable <Pedido[]>{
+    /* this.APIUrl = environment.APIUrl; */
+    console.log(this.APIUrl);
     return this.http.get<Pedido []>(this.APIUrl + '/Pedido/PedidoId/' + id);
   }
 
   //Get JOIN pedido-cliente
   getPedidoCliente(): Observable <any>{
+    this.APIUrl = environment.APIUrl;
     console.log(this.APIUrl);
     return this.http.get<any>(this.APIUrl + '/Pedido/PedidoCliente');
   }
@@ -167,6 +170,8 @@ updateOrdenCarga(id){
 
   //Eliminar Detalle Pedido
   onDeleteDetallePedido(id: number){
+    /* this.APIUrl = environment.APIUrl; */
+    console.log(this.APIUrl);
     return this.http.delete(this.APIUrl + '/Pedido/DeleteDetallePedido/' + id);
   }
   //Eliminar ALL Detalle Pedido
