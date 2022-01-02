@@ -229,7 +229,7 @@ export class PedidoventasAddComponent implements OnInit {
       thirdCtrl: ['', Validators.required]
     });
 
-
+    this.getDireccionesPedido()
 
 
     this.um = true;
@@ -821,6 +821,8 @@ subscribeClientes: Subscription
         console.log(res);
       });
 
+      this.agregardireccion(options)
+
     }
   }
 
@@ -855,6 +857,7 @@ subscribeClientes: Subscription
     if (event.isUserInput) {
       this.service.formData = options;
       this.dropdownRefreshDirecciones(options.IdClientes);
+      this.agregardireccion()
     }
   }
 
@@ -877,7 +880,7 @@ subscribeClientes: Subscription
       this.ClienteSeleccionado = true;
 
       //Asignar la direccion al formdata
-      if (this.service.formDataPedido.IdDireccion > 0) {
+  /*     if (this.service.formDataPedido.IdDireccion > 0) {
         this.service.getDireccionID(this.service.formDataPedido.IdDireccion).subscribe(data => {
           this.service.formData.Calle = data[0].Calle;
           this.service.formData.Colonia = data[0].Colonia;
@@ -891,7 +894,7 @@ subscribeClientes: Subscription
           this.isDireccion = true;
           this.changeDireccion(this.isDireccion);
         });
-      }
+      } */
 
     } else {
       this.ClienteSeleccionado = false;
@@ -1176,6 +1179,11 @@ subscribeClientes: Subscription
   listData: MatTableDataSource<any>;
   displayedColumns: string[] = ['ClaveProducto', 'Producto', 'Cantidad', 'PU', 'Importe', 'Options'];
   @ViewChild(MatSort, null) sort: MatSort;
+
+  listDataDirecciones: MatTableDataSource<any>;
+  displayedColumnsDirecciones: string[] = ['Id', 'Calle', 'Colonia', 'Ciudad', 'Estado', 'Options'];
+  listadirecciones = []
+ 
 
 
 
@@ -3017,6 +3025,80 @@ Swal.fire({
       this.productoSeleccionado = this.seleccionadosSeleccion[0].Producto; 
     }
     console.log('%c%s', 'color: #1d5673', this.kilogramosMaximos);
+  }
+
+
+  onDeleteDireccion(row){
+    console.log(row);
+    let query = 'delete from DireccionesPedido where idDireccionesPedido='+row.idDireccionesPedido+''
+    let consulta = {
+      'consulta': query
+    };
+    this.traspasoSVC.getQuery(consulta).subscribe((detallesConsulta: any) => {
+      this.getDireccionesPedido()
+    })
+  }
+
+  getDireccionesPedido(){
+
+    let query = 'select dp.*,p.*,dc.* from DireccionesPedido dp left join Pedidos p on dp.idPedido=p.IdPedido left join DireccionesCliente dc on dp.idDireccion=dc.IdDireccion where dp.idPedido='+this.IdPedido+';'
+    let consulta = {
+      'consulta': query
+    };
+    this.traspasoSVC.getQuery(consulta).subscribe((data: any) => {
+
+      console.log(data);
+      data.forEach(element => {
+
+        if (element.idDireccion==0){
+
+          element.Calle = this.service.formData.Calle
+          element.Colonia = this.service.formData.Colonia
+          element.Ciudad = this.service.formData.Ciudad
+          element.Estado = this.service.formData.Estado
+
+        }
+        
+      });
+      this.listDataDirecciones = new MatTableDataSource(data);
+      this.listadirecciones = data;
+      /* this.getDireccionesPedido() */
+
+
+    })
+
+  }
+
+  agregardireccion(direccion?){
+
+if (direccion){
+  let query = 'insert into DireccionesPedido values('+this.IdPedido+','+direccion.IdDireccion+')'
+  let consulta = {
+    'consulta': query
+  };
+  this.traspasoSVC.getQuery(consulta).subscribe((data: any) => {
+
+    console.log(data);
+    this.getDireccionesPedido()
+
+
+  })
+
+}else{
+
+  let query = 'insert into DireccionesPedido values('+this.IdPedido+',0)'
+  let consulta = {
+    'consulta': query
+  };
+  this.traspasoSVC.getQuery(consulta).subscribe((data: any) => {
+
+    console.log(data);
+    this.getDireccionesPedido()
+
+
+  })
+}
+
   }
 
 

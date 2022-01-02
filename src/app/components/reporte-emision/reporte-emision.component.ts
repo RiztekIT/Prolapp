@@ -12,6 +12,7 @@ import { EnviarfacturaService } from 'src/app/services/facturacioncxc/enviarfact
 import { Cliente } from '../../Models/catalogos/clientes-model';
 import Swal from 'sweetalert2';
 import { MessageService } from 'src/app/services/message.service';
+import { TraspasoMercanciaService } from 'src/app/services/importacion/traspaso-mercancia.service';
 
 declare function cantidad(n);
 // declare function cantidadDlls(n);
@@ -24,7 +25,8 @@ declare function cantidad(n);
 export class ReporteEmisionComponent implements OnInit {
 
   constructor(public dialogbox: MatDialogRef<ReporteEmisionComponent>, public router: Router, private _formBuilder: FormBuilder, 
-    public service: VentasPedidoService, public enviarfact: EnviarfacturaService,@Inject(MAT_DIALOG_DATA) public dataComponente: any, public _MessageService: MessageService  ) { }
+    public service: VentasPedidoService, public enviarfact: EnviarfacturaService,@Inject(MAT_DIALOG_DATA) public dataComponente: any, public _MessageService: MessageService,
+    public traspasoSVC: TraspasoMercanciaService  ) { }
 
     con : string| number;
     arrcon: Array<any> = [];
@@ -52,6 +54,8 @@ export class ReporteEmisionComponent implements OnInit {
 
     moneda: string = 'MXN';
     mostrarPrecios: boolean;
+
+    listadirecciones = []
 
     
 
@@ -130,6 +134,9 @@ export class ReporteEmisionComponent implements OnInit {
           this.service.getDetallePedidoId(this.IdPedido).subscribe(resDetalle=>{
             // console.log(resDetalle);
             this.arrcon = resDetalle;
+
+            this.getDireccionesPedido()
+
             // this.asyncCall();
             setTimeout(()=>{
                let pdf =   this.onExportClick();  
@@ -279,6 +286,36 @@ export class ReporteEmisionComponent implements OnInit {
 
 // return 'Hola';
     
+  }
+
+
+  getDireccionesPedido(){
+
+    let query = 'select dp.*,p.*,dc.* from DireccionesPedido dp left join Pedidos p on dp.idPedido=p.IdPedido left join DireccionesCliente dc on dp.idDireccion=dc.IdDireccion where dp.idPedido='+this.IdPedido+';'
+    let consulta = {
+      'consulta': query
+    };
+    this.traspasoSVC.getQuery(consulta).subscribe((data: any) => {
+
+      console.log(data);
+      data.forEach(element => {
+
+        if (element.idDireccion==0){
+
+          element.Calle = this.objCliente.Calle
+          element.Colonia = this.objCliente.Colonia
+          element.Ciudad = this.objCliente.Ciudad
+          element.Estado = this.objCliente.Estado
+
+        }
+        
+      });      
+      this.listadirecciones = data;
+      /* this.getDireccionesPedido() */
+
+
+    })
+
   }
 
 

@@ -232,9 +232,59 @@
                                                 </mat-form-field>
                                                 <div class="container">
                                                     <div class="row">
+
+                                                        <!-- <label class="input-group-text text-info">Nombre :</label>
+                                                        <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre" readonly> -->
+
+                                                        <label class="input-group-text text-info">Razon Social :</label>
+                                                        <input type="text" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="service.formData.RazonSocial" readonly>
+
+                                                        <label class="input-group-text text-info">RFC :</label>
+                                                        <input type="text" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="service.formData.RFC" readonly>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-4">
+                                                            <label class="input-group-text text-info">Calle :</label>
+                                                            <input type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle" readonly>
+                                                        </div>
+                                                        <div class="col-12 col-md-4">
+                                                            <label class="input-group-text text-info">Colonia :</label>
+                                                            <input type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia" readonly>
+                                                        </div>
+                                                        <div class="col-12 col-md-4">
+                                                            <label class="input-group-text text-info">CP :</label>
+                                                            <input type="text" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-3">
+                                                            <label class="input-group-text text-info">Ciudad :</label>
+                                                            <input type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad" readonly>
+                                                        </div>
+                                                        <div class="col-12 col-md-3">
+                                                            <label class="input-group-text text-info">Estado :</label>
+                                                            <input type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado" readonly>
+                                                        </div>
+                                                        <div class="col-12 col-md-3">
+                                                            <label class="input-group-text text-info">NumeroExterior :</label>
+                                                            <input type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior" readonly>
+                                                        </div>
+                                                        <div class="col-12 col-md-3">
+                                                            <label class="input-group-text text-info">NumeroInterior :</label>
+                                                            <input type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior" readonly>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row">
+                                                        <!--  <label class="input-group-text text-info">Lugar de Entrega:</label>
+                                                            <input type="text" class="form-control" name="LugarDeEntrega" #LugarDeEntrega="ngModel" [(ngModel)]="service.formDataPedido.LugarDeEntrega"> -->
+
+
                                                         <div class="col-12 col-md-6">
                                                             <div *ngIf="ClienteSeleccionado == true">
-                                                                <label class="input-group-text text-info">Otra Direccion:</label>
+                                                                <label class="input-group-text text-info">Agregar Direccion:</label>
                                                                 <mat-checkbox #checkboxDireccion [(checked)]="isDireccion" (change)='changeDireccion(checkboxDireccion.checked)'></mat-checkbox>
                                                             </div>
                                                             <br>
@@ -251,84 +301,87 @@
                                                                 </mat-form-field>
                                                             </div>
                                                             <br>
-                                                            <label class="input-group-text text-info">Nombre :</label>
-                                                            <input type="text" class="form-control" name="Nombre" #Nombre="ngModel" [(ngModel)]="service.formData.Nombre" readonly>
 
-                                                            <label class="input-group-text text-info">RFC :</label>
-                                                            <input type="text" class="form-control" name="RFC" #RFC="ngModel" [(ngModel)]="service.formData.RFC" readonly>
-
-                                                            <label class="input-group-text text-info">Razon Social :</label>
-                                                            <input type="text" class="form-control" name="RazonSocial" #RazonSocial="ngModel" [(ngModel)]="service.formData.RazonSocial" readonly>
 
                                                         </div>
-                                                        <div class="col-12 col-md-6">
-                                                            <label class="input-group-text text-info">Lugar de Entrega:</label>
-                                                            <input type="text" class="form-control" name="LugarDeEntrega" #LugarDeEntrega="ngModel" [(ngModel)]="service.formDataPedido.LugarDeEntrega">
 
-                                                            <label class="input-group-text text-info">Calle :</label>
-                                                            <input type="text" class="form-control" name="Calle" #Calle="ngModel" [(ngModel)]="service.formData.Calle" readonly>
-
-                                                            <label class="input-group-text text-info">Colonia :</label>
-                                                            <input type="text" class="form-control" name="Colonia" #Colonia="ngModel" [(ngModel)]="service.formData.Colonia" readonly>
-
-
-                                                            <label class="input-group-text text-info">CP :</label>
-                                                            <input type="text" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP" readonly>
-
-                                                            <label class="input-group-text text-info">Ciudad :</label>
-                                                            <input type="text" class="form-control" name="Ciudad" #Ciudad="ngModel" [(ngModel)]="service.formData.Ciudad" readonly>
-
-                                                            <label class="input-group-text text-info">Estado :</label>
-                                                            <input type="text" class="form-control" name="Estado" #Estado="ngModel" [(ngModel)]="service.formData.Estado" readonly>
-
-                                                            <label class="input-group-text text-info">NumeroExterior :</label>
-                                                            <input type="text" class="form-control" name="NumeroExterior" #NumeroExterior="ngModel" [(ngModel)]="service.formData.NumeroExterior" readonly>
-
-                                                            <label class="input-group-text text-info">NumeroInterior :</label>
-                                                            <input type="text" class="form-control" name="NumeroInterior" #NumeroInterior="ngModel" [(ngModel)]="service.formData.NumeroInterior" readonly>
-
-
-                                                            <!-- <label class="input-group-text text-info">ClaveCliente :</label>
-                                            <input type="text" class="form-control" name="ClaveCliente" #ClaveCliente="ngModel" [(ngModel)]="service.formData.ClaveCliente" readonly> -->
-
-                                                            <!-- <label class="input-group-text text-info">Estatus :</label>
-                                            <input type="text" class="form-control" name="Estatus" #Estatus="ngModel" [(ngModel)]="service.formData.Estatus" readonly> -->
-
-                                                            <!-- <label class="input-group-text text-info">LimiteCredito :</label>
-                                            <input type="text" class="form-control" name="LimiteCredito" #LimiteCredito="ngModel" [(ngModel)]="service.formData.LimiteCredito" readonly>
-
-                                            <label class="input-group-text text-info">DiasCredito :</label>
-                                            <input type="text" class="form-control" name="DiasCredito" #DiasCredito="ngModel" [(ngModel)]="service.formData.DiasCredito" readonly> -->
-
-                                                            <!-- <label class="input-group-text text-info">MetodoPago :</label>
-                                            <input type="text" class="form-control" name="MetodoPago" #MetodoPago="ngModel" [(ngModel)]="service.formData.MetodoPago" readonly> -->
-
-                                                            <!-- <label class="input-group-text text-info">UsoCFDI :</label>
-                                            <input type="text" class="form-control" name="UsoCFDI" #UsoCFDI="ngModel" [(ngModel)]="service.formData.UsoCFDI" readonly> -->
-
-                                                            <!-- <label class="input-group-text text-info">IdApi :</label>
-                                            <input type="text" class="form-control" name="IdApi" #IdApi="ngModel" value="" [(ngModel)]="service.formData.IdApi" readonly> -->
-                                                            <div>
-                                                            </div>
-                                                        </div>
-
-
-                                                        <div class="container row">
-                                                            <div class="col-12 col-md-4">
-                                                                <br>
-                                                                <!-- <button matStepperPrevious class="btn btn-primary btn-md">Back</button> -->
-                                                                <button class="btn btn-prolacto " mat-raised-button matStepperPrevious><i class="mdi mdi-arrow-left-bold-circle btn-lg"></i>Atras</button>
-                                                            </div>
-                                                            <div class="col-4"></div>
-                                                            <div class="col-12 col-md-4">
-                                                                <br>
-                                                                <!-- <button matStepperNext class="btn btn-info btn-md">Next</button> -->
-                                                                <button class="btn btn-prolacto " mat-raised-button matStepperNext><i class="mdi mdi-arrow-right-bold-circle btn-lg"></i>Siguiente</button>
-                                                            </div>
-                                                        </div>
-                                                        <br>
 
                                                     </div>
+                                                    <div class="row">
+                                                        <!-- tabla de direcciones -->
+
+                                                        <div #menu id='menu' class="mat-elevation-z8 container">
+                                                            <div style="overflow:auto;">
+
+                                                                <div>
+                                                                    <table style="width: 100% " mat-table [dataSource]="listDataDirecciones" matSort>
+
+                                                                        <tr mat-header-row *matHeaderRowDef="displayedColumnsDirecciones"></tr>
+                                                                        <tr mat-row *matRowDef="let row; columns: displayedColumnsDirecciones;"></tr>
+
+                                                                        <ng-container matColumnDef="Id">
+                                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+                                                                            <td mat-cell *matCellDef="let element">{{element.idDireccionesPedido}}</td>
+                                                                        </ng-container>
+
+                                                                        <ng-container matColumnDef="Calle">
+                                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Calle</th>
+                                                                            <td mat-cell *matCellDef="let element">{{element.Calle}}</td>
+                                                                        </ng-container>
+                                                                        <ng-container matColumnDef="Colonia">
+                                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Colonia</th>
+                                                                            <td mat-cell *matCellDef="let element">{{element.Colonia}}</td>
+                                                                        </ng-container>
+                                                                        <ng-container matColumnDef="Ciudad">
+                                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ciudad</th>
+                                                                            <td mat-cell *matCellDef="let element">{{element.Ciudad}}</td>
+                                                                        </ng-container>
+                                                                        <ng-container matColumnDef="Estado">
+                                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                                                                            <td mat-cell *matCellDef="let element">{{element.Estado}}</td>
+                                                                        </ng-container>
+
+
+
+
+                                                                        <ng-container matColumnDef="Options">
+                                                                            <th mat-header-cell *matHeaderCellDef>OPCIONES</th>
+                                                                            <td mat-cell *matCellDef="let row">
+                                                                                <button [style.display]="clienteLogin ? 'none' : 'block'" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                                                        <mat-icon>keyboard_arrow_down</mat-icon>
+                                                      </button>
+                                                                                <mat-menu #menu="matMenu">
+
+                                                                                    <button mat-icon-button class="btn btn-danger" (click)="onDeleteDireccion(row)">
+                                                          <mat-icon>delete_outline</mat-icon>
+                                                        </button>
+                                                                                </mat-menu>
+                                                                            </td>
+                                                                        </ng-container>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <!-- tabla de direcciones -->
+                                                    </div>
+                                                    <div class="container row">
+                                                        <div class="col-12 col-md-4">
+                                                            <br>
+                                                            <!-- <button matStepperPrevious class="btn btn-primary btn-md">Back</button> -->
+                                                            <button class="btn btn-prolacto " mat-raised-button matStepperPrevious><i class="mdi mdi-arrow-left-bold-circle btn-lg"></i>Atras</button>
+                                                        </div>
+                                                        <div class="col-4"></div>
+                                                        <div class="col-12 col-md-4">
+                                                            <br>
+                                                            <!-- <button matStepperNext class="btn btn-info btn-md">Next</button> -->
+                                                            <button class="btn btn-prolacto " mat-raised-button matStepperNext><i class="mdi mdi-arrow-right-bold-circle btn-lg"></i>Siguiente</button>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+
+
                                                 </div>
                                             </form>
                                         </mat-step>

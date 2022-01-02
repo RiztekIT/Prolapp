@@ -101,7 +101,8 @@
                                         <span class="bolder"> RFC: </span> {{this.objCliente.RFC}}
                                     </p>
                                     <p class="bolder blacktxt nomarginbottomP">Vendedor: <span> {{this.objconc.Vendedor}} </span></p>
-                                    <p class="bolder blacktxt nomarginbottomP">Enviar a: <span> {{this.objconc.LugarDeEntrega}} </span>
+                                    <p class="bolder blacktxt nomarginbottomP">Enviar a:
+                                        <span *ngFor="let d of listadirecciones; let i = index"> <p style="margin: 0px;">{{i+1}})  {{this.d.Calle}} No.{{this.d.NumeroExterior}} {{this.d.NumeroInterior}}, CP. {{this.d.CP}}, {{this.d.Colonia}} , {{this.d.Ciudad}} </p> </span>
                                     </p>
                                 </div>
                             </div>
@@ -111,7 +112,7 @@
 
 
                 <!-- cantidad-unidad-clave- -->
-                <div class="container" style="height:530px">
+                <div class="container" style="height:430px">
 
 
 
