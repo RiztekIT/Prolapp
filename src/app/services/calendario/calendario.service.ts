@@ -49,42 +49,53 @@ export class CalendarioService {
 
   //Obtener Calendario por Modulo
   getCalendarioCompras(modulo: string): Observable <Calendario[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<Calendario[]>(this.APIUrl + '/calendario/getCalendarioModulo/'+modulo);
   }
   //Obtener Calendario por Usuario y Modulo
+  
   getCalendarioComprasUsuarioModulo(usuario: string, modulo: string): Observable <Calendario[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<Calendario[]>(this.APIUrl + '/calendario/getCalendarioUsuarioModulo/'+usuario+'/'+modulo);  
   }
   //Obtener DetallesCalendario por IdCalendario
   getDetallesCalendarioId(id:number): Observable<detalleCalendario[]>{
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<detalleCalendario[]>(this.APIUrl + '/calendario/getDetalleCalendario/'+id);
   }
   //Obtener DetallesCalendario por IdDetalleCalendario
   getDetallesCalendarioIdDetalle(id:number): Observable<detalleCalendario[]>{
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<detalleCalendario[]>(this.APIUrl + '/calendario/getDetalleCalendarioIdDetalle/'+id);
   }
   //Obtener Calendario JOIN Proceso
   getCalendarioProceso(id: number, modulo: string, proceso:string): Observable<any[]>{
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/calendario/getCalendarioProceso/'+id+'/'+modulo+'/'+proceso);
   }
   //Obtener Usuario por ID
   getUsuarioId(id: number): Observable<any[]>{
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/calendario/getCalendarioUsuarioId/'+id);
   }
   //agregar Calendario
   addCalendario(calendario: Calendario){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/calendario', calendario);
   }
   //agregar detalle Calendario
   addDetalleCalendario(detalle: detalleCalendario){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/calendario/AddDetalleCalendario', detalle);
   }
   //editar detalle Calendario
   editDetalleCalendario(detalle: detalleCalendario){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.put(this.APIUrl + '/calendario/UpdateDetalleCalendario', detalle);
   }
   //elimina detalle Calendario
   deleteDetalleCalendario(id:number){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.delete(this.APIUrl + '/calendario/DeleteDetalleCalendario/' + id);
   }
 

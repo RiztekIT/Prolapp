@@ -21,9 +21,11 @@ export class FoliosService {
   APIUrl = environment.APIUrl;
 
   getFolios(): Observable<Folio[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<Folio[]>(this.APIUrl + '/folio');
   }
   updateFolios(){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/folio', null);
   }
 

@@ -47,6 +47,7 @@ export class ReciboPagoService {
 
   //Obtener Lista de ReciboPago
   getRecibosPagoList(): Observable<ReciboPago[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<ReciboPago[]>(this.APIUrl + '/ReciboPago');
@@ -62,6 +63,7 @@ export class ReciboPagoService {
   }
   //Obtener Join ReciboPago - Cliente
   getReciboPagoClienteList(): Observable<any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     this.APIUrl = environment.APIUrl;
     if (this.rfcempresa==='PLA11011243A'){
 
@@ -77,6 +79,7 @@ export class ReciboPagoService {
   }
   //Obtener Join PagoCFDI - Factura
   getPagoCFDIFacturaList(id: number): Observable<any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl + '/ReciboPago/PagoCFDIFactura/' + id);
@@ -92,6 +95,7 @@ export class ReciboPagoService {
   //Obtener Lista de PagoCFDI
   //Crear Recibo Pago
   addReciboPago(reciboPago: ReciboPago) {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.post(this.APIUrl + '/ReciboPago', reciboPago);
@@ -105,6 +109,7 @@ export class ReciboPagoService {
   }
   //Update Recibo Pago
   updateReciboPago(reciboPago: ReciboPago) {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.put(this.APIUrl + '/ReciboPago', reciboPago);
@@ -119,6 +124,7 @@ export class ReciboPagoService {
   }
   //Obtener Id ultimo ReciboPago
   getUltimoReciboPago(): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any>(this.APIUrl + '/ReciboPago/UltimoReciboPago');
@@ -133,6 +139,7 @@ export class ReciboPagoService {
   }
   //Obtener Recibo por IdRecibo
   getReciboId(id: number): Observable<any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<ReciboPago[]>(this.APIUrl + '/ReciboPago/ReciboPagoId/' + id);
@@ -147,6 +154,7 @@ export class ReciboPagoService {
   }
   //Obtener Clientes de la Base de Datos
   getDepDropDownValues(): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<Cliente[]>(this.APIUrl + '/cliente2');
@@ -161,6 +169,7 @@ export class ReciboPagoService {
   }
   //Obtener Folio de Facturas en base a IdCliente
   getClienteFacturaList(id: number): Observable<any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl + '/ReciboPago/FacturaIdCliente/' + id);
@@ -175,6 +184,7 @@ export class ReciboPagoService {
   }
   //Obtener los datos del Cliente en base a una factura
   getFacturaClienteID(id: number): Observable<any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl + '/Factura/FacturaClienteID/' + id);
@@ -189,6 +199,7 @@ export class ReciboPagoService {
   }
   //Obtener Folio de las Facturas que Correspondan con el IdCliente, Esten Timbradas, Tengan saldo pendiente
   getFacturaPagoCFDI(id: number, folio: number): Observable<any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl + '/ReciboPago/FacturaPagoCFDI/' + id + '/'+ folio);
@@ -202,6 +213,7 @@ export class ReciboPagoService {
     }
   }
   getFacturaPagoCFDIDlls(id: number, folio: number): Observable<any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl + '/ReciboPago/FacturaPagoCFDIDlls/' + id + '/'+ folio);
@@ -216,6 +228,7 @@ export class ReciboPagoService {
   }
   //Obtener Lista de PagosCFDI en base a un ReciboPago
   getReciboPagosCFDI(id: number): Observable<PagoCFDI[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
      
@@ -230,6 +243,7 @@ export class ReciboPagoService {
   }
   //Obtener Folio de las Facturas que correspondan con el IdCliente, esten timbradas (Se ejecutara cundo no haya un pagoCFDI previo)
   getFacturaPrimerPagoCFDI(id: number): Observable<any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl + '/ReciboPago/FacturaPrimerPagoCFDI/' + id);
@@ -244,6 +258,7 @@ export class ReciboPagoService {
   }
   //Obtener el NoParcialidad de Cierta Factura
   getNoParcialidad(id: number): Observable<any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl + '/ReciboPago/UltimoNoParcialidad/' + id);
@@ -258,6 +273,7 @@ export class ReciboPagoService {
   }
   //Crear PagoCFDI
   addPagoCFDI(pagoCFDI: PagoCFDI) {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
      
@@ -271,6 +287,7 @@ export class ReciboPagoService {
   }
   //Update PagoCFDI
   updatePagoCFDI(pagoCFDI: PagoCFDI) {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.put(this.APIUrl + '/ReciboPago/PagoCFDI', pagoCFDI);
@@ -285,6 +302,7 @@ export class ReciboPagoService {
   }
   //Eliminar Recibo Pago
   deleteReciboPago(id: number) {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.delete(this.APIUrl + '/ReciboPago/' + id);
@@ -299,6 +317,7 @@ export class ReciboPagoService {
   }
 
   deleteReciboCreado(){
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
      
@@ -313,6 +332,7 @@ export class ReciboPagoService {
   }
   //Eliminar PagoCFDI
   deletePagoCFDI(id: number) {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
      
@@ -328,6 +348,7 @@ export class ReciboPagoService {
   }
   //Obtener el Total de cierta Factura
   getTotalFactura(id: number): Observable<any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl + '/ReciboPago/TotalFactura/' + id);
@@ -342,6 +363,7 @@ export class ReciboPagoService {
   }
   //Obtener la lista CFDI dependiendo del IdFactura
   getPagoCFDIFacturaID(id: number): Observable<any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl + '/ReciboPago/PagoCFDIFacturaID/' + id);
@@ -356,6 +378,7 @@ export class ReciboPagoService {
   }
 
   cancelarPagoCFDI(id: number){
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.put(this.APIUrl + '/ReciboPago/CancelarPagoCFDI?id='+ id,null);
@@ -385,6 +408,7 @@ export class ReciboPagoService {
 
     //Obtener Recibo por IdRecibo
     getReciboClienteId(id: number): Observable<any[]> {
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.get<any[]>(this.APIUrl + '/cliente/complementodepago/' + id);
     }
 

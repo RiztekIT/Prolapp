@@ -20,6 +20,7 @@ export class PedidoService {
     APIUrl = environment.APIUrl;
 
     getPedidoList(): Observable <Pedido[]> {
+      this.APIUrl = sessionStorage.getItem('API')
         return this.http.get<Pedido[]>(this.APIUrl + '/pedido');
       }
 

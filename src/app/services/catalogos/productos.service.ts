@@ -28,37 +28,45 @@ export class ProductosService {
 
 
   getProductosList(): Observable <Producto[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<Producto[]>(this.APIUrl + '/producto');
   }
 
   addProducto(producto: Producto) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/producto', producto);
  }
 
  deleteProducto(id:number) {
+  this.APIUrl = sessionStorage.getItem('API')
    return this.http.delete(this.APIUrl + '/producto/' + id);
 
  }
 
  updateProducto(producto: Producto) {
+  this.APIUrl = sessionStorage.getItem('API')
  return this.http.put(this.APIUrl+ '/producto', producto);
  }
 
 //^ MARCASPRODUCTOS
 GetMarcasProductos(): Observable <MarcasProductos[]> {
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.get<MarcasProductos[]>(this.APIUrl + '/producto/GetMarcasProductos');
 }
 
 addMarcasProductos(marcasProductos: MarcasProductos) {
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.post(this.APIUrl + '/producto/MarcasProductos', marcasProductos);
 }
 
 deleteMarcasProductos(id:number) {
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.delete(this.APIUrl + '/producto/MarcasProductos/' + id);
 
 }
 
 updateMarcas(marcasProductos: MarcasProductos) {
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.put(this.APIUrl+ '/producto/MarcasProductos', marcasProductos);
   }
  

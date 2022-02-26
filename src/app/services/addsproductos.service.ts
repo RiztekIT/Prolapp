@@ -13,22 +13,23 @@ export class AddsproductosService {
 
 
   getMarcas(producto){
-
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get(this.APIUrl + '/addproductos/marcasproductos/'+producto)
     
   }
   getOrigen(){
-
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get(this.APIUrl + '/addproductos/origenproductos/')
     
   }
   getPresentacion(){
-
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get(this.APIUrl + '/addproductos/presentacionproductos/')
     
   }
 
   insertarMovimiento(movimiento){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/Producto/Movimiento',movimiento)
   }
 }

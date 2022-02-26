@@ -23,13 +23,16 @@ export class ProveedoresService {
 
 
   getProveedoresList(): Observable <Proveedor[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<Proveedor[]>(this.APIUrl + '/proveedor');
   }
   getProveedorId(id: number): Observable <Proveedor[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<Proveedor[]>(this.APIUrl + '/proveedor/getProveedorId/'+id);
   }
 
   addProveedor(proveedor: Proveedor) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/proveedor', proveedor);
  }
 
@@ -37,17 +40,20 @@ export class ProveedoresService {
     let query = {
       'consulta':consulta
     };
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/proveedor/consulta', query);
  }
 
 
 
  deleteProveedor(id:number) {
+  this.APIUrl = sessionStorage.getItem('API')
    return this.http.delete(this.APIUrl + '/proveedor/' + id);
 
  }
 
  updateProveedor(proveedor: Proveedor) {
+  this.APIUrl = sessionStorage.getItem('API')
  return this.http.put(this.APIUrl+ '/proveedor', proveedor);
  }
 

@@ -100,17 +100,22 @@ export class AccountSettingsComponent implements OnInit {
       
             if (this.enviarfact.empresa.RFC=='DTM200220KRA'){
               environment.APIUrl = 'https://erpprolapp.ddns.net:44381/api';
+              sessionStorage.setItem('API','https://erpprolapp.ddns.net:44381/api')
             }else if (this.enviarfact.empresa.RFC=='AIN140101ME3'){
               environment.APIUrl = 'https://erpprolapp.ddns.net:44361/api';
+              sessionStorage.setItem('API','https://erpprolapp.ddns.net:44361/api')
             }else if (this.enviarfact.empresa.RFC=='PLA11011243A'){
               environment.APIUrl = 'https://erpprolapp.ddns.net:44371/api';
+              sessionStorage.setItem('API','https://erpprolapp.ddns.net:44371/api')
             }else{
               environment.APIUrl = 'https://erpprolapp.ddns.net:44361/api';
+              sessionStorage.setItem('API','https://erpprolapp.ddns.net:44361/api')
       
             }
       
           }else{
             environment.APIUrl = 'https://erpprolapp.ddns.net:44361/api';
+            sessionStorage.setItem('API','https://erpprolapp.ddns.net:44361/api')
           }
           /*   if (this.enviarfact.empresa.RFC=='DTM200220KRA'){
               environment.APIUrl = 'https://riztekserver.ddns.net:44381/api';

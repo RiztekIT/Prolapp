@@ -32,7 +32,7 @@ export class OrdenventacxcComponent implements OnInit {
   @ViewChild(MatSort, null) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  public listEstatus: Array<Object> = [
+  public listEstatus: Array<any> = [
     { Estatus: 'Todos' },
     { Estatus: 'Guardada' },
     { Estatus: 'Cerrada' },

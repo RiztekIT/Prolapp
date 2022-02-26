@@ -28,7 +28,7 @@ export class StorageServiceService {
   private localStorageService;
   private currentSession : Session = null;
   private currentSessionCliente : sessionCliente = null;
-  readonly APIUrl = environment.APIUrl;
+  APIUrl = environment.APIUrl;
   
   currentUser;
   
@@ -89,6 +89,7 @@ export class StorageServiceService {
   }
 
   getUserAuth(user){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get(this.APIUrl + '/usuario/userinfo/'+user)
   }
 

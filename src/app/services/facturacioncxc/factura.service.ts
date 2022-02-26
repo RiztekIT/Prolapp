@@ -53,6 +53,7 @@ export class FacturaService {
 
   //Obtener lista de Facturas
   getFacturasList(): Observable <Factura[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<Factura[]>(this.APIUrl + '/Factura');  
@@ -67,6 +68,7 @@ export class FacturaService {
     
   }
   getFacturasListCLiente(): Observable <any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     this.APIUrl = environment.APIUrl;
     console.log(this.APIUrl);
     if (this.rfcempresa==='PLA11011243A'){
@@ -82,6 +84,7 @@ export class FacturaService {
     
   }
   getFacturasListCLienteProd(): Observable <any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<[]>('https://erpprolapp.ddns.net:44361/api' + '/Factura/FacturaCliente');
@@ -97,6 +100,7 @@ export class FacturaService {
 
   //Obtener Lista de Detalles Factura
   getDetallesFacturaList(id: number): Observable <DetalleFactura[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     console.log(this.APIUrl);
     console.log(environment.APIUrl);
     if (this.rfcempresa==='PLA11011243A'){
@@ -112,6 +116,7 @@ export class FacturaService {
     
   }
   getDetallesFacturaListProd(id: number): Observable <DetalleFactura[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<DetalleFactura[]>('https://erpprolapp.ddns.net:44361/api' + '/Factura/DetalleFactura/'+ id);
@@ -126,6 +131,7 @@ export class FacturaService {
   }
   
   getDetallesFactura(): Observable <DetalleFactura[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura/DetalleFactura/');
@@ -140,6 +146,7 @@ export class FacturaService {
   }
 
   getDetallesFacturaListProducto(id: number): Observable<any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl + '/Factura/DetalleFacturaProducto/'+ id);
@@ -154,6 +161,7 @@ export class FacturaService {
   }
 //!Join Tabla Factura con Cliente
   getFacturasClienteID(id:number): Observable<any[]>{
+    this.APIUrl = sessionStorage.getItem('API')
      if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaCliente/'+id)
@@ -167,6 +175,7 @@ export class FacturaService {
     
   }
   getFacturasClienteFolio(id:string): Observable<any[]>{
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaClienteFolio/'+id)
@@ -184,6 +193,7 @@ export class FacturaService {
   //Obtener los datos del Cliente en base a una factura
   
   getFacturaClienteID(id:number): Observable<any[]>{
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaClienteID/'+id)
@@ -197,6 +207,7 @@ export class FacturaService {
     
   }
   getFacturaIDCliente(id:number): Observable<any[]>{
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl+ '/Factura/FacturaidCliente/'+id)
@@ -211,6 +222,7 @@ export class FacturaService {
   }
   //Obtener ultima factura Creada
   getUltimaFactura(): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<Factura[]>(this.APIUrl + '/Factura/UltimaFactura');
@@ -225,6 +237,7 @@ export class FacturaService {
   }
   //Obtener Factura por Id
   getFacturaId(id:number): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<Factura[]>(this.APIUrl + '/Factura/Id/' + id);
@@ -241,6 +254,7 @@ export class FacturaService {
 
   //Obtener factura entre fechas
   getFacturasFechas(fechaini,fechafinal){
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl + '/Factura/FacturaFechas/' + fechaini+ '/' + fechafinal);
@@ -255,6 +269,7 @@ export class FacturaService {
   }
   // ^ Obtener factura entre fechas Reporte
   getFacturasFechasReporte(id,fechaini,fechafinal){
+    this.APIUrl = sessionStorage.getItem('API')
 
     console.log(this.rfcempresa);
     if (this.rfcempresa==='PLA11011243A'){
@@ -270,6 +285,7 @@ export class FacturaService {
   }
 
   getFacturasFechas2(fechaini,fechafinal){
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl + '/Factura/FacturaFechas/' + fechaini+ '/' + fechafinal);
@@ -284,6 +300,7 @@ export class FacturaService {
   }
   //Obtener el ultimo Folio
   getFolio(): Observable<any>{
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<Factura[]>(this.APIUrl+'/Factura/Folio');
@@ -298,7 +315,7 @@ export class FacturaService {
   }
   //Eliminar Factura y sus Detalles de Factura
   deleteFactura(id:number) {
-
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.delete(this.APIUrl + '/Factura/' + id);
@@ -312,6 +329,7 @@ export class FacturaService {
     
   }
   deleteFacturaCreada() {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.delete(this.APIUrl + '/Factura/DeleteFacturaCreada');
@@ -326,6 +344,7 @@ export class FacturaService {
   }
   // Eliminar detalle factura
   deleteDetalleFactura(id:number) {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.delete(this.APIUrl + '/Factura/DeleteDetalleFactura/' + id);
@@ -340,6 +359,7 @@ export class FacturaService {
   }
   //Insertar nueva factura
   addFactura(factura: Factura) {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.post(this.APIUrl + '/Factura', factura);
@@ -355,6 +375,7 @@ export class FacturaService {
   }
  //Insertar Detalle Factura
  addDetalleFactura(detalleFactura: DetalleFactura) {
+  this.APIUrl = sessionStorage.getItem('API')
   if (this.rfcempresa==='PLA11011243A'){
 
     return this.http.post(this.APIUrl + '/Factura/InsertDetalleFactura', detalleFactura);
@@ -369,6 +390,7 @@ export class FacturaService {
   }
   //Editar Factura
   updateFactura(factura: Factura) {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.put(this.APIUrl+ '/Factura', factura);
@@ -382,6 +404,7 @@ export class FacturaService {
   
 }
 updateCancelarFactura(id: number) {
+  this.APIUrl = sessionStorage.getItem('API')
   if (this.rfcempresa==='PLA11011243A'){
 
     return this.http.put(this.APIUrl+ '/Factura/Cancelar/' + id, null);
@@ -396,6 +419,7 @@ updateCancelarFactura(id: number) {
 }
 
 updatePagadaFactura(id: String) {
+  this.APIUrl = sessionStorage.getItem('API')
   if (this.rfcempresa==='PLA11011243A'){
 
     return this.http.put(this.APIUrl+ '/Factura/Pagada/' + id, null);
@@ -410,6 +434,7 @@ updatePagadaFactura(id: String) {
 }
   //Editar Detalle Factura
   updateDetalleFactura(detalleFactura: DetalleFactura) {
+    this.APIUrl = sessionStorage.getItem('API')
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.put(this.APIUrl+ '/Factura/UpdateDetalleFactura', detalleFactura);
@@ -424,6 +449,7 @@ updatePagadaFactura(id: String) {
 }
 //Obtener Productos
 getProductos(): Observable<any>{
+  this.APIUrl = sessionStorage.getItem('API')
   if (this.rfcempresa==='PLA11011243A'){
 
     return this.http.get<Producto[]>(this.APIUrl + '/Factura/getProductos');
@@ -438,6 +464,7 @@ getProductos(): Observable<any>{
 }
 //Obtener Clientes de la Base de Datos
 getDepDropDownValues(): Observable<any>{
+  this.APIUrl = sessionStorage.getItem('API')
   if (this.rfcempresa==='PLA11011243A'){
 
     return this.http.get<Cliente[]>(this.APIUrl+'/cliente/Facturar');
@@ -452,11 +479,13 @@ getDepDropDownValues(): Observable<any>{
 }
 //Obtener Vendedor de la Base de Datos
 getvendedor(id:number): Observable<any>{
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.get<any[]>(this.APIUrl+'/vendedor/'+id);
 }
 
 //! Obtener Reportes
 getReportes(id: number): Observable<any>{
+  this.APIUrl = sessionStorage.getItem('API')
    if (this.rfcempresa==='PLA11011243A'){
     return this.http.get<any[]>(this.APIUrl + '/Factura/Reporte/' + id)
    }
@@ -469,6 +498,7 @@ getReportes(id: number): Observable<any>{
   
 }
 getReportesU(id: number): Observable<any>{
+  this.APIUrl = sessionStorage.getItem('API')
   if (this.rfcempresa==='PLA11011243A'){
 
     return this.http.get<any[]>(this.APIUrl + '/Factura/ReporteU/' + id)
@@ -482,6 +512,7 @@ getReportesU(id: number): Observable<any>{
   
 }
 getReportesM(id: number): Observable<any>{
+  this.APIUrl = sessionStorage.getItem('API')
   if (this.rfcempresa==='PLA11011243A'){
 
     return this.http.get<any[]>(this.APIUrl + '/Factura/ReporteM/' + id)
@@ -497,6 +528,7 @@ getReportesM(id: number): Observable<any>{
 
 //Obtener JOIN Recibo pago-> PAgoCFDI por ID Factura
 getPagosCFDI(id: number): Observable<any>{
+  this.APIUrl = sessionStorage.getItem('API')
   if (this.rfcempresa==='PLA11011243A'){
 
     return this.http.get<any[]>(this.APIUrl + '/Factura/PagoCFDI/' + id)
@@ -511,6 +543,7 @@ getPagosCFDI(id: number): Observable<any>{
 }
 
 addSaldos(saldo: Saldos){
+  this.APIUrl = sessionStorage.getItem('API')
   if (this.rfcempresa==='PLA11011243A'){
 
     return this.http.post(this.APIUrl + '/Saldos', saldo)
@@ -525,12 +558,14 @@ addSaldos(saldo: Saldos){
 }
 
 getSaldos(): Observable<any>{
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.get<any[]>(this.APIUrl + '/Saldos')
 }
 
 //GENERAL
   //^ Consultas generales
   getQuery(query) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/TraspasoMercancia/general', query);
   }
   
@@ -560,11 +595,13 @@ filter2(filterBy: string) {
 
 //Cliente login
 getFacturasListCLienteid(id: number): Observable <any[]> {
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.get<[]>(this.APIUrl + '/cliente/factura/'+ id);
 }
 
 
 getFacturasFechasVentas(fechaini,fechafinal){
+  this.APIUrl = sessionStorage.getItem('API')
   if (this.rfcempresa==='PLA11011243A'){
 
     return this.http.get<any[]>(this.APIUrl + '/ReporteVentas/Fechas/' + fechaini+ '/' + fechafinal);
@@ -579,6 +616,7 @@ getFacturasFechasVentas(fechaini,fechafinal){
 }
 
 getDetallesFacturaListVentas(id: number): Observable <DetalleFactura[]> {
+  this.APIUrl = sessionStorage.getItem('API')
   if (this.rfcempresa==='PLA11011243A'){
 
     return this.http.get<DetalleFactura[]>(this.APIUrl + '/ReporteVentas/DetalleFactura/'+ id);

@@ -306,6 +306,9 @@ export class ReporteEmisionComponent implements OnInit {
           element.Colonia = this.objCliente.Colonia
           element.Ciudad = this.objCliente.Ciudad
           element.Estado = this.objCliente.Estado
+          element.NumeroExterior = this.objCliente.NumeroExterior
+          element.NumeroInterior = this.objCliente.NumeroInterior
+          element.CP = this.objCliente.CP
 
         }
         

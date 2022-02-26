@@ -18,22 +18,27 @@ export class ImagenService {
 
  //Obtener Imagenes
  getImagenes(): Observable <Imagenes[]>{
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.get<Imagenes[]>(this.APIUrl + '/Imagenes');
 }
  //Obtener Imagen por Folio, Tipo y nombre
  getImagenFTN(imagen: Imagenes):Observable<Imagenes[]>{
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.post<Imagenes[]>(this.APIUrl + '/Imagenes/GetImagenFTN', imagen);
 }
 //Insert Imagen
 addImagen(imagen: Imagenes) {
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.post(this.APIUrl + '/Imagenes', imagen);
 }
 //Update Imagen
 updateImagen(imagen: Imagenes) {
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.put(this.APIUrl+ '/Imagenes', imagen);
   }
   //Eliminar Imagen
   deleteImagen(id: number){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.delete(this.APIUrl+ '/Imagenes/BorrarImagen/' + id);
   }
   //Eliminar imagen por Tipo, Folio y Nombre
@@ -41,6 +46,7 @@ updateImagen(imagen: Imagenes) {
   //   return this.http.delete(this.APIUrl+ '/Imagenes/BorrarImagenOC/'+tipo+'/'+folio+'/'+nombre);
   // }
   deleteImagenOC(imagen: Imagenes) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/Imagenes/BorrarImagenOC', imagen);
   }
 

@@ -737,7 +737,7 @@ export class PedidoVentasComponent implements OnInit {
   //Filtro para buscar valores de la tabla de pedidos por Nombre de Cliente e IdPedido
   applyFilter(filtervalue: string) {
     this.listData.filterPredicate = (data, filter: string) => {
-      return data.Nombre.toString().toLowerCase().includes(filter) || data.IdPedido.toString().includes(filter);
+      return data.Nombre.toString().toLowerCase().includes(filter) || data.Folio.toString().includes(filter);
     };
     this.listData.filter = filtervalue.trim().toLocaleLowerCase();
 

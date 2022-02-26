@@ -186,6 +186,7 @@ export class SidebarService {
     });
 }
   getMenu() {
+    this.APIUrl = sessionStorage.getItem('API')
 
     let u = JSON.parse(localStorage.getItem('ProlappSession'));
     // console.log('%c⧭', 'color: #ff0000', u);

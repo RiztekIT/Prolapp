@@ -57,6 +57,7 @@ export class VentasCotizacionService {
   
   
   updateVentasPedido(pedido: any) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.put(this.APIUrl + '/Pedido', pedido);
   }
 
@@ -65,17 +66,21 @@ export class VentasCotizacionService {
     // }
     //get Direcciones en base a ID CLIENTE
     getDireccionesCliente(id: number): Observable<ClienteDireccion[]> {
+      this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<ClienteDireccion[]>(this.APIUrl + '/Pedido/DireccionCliente/' + id);
     } 
 
     GetCliente(id:number): Observable <Cliente[]>{
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.get<any>(this.APIUrl + '/Cliente/id/' + id);
     }
     
     getDepDropDownValues(): Observable<any> {
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.get<Cliente[]>(this.APIUrl + '/cliente');
     }
     getDepDropDownValues2(): Observable<any> {
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.get<Cliente[]>(this.APIUrl + '/producto');
     }
     //Get Unidades De Medida
@@ -85,60 +90,73 @@ export class VentasCotizacionService {
     }
     //get Direcciones en base a ID CLIENTE
  getDireccionID(id: number): Observable<ClienteDireccion[]> {
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.get<ClienteDireccion[]>(this.APIUrl + '/Pedido/DireccionID/' + id);
     }
 
     getCotizacionId(id: number): Observable <Cotizacion[]>{
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.get<Cotizacion[]>(this.APIUrl + '/Cotizacion/CotizacionId/' + id);
     }
 
     GetProductoDetalleCotizacion(claveProducto:string, Id:number): Observable<any>{
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.get<any>(this.APIUrl + '/Cotizacion/ProductoDetalleProducto/' + claveProducto + '/'+ Id)
     }
 
     //Get Ultimo pedido
     getUltimaCotizacion(): Observable <any>{
+      this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any>(this.APIUrl + '/Cotizacion/UltimaCotizacion');
     }
 
     OnEditDetalleCotizacion(dp: DetalleCotizacion){
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.put(this.APIUrl + '/Cotizacion/EditDetallecotizacion', dp)
     }
 
     onDeleteDetalleCotizacion(id: number){
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.delete(this.APIUrl + '/Cotizacion/DeleteDetalleCotizacion/' + id);
     }
 
     //Get Detalle Cotizacion Por ID
   GetDetalleCotizacionId(id:number): Observable<any>{
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<DetalleCotizacion[]>(this.APIUrl + '/Cotizacion/DetalleCotizacionesId/' + id)
   }
   
   GetSumaImporte(Id:number): Observable<any>{
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any>(this.APIUrl + '/Cotizacion/SumaImporte/' + Id)
   }
 
   addDetalleCotizacion(detalle: DetalleCotizacion){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/Cotizacion/InsertDetalleCotizacion', detalle );
   }
 
 
   GetFolio(): Observable<any>{
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any>(this.APIUrl + '/Cotizacion/Folio')
   }
   
   //Eliminar ALL Detalle Pedido
   onDeleteAllDetalleCotizacion(id: number){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.delete(this.APIUrl + '/Cotizacion/DeleteDetalleCotizacion/' + id);
   }
 
     /////////////////////////////////////////////////
     onDeleteCotizacion(id: number){
+      this.APIUrl = sessionStorage.getItem('API')
         return this.http.delete(this.APIUrl + '/Cotizacion/BorrarCotizacion/' + id);
     }
 
 
     addCotizacion(cotizacion: Cotizacion){
+      this.APIUrl = sessionStorage.getItem('API')
         return this.http.post(this.APIUrl + '/Cotizaciones', cotizacion)
     }
     
@@ -147,42 +165,51 @@ export class VentasCotizacionService {
   getCotizaciones(): Observable<any[]> {
     console.log(this.APIUrl,'APIURL');
     console.log(environment.APIUrl,'APIURL');
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any>(this.APIUrl + '/Cotizaciones');
   }
 
   //Obtener Vendedores
   GetVendedor(): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any>(this.APIUrl + '/Cotizacion/Vendedor')
   }
 
     //Get Detalles cotizaciones en base a IdCotizacion
     getDetalleCotizacionesId(id: number): Observable <any>{
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.get<any>(this.APIUrl + '/Cotizaciones/DetalleCotizacionesId/'+ id);
     }
 
   /////////////////////////////////////////////////
 
   onEditCotizacion(ct: Cotizacion) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.put(this.APIUrl + '/Cotizaciones', ct)
   }
 
   getProspectos(): Observable<any>{
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any>(this.APIUrl + '/Cotizacion/GetProspecto')
   }
 
   getProspecto(id: number): Observable <any>{
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any>(this.APIUrl + '/Cotizacion/GetProspectoId/' + id);
   }
 
   addProspecto(prospecto : Prospecto){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/Cotizacion/InsertProspecto', prospecto);
   }
 
   editProspecto(prospecto: Prospecto){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.put(this.APIUrl + '/Cotizacion/UpdateProspecto', prospecto);
   }
   
   deleteProspecto(id:number){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.delete(this.APIUrl + '/Cotizacion/BorrarProspecto/'+id);    
   }
 
@@ -203,18 +230,22 @@ export class VentasCotizacionService {
 
     //Obtener reporte Cotizacion por cliente ID
     getReporteClienteId(id: number):Observable<any[]>{
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.get<any[]>(this.APIUrl + '/reportes/CotizacionesJoinCliente/'+id);
     }
 //obtener reporte Cotizacion por cliente ID y por estatus de la cotizacion
     getReporteClienteIdEstatus(id:number, estatus:string):Observable<any[]>{
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.get<any[]>(this.APIUrl + '/reportes/ReporteCotizacionesClienteEstatus/'+id+'/'+estatus);
     }
 //obtener reporte cotizacion por Fecha Inicial / final y  cliente ID
     getReporteFechasClienteId(fechaini, fechafinal, id:number):Observable<any[]>{
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.get<any[]>(this.APIUrl + '/reportes/CotizacionesFechasCliente/'+fechaini+'/'+fechafinal+'/'+id);
     }
 //obtener reporte cotizacion por Fecha Inicial / final ,  cliente ID y estatus
     getReporteFechasClienteIdEstatus(fechaini, fechafinal, id:number, estatus: string):Observable<any[]>{
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.get<any[]>(this.APIUrl + '/reportes/CotizacionesFechasClienteEstatus/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
     }
 

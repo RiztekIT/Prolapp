@@ -252,14 +252,14 @@ this.movimiento;
           
         this.movimientos(this.movimiento)
 
-        this.otrocliente(form)
+        /* this.otrocliente(form) */
           
-    /*   Swal.fire({
+      Swal.fire({
             icon: 'success',
             title: 'Cliente Agregado',
             text: ''+this.service.formData.RazonSocial+'',
             timer: 1500
-          })  */
+          }) 
           
         
         });

@@ -36,14 +36,17 @@ export class OrdenCargaTraficoService {
   
   
   getDepDropDownValues(): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/trafico/fletera');
   }
 
   getFacturaFlete(): Observable<FacturaFlete[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/FacturaFlete');
   }
 
   getFacturaFleteID(id: number): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/FacturaFlete/'+ id);
   }
 
@@ -52,9 +55,11 @@ export class OrdenCargaTraficoService {
   // }
 
   updateFacturaFlete(facturaflete: FacturaFlete) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/FacturaFlete', facturaflete);
   }
   updateFacturaFlete2(facturaflete: FacturaFlete) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/FacturaFlete/Actualizar', facturaflete);
   }
 
@@ -63,38 +68,47 @@ export class OrdenCargaTraficoService {
 
   //^ Obtener Reporte Trafico sin filtros
   getTraficoGeneral(): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTrafico');
   }
   //^ Obtener Reporte Trafico Fletera
   getTraficoFletera(fletera: string): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTraficoFletera/'+fletera);
   }
   //^ Obtener Reporte Trafico Id Orden Carga
   getTraficoOC(id: number): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTraficoOC/'+id);
   }
   //^ Obtener Reporte Trafico Estatus
   getTraficoEstatus(estatus: string): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTraficoEstatus/'+estatus);
   }
   //^ Obtener Reporte Trafico Fletera, Estatus
   getTraficoFleteraEstatus(fletera:string , estatus: string): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTraficoFleteraEstatus/'+fletera+'/'+estatus);
   }
   //^ Obtener Reporte Trafico IdOC Fletera
   getTraficoOCFletera(id:number , fletera: string): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTraficoOCFletera/'+id+'/'+fletera);
   }
   //^ Obtener Reporte Trafico IdOC Estatus
   getTraficoOCEstatus(id:number , estatus: string): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTraficoOCEstatus/'+id+'/'+estatus);
   }
   //^ Obtener Reporte Trafico IdOC Estatus Fletera
   getTraficoOCEstatusFletera(id:number , estatus: string, fletera:string): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTraficoOCEstatusFletera/'+id+'/'+estatus+'/'+fletera);
   }
   //^ Obtener grafico Trafico IdCliente
   GetTraficoIdCliente(id:number ): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/Reportes/GetTraficoIdCliente/'+id);
   }
 

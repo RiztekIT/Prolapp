@@ -22,32 +22,39 @@ export class ClienteDireccionService {
 
   //Obtener list Clientes Direccion
   getClientesDireccionList(): Observable <ClienteDireccion[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<ClienteDireccion[]>(this.APIUrl + '/ClienteDireccion');
   }
 
   //Obtener Direcciones por IdCliente
   getDireccionIdCliente(id:number): Observable <ClienteDireccion[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<ClienteDireccion[]>(this.APIUrl + '/ClienteDireccion/DireccionIdCliente/' + id);
   }
 
   //Join DireccionesCliente con Cliente por IdCliente
   getJoinDireccionCliente(id:number): Observable <any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/ClienteDireccion/JoinDireccionCliente/' + id);
   }
   //Obtener cliente por ID CLiente
   getObtenerClienteID(id:number): Observable <any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/ClienteDireccion/ObtenerClienteID/' + id);
   }
   addClienteDireccion(clientedireccion: ClienteDireccion) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/ClienteDireccion', clientedireccion);
  }
 
  deleteClienteDireccion(id:number) {
+  this.APIUrl = sessionStorage.getItem('API')
    return this.http.delete(this.APIUrl + '/ClienteDireccion/' + id);
 
  }
 
  updateClienteDireccion(clientedireccion: ClienteDireccion) {
+  this.APIUrl = sessionStorage.getItem('API')
  return this.http.put(this.APIUrl+ '/ClienteDireccion', clientedireccion);
  }
 

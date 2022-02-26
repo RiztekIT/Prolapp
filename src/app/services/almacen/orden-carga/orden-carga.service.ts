@@ -40,77 +40,96 @@ export class OrdenCargaService {
   APIUrl = environment.APIUrl;
 
   getOrdenCargaList(): Observable<OrdenCarga[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<OrdenCarga[]>(this.APIUrl + '/OrdenCarga');
   }
 
   //Obtener orden de carga por ID
   getOrdenCargaID(id: number): Observable<OrdenCarga[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<OrdenCarga[]>(this.APIUrl + '/OrdenCarga/' + id);
     
   }
 
   getOCID(id: number): Observable<OrdenCarga[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<OrdenCarga[]>(this.APIUrl + '/OrdenCarga/OrdenCargaID/' + id);
   }
 
   getDetalleOrdenCargaList(id: number): Observable<OrdenCarga[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<OrdenCarga[]>(this.APIUrl + '/OrdenCarga/DetalleOrdenCarga/' + id);
   }
 
 //Obtiene todos los detalles orden de carga en base a ID ORDEN CARGA
   getOrdenCargaIDList(id: number): Observable<DetalleOrdenCarga[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<DetalleOrdenCarga[]>(this.APIUrl + '/OrdenCarga/MasterID/' + id);
   }
   getOrdenCargaIDList2(id: number): Observable<any[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/OrdenCarga/ordenCargaTemporal/' + id);
   }
   //Obtener Detalle Orden Carga por ID Orden Carga, LOTE y Clave Producto
   getDetalleOrdenCargaIdLoteClave(id: number, lote: string, clave: string): Observable<DetalleOrdenCarga[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<DetalleOrdenCarga[]>(this.APIUrl + '/OrdenCarga/DetalleOrdenCarga/' + id + '/' + lote + '/' + clave);
   }
 
   getUltimoFolio(): Observable<any> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get(this.APIUrl + '/OrdenCarga/UltimoFolio/');
   }
 
   updateOrdenCarga(ordencarga: OrdenCarga) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.put(this.APIUrl + '/OrdenCarga', ordencarga);
   }
   updatedetalleOrdenCargaEstatus(Id: number, Estatus: string) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.put(this.APIUrl + '/OrdenCarga/EstatusDetalle/' + Id + '/' + Estatus, null);
   }
   addOrdenCarga(ordencarga: OrdenCarga) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/OrdenCarga', ordencarga)
   }
   addOrdenCarga2(ordencarga: OrdenCarga) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/OrdenCarga/AddOrdenCarga', ordencarga)
   }
 
   addDetalleOrdenCarga(detalleOC: DetalleOrdenCarga){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/OrdenCarga/AddDetalleOrdenCarga', detalleOC)
   }
   updateDetalleOrdenCarga(detalleOC: DetalleOrdenCarga){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.put(this.APIUrl + '/OrdenCarga/UpdateDetalleOrdenCarga', detalleOC)
   }
 
   
   deleteOrdenCarga(id: number) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.delete(this.APIUrl + '/OrdenCarga/BorrarOrdenCarga/' + id)
   }
   //Actualizar saldo de DetalleOrdenCarga por ID
   updateDetalleOrdenCargaSaldo(id: number, saldo: string) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.put(this.APIUrl + '/OrdenCarga/UpdateSaldo/' + id + '/' + saldo, null);
   }
   //get Direcciones en base a ID CLIENTE
   getDireccionID(id: number): Observable<ClienteDireccion[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<ClienteDireccion[]>(this.APIUrl + '/Pedido/DireccionID/' + id);
   }
   //get Direcciones en base a ID CLIENTE
   getDireccionesCliente(id: number): Observable<ClienteDireccion[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<ClienteDireccion[]>(this.APIUrl + '/Pedido/DireccionCliente/' + id);
   }
 //agregar chofer a una OC ya creada
   updatedetalleOrdenCargaChofer(Id: number, Chofer: string) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.put(this.APIUrl + '/OrdenCarga/ChoferDetalle/' + Id + '/' + Chofer, null);
   }
 
@@ -118,26 +137,32 @@ export class OrdenCargaService {
   // ***************************ORDEN CARGA INFO************************ */
 //^ Obtener OrdenCargaInfo por IdOrdenCargaInfo
  getOrdenCargaInfoId(id: number): Observable<OrdenCargaInfo[]> {
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.get<OrdenCargaInfo[]>(this.APIUrl + '/OrdenCarga/OrdenCargaInfoId/' + id);
 }
 //^ Obtener OrdenCargaInfo por IdOrdenCarga
 getOrdenCargaInfoIdOC(id: number): Observable<OrdenCargaInfo[]> {
+  this.APIUrl = sessionStorage.getItem('API')
  return this.http.get<OrdenCargaInfo[]>(this.APIUrl + '/OrdenCarga/OrdenCargaInfoIdOC/' + id);
 }
 //^ Obtener OrdenCargaInfo por IdOrdenDescarga
 getOrdenDescargaInfoIdOD(id: number): Observable<OrdenCargaInfo[]> {
+  this.APIUrl = sessionStorage.getItem('API')
  return this.http.get<OrdenCargaInfo[]>(this.APIUrl + '/OrdenCarga/OrdenCargaInfoIdOD/' + id);
 }
 //^ Agregar OrdenCargaInfo
 addOrdenCargaInfo(ordencargainf: OrdenCargaInfo) {
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.post(this.APIUrl + '/OrdenCarga/AddOrdenCargaInfo', ordencargainf)
 }
 //^ Actualizar OrdenCargaInfo
 updateOrdenCargaInfo(ordencargainf: OrdenCargaInfo) {
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.put(this.APIUrl + '/OrdenCarga/UpdateOrdenCargaInfo', ordencargainf)
 }
 //^ Eliminar OrdenCargaInfo por IdOrdenCargaInfo
 deleteOrdenCargaInf(id: number) {
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.delete(this.APIUrl + '/OrdenCarga/DeleteOrdenCargaInfo/' + id)
 }
 
@@ -148,18 +173,22 @@ deleteOrdenCargaInf(id: number) {
 
     //Obtener reporte por cliente ID
     getReporteClienteId(id: number):Observable<any[]>{
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.get<any[]>(this.APIUrl + '/reportes/GetReporteOrdenCargaCliente/'+id);
     }
 //obtener reporte  por cliente ID y por estatus
     getReporteClienteIdEstatus(id:number, estatus:string):Observable<any[]>{
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.get<any[]>(this.APIUrl + '/reportes/GetReporteOrdenCargaClienteEstatus/'+id+'/'+estatus);
     }
 //obtener reporte  por Fecha Inicial / final y  cliente ID
     getReporteFechasClienteId(fechaini, fechafinal, id:number):Observable<any[]>{
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.get<any[]>(this.APIUrl + '/reportes/GetReporteOrdenCargaFechaCliente/'+fechaini+'/'+fechafinal+'/'+id);
     }
 //obtener reporte  por Fecha Inicial / final ,  cliente ID y estatus
     getReporteFechasClienteIdEstatus(fechaini, fechafinal, id:number, estatus: string):Observable<any[]>{
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.get<any[]>(this.APIUrl + '/reportes/GetReporteOrdenCargaFechaClienteEstatus/'+fechaini+'/'+fechafinal+'/'+id+'/'+estatus);
     }
 

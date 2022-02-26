@@ -744,13 +744,13 @@ console.log('NUEVO CFDIIIIIIIIIII');
 
 
    /* list Metodo Pago */
-   public listMoneda: Array<Object> = [
+   public listMoneda: Array<any> = [
     { Moneda: 'MXN' },
     { Moneda: 'USD' }
   ];
 
   /* lista de Bancos*/
-  public listbancos: Array<Object> = [
+  public listbancos: Array<any> = [
     { banco: 'SANTANDER', cuenta:"014150655040229899"},
     { banco: 'HSBC', cuenta:"021150040537518226"},
     { banco: 'HSBC DLLS', cuenta:"021150070030383384"},
@@ -758,7 +758,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
     { banco: 'BANCOMER', cuenta:"012150001119448432"},
     { banco: 'BANCOMER DLLS', cuenta:"012150001119942475"}
   ]
-  public listbancos2: Array<Object> = [
+  public listbancos2: Array<any> = [
     { banco: 'BANORTE', cuenta:"072150004619216703"},
     { banco: 'SANTANDER', cuenta:"014150655081955339"},
     { banco: 'BANCOMER', cuenta:"012150001158942041"},
@@ -767,7 +767,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
     { banco: 'BANCOMER DLLS', cuenta:"012150001159680386"}
     
   ]
-  public listbancos3: Array<Object> = [
+  public listbancos3: Array<any> = [
     { banco: 'SANTANDER', cuenta:"014150655087979539"},
   
     
@@ -845,7 +845,7 @@ console.log('NUEVO CFDIIIIIIIIIII');
   }
 
   //Forma Pago
-  public listFP: Array<Object> = [
+  public listFP: Array<any> = [
     { FormaDePago: "01", text: "01-Efectivo" },
     { FormaDePago: "02", text: "02-Cheque nominativo" },
     { FormaDePago: "03", text: "03-Transferencia electrónica de fondos" },
@@ -1411,6 +1411,32 @@ onExportClick(folio?: string) {
               console.log(data2);
             
             })
+
+            /* cambio nuevo desaldar factura */
+            let query;
+            let consulta;
+            if (this.servicefactura.rfcempresa==='PLA11011243A'){
+
+              query = "update Factura set Estatus='Timbrada' where Id in (select idFactura from PagoCFDI where IdReciboPago="+this.service.formData.Id+")"
+            }
+            else if (this.servicefactura.rfcempresa=='AIN140101ME3'){
+              query = "update Factura2 set Estatus='Timbrada' where Id in (select idFactura from PagoCFDI2 where IdReciboPago="+this.service.formData.Id+")"
+            }      else if (this.servicefactura.rfcempresa=='DTM200220KRA'){
+              query = "update Factura3 set Estatus='Timbrada' where Id in (select idFactura from PagoCFDI3 where IdReciboPago="+this.service.formData.Id+")"
+            }
+      
+             consulta = {
+              'consulta':query
+            };
+    
+            console.log(consulta);
+      
+            this.servicefactura.getQuery(consulta).subscribe((res:any)=>{
+             console.log(res);
+            })
+            /* cambio nuevo desaldar factura */
+
+
           }
           else if (data2.response === 'error') {
             this.loading = false;

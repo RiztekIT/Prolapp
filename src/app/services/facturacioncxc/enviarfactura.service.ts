@@ -118,10 +118,11 @@ export class EnviarfacturaService {
   // readonly rootURLxml = "/api/v3/cfdi33/5e06601d92802/xml"
 
   URLphp = "https://riztek.com.mx/php/Prolacto/"
+  
 
   //return this.http.get("https://riztek.com.mx/php/Prolacto/GET_TipoCambio.php"
 
-  constructor(private http: HttpClient, private sanitizer: DomSanitizer) { }
+  constructor(private http: HttpClient, private sanitizer: DomSanitizer,) { }
 
   saberRFC(){
     console.clear();
@@ -217,17 +218,34 @@ export class EnviarfacturaService {
     console.log(datos);
     console.log(httpOptions)
     
-    /* let rootURLcliente = "/api/v1/clients/create";
-      
-  return this.http.get(this.URLphp + 'GET_ClientesAPI.php')
     
-      return this.http.post(rootURLcliente,datos,httpOptions3) */
-
+    if (this.empresa.RFC==='PLA11011243A'){
+  
       let rootURLcliente = this.URLphp + "POST_Cliente.php";
       
   
     
       return this.http.post(rootURLcliente,datos) 
+    }
+    else if (this.empresa.RFC=='AIN140101ME3'){
+      let rootURLcliente = this.URLphp + "POST_Cliente2.php";
+      
+  
+    
+      return this.http.post(rootURLcliente,datos) 
+      
+    }
+    else if (this.empresa.RFC=='DTM200220KRA'){
+      let rootURLcliente = this.URLphp + "POST_Cliente3.php";
+      
+  
+    
+      return this.http.post(rootURLcliente,datos) 
+    
+      
+    }
+
+   
   
     
   }

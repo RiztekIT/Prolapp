@@ -24,23 +24,28 @@ export class EventosService {
   
 
   getEventosList(): Observable <Evento[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<Evento[]>(this.APIUrl + '/Eventos');
   }
 
   getEventoID(id:number): Observable <Evento[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<Evento[]>(this.APIUrl + '/Eventos/EventoID' + id);
   }
 
   deleteEvento(id:number) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.delete(this.APIUrl + '/Eventos/DeleteEvento/' + id);
  
   }
 
   addEvento(evento: Evento) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/Eventos', evento);
  }
 
   updateEvento(evento: Evento) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.put(this.APIUrl+ '/Eventos', evento);
     }
  

@@ -31,31 +31,37 @@ export class EmpresaService {
   APIUrl = environment.APIUrl;
 
   getEmpresaList(): Observable <Empresa[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<Empresa[]>(this.APIUrl + '/empresa');
   }
 
   getEmpresaFoto():Observable <any[]>{
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/empresa/EmpresaFoto');
   }
 
   getLastEmpresa(): Observable <any> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any>(this.APIUrl + '/empresa/LastEmpresa');
   }
 
   updateEmpresa(empresa: Empresa) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.put(this.APIUrl+ '/empresa', empresa);
     }    
   
   updateEmpresaFoto(fotofinal) {
-   
+    this.APIUrl = sessionStorage.getItem('API')
    return this.http.put( this.APIUrl + '/Empresa/EditarEmpresaFoto/', fotofinal)
   }
   
   addEmpresa(empresa: Empresa){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/empresa', empresa )
   }
 
   deleteEmpresa(id: number){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.delete(this.APIUrl +'/empresa/BorrarEmpresa/'+ id)
   }
 

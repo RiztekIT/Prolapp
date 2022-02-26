@@ -48,7 +48,7 @@
                         <!--  ------------------------------------------------------------------------------------------------------------------------ -->
                         <!-- ------------------------------------------------------------------------------------------------------------------------ -->
                         <label class="input-group-text text-info ">Codigo Postal</label>
-                        <input required type="number" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP" autocomplete="off">
+                        <input required type="text" class="form-control" name="CP" #CP="ngModel" [(ngModel)]="service.formData.CP" autocomplete="off">
 
                         <div class="text-left text-danger" *ngIf="CP.invalid && CP.touched">
                             Favor de Ingresar Codigo Postal

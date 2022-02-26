@@ -1815,9 +1815,23 @@ const dialogConfig = new MatDialogConfig();
             this.enviarfact.cancelar(id,resp).subscribe(data => {
               let data2 = JSON.parse(data);
               if (data2.response === 'success') {
-                
                 this.service.updateCancelarFactura(this.service.formData.Id).subscribe(data => {
                   this.loading = false;
+                  /* CAMBIOS NUEVOS LIBERAR PEDIDO */
+
+                  let query = "delete from ovfactura where idFactura="+this.service.formData.Id+""
+
+                  let consulta = {
+                    'consulta':query
+                  };
+            
+                  console.log(consulta);
+            
+                  this.service.getQuery(consulta).subscribe((res:any)=>{
+                   console.log(res);
+                  })
+/* CAMBIOS NUEVOS LIBERAR PEDIDO */
+
                   Swal.fire({
                     title: 'Factura Cancelada',
                     icon: 'success',
@@ -2170,7 +2184,7 @@ this.enviarfact.acuseCancelacion(fact.UUID,campos).subscribe((data:any)=>{
       this.resetForm();
       this.IniciarTotales();
       Swal.fire(
-        'Factura Saldada',
+        'Factura No Saldada',
         '',
         'success'
       )

@@ -754,6 +754,8 @@ subscribeClientes: Subscription
 
         this.IdDireccion = +"";
 
+        this.getDireccionesPedido()
+
         //Actualizar Pedido con la informacion de cliente seleccionada
         this.service.updateVentasPedido(this.service.formDataPedido).subscribe(res => {
           console.log(res);
@@ -1047,6 +1049,7 @@ subscribeClientes: Subscription
           this.service.GetCliente(data[0].IdCliente).subscribe(data => {
             console.log(data);
             this.service.formData = data[0];
+            this.getDireccionesPedido()
             this.ChecarClienteSeleccionado();
           });
         }

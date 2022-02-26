@@ -21,24 +21,29 @@ export class FleterasService {
 
 
   getFleterasList(): Observable <Fleteras[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<Fleteras[]>(this.APIUrl + '/Trafico/fletera');
   }
 
   addfleteras(fleteras: Fleteras) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/Trafico', fleteras);
  }
 
  deletefleteras(id:number) {
+  this.APIUrl = sessionStorage.getItem('API')
    return this.http.delete(this.APIUrl + '/Trafico/' + id);
 
  }
 
  updatefleteras(fleteras: Fleteras) {
+  this.APIUrl = sessionStorage.getItem('API')
  return this.http.put(this.APIUrl+ '/Trafico', fleteras);
  }
 
 
  getQuery(query) {
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.post(this.APIUrl + '/TraspasoMercancia/general', query);
 }
 

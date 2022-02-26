@@ -35,7 +35,7 @@ const httpOptions2 = {
 })
 export class RedhgfacturacionService {
 
-  readonly APIUrl = environment.APIUrl;
+  APIUrl = environment.APIUrl;
   
   rfcempresa = 'RHG160808DV4';
   formData = new Factura();
@@ -168,7 +168,7 @@ Foto:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAABkCAYAAAA8AQ3AAAAAAXNS
     let consulta = {
       'consulta': query
     };
-    
+    this.APIUrl = 'https://erpprolapp.ddns.net:44361/api'
 
     return this.http.post(this.APIUrl + '/General/Consulta', consulta);
     

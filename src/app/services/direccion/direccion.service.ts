@@ -29,15 +29,18 @@ export class DireccionService {
 
     //obtener historico PrecioLeche
     GetHistorialLeche():  Observable <any[]>{
+      this.APIUrl = sessionStorage.getItem('API')
       return this.http.get<any[]>(this.APIUrl + '/Direccion');
     }
 
   //trae el precio de la leche dependiendo de la fecha seleccionada
   GetHistorialLecheFecha(fecha: string): Observable <PrecioLeche[]>{
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<PrecioLeche[]>(this.APIUrl + '/Direccion/'+ fecha);
   }
 
   addHistoricoLeche(precioleche: PrecioLeche) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/Direccion', precioleche)
   }
 

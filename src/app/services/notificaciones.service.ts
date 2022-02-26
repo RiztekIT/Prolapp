@@ -19,40 +19,52 @@ export class NotificacionesService {
 
    
    getNotificaciones(): Observable<Notificaciones[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<Notificaciones[]>(this.APIUrl + '/Notificaciones');    
   }
    getDetallesNotificacion(): Observable<DetalleNotificacion[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<DetalleNotificacion[]>(this.APIUrl + '/Notificaciones/GetDetalleNotificacion');    
   }
    getNotificacionId(id: number): Observable<Notificaciones[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<Notificaciones[]>(this.APIUrl + '/Notificaciones/GetNotificacionId/'+id);    
   }
    getDetalleNotificacionId(id: number): Observable<DetalleNotificacion[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<DetalleNotificacion[]>(this.APIUrl + '/Notificaciones/GetDetalleNotificacionId/'+id);    
   }
    getDetalleNotificacionIdUsuario(id: number): Observable<DetalleNotificacion[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<DetalleNotificacion[]>(this.APIUrl + '/Notificaciones/GetDetalleNotificacionIdUsuario/'+id);    
   }
    getDetalleNotificacionIdUsuarioBandera(id: number, bandera: number): Observable<DetalleNotificacion[]> {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<DetalleNotificacion[]>(this.APIUrl + '/Notificaciones/GetDetalleNotificacionIdUsuarioBandera/'+id+'/'+bandera);    
   }
 
   addNotificacion(noti: Notificaciones){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/Notificaciones', noti)
   }
   updateNotificacion(noti: Notificaciones){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.put(this.APIUrl + '/Notificaciones', noti)
   }  
   deleteNotificacion(id: number) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.delete(this.APIUrl + '/Notificaciones/BorrarNotificacion/' + id)
   }
   addDetalleNotificacion(noti: DetalleNotificacion){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl + '/Notificaciones/AddDetalleNotificacion', noti)
   }
   updateDetalleNotificacion(noti: Notificaciones){
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.put(this.APIUrl + '/Notificaciones/UpdateDetalleNotificacion', noti)
   }  
   deleteDetalleNotificacion(id: number) {
+    this.APIUrl = sessionStorage.getItem('API')
     return this.http.delete(this.APIUrl + '/Notificaciones/BorrarDetalleNotificacion/' + id)
   }
 
@@ -61,10 +73,12 @@ export class NotificacionesService {
     mensajesData: any = [];
 
     GetNotificacionJNDetalleNotificacionIdUsuario(id: number){
+      this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/Notificaciones/GetNotificacionJNDetalleNotificacionIdUsuario/'+id); 
     }
 
     GetMensajesLogIdDestinoIdUsuario(idDestino: number, idUsuario:number){
+      this.APIUrl = sessionStorage.getItem('API')
     return this.http.get<any[]>(this.APIUrl + '/Notificaciones/GetMensajesLogIdDestinoIdUsuario/'+idDestino+ '/' + idUsuario); 
     }
 

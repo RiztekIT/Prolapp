@@ -58,47 +58,59 @@ export class OrdenTemporalService {
 
 //Insertar Orden Temporal
 addOrdenTemporal(oT: OrdenTemporal) {
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.post(this.APIUrl + '/OrdenTemporal', oT);
 }
 //update Orden Temporal
 updateOrdenTemporal(ot: OrdenTemporal){
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.put(this.APIUrl + '/OrdenTemporal', ot);
 }
 //Obtener Orden Temporal por ID Orden Carga, LOTE y Clave Producto
 getDetalleOrdenCargaIdLoteClave(id: number, lote: string, clave: string): Observable <OrdenTemporal[]>{
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/OrdenTemporal/'+ id + '/' + lote + '/' + clave);
 }
 
 //Obtener Orden Temporal por ID Orden Carga
 GetOrdenTemporalID(id: number): Observable <OrdenTemporal[]>{
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/OrdenTemporalID/'+ id);
 }
 //Obtener Orden Temporal por ID Orden Descarga
 GetOrdenTemporalIDOD(id: number): Observable <OrdenTemporal[]>{
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/OrdenTemporalIDOD/'+ id);
 }
 //Obtener Orden Temporal por ID Tarima
 GetOrdenTemporalIdTarima(id: number): Observable <OrdenTemporal[]>{
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/OrdenTemporalIdTarima/'+ id);
 }
 GetOrdenTemporalIdTarimaOC(id: number, oc: number): Observable <OrdenTemporal[]>{
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/OrdenTemporalIdTarimaOC/'+ id+ '/'+oc);
 }
 //Obtener Orden Temporal por ID carga y qr
 GetOrdenTemporalIdqr(id: number, qr: string): Observable <OrdenTemporal[]>{
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/OrdenTemporalIdqr/'+ id + '/' + qr);
 }
 GetOrdenTemporalIdqrOD(id: number, qr: string): Observable <OrdenTemporal[]>{
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/OrdenTemporalIdqrOD/'+ id + '/' + qr);
 }
 GetTracking(fechaini,fechafinal): Observable <OrdenTemporal[]>{
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/tracking/' + fechaini+ '/' + fechafinal);
 }
 GetTrackingCliente(fechaini,fechafinal,id): Observable <OrdenTemporal[]>{
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.get<OrdenTemporal[]>(this.APIUrl + '/OrdenTemporal/trackingCliente/' + fechaini+ '/' + fechafinal+ '/' + id);
 }
 
 deleteOrdenTemporal(id:number){
+  this.APIUrl = sessionStorage.getItem('API')
   return this.http.delete(this.APIUrl + '/OrdenTemporal/BorrarOrdenTemporal/' + id)
 }
 
