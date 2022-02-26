@@ -38,6 +38,7 @@ import { EmpresaService } from 'src/app/services/empresas/empresa.service';
 import { OrdenventacxcComponent } from '../ordenventacxc/ordenventacxc.component';
 import { CfdirelacionadoscxcComponent } from '../../cfdirelacionadoscxc/cfdirelacionadoscxc.component';
 import { CancelarcfdiComponent } from '../../cancelarcfdi/cancelarcfdi.component';
+import { DatePipe } from '@angular/common';
 
 /* Headers para el envio de la factura */
 const httpOptions = {
@@ -138,7 +139,8 @@ export class FacturacioncxcAddComponent implements OnInit {
   constructor(
     public service: FacturaService, private snackBar: MatSnackBar, private dialog: MatDialog,
     private router: Router, public enviarfact: EnviarfacturaService,
-    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService, private tipoCambio: TipoCambioService, public serviceNota: NotaCreditoService, public serviceEmpresa: EmpresaService) {
+    private activatedRoute: ActivatedRoute, public _MessageService: MessageService, private http: HttpClient, public servicefolios: FoliosService, private tipoCambio: TipoCambioService, public serviceNota: NotaCreditoService, public serviceEmpresa: EmpresaService,
+    public datepipe: DatePipe) {
     this.service.Moneda = 'MXN';
     console.log('Constr ' + this.service.Moneda);
     this.service.formData.Id = +localStorage.getItem('FacturaID')
@@ -1287,6 +1289,11 @@ console.log(data);
       this.json1.MetodoPago = data[0].MetodoDePago;
 
       this.json1.EnviarCorreo = false;
+      //PARA FECHAS ANTERIORES
+      //let fecha1  = this.datepipe.transform(data[0].FechaDeExpedicion,'yyyy-MM-dd')
+      //let fecha2  = this.datepipe.transform(data[0].FechaDeExpedicion,'HH:mm:ss')
+      //let fecha = fecha1 +"\T"+ fecha2
+      //this.json1.Fecha = fecha ;      
       this.service.getDetallesFacturaListProducto(id).subscribe(data => {
         console.log('PRODUCTOS',data)
         let IVAproducto = '0';
@@ -2027,9 +2034,11 @@ const dialogConfig = new MatDialogConfig();
     dialogConfig.width="70%";
     let dl = this.dialog.open(AcusecancelacionComponent, dialogConfig);
  */
-    
-
-this.enviarfact.acuseCancelacion(fact.UUID).subscribe((data:any)=>{
+    let campos = {
+      'motivo':'02',
+      'folioSustituto':'',
+    }
+this.enviarfact.acuseCancelacion(fact.UUID,campos).subscribe((data:any)=>{
   console.log(data);
 
 

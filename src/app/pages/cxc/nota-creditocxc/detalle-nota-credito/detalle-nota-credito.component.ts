@@ -898,9 +898,12 @@ this.refreshTablaDetalles();
     dialogConfig.width="70%";
     let dl = this.dialog.open(AcusecancelacionComponent, dialogConfig);
  */
-    
+    let campos = {
+      'motivo':'02',
+      'folioSustituto':'',
+    }
 
-this.enviarfact.acuseCancelacion(fact.UUID).subscribe((data:any)=>{
+this.enviarfact.acuseCancelacion(fact.UUID,campos).subscribe((data:any)=>{
   console.log(data);
 
 

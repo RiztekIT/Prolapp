@@ -112,7 +112,8 @@ th {
 
 td {
     font-size: 12px !important;
-    padding: 5px;
+    padding: 3px;
+    
 }
 
 th {
@@ -126,7 +127,7 @@ th {
 
 .bolder {
     font-weight: 900;
-    padding: 7px;
+    padding: 0px;
 }
 
 .lightback {

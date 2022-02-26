@@ -19,7 +19,7 @@ import { pagoTimbre } from 'src/app/Models/ComplementoPago/pagotimbre';
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json;charset=UTF-8',
       'Access-Control-Allow-Headers': 'F-Secret-Key,Accept, Accept-Encoding, Content-Type',
-      'Access-Control-Allow-Methods': 'GET, OPTIONS'
+      'Access-Control-Allow-Methods': 'GET, OPTIONS, POST'
     })
   }
   const httpOptions2 = {
@@ -31,7 +31,7 @@ import { pagoTimbre } from 'src/app/Models/ComplementoPago/pagotimbre';
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json;charset=UTF-8',
       'Access-Control-Allow-Headers': 'F-Secret-Key,Accept, Accept-Encoding, Content-Type',
-      'Access-Control-Allow-Methods': 'GET, OPTIONS'
+      'Access-Control-Allow-Methods': 'GET, OPTIONS, POST'
     }),
     responseType: 'text' as 'json'
   }
@@ -48,7 +48,7 @@ import { pagoTimbre } from 'src/app/Models/ComplementoPago/pagotimbre';
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json;charset=UTF-8',
       'Access-Control-Allow-Headers': 'F-Secret-Key,Accept, Accept-Encoding, Content-Type',
-      'Access-Control-Allow-Methods': 'GET, OPTIONS'
+      'Access-Control-Allow-Methods': 'GET, OPTIONS, POST'
     })
   }
   const httpOptions4 = {
@@ -60,7 +60,7 @@ import { pagoTimbre } from 'src/app/Models/ComplementoPago/pagotimbre';
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json;charset=UTF-8',
       'Access-Control-Allow-Headers': 'F-Secret-Key,Accept, Accept-Encoding, Content-Type',
-      'Access-Control-Allow-Methods': 'GET, OPTIONS'
+      'Access-Control-Allow-Methods': 'GET, OPTIONS, POST'
     }),
     responseType: 'text' as 'json'
   }
@@ -73,7 +73,7 @@ import { pagoTimbre } from 'src/app/Models/ComplementoPago/pagotimbre';
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json;charset=UTF-8',
       'Access-Control-Allow-Headers': 'F-Secret-Key,Accept, Accept-Encoding, Content-Type',
-      'Access-Control-Allow-Methods': 'GET, OPTIONS'
+      'Access-Control-Allow-Methods': 'GET, OPTIONS, POST'
     })
   }
 
@@ -86,7 +86,7 @@ import { pagoTimbre } from 'src/app/Models/ComplementoPago/pagotimbre';
       'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json;charset=UTF-8',
       'Access-Control-Allow-Headers': 'F-Secret-Key,Accept, Accept-Encoding, Content-Type',
-      'Access-Control-Allow-Methods': 'GET, OPTIONS'
+      'Access-Control-Allow-Methods': 'GET, OPTIONS, POST'
     }),
     responseType: 'text' as 'json'
   }
@@ -307,16 +307,16 @@ export class EnviarfacturaService {
     
   }
 
-  acuseCancelacion(uuid){
+  acuseCancelacion(uuid,datos){
     if (this.empresa.RFC==='PLA11011243A'){
 
-      return this.http.get('/api/v3/cfdi33/'+uuid+'/cancel',httpOptions)
+      return this.http.post('/api/v3/cfdi33/'+uuid+'/cancel',datos,httpOptions)
     }
     else if (this.empresa.RFC=='AIN140101ME3'){
-      return this.http.get('/api/v3/cfdi33/'+uuid+'/cancel',httpOptions3)
+      return this.http.post('/api/v3/cfdi33/'+uuid+'/cancel',datos,httpOptions3)
     }
     else if (this.empresa.RFC=='DTM200220KRA'){
-      return this.http.get('/api/v3/cfdi33/'+uuid+'/cancel',httpOptions5)
+      return this.http.post('/api/v3/cfdi33/'+uuid+'/cancel',datos,httpOptions5)
     }
     
     /* 

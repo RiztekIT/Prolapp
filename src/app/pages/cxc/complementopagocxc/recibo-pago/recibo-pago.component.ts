@@ -1230,18 +1230,35 @@ console.log(this.json1);
     let min;
     let seg;
     let diaf;
+    let añonuevo = 0;
     
     let fecha = new Date(date);
 
     if (((fecha.getDate()+1)==31) && ((fecha.getMonth()==1) || (fecha.getMonth()==3) || (fecha.getMonth()==5) || (fecha.getMonth()==8) || (fecha.getMonth()==10))){
       diaf = 1;
-      mes2 = `${months[fecha.getMonth()+1]}`;
+      if ((fecha.getMonth()+1)==12){
+        mes2 = `${months[0]}`;
+        añonuevo = 1
+      }else{
+        mes2 = `${months[fecha.getMonth()+1]}`;
+      }
     }else if ((fecha.getDate()+1)==32){
       diaf = 1;
-      mes2 = `${months[fecha.getMonth()+1]}`;
+      if ((fecha.getMonth()+1)==12){
+        mes2 = `${months[0]}`;
+        añonuevo = 1
+      }else{
+        mes2 = `${months[fecha.getMonth()+1]}`;
+      }
+     
     }else{
       diaf = fecha.getDate()+1
-      mes2 = `${months[fecha.getMonth()]}`;
+      if ((fecha.getMonth()+1)==12){
+        mes2 = `${months[0]}`;
+        añonuevo = 1
+      }else{
+        mes2 = `${months[fecha.getMonth()]}`;
+      }
     }
 
 
@@ -1250,7 +1267,7 @@ console.log(this.json1);
     dia = `${days[fecha.getDate()]}`;
     dia2 = `${days[diaf]}`;
     
-    año = fecha.getFullYear();
+    año = fecha.getFullYear() + +añonuevo;
     hora = fecha.getHours();
     min = fecha.getMinutes();
     seg = fecha.getSeconds();

@@ -401,7 +401,7 @@ console.log(data)
       FechaDeEntrega:  new Date(),
       CondicionesDePago: "",
       Vendedor: "",
-      Estatus: "Creada",
+      Estatus: "Guardada",
       Version: "",
       Usuario: ""
   }
