@@ -68,7 +68,7 @@ export class UsuariosServieService {
   }
 
   getLogin(usuario: Usuario) {
-    this.APIUrl = sessionStorage.getItem('API')
+  //  this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl+ '/usuario/login/',usuario);
     }
 
