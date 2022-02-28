@@ -70,6 +70,7 @@ export class UsuariosServieService {
   getLogin(usuario: Usuario) {
   //  this.APIUrl = sessionStorage.getItem('API')
   sessionStorage.setItem('API','https://erpprolapp.ddns.net:44361/api')
+  this.APIUrl = sessionStorage.getItem('API')
     return this.http.post(this.APIUrl+ '/usuario/login/',usuario);
     }
 
