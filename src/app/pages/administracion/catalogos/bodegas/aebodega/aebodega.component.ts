@@ -57,7 +57,7 @@ export class AEBodegaComponent implements OnInit {
 
   ngOnInit() {
     
-    this.ConnectionHubService.ConnectionHub(origen[0]);
+    /* this.ConnectionHubService.ConnectionHub(origen[0]); */
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
     this.BodegaInfo = this.data;
     this.tipoAE = this.BodegaInfo.tipo
@@ -95,7 +95,7 @@ if(tipoAE == 'Editar'){
     if (this.tipoAE == 'Editar') {
       console.log('this.BodegaService.formData: ', this.BodegaService.formData);
       this.BodegaService.editBodega(this.BodegaService.formData).subscribe(res=> {
-        this.ConnectionHubService.on(origen[0])
+        /* this.ConnectionHubService.on(origen[0]) */
         console.log(res);
 
         this.movimientos(this.movimiento)
@@ -113,8 +113,8 @@ if(tipoAE == 'Editar'){
       this.BodegaService.addBodega(this.BodegaService.formData).subscribe(res=> {
         
         let datosExtra = this.BodegaService.formData.Nombre
-        this.ConnectionHubService.generarNotificacion(origenNotificacion[0], datosExtra)
-        this.ConnectionHubService.on(origen[0])
+        /* this.ConnectionHubService.generarNotificacion(origenNotificacion[0], datosExtra)
+        this.ConnectionHubService.on(origen[0]) */
         console.log(res);
 
         this.movimientos(this.movimiento)

@@ -63,7 +63,7 @@ export class AddClienteComponent implements OnInit {
     private ConnectionHubService: ConnectionHubServiceService,) { }
 
   ngOnInit() {
-    this.ConnectionHubService.ConnectionHub(origen[0]);
+    /* this.ConnectionHubService.ConnectionHub(origen[0]); */
     // console.log(this.service2.formprosp);
     // this.service.formData = new Cliente();
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));

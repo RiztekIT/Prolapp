@@ -1644,7 +1644,7 @@ export class FormatoComprasComprasComponent implements OnInit {
       detallenoti.FechaLeido = new Date(10 / 10 / 10);
       this.notificacionService.addDetalleNotificacion(detallenoti).subscribe(res => {
         console.log(res, 'Respuesta de detalle de notidicacion');
-        this.on();
+        /* this.on(); */
       })
 
 

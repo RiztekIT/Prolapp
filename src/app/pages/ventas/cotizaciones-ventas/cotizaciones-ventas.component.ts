@@ -386,7 +386,7 @@ Vigencia: new Date()
       this.IdCotizacion = res[0].IdCotizacion;
       // console.log(this.IdPedido);
       localStorage.setItem('IdCotizacion', this.IdCotizacion.toString());
-      this.on();
+      /* this.on(); */
       this.router.navigate(['/cotizacionesVentasAdd']);
     })
   }
@@ -447,7 +447,7 @@ Vigencia: new Date()
     console.log(cotizacion);
     this.service.onDeleteAllDetalleCotizacion(cotizacion.IdCotizacion).subscribe(res => {
       this.service.onDeleteCotizacion(cotizacion.IdCotizacion).subscribe(res => {
-        this.on();
+        /* this.on(); */
         //this.refreshCotizacionesList();
       });
     });
