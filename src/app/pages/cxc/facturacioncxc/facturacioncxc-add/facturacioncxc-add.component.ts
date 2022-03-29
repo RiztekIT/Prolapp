@@ -702,7 +702,7 @@ if(this.serviceNota.master.length > 0){
 
   for (let i = 0; i < this.serviceNota.master.length; i++) {
 
-    if (this.serviceNota.master[i].Relacion!='07'){
+    if (this.serviceNota.master[i].Relacion!='07' ){
 
       this.service.SaldoFacturaMXN = (this.service.SaldoFacturaMXN + +this.serviceNota.master[i].Total);
       this.service.SaldoFacturaDLLS = (this.service.SaldoFacturaDLLS + +this.serviceNota.master[i].TotalDlls);
@@ -734,6 +734,10 @@ this.service.SaldoFacturaDLLS = (this.service.SaldoFacturaDLLS + (+this.listData
 this.service.SaldoFacturaMXN = +this.service.formData.Total - this.service.SaldoFacturaMXN;
 this.service.SaldoFacturaDLLS = +this.service.formData.TotalDlls - this.service.SaldoFacturaDLLS;
 
+console.log('--------------------');
+console.log(this.service.SaldoFacturaMXN);
+console.log(this.service.SaldoFacturaDLLS);
+console.log('--------------------');
 if(this.service.SaldoFacturaMXN<0){
   this.service.SaldoFacturaMXN=0;
 }
@@ -742,12 +746,15 @@ if(this.service.SaldoFacturaDLLS<0){
 
 }
 
+if (this.service.SaldoFacturaMXN==0 || this.service.SaldoFacturaDLLS==0){
+  console.log('SE PAGO ESTA FACTURA');
+  this.saldar(this.service.formData)
 
 
-console.log('--------------------');
-console.log(this.service.SaldoFacturaMXN);
-console.log(this.service.SaldoFacturaDLLS);
-console.log('--------------------');
+}
+
+
+
 
 
 
