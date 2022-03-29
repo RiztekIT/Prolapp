@@ -69,8 +69,9 @@ export class FacturaService {
   }
   getFacturasListCLiente(): Observable <any[]> {
     this.APIUrl = sessionStorage.getItem('API')
-    this.APIUrl = environment.APIUrl;
+    //this.APIUrl = environment.APIUrl;
     console.log(this.APIUrl);
+    console.log(this.rfcempresa);
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<any[]>(this.APIUrl + '/Factura/FacturaCliente');
@@ -101,8 +102,8 @@ export class FacturaService {
   //Obtener Lista de Detalles Factura
   getDetallesFacturaList(id: number): Observable <DetalleFactura[]> {
     this.APIUrl = sessionStorage.getItem('API')
-    console.log(this.APIUrl);
-    console.log(environment.APIUrl);
+/*     console.log(this.APIUrl);
+    console.log(environment.APIUrl); */
     if (this.rfcempresa==='PLA11011243A'){
 
       return this.http.get<DetalleFactura[]>(this.APIUrl + '/Factura/DetalleFactura/'+ id);

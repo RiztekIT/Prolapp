@@ -98,8 +98,8 @@ export class NotaCreditocxcComponent implements OnInit {
   ngOnInit() {
     
  /*    this.ConnectionHubService.ConnectionHub(origen[0]); */
-    this.serviceFactura.rfcempresa = 'PLA11011243A'
-    this.listaempresas()
+    //this.serviceFactura.rfcempresa = 'PLA11011243A'
+    //this.listaempresas()
     this.refreshNotaList();
 
     
