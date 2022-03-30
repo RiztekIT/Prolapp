@@ -40,7 +40,7 @@ export class ProspectoclienteComponent implements OnInit {
     private ConnectionHubService: ConnectionHubServiceService,) { }
 
   ngOnInit() {
-    this.ConnectionHubService.on(origen[0]);
+    /* this.ConnectionHubService.on(origen[0]); */
     console.log(this.service.formData.Nombre);
     // console.log(this.service2.formprosp);
     // this.service.formData = new Cliente();
@@ -191,7 +191,7 @@ export class ProspectoclienteComponent implements OnInit {
 
     this.service2.editProspecto(data[0]).subscribe(datau => {
       console.log(datau);
-      this.ConnectionHubService.on(origen[0]);
+      /* this.ConnectionHubService.on(origen[0]); */
       this.service2.filter('');
     })
   })
@@ -217,7 +217,7 @@ export class ProspectoclienteComponent implements OnInit {
     datos = JSON.stringify(datos);
     this.apicliente.crearCliente(datos).subscribe(data =>{
         
-      this.ConnectionHubService.on(origen1[0]);
+      /* this.ConnectionHubService.on(origen1[0]); */
       if (data.status==='success'){
         console.log(data);
 
@@ -226,7 +226,7 @@ export class ProspectoclienteComponent implements OnInit {
         //
         this.service.addCliente(this.service.formData).subscribe(res => {
           console.log(res);
-          this.ConnectionHubService.on(origen1[0]);
+          /* this.ConnectionHubService.on(origen1[0]); */
           
           Swal.fire({
             icon: 'success',

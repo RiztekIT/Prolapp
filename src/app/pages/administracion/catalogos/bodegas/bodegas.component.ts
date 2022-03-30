@@ -44,16 +44,16 @@ export class BodegasComponent implements OnInit {
       this.Bodegaservice.listen().subscribe((m:any)=>{
         this.BodegasList();
       });
-
+/* 
       this.ConnectionHubService.listenBodega().subscribe((m:any)=>{
         console.log(m);
         this.BodegasList();
-        });
+        }); */
 
      }
 
   ngOnInit() {
-    this.ConnectionHubService.ConnectionHub(origen[0]);
+    /* this.ConnectionHubService.ConnectionHub(origen[0]); */
     this.BodegasList();
     this.usuariosesion = JSON.parse(localStorage.getItem('ProlappSession'));
 
@@ -168,7 +168,7 @@ console.log(tipo);
         }).then((result) => {
           if (result.value) {
             this.Bodegaservice.deleteBodega(id).subscribe(res => {
-              this.ConnectionHubService.on(origen[0]);
+              /* this.ConnectionHubService.on(origen[0]); */
               this.BodegasList();
               Swal.fire({
                 title: 'Borrado',

@@ -70,7 +70,7 @@ export class HeaderComponent implements OnInit {
     }
 
   ngOnInit() {
-    this.ConnectionHub();
+    //this.ConnectionHub();
 
 this.NotificacionesActivas = false;
     
@@ -94,7 +94,7 @@ this.NotificacionesActivas = false;
   //^ Indica la cantidad de Mensajes que hay sin leer.
   cantidadMensajes: number = 0;
   //^Arreglo de Notificaciones
-  notificaciones;
+  notificaciones = [];
   //Variables Notificaciones
 
   getUsuario(){

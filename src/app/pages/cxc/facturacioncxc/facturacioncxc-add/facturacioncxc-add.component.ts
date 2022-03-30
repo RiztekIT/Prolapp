@@ -330,6 +330,17 @@ this.TipoRelacion = '';
   GenerarNota() {
 
     this.serviceNota.Timbrada = false;
+    let serie = ''
+    if (this.enviarfact.empresa.RFC=='DTM200220KRA'){
+      serie='558311'
+      
+    }else if (this.enviarfact.empresa.RFC=='AIN140101ME3'){
+      serie='407292'
+      
+    }else if (this.enviarfact.empresa.RFC=='PLA11011243A'){
+      serie='315384'
+
+    }
 
 
     //Obtener ultimo Folio Nota Credito y asignarlo a NotaBlanco
@@ -353,7 +364,7 @@ this.TipoRelacion = '';
         IdNotaCredito: 0,
         IdCliente: +this.service.formData.IdCliente,
         IdFactura: +this.service.formData.Id,
-        Serie: "",
+        Serie: serie,
         Folio: this.FolioNotaCredito,
         Tipo: "Egreso",
         FechaDeExpedicion: new Date(),
@@ -702,7 +713,7 @@ if(this.serviceNota.master.length > 0){
 
   for (let i = 0; i < this.serviceNota.master.length; i++) {
 
-    if (this.serviceNota.master[i].Relacion!='07'){
+    if (this.serviceNota.master[i].Relacion!='07' ){
 
       this.service.SaldoFacturaMXN = (this.service.SaldoFacturaMXN + +this.serviceNota.master[i].Total);
       this.service.SaldoFacturaDLLS = (this.service.SaldoFacturaDLLS + +this.serviceNota.master[i].TotalDlls);
@@ -734,6 +745,10 @@ this.service.SaldoFacturaDLLS = (this.service.SaldoFacturaDLLS + (+this.listData
 this.service.SaldoFacturaMXN = +this.service.formData.Total - this.service.SaldoFacturaMXN;
 this.service.SaldoFacturaDLLS = +this.service.formData.TotalDlls - this.service.SaldoFacturaDLLS;
 
+console.log('--------------------');
+console.log(this.service.SaldoFacturaMXN);
+console.log(this.service.SaldoFacturaDLLS);
+console.log('--------------------');
 if(this.service.SaldoFacturaMXN<0){
   this.service.SaldoFacturaMXN=0;
 }
@@ -742,12 +757,17 @@ if(this.service.SaldoFacturaDLLS<0){
 
 }
 
+if (this.service.SaldoFacturaMXN==0 || this.service.SaldoFacturaDLLS==0){
+  console.log('SE PAGO ESTA FACTURA');
+  this.saldar(this.service.formData)
 
 
-console.log('--------------------');
-console.log(this.service.SaldoFacturaMXN);
-console.log(this.service.SaldoFacturaDLLS);
-console.log('--------------------');
+}else{
+  this.nosaldar(this.service.formData)
+}
+
+
+
 
 
 
