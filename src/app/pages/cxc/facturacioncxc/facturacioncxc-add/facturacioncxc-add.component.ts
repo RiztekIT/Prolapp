@@ -759,11 +759,35 @@ if(this.service.SaldoFacturaDLLS<0){
 
 if (this.service.SaldoFacturaMXN==0 || this.service.SaldoFacturaDLLS==0){
   console.log('SE PAGO ESTA FACTURA');
-  this.saldar(this.service.formData)
+    // console.log('fact',fact);
+    // console.log('service',this.service.formData);
+    this.service.formData.Estatus = 'Pagada'
+
+    // console.log('fact',fact);
+    // console.log('service',this.service.formData);
+
+    this.service.updateFactura(this.service.formData).toPromise().then(res => {
+      // this.resetForm(fact);
+    /*   this.resetForm();
+      this.IniciarTotales(); */
+    
+
+    }
+    );
 
 
 }else{
-  this.nosaldar(this.service.formData)
+  this.service.formData.Estatus = 'Timbrada'
+
+  // console.log('fact',fact);
+  // console.log('service',this.service.formData);
+
+  this.service.updateFactura(this.service.formData).toPromise().then(res => {
+    // this.resetForm(fact);
+  
+
+  }
+  );
 }
 
 
