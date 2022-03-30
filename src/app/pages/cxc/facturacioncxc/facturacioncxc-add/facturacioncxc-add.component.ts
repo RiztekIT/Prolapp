@@ -330,6 +330,17 @@ this.TipoRelacion = '';
   GenerarNota() {
 
     this.serviceNota.Timbrada = false;
+    let serie = ''
+    if (this.enviarfact.empresa.RFC=='DTM200220KRA'){
+      serie='558311'
+      
+    }else if (this.enviarfact.empresa.RFC=='AIN140101ME3'){
+      serie='407292'
+      
+    }else if (this.enviarfact.empresa.RFC=='PLA11011243A'){
+      serie='315384'
+
+    }
 
 
     //Obtener ultimo Folio Nota Credito y asignarlo a NotaBlanco
@@ -353,7 +364,7 @@ this.TipoRelacion = '';
         IdNotaCredito: 0,
         IdCliente: +this.service.formData.IdCliente,
         IdFactura: +this.service.formData.Id,
-        Serie: "",
+        Serie: serie,
         Folio: this.FolioNotaCredito,
         Tipo: "Egreso",
         FechaDeExpedicion: new Date(),
