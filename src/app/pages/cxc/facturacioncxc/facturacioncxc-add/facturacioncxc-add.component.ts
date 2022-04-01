@@ -1341,7 +1341,46 @@ console.log(data);
       this.service.getDetallesFacturaListProducto(id).subscribe(data => {
         console.log('PRODUCTOS',data)
         let IVAproducto = '0';
-        this.json1.Conceptos.pop();
+        this.json1.Conceptos =  [{
+          ClaveProdServ: '',
+          NoIdentificacion: '',
+          Cantidad: '',
+          ClaveUnidad: '',
+          Unidad: '',
+          Descripcion: '',
+          ValorUnitario: '',
+          Importe: '',
+          Descuento: '',
+          tipoDesc: '',
+          honorarioInverso: '',
+          montoHonorario: '',
+          Impuestos: {
+            Traslados: [
+              {
+                Base: '',
+                Impuesto: '',
+                TipoFactor: '',
+                TasaOCuota: '',
+                Importe: ''
+              }],
+            Retenidos: [{
+              Base: '',
+              Impuesto: '',
+              TipoFactor: '',
+              TasaOCuota: '',
+              Importe: ''
+            }],
+            Locales: [{
+              Impuesto: '',
+              TasaOCuota: '',
+            }],
+          },
+          NumeroPedimento: '',
+          Predial: '',
+          Partes: '',
+          Complemento: ''
+        }]
+        this.json1.Conceptos.pop()
         if (this.json1.Moneda == 'MXN') {
           for (let i = 0; i < data.length; i++) {
             if (data[i].ImporteIVA=='0.0000'){
@@ -1420,7 +1459,7 @@ console.log(data);
         }
         cadena = JSON.stringify(this.json1);
         this.enviar(cadena);
-        console.log(this.json1)
+        console.log(this.json1,'AQUI ESTA EL JSON')
       })
     });
     return cadena;
@@ -1438,6 +1477,7 @@ console.log(data);
     } else {
       this.service.formData.TipoDeCambio = '0';
     }
+
    /*  let fecha = new Date(this.service.formData.FechaDeEntrega)
       fecha.setHours(fecha.getHours()-6)
       this.service.formData.FechaDeEntrega = new Date(fecha)
