@@ -267,7 +267,7 @@ if (this.estatusSelect==='Todos'){
       console.log(consulta);
 
       this.facturaSVC.getQuery(consulta).subscribe((res:any)=>{
-        console.log(res,'SALDO');
+        
         if (res.length>0){
 
           saldo = +res[0].TextoExtra
@@ -277,8 +277,8 @@ if (this.estatusSelect==='Todos'){
           saldoanterior = +row.DetallePedido[i].Cantidad;
         }
 
-        if (+saldo>=0){
-
+        console.log(saldo,'SALDO');
+        if (+saldo>0){
           count = count + 1;
 
       consulta = {
