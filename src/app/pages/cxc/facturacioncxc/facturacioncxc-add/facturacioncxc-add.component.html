@@ -704,6 +704,7 @@
 
                                 <button [style.display]="clienteLogin ? 'none' : 'block'" *ngIf="this.Estatus=='Pagada'" class="btn btn-info btn-lg" mat-raised-button type="button" (click)='nosaldar(service.formData)' [disabled]="form.invalid"><i
                         class="mdi mdi-currency-usd btn-lg"></i>No Saldar</button>
+                                <!-- <button class="btn btn-danger btn-lg" mat-raised-button (click)='crearjsonfactura(this.service.formData.Id)' [disabled]="form.invalid"><i class="mdi mdi-send btn-lg"></i>Ver Json</button> -->
 
                                 <!--     <button  class="btn btn-info btn-lg" mat-raised-button type="button" (click)='crearjsonfactura(service.formData.Id)' [disabled]="form.invalid"><i
                             class="mdi mdi-currency-usd btn-lg"></i>JSON</button> -->
@@ -728,6 +729,7 @@
                                     <br>
                                     <button id="enviaremail" [hidden]="true" mat-icon-button class="btn btn-dark" data-toggle="modal" data-target="#cargando"></button>
                                     <button class="btn btn-danger btn-lg" mat-raised-button (click)='timbrar(form)' [disabled]="form.invalid"><i class="mdi mdi-send btn-lg"></i>Guardar y Timbrar</button>
+
 
                                     <br>
                                     <button class="btn btn-info btn-lg" mat-raised-button type="button" (click)='dxml2(service.formData.UUID,service.formData.Folio)' data-toggle="modal" data-target="#add-new-event"><i class="mdi mdi-file-pdf btn-lg"></i>Ver
