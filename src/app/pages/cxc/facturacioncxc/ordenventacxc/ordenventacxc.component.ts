@@ -270,11 +270,11 @@ if (this.estatusSelect==='Todos'){
         console.log(res,'SALDO');
         if (res.length>0){
 
-          saldo = res[0].TextoExtra
-          saldoanterior = res[0].TextoExtra
+          saldo = +res[0].TextoExtra
+          saldoanterior = +res[0].TextoExtra
         }else{
-          saldo = row.DetallePedido[i].Cantidad
-          saldoanterior = row.DetallePedido[i].Cantidad;
+          saldo = +row.DetallePedido[i].Cantidad
+          saldoanterior = +row.DetallePedido[i].Cantidad;
         }
 
         if (+saldo>=0){
