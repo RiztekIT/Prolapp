@@ -758,36 +758,31 @@ if(this.service.SaldoFacturaDLLS<0){
 }
 
 if (this.service.SaldoFacturaMXN==0 || this.service.SaldoFacturaDLLS==0){
-  console.log('SE PAGO ESTA FACTURA');
-    // console.log('fact',fact);
-    // console.log('service',this.service.formData);
-    this.service.formData.Estatus = 'Pagada'
-
-    // console.log('fact',fact);
-    // console.log('service',this.service.formData);
-
-    this.service.updateFactura(this.service.formData).toPromise().then(res => {
-      // this.resetForm(fact);
-    /*   this.resetForm();
-      this.IniciarTotales(); */
+//  console.log('SE PAGO ESTA FACTURA');
+   
+  //  this.service.formData.Estatus = 'Pagada'
     
 
-    }
-    );
+
+    //this.service.updateFactura(this.service.formData).toPromise().then(res => {
+  
+    
+
+ //   }
+   // );
 
 
 }else{
-  this.service.formData.Estatus = 'Timbrada'
+//  this.service.formData.Estatus = 'Timbrada'
 
-  // console.log('fact',fact);
-  // console.log('service',this.service.formData);
 
-  this.service.updateFactura(this.service.formData).toPromise().then(res => {
-    // this.resetForm(fact);
+
+//  this.service.updateFactura(this.service.formData).toPromise().then(res => {
+   
   
 
-  }
-  );
+//  }
+  //);
 }
 
 
@@ -1334,9 +1329,9 @@ console.log(data);
 
       this.json1.EnviarCorreo = false;
       //PARA FECHAS ANTERIORES
-      //let fecha1  = this.datepipe.transform(data[0].FechaDeExpedicion,'yyyy-MM-dd')
-      //let fecha2  = this.datepipe.transform(data[0].FechaDeExpedicion,'HH:mm:ss')
-      //let fecha = fecha1 +"\T"+ fecha2
+      let fecha1  = this.datepipe.transform(data[0].FechaDeExpedicion,'yyyy-MM-dd')
+      let fecha2  = this.datepipe.transform(data[0].FechaDeExpedicion,'HH:mm:ss')
+      let fecha = fecha1 +"\T"+ fecha2
       //this.json1.Fecha = fecha ;      
       this.service.getDetallesFacturaListProducto(id).subscribe(data => {
         console.log('PRODUCTOS',data)
