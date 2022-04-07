@@ -89,13 +89,14 @@ export class AccountSettingsComponent implements OnInit {
           this.recibopagoSVC.rfcempresa = this.enviarfact.empresa.RFC;
           this.servicefactura.rfcempresa = this.enviarfact.empresa.RFC;
           this.recibopagoSVC.rfcempresa = this.enviarfact.empresa.RFC
-          localStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
+          //localStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
+          sessionStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
     
           //console.clear();
           console.log(this.enviarfact.empresa);
           console.log(this.recibopagoSVC.rfcempresa);
     
-          if (localStorage.getItem('Empresa')){
+          if (sessionStorage.getItem('Empresa')){
       
       
             if (this.enviarfact.empresa.RFC=='DTM200220KRA'){
@@ -167,7 +168,7 @@ export class AccountSettingsComponent implements OnInit {
   }
 
   obtenerEmpresa(){
-    let empresa = JSON.parse(localStorage.getItem('Empresa'));
+    let empresa = JSON.parse(sessionStorage.getItem('Empresa'));
     console.log(empresa);
     
 
@@ -179,7 +180,7 @@ export class AccountSettingsComponent implements OnInit {
       this.recibopagoSVC.rfcempresa = empresa.RFC
       this.serviceEmpresa.empresaActual = empresa;
 
-      if (localStorage.getItem('Empresa')){
+      if (sessionStorage.getItem('Empresa')){
 
         
   

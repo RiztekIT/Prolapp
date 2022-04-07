@@ -300,7 +300,7 @@ this.TipoRelacion = '';
     console.log('Empresa antes if',this.enviarfact.empresa);
     if (typeof this.enviarfact.empresa=== undefined){
       console.log('Entra');
-      this.enviarfact.empresa = localStorage.getItem('Empresa')
+      this.enviarfact.empresa = sessionStorage.getItem('Empresa')
       this.service.rfcempresa = this.enviarfact.empresa.RFC;
     }
 
@@ -1257,7 +1257,7 @@ CFDISumatoria(){
     console.log('Empresa antes if',typeof(this.enviarfact.empresa));
     if (typeof (this.enviarfact.empresa)=== "undefined"){
       console.log('Entra');
-      this.enviarfact.empresa = JSON.parse(localStorage.getItem('Empresa'))
+      this.enviarfact.empresa = JSON.parse(sessionStorage.getItem('Empresa'))
       this.service.rfcempresa = this.enviarfact.empresa.RFC;
     }
 console.log('formdata',this.service.formData);

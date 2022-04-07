@@ -421,7 +421,7 @@ let consulta = 'update redhgFactura2 set '+
     console.log('Empresa antes if',typeof(this.redhgSVC.empresa));
     if (typeof (this.redhgSVC.empresa)=== "undefined"){
       console.log('Entra');
-      this.redhgSVC.empresa = JSON.parse(localStorage.getItem('Empresa'))
+      this.redhgSVC.empresa = JSON.parse(sessionStorage.getItem('Empresa'))
       this.redhgSVC.rfcempresa = this.redhgSVC.empresa.RFC;
     }
 console.log('formdata',this.redhgSVC.formData);

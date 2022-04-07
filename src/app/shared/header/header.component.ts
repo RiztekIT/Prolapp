@@ -210,7 +210,7 @@ this.NotificacionesActivas = false;
   }
 
   async obtenerEmpresa(){
-    let empresa = JSON.parse(localStorage.getItem('Empresa'));
+    let empresa = JSON.parse(sessionStorage.getItem('Empresa'));
     if (empresa == null){
       // //console.log('vacio');
       await this.serviceEmpresa.getEmpresaList().toPromise().then(data=>{
