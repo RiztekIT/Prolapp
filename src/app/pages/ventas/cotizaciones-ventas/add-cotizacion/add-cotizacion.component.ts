@@ -1453,11 +1453,13 @@ crearCotizacion() {
         
       })
       
-      this.service.formprosp.Nombre = this.service.formDataCotizacion.Nombre;
+      this.service.formprosp.Nombre = this.service.formData.contacto;      
       console.log(this.service.formDataCotizacion);
-      this.service.formprosp.Telefono = this.service.formDataCotizacion.Telefono;
+      //this.service.formprosp.Telefono = this.service.formDataCotizacion.Telefono;
+      this.service.formprosp.Telefono = +this.service.formData.telefono;
       console.log(this.service.formprosp.Telefono);
-      this.service.formprosp.Correo = this.service.formDataCotizacion.Correo;
+      //this.service.formprosp.Correo = this.service.formDataCotizacion.Correo;
+      this.service.formprosp.Correo = this.service.formData.correo;
       this.service.formprosp.Estatus = 'Pendiente';
       this.service.formprosp.IdCotizacion = this.service.formDataCotizacion.IdCotizacion;
   
