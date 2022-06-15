@@ -212,7 +212,7 @@ export class ComplementopagocxcComponent implements OnInit {
     this.servicefactura.rfcempresa=event.RFC;
       this.service.rfcempresa = event.RFC;
       this.servicefactura.rfcempresa = event.RFC;
-      localStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
+      sessionStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
 
       console.clear();
       console.log(this.enviarfact.empresa);

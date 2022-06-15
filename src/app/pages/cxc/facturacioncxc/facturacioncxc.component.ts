@@ -222,7 +222,7 @@ export class FacturacioncxcComponent implements OnInit {
 
     this.enviarfact.empresa = event;
       this.service.rfcempresa = event.RFC;
-      localStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
+      sessionStorage.setItem('Empresa',JSON.stringify(this.enviarfact.empresa))
 
       //console.clear();
       console.log(this.enviarfact.empresa);
