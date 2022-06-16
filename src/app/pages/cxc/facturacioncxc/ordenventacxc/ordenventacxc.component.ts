@@ -312,7 +312,7 @@ if (this.estatusSelect==='Todos'){
           Cantidad: (+saldo).toFixed(4),
           Importe: (+saldo * +row.DetallePedido[i].PrecioUnitario).toFixed(4),
           ImporteDlls: (+saldo * +row.DetallePedido[i].PrecioUnitarioDlls).toFixed(4),
-          Observaciones: '',
+          Observaciones: row.DetallePedido[i].Pedimento,
           TextoExtra: (+saldo - +saldoanterior).toString(),
           ImporteIVA: '0.0000',
           ImporteIVADlls: '0.0000'

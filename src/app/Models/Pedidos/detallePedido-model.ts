@@ -11,4 +11,5 @@ export class DetallePedido{
     TextoExtra: string;
     PrecioUnitarioDlls: string;
     ImporteDlls: string;
+    Pedimento?: string;
 }

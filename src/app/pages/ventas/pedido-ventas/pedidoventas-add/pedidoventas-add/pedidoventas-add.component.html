@@ -643,6 +643,9 @@
                                                                 <label class="input-group-text text-info"> Cantidad Kg:</label>
                                                                 <input type="number" class="form-control" name="Cantidad" [(ngModel)]="Cantidad" (ngModelChange)="onChangeCantidadP($event)">
 
+                                                                <label class="input-group-text text-info"> Pedimento:</label>
+                                                                <input type="text" class="form-control" name="Pedimento" #Pedimento="ngModel" [(ngModel)]="service.formDataDP.Pedimento">
+
 
 
                                                                 <!-- <label class="input-group-text text-info"> ClaveProducto:</label>
@@ -670,6 +673,8 @@
 
                                                                 <label class="input-group-text text-info">Seleccion Manual</label>
                                                                 <mat-checkbox [disabled]="valores == true || service.formDataPedido.Flete == 'Sucursal'" [(checked)]="seleccionManual" (change)='changeSeleccion($event)'></mat-checkbox>
+
+
 
 
 

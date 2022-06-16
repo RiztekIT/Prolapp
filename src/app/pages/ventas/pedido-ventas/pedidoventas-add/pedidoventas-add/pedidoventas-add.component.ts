@@ -1351,6 +1351,7 @@ subscribeClientes: Subscription
     this.service.formDataDP.Cantidad = this.Cantidad.toString();
     this.service.formDataDP.Importe = this.importeP.toString();
     this.service.formDataDP.ImporteDlls = this.importePDLLS.toString();
+    
     if (this.PresentacionSelect) {
       let peso = this.PresentacionSelect.split(' ')
       console.log(peso);
@@ -1368,7 +1369,8 @@ subscribeClientes: Subscription
         element.Importe = this.importeP.toString();
         element.ImporteDlls = this.importePDLLS.toString();
         element.PrecioUnitario = this.ProductoPrecioMXN.toString();
-        element.PrecioUnitarioDlls = this.ProductoPrecioDLLS.toString();        
+        element.PrecioUnitarioDlls = this.ProductoPrecioDLLS.toString(); 
+        element.Pedimento = this.service.formDataDP.Pedimento       
         // element.Unidad = '';
         //^ Usar TextoExtra como Lote
         element.TextoExtra = element.Lote;
