@@ -128,10 +128,13 @@
                             </tr>
                         </thead>
                         <tbody *ngFor="let conceptos of arrcon;  let i = index">
-                            <tr class="pgbreak">
+                            <tr class="pgbreak top1">
                                 <td class="textdt pgbreak text-center">{{conceptos.Cantidad | number: '1.4-4'}} </td>
                                 <td class="textdt text-center">{{conceptos.ClaveProducto}} </td>
-                                <td class=" textdt pgbreak text-center"> {{conceptos.Producto}} </td>
+                                <td class=" textdt pgbreak text-center"> {{conceptos.Producto}}
+
+                                    <p *ngIf="conceptos.Pedimento!=''"><span class=" textdt pgbreak text-center"> Pedimento: {{conceptos.Pedimento}}</span></p>
+                                </td>
                                 <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitario | currency : 'MXN' : 'symbol' : '1.4-4'}} </td>
                                 <td *ngIf="mostrarPrecios == true && this.moneda == 'USD'" class="textdt text-center pgbreak">{{conceptos.PrecioUnitarioDlls | currency : 'USD' : 'symbol' : '1.4-4'}}</td>
                                 <td *ngIf="mostrarPrecios == true && this.moneda == 'MXN'" class="textdt text-center pgbreak">{{conceptos.Importe | currency : 'MXN' : 'symbol' : '1.4-4'}}</td>
