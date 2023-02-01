@@ -955,6 +955,11 @@ CFDISumatoria(){
   onMoneda() {
     this.Moneda = this.service.formData.Moneda;
     this.service.Moneda = this.Moneda;
+ /*   if (this.service.Moneda == 'USD') {
+      this.service.formData.TipoDeCambio = this.Cdolar;
+    } else {
+      this.service.formData.TipoDeCambio = '0';
+    }*/
     console.log(this.service.Moneda);
   }
   /* Metodo para obtener el tipo de cambio y ponerlo en la variable a usar */
@@ -1218,11 +1223,11 @@ CFDISumatoria(){
     this.service.formData.Estatus = 'Guardada';
     this.service.formData.Version = '3.3';
     // this.service.formData.Id = this.IdFactura;
-    if (this.service.formData.Moneda == 'USD') {
+  /*  if (this.service.formData.Moneda == 'USD') {
       this.service.formData.TipoDeCambio = this.Cdolar;
     } else {
       this.service.formData.TipoDeCambio = '0';
-    }
+    }*/
    /*  let fecha = new Date(this.service.formData.FechaDeEntrega)
     fecha.setHours(fecha.getHours()-6)
     this.service.formData.FechaDeEntrega = new Date(fecha)
@@ -1248,6 +1253,11 @@ CFDISumatoria(){
   MonedaSelected(event: any) {
     this.Moneda = event.target.selectedOptions[0].text;
     this.service.Moneda = this.Moneda;
+    if (this.service.Moneda == 'USD') {
+      this.service.formData.TipoDeCambio = this.Cdolar;
+    } else {
+      this.service.formData.TipoDeCambio = '0';
+    }
     this.refreshDetallesFacturaList();
   }
 
@@ -1332,7 +1342,7 @@ console.log(data);
       let fecha1  = this.datepipe.transform(data[0].FechaDeExpedicion,'yyyy-MM-dd')
       let fecha2  = this.datepipe.transform(data[0].FechaDeExpedicion,'HH:mm:ss')
       let fecha = fecha1 +"\T"+ fecha2
-      //this.json1.Fecha = fecha ;      
+      this.json1.Fecha = fecha ;      
       this.service.getDetallesFacturaListProducto(id).subscribe(data => {
         console.log('PRODUCTOS',data)
         let IVAproducto = '0';
@@ -1467,11 +1477,11 @@ console.log(data);
     this.service.formData.Estatus = 'Guardada';
     this.service.formData.Version = '3.3';
     // this.service.formData.Id = this.IdFactura;
-    if (this.service.formData.Moneda == 'USD') {
+ /*   if (this.service.formData.Moneda == 'USD') {
       this.service.formData.TipoDeCambio = this.Cdolar;
     } else {
       this.service.formData.TipoDeCambio = '0';
-    }
+    }*/
 
    /*  let fecha = new Date(this.service.formData.FechaDeEntrega)
       fecha.setHours(fecha.getHours()-6)
@@ -1516,11 +1526,11 @@ console.log(data);
       this.service.formData.Serie = '558456';
     }
     
-    if (this.service.formData.Moneda == 'USD') {
+ /*   if (this.service.formData.Moneda == 'USD') {
       this.service.formData.TipoDeCambio = this.Cdolar;
     } else {
       this.service.formData.TipoDeCambio = '0';
-    }
+    }*/
     // this.service.formData.Id = +this.IdFactura;
  /*    let fecha = new Date(this.service.formData.FechaDeEntrega)
     fecha.setHours(fecha.getHours()-6)

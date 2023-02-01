@@ -19,6 +19,7 @@ import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 import xml2js from 'xml2js';
 import { processors } from 'xml2js'
 import { AcusecancelacionComponent } from 'src/app/components/acusecancelacion/acusecancelacion.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-detalle-nota-credito',
@@ -28,7 +29,9 @@ import { AcusecancelacionComponent } from 'src/app/components/acusecancelacion/a
 export class DetalleNotaCreditoComponent implements OnInit {
   public ngxLoadingAnimationTypes = ngxLoadingAnimationTypes;
 
-  constructor(public dialogbox: MatDialogRef<DetalleNotaCreditoComponent>, public service: NotaCreditoService, public serviceFactura: FacturaService, public enviarfact: EnviarfacturaService, public _MessageService: MessageService, private dialog: MatDialog) { 
+  constructor(public dialogbox: MatDialogRef<DetalleNotaCreditoComponent>, public service: NotaCreditoService, public serviceFactura: FacturaService, public enviarfact: EnviarfacturaService, public _MessageService: MessageService, private dialog: MatDialog,
+    public datepipe: DatePipe
+    ) { 
     this.service.listen().subscribe((m:any)=>{
       this.Inicializar();
       });
@@ -616,6 +619,11 @@ this.refreshTablaDetalles();
       this.json1.MetodoPago = this.service.formData.MetodoDePago;
 
       this.json1.EnviarCorreo = false;
+
+      let fecha1  = this.datepipe.transform(this.service.formData.FechaDeExpedicion,'yyyy-MM-dd')
+      let fecha2  = this.datepipe.transform(this.service.formData.FechaDeExpedicion,'HH:mm:ss')
+      let fecha = fecha1 +"\T"+ fecha2
+      this.json1.Fecha = fecha ; 
 
 
         this.json1.Conceptos.pop();

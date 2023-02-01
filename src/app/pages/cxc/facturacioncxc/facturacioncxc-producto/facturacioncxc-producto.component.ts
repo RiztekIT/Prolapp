@@ -408,7 +408,8 @@ public listUM: Array<any> = [];
   }
 
   tipoDeCambio(){
-    this.Cdolar = this.tipoCambio.TipoCambio;
+   //this.Cdolar = this.tipoCambio.TipoCambio;
+   this.Cdolar = this.service.formData.TipoDeCambio;
     //this.traerApi().subscribe(data => {
     //  this.Cdolar = data.bmx.series[0].datos[0].dato;
       

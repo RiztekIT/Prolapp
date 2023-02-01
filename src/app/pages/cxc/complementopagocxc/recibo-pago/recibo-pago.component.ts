@@ -1265,12 +1265,12 @@ console.log(this.json1);
      
     }else{
       diaf = fecha.getDate()+1
-      if ((fecha.getMonth()+1)==12){
-        mes2 = `${months[0]}`;
-        añonuevo = 1
-      }else{
+    //  if ((fecha.getMonth()+1)==12){
+    //    mes2 = `${months[0]}`;
+    //    añonuevo = 1
+    //  }else{
         mes2 = `${months[fecha.getMonth()]}`;
-      }
+    //  }
     }
 
 

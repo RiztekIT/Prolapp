@@ -117,7 +117,7 @@ export class EnviarfacturaService {
   readonly rootURL =  "/api/v3/cfdi33/create"
   // readonly rootURLxml = "/api/v3/cfdi33/5e06601d92802/xml"
 
-  URLphp = "https://riztek.com.mx/php/Prolacto/"
+  URLphp = "https://lessa.riztekapp.com/php/Prolacto"
   
 
   //return this.http.get("https://riztek.com.mx/php/Prolacto/GET_TipoCambio.php"

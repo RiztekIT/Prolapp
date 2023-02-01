@@ -379,7 +379,7 @@ if (hora>10){
   traerApi(): Observable<any> {
 
    // return this.http.get("/SieAPIRest/service/v1/series/SF63528/datos/", httpOptions)
-    return this.http.get("https://riztek.com.mx/php/Prolacto/GET_TipoCambio.php")
+    return this.http.get("https://lessa.riztekapp.com/php/GET_TipoCambio.php")
     
 
   }

@@ -238,6 +238,8 @@ if (hora>10){
       
       
       this.Cdolar = json.bmx.series[0].datos[l-i].dato;
+      //this.Cdolar = this.tipoCambio.TipoCambio;
+    this.Cdolar = this.service.formData.TipoDeCambio;
       console.log(this.Cdolar);
       this.sumar();
       this.formato();
@@ -287,7 +289,7 @@ if (diasemana == 6 || diasemana == 0){
 }
     
     console.log(this.rootURL);
-    return this.http.get("https://riztek.com.mx/php/Prolacto/GET_TipoCambio.php")
+    return this.http.get("https://lessa.riztekapp.com/php/GET_TipoCambio.php")
     //return this.http.get(this.rootURL, httpOptions)
 
   }

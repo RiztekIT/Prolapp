@@ -26,6 +26,18 @@
     </div>
     <hr>
 
+    <label class="input-group-text text-info">Fecha Expedicion</label>
+
+    <mat-datepicker-toggle [for]="picker1"></mat-datepicker-toggle>
+    <input readonly="readonly" required [matDatepicker]="picker1" type="text" class="form-control" name="FechaDeExpedicion" #FechaDeExpedicion="ngModel" [(ngModel)]="service.formData.FechaDeExpedicion">
+    <mat-datepicker #picker1></mat-datepicker>
+
+    <div class="text-left text-danger" *ngIf="FechaDeExpedicion.invalid && FechaDeExpedicion.touched">
+        Favor de Ingresar Fecha Expedicion
+    </div>
+
+    <hr>
+
     <div style="overflow: none; height: 650px;">
 
 

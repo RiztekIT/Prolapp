@@ -257,11 +257,11 @@
                                         </div>
                                         <!--               -------------------------------------------------------                                       -->
 
-                                        <label style="display: none" class="input-group-text text-info">Tipo De Cambio</label>
+                                        <label  class="input-group-text text-info">Tipo De Cambio</label>
 
-                                        <input style="display: none" type="string" class="form-control" name="TipoDeCambio" #TipoDeCambio="ngModel" [(ngModel)]="service.formData.TipoDeCambio">
+                                        <input  type="string" class="form-control" name="TipoDeCambio" #TipoDeCambio="ngModel" [(ngModel)]="service.formData.TipoDeCambio">
 
-                                        <div style="display: none" class="text-left text-danger" *ngIf="TipoDeCambio.invalid && TipoDeCambio.touched">
+                                        <div  class="text-left text-danger" *ngIf="TipoDeCambio.invalid && TipoDeCambio.touched">
                                             Favor de Ingresar Tipo De Cambio
                                         </div>
                                         <!--               -------------------------------------------------------                                       -->
