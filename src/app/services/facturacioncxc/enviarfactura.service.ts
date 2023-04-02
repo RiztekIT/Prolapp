@@ -221,14 +221,14 @@ export class EnviarfacturaService {
     
     if (this.empresa.RFC==='PLA11011243A'){
   
-      let rootURLcliente = this.URLphp + "POST_Cliente.php";
+      let rootURLcliente = this.URLphp + "/POST_Cliente.php";
       
   
     
       return this.http.post(rootURLcliente,datos) 
     }
     else if (this.empresa.RFC=='AIN140101ME3'){
-      let rootURLcliente = this.URLphp + "POST_Cliente2.php";
+      let rootURLcliente = this.URLphp + "/POST_Cliente2.php";
       
   
     
@@ -236,7 +236,7 @@ export class EnviarfacturaService {
       
     }
     else if (this.empresa.RFC=='DTM200220KRA'){
-      let rootURLcliente = this.URLphp + "POST_Cliente3.php";
+      let rootURLcliente = this.URLphp + "/POST_Cliente3.php";
       
   
     
@@ -254,7 +254,7 @@ export class EnviarfacturaService {
     console.log(datos);
     console.log(httpOptions)
     
-    let rootURLcliente = this.URLphp + "POST_Cliente2.php";
+    let rootURLcliente = this.URLphp + "/POST_Cliente2.php";
       
   
     
@@ -267,7 +267,7 @@ export class EnviarfacturaService {
     console.log(datos);
     console.log(httpOptions)
     
-    let rootURLcliente = this.URLphp + "POST_Cliente3.php";
+    let rootURLcliente = this.URLphp + "/POST_Cliente3.php";
       
   
     
@@ -342,7 +342,7 @@ export class EnviarfacturaService {
   }
 
   ObtenerClientesAPI(){
-    return this.http.get(this.URLphp + 'GET_ClientesAPI.php')
+    return this.http.get(this.URLphp + '/GET_ClientesAPI.php')
   }
   
 

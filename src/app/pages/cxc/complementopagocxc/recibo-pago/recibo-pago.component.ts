@@ -1245,9 +1245,10 @@ console.log(this.json1);
     let añonuevo = 0;
     
     let fecha = new Date(date);
-
+    console.log(fecha.getMonth())
     if (((fecha.getDate()+1)==31) && ((fecha.getMonth()==1) || (fecha.getMonth()==3) || (fecha.getMonth()==5) || (fecha.getMonth()==8) || (fecha.getMonth()==10))){
       diaf = 1;
+   
       if ((fecha.getMonth()+1)==12){
         mes2 = `${months[0]}`;
         añonuevo = 1
@@ -1264,13 +1265,31 @@ console.log(this.json1);
       }
      
     }else{
-      diaf = fecha.getDate()+1
-    //  if ((fecha.getMonth()+1)==12){
-    //    mes2 = `${months[0]}`;
-    //    añonuevo = 1
-    //  }else{
-        mes2 = `${months[fecha.getMonth()]}`;
-    //  }
+
+      console.log(diaf)
+      console.log(fecha.getMonth())
+      if ((fecha.getMonth()+1)==2){
+        if ((fecha.getDate()+1)==29){
+          diaf = 1;
+          if ((fecha.getMonth()+1)==12){
+            mes2 = `${months[0]}`;
+            añonuevo = 1
+          }else{
+            mes2 = `${months[fecha.getMonth()+1]}`;
+          }
+        }
+      }else{
+
+        diaf = fecha.getDate()+1
+        //  if ((fecha.getMonth()+1)==12){
+        //    mes2 = `${months[0]}`;
+        //    añonuevo = 1
+        //  }else{
+            mes2 = `${months[fecha.getMonth()]}`;
+        //  }
+      }
+
+
     }
 
 

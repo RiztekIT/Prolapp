@@ -42,8 +42,7 @@ export class CancelarcfdiComponent implements OnInit {
   ngOnInit() {
     console.log(this.data);
     this.FolioFactura = this.data.folio;
-    this.getFacturasCliente()
-    this.getUUIDRelaciones(this.data.folio)
+    
   }
 
   onClose(){
@@ -211,6 +210,8 @@ if (this.tipoRelacion){
   onSelect(){
     console.log(this.tipoRelacion);
     if (this.tipoRelacion.Relacion=='01'){
+      this.getFacturasCliente()
+    this.getUUIDRelaciones(this.data.folio)
       this.necesariouuid = true
       this.campos = {
         'motivo':this.tipoRelacion.Relacion,
