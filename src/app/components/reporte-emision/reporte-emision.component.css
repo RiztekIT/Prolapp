@@ -23,7 +23,8 @@ body {
     font-weight: 600;
     font-size: 13px;
 }
-.textdt{
+
+.textdt {
     font-size: 11px;
 }
 
@@ -179,4 +180,8 @@ th {
 
 .overflow {
     overflow: scroll;
+}
+
+.top1 {
+    vertical-align: top;
 }

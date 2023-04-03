@@ -139,6 +139,7 @@ export class ReporteEmisionComponent implements OnInit {
 
             // this.asyncCall();
             setTimeout(()=>{
+              
                let pdf =   this.onExportClick();  
               // console.log(pdf);
               // this.onExportClick();              
